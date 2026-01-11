@@ -1,10 +1,103 @@
 const { app, BrowserWindow, Menu, dialog } = require('electron');
 const path = require('path');
+const fs = require('fs').promises;
 const fileManager = require('./utils/fileManager');
 const backupManager = require('./utils/backupManager');
 
 let mainWindow;
 let currentFilePath = null; // Путь к текущему открытому файлу
+
+// Путь к файлу настроек
+function getSettingsPath() {
+  return path.join(app.getPath('userData'), 'settings.json');
+}
+
+// Загрузка настроек
+async function loadSettings() {
+  try {
+    const data = await fs.readFile(getSettingsPath(), 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    return {};
+  }
+}
+
+// Сохранение настроек
+async function saveSettings(settings) {
+  try {
+    await fs.writeFile(getSettingsPath(), JSON.stringify(settings), 'utf-8');
+  } catch (error) {
+    // Тихая обработка ошибок
+  }
+}
+
+// Сохранение последнего открытого файла
+async function saveLastFile() {
+  try {
+    const settings = await loadSettings();
+    settings.lastFilePath = currentFilePath;
+    await saveSettings(settings);
+  } catch (error) {
+    // Тихая обработка ошибок
+  }
+}
+
+// Загрузка последнего открытого файла
+async function loadLastFile() {
+  try {
+    const settings = await loadSettings();
+    return settings.lastFilePath || null;
+  } catch (error) {
+    return null;
+  }
+}
+
+// Проверка существования файла
+async function fileExists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// Автоматическое открытие последнего файла
+async function openLastFile() {
+  if (!mainWindow) return;
+  
+  const lastFilePath = await loadLastFile();
+  if (!lastFilePath) return;
+  
+  const exists = await fileExists(lastFilePath);
+  if (!exists) return;
+  
+  const fileResult = await fileManager.readFile(lastFilePath);
+  if (fileResult.success) {
+    currentFilePath = lastFilePath;
+    const contentJson = JSON.stringify(fileResult.content);
+    await mainWindow.webContents.executeJavaScript(`
+      document.getElementById('editor').value = ${contentJson};
+    `);
+  }
+}
+
+// Применение сохранённого размера шрифта
+async function loadSavedFontSize() {
+  if (!mainWindow) return;
+  
+  try {
+    const settings = await loadSettings();
+    if (settings.fontSize) {
+      const size = Math.max(12, Math.min(28, settings.fontSize));
+      await mainWindow.webContents.executeJavaScript(`
+        document.getElementById('editor').style.fontSize = '${size}px';
+      `);
+    }
+  } catch (error) {
+    // Тихая обработка ошибок
+  }
+}
 
 // Сохранение и восстановление размеров окна
 const windowState = {
@@ -34,6 +127,12 @@ function createWindow() {
 
   mainWindow.loadFile('src/renderer/index.html');
 
+  // Открыть последний файл и применить настройки после загрузки
+  mainWindow.webContents.once('did-finish-load', async () => {
+    await loadSavedFontSize();
+    await openLastFile();
+  });
+
   // Сохранение размеров и позиции окна
   mainWindow.on('close', () => {
     const bounds = mainWindow.getBounds();
@@ -49,6 +148,7 @@ function createWindow() {
 
 async function handleNew() {
   currentFilePath = null;
+  await saveLastFile();
   await mainWindow.webContents.executeJavaScript(`
     document.getElementById('editor').value = '';
   `);
@@ -71,6 +171,7 @@ async function handleOpen() {
     
     if (fileResult.success) {
       currentFilePath = filePath;
+      await saveLastFile();
       const contentJson = JSON.stringify(fileResult.content);
       await mainWindow.webContents.executeJavaScript(`
         document.getElementById('editor').value = ${contentJson};
@@ -140,6 +241,7 @@ async function handleSave() {
       const saveResult = await fileManager.writeFile(filePath, content);
       if (saveResult.success) {
         currentFilePath = filePath;
+        await saveLastFile();
       }
     }
   }
@@ -154,6 +256,51 @@ function handleFontChange(fontFamily) {
 function handleThemeChange(theme) {
   if (mainWindow) {
     mainWindow.webContents.send('theme-changed', theme);
+  }
+}
+
+// Обработка изменения размера шрифта
+async function handleFontSizeChange(action) {
+  if (!mainWindow) return;
+  
+  try {
+    // Читаем текущий размер (из инлайн стиля или computed style)
+    const currentSize = await mainWindow.webContents.executeJavaScript(`
+      (() => {
+        const editor = document.getElementById('editor');
+        const inlineSize = editor.style.fontSize;
+        if (inlineSize) {
+          return parseInt(inlineSize) || 16;
+        }
+        const computed = window.getComputedStyle(editor);
+        return parseInt(computed.fontSize) || 16;
+      })()
+    `);
+    
+    let newSize = currentSize;
+    const minSize = 12;
+    const maxSize = 28;
+    
+    if (action === 'increase') {
+      newSize = Math.min(currentSize + 1, maxSize);
+    } else if (action === 'decrease') {
+      newSize = Math.max(currentSize - 1, minSize);
+    } else if (action === 'reset') {
+      newSize = 16;
+    }
+    
+    if (newSize !== currentSize) {
+      await mainWindow.webContents.executeJavaScript(`
+        document.getElementById('editor').style.fontSize = '${newSize}px';
+      `);
+      
+      // Сохранение размера в настройках
+      const settings = await loadSettings();
+      settings.fontSize = newSize;
+      await saveSettings(settings);
+    }
+  } catch (error) {
+    // Тихая обработка ошибок
   }
 }
 
@@ -211,6 +358,24 @@ function createMenu() {
         {
           label: 'Font',
           submenu: fontMenu
+        },
+        { type: 'separator' },
+        {
+          label: 'Font Size',
+          submenu: [
+            {
+              label: 'Increase',
+              click: () => handleFontSizeChange('increase')
+            },
+            {
+              label: 'Decrease',
+              click: () => handleFontSizeChange('decrease')
+            },
+            {
+              label: 'Reset',
+              click: () => handleFontSizeChange('reset')
+            }
+          ]
         },
         { type: 'separator' },
         {

@@ -145,7 +145,31 @@ async function handleSave() {
   }
 }
 
+function handleFontChange(fontFamily) {
+  if (mainWindow) {
+    mainWindow.webContents.send('font-changed', fontFamily);
+  }
+}
+
+function handleThemeChange(theme) {
+  if (mainWindow) {
+    mainWindow.webContents.send('theme-changed', theme);
+  }
+}
+
 function createMenu() {
+  const fonts = [
+    { label: 'Menlo', value: 'Menlo, monospace' },
+    { label: 'SF Mono', value: 'SF Mono, monospace' },
+    { label: 'Monaco', value: 'Monaco, monospace' },
+    { label: 'Courier New', value: 'Courier New, monospace' }
+  ];
+
+  const fontMenu = fonts.map(font => ({
+    label: font.label,
+    click: () => handleFontChange(font.value)
+  }));
+
   const template = [
     {
       label: 'File',
@@ -178,6 +202,24 @@ function createMenu() {
           click: () => {
             app.quit();
           }
+        }
+      ]
+    },
+    {
+      label: 'View',
+      submenu: [
+        {
+          label: 'Font',
+          submenu: fontMenu
+        },
+        { type: 'separator' },
+        {
+          label: 'Light Theme',
+          click: () => handleThemeChange('light')
+        },
+        {
+          label: 'Dark Theme',
+          click: () => handleThemeChange('dark')
         }
       ]
     }

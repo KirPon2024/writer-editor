@@ -45,3 +45,23 @@ body {
 .status {
   color: #666666;
 }
+
+/* Тёмная тема */
+body.dark-theme {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+body.dark-theme #editor {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+body.dark-theme .status-bar {
+  background-color: #252526;
+  border-top: 1px solid #3e3e42;
+}
+
+body.dark-theme .status {
+  color: #858585;
+}

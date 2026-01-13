@@ -7,5 +7,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   onThemeChanged: (callback) => {
     ipcRenderer.on('theme-changed', (event, theme) => callback(theme));
+  },
+  notifyDirtyState: (state) => {
+    ipcRenderer.send('dirty-changed', state);
+  },
+  onStatusUpdate: (callback) => {
+    ipcRenderer.on('status-update', (event, status) => callback(status));
+  },
+  onSetDirty: (callback) => {
+    ipcRenderer.on('set-dirty', (event, state) => callback(state));
   }
 });

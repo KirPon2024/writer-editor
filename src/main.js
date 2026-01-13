@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
 const fileManager = require('./utils/fileManager');
@@ -6,6 +6,9 @@ const backupManager = require('./utils/backupManager');
 
 let mainWindow;
 let currentFilePath = null; // Путь к текущему открытому файлу
+let isDirty = false;
+let isQuitting = false;
+let isWindowClosing = false;
 
 // Путь к файлу настроек
 function getSettingsPath() {
@@ -64,22 +67,29 @@ async function fileExists(filePath) {
 
 // Автоматическое открытие последнего файла
 async function openLastFile() {
-  if (!mainWindow) return;
+  if (!mainWindow) return 'noFile';
   
   const lastFilePath = await loadLastFile();
-  if (!lastFilePath) return;
+  if (!lastFilePath) return 'noFile';
   
   const exists = await fileExists(lastFilePath);
-  if (!exists) return;
+  if (!exists) return 'noFile';
   
   const fileResult = await fileManager.readFile(lastFilePath);
   if (fileResult.success) {
     currentFilePath = lastFilePath;
+    await saveLastFile();
     const contentJson = JSON.stringify(fileResult.content);
     await mainWindow.webContents.executeJavaScript(`
       document.getElementById('editor').value = ${contentJson};
     `);
+    setDirtyState(false);
+    updateStatus('Ready');
+    return 'loaded';
   }
+
+  updateStatus('Error');
+  return 'error';
 }
 
 // Применение сохранённого размера шрифта
@@ -99,6 +109,30 @@ async function loadSavedFontSize() {
   }
 }
 
+async function restoreAutosaveIfExists() {
+  if (!mainWindow) return false;
+  await ensureAutosaveDirectory();
+
+  const autosavePath = getAutosavePath();
+  try {
+    const content = await fs.readFile(autosavePath, 'utf-8');
+    if (!content) {
+      return false;
+    }
+
+    const contentJson = JSON.stringify(content);
+    await mainWindow.webContents.executeJavaScript(`
+      document.getElementById('editor').value = ${contentJson};
+    `);
+
+    setDirtyState(false);
+    updateStatus('Restored autosave');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 // Сохранение и восстановление размеров окна
 const windowState = {
   width: 1200,
@@ -106,6 +140,93 @@ const windowState = {
   x: undefined,
   y: undefined
 };
+
+async function loadWindowStateFromSettings() {
+  try {
+    const settings = await loadSettings();
+    if (Number.isFinite(settings.windowWidth) && settings.windowWidth > 0) {
+      windowState.width = settings.windowWidth;
+    }
+    if (Number.isFinite(settings.windowHeight) && settings.windowHeight > 0) {
+      windowState.height = settings.windowHeight;
+    }
+    if (Number.isFinite(settings.windowX)) {
+      windowState.x = settings.windowX;
+    }
+    if (Number.isFinite(settings.windowY)) {
+      windowState.y = settings.windowY;
+    }
+  } catch {
+    // Игнорируем ошибки
+  }
+}
+
+async function persistWindowState(bounds) {
+  try {
+    const settings = await loadSettings();
+    settings.windowWidth = bounds.width;
+    settings.windowHeight = bounds.height;
+    settings.windowX = bounds.x;
+    settings.windowY = bounds.y;
+    await saveSettings(settings);
+  } catch {
+    // Тихо игнорируем
+  }
+}
+
+function getAutosaveDir() {
+  const documentsPath = fileManager.getDocumentsPath();
+  return path.join(documentsPath, '.autosave');
+}
+
+function getAutosavePath() {
+  return path.join(getAutosaveDir(), 'autosave.txt');
+}
+
+async function ensureAutosaveDirectory() {
+  const dir = getAutosaveDir();
+  try {
+    await fs.mkdir(dir, { recursive: true });
+  } catch {
+    // Папка может уже существовать
+  }
+  return dir;
+}
+
+async function deleteAutosaveFile() {
+  const autosavePath = getAutosavePath();
+  try {
+    await fs.unlink(autosavePath);
+  } catch {
+    // Игнорируем, если файла нет
+  }
+}
+
+async function writeAutosaveFile(content) {
+  const autosavePath = getAutosavePath();
+  const tempPath = `${autosavePath}.tmp`;
+
+  await ensureAutosaveDirectory();
+  await fs.writeFile(tempPath, content, 'utf-8');
+  await fs.rename(tempPath, autosavePath);
+}
+
+function updateStatus(status) {
+  if (mainWindow) {
+    mainWindow.webContents.send('status-update', status);
+  }
+}
+
+function setDirtyState(state) {
+  isDirty = state;
+  if (mainWindow) {
+    mainWindow.webContents.send('set-dirty', state);
+  }
+}
+
+ipcMain.on('dirty-changed', (_, state) => {
+  isDirty = state;
+});
 
 function createWindow() {
   // Восстановление размеров и позиции окна
@@ -130,16 +251,54 @@ function createWindow() {
   // Открыть последний файл и применить настройки после загрузки
   mainWindow.webContents.once('did-finish-load', async () => {
     await loadSavedFontSize();
-    await openLastFile();
+    const restored = await restoreAutosaveIfExists();
+    if (!restored) {
+      const openResult = await openLastFile();
+      if (openResult !== 'loaded' && openResult !== 'error') {
+        updateStatus('Ready');
+      }
+    }
   });
 
-  // Сохранение размеров и позиции окна
-  mainWindow.on('close', () => {
-    const bounds = mainWindow.getBounds();
-    windowState.width = bounds.width;
-    windowState.height = bounds.height;
-    windowState.x = bounds.x;
-    windowState.y = bounds.y;
+  // Сохранение размеров и позиции окна + запрос при несохранённых изменениях
+  mainWindow.on('close', (event) => {
+    if (isWindowClosing || isQuitting) {
+      return;
+    }
+
+    event.preventDefault();
+
+    (async () => {
+      const canClose = await confirmDiscardChanges();
+      if (!canClose) {
+        return;
+      }
+
+      if (mainWindow) {
+        const bounds = mainWindow.getBounds();
+        await persistWindowState(bounds);
+      }
+
+      isWindowClosing = true;
+      mainWindow.close();
+    })().catch(() => {});
+  });
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+    isWindowClosing = false;
+  });
+
+  mainWindow.on('resize', () => {
+    if (mainWindow) {
+      persistWindowState(mainWindow.getBounds()).catch(() => {});
+    }
+  });
+
+  mainWindow.on('move', () => {
+    if (mainWindow) {
+      persistWindowState(mainWindow.getBounds()).catch(() => {});
+    }
   });
 
   // Открыть DevTools только в режиме разработки (опционально)
@@ -147,11 +306,14 @@ function createWindow() {
 }
 
 async function handleNew() {
+  if (!mainWindow) return;
   currentFilePath = null;
   await saveLastFile();
   await mainWindow.webContents.executeJavaScript(`
     document.getElementById('editor').value = '';
   `);
+  setDirtyState(false);
+  updateStatus('Ready');
 }
 
 async function handleOpen() {
@@ -176,13 +338,17 @@ async function handleOpen() {
       await mainWindow.webContents.executeJavaScript(`
         document.getElementById('editor').value = ${contentJson};
       `);
+      setDirtyState(false);
+      updateStatus('Ready');
+    } else {
+      updateStatus('Error');
     }
   }
 }
 
 // Автосохранение каждые 15 секунд
 async function autoSave() {
-  if (!currentFilePath || !mainWindow) {
+  if (!mainWindow) {
     return;
   }
 
@@ -190,61 +356,150 @@ async function autoSave() {
     const content = await mainWindow.webContents.executeJavaScript(`
       document.getElementById('editor').value
     `);
-    await fileManager.writeFile(currentFilePath, content);
+
+    if (currentFilePath) {
+      const saveResult = await fileManager.writeFile(currentFilePath, content);
+      if (!saveResult.success) {
+        updateStatus('Error');
+        return;
+      }
+    } else {
+      await writeAutosaveFile(content);
+    }
+
+    updateStatus('Autosaved');
   } catch (error) {
-    // Тихая обработка ошибок
+    updateStatus('Error');
   }
 }
 
 // Создание бэкапа раз в минуту
 async function createBackup() {
-  if (!currentFilePath || !mainWindow) {
+  if (!mainWindow) {
     return;
   }
 
   try {
-    const content = await mainWindow.webContents.executeJavaScript(`
-      document.getElementById('editor').value
-    `);
-    await backupManager.createBackup(currentFilePath, content);
+    if (currentFilePath) {
+      const content = await mainWindow.webContents.executeJavaScript(`
+        document.getElementById('editor').value
+      `);
+      const result = await backupManager.createBackup(currentFilePath, content);
+      if (!result.success) {
+        updateStatus('Error');
+      }
+      return;
+    }
+
+    const autosavePath = getAutosavePath();
+    const autosaveExists = await fileExists(autosavePath);
+    if (!autosaveExists) {
+      return;
+    }
+
+    const autosaveResult = await fileManager.readFile(autosavePath);
+    if (!autosaveResult.success) {
+      updateStatus('Error');
+      return;
+    }
+
+    const backupResult = await backupManager.createBackup(autosavePath, autosaveResult.content);
+    if (!backupResult.success) {
+      updateStatus('Error');
+    }
   } catch (error) {
-    // Тихая обработка ошибок
+    updateStatus('Error');
   }
 }
 
 async function handleSave() {
+  if (!mainWindow) {
+    return false;
+  }
+
   const content = await mainWindow.webContents.executeJavaScript(`
     document.getElementById('editor').value
   `);
 
   if (currentFilePath) {
-    // Сохранить в текущий файл
-    await fileManager.writeFile(currentFilePath, content);
-  } else {
-    // Показать диалог сохранения
-    const result = await dialog.showSaveDialog(mainWindow, {
-      title: 'Save File',
-      defaultPath: fileManager.getDocumentsPath(),
-      filters: [
-        { name: 'Text Files', extensions: ['txt'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    });
-
-    if (!result.canceled && result.filePath) {
-      let filePath = result.filePath;
-      // Добавить расширение .txt, если его нет
-      if (!filePath.endsWith('.txt')) {
-        filePath += '.txt';
-      }
-      
-      const saveResult = await fileManager.writeFile(filePath, content);
-      if (saveResult.success) {
-        currentFilePath = filePath;
-        await saveLastFile();
-      }
+    const saveResult = await fileManager.writeFile(currentFilePath, content);
+    if (saveResult.success) {
+      setDirtyState(false);
+      updateStatus('Saved');
+      await saveLastFile();
+      return true;
     }
+    updateStatus('Error');
+    return false;
   }
+
+  const result = await dialog.showSaveDialog(mainWindow, {
+    title: 'Save File',
+    defaultPath: fileManager.getDocumentsPath(),
+    filters: [
+      { name: 'Text Files', extensions: ['txt'] },
+      { name: 'All Files', extensions: ['*'] }
+    ]
+  });
+
+  if (!result.canceled && result.filePath) {
+    let filePath = result.filePath;
+    if (!filePath.endsWith('.txt')) {
+      filePath += '.txt';
+    }
+
+    const saveResult = await fileManager.writeFile(filePath, content);
+    if (saveResult.success) {
+      currentFilePath = filePath;
+      await saveLastFile();
+      setDirtyState(false);
+      updateStatus('Saved');
+      return true;
+    }
+    updateStatus('Error');
+  }
+
+  return false;
+}
+
+async function confirmDiscardChanges() {
+  if (!isDirty || !mainWindow) {
+    return true;
+  }
+
+  const result = await dialog.showMessageBox(mainWindow, {
+    type: 'warning',
+    message: 'You have unsaved changes.',
+    detail: 'Save before continuing?',
+    buttons: ['Save', "Don't Save", 'Cancel'],
+    defaultId: 0,
+    cancelId: 2,
+    noLink: true
+  });
+
+  if (result.response === 0) {
+    const saved = await handleSave();
+    return saved;
+  }
+
+  if (result.response === 1) {
+    if (currentFilePath === null) {
+      await deleteAutosaveFile();
+    }
+    setDirtyState(false);
+    return true;
+  }
+
+  return false;
+}
+
+async function ensureCleanAction(actionFn) {
+  const canProceed = await confirmDiscardChanges();
+  if (!canProceed) {
+    return;
+  }
+
+  await actionFn();
 }
 
 function handleFontChange(fontFamily) {
@@ -325,14 +580,14 @@ function createMenu() {
           label: 'New',
           accelerator: 'CmdOrCtrl+N',
           click: async () => {
-            await handleNew();
+            await ensureCleanAction(handleNew);
           }
         },
         {
           label: 'Open',
           accelerator: 'CmdOrCtrl+O',
           click: async () => {
-            await handleOpen();
+            await ensureCleanAction(handleOpen);
           }
         },
         {
@@ -394,13 +649,15 @@ function createMenu() {
   Menu.setApplicationMenu(menu);
 }
 
-// Создание папки Documents/WriterEditor при запуске
+// Создание папки Documents/WriterEditor и autosave при запуске
 async function initializeApp() {
   await fileManager.ensureDocumentsFolder();
+  await ensureAutosaveDirectory();
 }
 
 app.whenReady().then(async () => {
   await initializeApp();
+  await loadWindowStateFromSettings();
   createWindow();
   createMenu();
 
@@ -419,6 +676,29 @@ app.whenReady().then(async () => {
       createWindow();
     }
   });
+});
+
+app.on('before-quit', (event) => {
+  if (isQuitting) {
+    return;
+  }
+
+  event.preventDefault();
+
+  (async () => {
+    const canQuit = await confirmDiscardChanges();
+    if (!canQuit) {
+      return;
+    }
+
+    if (mainWindow) {
+      const bounds = mainWindow.getBounds();
+      await persistWindowState(bounds);
+    }
+
+    isQuitting = true;
+    app.quit();
+  })().catch(() => {});
 });
 
 app.on('window-all-closed', () => {

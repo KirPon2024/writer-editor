@@ -14,10 +14,9 @@
   "keywords": ["editor", "writer", "text"],
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "electron": "^28.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "electron": "^28.0.0",
     "electron-builder": "^24.0.0"
   },
   "build": {

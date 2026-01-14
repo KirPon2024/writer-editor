@@ -75,3 +75,19 @@
 ```bash
 npm install
 npm run dev
+```
+
+## Запуск
+- `npm install`
+- `npm run dev` — для разработки
+- `npm start` — запуск собранной версии
+
+## Сборка macOS
+- `npm run build:mac`
+- Результат появляется в папке `dist/`
+
+## Где хранятся данные (macOS)
+- Основная папка: `~/Documents/WriterEditor/`
+- Автосохранения: `~/Documents/WriterEditor/.autosave/autosave.txt`
+- Бэкапы: `~/Documents/WriterEditor/.backups/`
+- Дополнительные настройки (размеры окна, шрифт и т.п.) хранятся в каталоге, возвращаемом `app.getPath('userData')`

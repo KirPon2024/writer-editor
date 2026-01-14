@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
+const crypto = require('crypto');
 const fileManager = require('./utils/fileManager');
 const backupManager = require('./utils/backupManager');
 
@@ -9,6 +10,8 @@ let currentFilePath = null; // Путь к текущему открытому �
 let isDirty = false;
 let isQuitting = false;
 let isWindowClosing = false;
+let lastAutosaveHash = null;
+const backupHashes = new Map();
 
 // Путь к файлу настроек
 function getSettingsPath() {
@@ -55,6 +58,10 @@ async function loadLastFile() {
   }
 }
 
+function computeHash(text) {
+  return crypto.createHash('sha256').update(text || '', 'utf8').digest('hex');
+}
+
 // Проверка существования файла
 async function fileExists(filePath) {
   try {
@@ -76,19 +83,22 @@ async function openLastFile() {
   if (!exists) return 'noFile';
   
   const fileResult = await fileManager.readFile(lastFilePath);
-  if (fileResult.success) {
-    currentFilePath = lastFilePath;
-    await saveLastFile();
-    const contentJson = JSON.stringify(fileResult.content);
-    await mainWindow.webContents.executeJavaScript(`
-      document.getElementById('editor').value = ${contentJson};
-    `);
-    setDirtyState(false);
-    updateStatus('Ready');
-    return 'loaded';
-  }
+    if (fileResult.success) {
+      currentFilePath = lastFilePath;
+      await saveLastFile();
+      const contentJson = JSON.stringify(fileResult.content);
+      await mainWindow.webContents.executeJavaScript(`
+        document.getElementById('editor').value = ${contentJson};
+      `);
+      setDirtyState(false);
+      const contentHash = computeHash(fileResult.content);
+      lastAutosaveHash = contentHash;
+      backupHashes.set(lastFilePath, contentHash);
+      updateStatus('Готово');
+      return 'loaded';
+    }
 
-  updateStatus('Error');
+  updateStatus('Ошибка');
   return 'error';
 }
 
@@ -126,7 +136,10 @@ async function restoreAutosaveIfExists() {
     `);
 
     setDirtyState(false);
-    updateStatus('Restored autosave');
+    const autosaveHash = computeHash(content);
+    lastAutosaveHash = autosaveHash;
+    backupHashes.set(autosavePath, autosaveHash);
+    updateStatus('Восстановлено из автосохранения');
     return true;
   } catch {
     return false;
@@ -255,7 +268,7 @@ function createWindow() {
     if (!restored) {
       const openResult = await openLastFile();
       if (openResult !== 'loaded' && openResult !== 'error') {
-        updateStatus('Ready');
+        updateStatus('Готово');
       }
     }
   });
@@ -313,16 +326,17 @@ async function handleNew() {
     document.getElementById('editor').value = '';
   `);
   setDirtyState(false);
-  updateStatus('Ready');
+  lastAutosaveHash = null;
+  updateStatus('Готово');
 }
 
 async function handleOpen() {
   const result = await dialog.showOpenDialog(mainWindow, {
-    title: 'Open File',
+    title: 'Открыть файл',
     defaultPath: fileManager.getDocumentsPath(),
     filters: [
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'All Files', extensions: ['*'] }
+      { name: 'Текстовые файлы', extensions: ['txt'] },
+      { name: 'Все файлы', extensions: ['*'] }
     ],
     properties: ['openFile']
   });
@@ -339,16 +353,19 @@ async function handleOpen() {
         document.getElementById('editor').value = ${contentJson};
       `);
       setDirtyState(false);
-      updateStatus('Ready');
+      const contentHash = computeHash(fileResult.content);
+      lastAutosaveHash = contentHash;
+      backupHashes.set(filePath, contentHash);
+      updateStatus('Готово');
     } else {
-      updateStatus('Error');
+      updateStatus('Ошибка');
     }
   }
 }
 
 // Автосохранение каждые 15 секунд
 async function autoSave() {
-  if (!mainWindow) {
+  if (!mainWindow || !isDirty) {
     return;
   }
 
@@ -356,20 +373,31 @@ async function autoSave() {
     const content = await mainWindow.webContents.executeJavaScript(`
       document.getElementById('editor').value
     `);
+    const currentHash = computeHash(content);
+
+    if (currentHash === lastAutosaveHash) {
+      return;
+    }
 
     if (currentFilePath) {
       const saveResult = await fileManager.writeFile(currentFilePath, content);
       if (!saveResult.success) {
-        updateStatus('Error');
+        updateStatus('Ошибка');
         return;
       }
-    } else {
-      await writeAutosaveFile(content);
+
+      lastAutosaveHash = currentHash;
+      setDirtyState(false);
+      updateStatus('Автосохранено');
+      await saveLastFile();
+      return;
     }
 
-    updateStatus('Autosaved');
+    await writeAutosaveFile(content);
+    lastAutosaveHash = currentHash;
+    updateStatus('Автосохранено');
   } catch (error) {
-    updateStatus('Error');
+    updateStatus('Ошибка');
   }
 }
 
@@ -384,10 +412,18 @@ async function createBackup() {
       const content = await mainWindow.webContents.executeJavaScript(`
         document.getElementById('editor').value
       `);
+      const hash = computeHash(content);
+      if (backupHashes.get(currentFilePath) === hash) {
+        return;
+      }
+
       const result = await backupManager.createBackup(currentFilePath, content);
       if (!result.success) {
-        updateStatus('Error');
+        updateStatus('Ошибка');
+        return;
       }
+
+      backupHashes.set(currentFilePath, hash);
       return;
     }
 
@@ -399,16 +435,24 @@ async function createBackup() {
 
     const autosaveResult = await fileManager.readFile(autosavePath);
     if (!autosaveResult.success) {
-      updateStatus('Error');
+      updateStatus('Ошибка');
+      return;
+    }
+
+    const autosaveHash = computeHash(autosaveResult.content);
+    if (backupHashes.get(autosavePath) === autosaveHash) {
       return;
     }
 
     const backupResult = await backupManager.createBackup(autosavePath, autosaveResult.content);
     if (!backupResult.success) {
-      updateStatus('Error');
+      updateStatus('Ошибка');
+      return;
     }
+
+    backupHashes.set(autosavePath, autosaveHash);
   } catch (error) {
-    updateStatus('Error');
+    updateStatus('Ошибка');
   }
 }
 
@@ -424,21 +468,22 @@ async function handleSave() {
   if (currentFilePath) {
     const saveResult = await fileManager.writeFile(currentFilePath, content);
     if (saveResult.success) {
+      lastAutosaveHash = computeHash(content);
       setDirtyState(false);
-      updateStatus('Saved');
+      updateStatus('Сохранено');
       await saveLastFile();
       return true;
     }
-    updateStatus('Error');
+    updateStatus('Ошибка');
     return false;
   }
 
   const result = await dialog.showSaveDialog(mainWindow, {
-    title: 'Save File',
+    title: 'Сохранить файл',
     defaultPath: fileManager.getDocumentsPath(),
     filters: [
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'All Files', extensions: ['*'] }
+      { name: 'Текстовые файлы', extensions: ['txt'] },
+      { name: 'Все файлы', extensions: ['*'] }
     ]
   });
 
@@ -450,13 +495,14 @@ async function handleSave() {
 
     const saveResult = await fileManager.writeFile(filePath, content);
     if (saveResult.success) {
+      lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;
       await saveLastFile();
       setDirtyState(false);
-      updateStatus('Saved');
+      updateStatus('Сохранено');
       return true;
     }
-    updateStatus('Error');
+    updateStatus('Ошибка');
   }
 
   return false;
@@ -469,9 +515,9 @@ async function confirmDiscardChanges() {
 
   const result = await dialog.showMessageBox(mainWindow, {
     type: 'warning',
-    message: 'You have unsaved changes.',
-    detail: 'Save before continuing?',
-    buttons: ['Save', "Don't Save", 'Cancel'],
+    message: 'Есть несохранённые изменения.',
+    detail: 'Сохранить перед продолжением?',
+    buttons: ['Сохранить', 'Не сохранять', 'Отмена'],
     defaultId: 0,
     cancelId: 2,
     noLink: true
@@ -574,24 +620,24 @@ function createMenu() {
 
   const template = [
     {
-      label: 'File',
+      label: 'Файл',
       submenu: [
         {
-          label: 'New',
+          label: 'Новый',
           accelerator: 'CmdOrCtrl+N',
           click: async () => {
             await ensureCleanAction(handleNew);
           }
         },
         {
-          label: 'Open',
+          label: 'Открыть',
           accelerator: 'CmdOrCtrl+O',
           click: async () => {
             await ensureCleanAction(handleOpen);
           }
         },
         {
-          label: 'Save',
+          label: 'Сохранить',
           accelerator: 'CmdOrCtrl+S',
           click: async () => {
             await handleSave();
@@ -599,7 +645,7 @@ function createMenu() {
         },
         { type: 'separator' },
         {
-          label: 'Quit',
+          label: 'Выход',
           accelerator: process.platform === 'darwin' ? 'Cmd+Q' : 'Ctrl+Q',
           click: () => {
             app.quit();
@@ -608,37 +654,37 @@ function createMenu() {
       ]
     },
     {
-      label: 'View',
+      label: 'Вид',
       submenu: [
         {
-          label: 'Font',
+          label: 'Шрифт',
           submenu: fontMenu
         },
         { type: 'separator' },
         {
-          label: 'Font Size',
+          label: 'Размер шрифта',
           submenu: [
             {
-              label: 'Increase',
+              label: 'Увеличить',
               click: () => handleFontSizeChange('increase')
             },
             {
-              label: 'Decrease',
+              label: 'Уменьшить',
               click: () => handleFontSizeChange('decrease')
             },
             {
-              label: 'Reset',
+              label: 'Сбросить',
               click: () => handleFontSizeChange('reset')
             }
           ]
         },
         { type: 'separator' },
         {
-          label: 'Light Theme',
+          label: 'Светлая тема',
           click: () => handleThemeChange('light')
         },
         {
-          label: 'Dark Theme',
+          label: 'Тёмная тема',
           click: () => handleThemeChange('dark')
         }
       ]

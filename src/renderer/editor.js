@@ -17,7 +17,7 @@ function markAsModified() {
     }
   }
 
-  updateStatusText('Modified');
+  updateStatusText('Изменено');
 }
 
 function applyFont(fontFamily) {

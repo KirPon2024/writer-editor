@@ -1,61 +1,50 @@
 const fs = require('fs').promises;
 const path = require('path');
+const crypto = require('crypto');
 const fileManager = require('./fileManager');
 
-// Путь к папке бэкапов
-function getBackupsPath() {
+function getBackupsRoot() {
   const documentsPath = fileManager.getDocumentsPath();
   return path.join(documentsPath, '.backups');
 }
 
-// Создание папки бэкапов (если не существует)
-async function ensureBackupsFolder() {
-  const backupsPath = getBackupsPath();
-  try {
-    await fs.access(backupsPath);
-  } catch (error) {
-    await fs.mkdir(backupsPath, { recursive: true });
-  }
+async function ensureBackupsFolder(fileId) {
+  const root = getBackupsRoot();
+  const backupsPath = path.join(root, fileId);
+  await fs.mkdir(backupsPath, { recursive: true });
   return backupsPath;
 }
 
-// Создание бэкапа файла
 async function createBackup(filePath, content) {
   try {
-    await ensureBackupsFolder();
-    
+    const fileId = crypto.createHash('sha256').update(path.resolve(filePath)).digest('hex');
+    const backupsPath = await ensureBackupsFolder(fileId);
+    await writeMetaFile(backupsPath, filePath);
+
     const fileName = path.basename(filePath);
     const timestamp = Date.now();
     const backupFileName = `${timestamp}_${fileName}`;
-    const backupPath = path.join(getBackupsPath(), backupFileName);
-    
-    await fs.writeFile(backupPath, content, 'utf-8');
-    
-    // Очистка старых бэкапов (оставить только последние 50)
-    await cleanupOldBackups(fileName);
-    
+    const backupPath = path.join(backupsPath, backupFileName);
+    const writeResult = await fileManager.writeFileAtomic(backupPath, content);
+    if (!writeResult.success) {
+      return writeResult;
+    }
+
+    await cleanupOldBackups(backupsPath);
     return { success: true };
   } catch (error) {
     return { success: false, error: error.message };
   }
 }
 
-// Очистка старых бэкапов (оставить только последние 50)
-async function cleanupOldBackups(fileName) {
+async function cleanupOldBackups(backupsPath) {
   try {
-    const backupsPath = getBackupsPath();
     const files = await fs.readdir(backupsPath);
-    
-    // Фильтруем только файлы, которые соответствуют текущему файлу
-    const fileBackups = files.filter(file => file.endsWith(`_${fileName}`));
-    
-    if (fileBackups.length > 50) {
-      // Сортируем по имени (timestamp в начале)
-      fileBackups.sort();
-      
-      // Удаляем старые (оставляем последние 50)
-      const toDelete = fileBackups.slice(0, fileBackups.length - 50);
-      
+    const backupFiles = files.filter((file) => file !== 'meta.json');
+
+    if (backupFiles.length > 50) {
+      backupFiles.sort();
+      const toDelete = backupFiles.slice(0, backupFiles.length - 50);
       for (const file of toDelete) {
         await fs.unlink(path.join(backupsPath, file));
       }
@@ -65,8 +54,21 @@ async function cleanupOldBackups(fileName) {
   }
 }
 
+async function writeMetaFile(backupsPath, filePath) {
+  try {
+    const metaPath = path.join(backupsPath, 'meta.json');
+    const meta = {
+      originalPath: filePath,
+      baseName: path.basename(filePath)
+    };
+    await fileManager.writeFileAtomic(metaPath, JSON.stringify(meta, null, 2));
+  } catch {
+    // Игнорируем сбои записи meta
+  }
+}
+
 module.exports = {
-  getBackupsPath,
+  getBackupsRoot,
   ensureBackupsFolder,
   createBackup
 };

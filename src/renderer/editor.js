@@ -62,6 +62,23 @@ if (window.electronAPI) {
 
 loadSavedTheme();
 
+if (window.electronAPI) {
+  window.electronAPI.onEditorSetText((text) => {
+    editor.value = text || '';
+    localDirty = false;
+  });
+
+  window.electronAPI.onEditorTextRequest(({ requestId }) => {
+    window.electronAPI.sendEditorTextResponse(requestId, editor.value);
+  });
+
+  window.electronAPI.onEditorSetFontSize(({ px }) => {
+    if (Number.isFinite(px)) {
+      editor.style.fontSize = `${px}px`;
+    }
+  });
+}
+
 editor.addEventListener('input', () => {
   markAsModified();
 });

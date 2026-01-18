@@ -8,6 +8,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onThemeChanged: (callback) => {
     ipcRenderer.on('theme-changed', (event, theme) => callback(theme));
   },
+  onEditorSetText: (callback) => {
+    ipcRenderer.on('editor:set-text', (event, text) => callback(text));
+  },
+  onEditorTextRequest: (callback) => {
+    ipcRenderer.on('editor:text-request', (event, payload) => callback(payload));
+  },
+  sendEditorTextResponse: (requestId, text) => {
+    ipcRenderer.send('editor:text-response', { requestId, text });
+  },
+  onEditorSetFontSize: (callback) => {
+    ipcRenderer.on('editor:set-font-size', (event, payload) => callback(payload));
+  },
   notifyDirtyState: (state) => {
     ipcRenderer.send('dirty-changed', state);
   },

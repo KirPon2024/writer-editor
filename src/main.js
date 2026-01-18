@@ -12,10 +12,73 @@ let isQuitting = false;
 let isWindowClosing = false;
 let lastAutosaveHash = null;
 const backupHashes = new Map();
+const isDevMode = process.argv.includes('--dev');
+let diskQueue = Promise.resolve();
+const pendingTextRequests = new Map();
+let currentFontSize = 16;
 
 // Путь к файлу настроек
 function getSettingsPath() {
   return path.join(app.getPath('userData'), 'settings.json');
+}
+
+function logDevError(context, error) {
+  if (isDevMode && error) {
+    console.error(`[WriterEditor][${context}]`, error);
+  }
+}
+
+function queueDiskOperation(operation, context = 'disk') {
+  const run = () =>
+    operation().catch((error) => {
+      logDevError(context, error);
+      throw error;
+    });
+
+  const queued = diskQueue.then(run, run);
+  diskQueue = queued.catch(() => {});
+  return queued;
+}
+
+function clampFontSize(size) {
+  return Math.max(12, Math.min(28, size));
+}
+
+function sendEditorText(text) {
+  if (mainWindow) {
+    mainWindow.webContents.send('editor:set-text', typeof text === 'string' ? text : '');
+  }
+}
+
+function sendEditorFontSize(px) {
+  if (mainWindow) {
+    mainWindow.webContents.send('editor:set-font-size', { px });
+  }
+}
+
+function requestEditorText(timeoutMs = 2500) {
+  if (!mainWindow || mainWindow.isDestroyed()) {
+    return Promise.reject(new Error('No active window'));
+  }
+
+  return new Promise((resolve, reject) => {
+    const requestId = crypto.randomBytes(8).toString('hex');
+    const timeoutId = setTimeout(() => {
+      pendingTextRequests.delete(requestId);
+      reject(new Error('Timed out waiting for editor text'));
+    }, timeoutMs);
+
+    pendingTextRequests.set(requestId, { resolve, reject, timeoutId });
+    mainWindow.webContents.send('editor:text-request', { requestId });
+  });
+}
+
+function clearPendingTextRequests(reason) {
+  for (const [requestId, pending] of pendingTextRequests.entries()) {
+    clearTimeout(pending.timeoutId);
+    pending.reject(new Error(reason));
+  }
+  pendingTextRequests.clear();
 }
 
 // Загрузка настроек
@@ -31,8 +94,11 @@ async function loadSettings() {
 // Сохранение настроек
 async function saveSettings(settings) {
   try {
-    await fs.writeFile(getSettingsPath(), JSON.stringify(settings), 'utf-8');
-  } catch (error) {
+    await queueDiskOperation(
+      () => fileManager.writeFileAtomic(getSettingsPath(), JSON.stringify(settings)),
+      'save settings'
+    );
+  } catch {
     // Тихая обработка ошибок
   }
 }
@@ -86,10 +152,7 @@ async function openLastFile() {
     if (fileResult.success) {
       currentFilePath = lastFilePath;
       await saveLastFile();
-      const contentJson = JSON.stringify(fileResult.content);
-      await mainWindow.webContents.executeJavaScript(`
-        document.getElementById('editor').value = ${contentJson};
-      `);
+      sendEditorText(fileResult.content);
       setDirtyState(false);
       const contentHash = computeHash(fileResult.content);
       lastAutosaveHash = contentHash;
@@ -108,15 +171,14 @@ async function loadSavedFontSize() {
   
   try {
     const settings = await loadSettings();
-    if (settings.fontSize) {
-      const size = Math.max(12, Math.min(28, settings.fontSize));
-      await mainWindow.webContents.executeJavaScript(`
-        document.getElementById('editor').style.fontSize = '${size}px';
-      `);
+    if (Number.isFinite(settings.fontSize)) {
+      currentFontSize = clampFontSize(settings.fontSize);
     }
   } catch (error) {
     // Тихая обработка ошибок
   }
+
+  sendEditorFontSize(currentFontSize);
 }
 
 async function restoreAutosaveIfExists() {
@@ -130,18 +192,16 @@ async function restoreAutosaveIfExists() {
       return false;
     }
 
-    const contentJson = JSON.stringify(content);
-    await mainWindow.webContents.executeJavaScript(`
-      document.getElementById('editor').value = ${contentJson};
-    `);
+    sendEditorText(content);
 
-    setDirtyState(false);
+    setDirtyState(true); // восстановленный черновик считается несохранённым
     const autosaveHash = computeHash(content);
     lastAutosaveHash = autosaveHash;
     backupHashes.set(autosavePath, autosaveHash);
     updateStatus('Восстановлено из автосохранения');
     return true;
-  } catch {
+  } catch (error) {
+    logDevError('restoreAutosaveIfExists', error);
     return false;
   }
 }
@@ -217,11 +277,8 @@ async function deleteAutosaveFile() {
 
 async function writeAutosaveFile(content) {
   const autosavePath = getAutosavePath();
-  const tempPath = `${autosavePath}.tmp`;
-
   await ensureAutosaveDirectory();
-  await fs.writeFile(tempPath, content, 'utf-8');
-  await fs.rename(tempPath, autosavePath);
+  return fileManager.writeFileAtomic(autosavePath, content);
 }
 
 function updateStatus(status) {
@@ -236,6 +293,22 @@ function setDirtyState(state) {
     mainWindow.webContents.send('set-dirty', state);
   }
 }
+
+ipcMain.on('editor:text-response', (_, payload) => {
+  const requestId = payload && payload.requestId;
+  if (!requestId) {
+    return;
+  }
+
+  const pending = pendingTextRequests.get(requestId);
+  if (!pending) {
+    return;
+  }
+
+  clearTimeout(pending.timeoutId);
+  pendingTextRequests.delete(requestId);
+  pending.resolve(typeof payload.text === 'string' ? payload.text : '');
+});
 
 ipcMain.on('dirty-changed', (_, state) => {
   isDirty = state;
@@ -298,6 +371,7 @@ function createWindow() {
   });
 
   mainWindow.on('closed', () => {
+    clearPendingTextRequests('Window closed');
     mainWindow = null;
     isWindowClosing = false;
   });
@@ -322,9 +396,7 @@ async function handleNew() {
   if (!mainWindow) return;
   currentFilePath = null;
   await saveLastFile();
-  await mainWindow.webContents.executeJavaScript(`
-    document.getElementById('editor').value = '';
-  `);
+  sendEditorText('');
   setDirtyState(false);
   lastAutosaveHash = null;
   updateStatus('Готово');
@@ -348,10 +420,7 @@ async function handleOpen() {
     if (fileResult.success) {
       currentFilePath = filePath;
       await saveLastFile();
-      const contentJson = JSON.stringify(fileResult.content);
-      await mainWindow.webContents.executeJavaScript(`
-        document.getElementById('editor').value = ${contentJson};
-      `);
+      sendEditorText(fileResult.content);
       setDirtyState(false);
       const contentHash = computeHash(fileResult.content);
       lastAutosaveHash = contentHash;
@@ -370,9 +439,7 @@ async function autoSave() {
   }
 
   try {
-    const content = await mainWindow.webContents.executeJavaScript(`
-      document.getElementById('editor').value
-    `);
+    const content = await requestEditorText();
     const currentHash = computeHash(content);
 
     if (currentHash === lastAutosaveHash) {
@@ -380,7 +447,10 @@ async function autoSave() {
     }
 
     if (currentFilePath) {
-      const saveResult = await fileManager.writeFile(currentFilePath, content);
+      const saveResult = await queueDiskOperation(
+        () => fileManager.writeFileAtomic(currentFilePath, content),
+        'autosave file'
+      );
       if (!saveResult.success) {
         updateStatus('Ошибка');
         return;
@@ -393,11 +463,20 @@ async function autoSave() {
       return;
     }
 
-    await writeAutosaveFile(content);
+    const autosaveResult = await queueDiskOperation(
+      () => writeAutosaveFile(content),
+      'autosave temporary'
+    );
+    if (!autosaveResult.success) {
+      updateStatus('Ошибка');
+      return;
+    }
+
     lastAutosaveHash = currentHash;
     updateStatus('Автосохранено');
   } catch (error) {
     updateStatus('Ошибка');
+    logDevError('autoSave', error);
   }
 }
 
@@ -409,15 +488,16 @@ async function createBackup() {
 
   try {
     if (currentFilePath) {
-      const content = await mainWindow.webContents.executeJavaScript(`
-        document.getElementById('editor').value
-      `);
+      const content = await requestEditorText();
       const hash = computeHash(content);
       if (backupHashes.get(currentFilePath) === hash) {
         return;
       }
 
-      const result = await backupManager.createBackup(currentFilePath, content);
+      const result = await queueDiskOperation(
+        () => backupManager.createBackup(currentFilePath, content),
+        'backup current file'
+      );
       if (!result.success) {
         updateStatus('Ошибка');
         return;
@@ -444,7 +524,10 @@ async function createBackup() {
       return;
     }
 
-    const backupResult = await backupManager.createBackup(autosavePath, autosaveResult.content);
+    const backupResult = await queueDiskOperation(
+      () => backupManager.createBackup(autosavePath, autosaveResult.content),
+      'backup autosave'
+    );
     if (!backupResult.success) {
       updateStatus('Ошибка');
       return;
@@ -453,6 +536,7 @@ async function createBackup() {
     backupHashes.set(autosavePath, autosaveHash);
   } catch (error) {
     updateStatus('Ошибка');
+    logDevError('createBackup', error);
   }
 }
 
@@ -461,12 +545,21 @@ async function handleSave() {
     return false;
   }
 
-  const content = await mainWindow.webContents.executeJavaScript(`
-    document.getElementById('editor').value
-  `);
+  let content;
+  try {
+    content = await requestEditorText();
+  } catch (error) {
+    updateStatus('Ошибка');
+    logDevError('handleSave', error);
+    return false;
+  }
+  const wasUntitled = currentFilePath === null;
 
   if (currentFilePath) {
-    const saveResult = await fileManager.writeFile(currentFilePath, content);
+    const saveResult = await queueDiskOperation(
+      () => fileManager.writeFileAtomic(currentFilePath, content),
+      'save existing file'
+    );
     if (saveResult.success) {
       lastAutosaveHash = computeHash(content);
       setDirtyState(false);
@@ -493,13 +586,20 @@ async function handleSave() {
       filePath += '.txt';
     }
 
-    const saveResult = await fileManager.writeFile(filePath, content);
+    const saveResult = await queueDiskOperation(
+      () => fileManager.writeFileAtomic(filePath, content),
+      'save new file'
+    );
     if (saveResult.success) {
       lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;
       await saveLastFile();
       setDirtyState(false);
       updateStatus('Сохранено');
+      if (wasUntitled) {
+        await deleteAutosaveFile();
+        backupHashes.delete(getAutosavePath());
+      }
       return true;
     }
     updateStatus('Ошибка');
@@ -565,43 +665,28 @@ async function handleFontSizeChange(action) {
   if (!mainWindow) return;
   
   try {
-    // Читаем текущий размер (из инлайн стиля или computed style)
-    const currentSize = await mainWindow.webContents.executeJavaScript(`
-      (() => {
-        const editor = document.getElementById('editor');
-        const inlineSize = editor.style.fontSize;
-        if (inlineSize) {
-          return parseInt(inlineSize) || 16;
-        }
-        const computed = window.getComputedStyle(editor);
-        return parseInt(computed.fontSize) || 16;
-      })()
-    `);
-    
-    let newSize = currentSize;
+    let newSize = currentFontSize;
     const minSize = 12;
     const maxSize = 28;
     
     if (action === 'increase') {
-      newSize = Math.min(currentSize + 1, maxSize);
+      newSize = Math.min(currentFontSize + 1, maxSize);
     } else if (action === 'decrease') {
-      newSize = Math.max(currentSize - 1, minSize);
+      newSize = Math.max(currentFontSize - 1, minSize);
     } else if (action === 'reset') {
       newSize = 16;
     }
     
-    if (newSize !== currentSize) {
-      await mainWindow.webContents.executeJavaScript(`
-        document.getElementById('editor').style.fontSize = '${newSize}px';
-      `);
-      
-      // Сохранение размера в настройках
+    if (newSize !== currentFontSize) {
+      currentFontSize = clampFontSize(newSize);
+      sendEditorFontSize(currentFontSize);
+
       const settings = await loadSettings();
-      settings.fontSize = newSize;
+      settings.fontSize = currentFontSize;
       await saveSettings(settings);
     }
   } catch (error) {
-    // Тихая обработка ошибок
+    logDevError('handleFontSizeChange', error);
   }
 }
 

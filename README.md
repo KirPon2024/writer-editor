@@ -1,4 +1,4 @@
-# Writer Editor
+# craftsman
 
 Бесплатный аскетичный редактор для писателей, сценаристов и людей, работающих с текстом, которым важна эстетически спокойная и сосредоточенная среда.
 
@@ -91,7 +91,7 @@ npm run dev
 - выполните `npm run icons:mac` для генерации `build/icon.png` и `build/icon.icns`
 
 ## Где хранятся данные (macOS)
-- Основная папка: `~/Documents/WriterEditor/`
-- Автосохранения: `~/Documents/WriterEditor/.autosave/autosave.txt`
-- Бэкапы: `~/Documents/WriterEditor/.backups/`
+- Основная папка: `~/Documents/craftsman/` (если ранее была `~/Documents/WriterEditor/`, она тоже учитывается)
+- Автосохранения: `~/Documents/craftsman/.autosave/autosave.txt`
+- Бэкапы: `~/Documents/craftsman/.backups/`
 - Дополнительные настройки (размеры окна, шрифт и т.п.) хранятся в каталоге, возвращаемом `app.getPath('userData')`

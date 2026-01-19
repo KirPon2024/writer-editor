@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
+const fsSync = require('fs');
 const crypto = require('crypto');
 const fileManager = require('./utils/fileManager');
 const backupManager = require('./utils/backupManager');
@@ -16,6 +17,8 @@ const isDevMode = process.argv.includes('--dev');
 let diskQueue = Promise.resolve();
 const pendingTextRequests = new Map();
 let currentFontSize = 16;
+const USER_DATA_FOLDER_NAME = 'craftsman';
+const LEGACY_USER_DATA_FOLDER_NAME = 'WriterEditor';
 
 // Путь к файлу настроек
 function getSettingsPath() {
@@ -24,8 +27,37 @@ function getSettingsPath() {
 
 function logDevError(context, error) {
   if (isDevMode && error) {
-    console.error(`[WriterEditor][${context}]`, error);
+    console.error(`[craftsman][${context}]`, error);
   }
+}
+
+async function ensureUserDataFolder() {
+  const appDataPath = app.getPath('appData');
+  const targetPath = path.join(appDataPath, USER_DATA_FOLDER_NAME);
+  const legacyPath = path.join(appDataPath, LEGACY_USER_DATA_FOLDER_NAME);
+  const targetExists = fsSync.existsSync(targetPath);
+  const legacyExists = fsSync.existsSync(legacyPath);
+
+  if (legacyExists && !targetExists) {
+    try {
+      await fs.rename(legacyPath, targetPath);
+    } catch (error) {
+      logDevError('ensureUserDataFolder', error);
+      app.setPath('userData', legacyPath);
+      return legacyPath;
+    }
+  }
+
+  if (!fsSync.existsSync(targetPath)) {
+    try {
+      await fs.mkdir(targetPath, { recursive: true });
+    } catch (error) {
+      logDevError('ensureUserDataFolder', error);
+    }
+  }
+
+  app.setPath('userData', targetPath);
+  return targetPath;
 }
 
 function queueDiskOperation(operation, context = 'disk') {
@@ -207,9 +239,14 @@ async function restoreAutosaveIfExists() {
 }
 
 // Сохранение и восстановление размеров окна
+const DEFAULT_WINDOW_SIZE = {
+  width: 3456,
+  height: 2234
+};
+
 const windowState = {
-  width: 1200,
-  height: 800,
+  width: DEFAULT_WINDOW_SIZE.width,
+  height: DEFAULT_WINDOW_SIZE.height,
   x: undefined,
   y: undefined
 };
@@ -319,13 +356,17 @@ function createWindow() {
   const { screen } = require('electron');
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize;
+  const desiredWidth = Number.isFinite(windowState.width) ? windowState.width : DEFAULT_WINDOW_SIZE.width;
+  const desiredHeight = Number.isFinite(windowState.height) ? windowState.height : DEFAULT_WINDOW_SIZE.height;
+  const width = Math.min(desiredWidth, screenWidth);
+  const height = Math.min(desiredHeight, screenHeight);
 
   mainWindow = new BrowserWindow({
-    width: windowState.width || 1200,
-    height: windowState.height || 800,
+    width,
+    height,
     x: windowState.x,
     y: windowState.y,
-    backgroundColor: '#bab1a4',
+    backgroundColor: '#dbd4ca',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -781,13 +822,14 @@ function createMenu() {
   Menu.setApplicationMenu(menu);
 }
 
-// Создание папки Documents/WriterEditor и autosave при запуске
+// Подготовка локальных директорий (Documents/craftsman + autosave) при запуске
 async function initializeApp() {
   await fileManager.ensureDocumentsFolder();
   await ensureAutosaveDirectory();
 }
 
 app.whenReady().then(async () => {
+  await ensureUserDataFolder();
   await initializeApp();
   await loadWindowStateFromSettings();
   createWindow();

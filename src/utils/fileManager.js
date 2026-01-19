@@ -1,15 +1,30 @@
 const fs = require('fs').promises;
+const fsSync = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { app } = require('electron');
 
-// Путь к папке Documents/WriterEditor
+const DOCUMENTS_FOLDER_NAME = 'craftsman';
+const LEGACY_DOCUMENTS_FOLDER_NAME = 'WriterEditor';
+
+// Путь к папке Documents/craftsman (fallback на WriterEditor, если уже существует)
 function getDocumentsPath() {
   const documentsPath = app.getPath('documents');
-  return path.join(documentsPath, 'WriterEditor');
+  const preferredPath = path.join(documentsPath, DOCUMENTS_FOLDER_NAME);
+  const legacyPath = path.join(documentsPath, LEGACY_DOCUMENTS_FOLDER_NAME);
+
+  if (fsSync.existsSync(preferredPath)) {
+    return preferredPath;
+  }
+
+  if (fsSync.existsSync(legacyPath)) {
+    return legacyPath;
+  }
+
+  return preferredPath;
 }
 
-// Создание папки Documents/WriterEditor (если не существует)
+// Создание папки Documents/craftsman или работа с существующей WriterEditor
 async function ensureDocumentsFolder() {
   const folderPath = getDocumentsPath();
   try {

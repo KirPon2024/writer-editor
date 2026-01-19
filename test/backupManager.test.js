@@ -8,7 +8,7 @@ const backupManager = require('../src/utils/backupManager');
 const fileManager = require('../src/utils/fileManager');
 
 async function createTempDir() {
-  return fs.mkdtemp(path.join(os.tmpdir(), 'writer-editor-'));
+  return fs.mkdtemp(path.join(os.tmpdir(), 'craftsman-'));
 }
 
 function fileIdFor(filePath) {

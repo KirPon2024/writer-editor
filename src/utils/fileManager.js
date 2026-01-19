@@ -3,15 +3,32 @@ const fsSync = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { app } = require('electron');
+const { hasDirectoryContent, copyDirectoryContents } = require('./fsHelpers');
 
 const DOCUMENTS_FOLDER_NAME = 'craftsman';
 const LEGACY_DOCUMENTS_FOLDER_NAME = 'WriterEditor';
+const MIGRATION_MARKER = '.migrated-from-writer-editor';
+const isDevMode = process.argv.includes('--dev');
+
+function logMigration(message) {
+  if (isDevMode) {
+    console.debug(`[craftsman:migration] ${message}`);
+  }
+}
 
 // Путь к папке Documents/craftsman (fallback на WriterEditor, если уже существует)
 function getDocumentsPath() {
   const documentsPath = app.getPath('documents');
   const preferredPath = path.join(documentsPath, DOCUMENTS_FOLDER_NAME);
   const legacyPath = path.join(documentsPath, LEGACY_DOCUMENTS_FOLDER_NAME);
+
+  if (hasDirectoryContent(preferredPath)) {
+    return preferredPath;
+  }
+
+  if (hasDirectoryContent(legacyPath)) {
+    return legacyPath;
+  }
 
   if (fsSync.existsSync(preferredPath)) {
     return preferredPath;
@@ -30,10 +47,42 @@ async function ensureDocumentsFolder() {
   try {
     await fs.access(folderPath);
   } catch (error) {
-    // Папка не существует, создаём её
     await fs.mkdir(folderPath, { recursive: true });
   }
   return folderPath;
+}
+
+async function migrateDocumentsFolder() {
+  const documentsPath = app.getPath('documents');
+  const targetPath = path.join(documentsPath, DOCUMENTS_FOLDER_NAME);
+  const legacyPath = path.join(documentsPath, LEGACY_DOCUMENTS_FOLDER_NAME);
+  const markerPath = path.join(targetPath, MIGRATION_MARKER);
+
+  if (fsSync.existsSync(markerPath)) {
+    logMigration('documents migration marker present, skipping');
+    return targetPath;
+  }
+
+  if (hasDirectoryContent(targetPath)) {
+    logMigration('craftsman documents already populated, skipping migration');
+    return targetPath;
+  }
+
+  if (!hasDirectoryContent(legacyPath)) {
+    logMigration('legacy documents folder is empty or missing');
+    return targetPath;
+  }
+
+  try {
+    logMigration(`copying documents from ${legacyPath} → ${targetPath}`);
+    await copyDirectoryContents(legacyPath, targetPath);
+    await fs.writeFile(markerPath, 'migrated from WriterEditor', 'utf8');
+    logMigration('documents migration complete');
+  } catch (error) {
+    logMigration(`documents migration failed: ${error.message}`);
+  }
+
+  return targetPath;
 }
 
 // Чтение файла
@@ -127,6 +176,7 @@ async function writeFile(filePath, content) {
 module.exports = {
   getDocumentsPath,
   ensureDocumentsFolder,
+  migrateDocumentsFolder,
   readFile,
   writeFile,
   writeFileAtomic

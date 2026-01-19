@@ -94,4 +94,5 @@ npm run dev
 - Основная папка: `~/Documents/craftsman/` (если ранее была `~/Documents/WriterEditor/`, она тоже учитывается)
 - Автосохранения: `~/Documents/craftsman/.autosave/autosave.txt`
 - Бэкапы: `~/Documents/craftsman/.backups/`
+- При первом запуске craftsman автоматически копирует содержимое `~/Documents/WriterEditor/`, если новая папка пустая.
 - Дополнительные настройки (размеры окна, шрифт и т.п.) хранятся в каталоге, возвращаемом `app.getPath('userData')`

@@ -5,6 +5,7 @@ const fsSync = require('fs');
 const crypto = require('crypto');
 const fileManager = require('./utils/fileManager');
 const backupManager = require('./utils/backupManager');
+const { hasDirectoryContent, copyDirectoryContents } = require('./utils/fsHelpers');
 
 let mainWindow;
 let currentFilePath = null; // Путь к текущему открытому файлу
@@ -19,6 +20,7 @@ const pendingTextRequests = new Map();
 let currentFontSize = 16;
 const USER_DATA_FOLDER_NAME = 'craftsman';
 const LEGACY_USER_DATA_FOLDER_NAME = 'WriterEditor';
+const MIGRATION_MARKER = '.migrated-from-writer-editor';
 
 // Путь к файлу настроек
 function getSettingsPath() {
@@ -31,33 +33,63 @@ function logDevError(context, error) {
   }
 }
 
-async function ensureUserDataFolder() {
+function logMigration(message) {
+  if (isDevMode) {
+    console.debug(`[craftsman:migration] ${message}`);
+  }
+}
+
+async function migrateUserData() {
   const appDataPath = app.getPath('appData');
   const targetPath = path.join(appDataPath, USER_DATA_FOLDER_NAME);
   const legacyPath = path.join(appDataPath, LEGACY_USER_DATA_FOLDER_NAME);
-  const targetExists = fsSync.existsSync(targetPath);
-  const legacyExists = fsSync.existsSync(legacyPath);
+  const markerPath = path.join(targetPath, MIGRATION_MARKER);
 
-  if (legacyExists && !targetExists) {
-    try {
-      await fs.rename(legacyPath, targetPath);
-    } catch (error) {
-      logDevError('ensureUserDataFolder', error);
-      app.setPath('userData', legacyPath);
-      return legacyPath;
-    }
+  if (fsSync.existsSync(markerPath)) {
+    logMigration('userData migration marker detected, using craftsman folder');
+    await fs.mkdir(targetPath, { recursive: true }).catch(() => {});
+    app.setPath('userData', targetPath);
+    return targetPath;
   }
 
-  if (!fsSync.existsSync(targetPath)) {
-    try {
-      await fs.mkdir(targetPath, { recursive: true });
-    } catch (error) {
-      logDevError('ensureUserDataFolder', error);
-    }
+  if (hasDirectoryContent(targetPath)) {
+    logMigration('craftsman userData already contains files');
+    app.setPath('userData', targetPath);
+    return targetPath;
+  }
+
+  if (!hasDirectoryContent(legacyPath)) {
+    logMigration('no legacy userData found, creating craftsman folder');
+    await fs.mkdir(targetPath, { recursive: true }).catch((error) => {
+      logDevError('migrateUserData', error);
+    });
+    app.setPath('userData', targetPath);
+    return targetPath;
+  }
+
+  try {
+    logMigration(`copying userData from ${legacyPath} → ${targetPath}`);
+    await copyDirectoryContents(legacyPath, targetPath);
+    await fs.writeFile(markerPath, 'migrated from WriterEditor', 'utf8');
+    logMigration('userData migration complete');
+  } catch (error) {
+    logDevError('migrateUserData', error);
   }
 
   app.setPath('userData', targetPath);
   return targetPath;
+}
+
+async function ensureUserDataFolder() {
+  try {
+    return await migrateUserData();
+  } catch (error) {
+    logDevError('ensureUserDataFolder', error);
+    const fallbackPath = path.join(app.getPath('appData'), USER_DATA_FOLDER_NAME);
+    await fs.mkdir(fallbackPath, { recursive: true }).catch(() => {});
+    app.setPath('userData', fallbackPath);
+    return fallbackPath;
+  }
 }
 
 function queueDiskOperation(operation, context = 'disk') {
@@ -824,6 +856,7 @@ function createMenu() {
 
 // Подготовка локальных директорий (Documents/craftsman + autosave) при запуске
 async function initializeApp() {
+  await fileManager.migrateDocumentsFolder();
   await fileManager.ensureDocumentsFolder();
   await ensureAutosaveDirectory();
 }

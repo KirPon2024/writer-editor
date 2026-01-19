@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
+const { performance } = require('perf_hooks');
 const path = require('path');
 const fs = require('fs').promises;
 const fsSync = require('fs');
@@ -7,6 +8,7 @@ const fileManager = require('./utils/fileManager');
 const backupManager = require('./utils/backupManager');
 const { hasDirectoryContent, copyDirectoryContents } = require('./utils/fsHelpers');
 
+const launchT0 = performance.now();
 let mainWindow;
 let currentFilePath = null; // Путь к текущему открытому файлу
 let isDirty = false;
@@ -15,6 +17,11 @@ let isWindowClosing = false;
 let lastAutosaveHash = null;
 const backupHashes = new Map();
 const isDevMode = process.argv.includes('--dev');
+function logPerfStage(label) {
+  if (!isDevMode) return;
+  const elapsed = Math.round(performance.now() - launchT0);
+  console.info(`[perf] ${label}: ${elapsed}ms`);
+}
 let diskQueue = Promise.resolve();
 const pendingTextRequests = new Map();
 let currentFontSize = 16;
@@ -406,10 +413,21 @@ function createWindow() {
     }
   });
 
+  logPerfStage('create-window');
+
   mainWindow.loadFile('src/renderer/index.html');
+
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.key === 'Escape' && mainWindow && mainWindow.isFullScreen()) {
+      event.preventDefault();
+      mainWindow.setFullScreen(false);
+    }
+  });
 
   // Открыть последний файл и применить настройки после загрузки
   mainWindow.webContents.once('did-finish-load', async () => {
+    mainWindow.webContents.setZoomFactor(1);
+    logPerfStage('did-finish-load');
     await loadSavedFontSize();
     const restored = await restoreAutosaveIfExists();
     if (!restored) {
@@ -862,11 +880,23 @@ async function initializeApp() {
 }
 
 app.whenReady().then(async () => {
+  logPerfStage('when-ready');
+  app.setName('Craftsman');
   await ensureUserDataFolder();
-  await initializeApp();
-  await loadWindowStateFromSettings();
+  const windowStatePromise = loadWindowStateFromSettings();
+  const initPromise = initializeApp()
+    .then(() => {
+      logPerfStage('init-complete');
+    })
+    .catch((error) => {
+      logDevError('initializeApp', error);
+    });
+
+  await windowStatePromise;
+  logPerfStage('window-state-loaded');
   createWindow();
   createMenu();
+  logPerfStage('window-visible');
 
   // Запуск автосохранения каждые 15 секунд
   setInterval(() => {
@@ -883,6 +913,9 @@ app.whenReady().then(async () => {
       createWindow();
     }
   });
+
+  // Позволяем фоновым инициализациям завершиться без блокировки UI
+  initPromise.catch(() => {});
 });
 
 app.on('before-quit', (event) => {

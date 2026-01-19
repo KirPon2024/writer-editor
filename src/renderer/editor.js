@@ -9,6 +9,7 @@ const sectionList = document.querySelector('[data-section-list]');
 const sidebar = document.querySelector('.sidebar');
 const sidebarResizer = document.querySelector('[data-sidebar-resizer]');
 let activeSectionName = null;
+const isMac = navigator.platform.toUpperCase().includes('MAC');
 
 function updateSectionSelection(targetName) {
   sectionButtons.forEach((button) => {
@@ -111,10 +112,10 @@ function markAsModified() {
   updateStatusText('Изменено');
 }
 
-function applyFont(fontFamily) {
-  editor.style.fontFamily = fontFamily;
-  localStorage.setItem('editorFont', fontFamily);
-}
+  function applyFont(fontFamily) {
+    editor.style.fontFamily = fontFamily;
+    localStorage.setItem('editorFont', fontFamily);
+  }
 
 function loadSavedFont() {
   const savedFont = localStorage.getItem('editorFont');
@@ -152,6 +153,21 @@ if (window.electronAPI) {
 }
 
 loadSavedTheme();
+
+function handleSelectAllShortcut(event) {
+  const isCmdOrCtrl = isMac ? event.metaKey : event.ctrlKey;
+  const isSelectAll = isCmdOrCtrl && !event.shiftKey && !event.altKey && event.key && event.key.toLowerCase() === 'a';
+
+  if (!isSelectAll || !editor) {
+    return;
+  }
+
+  event.preventDefault();
+  editor.focus();
+  editor.select();
+}
+
+document.addEventListener('keydown', handleSelectAllShortcut);
 
 // Ensure a previously loaded document is visible even before selecting a section.
 if (editor && editor.value && !activeSectionName) {

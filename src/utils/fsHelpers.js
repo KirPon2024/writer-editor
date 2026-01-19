@@ -13,8 +13,10 @@ function hasDirectoryContent(directoryPath) {
   }
 
   try {
-    const entries = fsSync.readdirSync(directoryPath);
-    return entries.length > 0;
+    const dir = fsSync.opendirSync(directoryPath);
+    const firstEntry = dir.readSync();
+    dir.closeSync();
+    return Boolean(firstEntry);
   } catch {
     return false;
   }

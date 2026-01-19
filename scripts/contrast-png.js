@@ -75,13 +75,13 @@ function decodePng(buffer) {
   if (width === null || height === null) {
     throw new Error('Invalid PNG header');
   }
-  if (bitDepth !== 8 || colorType !== 6 || interlace !== 0) {
+  if (bitDepth !== 8 || (colorType !== 6 && colorType !== 2) || interlace !== 0) {
     throw new Error(`Unsupported PNG format (bitDepth=${bitDepth}, colorType=${colorType}, interlace=${interlace})`);
   }
 
   const compressed = Buffer.concat(idatParts);
   const inflated = zlib.inflateSync(compressed);
-  const bytesPerPixel = 4;
+  const bytesPerPixel = colorType === 6 ? 4 : 3;
   const rowBytes = width * bytesPerPixel;
   const pixels = Buffer.alloc(width * height * bytesPerPixel);
 
@@ -126,7 +126,19 @@ function decodePng(buffer) {
     prevRow = row;
   }
 
-  return { width, height, pixels };
+  if (bytesPerPixel === 4) {
+    return { width, height, pixels };
+  }
+
+  const rgba = Buffer.alloc(width * height * 4);
+  for (let i = 0, out = 0; i < pixels.length; i += 3, out += 4) {
+    rgba[out] = pixels[i];
+    rgba[out + 1] = pixels[i + 1];
+    rgba[out + 2] = pixels[i + 2];
+    rgba[out + 3] = 255;
+  }
+
+  return { width, height, pixels: rgba };
 }
 
 function applyContrast(pixels, contrastValue) {

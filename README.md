@@ -86,6 +86,10 @@ npm run dev
 - `npm run build:mac`
 - Результат появляется в папке `dist/`
 
+Иконка приложения (macOS):
+- положите логотип в `src/renderer/assets/logo.png`
+- выполните `npm run icons:mac` для генерации `build/icon.png` и `build/icon.icns`
+
 ## Где хранятся данные (macOS)
 - Основная папка: `~/Documents/WriterEditor/`
 - Автосохранения: `~/Documents/WriterEditor/.autosave/autosave.txt`

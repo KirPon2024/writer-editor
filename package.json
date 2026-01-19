@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
-    "test": "node --test test",
+    "test": "node scripts/run-tests.js",
+    "icons:mac": "bash scripts/make-mac-icon.sh",
     "build": "electron-builder",
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win",
@@ -23,8 +24,10 @@
   "build": {
     "appId": "com.writereditor.app",
     "productName": "Writer Editor",
+    "icon": "build/icon.png",
     "mac": {
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.icns"
     }
   }
 }

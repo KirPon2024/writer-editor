@@ -7,83 +7,267 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-layout">
-    <aside class="sidebar">
-      <div class="sidebar__header">
-        <button type="button" class="sidebar__new-project">
-          <svg class="icon icon--plus" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path d="M7.5 2.5v11M2.5 7.5h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <span>Новый проект</span>
-        </button>
-      </div>
-      <div class="sidebar__projects">
-        <div class="project">
-          <button type="button" class="project__header" data-project-toggle>
-            <svg class="icon icon--chevron icon--muted" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-              <path d="M6 4 10 8 6 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <div class="window">
+    <header class="toolbar" data-toolbar>
+      <div class="toolbar__row toolbar__row--primary">
+        <div class="toolbar__main">
+          <div class="toolbar__cluster">
+            <button type="button" class="toolbar__button" data-compact-hidden data-action="save-as" aria-label="Save as">
+              <svg class="toolbar__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M8 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M5.5 4.5L8 2l2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 8v5h10V8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button type="button" class="toolbar__button toolbar__button--wide" data-compact-hidden data-action="search" aria-label="Find">
+              <svg class="toolbar__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M10.5 10.5L14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button type="button" class="toolbar__button toolbar__button--wide" data-action="new" aria-label="New document">
+              <svg class="toolbar__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button type="button" class="toolbar__button" data-compact-hidden data-action="clear" aria-label="Clear document">
+              <svg class="toolbar__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M3 5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M6 5V3h4v2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M5 5l.5 8h5L11 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button type="button" class="toolbar__button toolbar__button--wide" data-compact-hidden data-action="open" aria-label="Open">
+              <svg class="toolbar__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M2.5 5.5h4l1.5 2h5.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M2.5 5.5v6.5h11v-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button type="button" class="toolbar__button" data-compact-hidden data-action="save" aria-label="Save">
+              <svg class="toolbar__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M3 3h8l2 2v8H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M5 3v4h6V3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M5 13v-4h6v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <span class="toolbar__separator" aria-hidden="true"></span>
+          <div class="toolbar__cluster">
+            <div class="toolbar__select-wrap toolbar__select-wrap--wide" data-compact-hidden>
+              <select class="toolbar__select" data-style-select>
+                <option value="default">No Style</option>
+                <option value="focus">Focus</option>
+              </select>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="toolbar__select-wrap toolbar__select-wrap--font">
+              <select class="toolbar__select" data-font-select>
+                <option value="Palatino, 'Palatino Linotype', 'Book Antiqua', serif">Palatino</option>
+                <option value="Georgia, serif">Georgia</option>
+                <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                <option value="Helvetica, Arial, sans-serif">Helvetica</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="-apple-system, system-ui, sans-serif">SF Pro</option>
+                <option value="'Courier New', Courier, monospace">Courier</option>
+              </select>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="toolbar__select-wrap toolbar__select-wrap--weight">
+              <select class="toolbar__select" data-weight-select>
+                <option value="300">Light</option>
+                <option value="400">Regular</option>
+                <option value="500">Medium</option>
+                <option value="600">Semibold</option>
+              </select>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="toolbar__select-wrap toolbar__select-wrap--size">
+              <select class="toolbar__select" data-size-select>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+              </select>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <span class="toolbar__divider" aria-hidden="true" data-compact-hidden></span>
+          <div class="toolbar__cluster" data-compact-hidden>
+            <button type="button" class="toolbar__swatch toolbar__swatch--dark" data-action="theme-dark" aria-label="Dark theme"></button>
+            <button type="button" class="toolbar__swatch toolbar__swatch--light" data-action="theme-light" aria-label="Light theme"></button>
+          </div>
+          <span class="toolbar__divider" aria-hidden="true" data-compact-hidden></span>
+          <div class="toolbar__cluster">
+            <div class="toolbar__select-wrap toolbar__select-wrap--icon">
+              <svg class="toolbar__select-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M4 3h8M4 13h8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M8 4.5v7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M6.5 6L8 4.5 9.5 6M6.5 10L8 11.5 9.5 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <select class="toolbar__select" data-line-height-select>
+                <option value="1.0">1.0</option>
+                <option value="1.2">1.2</option>
+                <option value="1.4">1.4</option>
+                <option value="1.625">1.625</option>
+              </select>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <span class="toolbar__divider" aria-hidden="true" data-compact-hidden></span>
+          <button type="button" class="toolbar__button toolbar__button--wide" data-compact-hidden data-action="toggle-wrap" aria-label="Toggle wrap">
+            <svg class="toolbar__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M3 4h10M3 8h7a2 2 0 0 1 0 4H9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M10 10.5l-1.5 1.5L7 10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <svg class="icon icon--file icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-              <path d="M14 2v6h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+              <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span>Роман</span>
           </button>
-          <div class="project__sections is-expanded" data-section-list>
-            <button type="button" class="section-item" data-section="Вступительная часть">
-              <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M3 6h18M3 18h18M7 6v12M17 6v12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <span class="toolbar__divider" aria-hidden="true" data-compact-hidden></span>
+          <button type="button" class="toolbar__button toolbar__button--wide" data-compact-hidden data-action="extra-menu" aria-label="Toolbar menu">
+            <svg class="toolbar__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M3 4h10M3 8h8M3 12h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+              <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button type="button" class="toolbar__min" data-action="minimize">min</button>
+        </div>
+      </div>
+      <div class="toolbar__row toolbar__row--secondary">
+        <div class="toolbar__meta">
+          <div class="toolbar__words" data-word-count>0 words</div>
+          <div class="toolbar__zoom">
+            <button type="button" class="toolbar__button toolbar__button--small" data-action="zoom-out" aria-label="Zoom out">
+              <svg class="toolbar__icon toolbar__icon--small" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M5 7h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M10.5 10.5L14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
-              <span>Вступительная часть</span>
             </button>
-            <button type="button" class="section-item" data-section="Пролог">
-              <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M8 4h10v16H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M8 8h8M8 12h8M8 16h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <div class="toolbar__zoom-value" data-zoom-value>100%</div>
+            <button type="button" class="toolbar__button toolbar__button--small" data-action="zoom-in" aria-label="Zoom in">
+              <svg class="toolbar__icon toolbar__icon--small" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7 5v4M5 7h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M10.5 10.5L14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
-              <span>Пролог</span>
-            </button>
-            <button type="button" class="section-item" data-section="Главы">
-              <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M12 2 2 7l10 5 10-5-10-5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M2 17l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-              </svg>
-              <span>Главы</span>
-            </button>
-            <button type="button" class="section-item" data-section="Эпилог">
-              <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M19 21H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11v18z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M6 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="m10 13 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span>Эпилог</span>
-            </button>
-            <button type="button" class="section-item" data-section="Заключительная часть">
-              <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M4 19.5V4h13.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-              </svg>
-              <span>Заключительная часть</span>
             </button>
           </div>
         </div>
       </div>
-      <div class="sidebar__resize-handle" data-sidebar-resizer aria-hidden="true"></div>
-    </aside>
-    <main class="main-content">
-      <div class="empty-state" aria-live="polite">Выберите раздел для начала работы</div>
-      <div class="editor-panel">
-        <div class="editor-panel__header">
-          <h1 class="editor-panel__title" aria-live="polite"></h1>
+    </header>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar__header">
+          <button type="button" class="sidebar__new-project">
+            <svg class="icon icon--plus" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M7.5 2.5v11M2.5 7.5h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Новый проект</span>
+          </button>
         </div>
-        <textarea 
-          id="editor"
-          placeholder="Начните писать..."
-          autofocus
-        ></textarea>
-      </div>
-    </main>
+        <div class="sidebar__projects">
+          <div class="project">
+            <button type="button" class="project__header" data-project-toggle>
+              <svg class="icon icon--chevron icon--muted" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M6 4 10 8 6 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg class="icon icon--file icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M14 2v6h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              <span>Роман</span>
+            </button>
+            <div class="project__sections is-expanded" data-section-list>
+              <button type="button" class="section-item" data-section="Вступительная часть">
+                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M3 6h18M3 18h18M7 6v12M17 6v12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>Вступительная часть</span>
+              </button>
+              <button type="button" class="section-item" data-section="Пролог">
+                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M8 4h10v16H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M8 8h8M8 12h8M8 16h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>Пролог</span>
+              </button>
+              <button type="button" class="section-item" data-section="Главы">
+                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M12 2 2 7l10 5 10-5-10-5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M2 17l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                </svg>
+                <span>Главы</span>
+              </button>
+              <button type="button" class="section-item" data-section="Эпилог">
+                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M19 21H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11v18z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M6 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="m10 13 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Эпилог</span>
+              </button>
+              <button type="button" class="section-item" data-section="Заключительная часть">
+                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M4 19.5V4h13.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                </svg>
+                <span>Заключительная часть</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar__resize-handle" data-sidebar-resizer aria-hidden="true"></div>
+      </aside>
+      <main class="main-content">
+        <div class="empty-state" aria-live="polite">Выберите раздел для начала работы</div>
+        <div class="editor-panel">
+          <div class="editor-panel__header">
+            <h1 class="editor-panel__title" aria-live="polite"></h1>
+          </div>
+          <textarea 
+            id="editor"
+            placeholder="Начните писать..."
+            autofocus
+          ></textarea>
+        </div>
+      </main>
+    </div>
   </div>
   <div class="status-bar status-bar--floating" aria-live="polite">
     <span id="status" class="status">Готово</span>

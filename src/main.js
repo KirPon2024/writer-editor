@@ -28,6 +28,24 @@ let currentFontSize = 16;
 const USER_DATA_FOLDER_NAME = 'craftsman';
 const LEGACY_USER_DATA_FOLDER_NAME = 'WriterEditor';
 const MIGRATION_MARKER = '.migrated-from-writer-editor';
+const DEFAULT_PROJECT_NAME = 'Роман';
+
+function sanitizeFilename(name) {
+  const safe = String(name || '')
+    .trim()
+    .replace(/[\\/<>:"|?*\u0000-\u001F]/g, '_')
+    .replace(/\s+/g, ' ')
+    .replace(/\.+$/g, '');
+
+  return safe.slice(0, 80) || 'Untitled';
+}
+
+function getSectionDocumentPath(sectionName, projectName = DEFAULT_PROJECT_NAME) {
+  const root = fileManager.getDocumentsPath();
+  const projectFolder = sanitizeFilename(projectName);
+  const fileName = `${sanitizeFilename(sectionName)}.txt`;
+  return path.join(root, projectFolder, fileName);
+}
 
 // Путь к файлу настроек
 function getSettingsPath() {
@@ -390,6 +408,110 @@ ipcMain.on('dirty-changed', (_, state) => {
   isDirty = state;
 });
 
+ipcMain.on('ui:new', () => {
+  ensureCleanAction(handleNew).catch(() => {});
+});
+
+ipcMain.on('ui:open', () => {
+  ensureCleanAction(handleOpen).catch(() => {});
+});
+
+ipcMain.on('ui:save', () => {
+  handleSave().catch(() => {});
+});
+
+ipcMain.on('ui:save-as', () => {
+  handleSaveAs().catch(() => {});
+});
+
+ipcMain.on('ui:set-theme', (_, theme) => {
+  if (typeof theme === 'string') {
+    handleThemeChange(theme);
+  }
+});
+
+ipcMain.on('ui:set-font', (_, fontFamily) => {
+  if (typeof fontFamily === 'string') {
+    handleFontChange(fontFamily);
+  }
+});
+
+ipcMain.on('ui:set-font-size', async (_, px) => {
+  const nextSize = Number(px);
+  if (!Number.isFinite(nextSize)) return;
+  currentFontSize = clampFontSize(nextSize);
+  sendEditorFontSize(currentFontSize);
+  try {
+    const settings = await loadSettings();
+    settings.fontSize = currentFontSize;
+    await saveSettings(settings);
+  } catch (error) {
+    logDevError('ui:set-font-size', error);
+  }
+});
+
+ipcMain.on('ui:font-size', (_, action) => {
+  handleFontSizeChange(action).catch(() => {});
+});
+
+ipcMain.on('ui:window-minimize', () => {
+  if (mainWindow) {
+    mainWindow.minimize();
+  }
+});
+
+ipcMain.handle('ui:open-section', async (_, payload) => {
+  if (!mainWindow) {
+    return { ok: false, error: 'No active window' };
+  }
+
+  const sectionName = payload && payload.sectionName;
+  if (typeof sectionName !== 'string' || !sectionName.trim()) {
+    return { ok: false, error: 'Invalid section name' };
+  }
+
+  const canProceed = await confirmDiscardChanges();
+  if (!canProceed) {
+    return { ok: false, cancelled: true };
+  }
+
+  const filePath = getSectionDocumentPath(sectionName);
+  try {
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+  } catch (error) {
+    logDevError('open section mkdir', error);
+    return { ok: false, error: error.message || 'Failed to create folder' };
+  }
+
+  let content = '';
+  try {
+    content = await fs.readFile(filePath, 'utf8');
+  } catch (error) {
+    if (error && error.code !== 'ENOENT') {
+      logDevError('open section read', error);
+      return { ok: false, error: error.message || 'Failed to read file' };
+    }
+
+    const created = await queueDiskOperation(
+      () => fileManager.writeFileAtomic(filePath, ''),
+      'create section file'
+    );
+    if (!created.success) {
+      return { ok: false, error: created.error || 'Failed to create file' };
+    }
+  }
+
+  currentFilePath = filePath;
+  await saveLastFile();
+  sendEditorText(content);
+  setDirtyState(false);
+  const contentHash = computeHash(content);
+  lastAutosaveHash = contentHash;
+  backupHashes.set(filePath, contentHash);
+  updateStatus('Готово');
+  return { ok: true, filePath };
+});
+
 function createWindow() {
   // Восстановление размеров и позиции окна
   const { screen } = require('electron');
@@ -700,6 +822,58 @@ async function handleSave() {
   return false;
 }
 
+async function handleSaveAs() {
+  if (!mainWindow) {
+    return false;
+  }
+
+  let content;
+  try {
+    content = await requestEditorText();
+  } catch (error) {
+    updateStatus('Ошибка');
+    logDevError('handleSaveAs', error);
+    return false;
+  }
+
+  const wasUntitled = currentFilePath === null;
+  const result = await dialog.showSaveDialog(mainWindow, {
+    title: 'Сохранить файл',
+    defaultPath: currentFilePath || fileManager.getDocumentsPath(),
+    filters: [
+      { name: 'Текстовые файлы', extensions: ['txt'] },
+      { name: 'Все файлы', extensions: ['*'] }
+    ]
+  });
+
+  if (!result.canceled && result.filePath) {
+    let filePath = result.filePath;
+    if (!filePath.endsWith('.txt')) {
+      filePath += '.txt';
+    }
+
+    const saveResult = await queueDiskOperation(
+      () => fileManager.writeFileAtomic(filePath, content),
+      'save as file'
+    );
+    if (saveResult.success) {
+      lastAutosaveHash = computeHash(content);
+      currentFilePath = filePath;
+      await saveLastFile();
+      setDirtyState(false);
+      updateStatus('Сохранено');
+      if (wasUntitled) {
+        await deleteAutosaveFile();
+        backupHashes.delete(getAutosavePath());
+      }
+      return true;
+    }
+    updateStatus('Ошибка');
+  }
+
+  return false;
+}
+
 async function confirmDiscardChanges() {
   if (!isDirty || !mainWindow) {
     return true;
@@ -784,10 +958,13 @@ async function handleFontSizeChange(action) {
 
 function createMenu() {
   const fonts = [
-    { label: 'Menlo', value: 'Menlo, monospace' },
-    { label: 'SF Mono', value: 'SF Mono, monospace' },
-    { label: 'Monaco', value: 'Monaco, monospace' },
-    { label: 'Courier New', value: 'Courier New, monospace' }
+    { label: 'Palatino', value: "Palatino, 'Palatino Linotype', 'Book Antiqua', serif" },
+    { label: 'Georgia', value: 'Georgia, serif' },
+    { label: 'Times New Roman', value: "'Times New Roman', Times, serif" },
+    { label: 'Helvetica', value: 'Helvetica, Arial, sans-serif' },
+    { label: 'Arial', value: 'Arial, sans-serif' },
+    { label: 'SF Pro', value: '-apple-system, system-ui, sans-serif' },
+    { label: 'Courier', value: "'Courier New', Courier, monospace" }
   ];
 
   const fontMenu = fonts.map(font => ({

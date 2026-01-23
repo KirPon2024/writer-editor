@@ -17,15 +17,167 @@ const fontSelect = document.querySelector('[data-font-select]');
 const weightSelect = document.querySelector('[data-weight-select]');
 const sizeSelect = document.querySelector('[data-size-select]');
 const lineHeightSelect = document.querySelector('[data-line-height-select]');
+const textStyleSelect = document.querySelector('[data-text-style-select]');
 const themeDarkButton = document.querySelector('[data-action="theme-dark"]');
 const themeLightButton = document.querySelector('[data-action="theme-light"]');
 const wrapToggleButton = document.querySelector('[data-action="toggle-wrap"]');
 const toolbarToggleButton = document.querySelector('[data-action="minimize"]');
 const TOOLBAR_COMPACT_CLASS = 'is-compact';
+const TEXT_STYLE_DEFAULT = 'paragraph-none';
 let activeSectionName = null;
 const isMac = navigator.platform.toUpperCase().includes('MAC');
 let currentFontSizePx = 16;
+let wordWrapEnabled = true;
 let lastSearchQuery = '';
+let plainTextBuffer = '';
+
+function getPlainText() {
+  return plainTextBuffer;
+}
+
+function setPlainText(text = '') {
+  plainTextBuffer = text;
+  renderStyledView(text);
+}
+
+function getSelectionOffsets() {
+  if (!editor) return { start: 0, end: 0 };
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) {
+    return { start: 0, end: 0 };
+  }
+  const range = selection.getRangeAt(0);
+  const normalizePosition = (node, offset) => {
+    const boundaryRange = document.createRange();
+    boundaryRange.setStart(editor, 0);
+    boundaryRange.setEnd(node, offset);
+    return boundaryRange.toString().length;
+  };
+  if (!editor.contains(range.startContainer) || !editor.contains(range.endContainer)) {
+    return { start: 0, end: 0 };
+  }
+  const startOffset = normalizePosition(range.startContainer, range.startOffset);
+  const endOffset = normalizePosition(range.endContainer, range.endOffset);
+  return {
+    start: Math.min(startOffset, endOffset),
+    end: Math.max(startOffset, endOffset),
+  };
+}
+
+function getNodeForOffset(offset) {
+  if (!editor) return { node: editor || document.body, offset: 0 };
+  const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT, null);
+  let accumulated = 0;
+  let currentNode = walker.nextNode();
+  while (currentNode) {
+    const length = currentNode.textContent?.length || 0;
+    if (offset <= accumulated + length) {
+      return { node: currentNode, offset: Math.max(0, offset - accumulated) };
+    }
+    accumulated += length;
+    currentNode = walker.nextNode();
+  }
+  return { node: editor, offset: editor.childNodes.length };
+}
+
+function setSelectionRange(start, end) {
+  if (!editor) return;
+  const text = getPlainText();
+  const normalizedStart = Math.max(0, Math.min(start, text.length));
+  const normalizedEnd = Math.max(0, Math.min(end, text.length));
+  const startPosition = getNodeForOffset(normalizedStart);
+  const endPosition = getNodeForOffset(normalizedEnd);
+  const range = document.createRange();
+  range.setStart(startPosition.node, startPosition.offset);
+  range.setEnd(endPosition.node, endPosition.offset);
+  const selection = window.getSelection();
+  selection?.removeAllRanges();
+  selection?.addRange(range);
+}
+
+function selectAllEditor() {
+  const length = getPlainText().length;
+  setSelectionRange(0, length);
+}
+
+function renderStyledView(text = '') {
+  if (!editor) return;
+  const { start, end } = getSelectionOffsets();
+  if (!text) {
+    editor.innerHTML = '';
+    setSelectionRange(0, 0);
+    return;
+  }
+  const fragment = document.createDocumentFragment();
+  const lines = text.split('\n');
+  let inCodeBlock = false;
+
+  const createLineElement = (styleClass, markerText, contentText) => {
+    const lineEl = document.createElement('div');
+    lineEl.classList.add('editor-line', styleClass);
+    if (markerText) {
+      const marker = document.createElement('span');
+      marker.classList.add('marker');
+      marker.textContent = markerText;
+      lineEl.appendChild(marker);
+    }
+    const content = document.createElement('span');
+    content.classList.add('content');
+    content.textContent = contentText;
+    lineEl.appendChild(content);
+    return lineEl;
+  };
+
+  lines.forEach((line, index) => {
+    const trimmed = line.trim();
+    if (trimmed === '```') {
+      fragment.appendChild(createLineElement('line--code-fence', '```', ''));
+      inCodeBlock = !inCodeBlock;
+    } else if (inCodeBlock) {
+      fragment.appendChild(createLineElement('line--codeblock', '', line));
+    } else {
+      const { styleClass, marker, content } = parseParagraphLine(line);
+      fragment.appendChild(createLineElement(styleClass, marker, content));
+    }
+
+    if (index < lines.length - 1) {
+      fragment.appendChild(document.createTextNode('\n'));
+    }
+  });
+
+  editor.innerHTML = '';
+  editor.appendChild(fragment);
+  setSelectionRange(start, end);
+}
+
+function parseParagraphLine(line) {
+  const patternMatchers = [
+    { prefix: '::caption:: ', className: 'line--caption' },
+    { prefix: '::center:: ', className: 'line--centered' },
+    { prefix: '::verse:: ', className: 'line--verse' },
+    { prefix: '— ', className: 'line--attribution' },
+    { prefix: '### ', className: 'line--heading2' },
+    { prefix: '## ', className: 'line--heading1' },
+    { prefix: '# ', className: 'line--title' },
+    { prefix: '> ', className: 'line--blockquote' },
+  ];
+
+  for (const matcher of patternMatchers) {
+    if (line.startsWith(matcher.prefix)) {
+      return {
+        styleClass: matcher.className,
+        marker: matcher.prefix,
+        content: line.slice(matcher.prefix.length),
+      };
+    }
+  }
+
+  return {
+    styleClass: 'line--paragraph',
+    marker: '',
+    content: line,
+  };
+}
 
 function updateSectionSelection(targetName) {
   sectionButtons.forEach((button) => {
@@ -69,7 +221,7 @@ function collapseSelection() {
   emptyState?.classList.remove('hidden');
   updateSectionSelection(null);
   if (editor) {
-    editor.value = '';
+    setPlainText('');
     updateWordCount();
   }
 }
@@ -148,7 +300,7 @@ function updateStatusText(text) {
 
 function updateWordCount() {
   if (!editor || !wordCountElement) return;
-  const text = editor.value || '';
+  const text = getPlainText();
   const trimmed = text.trim();
   const count = trimmed ? trimmed.split(/\s+/).filter(Boolean).length : 0;
   wordCountElement.textContent = `${count} words`;
@@ -201,7 +353,7 @@ function applyLineHeight(value, persist = true) {
 
 function applyWordWrap(enabled, persist = true) {
   if (!editor) return;
-  editor.wrap = enabled ? 'soft' : 'off';
+  wordWrapEnabled = enabled;
   editor.style.whiteSpace = enabled ? 'pre-wrap' : 'pre';
   editor.style.overflowX = enabled ? 'hidden' : 'auto';
   if (wrapToggleButton) {
@@ -222,6 +374,237 @@ function applyViewMode(mode, persist = true) {
   if (persist) {
     localStorage.setItem('editorViewMode', mode);
   }
+}
+
+function applyTextStyle(action) {
+  if (!editor || !action) return;
+  const text = getPlainText();
+  const { start: rawStart, end: rawEnd } = getSelectionOffsets();
+  const boundedStart = Math.max(0, Math.min(rawStart, rawEnd));
+  const boundedEnd = Math.max(0, Math.max(rawStart, rawEnd));
+  const start = Math.min(boundedStart, text.length);
+  const end = Math.min(boundedEnd, text.length);
+  let result = null;
+
+  if (action.startsWith('paragraph-')) {
+    result = applyParagraphStyle(text, start, end, action);
+  } else if (action.startsWith('character-')) {
+    result = applyCharacterStyle(text, start, end, action);
+  }
+
+  if (!result) return;
+  setPlainText(result.newText);
+  setSelectionRange(result.newStart, result.newEnd);
+  markAsModified();
+  updateWordCount();
+}
+
+function applyParagraphStyle(text, selectionStart, selectionEnd, style) {
+  const lineMeta = getLineMeta(text);
+  if (!lineMeta.length) return null;
+  const { startIdx, endIdx } = getSelectionLineRange(lineMeta, selectionStart, selectionEnd);
+  if (startIdx === -1 || endIdx === -1) return null;
+
+  const edits = [];
+  const adjustments = [];
+
+  const queueEdit = (start, end, value) => {
+    if (start === end && !value) return;
+    edits.push({ start, end, value });
+    adjustments.push({ pos: start, delta: value.length - (end - start) });
+  };
+
+  const queueLineReplacement = (idx, content) => {
+    const line = lineMeta[idx];
+    if (!line || line.content === content) return;
+    queueEdit(line.start, line.end, content);
+  };
+
+  const applyParagraphPrefix = (prefix) => {
+    for (let idx = startIdx; idx <= endIdx; idx++) {
+      const baseLine = stripParagraphMarkers(lineMeta[idx].content);
+      queueLineReplacement(idx, `${prefix}${baseLine}`);
+    }
+  };
+
+  switch (style) {
+    case 'paragraph-none':
+      for (let idx = startIdx; idx <= endIdx; idx++) {
+        const cleaned = stripParagraphMarkers(lineMeta[idx].content);
+        queueLineReplacement(idx, cleaned);
+      }
+      removeCodeBlockFences(lineMeta, startIdx, endIdx, queueEdit);
+      break;
+
+    case 'paragraph-codeblock': {
+      const removed = removeCodeBlockFences(lineMeta, startIdx, endIdx, queueEdit);
+      if (!removed) {
+        const prefix = '```\n';
+        const suffix = '\n```\n';
+        queueEdit(lineMeta[startIdx].start, lineMeta[startIdx].start, prefix);
+        queueEdit(lineMeta[endIdx].endWithNewline, lineMeta[endIdx].endWithNewline, suffix);
+      }
+      break;
+    }
+
+    default: {
+      const paragraphPrefixes = {
+        'paragraph-title': '# ',
+        'paragraph-heading1': '## ',
+        'paragraph-heading2': '### ',
+        'paragraph-blockquote': '> ',
+        'paragraph-caption': '::caption:: ',
+        'paragraph-centered': '::center:: ',
+        'paragraph-verse': '::verse:: ',
+        'paragraph-attribution': '— ',
+      };
+      if (paragraphPrefixes[style]) {
+        applyParagraphPrefix(paragraphPrefixes[style]);
+      }
+      break;
+    }
+  }
+
+  if (!edits.length) {
+    return null;
+  }
+
+  return finalizeEdits(text, edits, adjustments, selectionStart, selectionEnd);
+}
+
+function applyCharacterStyle(text, selectionStart, selectionEnd, style) {
+  if (selectionStart === selectionEnd) {
+    updateStatusText('Выделите текст');
+    return null;
+  }
+
+  const selected = text.slice(selectionStart, selectionEnd);
+  let replacement = selected;
+
+  if (style === 'character-emphasis') {
+    if (selected.startsWith('*') && selected.endsWith('*') && selected.length >= 2) {
+      replacement = selected.slice(1, -1);
+    } else {
+      replacement = `*${selected}*`;
+    }
+  } else if (style === 'character-code-span') {
+    if (selected.startsWith('`') && selected.endsWith('`') && selected.length >= 2) {
+      replacement = selected.slice(1, -1);
+    } else {
+      replacement = `\`${selected}\``;
+    }
+  }
+
+  const edits = [{ start: selectionStart, end: selectionEnd, value: replacement }];
+  const adjustments = [{ pos: selectionStart, delta: replacement.length - (selectionEnd - selectionStart) }];
+  const newText = applyEditsToText(text, edits);
+  const sortedAdjustments = adjustments.slice().sort((a, b) => a.pos - b.pos);
+  const newStart = mapPosition(selectionStart, sortedAdjustments, newText.length);
+  const newEnd = mapPosition(selectionEnd, sortedAdjustments, newText.length);
+  return { newText, newStart, newEnd };
+}
+
+function getLineMeta(text) {
+  const rawLines = text.split('\n');
+  const meta = [];
+  let cursor = 0;
+  for (let i = 0; i < rawLines.length; i++) {
+    const content = rawLines[i];
+    const start = cursor;
+    const end = start + content.length;
+    const hasNewline = i < rawLines.length - 1;
+    const endWithNewline = hasNewline ? end + 1 : end;
+    meta.push({ content, start, end, endWithNewline });
+    cursor = endWithNewline;
+  }
+  if (!meta.length) {
+    meta.push({ content: '', start: 0, end: 0, endWithNewline: 0 });
+  }
+  return meta;
+}
+
+function getSelectionLineRange(meta, selectionStart, selectionEnd) {
+  const startIdx = findLineIndexForPosition(meta, selectionStart);
+  const effectiveEnd = selectionEnd > selectionStart ? selectionEnd - 1 : selectionStart;
+  const endIdx = findLineIndexForPosition(meta, effectiveEnd);
+  return { startIdx, endIdx };
+}
+
+function findLineIndexForPosition(meta, position) {
+  if (!meta.length) return -1;
+  for (let i = 0; i < meta.length; i++) {
+    if (position <= meta[i].endWithNewline) {
+      return i;
+    }
+  }
+  return meta.length - 1;
+}
+
+function stripParagraphMarkers(line) {
+  let cleaned = line;
+  const markers = ['::caption:: ', '::center:: ', '::verse:: ', '— ', '> ', '### ', '## ', '# '];
+  let loop = true;
+  while (loop) {
+    loop = false;
+    for (const marker of markers) {
+      if (cleaned.startsWith(marker)) {
+        cleaned = cleaned.slice(marker.length);
+        loop = true;
+        break;
+      }
+    }
+  }
+  return cleaned;
+}
+
+function removeCodeBlockFences(meta, startIdx, endIdx, queueEdit) {
+  const beforeIdx = startIdx - 1;
+  const afterIdx = endIdx + 1;
+  if (
+    beforeIdx >= 0 &&
+    afterIdx < meta.length &&
+    meta[beforeIdx].content.trim() === '```' &&
+    meta[afterIdx].content.trim() === '```'
+  ) {
+    queueEdit(meta[beforeIdx].start, meta[beforeIdx].endWithNewline, '');
+    queueEdit(meta[afterIdx].start, meta[afterIdx].endWithNewline, '');
+    return true;
+  }
+  return false;
+}
+
+function applyEditsToText(text, edits) {
+  if (!edits.length) return text;
+  const sorted = edits.slice().sort((a, b) => a.start - b.start);
+  let cursor = 0;
+  let result = '';
+  for (const edit of sorted) {
+    if (edit.start > cursor) {
+      result += text.slice(cursor, edit.start);
+    }
+    result += edit.value;
+    cursor = edit.end;
+  }
+  result += text.slice(cursor);
+  return result;
+}
+
+function finalizeEdits(text, edits, adjustments, selectionStart, selectionEnd) {
+  const newText = applyEditsToText(text, edits);
+  const sortedAdjustments = adjustments.slice().sort((a, b) => a.pos - b.pos);
+  const newStart = mapPosition(selectionStart, sortedAdjustments, newText.length);
+  const newEnd = mapPosition(selectionEnd, sortedAdjustments, newText.length);
+  return { newText, newStart, newEnd };
+}
+
+function mapPosition(index, adjustments, textLength) {
+  let mapped = index;
+  for (const adjustment of adjustments) {
+    if (adjustment.pos <= index) {
+      mapped += adjustment.delta;
+    }
+  }
+  return Math.max(0, Math.min(mapped, textLength));
 }
 
 function updateThemeSwatches(theme) {
@@ -316,10 +699,11 @@ function handleFind() {
   if (!editor) return;
   const query = window.prompt('Find', lastSearchQuery);
   if (!query) return;
-  const text = editor.value || '';
+  const text = getPlainText();
   const normalized = text.toLowerCase();
   const needle = query.toLowerCase();
-  const startIndex = query === lastSearchQuery ? editor.selectionEnd : 0;
+  const { end: currentEnd } = getSelectionOffsets();
+  const startIndex = query === lastSearchQuery ? currentEnd : 0;
   let index = normalized.indexOf(needle, startIndex);
 
   if (index === -1 && startIndex > 0) {
@@ -333,7 +717,7 @@ function handleFind() {
 
   lastSearchQuery = query;
   editor.focus();
-  editor.setSelectionRange(index, index + query.length);
+  setSelectionRange(index, index + query.length);
 }
 
 if (toolbar) {
@@ -354,7 +738,7 @@ if (toolbar) {
         break;
       case 'clear':
         if (editor) {
-          editor.value = '';
+          setPlainText('');
           markAsModified();
           updateWordCount();
         }
@@ -372,8 +756,7 @@ if (toolbar) {
         window.electronAPI?.setTheme('light');
         break;
       case 'toggle-wrap': {
-        const isWrapped = editor && editor.wrap !== 'off';
-        applyWordWrap(!isWrapped);
+        applyWordWrap(!wordWrapEnabled);
         break;
       }
       case 'zoom-out':
@@ -394,6 +777,13 @@ if (toolbar) {
 if (styleSelect) {
   styleSelect.addEventListener('change', (event) => {
     applyViewMode(event.target.value);
+  });
+}
+
+if (textStyleSelect) {
+  textStyleSelect.addEventListener('change', (event) => {
+    applyTextStyle(event.target.value);
+    textStyleSelect.value = TEXT_STYLE_DEFAULT;
   });
 }
 
@@ -464,6 +854,8 @@ loadSavedFontWeight();
 loadSavedLineHeight();
 loadSavedWordWrap();
 
+setPlainText('');
+
 function handleSelectAllShortcut(event) {
   const isCmdOrCtrl = isMac ? event.metaKey : event.ctrlKey;
   const isSelectAll = isCmdOrCtrl && !event.shiftKey && !event.altKey && event.key && event.key.toLowerCase() === 'a';
@@ -474,13 +866,14 @@ function handleSelectAllShortcut(event) {
 
   event.preventDefault();
   editor.focus();
-  editor.select();
+  selectAllEditor();
 }
 
 document.addEventListener('keydown', handleSelectAllShortcut);
 
 // Ensure a previously loaded document is visible even before selecting a section.
-if (editor && editor.value && !activeSectionName) {
+const initialEditorText = getPlainText();
+if (editor && initialEditorText && !activeSectionName) {
   const preferred =
     (typeof localStorage !== 'undefined' && localStorage.getItem('activeSection')) ||
     'Главы';
@@ -489,7 +882,7 @@ if (editor && editor.value && !activeSectionName) {
 
 if (window.electronAPI) {
   window.electronAPI.onEditorSetText((text) => {
-    editor.value = text || '';
+    setPlainText(text || '');
     localDirty = false;
     updateWordCount();
 
@@ -503,7 +896,7 @@ if (window.electronAPI) {
   });
 
   window.electronAPI.onEditorTextRequest(({ requestId }) => {
-    window.electronAPI.sendEditorTextResponse(requestId, editor.value);
+    window.electronAPI.sendEditorTextResponse(requestId, getPlainText());
   });
 
   window.electronAPI.onEditorSetFontSize(({ px }) => {
@@ -515,8 +908,25 @@ if (window.electronAPI) {
 }
 
 editor.addEventListener('input', () => {
+  const updated = (editor.textContent || '').replace(/\u00a0/g, ' ');
+  setPlainText(updated);
   markAsModified();
   updateWordCount();
+});
+
+editor.addEventListener('paste', (event) => {
+  event.preventDefault();
+  const text = event.clipboardData?.getData('text/plain') || '';
+  if (text) {
+    document.execCommand('insertText', false, text);
+  }
+});
+
+editor.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    document.execCommand('insertText', false, '\n');
+  }
 });
 
 if (window.electronAPI) {

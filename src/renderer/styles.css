@@ -28,6 +28,10 @@
   --toolbar-divider: rgba(0, 0, 0, 0.1);
   --toolbar-control-border: rgba(0, 0, 0, 0.1);
   --toolbar-muted: rgba(0, 0, 0, 0.6);
+  --style-marker-opacity: 0.35;
+  --style-quote-border: var(--divider);
+  --style-code-bg: var(--card);
+  --style-code-border: var(--toolbar-border);
   --toolbar-chip-bg: #4f5b6b;
   --toolbar-chip-text: #cecdca;
 }
@@ -48,6 +52,8 @@ body.dark-theme {
   --toolbar-divider: rgba(255, 255, 255, 0.12);
   --toolbar-control-border: rgba(255, 255, 255, 0.18);
   --toolbar-muted: rgba(255, 255, 255, 0.6);
+  --style-marker-opacity: 0.45;
+  --style-code-bg: #10111b;
 }
 
 *,
@@ -198,6 +204,10 @@ body {
 
 .toolbar__select-wrap--font .toolbar__select {
   width: 90px;
+}
+
+.toolbar__select-wrap--styles .toolbar__select {
+  min-width: 150px;
 }
 
 .toolbar__select-wrap--weight .toolbar__select {
@@ -580,7 +590,8 @@ body.dark-theme .empty-state {
   color: var(--foreground);
 }
 
-#editor {
+#editor,
+.editor__input {
   width: 100%;
   flex: 1 1 auto;
   min-height: 0;
@@ -591,13 +602,116 @@ body.dark-theme .empty-state {
   border: none;
   border-radius: 0;
   padding: 0;
-  resize: none;
   font-size: 18px;
   line-height: 1.625;
   font-family: 'SF Mono', 'SFMono-Regular', 'Menlo', monospace;
   background: transparent;
   color: var(--foreground);
   outline: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.editor__input:empty::before {
+  content: attr(data-placeholder);
+  color: var(--empty-text);
+  opacity: 1;
+  display: block;
+}
+
+.editor-line {
+  display: flex;
+  align-items: baseline;
+  font-size: 18px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  font-family: var(--font-family);
+}
+
+.editor-line .marker {
+  opacity: var(--style-marker-opacity);
+  margin-right: 4px;
+  font-family: var(--font-family);
+}
+
+.editor-line .content {
+  flex: 1;
+}
+
+.line--paragraph {
+  margin: 0.25em 0;
+}
+
+.line--title .content {
+  font-size: 1.9em;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0.9em 0 0.5em;
+}
+
+.line--heading1 .content {
+  font-size: 1.45em;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0.8em 0 0.4em;
+}
+
+.line--heading2 .content {
+  font-size: 1.25em;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0.7em 0 0.35em;
+}
+
+.line--blockquote {
+  padding-left: 14px;
+  border-left: 2px solid var(--style-quote-border);
+  margin: 0.35em 0;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.line--caption .content {
+  font-size: 0.85em;
+  opacity: 0.75;
+  letter-spacing: 0.02em;
+  margin: 0.4em 0;
+}
+
+.line--centered {
+  text-align: center;
+  margin: 0.45em 0;
+}
+
+.line--verse .content {
+  font-style: italic;
+  padding-left: 10px;
+  line-height: 1.65;
+  margin: 0.45em 0;
+}
+
+.line--attribution .content {
+  text-align: right;
+  font-style: italic;
+  opacity: 0.8;
+  margin: 0.35em 0 0.6em;
+}
+
+.line--codeblock {
+  background: var(--style-code-bg);
+  border: 1px solid var(--style-code-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 0.6em 0;
+}
+
+.line--codeblock .content {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 0.95em;
+  line-height: 1.55;
+}
+
+.line--code-fence .content {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
 .status-bar {

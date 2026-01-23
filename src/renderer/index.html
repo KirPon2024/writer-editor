@@ -71,8 +71,34 @@
                 <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
+            <div class="toolbar__select-wrap toolbar__select-wrap--styles" data-compact-hidden>
+              <select class="toolbar__select" data-text-style-select aria-label="Styles">
+                <option value="paragraph-none">No Style</option>
+                <optgroup label="Paragraph Styles">
+                  <option value="paragraph-title">Title</option>
+                  <option value="paragraph-heading1">Heading 1</option>
+                  <option value="paragraph-heading2">Heading 2</option>
+                  <option value="paragraph-blockquote">Block Quote</option>
+                  <option value="paragraph-caption">Caption</option>
+                  <option value="paragraph-centered">Centered Text</option>
+                  <option value="paragraph-verse">Verse</option>
+                  <option value="paragraph-attribution">Attribution</option>
+                  <option value="paragraph-codeblock">Code Block</option>
+                </optgroup>
+                <optgroup label="Character Styles">
+                  <option value="character-emphasis">Emphasis</option>
+                  <option value="character-code-span">Code Span</option>
+                </optgroup>
+              </select>
+              <svg class="toolbar__caret" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+                <path d="M3 4.5L6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
             <div class="toolbar__select-wrap toolbar__select-wrap--font">
               <select class="toolbar__select" data-font-select>
+                <option value='"Circe", -apple-system, system-ui, sans-serif'>Circe</option>
+                <option value='"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'>Roboto Mono</option>
+                <option value='"American Typewriter", Georgia, serif'>American Typewriter</option>
                 <option value="Palatino, 'Palatino Linotype', 'Book Antiqua', serif">Palatino</option>
                 <option value="Georgia, serif">Georgia</option>
                 <option value="'Times New Roman', Times, serif">Times New Roman</option>
@@ -260,11 +286,14 @@
           <div class="editor-panel__header">
             <h1 class="editor-panel__title" aria-live="polite"></h1>
           </div>
-          <textarea 
+          <div
             id="editor"
-            placeholder="Начните писать..."
+            class="editor__input"
+            contenteditable="true"
+            spellcheck="false"
+            data-placeholder="Начните писать..."
             autofocus
-          ></textarea>
+          ></div>
         </div>
       </main>
     </div>

@@ -7,6 +7,11 @@ _Generated: 2026-01-23_
 - Process: `docs/PROCESS.md`
 - Recent changes: `docs/WORKLOG.md`
 
+## Working Agreement (important)
+- Mode 1 — ChatGPT (Чат): готовим ТЗ/план/проверки, задаём до 3 уточняющих вопросов. **Файлы репозитория не меняем**.
+- Mode 2 — Codex (Агент): по готовому ТЗ **правит репозиторий по умолчанию**, этапами, с проверками.
+- Commits/push: делает пользователь вручную, если явно не попросили агента сделать commit/push.
+
 ## Snapshot: Проект
 - Название: `craftsman` (десктоп‑редактор для писателей)
 - Технологии: Electron + vanilla HTML/CSS/JS

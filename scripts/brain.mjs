@@ -311,6 +311,12 @@ async function cmdHandoff() {
   lines.push(`- Recent changes: \`${path.relative(repoRoot, worklogPath)}\``);
   lines.push("");
 
+  lines.push("## Working Agreement (important)");
+  lines.push("- Mode 1 — ChatGPT (Чат): готовим ТЗ/план/проверки, задаём до 3 уточняющих вопросов. **Файлы репозитория не меняем**.");
+  lines.push("- Mode 2 — Codex (Агент): по готовому ТЗ **правит репозиторий по умолчанию**, этапами, с проверками.");
+  lines.push("- Commits/push: делает пользователь вручную, если явно не попросили агента сделать commit/push.");
+  lines.push("");
+
   if (contextProject) {
     lines.push("## Snapshot: Проект");
     lines.push(stripFirstLineIfHeading(contextProject, "## Проект"));

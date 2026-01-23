@@ -681,6 +681,14 @@ body.dark-theme .empty-state {
   margin: 0.45em 0;
 }
 
+.line--align-right {
+  text-align: right;
+}
+
+.line--align-justify {
+  text-align: justify;
+}
+
 .line--verse .content {
   font-style: italic;
   padding-left: 10px;

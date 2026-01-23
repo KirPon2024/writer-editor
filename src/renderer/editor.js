@@ -22,8 +22,16 @@ const themeDarkButton = document.querySelector('[data-action="theme-dark"]');
 const themeLightButton = document.querySelector('[data-action="theme-light"]');
 const wrapToggleButton = document.querySelector('[data-action="toggle-wrap"]');
 const toolbarToggleButton = document.querySelector('[data-action="minimize"]');
+const alignButtons = Array.from(document.querySelectorAll('[data-action^="align-"]'));
 const TOOLBAR_COMPACT_CLASS = 'is-compact';
 const TEXT_STYLE_DEFAULT = 'paragraph-none';
+const ALIGNMENT_PREFIX_BY_ACTION = {
+  'align-center': '::center:: ',
+  'align-right': '::right:: ',
+  'align-justify': '::justify:: ',
+  'align-left': '',
+};
+const ALIGNMENT_MARKERS = ['::center:: ', '::right:: ', '::justify:: '];
 let activeSectionName = null;
 const isMac = navigator.platform.toUpperCase().includes('MAC');
 let currentFontSizePx = 16;
@@ -154,6 +162,8 @@ function parseParagraphLine(line) {
   const patternMatchers = [
     { prefix: '::caption:: ', className: 'line--caption' },
     { prefix: '::center:: ', className: 'line--centered' },
+    { prefix: '::right:: ', className: 'line--align-right' },
+    { prefix: '::justify:: ', className: 'line--align-justify' },
     { prefix: '::verse:: ', className: 'line--verse' },
     { prefix: '— ', className: 'line--attribution' },
     { prefix: '### ', className: 'line--heading2' },
@@ -399,6 +409,103 @@ function applyTextStyle(action) {
   updateWordCount();
 }
 
+function updateAlignmentButtons(activeAction) {
+  if (!alignButtons.length) return;
+  alignButtons.forEach((button) => {
+    const isActive = button.dataset.action === activeAction;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+}
+
+function getAlignmentActionForLine(line) {
+  if (line.startsWith('::center:: ')) return 'align-center';
+  if (line.startsWith('::right:: ')) return 'align-right';
+  if (line.startsWith('::justify:: ')) return 'align-justify';
+  return 'align-left';
+}
+
+function syncAlignmentButtonsToSelection() {
+  if (!editor) return;
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
+  const range = selection.getRangeAt(0);
+  if (!editor.contains(range.startContainer) || !editor.contains(range.endContainer)) {
+    return;
+  }
+  const text = getPlainText();
+  const { start: rawStart } = getSelectionOffsets();
+  const start = Math.max(0, Math.min(rawStart, text.length));
+  const lineMeta = getLineMeta(text);
+  const lineIndex = findLineIndexForPosition(lineMeta, start);
+  if (lineIndex === -1) return;
+  const action = getAlignmentActionForLine(lineMeta[lineIndex].content);
+  updateAlignmentButtons(action);
+}
+
+function stripAlignmentMarker(line) {
+  for (const marker of ALIGNMENT_MARKERS) {
+    if (line.startsWith(marker)) {
+      return line.slice(marker.length);
+    }
+  }
+  return line;
+}
+
+function applyAlignmentStyle(action) {
+  if (!editor || !action) return;
+  const prefix = ALIGNMENT_PREFIX_BY_ACTION[action];
+  if (prefix === undefined) return;
+
+  const text = getPlainText();
+  const { start: rawStart, end: rawEnd } = getSelectionOffsets();
+  const boundedStart = Math.max(0, Math.min(rawStart, rawEnd));
+  const boundedEnd = Math.max(0, Math.max(rawStart, rawEnd));
+  const start = Math.min(boundedStart, text.length);
+  const end = Math.min(boundedEnd, text.length);
+  const result = applyAlignmentMarkers(text, start, end, prefix);
+
+  if (!result) return;
+  setPlainText(result.newText);
+  setSelectionRange(result.newStart, result.newEnd);
+  markAsModified();
+  updateWordCount();
+}
+
+function applyAlignmentMarkers(text, selectionStart, selectionEnd, prefix) {
+  const lineMeta = getLineMeta(text);
+  if (!lineMeta.length) return null;
+  const { startIdx, endIdx } = getSelectionLineRange(lineMeta, selectionStart, selectionEnd);
+  if (startIdx === -1 || endIdx === -1) return null;
+
+  const edits = [];
+  const adjustments = [];
+
+  const queueEdit = (start, end, value) => {
+    if (start === end && !value) return;
+    edits.push({ start, end, value });
+    adjustments.push({ pos: start, delta: value.length - (end - start) });
+  };
+
+  const queueLineReplacement = (idx, content) => {
+    const line = lineMeta[idx];
+    if (!line || line.content === content) return;
+    queueEdit(line.start, line.end, content);
+  };
+
+  for (let idx = startIdx; idx <= endIdx; idx++) {
+    const baseLine = stripAlignmentMarker(lineMeta[idx].content);
+    const nextLine = prefix ? `${prefix}${baseLine}` : baseLine;
+    queueLineReplacement(idx, nextLine);
+  }
+
+  if (!edits.length) {
+    return null;
+  }
+
+  return finalizeEdits(text, edits, adjustments, selectionStart, selectionEnd);
+}
+
 function applyParagraphStyle(text, selectionStart, selectionEnd, style) {
   const lineMeta = getLineMeta(text);
   if (!lineMeta.length) return null;
@@ -542,7 +649,18 @@ function findLineIndexForPosition(meta, position) {
 
 function stripParagraphMarkers(line) {
   let cleaned = line;
-  const markers = ['::caption:: ', '::center:: ', '::verse:: ', '— ', '> ', '### ', '## ', '# '];
+  const markers = [
+    '::caption:: ',
+    '::center:: ',
+    '::right:: ',
+    '::justify:: ',
+    '::verse:: ',
+    '— ',
+    '> ',
+    '### ',
+    '## ',
+    '# ',
+  ];
   let loop = true;
   while (loop) {
     loop = false;
@@ -765,6 +883,13 @@ if (toolbar) {
       case 'zoom-in':
         window.electronAPI?.changeFontSize('increase');
         break;
+      case 'align-left':
+      case 'align-center':
+      case 'align-right':
+      case 'align-justify':
+        applyAlignmentStyle(action);
+        updateAlignmentButtons(action);
+        break;
       case 'minimize':
         toggleToolbarCompactMode();
         break;
@@ -870,6 +995,7 @@ function handleSelectAllShortcut(event) {
 }
 
 document.addEventListener('keydown', handleSelectAllShortcut);
+document.addEventListener('selectionchange', syncAlignmentButtonsToSelection);
 
 // Ensure a previously loaded document is visible even before selecting a section.
 const initialEditorText = getPlainText();

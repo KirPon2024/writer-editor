@@ -35,6 +35,24 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openSection: (sectionName) => {
     return ipcRenderer.invoke('ui:open-section', { sectionName });
   },
+  getProjectTree: (tab) => {
+    return ipcRenderer.invoke('ui:get-project-tree', { tab });
+  },
+  openDocument: (payload) => {
+    return ipcRenderer.invoke('ui:open-document', payload);
+  },
+  createNode: (payload) => {
+    return ipcRenderer.invoke('ui:create-node', payload);
+  },
+  renameNode: (payload) => {
+    return ipcRenderer.invoke('ui:rename-node', payload);
+  },
+  deleteNode: (payload) => {
+    return ipcRenderer.invoke('ui:delete-node', payload);
+  },
+  reorderNode: (payload) => {
+    return ipcRenderer.invoke('ui:reorder-node', payload);
+  },
   setTheme: (theme) => {
     ipcRenderer.send('ui:set-theme', theme);
   },

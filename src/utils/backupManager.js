@@ -3,22 +3,26 @@ const path = require('path');
 const crypto = require('crypto');
 const fileManager = require('./fileManager');
 
-function getBackupsRoot() {
+function getBackupsRoot(basePath) {
+  if (basePath) {
+    return path.join(basePath, 'backups');
+  }
   const documentsPath = fileManager.getDocumentsPath();
   return path.join(documentsPath, '.backups');
 }
 
-async function ensureBackupsFolder(fileId) {
-  const root = getBackupsRoot();
+async function ensureBackupsFolder(fileId, basePath) {
+  const root = getBackupsRoot(basePath);
   const backupsPath = path.join(root, fileId);
   await fs.mkdir(backupsPath, { recursive: true });
   return backupsPath;
 }
 
-async function createBackup(filePath, content) {
+async function createBackup(filePath, content, options = {}) {
   try {
+    const basePath = options && options.basePath ? options.basePath : null;
     const fileId = crypto.createHash('sha256').update(path.resolve(filePath)).digest('hex');
-    const backupsPath = await ensureBackupsFolder(fileId);
+    const backupsPath = await ensureBackupsFolder(fileId, basePath);
     await writeMetaFile(backupsPath, filePath);
 
     const fileName = path.basename(filePath);

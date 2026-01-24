@@ -219,66 +219,7 @@
     </header>
     <div class="app-layout">
       <aside class="sidebar">
-        <div class="sidebar__header">
-          <button type="button" class="sidebar__new-project">
-            <svg class="icon icon--plus" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-              <path d="M7.5 2.5v11M2.5 7.5h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span>Новый проект</span>
-          </button>
-        </div>
-        <div class="sidebar__projects">
-          <div class="project">
-            <button type="button" class="project__header" data-project-toggle>
-              <svg class="icon icon--chevron icon--muted" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                <path d="M6 4 10 8 6 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <svg class="icon icon--file icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M14 2v6h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-              </svg>
-              <span>Роман</span>
-            </button>
-            <div class="project__sections is-expanded" data-section-list>
-              <button type="button" class="section-item" data-section="Вступительная часть">
-                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M3 6h18M3 18h18M7 6v12M17 6v12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <span>Вступительная часть</span>
-              </button>
-              <button type="button" class="section-item" data-section="Пролог">
-                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M8 4h10v16H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M8 8h8M8 12h8M8 16h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <span>Пролог</span>
-              </button>
-              <button type="button" class="section-item" data-section="Главы">
-                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M12 2 2 7l10 5 10-5-10-5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M2 17l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                </svg>
-                <span>Главы</span>
-              </button>
-              <button type="button" class="section-item" data-section="Эпилог">
-                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M19 21H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11v18z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M6 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="m10 13 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Эпилог</span>
-              </button>
-              <button type="button" class="section-item" data-section="Заключительная часть">
-                <svg class="icon icon--section icon--muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M4 19.5V4h13.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                </svg>
-                <span>Заключительная часть</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <div class="sidebar__tree" data-tree></div>
         <div class="sidebar__resize-handle" data-sidebar-resizer aria-hidden="true"></div>
       </aside>
       <main class="main-content">
@@ -286,6 +227,37 @@
         <div class="editor-panel">
           <div class="editor-panel__header">
             <h1 class="editor-panel__title" aria-live="polite"></h1>
+          </div>
+          <div class="editor-panel__meta" data-meta-panel>
+            <div class="meta-row">
+              <label class="meta-label" for="meta-synopsis">Синопсис</label>
+              <textarea id="meta-synopsis" class="meta-textarea" data-meta-synopsis rows="3" placeholder="1–5 строк"></textarea>
+            </div>
+            <div class="meta-row meta-row--split">
+              <div class="meta-group">
+                <label class="meta-label" for="meta-status">Статус</label>
+                <select id="meta-status" class="meta-select" data-meta-status>
+                  <option value="черновик">черновик</option>
+                  <option value="в работе">в работе</option>
+                  <option value="готово">готово</option>
+                </select>
+              </div>
+              <div class="meta-group meta-group--tags">
+                <label class="meta-label">Теги</label>
+                <div class="meta-tags">
+                  <input class="meta-input" type="text" placeholder="POV" data-meta-tag="pov">
+                  <input class="meta-input" type="text" placeholder="линия" data-meta-tag="line">
+                  <input class="meta-input" type="text" placeholder="место" data-meta-tag="place">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="editor-panel__cards" data-cards-panel>
+            <div class="cards-header">
+              <span>Карточки</span>
+              <button type="button" class="cards-add" data-action="add-card">Добавить</button>
+            </div>
+            <div class="cards-list" data-cards-list></div>
           </div>
           <div
             id="editor"
@@ -301,6 +273,23 @@
   </div>
   <div class="status-bar status-bar--floating" aria-live="polite">
     <span id="status" class="status">Готово</span>
+  </div>
+  <div class="context-menu" data-context-menu hidden></div>
+  <div class="modal" data-card-modal hidden>
+    <div class="modal__backdrop" data-card-cancel></div>
+    <div class="modal__content" role="dialog" aria-modal="true" aria-label="Новая карточка">
+      <h3 class="modal__title">Новая карточка</h3>
+      <label class="modal__label" for="card-title">Заголовок</label>
+      <input id="card-title" class="modal__input" type="text" data-card-title>
+      <label class="modal__label" for="card-text">Текст</label>
+      <textarea id="card-text" class="modal__textarea" rows="4" data-card-text></textarea>
+      <label class="modal__label" for="card-tags">Теги</label>
+      <input id="card-tags" class="modal__input" type="text" data-card-tags placeholder="POV=..., линия=..., место=...">
+      <div class="modal__actions">
+        <button type="button" class="modal__button" data-card-cancel>Отмена</button>
+        <button type="button" class="modal__button modal__button--primary" data-card-save>Сохранить</button>
+      </div>
+    </div>
   </div>
   <script src="editor.js"></script>
 </body>

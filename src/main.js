@@ -29,6 +29,25 @@ const USER_DATA_FOLDER_NAME = 'craftsman';
 const LEGACY_USER_DATA_FOLDER_NAME = 'WriterEditor';
 const MIGRATION_MARKER = '.migrated-from-writer-editor';
 const DEFAULT_PROJECT_NAME = 'Роман';
+const PROJECT_SUBFOLDERS = {
+  roman: 'roman',
+  materials: 'materials',
+  reference: 'reference',
+  trash: 'trash',
+  backups: 'backups'
+};
+const MATERIALS_SECTION_LABELS = ['Заметки', 'Исследования', 'Идеи/черновики', 'Вырезки'];
+const REFERENCE_SECTION_LABELS = ['Персонажи', 'Локации', 'Термины/глоссарий', 'События/таймлайн'];
+const ROMAN_SECTION_LABELS = [
+  'обложка',
+  'черновик',
+  'карта идей',
+  'чистовой текст',
+  'поток сознания',
+  'сны',
+  'статистика'
+];
+const ROMAN_META_KINDS = new Set(['chapter-file', 'scene']);
 
 function sanitizeFilename(name) {
   const safe = String(name || '')
@@ -39,6 +58,31 @@ function sanitizeFilename(name) {
 
   return safe.slice(0, 80) || 'Untitled';
 }
+
+const ROMAN_SECTION_FILENAME_SET = new Set(
+  ROMAN_SECTION_LABELS.map((label) => sanitizeFilename(label).toLowerCase())
+);
+
+function getProjectRootPath(projectName = DEFAULT_PROJECT_NAME) {
+  const root = fileManager.getDocumentsPath();
+  return path.join(root, sanitizeFilename(projectName));
+}
+
+function getProjectSectionPath(section, projectName = DEFAULT_PROJECT_NAME) {
+  const root = getProjectRootPath(projectName);
+  const folder = PROJECT_SUBFOLDERS[section];
+  return folder ? path.join(root, folder) : root;
+}
+
+function buildSectionDefinitions(labels) {
+  return labels.map((label) => ({
+    label,
+    dirName: sanitizeFilename(label)
+  }));
+}
+
+const MATERIALS_SECTIONS = buildSectionDefinitions(MATERIALS_SECTION_LABELS);
+const REFERENCE_SECTIONS = buildSectionDefinitions(REFERENCE_SECTION_LABELS);
 
 function getSectionDocumentPath(sectionName, projectName = DEFAULT_PROJECT_NAME) {
   const root = fileManager.getDocumentsPath();
@@ -133,10 +177,24 @@ function clampFontSize(size) {
   return Math.max(12, Math.min(28, size));
 }
 
-function sendEditorText(text) {
-  if (mainWindow) {
-    mainWindow.webContents.send('editor:set-text', typeof text === 'string' ? text : '');
+function sendEditorText(payload) {
+  if (!mainWindow) return;
+  if (typeof payload === 'string') {
+    mainWindow.webContents.send('editor:set-text', { content: payload });
+    return;
   }
+  if (payload && typeof payload === 'object') {
+    const safePayload = {
+      content: typeof payload.content === 'string' ? payload.content : '',
+      title: typeof payload.title === 'string' ? payload.title : '',
+      path: typeof payload.path === 'string' ? payload.path : '',
+      kind: typeof payload.kind === 'string' ? payload.kind : '',
+      metaEnabled: Boolean(payload.metaEnabled)
+    };
+    mainWindow.webContents.send('editor:set-text', safePayload);
+    return;
+  }
+  mainWindow.webContents.send('editor:set-text', { content: '' });
 }
 
 function sendEditorFontSize(px) {
@@ -217,6 +275,37 @@ function computeHash(text) {
   return crypto.createHash('sha256').update(text || '', 'utf8').digest('hex');
 }
 
+function extractNumericPrefix(name) {
+  const match = /^(\d+)_/.exec(name);
+  if (!match) return null;
+  const value = Number(match[1]);
+  return Number.isFinite(value) ? value : null;
+}
+
+function stripNumericPrefix(name) {
+  return name.replace(/^\d+_/, '');
+}
+
+function stripTxtExtension(name) {
+  return name.replace(/\.txt$/i, '');
+}
+
+function getDisplayNameForEntry(entryName) {
+  return stripNumericPrefix(stripTxtExtension(entryName));
+}
+
+function formatPrefixedName(baseName, index) {
+  const safeBase = sanitizeFilename(baseName);
+  const prefix = String(index).padStart(2, '0');
+  return `${prefix}_${safeBase}`;
+}
+
+function isPathInside(parentPath, childPath) {
+  const parent = path.resolve(parentPath);
+  const child = path.resolve(childPath);
+  return child === parent || child.startsWith(`${parent}${path.sep}`);
+}
+
 // Проверка существования файла
 async function fileExists(filePath) {
   try {
@@ -225,6 +314,273 @@ async function fileExists(filePath) {
   } catch {
     return false;
   }
+}
+
+async function ensureProjectStructure(projectName = DEFAULT_PROJECT_NAME) {
+  const projectRoot = getProjectRootPath(projectName);
+  const romanPath = getProjectSectionPath('roman', projectName);
+  const materialsPath = getProjectSectionPath('materials', projectName);
+  const referencePath = getProjectSectionPath('reference', projectName);
+  const trashPath = getProjectSectionPath('trash', projectName);
+  const backupsPath = getProjectSectionPath('backups', projectName);
+
+  await fs.mkdir(projectRoot, { recursive: true });
+  await fs.mkdir(romanPath, { recursive: true });
+  await fs.mkdir(materialsPath, { recursive: true });
+  await fs.mkdir(referencePath, { recursive: true });
+  await fs.mkdir(trashPath, { recursive: true });
+  await fs.mkdir(backupsPath, { recursive: true });
+
+  for (const section of MATERIALS_SECTIONS) {
+    await fs.mkdir(path.join(materialsPath, section.dirName), { recursive: true });
+  }
+
+  for (const section of REFERENCE_SECTIONS) {
+    await fs.mkdir(path.join(referencePath, section.dirName), { recursive: true });
+  }
+
+  return projectRoot;
+}
+
+async function readDirectoryEntries(folderPath) {
+  let entries = [];
+  try {
+    entries = await fs.readdir(folderPath, { withFileTypes: true });
+  } catch (error) {
+    logDevError('readDirectoryEntries', error);
+    return [];
+  }
+
+  return entries
+    .filter((entry) => entry.name && !entry.name.startsWith('.'))
+    .map((entry) => ({
+      name: entry.name,
+      path: path.join(folderPath, entry.name),
+      isDirectory: entry.isDirectory(),
+      isFile: entry.isFile(),
+      prefix: extractNumericPrefix(entry.name),
+      baseName: getDisplayNameForEntry(entry.name)
+    }))
+    .sort((a, b) => {
+      const prefixA = a.prefix ?? Number.MAX_SAFE_INTEGER;
+      const prefixB = b.prefix ?? Number.MAX_SAFE_INTEGER;
+      if (prefixA !== prefixB) {
+        return prefixA - prefixB;
+      }
+      return a.baseName.localeCompare(b.baseName, 'ru');
+    });
+}
+
+function buildNode({ name, label, kind, nodePath, children = [] }) {
+  return {
+    id: nodePath,
+    name,
+    label,
+    kind,
+    path: nodePath,
+    children
+  };
+}
+
+async function buildRomanTree(projectName = DEFAULT_PROJECT_NAME) {
+  const romanPath = getProjectSectionPath('roman', projectName);
+  const childNodes = ROMAN_SECTION_LABELS.map((label) =>
+    buildNode({
+      name: label,
+      label,
+      kind: 'roman-section',
+      nodePath: path.join(romanPath, `${sanitizeFilename(label)}.txt`),
+      children: []
+    })
+  );
+
+  return buildNode({
+    name: 'Роман',
+    label: 'Роман',
+    kind: 'roman-root',
+    nodePath: romanPath,
+    children: childNodes
+  });
+}
+
+async function buildGenericTree(rootPath, kind) {
+  const entries = await readDirectoryEntries(rootPath);
+  const nodes = [];
+  for (const entry of entries) {
+    if (entry.isDirectory) {
+      const children = await buildGenericTree(entry.path, kind);
+      nodes.push(
+        buildNode({
+          name: entry.baseName,
+          label: entry.baseName,
+          kind: 'folder',
+          nodePath: entry.path,
+          children: children.children || []
+        })
+      );
+      continue;
+    }
+    if (entry.isFile && entry.name.toLowerCase().endsWith('.txt')) {
+      nodes.push(
+        buildNode({
+          name: entry.baseName,
+          label: entry.baseName,
+          kind: kind === 'materials' ? 'material' : 'reference',
+          nodePath: entry.path,
+          children: []
+        })
+      );
+    }
+  }
+
+  return buildNode({
+    name: rootPath,
+    label: path.basename(rootPath),
+    kind: 'folder',
+    nodePath: rootPath,
+    children: nodes
+  });
+}
+
+async function buildMaterialsTree(projectName = DEFAULT_PROJECT_NAME) {
+  const materialsPath = getProjectSectionPath('materials', projectName);
+  const categoryNodes = [];
+  for (const section of MATERIALS_SECTIONS) {
+    const folderPath = path.join(materialsPath, section.dirName);
+    const subtree = await buildGenericTree(folderPath, 'materials');
+    categoryNodes.push(
+      buildNode({
+        name: section.label,
+        label: section.label,
+        kind: 'materials-category',
+        nodePath: folderPath,
+        children: subtree.children || []
+      })
+    );
+  }
+
+  return buildNode({
+    name: 'Материалы',
+    label: 'Материалы',
+    kind: 'materials-root',
+    nodePath: materialsPath,
+    children: categoryNodes
+  });
+}
+
+async function buildReferenceTree(projectName = DEFAULT_PROJECT_NAME) {
+  const referencePath = getProjectSectionPath('reference', projectName);
+  const categoryNodes = [];
+  for (const section of REFERENCE_SECTIONS) {
+    const folderPath = path.join(referencePath, section.dirName);
+    const subtree = await buildGenericTree(folderPath, 'reference');
+    categoryNodes.push(
+      buildNode({
+        name: section.label,
+        label: section.label,
+        kind: 'reference-category',
+        nodePath: folderPath,
+        children: subtree.children || []
+      })
+    );
+  }
+
+  return buildNode({
+    name: 'Справочник',
+    label: 'Справочник',
+    kind: 'reference-root',
+    nodePath: referencePath,
+    children: categoryNodes
+  });
+}
+
+function getDocumentContextFromPath(filePath) {
+  const projectRoot = getProjectRootPath();
+  const relative = path.relative(projectRoot, filePath);
+  const baseTitle = getDisplayNameForEntry(path.basename(filePath));
+  const lowerBaseName = path.basename(filePath).toLowerCase();
+
+  if (!relative || relative.startsWith('..')) {
+    return { title: baseTitle, kind: 'external', metaEnabled: false };
+  }
+
+  const parts = relative.split(path.sep);
+  if (parts[0] === PROJECT_SUBFOLDERS.roman) {
+    if (parts.length >= 2) {
+      if (parts.length === 2 && parts[1].toLowerCase().endsWith('.txt')) {
+        const normalizedName = sanitizeFilename(stripTxtExtension(parts[1])).toLowerCase();
+        if (ROMAN_SECTION_FILENAME_SET.has(normalizedName)) {
+          return { title: baseTitle, kind: 'roman-section', metaEnabled: false };
+        }
+        return { title: baseTitle, kind: 'chapter-file', metaEnabled: true };
+      }
+      if (parts.length === 3 && parts[2].toLowerCase().endsWith('.txt')) {
+        return { title: baseTitle, kind: 'chapter-file', metaEnabled: true };
+      }
+      if (parts.length >= 4 && parts[3].toLowerCase().endsWith('.txt')) {
+        return { title: baseTitle, kind: 'scene', metaEnabled: true };
+      }
+    }
+  }
+
+  if (parts[0] === PROJECT_SUBFOLDERS.materials) {
+    if (lowerBaseName === '.index.txt' && parts.length >= 3) {
+      const category = MATERIALS_SECTIONS.find((section) => section.dirName === parts[1]);
+      return { title: category ? category.label : baseTitle, kind: 'material', metaEnabled: false };
+    }
+    return { title: baseTitle, kind: 'material', metaEnabled: false };
+  }
+
+  if (parts[0] === PROJECT_SUBFOLDERS.reference) {
+    if (lowerBaseName === '.index.txt' && parts.length >= 3) {
+      const category = REFERENCE_SECTIONS.find((section) => section.dirName === parts[1]);
+      return { title: category ? category.label : baseTitle, kind: 'reference', metaEnabled: false };
+    }
+    return { title: baseTitle, kind: 'reference', metaEnabled: false };
+  }
+
+  return { title: baseTitle, kind: 'external', metaEnabled: false };
+}
+
+function getBackupBasePathForFile(filePath) {
+  if (!filePath) return null;
+  const projectRoot = getProjectRootPath();
+  return isPathInside(projectRoot, filePath) ? projectRoot : null;
+}
+
+async function safeRenameSequence(renames) {
+  const timestamp = Date.now();
+  const tempSuffix = `.tmp-${timestamp}`;
+  const tempMappings = [];
+  for (const rename of renames) {
+    const tempPath = `${rename.from}${tempSuffix}`;
+    await fs.rename(rename.from, tempPath);
+    tempMappings.push({ tempPath, finalPath: rename.to });
+  }
+  for (const mapping of tempMappings) {
+    await fs.rename(mapping.tempPath, mapping.finalPath);
+  }
+}
+
+async function reorderEntriesWithPrefixes(parentPath, orderedEntries) {
+  const renames = [];
+  orderedEntries.forEach((entry, index) => {
+    const baseName = entry.baseName;
+    const prefixed = formatPrefixedName(baseName, index + 1);
+    const finalName = entry.isFile ? `${prefixed}.txt` : prefixed;
+    const finalPath = path.join(parentPath, finalName);
+    if (entry.path !== finalPath) {
+      renames.push({ from: entry.path, to: finalPath });
+    }
+    entry.nextPath = finalPath;
+  });
+
+  if (!renames.length) {
+    return orderedEntries;
+  }
+
+  await safeRenameSequence(renames);
+  return orderedEntries;
 }
 
 // Автоматическое открытие последнего файла
@@ -241,7 +597,14 @@ async function openLastFile() {
     if (fileResult.success) {
       currentFilePath = lastFilePath;
       await saveLastFile();
-      sendEditorText(fileResult.content);
+      const context = getDocumentContextFromPath(lastFilePath);
+      sendEditorText({
+        content: fileResult.content,
+        title: context.title,
+        path: lastFilePath,
+        kind: context.kind,
+        metaEnabled: context.metaEnabled
+      });
       setDirtyState(false);
       const contentHash = computeHash(fileResult.content);
       lastAutosaveHash = contentHash;
@@ -281,7 +644,7 @@ async function restoreAutosaveIfExists() {
       return false;
     }
 
-    sendEditorText(content);
+    sendEditorText({ content, title: 'Автосохранение', path: '', kind: 'autosave', metaEnabled: false });
 
     setDirtyState(true); // восстановленный черновик считается несохранённым
     const autosaveHash = computeHash(content);
@@ -460,6 +823,299 @@ ipcMain.on('ui:window-minimize', () => {
   }
 });
 
+ipcMain.handle('ui:get-project-tree', async (_, payload) => {
+  const tab = payload && payload.tab;
+  if (!tab) {
+    return { ok: false, error: 'Missing tab' };
+  }
+
+  await ensureProjectStructure();
+
+  if (tab === 'roman') {
+    const root = await buildRomanTree();
+    return { ok: true, root };
+  }
+  if (tab === 'materials') {
+    const root = await buildMaterialsTree();
+    return { ok: true, root };
+  }
+  if (tab === 'reference') {
+    const root = await buildReferenceTree();
+    return { ok: true, root };
+  }
+
+  return { ok: false, error: 'Unknown tab' };
+});
+
+ipcMain.handle('ui:open-document', async (_, payload) => {
+  if (!mainWindow) {
+    return { ok: false, error: 'No active window' };
+  }
+
+  const filePath = payload && payload.path;
+  if (typeof filePath !== 'string' || !filePath.trim()) {
+    return { ok: false, error: 'Invalid file path' };
+  }
+
+  const projectRoot = getProjectRootPath();
+  if (!isPathInside(projectRoot, filePath)) {
+    return { ok: false, error: 'Path outside project' };
+  }
+
+  const canProceed = await confirmDiscardChanges();
+  if (!canProceed) {
+    return { ok: false, cancelled: true };
+  }
+
+  try {
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+  } catch (error) {
+    logDevError('open document mkdir', error);
+    return { ok: false, error: error.message || 'Failed to create folder' };
+  }
+
+  let content = '';
+  try {
+    content = await fs.readFile(filePath, 'utf8');
+  } catch (error) {
+    if (error && error.code !== 'ENOENT') {
+      logDevError('open document read', error);
+      return { ok: false, error: error.message || 'Failed to read file' };
+    }
+
+    const created = await queueDiskOperation(
+      () => fileManager.writeFileAtomic(filePath, ''),
+      'create document file'
+    );
+    if (!created.success) {
+      return { ok: false, error: created.error || 'Failed to create file' };
+    }
+  }
+
+  const context = payload && payload.kind ? {
+    title: typeof payload.title === 'string' ? payload.title : getDisplayNameForEntry(path.basename(filePath)),
+    kind: payload.kind,
+    metaEnabled: ROMAN_META_KINDS.has(payload.kind)
+  } : getDocumentContextFromPath(filePath);
+
+  currentFilePath = filePath;
+  await saveLastFile();
+  sendEditorText({
+    content,
+    title: context.title,
+    path: filePath,
+    kind: context.kind,
+    metaEnabled: context.metaEnabled
+  });
+  setDirtyState(false);
+  const contentHash = computeHash(content);
+  lastAutosaveHash = contentHash;
+  backupHashes.set(filePath, contentHash);
+  updateStatus('Готово');
+  return { ok: true, path: filePath };
+});
+
+ipcMain.handle('ui:create-node', async (_, payload) => {
+  if (!payload || typeof payload.parentPath !== 'string' || typeof payload.kind !== 'string') {
+    return { ok: false, error: 'Invalid payload' };
+  }
+
+  const parentPath = payload.parentPath;
+  const kind = payload.kind;
+  const name = typeof payload.name === 'string' ? payload.name : '';
+  const safeName = sanitizeFilename(name);
+  const projectRoot = getProjectRootPath();
+
+  if (!isPathInside(projectRoot, parentPath)) {
+    return { ok: false, error: 'Path outside project' };
+  }
+
+  const createWithPrefix = async (baseName, isFile) => {
+    const entries = await readDirectoryEntries(parentPath);
+    const nextIndex = entries.length + 1;
+    const prefixed = formatPrefixedName(baseName, nextIndex);
+    const finalName = isFile ? `${prefixed}.txt` : prefixed;
+    const targetPath = path.join(parentPath, finalName);
+    if (await fileExists(targetPath)) {
+      return { ok: false, error: 'Файл уже существует' };
+    }
+    if (isFile) {
+      const result = await fileManager.writeFileAtomic(targetPath, '');
+      if (!result.success) {
+        return { ok: false, error: result.error || 'Failed to create file' };
+      }
+      return { ok: true, path: targetPath };
+    }
+    await fs.mkdir(targetPath, { recursive: true });
+    return { ok: true, path: targetPath };
+  };
+
+  const createWithoutPrefix = async (baseName, isFile) => {
+    const finalName = isFile ? `${baseName}.txt` : baseName;
+    const targetPath = path.join(parentPath, finalName);
+    if (await fileExists(targetPath)) {
+      return { ok: false, error: 'Файл уже существует' };
+    }
+    if (isFile) {
+      const result = await fileManager.writeFileAtomic(targetPath, '');
+      if (!result.success) {
+        return { ok: false, error: result.error || 'Failed to create file' };
+      }
+      return { ok: true, path: targetPath };
+    }
+    await fs.mkdir(targetPath, { recursive: true });
+    return { ok: true, path: targetPath };
+  };
+
+  if (kind === 'part') {
+    return createWithPrefix(safeName || 'Новая часть', false);
+  }
+  if (kind === 'chapter-file') {
+    return createWithPrefix(safeName || 'Новая глава', true);
+  }
+  if (kind === 'chapter-folder') {
+    return createWithPrefix(safeName || 'Новая глава', false);
+  }
+  if (kind === 'scene') {
+    return createWithPrefix(safeName || 'Новая сцена', true);
+  }
+  if (kind === 'folder') {
+    return createWithoutPrefix(safeName || 'Новая папка', false);
+  }
+  if (kind === 'file') {
+    return createWithoutPrefix(safeName || 'Новый документ', true);
+  }
+
+  return { ok: false, error: 'Unknown node kind' };
+});
+
+ipcMain.handle('ui:rename-node', async (_, payload) => {
+  if (!payload || typeof payload.path !== 'string' || typeof payload.name !== 'string') {
+    return { ok: false, error: 'Invalid payload' };
+  }
+
+  const nodePath = payload.path;
+  const newName = sanitizeFilename(payload.name);
+  if (!newName) {
+    return { ok: false, error: 'Empty name' };
+  }
+
+  const projectRoot = getProjectRootPath();
+  if (!isPathInside(projectRoot, nodePath)) {
+    return { ok: false, error: 'Path outside project' };
+  }
+
+  const baseName = path.basename(nodePath);
+  const isFile = baseName.toLowerCase().endsWith('.txt');
+  const prefix = extractNumericPrefix(baseName);
+  const finalBase = prefix !== null ? `${String(prefix).padStart(2, '0')}_${newName}` : newName;
+  const finalName = isFile ? `${finalBase}.txt` : finalBase;
+  const targetPath = path.join(path.dirname(nodePath), finalName);
+
+  if (targetPath === nodePath) {
+    return { ok: true, path: nodePath };
+  }
+
+  try {
+    await fs.rename(nodePath, targetPath);
+  } catch (error) {
+    logDevError('rename node', error);
+    return { ok: false, error: error.message || 'Failed to rename' };
+  }
+
+  if (currentFilePath && isPathInside(nodePath, currentFilePath)) {
+    const relative = path.relative(nodePath, currentFilePath);
+    currentFilePath = path.join(targetPath, relative);
+    await saveLastFile();
+  }
+
+  return { ok: true, path: targetPath };
+});
+
+ipcMain.handle('ui:delete-node', async (_, payload) => {
+  if (!payload || typeof payload.path !== 'string') {
+    return { ok: false, error: 'Invalid payload' };
+  }
+
+  const nodePath = payload.path;
+  const projectRoot = getProjectRootPath();
+  if (!isPathInside(projectRoot, nodePath)) {
+    return { ok: false, error: 'Path outside project' };
+  }
+
+  const trashPath = getProjectSectionPath('trash');
+  await fs.mkdir(trashPath, { recursive: true });
+  const baseName = path.basename(nodePath);
+  let targetPath = path.join(trashPath, baseName);
+  if (await fileExists(targetPath)) {
+    const stamped = `${Date.now()}_${baseName}`;
+    targetPath = path.join(trashPath, stamped);
+  }
+
+  try {
+    await fs.rename(nodePath, targetPath);
+  } catch (error) {
+    logDevError('delete node', error);
+    return { ok: false, error: error.message || 'Failed to move to trash' };
+  }
+
+  if (currentFilePath && isPathInside(nodePath, currentFilePath)) {
+    currentFilePath = null;
+    await saveLastFile();
+    sendEditorText({ content: '', title: '', path: '', kind: 'empty', metaEnabled: false });
+    setDirtyState(false);
+    updateStatus('Готово');
+  }
+
+  return { ok: true, path: targetPath };
+});
+
+ipcMain.handle('ui:reorder-node', async (_, payload) => {
+  if (!payload || typeof payload.path !== 'string' || typeof payload.direction !== 'string') {
+    return { ok: false, error: 'Invalid payload' };
+  }
+
+  const nodePath = payload.path;
+  const direction = payload.direction;
+  const projectRoot = getProjectRootPath();
+  const romanRoot = getProjectSectionPath('roman');
+
+  if (!isPathInside(projectRoot, nodePath)) {
+    return { ok: false, error: 'Path outside project' };
+  }
+
+  if (!isPathInside(romanRoot, nodePath)) {
+    return { ok: false, error: 'Reorder only supported in roman' };
+  }
+
+  const parentPath = path.dirname(nodePath);
+  const entries = await readDirectoryEntries(parentPath);
+  const index = entries.findIndex((entry) => entry.path === nodePath);
+  if (index === -1) {
+    return { ok: false, error: 'Node not found' };
+  }
+
+  const targetIndex = direction === 'up' ? index - 1 : direction === 'down' ? index + 1 : index;
+  if (targetIndex < 0 || targetIndex >= entries.length || targetIndex === index) {
+    return { ok: true, path: nodePath };
+  }
+
+  const nextEntries = entries.slice();
+  const [moved] = nextEntries.splice(index, 1);
+  nextEntries.splice(targetIndex, 0, moved);
+
+  const reordered = await reorderEntriesWithPrefixes(parentPath, nextEntries);
+  const updated = reordered.find((entry) => entry.path === nodePath || entry.nextPath === nodePath);
+  const updatedPath = updated?.nextPath || nodePath;
+
+  if (currentFilePath && isPathInside(nodePath, currentFilePath)) {
+    const relative = path.relative(nodePath, currentFilePath);
+    currentFilePath = path.join(updatedPath, relative);
+    await saveLastFile();
+  }
+
+  return { ok: true, path: updatedPath };
+});
 ipcMain.handle('ui:open-section', async (_, payload) => {
   if (!mainWindow) {
     return { ok: false, error: 'No active window' };
@@ -503,7 +1159,7 @@ ipcMain.handle('ui:open-section', async (_, payload) => {
 
   currentFilePath = filePath;
   await saveLastFile();
-  sendEditorText(content);
+  sendEditorText({ content, title: sectionName, path: filePath, kind: 'legacy-section', metaEnabled: false });
   setDirtyState(false);
   const contentHash = computeHash(content);
   lastAutosaveHash = contentHash;
@@ -610,7 +1266,7 @@ async function handleNew() {
   if (!mainWindow) return;
   currentFilePath = null;
   await saveLastFile();
-  sendEditorText('');
+  sendEditorText({ content: '', title: '', path: '', kind: 'empty', metaEnabled: false });
   setDirtyState(false);
   lastAutosaveHash = null;
   updateStatus('Готово');
@@ -634,7 +1290,14 @@ async function handleOpen() {
     if (fileResult.success) {
       currentFilePath = filePath;
       await saveLastFile();
-      sendEditorText(fileResult.content);
+      const context = getDocumentContextFromPath(filePath);
+      sendEditorText({
+        content: fileResult.content,
+        title: context.title,
+        path: filePath,
+        kind: context.kind,
+        metaEnabled: context.metaEnabled
+      });
       setDirtyState(false);
       const contentHash = computeHash(fileResult.content);
       lastAutosaveHash = contentHash;
@@ -709,7 +1372,7 @@ async function createBackup() {
       }
 
       const result = await queueDiskOperation(
-        () => backupManager.createBackup(currentFilePath, content),
+        () => backupManager.createBackup(currentFilePath, content, { basePath: getBackupBasePathForFile(currentFilePath) }),
         'backup current file'
       );
       if (!result.success) {
@@ -1054,6 +1717,7 @@ async function initializeApp() {
   await fileManager.migrateDocumentsFolder();
   await fileManager.ensureDocumentsFolder();
   await ensureAutosaveDirectory();
+  await ensureProjectStructure();
 }
 
 app.whenReady().then(async () => {

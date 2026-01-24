@@ -1,11 +1,8 @@
 const editor = document.getElementById('editor');
 const statusElement = document.getElementById('status');
-const sectionButtons = Array.from(document.querySelectorAll('.section-item'));
 const emptyState = document.querySelector('.empty-state');
 const editorPanel = document.querySelector('.editor-panel');
 const editorTitle = document.querySelector('.editor-panel__title');
-const projectToggle = document.querySelector('[data-project-toggle]');
-const sectionList = document.querySelector('[data-section-list]');
 const sidebar = document.querySelector('.sidebar');
 const sidebarResizer = document.querySelector('[data-sidebar-resizer]');
 const mainContent = document.querySelector('.main-content');
@@ -23,6 +20,23 @@ const themeLightButton = document.querySelector('[data-action="theme-light"]');
 const wrapToggleButton = document.querySelector('[data-action="toggle-wrap"]');
 const toolbarToggleButton = document.querySelector('[data-action="minimize"]');
 const alignButtons = Array.from(document.querySelectorAll('[data-action^="align-"]'));
+const treeContainer = document.querySelector('[data-tree]');
+const metaPanel = document.querySelector('[data-meta-panel]');
+const metaSynopsis = document.querySelector('[data-meta-synopsis]');
+const metaStatus = document.querySelector('[data-meta-status]');
+const metaTagPov = document.querySelector('[data-meta-tag="pov"]');
+const metaTagLine = document.querySelector('[data-meta-tag="line"]');
+const metaTagPlace = document.querySelector('[data-meta-tag="place"]');
+const cardsPanel = document.querySelector('[data-cards-panel]');
+const cardsList = document.querySelector('[data-cards-list]');
+const addCardButton = document.querySelector('[data-action="add-card"]');
+const contextMenu = document.querySelector('[data-context-menu]');
+const cardModal = document.querySelector('[data-card-modal]');
+const cardTitleInput = document.querySelector('[data-card-title]');
+const cardTextInput = document.querySelector('[data-card-text]');
+const cardTagsInput = document.querySelector('[data-card-tags]');
+const cardSaveButtons = Array.from(document.querySelectorAll('[data-card-save]'));
+const cardCancelButtons = Array.from(document.querySelectorAll('[data-card-cancel]'));
 const TOOLBAR_COMPACT_CLASS = 'is-compact';
 const TEXT_STYLE_DEFAULT = 'paragraph-none';
 const ALIGNMENT_PREFIX_BY_ACTION = {
@@ -32,12 +46,22 @@ const ALIGNMENT_PREFIX_BY_ACTION = {
   'align-left': '',
 };
 const ALIGNMENT_MARKERS = ['::center:: ', '::right:: ', '::justify:: '];
-let activeSectionName = null;
 const isMac = navigator.platform.toUpperCase().includes('MAC');
 let currentFontSizePx = 16;
 let wordWrapEnabled = true;
 let lastSearchQuery = '';
 let plainTextBuffer = '';
+const activeTab = 'roman';
+let currentDocumentPath = null;
+let currentDocumentKind = null;
+let metaEnabled = false;
+let currentCards = [];
+let currentMeta = {
+  synopsis: '',
+  status: 'черновик',
+  tags: { pov: '', line: '', place: '' }
+};
+let expandedNodesByTab = new Map();
 
 function getPlainText() {
   return plainTextBuffer;
@@ -46,6 +70,187 @@ function getPlainText() {
 function setPlainText(text = '') {
   plainTextBuffer = text;
   renderStyledView(text);
+}
+
+function parseIndentedValue(lines, startIndex) {
+  const valueLines = [];
+  const firstLine = lines[startIndex];
+  const rawValue = firstLine.split(':').slice(1).join(':').trim();
+  valueLines.push(rawValue);
+  let index = startIndex + 1;
+  while (index < lines.length) {
+    const line = lines[index];
+    if (/^[a-zA-Zа-яА-ЯёЁ]+\s*:/.test(line)) {
+      break;
+    }
+    if (line.startsWith('  ') || line.startsWith('\t')) {
+      valueLines.push(line.trim());
+    }
+    index += 1;
+  }
+  return { value: valueLines.join('\n').trim(), nextIndex: index };
+}
+
+function parseTagsValue(value) {
+  const tags = { pov: '', line: '', place: '' };
+  value.split(';').forEach((chunk) => {
+    const [rawKey, ...rest] = chunk.split('=');
+    const key = (rawKey || '').trim().toLowerCase();
+    const val = rest.join('=').trim();
+    if (key === 'pov') tags.pov = val;
+    if (key === 'линия') tags.line = val;
+    if (key === 'место') tags.place = val;
+  });
+  return tags;
+}
+
+function parseMetaBlock(block) {
+  const meta = {
+    synopsis: '',
+    status: 'черновик',
+    tags: { pov: '', line: '', place: '' }
+  };
+  const body = block.replace(/\[\/?meta\]/gi, '').trim();
+  const lines = body.split('\n');
+  let index = 0;
+  while (index < lines.length) {
+    const line = lines[index].trim();
+    if (line.toLowerCase().startsWith('status:')) {
+      meta.status = line.split(':').slice(1).join(':').trim() || meta.status;
+      index += 1;
+      continue;
+    }
+    if (line.toLowerCase().startsWith('tags:')) {
+      const value = line.split(':').slice(1).join(':').trim();
+      meta.tags = parseTagsValue(value);
+      index += 1;
+      continue;
+    }
+    if (line.toLowerCase().startsWith('synopsis:')) {
+      const parsed = parseIndentedValue(lines, index);
+      meta.synopsis = parsed.value;
+      index = parsed.nextIndex;
+      continue;
+    }
+    index += 1;
+  }
+  return meta;
+}
+
+function parseCardBlock(block) {
+  const card = { title: '', text: '', tags: '' };
+  const body = block.replace(/\[\/?card\]/gi, '').trim();
+  const lines = body.split('\n');
+  let index = 0;
+  while (index < lines.length) {
+    const line = lines[index].trim();
+    if (line.toLowerCase().startsWith('title:')) {
+      card.title = line.split(':').slice(1).join(':').trim();
+      index += 1;
+      continue;
+    }
+    if (line.toLowerCase().startsWith('tags:')) {
+      card.tags = line.split(':').slice(1).join(':').trim();
+      index += 1;
+      continue;
+    }
+    if (line.toLowerCase().startsWith('text:')) {
+      const parsed = parseIndentedValue(lines, index);
+      card.text = parsed.value;
+      index = parsed.nextIndex;
+      continue;
+    }
+    index += 1;
+  }
+  return card;
+}
+
+function parseCardsBlock(block) {
+  const cards = [];
+  const body = block.replace(/\[\/?cards\]/gi, '').trim();
+  const regex = /\[card\][\s\S]*?\[\/card\]/gi;
+  let match = regex.exec(body);
+  while (match) {
+    cards.push(parseCardBlock(match[0]));
+    match = regex.exec(body);
+  }
+  return cards;
+}
+
+function parseDocumentContent(rawText = '') {
+  let content = String(rawText || '');
+  let meta = { synopsis: '', status: 'черновик', tags: { pov: '', line: '', place: '' } };
+  let cards = [];
+
+  const metaMatch = content.match(/\[meta\][\s\S]*?\[\/meta\]/i);
+  if (metaMatch) {
+    meta = parseMetaBlock(metaMatch[0]);
+    content = content.replace(metaMatch[0], '');
+  }
+
+  const cardsMatch = content.match(/\[cards\][\s\S]*?\[\/cards\]/i);
+  if (cardsMatch) {
+    cards = parseCardsBlock(cardsMatch[0]);
+    content = content.replace(cardsMatch[0], '');
+  }
+
+  content = content.replace(/\n{3,}/g, '\n\n');
+  content = content.replace(/^\n+/, '');
+  content = content.replace(/\n+$/, '');
+
+  return { text: content, meta, cards };
+}
+
+function composeMetaBlock(meta) {
+  if (!metaEnabled) return '';
+  const lines = ['[meta]'];
+  const status = meta.status || 'черновик';
+  const tags = `POV=${meta.tags.pov || ''}; линия=${meta.tags.line || ''}; место=${meta.tags.place || ''}`;
+  lines.push(`status: ${status}`);
+  lines.push(`tags: ${tags}`);
+  const synopsisLines = String(meta.synopsis || '').split('\n');
+  if (synopsisLines.length) {
+    lines.push(`synopsis: ${synopsisLines[0] || ''}`);
+    for (let i = 1; i < synopsisLines.length; i += 1) {
+      lines.push(`  ${synopsisLines[i]}`);
+    }
+  } else {
+    lines.push('synopsis:');
+  }
+  lines.push('[/meta]');
+  return lines.join('\n');
+}
+
+function composeCardsBlock(cards) {
+  if (!cards || !cards.length) return '';
+  const lines = ['[cards]'];
+  cards.forEach((card) => {
+    lines.push('[card]');
+    lines.push(`title: ${card.title || ''}`);
+    const textLines = String(card.text || '').split('\n');
+    lines.push(`text: ${textLines[0] || ''}`);
+    for (let i = 1; i < textLines.length; i += 1) {
+      lines.push(`  ${textLines[i]}`);
+    }
+    lines.push(`tags: ${card.tags || ''}`);
+    lines.push('[/card]');
+  });
+  lines.push('[/cards]');
+  return lines.join('\n');
+}
+
+function composeDocumentContent() {
+  const parts = [];
+  const metaBlock = composeMetaBlock(currentMeta);
+  if (metaBlock) {
+    parts.push(metaBlock);
+  }
+  parts.push(getPlainText());
+  const cardsBlock = composeCardsBlock(currentCards);
+  if (cardsBlock) {
+    parts.push(cardsBlock);
+  }
+  return parts.filter(Boolean).join('\n\n');
 }
 
 function getSelectionOffsets() {
@@ -189,24 +394,19 @@ function parseParagraphLine(line) {
   };
 }
 
-function updateSectionSelection(targetName) {
-  sectionButtons.forEach((button) => {
-    const isActive = button.dataset.section === targetName;
-    button.classList.toggle('selected', isActive);
-  });
-}
-
-function showEditorPanelFor(section) {
-  activeSectionName = section;
+function showEditorPanelFor(title) {
   if (editorTitle) {
-    editorTitle.textContent = section;
+    editorTitle.textContent = title || '';
   }
   editorPanel?.classList.add('active');
   mainContent?.classList.add('main-content--editor');
   emptyState?.classList.add('hidden');
-  updateSectionSelection(section);
+  cardsPanel?.classList.remove('is-hidden');
+  updateMetaVisibility();
   try {
-    localStorage.setItem('activeSection', section);
+    if (title) {
+      localStorage.setItem('activeDocumentTitle', title);
+    }
   } catch {}
 
   requestAnimationFrame(() => {
@@ -225,46 +425,525 @@ function showEditorPanelFor(section) {
 }
 
 function collapseSelection() {
-  activeSectionName = null;
   editorPanel?.classList.remove('active');
   mainContent?.classList.remove('main-content--editor');
   emptyState?.classList.remove('hidden');
-  updateSectionSelection(null);
+  metaPanel?.classList.add('is-hidden');
+  cardsPanel?.classList.add('is-hidden');
+  metaEnabled = false;
+  currentMeta = { synopsis: '', status: 'черновик', tags: { pov: '', line: '', place: '' } };
+  currentCards = [];
+  updateCardsList();
   if (editor) {
     setPlainText('');
     updateWordCount();
   }
 }
 
-sectionButtons.forEach((button) => {
-  button.addEventListener('click', async () => {
-    const sectionName = button.dataset.section;
-    if (sectionName) {
-      if (window.electronAPI && typeof window.electronAPI.openSection === 'function') {
-        try {
-          const result = await window.electronAPI.openSection(sectionName);
-          if (!result || result.ok === false) {
-            if (result && result.cancelled) {
-              return;
-            }
-            updateStatusText('Ошибка');
-            return;
-          }
-        } catch {
-          updateStatusText('Ошибка');
-          return;
-        }
+function updateMetaInputs() {
+  if (!metaSynopsis || !metaStatus || !metaTagPov || !metaTagLine || !metaTagPlace) return;
+  metaSynopsis.value = currentMeta.synopsis || '';
+  metaStatus.value = currentMeta.status || 'черновик';
+  metaTagPov.value = currentMeta.tags.pov || '';
+  metaTagLine.value = currentMeta.tags.line || '';
+  metaTagPlace.value = currentMeta.tags.place || '';
+}
+
+function syncMetaFromInputs() {
+  if (!metaSynopsis || !metaStatus || !metaTagPov || !metaTagLine || !metaTagPlace) return;
+  currentMeta = {
+    synopsis: metaSynopsis.value || '',
+    status: metaStatus.value || 'черновик',
+    tags: {
+      pov: metaTagPov.value || '',
+      line: metaTagLine.value || '',
+      place: metaTagPlace.value || ''
+    }
+  };
+}
+
+function updateMetaVisibility() {
+  if (!metaPanel) return;
+  metaPanel.classList.toggle('is-hidden', !metaEnabled);
+}
+
+function updateCardsList() {
+  if (!cardsList) return;
+  cardsList.innerHTML = '';
+  if (!currentCards.length) {
+    const empty = document.createElement('div');
+    empty.className = 'tree__empty';
+    empty.textContent = 'Карточек пока нет';
+    cardsList.appendChild(empty);
+    return;
+  }
+  currentCards.forEach((card) => {
+    const item = document.createElement('div');
+    item.className = 'card-item';
+    const title = document.createElement('div');
+    title.className = 'card-item__title';
+    title.textContent = card.title || 'Без названия';
+    const text = document.createElement('div');
+    text.className = 'card-item__text';
+    text.textContent = card.text || '';
+    item.appendChild(title);
+    item.appendChild(text);
+    cardsList.appendChild(item);
+  });
+}
+
+function getExpandedSet(tab) {
+  if (expandedNodesByTab.has(tab)) {
+    return expandedNodesByTab.get(tab);
+  }
+  let stored = [];
+  try {
+    stored = JSON.parse(localStorage.getItem(`treeExpanded:${tab}`) || '[]');
+  } catch {
+    stored = [];
+  }
+  const set = new Set(stored);
+  expandedNodesByTab.set(tab, set);
+  return set;
+}
+
+function saveExpandedSet(tab) {
+  const set = expandedNodesByTab.get(tab);
+  if (!set) return;
+  try {
+    localStorage.setItem(`treeExpanded:${tab}`, JSON.stringify(Array.from(set)));
+  } catch {}
+}
+
+function getTitleFromPath(filePath) {
+  if (!filePath) return '';
+  const parts = filePath.split(/[\\/]/);
+  const fileName = parts[parts.length - 1] || '';
+  return fileName.replace(/^\d+_/, '').replace(/\.txt$/i, '');
+}
+
+function getCategoryIndexDocumentPath(node) {
+  if (!node || !node.path) return '';
+  return `${node.path.replace(/[\\/]$/, '')}/.index.txt`;
+}
+
+function getEffectiveDocumentPath(node) {
+  if (!node) return '';
+  if (node.kind === 'materials-category' || node.kind === 'reference-category') {
+    return getCategoryIndexDocumentPath(node);
+  }
+  return node.path || '';
+}
+
+function getEffectiveDocumentKind(node) {
+  if (!node) return '';
+  if (node.kind === 'materials-category') return 'material';
+  if (node.kind === 'reference-category') return 'reference';
+  return node.kind || '';
+}
+
+function clearContextMenu() {
+  if (!contextMenu) return;
+  contextMenu.innerHTML = '';
+  contextMenu.hidden = true;
+}
+
+function showContextMenu(items, x, y) {
+  if (!contextMenu) return;
+  contextMenu.innerHTML = '';
+  items.forEach((item) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'context-menu__item';
+    button.textContent = item.label;
+    button.addEventListener('click', () => {
+      clearContextMenu();
+      item.onClick();
+    });
+    contextMenu.appendChild(button);
+  });
+  contextMenu.style.left = `${x}px`;
+  contextMenu.style.top = `${y}px`;
+  contextMenu.hidden = false;
+}
+
+function openCardModal(prefillText = '') {
+  if (!cardModal || !cardTitleInput || !cardTextInput || !cardTagsInput) return;
+  cardTitleInput.value = '';
+  cardTextInput.value = prefillText || '';
+  cardTagsInput.value = '';
+  cardModal.hidden = false;
+  cardTitleInput.focus();
+}
+
+function closeCardModal() {
+  if (!cardModal) return;
+  cardModal.hidden = true;
+}
+
+async function openDocumentNode(node) {
+  if (!window.electronAPI || !window.electronAPI.openDocument) return false;
+  const documentPath = getEffectiveDocumentPath(node);
+  if (!documentPath) return false;
+  try {
+    const result = await window.electronAPI.openDocument({
+      path: documentPath,
+      title: node.label,
+      kind: getEffectiveDocumentKind(node)
+    });
+    if (!result || result.ok === false) {
+      if (result && result.cancelled) {
+        return false;
       }
-      showEditorPanelFor(sectionName);
+      updateStatusText('Ошибка');
+      return false;
+    }
+    currentDocumentPath = documentPath;
+    currentDocumentKind = getEffectiveDocumentKind(node);
+    metaEnabled = currentDocumentKind === 'scene' || currentDocumentKind === 'chapter-file';
+    updateMetaVisibility();
+    return true;
+  } catch {
+    updateStatusText('Ошибка');
+    return false;
+  }
+}
+
+async function handleCreateNode(node, kind, promptLabel) {
+  const name = window.prompt(promptLabel || 'Название', '');
+  if (!name) return;
+  const result = await window.electronAPI.createNode({
+    parentPath: node.path,
+    kind,
+    name
+  });
+  if (!result || result.ok === false) {
+    updateStatusText('Ошибка');
+    return;
+  }
+  await loadTree();
+}
+
+async function handleRenameNode(node) {
+  const name = window.prompt('Новое имя', node.label || '');
+  if (!name) return;
+  const result = await window.electronAPI.renameNode({ path: node.path, name });
+  if (!result || result.ok === false) {
+    updateStatusText('Ошибка');
+    return;
+  }
+  if (currentDocumentPath && result.path && currentDocumentPath === node.path) {
+    currentDocumentPath = result.path;
+  }
+  await loadTree();
+}
+
+async function handleDeleteNode(node) {
+  const confirmed = window.confirm('Переместить в корзину?');
+  if (!confirmed) return;
+  const result = await window.electronAPI.deleteNode({ path: node.path });
+  if (!result || result.ok === false) {
+    updateStatusText('Ошибка');
+    return;
+  }
+  if (currentDocumentPath && currentDocumentPath === node.path) {
+    currentDocumentPath = null;
+  }
+  await loadTree();
+  if (!currentDocumentPath) {
+    collapseSelection();
+  }
+}
+
+async function handleReorderNode(node, direction) {
+  const result = await window.electronAPI.reorderNode({ path: node.path, direction });
+  if (!result || result.ok === false) {
+    return;
+  }
+  if (currentDocumentPath && result.path && currentDocumentPath === node.path) {
+    currentDocumentPath = result.path;
+  }
+  await loadTree();
+}
+
+function buildContextMenuItems(node) {
+  const items = [];
+  if (!node) return items;
+
+  if (node.kind === 'part') {
+    items.push({ label: 'Новая глава (документ)', onClick: () => handleCreateNode(node, 'chapter-file', 'Название главы') });
+    items.push({ label: 'Новая глава (со сценами)', onClick: () => handleCreateNode(node, 'chapter-folder', 'Название главы') });
+    items.push({ label: 'Вверх', onClick: () => handleReorderNode(node, 'up') });
+    items.push({ label: 'Вниз', onClick: () => handleReorderNode(node, 'down') });
+    items.push({ label: 'Переименовать', onClick: () => handleRenameNode(node) });
+    items.push({ label: 'Удалить', onClick: () => handleDeleteNode(node) });
+    return items;
+  }
+
+  if (node.kind === 'chapter-folder') {
+    items.push({ label: 'Новая сцена', onClick: () => handleCreateNode(node, 'scene', 'Название сцены') });
+    items.push({ label: 'Вверх', onClick: () => handleReorderNode(node, 'up') });
+    items.push({ label: 'Вниз', onClick: () => handleReorderNode(node, 'down') });
+    items.push({ label: 'Переименовать', onClick: () => handleRenameNode(node) });
+    items.push({ label: 'Удалить', onClick: () => handleDeleteNode(node) });
+    return items;
+  }
+
+  if (node.kind === 'chapter-file' || node.kind === 'scene') {
+    items.push({ label: 'Добавить карточку…', onClick: async () => {
+      const opened = await openDocumentNode(node);
+      if (opened) openCardModal('');
+    }});
+    items.push({ label: 'Вверх', onClick: () => handleReorderNode(node, 'up') });
+    items.push({ label: 'Вниз', onClick: () => handleReorderNode(node, 'down') });
+    items.push({ label: 'Переименовать', onClick: () => handleRenameNode(node) });
+    items.push({ label: 'Удалить', onClick: () => handleDeleteNode(node) });
+    return items;
+  }
+
+  if (node.kind === 'materials-category' || node.kind === 'reference-category' || node.kind === 'folder') {
+    if (node.kind === 'materials-category' || node.kind === 'reference-category') {
+      items.push({
+        label: 'Добавить карточку…',
+        onClick: async () => {
+          const opened = await openDocumentNode(node);
+          if (opened) openCardModal('');
+        }
+      });
+    }
+    items.push({ label: 'Новая папка', onClick: () => handleCreateNode(node, 'folder', 'Название папки') });
+    items.push({ label: 'Новый документ', onClick: () => handleCreateNode(node, 'file', 'Название документа') });
+    if (node.kind === 'folder') {
+      items.push({ label: 'Переименовать', onClick: () => handleRenameNode(node) });
+      items.push({ label: 'Удалить', onClick: () => handleDeleteNode(node) });
+    }
+    return items;
+  }
+
+  if (node.kind === 'material' || node.kind === 'reference') {
+    items.push({ label: 'Добавить карточку…', onClick: async () => {
+      const opened = await openDocumentNode(node);
+      if (opened) openCardModal('');
+    }});
+    items.push({ label: 'Переименовать', onClick: () => handleRenameNode(node) });
+    items.push({ label: 'Удалить', onClick: () => handleDeleteNode(node) });
+    return items;
+  }
+
+  return items;
+}
+
+function renderTreeNode(node, level, isLast, ancestorHasNext = []) {
+  const li = document.createElement('li');
+  li.className = 'tree__node';
+
+  const row = document.createElement('button');
+  row.type = 'button';
+  row.className = 'tree__row';
+  row.dataset.level = String(level);
+
+  const effectivePath = getEffectiveDocumentPath(node);
+  if (currentDocumentPath && effectivePath && currentDocumentPath === effectivePath) {
+    row.classList.add('is-selected');
+  }
+
+  const indent = document.createElement('span');
+  indent.className = 'tree__indent';
+  ancestorHasNext.forEach((hasNext) => {
+    const guide = document.createElement('span');
+    guide.className = 'tree__guide';
+    if (hasNext) {
+      guide.classList.add('is-active');
+    }
+    indent.appendChild(guide);
+  });
+  const currentGuide = document.createElement('span');
+  currentGuide.className = 'tree__guide is-current';
+  if (isLast) {
+    currentGuide.classList.add('is-last');
+  }
+  indent.appendChild(currentGuide);
+  row.appendChild(indent);
+
+  const toggle = document.createElement('span');
+  toggle.className = 'tree__toggle';
+  const hasChildren = node.children && node.children.length > 0;
+  if (hasChildren) {
+    toggle.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 4 10 8 6 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+
+  const expandedSet = getExpandedSet(activeTab);
+  const isExpanded =
+    hasChildren &&
+    (expandedSet.has(node.path) ||
+      node.kind === 'materials-root' ||
+      node.kind === 'reference-root' ||
+      node.kind === 'materials-category' ||
+      node.kind === 'reference-category');
+  if (isExpanded) {
+    toggle.classList.add('is-expanded');
+  }
+
+  toggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    if (!hasChildren) return;
+    if (expandedSet.has(node.path)) {
+      expandedSet.delete(node.path);
+    } else {
+      expandedSet.add(node.path);
+    }
+    saveExpandedSet(activeTab);
+    renderTree();
+  });
+
+  const label = document.createElement('span');
+  label.className = 'tree__label';
+  label.textContent = node.label || node.name || '';
+
+  if (!hasChildren) {
+    toggle.classList.add('is-empty');
+  }
+  row.appendChild(toggle);
+  row.appendChild(label);
+  row.addEventListener('click', async () => {
+    if (hasChildren && (node.kind === 'part' || node.kind === 'chapter-folder' || node.kind === 'folder' || node.kind === 'roman-root')) {
+      if (expandedSet.has(node.path)) {
+        expandedSet.delete(node.path);
+      } else {
+        expandedSet.add(node.path);
+      }
+      saveExpandedSet(activeTab);
+      renderTree();
+      return;
+    }
+    if (
+      node.path &&
+      (node.kind === 'chapter-file' ||
+        node.kind === 'scene' ||
+        node.kind === 'material' ||
+        node.kind === 'reference' ||
+        node.kind === 'materials-category' ||
+        node.kind === 'reference-category' ||
+        node.kind === 'roman-section')
+    ) {
+      const opened = await openDocumentNode(node);
+      if (opened) {
+        renderTree();
+      }
     }
   });
-});
 
-if (projectToggle && sectionList) {
-  projectToggle.classList.add('is-expanded');
-  projectToggle.addEventListener('click', () => {
-    const expanded = sectionList.classList.toggle('is-expanded');
-    projectToggle.classList.toggle('is-expanded', expanded);
+  row.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    const items = buildContextMenuItems(node);
+    if (items.length) {
+      showContextMenu(items, event.clientX, event.clientY);
+    }
+  });
+
+  li.appendChild(row);
+
+  if (hasChildren && isExpanded) {
+    const ul = document.createElement('ul');
+    ul.className = 'tree__children';
+    node.children.forEach((child, index) => {
+      ul.appendChild(
+        renderTreeNode(
+          child,
+          level + 1,
+          index === node.children.length - 1,
+          ancestorHasNext.concat(!isLast)
+        )
+      );
+    });
+    li.appendChild(ul);
+  }
+
+  return li;
+}
+
+let treeRoot = null;
+
+function renderTree() {
+  if (!treeContainer) return;
+  treeContainer.innerHTML = '';
+  if (!treeRoot) {
+    const empty = document.createElement('div');
+    empty.className = 'tree__empty';
+    empty.textContent = 'Дерево пустое';
+    treeContainer.appendChild(empty);
+    return;
+  }
+  const list = document.createElement('ul');
+  list.className = 'tree__list';
+  if (treeRoot.kind === 'roman-root') {
+    list.appendChild(renderTreeNode(treeRoot, 0, true, []));
+  } else {
+    treeRoot.children.forEach((child, index) => {
+      list.appendChild(renderTreeNode(child, 0, index === treeRoot.children.length - 1, []));
+    });
+  }
+  treeContainer.appendChild(list);
+}
+
+async function loadTree() {
+  if (!window.electronAPI || !window.electronAPI.getProjectTree) return;
+  try {
+    const result = await window.electronAPI.getProjectTree(activeTab);
+    if (!result || result.ok === false) {
+      updateStatusText('Ошибка');
+      return;
+    }
+    treeRoot = result.root;
+    if (treeContainer) {
+      treeContainer.dataset.tab = activeTab;
+    }
+    if (activeTab === 'roman' && treeRoot) {
+      const expandedSet = getExpandedSet(activeTab);
+      let stored = null;
+      try {
+        stored = localStorage.getItem('treeExpanded:roman');
+      } catch {}
+      if (stored === null) {
+        if (treeRoot.path) {
+          expandedSet.add(treeRoot.path);
+          saveExpandedSet(activeTab);
+        }
+      }
+    }
+    renderTree();
+  } catch {
+    updateStatusText('Ошибка');
+  }
+}
+
+if (treeContainer) {
+  treeContainer.addEventListener('contextmenu', (event) => {
+    if (event.target.closest('.tree__row')) {
+      return;
+    }
+    if (!treeRoot) return;
+    event.preventDefault();
+    if (activeTab === 'roman') {
+      showContextMenu(
+        [
+          {
+            label: 'Новая часть',
+            onClick: () => handleCreateNode(treeRoot, 'part', 'Название части')
+          },
+          {
+            label: 'Новая глава (документ)',
+            onClick: () => handleCreateNode(treeRoot, 'chapter-file', 'Название главы')
+          },
+          {
+            label: 'Новая глава (со сценами)',
+            onClick: () => handleCreateNode(treeRoot, 'chapter-folder', 'Название главы')
+          }
+        ],
+        event.clientX,
+        event.clientY
+      );
+    }
   });
 }
 
@@ -301,6 +980,102 @@ if (sidebar && sidebarResizer) {
 }
 
 let localDirty = false;
+
+if (metaSynopsis) {
+  metaSynopsis.addEventListener('input', () => {
+    syncMetaFromInputs();
+    markAsModified();
+  });
+}
+
+if (metaStatus) {
+  metaStatus.addEventListener('change', () => {
+    syncMetaFromInputs();
+    markAsModified();
+  });
+}
+
+if (metaTagPov) {
+  metaTagPov.addEventListener('input', () => {
+    syncMetaFromInputs();
+    markAsModified();
+  });
+}
+
+if (metaTagLine) {
+  metaTagLine.addEventListener('input', () => {
+    syncMetaFromInputs();
+    markAsModified();
+  });
+}
+
+if (metaTagPlace) {
+  metaTagPlace.addEventListener('input', () => {
+    syncMetaFromInputs();
+    markAsModified();
+  });
+}
+
+if (addCardButton) {
+  addCardButton.addEventListener('click', () => {
+    const selection = window.getSelection();
+    const text = selection && editor && editor.contains(selection.anchorNode) ? selection.toString() : '';
+    openCardModal(text);
+  });
+}
+
+if (cardSaveButtons.length) {
+  cardSaveButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!cardTitleInput || !cardTextInput || !cardTagsInput) return;
+      const card = {
+        title: cardTitleInput.value.trim(),
+        text: cardTextInput.value.trim(),
+        tags: cardTagsInput.value.trim()
+      };
+      currentCards.push(card);
+      updateCardsList();
+      markAsModified();
+      closeCardModal();
+    });
+  });
+}
+
+if (cardCancelButtons.length) {
+  cardCancelButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      closeCardModal();
+    });
+  });
+}
+
+document.addEventListener('click', (event) => {
+  if (contextMenu && !contextMenu.hidden && !contextMenu.contains(event.target)) {
+    clearContextMenu();
+  }
+});
+
+document.addEventListener('contextmenu', (event) => {
+  if (editor && editor.contains(event.target)) {
+    event.preventDefault();
+    const selection = window.getSelection();
+    const selectedText = selection ? selection.toString() : '';
+    showContextMenu(
+      [
+        {
+          label: 'Добавить карточку…',
+          onClick: () => openCardModal(selectedText)
+        }
+      ],
+      event.clientX,
+      event.clientY
+    );
+  }
+});
+
+document.addEventListener('scroll', () => {
+  clearContextMenu();
+}, true);
 
 function updateStatusText(text) {
   if (statusElement && text) {
@@ -980,6 +1755,10 @@ loadSavedLineHeight();
 loadSavedWordWrap();
 
 setPlainText('');
+metaPanel?.classList.add('is-hidden');
+cardsPanel?.classList.add('is-hidden');
+
+loadTree();
 
 function handleSelectAllShortcut(event) {
   const isCmdOrCtrl = isMac ? event.metaKey : event.ctrlKey;
@@ -997,32 +1776,44 @@ function handleSelectAllShortcut(event) {
 document.addEventListener('keydown', handleSelectAllShortcut);
 document.addEventListener('selectionchange', syncAlignmentButtonsToSelection);
 
-// Ensure a previously loaded document is visible even before selecting a section.
-const initialEditorText = getPlainText();
-if (editor && initialEditorText && !activeSectionName) {
-  const preferred =
-    (typeof localStorage !== 'undefined' && localStorage.getItem('activeSection')) ||
-    'Главы';
-  showEditorPanelFor(preferred);
-}
-
 if (window.electronAPI) {
-  window.electronAPI.onEditorSetText((text) => {
-    setPlainText(text || '');
+  window.electronAPI.onEditorSetText((payload) => {
+    const content = typeof payload === 'string' ? payload : payload?.content || '';
+    const title = typeof payload === 'object' && payload ? payload.title : '';
+    const hasPath = typeof payload === 'object' && payload && Object.prototype.hasOwnProperty.call(payload, 'path');
+    const hasKind = typeof payload === 'object' && payload && Object.prototype.hasOwnProperty.call(payload, 'kind');
+    const path = hasPath ? payload.path : '';
+    const kind = hasKind ? payload.kind : '';
+    const nextMetaEnabled = typeof payload === 'object' && payload ? Boolean(payload.metaEnabled) : false;
+
+    metaEnabled = nextMetaEnabled;
+    if (hasPath) {
+      currentDocumentPath = path || null;
+    }
+    if (hasKind) {
+      currentDocumentKind = kind || null;
+    }
+
+    const parsed = parseDocumentContent(content);
+    currentMeta = parsed.meta;
+    currentCards = parsed.cards;
+    setPlainText(parsed.text || '');
+    updateMetaInputs();
+    updateMetaVisibility();
+    updateCardsList();
+
     localDirty = false;
     updateWordCount();
 
-    const hasContent = typeof text === 'string' && text.length > 0;
-    if (hasContent && !activeSectionName) {
-      const preferred =
-        (typeof localStorage !== 'undefined' && localStorage.getItem('activeSection')) ||
-        'Главы';
-      showEditorPanelFor(preferred);
+    const resolvedTitle = title || getTitleFromPath(path);
+    if (resolvedTitle) {
+      showEditorPanelFor(resolvedTitle);
     }
+    renderTree();
   });
 
   window.electronAPI.onEditorTextRequest(({ requestId }) => {
-    window.electronAPI.sendEditorTextResponse(requestId, getPlainText());
+    window.electronAPI.sendEditorTextResponse(requestId, composeDocumentContent());
   });
 
   window.electronAPI.onEditorSetFontSize(({ px }) => {

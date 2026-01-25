@@ -1885,7 +1885,15 @@ editor.addEventListener('paste', (event) => {
 editor.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
-    document.execCommand('insertText', false, '\n');
+    const { start, end } = getSelectionOffsets();
+    const text = getPlainText();
+    const normalizedStart = Math.max(0, Math.min(start, text.length));
+    const normalizedEnd = Math.max(0, Math.min(end, text.length));
+    const nextText = `${text.slice(0, normalizedStart)}\n${text.slice(normalizedEnd)}`;
+    setPlainText(nextText);
+    setSelectionRange(normalizedStart + 1, normalizedStart + 1);
+    markAsModified();
+    updateWordCount();
   }
 });
 

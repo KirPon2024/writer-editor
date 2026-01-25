@@ -63,6 +63,62 @@ let expandedNodesByTab = new Map();
 let autoSaveTimerId = null;
 const AUTO_SAVE_DELAY = 600;
 
+const PX_PER_MM_AT_ZOOM_1 = 5.7;
+const ZOOM_DEFAULT = 1.0;
+const PAGE_GAP_MM = 30;
+const CANVAS_PADDING_PX = 48;
+const MARGIN_MM = 25.4;
+const PAGE_FORMATS = {
+  A4: 210,
+  A5: 148,
+  A6: 105
+};
+
+function mmToPx(mm, zoom = ZOOM_DEFAULT) {
+  return mm * PX_PER_MM_AT_ZOOM_1 * zoom;
+}
+
+function getPageMetrics({ pageWidthMm, zoom = ZOOM_DEFAULT }) {
+  const pageHeightMm = pageWidthMm * Math.SQRT2;
+  const marginPx = mmToPx(MARGIN_MM, zoom);
+  return {
+    pageWidthPx: mmToPx(pageWidthMm, zoom),
+    pageHeightPx: mmToPx(pageHeightMm, zoom),
+    marginTopPx: marginPx,
+    marginRightPx: marginPx,
+    marginBottomPx: marginPx,
+    marginLeftPx: marginPx,
+    pageGapPx: mmToPx(PAGE_GAP_MM, zoom),
+    canvasPaddingPx: CANVAS_PADDING_PX,
+    pageHeightMm
+  };
+}
+
+function applyPageViewCssVars(metrics) {
+  const root = document.documentElement;
+  root.style.setProperty('--page-width-px', `${Math.round(metrics.pageWidthPx)}px`);
+  root.style.setProperty('--page-height-px', `${Math.round(metrics.pageHeightPx)}px`);
+  root.style.setProperty('--page-gap-px', `${Math.round(metrics.pageGapPx)}px`);
+  root.style.setProperty('--page-margin-top-px', `${Math.round(metrics.marginTopPx)}px`);
+  root.style.setProperty('--page-margin-right-px', `${Math.round(metrics.marginRightPx)}px`);
+  root.style.setProperty('--page-margin-bottom-px', `${Math.round(metrics.marginBottomPx)}px`);
+  root.style.setProperty('--page-margin-left-px', `${Math.round(metrics.marginLeftPx)}px`);
+  root.style.setProperty('--canvas-padding-px', `${metrics.canvasPaddingPx}px`);
+}
+
+function getFormatLabel(pageWidthMm) {
+  const height = Math.round(pageWidthMm * Math.SQRT2);
+  const formatName = Object.keys(PAGE_FORMATS).find((key) => PAGE_FORMATS[key] === pageWidthMm) || 'Custom';
+  return `${formatName} · ${pageWidthMm}×${height} мм`;
+}
+
+const initialPageWidthMm = PAGE_FORMATS.A4;
+const initialPageMetrics = getPageMetrics({ pageWidthMm: initialPageWidthMm, zoom: ZOOM_DEFAULT });
+applyPageViewCssVars(initialPageMetrics);
+if (editorPanel) {
+  editorPanel.setAttribute('data-format-label', getFormatLabel(initialPageWidthMm));
+}
+
 function getPlainText() {
   return plainTextBuffer;
 }

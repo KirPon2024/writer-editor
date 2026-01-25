@@ -31,6 +31,7 @@ const MIGRATION_MARKER = '.migrated-from-writer-editor';
 const DEFAULT_PROJECT_NAME = 'Роман';
 const PROJECT_SUBFOLDERS = {
   roman: 'roman',
+  mindmap: 'mindmap',
   materials: 'materials',
   reference: 'reference',
   trash: 'trash',
@@ -47,6 +48,7 @@ const ROMAN_SECTION_LABELS = [
   'сны',
   'статистика'
 ];
+const ROMAN_MIND_MAP_SECTION_LABELS = ['карта сюжета', 'карта идей'];
 const ROMAN_META_KINDS = new Set(['chapter-file', 'scene']);
 
 function sanitizeFilename(name) {
@@ -319,6 +321,7 @@ async function fileExists(filePath) {
 async function ensureProjectStructure(projectName = DEFAULT_PROJECT_NAME) {
   const projectRoot = getProjectRootPath(projectName);
   const romanPath = getProjectSectionPath('roman', projectName);
+  const mindmapPath = getProjectSectionPath('mindmap', projectName);
   const materialsPath = getProjectSectionPath('materials', projectName);
   const referencePath = getProjectSectionPath('reference', projectName);
   const trashPath = getProjectSectionPath('trash', projectName);
@@ -326,6 +329,7 @@ async function ensureProjectStructure(projectName = DEFAULT_PROJECT_NAME) {
 
   await fs.mkdir(projectRoot, { recursive: true });
   await fs.mkdir(romanPath, { recursive: true });
+  await fs.mkdir(mindmapPath, { recursive: true });
   await fs.mkdir(materialsPath, { recursive: true });
   await fs.mkdir(referencePath, { recursive: true });
   await fs.mkdir(trashPath, { recursive: true });
@@ -399,6 +403,27 @@ async function buildRomanTree(projectName = DEFAULT_PROJECT_NAME) {
     label: 'Роман',
     kind: 'roman-root',
     nodePath: romanPath,
+    children: childNodes
+  });
+}
+
+async function buildMindMapTree(projectName = DEFAULT_PROJECT_NAME) {
+  const mindmapPath = getProjectSectionPath('mindmap', projectName);
+  const childNodes = ROMAN_MIND_MAP_SECTION_LABELS.map((label) =>
+    buildNode({
+      name: label,
+      label,
+      kind: 'mindmap-section',
+      nodePath: path.join(mindmapPath, `${sanitizeFilename(label)}.txt`),
+      children: []
+    })
+  );
+
+  return buildNode({
+    name: 'Mind map',
+    label: 'Mind map',
+    kind: 'mindmap-root',
+    nodePath: mindmapPath,
     children: childNodes
   });
 }
@@ -520,6 +545,12 @@ function getDocumentContextFromPath(filePath) {
       if (parts.length >= 4 && parts[3].toLowerCase().endsWith('.txt')) {
         return { title: baseTitle, kind: 'scene', metaEnabled: true };
       }
+    }
+  }
+
+  if (parts[0] === PROJECT_SUBFOLDERS.mindmap) {
+    if (parts.length === 2 && parts[1].toLowerCase().endsWith('.txt')) {
+      return { title: baseTitle, kind: 'mindmap-section', metaEnabled: false };
     }
   }
 
@@ -832,7 +863,15 @@ ipcMain.handle('ui:get-project-tree', async (_, payload) => {
   await ensureProjectStructure();
 
   if (tab === 'roman') {
-    const root = await buildRomanTree();
+    const romanRoot = await buildRomanTree();
+    const mindmapRoot = await buildMindMapTree();
+    const root = buildNode({
+      name: 'Roman tab',
+      label: 'Roman',
+      kind: 'roman-tab-root',
+      nodePath: getProjectRootPath(),
+      children: [romanRoot, mindmapRoot]
+    });
     return { ok: true, root };
   }
   if (tab === 'materials') {

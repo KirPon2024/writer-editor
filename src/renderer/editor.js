@@ -806,7 +806,15 @@ function renderTreeNode(node, level, isLast, ancestorHasNext = []) {
   row.appendChild(toggle);
   row.appendChild(label);
   row.addEventListener('click', async () => {
-    if (hasChildren && (node.kind === 'part' || node.kind === 'chapter-folder' || node.kind === 'folder' || node.kind === 'roman-root')) {
+    if (
+      hasChildren &&
+      (node.kind === 'part' ||
+        node.kind === 'chapter-folder' ||
+        node.kind === 'folder' ||
+        node.kind === 'roman-root' ||
+        node.kind === 'roman-section-group' ||
+        node.kind === 'mindmap-root')
+    ) {
       if (expandedSet.has(node.path)) {
         expandedSet.delete(node.path);
       } else {
@@ -824,7 +832,8 @@ function renderTreeNode(node, level, isLast, ancestorHasNext = []) {
         node.kind === 'reference' ||
         node.kind === 'materials-category' ||
         node.kind === 'reference-category' ||
-        node.kind === 'roman-section')
+        node.kind === 'roman-section' ||
+        node.kind === 'mindmap-section')
     ) {
       const opened = await openDocumentNode(node);
       if (opened) {
@@ -860,6 +869,15 @@ function renderTreeNode(node, level, isLast, ancestorHasNext = []) {
   }
 
   return li;
+}
+
+function findRomanRootNode(root) {
+  if (!root) return null;
+  if (root.kind === 'roman-root') return root;
+  if (Array.isArray(root.children)) {
+    return root.children.find((child) => child.kind === 'roman-root') || null;
+  }
+  return null;
 }
 
 let treeRoot = null;
@@ -905,8 +923,10 @@ async function loadTree() {
         stored = localStorage.getItem('treeExpanded:roman');
       } catch {}
       if (stored === null) {
-        if (treeRoot.path) {
-          expandedSet.add(treeRoot.path);
+        const romanRoot = findRomanRootNode(treeRoot);
+        const pathToExpand = (romanRoot && romanRoot.path) || treeRoot.path;
+        if (pathToExpand) {
+          expandedSet.add(pathToExpand);
           saveExpandedSet(activeTab);
         }
       }
@@ -925,19 +945,21 @@ if (treeContainer) {
     if (!treeRoot) return;
     event.preventDefault();
     if (activeTab === 'roman') {
+      const romanRoot = findRomanRootNode(treeRoot);
+      if (!romanRoot) return;
       showContextMenu(
         [
           {
             label: 'Новая часть',
-            onClick: () => handleCreateNode(treeRoot, 'part', 'Название части')
+            onClick: () => handleCreateNode(romanRoot, 'part', 'Название части')
           },
           {
             label: 'Новая глава (документ)',
-            onClick: () => handleCreateNode(treeRoot, 'chapter-file', 'Название главы')
+            onClick: () => handleCreateNode(romanRoot, 'chapter-file', 'Название главы')
           },
           {
             label: 'Новая глава (со сценами)',
-            onClick: () => handleCreateNode(treeRoot, 'chapter-folder', 'Название главы')
+            onClick: () => handleCreateNode(romanRoot, 'chapter-folder', 'Название главы')
           }
         ],
         event.clientX,

@@ -2,7 +2,6 @@ const editor = document.getElementById('editor');
 const statusElement = document.getElementById('status');
 const emptyState = document.querySelector('.empty-state');
 const editorPanel = document.querySelector('.editor-panel');
-const editorTitle = document.querySelector('.editor-panel__title');
 const sidebar = document.querySelector('.sidebar');
 const sidebarResizer = document.querySelector('[data-sidebar-resizer]');
 const mainContent = document.querySelector('.main-content');
@@ -27,7 +26,6 @@ const metaStatus = document.querySelector('[data-meta-status]');
 const metaTagPov = document.querySelector('[data-meta-tag="pov"]');
 const metaTagLine = document.querySelector('[data-meta-tag="line"]');
 const metaTagPlace = document.querySelector('[data-meta-tag="place"]');
-const cardsPanel = document.querySelector('[data-cards-panel]');
 const cardsList = document.querySelector('[data-cards-list]');
 const addCardButton = document.querySelector('[data-action="add-card"]');
 const contextMenu = document.querySelector('[data-context-menu]');
@@ -62,6 +60,8 @@ let currentMeta = {
   tags: { pov: '', line: '', place: '' }
 };
 let expandedNodesByTab = new Map();
+let autoSaveTimerId = null;
+const AUTO_SAVE_DELAY = 600;
 
 function getPlainText() {
   return plainTextBuffer;
@@ -394,14 +394,16 @@ function parseParagraphLine(line) {
   };
 }
 
+function positionCaretForCurrentText() {
+  if (!editor) return;
+  const textLength = Math.max(0, (getPlainText() || '').length);
+  setSelectionRange(textLength, textLength);
+}
+
 function showEditorPanelFor(title) {
-  if (editorTitle) {
-    editorTitle.textContent = title || '';
-  }
   editorPanel?.classList.add('active');
   mainContent?.classList.add('main-content--editor');
   emptyState?.classList.add('hidden');
-  cardsPanel?.classList.remove('is-hidden');
   updateMetaVisibility();
   try {
     if (title) {
@@ -420,6 +422,7 @@ function showEditorPanelFor(title) {
       } catch {
         editor.focus();
       }
+      positionCaretForCurrentText();
     }
   });
 }
@@ -429,7 +432,6 @@ function collapseSelection() {
   mainContent?.classList.remove('main-content--editor');
   emptyState?.classList.remove('hidden');
   metaPanel?.classList.add('is-hidden');
-  cardsPanel?.classList.add('is-hidden');
   metaEnabled = false;
   currentMeta = { synopsis: '', status: 'черновик', tags: { pov: '', line: '', place: '' } };
   currentCards = [];
@@ -1128,6 +1130,25 @@ function setCurrentFontSize(px) {
   updateZoomValue();
 }
 
+function scheduleAutoSave(delay = AUTO_SAVE_DELAY) {
+  if (!window.electronAPI || typeof window.electronAPI.requestAutoSave !== 'function') {
+    return;
+  }
+
+  if (autoSaveTimerId) {
+    clearTimeout(autoSaveTimerId);
+  }
+
+  autoSaveTimerId = window.setTimeout(() => {
+    window.electronAPI
+      .requestAutoSave()
+      .catch(() => {})
+      .finally(() => {
+        autoSaveTimerId = null;
+      });
+  }, delay);
+}
+
 function markAsModified() {
   if (!localDirty) {
     localDirty = true;
@@ -1137,6 +1158,7 @@ function markAsModified() {
   }
 
   updateStatusText('Изменено');
+  scheduleAutoSave();
 }
 
 function applyFontWeight(weight, persist = true) {
@@ -1778,7 +1800,6 @@ loadSavedWordWrap();
 
 setPlainText('');
 metaPanel?.classList.add('is-hidden');
-cardsPanel?.classList.add('is-hidden');
 
 loadTree();
 

@@ -594,8 +594,8 @@ body.dark-theme .empty-state {
   flex-direction: column;
   background: var(--background);
   border: 1px solid var(--sidebar-border);
-  padding: 64px;
-  margin: 32px 0;
+  padding: 32px;
+  margin: 16px 0;
   overflow: hidden;
 }
 
@@ -756,13 +756,6 @@ body.dark-theme .empty-state {
   outline: none;
   white-space: pre-wrap;
   word-break: break-word;
-}
-
-.editor__input:empty::before {
-  content: attr(data-placeholder);
-  color: var(--empty-text);
-  opacity: 1;
-  display: block;
 }
 
 .editor-line {

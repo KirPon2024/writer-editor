@@ -12,6 +12,7 @@ const launchT0 = performance.now();
 let mainWindow;
 let currentFilePath = null; // Путь к текущему открытому файлу
 let isDirty = false;
+let autoSaveInProgress = false;
 let isQuitting = false;
 let isWindowClosing = false;
 let lastAutosaveHash = null;
@@ -829,6 +830,10 @@ ipcMain.on('editor:text-response', (_, payload) => {
   pending.resolve(typeof payload.text === 'string' ? payload.text : '');
 });
 
+ipcMain.handle('ui:request-autosave', async () => {
+  return autoSave();
+});
+
 ipcMain.on('dirty-changed', (_, state) => {
   isDirty = state;
 });
@@ -1380,18 +1385,23 @@ async function handleOpen() {
   }
 }
 
-// Автосохранение каждые 15 секунд
 async function autoSave() {
-  if (!mainWindow || !isDirty) {
-    return;
+  if (!mainWindow || autoSaveInProgress) {
+    return true;
   }
 
+  if (!isDirty) {
+    return true;
+  }
+
+  autoSaveInProgress = true;
   try {
     const content = await requestEditorText();
     const currentHash = computeHash(content);
 
     if (currentHash === lastAutosaveHash) {
-      return;
+      setDirtyState(false);
+      return true;
     }
 
     if (currentFilePath) {
@@ -1400,15 +1410,15 @@ async function autoSave() {
         'autosave file'
       );
       if (!saveResult.success) {
-        updateStatus('Ошибка');
-        return;
+        updateStatus('Ошибка сохранения');
+        return false;
       }
 
       lastAutosaveHash = currentHash;
       setDirtyState(false);
       updateStatus('Автосохранено');
       await saveLastFile();
-      return;
+      return true;
     }
 
     const autosaveResult = await queueDiskOperation(
@@ -1416,15 +1426,20 @@ async function autoSave() {
       'autosave temporary'
     );
     if (!autosaveResult.success) {
-      updateStatus('Ошибка');
-      return;
+      updateStatus('Ошибка сохранения');
+      return false;
     }
 
     lastAutosaveHash = currentHash;
+    setDirtyState(false);
     updateStatus('Автосохранено');
+    return true;
   } catch (error) {
-    updateStatus('Ошибка');
+    updateStatus('Ошибка сохранения');
     logDevError('autoSave', error);
+    return false;
+  } finally {
+    autoSaveInProgress = false;
   }
 }
 
@@ -1613,30 +1628,7 @@ async function confirmDiscardChanges() {
     return true;
   }
 
-  const result = await dialog.showMessageBox(mainWindow, {
-    type: 'warning',
-    message: 'Есть несохранённые изменения.',
-    detail: 'Сохранить перед продолжением?',
-    buttons: ['Сохранить', 'Не сохранять', 'Отмена'],
-    defaultId: 0,
-    cancelId: 2,
-    noLink: true
-  });
-
-  if (result.response === 0) {
-    const saved = await handleSave();
-    return saved;
-  }
-
-  if (result.response === 1) {
-    if (currentFilePath === null) {
-      await deleteAutosaveFile();
-    }
-    setDirtyState(false);
-    return true;
-  }
-
-  return false;
+  return autoSave();
 }
 
 async function ensureCleanAction(actionFn) {
@@ -1812,7 +1804,9 @@ app.whenReady().then(async () => {
 
   // Запуск автосохранения каждые 15 секунд
   setInterval(() => {
-    autoSave();
+    autoSave().catch((error) => {
+      logDevError('autoSave interval', error);
+    });
   }, 15000);
 
   // Запуск создания бэкапов каждую минуту

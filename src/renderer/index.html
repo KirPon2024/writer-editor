@@ -225,9 +225,6 @@
       <main class="main-content">
         <div class="empty-state" aria-live="polite">Выберите раздел для начала работы</div>
         <div class="editor-panel">
-          <div class="editor-panel__header">
-            <h1 class="editor-panel__title" aria-live="polite"></h1>
-          </div>
           <div class="editor-panel__meta" data-meta-panel>
             <div class="meta-row">
               <label class="meta-label" for="meta-synopsis">Синопсис</label>
@@ -252,19 +249,11 @@
               </div>
             </div>
           </div>
-          <div class="editor-panel__cards" data-cards-panel>
-            <div class="cards-header">
-              <span>Карточки</span>
-              <button type="button" class="cards-add" data-action="add-card">Добавить</button>
-            </div>
-            <div class="cards-list" data-cards-list></div>
-          </div>
           <div
             id="editor"
             class="editor__input"
             contenteditable="true"
             spellcheck="false"
-            data-placeholder="Начните писать..."
             autofocus
           ></div>
         </div>

@@ -71,6 +71,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   notifyDirtyState: (state) => {
     ipcRenderer.send('dirty-changed', state);
   },
+  requestAutoSave: () => {
+    return ipcRenderer.invoke('ui:request-autosave');
+  },
   onStatusUpdate: (callback) => {
     ipcRenderer.on('status-update', (event, status) => callback(status));
   },

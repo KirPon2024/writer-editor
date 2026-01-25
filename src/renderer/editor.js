@@ -813,7 +813,8 @@ function renderTreeNode(node, level, isLast, ancestorHasNext = []) {
         node.kind === 'folder' ||
         node.kind === 'roman-root' ||
         node.kind === 'roman-section-group' ||
-        node.kind === 'mindmap-root')
+        node.kind === 'mindmap-root' ||
+        node.kind === 'print-root')
     ) {
       if (expandedSet.has(node.path)) {
         expandedSet.delete(node.path);
@@ -833,7 +834,8 @@ function renderTreeNode(node, level, isLast, ancestorHasNext = []) {
         node.kind === 'materials-category' ||
         node.kind === 'reference-category' ||
         node.kind === 'roman-section' ||
-        node.kind === 'mindmap-section')
+        node.kind === 'mindmap-section' ||
+        node.kind === 'print-section')
     ) {
       const opened = await openDocumentNode(node);
       if (opened) {
@@ -894,13 +896,11 @@ function renderTree() {
   }
   const list = document.createElement('ul');
   list.className = 'tree__list';
-  if (treeRoot.kind === 'roman-root') {
-    list.appendChild(renderTreeNode(treeRoot, 0, true, []));
-  } else {
-    treeRoot.children.forEach((child, index) => {
-      list.appendChild(renderTreeNode(child, 0, index === treeRoot.children.length - 1, []));
-    });
-  }
+  const nodesToRender =
+    (treeRoot.kind === 'roman-root' ? [treeRoot] : treeRoot.children) || [];
+  nodesToRender.forEach((child, index) => {
+    list.appendChild(renderTreeNode(child, 0, index === nodesToRender.length - 1, []));
+  });
   treeContainer.appendChild(list);
 }
 

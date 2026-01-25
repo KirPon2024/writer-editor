@@ -32,6 +32,7 @@ const DEFAULT_PROJECT_NAME = 'Роман';
 const PROJECT_SUBFOLDERS = {
   roman: 'roman',
   mindmap: 'mindmap',
+  print: 'print',
   materials: 'materials',
   reference: 'reference',
   trash: 'trash',
@@ -49,6 +50,7 @@ const ROMAN_SECTION_LABELS = [
   'статистика'
 ];
 const ROMAN_MIND_MAP_SECTION_LABELS = ['карта сюжета', 'карта идей'];
+const PRINT_SECTION_LABELS = ['макет'];
 const ROMAN_META_KINDS = new Set(['chapter-file', 'scene']);
 
 function sanitizeFilename(name) {
@@ -322,6 +324,7 @@ async function ensureProjectStructure(projectName = DEFAULT_PROJECT_NAME) {
   const projectRoot = getProjectRootPath(projectName);
   const romanPath = getProjectSectionPath('roman', projectName);
   const mindmapPath = getProjectSectionPath('mindmap', projectName);
+  const printPath = getProjectSectionPath('print', projectName);
   const materialsPath = getProjectSectionPath('materials', projectName);
   const referencePath = getProjectSectionPath('reference', projectName);
   const trashPath = getProjectSectionPath('trash', projectName);
@@ -330,6 +333,7 @@ async function ensureProjectStructure(projectName = DEFAULT_PROJECT_NAME) {
   await fs.mkdir(projectRoot, { recursive: true });
   await fs.mkdir(romanPath, { recursive: true });
   await fs.mkdir(mindmapPath, { recursive: true });
+  await fs.mkdir(printPath, { recursive: true });
   await fs.mkdir(materialsPath, { recursive: true });
   await fs.mkdir(referencePath, { recursive: true });
   await fs.mkdir(trashPath, { recursive: true });
@@ -424,6 +428,27 @@ async function buildMindMapTree(projectName = DEFAULT_PROJECT_NAME) {
     label: 'Mind map',
     kind: 'mindmap-root',
     nodePath: mindmapPath,
+    children: childNodes
+  });
+}
+
+async function buildPrintTree(projectName = DEFAULT_PROJECT_NAME) {
+  const printPath = getProjectSectionPath('print', projectName);
+  const childNodes = PRINT_SECTION_LABELS.map((label) =>
+    buildNode({
+      name: label,
+      label,
+      kind: 'print-section',
+      nodePath: path.join(printPath, `${sanitizeFilename(label)}.txt`),
+      children: []
+    })
+  );
+
+  return buildNode({
+    name: 'Печать',
+    label: 'Печать',
+    kind: 'print-root',
+    nodePath: printPath,
     children: childNodes
   });
 }
@@ -551,6 +576,12 @@ function getDocumentContextFromPath(filePath) {
   if (parts[0] === PROJECT_SUBFOLDERS.mindmap) {
     if (parts.length === 2 && parts[1].toLowerCase().endsWith('.txt')) {
       return { title: baseTitle, kind: 'mindmap-section', metaEnabled: false };
+    }
+  }
+
+  if (parts[0] === PROJECT_SUBFOLDERS.print) {
+    if (parts.length === 2 && parts[1].toLowerCase().endsWith('.txt')) {
+      return { title: baseTitle, kind: 'print-section', metaEnabled: false };
     }
   }
 
@@ -865,12 +896,13 @@ ipcMain.handle('ui:get-project-tree', async (_, payload) => {
   if (tab === 'roman') {
     const romanRoot = await buildRomanTree();
     const mindmapRoot = await buildMindMapTree();
+    const printRoot = await buildPrintTree();
     const root = buildNode({
       name: 'Roman tab',
       label: 'Roman',
       kind: 'roman-tab-root',
       nodePath: getProjectRootPath(),
-      children: [romanRoot, mindmapRoot]
+      children: [romanRoot, mindmapRoot, printRoot]
     });
     return { ok: true, root };
   }

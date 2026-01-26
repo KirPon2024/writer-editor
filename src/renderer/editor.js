@@ -476,6 +476,62 @@ function scheduleLayoutRefresh() {
   });
 }
 
+let lastPointerDownPageContent = null;
+
+function getPageContentFromNode(node) {
+  if (!node) {
+    return null;
+  }
+  const element = node.nodeType === Node.TEXT_NODE ? node.parentElement : node;
+  if (!element || typeof element.closest !== 'function') {
+    return null;
+  }
+  const content = element.closest('.editor-page__content');
+  if (content) {
+    return content;
+  }
+  const wrapper = element.closest('.editor-page-wrap');
+  return wrapper ? wrapper.querySelector('.editor-page__content') : null;
+}
+
+function getSelectionPageContent(selection) {
+  const activeSelection = selection || window.getSelection();
+  if (!activeSelection || activeSelection.rangeCount === 0) {
+    return null;
+  }
+  const anchorNode = activeSelection.anchorNode;
+  if (!anchorNode) {
+    return null;
+  }
+  return getPageContentFromNode(anchorNode);
+}
+
+function moveSelectionToPageContent(pageContent) {
+  if (!pageContent) {
+    return;
+  }
+  const selection = window.getSelection();
+  if (!selection) {
+    return;
+  }
+  const range = document.createRange();
+  range.setStart(pageContent, 0);
+  range.collapse(true);
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function ensureCaretInLastPointerPage() {
+  if (!lastPointerDownPageContent) {
+    return;
+  }
+  const activePage = getSelectionPageContent();
+  if (activePage === lastPointerDownPageContent) {
+    return;
+  }
+  moveSelectionToPageContent(lastPointerDownPageContent);
+}
+
 function parseParagraphLine(line) {
   const patternMatchers = [
     { prefix: '::caption:: ', className: 'line--caption' },
@@ -2034,6 +2090,14 @@ if (window.electronAPI) {
   });
 }
 
+editor.addEventListener('pointerdown', (event) => {
+  lastPointerDownPageContent = getPageContentFromNode(event.target);
+});
+
+editor.addEventListener('beforeinput', () => {
+  ensureCaretInLastPointerPage();
+});
+
 editor.addEventListener('input', () => {
   const updated = (editor.textContent || '').replace(/\u00a0/g, ' ');
   setPlainText(updated);
@@ -2042,6 +2106,7 @@ editor.addEventListener('input', () => {
 });
 
 editor.addEventListener('paste', (event) => {
+  ensureCaretInLastPointerPage();
   event.preventDefault();
   const text = event.clipboardData?.getData('text/plain') || '';
   if (text) {
@@ -2051,6 +2116,7 @@ editor.addEventListener('paste', (event) => {
 
 editor.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
+    ensureCaretInLastPointerPage();
     event.preventDefault();
     const { start, end } = getSelectionOffsets();
     const text = getPlainText();

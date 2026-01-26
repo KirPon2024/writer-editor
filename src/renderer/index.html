@@ -224,38 +224,40 @@
       </aside>
       <main class="main-content">
         <div class="empty-state" aria-live="polite">Выберите раздел для начала работы</div>
-        <div class="editor-panel">
-          <div class="editor-panel__meta" data-meta-panel>
-            <div class="meta-row">
-              <label class="meta-label" for="meta-synopsis">Синопсис</label>
-              <textarea id="meta-synopsis" class="meta-textarea" data-meta-synopsis rows="3" placeholder="1–5 строк"></textarea>
-            </div>
-            <div class="meta-row meta-row--split">
-              <div class="meta-group">
-                <label class="meta-label" for="meta-status">Статус</label>
-                <select id="meta-status" class="meta-select" data-meta-status>
-                  <option value="черновик">черновик</option>
-                  <option value="в работе">в работе</option>
-                  <option value="готово">готово</option>
-                </select>
+        <div class="editor-panel-wrapper">
+          <div class="editor-panel">
+            <div class="editor-panel__meta" data-meta-panel>
+              <div class="meta-row">
+                <label class="meta-label" for="meta-synopsis">Синопсис</label>
+                <textarea id="meta-synopsis" class="meta-textarea" data-meta-synopsis rows="3" placeholder="1–5 строк"></textarea>
               </div>
-              <div class="meta-group meta-group--tags">
-                <label class="meta-label">Теги</label>
-                <div class="meta-tags">
-                  <input class="meta-input" type="text" placeholder="POV" data-meta-tag="pov">
-                  <input class="meta-input" type="text" placeholder="линия" data-meta-tag="line">
-                  <input class="meta-input" type="text" placeholder="место" data-meta-tag="place">
+              <div class="meta-row meta-row--split">
+                <div class="meta-group">
+                  <label class="meta-label" for="meta-status">Статус</label>
+                  <select id="meta-status" class="meta-select" data-meta-status>
+                    <option value="черновик">черновик</option>
+                    <option value="в работе">в работе</option>
+                    <option value="готово">готово</option>
+                  </select>
+                </div>
+                <div class="meta-group meta-group--tags">
+                  <label class="meta-label">Теги</label>
+                  <div class="meta-tags">
+                    <input class="meta-input" type="text" placeholder="POV" data-meta-tag="pov">
+                    <input class="meta-input" type="text" placeholder="линия" data-meta-tag="line">
+                    <input class="meta-input" type="text" placeholder="место" data-meta-tag="place">
+                  </div>
                 </div>
               </div>
             </div>
+            <div
+              id="editor"
+              class="editor__input"
+              contenteditable="true"
+              spellcheck="false"
+              autofocus
+            ></div>
           </div>
-          <div
-            id="editor"
-            class="editor__input"
-            contenteditable="true"
-            spellcheck="false"
-            autofocus
-          ></div>
         </div>
       </main>
     </div>

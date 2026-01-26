@@ -44,6 +44,12 @@ const ALIGNMENT_PREFIX_BY_ACTION = {
   'align-left': '',
 };
 const ALIGNMENT_MARKERS = ['::center:: ', '::right:: ', '::justify:: '];
+const EDITOR_ZOOM_STORAGE_KEY = 'editorZoom';
+const EDITOR_ZOOM_MIN = 0.5;
+const EDITOR_ZOOM_MAX = 2.0;
+const EDITOR_ZOOM_STEP = 0.1;
+const EDITOR_ZOOM_DEFAULT = 1.0;
+let editorZoom = EDITOR_ZOOM_DEFAULT;
 const isMac = navigator.platform.toUpperCase().includes('MAC');
 let currentFontSizePx = 16;
 let wordWrapEnabled = true;
@@ -63,7 +69,7 @@ let expandedNodesByTab = new Map();
 let autoSaveTimerId = null;
 const AUTO_SAVE_DELAY = 600;
 
-const PX_PER_MM_AT_ZOOM_1 = 5.7;
+const PX_PER_MM_AT_ZOOM_1 = 96 / 25.4;
 const ZOOM_DEFAULT = 1.0;
 const PAGE_GAP_MM = 30;
 const CANVAS_PADDING_PX = 48;
@@ -374,10 +380,12 @@ function renderStyledView(text = '') {
   const { start, end } = getSelectionOffsets();
   if (!text) {
     editor.innerHTML = '';
+    createEmptyPage();
     setSelectionRange(0, 0);
     return;
   }
-  const fragment = document.createDocumentFragment();
+
+  const nodes = [];
   const lines = text.split('\n');
   let inCodeBlock = false;
 
@@ -400,23 +408,77 @@ function renderStyledView(text = '') {
   lines.forEach((line, index) => {
     const trimmed = line.trim();
     if (trimmed === '```') {
-      fragment.appendChild(createLineElement('line--code-fence', '```', ''));
+      nodes.push(createLineElement('line--code-fence', '```', ''));
       inCodeBlock = !inCodeBlock;
     } else if (inCodeBlock) {
-      fragment.appendChild(createLineElement('line--codeblock', '', line));
+      nodes.push(createLineElement('line--codeblock', '', line));
     } else {
       const { styleClass, marker, content } = parseParagraphLine(line);
-      fragment.appendChild(createLineElement(styleClass, marker, content));
+      nodes.push(createLineElement(styleClass, marker, content));
     }
 
     if (index < lines.length - 1) {
-      fragment.appendChild(document.createTextNode('\n'));
+      nodes.push(document.createTextNode('\n'));
     }
   });
 
   editor.innerHTML = '';
-  editor.appendChild(fragment);
+  paginateNodes(nodes);
   setSelectionRange(start, end);
+}
+
+function createPageElement() {
+  const page = document.createElement('div');
+  page.classList.add('editor-page');
+  const content = document.createElement('div');
+  content.classList.add('editor-page__content');
+  page.appendChild(content);
+  return page;
+}
+
+function createEmptyPage() {
+  if (!editor) return;
+  editor.innerHTML = '';
+  const page = createPageElement();
+  editor.appendChild(page);
+}
+
+function paginateNodes(nodes) {
+  if (!editor) return;
+  if (!nodes.length) {
+    createEmptyPage();
+    return;
+  }
+
+  let currentPage = createPageElement();
+  editor.appendChild(currentPage);
+  let currentContent = currentPage.querySelector('.editor-page__content');
+
+  const appendNode = (node) => {
+    currentContent.appendChild(node);
+    const limit = currentContent.clientHeight;
+    if (limit > 0 && currentContent.scrollHeight > limit) {
+      currentContent.removeChild(node);
+      currentPage = createPageElement();
+      editor.appendChild(currentPage);
+      currentContent = currentPage.querySelector('.editor-page__content');
+      currentContent.appendChild(node);
+    }
+  };
+
+  nodes.forEach(appendNode);
+}
+
+let layoutRefreshScheduled = false;
+function scheduleLayoutRefresh() {
+  if (layoutRefreshScheduled) {
+    return;
+  }
+  layoutRefreshScheduled = true;
+  window.requestAnimationFrame(() => {
+    layoutRefreshScheduled = false;
+    renderStyledView(getPlainText());
+  });
 }
 
 function parseParagraphLine(line) {
@@ -1047,6 +1109,7 @@ if (sidebar && sidebarResizer) {
     document.body.style.userSelect = '';
     window.removeEventListener('pointermove', onMove);
     window.removeEventListener('pointerup', stop);
+    scheduleLayoutRefresh();
   }
 
   sidebarResizer.addEventListener('pointerdown', (event) => {
@@ -1173,8 +1236,38 @@ function updateWordCount() {
 
 function updateZoomValue() {
   if (!zoomValueElement) return;
-  const percent = Math.round((currentFontSizePx / 16) * 100);
+  const percent = Math.round(editorZoom * 100);
   zoomValueElement.textContent = `${percent}%`;
+}
+
+function setEditorZoom(value, persist = true) {
+  const nextZoom = Math.max(EDITOR_ZOOM_MIN, Math.min(EDITOR_ZOOM_MAX, value));
+  editorZoom = nextZoom;
+  document.documentElement.style.setProperty('--editor-zoom', String(editorZoom));
+  updateZoomValue();
+  if (!persist) {
+    return;
+  }
+
+  try {
+    localStorage.setItem(EDITOR_ZOOM_STORAGE_KEY, String(editorZoom));
+  } catch {}
+}
+
+function changeEditorZoom(delta) {
+  setEditorZoom(editorZoom + delta);
+}
+
+function loadSavedEditorZoom() {
+  try {
+    const saved = Number(localStorage.getItem(EDITOR_ZOOM_STORAGE_KEY));
+    if (Number.isFinite(saved)) {
+      setEditorZoom(saved, false);
+      return;
+    }
+  } catch {}
+
+  setEditorZoom(EDITOR_ZOOM_DEFAULT, false);
 }
 
 function setCurrentFontSize(px) {
@@ -1183,7 +1276,6 @@ function setCurrentFontSize(px) {
   if (sizeSelect) {
     sizeSelect.value = String(px);
   }
-  updateZoomValue();
 }
 
 function scheduleAutoSave(delay = AUTO_SAVE_DELAY) {
@@ -1223,6 +1315,7 @@ function applyFontWeight(weight, persist = true) {
   if (persist) {
     localStorage.setItem('editorFontWeight', String(weight));
   }
+  renderStyledView(getPlainText());
 }
 
 function applyLineHeight(value, persist = true) {
@@ -1234,6 +1327,7 @@ function applyLineHeight(value, persist = true) {
   if (persist) {
     localStorage.setItem('editorLineHeight', String(value));
   }
+  renderStyledView(getPlainText());
 }
 
 function applyWordWrap(enabled, persist = true) {
@@ -1753,10 +1847,10 @@ if (toolbar) {
         break;
       }
       case 'zoom-out':
-        window.electronAPI?.changeFontSize('decrease');
+        changeEditorZoom(-EDITOR_ZOOM_STEP);
         break;
       case 'zoom-in':
-        window.electronAPI?.changeFontSize('increase');
+        changeEditorZoom(EDITOR_ZOOM_STEP);
         break;
       case 'align-left':
       case 'align-center':
@@ -1853,6 +1947,7 @@ loadSavedViewMode();
 loadSavedFontWeight();
 loadSavedLineHeight();
 loadSavedWordWrap();
+loadSavedEditorZoom();
 
 setPlainText('');
 metaPanel?.classList.add('is-hidden');
@@ -1873,7 +1968,40 @@ function handleSelectAllShortcut(event) {
 }
 
 document.addEventListener('keydown', handleSelectAllShortcut);
+document.addEventListener('keydown', (event) => {
+  const isPrimaryModifier = isMac ? event.metaKey : event.ctrlKey;
+  if (!isPrimaryModifier || event.altKey) {
+    return;
+  }
+
+  const { key, code } = event;
+  const isPlus =
+    ['+', '=', 'Add'].includes(key) || code === 'Equal' || code === 'NumpadAdd';
+  const isMinus =
+    ['-'].includes(key) || code === 'Minus' || code === 'NumpadSubtract';
+  const isZero =
+    key === '0' || code === 'Digit0' || code === 'Numpad0';
+
+  if (!isPlus && !isMinus && !isZero) {
+    return;
+  }
+
+  event.preventDefault();
+  if (isPlus) {
+    changeEditorZoom(EDITOR_ZOOM_STEP);
+    return;
+  }
+  if (isMinus) {
+    changeEditorZoom(-EDITOR_ZOOM_STEP);
+    return;
+  }
+  if (isZero) {
+    setEditorZoom(EDITOR_ZOOM_DEFAULT);
+  }
+});
 document.addEventListener('selectionchange', syncAlignmentButtonsToSelection);
+
+window.addEventListener('resize', scheduleLayoutRefresh);
 
 if (window.electronAPI) {
   window.electronAPI.onEditorSetText((payload) => {
@@ -1919,6 +2047,7 @@ if (window.electronAPI) {
     if (Number.isFinite(px)) {
       editor.style.fontSize = `${px}px`;
       setCurrentFontSize(px);
+      renderStyledView(getPlainText());
     }
   });
 }

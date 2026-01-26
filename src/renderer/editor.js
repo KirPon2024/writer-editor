@@ -47,7 +47,7 @@ const ALIGNMENT_MARKERS = ['::center:: ', '::right:: ', '::justify:: '];
 const EDITOR_ZOOM_STORAGE_KEY = 'editorZoom';
 const EDITOR_ZOOM_MIN = 0.5;
 const EDITOR_ZOOM_MAX = 2.0;
-const EDITOR_ZOOM_STEP = 0.1;
+const EDITOR_ZOOM_STEP = 0.05;
 const EDITOR_ZOOM_DEFAULT = 1.0;
 let editorZoom = EDITOR_ZOOM_DEFAULT;
 const isMac = navigator.platform.toUpperCase().includes('MAC');
@@ -1259,7 +1259,8 @@ function updateZoomValue() {
 }
 
 function setEditorZoom(value, persist = true) {
-  const nextZoom = Math.max(EDITOR_ZOOM_MIN, Math.min(EDITOR_ZOOM_MAX, value));
+  const quantized = Math.round(value / EDITOR_ZOOM_STEP) * EDITOR_ZOOM_STEP;
+  const nextZoom = Math.max(EDITOR_ZOOM_MIN, Math.min(EDITOR_ZOOM_MAX, quantized));
   editorZoom = nextZoom;
   document.documentElement.style.setProperty('--editor-zoom', String(editorZoom));
   updateZoomValue();

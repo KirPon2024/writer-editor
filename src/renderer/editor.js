@@ -427,19 +427,37 @@ function renderStyledView(text = '') {
   setSelectionRange(start, end);
 }
 
-function createPageElement() {
+function getPageFormatLabelText() {
+  return (editorPanel?.getAttribute('data-format-label') || '').trim();
+}
+
+function createPageElement(isFirstPage = false) {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('editor-page-wrap');
+
+  if (isFirstPage) {
+    const labelText = getPageFormatLabelText();
+    if (labelText) {
+      const label = document.createElement('div');
+      label.classList.add('editor-page__label');
+      label.textContent = labelText;
+      wrapper.appendChild(label);
+    }
+  }
+
   const page = document.createElement('div');
   page.classList.add('editor-page');
   const content = document.createElement('div');
   content.classList.add('editor-page__content');
   page.appendChild(content);
-  return page;
+  wrapper.appendChild(page);
+  return wrapper;
 }
 
 function createEmptyPage() {
   if (!editor) return;
   editor.innerHTML = '';
-  const page = createPageElement();
+  const page = createPageElement(true);
   editor.appendChild(page);
 }
 
@@ -450,7 +468,7 @@ function paginateNodes(nodes) {
     return;
   }
 
-  let currentPage = createPageElement();
+  let currentPage = createPageElement(true);
   editor.appendChild(currentPage);
   let currentContent = currentPage.querySelector('.editor-page__content');
 

@@ -418,9 +418,10 @@ function renderStyledView(text = '') {
   setSelectionRange(start, end);
 }
 
-function createPageElement(isFirstPage = false) {
+function createPageElement(isFirstPage = false, pageIndex = 0) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('editor-page-wrap');
+  wrapper.dataset.pageIndex = String(pageIndex);
 
   const page = document.createElement('div');
   page.classList.add('editor-page');
@@ -434,7 +435,7 @@ function createPageElement(isFirstPage = false) {
 function createEmptyPage() {
   if (!editor) return;
   editor.innerHTML = '';
-  const page = createPageElement(true);
+  const page = createPageElement(true, 0);
   editor.appendChild(page);
 }
 
@@ -445,7 +446,8 @@ function paginateNodes(nodes) {
     return;
   }
 
-  let currentPage = createPageElement(true);
+  let pageIndexCounter = 0;
+  let currentPage = createPageElement(true, pageIndexCounter++);
   editor.appendChild(currentPage);
   let currentContent = currentPage.querySelector('.editor-page__content');
 
@@ -454,7 +456,7 @@ function paginateNodes(nodes) {
     const limit = currentContent.clientHeight;
     if (limit > 0 && currentContent.scrollHeight > limit) {
       currentContent.removeChild(node);
-      currentPage = createPageElement();
+      currentPage = createPageElement(false, pageIndexCounter++);
       editor.appendChild(currentPage);
       currentContent = currentPage.querySelector('.editor-page__content');
       currentContent.appendChild(node);
@@ -476,9 +478,9 @@ function scheduleLayoutRefresh() {
   });
 }
 
-let lastPointerDownPageContent = null;
+let lastPointerDownPageIndex = -1;
 
-function getPageContentFromNode(node) {
+function getPageWrapFromNode(node) {
   if (!node) {
     return null;
   }
@@ -486,15 +488,23 @@ function getPageContentFromNode(node) {
   if (!element || typeof element.closest !== 'function') {
     return null;
   }
-  const content = element.closest('.editor-page__content');
-  if (content) {
-    return content;
-  }
-  const wrapper = element.closest('.editor-page-wrap');
-  return wrapper ? wrapper.querySelector('.editor-page__content') : null;
+  return element.closest('.editor-page-wrap');
 }
 
-function getSelectionPageContent(selection) {
+function getPageIndexFromWrap(wrap) {
+  if (!wrap) {
+    return null;
+  }
+  const index = Number(wrap.dataset.pageIndex);
+  return Number.isFinite(index) ? index : null;
+}
+
+function getPageIndexFromNode(node) {
+  const wrap = getPageWrapFromNode(node);
+  return getPageIndexFromWrap(wrap);
+}
+
+function getSelectionPageIndex(selection) {
   const activeSelection = selection || window.getSelection();
   if (!activeSelection || activeSelection.rangeCount === 0) {
     return null;
@@ -503,7 +513,15 @@ function getSelectionPageContent(selection) {
   if (!anchorNode) {
     return null;
   }
-  return getPageContentFromNode(anchorNode);
+  return getPageIndexFromNode(anchorNode);
+}
+
+function getPageContentByIndex(index) {
+  if (index == null || index < 0 || !editor) {
+    return null;
+  }
+  const page = editor.querySelector(`.editor-page-wrap[data-page-index="${index}"]`);
+  return page ? page.querySelector('.editor-page__content') : null;
 }
 
 function moveSelectionToPageContent(pageContent) {
@@ -522,14 +540,15 @@ function moveSelectionToPageContent(pageContent) {
 }
 
 function ensureCaretInLastPointerPage() {
-  if (!lastPointerDownPageContent) {
+  if (lastPointerDownPageIndex < 0) {
     return;
   }
-  const activePage = getSelectionPageContent();
-  if (activePage === lastPointerDownPageContent) {
+  const activeIndex = getSelectionPageIndex();
+  if (activeIndex === lastPointerDownPageIndex) {
     return;
   }
-  moveSelectionToPageContent(lastPointerDownPageContent);
+  const targetContent = getPageContentByIndex(lastPointerDownPageIndex);
+  moveSelectionToPageContent(targetContent);
 }
 
 function parseParagraphLine(line) {
@@ -2091,7 +2110,8 @@ if (window.electronAPI) {
 }
 
 editor.addEventListener('pointerdown', (event) => {
-  lastPointerDownPageContent = getPageContentFromNode(event.target);
+  const nextIndex = getPageIndexFromNode(event.target);
+  lastPointerDownPageIndex = nextIndex != null ? nextIndex : -1;
 });
 
 editor.addEventListener('beforeinput', () => {

@@ -69,9 +69,9 @@ let expandedNodesByTab = new Map();
 let autoSaveTimerId = null;
 const AUTO_SAVE_DELAY = 600;
 
-const PX_PER_MM_AT_ZOOM_1 = 96 / 25.4;
+const PX_PER_MM_AT_ZOOM_1 = 595 / 210;
 const ZOOM_DEFAULT = 1.0;
-const PAGE_GAP_MM = 30;
+const PAGE_GAP_MM = 20 / (595 / 210);
 const CANVAS_PADDING_PX = 48;
 const MARGIN_MM = 25.4;
 const PAGE_FORMATS = {
@@ -112,18 +112,9 @@ function applyPageViewCssVars(metrics) {
   root.style.setProperty('--canvas-padding-px', `${metrics.canvasPaddingPx}px`);
 }
 
-function getFormatLabel(pageWidthMm) {
-  const height = Math.round(pageWidthMm * Math.SQRT2);
-  const formatName = Object.keys(PAGE_FORMATS).find((key) => PAGE_FORMATS[key] === pageWidthMm) || 'Custom';
-  return `${formatName} · ${pageWidthMm}×${height} мм`;
-}
-
 const initialPageWidthMm = PAGE_FORMATS.A4;
 const initialPageMetrics = getPageMetrics({ pageWidthMm: initialPageWidthMm, zoom: ZOOM_DEFAULT });
 applyPageViewCssVars(initialPageMetrics);
-if (editorPanel) {
-  editorPanel.setAttribute('data-format-label', getFormatLabel(initialPageWidthMm));
-}
 
 function getPlainText() {
   return plainTextBuffer;
@@ -427,23 +418,9 @@ function renderStyledView(text = '') {
   setSelectionRange(start, end);
 }
 
-function getPageFormatLabelText() {
-  return (editorPanel?.getAttribute('data-format-label') || '').trim();
-}
-
 function createPageElement(isFirstPage = false) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('editor-page-wrap');
-
-  if (isFirstPage) {
-    const labelText = getPageFormatLabelText();
-    if (labelText) {
-      const label = document.createElement('div');
-      label.classList.add('editor-page__label');
-      label.textContent = labelText;
-      wrapper.appendChild(label);
-    }
-  }
 
   const page = document.createElement('div');
   page.classList.add('editor-page');
@@ -1973,20 +1950,6 @@ metaPanel?.classList.add('is-hidden');
 
 loadTree();
 
-function handleSelectAllShortcut(event) {
-  const isCmdOrCtrl = isMac ? event.metaKey : event.ctrlKey;
-  const isSelectAll = isCmdOrCtrl && !event.shiftKey && !event.altKey && event.key && event.key.toLowerCase() === 'a';
-
-  if (!isSelectAll || !editor) {
-    return;
-  }
-
-  event.preventDefault();
-  editor.focus();
-  selectAllEditor();
-}
-
-document.addEventListener('keydown', handleSelectAllShortcut);
 document.addEventListener('keydown', (event) => {
   const isPrimaryModifier = isMac ? event.metaKey : event.ctrlKey;
   if (!isPrimaryModifier || event.altKey) {

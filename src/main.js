@@ -1734,6 +1734,19 @@ function createMenu() {
       ]
     },
     {
+      label: 'Правка',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { type: 'separator' },
+        { role: 'selectAll' }
+      ]
+    },
+    {
       label: 'Вид',
       submenu: [
         {

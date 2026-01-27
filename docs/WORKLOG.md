@@ -3,6 +3,11 @@
 Короткая хронология изменений и решений. Это не полный лог чата, а сжатые записи “что сделали / зачем / что дальше”.
 Если в переписке были важные продуктовые/UX‑решения (даже без кода) — фиксируйте их здесь короткими пунктами.
 
+## 2026-01-27
+- Canon: добавлен `CANON.md` (верхний канон решений/изменений) + `docs/BIBLE.md` (Craftsman vNext).
+- CI: добавлен OSS‑guard `scripts/check-no-paid-tiptap.mjs` + workflow `.github/workflows/oss-policy.yml` (pre/post install) + `npm audit`.
+- Docs: синхронизированы `README.md`, `agents.md`, `docs/CONTEXT.md`, `docs/HANDOFF.md`, шаблоны и `docs/references/ROADMAP.md` под vNext; добавлен `docs/AGENT_START_PROMPT.md`.
+
 ## 2026-01-23
 - UI: рамка `.editor-panel` приведена к разделителю sidebar (используется `var(--sidebar-border)` вместо более контрастной переменной).
 - Toolbar: кнопка `min/max` перемещена в поток тулбара; добавлен компактный режим (скрытие части контролов) и переключение `min` ⇄ `max`.

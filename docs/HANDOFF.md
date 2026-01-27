@@ -1,11 +1,14 @@
 # HANDOFF (Craftsman)
 
-_Generated: 2026-01-23_
+_Generated: 2026-01-27_
 
 ## Start Here
+- Canon (top): `CANON.md`
+- Project bible: `docs/BIBLE.md`
 - Read: `docs/CONTEXT.md`
 - Process: `docs/PROCESS.md`
 - Recent changes: `docs/WORKLOG.md`
+- Agent prompt: `docs/AGENT_START_PROMPT.md`
 
 ## Working Agreement (important)
 - Mode 1 — ChatGPT (Чат): готовим ТЗ/план/проверки, задаём до 3 уточняющих вопросов. **Файлы репозитория не меняем**.
@@ -14,23 +17,23 @@ _Generated: 2026-01-23_
 
 ## Snapshot: Проект
 - Название: `craftsman` (десктоп‑редактор для писателей)
-- Технологии: Electron + vanilla HTML/CSS/JS
-- Режим: полностью оффлайн
-- Данные: простой текст `.txt`
-- Хранение: локально на компьютере пользователя
-- Бэкапы: обязательные локальные автосоздаваемые бэкапы
+- Технологии: Electron + HTML/CSS (с сохранением текущей UI‑геометрии)
+- Режим: desktop‑first, offline‑first
+- Канон: `docs/BIBLE.md`
+- Данные (цель vNext): проект‑папка v1 (manifest/styles/scenes/recovery/assets/backups), сцены как сущности, Yjs per scene
+- Важно: кодовая база в переходе; в текущей реализации ещё могут встречаться legacy‑решения
 
 ## Snapshot: MVP правила
 - Никаких аккаунтов/авторизации
 - Никаких сетевых запросов/облаков/синхронизаций
+- Anti‑paywall: запрещены `@tiptap-pro/*`, `@tiptap-cloud/*`, `registry.tiptap.dev`, `TIPTAP_PRO_TOKEN`
 - Минимум зависимостей и “архитектуры на будущее”
 - Любые крупные изменения — поэтапно, с минимальным риском регрессий
 
 ## Snapshot: Следующие шаги
-1) Inline‑рендер `*...*` и `` `...` `` (без скрытия маркеров, но с приглушением).
-2) Проверить undo/redo; при необходимости внедрить undo‑стек.
-3) Уточнить/довести визуальные параметры под референсы (светлая/тёмная тема).
-4) Прогнать ручные проверки из ТЗ: стили, курсор, сохранение/открытие, вставка, производительность.
+1) Milestone 1: сборка renderer (esbuild bundling) без изменения UI.
+2) Milestone 2: минимальный Tiptap editor (OSS) + undo/redo.
+3) Milestone 3–4: project format v1 + scene storage + Yjs per scene + recovery.
 
 ## Snapshot: Перспектива (после MVP)
 Зафиксированное видение (2026-01-23). Это **не** меняет ограничения MVP и не оправдывает “архитектуру на будущее” в текущем коде — только ориентир.
@@ -48,25 +51,17 @@ _Generated: 2026-01-23_
 - История версий документа — нужна (точный объём/UX уточнить).
 - Метрики/прогресс письма: цели, тайминг активности, средняя скорость печати (и т.п.).
 
-## Recent WORKLOG (2026-01-23)
-- UI: рамка `.editor-panel` приведена к разделителю sidebar (используется `var(--sidebar-border)` вместо более контрастной переменной).
-- Toolbar: кнопка `min/max` перемещена в поток тулбара; добавлен компактный режим (скрытие части контролов) и переключение `min` ⇄ `max`.
-- Toolbar: добавлены новые шрифты в font-select (Circe, Roboto Mono, American Typewriter) + добавлен селект “Styles” как одноразовая команда.
-- Styles (MVP A): принято решение, что одного добавления маркеров недостаточно — нужен визуальный стиль.
-- Editor: начата миграция с `textarea` на `contenteditable` для возможности стилизовать строки/фрагменты.
-- Editor: добавлены базовые утилиты для plain text, обработка `paste` (только text/plain) и Enter (вставка `\n`).
-- Editor: добавлен базовый рендер paragraph‑стилей + code fences (визуальное отличие по классам) и CSS‑переменные/стили под референсы.
-- Открыто: inline стили `*...*` и `` `...` `` в отображении; возможные проблемы с undo/redo из-за перерендера.
-- Docs: добавлен лёгкий процесс “Spec‑Lite” (`docs/PROCESS.md`) + шаблоны ТЗ/регресс‑проверок (`docs/templates/*`) + заметки по Spec Kit (`docs/references/spec-kit.md`).
-- Docs: обновлён шаблон ТЗ под наш стиль “ТЗ для Codex” (контекст/ограничения → проблема → цель → что сделать → приёмка → тесты): `docs/templates/FEATURE_TZ.md`.
-- Docs: добавлены “brain” утилиты для handoff/log/new-task (`scripts/brain.mjs`) + папка задач `docs/tasks/` + команды в `package.json`.
-- Docs: добавлены git “save points” в процесс (`docs/PROCESS.md`) и команда `brain:savepoint` (подсказка для коммита по этапам).
-- Docs: зафиксирована перспектива после MVP (платформы/облако/аккаунты/коллаб/экспорт/масштаб): `docs/CONTEXT.md`.
-- Docs: добавлена структура для референсов (index + checklist + шаблон заметок): `docs/references/*`.
-- Docs: добавлена база референсов по OSS проектам (`docs/references/ROADMAP.md` + `docs/references/projects/*.md`) и улучшен `brain:refs` (теги разбиваются на части).
+## Recent WORKLOG (2026-01-27)
+- Canon: добавлен `docs/BIBLE.md` (Craftsman vNext) и зафиксирован финальный пакет политик (security/deps/yjs fallback/perf/codex checklist).
+- CI: добавлен OSS‑guard `scripts/check-no-paid-tiptap.mjs` + workflow `.github/workflows/oss-policy.yml` (pre/post install) + `npm audit`.
+- Docs: синхронизированы `README.md`, `agents.md`, `docs/CONTEXT.md`, `docs/HANDOFF.md`, шаблоны и `docs/references/ROADMAP.md` под vNext; добавлен `docs/AGENT_START_PROMPT.md`.
 
 ## Tasks
-- (no task files yet)
+- `docs/tasks/2026-01-24--sidebar-roman-sections-tree.md`
+- `docs/tasks/2026-01-26--keyboard-shortcuts-guard-test.md`
+- `docs/tasks/2026-01-26--page-size-calibration.md`
+- `docs/tasks/2026-01-27--tz-001-oss-guard-ci.md`
+- `docs/tasks/2026-01-27--tz-002-vnext-canon-docs.md`
 
 ## Brain Commands
 - `npm run brain:status`

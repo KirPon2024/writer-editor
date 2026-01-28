@@ -928,6 +928,10 @@ console.log('✅ OSS policy OK: no Tiptap Pro / no private registry');
   - footnotes
   - images
 
+DOCX v1 — формат импорта/экспорта.
+DOCX НЕ влияет на внутреннюю модель документа.
+DOCX — адаптер представления, а не источник архитектурных решений.
+
 ---
 
 # 10. SECURITY_POLICY

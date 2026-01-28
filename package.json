@@ -6,7 +6,9 @@
  "type": "commonjs",
   "scripts": {
     "start": "electron .",
-    "dev": "electron . --dev",
+    "dev": "node -e \"const { existsSync } = require('node:fs'); const { execSync, spawnSync } = require('node:child_process'); if (!existsSync('dist/renderer/editor.bundle.js')) { execSync('node scripts/build-renderer.mjs',{stdio:'inherit'}); } const electron = require('electron'); const env = { ...process.env }; delete env.ELECTRON_RUN_AS_NODE; const result = spawnSync(electron, ['.', '--dev'], { stdio: 'inherit', env }); if (result.error) { console.error(result.error); process.exit(1); } const status = typeof result.status === 'number' ? result.status : 1; process.exit(status);\"",
+    "build:renderer": "node scripts/build-renderer.mjs",
+    "build:renderer:watch": "node scripts/build-renderer.mjs --watch",
     "test": "node scripts/run-tests.js",
     "test:electron": "node scripts/run-tests.js electron",
     "oss:policy": "node scripts/check-no-paid-tiptap.mjs",
@@ -28,7 +30,8 @@
   "dependencies": {},
   "devDependencies": {
     "electron": "^28.0.0",
-    "electron-builder": "^24.0.0"
+    "electron-builder": "^24.0.0",
+    "esbuild": "^0.20.2"
   },
   "build": {
     "appId": "com.craftsman.app",

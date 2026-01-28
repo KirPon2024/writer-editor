@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "Бесплатный аскетичный редактор для писателей",
   "main": "src/main.js",
+ "type": "commonjs",
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",

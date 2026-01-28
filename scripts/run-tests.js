@@ -2,26 +2,32 @@ const { spawnSync } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
 
-function listTestFiles(testDir) {
-  const entries = fs.readdirSync(testDir, { withFileTypes: true });
-  const files = [];
+function listTestFiles(dir, out = []) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
 
   for (const entry of entries) {
-    if (!entry.isFile()) continue;
-    if (!entry.name.endsWith('.test.js')) continue;
-    files.push(path.join(testDir, entry.name));
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      listTestFiles(fullPath, out);
+      continue;
+    }
+
+    if (entry.isFile() && entry.name.endsWith('.test.js')) {
+      out.push(fullPath);
+    }
   }
 
-  files.sort();
-  return files;
+  return out;
 }
 
 const rootDir = path.resolve(__dirname, '..');
-const testDir = path.join(rootDir, 'test');
-const testFiles = fs.existsSync(testDir) ? listTestFiles(testDir) : [];
+const mode = process.argv[2] === 'electron' ? 'electron' : 'unit';
+const testDir = path.join(rootDir, 'test', mode);
+const testFiles = fs.existsSync(testDir) ? listTestFiles(testDir).sort() : [];
 
 if (testFiles.length === 0) {
-  console.error('No test files found in ./test (expected *.test.js).');
+  console.error(`No test files found in ./test/${mode} (expected **/*.test.js).`);
   process.exitCode = 1;
 } else {
   const result = spawnSync(process.execPath, ['--test', ...testFiles], {
@@ -30,4 +36,3 @@ if (testFiles.length === 0) {
   });
   process.exitCode = result.status ?? 1;
 }
-

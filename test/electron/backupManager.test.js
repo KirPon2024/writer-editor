@@ -4,8 +4,8 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const os = require('node:os');
 const crypto = require('node:crypto');
-const backupManager = require('../src/utils/backupManager');
-const fileManager = require('../src/utils/fileManager');
+const backupManager = require('../../src/utils/backupManager');
+const fileManager = require('../../src/utils/fileManager');
 
 async function createTempDir() {
   return fs.mkdtemp(path.join(os.tmpdir(), 'craftsman-'));

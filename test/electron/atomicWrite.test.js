@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const os = require('node:os');
-const fileManager = require('../src/utils/fileManager');
+const fileManager = require('../../src/utils/fileManager');
 
 async function createTempDir() {
   return fs.mkdtemp(path.join(os.tmpdir(), 'craftsman-'));

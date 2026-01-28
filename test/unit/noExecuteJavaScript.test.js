@@ -4,13 +4,13 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 
 test('main process does not use executeJavaScript', async () => {
-  const mainPath = path.resolve(__dirname, '..', 'src', 'main.js');
+  const mainPath = path.resolve(__dirname, '..', '..', 'src', 'main.js');
   const content = await fs.readFile(mainPath, 'utf8');
   assert.equal(content.includes('executeJavaScript'), false);
 });
 
 test('main process blocks new windows and external navigation', async () => {
-  const mainPath = path.resolve(__dirname, '..', 'src', 'main.js');
+  const mainPath = path.resolve(__dirname, '..', '..', 'src', 'main.js');
   const content = await fs.readFile(mainPath, 'utf8');
 
   assert.match(content, /setWindowOpenHandler/);
@@ -26,7 +26,7 @@ test('main process blocks new windows and external navigation', async () => {
 });
 
 test('main process sets Content-Security-Policy headers for file:// main frames', async () => {
-  const mainPath = path.resolve(__dirname, '..', 'src', 'main.js');
+  const mainPath = path.resolve(__dirname, '..', '..', 'src', 'main.js');
   const content = await fs.readFile(mainPath, 'utf8');
 
   assert.match(content, /onHeadersReceived/);

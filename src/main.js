@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, session } = require('electron');
 const { performance } = require('perf_hooks');
 const path = require('path');
 const fs = require('fs').promises;
@@ -18,6 +18,8 @@ let isWindowClosing = false;
 let lastAutosaveHash = null;
 const backupHashes = new Map();
 const isDevMode = process.argv.includes('--dev');
+const CSP_POLICY =
+  "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'";
 function logPerfStage(label) {
   if (!isDevMode) return;
   const elapsed = Math.round(performance.now() - launchT0);
@@ -241,6 +243,21 @@ function blockExternalNavigation(event, url) {
   if (!isFileUrl(url)) {
     event.preventDefault();
   }
+}
+
+function installContentSecurityPolicy() {
+  const defaultSession = session.defaultSession;
+  if (!defaultSession) {
+    return;
+  }
+
+  defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    const responseHeaders = details.responseHeaders ? { ...details.responseHeaders } : {};
+    if (details.resourceType === 'mainFrame' && isFileUrl(details.url)) {
+      responseHeaders['Content-Security-Policy'] = [CSP_POLICY];
+    }
+    callback({ responseHeaders });
+  });
 }
 
 // Загрузка настроек
@@ -1814,6 +1831,7 @@ app.whenReady().then(async () => {
   logPerfStage('when-ready');
   app.setName('Craftsman');
   await ensureUserDataFolder();
+  installContentSecurityPolicy();
   const windowStatePromise = loadWindowStateFromSettings();
   const initPromise = initializeApp()
     .then(() => {

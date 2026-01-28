@@ -233,6 +233,16 @@ function clearPendingTextRequests(reason) {
   pendingTextRequests.clear();
 }
 
+function isFileUrl(url) {
+  return typeof url === 'string' && url.startsWith('file://');
+}
+
+function blockExternalNavigation(event, url) {
+  if (!isFileUrl(url)) {
+    event.preventDefault();
+  }
+}
+
 // Загрузка настроек
 async function loadSettings() {
   try {
@@ -1266,6 +1276,10 @@ function createWindow() {
       contextIsolation: true
     }
   });
+
+  mainWindow.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  mainWindow.webContents.on('will-navigate', blockExternalNavigation);
+  mainWindow.webContents.on('will-redirect', blockExternalNavigation);
 
   logPerfStage('create-window');
 

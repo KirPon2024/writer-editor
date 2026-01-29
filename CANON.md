@@ -68,7 +68,14 @@
 - любые поведенческие правки
 - любые UI-риски
 - любые “заодно”
+### 2.3 Lockfile policy
 
+- package.json — source of truth
+- package-lock.json — build artifact
+- package-lock.json генерируется **только через CI (lockfile-node20)**
+- Локально запрещено править package-lock.json вручную
+- Любые изменения main — только через Pull Request
+- Merge возможен только при прохождении обязательных checks
 Milestone 0 = **ноль регрессий**.
 
 ---

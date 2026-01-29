@@ -27,7 +27,10 @@
   "keywords": ["editor", "writer", "text"],
   "author": "",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@tiptap/core": "2.1.x",
+    "@tiptap/starter-kit": "2.1.x"
+  },
   "devDependencies": {
     "electron": "^28.0.0",
     "electron-builder": "^24.0.0",

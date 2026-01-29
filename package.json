@@ -28,8 +28,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@tiptap/core": "2.1.x",
-    "@tiptap/starter-kit": "2.1.x"
+    "@tiptap/core": "2.27.2",
+    "@tiptap/pm": "2.27.2",
+    "@tiptap/starter-kit": "2.27.2"
   },
   "devDependencies": {
     "electron": "^28.0.0",

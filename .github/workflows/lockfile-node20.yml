@@ -2,6 +2,9 @@ name: lockfile-node20
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - package-lock.json
 
 jobs:
   lockfile:

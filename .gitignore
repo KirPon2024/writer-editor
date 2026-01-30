@@ -1,5 +1,8 @@
 node_modules/
 dist/**
+!dist/
+!dist/renderer/
+!dist/renderer/editor.bundle.sha256
 *.log
 .DS_Store
 *.swp

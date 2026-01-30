@@ -5,3 +5,6 @@ dist/**
 *.swp
 *.swo
 *~
+
+# M1: allow pinning renderer bundle checksum
+!dist/renderer/editor.bundle.sha256

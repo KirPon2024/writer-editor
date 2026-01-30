@@ -1,3 +1,9 @@
+if (window.__USE_TIPTAP) {
+  console.log('[tiptap] enabled — legacy editor skipped');
+  // TODO: initTiptapEditor()
+} else {
+  console.log('[legacy] enabled');
+
 const editor = document.getElementById('editor');
 const statusElement = document.getElementById('status');
 const emptyState = document.querySelector('.empty-state');
@@ -2162,3 +2168,5 @@ if (window.electronAPI) {
 
 setCurrentFontSize(currentFontSizePx);
 updateWordCount();
+
+}

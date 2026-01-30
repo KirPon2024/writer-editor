@@ -1,6 +1,8 @@
+import { initTiptap } from './tiptap/index.js';
+
 if (window.__USE_TIPTAP) {
-  console.log('[tiptap] enabled — legacy editor skipped');
-  // TODO: initTiptapEditor()
+  console.log('[tiptap] enabled');
+  initTiptap(document.getElementById('editor'));
 } else {
   console.log('[legacy] enabled');
 

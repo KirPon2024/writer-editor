@@ -5,7 +5,9 @@
   "main": "src/main.js",
  "type": "commonjs",
   "scripts": {
+    "prestart": "npm run build:renderer",
     "start": "electron .",
+    "predev": "npm run build:renderer",
     "dev": "node -e \"const { existsSync } = require('node:fs'); const { execSync, spawnSync } = require('node:child_process'); if (!existsSync('dist/renderer/editor.bundle.js')) { execSync('node scripts/build-renderer.mjs',{stdio:'inherit'}); } const electron = require('electron'); const env = { ...process.env }; delete env.ELECTRON_RUN_AS_NODE; const result = spawnSync(electron, ['.', '--dev'], { stdio: 'inherit', env }); if (result.error) { console.error(result.error); process.exit(1); } const status = typeof result.status === 'number' ? result.status : 1; process.exit(status);\"",
     "build:renderer": "node scripts/build-renderer.mjs",
     "build:renderer:watch": "node scripts/build-renderer.mjs --watch",

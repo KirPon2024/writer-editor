@@ -1,3 +1,8 @@
+import { initTiptap } from './tiptap/index.js';
+
+if (window.__USE_TIPTAP) {
+  initTiptap(document.getElementById('editor'));
+} else {
 const editor = document.getElementById('editor');
 const statusElement = document.getElementById('status');
 const emptyState = document.querySelector('.empty-state');
@@ -2162,3 +2167,5 @@ if (window.electronAPI) {
 
 setCurrentFontSize(currentFontSizePx);
 updateWordCount();
+
+}

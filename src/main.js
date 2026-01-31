@@ -1300,7 +1300,8 @@ function createWindow() {
 
   logPerfStage('create-window');
 
-  mainWindow.loadFile('src/renderer/index.html');
+  const useTiptap = process.env.USE_TIPTAP === '1';
+  mainWindow.loadFile('src/renderer/index.html', { query: { USE_TIPTAP: (process.env.USE_TIPTAP === '1' ? '1' : '0') } });
 
   mainWindow.webContents.on('before-input-event', (event, input) => {
     if (input.key === 'Escape' && mainWindow && mainWindow.isFullScreen()) {
@@ -1313,6 +1314,7 @@ function createWindow() {
   mainWindow.webContents.once('did-finish-load', async () => {
     mainWindow.webContents.setZoomFactor(1);
     logPerfStage('did-finish-load');
+    if (isDevMode) mainWindow.webContents.openDevTools({ mode: 'detach' });
     await loadSavedFontSize();
     const restored = await restoreAutosaveIfExists();
     if (!restored) {

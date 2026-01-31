@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
+import { attachTiptapIpc } from './ipc.js'
 
 export function initTiptap(mountEl) {
   if (!mountEl) throw new Error('TipTap mount element not found (#editor)')
@@ -17,9 +18,7 @@ export function initTiptap(mountEl) {
     extensions: [StarterKit],
     content: '<p></p>',
   })
-
-  // маленький маркер, чтобы глазами видеть что TipTap реально смонтирован
-  console.log('[tiptap] mounted:', !!editor)
+  attachTiptapIpc(editor)
 
   return editor
 }

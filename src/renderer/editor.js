@@ -1,11 +1,8 @@
 import { initTiptap } from './tiptap/index.js';
 
 if (window.__USE_TIPTAP) {
-  console.log('[tiptap] enabled');
   initTiptap(document.getElementById('editor'));
 } else {
-  console.log('[legacy] enabled');
-
 const editor = document.getElementById('editor');
 const statusElement = document.getElementById('status');
 const emptyState = document.querySelector('.empty-state');

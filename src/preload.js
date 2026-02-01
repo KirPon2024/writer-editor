@@ -32,6 +32,27 @@ contextBridge.exposeInMainWorld('electronAPI', {
   saveAs: () => {
     ipcRenderer.send('ui:save-as');
   },
+  /**
+   * @param {unknown} payload
+   * @returns {Promise<{ ok: false, reason: "not-implemented" }>}
+   */
+  fileSave: (payload) => {
+    return ipcRenderer.invoke('file:save', payload);
+  },
+  /**
+   * @param {unknown} payload
+   * @returns {Promise<{ ok: false, reason: "not-implemented" }>}
+   */
+  fileSaveAs: (payload) => {
+    return ipcRenderer.invoke('file:save-as', payload);
+  },
+  /**
+   * @param {unknown} payload
+   * @returns {Promise<{ ok: false, reason: "not-implemented" }>}
+   */
+  fileOpen: (payload) => {
+    return ipcRenderer.invoke('file:open', payload);
+  },
   openSection: (sectionName) => {
     return ipcRenderer.invoke('ui:open-section', { sectionName });
   },

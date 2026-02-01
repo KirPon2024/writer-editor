@@ -4,6 +4,7 @@ _Generated: 2026-01-27_
 
 ## Start Here
 - Canon (top): `CANON.md`
+- COREX (philosophy + target architecture): `docs/corex/COREX.md` (current: `docs/corex/COREX.v1.md`)
 - Project bible: `docs/BIBLE.md`
 - Read: `docs/CONTEXT.md`
 - Process: `docs/PROCESS.md`

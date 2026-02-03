@@ -19,6 +19,8 @@ STATUS:
 ## CHECKS
 CHECK_01 выполняется ДО любых изменений; CHECK_02+ выполняются ПОСЛЕ.
 
+Baseline (WRITE): использовать `ONLY_ALLOWED_CHANGE_NODE_HARD` (см. `docs/OPERATIONS/OPS-HARD-TZ-TEMPLATE-CHECKS.md`) с allowlist из секции ALLOWLIST.
+
 ## STOP_CONDITION
 
 ## REPORT_FORMAT

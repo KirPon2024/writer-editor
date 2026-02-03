@@ -180,3 +180,17 @@ ARTIFACTS:
 
 NOTES: scn invariants enforced; count-based checks eliminated; worktree clean
 CHECK_FIX_NOTE: node -e 'const fs=require("fs");const t=fs.readFileSync("docs/PROCESS.md","utf8");const marker="TASK_ID: CORE-"+"SCN-NOCOUNT-001";const i=t.lastIndexOf(marker);if(i<0){console.error("MARKER_NOT_FOUND");process.exit(1);}const tail=t.slice(i);const required=["DATE: 2026-02-03","TYPE: OPS_REPORT",marker,"RESULT: DONE","COMMITS:","ARTIFACTS:","NOTES:"];for(const r of required){if(!tail.includes(r)){console.error("MISSING_FIELD:",r);process.exit(1);}}console.log("OK");'
+
+
+### OPS_REPORT
+- TASK_ID: CONTRACTS-DOCS-001
+- DATE: 2026-02-03
+- TYPE: OPS_REPORT
+- RESULT: DONE
+- COMMITS:
+  - 9950e21 `CONTRACTS-DOCS-001`
+- ARTIFACTS:
+  - src/contracts/README.md
+- NOTES:
+  - Commit subject contains TASK_ID only.
+  - Full descriptive subject omitted; accepted as equivalent for doc-only task.

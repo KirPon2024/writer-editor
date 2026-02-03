@@ -64,6 +64,8 @@ TRIGGER_WRITE_INTENT (единственный обязательный триг
 
 Контур B (стабилизация процесса) — STATUS: CLOSED.
 - Новые задачи по умолчанию выполняются в MODE A (HARD‑ТЗ): любые изменения репозитория только через явный контракт (artifact/allowlist/шаги/проверки).
+- HARD-ТЗ без секции DENYLIST невалидно.
+- Стандарт DENYLIST (канон): `docs/OPERATIONS/OPS-DENYLIST-STANDARDS.md`.
 - Manual override для SOFT-SCRIPT допускается только по **явной команде человека** в чате или тексте задачи (без неявных сигналов).
 - Re-open контура B запрещён: `STATUS: CLOSED` не меняется. Допускается только **единичный** SOFT-SCRIPT по manual override (без “продолжений”).
 

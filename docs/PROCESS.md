@@ -221,3 +221,19 @@ CHECK_FIX_NOTE: node -e 'const fs=require("fs");const t=fs.readFileSync("docs/PR
   - src/core/contracts.ts
 - NOTES:
   - A4 closed: contracts layer stabilized; CORE remains effect-free and platform-neutral.
+
+
+DATE: 2026-02-03
+TYPE: OPS_REPORT
+TASK_ID: STABILIZATION-PLUS-013
+RESULT: DONE
+
+COMMITS:
+- e5a67ae SMOKE-A4-002: fix invalid regex in smoke script
+
+ARTIFACTS:
+- scripts/smoke-a4.mjs
+
+NOTES:
+- ops-gate: PASS
+- smoke-a4: PASS

@@ -194,3 +194,30 @@ CHECK_FIX_NOTE: node -e 'const fs=require("fs");const t=fs.readFileSync("docs/PR
 - NOTES:
   - Commit subject contains TASK_ID only.
   - Full descriptive subject omitted; accepted as equivalent for doc-only task.
+
+
+### OPS_REPORT
+- TASK_ID: OPS-A4-SANITY-001
+- DATE: 2026-02-03
+- TYPE: OPS_REPORT
+- RESULT: DONE
+- CHECKS:
+  - ops-gate: PASS
+  - contracts-export-surface: PASS
+- COMMITS:
+  - 74be46f OPS-CORE-PURITY-001
+  - 775d480 ADR-CONTRACTS-TOPOLOGY-001
+  - e026393 CONTRACTS-BOOTSTRAP-001
+  - d370907 CONTRACTS-EXTRACT-001
+  - a88bea2 CONTRACTS-EXTRACT-002
+  - bf3d50a CONTRACTS-EXTRACT-003
+  - e6d97ce CONTRACTS-ALIGN-002
+  - fb9bc3d CONTRACTS-ALIGN-003
+- ARTIFACTS:
+  - scripts/ops-gate.mjs
+  - docs/OPERATIONS/OPS-INVARIANTS-MATRIX.md
+  - docs/ADR/ADR-CONTRACTS-TOPOLOGY.md
+  - src/contracts/*
+  - src/core/contracts.ts
+- NOTES:
+  - A4 closed: contracts layer stabilized; CORE remains effect-free and platform-neutral.

@@ -12,3 +12,5 @@
 | В CHECK запрещён `awk` | OPS | gate | OPS |
 | В CHECK запрещено `.trim(` (кроме `.trimEnd(`) | OPS | gate | OPS |
 | CORE_PURITY_NO_EFFECT_TOKENS | OPS | gate | src/core/** |
+| SMOKE_A4_SCRIPT_AVAILABLE — repeatable A4 sanity checks (clean/ops-gate/contracts exports) | OPS | manual | scripts/smoke-a4.mjs |
+

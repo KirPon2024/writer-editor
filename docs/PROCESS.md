@@ -163,3 +163,20 @@ OPS-GATE (E0) — локальный, ручной gate для MODE A (HARD‑Т
 
 ## Правило “отклонений от плана”
 Если новая задача не укладывается в текущий план — используем протокол из `docs/CONTEXT.md` (раздел “Протокол отклонений от плана”).
+
+DATE: 2026-02-03  
+TYPE: OPS_REPORT  
+TASK_ID: CORE-SCN-NOCOUNT-001  
+RESULT: DONE  
+
+COMMITS:
+- 856035b
+- d8c5c80
+
+ARTIFACTS:
+- docs/tasks/CORE-SCN-NOCOUNT-001.md
+- docs/core/SCENARIOS.md
+- docs/core/SCENARIOS.index.json
+
+NOTES: scn invariants enforced; count-based checks eliminated; worktree clean
+CHECK_FIX_NOTE: node -e 'const fs=require("fs");const t=fs.readFileSync("docs/PROCESS.md","utf8");const marker="TASK_ID: CORE-"+"SCN-NOCOUNT-001";const i=t.lastIndexOf(marker);if(i<0){console.error("MARKER_NOT_FOUND");process.exit(1);}const tail=t.slice(i);const required=["DATE: 2026-02-03","TYPE: OPS_REPORT",marker,"RESULT: DONE","COMMITS:","ARTIFACTS:","NOTES:"];for(const r of required){if(!tail.includes(r)){console.error("MISSING_FIELD:",r);process.exit(1);}}console.log("OK");'

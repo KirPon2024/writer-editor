@@ -2,6 +2,7 @@
 Канонические проверки allowlist для HARD-TZ (OPS write-задачи). Базируются на `git status --porcelain --untracked-files=all`.
 
 ## CHECKS
+ALLOWLIST arguments are required (pass at least one allowlist path as argv after the `node -e '...'` one-liner).
 
 ### ONLY_ALLOWED_CHANGE_NODE_SOFT
 PASS если дерево чистое **или** если все изменённые пути входят в allowlist.

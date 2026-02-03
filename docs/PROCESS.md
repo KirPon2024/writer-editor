@@ -71,6 +71,8 @@ TRIGGER_WRITE_INTENT (единственный обязательный триг
 - Новые инварианты не применяются ретроактивно.
 - NOT_APPLICABLE допустим только для PRE_* CHECK и TYPE=OPS_REPORT.
 - NOT_APPLICABLE запрещён для всех прочих TYPE: FAIL → STOP.
+- A3: DONE (SPEC HARDENING). Базовые OPS-инварианты CONTOUR-A заморожены (v1.0) и считаются read-only.
+- Изменения OPS-канона и новые OPS-инварианты допускаются только через новый этап (A4+).
 - Manual override для SOFT-SCRIPT допускается только по **явной команде человека** в чате или тексте задачи (без неявных сигналов).
 - Re-open контура B запрещён: `STATUS: CLOSED` не меняется. Допускается только **единичный** SOFT-SCRIPT по manual override (без “продолжений”).
 

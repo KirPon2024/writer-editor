@@ -857,6 +857,18 @@ ipcMain.on('editor:text-response', (_, payload) => {
   pending.resolve(typeof payload.text === 'string' ? payload.text : '');
 });
 
+ipcMain.handle('file:save', async () => {
+  return { ok: false, reason: "not-implemented" };
+});
+
+ipcMain.handle('file:save-as', async () => {
+  return { ok: false, reason: "not-implemented" };
+});
+
+ipcMain.handle('file:open', async () => {
+  return { ok: false, reason: "not-implemented" };
+});
+
 ipcMain.handle('ui:request-autosave', async () => {
   return autoSave();
 });

@@ -43,6 +43,16 @@ function getH2SectionBody(txt, heading) {
   return lines.slice(start, end).join('\n');
 }
 
+function getFirstPrefixedValue(txt, prefix) {
+  const lines = txt.split(/\r?\n/);
+  for (const line of lines) {
+    if (!line.startsWith(prefix)) continue;
+    const right = line.slice(prefix.length).trimEnd();
+    return right.trimStart();
+  }
+  return null;
+}
+
 function parseArgs(argv) {
   let taskPath = null;
 
@@ -84,6 +94,21 @@ try {
 }
 
 const isTask = norm.startsWith('docs/tasks/');
+const allowedTypes = new Set(['OPS_WRITE', 'OPS_REPORT', 'AUDIT', 'CORE', 'UI']);
+
+let taskType = null;
+if (isTask) {
+  taskType = getFirstPrefixedValue(txt, 'TYPE:');
+  if (!taskType) fail('Missing TYPE:');
+  if (!allowedTypes.has(taskType)) fail(`Invalid TYPE: ${taskType}`);
+
+  if (!txt.includes('CANON_VERSION:')) fail('Missing CANON_VERSION:');
+  if (!txt.includes('CHECKS_BASELINE_VERSION:')) fail('Missing CHECKS_BASELINE_VERSION:');
+
+  if (txt.includes('NOT_APPLICABLE') && taskType !== 'OPS_REPORT') {
+    fail('NOT_APPLICABLE is only allowed for TYPE=OPS_REPORT');
+  }
+}
 
 // HARD-TZ базовая структура (10 секций, без HEADER).
 if (isTask) {

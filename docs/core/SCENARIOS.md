@@ -1,6 +1,7 @@
 # SCENARIOS (A4 Anchor)
 
 Архитектура развивается только как следствие сценариев.
+Scope (locked): SCN-01, SCN-02, SCN-03.
 
 ## SCN-01
 ### Intent

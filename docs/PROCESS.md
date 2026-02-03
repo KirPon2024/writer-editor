@@ -64,8 +64,12 @@ TRIGGER_WRITE_INTENT (единственный обязательный триг
 
 Контур B (стабилизация процесса) — STATUS: CLOSED.
 - Новые задачи по умолчанию выполняются в MODE A (HARD‑ТЗ): любые изменения репозитория только через явный контракт (artifact/allowlist/шаги/проверки).
+- HARD‑ТЗ MUST указывать TYPE из `docs/OPERATIONS/OPS-TASK-TYPES.md`.
+- HARD‑ТЗ MUST указывать CANON_VERSION и CHECKS_BASELINE_VERSION (см. `docs/OPERATIONS/OPS-CANON-VERSIONING.md`).
 - HARD-ТЗ без секции DENYLIST невалидно.
 - Стандарт DENYLIST (канон): `docs/OPERATIONS/OPS-DENYLIST-STANDARDS.md`.
+- Новые инварианты не применяются ретроактивно.
+- Корректный FAIL по precondition трактуется как NOT_APPLICABLE, а не дефект.
 - Manual override для SOFT-SCRIPT допускается только по **явной команде человека** в чате или тексте задачи (без неявных сигналов).
 - Re-open контура B запрещён: `STATUS: CLOSED` не меняется. Допускается только **единичный** SOFT-SCRIPT по manual override (без “продолжений”).
 

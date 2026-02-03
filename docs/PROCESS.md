@@ -69,7 +69,6 @@ TRIGGER_WRITE_INTENT (единственный обязательный триг
 - HARD-ТЗ без секции DENYLIST невалидно.
 - Стандарт DENYLIST (канон): `docs/OPERATIONS/OPS-DENYLIST-STANDARDS.md`.
 - Новые инварианты не применяются ретроактивно.
-- Корректный FAIL по precondition трактуется как NOT_APPLICABLE, а не дефект.
 - NOT_APPLICABLE допустим только для PRE_* CHECK и TYPE=OPS_REPORT.
 - NOT_APPLICABLE запрещён для всех прочих TYPE: FAIL → STOP.
 - Manual override для SOFT-SCRIPT допускается только по **явной команде человека** в чате или тексте задачи (без неявных сигналов).

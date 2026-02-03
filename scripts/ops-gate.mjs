@@ -78,7 +78,7 @@ function parseArgs(argv) {
   return { taskPath };
 }
 
-const { taskPath } = parseArgs(process.argv.slice(2));
+const { taskPath } = parseArgs(process.argv.slice(1).slice(1));
 const norm = taskPath.replaceAll('\\', '/');
 
 if (!norm.endsWith('.md')) fail('Only .md files are supported');
@@ -137,6 +137,16 @@ const tokenA = String.fromCharCode(97, 119, 107); // a+w+k
 if (checksBody.includes(tokenA)) fail('Forbidden token in CHECKS');
 
 if (checksBody.includes('.trim(')) fail('Forbidden .trim( in CHECKS; use .trimEnd()');
+
+// Allowlist argv MUST use process.argv.slice(1) for `node -e '...'` checks.
+// Using slice(2) drops the first allowlist path (in `node -e` mode).
+if (checksBody.includes('node -e')) {
+  const badProcess = 'process.argv.slice(' + '2' + ')';
+  const badArgv = 'argv.slice(' + '2' + ')';
+  if (checksBody.includes(badProcess) || checksBody.includes(badArgv)) {
+    fail('Forbidden allowlist argv offset in CHECKS; use process.argv.slice(1)');
+  }
+}
 
 const tokenB = String.fromCharCode(119, 99, 32, 45, 108); // w+c+ + - + l
 if (checksBody.includes(tokenB)) fail('Forbidden count-based CHECK in CHECKS');

@@ -6,7 +6,7 @@ function fail(msg) {
 }
 
 function usage() {
-  console.log('Usage: node scripts/ops-gate.mjs --task <path>');
+  console.log('Usage: node scripts/ops-gate.mjs [--task <path>]');
 }
 
 function escapeRegExp(s) {
@@ -80,16 +80,89 @@ function parseArgs(argv) {
     fail(`Unknown arg: ${a}`);
   }
 
-  if (!taskPath) {
-    usage();
-    fail('Missing --task <path>');
-  }
-
   return { taskPath };
 }
 
 const { taskPath } = parseArgs(process.argv.slice(1).slice(1));
-const norm = taskPath.replaceAll('\\', '/');
+const norm = taskPath ? taskPath.replaceAll('\\', '/') : null;
+
+function isSupportedCoreSourceFile(path) {
+  return (
+    path.endsWith('.ts') ||
+    path.endsWith('.tsx') ||
+    path.endsWith('.js') ||
+    path.endsWith('.jsx') ||
+    path.endsWith('.mjs') ||
+    path.endsWith('.cjs')
+  );
+}
+
+function scanCoreDir(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const e of entries) {
+    const name = e.name;
+    if (name === 'node_modules' || name === 'dist' || name === 'build') continue;
+
+    const p = `${dir}/${name}`;
+    if (e.isDirectory()) {
+      const found = scanCoreDir(p);
+      if (found) return found;
+      continue;
+    }
+    if (!e.isFile()) continue;
+
+    const normPath = p.replaceAll('\\', '/');
+    if (!isSupportedCoreSourceFile(normPath)) continue;
+
+    let text = '';
+    try {
+      text = fs.readFileSync(p, 'utf8');
+    } catch {
+      continue;
+    }
+
+    const lines = text.split(/\r?\n/);
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+
+      const hasViolation =
+        line.includes('Date.now') ||
+        line.includes('Math.random') ||
+        line.includes('console.') ||
+        line.includes('process.') ||
+        line.includes('fs.') ||
+        line.includes('node:') ||
+        line.includes('electron');
+
+      if (!hasViolation) continue;
+
+      return {
+        filePath: normPath,
+        lineNo: i + 1,
+        lineText: line.trimEnd().trimStart(),
+      };
+    }
+  }
+
+  return null;
+}
+
+function checkCorePurityNoEffectTokens() {
+  const base = 'src/core';
+  if (!fs.existsSync(base)) return;
+
+  const found = scanCoreDir(base);
+  if (!found) return;
+
+  console.error('CORE_PURITY_VIOLATION');
+  console.error(found.filePath);
+  console.error(`${found.lineNo}: ${found.lineText}`);
+  process.exit(1);
+}
+
+checkCorePurityNoEffectTokens();
+
+if (!taskPath) process.exit(0);
 
 if (!norm.endsWith('.md')) fail('Only .md files are supported');
 if (!norm.startsWith('docs/tasks/') && !norm.startsWith('docs/OPERATIONS/')) {

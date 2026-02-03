@@ -19,7 +19,7 @@ const run = (cmd) => execSync(cmd, { encoding: "utf8" });
 
 const stripEnd = (text) => text.replace(/[\s﻿ ]+$/g, "");
 
-const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\]/g, "\$&");
+const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 let statusOut = "";
 try {
@@ -27,14 +27,13 @@ try {
 } catch (err) {
   const out = err && err.stdout ? String(err.stdout) : "";
   const errText = err && err.stderr ? String(err.stderr) : "";
-  statusOut = out + (out && errText ? "
-" : "") + errText;
+  statusOut = out + (out && errText ? "\n" : "") + errText;
 }
 
 const statusClean = stripEnd(statusOut);
 if (statusClean !== "") {
-  const lines = statusClean.split("
-").filter(Boolean);
+  const lines = statusClean.split("\n").filter(Boolean);
+
   fail("CLEAN_WORKTREE_REQUIRED", lines);
 }
 
@@ -43,8 +42,8 @@ try {
 } catch (err) {
   const out = err && err.stdout ? String(err.stdout) : "";
   const errText = err && err.stderr ? String(err.stderr) : "";
-  const details = out + (out && errText ? "
-" : "") + errText;
+  const details = out + (out && errText ? "\n" : "") + errText;
+
   fail("OPS_GATE_FAILED", details || "ops-gate failed");
 }
 
@@ -62,7 +61,7 @@ if (files.length === 0) {
 const missing = [];
 for (const file of files) {
   const base = "./" + file.replace(/\.ts$/, "");
-  const re = new RegExp(`from\s+["'\`]${escapeRegExp(base)}["'\`]`);
+  const re = new RegExp("from\\s+[\"'`]" + escapeRegExp(base) + "[\"'`]");
   if (!re.test(idxText)) missing.push(file);
 }
 

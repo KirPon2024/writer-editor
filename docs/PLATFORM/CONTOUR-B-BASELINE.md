@@ -34,7 +34,12 @@ Contour B is not responsible for:
 - Any network-dependent platform behavior.
 
 ## Stability Guarantees
-Contour B does **not** create new invariants. It re-states stability guarantees already enforced by the canon and existing operational rules.
+Contour B does **not** change project-wide invariants. It activates a small set of platform baseline invariants for Contour B, and it re-states stability guarantees already enforced by the canon and existing operational rules.
+
+### Active invariants
+- PLATFORM_BASELINE_DOC_PRESENT
+- PLATFORM_NO_CORE_PLATFORM_DEPS
+- PLATFORM_ADAPTERS_DECLARED
 
 Stable inputs (MUST NOT change within Contour B without a separate, explicit canon change task):
 - Project invariants from `CANON.md` (desktop-first, offline-first, scenes as isolated entities, recovery requirement, etc.).
@@ -52,3 +57,6 @@ Extensible space (MAY expand within Contour B while keeping the above stable):
 - This baseline document exists and matches the required structure.
 - The `A → B` transition document explicitly states what remains active and what checks are planned later (but are not active now).
 - No changes outside the approved documentation allowlist for this task.
+
+### Gate: invariants present in matrix
+- Platform baseline invariants are present in docs/OPERATIONS/OPS-INVARIANTS-MATRIX.md and marked ACTIVE_IN_CONTOUR_B.

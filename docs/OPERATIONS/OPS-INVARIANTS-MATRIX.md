@@ -13,4 +13,6 @@
 | В CHECK запрещено `.trim(` (кроме `.trimEnd(`) | OPS | gate | OPS |
 | CORE_PURITY_NO_EFFECT_TOKENS | OPS | gate | src/core/** |
 | SMOKE_A4_SCRIPT_AVAILABLE — repeatable A4 sanity checks (clean/ops-gate/contracts exports) | OPS | manual | scripts/smoke-a4.mjs |
-
+| PLATFORM_BASELINE_DOC_PRESENT — Purpose: platform baseline doc is present — ACTIVE_IN_CONTOUR_B | OPS | manual | docs/PLATFORM/CONTOUR-B-BASELINE.md |
+| PLATFORM_NO_CORE_PLATFORM_DEPS — Purpose: CORE stays platform-neutral — ACTIVE_IN_CONTOUR_B | OPS | manual | src/core/** |
+| PLATFORM_ADAPTERS_DECLARED — Purpose: adapter boundary is explicitly declared — ACTIVE_IN_CONTOUR_B | OPS | manual | Platform / Adapters |

@@ -18,6 +18,16 @@ function hasH2(txt, heading) {
   return re.test(txt);
 }
 
+function getH2HeadingsInOrder(txt) {
+  const lines = txt.split(/\r?\n/);
+  const headings = [];
+  for (const line of lines) {
+    if (!line.startsWith('## ')) continue;
+    headings.push(line.slice(3).trim());
+  }
+  return headings;
+}
+
 function getH2SectionBody(txt, heading) {
   const lines = txt.split(/\r?\n/);
   const header = `## ${heading}`;
@@ -105,14 +115,14 @@ if (isTask) {
   if (!txt.includes('CANON_VERSION:')) fail('Missing CANON_VERSION:');
   if (!txt.includes('CHECKS_BASELINE_VERSION:')) fail('Missing CHECKS_BASELINE_VERSION:');
 
-  if (txt.includes('NOT_APPLICABLE') && taskType !== 'OPS_REPORT') {
-    fail('NOT_APPLICABLE is only allowed for TYPE=OPS_REPORT');
-  }
+if (txt.includes('NOT_APPLICABLE') && taskType !== 'OPS_REPORT') {
+  fail('NOT_APPLICABLE is only allowed for TYPE=OPS_REPORT');
+}
 }
 
-// HARD-TZ базовая структура (10 секций, без HEADER).
+// MODE A (HARD‑ТЗ): ровно 10 H2 секций в строгом порядке, без дополнительных H2.
 if (isTask) {
-  const required = [
+  const requiredInOrder = [
     'MICRO_GOAL',
     'ARTIFACT',
     'ALLOWLIST',
@@ -125,8 +135,14 @@ if (isTask) {
     'FAIL_PROTOCOL',
   ];
 
-  for (const h of required) {
-    if (!hasH2(txt, h)) fail(`Missing section: ${h}`);
+  const found = getH2HeadingsInOrder(txt);
+  if (found.length !== requiredInOrder.length) {
+    fail('Invalid H2 sections count for MODE A (must be exactly 10, no extras)');
+  }
+  for (let i = 0; i < requiredInOrder.length; i++) {
+    if (found[i] !== requiredInOrder[i]) {
+      fail('Invalid H2 sections order for MODE A (order MUST match canon; extra H2 forbidden)');
+    }
   }
 }
 
@@ -154,11 +170,17 @@ if (checksBody.includes(tokenB)) fail('Forbidden count-based CHECK in CHECKS');
 const tokenC = String.fromCharCode(103, 114, 101, 112, 32, 45, 120); // g+r+e+p+ + - + x
 if (checksBody.includes(tokenC)) fail('Forbidden count-based CHECK in CHECKS');
 
-// Write tasks MUST иметь явную формулировку фаз CHECK (PRE/POST).
+// PRE/POST checks rule (with OPS_REPORT exception).
 if (isTask) {
-  const phaseLine = 'CHECK_01 выполняется ДО любых изменений; CHECK_02+ выполняются ПОСЛЕ.';
-  if (!txt.includes(phaseLine)) fail('Missing CHECK phases rule (PRE/POST)');
-  if (!hasH2(txt, 'DENYLIST')) fail('Missing section: DENYLIST');
+  const hasPre = /\bCHECK_\d+_PRE_/u.test(checksBody);
+  const hasPost = /\bCHECK_\d+_POST_/u.test(checksBody);
+
+  if (taskType === 'OPS_REPORT') {
+    if (!hasPost) fail('TYPE=OPS_REPORT must include at least one POST_ check');
+  } else {
+    if (!hasPre) fail('Missing PRE_ check (TYPE != OPS_REPORT)');
+    if (!hasPost) fail('Missing POST_ check (TYPE != OPS_REPORT)');
+  }
 }
 
 process.exit(0);

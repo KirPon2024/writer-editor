@@ -11,3 +11,4 @@
 | В CHECK запрещены `wc -l` / `grep -x N` (count-based git status) | OPS | gate | OPS |
 | В CHECK запрещён `awk` | OPS | gate | OPS |
 | В CHECK запрещено `.trim(` (кроме `.trimEnd(`) | OPS | gate | OPS |
+| CORE_PURITY_NO_EFFECT_TOKENS | OPS | gate | src/core/** |

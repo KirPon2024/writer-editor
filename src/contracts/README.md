@@ -16,3 +16,14 @@
 ## Notes
 - CORE-internal helper types may exist in `src/core/*`, but are not considered public contracts.
 - Moving existing shapes into `src/contracts/*` is a separate, explicit task.
+
+## Naming
+- Public contract files MUST be named `*.contract.ts`.
+
+## Export surface
+- Every public contract MUST be re-exported from `src/contracts/index.ts`.
+- `src/contracts/index.ts` MUST remain free of runtime logic.
+
+## Current contracts
+- `first.contract.ts`
+- `core-state.contract.ts` (exports `CoreStateSnapshot`)

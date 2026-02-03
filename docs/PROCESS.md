@@ -74,6 +74,15 @@ TRIGGER_WRITE_INTENT (единственный обязательный триг
 - `docs/templates/soft-script.md` (шаблон)
 - `docs/OPERATIONS/OPS-REPORT-FORMAT.md` (минимальный формат OPS-отчёта)
 
+## Enforcement E0
+OPS-GATE (E0) — локальный, ручной gate для MODE A (HARD‑ТЗ). Не CI: запускается человеком перед исполнением.
+
+Правило:
+- Любое новое HARD‑ТЗ MODE A MUST проходить OPS-GATE (E0) до исполнения.
+
+Запуск:
+- `node scripts/ops-gate.mjs --task docs/tasks/FILE.md`
+
 1) **Сформулировать ТЗ**
 - Создать ТЗ по шаблону: `docs/templates/FEATURE_TZ.md` (или через brain: `npm run brain:new-task -- "Название задачи"`)
 - Перед реализацией (и даже перед финализацией ТЗ) — быстро проверить референсы: `npm run brain:refs -- "ключевые слова"`

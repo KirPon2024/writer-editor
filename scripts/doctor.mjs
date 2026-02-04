@@ -815,7 +815,7 @@ function checkContourCEnforcementInventory(applicableRegistryItems, targetParsed
   console.log(`CONTOUR_C_ENFORCEMENT_VIOLATIONS=${JSON.stringify(violationsOut)}`);
   console.log(`CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT=${violationsOut.length}`);
 
-  return { forceFail, level: violationsOut.length > 0 ? 'warn' : 'ok' };
+  return { forceFail, level: violationsOut.length > 0 ? 'warn' : 'ok', planIds: entries };
 }
 
 function evaluateRegistry(items, auditCheckIds) {
@@ -1793,6 +1793,38 @@ function checkOndiskArtifacts(matrixMode, debtRegistry) {
   };
 }
 
+function computeContourCEnforcementCompleteness(gatingApplicableItems, contourCEnforcementPlanIds) {
+  const registryCApplicableSet = new Set();
+
+  for (const it of Array.isArray(gatingApplicableItems) ? gatingApplicableItems : []) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+    if (it.contour !== 'C') continue;
+    const invariantId = it.invariantId;
+    if (typeof invariantId !== 'string' || invariantId.length === 0) continue;
+    registryCApplicableSet.add(invariantId);
+  }
+
+  const registryIds = [...registryCApplicableSet].sort();
+  const planIds = Array.isArray(contourCEnforcementPlanIds) ? [...new Set(contourCEnforcementPlanIds)].sort() : [];
+
+  const planSet = new Set(planIds);
+  const registrySet = new Set(registryIds);
+
+  const missing = registryIds.filter((id) => !planSet.has(id));
+  const extra = planIds.filter((id) => !registrySet.has(id));
+
+  console.log(`CONTOUR_C_ENFORCEMENT_REGISTRY_IDS=${JSON.stringify(registryIds)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_REGISTRY_IDS_COUNT=${registryIds.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_PLAN_IDS=${JSON.stringify(planIds)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_PLAN_IDS_COUNT=${planIds.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_MISSING_PLAN_IDS=${JSON.stringify(missing)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_MISSING_PLAN_IDS_COUNT=${missing.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_EXTRA_PLAN_IDS=${JSON.stringify(extra)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_EXTRA_PLAN_IDS_COUNT=${extra.length}`);
+
+  return { missingCount: missing.length, extraCount: extra.length };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -1910,6 +1942,7 @@ function run() {
 
   const gating = applyIntroducedInGating(registryItems, targetParsed);
   const contourCEnforcement = checkContourCEnforcementInventory(gating.applicableItems, targetParsed);
+  const contourCCompleteness = computeContourCEnforcementCompleteness(gating.applicableItems, contourCEnforcement.planIds);
   computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
 
@@ -1936,7 +1969,9 @@ function run() {
     || debtTtl.level === 'warn'
     || runtimeSignalsEval.level === 'warn'
     || registryEval.level === 'warn'
-    || contourCEnforcement.level === 'warn';
+    || contourCEnforcement.level === 'warn'
+    || contourCCompleteness.missingCount > 0
+    || contourCCompleteness.extraCount > 0;
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

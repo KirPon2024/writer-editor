@@ -156,6 +156,100 @@ function checkDebtTtl(debtItems, mode) {
   return { status: 'DEBT_TTL_OK', level: 'ok' };
 }
 
+function hasAnyActiveDebt(debtItems) {
+  const todayStart = utcTodayStartMs();
+  for (let i = 0; i < debtItems.length; i += 1) {
+    const ttlUntil = debtItems[i].ttlUntil;
+    if (typeof ttlUntil !== 'string' || ttlUntil.length === 0) continue;
+    const parsed = Date.parse(ttlUntil);
+    if (Number.isNaN(parsed)) continue;
+    if (parsed >= todayStart) return true;
+  }
+  return false;
+}
+
+function listSourceFiles(rootDir) {
+  if (!fs.existsSync(rootDir)) return [];
+
+  const out = [];
+  const stack = [rootDir];
+
+  while (stack.length > 0) {
+    const dir = stack.pop();
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) {
+        stack.push(fullPath);
+        continue;
+      }
+      if (!entry.isFile()) continue;
+
+      if (/\.(c|m)?js$/.test(entry.name) || /\.tsx?$/.test(entry.name) || /\.d\.ts$/.test(entry.name)) {
+        out.push(fullPath);
+      }
+    }
+  }
+
+  return out.sort();
+}
+
+function checkCoreBoundary(matrixMode, debtItems) {
+  const invariantId = 'CORE-BOUNDARY-001';
+  const roots = ['src/core', 'src/contracts'];
+  const files = roots.flatMap((r) => listSourceFiles(r));
+
+  const patterns = [
+    /\bfrom\s+['"]electron['"]/g,
+    /\bfrom\s+['"]fs['"]/g,
+    /\bfrom\s+['"]path['"]/g,
+    /\bfrom\s+['"]@\/ui['"]/g,
+    /\bfrom\s+['"]@\/platform['"]/g,
+    /\brequire\s*\(\s*['"]electron['"]\s*\)/g,
+    /\brequire\s*\(\s*['"]fs['"]\s*\)/g,
+    /\brequire\s*\(\s*['"]path['"]\s*\)/g,
+    /\brequire\s*\(\s*['"]@\/ui['"]\s*\)/g,
+    /\brequire\s*\(\s*['"]@\/platform['"]\s*\)/g,
+  ];
+
+  const violations = [];
+
+  for (const filePath of files) {
+    let text;
+    try {
+      text = fs.readFileSync(filePath, 'utf8');
+    } catch {
+      continue;
+    }
+
+    for (const re of patterns) {
+      re.lastIndex = 0;
+      const m = re.exec(text);
+      if (m) {
+        violations.push({ filePath, token: m[0] });
+      }
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`CORE_BOUNDARY_VIOLATION file=${v.filePath} token=${JSON.stringify(v.token)} invariant=${invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'CORE_BOUNDARY_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'CORE_BOUNDARY_FAIL', level: 'fail' };
+  }
+
+  const activeDebt = hasAnyActiveDebt(debtItems);
+  return {
+    status: activeDebt ? 'CORE_BOUNDARY_WARN' : 'CORE_BOUNDARY_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -224,13 +318,19 @@ function run() {
   }
 
   const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
+  const coreBoundary = checkCoreBoundary(matrixMode, debt.items);
+
+  console.log(coreBoundary.status);
   console.log(debtTtl.status);
 
-  if (debtTtl.level === 'fail') {
+  const hasFail = coreBoundary.level === 'fail' || debtTtl.level === 'fail';
+  const hasWarn = coreBoundary.level === 'warn' || debtTtl.level === 'warn';
+
+  if (hasFail) {
     console.log('DOCTOR_FAIL');
     process.exit(1);
   }
-  if (debtTtl.level === 'warn') {
+  if (hasWarn) {
     console.log('DOCTOR_WARN');
     process.exit(0);
   }

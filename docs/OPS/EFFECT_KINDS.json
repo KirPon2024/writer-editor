@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kinds": [
+    { "kind": "WRITE_FILE", "idempotent": false, "requiresIdempotencyKey": true },
+    { "kind": "RENAME", "idempotent": false, "requiresIdempotencyKey": true },
+    { "kind": "DELETE", "idempotent": false, "requiresIdempotencyKey": true },
+    { "kind": "PERSIST_STATE", "idempotent": false, "requiresIdempotencyKey": true },
+    { "kind": "LOG", "idempotent": true, "requiresIdempotencyKey": false },
+    { "kind": "METRIC", "idempotent": true, "requiresIdempotencyKey": false },
+    { "kind": "DIAGNOSTIC", "idempotent": true, "requiresIdempotencyKey": false },
+    { "kind": "SHOW_DIALOG", "idempotent": false, "requiresIdempotencyKey": false },
+    { "kind": "OPEN_EXTERNAL", "idempotent": false, "requiresIdempotencyKey": false }
+  ]
+}

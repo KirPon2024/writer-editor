@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "requiredFields": ["docId", "textVersion"],
+  "optionalFields": ["stateVersion"],
+  "forbiddenFieldPrefixes": ["ui", "selection", "decoration"]
+}

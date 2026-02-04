@@ -3,6 +3,7 @@
 ## REPORT_FORMAT
 - CHANGED:
 - CHECK:
+- CHECK: final `git status --porcelain --untracked-files=all` (after commit) PASS: (empty)
 - OUT:
 - ASSUMPTIONS: (empty)
 - FAIL_REASON:

@@ -1956,6 +1956,30 @@ function checkContourCContractsFrozenEntrypoint(targetParsed) {
   return { ok };
 }
 
+function checkContourCSrcContractsSkeletonDiagnostics(targetParsed) {
+  const gate = targetParsed && targetParsed.token === 'v1.3';
+  if (!gate) return null;
+
+  const expected = [
+    'src/contracts/runtime/index.ts',
+    'src/contracts/runtime/runtime-effects.contract.ts',
+    'src/contracts/runtime/runtime-execution.contract.ts',
+    'src/contracts/runtime/runtime-queue.contract.ts',
+    'src/contracts/runtime/runtime-trace.contract.ts',
+  ].sort();
+
+  const missing = expected.filter((p) => !fs.existsSync(p)).sort();
+  const ok = missing.length === 0 ? 1 : 0;
+
+  console.log(`CONTOUR_C_SRC_CONTRACTS_EXPECTED=${JSON.stringify(expected)}`);
+  console.log(`CONTOUR_C_SRC_CONTRACTS_EXPECTED_COUNT=${expected.length}`);
+  console.log(`CONTOUR_C_SRC_CONTRACTS_MISSING=${JSON.stringify(missing)}`);
+  console.log(`CONTOUR_C_SRC_CONTRACTS_MISSING_COUNT=${missing.length}`);
+  console.log(`CONTOUR_C_SRC_CONTRACTS_OK=${ok}`);
+
+  return { ok };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -2081,6 +2105,7 @@ function run() {
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
   const docsContracts = checkContourCDocsContractsPresence();
   const frozenContracts = checkContourCContractsFrozenEntrypoint(targetParsed);
+  checkContourCSrcContractsSkeletonDiagnostics(targetParsed);
 
   const hasFail = coreBoundary.level === 'fail'
     || coreDet.level === 'fail'

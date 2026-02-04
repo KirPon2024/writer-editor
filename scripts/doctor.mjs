@@ -2,6 +2,47 @@ import fs from 'node:fs';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 
+const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
+
+function parseVersionToken(token, errorFile, errorReason) {
+  if (typeof token !== 'string') {
+    die('ERR_DOCTOR_INVALID_SHAPE', errorFile, errorReason);
+  }
+  const m = token.match(VERSION_TOKEN_RE);
+  if (!m) {
+    die('ERR_DOCTOR_INVALID_SHAPE', errorFile, errorReason);
+  }
+  return { major: Number(m[1]), minor: Number(m[2]), token };
+}
+
+function compareVersion(a, b) {
+  if (a.major !== b.major) return a.major < b.major ? -1 : 1;
+  if (a.minor !== b.minor) return a.minor < b.minor ? -1 : 1;
+  return 0;
+}
+
+function resolveTargetBaselineVersion() {
+  const envToken = process.env.CHECKS_BASELINE_VERSION;
+  if (typeof envToken === 'string' && envToken.length > 0) {
+    const valid = VERSION_TOKEN_RE.test(envToken);
+    if (valid) return { targetBaselineVersion: envToken, invalidEnvToken: null };
+
+    const registryPath = 'docs/OPS/INVARIANTS_REGISTRY.json';
+    const registryRaw = readJson(registryPath);
+    if (!registryRaw || typeof registryRaw !== 'object' || Array.isArray(registryRaw)) {
+      die('ERR_DOCTOR_INVALID_SHAPE', registryPath, 'top_level_must_be_object');
+    }
+    return { targetBaselineVersion: registryRaw.opsCanonVersion, invalidEnvToken: envToken };
+  }
+
+  const registryPath = 'docs/OPS/INVARIANTS_REGISTRY.json';
+  const registryRaw = readJson(registryPath);
+  if (!registryRaw || typeof registryRaw !== 'object' || Array.isArray(registryRaw)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', registryPath, 'top_level_must_be_object');
+  }
+  return { targetBaselineVersion: registryRaw.opsCanonVersion, invalidEnvToken: null };
+}
+
 const REQUIRED_FILES = [
   'docs/OPS/AUDIT-MATRIX-v1.1.md',
   'docs/OPS/AUDIT_CHECKS.json',
@@ -1200,6 +1241,30 @@ function run() {
     if (!fs.existsSync(filePath)) {
       die('ERR_DOCTOR_MISSING_FILE', filePath, 'missing');
     }
+  }
+
+  const { targetBaselineVersion, invalidEnvToken } = resolveTargetBaselineVersion();
+  const supportedParsed = parseVersionToken(
+    SUPPORTED_OPS_CANON_VERSION,
+    'SUPPORTED_OPS_CANON_VERSION',
+    'invalid_version_token',
+  );
+  const targetParsed = parseVersionToken(
+    targetBaselineVersion,
+    'docs/OPS/INVARIANTS_REGISTRY.json',
+    'opsCanonVersion_invalid_version_token',
+  );
+
+  console.log(`TARGET_BASELINE_VERSION=${targetParsed.token}`);
+
+  if (invalidEnvToken !== null) {
+    console.error(`CHECKS_BASELINE_VERSION=${invalidEnvToken}`);
+    die('ERR_DOCTOR_INVALID_SHAPE', 'CHECKS_BASELINE_VERSION', 'invalid_version_token');
+  }
+
+  if (compareVersion(targetParsed, supportedParsed) !== 0) {
+    console.error(`SUPPORTED_OPS_CANON_VERSION=${supportedParsed.token}`);
+    die('ERR_DOCTOR_INVALID_SHAPE', 'SUPPORTED_OPS_CANON_VERSION', 'baseline_version_mismatch');
   }
 
   const auditChecksPath = 'docs/OPS/AUDIT_CHECKS.json';

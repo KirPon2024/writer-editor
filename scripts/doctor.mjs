@@ -6,6 +6,7 @@ const REQUIRED_FILES = [
   'docs/OPS/QUEUE_POLICIES.json',
   'docs/OPS/CAPABILITIES_MATRIX.json',
   'docs/OPS/PUBLIC_SURFACE.json',
+  'docs/OPS/ONDISK_ARTIFACTS.json',
 ];
 
 function die(code, file, reason) {
@@ -601,6 +602,137 @@ function checkPublicSurface(matrixMode, debtItems) {
   };
 }
 
+function checkOndiskArtifacts(matrixMode, debtItems) {
+  const invariantId = 'OPS-ONDISK-001';
+  const filePath = 'docs/OPS/ONDISK_ARTIFACTS.json';
+
+  const violations = [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(readText(filePath));
+  } catch {
+    violations.push({ id: 'unknown', field: 'json' });
+    parsed = null;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    violations.push({ id: 'unknown', field: 'root' });
+  }
+
+  const schemaVersion = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.schemaVersion : undefined;
+  if (schemaVersion !== 1) {
+    violations.push({ id: 'unknown', field: 'schemaVersion' });
+  }
+
+  const items = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.items : undefined;
+  if (!Array.isArray(items)) {
+    violations.push({ id: 'unknown', field: 'items' });
+  }
+  if (Array.isArray(items) && items.length < 1) {
+    violations.push({ id: 'unknown', field: 'items_empty' });
+  }
+
+  const allowedStability = new Set(['Stable', 'Evolving', 'Experimental']);
+  const allowedKind = new Set(['project_manifest', 'scene_document', 'backup', 'architecture_snapshot', 'cache']);
+  const allowedMigrationPolicy = new Set(['required', 'optional', 'not_applicable']);
+
+  const seenIds = new Set();
+
+  if (Array.isArray(items)) {
+    for (let i = 0; i < items.length; i += 1) {
+      const item = items[i];
+      if (!item || typeof item !== 'object' || Array.isArray(item)) {
+        violations.push({ id: 'unknown', field: 'item' });
+        continue;
+      }
+
+      const idRaw = item.id;
+      const id = typeof idRaw === 'string' && idRaw.length > 0 ? idRaw : 'unknown';
+      if (id === 'unknown') violations.push({ id, field: 'id' });
+
+      if (id !== 'unknown') {
+        if (seenIds.has(id)) {
+          violations.push({ id, field: 'id_duplicate' });
+        } else {
+          seenIds.add(id);
+        }
+      }
+
+      const stability = item.stability;
+      if (typeof stability !== 'string' || !allowedStability.has(stability)) {
+        violations.push({ id, field: 'stability' });
+      }
+
+      const kind = item.kind;
+      if (typeof kind !== 'string' || !allowedKind.has(kind)) {
+        violations.push({ id, field: 'kind' });
+      }
+
+      const pathPattern = item.pathPattern;
+      if (typeof pathPattern !== 'string' || pathPattern.length === 0) {
+        violations.push({ id, field: 'pathPattern' });
+      }
+
+      const schemaRef = item.schemaRef;
+      if (typeof schemaRef !== 'string' || schemaRef.length === 0) {
+        violations.push({ id, field: 'schemaRef' });
+      }
+
+      const migrationPolicy = item.migrationPolicy;
+      if (typeof migrationPolicy !== 'string' || !allowedMigrationPolicy.has(migrationPolicy)) {
+        violations.push({ id, field: 'migrationPolicy' });
+      }
+
+      const safeToDelete = item.safeToDelete;
+      if (typeof safeToDelete !== 'boolean') {
+        violations.push({ id, field: 'safeToDelete' });
+      }
+
+      if ('notes' in item) {
+        if (typeof item.notes !== 'string') {
+          violations.push({ id, field: 'notes' });
+        }
+      }
+
+      const isCache = kind === 'cache';
+      if (isCache) {
+        if (migrationPolicy !== 'not_applicable') {
+          violations.push({ id, field: 'migrationPolicy_cache' });
+        }
+        if (safeToDelete !== true) {
+          violations.push({ id, field: 'safeToDelete_cache' });
+        }
+      } else {
+        if (migrationPolicy !== 'required') {
+          violations.push({ id, field: 'migrationPolicy_non_cache' });
+        }
+        if (safeToDelete !== false) {
+          violations.push({ id, field: 'safeToDelete_non_cache' });
+        }
+      }
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`ONDISK_VIOLATION id=${v.id} field=${v.field} invariant=${invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'ONDISK_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'ONDISK_FAIL', level: 'fail' };
+  }
+
+  const hasDebt = hasMatchingActiveDebt(debtItems, filePath);
+  return {
+    status: hasDebt ? 'ONDISK_WARN' : 'ONDISK_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -651,6 +783,7 @@ function run() {
 
   const capsPolicy = checkCapabilitiesMatrix(matrixMode, debt.items, caps.items);
   const publicSurface = checkPublicSurface(matrixMode, debt.items);
+  const ondiskPolicy = checkOndiskArtifacts(matrixMode, debt.items);
 
   const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
   const coreDet = checkCoreDeterminism(matrixMode, debt.items);
@@ -661,6 +794,7 @@ function run() {
   console.log(queuePolicy.status);
   console.log(capsPolicy.status);
   console.log(publicSurface.status);
+  console.log(ondiskPolicy.status);
   console.log(debtTtl.status);
 
   const hasFail = coreBoundary.level === 'fail'
@@ -668,12 +802,14 @@ function run() {
     || queuePolicy.level === 'fail'
     || capsPolicy.level === 'fail'
     || publicSurface.level === 'fail'
+    || ondiskPolicy.level === 'fail'
     || debtTtl.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'
     || capsPolicy.level === 'warn'
     || publicSurface.level === 'warn'
+    || ondiskPolicy.level === 'warn'
     || debtTtl.level === 'warn';
 
   if (hasFail) {

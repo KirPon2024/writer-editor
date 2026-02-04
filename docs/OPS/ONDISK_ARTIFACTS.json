@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "project.manifest.v1",
+      "stability": "Evolving",
+      "kind": "project_manifest",
+      "pathPattern": "project/manifest.json",
+      "schemaRef": "project_manifest.v1",
+      "migrationPolicy": "required",
+      "safeToDelete": false
+    },
+    {
+      "id": "scene.document.v1",
+      "stability": "Evolving",
+      "kind": "scene_document",
+      "pathPattern": "project/scenes/*.json",
+      "schemaRef": "scene_document.v1",
+      "migrationPolicy": "required",
+      "safeToDelete": false
+    },
+    {
+      "id": "project.backup.v1",
+      "stability": "Evolving",
+      "kind": "backup",
+      "pathPattern": "project/backups/**",
+      "schemaRef": "backup_snapshot.v1",
+      "migrationPolicy": "required",
+      "safeToDelete": false
+    },
+    {
+      "id": "architecture.snapshot.v1",
+      "stability": "Experimental",
+      "kind": "architecture_snapshot",
+      "pathPattern": "project/recovery/**",
+      "schemaRef": "recovery_snapshot.v1",
+      "migrationPolicy": "required",
+      "safeToDelete": false
+    },
+    {
+      "id": "platform.cache.v1",
+      "stability": "Experimental",
+      "kind": "cache",
+      "pathPattern": "project/cache/**",
+      "schemaRef": "cache.v1",
+      "migrationPolicy": "not_applicable",
+      "safeToDelete": true
+    }
+  ]
+}

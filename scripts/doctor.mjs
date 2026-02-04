@@ -517,6 +517,113 @@ function checkInventoryEmptiness(inventoryIndexItems, debtRegistry) {
   return { violations };
 }
 
+function checkRuntimeSignalsInventory() {
+  const filePath = 'docs/OPS/RUNTIME_SIGNALS.json';
+  const violations = [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(readText(filePath));
+  } catch {
+    parsed = null;
+    violations.push('json_parse_failed');
+  }
+
+  const items = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.items : null;
+  if (!Array.isArray(items)) {
+    violations.push('items_must_be_array');
+  }
+
+  const seen = new Set();
+  const signalIds = [];
+
+  if (Array.isArray(items)) {
+    for (let i = 0; i < items.length; i += 1) {
+      const it = items[i];
+      if (!it || typeof it !== 'object' || Array.isArray(it)) {
+        violations.push(`item_${i}_must_be_object`);
+        continue;
+      }
+
+      const required = ['signalId', 'kind', 'introducedIn', 'severity', 'evidencePath', 'description'];
+      for (const k of required) {
+        if (!(k in it)) {
+          violations.push(`item_${i}_missing_${k}`);
+        }
+      }
+
+      const signalId = it.signalId;
+      if (typeof signalId !== 'string' || signalId.length === 0) {
+        violations.push(`item_${i}_signalId_invalid`);
+      } else {
+        if (/\s/.test(signalId)) violations.push(`${signalId}:signalId_has_whitespace`);
+        if (seen.has(signalId)) violations.push(`${signalId}:duplicate_signalId`);
+        seen.add(signalId);
+        signalIds.push(signalId);
+      }
+
+      const kind = it.kind;
+      if (kind !== 'trace_sink' && kind !== 'trace_signal') {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:kind_invalid`);
+      }
+
+      const introducedIn = it.introducedIn;
+      if (introducedIn !== 'v1.3') {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:introducedIn_invalid`);
+      }
+
+      const severity = it.severity;
+      if (severity !== 'P0' && severity !== 'P1' && severity !== 'P2') {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:severity_invalid`);
+      }
+
+      const evidencePath = it.evidencePath;
+      if (typeof evidencePath !== 'string' || evidencePath.length === 0) {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:evidencePath_invalid`);
+      } else if (evidencePath.includes('\\')) {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:evidencePath_backslash`);
+      }
+
+      const description = it.description;
+      if (typeof description !== 'string' || description.length === 0) {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:description_invalid`);
+      }
+    }
+  }
+
+  const sorted = [...signalIds].sort();
+  const sortedOk = signalIds.length === sorted.length && signalIds.every((v, i) => v === sorted[i]);
+  if (!sortedOk) violations.push('signalId_not_sorted');
+
+  const byId = Array.isArray(items) ? new Map(items.map((x) => [x && x.signalId, x])) : new Map();
+  const minSet = ['C_TRACE_SINK_LOCATOR', 'C_TRACE_COMMAND_RECORD', 'C_TRACE_EFFECT_RECORD'];
+  for (const id of minSet) {
+    if (!byId.has(id)) {
+      violations.push(`missing_${id}`);
+    }
+  }
+
+  const sink = byId.get('C_TRACE_SINK_LOCATOR');
+  if (sink) {
+    if (sink.kind !== 'trace_sink') violations.push('C_TRACE_SINK_LOCATOR:kind_must_be_trace_sink');
+    if (sink.severity !== 'P0') violations.push('C_TRACE_SINK_LOCATOR:severity_must_be_P0');
+  }
+
+  for (const id of ['C_TRACE_COMMAND_RECORD', 'C_TRACE_EFFECT_RECORD']) {
+    const it = byId.get(id);
+    if (it) {
+      if (it.kind !== 'trace_signal') violations.push(`${id}:kind_must_be_trace_signal`);
+      if (it.severity !== 'P0') violations.push(`${id}:severity_must_be_P0`);
+    }
+  }
+
+  const uniqSorted = [...new Set(violations)].sort();
+  console.log(`RUNTIME_SIGNALS_VIOLATIONS=${JSON.stringify(uniqSorted)}`);
+  console.log(`RUNTIME_SIGNALS_VIOLATIONS_COUNT=${uniqSorted.length}`);
+
+  return { level: uniqSorted.length > 0 ? 'warn' : 'ok' };
+}
+
 function evaluateRegistry(items, auditCheckIds) {
   const enforced = [];
   const placeholders = [];
@@ -1563,6 +1670,8 @@ function run() {
     die('ERR_DOCTOR_INVALID_SHAPE', inventoryIndexPath, 'inventory_empty_violations_present');
   }
 
+  const runtimeSignalsEval = checkRuntimeSignalsInventory();
+
   const queuePath = 'docs/OPS/QUEUE_POLICIES.json';
   const queue = readJson(queuePath);
   assertObjectShape(queuePath, queue);
@@ -1629,6 +1738,7 @@ function run() {
     || effectsIdemp.level === 'warn'
     || ondiskPolicy.level === 'warn'
     || debtTtl.level === 'warn'
+    || runtimeSignalsEval.level === 'warn'
     || registryEval.level === 'warn';
 
   if (hasFail) {

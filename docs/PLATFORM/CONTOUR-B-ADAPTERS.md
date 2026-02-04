@@ -31,11 +31,17 @@ Core categories:
 ## Required Adapters (macOS)
 For the macOS delivery target, the platform baseline requires the following adapters to be explicitly declared in the catalog and kept conceptually separate:
 - **Local storage adapter**: local project persistence and local asset access; no network dependency.
+  - Invariant Coverage: PLATFORM_ADAPTERS_LIST_COMPLETE, PLATFORM_ADAPTERS_NO_CORE_DEP, PLATFORM_ADAPTERS_NO_UI_LOGIC
 - **File selection & workspace adapter**: user-directed selection of local locations and consistent path handling across the application.
+  - Invariant Coverage: PLATFORM_ADAPTERS_LIST_COMPLETE, PLATFORM_ADAPTERS_NO_CORE_DEP, PLATFORM_ADAPTERS_NO_UI_LOGIC
 - **App lifecycle adapter**: startup/shutdown and recovery-safe shutdown behavior, expressed as lifecycle signals for higher layers.
+  - Invariant Coverage: PLATFORM_ADAPTERS_LIST_COMPLETE, PLATFORM_ADAPTERS_NO_CORE_DEP, PLATFORM_ADAPTERS_NO_UI_LOGIC
 - **Window & focus adapter**: window-level lifecycle and focus signals needed for a desktop experience, without embedding platform rules into CORE.
+  - Invariant Coverage: PLATFORM_ADAPTERS_LIST_COMPLETE, PLATFORM_ADAPTERS_NO_CORE_DEP, PLATFORM_ADAPTERS_NO_UI_LOGIC
 - **Clipboard & share-surface adapter**: controlled exchange of user-selected content with the outside world, without making CORE dependent on platform-specific surfaces.
+  - Invariant Coverage: PLATFORM_ADAPTERS_LIST_COMPLETE, PLATFORM_ADAPTERS_NO_CORE_DEP, PLATFORM_ADAPTERS_NO_UI_LOGIC
 - **System policy adapter**: enforces “no remote code”, blocked navigation, and blocked new-window behaviors via policy outcomes, not via CORE logic.
+  - Invariant Coverage: PLATFORM_ADAPTERS_LIST_COMPLETE, PLATFORM_ADAPTERS_NO_CORE_DEP, PLATFORM_ADAPTERS_NO_UI_LOGIC
 
 ## Forbidden Adapter Behaviors
 Adapters must not:

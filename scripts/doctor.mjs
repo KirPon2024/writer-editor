@@ -534,6 +534,43 @@ function checkRuntimeSignalsInventory() {
     violations.push('items_must_be_array');
   }
 
+  let sinkPath = '';
+  let sinkExists = '0';
+  let sinkKind = 'missing';
+  let sinkError = '';
+
+  if (Array.isArray(items)) {
+    const sink = items.find((it) => it && typeof it === 'object' && !Array.isArray(it) && it.signalId === 'C_TRACE_SINK_LOCATOR');
+    const evidencePath = sink && typeof sink.evidencePath === 'string' ? sink.evidencePath : '';
+    sinkPath = evidencePath;
+
+    if (typeof evidencePath !== 'string' || evidencePath.length === 0) {
+      sinkError = 'missing C_TRACE_SINK_LOCATOR in RUNTIME_SIGNALS';
+    } else if (!fs.existsSync(evidencePath)) {
+      sinkError = 'trace sink locator path missing';
+    } else {
+      try {
+        const st = fs.statSync(evidencePath);
+        sinkExists = '1';
+        sinkKind = st.isDirectory() ? 'dir' : (st.isFile() ? 'file' : 'missing');
+        sinkError = sinkKind === 'missing' ? 'trace sink locator path has unsupported kind' : '';
+        if (sinkError.length > 0) {
+          sinkExists = '0';
+          sinkKind = 'missing';
+        }
+      } catch {
+        sinkError = 'trace sink locator stat failed';
+      }
+    }
+  } else {
+    sinkError = 'runtime signals items missing';
+  }
+
+  console.log(`C_TRACE_SINK_LOCATOR_PATH=${sinkPath}`);
+  console.log(`C_TRACE_SINK_LOCATOR_PATH_EXISTS=${sinkExists}`);
+  console.log(`C_TRACE_SINK_LOCATOR_PATH_KIND=${sinkKind}`);
+  console.log(`C_TRACE_SINK_LOCATOR_PATH_ERROR=${sinkError}`);
+
   const seen = new Set();
   const signalIds = [];
 

@@ -402,6 +402,34 @@ function parseInventoryIndex(filePath) {
   return idx.items;
 }
 
+function computeIdListDiagnostics(ids) {
+  const raw = Array.isArray(ids) ? ids.map((v) => (typeof v === 'string' ? v : String(v))) : [];
+  const sorted = [...raw].sort();
+  const sortedOk = raw.length === sorted.length && raw.every((v, i) => v === sorted[i]);
+
+  const counts = new Map();
+  for (const id of raw) {
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
+  const dupes = [...counts.values()].some((n) => n > 1);
+  const dupIds = [...counts.entries()].filter(([, n]) => n > 1).map(([id]) => id);
+
+  const violationsSet = new Set();
+  if (!sortedOk) {
+    for (const id of raw) violationsSet.add(id);
+  }
+  if (dupes) {
+    for (const id of dupIds) violationsSet.add(id);
+  }
+
+  const violations = [...violationsSet].sort();
+  return {
+    sortedOk,
+    dupes,
+    violations,
+  };
+}
+
 function checkInventoryEmptiness(inventoryIndexItems, debtRegistry) {
   const violations = [];
 
@@ -489,6 +517,344 @@ function checkInventoryEmptiness(inventoryIndexItems, debtRegistry) {
   return { violations };
 }
 
+function checkRuntimeSignalsInventory() {
+  const filePath = 'docs/OPS/RUNTIME_SIGNALS.json';
+  const violations = [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(readText(filePath));
+  } catch {
+    parsed = null;
+    violations.push('json_parse_failed');
+  }
+
+  const items = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.items : null;
+  if (!Array.isArray(items)) {
+    violations.push('items_must_be_array');
+  }
+
+  let sinkPath = '';
+  let sinkExists = '0';
+  let sinkKind = 'missing';
+  let sinkError = '';
+
+  if (Array.isArray(items)) {
+    const sink = items.find((it) => it && typeof it === 'object' && !Array.isArray(it) && it.signalId === 'C_TRACE_SINK_LOCATOR');
+    const evidencePath = sink && typeof sink.evidencePath === 'string' ? sink.evidencePath : '';
+    sinkPath = evidencePath;
+
+    if (typeof evidencePath !== 'string' || evidencePath.length === 0) {
+      sinkError = 'missing C_TRACE_SINK_LOCATOR in RUNTIME_SIGNALS';
+    } else if (!fs.existsSync(evidencePath)) {
+      sinkError = 'trace sink locator path missing';
+    } else {
+      try {
+        const st = fs.statSync(evidencePath);
+        sinkExists = '1';
+        sinkKind = st.isDirectory() ? 'dir' : (st.isFile() ? 'file' : 'missing');
+        sinkError = sinkKind === 'missing' ? 'trace sink locator path has unsupported kind' : '';
+        if (sinkError.length > 0) {
+          sinkExists = '0';
+          sinkKind = 'missing';
+        }
+      } catch {
+        sinkError = 'trace sink locator stat failed';
+      }
+    }
+  } else {
+    sinkError = 'runtime signals items missing';
+  }
+
+  console.log(`C_TRACE_SINK_LOCATOR_PATH=${sinkPath}`);
+  console.log(`C_TRACE_SINK_LOCATOR_PATH_EXISTS=${sinkExists}`);
+  console.log(`C_TRACE_SINK_LOCATOR_PATH_KIND=${sinkKind}`);
+  console.log(`C_TRACE_SINK_LOCATOR_PATH_ERROR=${sinkError}`);
+
+  const seen = new Set();
+  const signalIds = [];
+
+  if (Array.isArray(items)) {
+    for (let i = 0; i < items.length; i += 1) {
+      const it = items[i];
+      if (!it || typeof it !== 'object' || Array.isArray(it)) {
+        violations.push(`item_${i}_must_be_object`);
+        continue;
+      }
+
+      const required = ['signalId', 'kind', 'introducedIn', 'severity', 'evidencePath', 'description'];
+      for (const k of required) {
+        if (!(k in it)) {
+          violations.push(`item_${i}_missing_${k}`);
+        }
+      }
+
+      const signalId = it.signalId;
+      if (typeof signalId !== 'string' || signalId.length === 0) {
+        violations.push(`item_${i}_signalId_invalid`);
+      } else {
+        if (/\s/.test(signalId)) violations.push(`${signalId}:signalId_has_whitespace`);
+        if (seen.has(signalId)) violations.push(`${signalId}:duplicate_signalId`);
+        seen.add(signalId);
+        signalIds.push(signalId);
+      }
+
+      const kind = it.kind;
+      if (kind !== 'trace_sink' && kind !== 'trace_signal') {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:kind_invalid`);
+      }
+
+      const introducedIn = it.introducedIn;
+      if (introducedIn !== 'v1.3') {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:introducedIn_invalid`);
+      }
+
+      const severity = it.severity;
+      if (severity !== 'P0' && severity !== 'P1' && severity !== 'P2') {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:severity_invalid`);
+      }
+
+      const evidencePath = it.evidencePath;
+      if (typeof evidencePath !== 'string' || evidencePath.length === 0) {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:evidencePath_invalid`);
+      } else if (evidencePath.includes('\\')) {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:evidencePath_backslash`);
+      }
+
+      const description = it.description;
+      if (typeof description !== 'string' || description.length === 0) {
+        violations.push(`${typeof signalId === 'string' && signalId.length > 0 ? signalId : `item_${i}`}:description_invalid`);
+      }
+    }
+  }
+
+  const sorted = [...signalIds].sort();
+  const sortedOk = signalIds.length === sorted.length && signalIds.every((v, i) => v === sorted[i]);
+  if (!sortedOk) violations.push('signalId_not_sorted');
+
+  const byId = Array.isArray(items) ? new Map(items.map((x) => [x && x.signalId, x])) : new Map();
+  const minSet = ['C_TRACE_SINK_LOCATOR', 'C_TRACE_COMMAND_RECORD', 'C_TRACE_EFFECT_RECORD'];
+  for (const id of minSet) {
+    if (!byId.has(id)) {
+      violations.push(`missing_${id}`);
+    }
+  }
+
+  const sink = byId.get('C_TRACE_SINK_LOCATOR');
+  if (sink) {
+    if (sink.kind !== 'trace_sink') violations.push('C_TRACE_SINK_LOCATOR:kind_must_be_trace_sink');
+    if (sink.severity !== 'P0') violations.push('C_TRACE_SINK_LOCATOR:severity_must_be_P0');
+  }
+
+  for (const id of ['C_TRACE_COMMAND_RECORD', 'C_TRACE_EFFECT_RECORD']) {
+    const it = byId.get(id);
+    if (it) {
+      if (it.kind !== 'trace_signal') violations.push(`${id}:kind_must_be_trace_signal`);
+      if (it.severity !== 'P0') violations.push(`${id}:severity_must_be_P0`);
+    }
+  }
+
+  const uniqSorted = [...new Set(violations)].sort();
+  console.log(`RUNTIME_SIGNALS_VIOLATIONS=${JSON.stringify(uniqSorted)}`);
+  console.log(`RUNTIME_SIGNALS_VIOLATIONS_COUNT=${uniqSorted.length}`);
+
+  return { level: uniqSorted.length > 0 ? 'warn' : 'ok' };
+}
+
+function parseRuntimeSignalIdSet() {
+  const filePath = 'docs/OPS/RUNTIME_SIGNALS.json';
+  const parsed = readJson(filePath);
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'top_level_must_be_object');
+  }
+  if (!Array.isArray(parsed.items)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'items_must_be_array');
+  }
+  const set = new Set();
+  for (let i = 0; i < parsed.items.length; i += 1) {
+    const it = parsed.items[i];
+    if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+    const signalId = it.signalId;
+    if (typeof signalId === 'string' && signalId.length > 0) set.add(signalId);
+  }
+  return set;
+}
+
+function checkContourCEnforcementInventory(applicableRegistryItems, targetParsed) {
+  const filePath = 'docs/OPS/CONTOUR-C-ENFORCEMENT.json';
+  const violations = new Set();
+  let forceFail = false;
+
+  let parsed;
+  try {
+    parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    parsed = null;
+    violations.add('ENF_JSON_READ_FAIL');
+    forceFail = true;
+  }
+
+  const rawIds = [];
+  const entriesSet = new Set();
+
+  const applicableIds = new Set();
+  if (Array.isArray(applicableRegistryItems)) {
+    for (const it of applicableRegistryItems) {
+      if (it && typeof it === 'object' && !Array.isArray(it) && typeof it.invariantId === 'string' && it.invariantId.length > 0) {
+        applicableIds.add(it.invariantId);
+      }
+    }
+  }
+
+  const runtimeSignalIdSet = forceFail ? new Set() : parseRuntimeSignalIdSet();
+  const applicable = new Set();
+  const ignored = new Set();
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+  } else {
+    const schemaOk = parsed.schemaVersion === 1;
+    const versionOk = parsed.opsCanonVersion === SUPPORTED_OPS_CANON_VERSION;
+    const items = parsed.items;
+
+    if (!schemaOk || !versionOk || !Array.isArray(items)) {
+      violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+      if (!versionOk) forceFail = true;
+    }
+
+    if (Array.isArray(items)) {
+      const requiredMode = new Set(['off', 'soft', 'hard']);
+      const allowedMaturity = new Set(['implemented', 'placeholder', 'no_source']);
+
+      for (let i = 0; i < items.length; i += 1) {
+        const it = items[i];
+        if (!it || typeof it !== 'object' || Array.isArray(it)) {
+          violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+          continue;
+        }
+
+        const invariantId = it.invariantId;
+        const invariantIdValid = typeof invariantId === 'string' && invariantId.length > 0 && !/\s/.test(invariantId);
+
+        if (invariantIdValid) {
+          rawIds.push(invariantId);
+          entriesSet.add(invariantId);
+        } else {
+          violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+        }
+
+        const introducedIn = it.introducedIn;
+        let isApplicable = true;
+        if (typeof introducedIn !== 'string' || !VERSION_TOKEN_RE.test(introducedIn)) {
+          violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+          isApplicable = true;
+        } else {
+          const introParsed = parseVersionToken(introducedIn, filePath, 'introducedIn_invalid_version_token');
+          isApplicable = compareVersion(introParsed, targetParsed) <= 0;
+        }
+
+        if (invariantIdValid) {
+          if (isApplicable) {
+            applicable.add(invariantId);
+          } else {
+            ignored.add(invariantId);
+          }
+        }
+
+        const mode = it.enforcementMode;
+        if (isApplicable) {
+          if (typeof mode !== 'string' || !requiredMode.has(mode)) {
+            violations.add('ENF_INVALID_MODE');
+          }
+        }
+
+        const severity = it.severity;
+        if (isApplicable) {
+          if (severity !== 'P0' && severity !== 'P1' && severity !== 'P2') {
+            violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+          }
+        }
+
+        const maturityFields = [
+          { key: 'maturityTarget', value: it.maturityTarget },
+          { key: 'targetMaturity', value: it.targetMaturity },
+          { key: 'maturity', value: it.maturity },
+        ];
+        if (isApplicable) {
+          for (const f of maturityFields) {
+            if (!(f.key in it)) continue;
+            if (typeof f.value !== 'string' || !allowedMaturity.has(f.value)) {
+              violations.add('ENF_INVALID_MATURITY_TARGET');
+            }
+          }
+        }
+
+        const maturityPlanValue = 'maturityPlan' in it ? it.maturityPlan : it.description;
+        if (isApplicable) {
+          if (typeof maturityPlanValue !== 'string' || maturityPlanValue.length === 0) {
+            violations.add('ENF_INVALID_MATURITY_TARGET');
+          }
+        }
+
+        const signalIdsValue = 'signalIds' in it ? it.signalIds : it.signals;
+        if (isApplicable) {
+          if (!Array.isArray(signalIdsValue)) {
+            violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+          } else {
+            for (let j = 0; j < signalIdsValue.length; j += 1) {
+              const sid = signalIdsValue[j];
+              if (typeof sid !== 'string' || sid.length === 0 || /\s/.test(sid)) {
+                violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+                continue;
+              }
+              if (!runtimeSignalIdSet.has(sid)) {
+                violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+              }
+            }
+          }
+        }
+
+        if (isApplicable && invariantIdValid) {
+          if (!applicableIds.has(invariantId)) {
+            violations.add('ENF_UNKNOWN_INVARIANT_ID');
+          }
+        }
+      }
+    }
+  }
+
+  const counts = new Map();
+  for (const id of rawIds) {
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
+  const hasDupes = [...counts.values()].some((n) => n > 1);
+  if (hasDupes) {
+    violations.add('ENF_DUPLICATE_INVARIANT_ID');
+  }
+
+  const sorted = [...rawIds].sort();
+  const sortedOk = rawIds.length === sorted.length && rawIds.every((v, i) => v === sorted[i]);
+  if (!sortedOk) {
+    violations.add('ENF_UNSORTED_INVARIANT_ID');
+  }
+
+  const entries = [...entriesSet].sort();
+  const applicableList = [...applicable].sort();
+  const ignoredList = [...ignored].sort();
+  const violationsOut = [...violations].sort();
+
+  console.log(`CONTOUR_C_ENFORCEMENT_ENTRIES=${JSON.stringify(entries)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_ENTRIES_COUNT=${entries.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_APPLICABLE=${JSON.stringify(applicableList)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_APPLICABLE_COUNT=${applicableList.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_IGNORED=${JSON.stringify(ignoredList)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_IGNORED_COUNT=${ignoredList.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_VIOLATIONS=${JSON.stringify(violationsOut)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT=${violationsOut.length}`);
+
+  return { forceFail, level: violationsOut.length > 0 ? 'warn' : 'ok', planIds: entries };
+}
+
 function evaluateRegistry(items, auditCheckIds) {
   const enforced = [];
   const placeholders = [];
@@ -545,6 +911,69 @@ function evaluateRegistry(items, auditCheckIds) {
 
   const hasWarn = placeholders.length > 0 || noSource.length > 0;
   return { level: hasWarn ? 'warn' : 'ok' };
+}
+
+function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, effectiveMode, ignoredInvariantIds) {
+  const canExecuteCheckId = false;
+  const resultsById = new Map();
+
+  for (const it of items) {
+    const enforcementMode = it.enforcementMode;
+    if (enforcementMode === 'off') continue;
+
+    const invariantId = it.invariantId;
+    const maturityRaw = it.maturity;
+    const checkId = it.checkId;
+
+    let effectiveMaturity = maturityRaw;
+    if (maturityRaw === 'implemented' && typeof checkId === 'string' && checkId.length > 0) {
+      const resolvable = auditCheckIds.has(checkId);
+      if (!resolvable || !canExecuteCheckId) {
+        effectiveMaturity = 'no_source';
+      }
+    }
+
+    let status = 'WARN';
+
+    if (effectiveMaturity === 'implemented') {
+      status = 'WARN';
+    }
+
+    resultsById.set(invariantId, status);
+  }
+
+  const ids = [...resultsById.keys()].sort();
+  const results = ids.map((id) => `${id}:${resultsById.get(id)}`);
+
+  const counts = {
+    OK: 0,
+    WARN: 0,
+    WARN_MISSING_DEBT: 0,
+    FAIL: 0,
+  };
+
+  for (const v of resultsById.values()) {
+    if (v in counts) counts[v] += 1;
+  }
+
+  const sum = counts.OK + counts.WARN + counts.WARN_MISSING_DEBT + counts.FAIL;
+
+  const ignoredSet = new Set(Array.isArray(ignoredInvariantIds) ? ignoredInvariantIds : []);
+  const intersection = ids.filter((id) => ignoredSet.has(id));
+  const intersectionUniq = [...new Set(intersection)].sort();
+  const containsIgnored = intersectionUniq.length > 0;
+
+  console.log(`EFFECTIVE_MODE=${effectiveMode}`);
+  console.log(`INVARIANT_RESULTS=${JSON.stringify(results)}`);
+  console.log(`INVARIANT_RESULTS_COUNT=${results.length}`);
+  console.log(`INVARIANT_STATUS_COUNTS=${JSON.stringify(counts)}`);
+  console.log(`INVARIANT_STATUS_COUNTS_SUM=${sum}`);
+  console.log(`INVARIANT_RESULTS_CONTAINS_IGNORED=${containsIgnored ? 1 : 0}`);
+  console.log(`INVARIANT_RESULTS_IGNORED_INTERSECTION=${JSON.stringify(intersectionUniq)}`);
+
+  if (containsIgnored) {
+    die('ERR_DOCTOR_INVALID_SHAPE', 'scripts/doctor.mjs', 'invariant_results_contains_ignored');
+  }
 }
 
 function listSourceFiles(rootDir) {
@@ -1401,6 +1830,67 @@ function checkOndiskArtifacts(matrixMode, debtRegistry) {
   };
 }
 
+function computeContourCEnforcementCompleteness(gatingApplicableItems, contourCEnforcementPlanIds) {
+  const registryCApplicableSet = new Set();
+
+  for (const it of Array.isArray(gatingApplicableItems) ? gatingApplicableItems : []) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+    if (it.contour !== 'C') continue;
+    const invariantId = it.invariantId;
+    if (typeof invariantId !== 'string' || invariantId.length === 0) continue;
+    registryCApplicableSet.add(invariantId);
+  }
+
+  const registryIds = [...registryCApplicableSet].sort();
+  const planIds = Array.isArray(contourCEnforcementPlanIds) ? [...new Set(contourCEnforcementPlanIds)].sort() : [];
+
+  const planSet = new Set(planIds);
+  const registrySet = new Set(registryIds);
+
+  const missing = registryIds.filter((id) => !planSet.has(id));
+  const extra = planIds.filter((id) => !registrySet.has(id));
+
+  console.log(`CONTOUR_C_ENFORCEMENT_REGISTRY_IDS=${JSON.stringify(registryIds)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_REGISTRY_IDS_COUNT=${registryIds.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_PLAN_IDS=${JSON.stringify(planIds)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_PLAN_IDS_COUNT=${planIds.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_MISSING_PLAN_IDS=${JSON.stringify(missing)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_MISSING_PLAN_IDS_COUNT=${missing.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_EXTRA_PLAN_IDS=${JSON.stringify(extra)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_EXTRA_PLAN_IDS_COUNT=${extra.length}`);
+
+  return { missingCount: missing.length, extraCount: extra.length };
+}
+
+function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditCheckIds) {
+  const required = 3;
+  const ids = [];
+
+  for (const it of Array.isArray(gatingApplicableItems) ? gatingApplicableItems : []) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+    if (it.contour !== 'C') continue;
+    if (it.severity !== 'P0') continue;
+
+    if (it.maturity !== 'implemented') continue;
+    const checkId = it.checkId;
+    if (typeof checkId !== 'string' || checkId.length === 0) continue;
+    if (!auditCheckIds.has(checkId)) continue;
+
+    const invariantId = it.invariantId;
+    if (typeof invariantId !== 'string' || invariantId.length === 0) continue;
+    ids.push(invariantId);
+  }
+
+  const uniqSorted = [...new Set(ids)].sort();
+  const count = uniqSorted.length;
+  const ok = count >= required ? 1 : 0;
+
+  console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT=${count}`);
+  console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_REQUIRED=${required}`);
+  console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_OK=${ok}`);
+  console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_IDS=${JSON.stringify(uniqSorted)}`);
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -1450,12 +1940,29 @@ function run() {
   const debtPath = 'docs/OPS/DEBT_REGISTRY.json';
   const debtRegistry = parseDebtRegistry(debtPath);
 
+  const effectiveMode = process.env.EFFECTIVE_MODE === 'STRICT' ? 'STRICT' : 'TRANSITIONAL';
+
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
+
+  const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
+  console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
+  console.log(`INDEX_INVENTORY_IDS_DUPES=${indexDiag.dupes ? 1 : 0}`);
+  console.log(`INDEX_INVENTORY_IDS_VIOLATIONS_COUNT=${indexDiag.violations.length}`);
+  console.log(`INDEX_INVENTORY_IDS_VIOLATIONS=${JSON.stringify(indexDiag.violations)}`);
+
+  const registryDiag = computeIdListDiagnostics(registryItems.map((it) => it.invariantId));
+  console.log(`REGISTRY_INVARIANT_IDS_SORTED=${registryDiag.sortedOk ? 1 : 0}`);
+  console.log(`REGISTRY_INVARIANT_IDS_DUPES=${registryDiag.dupes ? 1 : 0}`);
+  console.log(`REGISTRY_INVARIANT_IDS_VIOLATIONS_COUNT=${registryDiag.violations.length}`);
+  console.log(`REGISTRY_INVARIANT_IDS_VIOLATIONS=${JSON.stringify(registryDiag.violations)}`);
+
   const inventoryCheck = checkInventoryEmptiness(inventoryIndexItems, debtRegistry);
   if (inventoryCheck.violations.length > 0) {
     die('ERR_DOCTOR_INVALID_SHAPE', inventoryIndexPath, 'inventory_empty_violations_present');
   }
+
+  const runtimeSignalsEval = checkRuntimeSignalsInventory();
 
   const queuePath = 'docs/OPS/QUEUE_POLICIES.json';
   const queue = readJson(queuePath);
@@ -1500,6 +2007,10 @@ function run() {
   console.log(debtTtl.status);
 
   const gating = applyIntroducedInGating(registryItems, targetParsed);
+  const contourCEnforcement = checkContourCEnforcementInventory(gating.applicableItems, targetParsed);
+  const contourCCompleteness = computeContourCEnforcementCompleteness(gating.applicableItems, contourCEnforcement.planIds);
+  computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds);
+  computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
 
   const hasFail = coreBoundary.level === 'fail'
@@ -1511,7 +2022,8 @@ function run() {
     || snapshotPolicy.level === 'fail'
     || effectsIdemp.level === 'fail'
     || ondiskPolicy.level === 'fail'
-    || debtTtl.level === 'fail';
+    || debtTtl.level === 'fail'
+    || contourCEnforcement.forceFail === true;
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'
@@ -1522,7 +2034,11 @@ function run() {
     || effectsIdemp.level === 'warn'
     || ondiskPolicy.level === 'warn'
     || debtTtl.level === 'warn'
-    || registryEval.level === 'warn';
+    || runtimeSignalsEval.level === 'warn'
+    || registryEval.level === 'warn'
+    || contourCEnforcement.level === 'warn'
+    || contourCCompleteness.missingCount > 0
+    || contourCCompleteness.extraCount > 0;
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

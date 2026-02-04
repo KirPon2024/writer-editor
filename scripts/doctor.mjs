@@ -547,6 +547,58 @@ function evaluateRegistry(items, auditCheckIds) {
   return { level: hasWarn ? 'warn' : 'ok' };
 }
 
+function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, effectiveMode) {
+  const canExecuteCheckId = false;
+  const resultsById = new Map();
+
+  for (const it of items) {
+    const enforcementMode = it.enforcementMode;
+    if (enforcementMode === 'off') continue;
+
+    const invariantId = it.invariantId;
+    const maturityRaw = it.maturity;
+    const checkId = it.checkId;
+
+    let effectiveMaturity = maturityRaw;
+    if (maturityRaw === 'implemented' && typeof checkId === 'string' && checkId.length > 0) {
+      const resolvable = auditCheckIds.has(checkId);
+      if (!resolvable || !canExecuteCheckId) {
+        effectiveMaturity = 'no_source';
+      }
+    }
+
+    let status = 'WARN';
+
+    if (effectiveMaturity === 'implemented') {
+      status = 'WARN';
+    }
+
+    resultsById.set(invariantId, status);
+  }
+
+  const ids = [...resultsById.keys()].sort();
+  const results = ids.map((id) => `${id}:${resultsById.get(id)}`);
+
+  const counts = {
+    OK: 0,
+    WARN: 0,
+    WARN_MISSING_DEBT: 0,
+    FAIL: 0,
+  };
+
+  for (const v of resultsById.values()) {
+    if (v in counts) counts[v] += 1;
+  }
+
+  const sum = counts.OK + counts.WARN + counts.WARN_MISSING_DEBT + counts.FAIL;
+
+  console.log(`EFFECTIVE_MODE=${effectiveMode}`);
+  console.log(`INVARIANT_RESULTS=${JSON.stringify(results)}`);
+  console.log(`INVARIANT_RESULTS_COUNT=${results.length}`);
+  console.log(`INVARIANT_STATUS_COUNTS=${JSON.stringify(counts)}`);
+  console.log(`INVARIANT_STATUS_COUNTS_SUM=${sum}`);
+}
+
 function listSourceFiles(rootDir) {
   if (!fs.existsSync(rootDir)) return [];
 
@@ -1450,6 +1502,8 @@ function run() {
   const debtPath = 'docs/OPS/DEBT_REGISTRY.json';
   const debtRegistry = parseDebtRegistry(debtPath);
 
+  const effectiveMode = process.env.EFFECTIVE_MODE === 'STRICT' ? 'STRICT' : 'TRANSITIONAL';
+
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
   const inventoryCheck = checkInventoryEmptiness(inventoryIndexItems, debtRegistry);
@@ -1500,6 +1554,7 @@ function run() {
   console.log(debtTtl.status);
 
   const gating = applyIntroducedInGating(registryItems, targetParsed);
+  computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
 
   const hasFail = coreBoundary.level === 'fail'

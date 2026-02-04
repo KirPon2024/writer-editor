@@ -1,8 +1,12 @@
 import fs from 'node:fs';
 
+const SUPPORTED_OPS_CANON_VERSION = 'v1.2';
+
 const REQUIRED_FILES = [
   'docs/OPS/AUDIT-MATRIX-v1.1.md',
+  'docs/OPS/AUDIT_CHECKS.json',
   'docs/OPS/DEBT_REGISTRY.json',
+  'docs/OPS/INVARIANTS_REGISTRY.json',
   'docs/OPS/QUEUE_POLICIES.json',
   'docs/OPS/CAPABILITIES_MATRIX.json',
   'docs/OPS/PUBLIC_SURFACE.json',
@@ -66,6 +70,15 @@ function assertRequiredKeys(filePath, items, keys) {
         die('ERR_DOCTOR_INVALID_SHAPE', filePath, `item_${i}_missing_${key}`);
       }
     }
+  }
+}
+
+function assertOpsCanonVersion(filePath, value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'top_level_must_be_object');
+  }
+  if (value.opsCanonVersion !== SUPPORTED_OPS_CANON_VERSION) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'opsCanonVersion_mismatch');
   }
 }
 
@@ -137,15 +150,26 @@ function utcTodayStartMs() {
   return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
 }
 
-function checkDebtTtl(debtItems, mode) {
-  if (debtItems.length === 0) {
+function isTtlActive(ttlUntil) {
+  if (typeof ttlUntil !== 'string' || ttlUntil.length === 0) return false;
+  const parsed = Date.parse(ttlUntil);
+  if (Number.isNaN(parsed)) return false;
+  return parsed >= utcTodayStartMs();
+}
+
+function checkDebtTtl(debtRegistry, mode) {
+  if (debtRegistry.declaredEmpty === true && debtRegistry.items.length > 0) {
+    return { status: mode === 'STRICT' ? 'DEBT_TTL_FAIL' : 'DEBT_TTL_WARN', level: mode === 'STRICT' ? 'fail' : 'warn' };
+  }
+
+  if (debtRegistry.items.length === 0) {
     return { status: 'DEBT_TTL_OK', level: 'ok' };
   }
 
   const todayStart = utcTodayStartMs();
 
-  for (let i = 0; i < debtItems.length; i += 1) {
-    const ttlUntil = debtItems[i].ttlUntil;
+  for (let i = 0; i < debtRegistry.items.length; i += 1) {
+    const ttlUntil = debtRegistry.items[i].ttlUntil;
     if (typeof ttlUntil !== 'string' || ttlUntil.length === 0) {
       return { status: mode === 'STRICT' ? 'DEBT_TTL_FAIL' : 'DEBT_TTL_WARN', level: mode === 'STRICT' ? 'fail' : 'warn' };
     }
@@ -161,43 +185,160 @@ function checkDebtTtl(debtItems, mode) {
   return { status: 'DEBT_TTL_OK', level: 'ok' };
 }
 
-function hasAnyActiveDebt(debtItems) {
-  const todayStart = utcTodayStartMs();
-  for (let i = 0; i < debtItems.length; i += 1) {
-    const ttlUntil = debtItems[i].ttlUntil;
-    if (typeof ttlUntil !== 'string' || ttlUntil.length === 0) continue;
-    const parsed = Date.parse(ttlUntil);
-    if (Number.isNaN(parsed)) continue;
-    if (parsed >= todayStart) return true;
+function hasAnyActiveDebt(debtRegistry) {
+  if (debtRegistry.declaredEmpty === true) return false;
+
+  for (let i = 0; i < debtRegistry.items.length; i += 1) {
+    const item = debtRegistry.items[i];
+    if (!item || typeof item !== 'object' || Array.isArray(item)) continue;
+    if (item.active !== true) continue;
+    if (isTtlActive(item.ttlUntil)) return true;
   }
   return false;
 }
 
-function hasMatchingActiveDebt(debtItems, scopeNeedle) {
-  const todayStart = utcTodayStartMs();
+function hasMatchingActiveDebt(debtRegistry, artifactPathNeedle) {
+  if (debtRegistry.declaredEmpty === true) return false;
 
-  for (let i = 0; i < debtItems.length; i += 1) {
-    const item = debtItems[i];
-    const ttlUntil = item.ttlUntil;
-    if (typeof ttlUntil !== 'string' || ttlUntil.length === 0) continue;
+  for (let i = 0; i < debtRegistry.items.length; i += 1) {
+    const item = debtRegistry.items[i];
+    if (!item || typeof item !== 'object' || Array.isArray(item)) continue;
+    if (item.active !== true) continue;
+    if (!isTtlActive(item.ttlUntil)) continue;
 
-    const parsed = Date.parse(ttlUntil);
-    if (Number.isNaN(parsed)) continue;
-    if (parsed < todayStart) continue;
-
-    const scope = item.scope;
-    if (typeof scope === 'string') {
-      if (scope.includes(scopeNeedle)) return true;
-      continue;
-    }
-    if (Array.isArray(scope)) {
-      for (const s of scope) {
-        if (typeof s === 'string' && s.includes(scopeNeedle)) return true;
-      }
+    const paths = item.artifactPaths;
+    if (!Array.isArray(paths)) continue;
+    for (const p of paths) {
+      if (p === artifactPathNeedle) return true;
     }
   }
 
   return false;
+}
+
+function parseDebtRegistry(filePath) {
+  const debt = readJson(filePath);
+  if (!debt || typeof debt !== 'object' || Array.isArray(debt)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'top_level_must_be_object');
+  }
+  if (debt.schemaVersion !== 2) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'schemaVersion_must_be_2');
+  }
+  assertOpsCanonVersion(filePath, debt);
+  if (!Array.isArray(debt.items)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'items_must_be_array');
+  }
+  if ('declaredEmpty' in debt && debt.declaredEmpty !== true && debt.declaredEmpty !== false) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'declaredEmpty_must_be_boolean');
+  }
+
+  assertItemsAreObjects(filePath, debt.items);
+  if (debt.items.length > 0) {
+    assertRequiredKeys(filePath, debt.items, [
+      'debtId',
+      'active',
+      'owner',
+      'ttlUntil',
+      'exitCriteria',
+      'invariantIds',
+      'artifactPaths',
+    ]);
+  }
+
+  return {
+    declaredEmpty: debt.declaredEmpty === true,
+    items: debt.items,
+  };
+}
+
+function parseAuditChecks(filePath) {
+  const audit = readJson(filePath);
+  if (!audit || typeof audit !== 'object' || Array.isArray(audit)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'top_level_must_be_object');
+  }
+  if (audit.schemaVersion !== 1) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'schemaVersion_must_be_1');
+  }
+  assertOpsCanonVersion(filePath, audit);
+  if (!Array.isArray(audit.checkIds)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'checkIds_must_be_array');
+  }
+  const set = new Set();
+  for (let i = 0; i < audit.checkIds.length; i += 1) {
+    const v = audit.checkIds[i];
+    if (typeof v !== 'string' || v.length === 0) {
+      die('ERR_DOCTOR_INVALID_SHAPE', filePath, `checkIds_${i}_must_be_string`);
+    }
+    set.add(v);
+  }
+  return set;
+}
+
+function parseInvariantsRegistry(filePath) {
+  const reg = readJson(filePath);
+  if (!reg || typeof reg !== 'object' || Array.isArray(reg)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'top_level_must_be_object');
+  }
+  if (reg.schemaVersion !== 1) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'schemaVersion_must_be_1');
+  }
+  assertOpsCanonVersion(filePath, reg);
+  if (!Array.isArray(reg.items)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'items_must_be_array');
+  }
+  assertItemsAreObjects(filePath, reg.items);
+  if (reg.items.length > 0) {
+    assertRequiredKeys(filePath, reg.items, [
+      'invariantId',
+      'contour',
+      'severity',
+      'enforcementMode',
+      'maturity',
+      'checkId',
+      'introducedIn',
+      'description',
+    ]);
+  }
+  return reg.items;
+}
+
+function evaluateRegistry(items, auditCheckIds) {
+  const enforced = [];
+  const placeholders = [];
+  const noSource = [];
+
+  for (const it of items) {
+    const enforcementMode = it.enforcementMode;
+    if (enforcementMode === 'off') continue;
+
+    const invariantId = it.invariantId;
+    const maturityRaw = it.maturity;
+    const checkId = it.checkId;
+
+    let effectiveMaturity = maturityRaw;
+    if (maturityRaw === 'implemented' && typeof checkId === 'string' && checkId.length > 0 && !auditCheckIds.has(checkId)) {
+      effectiveMaturity = 'no_source';
+    }
+
+    if (effectiveMaturity === 'implemented') {
+      enforced.push(invariantId);
+    } else if (effectiveMaturity === 'placeholder') {
+      placeholders.push(invariantId);
+    } else {
+      noSource.push(invariantId);
+    }
+  }
+
+  enforced.sort();
+  placeholders.sort();
+  noSource.sort();
+
+  console.log(`ENFORCED_INVARIANTS=${JSON.stringify(enforced)}`);
+  console.log(`PLACEHOLDER_INVARIANTS=${JSON.stringify(placeholders)}`);
+  console.log(`NO_SOURCE_INVARIANTS=${JSON.stringify(noSource)}`);
+
+  const hasWarn = placeholders.length > 0 || noSource.length > 0;
+  return { level: hasWarn ? 'warn' : 'ok' };
 }
 
 function listSourceFiles(rootDir) {
@@ -226,7 +367,7 @@ function listSourceFiles(rootDir) {
   return out.sort();
 }
 
-function checkCoreBoundary(matrixMode, debtItems) {
+function checkCoreBoundary(matrixMode, debtRegistry) {
   const invariantId = 'CORE-BOUNDARY-001';
   const roots = ['src/core', 'src/contracts'];
   const files = roots.flatMap((r) => listSourceFiles(r));
@@ -275,14 +416,14 @@ function checkCoreBoundary(matrixMode, debtItems) {
     return { status: 'CORE_BOUNDARY_FAIL', level: 'fail' };
   }
 
-  const activeDebt = hasAnyActiveDebt(debtItems);
+  const activeDebt = hasAnyActiveDebt(debtRegistry);
   return {
     status: activeDebt ? 'CORE_BOUNDARY_WARN' : 'CORE_BOUNDARY_WARN_MISSING_DEBT',
     level: 'warn',
   };
 }
 
-function checkCoreDeterminism(matrixMode, debtItems) {
+function checkCoreDeterminism(matrixMode, debtRegistry) {
   const roots = ['src/core', 'src/contracts'];
   const files = roots.flatMap((r) => listSourceFiles(r));
 
@@ -326,14 +467,14 @@ function checkCoreDeterminism(matrixMode, debtItems) {
     return { status: 'CORE_DET_FAIL', level: 'fail' };
   }
 
-  const activeDebt = hasAnyActiveDebt(debtItems);
+  const activeDebt = hasAnyActiveDebt(debtRegistry);
   return {
     status: activeDebt ? 'CORE_DET_WARN' : 'CORE_DET_WARN_MISSING_DEBT',
     level: 'warn',
   };
 }
 
-function checkQueuePolicies(matrixMode, debtItems, queueItems) {
+function checkQueuePolicies(matrixMode, debtRegistry, queueItems) {
   const invariantId = 'OPS-QUEUE-001';
   const allowedOverflow = new Set([
     'drop_oldest',
@@ -385,14 +526,14 @@ function checkQueuePolicies(matrixMode, debtItems, queueItems) {
     return { status: 'QUEUE_POLICY_FAIL', level: 'fail' };
   }
 
-  const activeDebt = hasAnyActiveDebt(debtItems);
+  const activeDebt = hasAnyActiveDebt(debtRegistry);
   return {
     status: activeDebt ? 'QUEUE_POLICY_WARN' : 'QUEUE_POLICY_WARN_MISSING_DEBT',
     level: 'warn',
   };
 }
 
-function checkCapabilitiesMatrix(matrixMode, debtItems, capsItems) {
+function checkCapabilitiesMatrix(matrixMode, debtRegistry, capsItems) {
   const invariantId = 'OPS-CAPABILITIES-001';
   const violations = [];
   const seenPlatformIds = new Set();
@@ -478,14 +619,14 @@ function checkCapabilitiesMatrix(matrixMode, debtItems, capsItems) {
     return { status: 'CAPABILITIES_FAIL', level: 'fail' };
   }
 
-  const activeDebt = hasAnyActiveDebt(debtItems);
+  const activeDebt = hasAnyActiveDebt(debtRegistry);
   return {
     status: activeDebt ? 'CAPABILITIES_WARN' : 'CAPABILITIES_WARN_MISSING_DEBT',
     level: 'warn',
   };
 }
 
-function checkPublicSurface(matrixMode, debtItems) {
+function checkPublicSurface(matrixMode, debtRegistry) {
   const invariantId = 'OPS-PUBLIC-SURFACE-001';
   const filePath = 'docs/OPS/PUBLIC_SURFACE.json';
 
@@ -598,14 +739,14 @@ function checkPublicSurface(matrixMode, debtItems) {
     return { status: 'PUBLIC_SURFACE_FAIL', level: 'fail' };
   }
 
-  const hasDebt = hasMatchingActiveDebt(debtItems, filePath);
+  const hasDebt = hasMatchingActiveDebt(debtRegistry, filePath);
   return {
     status: hasDebt ? 'PUBLIC_SURFACE_WARN' : 'PUBLIC_SURFACE_WARN_MISSING_DEBT',
     level: 'warn',
   };
 }
 
-function checkEventsAppendOnly(matrixMode, debtItems) {
+function checkEventsAppendOnly(matrixMode, debtRegistry) {
   const invariantId = 'EVENTS-APPEND-ONLY-001';
   const baselinePath = 'docs/OPS/DOMAIN_EVENTS_BASELINE.json';
 
@@ -709,16 +850,16 @@ function checkEventsAppendOnly(matrixMode, debtItems) {
     return { status: 'EVENTS_APPEND_FAIL', level: 'fail' };
   }
 
-  const hasDebt = hasMatchingActiveDebt(debtItems, baselinePath)
-    || hasMatchingActiveDebt(debtItems, 'src/contracts/core-event.contract.ts')
-    || hasMatchingActiveDebt(debtItems, 'src/contracts/events');
+  const hasDebt = hasMatchingActiveDebt(debtRegistry, baselinePath)
+    || hasMatchingActiveDebt(debtRegistry, 'src/contracts/core-event.contract.ts')
+    || hasMatchingActiveDebt(debtRegistry, 'src/contracts/events');
   return {
     status: hasDebt ? 'EVENTS_APPEND_WARN' : 'EVENTS_APPEND_WARN_MISSING_DEBT',
     level: 'warn',
   };
 }
 
-function checkTextSnapshotSpec(matrixMode, debtItems) {
+function checkTextSnapshotSpec(matrixMode, debtRegistry) {
   const invariantId = 'OPS-SNAPSHOT-001';
   const filePath = 'docs/OPS/TEXT_SNAPSHOT_SPEC.json';
 
@@ -800,14 +941,14 @@ function checkTextSnapshotSpec(matrixMode, debtItems) {
     return { status: 'SNAPSHOT_FAIL', level: 'fail' };
   }
 
-  const hasDebt = hasMatchingActiveDebt(debtItems, filePath);
+  const hasDebt = hasMatchingActiveDebt(debtRegistry, filePath);
   return {
     status: hasDebt ? 'SNAPSHOT_WARN' : 'SNAPSHOT_WARN_MISSING_DEBT',
     level: 'warn',
   };
 }
 
-function checkEffectsIdempotency(matrixMode, debtItems) {
+function checkEffectsIdempotency(matrixMode, debtRegistry) {
   const invariantId = 'OPS-EFFECTS-IDEMP-001';
   const filePath = 'docs/OPS/EFFECT_KINDS.json';
 
@@ -916,14 +1057,14 @@ function checkEffectsIdempotency(matrixMode, debtItems) {
     return { status: 'EFFECT_IDEMP_FAIL', level: 'fail' };
   }
 
-  const hasDebt = hasMatchingActiveDebt(debtItems, filePath);
+  const hasDebt = hasMatchingActiveDebt(debtRegistry, filePath);
   return {
     status: hasDebt ? 'EFFECT_IDEMP_WARN' : 'EFFECT_IDEMP_WARN_MISSING_DEBT',
     level: 'warn',
   };
 }
 
-function checkOndiskArtifacts(matrixMode, debtItems) {
+function checkOndiskArtifacts(matrixMode, debtRegistry) {
   const invariantId = 'OPS-ONDISK-001';
   const filePath = 'docs/OPS/ONDISK_ARTIFACTS.json';
 
@@ -1047,7 +1188,7 @@ function checkOndiskArtifacts(matrixMode, debtItems) {
     return { status: 'ONDISK_FAIL', level: 'fail' };
   }
 
-  const hasDebt = hasMatchingActiveDebt(debtItems, filePath);
+  const hasDebt = hasMatchingActiveDebt(debtRegistry, filePath);
   return {
     status: hasDebt ? 'ONDISK_WARN' : 'ONDISK_WARN_MISSING_DEBT',
     level: 'warn',
@@ -1061,6 +1202,12 @@ function run() {
     }
   }
 
+  const auditChecksPath = 'docs/OPS/AUDIT_CHECKS.json';
+  const auditCheckIds = parseAuditChecks(auditChecksPath);
+
+  const registryPath = 'docs/OPS/INVARIANTS_REGISTRY.json';
+  const registryItems = parseInvariantsRegistry(registryPath);
+
   const auditPath = 'docs/OPS/AUDIT-MATRIX-v1.1.md';
   const auditStat = fs.statSync(auditPath);
   if (auditStat.size <= 0) {
@@ -1071,21 +1218,12 @@ function run() {
   const matrixMode = parseMatrixModeBlock(auditText);
 
   const debtPath = 'docs/OPS/DEBT_REGISTRY.json';
-  const debt = readJson(debtPath);
-  assertObjectShape(debtPath, debt);
-  assertItemsAreObjects(debtPath, debt.items);
-  assertRequiredKeys(debtPath, debt.items, [
-    'debtId',
-    'owner',
-    'ttlUntil',
-    'exitCriteria',
-    'scope',
-  ]);
+  const debtRegistry = parseDebtRegistry(debtPath);
 
   const queuePath = 'docs/OPS/QUEUE_POLICIES.json';
   const queue = readJson(queuePath);
   assertObjectShape(queuePath, queue);
-  const queuePolicy = checkQueuePolicies(matrixMode, debt.items, queue.items);
+  const queuePolicy = checkQueuePolicies(matrixMode, debtRegistry, queue.items);
 
   const capsPath = 'docs/OPS/CAPABILITIES_MATRIX.json';
   const caps = readJson(capsPath);
@@ -1102,16 +1240,16 @@ function run() {
     }
   }
 
-  const capsPolicy = checkCapabilitiesMatrix(matrixMode, debt.items, caps.items);
-  const publicSurface = checkPublicSurface(matrixMode, debt.items);
-  const eventsAppend = checkEventsAppendOnly(matrixMode, debt.items);
-  const snapshotPolicy = checkTextSnapshotSpec(matrixMode, debt.items);
-  const effectsIdemp = checkEffectsIdempotency(matrixMode, debt.items);
-  const ondiskPolicy = checkOndiskArtifacts(matrixMode, debt.items);
+  const capsPolicy = checkCapabilitiesMatrix(matrixMode, debtRegistry, caps.items);
+  const publicSurface = checkPublicSurface(matrixMode, debtRegistry);
+  const eventsAppend = checkEventsAppendOnly(matrixMode, debtRegistry);
+  const snapshotPolicy = checkTextSnapshotSpec(matrixMode, debtRegistry);
+  const effectsIdemp = checkEffectsIdempotency(matrixMode, debtRegistry);
+  const ondiskPolicy = checkOndiskArtifacts(matrixMode, debtRegistry);
 
-  const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
-  const coreDet = checkCoreDeterminism(matrixMode, debt.items);
-  const coreBoundary = checkCoreBoundary(matrixMode, debt.items);
+  const debtTtl = checkDebtTtl(debtRegistry, matrixMode.mode);
+  const coreDet = checkCoreDeterminism(matrixMode, debtRegistry);
+  const coreBoundary = checkCoreBoundary(matrixMode, debtRegistry);
 
   console.log(coreBoundary.status);
   console.log(coreDet.status);
@@ -1123,6 +1261,8 @@ function run() {
   console.log(effectsIdemp.status);
   console.log(ondiskPolicy.status);
   console.log(debtTtl.status);
+
+  const registryEval = evaluateRegistry(registryItems, auditCheckIds);
 
   const hasFail = coreBoundary.level === 'fail'
     || coreDet.level === 'fail'
@@ -1143,7 +1283,8 @@ function run() {
     || snapshotPolicy.level === 'warn'
     || effectsIdemp.level === 'warn'
     || ondiskPolicy.level === 'warn'
-    || debtTtl.level === 'warn';
+    || debtTtl.level === 'warn'
+    || registryEval.level === 'warn';
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

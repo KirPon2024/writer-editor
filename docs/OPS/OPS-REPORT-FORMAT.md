@@ -44,3 +44,36 @@ M  example/modified-file.txt
 - POST-COMMIT proof MUST include clean worktree:
   - POST-COMMIT CMD: `git status --porcelain --untracked-files=all`
   - POST-COMMIT OUT: (empty)
+
+## POST-COMMIT BLOB PROOF (MUST)
+
+- POST-COMMIT BLOB PROOF:
+  - CMD: `git cat-file -t HEAD:<path>`
+  - OUT: `blob`
+  - PASS|FAIL
+
+Rule: this block MUST appear for each committed file path in the step.
+
+## MODIFICATION BLOB PROOF (MUST)
+
+For each path that appears as `M` in POST-COMMIT `git show --name-status --pretty=format: HEAD` output:
+
+- PRE-COMMIT BLOB PROOF (MODIFIED PATH):
+  - CMD: `git cat-file -t HEAD^:<path>`
+  - OUT: `blob`
+  - PASS|FAIL
+- POST-COMMIT BLOB PROOF (MODIFIED PATH):
+  - CMD: `git cat-file -t HEAD:<path>`
+  - OUT: `blob`
+  - PASS|FAIL
+
+For each path that appears as `D` in POST-COMMIT `git show --name-status --pretty=format: HEAD` output:
+
+- PRE-COMMIT BLOB PROOF (DELETED PATH):
+  - CMD: `git cat-file -t HEAD^:<path>`
+  - OUT: `blob`
+  - PASS|FAIL
+- POST-COMMIT PATH REMOVED PROOF (DELETED PATH):
+  - CMD: `git cat-file -t HEAD:<path>`
+  - OUT: (exit != 0)
+  - PASS|FAIL

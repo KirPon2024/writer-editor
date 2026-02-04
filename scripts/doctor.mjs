@@ -250,6 +250,57 @@ function checkCoreBoundary(matrixMode, debtItems) {
   };
 }
 
+function checkCoreDeterminism(matrixMode, debtItems) {
+  const roots = ['src/core', 'src/contracts'];
+  const files = roots.flatMap((r) => listSourceFiles(r));
+
+  const tokenRules = [
+    { token: 'Date.now', invariantId: 'CORE-DET-001' },
+    { token: 'new Date(', invariantId: 'CORE-DET-001' },
+    { token: 'Math.random', invariantId: 'CORE-DET-002' },
+    { token: 'crypto.randomUUID', invariantId: 'CORE-DET-002' },
+    { token: 'process.env', invariantId: 'CORE-DET-001' },
+    { token: 'process.platform', invariantId: 'CORE-DET-001' },
+    { token: 'setTimeout', invariantId: 'CORE-DET-001' },
+    { token: 'setInterval', invariantId: 'CORE-DET-001' },
+  ];
+
+  const violations = [];
+
+  for (const filePath of files) {
+    let text;
+    try {
+      text = fs.readFileSync(filePath, 'utf8');
+    } catch {
+      continue;
+    }
+
+    for (const rule of tokenRules) {
+      if (text.includes(rule.token)) {
+        violations.push({ filePath, token: rule.token, invariantId: rule.invariantId });
+      }
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`CORE_DET_VIOLATION file=${v.filePath} token=${JSON.stringify(v.token)} invariant=${v.invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'CORE_DET_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'CORE_DET_FAIL', level: 'fail' };
+  }
+
+  const activeDebt = hasAnyActiveDebt(debtItems);
+  return {
+    status: activeDebt ? 'CORE_DET_WARN' : 'CORE_DET_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -318,13 +369,15 @@ function run() {
   }
 
   const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
+  const coreDet = checkCoreDeterminism(matrixMode, debt.items);
   const coreBoundary = checkCoreBoundary(matrixMode, debt.items);
 
   console.log(coreBoundary.status);
+  console.log(coreDet.status);
   console.log(debtTtl.status);
 
-  const hasFail = coreBoundary.level === 'fail' || debtTtl.level === 'fail';
-  const hasWarn = coreBoundary.level === 'warn' || debtTtl.level === 'warn';
+  const hasFail = coreBoundary.level === 'fail' || coreDet.level === 'fail' || debtTtl.level === 'fail';
+  const hasWarn = coreBoundary.level === 'warn' || coreDet.level === 'warn' || debtTtl.level === 'warn';
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

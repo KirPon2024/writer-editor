@@ -6,6 +6,7 @@ const REQUIRED_FILES = [
   'docs/OPS/QUEUE_POLICIES.json',
   'docs/OPS/CAPABILITIES_MATRIX.json',
   'docs/OPS/PUBLIC_SURFACE.json',
+  'docs/OPS/DOMAIN_EVENTS_BASELINE.json',
   'docs/OPS/ONDISK_ARTIFACTS.json',
 ];
 
@@ -602,6 +603,119 @@ function checkPublicSurface(matrixMode, debtItems) {
   };
 }
 
+function checkEventsAppendOnly(matrixMode, debtItems) {
+  const invariantId = 'EVENTS-APPEND-ONLY-001';
+  const baselinePath = 'docs/OPS/DOMAIN_EVENTS_BASELINE.json';
+
+  const violations = [];
+
+  const baseline = readJson(baselinePath);
+  if (!baseline || typeof baseline !== 'object' || Array.isArray(baseline)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, 'top_level_must_be_object');
+  }
+  if (typeof baseline.schemaVersion !== 'number') {
+    die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, 'schemaVersion_must_be_number');
+  }
+  if (!Array.isArray(baseline.events)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, 'events_must_be_array');
+  }
+  if (baseline.events.length < 1) {
+    die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, 'events_must_be_non_empty');
+  }
+
+  const baselineEventIds = [];
+  const seen = new Set();
+
+  for (let i = 0; i < baseline.events.length; i += 1) {
+    const item = baseline.events[i];
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
+      die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, `event_${i}_must_be_object`);
+    }
+    const eventId = item.eventId;
+    if (typeof eventId !== 'string' || eventId.length === 0) {
+      die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, `event_${i}_eventId_must_be_string`);
+    }
+    if (seen.has(eventId)) {
+      die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, `event_${i}_eventId_duplicate`);
+    }
+    seen.add(eventId);
+    baselineEventIds.push(eventId);
+
+    const stability = item.stability;
+    if (stability !== 'Stable' && stability !== 'Evolving' && stability !== 'Experimental') {
+      die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, `event_${i}_stability_invalid`);
+    }
+
+    const introducedIn = item.introducedIn;
+    if (typeof introducedIn !== 'string') {
+      die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, `event_${i}_introducedIn_must_be_string`);
+    }
+
+    if ('deprecatedIn' in item && typeof item.deprecatedIn !== 'string') {
+      die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, `event_${i}_deprecatedIn_must_be_string`);
+    }
+  }
+
+  const canonicalRoots = fs.existsSync('src/contracts/events')
+    ? ['src/contracts/events']
+    : ['src/contracts/core-event.contract.ts'];
+
+  let hasWildcardType = false;
+  const currentIds = new Set();
+
+  for (const root of canonicalRoots) {
+    const files = root.endsWith('.ts') ? [root] : listSourceFiles(root);
+    for (const filePath of files) {
+      if (!fs.existsSync(filePath)) continue;
+      let text;
+      try {
+        text = fs.readFileSync(filePath, 'utf8');
+      } catch {
+        continue;
+      }
+
+      if (/\btype\s*:\s*string\b/.test(text)) {
+        hasWildcardType = true;
+      }
+
+      const re = /\btype\s*:\s*(['"`])([^'"`]+)\1/g;
+      for (;;) {
+        const m = re.exec(text);
+        if (!m) break;
+        currentIds.add(m[2]);
+      }
+    }
+  }
+
+  if (!hasWildcardType) {
+    for (const eventId of baselineEventIds) {
+      if (!currentIds.has(eventId)) {
+        violations.push({ eventId });
+      }
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`EVENTS_APPEND_VIOLATION eventId=${v.eventId} invariant=${invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'EVENTS_APPEND_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'EVENTS_APPEND_FAIL', level: 'fail' };
+  }
+
+  const hasDebt = hasMatchingActiveDebt(debtItems, baselinePath)
+    || hasMatchingActiveDebt(debtItems, 'src/contracts/core-event.contract.ts')
+    || hasMatchingActiveDebt(debtItems, 'src/contracts/events');
+  return {
+    status: hasDebt ? 'EVENTS_APPEND_WARN' : 'EVENTS_APPEND_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function checkOndiskArtifacts(matrixMode, debtItems) {
   const invariantId = 'OPS-ONDISK-001';
   const filePath = 'docs/OPS/ONDISK_ARTIFACTS.json';
@@ -783,6 +897,7 @@ function run() {
 
   const capsPolicy = checkCapabilitiesMatrix(matrixMode, debt.items, caps.items);
   const publicSurface = checkPublicSurface(matrixMode, debt.items);
+  const eventsAppend = checkEventsAppendOnly(matrixMode, debt.items);
   const ondiskPolicy = checkOndiskArtifacts(matrixMode, debt.items);
 
   const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
@@ -794,6 +909,7 @@ function run() {
   console.log(queuePolicy.status);
   console.log(capsPolicy.status);
   console.log(publicSurface.status);
+  console.log(eventsAppend.status);
   console.log(ondiskPolicy.status);
   console.log(debtTtl.status);
 
@@ -802,6 +918,7 @@ function run() {
     || queuePolicy.level === 'fail'
     || capsPolicy.level === 'fail'
     || publicSurface.level === 'fail'
+    || eventsAppend.level === 'fail'
     || ondiskPolicy.level === 'fail'
     || debtTtl.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
@@ -809,6 +926,7 @@ function run() {
     || queuePolicy.level === 'warn'
     || capsPolicy.level === 'warn'
     || publicSurface.level === 'warn'
+    || eventsAppend.level === 'warn'
     || ondiskPolicy.level === 'warn'
     || debtTtl.level === 'warn';
 

@@ -402,6 +402,34 @@ function parseInventoryIndex(filePath) {
   return idx.items;
 }
 
+function computeIdListDiagnostics(ids) {
+  const raw = Array.isArray(ids) ? ids.map((v) => (typeof v === 'string' ? v : String(v))) : [];
+  const sorted = [...raw].sort();
+  const sortedOk = raw.length === sorted.length && raw.every((v, i) => v === sorted[i]);
+
+  const counts = new Map();
+  for (const id of raw) {
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
+  const dupes = [...counts.values()].some((n) => n > 1);
+  const dupIds = [...counts.entries()].filter(([, n]) => n > 1).map(([id]) => id);
+
+  const violationsSet = new Set();
+  if (!sortedOk) {
+    for (const id of raw) violationsSet.add(id);
+  }
+  if (dupes) {
+    for (const id of dupIds) violationsSet.add(id);
+  }
+
+  const violations = [...violationsSet].sort();
+  return {
+    sortedOk,
+    dupes,
+    violations,
+  };
+}
+
 function checkInventoryEmptiness(inventoryIndexItems, debtRegistry) {
   const violations = [];
 
@@ -1517,6 +1545,19 @@ function run() {
 
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
+
+  const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
+  console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
+  console.log(`INDEX_INVENTORY_IDS_DUPES=${indexDiag.dupes ? 1 : 0}`);
+  console.log(`INDEX_INVENTORY_IDS_VIOLATIONS_COUNT=${indexDiag.violations.length}`);
+  console.log(`INDEX_INVENTORY_IDS_VIOLATIONS=${JSON.stringify(indexDiag.violations)}`);
+
+  const registryDiag = computeIdListDiagnostics(registryItems.map((it) => it.invariantId));
+  console.log(`REGISTRY_INVARIANT_IDS_SORTED=${registryDiag.sortedOk ? 1 : 0}`);
+  console.log(`REGISTRY_INVARIANT_IDS_DUPES=${registryDiag.dupes ? 1 : 0}`);
+  console.log(`REGISTRY_INVARIANT_IDS_VIOLATIONS_COUNT=${registryDiag.violations.length}`);
+  console.log(`REGISTRY_INVARIANT_IDS_VIOLATIONS=${JSON.stringify(registryDiag.violations)}`);
+
   const inventoryCheck = checkInventoryEmptiness(inventoryIndexItems, debtRegistry);
   if (inventoryCheck.violations.length > 0) {
     die('ERR_DOCTOR_INVALID_SHAPE', inventoryIndexPath, 'inventory_empty_violations_present');

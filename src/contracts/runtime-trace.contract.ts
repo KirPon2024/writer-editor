@@ -1,4 +1,1 @@
-export type RuntimeTraceContract = {
-  schemaVersion: 1;
-};
-
+export type { RuntimeTraceContract } from "./runtime/runtime-trace.contract";

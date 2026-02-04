@@ -1,4 +1,1 @@
-export type RuntimeEffectsContract = {
-  schemaVersion: 1;
-};
-
+export type { RuntimeEffectsContract } from "./runtime/runtime-effects.contract";

@@ -1,4 +1,1 @@
-export type RuntimeQueueContract = {
-  schemaVersion: 1;
-};
-
+export type { RuntimeQueueContract } from "./runtime/runtime-queue.contract";

@@ -301,6 +301,65 @@ function checkCoreDeterminism(matrixMode, debtItems) {
   };
 }
 
+function checkQueuePolicies(matrixMode, debtItems, queueItems) {
+  const invariantId = 'OPS-QUEUE-001';
+  const allowedOverflow = new Set([
+    'drop_oldest',
+    'drop_newest',
+    'hard_fail',
+    'degrade',
+  ]);
+
+  const violations = [];
+
+  for (let i = 0; i < queueItems.length; i += 1) {
+    const item = queueItems[i];
+
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
+      violations.push({ queueId: 'unknown', field: 'item' });
+      continue;
+    }
+
+    const queueIdRaw = item.queueId;
+    const queueId = typeof queueIdRaw === 'string' && queueIdRaw.length > 0 ? queueIdRaw : 'unknown';
+
+    if (queueId === 'unknown') violations.push({ queueId, field: 'queueId' });
+
+    const maxSize = item.maxSize;
+    if (typeof maxSize !== 'number' || !Number.isFinite(maxSize) || maxSize <= 0) {
+      violations.push({ queueId, field: 'maxSize' });
+    }
+
+    const overflow = item.overflow;
+    if (typeof overflow !== 'string' || !allowedOverflow.has(overflow)) {
+      violations.push({ queueId, field: 'overflow' });
+    }
+
+    const owner = item.owner;
+    if (typeof owner !== 'string' || owner.length === 0) {
+      violations.push({ queueId, field: 'owner' });
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`QUEUE_POLICY_VIOLATION queueId=${v.queueId} field=${v.field} invariant=${invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'QUEUE_POLICY_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'QUEUE_POLICY_FAIL', level: 'fail' };
+  }
+
+  const activeDebt = hasAnyActiveDebt(debtItems);
+  return {
+    status: activeDebt ? 'QUEUE_POLICY_WARN' : 'QUEUE_POLICY_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -332,26 +391,7 @@ function run() {
   const queuePath = 'docs/OPS/QUEUE_POLICIES.json';
   const queue = readJson(queuePath);
   assertObjectShape(queuePath, queue);
-  assertItemsAreObjects(queuePath, queue.items);
-  assertRequiredKeys(queuePath, queue.items, [
-    'queueId',
-    'maxSize',
-    'overflow',
-    'owner',
-  ]);
-
-  const allowedOverflow = new Set([
-    'drop_oldest',
-    'drop_newest',
-    'hard_fail',
-    'degrade',
-  ]);
-  for (let i = 0; i < queue.items.length; i += 1) {
-    const ov = queue.items[i].overflow;
-    if (typeof ov !== 'string' || !allowedOverflow.has(ov)) {
-      die('ERR_DOCTOR_INVALID_SHAPE', queuePath, `item_${i}_bad_overflow`);
-    }
-  }
+  const queuePolicy = checkQueuePolicies(matrixMode, debt.items, queue.items);
 
   const capsPath = 'docs/OPS/CAPABILITIES_MATRIX.json';
   const caps = readJson(capsPath);
@@ -374,10 +414,11 @@ function run() {
 
   console.log(coreBoundary.status);
   console.log(coreDet.status);
+  console.log(queuePolicy.status);
   console.log(debtTtl.status);
 
-  const hasFail = coreBoundary.level === 'fail' || coreDet.level === 'fail' || debtTtl.level === 'fail';
-  const hasWarn = coreBoundary.level === 'warn' || coreDet.level === 'warn' || debtTtl.level === 'warn';
+  const hasFail = coreBoundary.level === 'fail' || coreDet.level === 'fail' || queuePolicy.level === 'fail' || debtTtl.level === 'fail';
+  const hasWarn = coreBoundary.level === 'warn' || coreDet.level === 'warn' || queuePolicy.level === 'warn' || debtTtl.level === 'warn';
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

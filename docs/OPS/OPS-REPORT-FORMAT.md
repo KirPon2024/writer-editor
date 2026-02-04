@@ -47,8 +47,13 @@ M  example/modified-file.txt
 
 ## POST-COMMIT BLOB PROOF (MUST)
 
+## COMMAND TEMPLATES (MUST)
+
+- `CMD_TEMPLATE_BLOB_POST`: `git cat-file -t HEAD:<path>`
+- `CMD_TEMPLATE_BLOB_PRE`: `git cat-file -t HEAD^:<path>`
+
 - POST-COMMIT BLOB PROOF:
-  - CMD: `git cat-file -t HEAD:<path>`
+  - CMD: `CMD_TEMPLATE_BLOB_POST`
   - OUT: `blob`
   - PASS|FAIL
 
@@ -59,21 +64,53 @@ Rule: this block MUST appear for each committed file path in the step.
 For each path that appears as `M` in POST-COMMIT `git show --name-status --pretty=format: HEAD` output:
 
 - PRE-COMMIT BLOB PROOF (MODIFIED PATH):
-  - CMD: `git cat-file -t HEAD^:<path>`
+  - CMD: `CMD_TEMPLATE_BLOB_PRE`
   - OUT: `blob`
   - PASS|FAIL
 - POST-COMMIT BLOB PROOF (MODIFIED PATH):
-  - CMD: `git cat-file -t HEAD:<path>`
+  - CMD: `CMD_TEMPLATE_BLOB_POST`
   - OUT: `blob`
   - PASS|FAIL
 
 For each path that appears as `D` in POST-COMMIT `git show --name-status --pretty=format: HEAD` output:
 
 - PRE-COMMIT BLOB PROOF (DELETED PATH):
-  - CMD: `git cat-file -t HEAD^:<path>`
+  - CMD: `CMD_TEMPLATE_BLOB_PRE`
   - OUT: `blob`
   - PASS|FAIL
 - POST-COMMIT PATH REMOVED PROOF (DELETED PATH):
-  - CMD: `git cat-file -t HEAD:<path>`
+  - CMD: `CMD_TEMPLATE_BLOB_POST`
   - OUT: (exit != 0)
   - PASS|FAIL
+
+## NO DUPLICATE CMD RULE (MUST)
+
+- Within a single report, the exact `CMD:` string MUST NOT appear more than once.
+- Exception: the report CAN repeat the same command only if:
+  - the repetition is explicitly labeled as distinct semantic phases: `PRE-CHANGE`, `PRE-COMMIT`, `POST-COMMIT`, and
+  - the expected `OUT:` is explicitly different and phase-bound.
+- If the same command is repeated without meeting the exception, the report is invalid.
+
+Example (invalid):
+
+```
+- CHECK:
+  - CMD: `git status --porcelain --untracked-files=all`
+  - OUT: (empty)
+  - PASS
+  - CMD: `git status --porcelain --untracked-files=all`
+  - OUT: (empty)
+  - PASS
+```
+
+Example (valid):
+
+```
+- CHECK:
+  - CMD: `git status --porcelain --untracked-files=all` (PRE-CHANGE)
+  - OUT: (empty)
+  - PASS
+  - CMD: `git status --porcelain --untracked-files=all` (PRE-COMMIT)
+  - OUT: ` M path/to/file`
+  - PASS
+```

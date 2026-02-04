@@ -547,7 +547,7 @@ function evaluateRegistry(items, auditCheckIds) {
   return { level: hasWarn ? 'warn' : 'ok' };
 }
 
-function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, effectiveMode) {
+function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, effectiveMode, ignoredInvariantIds) {
   const canExecuteCheckId = false;
   const resultsById = new Map();
 
@@ -592,11 +592,22 @@ function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, e
 
   const sum = counts.OK + counts.WARN + counts.WARN_MISSING_DEBT + counts.FAIL;
 
+  const ignoredSet = new Set(Array.isArray(ignoredInvariantIds) ? ignoredInvariantIds : []);
+  const intersection = ids.filter((id) => ignoredSet.has(id));
+  const intersectionUniq = [...new Set(intersection)].sort();
+  const containsIgnored = intersectionUniq.length > 0;
+
   console.log(`EFFECTIVE_MODE=${effectiveMode}`);
   console.log(`INVARIANT_RESULTS=${JSON.stringify(results)}`);
   console.log(`INVARIANT_RESULTS_COUNT=${results.length}`);
   console.log(`INVARIANT_STATUS_COUNTS=${JSON.stringify(counts)}`);
   console.log(`INVARIANT_STATUS_COUNTS_SUM=${sum}`);
+  console.log(`INVARIANT_RESULTS_CONTAINS_IGNORED=${containsIgnored ? 1 : 0}`);
+  console.log(`INVARIANT_RESULTS_IGNORED_INTERSECTION=${JSON.stringify(intersectionUniq)}`);
+
+  if (containsIgnored) {
+    die('ERR_DOCTOR_INVALID_SHAPE', 'scripts/doctor.mjs', 'invariant_results_contains_ignored');
+  }
 }
 
 function listSourceFiles(rootDir) {
@@ -1554,7 +1565,7 @@ function run() {
   console.log(debtTtl.status);
 
   const gating = applyIntroducedInGating(registryItems, targetParsed);
-  computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode);
+  computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
 
   const hasFail = coreBoundary.level === 'fail'

@@ -377,6 +377,118 @@ function parseInvariantsRegistry(filePath) {
   return reg.items;
 }
 
+function parseInventoryIndex(filePath) {
+  const idx = readJson(filePath);
+  if (!idx || typeof idx !== 'object' || Array.isArray(idx)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'top_level_must_be_object');
+  }
+  if (idx.schemaVersion !== 1) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'schemaVersion_must_be_1');
+  }
+  assertOpsCanonVersion(filePath, idx);
+  if (!Array.isArray(idx.items)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'items_must_be_array');
+  }
+  assertItemsAreObjects(filePath, idx.items);
+  if (idx.items.length > 0) {
+    assertRequiredKeys(filePath, idx.items, [
+      'inventoryId',
+      'path',
+      'introducedIn',
+      'allowEmpty',
+      'requiresDeclaredEmpty',
+    ]);
+  }
+  return idx.items;
+}
+
+function checkInventoryEmptiness(inventoryIndexItems, debtRegistry) {
+  const violations = [];
+
+  for (let i = 0; i < inventoryIndexItems.length; i += 1) {
+    const idx = inventoryIndexItems[i];
+    const inventoryId = typeof idx.inventoryId === 'string' && idx.inventoryId.length > 0 ? idx.inventoryId : 'unknown';
+    const inventoryPath = typeof idx.path === 'string' && idx.path.length > 0 ? idx.path : 'unknown';
+
+    if (!fs.existsSync(inventoryPath)) {
+      console.error(`INVENTORY_PATH_MISSING: ${inventoryPath}`);
+      violations.push(`${inventoryId}:path_missing`);
+      continue;
+    }
+
+    let inv;
+    try {
+      inv = JSON.parse(readText(inventoryPath));
+    } catch {
+      violations.push(`${inventoryId}:json_parse_failed`);
+      continue;
+    }
+
+    if (!inv || typeof inv !== 'object' || Array.isArray(inv)) {
+      violations.push(`${inventoryId}:top_level_must_be_object`);
+      continue;
+    }
+
+    const items = inv.items;
+    if (!Array.isArray(items)) {
+      violations.push(`${inventoryId}:items_must_be_array`);
+      continue;
+    }
+
+    if ('declaredEmpty' in inv && typeof inv.declaredEmpty !== 'boolean') {
+      violations.push(`${inventoryId}:declaredEmpty_must_be_boolean`);
+      continue;
+    }
+
+    if (inv.declaredEmpty === true && items.length > 0) {
+      violations.push(`${inventoryId}:declaredEmpty_true_with_non_empty_items`);
+      continue;
+    }
+
+    const allowEmpty = idx.allowEmpty === true;
+    const requiresDeclaredEmpty = idx.requiresDeclaredEmpty === true;
+    const hasDeclaredEmptyKey = 'declaredEmpty' in inv;
+
+    if (inventoryPath === 'docs/OPS/DEBT_REGISTRY.json') {
+      if (items.length === 0 && inv.declaredEmpty !== true) {
+        violations.push(`${inventoryId}:debt_registry_empty_requires_declaredEmpty_true`);
+      }
+      continue;
+    }
+
+    if (allowEmpty === false) {
+      if (items.length === 0) {
+        violations.push(`${inventoryId}:empty_items_not_allowed`);
+      }
+      if (hasDeclaredEmptyKey) {
+        violations.push(`${inventoryId}:declaredEmpty_forbidden`);
+      }
+      continue;
+    }
+
+    if (requiresDeclaredEmpty === false) {
+      if (hasDeclaredEmptyKey) {
+        violations.push(`${inventoryId}:declaredEmpty_forbidden`);
+      }
+      continue;
+    }
+
+    if (hasDeclaredEmptyKey && items.length === 0 && inv.declaredEmpty === true) {
+      const hasDebt = hasMatchingActiveDebt(debtRegistry, inventoryPath);
+      if (!hasDebt) {
+        violations.push(`${inventoryId}:declared_empty_requires_matching_debt`);
+      }
+    }
+  }
+
+  violations.sort();
+  console.log(`INVENTORY_INDEX_MANAGED_COUNT=${inventoryIndexItems.length}`);
+  console.log(`INVENTORY_EMPTY_VIOLATIONS_COUNT=${violations.length}`);
+  console.log(`INVENTORY_EMPTY_VIOLATIONS=${JSON.stringify(violations)}`);
+
+  return { violations };
+}
+
 function evaluateRegistry(items, auditCheckIds) {
   const enforced = [];
   const placeholders = [];
@@ -1318,6 +1430,13 @@ function run() {
 
   const debtPath = 'docs/OPS/DEBT_REGISTRY.json';
   const debtRegistry = parseDebtRegistry(debtPath);
+
+  const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
+  const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
+  const inventoryCheck = checkInventoryEmptiness(inventoryIndexItems, debtRegistry);
+  if (inventoryCheck.violations.length > 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', inventoryIndexPath, 'inventory_empty_violations_present');
+  }
 
   const queuePath = 'docs/OPS/QUEUE_POLICIES.json';
   const queue = readJson(queuePath);

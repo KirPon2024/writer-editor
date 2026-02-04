@@ -1891,6 +1891,28 @@ function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditChec
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_IDS=${JSON.stringify(uniqSorted)}`);
 }
 
+function checkContourCDocsContractsPresence() {
+  const expected = [
+    'docs/CONTRACTS/runtime-execution.contract.md',
+    'docs/CONTRACTS/runtime-queue.contract.md',
+    'docs/CONTRACTS/runtime-trace.contract.md',
+    'docs/CONTRACTS/runtime-effects.contract.md',
+  ];
+
+  const present = expected.filter((p) => fs.existsSync(p)).sort();
+  const missing = expected.filter((p) => !fs.existsSync(p)).sort();
+  const missingCount = missing.length;
+  const ok = missingCount === 0 ? 1 : 0;
+
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_EXPECTED=${JSON.stringify(expected)}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_PRESENT=${JSON.stringify(present)}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_MISSING=${JSON.stringify(missing)}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_MISSING_COUNT=${missingCount}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_OK=${ok}`);
+
+  return { ok };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -2012,6 +2034,7 @@ function run() {
   computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds);
   computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
+  const docsContracts = checkContourCDocsContractsPresence();
 
   const hasFail = coreBoundary.level === 'fail'
     || coreDet.level === 'fail'
@@ -2038,7 +2061,8 @@ function run() {
     || registryEval.level === 'warn'
     || contourCEnforcement.level === 'warn'
     || contourCCompleteness.missingCount > 0
-    || contourCCompleteness.extraCount > 0;
+    || contourCCompleteness.extraCount > 0
+    || docsContracts.ok === 0;
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

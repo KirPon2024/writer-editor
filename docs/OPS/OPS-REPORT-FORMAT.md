@@ -22,6 +22,15 @@ This file defines a canonical, repo-backed report format for task execution evid
 - PRE-COMMIT check MUST exist:
   - CMD: `git status --porcelain --untracked-files=all`
   - PASS: OUT matches expected staged/unstaged state for the step
+- POST-COMMIT proof checks MUST exist (after COMMIT and before POST-COMMIT clean status):
+  - CHECK_XX_COMMIT_CONTENT_EXACT $begin:math:text$POST-COMMIT PROOF$end:math:text$
+    - CMD: `git show --name-only --pretty=format: HEAD`
+    - OUT: <paths>
+    - PASS|FAIL
+  - CHECK_XX_NAME_STATUS_MATCHES_INTENT $begin:math:text$POST-COMMIT PROOF$end:math:text$
+    - CMD: `git show --name-status --pretty=format: HEAD`
+    - OUT: <A|M|D paths>
+    - PASS|FAIL
 
 ## SRC-ONLY STEPS (MUST)
 
@@ -114,3 +123,11 @@ Example (valid):
   - OUT: ` M path/to/file`
   - PASS
 ```
+
+## POST-COMMIT OUT SECTION (MUST)
+
+- OUT MUST NOT duplicate any `CMD:` strings already used in CHECK blocks.
+- OUT MUST reference post-commit proofs by CHECK id and can repeat only the outputs:
+  - `POST-COMMIT OUT (name-only): ...`
+  - `POST-COMMIT OUT (name-status): ...`
+  - `POST-COMMIT OUT (clean status): (empty)`

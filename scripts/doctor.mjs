@@ -360,6 +360,99 @@ function checkQueuePolicies(matrixMode, debtItems, queueItems) {
   };
 }
 
+function checkCapabilitiesMatrix(matrixMode, debtItems, capsItems) {
+  const invariantId = 'OPS-CAPABILITIES-001';
+  const violations = [];
+  const seenPlatformIds = new Set();
+
+  for (let i = 0; i < capsItems.length; i += 1) {
+    const item = capsItems[i];
+
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
+      violations.push({ platformId: 'unknown', field: 'item' });
+      continue;
+    }
+
+    const platformIdRaw = item.platformId;
+    const platformId = typeof platformIdRaw === 'string' && platformIdRaw.length > 0 ? platformIdRaw : 'unknown';
+    if (platformId === 'unknown') violations.push({ platformId, field: 'platformId' });
+
+    if (platformId !== 'unknown') {
+      if (seenPlatformIds.has(platformId)) {
+        violations.push({ platformId, field: 'platformId_duplicate' });
+      } else {
+        seenPlatformIds.add(platformId);
+      }
+    }
+
+    const capabilities = item.capabilities;
+    if (!capabilities || typeof capabilities !== 'object' || Array.isArray(capabilities)) {
+      violations.push({ platformId, field: 'capabilities' });
+    } else {
+      const keys = Object.keys(capabilities);
+      if (keys.length === 0) {
+        violations.push({ platformId, field: 'capabilities_empty' });
+      }
+      for (const k of keys) {
+        const v = capabilities[k];
+        const t = typeof v;
+        const ok = t === 'boolean' || t === 'string' || t === 'number';
+        if (!ok || v === null || Array.isArray(v) || (t === 'object')) {
+          violations.push({ platformId, field: `capabilities.${k}` });
+        }
+      }
+    }
+
+    if ('disabledCommands' in item) {
+      const dc = item.disabledCommands;
+      if (!Array.isArray(dc)) {
+        violations.push({ platformId, field: 'disabledCommands' });
+      } else {
+        for (let j = 0; j < dc.length; j += 1) {
+          const v = dc[j];
+          if (typeof v !== 'string' || v.length === 0) {
+            violations.push({ platformId, field: 'disabledCommands' });
+            break;
+          }
+        }
+      }
+    }
+
+    if ('degradedFeatures' in item) {
+      const df = item.degradedFeatures;
+      if (!Array.isArray(df)) {
+        violations.push({ platformId, field: 'degradedFeatures' });
+      } else {
+        for (let j = 0; j < df.length; j += 1) {
+          const v = df[j];
+          if (typeof v !== 'string' || v.length === 0) {
+            violations.push({ platformId, field: 'degradedFeatures' });
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`CAPABILITIES_VIOLATION platformId=${v.platformId} field=${v.field} invariant=${invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'CAPABILITIES_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'CAPABILITIES_FAIL', level: 'fail' };
+  }
+
+  const activeDebt = hasAnyActiveDebt(debtItems);
+  return {
+    status: activeDebt ? 'CAPABILITIES_WARN' : 'CAPABILITIES_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -408,6 +501,8 @@ function run() {
     }
   }
 
+  const capsPolicy = checkCapabilitiesMatrix(matrixMode, debt.items, caps.items);
+
   const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
   const coreDet = checkCoreDeterminism(matrixMode, debt.items);
   const coreBoundary = checkCoreBoundary(matrixMode, debt.items);
@@ -415,10 +510,11 @@ function run() {
   console.log(coreBoundary.status);
   console.log(coreDet.status);
   console.log(queuePolicy.status);
+  console.log(capsPolicy.status);
   console.log(debtTtl.status);
 
-  const hasFail = coreBoundary.level === 'fail' || coreDet.level === 'fail' || queuePolicy.level === 'fail' || debtTtl.level === 'fail';
-  const hasWarn = coreBoundary.level === 'warn' || coreDet.level === 'warn' || queuePolicy.level === 'warn' || debtTtl.level === 'warn';
+  const hasFail = coreBoundary.level === 'fail' || coreDet.level === 'fail' || queuePolicy.level === 'fail' || capsPolicy.level === 'fail' || debtTtl.level === 'fail';
+  const hasWarn = coreBoundary.level === 'warn' || coreDet.level === 'warn' || queuePolicy.level === 'warn' || capsPolicy.level === 'warn' || debtTtl.level === 'warn';
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

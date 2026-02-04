@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "contracts.v1",
+      "kind": "contract",
+      "stability": "Evolving",
+      "paths": ["src/contracts/**"]
+    }
+  ]
+}

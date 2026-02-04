@@ -7,6 +7,13 @@
 **Нотация обязательности:** MUST / SHOULD / MAY.
 
 ---
+<!-- OPS:MATRIX-MODE -->
+mode: TRANSITIONAL
+enforcement:
+  P0: soft
+  P1: soft
+  P2: off
+<!-- /OPS:MATRIX-MODE -->
 
 ## 0) Как этим пользоваться (операционно)
 

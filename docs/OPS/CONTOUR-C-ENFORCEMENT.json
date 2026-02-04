@@ -1,5 +1,43 @@
 {
   "schemaVersion": 1,
   "opsCanonVersion": "v1.3",
-  "items": []
+  "items": [
+    {
+      "invariantId": "C_RUNTIME_NO_BYPASS_CORE",
+      "introducedIn": "v1.3",
+      "severity": "P0",
+      "maturity": "placeholder",
+      "enforcementMode": "soft",
+      "signals": [],
+      "evidencePaths": [],
+      "description": "Runtime MUST NOT bypass Core for domain state changes; runtime invokes Core transitions and does not mutate domain state directly."
+    },
+    {
+      "invariantId": "C_RUNTIME_SINGLE_WRITER_ORDERING_KEY",
+      "introducedIn": "v1.3",
+      "severity": "P0",
+      "maturity": "placeholder",
+      "enforcementMode": "soft",
+      "signals": [],
+      "evidencePaths": [],
+      "description": "Commands with the same orderingKey MUST be executed sequentially by a single-writer execution stream."
+    },
+    {
+      "invariantId": "C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS",
+      "introducedIn": "v1.3",
+      "severity": "P0",
+      "maturity": "placeholder",
+      "enforcementMode": "soft",
+      "signals": [
+        "C_TRACE_COMMAND_RECORD",
+        "C_TRACE_EFFECT_RECORD",
+        "C_TRACE_SINK_LOCATOR"
+      ],
+      "evidencePaths": [
+        "docs/OPS/OPS-RUNTIME-TRACE-MIN-CANON.md",
+        "docs/OPS/RUNTIME_SIGNALS.json"
+      ],
+      "description": "Runtime diagnostics MUST be structured trace records with a defined trace sink locator."
+    }
+  ]
 }

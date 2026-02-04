@@ -7,6 +7,7 @@ const REQUIRED_FILES = [
   'docs/OPS/CAPABILITIES_MATRIX.json',
   'docs/OPS/PUBLIC_SURFACE.json',
   'docs/OPS/DOMAIN_EVENTS_BASELINE.json',
+  'docs/OPS/TEXT_SNAPSHOT_SPEC.json',
   'docs/OPS/ONDISK_ARTIFACTS.json',
 ];
 
@@ -716,6 +717,95 @@ function checkEventsAppendOnly(matrixMode, debtItems) {
   };
 }
 
+function checkTextSnapshotSpec(matrixMode, debtItems) {
+  const invariantId = 'OPS-SNAPSHOT-001';
+  const filePath = 'docs/OPS/TEXT_SNAPSHOT_SPEC.json';
+
+  const violations = [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(readText(filePath));
+  } catch {
+    violations.push({ field: 'json' });
+    parsed = null;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    violations.push({ field: 'root' });
+  }
+
+  const schemaVersion = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.schemaVersion : undefined;
+  if (typeof schemaVersion !== 'number') {
+    violations.push({ field: 'schemaVersion' });
+  }
+
+  const requiredFields = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.requiredFields : undefined;
+  const optionalFields = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.optionalFields : undefined;
+  const forbiddenPrefixes = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.forbiddenFieldPrefixes : undefined;
+
+  if (!Array.isArray(requiredFields)) violations.push({ field: 'requiredFields' });
+  if (!Array.isArray(optionalFields)) violations.push({ field: 'optionalFields' });
+  if (!Array.isArray(forbiddenPrefixes)) violations.push({ field: 'forbiddenFieldPrefixes' });
+
+  const forbidden = Array.isArray(forbiddenPrefixes)
+    ? forbiddenPrefixes.filter((p) => typeof p === 'string' && p.length > 0)
+    : [];
+
+  const checkFieldArray = (arr, label) => {
+    if (!Array.isArray(arr)) return;
+    const seen = new Set();
+    for (let i = 0; i < arr.length; i += 1) {
+      const v = arr[i];
+      if (typeof v !== 'string' || v.length === 0) {
+        violations.push({ field: `${label}[${i}]` });
+        continue;
+      }
+      if (seen.has(v)) {
+        violations.push({ field: `${label}_duplicate` });
+      } else {
+        seen.add(v);
+      }
+      for (const prefix of forbidden) {
+        if (v.startsWith(prefix)) {
+          violations.push({ field: `${label}_forbidden_prefix` });
+          break;
+        }
+      }
+    }
+  };
+
+  checkFieldArray(requiredFields, 'requiredFields');
+  checkFieldArray(optionalFields, 'optionalFields');
+
+  if (Array.isArray(forbiddenPrefixes)) {
+    for (let i = 0; i < forbiddenPrefixes.length; i += 1) {
+      const p = forbiddenPrefixes[i];
+      if (typeof p !== 'string' || p.length === 0) {
+        violations.push({ field: `forbiddenFieldPrefixes[${i}]` });
+      }
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`SNAPSHOT_VIOLATION field=${v.field} invariant=${invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'SNAPSHOT_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'SNAPSHOT_FAIL', level: 'fail' };
+  }
+
+  const hasDebt = hasMatchingActiveDebt(debtItems, filePath);
+  return {
+    status: hasDebt ? 'SNAPSHOT_WARN' : 'SNAPSHOT_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function checkOndiskArtifacts(matrixMode, debtItems) {
   const invariantId = 'OPS-ONDISK-001';
   const filePath = 'docs/OPS/ONDISK_ARTIFACTS.json';
@@ -898,6 +988,7 @@ function run() {
   const capsPolicy = checkCapabilitiesMatrix(matrixMode, debt.items, caps.items);
   const publicSurface = checkPublicSurface(matrixMode, debt.items);
   const eventsAppend = checkEventsAppendOnly(matrixMode, debt.items);
+  const snapshotPolicy = checkTextSnapshotSpec(matrixMode, debt.items);
   const ondiskPolicy = checkOndiskArtifacts(matrixMode, debt.items);
 
   const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
@@ -910,6 +1001,7 @@ function run() {
   console.log(capsPolicy.status);
   console.log(publicSurface.status);
   console.log(eventsAppend.status);
+  console.log(snapshotPolicy.status);
   console.log(ondiskPolicy.status);
   console.log(debtTtl.status);
 
@@ -919,6 +1011,7 @@ function run() {
     || capsPolicy.level === 'fail'
     || publicSurface.level === 'fail'
     || eventsAppend.level === 'fail'
+    || snapshotPolicy.level === 'fail'
     || ondiskPolicy.level === 'fail'
     || debtTtl.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
@@ -927,6 +1020,7 @@ function run() {
     || capsPolicy.level === 'warn'
     || publicSurface.level === 'warn'
     || eventsAppend.level === 'warn'
+    || snapshotPolicy.level === 'warn'
     || ondiskPolicy.level === 'warn'
     || debtTtl.level === 'warn';
 

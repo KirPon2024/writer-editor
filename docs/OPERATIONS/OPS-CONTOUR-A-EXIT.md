@@ -1,5 +1,7 @@
 # CONTOUR-A Exit Criteria
 
+NOTE: This document is a VIEW / historical artifact. Source of truth for invariants MUST be `docs/OPS/INVARIANTS_REGISTRY.json`. Debt MUST be sourced only from `docs/OPS/DEBT_REGISTRY.json`. Resolvable `checkId` tokens MUST be sourced only from `docs/OPS/AUDIT_CHECKS.json`.
+
 ## Purpose
 - Capture a shared, checkable understanding of what “exit from CONTOUR-A” means.
 - Reduce drift by keeping exit conditions explicit and stable.
@@ -10,7 +12,6 @@
 
 ## Active Invariants
 - CORE_PURITY_NO_EFFECT_TOKENS
-- CONTRACTS_EXPORT_SURFACE_COMPLETE
 - SMOKE_A4_SCRIPT_AVAILABLE
 
 ## Required Artifacts

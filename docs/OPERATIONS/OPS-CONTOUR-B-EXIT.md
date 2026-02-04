@@ -1,5 +1,7 @@
 # OPS — CONTOUR-B Exit & Closure Protocol
 
+NOTE: This document is a VIEW / historical artifact. Source of truth for invariants MUST be `docs/OPS/INVARIANTS_REGISTRY.json`. Debt MUST be sourced only from `docs/OPS/DEBT_REGISTRY.json`. Resolvable `checkId` tokens MUST be sourced only from `docs/OPS/AUDIT_CHECKS.json`.
+
 ## Purpose
 This document defines the repository- and documentation-level conditions for declaring **CONTOUR-B (Platform Boundary)** complete, including the logical closure of **MICROSTEP-CONTOUR-B-AUDIT**, while keeping the audit system in **TRANSITIONAL** mode and keeping **STRICT** enforcement disabled.
 
@@ -14,14 +16,14 @@ Out of scope:
 - Any changes to code, contracts, or operational gates.
 
 ## Preconditions
-CONTOUR-B may be evaluated for closure only when:
+CONTOUR-B MAY be evaluated for closure only when:
 - The repository is in a clean state (no pending changes).
 - The platform boundary is documented as a baseline and as an adapter catalog.
 - OPS audit artifacts exist and the matrix mode is explicitly declared as `TRANSITIONAL`.
 - The transition into the platform contour is documented and remains consistent with existing constraints.
 
 ## Required Artifacts
-The following documents MUST exist and be considered the source of truth for CONTOUR-B closure:
+The following documents MUST exist to consider CONTOUR-B closed (this list is not a source of truth; registry and debt registries remain authoritative):
 - `docs/PLATFORM/CONTOUR-B-BASELINE.md`
 - `docs/PLATFORM/CONTOUR-B-ADAPTERS.md`
 - `docs/OPERATIONS/OPS-INVARIANTS-MATRIX.md`

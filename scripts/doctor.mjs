@@ -1,6 +1,81 @@
 import fs from 'node:fs';
 
-const SUPPORTED_OPS_CANON_VERSION = 'v1.2';
+const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
+
+const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
+
+function parseVersionToken(token, errorFile, errorReason) {
+  if (typeof token !== 'string') {
+    die('ERR_DOCTOR_INVALID_SHAPE', errorFile, errorReason);
+  }
+  const m = token.match(VERSION_TOKEN_RE);
+  if (!m) {
+    die('ERR_DOCTOR_INVALID_SHAPE', errorFile, errorReason);
+  }
+  return { major: Number(m[1]), minor: Number(m[2]), token };
+}
+
+function compareVersion(a, b) {
+  if (a.major !== b.major) return a.major < b.major ? -1 : 1;
+  if (a.minor !== b.minor) return a.minor < b.minor ? -1 : 1;
+  return 0;
+}
+
+function resolveTargetBaselineVersion() {
+  const envToken = process.env.CHECKS_BASELINE_VERSION;
+  if (typeof envToken === 'string' && envToken.length > 0) {
+    const valid = VERSION_TOKEN_RE.test(envToken);
+    if (valid) return { targetBaselineVersion: envToken, invalidEnvToken: null };
+
+    const registryPath = 'docs/OPS/INVARIANTS_REGISTRY.json';
+    const registryRaw = readJson(registryPath);
+    if (!registryRaw || typeof registryRaw !== 'object' || Array.isArray(registryRaw)) {
+      die('ERR_DOCTOR_INVALID_SHAPE', registryPath, 'top_level_must_be_object');
+    }
+    return { targetBaselineVersion: registryRaw.opsCanonVersion, invalidEnvToken: envToken };
+  }
+
+  const registryPath = 'docs/OPS/INVARIANTS_REGISTRY.json';
+  const registryRaw = readJson(registryPath);
+  if (!registryRaw || typeof registryRaw !== 'object' || Array.isArray(registryRaw)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', registryPath, 'top_level_must_be_object');
+  }
+  return { targetBaselineVersion: registryRaw.opsCanonVersion, invalidEnvToken: null };
+}
+
+function applyIntroducedInGating(registryItems, targetParsed) {
+  const applicableItems = [];
+  const ignoredInvariantIds = [];
+
+  for (const it of registryItems) {
+    const invariantId = it && typeof it === 'object' ? it.invariantId : '(unknown)';
+    const introducedIn = it && typeof it === 'object' ? it.introducedIn : undefined;
+
+    if (typeof introducedIn !== 'string' || !VERSION_TOKEN_RE.test(introducedIn)) {
+      console.error(`INVALID_INTRODUCED_IN: invariantId=${invariantId} introducedIn=${String(introducedIn)}`);
+      die('ERR_DOCTOR_INVALID_SHAPE', 'docs/OPS/INVARIANTS_REGISTRY.json', 'introducedIn_invalid_version_token');
+    }
+
+    const introParsed = parseVersionToken(
+      introducedIn,
+      'docs/OPS/INVARIANTS_REGISTRY.json',
+      'introducedIn_invalid_version_token',
+    );
+
+    const applicable = compareVersion(introParsed, targetParsed) <= 0;
+    if (applicable) {
+      applicableItems.push(it);
+    } else {
+      ignoredInvariantIds.push(invariantId);
+    }
+  }
+
+  ignoredInvariantIds.sort();
+  console.log(`IGNORED_INVARIANTS=${JSON.stringify(ignoredInvariantIds)}`);
+  console.log(`IGNORED_INVARIANTS_COUNT=${ignoredInvariantIds.length}`);
+
+  return { applicableItems, ignoredInvariantIds };
+}
 
 const REQUIRED_FILES = [
   'docs/OPS/AUDIT-MATRIX-v1.1.md',
@@ -302,10 +377,123 @@ function parseInvariantsRegistry(filePath) {
   return reg.items;
 }
 
+function parseInventoryIndex(filePath) {
+  const idx = readJson(filePath);
+  if (!idx || typeof idx !== 'object' || Array.isArray(idx)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'top_level_must_be_object');
+  }
+  if (idx.schemaVersion !== 1) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'schemaVersion_must_be_1');
+  }
+  assertOpsCanonVersion(filePath, idx);
+  if (!Array.isArray(idx.items)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'items_must_be_array');
+  }
+  assertItemsAreObjects(filePath, idx.items);
+  if (idx.items.length > 0) {
+    assertRequiredKeys(filePath, idx.items, [
+      'inventoryId',
+      'path',
+      'introducedIn',
+      'allowEmpty',
+      'requiresDeclaredEmpty',
+    ]);
+  }
+  return idx.items;
+}
+
+function checkInventoryEmptiness(inventoryIndexItems, debtRegistry) {
+  const violations = [];
+
+  for (let i = 0; i < inventoryIndexItems.length; i += 1) {
+    const idx = inventoryIndexItems[i];
+    const inventoryId = typeof idx.inventoryId === 'string' && idx.inventoryId.length > 0 ? idx.inventoryId : 'unknown';
+    const inventoryPath = typeof idx.path === 'string' && idx.path.length > 0 ? idx.path : 'unknown';
+
+    if (!fs.existsSync(inventoryPath)) {
+      console.error(`INVENTORY_PATH_MISSING: ${inventoryPath}`);
+      violations.push(`${inventoryId}:path_missing`);
+      continue;
+    }
+
+    let inv;
+    try {
+      inv = JSON.parse(readText(inventoryPath));
+    } catch {
+      violations.push(`${inventoryId}:json_parse_failed`);
+      continue;
+    }
+
+    if (!inv || typeof inv !== 'object' || Array.isArray(inv)) {
+      violations.push(`${inventoryId}:top_level_must_be_object`);
+      continue;
+    }
+
+    const items = inv.items;
+    if (!Array.isArray(items)) {
+      violations.push(`${inventoryId}:items_must_be_array`);
+      continue;
+    }
+
+    if ('declaredEmpty' in inv && typeof inv.declaredEmpty !== 'boolean') {
+      violations.push(`${inventoryId}:declaredEmpty_must_be_boolean`);
+      continue;
+    }
+
+    if (inv.declaredEmpty === true && items.length > 0) {
+      violations.push(`${inventoryId}:declaredEmpty_true_with_non_empty_items`);
+      continue;
+    }
+
+    const allowEmpty = idx.allowEmpty === true;
+    const requiresDeclaredEmpty = idx.requiresDeclaredEmpty === true;
+    const hasDeclaredEmptyKey = 'declaredEmpty' in inv;
+
+    if (inventoryPath === 'docs/OPS/DEBT_REGISTRY.json') {
+      if (items.length === 0 && inv.declaredEmpty !== true) {
+        violations.push(`${inventoryId}:debt_registry_empty_requires_declaredEmpty_true`);
+      }
+      continue;
+    }
+
+    if (allowEmpty === false) {
+      if (items.length === 0) {
+        violations.push(`${inventoryId}:empty_items_not_allowed`);
+      }
+      if (hasDeclaredEmptyKey) {
+        violations.push(`${inventoryId}:declaredEmpty_forbidden`);
+      }
+      continue;
+    }
+
+    if (requiresDeclaredEmpty === false) {
+      if (hasDeclaredEmptyKey) {
+        violations.push(`${inventoryId}:declaredEmpty_forbidden`);
+      }
+      continue;
+    }
+
+    if (hasDeclaredEmptyKey && items.length === 0 && inv.declaredEmpty === true) {
+      const hasDebt = hasMatchingActiveDebt(debtRegistry, inventoryPath);
+      if (!hasDebt) {
+        violations.push(`${inventoryId}:declared_empty_requires_matching_debt`);
+      }
+    }
+  }
+
+  violations.sort();
+  console.log(`INVENTORY_INDEX_MANAGED_COUNT=${inventoryIndexItems.length}`);
+  console.log(`INVENTORY_EMPTY_VIOLATIONS_COUNT=${violations.length}`);
+  console.log(`INVENTORY_EMPTY_VIOLATIONS=${JSON.stringify(violations)}`);
+
+  return { violations };
+}
+
 function evaluateRegistry(items, auditCheckIds) {
   const enforced = [];
   const placeholders = [];
   const noSource = [];
+  const cNotImplemented = [];
 
   for (const it of items) {
     const enforcementMode = it.enforcementMode;
@@ -327,15 +515,33 @@ function evaluateRegistry(items, auditCheckIds) {
     } else {
       noSource.push(invariantId);
     }
+
+    if (typeof invariantId === 'string' && invariantId.startsWith('C_RUNTIME_') && (effectiveMaturity === 'placeholder' || effectiveMaturity === 'no_source')) {
+      cNotImplemented.push(invariantId);
+    }
   }
 
   enforced.sort();
   placeholders.sort();
   noSource.sort();
 
+  const placeholderSet = new Set(placeholders);
+  const noSourceSet = new Set(noSource);
+
+  for (const id of cNotImplemented) {
+    const inPlaceholder = placeholderSet.has(id);
+    const inNoSource = noSourceSet.has(id);
+    if ((inPlaceholder ? 1 : 0) + (inNoSource ? 1 : 0) !== 1) {
+      console.error(`C_NOT_IMPLEMENTED_UNCLASSIFIED=${id}`);
+      die('ERR_DOCTOR_INVALID_SHAPE', 'scripts/doctor.mjs', 'c_runtime_not_implemented_unclassified');
+    }
+  }
+
   console.log(`ENFORCED_INVARIANTS=${JSON.stringify(enforced)}`);
   console.log(`PLACEHOLDER_INVARIANTS=${JSON.stringify(placeholders)}`);
   console.log(`NO_SOURCE_INVARIANTS=${JSON.stringify(noSource)}`);
+  console.log(`PLACEHOLDER_INVARIANTS_COUNT=${placeholders.length}`);
+  console.log(`NO_SOURCE_INVARIANTS_COUNT=${noSource.length}`);
 
   const hasWarn = placeholders.length > 0 || noSource.length > 0;
   return { level: hasWarn ? 'warn' : 'ok' };
@@ -1202,6 +1408,30 @@ function run() {
     }
   }
 
+  const { targetBaselineVersion, invalidEnvToken } = resolveTargetBaselineVersion();
+  const supportedParsed = parseVersionToken(
+    SUPPORTED_OPS_CANON_VERSION,
+    'SUPPORTED_OPS_CANON_VERSION',
+    'invalid_version_token',
+  );
+  const targetParsed = parseVersionToken(
+    targetBaselineVersion,
+    'docs/OPS/INVARIANTS_REGISTRY.json',
+    'opsCanonVersion_invalid_version_token',
+  );
+
+  console.log(`TARGET_BASELINE_VERSION=${targetParsed.token}`);
+
+  if (invalidEnvToken !== null) {
+    console.error(`CHECKS_BASELINE_VERSION=${invalidEnvToken}`);
+    die('ERR_DOCTOR_INVALID_SHAPE', 'CHECKS_BASELINE_VERSION', 'invalid_version_token');
+  }
+
+  if (compareVersion(targetParsed, supportedParsed) !== 0) {
+    console.error(`SUPPORTED_OPS_CANON_VERSION=${supportedParsed.token}`);
+    die('ERR_DOCTOR_INVALID_SHAPE', 'SUPPORTED_OPS_CANON_VERSION', 'baseline_version_mismatch');
+  }
+
   const auditChecksPath = 'docs/OPS/AUDIT_CHECKS.json';
   const auditCheckIds = parseAuditChecks(auditChecksPath);
 
@@ -1219,6 +1449,13 @@ function run() {
 
   const debtPath = 'docs/OPS/DEBT_REGISTRY.json';
   const debtRegistry = parseDebtRegistry(debtPath);
+
+  const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
+  const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
+  const inventoryCheck = checkInventoryEmptiness(inventoryIndexItems, debtRegistry);
+  if (inventoryCheck.violations.length > 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', inventoryIndexPath, 'inventory_empty_violations_present');
+  }
 
   const queuePath = 'docs/OPS/QUEUE_POLICIES.json';
   const queue = readJson(queuePath);
@@ -1262,7 +1499,8 @@ function run() {
   console.log(ondiskPolicy.status);
   console.log(debtTtl.status);
 
-  const registryEval = evaluateRegistry(registryItems, auditCheckIds);
+  const gating = applyIntroducedInGating(registryItems, targetParsed);
+  const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
 
   const hasFail = coreBoundary.level === 'fail'
     || coreDet.level === 'fail'

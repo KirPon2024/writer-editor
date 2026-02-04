@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "opsCanonVersion": "v1.3",
+  "items": [
+    {
+      "signalId": "C_TRACE_COMMAND_RECORD",
+      "kind": "trace_signal",
+      "introducedIn": "v1.3",
+      "severity": "P0",
+      "evidencePath": "docs/OPS/OPS-RUNTIME-TRACE-MIN-CANON.md",
+      "description": "CommandTrace record shape is canonical, structured, and replayable without UI."
+    },
+    {
+      "signalId": "C_TRACE_EFFECT_RECORD",
+      "kind": "trace_signal",
+      "introducedIn": "v1.3",
+      "severity": "P0",
+      "evidencePath": "docs/OPS/OPS-RUNTIME-TRACE-MIN-CANON.md",
+      "description": "EffectTrace record shape is canonical, structured, and replayable without UI."
+    },
+    {
+      "signalId": "C_TRACE_SINK_LOCATOR",
+      "kind": "trace_sink",
+      "introducedIn": "v1.3",
+      "severity": "P0",
+      "evidencePath": "test/fixtures/runtime/trace/",
+      "description": "Trace sink locator is a repo-relative path used as a canonical evidence anchor for runtime trace records."
+    }
+  ]
+}

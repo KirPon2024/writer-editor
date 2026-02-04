@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "opsCanonVersion": "v1.2",
+  "opsCanonVersion": "v1.3",
   "items": [
     {
       "invariantId": "CORE_PURITY_NO_EFFECT_TOKENS",
@@ -11,6 +11,36 @@
       "checkId": null,
       "introducedIn": "v1.2",
       "description": "CORE must not contain effect tokens (governance rule recorded in OPS invariants matrix)."
+    },
+    {
+      "invariantId": "C_RUNTIME_NO_BYPASS_CORE",
+      "contour": "C",
+      "severity": "P0",
+      "enforcementMode": "soft",
+      "maturity": "placeholder",
+      "checkId": null,
+      "introducedIn": "v1.3",
+      "description": "Runtime execution MUST NOT bypass Core transitions; runtime MUST NOT mutate domain state directly."
+    },
+    {
+      "invariantId": "C_RUNTIME_SINGLE_WRITER_ORDERING_KEY",
+      "contour": "C",
+      "severity": "P0",
+      "enforcementMode": "soft",
+      "maturity": "placeholder",
+      "checkId": null,
+      "introducedIn": "v1.3",
+      "description": "Within a single orderingKey, runtime execution MUST be single-writer and strictly sequential."
+    },
+    {
+      "invariantId": "C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS",
+      "contour": "C",
+      "severity": "P1",
+      "enforcementMode": "soft",
+      "maturity": "placeholder",
+      "checkId": null,
+      "introducedIn": "v1.3",
+      "description": "Runtime MUST emit structured diagnostics as trace records with deterministic ordering per orderingKey."
     },
     {
       "invariantId": "PLATFORM_ADAPTERS_DECLARED",

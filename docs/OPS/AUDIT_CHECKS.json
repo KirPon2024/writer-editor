@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "opsCanonVersion": "v1.2",
+  "opsCanonVersion": "v1.3",
   "checkIds": [
     "CHK-ADAPTERS-NO-DOMAIN-TYPES",
     "CHK-ALLOWLIST-DIFF",

@@ -38,9 +38,15 @@ overflow outcome: deterministic and explicit result when a queue cannot accept m
 - Define roadmap commitments beyond runtime causality/execution scope.
 
 ## SUCCESS SIGNALS
-- Phase-1 spec artifacts set is limited to: docs/OPS/CONTOUR-C-SCOPE.md, docs/OPS/OPS-CONTOUR-C-INVARIANTS.md, docs/OPS/OPS-RUNTIME-GLOSSARY.md, docs/OPS/OPS-RUNTIME-TRACE-SPEC.md.
+- Phase 1 artifacts set is limited to:
+- docs/OPS/CONTOUR-C-SCOPE.md
+- docs/OPS/OPS-CONTOUR-C-INVARIANTS.md
+- docs/OPS/OPS-RUNTIME-GLOSSARY.md
+- docs/OPS/OPS-RUNTIME-TRACE-MIN-CANON.md
+- docs/OPS/CONTOUR-C-IMPLEMENTATION-PLAN.md
+- docs/OPS/CONTOUR-C-PHASE-1-INDEX.md
 - This step changes only docs/OPS/CONTOUR-C-SCOPE.md (task allowlist).
-- Runtime trace/diagnostics shapes are fixed in docs/OPS/OPS-RUNTIME-TRACE-SPEC.md (Phase 1.4).
+- Runtime trace/diagnostics shapes are fixed in docs/OPS/OPS-RUNTIME-TRACE-MIN-CANON.md (Phase 1.4).
 
 ## BANNED LANGUAGE
 - Forbidden tokens as standalone words: `may`, `should`, `could`, `prefer`, `ideally`.

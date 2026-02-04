@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-const SUPPORTED_OPS_CANON_VERSION = 'v1.2';
+const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 
 const REQUIRED_FILES = [
   'docs/OPS/AUDIT-MATRIX-v1.1.md',

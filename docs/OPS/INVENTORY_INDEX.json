@@ -1,7 +1,14 @@
 {
   "schemaVersion": 1,
-  "opsCanonVersion": "v1.2",
+  "opsCanonVersion": "v1.3",
   "items": [
+    {
+      "inventoryId": "CONTOUR_C_ENFORCEMENT",
+      "path": "docs/OPS/CONTOUR-C-ENFORCEMENT.json",
+      "introducedIn": "v1.3",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": false
+    },
     {
       "inventoryId": "INV:CAPABILITIES_MATRIX",
       "path": "docs/OPS/CAPABILITIES_MATRIX.json",
@@ -50,6 +57,27 @@
       "introducedIn": "v1.2",
       "allowEmpty": true,
       "requiresDeclaredEmpty": true
+    },
+    {
+      "inventoryId": "RUNTIME_EFFECTS_INVENTORY",
+      "path": "docs/OPS/RUNTIME_EFFECTS_INVENTORY.json",
+      "introducedIn": "v1.3",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": false
+    },
+    {
+      "inventoryId": "RUNTIME_QUEUE_INVENTORY",
+      "path": "docs/OPS/RUNTIME_QUEUE_INVENTORY.json",
+      "introducedIn": "v1.3",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": false
+    },
+    {
+      "inventoryId": "RUNTIME_SIGNALS",
+      "path": "docs/OPS/RUNTIME_SIGNALS.json",
+      "introducedIn": "v1.3",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": false
     }
   ]
 }

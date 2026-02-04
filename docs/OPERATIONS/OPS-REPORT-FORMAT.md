@@ -1,10 +1,12 @@
 ## PURPOSE
 Определяет минимальный единый формат OPS-отчётов для контура B.
-## REPORT_SCHEMA
-STATE_CHOSEN
-CHANGED
-CHECK
-OUT
-ASSUMPTIONS
+## REPORT_FORMAT
+- CHANGED:
+- CHECK:
+- OUT:
+- ASSUMPTIONS: (empty)
+- FAIL_REASON:
+- EVIDENCE:
+- REQUIRED_INPUT:
 ## STOP_RULE
 Any FAIL → immediate STOP

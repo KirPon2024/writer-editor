@@ -624,6 +624,112 @@ function checkRuntimeSignalsInventory() {
   return { level: uniqSorted.length > 0 ? 'warn' : 'ok' };
 }
 
+function checkContourCEnforcementInventory(applicableRegistryItems) {
+  const filePath = 'docs/OPS/CONTOUR-C-ENFORCEMENT.json';
+  const violations = new Set();
+  let forceFail = false;
+
+  let parsed;
+  try {
+    parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    parsed = null;
+    violations.add('ENF_JSON_READ_FAIL');
+    forceFail = true;
+  }
+
+  const rawIds = [];
+  const entriesSet = new Set();
+
+  const applicableIds = new Set();
+  if (Array.isArray(applicableRegistryItems)) {
+    for (const it of applicableRegistryItems) {
+      if (it && typeof it === 'object' && !Array.isArray(it) && typeof it.invariantId === 'string' && it.invariantId.length > 0) {
+        applicableIds.add(it.invariantId);
+      }
+    }
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+  } else {
+    const schemaOk = parsed.schemaVersion === 1;
+    const versionOk = parsed.opsCanonVersion === SUPPORTED_OPS_CANON_VERSION;
+    const items = parsed.items;
+
+    if (!schemaOk || !versionOk || !Array.isArray(items)) {
+      violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+    }
+
+    if (Array.isArray(items)) {
+      const requiredMode = new Set(['off', 'soft', 'hard']);
+      const allowedMaturity = new Set(['implemented', 'placeholder', 'no_source']);
+
+      for (let i = 0; i < items.length; i += 1) {
+        const it = items[i];
+        if (!it || typeof it !== 'object' || Array.isArray(it)) {
+          violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+          continue;
+        }
+
+        const invariantId = it.invariantId;
+        if (typeof invariantId === 'string' && invariantId.length > 0 && !/\s/.test(invariantId)) {
+          rawIds.push(invariantId);
+          entriesSet.add(invariantId);
+
+          if (!applicableIds.has(invariantId)) {
+            violations.add('ENF_UNKNOWN_INVARIANT_ID');
+          }
+        } else {
+          violations.add('ENF_SCHEMA_OR_VERSION_MISMATCH');
+        }
+
+        const mode = it.enforcementMode;
+        if (typeof mode !== 'string' || !requiredMode.has(mode)) {
+          violations.add('ENF_INVALID_MODE');
+        }
+
+        const maturityFields = [
+          { key: 'maturityTarget', value: it.maturityTarget },
+          { key: 'targetMaturity', value: it.targetMaturity },
+          { key: 'maturity', value: it.maturity },
+        ];
+        for (const f of maturityFields) {
+          if (!(f.key in it)) continue;
+          if (typeof f.value !== 'string' || !allowedMaturity.has(f.value)) {
+            violations.add('ENF_INVALID_MATURITY_TARGET');
+          }
+        }
+      }
+    }
+  }
+
+  const counts = new Map();
+  for (const id of rawIds) {
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
+  const hasDupes = [...counts.values()].some((n) => n > 1);
+  if (hasDupes) {
+    violations.add('ENF_DUPLICATE_INVARIANT_ID');
+  }
+
+  const sorted = [...rawIds].sort();
+  const sortedOk = rawIds.length === sorted.length && rawIds.every((v, i) => v === sorted[i]);
+  if (!sortedOk) {
+    violations.add('ENF_UNSORTED_INVARIANT_ID');
+  }
+
+  const entries = [...entriesSet].sort();
+  const violationsOut = [...violations].sort();
+
+  console.log(`CONTOUR_C_ENFORCEMENT_ENTRIES=${JSON.stringify(entries)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_ENTRIES_COUNT=${entries.length}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_VIOLATIONS=${JSON.stringify(violationsOut)}`);
+  console.log(`CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT=${violationsOut.length}`);
+
+  return { forceFail };
+}
+
 function evaluateRegistry(items, auditCheckIds) {
   const enforced = [];
   const placeholders = [];
@@ -1715,6 +1821,7 @@ function run() {
   console.log(debtTtl.status);
 
   const gating = applyIntroducedInGating(registryItems, targetParsed);
+  const contourCEnforcement = checkContourCEnforcementInventory(gating.applicableItems);
   computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
 
@@ -1727,7 +1834,8 @@ function run() {
     || snapshotPolicy.level === 'fail'
     || effectsIdemp.level === 'fail'
     || ondiskPolicy.level === 'fail'
-    || debtTtl.level === 'fail';
+    || debtTtl.level === 'fail'
+    || contourCEnforcement.forceFail === true;
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'

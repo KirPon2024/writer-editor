@@ -5,6 +5,7 @@ const REQUIRED_FILES = [
   'docs/OPS/DEBT_REGISTRY.json',
   'docs/OPS/QUEUE_POLICIES.json',
   'docs/OPS/CAPABILITIES_MATRIX.json',
+  'docs/OPS/PUBLIC_SURFACE.json',
 ];
 
 function die(code, file, reason) {
@@ -165,6 +166,33 @@ function hasAnyActiveDebt(debtItems) {
     if (Number.isNaN(parsed)) continue;
     if (parsed >= todayStart) return true;
   }
+  return false;
+}
+
+function hasMatchingActiveDebt(debtItems, scopeNeedle) {
+  const todayStart = utcTodayStartMs();
+
+  for (let i = 0; i < debtItems.length; i += 1) {
+    const item = debtItems[i];
+    const ttlUntil = item.ttlUntil;
+    if (typeof ttlUntil !== 'string' || ttlUntil.length === 0) continue;
+
+    const parsed = Date.parse(ttlUntil);
+    if (Number.isNaN(parsed)) continue;
+    if (parsed < todayStart) continue;
+
+    const scope = item.scope;
+    if (typeof scope === 'string') {
+      if (scope.includes(scopeNeedle)) return true;
+      continue;
+    }
+    if (Array.isArray(scope)) {
+      for (const s of scope) {
+        if (typeof s === 'string' && s.includes(scopeNeedle)) return true;
+      }
+    }
+  }
+
   return false;
 }
 
@@ -453,6 +481,126 @@ function checkCapabilitiesMatrix(matrixMode, debtItems, capsItems) {
   };
 }
 
+function checkPublicSurface(matrixMode, debtItems) {
+  const invariantId = 'OPS-PUBLIC-SURFACE-001';
+  const filePath = 'docs/OPS/PUBLIC_SURFACE.json';
+
+  const violations = [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(readText(filePath));
+  } catch {
+    violations.push({ id: 'unknown', field: 'json' });
+    parsed = null;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    violations.push({ id: 'unknown', field: 'root' });
+  }
+
+  const schemaVersion = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.schemaVersion : undefined;
+  if (schemaVersion !== 1) {
+    violations.push({ id: 'unknown', field: 'schemaVersion' });
+  }
+
+  const items = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.items : undefined;
+  if (!Array.isArray(items)) {
+    violations.push({ id: 'unknown', field: 'items' });
+  }
+
+  if (Array.isArray(items) && items.length < 1) {
+    violations.push({ id: 'unknown', field: 'items_empty' });
+  }
+
+  const seenIds = new Set();
+
+  if (Array.isArray(items)) {
+    for (let i = 0; i < items.length; i += 1) {
+      const item = items[i];
+      if (!item || typeof item !== 'object' || Array.isArray(item)) {
+        violations.push({ id: 'unknown', field: 'item' });
+        continue;
+      }
+
+      const idRaw = item.id;
+      const id = typeof idRaw === 'string' && idRaw.length > 0 ? idRaw : 'unknown';
+      if (id === 'unknown') violations.push({ id, field: 'id' });
+
+      if (id !== 'unknown') {
+        if (seenIds.has(id)) {
+          violations.push({ id, field: 'id_duplicate' });
+        } else {
+          seenIds.add(id);
+        }
+      }
+
+      const kind = item.kind;
+      if (kind !== 'contract' && kind !== 'schema' && kind !== 'ondisk') {
+        violations.push({ id, field: 'kind' });
+      }
+
+      const stability = item.stability;
+      if (stability !== 'Stable' && stability !== 'Evolving' && stability !== 'Experimental') {
+        violations.push({ id, field: 'stability' });
+      }
+
+      const paths = item.paths;
+      if (!Array.isArray(paths)) {
+        violations.push({ id, field: 'paths' });
+      } else {
+        if (paths.length < 1) violations.push({ id, field: 'paths_empty' });
+
+        if (paths.length === 1 && paths[0] === '**/*') {
+          violations.push({ id, field: 'paths_blanket' });
+        }
+
+        for (let j = 0; j < paths.length; j += 1) {
+          const p = paths[j];
+          if (typeof p !== 'string' || p.length === 0) {
+            violations.push({ id, field: 'paths' });
+            break;
+          }
+          if (p.includes('\\')) {
+            violations.push({ id, field: 'paths_backslash' });
+            break;
+          }
+        }
+      }
+
+      if ('notes' in item) {
+        if (typeof item.notes !== 'string') {
+          violations.push({ id, field: 'notes' });
+        }
+      }
+
+      if ('owner' in item) {
+        if (typeof item.owner !== 'string') {
+          violations.push({ id, field: 'owner' });
+        }
+      }
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`PUBLIC_SURFACE_VIOLATION id=${v.id} field=${v.field} invariant=${invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'PUBLIC_SURFACE_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'PUBLIC_SURFACE_FAIL', level: 'fail' };
+  }
+
+  const hasDebt = hasMatchingActiveDebt(debtItems, filePath);
+  return {
+    status: hasDebt ? 'PUBLIC_SURFACE_WARN' : 'PUBLIC_SURFACE_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -502,6 +650,7 @@ function run() {
   }
 
   const capsPolicy = checkCapabilitiesMatrix(matrixMode, debt.items, caps.items);
+  const publicSurface = checkPublicSurface(matrixMode, debt.items);
 
   const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
   const coreDet = checkCoreDeterminism(matrixMode, debt.items);
@@ -511,10 +660,21 @@ function run() {
   console.log(coreDet.status);
   console.log(queuePolicy.status);
   console.log(capsPolicy.status);
+  console.log(publicSurface.status);
   console.log(debtTtl.status);
 
-  const hasFail = coreBoundary.level === 'fail' || coreDet.level === 'fail' || queuePolicy.level === 'fail' || capsPolicy.level === 'fail' || debtTtl.level === 'fail';
-  const hasWarn = coreBoundary.level === 'warn' || coreDet.level === 'warn' || queuePolicy.level === 'warn' || capsPolicy.level === 'warn' || debtTtl.level === 'warn';
+  const hasFail = coreBoundary.level === 'fail'
+    || coreDet.level === 'fail'
+    || queuePolicy.level === 'fail'
+    || capsPolicy.level === 'fail'
+    || publicSurface.level === 'fail'
+    || debtTtl.level === 'fail';
+  const hasWarn = coreBoundary.level === 'warn'
+    || coreDet.level === 'warn'
+    || queuePolicy.level === 'warn'
+    || capsPolicy.level === 'warn'
+    || publicSurface.level === 'warn'
+    || debtTtl.level === 'warn';
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

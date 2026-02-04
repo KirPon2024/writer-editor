@@ -493,6 +493,7 @@ function evaluateRegistry(items, auditCheckIds) {
   const enforced = [];
   const placeholders = [];
   const noSource = [];
+  const cNotImplemented = [];
 
   for (const it of items) {
     const enforcementMode = it.enforcementMode;
@@ -514,15 +515,33 @@ function evaluateRegistry(items, auditCheckIds) {
     } else {
       noSource.push(invariantId);
     }
+
+    if (typeof invariantId === 'string' && invariantId.startsWith('C_RUNTIME_') && (effectiveMaturity === 'placeholder' || effectiveMaturity === 'no_source')) {
+      cNotImplemented.push(invariantId);
+    }
   }
 
   enforced.sort();
   placeholders.sort();
   noSource.sort();
 
+  const placeholderSet = new Set(placeholders);
+  const noSourceSet = new Set(noSource);
+
+  for (const id of cNotImplemented) {
+    const inPlaceholder = placeholderSet.has(id);
+    const inNoSource = noSourceSet.has(id);
+    if ((inPlaceholder ? 1 : 0) + (inNoSource ? 1 : 0) !== 1) {
+      console.error(`C_NOT_IMPLEMENTED_UNCLASSIFIED=${id}`);
+      die('ERR_DOCTOR_INVALID_SHAPE', 'scripts/doctor.mjs', 'c_runtime_not_implemented_unclassified');
+    }
+  }
+
   console.log(`ENFORCED_INVARIANTS=${JSON.stringify(enforced)}`);
   console.log(`PLACEHOLDER_INVARIANTS=${JSON.stringify(placeholders)}`);
   console.log(`NO_SOURCE_INVARIANTS=${JSON.stringify(noSource)}`);
+  console.log(`PLACEHOLDER_INVARIANTS_COUNT=${placeholders.length}`);
+  console.log(`NO_SOURCE_INVARIANTS_COUNT=${noSource.length}`);
 
   const hasWarn = placeholders.length > 0 || noSource.length > 0;
   return { level: hasWarn ? 'warn' : 'ok' };

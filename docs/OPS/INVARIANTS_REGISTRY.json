@@ -1,5 +1,86 @@
 {
   "schemaVersion": 1,
   "opsCanonVersion": "v1.2",
-  "items": []
+  "items": [
+    {
+      "invariantId": "CORE_PURITY_NO_EFFECT_TOKENS",
+      "contour": "OPS",
+      "severity": "P0",
+      "enforcementMode": "soft",
+      "maturity": "no_source",
+      "checkId": null,
+      "introducedIn": "v1.2",
+      "description": "CORE must not contain effect tokens (governance rule recorded in OPS invariants matrix)."
+    },
+    {
+      "invariantId": "PLATFORM_ADAPTERS_DECLARED",
+      "contour": "B",
+      "severity": "P0",
+      "enforcementMode": "soft",
+      "maturity": "no_source",
+      "checkId": null,
+      "introducedIn": "v1.2",
+      "description": "Purpose: adapter boundary is explicitly declared — ACTIVE_IN_CONTOUR_B."
+    },
+    {
+      "invariantId": "PLATFORM_ADAPTERS_LIST_COMPLETE",
+      "contour": "B",
+      "severity": "P0",
+      "enforcementMode": "off",
+      "maturity": "no_source",
+      "checkId": null,
+      "introducedIn": "v1.2",
+      "description": "Purpose: adapters catalog is complete — DECLARED_NOT_ACTIVE."
+    },
+    {
+      "invariantId": "PLATFORM_ADAPTERS_NO_CORE_DEP",
+      "contour": "B",
+      "severity": "P0",
+      "enforcementMode": "off",
+      "maturity": "no_source",
+      "checkId": null,
+      "introducedIn": "v1.2",
+      "description": "Purpose: adapters do not make CORE platform-dependent — DECLARED_NOT_ACTIVE."
+    },
+    {
+      "invariantId": "PLATFORM_ADAPTERS_NO_UI_LOGIC",
+      "contour": "B",
+      "severity": "P0",
+      "enforcementMode": "off",
+      "maturity": "no_source",
+      "checkId": null,
+      "introducedIn": "v1.2",
+      "description": "Purpose: adapters do not absorb UI logic — DECLARED_NOT_ACTIVE."
+    },
+    {
+      "invariantId": "PLATFORM_BASELINE_DOC_PRESENT",
+      "contour": "B",
+      "severity": "P0",
+      "enforcementMode": "soft",
+      "maturity": "no_source",
+      "checkId": null,
+      "introducedIn": "v1.2",
+      "description": "Purpose: platform baseline doc is present — ACTIVE_IN_CONTOUR_B."
+    },
+    {
+      "invariantId": "PLATFORM_NO_CORE_PLATFORM_DEPS",
+      "contour": "B",
+      "severity": "P0",
+      "enforcementMode": "soft",
+      "maturity": "no_source",
+      "checkId": null,
+      "introducedIn": "v1.2",
+      "description": "Purpose: CORE stays platform-neutral — ACTIVE_IN_CONTOUR_B."
+    },
+    {
+      "invariantId": "SMOKE_A4_SCRIPT_AVAILABLE",
+      "contour": "OPS",
+      "severity": "P0",
+      "enforcementMode": "off",
+      "maturity": "no_source",
+      "checkId": null,
+      "introducedIn": "v1.2",
+      "description": "Repeatable A4 sanity checks are available (clean/ops-gate/contracts exports)."
+    }
+  ]
 }

@@ -43,6 +43,40 @@ function resolveTargetBaselineVersion() {
   return { targetBaselineVersion: registryRaw.opsCanonVersion, invalidEnvToken: null };
 }
 
+function applyIntroducedInGating(registryItems, targetParsed) {
+  const applicableItems = [];
+  const ignoredInvariantIds = [];
+
+  for (const it of registryItems) {
+    const invariantId = it && typeof it === 'object' ? it.invariantId : '(unknown)';
+    const introducedIn = it && typeof it === 'object' ? it.introducedIn : undefined;
+
+    if (typeof introducedIn !== 'string' || !VERSION_TOKEN_RE.test(introducedIn)) {
+      console.error(`INVALID_INTRODUCED_IN: invariantId=${invariantId} introducedIn=${String(introducedIn)}`);
+      die('ERR_DOCTOR_INVALID_SHAPE', 'docs/OPS/INVARIANTS_REGISTRY.json', 'introducedIn_invalid_version_token');
+    }
+
+    const introParsed = parseVersionToken(
+      introducedIn,
+      'docs/OPS/INVARIANTS_REGISTRY.json',
+      'introducedIn_invalid_version_token',
+    );
+
+    const applicable = compareVersion(introParsed, targetParsed) <= 0;
+    if (applicable) {
+      applicableItems.push(it);
+    } else {
+      ignoredInvariantIds.push(invariantId);
+    }
+  }
+
+  ignoredInvariantIds.sort();
+  console.log(`IGNORED_INVARIANTS=${JSON.stringify(ignoredInvariantIds)}`);
+  console.log(`IGNORED_INVARIANTS_COUNT=${ignoredInvariantIds.length}`);
+
+  return { applicableItems, ignoredInvariantIds };
+}
+
 const REQUIRED_FILES = [
   'docs/OPS/AUDIT-MATRIX-v1.1.md',
   'docs/OPS/AUDIT_CHECKS.json',
@@ -1327,7 +1361,8 @@ function run() {
   console.log(ondiskPolicy.status);
   console.log(debtTtl.status);
 
-  const registryEval = evaluateRegistry(registryItems, auditCheckIds);
+  const gating = applyIntroducedInGating(registryItems, targetParsed);
+  const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
 
   const hasFail = coreBoundary.level === 'fail'
     || coreDet.level === 'fail'

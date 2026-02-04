@@ -8,6 +8,7 @@ const REQUIRED_FILES = [
   'docs/OPS/PUBLIC_SURFACE.json',
   'docs/OPS/DOMAIN_EVENTS_BASELINE.json',
   'docs/OPS/TEXT_SNAPSHOT_SPEC.json',
+  'docs/OPS/EFFECT_KINDS.json',
   'docs/OPS/ONDISK_ARTIFACTS.json',
 ];
 
@@ -806,6 +807,122 @@ function checkTextSnapshotSpec(matrixMode, debtItems) {
   };
 }
 
+function checkEffectsIdempotency(matrixMode, debtItems) {
+  const invariantId = 'OPS-EFFECTS-IDEMP-001';
+  const filePath = 'docs/OPS/EFFECT_KINDS.json';
+
+  const violations = [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(readText(filePath));
+  } catch {
+    violations.push({ kind: 'unknown', field: 'json' });
+    parsed = null;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    violations.push({ kind: 'unknown', field: 'root' });
+  }
+
+  const schemaVersion = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.schemaVersion : undefined;
+  if (typeof schemaVersion !== 'number') {
+    violations.push({ kind: 'unknown', field: 'schemaVersion' });
+  }
+
+  const kinds = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.kinds : undefined;
+  if (!Array.isArray(kinds)) {
+    violations.push({ kind: 'unknown', field: 'kinds' });
+  }
+
+  const requiresKeyKinds = [];
+  const seenKinds = new Set();
+
+  if (Array.isArray(kinds)) {
+    for (let i = 0; i < kinds.length; i += 1) {
+      const item = kinds[i];
+      if (!item || typeof item !== 'object' || Array.isArray(item)) {
+        violations.push({ kind: 'unknown', field: 'item' });
+        continue;
+      }
+
+      const kindRaw = item.kind;
+      const kind = typeof kindRaw === 'string' && kindRaw.length > 0 ? kindRaw : 'unknown';
+      if (kind === 'unknown') violations.push({ kind, field: 'kind' });
+
+      if (kind !== 'unknown') {
+        if (seenKinds.has(kind)) {
+          violations.push({ kind, field: 'kind_duplicate' });
+        } else {
+          seenKinds.add(kind);
+        }
+      }
+
+      const idempotent = item.idempotent;
+      if (typeof idempotent !== 'boolean') {
+        violations.push({ kind, field: 'idempotent' });
+      }
+
+      const requiresIdempotencyKey = item.requiresIdempotencyKey;
+      if (typeof requiresIdempotencyKey !== 'boolean') {
+        violations.push({ kind, field: 'requiresIdempotencyKey' });
+      } else if (requiresIdempotencyKey === true) {
+        if (kind !== 'unknown') requiresKeyKinds.push(kind);
+      }
+    }
+  }
+
+  if (violations.length === 0 && requiresKeyKinds.length > 0) {
+    const roots = ['src/contracts'];
+    const files = roots.flatMap((r) => listSourceFiles(r));
+
+    for (const kind of requiresKeyKinds) {
+      let foundKind = false;
+      let foundIdempotencyKey = false;
+      const kindRe = new RegExp(`\\bkind\\s*:\\s*['"\`]${kind}['"\`]`);
+
+      for (const filePath of files) {
+        let text;
+        try {
+          text = fs.readFileSync(filePath, 'utf8');
+        } catch {
+          continue;
+        }
+
+        if (kindRe.test(text)) {
+          foundKind = true;
+          if (text.includes('idempotencyKey')) {
+            foundIdempotencyKey = true;
+            break;
+          }
+        }
+      }
+
+      if (foundKind && !foundIdempotencyKey) {
+        violations.push({ kind, field: 'idempotencyKey' });
+      }
+    }
+  }
+
+  for (const v of violations) {
+    console.log(`EFFECT_IDEMP_VIOLATION kind=${v.kind} field=${v.field} invariant=${invariantId}`);
+  }
+
+  if (violations.length === 0) {
+    return { status: 'EFFECT_IDEMP_OK', level: 'ok' };
+  }
+
+  if (matrixMode.mode === 'STRICT') {
+    return { status: 'EFFECT_IDEMP_FAIL', level: 'fail' };
+  }
+
+  const hasDebt = hasMatchingActiveDebt(debtItems, filePath);
+  return {
+    status: hasDebt ? 'EFFECT_IDEMP_WARN' : 'EFFECT_IDEMP_WARN_MISSING_DEBT',
+    level: 'warn',
+  };
+}
+
 function checkOndiskArtifacts(matrixMode, debtItems) {
   const invariantId = 'OPS-ONDISK-001';
   const filePath = 'docs/OPS/ONDISK_ARTIFACTS.json';
@@ -989,6 +1106,7 @@ function run() {
   const publicSurface = checkPublicSurface(matrixMode, debt.items);
   const eventsAppend = checkEventsAppendOnly(matrixMode, debt.items);
   const snapshotPolicy = checkTextSnapshotSpec(matrixMode, debt.items);
+  const effectsIdemp = checkEffectsIdempotency(matrixMode, debt.items);
   const ondiskPolicy = checkOndiskArtifacts(matrixMode, debt.items);
 
   const debtTtl = checkDebtTtl(debt.items, matrixMode.mode);
@@ -1002,6 +1120,7 @@ function run() {
   console.log(publicSurface.status);
   console.log(eventsAppend.status);
   console.log(snapshotPolicy.status);
+  console.log(effectsIdemp.status);
   console.log(ondiskPolicy.status);
   console.log(debtTtl.status);
 
@@ -1012,6 +1131,7 @@ function run() {
     || publicSurface.level === 'fail'
     || eventsAppend.level === 'fail'
     || snapshotPolicy.level === 'fail'
+    || effectsIdemp.level === 'fail'
     || ondiskPolicy.level === 'fail'
     || debtTtl.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
@@ -1021,6 +1141,7 @@ function run() {
     || publicSurface.level === 'warn'
     || eventsAppend.level === 'warn'
     || snapshotPolicy.level === 'warn'
+    || effectsIdemp.level === 'warn'
     || ondiskPolicy.level === 'warn'
     || debtTtl.level === 'warn';
 

@@ -1,5 +1,55 @@
 {
   "schemaVersion": 1,
   "opsCanonVersion": "v1.2",
-  "items": []
+  "items": [
+    {
+      "inventoryId": "INV:CAPABILITIES_MATRIX",
+      "path": "docs/OPS/CAPABILITIES_MATRIX.json",
+      "introducedIn": "v1.2",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": true
+    },
+    {
+      "inventoryId": "INV:DEBT_REGISTRY",
+      "path": "docs/OPS/DEBT_REGISTRY.json",
+      "introducedIn": "v1.2",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": false
+    },
+    {
+      "inventoryId": "INV:INVARIANTS_REGISTRY",
+      "path": "docs/OPS/INVARIANTS_REGISTRY.json",
+      "introducedIn": "v1.2",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": false
+    },
+    {
+      "inventoryId": "INV:INVENTORY_INDEX",
+      "path": "docs/OPS/INVENTORY_INDEX.json",
+      "introducedIn": "v1.2",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": false
+    },
+    {
+      "inventoryId": "INV:ONDISK_ARTIFACTS",
+      "path": "docs/OPS/ONDISK_ARTIFACTS.json",
+      "introducedIn": "v1.2",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": true
+    },
+    {
+      "inventoryId": "INV:PUBLIC_SURFACE",
+      "path": "docs/OPS/PUBLIC_SURFACE.json",
+      "introducedIn": "v1.2",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": true
+    },
+    {
+      "inventoryId": "INV:QUEUE_POLICIES",
+      "path": "docs/OPS/QUEUE_POLICIES.json",
+      "introducedIn": "v1.2",
+      "allowEmpty": true,
+      "requiresDeclaredEmpty": true
+    }
+  ]
 }

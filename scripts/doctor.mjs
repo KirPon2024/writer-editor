@@ -1825,6 +1825,35 @@ function computeContourCEnforcementCompleteness(gatingApplicableItems, contourCE
   return { missingCount: missing.length, extraCount: extra.length };
 }
 
+function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditCheckIds) {
+  const required = 3;
+  const ids = [];
+
+  for (const it of Array.isArray(gatingApplicableItems) ? gatingApplicableItems : []) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+    if (it.contour !== 'C') continue;
+    if (it.severity !== 'P0') continue;
+
+    if (it.maturity !== 'implemented') continue;
+    const checkId = it.checkId;
+    if (typeof checkId !== 'string' || checkId.length === 0) continue;
+    if (!auditCheckIds.has(checkId)) continue;
+
+    const invariantId = it.invariantId;
+    if (typeof invariantId !== 'string' || invariantId.length === 0) continue;
+    ids.push(invariantId);
+  }
+
+  const uniqSorted = [...new Set(ids)].sort();
+  const count = uniqSorted.length;
+  const ok = count >= required ? 1 : 0;
+
+  console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT=${count}`);
+  console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_REQUIRED=${required}`);
+  console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_OK=${ok}`);
+  console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_IDS=${JSON.stringify(uniqSorted)}`);
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -1943,6 +1972,7 @@ function run() {
   const gating = applyIntroducedInGating(registryItems, targetParsed);
   const contourCEnforcement = checkContourCEnforcementInventory(gating.applicableItems, targetParsed);
   const contourCCompleteness = computeContourCEnforcementCompleteness(gating.applicableItems, contourCEnforcement.planIds);
+  computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds);
   computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
 

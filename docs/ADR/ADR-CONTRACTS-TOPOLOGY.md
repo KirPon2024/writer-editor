@@ -1,5 +1,8 @@
 # ADR-CONTRACTS-TOPOLOGY
 
+## STATUS
+SUPERSEDED by `docs/ADR/ADR-CONTRACTS-TOPOLOGY-v2.md`.
+
 ## CONTEXT
 В проекте фигурировали два потенциальных направления для контрактов:
 - `src/contracts/*`

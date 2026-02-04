@@ -1,4 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "opsCanonVersion": "v1.2",
+  "declaredEmpty": true,
   "items": []
 }

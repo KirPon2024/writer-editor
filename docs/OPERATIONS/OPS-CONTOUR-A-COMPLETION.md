@@ -1,5 +1,7 @@
 # CONTOUR-A Completion Marker
 
+NOTE: This document is a VIEW / historical artifact. Source of truth for invariants MUST be `docs/OPS/INVARIANTS_REGISTRY.json`. Debt MUST be sourced only from `docs/OPS/DEBT_REGISTRY.json`. Resolvable `checkId` tokens MUST be sourced only from `docs/OPS/AUDIT_CHECKS.json`.
+
 ## Purpose
 - Provide a single, unambiguous marker for when CONTOUR-A is considered closed.
 - Keep the definition artifact/invariant-based to minimize interpretation drift.
@@ -15,7 +17,6 @@
 
 ## Completion Criteria
 - CORE_PURITY_NO_EFFECT_TOKENS is satisfied.
-- CONTRACTS_EXPORT_SURFACE_COMPLETE is satisfied.
 - SMOKE_A4_SCRIPT_AVAILABLE is satisfied.
 - The stabilization record exists as an artifact in history.
 
@@ -30,4 +31,3 @@
 - Platform specifics.
 - Interface details.
 - Future sequencing notes and roadmap planning.
-

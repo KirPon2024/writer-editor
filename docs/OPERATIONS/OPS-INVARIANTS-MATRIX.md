@@ -1,16 +1,11 @@
 ## PURPOSE
-Единая матрица инвариантов CONTOUR-A: что именно является правилом, где источник истины, и чем оно обеспечивается.
+NOTE: This document is a VIEW / historical artifact. Source of truth for invariants MUST be `docs/OPS/INVARIANTS_REGISTRY.json`. Debt MUST be sourced only from `docs/OPS/DEBT_REGISTRY.json`. Resolvable `checkId` tokens MUST be sourced only from `docs/OPS/AUDIT_CHECKS.json`.
+
+Единая матрица инвариантов (VIEW) для быстрой навигации. Этот документ не определяет истину и не является нормативным источником.
 
 ## MATRIX
 | Invariant | Source | Enforced by | Scope |
 | --- | --- | --- | --- |
-| Write-задачи начинаютcя с precondition clean worktree | PROCESS | CHECK | OPS |
-| HARD‑ТЗ без секции DENYLIST невалидно | PROCESS | gate | OPS |
-| DENYLIST имеет приоритет над ALLOWLIST | OPS | manual | OPS |
-| Write-задачи ограничены allowlist (set equality / allowlist-only) | OPS | CHECK | OPS |
-| В CHECK запрещены `wc -l` / `grep -x N` (count-based git status) | OPS | gate | OPS |
-| В CHECK запрещён `awk` | OPS | gate | OPS |
-| В CHECK запрещено `.trim(` (кроме `.trimEnd(`) | OPS | gate | OPS |
 | CORE_PURITY_NO_EFFECT_TOKENS | OPS | gate | src/core/** |
 | SMOKE_A4_SCRIPT_AVAILABLE — repeatable A4 sanity checks (clean/ops-gate/contracts exports) | OPS | manual | scripts/smoke-a4.mjs |
 | PLATFORM_BASELINE_DOC_PRESENT — Purpose: platform baseline doc is present — ACTIVE_IN_CONTOUR_B | OPS | manual | docs/PLATFORM/CONTOUR-B-BASELINE.md |

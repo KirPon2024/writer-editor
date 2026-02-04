@@ -1893,19 +1893,20 @@ function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditChec
 
 function checkContourCDocsContractsPresence() {
   const expected = [
+    'docs/CONTRACTS/runtime-effects.contract.md',
     'docs/CONTRACTS/runtime-execution.contract.md',
     'docs/CONTRACTS/runtime-queue.contract.md',
     'docs/CONTRACTS/runtime-trace.contract.md',
-    'docs/CONTRACTS/runtime-effects.contract.md',
-  ];
+  ].sort();
 
-  const present = expected.filter((p) => fs.existsSync(p)).sort();
-  const missing = expected.filter((p) => !fs.existsSync(p)).sort();
+  const present = expected.filter((p) => fs.existsSync(p));
+  const missing = expected.filter((p) => !fs.existsSync(p));
   const missingCount = missing.length;
   const ok = missingCount === 0 ? 1 : 0;
 
   console.log(`CONTOUR_C_DOCS_CONTRACTS_EXPECTED=${JSON.stringify(expected)}`);
   console.log(`CONTOUR_C_DOCS_CONTRACTS_PRESENT=${JSON.stringify(present)}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_PRESENT_COUNT=${present.length}`);
   console.log(`CONTOUR_C_DOCS_CONTRACTS_MISSING=${JSON.stringify(missing)}`);
   console.log(`CONTOUR_C_DOCS_CONTRACTS_MISSING_COUNT=${missingCount}`);
   console.log(`CONTOUR_C_DOCS_CONTRACTS_OK=${ok}`);
@@ -1975,6 +1976,8 @@ function run() {
   );
 
   console.log(`TARGET_BASELINE_VERSION=${targetParsed.token}`);
+  console.log('POST_COMMIT_PROOF_CMD=git show --name-only --pretty=format: HEAD');
+  console.log('POST_COMMIT_PROOF_EXPECTED_PATH=scripts/doctor.mjs');
 
   if (invalidEnvToken !== null) {
     console.error(`CHECKS_BASELINE_VERSION=${invalidEnvToken}`);

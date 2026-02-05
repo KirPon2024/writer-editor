@@ -1,6 +1,28 @@
 {
   "schemaVersion": 2,
   "opsCanonVersion": "v1.3",
-  "declaredEmpty": true,
-  "items": []
+  "items": [
+    {
+      "debtId": "DEBT:INV_CAPABILITIES_MATRIX_DECLARED_EMPTY",
+      "active": true,
+      "owner": "OPS_CANON",
+      "ttlUntil": "2099-12-31",
+      "exitCriteria": "Populate docs/OPS/CAPABILITIES_MATRIX.json items and remove declaredEmpty and this debt entry.",
+      "invariantIds": [],
+      "artifactPaths": [
+        "docs/OPS/CAPABILITIES_MATRIX.json"
+      ]
+    },
+    {
+      "debtId": "DEBT:INV_QUEUE_POLICIES_DECLARED_EMPTY",
+      "active": true,
+      "owner": "OPS_CANON",
+      "ttlUntil": "2099-12-31",
+      "exitCriteria": "Populate docs/OPS/QUEUE_POLICIES.json items and remove declaredEmpty and this debt entry.",
+      "invariantIds": [],
+      "artifactPaths": [
+        "docs/OPS/QUEUE_POLICIES.json"
+      ]
+    }
+  ]
 }

@@ -2019,6 +2019,112 @@ function checkSsotBoundaryGuard(effectiveMode) {
   return { level: 'ok' };
 }
 
+function computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry) {
+  const violations = [];
+  const debtLinkageDefined = 1;
+
+  for (const idx of inventoryIndexItems) {
+    if (!idx || typeof idx !== 'object' || Array.isArray(idx)) continue;
+    if (idx.requiresDeclaredEmpty !== true) continue;
+
+    const inventoryId = typeof idx.inventoryId === 'string' && idx.inventoryId.length > 0 ? idx.inventoryId : 'unknown';
+    const inventoryPath = typeof idx.path === 'string' && idx.path.length > 0 ? idx.path : 'unknown';
+
+    if (!fs.existsSync(inventoryPath)) continue;
+
+    let inv;
+    try {
+      inv = JSON.parse(readText(inventoryPath));
+    } catch {
+      continue;
+    }
+    if (!inv || typeof inv !== 'object' || Array.isArray(inv)) continue;
+    if (!Array.isArray(inv.items)) continue;
+
+    const itemsLen = inv.items.length;
+    if (itemsLen !== 0) continue;
+
+    if (inventoryPath === 'docs/OPS/DEBT_REGISTRY.json') {
+      if (inv.declaredEmpty !== true) {
+        violations.push(`${inventoryId}:declaredEmpty_missing_or_not_true`);
+      }
+      continue;
+    }
+
+    if (inv.declaredEmpty !== true) {
+      violations.push(`${inventoryId}:declaredEmpty_missing_or_not_true`);
+      continue;
+    }
+
+    const hasDebt = hasMatchingActiveDebt(debtRegistry, inventoryPath);
+    if (!hasDebt) {
+      violations.push(`${inventoryId}:missing_debt_linkage`);
+    }
+  }
+
+  return { violations: [...new Set(violations)].sort(), debtLinkageDefined };
+}
+
+function computeStrictLieClass02Violations(registryItems) {
+  const regById = new Map();
+  for (const it of registryItems) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+    const id = it.invariantId;
+    if (typeof id !== 'string' || id.length === 0) continue;
+    regById.set(id, it);
+  }
+
+  const enfPath = 'docs/OPS/CONTOUR-C-ENFORCEMENT.json';
+  let enf;
+  try {
+    enf = JSON.parse(readText(enfPath));
+  } catch {
+    enf = null;
+  }
+
+  const enfById = new Map();
+  if (enf && typeof enf === 'object' && !Array.isArray(enf) && Array.isArray(enf.items)) {
+    for (const it of enf.items) {
+      if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+      const id = it.invariantId;
+      if (typeof id !== 'string' || id.length === 0) continue;
+      enfById.set(id, it);
+    }
+  }
+
+  const violations = [];
+  for (const [id, r] of regById.entries()) {
+    if (!enfById.has(id)) continue;
+    const e = enfById.get(id);
+    const regSeverity = typeof r.severity === 'string' && r.severity.length > 0 ? r.severity : '(missing)';
+    const enfSeverity = e && typeof e.severity === 'string' && e.severity.length > 0 ? e.severity : '(missing)';
+    if (regSeverity !== enfSeverity) {
+      violations.push(`${id}:severity:${regSeverity}!=${enfSeverity}`);
+    }
+  }
+
+  return { violations: [...new Set(violations)].sort() };
+}
+
+function checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry, registryItems) {
+  const c1 = computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry);
+  const c2 = computeStrictLieClass02Violations(registryItems);
+
+  console.log(`STRICT_LIE_CLASS_01_DEBT_LINKAGE_DEFINED=${c1.debtLinkageDefined}`);
+  console.log(`STRICT_LIE_CLASS_01_VIOLATIONS=${JSON.stringify(c1.violations)}`);
+  console.log(`STRICT_LIE_CLASS_01_VIOLATIONS_COUNT=${c1.violations.length}`);
+  console.log(`STRICT_LIE_CLASS_02_VIOLATIONS=${JSON.stringify(c2.violations)}`);
+  console.log(`STRICT_LIE_CLASS_02_VIOLATIONS_COUNT=${c2.violations.length}`);
+
+  const ok = c1.violations.length === 0 && c2.violations.length === 0 ? 1 : 0;
+  console.log(`STRICT_LIE_CLASSES_OK=${ok}`);
+
+  const hasAny = ok === 0;
+  if (effectiveMode === 'STRICT' && hasAny) return { level: 'fail' };
+  if (hasAny) return { level: 'warn' };
+  return { level: 'ok' };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -2075,6 +2181,7 @@ function run() {
 
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
+  const strictLie = checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry, registryItems);
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -2158,7 +2265,8 @@ function run() {
     || ondiskPolicy.level === 'fail'
     || debtTtl.level === 'fail'
     || contourCEnforcement.forceFail === true
-    || ssotBoundary.level === 'fail';
+    || ssotBoundary.level === 'fail'
+    || strictLie.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'
@@ -2176,7 +2284,8 @@ function run() {
     || contourCCompleteness.extraCount > 0
     || docsContracts.ok === 0
     || (frozenContracts && frozenContracts.ok === 0)
-    || ssotBoundary.level === 'warn';
+    || ssotBoundary.level === 'warn'
+    || strictLie.level === 'warn';
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

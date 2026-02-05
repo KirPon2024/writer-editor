@@ -2046,23 +2046,64 @@ function computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry) {
 
     if (inventoryPath === 'docs/OPS/DEBT_REGISTRY.json') {
       if (inv.declaredEmpty !== true) {
-        violations.push(`${inventoryId}:declaredEmpty_missing_or_not_true`);
+        violations.push({
+          kind: 'declaredEmpty_missing_or_not_true',
+          invariantId: '',
+          path: inventoryPath,
+          detail: `inventoryId=${inventoryId}`,
+        });
       }
       continue;
     }
 
     if (inv.declaredEmpty !== true) {
-      violations.push(`${inventoryId}:declaredEmpty_missing_or_not_true`);
+      violations.push({
+        kind: 'declaredEmpty_missing_or_not_true',
+        invariantId: '',
+        path: inventoryPath,
+        detail: `inventoryId=${inventoryId}`,
+      });
       continue;
     }
 
     const hasDebt = hasMatchingActiveDebt(debtRegistry, inventoryPath);
     if (!hasDebt) {
-      violations.push(`${inventoryId}:missing_debt_linkage`);
+      violations.push({
+        kind: 'missing_debt_linkage',
+        invariantId: '',
+        path: inventoryPath,
+        detail: `inventoryId=${inventoryId}`,
+      });
     }
   }
 
-  return { violations: [...new Set(violations)].sort(), debtLinkageDefined };
+  const deduped = [];
+  const seen = new Set();
+  for (const v of violations) {
+    const kind = v && typeof v.kind === 'string' ? v.kind : '';
+    const invariantId = v && typeof v.invariantId === 'string' ? v.invariantId : '';
+    const path = v && typeof v.path === 'string' ? v.path : '';
+    const detail = v && typeof v.detail === 'string' ? v.detail : '';
+    const key = `${kind}\t${invariantId}\t${path}\t${detail}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push({
+      kind,
+      invariantId,
+      path,
+      detail,
+    });
+  }
+
+  deduped.sort((a, b) => {
+    if (a.kind !== b.kind) return a.kind < b.kind ? -1 : 1;
+    if (a.invariantId !== b.invariantId) return a.invariantId < b.invariantId ? -1 : 1;
+    if (a.path !== b.path) return a.path < b.path ? -1 : 1;
+    if (a.detail !== b.detail) return a.detail < b.detail ? -1 : 1;
+    return 0;
+  });
+
+  return { violations: deduped, debtLinkageDefined };
 }
 
 function computeStrictLieClass02Violations(registryItems) {
@@ -2099,11 +2140,42 @@ function computeStrictLieClass02Violations(registryItems) {
     const regSeverity = typeof r.severity === 'string' && r.severity.length > 0 ? r.severity : '(missing)';
     const enfSeverity = e && typeof e.severity === 'string' && e.severity.length > 0 ? e.severity : '(missing)';
     if (regSeverity !== enfSeverity) {
-      violations.push(`${id}:severity:${regSeverity}!=${enfSeverity}`);
+      violations.push({
+        kind: 'severity_mismatch',
+        invariantId: id,
+        path: enfPath,
+        detail: `severity:${regSeverity}!=${enfSeverity}`,
+      });
     }
   }
 
-  return { violations: [...new Set(violations)].sort() };
+  const deduped = [];
+  const seen = new Set();
+  for (const v of violations) {
+    const kind = v && typeof v.kind === 'string' ? v.kind : '';
+    const invariantId = v && typeof v.invariantId === 'string' ? v.invariantId : '';
+    const path = v && typeof v.path === 'string' ? v.path : '';
+    const detail = v && typeof v.detail === 'string' ? v.detail : '';
+    const key = `${kind}\t${invariantId}\t${path}\t${detail}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push({
+      kind,
+      invariantId,
+      path,
+      detail,
+    });
+  }
+
+  deduped.sort((a, b) => {
+    if (a.kind !== b.kind) return a.kind < b.kind ? -1 : 1;
+    if (a.invariantId !== b.invariantId) return a.invariantId < b.invariantId ? -1 : 1;
+    if (a.path !== b.path) return a.path < b.path ? -1 : 1;
+    if (a.detail !== b.detail) return a.detail < b.detail ? -1 : 1;
+    return 0;
+  });
+
+  return { violations: deduped };
 }
 
 function checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry, registryItems) {

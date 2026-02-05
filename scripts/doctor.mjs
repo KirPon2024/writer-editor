@@ -2096,11 +2096,23 @@ function computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry) {
   }
 
   deduped.sort((a, b) => {
-    if (a.kind !== b.kind) return a.kind < b.kind ? -1 : 1;
-    if (a.invariantId !== b.invariantId) return a.invariantId < b.invariantId ? -1 : 1;
-    if (a.path !== b.path) return a.path < b.path ? -1 : 1;
-    if (a.detail !== b.detail) return a.detail < b.detail ? -1 : 1;
-    return 0;
+    const aId = typeof a.invariantId === 'string' ? a.invariantId : null;
+    const bId = typeof b.invariantId === 'string' ? b.invariantId : null;
+    const aPath = typeof a.path === 'string' ? a.path : null;
+    const bPath = typeof b.path === 'string' ? b.path : null;
+
+    if (aId !== null && bId !== null && aPath !== null && bPath !== null) {
+      if (aId !== bId) return aId < bId ? -1 : 1;
+      if (aPath !== bPath) return aPath < bPath ? -1 : 1;
+      if (a.kind !== b.kind) return a.kind < b.kind ? -1 : 1;
+      if (a.detail !== b.detail) return a.detail < b.detail ? -1 : 1;
+      return 0;
+    }
+
+    const aStr = JSON.stringify(a);
+    const bStr = JSON.stringify(b);
+    if (aStr === bStr) return 0;
+    return aStr < bStr ? -1 : 1;
   });
 
   return { violations: deduped, debtLinkageDefined };
@@ -2168,11 +2180,23 @@ function computeStrictLieClass02Violations(registryItems) {
   }
 
   deduped.sort((a, b) => {
-    if (a.kind !== b.kind) return a.kind < b.kind ? -1 : 1;
-    if (a.invariantId !== b.invariantId) return a.invariantId < b.invariantId ? -1 : 1;
-    if (a.path !== b.path) return a.path < b.path ? -1 : 1;
-    if (a.detail !== b.detail) return a.detail < b.detail ? -1 : 1;
-    return 0;
+    const aId = typeof a.invariantId === 'string' ? a.invariantId : null;
+    const bId = typeof b.invariantId === 'string' ? b.invariantId : null;
+    const aPath = typeof a.path === 'string' ? a.path : null;
+    const bPath = typeof b.path === 'string' ? b.path : null;
+
+    if (aId !== null && bId !== null && aPath !== null && bPath !== null) {
+      if (aId !== bId) return aId < bId ? -1 : 1;
+      if (aPath !== bPath) return aPath < bPath ? -1 : 1;
+      if (a.kind !== b.kind) return a.kind < b.kind ? -1 : 1;
+      if (a.detail !== b.detail) return a.detail < b.detail ? -1 : 1;
+      return 0;
+    }
+
+    const aStr = JSON.stringify(a);
+    const bStr = JSON.stringify(b);
+    if (aStr === bStr) return 0;
+    return aStr < bStr ? -1 : 1;
   });
 
   return { violations: deduped };

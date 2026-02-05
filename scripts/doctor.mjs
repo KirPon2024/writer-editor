@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 
@@ -1980,6 +1981,44 @@ function checkContourCSrcContractsSkeletonDiagnostics(targetParsed) {
   return { ok };
 }
 
+function checkSsotBoundaryGuard(effectiveMode) {
+  const cmd = process.execPath;
+  const args = ['scripts/guards/ops-mvp-boundary.mjs'];
+  const r = spawnSync(cmd, args, { encoding: 'utf8' });
+
+  const stdout = typeof r.stdout === 'string' ? r.stdout : '';
+  const exitCode = typeof r.status === 'number' ? r.status : 2;
+
+  let declaredCount = 0;
+  let missingCount = 0;
+
+  for (const line of stdout.split(/\r?\n/)) {
+    const m1 = line.match(/^SSOT_DECLARED_COUNT=(\d+)\s*$/);
+    if (m1) declaredCount = Number(m1[1]);
+    const m2 = line.match(/^SSOT_MISSING_COUNT=(\d+)\s*$/);
+    if (m2) missingCount = Number(m2[1]);
+  }
+
+  const enforced = exitCode === 0 ? 1 : 0;
+
+  console.log('SSOT_BOUNDARY_GUARD_RAN=1');
+  console.log(`SSOT_DECLARED_COUNT=${Number.isFinite(declaredCount) ? declaredCount : 0}`);
+  console.log(`SSOT_MISSING_COUNT=${Number.isFinite(missingCount) ? missingCount : 0}`);
+  console.log(`SSOT_BOUNDARY_ENFORCED=${enforced}`);
+
+  if (exitCode !== 0) {
+    console.log(`SSOT_BOUNDARY_GUARD_EXIT=${exitCode}`);
+  }
+
+  if (exitCode !== 0 && effectiveMode === 'STRICT') {
+    return { level: 'fail' };
+  }
+  if (exitCode !== 0) {
+    return { level: 'warn' };
+  }
+  return { level: 'ok' };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -2032,6 +2071,7 @@ function run() {
   const debtRegistry = parseDebtRegistry(debtPath);
 
   const effectiveMode = process.env.EFFECTIVE_MODE === 'STRICT' ? 'STRICT' : 'TRANSITIONAL';
+  const ssotBoundary = checkSsotBoundaryGuard(effectiveMode);
 
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
@@ -2117,7 +2157,8 @@ function run() {
     || effectsIdemp.level === 'fail'
     || ondiskPolicy.level === 'fail'
     || debtTtl.level === 'fail'
-    || contourCEnforcement.forceFail === true;
+    || contourCEnforcement.forceFail === true
+    || ssotBoundary.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'
@@ -2134,7 +2175,8 @@ function run() {
     || contourCCompleteness.missingCount > 0
     || contourCCompleteness.extraCount > 0
     || docsContracts.ok === 0
-    || (frozenContracts && frozenContracts.ok === 0);
+    || (frozenContracts && frozenContracts.ok === 0)
+    || ssotBoundary.level === 'warn';
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

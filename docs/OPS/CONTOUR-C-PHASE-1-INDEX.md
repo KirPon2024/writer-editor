@@ -27,6 +27,9 @@ VIEW_ONLY: CONTOUR_C_PHASE_1
 ## Phase 2
 - `docs/OPS/CONTOUR-C-PHASE-2-LANDED.md`
 
+## Phase 3
+- `docs/OPS/CONTOUR-C-PHASE-3-PLAN.md`
+
 ## Non-goals
 - Не определяет правила или требования к runtime.
 - Не определяет проверки, команды или критерии прохождения.

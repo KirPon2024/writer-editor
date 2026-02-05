@@ -5,6 +5,195 @@ const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
+let OPS_SYNTH_OVERRIDE_STATE = null;
+
+function normalizeRepoRelativePosixPath(p) {
+  if (typeof p !== 'string') return null;
+  if (p.length === 0) return null;
+  if (p.startsWith('/')) return null;
+  if (p.includes('\\')) return null;
+  return p;
+}
+
+function parseOpsSynthOverrideJson(raw) {
+  if (typeof raw !== 'string' || raw.trim().length === 0) return { enabled: false };
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return {
+      enabled: true,
+      parseOk: 0,
+      error: 'OPS_SYNTH_OVERRIDE_JSON_PARSE_FAIL',
+    };
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return {
+      enabled: true,
+      parseOk: 0,
+      error: 'OPS_SYNTH_OVERRIDE_JSON_TOP_LEVEL_NOT_OBJECT',
+    };
+  }
+  if (!Array.isArray(parsed.overrides)) {
+    return {
+      enabled: true,
+      parseOk: 0,
+      error: 'OPS_SYNTH_OVERRIDE_JSON_OVERRIDES_NOT_ARRAY',
+    };
+  }
+
+  const overrides = [];
+  for (const it of parsed.overrides) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) {
+      return { enabled: true, parseOk: 0, error: 'OPS_SYNTH_OVERRIDE_ITEM_NOT_OBJECT' };
+    }
+    const path = normalizeRepoRelativePosixPath(it.path);
+    if (!path) return { enabled: true, parseOk: 0, error: 'OPS_SYNTH_OVERRIDE_INVALID_PATH' };
+    if (typeof it.op !== 'string' || it.op.length === 0) {
+      return { enabled: true, parseOk: 0, error: 'OPS_SYNTH_OVERRIDE_INVALID_OP' };
+    }
+    if (!it.where || typeof it.where !== 'object' || Array.isArray(it.where)) {
+      return { enabled: true, parseOk: 0, error: 'OPS_SYNTH_OVERRIDE_INVALID_WHERE' };
+    }
+
+    overrides.push({
+      path,
+      op: it.op,
+      where: it.where,
+      value: it.value,
+      toggle: it.toggle,
+    });
+  }
+
+  return { enabled: true, parseOk: 1, overrides };
+}
+
+function applySynthOverrideOperation({ filePath, jsonValue, override }) {
+  if (!jsonValue || typeof jsonValue !== 'object' || Array.isArray(jsonValue)) {
+    return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_TARGET_NOT_OBJECT' };
+  }
+
+  if (override.op === 'json_delete_key') {
+    const key = override.where && typeof override.where.key === 'string' ? override.where.key : null;
+    if (!key) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_DELETE_KEY_MISSING' };
+    if (!(key in jsonValue)) return { ok: 0, noMatch: 1 };
+    // eslint-disable-next-line no-param-reassign
+    delete jsonValue[key];
+    return { ok: 1 };
+  }
+
+  if (override.op === 'json_set_value') {
+    const jsonPath = override.where && typeof override.where.jsonPath === 'string' ? override.where.jsonPath : null;
+    if (!jsonPath) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_JSONPATH_MISSING' };
+
+    const m = jsonPath.match(/^\$\.items\[\?\(@\.invariantId==(?:'([^']+)'|"([^"]+)")\)\]\.severity$/);
+    if (!m) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_JSONPATH_UNSUPPORTED' };
+    const invariantId = m[1] || m[2];
+    if (typeof invariantId !== 'string' || invariantId.length === 0) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_INVARIANT_ID_MISSING' };
+
+    if (!Array.isArray(jsonValue.items)) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_ITEMS_NOT_ARRAY' };
+
+    const hasValue = typeof override.value === 'string';
+    const hasToggle = Array.isArray(override.toggle);
+    if ((hasValue && hasToggle) || (!hasValue && !hasToggle)) {
+      return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_SET_VALUE_AMBIGUOUS' };
+    }
+
+    let hit = 0;
+    for (let i = 0; i < jsonValue.items.length; i += 1) {
+      const it = jsonValue.items[i];
+      if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+      if (it.invariantId !== invariantId) continue;
+      hit = 1;
+      if (hasValue) {
+        // eslint-disable-next-line no-param-reassign
+        it.severity = override.value;
+      } else {
+        const [a, b] = override.toggle;
+        if (typeof a !== 'string' || typeof b !== 'string') return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_TOGGLE_INVALID' };
+        const cur = typeof it.severity === 'string' ? it.severity : '';
+        const next = cur === a ? b : a;
+        // eslint-disable-next-line no-param-reassign
+        it.severity = next;
+      }
+    }
+    if (!hit) return { ok: 0, noMatch: 1 };
+    return { ok: 1 };
+  }
+
+  return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_OP_UNSUPPORTED' };
+}
+
+function initSynthOverrideState() {
+  const raw = process.env.OPS_SYNTH_OVERRIDE_JSON;
+  const parsed = parseOpsSynthOverrideJson(raw);
+  if (!parsed.enabled) return { enabled: false };
+
+  console.log('OPS_SYNTH_OVERRIDE_ENABLED=1');
+  if (parsed.parseOk !== 1) {
+    console.log('OPS_SYNTH_OVERRIDE_PARSE_OK=0');
+    console.log(`OPS_SYNTH_OVERRIDE_ERROR=${parsed.error || 'OPS_SYNTH_OVERRIDE_UNKNOWN_PARSE_ERROR'}`);
+    return { enabled: true, parseOk: 0, applyOk: 0 };
+  }
+
+  console.log('OPS_SYNTH_OVERRIDE_PARSE_OK=1');
+
+  const overrides = parsed.overrides || [];
+  const overridesByPath = new Map();
+  for (const ov of overrides) {
+    if (!overridesByPath.has(ov.path)) overridesByPath.set(ov.path, []);
+    overridesByPath.get(ov.path).push(ov);
+  }
+
+  const jsonByPath = new Map();
+  for (const [filePath, list] of overridesByPath.entries()) {
+    let text;
+    try {
+      text = fs.readFileSync(filePath, 'utf8');
+    } catch {
+      console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
+      console.log(`OPS_SYNTH_OVERRIDE_MISSING_PATH=${filePath}`);
+      return { enabled: true, parseOk: 1, applyOk: 0 };
+    }
+
+    let jsonValue;
+    try {
+      jsonValue = JSON.parse(text);
+    } catch {
+      console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
+      console.log(`OPS_SYNTH_OVERRIDE_ERROR=OPS_SYNTH_OVERRIDE_TARGET_JSON_PARSE_FAIL:${filePath}`);
+      return { enabled: true, parseOk: 1, applyOk: 0 };
+    }
+
+    for (const ov of list) {
+      const r = applySynthOverrideOperation({ filePath, jsonValue, override: ov });
+      if (r.noMatch === 1) {
+        console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
+        console.log('OPS_SYNTH_OVERRIDE_NO_MATCH=1');
+        return { enabled: true, parseOk: 1, applyOk: 0 };
+      }
+      if (r.ok !== 1) {
+        console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
+        console.log(`OPS_SYNTH_OVERRIDE_ERROR=${r.error || 'OPS_SYNTH_OVERRIDE_APPLY_ERROR'}`);
+        return { enabled: true, parseOk: 1, applyOk: 0 };
+      }
+    }
+
+    jsonByPath.set(filePath, jsonValue);
+  }
+
+  console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=1');
+  console.log(`OPS_SYNTH_OVERRIDE_COUNT=${overrides.length}`);
+
+  const state = {
+    enabled: true,
+    jsonByPath,
+  };
+  OPS_SYNTH_OVERRIDE_STATE = state;
+  return state;
+}
+
 function parseVersionToken(token, errorFile, errorReason) {
   if (typeof token !== 'string') {
     die('ERR_DOCTOR_INVALID_SHAPE', errorFile, errorReason);
@@ -109,6 +298,9 @@ function readText(filePath) {
 }
 
 function readJson(filePath) {
+  if (OPS_SYNTH_OVERRIDE_STATE && OPS_SYNTH_OVERRIDE_STATE.enabled && OPS_SYNTH_OVERRIDE_STATE.jsonByPath.has(filePath)) {
+    return OPS_SYNTH_OVERRIDE_STATE.jsonByPath.get(filePath);
+  }
   const text = readText(filePath);
   try {
     return JSON.parse(text);
@@ -2019,6 +2211,17 @@ function checkSsotBoundaryGuard(effectiveMode) {
   return { level: 'ok', exitCode };
 }
 
+function tryReadJsonWithSynthOverride(filePath) {
+  if (OPS_SYNTH_OVERRIDE_STATE && OPS_SYNTH_OVERRIDE_STATE.enabled && OPS_SYNTH_OVERRIDE_STATE.jsonByPath.has(filePath)) {
+    return OPS_SYNTH_OVERRIDE_STATE.jsonByPath.get(filePath);
+  }
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
 function computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry) {
   const violations = [];
   const debtLinkageDefined = 1;
@@ -2032,12 +2235,8 @@ function computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry) {
 
     if (!fs.existsSync(inventoryPath)) continue;
 
-    let inv;
-    try {
-      inv = JSON.parse(readText(inventoryPath));
-    } catch {
-      continue;
-    }
+    const inv = tryReadJsonWithSynthOverride(inventoryPath);
+    if (!inv) continue;
     if (!inv || typeof inv !== 'object' || Array.isArray(inv)) continue;
     if (!Array.isArray(inv.items)) continue;
 
@@ -2128,12 +2327,7 @@ function computeStrictLieClass02Violations(registryItems) {
   }
 
   const enfPath = 'docs/OPS/CONTOUR-C-ENFORCEMENT.json';
-  let enf;
-  try {
-    enf = JSON.parse(readText(enfPath));
-  } catch {
-    enf = null;
-  }
+  const enf = tryReadJsonWithSynthOverride(enfPath);
 
   const enfById = new Map();
   if (enf && typeof enf === 'object' && !Array.isArray(enf) && Array.isArray(enf.items)) {
@@ -2243,6 +2437,14 @@ function run() {
   console.log(`TARGET_BASELINE_VERSION=${targetParsed.token}`);
   console.log('POST_COMMIT_PROOF_CMD=git show --name-only --pretty=format: HEAD');
   console.log('POST_COMMIT_PROOF_EXPECTED_PATH=scripts/doctor.mjs');
+
+  const synthState = initSynthOverrideState();
+  if (synthState && synthState.enabled && synthState.parseOk === 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', 'OPS_SYNTH_OVERRIDE_JSON', 'ops_synth_override_parse_failed');
+  }
+  if (synthState && synthState.enabled && synthState.applyOk === 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', 'OPS_SYNTH_OVERRIDE_JSON', 'ops_synth_override_apply_failed');
+  }
 
   if (invalidEnvToken !== null) {
     console.error(`CHECKS_BASELINE_VERSION=${invalidEnvToken}`);

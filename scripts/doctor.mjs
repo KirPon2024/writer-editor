@@ -24,7 +24,7 @@ function parseOpsSynthOverrideJson(raw) {
     return {
       enabled: true,
       parseOk: 0,
-      error: 'OPS_SYNTH_OVERRIDE_JSON_PARSE_FAIL',
+      errorToken: 'OPS_SYNTH_OVERRIDE_JSON_PARSE_FAILED',
     };
   }
 
@@ -32,36 +32,63 @@ function parseOpsSynthOverrideJson(raw) {
     return {
       enabled: true,
       parseOk: 0,
-      error: 'OPS_SYNTH_OVERRIDE_JSON_TOP_LEVEL_NOT_OBJECT',
+      errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID',
     };
   }
   if (!Array.isArray(parsed.overrides)) {
     return {
       enabled: true,
       parseOk: 0,
-      error: 'OPS_SYNTH_OVERRIDE_JSON_OVERRIDES_NOT_ARRAY',
+      errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID',
     };
   }
 
   const overrides = [];
   for (const it of parsed.overrides) {
     if (!it || typeof it !== 'object' || Array.isArray(it)) {
-      return { enabled: true, parseOk: 0, error: 'OPS_SYNTH_OVERRIDE_ITEM_NOT_OBJECT' };
+      return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID' };
     }
     const path = normalizeRepoRelativePosixPath(it.path);
-    if (!path) return { enabled: true, parseOk: 0, error: 'OPS_SYNTH_OVERRIDE_INVALID_PATH' };
-    if (typeof it.op !== 'string' || it.op.length === 0) {
-      return { enabled: true, parseOk: 0, error: 'OPS_SYNTH_OVERRIDE_INVALID_OP' };
-    }
+    if (!path) return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID' };
+    if (typeof it.op !== 'string' || it.op.length === 0) return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_OP_UNKNOWN' };
+    if (!['json_delete_key', 'json_set_value'].includes(it.op)) return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_OP_UNKNOWN' };
     if (!it.where || typeof it.where !== 'object' || Array.isArray(it.where)) {
-      return { enabled: true, parseOk: 0, error: 'OPS_SYNTH_OVERRIDE_INVALID_WHERE' };
+      return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+    }
+
+    if (it.op === 'json_delete_key') {
+      if (typeof it.where.key !== 'string' || it.where.key.trim().length === 0) {
+        return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+      }
+    }
+
+    if (it.op === 'json_set_value') {
+      if (typeof it.where.jsonPath !== 'string' || it.where.jsonPath.trim().length === 0) {
+        return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+      }
+      const supported = /^\$\.items\[\?\(@\.invariantId==(?:'[^']+'|"[^"]+")\)\]\.severity$/.test(it.where.jsonPath);
+      if (!supported) return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+
+      const valueProvided = Object.prototype.hasOwnProperty.call(it, 'value');
+      const toggleProvided = Object.prototype.hasOwnProperty.call(it, 'toggle');
+      if ((valueProvided && toggleProvided) || (!valueProvided && !toggleProvided)) {
+        return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID' };
+      }
+      if (toggleProvided) {
+        if (!Array.isArray(it.toggle) || it.toggle.length !== 2) return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID' };
+        const [a, b] = it.toggle;
+        if (typeof a !== 'string' || typeof b !== 'string') return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID' };
+        if (a === b) return { enabled: true, parseOk: 0, errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID' };
+      }
     }
 
     overrides.push({
       path,
       op: it.op,
       where: it.where,
+      valueProvided: Object.prototype.hasOwnProperty.call(it, 'value'),
       value: it.value,
+      toggleProvided: Object.prototype.hasOwnProperty.call(it, 'toggle'),
       toggle: it.toggle,
     });
   }
@@ -71,75 +98,87 @@ function parseOpsSynthOverrideJson(raw) {
 
 function applySynthOverrideOperation({ filePath, jsonValue, override }) {
   if (!jsonValue || typeof jsonValue !== 'object' || Array.isArray(jsonValue)) {
-    return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_TARGET_NOT_OBJECT' };
+    return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_NOT_JSON_OBJECT' };
   }
 
   if (override.op === 'json_delete_key') {
     const key = override.where && typeof override.where.key === 'string' ? override.where.key : null;
-    if (!key) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_DELETE_KEY_MISSING' };
-    if (!(key in jsonValue)) return { ok: 0, noMatch: 1 };
+    if (!key) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+    if (!(key in jsonValue)) return { ok: 1, applied: 1 };
     // eslint-disable-next-line no-param-reassign
     delete jsonValue[key];
-    return { ok: 1 };
+    return { ok: 1, applied: 1 };
   }
 
   if (override.op === 'json_set_value') {
     const jsonPath = override.where && typeof override.where.jsonPath === 'string' ? override.where.jsonPath : null;
-    if (!jsonPath) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_JSONPATH_MISSING' };
+    if (!jsonPath) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
 
     const m = jsonPath.match(/^\$\.items\[\?\(@\.invariantId==(?:'([^']+)'|"([^"]+)")\)\]\.severity$/);
-    if (!m) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_JSONPATH_UNSUPPORTED' };
+    if (!m) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
     const invariantId = m[1] || m[2];
-    if (typeof invariantId !== 'string' || invariantId.length === 0) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_INVARIANT_ID_MISSING' };
+    if (typeof invariantId !== 'string' || invariantId.length === 0) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
 
-    if (!Array.isArray(jsonValue.items)) return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_ITEMS_NOT_ARRAY' };
+    if (!Array.isArray(jsonValue.items)) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_NOT_JSON_OBJECT' };
 
-    const hasValue = typeof override.value === 'string';
-    const hasToggle = Array.isArray(override.toggle);
-    if ((hasValue && hasToggle) || (!hasValue && !hasToggle)) {
-      return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_SET_VALUE_AMBIGUOUS' };
-    }
-
-    let hit = 0;
+    const matches = [];
     for (let i = 0; i < jsonValue.items.length; i += 1) {
       const it = jsonValue.items[i];
       if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
       if (it.invariantId !== invariantId) continue;
-      hit = 1;
-      if (hasValue) {
-        // eslint-disable-next-line no-param-reassign
-        it.severity = override.value;
-      } else {
-        const [a, b] = override.toggle;
-        if (typeof a !== 'string' || typeof b !== 'string') return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_TOGGLE_INVALID' };
-        const cur = typeof it.severity === 'string' ? it.severity : '';
-        const next = cur === a ? b : a;
-        // eslint-disable-next-line no-param-reassign
-        it.severity = next;
-      }
+      matches.push(i);
     }
-    if (!hit) return { ok: 0, noMatch: 1 };
-    return { ok: 1 };
+
+    if (matches.length !== 1) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_MATCH_COUNT_INVALID' };
+
+    const it = jsonValue.items[matches[0]];
+    if (!it || typeof it !== 'object' || Array.isArray(it)) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_MATCH_COUNT_INVALID' };
+
+    if (override.toggleProvided) {
+      const [a, b] = override.toggle;
+      const cur = typeof it.severity === 'string' ? it.severity : '';
+      if (cur !== a && cur !== b) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_TOGGLE_NOT_APPLICABLE' };
+      // eslint-disable-next-line no-param-reassign
+      it.severity = cur === a ? b : a;
+      return { ok: 1, applied: 1 };
+    }
+
+    if (override.valueProvided) {
+      // eslint-disable-next-line no-param-reassign
+      it.severity = override.value;
+      return { ok: 1, applied: 1 };
+    }
+
+    return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID' };
   }
 
-  return { ok: 0, error: 'OPS_SYNTH_OVERRIDE_OP_UNSUPPORTED' };
+  return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_OP_UNKNOWN' };
 }
 
 function initSynthOverrideState() {
   const raw = process.env.OPS_SYNTH_OVERRIDE_JSON;
   const parsed = parseOpsSynthOverrideJson(raw);
-  if (!parsed.enabled) return { enabled: false };
+  if (!parsed.enabled) {
+    console.log('OPS_SYNTH_OVERRIDE_ENABLED=0');
+    return { enabled: false };
+  }
 
   console.log('OPS_SYNTH_OVERRIDE_ENABLED=1');
+
   if (parsed.parseOk !== 1) {
     console.log('OPS_SYNTH_OVERRIDE_PARSE_OK=0');
-    console.log(`OPS_SYNTH_OVERRIDE_ERROR=${parsed.error || 'OPS_SYNTH_OVERRIDE_UNKNOWN_PARSE_ERROR'}`);
+    console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
+    console.log('OPS_SYNTH_OVERRIDE_OVERRIDES_COUNT=0');
+    console.log('OPS_SYNTH_OVERRIDE_APPLIED_COUNT=0');
+    console.log('OPS_SYNTH_OVERRIDE_FAILED_COUNT=1');
+    console.log(`OPS_SYNTH_OVERRIDE_ERROR_TOKEN=${parsed.errorToken || 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID'}`);
     return { enabled: true, parseOk: 0, applyOk: 0 };
   }
 
   console.log('OPS_SYNTH_OVERRIDE_PARSE_OK=1');
 
   const overrides = parsed.overrides || [];
+  const overridesCount = overrides.length;
   const overridesByPath = new Map();
   for (const ov of overrides) {
     if (!overridesByPath.has(ov.path)) overridesByPath.set(ov.path, []);
@@ -147,13 +186,18 @@ function initSynthOverrideState() {
   }
 
   const jsonByPath = new Map();
-  for (const [filePath, list] of overridesByPath.entries()) {
+  let appliedCount = 0;
+  for (const filePath of [...overridesByPath.keys()].sort()) {
+    const list = overridesByPath.get(filePath) || [];
     let text;
     try {
       text = fs.readFileSync(filePath, 'utf8');
     } catch {
       console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
-      console.log(`OPS_SYNTH_OVERRIDE_MISSING_PATH=${filePath}`);
+      console.log(`OPS_SYNTH_OVERRIDE_OVERRIDES_COUNT=${overridesCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_APPLIED_COUNT=${appliedCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_FAILED_COUNT=${overridesCount - appliedCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_ERROR_TOKEN=OPS_SYNTH_OVERRIDE_PATH_READ_FAILED`);
       return { enabled: true, parseOk: 1, applyOk: 0 };
     }
 
@@ -162,29 +206,42 @@ function initSynthOverrideState() {
       jsonValue = JSON.parse(text);
     } catch {
       console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
-      console.log(`OPS_SYNTH_OVERRIDE_ERROR=OPS_SYNTH_OVERRIDE_TARGET_JSON_PARSE_FAIL:${filePath}`);
+      console.log(`OPS_SYNTH_OVERRIDE_OVERRIDES_COUNT=${overridesCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_APPLIED_COUNT=${appliedCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_FAILED_COUNT=${overridesCount - appliedCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_ERROR_TOKEN=OPS_SYNTH_OVERRIDE_NOT_JSON_OBJECT`);
+      return { enabled: true, parseOk: 1, applyOk: 0 };
+    }
+
+    if (!jsonValue || typeof jsonValue !== 'object' || Array.isArray(jsonValue)) {
+      console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
+      console.log(`OPS_SYNTH_OVERRIDE_OVERRIDES_COUNT=${overridesCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_APPLIED_COUNT=${appliedCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_FAILED_COUNT=${overridesCount - appliedCount}`);
+      console.log(`OPS_SYNTH_OVERRIDE_ERROR_TOKEN=OPS_SYNTH_OVERRIDE_NOT_JSON_OBJECT`);
       return { enabled: true, parseOk: 1, applyOk: 0 };
     }
 
     for (const ov of list) {
       const r = applySynthOverrideOperation({ filePath, jsonValue, override: ov });
-      if (r.noMatch === 1) {
-        console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
-        console.log('OPS_SYNTH_OVERRIDE_NO_MATCH=1');
-        return { enabled: true, parseOk: 1, applyOk: 0 };
-      }
       if (r.ok !== 1) {
         console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=0');
-        console.log(`OPS_SYNTH_OVERRIDE_ERROR=${r.error || 'OPS_SYNTH_OVERRIDE_APPLY_ERROR'}`);
+        console.log(`OPS_SYNTH_OVERRIDE_OVERRIDES_COUNT=${overridesCount}`);
+        console.log(`OPS_SYNTH_OVERRIDE_APPLIED_COUNT=${appliedCount}`);
+        console.log(`OPS_SYNTH_OVERRIDE_FAILED_COUNT=${overridesCount - appliedCount}`);
+        console.log(`OPS_SYNTH_OVERRIDE_ERROR_TOKEN=${r.errorToken || 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID'}`);
         return { enabled: true, parseOk: 1, applyOk: 0 };
       }
+      appliedCount += 1;
     }
 
     jsonByPath.set(filePath, jsonValue);
   }
 
   console.log('OPS_SYNTH_OVERRIDE_APPLY_OK=1');
-  console.log(`OPS_SYNTH_OVERRIDE_COUNT=${overrides.length}`);
+  console.log(`OPS_SYNTH_OVERRIDE_OVERRIDES_COUNT=${overridesCount}`);
+  console.log(`OPS_SYNTH_OVERRIDE_APPLIED_COUNT=${appliedCount}`);
+  console.log('OPS_SYNTH_OVERRIDE_FAILED_COUNT=0');
 
   const state = {
     enabled: true,

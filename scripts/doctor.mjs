@@ -1891,6 +1891,95 @@ function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditChec
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_IDS=${JSON.stringify(uniqSorted)}`);
 }
 
+function checkContourCDocsContractsPresence() {
+  const expected = [
+    'docs/CONTRACTS/runtime-effects.contract.md',
+    'docs/CONTRACTS/runtime-execution.contract.md',
+    'docs/CONTRACTS/runtime-queue.contract.md',
+    'docs/CONTRACTS/runtime-trace.contract.md',
+  ].sort();
+
+  const present = expected.filter((p) => fs.existsSync(p));
+  const missing = expected.filter((p) => !fs.existsSync(p));
+  const missingCount = missing.length;
+  const ok = missingCount === 0 ? 1 : 0;
+
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_EXPECTED=${JSON.stringify(expected)}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_PRESENT=${JSON.stringify(present)}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_PRESENT_COUNT=${present.length}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_MISSING=${JSON.stringify(missing)}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_MISSING_COUNT=${missingCount}`);
+  console.log(`CONTOUR_C_DOCS_CONTRACTS_OK=${ok}`);
+
+  return { ok };
+}
+
+function checkContourCContractsFrozenEntrypoint(targetParsed) {
+  const gate = targetParsed && targetParsed.token === 'v1.3';
+  if (!gate) return null;
+
+  const entrypointPath = 'docs/CONTRACTS/CONTOUR-C-CONTRACTS-FROZEN.md';
+  const entrypointExists = fs.existsSync(entrypointPath) ? 1 : 0;
+
+  const expected = [
+    'docs/CONTRACTS/runtime-effects.contract.md',
+    'docs/CONTRACTS/runtime-execution.contract.md',
+    'docs/CONTRACTS/runtime-queue.contract.md',
+    'docs/CONTRACTS/runtime-trace.contract.md',
+  ];
+
+  let observed = [];
+  if (entrypointExists === 1) {
+    const text = readText(entrypointPath);
+    const listed = (text.match(/^\-\s+docs\/CONTRACTS\/\S+\.contract\.md\s*$/gm) || [])
+      .map((l) => l.replace(/^\-\s+/, '').trim());
+    const uniqListed = [...new Set(listed)].sort();
+    observed = uniqListed.filter((p) => fs.existsSync(p));
+  }
+
+  const missing = expected.filter((p) => !observed.includes(p)).sort();
+  const extra = observed.filter((p) => !expected.includes(p)).sort();
+  const ok = entrypointExists === 1 && missing.length === 0 && extra.length === 0 ? 1 : 0;
+
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_ENTRYPOINT_PATH=${entrypointPath}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_ENTRYPOINT_EXISTS=${entrypointExists}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_EXPECTED=${JSON.stringify(expected)}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_OBSERVED=${JSON.stringify(observed)}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_MISSING=${JSON.stringify(missing)}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_EXTRA=${JSON.stringify(extra)}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_OK=${ok}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_EXPECTED_COUNT=${expected.length}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_OBSERVED_COUNT=${observed.length}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_MISSING_COUNT=${missing.length}`);
+  console.log(`CONTOUR_C_CONTRACTS_FROZEN_EXTRA_COUNT=${extra.length}`);
+
+  return { ok };
+}
+
+function checkContourCSrcContractsSkeletonDiagnostics(targetParsed) {
+  const gate = targetParsed && targetParsed.token === 'v1.3';
+  if (!gate) return null;
+
+  const expected = [
+    'src/contracts/runtime/index.ts',
+    'src/contracts/runtime/runtime-effects.contract.ts',
+    'src/contracts/runtime/runtime-execution.contract.ts',
+    'src/contracts/runtime/runtime-queue.contract.ts',
+    'src/contracts/runtime/runtime-trace.contract.ts',
+  ].sort();
+
+  const missing = expected.filter((p) => !fs.existsSync(p)).sort();
+  const ok = missing.length === 0 ? 1 : 0;
+
+  console.log(`CONTOUR_C_SRC_CONTRACTS_EXPECTED=${JSON.stringify(expected)}`);
+  console.log(`CONTOUR_C_SRC_CONTRACTS_EXPECTED_COUNT=${expected.length}`);
+  console.log(`CONTOUR_C_SRC_CONTRACTS_MISSING=${JSON.stringify(missing)}`);
+  console.log(`CONTOUR_C_SRC_CONTRACTS_MISSING_COUNT=${missing.length}`);
+  console.log(`CONTOUR_C_SRC_CONTRACTS_OK=${ok}`);
+
+  return { ok };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -1911,6 +2000,8 @@ function run() {
   );
 
   console.log(`TARGET_BASELINE_VERSION=${targetParsed.token}`);
+  console.log('POST_COMMIT_PROOF_CMD=git show --name-only --pretty=format: HEAD');
+  console.log('POST_COMMIT_PROOF_EXPECTED_PATH=scripts/doctor.mjs');
 
   if (invalidEnvToken !== null) {
     console.error(`CHECKS_BASELINE_VERSION=${invalidEnvToken}`);
@@ -2012,6 +2103,9 @@ function run() {
   computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds);
   computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
+  const docsContracts = checkContourCDocsContractsPresence();
+  const frozenContracts = checkContourCContractsFrozenEntrypoint(targetParsed);
+  checkContourCSrcContractsSkeletonDiagnostics(targetParsed);
 
   const hasFail = coreBoundary.level === 'fail'
     || coreDet.level === 'fail'
@@ -2038,7 +2132,9 @@ function run() {
     || registryEval.level === 'warn'
     || contourCEnforcement.level === 'warn'
     || contourCCompleteness.missingCount > 0
-    || contourCCompleteness.extraCount > 0;
+    || contourCCompleteness.extraCount > 0
+    || docsContracts.ok === 0
+    || (frozenContracts && frozenContracts.ok === 0);
 
   if (hasFail) {
     console.log('DOCTOR_FAIL');

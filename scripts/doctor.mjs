@@ -24,90 +24,229 @@ function listUnknownKeys(obj, allowedKeys) {
 }
 
 function parseOpsSynthOverrideJson(raw) {
-  if (typeof raw !== 'string' || raw.trim().length === 0) return { enabled: false };
+  if (typeof raw !== 'string' || raw.trim().length === 0) {
+    return {
+      parseOk: 0,
+      schemaOk: 0,
+      err: 'JSON_MISSING',
+      schemaErr: 'JSON_MISSING',
+      overrides: [],
+    };
+  }
   let parsed;
   try {
     parsed = JSON.parse(raw);
   } catch {
-    return { enabled: true, parseOk: 0, schemaOk: 0, schemaErr: '', err: 'JSON_PARSE_FAILED' };
+    return {
+      parseOk: 0,
+      schemaOk: 0,
+      err: 'JSON_PARSE_FAILED',
+      schemaErr: 'JSON_PARSE_FAILED',
+      overrides: [],
+    };
   }
 
   if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-    return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'TOP_LEVEL_NOT_OBJECT', err: 'TOP_LEVEL_NOT_OBJECT' };
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'TOP_LEVEL_NOT_OBJECT',
+      schemaErr: 'TOP_LEVEL_NOT_OBJECT',
+      overrides: [],
+    };
   }
 
   const unknownTop = listUnknownKeys(parsed, ['schemaVersion', 'overrides']);
   if (unknownTop && unknownTop.length > 0) {
-    return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'UNKNOWN_TOP_LEVEL_KEY', err: 'UNKNOWN_TOP_LEVEL_KEY' };
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'UNKNOWN_TOP_LEVEL_KEY',
+      schemaErr: 'UNKNOWN_TOP_LEVEL_KEY',
+      overrides: [],
+    };
   }
 
   if (!Object.prototype.hasOwnProperty.call(parsed, 'schemaVersion')) {
-    return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'SCHEMA_VERSION_MISSING', err: 'SCHEMA_VERSION_MISSING' };
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'SCHEMA_VERSION_MISSING',
+      schemaErr: 'SCHEMA_VERSION_MISSING',
+      overrides: [],
+    };
   }
   if (!Number.isInteger(parsed.schemaVersion) || parsed.schemaVersion !== 1) {
-    return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'SCHEMA_VERSION_INVALID', err: 'SCHEMA_VERSION_INVALID' };
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'SCHEMA_VERSION_INVALID',
+      schemaErr: 'SCHEMA_VERSION_INVALID',
+      overrides: [],
+    };
   }
 
   if (!Object.prototype.hasOwnProperty.call(parsed, 'overrides')) {
-    return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'OVERRIDES_MISSING', err: 'OVERRIDES_MISSING' };
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'OVERRIDES_MISSING',
+      schemaErr: 'OVERRIDES_MISSING',
+      overrides: [],
+    };
   }
   if (!Array.isArray(parsed.overrides)) {
-    return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'OVERRIDES_NOT_ARRAY', err: 'OVERRIDES_NOT_ARRAY' };
-  }
-  if (parsed.overrides.length < 1) {
-    return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'OVERRIDES_EMPTY', err: 'OVERRIDES_EMPTY' };
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'OVERRIDES_NOT_ARRAY',
+      schemaErr: 'OVERRIDES_NOT_ARRAY',
+      overrides: [],
+    };
   }
 
   const overrides = [];
   for (const it of parsed.overrides) {
     if (!it || typeof it !== 'object' || Array.isArray(it)) {
-      return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'OVERRIDE_ITEM_NOT_OBJECT', err: 'OVERRIDE_ITEM_NOT_OBJECT' };
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'OVERRIDE_ITEM_NOT_OBJECT',
+        schemaErr: 'OVERRIDE_ITEM_NOT_OBJECT',
+        overrides: [],
+      };
     }
     const unknownItem = listUnknownKeys(it, ['path', 'op', 'where', 'value', 'toggle']);
     if (unknownItem && unknownItem.length > 0) {
-      return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'UNKNOWN_OVERRIDE_KEY', err: 'UNKNOWN_OVERRIDE_KEY' };
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'UNKNOWN_OVERRIDE_KEY',
+        schemaErr: 'UNKNOWN_OVERRIDE_KEY',
+        overrides: [],
+      };
     }
     const path = normalizeRepoRelativePosixPath(it.path);
-    if (!path) return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'OVERRIDE_PATH_INVALID', err: 'OVERRIDE_PATH_INVALID' };
+    if (!path) {
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'OVERRIDE_PATH_INVALID',
+        schemaErr: 'OVERRIDE_PATH_INVALID',
+        overrides: [],
+      };
+    }
     if (typeof it.op !== 'string' || it.op.trim().length === 0) {
-      return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'OVERRIDE_OP_MISSING', err: 'OVERRIDE_OP_MISSING' };
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'OVERRIDE_OP_MISSING',
+        schemaErr: 'OVERRIDE_OP_MISSING',
+        overrides: [],
+      };
     }
     if (!it.where || typeof it.where !== 'object' || Array.isArray(it.where)) {
-      return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'OVERRIDE_WHERE_INVALID', err: 'OVERRIDE_WHERE_INVALID' };
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'OVERRIDE_WHERE_INVALID',
+        schemaErr: 'OVERRIDE_WHERE_INVALID',
+        overrides: [],
+      };
     }
 
     if (it.op === 'json_delete_key') {
       const unknownWhere = listUnknownKeys(it.where, ['key']);
       if (unknownWhere && unknownWhere.length > 0) {
-        return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'UNKNOWN_WHERE_KEY', err: 'UNKNOWN_WHERE_KEY' };
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'UNKNOWN_WHERE_KEY',
+          schemaErr: 'UNKNOWN_WHERE_KEY',
+          overrides: [],
+        };
       }
       if (typeof it.where.key !== 'string' || it.where.key.trim().length === 0) {
-        return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'DELETE_KEY_MISSING', err: 'DELETE_KEY_MISSING' };
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'DELETE_KEY_MISSING',
+          schemaErr: 'DELETE_KEY_MISSING',
+          overrides: [],
+        };
       }
       if (Object.prototype.hasOwnProperty.call(it, 'value') || Object.prototype.hasOwnProperty.call(it, 'toggle')) {
-        return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'DELETE_OP_EXTRA_FIELDS', err: 'DELETE_OP_EXTRA_FIELDS' };
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'DELETE_OP_EXTRA_FIELDS',
+          schemaErr: 'DELETE_OP_EXTRA_FIELDS',
+          overrides: [],
+        };
       }
     }
 
     if (it.op === 'json_set_value') {
       const unknownWhere = listUnknownKeys(it.where, ['jsonPath']);
       if (unknownWhere && unknownWhere.length > 0) {
-        return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'UNKNOWN_WHERE_KEY', err: 'UNKNOWN_WHERE_KEY' };
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'UNKNOWN_WHERE_KEY',
+          schemaErr: 'UNKNOWN_WHERE_KEY',
+          overrides: [],
+        };
       }
       if (typeof it.where.jsonPath !== 'string' || it.where.jsonPath.trim().length === 0) {
-        return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'JSONPATH_MISSING', err: 'JSONPATH_MISSING' };
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'JSONPATH_MISSING',
+          schemaErr: 'JSONPATH_MISSING',
+          overrides: [],
+        };
       }
 
       const valueProvided = Object.prototype.hasOwnProperty.call(it, 'value');
       const toggleProvided = Object.prototype.hasOwnProperty.call(it, 'toggle');
       if ((valueProvided && toggleProvided) || (!valueProvided && !toggleProvided)) {
-        return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'SET_VALUE_AMBIGUOUS', err: 'SET_VALUE_AMBIGUOUS' };
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'SET_VALUE_AMBIGUOUS',
+          schemaErr: 'SET_VALUE_AMBIGUOUS',
+          overrides: [],
+        };
       }
       if (toggleProvided) {
-        if (!Array.isArray(it.toggle) || it.toggle.length !== 2) return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'TOGGLE_INVALID', err: 'TOGGLE_INVALID' };
+        if (!Array.isArray(it.toggle) || it.toggle.length !== 2) {
+          return {
+            parseOk: 1,
+            schemaOk: 0,
+            err: 'TOGGLE_INVALID',
+            schemaErr: 'TOGGLE_INVALID',
+            overrides: [],
+          };
+        }
         const [a, b] = it.toggle;
-        if (typeof a !== 'string' || typeof b !== 'string') return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'TOGGLE_INVALID', err: 'TOGGLE_INVALID' };
-        if (a === b) return { enabled: true, parseOk: 1, schemaOk: 0, schemaErr: 'TOGGLE_INVALID', err: 'TOGGLE_INVALID' };
+        if (typeof a !== 'string' || typeof b !== 'string') {
+          return {
+            parseOk: 1,
+            schemaOk: 0,
+            err: 'TOGGLE_INVALID',
+            schemaErr: 'TOGGLE_INVALID',
+            overrides: [],
+          };
+        }
+        if (a === b) {
+          return {
+            parseOk: 1,
+            schemaOk: 0,
+            err: 'TOGGLE_INVALID',
+            schemaErr: 'TOGGLE_INVALID',
+            overrides: [],
+          };
+        }
       }
     }
 
@@ -122,17 +261,23 @@ function parseOpsSynthOverrideJson(raw) {
     });
   }
 
-  return { enabled: true, parseOk: 1, schemaOk: 1, schemaErr: '', err: '', overrides };
+  return {
+    parseOk: 1,
+    schemaOk: 1,
+    err: '',
+    schemaErr: '',
+    overrides,
+  };
 }
 
 function applySynthOverrideOperation({ filePath, jsonValue, override }) {
   if (!jsonValue || typeof jsonValue !== 'object' || Array.isArray(jsonValue)) {
-    return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_NOT_JSON_OBJECT' };
+    return { ok: 0, err: 'NOT_JSON_OBJECT' };
   }
 
   if (override.op === 'json_delete_key') {
     const key = override.where && typeof override.where.key === 'string' ? override.where.key : null;
-    if (!key) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+    if (!key) return { ok: 0, err: 'WHERE_INVALID' };
     if (!(key in jsonValue)) return { ok: 1, applied: 1 };
     // eslint-disable-next-line no-param-reassign
     delete jsonValue[key];
@@ -141,14 +286,14 @@ function applySynthOverrideOperation({ filePath, jsonValue, override }) {
 
   if (override.op === 'json_set_value') {
     const jsonPath = override.where && typeof override.where.jsonPath === 'string' ? override.where.jsonPath : null;
-    if (!jsonPath) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+    if (!jsonPath) return { ok: 0, err: 'WHERE_INVALID' };
 
     const m = jsonPath.match(/^\$\.items\[\?\(@\.invariantId==(?:'([^']+)'|"([^"]+)")\)\]\.severity$/);
-    if (!m) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+    if (!m) return { ok: 0, err: 'WHERE_INVALID' };
     const invariantId = m[1] || m[2];
-    if (typeof invariantId !== 'string' || invariantId.length === 0) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_WHERE_INVALID' };
+    if (typeof invariantId !== 'string' || invariantId.length === 0) return { ok: 0, err: 'WHERE_INVALID' };
 
-    if (!Array.isArray(jsonValue.items)) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_NOT_JSON_OBJECT' };
+    if (!Array.isArray(jsonValue.items)) return { ok: 0, err: 'NOT_JSON_OBJECT' };
 
     const matches = [];
     for (let i = 0; i < jsonValue.items.length; i += 1) {
@@ -158,15 +303,15 @@ function applySynthOverrideOperation({ filePath, jsonValue, override }) {
       matches.push(i);
     }
 
-    if (matches.length !== 1) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_MATCH_COUNT_INVALID' };
+    if (matches.length !== 1) return { ok: 0, err: 'MATCH_COUNT_INVALID', matchErr: 'MATCH_COUNT_INVALID' };
 
     const it = jsonValue.items[matches[0]];
-    if (!it || typeof it !== 'object' || Array.isArray(it)) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_MATCH_COUNT_INVALID' };
+    if (!it || typeof it !== 'object' || Array.isArray(it)) return { ok: 0, err: 'MATCH_COUNT_INVALID', matchErr: 'MATCH_COUNT_INVALID' };
 
     if (override.toggleProvided) {
       const [a, b] = override.toggle;
       const cur = typeof it.severity === 'string' ? it.severity : '';
-      if (cur !== a && cur !== b) return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_TOGGLE_NOT_APPLICABLE' };
+      if (cur !== a && cur !== b) return { ok: 0, err: 'TOGGLE_NOT_APPLICABLE', matchErr: 'TOGGLE_NOT_APPLICABLE' };
       // eslint-disable-next-line no-param-reassign
       it.severity = cur === a ? b : a;
       return { ok: 1, applied: 1 };
@@ -178,158 +323,128 @@ function applySynthOverrideOperation({ filePath, jsonValue, override }) {
       return { ok: 1, applied: 1 };
     }
 
-    return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_SHAPE_INVALID' };
+    return { ok: 0, err: 'APPLY_FAILED' };
   }
 
-  return { ok: 0, errorToken: 'OPS_SYNTH_OVERRIDE_OP_UNKNOWN' };
+  return { ok: 0, err: 'UNSUPPORTED_OP', opErr: 'UNSUPPORTED_OP' };
 }
 
 function initSynthOverrideState() {
+  const enabled = process.env.OPS_SYNTH_OVERRIDE_ENABLED === '1';
   const raw = process.env.OPS_SYNTH_OVERRIDE_JSON;
-  const present = typeof raw === 'string' && raw.trim().length > 0 ? 1 : 0;
-  const explicitEnabled = process.env.OPS_SYNTH_OVERRIDE_ENABLED === '1' ? 1 : 0;
-  const enabled = present === 1 && explicitEnabled === 1 ? 1 : 0;
-  const ignored = present === 1 && enabled === 0 ? 1 : 0;
+  const hasJson = typeof raw === 'string' && raw.trim().length > 0;
 
-  let parseOk = 1;
-  let schemaOk = 1;
-  let applyOk = 1;
-  let err = '';
-  let schemaErr = '';
-  let pathOk = 1;
-  let pathErr = '';
-  let opOk = 1;
-  let opErr = '';
-
-  console.log(`OPS_SYNTH_OVERRIDE_PRESENT=${present}`);
-  console.log(`OPS_SYNTH_OVERRIDE_ENABLED=${enabled}`);
-  if (ignored === 1) console.log('OPS_SYNTH_OVERRIDE_IGNORED=1');
-  console.log('OPS_SYNTH_OVERRIDE_REPO_WRITE=0');
-
-  if (present === 0 || enabled === 0) {
-    console.log(`OPS_SYNTH_OVERRIDE_PARSE_OK=${parseOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_OK=${schemaOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_APPLY_OK=${applyOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_ERR=${err}`);
-    console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_ERR=${schemaErr}`);
-    console.log(`OPS_SYNTH_OVERRIDE_PATH_OK=${pathOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_PATH_ERR=${pathErr}`);
-    console.log(`OPS_SYNTH_OVERRIDE_OP_OK=${opOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_OP_ERR=${opErr}`);
+  if (!enabled) {
+    console.log('OPS_SYNTH_OVERRIDE_ENABLED=0');
+    if (hasJson) console.log('OPS_SYNTH_OVERRIDE_IGNORED=1');
     return { enabled: false };
   }
 
+  let parseOk = 1;
+  let schemaOk = 1;
+  let scopeOk = 1;
+  let applyOk = 1;
+  let err = '';
+  let pathErr = '';
+  let opErr = '';
+  let matchErr = '';
+
   const parsed = parseOpsSynthOverrideJson(raw);
-  parseOk = parsed.parseOk === 1 ? 1 : 0;
-  schemaOk = parsed.schemaOk === 1 ? 1 : 0;
-  schemaErr = parsed.schemaErr || '';
+  parseOk = parsed.parseOk;
+  schemaOk = parsed.schemaOk;
   err = parsed.err || '';
+
+  const overrides = Array.isArray(parsed.overrides) ? parsed.overrides : [];
   if (parseOk !== 1 || schemaOk !== 1) {
+    scopeOk = 0;
     applyOk = 0;
-    console.log(`OPS_SYNTH_OVERRIDE_PARSE_OK=${parseOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_OK=${schemaOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_APPLY_OK=${applyOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_ERR=${err}`);
-    console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_ERR=${schemaErr}`);
-    console.log(`OPS_SYNTH_OVERRIDE_PATH_OK=${pathOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_PATH_ERR=${pathErr}`);
-    console.log(`OPS_SYNTH_OVERRIDE_OP_OK=${opOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_OP_ERR=${opErr}`);
-    return { enabled: true, parseOk, schemaOk, applyOk: 0 };
-  }
-
-  const overrides = parsed.overrides || [];
-
-  for (const ov of overrides) {
-    if (!['json_delete_key', 'json_set_value'].includes(ov.op)) {
-      opOk = 0;
-      opErr = 'UNSUPPORTED_OP';
-      applyOk = 0;
-      err = 'UNSUPPORTED_OP';
-      break;
-    }
-    if (!(ov.path === 'scripts/doctor.mjs' || ov.path.startsWith('docs/OPS/'))) {
-      pathOk = 0;
-      pathErr = 'PATH_OUT_OF_SCOPE';
-      applyOk = 0;
-      err = 'PATH_OUT_OF_SCOPE';
-      break;
-    }
-  }
-
-  if (applyOk !== 1) {
-    console.log(`OPS_SYNTH_OVERRIDE_PARSE_OK=${parseOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_OK=${schemaOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_APPLY_OK=${applyOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_ERR=${err}`);
-    console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_ERR=${schemaErr}`);
-    console.log(`OPS_SYNTH_OVERRIDE_PATH_OK=${pathOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_PATH_ERR=${pathErr}`);
-    console.log(`OPS_SYNTH_OVERRIDE_OP_OK=${opOk}`);
-    console.log(`OPS_SYNTH_OVERRIDE_OP_ERR=${opErr}`);
-    return { enabled: true, parseOk, schemaOk, applyOk: 0 };
-  }
-
-  const overridesByPath = new Map();
-  for (const ov of overrides) {
-    if (!overridesByPath.has(ov.path)) overridesByPath.set(ov.path, []);
-    overridesByPath.get(ov.path).push(ov);
-  }
-
-  const jsonByPath = new Map();
-  for (const filePath of [...overridesByPath.keys()].sort()) {
-    const list = overridesByPath.get(filePath) || [];
-    let text;
-    try {
-      text = fs.readFileSync(filePath, 'utf8');
-    } catch {
-      applyOk = 0;
-      err = 'PATH_READ_FAILED';
-      break;
-    }
-
-    let jsonValue;
-    try {
-      jsonValue = JSON.parse(text);
-    } catch {
-      applyOk = 0;
-      err = 'NOT_JSON_OBJECT';
-      break;
-    }
-
-    if (!jsonValue || typeof jsonValue !== 'object' || Array.isArray(jsonValue)) {
-      applyOk = 0;
-      err = 'NOT_JSON_OBJECT';
-      break;
-    }
-
-    for (const override of list) {
-      const r = applySynthOverrideOperation({ filePath, jsonValue, override });
-      if (r.ok !== 1) {
-        applyOk = 0;
-        err = r.errorToken || 'APPLY_FAILED';
+  } else {
+    for (const ov of overrides) {
+      const p = normalizeRepoRelativePosixPath(ov.path);
+      if (!p) {
+        scopeOk = 0;
+        pathErr = 'PATH_INVALID';
+        err = err || 'PATH_INVALID';
+        break;
+      }
+      if (!(p === 'scripts/doctor.mjs' || p.startsWith('docs/OPS/'))) {
+        scopeOk = 0;
+        pathErr = 'PATH_OUT_OF_SCOPE';
+        err = err || 'PATH_OUT_OF_SCOPE';
         break;
       }
     }
-    if (applyOk !== 1) break;
-    jsonByPath.set(filePath, jsonValue);
   }
 
+  const jsonByPath = new Map();
+  if (parseOk === 1 && schemaOk === 1 && scopeOk === 1) {
+    const overridesByPath = new Map();
+    for (const ov of overrides) {
+      if (!overridesByPath.has(ov.path)) overridesByPath.set(ov.path, []);
+      overridesByPath.get(ov.path).push(ov);
+    }
+
+    for (const filePath of [...overridesByPath.keys()].sort()) {
+      const list = overridesByPath.get(filePath) || [];
+      let text;
+      try {
+        text = fs.readFileSync(filePath, 'utf8');
+      } catch {
+        applyOk = 0;
+        err = 'PATH_READ_FAILED';
+        pathErr = pathErr || 'PATH_READ_FAILED';
+        break;
+      }
+
+      let jsonValue;
+      try {
+        jsonValue = JSON.parse(text);
+      } catch {
+        applyOk = 0;
+        err = 'NOT_JSON_OBJECT';
+        break;
+      }
+
+      if (!jsonValue || typeof jsonValue !== 'object' || Array.isArray(jsonValue)) {
+        applyOk = 0;
+        err = 'NOT_JSON_OBJECT';
+        break;
+      }
+
+      for (const override of list) {
+        const r = applySynthOverrideOperation({ filePath, jsonValue, override });
+        if (r.ok !== 1) {
+          applyOk = 0;
+          err = r.err || 'APPLY_FAILED';
+          if (r.opErr) opErr = r.opErr;
+          if (r.matchErr) matchErr = r.matchErr;
+          break;
+        }
+      }
+      if (applyOk !== 1) break;
+      jsonByPath.set(filePath, jsonValue);
+    }
+  } else if (parseOk !== 1 || schemaOk !== 1 || scopeOk !== 1) {
+    applyOk = 0;
+  }
+
+  console.log('OPS_SYNTH_OVERRIDE_ENABLED=1');
   console.log(`OPS_SYNTH_OVERRIDE_PARSE_OK=${parseOk}`);
   console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_OK=${schemaOk}`);
+  console.log(`OPS_SYNTH_OVERRIDE_SCOPE_OK=${scopeOk}`);
   console.log(`OPS_SYNTH_OVERRIDE_APPLY_OK=${applyOk}`);
   console.log(`OPS_SYNTH_OVERRIDE_ERR=${err}`);
-  console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_ERR=${schemaErr}`);
-  console.log(`OPS_SYNTH_OVERRIDE_PATH_OK=${pathOk}`);
   console.log(`OPS_SYNTH_OVERRIDE_PATH_ERR=${pathErr}`);
-  console.log(`OPS_SYNTH_OVERRIDE_OP_OK=${opOk}`);
   console.log(`OPS_SYNTH_OVERRIDE_OP_ERR=${opErr}`);
+  console.log(`OPS_SYNTH_OVERRIDE_MATCH_ERR=${matchErr}`);
 
-  if (applyOk !== 1) return { enabled: true, parseOk, schemaOk, applyOk: 0 };
+  if (parseOk !== 1 || schemaOk !== 1 || scopeOk !== 1 || applyOk !== 1) {
+    return { enabled: true, parseOk, schemaOk, scopeOk, applyOk };
+  }
 
   const state = { enabled: true, jsonByPath };
   OPS_SYNTH_OVERRIDE_STATE = state;
-  return state;
+  return { enabled: true, parseOk, schemaOk, scopeOk, applyOk };
 }
 
 function parseVersionToken(token, errorFile, errorReason) {

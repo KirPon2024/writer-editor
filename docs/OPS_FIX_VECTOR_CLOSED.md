@@ -9,3 +9,5 @@ CANON_PROOF:
 - npm_test=PASS
 - synth_negative_tests_in_npm_test=present
 - repo_clean_after=1
+
+Night mode decommissioned; daytime-only process restored.

@@ -1,8 +1,451 @@
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
+
+let OPS_SYNTH_OVERRIDE_STATE = null;
+
+function normalizeRepoRelativePosixPath(p) {
+  if (typeof p !== 'string') return null;
+  if (p.length === 0) return null;
+  if (p.startsWith('/')) return null;
+  if (p.includes('\\')) return null;
+  if (p.split('/').includes('..')) return null;
+  return p;
+}
+
+function listUnknownKeys(obj, allowedKeys) {
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return null;
+  const allowed = new Set(allowedKeys);
+  const unknown = Object.keys(obj).filter((k) => !allowed.has(k));
+  return unknown;
+}
+
+function parseOpsSynthOverrideJson(raw) {
+  if (typeof raw !== 'string' || raw.trim().length === 0) {
+    return {
+      parseOk: 0,
+      schemaOk: 0,
+      err: 'JSON_MISSING',
+      schemaErr: 'JSON_MISSING',
+      overrides: [],
+    };
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return {
+      parseOk: 0,
+      schemaOk: 0,
+      err: 'JSON_PARSE_FAILED',
+      schemaErr: 'JSON_PARSE_FAILED',
+      overrides: [],
+    };
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'TOP_LEVEL_NOT_OBJECT',
+      schemaErr: 'TOP_LEVEL_NOT_OBJECT',
+      overrides: [],
+    };
+  }
+
+  const unknownTop = listUnknownKeys(parsed, ['schemaVersion', 'overrides']);
+  if (unknownTop && unknownTop.length > 0) {
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'UNKNOWN_TOP_LEVEL_KEY',
+      schemaErr: 'UNKNOWN_TOP_LEVEL_KEY',
+      overrides: [],
+    };
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(parsed, 'schemaVersion')) {
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'SCHEMA_VERSION_MISSING',
+      schemaErr: 'SCHEMA_VERSION_MISSING',
+      overrides: [],
+    };
+  }
+  if (!Number.isInteger(parsed.schemaVersion) || parsed.schemaVersion !== 1) {
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'SCHEMA_VERSION_INVALID',
+      schemaErr: 'SCHEMA_VERSION_INVALID',
+      overrides: [],
+    };
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(parsed, 'overrides')) {
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'OVERRIDES_MISSING',
+      schemaErr: 'OVERRIDES_MISSING',
+      overrides: [],
+    };
+  }
+  if (!Array.isArray(parsed.overrides)) {
+    return {
+      parseOk: 1,
+      schemaOk: 0,
+      err: 'OVERRIDES_NOT_ARRAY',
+      schemaErr: 'OVERRIDES_NOT_ARRAY',
+      overrides: [],
+    };
+  }
+
+  const overrides = [];
+  for (const it of parsed.overrides) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) {
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'OVERRIDE_ITEM_NOT_OBJECT',
+        schemaErr: 'OVERRIDE_ITEM_NOT_OBJECT',
+        overrides: [],
+      };
+    }
+    const unknownItem = listUnknownKeys(it, ['path', 'op', 'where', 'value', 'toggle']);
+    if (unknownItem && unknownItem.length > 0) {
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'UNKNOWN_OVERRIDE_KEY',
+        schemaErr: 'UNKNOWN_OVERRIDE_KEY',
+        overrides: [],
+      };
+    }
+    const path = normalizeRepoRelativePosixPath(it.path);
+    if (!path) {
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'OVERRIDE_PATH_INVALID',
+        schemaErr: 'OVERRIDE_PATH_INVALID',
+        overrides: [],
+      };
+    }
+    if (typeof it.op !== 'string' || it.op.trim().length === 0) {
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'OVERRIDE_OP_MISSING',
+        schemaErr: 'OVERRIDE_OP_MISSING',
+        overrides: [],
+      };
+    }
+    if (!it.where || typeof it.where !== 'object' || Array.isArray(it.where)) {
+      return {
+        parseOk: 1,
+        schemaOk: 0,
+        err: 'OVERRIDE_WHERE_INVALID',
+        schemaErr: 'OVERRIDE_WHERE_INVALID',
+        overrides: [],
+      };
+    }
+
+    if (it.op === 'json_delete_key') {
+      const unknownWhere = listUnknownKeys(it.where, ['key']);
+      if (unknownWhere && unknownWhere.length > 0) {
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'UNKNOWN_WHERE_KEY',
+          schemaErr: 'UNKNOWN_WHERE_KEY',
+          overrides: [],
+        };
+      }
+      if (typeof it.where.key !== 'string' || it.where.key.trim().length === 0) {
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'DELETE_KEY_MISSING',
+          schemaErr: 'DELETE_KEY_MISSING',
+          overrides: [],
+        };
+      }
+      if (Object.prototype.hasOwnProperty.call(it, 'value') || Object.prototype.hasOwnProperty.call(it, 'toggle')) {
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'DELETE_OP_EXTRA_FIELDS',
+          schemaErr: 'DELETE_OP_EXTRA_FIELDS',
+          overrides: [],
+        };
+      }
+    }
+
+    if (it.op === 'json_set_value') {
+      const unknownWhere = listUnknownKeys(it.where, ['jsonPath']);
+      if (unknownWhere && unknownWhere.length > 0) {
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'UNKNOWN_WHERE_KEY',
+          schemaErr: 'UNKNOWN_WHERE_KEY',
+          overrides: [],
+        };
+      }
+      if (typeof it.where.jsonPath !== 'string' || it.where.jsonPath.trim().length === 0) {
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'JSONPATH_MISSING',
+          schemaErr: 'JSONPATH_MISSING',
+          overrides: [],
+        };
+      }
+
+      const valueProvided = Object.prototype.hasOwnProperty.call(it, 'value');
+      const toggleProvided = Object.prototype.hasOwnProperty.call(it, 'toggle');
+      if ((valueProvided && toggleProvided) || (!valueProvided && !toggleProvided)) {
+        return {
+          parseOk: 1,
+          schemaOk: 0,
+          err: 'SET_VALUE_AMBIGUOUS',
+          schemaErr: 'SET_VALUE_AMBIGUOUS',
+          overrides: [],
+        };
+      }
+      if (toggleProvided) {
+        if (!Array.isArray(it.toggle) || it.toggle.length !== 2) {
+          return {
+            parseOk: 1,
+            schemaOk: 0,
+            err: 'TOGGLE_INVALID',
+            schemaErr: 'TOGGLE_INVALID',
+            overrides: [],
+          };
+        }
+        const [a, b] = it.toggle;
+        if (typeof a !== 'string' || typeof b !== 'string') {
+          return {
+            parseOk: 1,
+            schemaOk: 0,
+            err: 'TOGGLE_INVALID',
+            schemaErr: 'TOGGLE_INVALID',
+            overrides: [],
+          };
+        }
+        if (a === b) {
+          return {
+            parseOk: 1,
+            schemaOk: 0,
+            err: 'TOGGLE_INVALID',
+            schemaErr: 'TOGGLE_INVALID',
+            overrides: [],
+          };
+        }
+      }
+    }
+
+    overrides.push({
+      path,
+      op: it.op,
+      where: it.where,
+      valueProvided: Object.prototype.hasOwnProperty.call(it, 'value'),
+      value: it.value,
+      toggleProvided: Object.prototype.hasOwnProperty.call(it, 'toggle'),
+      toggle: it.toggle,
+    });
+  }
+
+  return {
+    parseOk: 1,
+    schemaOk: 1,
+    err: '',
+    schemaErr: '',
+    overrides,
+  };
+}
+
+function applySynthOverrideOperation({ filePath, jsonValue, override }) {
+  if (!jsonValue || typeof jsonValue !== 'object' || Array.isArray(jsonValue)) {
+    return { ok: 0, err: 'NOT_JSON_OBJECT' };
+  }
+
+  if (override.op === 'json_delete_key') {
+    const key = override.where && typeof override.where.key === 'string' ? override.where.key : null;
+    if (!key) return { ok: 0, err: 'WHERE_INVALID' };
+    if (!(key in jsonValue)) return { ok: 1, applied: 1 };
+    // eslint-disable-next-line no-param-reassign
+    delete jsonValue[key];
+    return { ok: 1, applied: 1 };
+  }
+
+  if (override.op === 'json_set_value') {
+    const jsonPath = override.where && typeof override.where.jsonPath === 'string' ? override.where.jsonPath : null;
+    if (!jsonPath) return { ok: 0, err: 'WHERE_INVALID' };
+
+    const m = jsonPath.match(/^\$\.items\[\?\(@\.invariantId==(?:'([^']+)'|"([^"]+)")\)\]\.severity$/);
+    if (!m) return { ok: 0, err: 'WHERE_INVALID' };
+    const invariantId = m[1] || m[2];
+    if (typeof invariantId !== 'string' || invariantId.length === 0) return { ok: 0, err: 'WHERE_INVALID' };
+
+    if (!Array.isArray(jsonValue.items)) return { ok: 0, err: 'NOT_JSON_OBJECT' };
+
+    const matches = [];
+    for (let i = 0; i < jsonValue.items.length; i += 1) {
+      const it = jsonValue.items[i];
+      if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+      if (it.invariantId !== invariantId) continue;
+      matches.push(i);
+    }
+
+    if (matches.length !== 1) return { ok: 0, err: 'MATCH_COUNT_INVALID', matchErr: 'MATCH_COUNT_INVALID' };
+
+    const it = jsonValue.items[matches[0]];
+    if (!it || typeof it !== 'object' || Array.isArray(it)) return { ok: 0, err: 'MATCH_COUNT_INVALID', matchErr: 'MATCH_COUNT_INVALID' };
+
+    if (override.toggleProvided) {
+      const [a, b] = override.toggle;
+      const cur = typeof it.severity === 'string' ? it.severity : '';
+      if (cur !== a && cur !== b) return { ok: 0, err: 'TOGGLE_NOT_APPLICABLE', matchErr: 'TOGGLE_NOT_APPLICABLE' };
+      // eslint-disable-next-line no-param-reassign
+      it.severity = cur === a ? b : a;
+      return { ok: 1, applied: 1 };
+    }
+
+    if (override.valueProvided) {
+      // eslint-disable-next-line no-param-reassign
+      it.severity = override.value;
+      return { ok: 1, applied: 1 };
+    }
+
+    return { ok: 0, err: 'APPLY_FAILED' };
+  }
+
+  return { ok: 0, err: 'UNSUPPORTED_OP', opErr: 'UNSUPPORTED_OP' };
+}
+
+function initSynthOverrideState() {
+  const enabled = process.env.OPS_SYNTH_OVERRIDE_ENABLED === '1';
+  const raw = process.env.OPS_SYNTH_OVERRIDE_JSON;
+  const hasJson = typeof raw === 'string' && raw.trim().length > 0;
+
+  if (!enabled) {
+    console.log('OPS_SYNTH_OVERRIDE_ENABLED=0');
+    if (hasJson) console.log('OPS_SYNTH_OVERRIDE_IGNORED=1');
+    return { enabled: false };
+  }
+
+  let parseOk = 1;
+  let schemaOk = 1;
+  let scopeOk = 1;
+  let applyOk = 1;
+  let err = '';
+  let pathErr = '';
+  let opErr = '';
+  let matchErr = '';
+
+  const parsed = parseOpsSynthOverrideJson(raw);
+  parseOk = parsed.parseOk;
+  schemaOk = parsed.schemaOk;
+  err = parsed.err || '';
+
+  const overrides = Array.isArray(parsed.overrides) ? parsed.overrides : [];
+  if (parseOk !== 1 || schemaOk !== 1) {
+    scopeOk = 0;
+    applyOk = 0;
+  } else {
+    for (const ov of overrides) {
+      const p = normalizeRepoRelativePosixPath(ov.path);
+      if (!p) {
+        scopeOk = 0;
+        pathErr = 'PATH_INVALID';
+        err = err || 'PATH_INVALID';
+        break;
+      }
+      if (!(p === 'scripts/doctor.mjs' || p.startsWith('docs/OPS/'))) {
+        scopeOk = 0;
+        pathErr = 'PATH_OUT_OF_SCOPE';
+        err = err || 'PATH_OUT_OF_SCOPE';
+        break;
+      }
+    }
+  }
+
+  const jsonByPath = new Map();
+  if (parseOk === 1 && schemaOk === 1 && scopeOk === 1) {
+    const overridesByPath = new Map();
+    for (const ov of overrides) {
+      if (!overridesByPath.has(ov.path)) overridesByPath.set(ov.path, []);
+      overridesByPath.get(ov.path).push(ov);
+    }
+
+    for (const filePath of [...overridesByPath.keys()].sort()) {
+      const list = overridesByPath.get(filePath) || [];
+      let text;
+      try {
+        text = fs.readFileSync(filePath, 'utf8');
+      } catch {
+        applyOk = 0;
+        err = 'PATH_READ_FAILED';
+        pathErr = pathErr || 'PATH_READ_FAILED';
+        break;
+      }
+
+      let jsonValue;
+      try {
+        jsonValue = JSON.parse(text);
+      } catch {
+        applyOk = 0;
+        err = 'NOT_JSON_OBJECT';
+        break;
+      }
+
+      if (!jsonValue || typeof jsonValue !== 'object' || Array.isArray(jsonValue)) {
+        applyOk = 0;
+        err = 'NOT_JSON_OBJECT';
+        break;
+      }
+
+      for (const override of list) {
+        const r = applySynthOverrideOperation({ filePath, jsonValue, override });
+        if (r.ok !== 1) {
+          applyOk = 0;
+          err = r.err || 'APPLY_FAILED';
+          if (r.opErr) opErr = r.opErr;
+          if (r.matchErr) matchErr = r.matchErr;
+          break;
+        }
+      }
+      if (applyOk !== 1) break;
+      jsonByPath.set(filePath, jsonValue);
+    }
+  } else if (parseOk !== 1 || schemaOk !== 1 || scopeOk !== 1) {
+    applyOk = 0;
+  }
+
+  console.log('OPS_SYNTH_OVERRIDE_ENABLED=1');
+  console.log(`OPS_SYNTH_OVERRIDE_PARSE_OK=${parseOk}`);
+  console.log(`OPS_SYNTH_OVERRIDE_SCHEMA_OK=${schemaOk}`);
+  console.log(`OPS_SYNTH_OVERRIDE_SCOPE_OK=${scopeOk}`);
+  console.log(`OPS_SYNTH_OVERRIDE_APPLY_OK=${applyOk}`);
+  console.log(`OPS_SYNTH_OVERRIDE_ERR=${err}`);
+  console.log(`OPS_SYNTH_OVERRIDE_PATH_ERR=${pathErr}`);
+  console.log(`OPS_SYNTH_OVERRIDE_OP_ERR=${opErr}`);
+  console.log(`OPS_SYNTH_OVERRIDE_MATCH_ERR=${matchErr}`);
+
+  if (parseOk !== 1 || schemaOk !== 1 || scopeOk !== 1 || applyOk !== 1) {
+    return { enabled: true, parseOk, schemaOk, scopeOk, applyOk };
+  }
+
+  const state = { enabled: true, jsonByPath };
+  OPS_SYNTH_OVERRIDE_STATE = state;
+  return { enabled: true, parseOk, schemaOk, scopeOk, applyOk };
+}
 
 function parseVersionToken(token, errorFile, errorReason) {
   if (typeof token !== 'string') {
@@ -108,6 +551,9 @@ function readText(filePath) {
 }
 
 function readJson(filePath) {
+  if (OPS_SYNTH_OVERRIDE_STATE && OPS_SYNTH_OVERRIDE_STATE.enabled && OPS_SYNTH_OVERRIDE_STATE.jsonByPath.has(filePath)) {
+    return OPS_SYNTH_OVERRIDE_STATE.jsonByPath.get(filePath);
+  }
   const text = readText(filePath);
   try {
     return JSON.parse(text);
@@ -1980,6 +2426,248 @@ function checkContourCSrcContractsSkeletonDiagnostics(targetParsed) {
   return { ok };
 }
 
+function checkSsotBoundaryGuard(effectiveMode) {
+  const cmd = process.execPath;
+  const args = ['scripts/guards/ops-mvp-boundary.mjs'];
+  const r = spawnSync(cmd, args, { encoding: 'utf8' });
+
+  const stdout = typeof r.stdout === 'string' ? r.stdout : '';
+  const exitCode = typeof r.status === 'number' ? r.status : 2;
+
+  let declaredCount = 0;
+  let missingCount = 0;
+
+  for (const line of stdout.split(/\r?\n/)) {
+    const m1 = line.match(/^SSOT_DECLARED_COUNT=(\d+)\s*$/);
+    if (m1) declaredCount = Number(m1[1]);
+    const m2 = line.match(/^SSOT_MISSING_COUNT=(\d+)\s*$/);
+    if (m2) missingCount = Number(m2[1]);
+  }
+
+  const enforced = exitCode === 0 ? 1 : 0;
+
+  console.log('SSOT_BOUNDARY_GUARD_RAN=1');
+  console.log(`SSOT_DECLARED_COUNT=${Number.isFinite(declaredCount) ? declaredCount : 0}`);
+  console.log(`SSOT_MISSING_COUNT=${Number.isFinite(missingCount) ? missingCount : 0}`);
+  console.log(`SSOT_BOUNDARY_ENFORCED=${enforced}`);
+
+  if (exitCode !== 0) {
+    console.log(`SSOT_BOUNDARY_GUARD_EXIT=${exitCode}`);
+  }
+
+  if (exitCode !== 0 && effectiveMode === 'STRICT') {
+    return { level: 'fail', exitCode };
+  }
+  if (exitCode !== 0) {
+    return { level: 'warn', exitCode };
+  }
+  return { level: 'ok', exitCode };
+}
+
+function tryReadJsonWithSynthOverride(filePath) {
+  if (OPS_SYNTH_OVERRIDE_STATE && OPS_SYNTH_OVERRIDE_STATE.enabled && OPS_SYNTH_OVERRIDE_STATE.jsonByPath.has(filePath)) {
+    return OPS_SYNTH_OVERRIDE_STATE.jsonByPath.get(filePath);
+  }
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry) {
+  const violations = [];
+  const debtLinkageDefined = 1;
+
+  for (const idx of inventoryIndexItems) {
+    if (!idx || typeof idx !== 'object' || Array.isArray(idx)) continue;
+    if (idx.requiresDeclaredEmpty !== true) continue;
+
+    const inventoryId = typeof idx.inventoryId === 'string' && idx.inventoryId.length > 0 ? idx.inventoryId : 'unknown';
+    const inventoryPath = typeof idx.path === 'string' && idx.path.length > 0 ? idx.path : 'unknown';
+
+    if (!fs.existsSync(inventoryPath)) continue;
+
+    const inv = tryReadJsonWithSynthOverride(inventoryPath);
+    if (!inv) continue;
+    if (!inv || typeof inv !== 'object' || Array.isArray(inv)) continue;
+    if (!Array.isArray(inv.items)) continue;
+
+    const itemsLen = inv.items.length;
+    if (itemsLen !== 0) continue;
+
+    if (inventoryPath === 'docs/OPS/DEBT_REGISTRY.json') {
+      if (inv.declaredEmpty !== true) {
+        violations.push({
+          kind: 'declaredEmpty_missing_or_not_true',
+          invariantId: '',
+          path: inventoryPath,
+          detail: `inventoryId=${inventoryId}`,
+        });
+      }
+      continue;
+    }
+
+    if (inv.declaredEmpty !== true) {
+      violations.push({
+        kind: 'declaredEmpty_missing_or_not_true',
+        invariantId: '',
+        path: inventoryPath,
+        detail: `inventoryId=${inventoryId}`,
+      });
+      continue;
+    }
+
+    const hasDebt = hasMatchingActiveDebt(debtRegistry, inventoryPath);
+    if (!hasDebt) {
+      violations.push({
+        kind: 'missing_debt_linkage',
+        invariantId: '',
+        path: inventoryPath,
+        detail: `inventoryId=${inventoryId}`,
+      });
+    }
+  }
+
+  const deduped = [];
+  const seen = new Set();
+  for (const v of violations) {
+    const kind = v && typeof v.kind === 'string' ? v.kind : '';
+    const invariantId = v && typeof v.invariantId === 'string' ? v.invariantId : '';
+    const path = v && typeof v.path === 'string' ? v.path : '';
+    const detail = v && typeof v.detail === 'string' ? v.detail : '';
+    const key = `${kind}\t${invariantId}\t${path}\t${detail}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push({
+      kind,
+      invariantId,
+      path,
+      detail,
+    });
+  }
+
+  deduped.sort((a, b) => {
+    const aId = typeof a.invariantId === 'string' ? a.invariantId : null;
+    const bId = typeof b.invariantId === 'string' ? b.invariantId : null;
+    const aPath = typeof a.path === 'string' ? a.path : null;
+    const bPath = typeof b.path === 'string' ? b.path : null;
+
+    if (aId !== null && bId !== null && aPath !== null && bPath !== null) {
+      if (aId !== bId) return aId < bId ? -1 : 1;
+      if (aPath !== bPath) return aPath < bPath ? -1 : 1;
+      if (a.kind !== b.kind) return a.kind < b.kind ? -1 : 1;
+      if (a.detail !== b.detail) return a.detail < b.detail ? -1 : 1;
+      return 0;
+    }
+
+    const aStr = JSON.stringify(a);
+    const bStr = JSON.stringify(b);
+    if (aStr === bStr) return 0;
+    return aStr < bStr ? -1 : 1;
+  });
+
+  return { violations: deduped, debtLinkageDefined };
+}
+
+function computeStrictLieClass02Violations(registryItems) {
+  const regById = new Map();
+  for (const it of registryItems) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+    const id = it.invariantId;
+    if (typeof id !== 'string' || id.length === 0) continue;
+    regById.set(id, it);
+  }
+
+  const enfPath = 'docs/OPS/CONTOUR-C-ENFORCEMENT.json';
+  const enf = tryReadJsonWithSynthOverride(enfPath);
+
+  const enfById = new Map();
+  if (enf && typeof enf === 'object' && !Array.isArray(enf) && Array.isArray(enf.items)) {
+    for (const it of enf.items) {
+      if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+      const id = it.invariantId;
+      if (typeof id !== 'string' || id.length === 0) continue;
+      enfById.set(id, it);
+    }
+  }
+
+  const violations = [];
+  for (const [id, r] of regById.entries()) {
+    if (!enfById.has(id)) continue;
+    const e = enfById.get(id);
+    const regSeverity = typeof r.severity === 'string' && r.severity.length > 0 ? r.severity : '(missing)';
+    const enfSeverity = e && typeof e.severity === 'string' && e.severity.length > 0 ? e.severity : '(missing)';
+    if (regSeverity !== enfSeverity) {
+      violations.push({
+        kind: 'severity_mismatch',
+        invariantId: id,
+        path: enfPath,
+        detail: `severity:${regSeverity}!=${enfSeverity}`,
+      });
+    }
+  }
+
+  const deduped = [];
+  const seen = new Set();
+  for (const v of violations) {
+    const kind = v && typeof v.kind === 'string' ? v.kind : '';
+    const invariantId = v && typeof v.invariantId === 'string' ? v.invariantId : '';
+    const path = v && typeof v.path === 'string' ? v.path : '';
+    const detail = v && typeof v.detail === 'string' ? v.detail : '';
+    const key = `${kind}\t${invariantId}\t${path}\t${detail}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push({
+      kind,
+      invariantId,
+      path,
+      detail,
+    });
+  }
+
+  deduped.sort((a, b) => {
+    const aId = typeof a.invariantId === 'string' ? a.invariantId : null;
+    const bId = typeof b.invariantId === 'string' ? b.invariantId : null;
+    const aPath = typeof a.path === 'string' ? a.path : null;
+    const bPath = typeof b.path === 'string' ? b.path : null;
+
+    if (aId !== null && bId !== null && aPath !== null && bPath !== null) {
+      if (aId !== bId) return aId < bId ? -1 : 1;
+      if (aPath !== bPath) return aPath < bPath ? -1 : 1;
+      if (a.kind !== b.kind) return a.kind < b.kind ? -1 : 1;
+      if (a.detail !== b.detail) return a.detail < b.detail ? -1 : 1;
+      return 0;
+    }
+
+    const aStr = JSON.stringify(a);
+    const bStr = JSON.stringify(b);
+    if (aStr === bStr) return 0;
+    return aStr < bStr ? -1 : 1;
+  });
+
+  return { violations: deduped };
+}
+
+function checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry, registryItems) {
+  const c1 = computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry);
+  const c2 = computeStrictLieClass02Violations(registryItems);
+
+  console.log(`STRICT_LIE_CLASS_01_DEBT_LINKAGE_DEFINED=${c1.debtLinkageDefined}`);
+  console.log(`STRICT_LIE_CLASS_01_VIOLATIONS=${JSON.stringify(c1.violations)}`);
+  console.log(`STRICT_LIE_CLASS_01_VIOLATIONS_COUNT=${c1.violations.length}`);
+  console.log(`STRICT_LIE_CLASS_02_VIOLATIONS=${JSON.stringify(c2.violations)}`);
+  console.log(`STRICT_LIE_CLASS_02_VIOLATIONS_COUNT=${c2.violations.length}`);
+
+  const ok = c1.violations.length === 0 && c2.violations.length === 0 ? 1 : 0;
+  console.log(`STRICT_LIE_CLASSES_OK=${ok}`);
+
+  const hasAny = ok === 0;
+  if (effectiveMode === 'STRICT' && hasAny) return { level: 'fail', ok, class01Count: c1.violations.length, class02Count: c2.violations.length };
+  if (hasAny) return { level: 'warn', ok, class01Count: c1.violations.length, class02Count: c2.violations.length };
+  return { level: 'ok', ok, class01Count: c1.violations.length, class02Count: c2.violations.length };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -2002,6 +2690,14 @@ function run() {
   console.log(`TARGET_BASELINE_VERSION=${targetParsed.token}`);
   console.log('POST_COMMIT_PROOF_CMD=git show --name-only --pretty=format: HEAD');
   console.log('POST_COMMIT_PROOF_EXPECTED_PATH=scripts/doctor.mjs');
+
+  const synthState = initSynthOverrideState();
+  if (synthState && synthState.enabled && synthState.parseOk === 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', 'OPS_SYNTH_OVERRIDE_JSON', 'ops_synth_override_parse_failed');
+  }
+  if (synthState && synthState.enabled && synthState.applyOk === 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', 'OPS_SYNTH_OVERRIDE_JSON', 'ops_synth_override_apply_failed');
+  }
 
   if (invalidEnvToken !== null) {
     console.error(`CHECKS_BASELINE_VERSION=${invalidEnvToken}`);
@@ -2032,9 +2728,11 @@ function run() {
   const debtRegistry = parseDebtRegistry(debtPath);
 
   const effectiveMode = process.env.EFFECTIVE_MODE === 'STRICT' ? 'STRICT' : 'TRANSITIONAL';
+  const ssotBoundary = checkSsotBoundaryGuard(effectiveMode);
 
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
+  const strictLie = checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry, registryItems);
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -2117,7 +2815,9 @@ function run() {
     || effectsIdemp.level === 'fail'
     || ondiskPolicy.level === 'fail'
     || debtTtl.level === 'fail'
-    || contourCEnforcement.forceFail === true;
+    || contourCEnforcement.forceFail === true
+    || ssotBoundary.level === 'fail'
+    || strictLie.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'
@@ -2134,19 +2834,40 @@ function run() {
     || contourCCompleteness.missingCount > 0
     || contourCCompleteness.extraCount > 0
     || docsContracts.ok === 0
-    || (frozenContracts && frozenContracts.ok === 0);
+    || (frozenContracts && frozenContracts.ok === 0)
+    || ssotBoundary.level === 'warn'
+    || strictLie.level === 'warn';
 
-  if (hasFail) {
-    console.log('DOCTOR_FAIL');
-    process.exit(1);
-  }
-  if (hasWarn) {
-    console.log('DOCTOR_WARN');
-    process.exit(0);
-  }
+  const final = hasFail
+    ? { status: 'DOCTOR_FAIL', exitCode: 1 }
+    : hasWarn
+      ? { status: 'DOCTOR_WARN', exitCode: 0 }
+      : { status: 'DOCTOR_OK', exitCode: 0 };
 
-  console.log('DOCTOR_OK');
-  process.exit(0);
+  const boundaryExitCode = ssotBoundary && typeof ssotBoundary.exitCode === 'number' ? ssotBoundary.exitCode : 2;
+  const strictLieOk = strictLie && typeof strictLie.ok === 'number' ? strictLie.ok : 0;
+  const strictLieClass01Count = strictLie && typeof strictLie.class01Count === 'number' ? strictLie.class01Count : 0;
+  const strictLieClass02Count = strictLie && typeof strictLie.class02Count === 'number' ? strictLie.class02Count : 0;
+
+  const currentWaveOk = boundaryExitCode === 0
+    && strictLieOk === 1
+    && final.exitCode === 0
+    && strictLieClass01Count === 0
+    && strictLieClass02Count === 0 ? 1 : 0;
+
+  let currentWaveFailReason = '';
+  if (boundaryExitCode !== 0) currentWaveFailReason = 'BOUNDARY_GUARD_FAILED';
+  else if (strictLieOk !== 1) currentWaveFailReason = 'STRICT_LIE_CLASSES_NOT_OK';
+  else if (final.exitCode !== 0) currentWaveFailReason = 'DOCTOR_FAIL';
+
+  console.log('CURRENT_WAVE_GUARD_RAN=1');
+  console.log(`CURRENT_WAVE_STOP_CONDITION_OK=${currentWaveOk}`);
+  console.log(`CURRENT_WAVE_STOP_CONDITION_FAIL_REASON=${currentWaveFailReason}`);
+  console.log(`CURRENT_WAVE_STRICT_DOCTOR_EXIT=${final.exitCode}`);
+  console.log(`CURRENT_WAVE_BOUNDARY_GUARD_EXIT=${boundaryExitCode}`);
+
+  console.log(final.status);
+  process.exit(final.exitCode);
 }
 
 try {

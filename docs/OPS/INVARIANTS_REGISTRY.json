@@ -35,7 +35,7 @@
     {
       "invariantId": "C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS",
       "contour": "C",
-      "severity": "P1",
+      "severity": "P0",
       "enforcementMode": "soft",
       "maturity": "placeholder",
       "checkId": null,

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-const POLICY_PATH = 'OPS-CHECKS-MVP-BOUNDARY-01.md';
+const POLICY_PATH = 'docs/OPS/OPS-CHECKS-MVP-BOUNDARY.md';
 const SSOT_SECTION_HEADER = '### 1.2 SSOT_ARTIFACTS (EXACT)';
 
 const DEBT_REGISTRY_PATH = 'docs/OPS/DEBT_REGISTRY.json';
@@ -33,21 +33,14 @@ function parseSsotListFromPolicyText(text) {
   return { ok: true, paths: uniqSorted(paths) };
 }
 
-function printBaseTokens({ declared, missing, debtPresent, debtFallbackRequired }) {
+function printTokens({ declared, missing, debtPresent, debtFallbackRequired }) {
   console.log(`SSOT_DECLARED_COUNT=${declared.length}`);
   console.log(`SSOT_DECLARED=${JSON.stringify(declared)}`);
   console.log(`SSOT_MISSING_COUNT=${missing.length}`);
   console.log(`SSOT_MISSING=${JSON.stringify(missing)}`);
   console.log(`DEBT_REGISTRY_PRESENT=${debtPresent ? 1 : 0}`);
-  console.log(`DEBT_REGISTRY_PATH=${DEBT_REGISTRY_PATH}`);
   console.log(`DEBT_REGISTRY_FALLBACK_REQUIRED=${debtFallbackRequired ? 1 : 0}`);
   console.log('SSOT_BOUNDARY_ENFORCED=1');
-}
-
-function stopWith({ code, stopToken, declared, missing, debtPresent, debtFallbackRequired }) {
-  printBaseTokens({ declared, missing, debtPresent, debtFallbackRequired });
-  console.log(`STOP: ${stopToken}=1`);
-  process.exit(code);
 }
 
 function main() {
@@ -55,7 +48,9 @@ function main() {
   try {
     policyText = fs.readFileSync(POLICY_PATH, 'utf8');
   } catch {
-    policyText = '';
+    process.stderr.write('SSOT_BOUNDARY_DOC_PARSE_FAIL=1\n');
+    printTokens({ declared: [], missing: [], debtPresent: fs.existsSync(DEBT_REGISTRY_PATH), debtFallbackRequired: !fs.existsSync(DEBT_REGISTRY_PATH) });
+    process.exit(2);
   }
 
   const debtPresent = fs.existsSync(DEBT_REGISTRY_PATH);
@@ -65,25 +60,15 @@ function main() {
   const declared = parsed.paths;
 
   if (!parsed.ok) {
-    stopWith({
-      code: 2,
-      stopToken: 'SSOT_SECTION_NOT_FOUND',
-      declared: [],
-      missing: [],
-      debtPresent,
-      debtFallbackRequired,
-    });
+    process.stderr.write('SSOT_BOUNDARY_DOC_PARSE_FAIL=1\n');
+    printTokens({ declared: [], missing: [], debtPresent, debtFallbackRequired });
+    process.exit(2);
   }
 
   if (debtPresent && !declared.includes(DEBT_REGISTRY_PATH)) {
-    stopWith({
-      code: 4,
-      stopToken: 'DEBT_REGISTRY_EXISTS_BUT_NOT_DECLARED',
-      declared,
-      missing: [],
-      debtPresent,
-      debtFallbackRequired: false,
-    });
+    process.stderr.write('DEBT_REGISTRY_EXISTS_BUT_NOT_DECLARED=1\n');
+    printTokens({ declared, missing: [], debtPresent, debtFallbackRequired: false });
+    process.exit(2);
   }
 
   const missing = [];
@@ -94,19 +79,12 @@ function main() {
   const missingSorted = uniqSorted(missing);
 
   if (missingSorted.length > 0) {
-    stopWith({
-      code: 3,
-      stopToken: 'SSOT_FILES_MISSING',
-      declared,
-      missing: missingSorted,
-      debtPresent,
-      debtFallbackRequired,
-    });
+    printTokens({ declared, missing: missingSorted, debtPresent, debtFallbackRequired });
+    process.exit(1);
   }
 
-  printBaseTokens({ declared, missing: [], debtPresent, debtFallbackRequired });
+  printTokens({ declared, missing: [], debtPresent, debtFallbackRequired });
   process.exit(0);
 }
 
 main();
-

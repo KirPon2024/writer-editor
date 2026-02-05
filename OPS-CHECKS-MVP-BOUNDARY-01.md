@@ -1,0 +1,10 @@
+# OPS-CHECKS-MVP-BOUNDARY-01
+
+### 1.2 SSOT_ARTIFACTS (EXACT)
+- scripts/doctor.mjs
+- docs/OPS/CONTOUR-C-ENFORCEMENT.json
+- docs/OPS/DEBT_REGISTRY.json
+- docs/OPS/INVARIANTS_REGISTRY.json
+- docs/OPS/INVENTORY_INDEX.json
+- docs/OPS/RUNTIME_SIGNALS.json
+

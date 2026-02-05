@@ -2011,12 +2011,12 @@ function checkSsotBoundaryGuard(effectiveMode) {
   }
 
   if (exitCode !== 0 && effectiveMode === 'STRICT') {
-    return { level: 'fail' };
+    return { level: 'fail', exitCode };
   }
   if (exitCode !== 0) {
-    return { level: 'warn' };
+    return { level: 'warn', exitCode };
   }
-  return { level: 'ok' };
+  return { level: 'ok', exitCode };
 }
 
 function computeStrictLieClass01Violations(inventoryIndexItems, debtRegistry) {
@@ -2120,9 +2120,9 @@ function checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry,
   console.log(`STRICT_LIE_CLASSES_OK=${ok}`);
 
   const hasAny = ok === 0;
-  if (effectiveMode === 'STRICT' && hasAny) return { level: 'fail' };
-  if (hasAny) return { level: 'warn' };
-  return { level: 'ok' };
+  if (effectiveMode === 'STRICT' && hasAny) return { level: 'fail', ok, class01Count: c1.violations.length, class02Count: c2.violations.length };
+  if (hasAny) return { level: 'warn', ok, class01Count: c1.violations.length, class02Count: c2.violations.length };
+  return { level: 'ok', ok, class01Count: c1.violations.length, class02Count: c2.violations.length };
 }
 
 function run() {
@@ -2287,17 +2287,36 @@ function run() {
     || ssotBoundary.level === 'warn'
     || strictLie.level === 'warn';
 
-  if (hasFail) {
-    console.log('DOCTOR_FAIL');
-    process.exit(1);
-  }
-  if (hasWarn) {
-    console.log('DOCTOR_WARN');
-    process.exit(0);
-  }
+  const final = hasFail
+    ? { status: 'DOCTOR_FAIL', exitCode: 1 }
+    : hasWarn
+      ? { status: 'DOCTOR_WARN', exitCode: 0 }
+      : { status: 'DOCTOR_OK', exitCode: 0 };
 
-  console.log('DOCTOR_OK');
-  process.exit(0);
+  const boundaryExitCode = ssotBoundary && typeof ssotBoundary.exitCode === 'number' ? ssotBoundary.exitCode : 2;
+  const strictLieOk = strictLie && typeof strictLie.ok === 'number' ? strictLie.ok : 0;
+  const strictLieClass01Count = strictLie && typeof strictLie.class01Count === 'number' ? strictLie.class01Count : 0;
+  const strictLieClass02Count = strictLie && typeof strictLie.class02Count === 'number' ? strictLie.class02Count : 0;
+
+  const currentWaveOk = boundaryExitCode === 0
+    && strictLieOk === 1
+    && final.exitCode === 0
+    && strictLieClass01Count === 0
+    && strictLieClass02Count === 0 ? 1 : 0;
+
+  let currentWaveFailReason = '';
+  if (boundaryExitCode !== 0) currentWaveFailReason = 'BOUNDARY_GUARD_FAILED';
+  else if (strictLieOk !== 1) currentWaveFailReason = 'STRICT_LIE_CLASSES_NOT_OK';
+  else if (final.exitCode !== 0) currentWaveFailReason = 'DOCTOR_FAIL';
+
+  console.log('CURRENT_WAVE_GUARD_RAN=1');
+  console.log(`CURRENT_WAVE_STOP_CONDITION_OK=${currentWaveOk}`);
+  console.log(`CURRENT_WAVE_STOP_CONDITION_FAIL_REASON=${currentWaveFailReason}`);
+  console.log(`CURRENT_WAVE_STRICT_DOCTOR_EXIT=${final.exitCode}`);
+  console.log(`CURRENT_WAVE_BOUNDARY_GUARD_EXIT=${boundaryExitCode}`);
+
+  console.log(final.status);
+  process.exit(final.exitCode);
 }
 
 try {

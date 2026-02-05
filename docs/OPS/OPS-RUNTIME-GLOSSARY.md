@@ -1,12 +1,12 @@
 # OPS-RUNTIME-GLOSSARY (CONTOUR-C)
 
 ## STATUS
-Mode: TRANSITIONAL
+Draft glossary for CONTOUR-C Phase 1.
 
 ## PURPOSE
-Define canonical runtime and causality terms for CONTOUR-C using unambiguous, repository-oriented definitions.
+Define runtime and causality terms for CONTOUR-C using repository-oriented definitions.
 
-## TERMS (CANONICAL)
+## TERMS
 
 ### command
 Definition: a request sent to Core to compute a domain transition.
@@ -66,4 +66,3 @@ Definition: a stable key used to deduplicate non-idempotent effects across repla
 - Define UI/UX behavior.
 - Define schema evolution or public contract versioning beyond declared Phase-4 runtime contracts.
 - Define storage format evolution beyond declared inventories.
-

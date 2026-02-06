@@ -279,7 +279,7 @@ Template shape:
 - committed: <sha>
 - pushed ref: origin/<branch>
 - PR create URL: <compare_url>
-- PR: (pending)
+- PR: <PASTE_PR_URL>
 
 # FAIL_REASON
 - (empty)

@@ -145,6 +145,8 @@ PERMISSIONS_PROFILE: PROFILE_CODE
 APPROVED_BY: <name/handle>
 APPROVED_AT: <iso8601>
 BASE_SHA: <sha>
+BASE_REF_WITH_TEMPLATE: <ref|none>
+TARGET_SECTION_ANCHOR: <regex|literal>
 PUSH_BRANCH: <branch>
 PR_MODE: URL_ONLY
 
@@ -180,4 +182,120 @@ REPORT_FORMAT: docs/OPS/OPS-REPORT-FORMAT.md
 POLICY: docs/OPS/CODEX-5.3-DOCS-vs-CODE-POLICY-v1.0-FROZEN.md
 NETWORK_REQUIRED: false
 SECRETS_REQUIRED: false
+```
+
+## RAW_OUT semantics (no fake empty)
+
+For commands that may legitimately print nothing or may print variable output (examples: `git fetch`, `git push`, `git remote prune origin`, `git add`), record `OUT` using exactly one of:
+
+- `OUT: (no output)` if the command produced no stdout/stderr
+- `OUT: <PASTE_RAW>` if the command produced output (paste it verbatim)
+
+Do not use `OUT: (empty)` to mean "no output".
+
+`OUT: (empty)` is reserved for commands where an empty output is itself the semantic result, for example:
+
+- `git status --porcelain --untracked-files=all`
+- `git ls-files --others --exclude-standard`
+- `git diff --name-status ...` (when there are no changes)
+
+## STEP_PATCH_APPLIED
+
+If `# CHANGED` lists any paths (not `(none)`), `# CHECK` includes:
+
+- `STEP_PATCH_APPLIED`
+  - OUT: <1-2 short bullets describing what changed>
+  - PASS|FAIL
+
+If `# CHANGED` is `(none)`, this step does not appear.
+
+## ANCHOR_SCOPE for discovery/template checks
+
+When a check depends on the presence of a specific section/template, the report records:
+
+- `BASE_REF_WITH_TEMPLATE: <ref|none>`
+- `TARGET_SECTION_ANCHOR: <regex|literal>`
+
+If the template/section is not present on `main`, the execution uses `BASE_REF_WITH_TEMPLATE` as the base ref, or adds the missing section when allowlist permits.
+
+The report includes a base-ref confirmation check:
+
+- `CHECK_BASE_REF`
+  - CMD: `git rev-parse HEAD`
+  - OUT: <PASTE_SHA>
+  - PASS|FAIL
+
+## Section-bounded checks (no global rg)
+
+Checks like "exactly one heading", "exactly one fenced md block", and "placeholder present" are verified within the target section only (example: within `### PR_MERGE_DUMP_BLOCK`), not by a global `rg` over the entire file.
+
+In `CMD`, prefer a deterministic, section-bounded approach, for example:
+
+- find anchor line numbers with `rg -n`, extract only that section with `sed -n`, then validate within the extracted text as a separate step.
+
+## REPORT TEMPLATE
+
+### PR_MERGE_DUMP_BLOCK
+
+Use this block as a standalone markdown snippet in PR comments/descriptions when the task reaches a merge/re-check/post-merge stage.
+
+# PR_BODY (md)
+```md
+# CHANGED
+- (none)
+
+# CHECK
+- CHECK_01_STATUS_CLEAN_PRE
+  - CMD: `git status --porcelain --untracked-files=all`
+  - OUT: <PASTE>
+  - PASS|FAIL
+- CHECK_02_BASELINE_BINDING_PRE
+  - CMD: `git rev-parse HEAD`
+  - OUT: <PASTE>
+  - PASS|FAIL
+- CHECK_03_WORKTREE_SCOPE
+  - CMD: `git diff --name-status -M -C`
+  - OUT: <PASTE>
+  - PASS|FAIL
+- CHECK_04_STAGED_SCOPE
+  - CMD: `git diff --cached --name-status -M -C`
+  - OUT: <PASTE>
+  - PASS|FAIL
+- CHECK_05_UNTRACKED_SCOPE
+  - CMD: `git ls-files --others --exclude-standard`
+  - OUT: <PASTE>
+  - PASS|FAIL
+- CHECK_09_POST_COMMIT_PROOF
+  - CMD: `git show --name-status -M -C --pretty=format: HEAD`
+  - OUT: <PASTE>
+  - PASS|FAIL
+  - CMD: `git status --porcelain --untracked-files=all`
+  - OUT: <PASTE>
+  - PASS|FAIL
+- CHECK_10_COMMIT_BINDING
+  - CMD: `git rev-parse HEAD`
+  - OUT: <PASTE>
+  - PASS|FAIL
+  - CMD: `git fetch origin`
+  - OUT: <PASTE>
+  - PASS|FAIL
+  - CMD: `git rev-parse origin/<branch>`
+  - OUT: <PASTE>
+  - PASS|FAIL
+
+# OUT
+- mode: <EXECUTION|RE-CHECK|POST-MERGE VERIFY + CLEANUP>
+- committed: <SHA|none>
+- pushed ref: <origin/branch|none>
+- PR create URL: <URL|none>
+- PR: <PASTE_PR_URL|none>
+
+# FAIL_REASON
+- (empty|<TEXT>)
+
+# EVIDENCE
+- (empty|<BULLETS>)
+
+# REQUIRED_INPUT
+- (empty|<BULLETS>)
 ```

@@ -252,6 +252,45 @@ CODE прекращает выполнение и не коммитит/не п�
 
 Если `PR_MODE=CLI` задан, но условия не выполнены, Execution Ticket недействителен.
 
+### 3.6 PR_MERGE_DUMP_BLOCK
+Используется один markdown code-fence как copy-paste блок для PR description.
+
+`PR_CREATE_READY`
+- Этап, когда есть compare URL и PR еще не создан.
+- Строка `- PR: (pending)` допустима.
+
+`PR_MERGE_READY`
+- Этап, когда PR уже создан и можно переходить к merge.
+- Строка `- PR: https://github.com/<owner>/<repo>/pull/<N>` должна быть заполнена.
+- Строка `- PR: (pending)` не допускается.
+
+Stop rule:
+- Если этап `PR_MERGE_READY` и строка `PR:` отсутствует или содержит `(pending)`, вернуть `STOP=REQUIRED_INPUT_MISSING` и запросить `PR_URL`.
+
+Template shape:
+```md
+# CHANGED
+- <path>
+
+# CHECK
+- <check>
+
+# OUT
+- committed: <sha>
+- pushed ref: origin/<branch>
+- PR create URL: <compare_url>
+- PR: <PASTE_PR_URL>
+
+# FAIL_REASON
+- (empty)
+
+# EVIDENCE
+- (empty)
+
+# REQUIRED_INPUT
+- (empty)
+```
+
 ## 4) Профили прав
 
 ### 4.1 PROFILE_DOCS

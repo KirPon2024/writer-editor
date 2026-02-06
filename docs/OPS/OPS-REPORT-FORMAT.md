@@ -162,6 +162,9 @@ CHECKS:
 - WORKTREE_SCOPE: `git diff --name-status -M -C`
 - STAGED_SCOPE: `git diff --cached --name-status -M -C`
 - UNTRACKED_SCOPE: `git ls-files --others --exclude-standard`
+- CHECK_06_SCOPE: `NEW_LINES_ONLY`
+- CHECK_06_ENFORCED: `git diff -U0 --no-color HEAD~1..HEAD -- <ALLOWLISTED_FILES> | rg -n "<FORBIDDEN_TOKEN_REGEX>" || true`
+- CHECK_06_ENFORCED_OUT: `(empty)`
 - DOCTOR_STRICT: `node scripts/doctor.mjs` (run in strict baseline mode from project policy)
 - NPM_TEST: `npm test`
 - COMMIT_BINDING:
@@ -169,6 +172,7 @@ CHECKS:
   - PUSH: `git push -u origin <PUSH_BRANCH>`
   - POST: `git fetch origin`
   - POST: `git rev-parse origin/<PUSH_BRANCH>`
+- CHECK_03/04/09 OUT: explicit list of changed paths
 
 REPORT_FORMAT: docs/OPS/OPS-REPORT-FORMAT.md
 POLICY: docs/OPS/CODEX-5.3-DOCS-vs-CODE-POLICY-v1.0-FROZEN.md

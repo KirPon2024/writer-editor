@@ -164,6 +164,10 @@ CHECKS:
 - WORKTREE_SCOPE: `git diff --name-status -M -C`
 - STAGED_SCOPE: `git diff --cached --name-status -M -C`
 - UNTRACKED_SCOPE: `git ls-files --others --exclude-standard`
+- CHECK_06_TIGHTEN_EVIDENCE
+  - CMD: `rg -n "OUT: \\(empty\\)$|OUT: \\(no output\\)$" docs/OPS/OPS-REPORT-FORMAT.md || true`
+  - OUT: `(empty)`
+  - PASS
 - CHECK_06_SCOPE: `NEW_LINES_ONLY`
 - CHECK_06_ENFORCED: `git diff -U0 --no-color HEAD~1..HEAD -- <ALLOWLISTED_FILES> | rg -n "<FORBIDDEN_TOKEN_REGEX>" || true`
 - CHECK_06_ENFORCED_OUT: `(empty)`

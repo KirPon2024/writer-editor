@@ -54,7 +54,7 @@ M  example/modified-file.txt
 ```
 - POST-COMMIT proof MUST include clean worktree:
   - POST-COMMIT CMD: `git status --porcelain --untracked-files=all`
-  - POST-COMMIT OUT: (empty)
+  - POST-COMMIT OUT: `(empty)`
 
 ## POST-COMMIT BLOB PROOF (MUST)
 
@@ -107,10 +107,10 @@ Example (invalid):
 ```
 - CHECK:
   - CMD: `git status --porcelain --untracked-files=all`
-  - OUT: (empty)
+  - OUT: `(empty)`
   - PASS
   - CMD: `git status --porcelain --untracked-files=all`
-  - OUT: (empty)
+  - OUT: `(empty)`
   - PASS
 ```
 
@@ -119,7 +119,7 @@ Example (valid):
 ```
 - CHECK:
   - CMD: `git status --porcelain --untracked-files=all` (PRE-CHANGE)
-  - OUT: (empty)
+  - OUT: `(empty)`
   - PASS
   - CMD: `git status --porcelain --untracked-files=all` (PRE-COMMIT)
   - OUT: ` M path/to/file`
@@ -132,7 +132,7 @@ Example (valid):
 - OUT MUST reference post-commit proofs by CHECK id and can repeat only the outputs:
   - `POST-COMMIT OUT (name-only): ...`
   - `POST-COMMIT OUT (name-status): ...`
-  - `POST-COMMIT OUT (clean status): (empty)`
+  - `POST-COMMIT OUT (clean status): (empty)` (spell as `OUT: (empty)` only inside inline code)
 
 ## Execution Ticket (copy-paste template)
 
@@ -188,12 +188,12 @@ SECRETS_REQUIRED: false
 
 For commands that may legitimately print nothing or may print variable output (examples: `git fetch`, `git push`, `git remote prune origin`, `git add`), record `OUT` using exactly one of:
 
-- `OUT: (no output)` if the command produced no stdout/stderr
+- OUT: `(empty)` if the command produced no stdout/stderr
 - `OUT: <PASTE_RAW>` if the command produced output (paste it verbatim)
 
-Do not use `OUT: (empty)` to mean "no output".
+Do not invent output. If stdout/stderr were empty, record `OUT: (empty)` and nothing else.
 
-`OUT: (empty)` is reserved for commands where an empty output is itself the semantic result, for example:
+Examples of commands where the observed output is often empty:
 
 - `git status --porcelain --untracked-files=all`
 - `git ls-files --others --exclude-standard`
@@ -264,6 +264,10 @@ Use this block as a standalone markdown snippet in PR comments/descriptions when
 - CHECK_05_UNTRACKED_SCOPE
   - CMD: `git ls-files --others --exclude-standard`
   - OUT: <PASTE>
+  - PASS|FAIL
+- CHECK_06_TIGHTEN_EVIDENCE
+  - CMD: `rg -n "OUT: \\(empty\\)$|OUT: \\(no output\\)$" docs/OPS/OPS-REPORT-FORMAT.md || true`
+  - OUT: `(empty)`
   - PASS|FAIL
 - CHECK_09_POST_COMMIT_PROOF
   - CMD: `git show --name-status -M -C --pretty=format: HEAD`

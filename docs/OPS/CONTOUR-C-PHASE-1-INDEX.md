@@ -29,6 +29,7 @@ VIEW_ONLY: CONTOUR_C_PHASE_1
 
 ## Phase 3
 - `docs/OPS/CONTOUR-C-PHASE-3-PLAN.md`
+- `docs/OPS/CODEX-5.3-DOCS-vs-CODE-POLICY-v1.0-FROZEN.md`
 
 ## Non-goals
 - Не определяет правила или требования к runtime.

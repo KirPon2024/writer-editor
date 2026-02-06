@@ -11,6 +11,7 @@ VIEW_ONLY: CONTOUR_C_PHASE_1
 - docs/OPS/OPS-RUNTIME-TRACE-MINIMUM.md
 - docs/OPS/OPS-RUNTIME-TRACE-SINK.md
 - docs/OPS/CONTOUR-C-PHASE-1-INDEX.md
+- docs/OPS/CODEX-5.3-DOCS-vs-CODE-POLICY-v1.0-FROZEN.md
 
 ## Next step (pointer)
 Дальше идёт Phase 2, где добавляются OPS артефакты и скрипты для механической валидации.

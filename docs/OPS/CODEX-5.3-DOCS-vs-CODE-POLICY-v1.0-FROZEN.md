@@ -421,6 +421,7 @@ CODE не выполняет никаких изменений репозито�
 - `APPROVED_BY`
 - `APPROVED_AT`
 - `BASE_SHA`
+- `BASE_REF` (set when a patch depends on an existing block or exact line; value: SHA or branch)
 - `PUSH_BRANCH`
 - `PR_MODE`
 
@@ -429,6 +430,7 @@ CODE не выполняет никаких изменений репозито�
 - `ALLOWLIST_PATHS` (не пустой)
 - `CHECKS` (не пустой)
 - `REPORT_FORMAT` (не пустой), совместимый с каноном `docs/OPS/OPS-REPORT-FORMAT.md`
+- `CHECK_06_SCOPE` (for docs tickets default to `NEW_LINES_ONLY`; full-file scan is used in sanitation tickets)
 
 Если `PR_MODE=CLI`, обязательно:
 - `BASE_BRANCH`

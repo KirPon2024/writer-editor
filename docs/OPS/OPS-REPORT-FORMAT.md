@@ -13,6 +13,8 @@ This file defines a canonical, repo-backed report format for task execution evid
 - FAIL_REASON:
 - EVIDENCE:
 - REQUIRED_INPUT:
+- OUT_MODE: `EXECUTION | RE-CHECK`
+  - If `OUT_MODE=RE-CHECK`, use `CHANGED: (none)` and state that no new commit was created.
 
 ## CHECK ORDER (MUST)
 

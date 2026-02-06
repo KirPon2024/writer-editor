@@ -1,0 +1,240 @@
+name: ops-vector-close
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  ops_vector_close:
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Init status
+        run: |
+          echo "ANCHOR_STATUS=SKIP" >> "$GITHUB_ENV"
+          echo "DELETE_STATUS=SKIP" >> "$GITHUB_ENV"
+          echo "FAIL_REASON=" >> "$GITHUB_ENV"
+          echo "PR_URL=" >> "$GITHUB_ENV"
+          echo "PR_NUMBER=" >> "$GITHUB_ENV"
+          echo "BASE_REF=" >> "$GITHUB_ENV"
+          echo "HEAD_REF=" >> "$GITHUB_ENV"
+          echo "MERGE_SHA=" >> "$GITHUB_ENV"
+
+      - name: Print PR facts
+        run: |
+          merge_sha="${{ github.event.pull_request.merge_commit_sha }}"
+          if [ -z "$merge_sha" ]; then merge_sha="-"; fi
+          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> "$GITHUB_ENV"
+          echo "PR_URL=${{ github.event.pull_request.html_url }}" >> "$GITHUB_ENV"
+          echo "BASE_REF=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_ENV"
+          echo "HEAD_REF=${{ github.event.pull_request.head.ref }}" >> "$GITHUB_ENV"
+          echo "MERGE_SHA=$merge_sha" >> "$GITHUB_ENV"
+          echo "PR number: #${{ github.event.pull_request.number }}"
+          echo "PR URL: ${{ github.event.pull_request.html_url }}"
+          echo "base ref: ${{ github.event.pull_request.base.ref }}"
+          echo "head ref: ${{ github.event.pull_request.head.ref }}"
+          echo "merge commit SHA: $merge_sha"
+          echo "changed files count (payload): ${{ github.event.pull_request.changed_files }}"
+          echo "changed files list: SKIP (not present in pull_request.closed payload)"
+
+      - name: Detect OPS file change
+        id: detect_ops_file
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100
+            });
+            const opsChanged = files.some((f) => f.filename === "docs/OPS/OPS-REPORT-FORMAT.md");
+            core.setOutput("ops_changed", opsChanged ? "true" : "false");
+            console.log(`ops file changed: ${opsChanged}`);
+
+      - name: Ensure ripgrep
+        if: steps.detect_ops_file.outputs.ops_changed == 'true'
+        run: |
+          if ! command -v rg >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ripgrep
+          fi
+
+      - name: Anchor verify (when OPS file changed)
+        if: steps.detect_ops_file.outputs.ops_changed == 'true'
+        run: |
+          set +e
+          PATTERN='(^## REPORT TEMPLATE$)|(^### PR_MERGE_DUMP_BLOCK$)|(^## RAW_OUT semantics)|CHECK_06_TIGHTEN_EVIDENCE'
+          echo "ANCHOR_GREP: file=docs/OPS/OPS-REPORT-FORMAT.md pattern=${PATTERN}"
+          MATCHES="$(rg -n "$PATTERN" docs/OPS/OPS-REPORT-FORMAT.md)"
+          RC=$?
+          if [ "$RC" -eq 0 ] && [ -n "$MATCHES" ]; then
+            echo "ANCHOR_GREP: PASS"
+            echo "$MATCHES"
+            echo "ANCHOR_STATUS=PASS" >> "$GITHUB_ENV"
+          else
+            echo "ANCHOR_GREP: FAIL (no anchor matches on main)"
+            echo "ANCHOR_STATUS=FAIL" >> "$GITHUB_ENV"
+            echo "FAIL_REASON=ANCHOR_GREP_EMPTY" >> "$GITHUB_ENV"
+          fi
+          exit 0
+
+      - name: Anchor verify skipped (OPS file not changed)
+        if: steps.detect_ops_file.outputs.ops_changed != 'true'
+        run: |
+          echo "ANCHOR_GREP: SKIP (file not changed)"
+          echo "ANCHOR_STATUS=SKIP" >> "$GITHUB_ENV"
+
+      - name: Delete head branch (safe)
+        id: delete_head_branch
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const pr = context.payload.pull_request;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const rawHead = pr.head.ref || "";
+            const head = rawHead.replace(/^refs\/heads\//, "");
+            const headRepo = pr.head?.repo?.full_name || "";
+            const isFork = Boolean(pr.head?.repo?.fork);
+            const currentRepo = `${context.repo.owner}/${context.repo.repo}`;
+            const isCrossRepo = Boolean(headRepo) && headRepo !== currentRepo;
+            const normalizeNote = (value) => String(value || "").replace(/\s+/g, " ").trim();
+
+            let status = "SKIP";
+            let reason = "";
+            let note = "";
+
+            if (isFork || isCrossRepo) {
+              note = "skip delete: fork or cross-repo head";
+              core.setOutput("delete_status", "SKIP");
+              core.setOutput("delete_reason", "");
+              core.setOutput("delete_note", note);
+              console.log(`DELETE_HEAD: SKIP (${note})`);
+              return;
+            } else if (!head) {
+              note = "head ref is empty";
+            } else if (head === "main" || head === "master") {
+              note = `head ref '${head}' is protected by name`;
+            } else {
+              let branchProtected = false;
+              try {
+                const branchInfo = await github.rest.repos.getBranch({
+                  owner,
+                  repo,
+                  branch: head
+                });
+                branchProtected = Boolean(branchInfo.data.protected);
+              } catch (e) {
+                if (e.status === 404) {
+                  note = "head branch already absent (404)";
+                  core.setOutput("delete_status", "SKIP");
+                  core.setOutput("delete_reason", "");
+                  core.setOutput("delete_note", note);
+                  console.log(`DELETE_HEAD: SKIP (${note})`);
+                  return;
+                }
+                status = "FAIL";
+                if (e.status === 401) {
+                  reason = "DELETE_UNAUTHORIZED_401";
+                } else if (e.status === 403) {
+                  reason = "DELETE_FORBIDDEN_403";
+                } else {
+                  reason = `DELETE_FAILED_${e.status || "UNKNOWN"}`;
+                }
+                note = normalizeNote(e.message || e);
+                core.setOutput("delete_status", status);
+                core.setOutput("delete_reason", reason);
+                core.setOutput("delete_note", note);
+                console.log(`DELETE_HEAD: FAIL (${reason}) ${note}`);
+                return;
+              }
+
+              if (branchProtected) {
+                note = `head branch '${head}' is protected`;
+              } else {
+                try {
+                  await github.request("DELETE /repos/{owner}/{repo}/git/refs/heads/{ref}", {
+                    owner,
+                    repo,
+                    ref: head
+                  });
+                  status = "PASS";
+                  note = `deleted head branch '${head}'`;
+                } catch (e) {
+                  if (e.status === 404) {
+                    status = "SKIP";
+                    note = "head branch already absent (404)";
+                  } else if (e.status === 422) {
+                    status = "SKIP";
+                    note = "head branch cannot be deleted (422/protected)";
+                  } else {
+                    status = "FAIL";
+                    if (e.status === 401) {
+                      reason = "DELETE_UNAUTHORIZED_401";
+                    } else if (e.status === 403) {
+                      reason = "DELETE_FORBIDDEN_403";
+                    } else {
+                      reason = `DELETE_FAILED_${e.status || "UNKNOWN"}`;
+                    }
+                    note = normalizeNote(e.message || e);
+                  }
+                }
+              }
+            }
+
+            core.setOutput("delete_status", status);
+            core.setOutput("delete_reason", reason);
+            core.setOutput("delete_note", note);
+            console.log(`DELETE_HEAD: ${status}${note ? ` (${note})` : ""}`);
+
+      - name: Persist delete result
+        run: |
+          delete_status="${{ steps.delete_head_branch.outputs.delete_status }}"
+          if [ -z "$delete_status" ]; then
+            delete_status="SKIP"
+          fi
+          echo "DELETE_STATUS=$delete_status" >> "$GITHUB_ENV"
+          delete_reason="${{ steps.delete_head_branch.outputs.delete_reason }}"
+          if [ -n "$delete_reason" ] && [ -z "${FAIL_REASON:-}" ]; then
+            echo "FAIL_REASON=$delete_reason" >> "$GITHUB_ENV"
+          fi
+          echo "DELETE_NOTE=${{ steps.delete_head_branch.outputs.delete_note }}" >> "$GITHUB_ENV"
+
+      - name: Final OPS summary
+        run: |
+          echo "# OPS_VECTOR_CLOSE_SUMMARY"
+          echo "PR_URL=${PR_URL}"
+          echo "PR_NUMBER=${PR_NUMBER}"
+          echo "BASE_REF=${BASE_REF}"
+          echo "HEAD_REF=${HEAD_REF}"
+          echo "MERGE_SHA=${MERGE_SHA}"
+          echo "ANCHOR_STATUS=${ANCHOR_STATUS}"
+          echo "DELETE_STATUS=${DELETE_STATUS}"
+          if [ -n "${DELETE_NOTE:-}" ]; then
+            echo "DELETE_NOTE=${DELETE_NOTE}"
+          fi
+          if [ "${ANCHOR_STATUS}" = "FAIL" ] || [ "${DELETE_STATUS}" = "FAIL" ]; then
+            if [ -z "${FAIL_REASON}" ]; then
+              echo "FAIL_REASON=UNKNOWN"
+            else
+              echo "FAIL_REASON=${FAIL_REASON}"
+            fi
+            echo "RESULT: FAIL"
+            exit 1
+          fi
+          echo "RESULT: PASS"

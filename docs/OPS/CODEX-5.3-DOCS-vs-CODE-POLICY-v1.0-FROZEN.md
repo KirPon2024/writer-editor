@@ -414,6 +414,7 @@ CMD: `git ls-files --others --exclude-standard`
 EXPECT:
 - если `ALLOW_NEW_FILES=false`: `(empty)`
 - если `ALLOW_NEW_FILES=true`: только Allowlist Paths
+- For CHECK_03/04/09 output, print the explicit list of changed paths.
 
 ### 5.4 Совместимость с CHK-ALLOWLIST-DIFF
 Требование `CHK-ALLOWLIST-DIFF`, основанное на `git diff --name-only`, считается покрытым (и усиленным) гейтами `5.3 WORKTREE_SCOPE/STAGED_SCOPE`, так как:

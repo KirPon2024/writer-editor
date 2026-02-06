@@ -131,3 +131,47 @@ Example (valid):
   - `POST-COMMIT OUT (name-only): ...`
   - `POST-COMMIT OUT (name-status): ...`
   - `POST-COMMIT OUT (clean status): (empty)`
+
+## Execution Ticket (copy-paste template)
+
+```md
+EXECUTION TICKET
+TICKET_ID: <id>
+MODEL: Codex 5.3
+ROLE: CODE
+PERMISSIONS_PROFILE: PROFILE_CODE
+APPROVED_BY: <name/handle>
+APPROVED_AT: <iso8601>
+BASE_SHA: <sha>
+PUSH_BRANCH: <branch>
+PR_MODE: URL_ONLY
+
+ALLOWLIST_PATHS_MODE: EXACT
+ALLOWLIST_PATHS:
+- FILE:<path-1>
+- FILE:<path-2>
+
+ALLOW_NEW_FILES: false
+
+GOAL:
+- <short task goal>
+
+CHECKS:
+- STATUS_CLEAN_PRE: `git status --porcelain --untracked-files=all`
+- BASELINE_BINDING_PRE: `git rev-parse HEAD`
+- WORKTREE_SCOPE: `git diff --name-status -M -C`
+- STAGED_SCOPE: `git diff --cached --name-status -M -C`
+- UNTRACKED_SCOPE: `git ls-files --others --exclude-standard`
+- DOCTOR_STRICT: `node scripts/doctor.mjs` (run in strict baseline mode from project policy)
+- NPM_TEST: `npm test`
+- COMMIT_BINDING:
+  - PRE: `git rev-parse HEAD`
+  - PUSH: `git push -u origin <PUSH_BRANCH>`
+  - POST: `git fetch origin`
+  - POST: `git rev-parse origin/<PUSH_BRANCH>`
+
+REPORT_FORMAT: docs/OPS/OPS-REPORT-FORMAT.md
+POLICY: docs/OPS/CODEX-5.3-DOCS-vs-CODE-POLICY-v1.0-FROZEN.md
+NETWORK_REQUIRED: false
+SECRETS_REQUIRED: false
+```

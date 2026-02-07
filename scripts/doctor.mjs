@@ -2,6 +2,43 @@ import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
+const CONTOUR_C_P0_01_RULE_ID = 'C-P0-01-RULE-001';
+const CONTOUR_C_P0_02_RULE_ID = 'C-P0-02-RULE-001';
+const CONTOUR_C_WARN_TARGET_PATH = 'docs/OPS/CONTOUR_C/WARN_TARGET.v1.json';
+const CONTOUR_C_P0_01_GUARD_SCRIPT = 'scripts/guards/contour-c-p0-01.mjs';
+const CONTOUR_C_P0_01_TEST_PATH = 'test/unit/contour-c-p0-01-rule.test.js';
+const CONTOUR_C_P0_01_POSITIVE_INVARIANTS = 'test/fixtures/contour-c-p0-01/positive/invariants.json';
+const CONTOUR_C_P0_01_POSITIVE_ENFORCEMENT = 'test/fixtures/contour-c-p0-01/positive/enforcement.json';
+const CONTOUR_C_P0_01_NEGATIVE_INVARIANTS = 'test/fixtures/contour-c-p0-01/negative/invariants.json';
+const CONTOUR_C_P0_01_NEGATIVE_ENFORCEMENT = 'test/fixtures/contour-c-p0-01/negative/enforcement.json';
+const CONTOUR_C_P0_02_GUARD_SCRIPT = 'scripts/guards/contour-c-p0-02.mjs';
+const CONTOUR_C_P0_02_TEST_PATH = 'test/unit/contour-c-p0-02-rule.test.js';
+const CONTOUR_C_P0_02_POLICY_PATH = 'docs/OPS/CONTOUR_C/C-P0-02-CONTRACT-POLICY.json';
+const CONTOUR_C_P0_02_POSITIVE_POLICY = 'test/fixtures/contour-c-p0-02/positive/policy.json';
+const CONTOUR_C_P0_02_NEGATIVE_POLICY = 'test/fixtures/contour-c-p0-02/negative/policy.json';
+const CONTOUR_C_P0_03_RULE_ID = 'C-P0-03-RULE-001';
+const CONTOUR_C_P0_03_GUARD_SCRIPT = 'scripts/guards/contour-c-p0-03.mjs';
+const CONTOUR_C_P0_03_TEST_PATH = 'test/unit/contour-c-p0-03-rule.test.js';
+const CONTOUR_C_P0_03_REQUIRED_GATES_PATH = 'docs/OPS/CONTOUR_C/README.md';
+const CONTOUR_C_P0_03_WAIVED_GATES_PATH = 'docs/OPS/CONTOUR_C/WAIVED_GATES.json';
+const CONTOUR_C_P0_03_POSITIVE_REQUIRED_GATES = 'test/fixtures/contour-c-p0-03/positive/existing/required-gates.md';
+const CONTOUR_C_P0_03_POSITIVE_WAIVERS = 'test/fixtures/contour-c-p0-03/positive/existing/waived-gates.json';
+const CONTOUR_C_P0_03_POSITIVE_WAIVED_REQUIRED_GATES = 'test/fixtures/contour-c-p0-03/positive/waived/required-gates.md';
+const CONTOUR_C_P0_03_POSITIVE_WAIVED_WAIVERS = 'test/fixtures/contour-c-p0-03/positive/waived/waived-gates.json';
+const CONTOUR_C_P0_03_NEGATIVE_REQUIRED_GATES = 'test/fixtures/contour-c-p0-03/negative/required-gates.md';
+const CONTOUR_C_P0_03_NEGATIVE_WAIVERS = 'test/fixtures/contour-c-p0-03/negative/waived-gates.json';
+const C4_PRODUCT_STEP_ID = 'SAVE_V1_MIN';
+const C4_PRODUCT_STEP_GUARD_SCRIPT = 'scripts/guards/contour-c-c4-save-v1-proof.mjs';
+const C4_PRODUCT_STEP_TEST_PATH = 'test/unit/contour-c-c4-save-v1-proof.test.js';
+const C4_PRODUCT_STEP_DOD_PATH = 'docs/OPS/CONTOUR_C/C4_PRODUCT_STEP_SAVE_V1_MIN.md';
+const CONTOUR_C_README_PATH = 'docs/OPS/CONTOUR_C/README.md';
+const CONTOUR_C_CLOSE_REPORT_PATH = 'docs/OPS/CONTOUR_C/CONTOUR_C_CLOSE_REPORT.md';
+const CONTOUR_C_LEDGER_PATH = 'docs/OPS/CONTOUR_C/EXIT_LEDGER.json';
+const CONTOUR_C_CLOSED_MUTATION_WHITELIST = new Set([
+  CONTOUR_C_README_PATH,
+  CONTOUR_C_CLOSE_REPORT_PATH,
+  CONTOUR_C_LEDGER_PATH,
+]);
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -560,6 +597,50 @@ function readJson(filePath) {
   } catch {
     die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'json_parse_failed');
   }
+}
+
+function parseKvOutput(text) {
+  const out = new Map();
+  const lines = typeof text === 'string' ? text.split(/\r?\n/) : [];
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    const idx = line.indexOf('=');
+    if (idx <= 0) continue;
+    const key = line.slice(0, idx);
+    const value = line.slice(idx + 1);
+    if (!out.has(key)) out.set(key, value);
+  }
+  return out;
+}
+
+function loadContourCWarnTargetConfig() {
+  const parsed = readJson(CONTOUR_C_WARN_TARGET_PATH);
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_top_level_invalid');
+  }
+  if (parsed.schemaVersion !== 1) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_schema_version_invalid');
+  }
+  const warnTargetSetVersion = typeof parsed.warnTargetSetVersion === 'string' && parsed.warnTargetSetVersion.length > 0 ? parsed.warnTargetSetVersion : 'v1';
+  const baselineSha = typeof parsed.baselineSha === 'string' && parsed.baselineSha.length > 0 && parsed.baselineSha !== '-' ? parsed.baselineSha : '';
+  if (!baselineSha) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_baseline_sha_missing');
+  }
+  const baselineWarnCount = Number.isInteger(parsed.baselineWarnCount) ? parsed.baselineWarnCount : null;
+  if (baselineWarnCount === null || baselineWarnCount < 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_baseline_warn_count_invalid');
+  }
+  const targetWarnIds = Array.isArray(parsed.targetWarnIds) ? parsed.targetWarnIds.filter((x) => typeof x === 'string' && x.length > 0) : [];
+  if (targetWarnIds.length === 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_ids_empty');
+  }
+  return {
+    warnTargetSetVersion,
+    baselineSha,
+    baselineWarnCount,
+    targetWarnIds: [...new Set(targetWarnIds)].sort(),
+  };
 }
 
 function assertObjectShape(filePath, value) {
@@ -1416,6 +1497,20 @@ function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, e
   console.log(`INVARIANT_STATUS_COUNTS_SUM=${sum}`);
   console.log(`INVARIANT_RESULTS_CONTAINS_IGNORED=${containsIgnored ? 1 : 0}`);
   console.log(`INVARIANT_RESULTS_IGNORED_INTERSECTION=${JSON.stringify(intersectionUniq)}`);
+
+  const warnTarget = loadContourCWarnTargetConfig();
+  let currentWarnCount = 0;
+  for (const invariantId of warnTarget.targetWarnIds) {
+    const status = resultsById.get(invariantId);
+    if (typeof status === 'string' && status.startsWith('WARN')) currentWarnCount += 1;
+  }
+  const warnDeltaTarget = currentWarnCount - warnTarget.baselineWarnCount;
+  console.log(`WARN_TARGET_SET_VERSION=${warnTarget.warnTargetSetVersion}`);
+  console.log(`WARN_TARGET_BASELINE_SHA=${warnTarget.baselineSha}`);
+  console.log(`WARN_TARGET_SET=${JSON.stringify(warnTarget.targetWarnIds)}`);
+  console.log(`WARN_TARGET_BASELINE_COUNT=${warnTarget.baselineWarnCount}`);
+  console.log(`WARN_TARGET_CURRENT_COUNT=${currentWarnCount}`);
+  console.log(`WARN_DELTA_TARGET=${warnDeltaTarget}`);
 
   if (containsIgnored) {
     die('ERR_DOCTOR_INVALID_SHAPE', 'scripts/doctor.mjs', 'invariant_results_contains_ignored');
@@ -2308,7 +2403,283 @@ function computeContourCEnforcementCompleteness(gatingApplicableItems, contourCE
   return { missingCount: missing.length, extraCount: extra.length };
 }
 
-function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditCheckIds) {
+function evaluateContourCP001Proof() {
+  const proofFiles = [
+    CONTOUR_C_P0_01_GUARD_SCRIPT,
+    CONTOUR_C_P0_01_TEST_PATH,
+    CONTOUR_C_P0_01_POSITIVE_INVARIANTS,
+    CONTOUR_C_P0_01_POSITIVE_ENFORCEMENT,
+    CONTOUR_C_P0_01_NEGATIVE_INVARIANTS,
+    CONTOUR_C_P0_01_NEGATIVE_ENFORCEMENT,
+  ];
+  const filesPresent = proofFiles.every((filePath) => fs.existsSync(filePath));
+
+  let positivePass = 0;
+  let negativeFail = 0;
+  let negativeRuleIdMatch = 0;
+  let negativeStdout = '';
+
+  if (filesPresent) {
+    const positive = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_01_GUARD_SCRIPT,
+        '--invariants',
+        'docs/OPS/INVARIANTS_REGISTRY.json',
+        '--enforcement',
+        'docs/OPS/CONTOUR-C-ENFORCEMENT.json',
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    positivePass = positive.status === 0 ? 1 : 0;
+
+    const negative = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_01_GUARD_SCRIPT,
+        '--invariants',
+        CONTOUR_C_P0_01_NEGATIVE_INVARIANTS,
+        '--enforcement',
+        CONTOUR_C_P0_01_NEGATIVE_ENFORCEMENT,
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    negativeStdout = typeof negative.stdout === 'string' ? negative.stdout : '';
+    negativeFail = negative.status !== 0 ? 1 : 0;
+    negativeRuleIdMatch = negativeStdout.split(/\r?\n/).includes(`RULE_ID=${CONTOUR_C_P0_01_RULE_ID}`) ? 1 : 0;
+  }
+
+  const proofOk = filesPresent && positivePass === 1 && negativeFail === 1 && negativeRuleIdMatch === 1 ? 1 : 0;
+
+  console.log(`C_P0_01_RULE_ID=${CONTOUR_C_P0_01_RULE_ID}`);
+  console.log(`C_P0_01_RULE_FILES_PRESENT=${filesPresent ? 1 : 0}`);
+  console.log(`C_P0_01_POSITIVE_PASS=${positivePass}`);
+  console.log(`C_P0_01_NEGATIVE_FAIL=${negativeFail}`);
+  console.log(`C_P0_01_NEGATIVE_RULE_ID_MATCH=${negativeRuleIdMatch}`);
+  console.log(`C_P0_01_PROOF_OK=${proofOk}`);
+
+  return proofOk;
+}
+
+function evaluateContourCP002Proof() {
+  const proofFiles = [
+    CONTOUR_C_P0_02_GUARD_SCRIPT,
+    CONTOUR_C_P0_02_TEST_PATH,
+    CONTOUR_C_P0_02_POLICY_PATH,
+    CONTOUR_C_P0_02_POSITIVE_POLICY,
+    CONTOUR_C_P0_02_NEGATIVE_POLICY,
+  ];
+  const ruleExists = proofFiles.every((filePath) => fs.existsSync(filePath));
+
+  let positivePass = 0;
+  let negativeFail = 0;
+  let negativeRuleIdMatch = 0;
+  let negativeStdout = '';
+
+  if (ruleExists) {
+    const positive = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_02_GUARD_SCRIPT,
+        '--policy',
+        CONTOUR_C_P0_02_POLICY_PATH,
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    positivePass = positive.status === 0 ? 1 : 0;
+
+    const negative = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_02_GUARD_SCRIPT,
+        '--policy',
+        CONTOUR_C_P0_02_NEGATIVE_POLICY,
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    negativeStdout = typeof negative.stdout === 'string' ? negative.stdout : '';
+    negativeFail = negative.status !== 0 ? 1 : 0;
+    negativeRuleIdMatch = negativeStdout.split(/\r?\n/).includes(`RULE_ID=${CONTOUR_C_P0_02_RULE_ID}`) ? 1 : 0;
+  }
+
+  const proofOk = ruleExists && positivePass === 1 && negativeFail === 1 && negativeRuleIdMatch === 1 ? 1 : 0;
+
+  console.log(`C_P0_02_RULE_ID=${CONTOUR_C_P0_02_RULE_ID}`);
+  console.log(`C_P0_02_RULE_EXISTS=${ruleExists ? 1 : 0}`);
+  console.log(`C_P0_02_NEGATIVE_FAIL_OK=${negativeFail}`);
+  console.log(`C_P0_02_POSITIVE_PASS_OK=${positivePass}`);
+  console.log(`C_P0_02_PROOF_OK=${proofOk}`);
+
+  return proofOk;
+}
+
+function evaluateContourCP003Proof() {
+  const proofFiles = [
+    CONTOUR_C_P0_03_GUARD_SCRIPT,
+    CONTOUR_C_P0_03_TEST_PATH,
+    CONTOUR_C_P0_03_REQUIRED_GATES_PATH,
+    CONTOUR_C_P0_03_WAIVED_GATES_PATH,
+    CONTOUR_C_P0_03_POSITIVE_REQUIRED_GATES,
+    CONTOUR_C_P0_03_POSITIVE_WAIVERS,
+    CONTOUR_C_P0_03_POSITIVE_WAIVED_REQUIRED_GATES,
+    CONTOUR_C_P0_03_POSITIVE_WAIVED_WAIVERS,
+    CONTOUR_C_P0_03_NEGATIVE_REQUIRED_GATES,
+    CONTOUR_C_P0_03_NEGATIVE_WAIVERS,
+  ];
+  const ruleExists = proofFiles.every((filePath) => fs.existsSync(filePath));
+
+  let positivePass = 0;
+  let positiveWaivedPass = 0;
+  let negativeFail = 0;
+  let negativeRuleIdMatch = 0;
+  let negativeMissingStatusMatch = 0;
+  let negativeStdout = '';
+
+  if (ruleExists) {
+    const positive = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_03_GUARD_SCRIPT,
+        '--required-gates',
+        CONTOUR_C_P0_03_REQUIRED_GATES_PATH,
+        '--waived-gates',
+        CONTOUR_C_P0_03_WAIVED_GATES_PATH,
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    positivePass = positive.status === 0 ? 1 : 0;
+
+    const positiveWaived = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_03_GUARD_SCRIPT,
+        '--required-gates',
+        CONTOUR_C_P0_03_POSITIVE_WAIVED_REQUIRED_GATES,
+        '--waived-gates',
+        CONTOUR_C_P0_03_POSITIVE_WAIVED_WAIVERS,
+        '--now-iso',
+        '2030-01-01T00:00:00.000Z',
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    const positiveWaivedStdout = typeof positiveWaived.stdout === 'string' ? positiveWaived.stdout : '';
+    positiveWaivedPass = positiveWaived.status === 0 && positiveWaivedStdout.split(/\r?\n/).includes('STATUS=WAIVED') ? 1 : 0;
+
+    const negative = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_03_GUARD_SCRIPT,
+        '--required-gates',
+        CONTOUR_C_P0_03_NEGATIVE_REQUIRED_GATES,
+        '--waived-gates',
+        CONTOUR_C_P0_03_NEGATIVE_WAIVERS,
+        '--now-iso',
+        '2030-01-01T00:00:00.000Z',
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    negativeStdout = typeof negative.stdout === 'string' ? negative.stdout : '';
+    negativeFail = negative.status !== 0 ? 1 : 0;
+    const lines = negativeStdout.split(/\r?\n/);
+    negativeRuleIdMatch = lines.includes(`RULE_ID=${CONTOUR_C_P0_03_RULE_ID}`) ? 1 : 0;
+    negativeMissingStatusMatch = lines.includes('STATUS=MISSING') ? 1 : 0;
+  }
+
+  const positivePassOk = positivePass === 1 && positiveWaivedPass === 1 ? 1 : 0;
+  const proofOk = ruleExists && positivePassOk === 1 && negativeFail === 1 && negativeRuleIdMatch === 1 && negativeMissingStatusMatch === 1 ? 1 : 0;
+
+  console.log(`C_P0_03_RULE_ID=${CONTOUR_C_P0_03_RULE_ID}`);
+  console.log(`C_P0_03_RULE_EXISTS=${ruleExists ? 1 : 0}`);
+  console.log(`C_P0_03_NEGATIVE_FAIL_OK=${negativeFail}`);
+  console.log(`C_P0_03_POSITIVE_PASS_OK=${positivePassOk}`);
+  console.log(`C_P0_03_PROOF_OK=${proofOk}`);
+
+  return proofOk;
+}
+
+function evaluateC4ProductStepProof() {
+  const proofFiles = [
+    C4_PRODUCT_STEP_GUARD_SCRIPT,
+    C4_PRODUCT_STEP_TEST_PATH,
+    C4_PRODUCT_STEP_DOD_PATH,
+  ];
+  const filesPresent = proofFiles.every((filePath) => fs.existsSync(filePath));
+
+  let scenarioPass = 0;
+  let stepIdMatch = 0;
+  if (filesPresent) {
+    const scenario = spawnSync(
+      process.execPath,
+      [C4_PRODUCT_STEP_GUARD_SCRIPT],
+      { encoding: 'utf8', shell: false },
+    );
+    const stdout = typeof scenario.stdout === 'string' ? scenario.stdout : '';
+    const lines = stdout.split(/\r?\n/);
+    scenarioPass = scenario.status === 0 && lines.includes('RESULT=PASS') ? 1 : 0;
+    stepIdMatch = lines.includes(`STEP_ID=${C4_PRODUCT_STEP_ID}`) ? 1 : 0;
+  }
+
+  const proofOk = filesPresent && scenarioPass === 1 && stepIdMatch === 1 ? 1 : 0;
+  console.log(`C4_PRODUCT_STEP_ID=${C4_PRODUCT_STEP_ID}`);
+  console.log(`C4_PRODUCT_STEP_PROOF_OK=${proofOk}`);
+  return proofOk;
+}
+
+function resolveContourCStatus() {
+  let status = 'OPEN';
+  if (fs.existsSync(CONTOUR_C_README_PATH)) {
+    const readme = readText(CONTOUR_C_README_PATH);
+    const match = readme.match(/^STATUS:\s*(OPEN|CLOSED)\s*$/m);
+    if (match && match[1]) status = match[1];
+  }
+  console.log(`CONTOUR_C_STATUS=${status}`);
+  return status;
+}
+
+function readContourCCloseP0Count() {
+  if (!fs.existsSync(CONTOUR_C_CLOSE_REPORT_PATH)) return 3;
+  const report = readText(CONTOUR_C_CLOSE_REPORT_PATH);
+  const match = report.match(/^P0_COUNT=(\d+)\s*$/m);
+  if (!match) return 3;
+  const parsed = Number.parseInt(match[1], 10);
+  return Number.isInteger(parsed) && parsed >= 0 ? parsed : 3;
+}
+
+function checkContourCClosedMutations(status) {
+  if (status !== 'CLOSED') {
+    console.log('CONTOUR_C_CLOSED_MUTATION_CHECK=0');
+    console.log('CONTOUR_C_CLOSED_MUTATION=0');
+    console.log('CONTOUR_C_CLOSED_MUTATION_VIOLATIONS=[]');
+    return { fail: 0, reason: '', violations: [] };
+  }
+
+  const diff = spawnSync(
+    'git',
+    ['diff', '--name-only', 'HEAD', '--', 'docs/OPS/CONTOUR_C'],
+    { encoding: 'utf8', shell: false },
+  );
+
+  if (diff.status !== 0) {
+    console.log('CONTOUR_C_CLOSED_MUTATION_CHECK=1');
+    console.log('CONTOUR_C_CLOSED_MUTATION=1');
+    console.log('CONTOUR_C_CLOSED_MUTATION_VIOLATIONS=["GIT_DIFF_FAILED"]');
+    return { fail: 1, reason: 'C_CONTOUR_C_CLOSED_MUTATION', violations: ['GIT_DIFF_FAILED'] };
+  }
+
+  const changed = (typeof diff.stdout === 'string' ? diff.stdout : '')
+    .split(/\r?\n/)
+    .map((line) => line.trim().replaceAll('\\', '/'))
+    .filter((line) => line.length > 0);
+
+  const violations = changed.filter((path) => !CONTOUR_C_CLOSED_MUTATION_WHITELIST.has(path)).sort();
+  const fail = violations.length > 0 ? 1 : 0;
+  console.log('CONTOUR_C_CLOSED_MUTATION_CHECK=1');
+  console.log(`CONTOUR_C_CLOSED_MUTATION=${fail}`);
+  console.log(`CONTOUR_C_CLOSED_MUTATION_VIOLATIONS=${JSON.stringify(violations)}`);
+  return { fail, reason: fail ? 'C_CONTOUR_C_CLOSED_MUTATION' : '', violations };
+}
+
+function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditCheckIds, requiredProofByInvariant) {
   const required = 3;
   const ids = [];
 
@@ -2324,6 +2695,9 @@ function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditChec
 
     const invariantId = it.invariantId;
     if (typeof invariantId !== 'string' || invariantId.length === 0) continue;
+    if (requiredProofByInvariant && Object.prototype.hasOwnProperty.call(requiredProofByInvariant, invariantId)) {
+      if (requiredProofByInvariant[invariantId] !== 1) continue;
+    }
     ids.push(invariantId);
   }
 
@@ -2335,6 +2709,7 @@ function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditChec
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_REQUIRED=${required}`);
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_OK=${ok}`);
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_IDS=${JSON.stringify(uniqSorted)}`);
+  return { count, required, ok, ids: uniqSorted };
 }
 
 function checkContourCDocsContractsPresence() {
@@ -2798,12 +3173,33 @@ function run() {
   const gating = applyIntroducedInGating(registryItems, targetParsed);
   const contourCEnforcement = checkContourCEnforcementInventory(gating.applicableItems, targetParsed);
   const contourCCompleteness = computeContourCEnforcementCompleteness(gating.applicableItems, contourCEnforcement.planIds);
-  computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds);
+  const p001ProofOk = evaluateContourCP001Proof();
+  const p002ProofOk = evaluateContourCP002Proof();
+  const p003ProofOk = evaluateContourCP003Proof();
+  const c4ProductStepProofOk = evaluateC4ProductStepProof();
+  const requiredProofByInvariant = {
+    C_RUNTIME_NO_BYPASS_CORE: p001ProofOk,
+    C_RUNTIME_SINGLE_WRITER_ORDERING_KEY: p002ProofOk,
+    C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS: p003ProofOk,
+  };
+  const contourCExit = computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds, requiredProofByInvariant);
   computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
   const docsContracts = checkContourCDocsContractsPresence();
   const frozenContracts = checkContourCContractsFrozenEntrypoint(targetParsed);
   checkContourCSrcContractsSkeletonDiagnostics(targetParsed);
+  const p001DeclaredImplemented = gating.applicableItems.some((item) => item && item.invariantId === 'C_RUNTIME_NO_BYPASS_CORE' && item.maturity === 'implemented');
+  const p002DeclaredImplemented = gating.applicableItems.some((item) => item && item.invariantId === 'C_RUNTIME_SINGLE_WRITER_ORDERING_KEY' && item.maturity === 'implemented');
+  const p003DeclaredImplemented = gating.applicableItems.some((item) => item && item.invariantId === 'C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS' && item.maturity === 'implemented');
+  const contourCStatus = resolveContourCStatus();
+  const contourCClosedMutations = checkContourCClosedMutations(contourCStatus);
+  const contourCClosedP0CountLock = readContourCCloseP0Count();
+  const contourCClosedP0Mutation = contourCStatus === 'CLOSED' && contourCExit.count > contourCClosedP0CountLock ? 1 : 0;
+  console.log(`CONTOUR_C_CLOSED_P0_COUNT_LOCK=${contourCClosedP0CountLock}`);
+  console.log(`CONTOUR_C_CLOSED_P0_LOCK_OK=${contourCClosedP0Mutation === 0 ? 1 : 0}`);
+  if (contourCClosedMutations.fail === 1 || contourCClosedP0Mutation === 1) {
+    console.log('DOCTOR_FAIL_REASON=C_CONTOUR_C_CLOSED_MUTATION');
+  }
 
   const hasFail = coreBoundary.level === 'fail'
     || coreDet.level === 'fail'
@@ -2817,7 +3213,13 @@ function run() {
     || debtTtl.level === 'fail'
     || contourCEnforcement.forceFail === true
     || ssotBoundary.level === 'fail'
-    || strictLie.level === 'fail';
+    || strictLie.level === 'fail'
+    || (p001DeclaredImplemented && p001ProofOk !== 1)
+    || (p002DeclaredImplemented && p002ProofOk !== 1)
+    || (p003DeclaredImplemented && p003ProofOk !== 1)
+    || c4ProductStepProofOk !== 1
+    || contourCClosedMutations.fail === 1
+    || contourCClosedP0Mutation === 1;
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'
@@ -2858,6 +3260,7 @@ function run() {
   let currentWaveFailReason = '';
   if (boundaryExitCode !== 0) currentWaveFailReason = 'BOUNDARY_GUARD_FAILED';
   else if (strictLieOk !== 1) currentWaveFailReason = 'STRICT_LIE_CLASSES_NOT_OK';
+  else if (contourCClosedMutations.fail === 1 || contourCClosedP0Mutation === 1) currentWaveFailReason = 'C_CONTOUR_C_CLOSED_MUTATION';
   else if (final.exitCode !== 0) currentWaveFailReason = 'DOCTOR_FAIL';
 
   console.log('CURRENT_WAVE_GUARD_RAN=1');

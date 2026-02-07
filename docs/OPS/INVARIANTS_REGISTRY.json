@@ -17,8 +17,8 @@
       "contour": "C",
       "severity": "P0",
       "enforcementMode": "soft",
-      "maturity": "placeholder",
-      "checkId": null,
+      "maturity": "implemented",
+      "checkId": "CHK-LAYER-IMPORT-BOUNDARY",
       "introducedIn": "v1.3",
       "description": "Runtime execution MUST NOT bypass Core transitions; runtime MUST NOT mutate domain state directly."
     },
@@ -27,8 +27,8 @@
       "contour": "C",
       "severity": "P0",
       "enforcementMode": "soft",
-      "maturity": "placeholder",
-      "checkId": null,
+      "maturity": "implemented",
+      "checkId": "CHK-CMD-QUEUE-ORDERINGKEY",
       "introducedIn": "v1.3",
       "description": "Within a single orderingKey, runtime execution MUST be single-writer and strictly sequential."
     },
@@ -37,8 +37,8 @@
       "contour": "C",
       "severity": "P0",
       "enforcementMode": "soft",
-      "maturity": "placeholder",
-      "checkId": null,
+      "maturity": "implemented",
+      "checkId": "CHK-OBSERVABILITY-MINIMUM",
       "introducedIn": "v1.3",
       "description": "Runtime MUST emit structured diagnostics as trace records with deterministic ordering per orderingKey."
     },

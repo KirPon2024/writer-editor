@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "warnTargetSetVersion": "v1",
+  "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+  "baselineWarnCount": 3,
+  "targetWarnIds": [
+    "C_RUNTIME_NO_BYPASS_CORE",
+    "C_RUNTIME_SINGLE_WRITER_ORDERING_KEY",
+    "C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS"
+  ]
+}

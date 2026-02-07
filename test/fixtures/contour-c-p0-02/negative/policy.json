@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "policyId": "C-P0-02-IPC-ADDITIVE-ONLY",
+  "contractScope": "ipc.dto",
+  "envelopeVersion": 1,
+  "additiveOnly": false,
+  "requiredEnvelopeKeys": [
+    "version",
+    "kind",
+    "payload"
+  ],
+  "forbiddenBreakingOps": [
+    "remove_required_field",
+    "rename_required_field",
+    "type_narrowing"
+  ]
+}

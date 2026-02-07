@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "opsCanonVersion": "v1.3",
+  "items": [
+    {
+      "invariantId": "C_RUNTIME_NO_BYPASS_CORE",
+      "introducedIn": "v1.3",
+      "severity": "P0",
+      "maturity": "implemented",
+      "enforcementMode": "soft",
+      "ruleIds": [
+        "C-P0-01-RULE-001"
+      ],
+      "signals": [],
+      "evidencePaths": [],
+      "description": "fixture"
+    }
+  ]
+}

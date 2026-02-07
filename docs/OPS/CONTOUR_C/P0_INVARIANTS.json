@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "frozen": true,
+  "items": [
+    {
+      "id": "C-P0-01",
+      "title": "Runtime enforcement exists beyond documentation",
+      "doctorToken": "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT",
+      "ruleId": "C-P0-01-RULE-001",
+      "notes": "No silent bypass; enforced via runtime code and proof."
+    },
+    {
+      "id": "C-P0-02",
+      "title": "Deterministic enforcement output",
+      "doctorToken": "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT",
+      "ruleId": "C-P0-02-RULE-001",
+      "notes": "Same input must produce same enforcement outcome."
+    },
+    {
+      "id": "C-P0-03",
+      "title": "Required gates/scripts must exist or be formally waived",
+      "doctorToken": "C_P0_03_PROOF_OK",
+      "ruleId": "C-P0-03-RULE-001",
+      "notes": "Missing required gate fails unless waiver has owner/reason/ttl and ttl is active."
+    }
+  ]
+}

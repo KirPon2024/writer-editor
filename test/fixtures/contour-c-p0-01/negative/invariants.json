@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "opsCanonVersion": "v1.3",
+  "items": [
+    {
+      "invariantId": "C_RUNTIME_NO_BYPASS_CORE",
+      "contour": "C",
+      "severity": "P0",
+      "enforcementMode": "soft",
+      "maturity": "placeholder",
+      "checkId": "CHK-LAYER-IMPORT-BOUNDARY",
+      "introducedIn": "v1.3",
+      "description": "fixture"
+    }
+  ]
+}

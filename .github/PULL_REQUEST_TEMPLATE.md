@@ -1,4 +1,21 @@
+> Contour C is CLOSED. Changes require explicit contour transition or ADR.
+
 # CHANGED:
+- 
+
+# SCOPE_JUSTIFICATION:
+- 
+
+# KPI_DELTA:
+- 
+
+# PROOF:
+- 
+
+# ROLLBACK:
+- 
+
+# CHECK_PACK_OUT:
 - 
 
 # CHECK:

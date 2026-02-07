@@ -6,8 +6,11 @@
       "invariantId": "C_RUNTIME_NO_BYPASS_CORE",
       "introducedIn": "v1.3",
       "severity": "P0",
-      "maturity": "placeholder",
+      "maturity": "implemented",
       "enforcementMode": "soft",
+      "ruleIds": [
+        "C-P0-01-RULE-001"
+      ],
       "signals": [],
       "evidencePaths": [],
       "description": "Runtime MUST NOT bypass Core for domain state changes; runtime invokes Core transitions and does not mutate domain state directly."
@@ -16,8 +19,11 @@
       "invariantId": "C_RUNTIME_SINGLE_WRITER_ORDERING_KEY",
       "introducedIn": "v1.3",
       "severity": "P0",
-      "maturity": "placeholder",
+      "maturity": "implemented",
       "enforcementMode": "soft",
+      "ruleIds": [
+        "C-P0-02-RULE-001"
+      ],
       "signals": [],
       "evidencePaths": [],
       "description": "Commands with the same orderingKey MUST be executed sequentially by a single-writer execution stream."
@@ -26,8 +32,11 @@
       "invariantId": "C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS",
       "introducedIn": "v1.3",
       "severity": "P0",
-      "maturity": "placeholder",
+      "maturity": "implemented",
       "enforcementMode": "soft",
+      "ruleIds": [
+        "C-P0-03-RULE-001"
+      ],
       "signals": [
         "C_TRACE_COMMAND_RECORD",
         "C_TRACE_EFFECT_RECORD",

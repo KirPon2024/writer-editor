@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 2,
+  "appendOnly": true,
+  "entries": [
+    {
+      "entryId": "entry-0001",
+      "entryType": "baseline",
+      "timestamp": "2026-02-07T04:53:15.086Z",
+      "action": "bootstrap",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "N/A",
+      "p0Id": "",
+      "ruleId": "",
+      "refEntryId": "",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 0,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 0,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "",
+        "runStatus": "UNKNOWN"
+      },
+      "prevHash": "GENESIS",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "92822104e7605a505b9f2e8db7deadaaa8859a4cb6241e3d76c538f22fa2bd12",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0002",
+      "entryType": "exit",
+      "timestamp": "2026-02-07T04:53:57.097Z",
+      "action": "c-p0-01-exit",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "PENDING",
+      "p0Id": "C-P0-01",
+      "ruleId": "C-P0-01-RULE-001",
+      "refEntryId": "",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 1,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "92822104e7605a505b9f2e8db7deadaaa8859a4cb6241e3d76c538f22fa2bd12",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "71701bc5e67ff56cedd84039ac5b2deaf7e44faafa557f3731d9873d8d019a21",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0003",
+      "entryType": "signoff",
+      "timestamp": "2026-02-07T04:54:02.722Z",
+      "action": "c-p0-01-signoff",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "APPROVED",
+      "p0Id": "",
+      "ruleId": "",
+      "refEntryId": "entry-0002",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 1,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "71701bc5e67ff56cedd84039ac5b2deaf7e44faafa557f3731d9873d8d019a21",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "a1794aef2a2904a40f72d17b362908fb0c0375156df64e0042068b7faf7c6721",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0004",
+      "entryType": "exit",
+      "timestamp": "2026-02-07T05:17:50.901Z",
+      "action": "c-p0-02-exit",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "PENDING",
+      "p0Id": "C-P0-02",
+      "ruleId": "C-P0-02-RULE-001",
+      "refEntryId": "",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 2,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "a1794aef2a2904a40f72d17b362908fb0c0375156df64e0042068b7faf7c6721",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "33c41a5de33077c8a7b57231133a16471e71087a2305f686f8305f1699026998",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0005",
+      "entryType": "signoff",
+      "timestamp": "2026-02-07T05:17:56.422Z",
+      "action": "c-p0-02-signoff",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "APPROVED",
+      "p0Id": "",
+      "ruleId": "",
+      "refEntryId": "entry-0004",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 2,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "33c41a5de33077c8a7b57231133a16471e71087a2305f686f8305f1699026998",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "d7e23eef9bcfc42b076a684c9f6067823cca9ad3a420ba08689579c0e189350e",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0006",
+      "entryType": "exit",
+      "timestamp": "2026-02-07T05:31:10.024Z",
+      "action": "c-p0-03-exit",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "PENDING",
+      "p0Id": "C-P0-03",
+      "ruleId": "C-P0-03-RULE-001",
+      "refEntryId": "",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 3,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "d7e23eef9bcfc42b076a684c9f6067823cca9ad3a420ba08689579c0e189350e",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "1af5de9dd05ecba96d6457aa770dd3619d20746112f32a5519da7603529c6168",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0007",
+      "entryType": "signoff",
+      "timestamp": "2026-02-07T05:31:16.573Z",
+      "action": "c-p0-03-signoff",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "APPROVED",
+      "p0Id": "",
+      "ruleId": "",
+      "refEntryId": "entry-0006",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 3,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "1af5de9dd05ecba96d6457aa770dd3619d20746112f32a5519da7603529c6168",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "de251d69afbd05fbc19a20a703e3703a641872bc9bd415d94e0767d3fc391825",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0008",
+      "entryType": "exit",
+      "timestamp": "2026-02-07T05:40:28.932Z",
+      "action": "c4-save-v1-min-exit",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "PENDING",
+      "p0Id": "C4",
+      "ruleId": "C4-SAVE-V1-MIN",
+      "refEntryId": "",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 3,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "de251d69afbd05fbc19a20a703e3703a641872bc9bd415d94e0767d3fc391825",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "cfd0254e18a3fbc7ab054744fdb4ed29d916daec49381d0cc1c8776f97b06d35",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0009",
+      "entryType": "signoff",
+      "timestamp": "2026-02-07T05:40:34.662Z",
+      "action": "c4-save-v1-min-signoff",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "APPROVED",
+      "p0Id": "",
+      "ruleId": "",
+      "refEntryId": "entry-0008",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 3,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "cfd0254e18a3fbc7ab054744fdb4ed29d916daec49381d0cc1c8776f97b06d35",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "93bda916eded7270adc5dd2e83e122f5076e35dbec6cd9dcf6b2b0d42204e90b",
+      "contour": "",
+      "p0Count": 0,
+      "productStep": "",
+      "refReport": ""
+    },
+    {
+      "entryId": "entry-0010",
+      "entryType": "close",
+      "timestamp": "2026-02-07T05:51:38.683Z",
+      "action": "contour-c-close",
+      "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+      "owner": "HO",
+      "hoSignoff": "APPROVED",
+      "p0Id": "",
+      "ruleId": "",
+      "refEntryId": "",
+      "contour": "C",
+      "p0Count": 3,
+      "productStep": "SAVE_V1_MIN",
+      "refReport": "docs/OPS/CONTOUR_C/CONTOUR_C_CLOSE_REPORT.md",
+      "kpi": {
+        "STRICT_LIE_CLASSES_OK": 1,
+        "CONTOUR_C_EXIT_IMPLEMENTED_P0_COUNT": 3,
+        "CONTOUR_C_ENFORCEMENT_VIOLATIONS_COUNT": 0,
+        "WARN_DELTA_TARGET": 0
+      },
+      "waivers": [],
+      "proof": {
+        "runResultPath": "artifacts/contour-c-run/latest/result.json",
+        "runStatus": "PASS"
+      },
+      "prevHash": "93bda916eded7270adc5dd2e83e122f5076e35dbec6cd9dcf6b2b0d42204e90b",
+      "generatedBy": "scripts/contour-c-ledger.mjs",
+      "entryHash": "1ffe604a9ceb198e28036529071a077168505746e7ba80de69f0080457f9f912"
+    }
+  ]
+}

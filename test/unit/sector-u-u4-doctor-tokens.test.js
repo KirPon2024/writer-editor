@@ -25,7 +25,8 @@ test('u4 doctor tokens are present and proof is green', () => {
   assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
   const tokens = parseTokens(result.stdout);
 
-  assert.equal(tokens.get('SECTOR_U_PHASE'), 'U4');
+  const allowedPhases = new Set(['U4', 'U5', 'U6', 'U7', 'U8', 'DONE']);
+  assert.equal(allowedPhases.has(tokens.get('SECTOR_U_PHASE')), true);
   assert.equal(tokens.get('U4_TRANSITIONS_SOT_EXISTS'), '1');
   assert.equal(tokens.get('U4_TRANSITIONS_GUARD_OK'), '1');
   assert.equal(tokens.get('U4_NO_SIDE_EFFECTS_RULE_EXISTS'), '1');

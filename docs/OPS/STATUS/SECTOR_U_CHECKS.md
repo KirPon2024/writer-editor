@@ -20,5 +20,6 @@
 |---|---:|---|---|---|
 | CHECK_U6_A11Y_BASELINE | 1 | `node --test test/unit/sector-u-u6-*.test.js` with `SECTOR_U_FULL_A11Y=1` | exit code `0` | `CHECK_PACK_FAIL` |
 | CHECK_U7_VISUAL_BASELINE | 2 | `node --test test/unit/sector-u-u7-*.test.js` with `SECTOR_U_FULL_VISUAL=1` | exit code `0` | `CHECK_PACK_FAIL` |
-| SECTOR_U_FULL_01 | 3 | `npm run test:sector-u-full` | exit code `0` | `TEST_FAIL` |
-| SECTOR_U_FULL_02 | 4 | `node scripts/doctor.mjs` | `SECTOR_U_STATUS_OK=1` and `SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=1` | `DOCTOR_FAIL` |
+| CHECK_U8_PERF_BASELINE | 3 | `node --test test/unit/sector-u-u8-*.test.js` with `SECTOR_U_FULL_PERF=1` | exit code `0` | `CHECK_PACK_FAIL` |
+| SECTOR_U_FULL_01 | 4 | `npm run test:sector-u-full` | exit code `0` | `TEST_FAIL` |
+| SECTOR_U_FULL_02 | 5 | `node scripts/doctor.mjs` | `SECTOR_U_STATUS_OK=1` and `SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=1` | `DOCTOR_FAIL` |

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "ui-state-transitions.v1",
+  "states": ["IDLE", "PROJECT_OPENING", "PROJECT_OPEN"],
+  "events": ["UI_OPEN_REQUESTED", "UI_OPEN_SUCCEEDED"],
+  "transitions": [
+    { "from": "IDLE", "event": "UI_OPEN_REQUESTED", "to": "PROJECT_OPENING" },
+    { "from": "IDLE", "event": "UI_OPEN_REQUESTED", "to": "PROJECT_OPEN" }
+  ]
+}

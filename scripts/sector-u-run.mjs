@@ -84,6 +84,11 @@ function extractDoctorSubsetTokens(stdout) {
     'U3_EXPORT_WIRING_EXISTS',
     'U3_EXPORT_TESTS_OK',
     'U3_EXPORT_PROOF_OK',
+    'U4_TRANSITIONS_SOT_EXISTS',
+    'U4_TRANSITIONS_GUARD_OK',
+    'U4_NO_SIDE_EFFECTS_RULE_EXISTS',
+    'U4_TESTS_OK',
+    'U4_PROOF_OK',
   ];
   const out = {};
   for (const key of keys) {
@@ -177,6 +182,23 @@ function buildFastSteps() {
       args: ['--test', 'test/unit/sector-u-u3-*.test.js'],
     });
   }
+  if (phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3') {
+    steps.push({
+      id: 'CHECK_U4_UI_TRANSITIONS',
+      cmd: process.execPath,
+      args: ['scripts/guards/sector-u-ui-state-transitions.mjs', '--mode', 'BLOCKING'],
+    });
+    steps.push({
+      id: 'CHECK_U4_UI_NO_SIDE_EFFECTS',
+      cmd: process.execPath,
+      args: ['scripts/guards/sector-u-ui-no-side-effects.mjs', '--mode', 'DETECT_ONLY'],
+    });
+    steps.push({
+      id: 'CHECK_U4_UI_TESTS',
+      cmd: process.execPath,
+      args: ['--test', 'test/unit/sector-u-u4-*.test.js'],
+    });
+  }
   steps.push({ id: 'SECTOR_U_FAST_02', cmd: 'node', args: ['scripts/doctor.mjs'] });
   return steps;
 }
@@ -255,9 +277,11 @@ function main() {
   const doctorU2ProofOk = doctorTokens.U2_PROOF_OK === '1' ? 1 : 0;
   const doctorU2TtlExpired = doctorTokens.U2_TTL_EXPIRED === '1' ? 1 : 0;
   const doctorU3ProofOk = doctorTokens.U3_EXPORT_PROOF_OK === '1' ? 1 : 0;
+  const doctorU4ProofOk = doctorTokens.U4_PROOF_OK === '1' ? 1 : 0;
   const needsU1Proof = phase !== '' && phase !== 'U0';
   const needsU2Proof = phase !== '' && phase !== 'U0' && phase !== 'U1';
   const needsU3Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2';
+  const needsU4Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3';
   if (!failed) {
     if (doctorStatusOk !== 1 || doctorWaiverOk !== 1) {
       failed = true;
@@ -272,6 +296,9 @@ function main() {
       failed = true;
       failReason = 'U2_TTL_EXPIRED';
     } else if (needsU3Proof && doctorU3ProofOk !== 1) {
+      failed = true;
+      failReason = 'CHECK_PACK_FAIL';
+    } else if (needsU4Proof && doctorU4ProofOk !== 1) {
       failed = true;
       failReason = 'CHECK_PACK_FAIL';
     }

@@ -1,4 +1,7 @@
 import { initTiptap } from './tiptap/index.js';
+import { createCommandRegistry } from './commands/registry.mjs';
+import { createCommandRunner } from './commands/runCommand.mjs';
+import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands.mjs';
 
 if (window.__USE_TIPTAP) {
   initTiptap(document.getElementById('editor'));
@@ -73,6 +76,7 @@ let currentMeta = {
 let expandedNodesByTab = new Map();
 let autoSaveTimerId = null;
 const AUTO_SAVE_DELAY = 600;
+const EXPORT_DOCX_SHORTCUT_STATUS = 'Export DOCX MIN: backend not wired';
 
 const PX_PER_MM_AT_ZOOM_1 = 595 / 210;
 const ZOOM_DEFAULT = 1.0;
@@ -120,6 +124,30 @@ function applyPageViewCssVars(metrics) {
 const initialPageWidthMm = PAGE_FORMATS.A4;
 const initialPageMetrics = getPageMetrics({ pageWidthMm: initialPageWidthMm, zoom: ZOOM_DEFAULT });
 applyPageViewCssVars(initialPageMetrics);
+
+const commandRegistry = createCommandRegistry();
+const runCommand = createCommandRunner(commandRegistry);
+registerProjectCommands(commandRegistry, { electronAPI: window.electronAPI });
+
+function mapCommandErrorToStatus(error) {
+  if (!error || typeof error !== 'object') return 'Ошибка';
+  switch (error.code) {
+    case 'E_UNWIRED_EXPORT_BACKEND':
+      return EXPORT_DOCX_SHORTCUT_STATUS;
+    case 'E_COMMAND_NOT_FOUND':
+      return 'Команда не найдена';
+    default:
+      return 'Ошибка';
+  }
+}
+
+async function dispatchUiCommand(commandId, payload = {}) {
+  const result = await runCommand(commandId, payload);
+  if (!result.ok) {
+    updateStatusText(mapCommandErrorToStatus(result.error));
+  }
+  return result;
+}
 
 function getPlainText() {
   return plainTextBuffer;
@@ -1907,10 +1935,13 @@ if (toolbar) {
         }
         break;
       case 'open':
-        window.electronAPI?.openFile();
+        void dispatchUiCommand(COMMAND_IDS.PROJECT_OPEN);
         break;
       case 'save':
-        window.electronAPI?.saveFile();
+        void dispatchUiCommand(COMMAND_IDS.PROJECT_SAVE);
+        break;
+      case 'export-docx-min':
+        void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
         break;
       case 'theme-dark':
         window.electronAPI?.setTheme('dark');
@@ -2045,6 +2076,11 @@ document.addEventListener('keydown', (event) => {
     key === '0' || code === 'Digit0' || code === 'Numpad0';
 
   if (!isPlus && !isMinus && !isZero) {
+    if ((key === 'E' || key === 'e') && event.shiftKey) {
+      event.preventDefault();
+      void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
+      return;
+    }
     return;
   }
 

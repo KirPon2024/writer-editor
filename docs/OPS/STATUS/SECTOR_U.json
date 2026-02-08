@@ -1,7 +1,7 @@
 {
   "schemaVersion": "sector-u-status.v1",
   "status": "ACTIVE",
-  "phase": "U0",
+  "phase": "U1",
   "baselineSha": "b3cff0045a60cbd9ecce45d95a441ab687e5af2a",
   "goTag": "",
   "uiRootPath": "src/renderer",

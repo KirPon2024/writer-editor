@@ -1,6 +1,6 @@
 {
   "schemaVersion": "next-sector.v1",
-  "id": "SECTOR U",
+  "id": "SECTOR M",
   "goTag": "GO:NEXT_SECTOR_START",
   "prereqs": [
     "SECTOR_P_CLOSE_OK==1",

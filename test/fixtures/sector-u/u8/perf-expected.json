@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "u8-perf-baseline.v1",
+  "scenarioId": "U8-S01",
+  "metric": "time-to-command-path-ready-ms",
+  "runs": 11,
+  "maxMedianMs": 50
+}

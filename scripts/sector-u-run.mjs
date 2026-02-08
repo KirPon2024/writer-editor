@@ -100,6 +100,9 @@ function extractDoctorSubsetTokens(stdout) {
     'U7_VISUAL_BASELINE_EXISTS',
     'U7_VISUAL_TESTS_OK',
     'U7_VISUAL_PROOF_OK',
+    'U8_PERF_RULE_EXISTS',
+    'U8_PERF_TESTS_OK',
+    'U8_PERF_PROOF_OK',
   ];
   const out = {};
   for (const key of keys) {
@@ -243,6 +246,16 @@ function buildPackSteps(pack) {
         args: ['--test', 'test/unit/sector-u-u7-*.test.js'],
         env: {
           SECTOR_U_FULL_VISUAL: '1',
+        },
+      });
+    }
+    if (phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3' && phase !== 'U4' && phase !== 'U5' && phase !== 'U6' && phase !== 'U7') {
+      out.push({
+        id: 'CHECK_U8_PERF_BASELINE',
+        cmd: process.execPath,
+        args: ['--test', 'test/unit/sector-u-u8-*.test.js'],
+        env: {
+          SECTOR_U_FULL_PERF: '1',
         },
       });
     }

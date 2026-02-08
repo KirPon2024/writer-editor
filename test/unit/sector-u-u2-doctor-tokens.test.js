@@ -24,7 +24,8 @@ test('u2 doctor tokens are present and consistent for detect-only defaults', () 
   assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
   const tokens = parseTokens(result.stdout);
 
-  assert.equal(tokens.get('SECTOR_U_PHASE'), 'U2');
+  const allowedPhases = new Set(['U2', 'U3', 'U4', 'U5', 'U6', 'U7', 'U8', 'DONE']);
+  assert.equal(allowedPhases.has(tokens.get('SECTOR_U_PHASE')), true);
   assert.equal(tokens.get('U2_MODE'), 'DETECT_ONLY');
   assert.equal(tokens.get('U2_RULE_EXISTS'), '1');
   assert.equal(tokens.get('U2_TESTS_OK'), '1');

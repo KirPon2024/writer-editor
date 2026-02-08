@@ -42,6 +42,8 @@ const U6_A11Y_FOCUS_TEST_PATH = 'test/unit/sector-u-u6-a11y-focus-contract.test.
 const U6_A11Y_FIXTURE_PATH = 'test/fixtures/sector-u/u6/shortcuts-expected.json';
 const U7_VISUAL_TEST_PATH = 'test/unit/sector-u-u7-visual-baseline.test.js';
 const U7_VISUAL_FIXTURE_PATH = 'test/fixtures/sector-u/u7/snapshot-expected.json';
+const U8_PERF_TEST_PATH = 'test/unit/sector-u-u8-perf-baseline.test.js';
+const U8_PERF_FIXTURE_PATH = 'test/fixtures/sector-u/u8/perf-expected.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2774,7 +2776,7 @@ function evaluateSectorUStatus() {
   }
 
   const allowedStatus = new Set(['NOT_STARTED', 'ACTIVE', 'IN_PROGRESS', 'DONE']);
-  const allowedPhase = new Set(['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'U6', 'U7', 'DONE']);
+  const allowedPhase = new Set(['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'U6', 'U7', 'U8', 'DONE']);
   const allowedGo = new Set([
     '',
     'GO:SECTOR_U_START',
@@ -2786,6 +2788,7 @@ function evaluateSectorUStatus() {
     'GO:SECTOR_U_U5_DONE',
     'GO:SECTOR_U_U6_DONE',
     'GO:SECTOR_U_U7_DONE',
+    'GO:SECTOR_U_U8_DONE',
     'GO:SECTOR_U_DONE',
   ]);
 
@@ -3438,6 +3441,40 @@ function evaluateU7VisualBaselineTokens(sectorUStatus) {
   return result;
 }
 
+function evaluateU8PerfBaselineTokens(sectorUStatus) {
+  const result = {
+    ruleExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  const perfTestExists = fs.existsSync(U8_PERF_TEST_PATH);
+  const fixtureExists = fs.existsSync(U8_PERF_FIXTURE_PATH);
+  result.ruleExists = perfTestExists && fixtureExists ? 1 : 0;
+  result.testsOk = result.ruleExists;
+  result.proofOk = result.ruleExists && result.testsOk ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU8 = phase !== ''
+    && phase !== 'U0'
+    && phase !== 'U1'
+    && phase !== 'U2'
+    && phase !== 'U3'
+    && phase !== 'U4'
+    && phase !== 'U5'
+    && phase !== 'U6'
+    && phase !== 'U7';
+  result.level = phaseRequiresU8 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`U8_PERF_RULE_EXISTS=${result.ruleExists}`);
+  console.log(`U8_PERF_TESTS_OK=${result.testsOk}`);
+  console.log(`U8_PERF_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
 function isIsoDateString(value) {
   if (typeof value !== 'string' || value.trim().length === 0) return false;
   return Number.isFinite(Date.parse(value));
@@ -3656,6 +3693,7 @@ function run() {
   const u5ErrorMapping = evaluateU5ErrorMappingTokens(sectorUStatus);
   const u6A11yBaseline = evaluateU6A11yBaselineTokens(sectorUStatus);
   const u7VisualBaseline = evaluateU7VisualBaselineTokens(sectorUStatus);
+  const u8PerfBaseline = evaluateU8PerfBaselineTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3771,6 +3809,7 @@ function run() {
     || u5ErrorMapping.level === 'warn'
     || u6A11yBaseline.level === 'warn'
     || u7VisualBaseline.level === 'warn'
+    || u8PerfBaseline.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail

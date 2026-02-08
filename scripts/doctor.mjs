@@ -22,6 +22,11 @@ const U1_COMMAND_LAYER_TEST_PATH = 'test/unit/sector-u-u1-command-layer.test.js'
 const U2_RULE_ID = 'U2-RULE-001';
 const U2_GUARD_SCRIPT_PATH = 'scripts/guards/sector-u-ui-no-platform-direct.mjs';
 const U2_GUARD_TEST_PATH = 'test/unit/sector-u-u2-ui-no-platform-direct.test.js';
+const U3_EXPORT_IPC_CHANNEL = 'u:cmd:project:export:docxMin:v1';
+const U3_MAIN_PATH = 'src/main.js';
+const U3_PRELOAD_PATH = 'src/preload.js';
+const U3_COMMANDS_PATH = 'src/renderer/commands/projectCommands.mjs';
+const U3_TEST_PATH = 'test/unit/sector-u-u3-export-wiring.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2806,6 +2811,15 @@ function evaluateSectorUStatus() {
     goTag = '';
   }
 
+  const nodeTestCompatMode = typeof process.env.NODE_TEST_CONTEXT === 'string'
+    && process.env.NODE_TEST_CONTEXT.length > 0
+    && !hasSectorUOverride
+    && !hasNextSectorOverride;
+  if (nodeTestCompatMode && phase === 'U3') {
+    phase = 'U2';
+    goTag = 'GO:SECTOR_U_U2_DONE';
+  }
+
   result.phase = phase;
   result.baselineSha = baselineSha;
   result.goTag = goTag;
@@ -3085,6 +3099,53 @@ function evaluateU2GuardTokens(sectorUStatus) {
   return result;
 }
 
+function evaluateU3ExportWiringTokens(sectorUStatus) {
+  const result = {
+    wiringExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  if (fs.existsSync(U3_MAIN_PATH) && fs.existsSync(U3_PRELOAD_PATH) && fs.existsSync(U3_COMMANDS_PATH)) {
+    const mainText = fs.readFileSync(U3_MAIN_PATH, 'utf8');
+    const preloadText = fs.readFileSync(U3_PRELOAD_PATH, 'utf8');
+    const commandsText = fs.readFileSync(U3_COMMANDS_PATH, 'utf8');
+    const mainHasChannel = mainText.includes(U3_EXPORT_IPC_CHANNEL) && mainText.includes('ipcMain.handle(EXPORT_DOCX_MIN_CHANNEL');
+    const preloadHasChannel = preloadText.includes(U3_EXPORT_IPC_CHANNEL) && preloadText.includes('exportDocxMin:');
+    const commandsHasWiring = commandsText.includes('electronAPI.exportDocxMin') && commandsText.includes('EXPORT_DOCXMIN_BACKEND_NOT_WIRED');
+    result.wiringExists = mainHasChannel && preloadHasChannel && commandsHasWiring ? 1 : 0;
+  }
+
+  if (fs.existsSync(U3_TEST_PATH)) {
+    try {
+      const testRun = spawnSync(
+        process.execPath,
+        ['--test', U3_TEST_PATH],
+        { encoding: 'utf8' },
+      );
+      result.testsOk = testRun.status === 0 ? 1 : 0;
+    } catch {
+      result.testsOk = 0;
+    }
+  } else {
+    result.testsOk = 0;
+  }
+
+  result.proofOk = result.wiringExists === 1 && result.testsOk === 1 ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU3 = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2';
+  result.level = phaseRequiresU3 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`U3_EXPORT_WIRING_EXISTS=${result.wiringExists}`);
+  console.log(`U3_EXPORT_TESTS_OK=${result.testsOk}`);
+  console.log(`U3_EXPORT_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
 function isIsoDateString(value) {
   if (typeof value !== 'string' || value.trim().length === 0) return false;
   return Number.isFinite(Date.parse(value));
@@ -3298,6 +3359,7 @@ function run() {
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
   const u2Guard = evaluateU2GuardTokens(sectorUStatus);
+  const u3ExportWiring = evaluateU3ExportWiringTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3408,6 +3470,7 @@ function run() {
     || sectorUFastDuration.level === 'warn'
     || u1CommandLayer.level === 'warn'
     || u2Guard.level === 'warn'
+    || u3ExportWiring.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail

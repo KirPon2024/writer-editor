@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
+const EXPORT_DOCX_MIN_CHANNEL = 'u:cmd:project:export:docxMin:v1';
 
 // Экспорт безопасного API для renderer процесса
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -73,6 +74,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   reorderNode: (payload) => {
     return ipcRenderer.invoke('ui:reorder-node', payload);
+  },
+  exportDocxMin: (payload) => {
+    return ipcRenderer.invoke(EXPORT_DOCX_MIN_CHANNEL, payload);
   },
   setTheme: (theme) => {
     ipcRenderer.send('ui:set-theme', theme);

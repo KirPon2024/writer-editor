@@ -1,0 +1,8 @@
+{
+  "ok": 0,
+  "error": {
+    "code": "E_EXPORT_WRITE_FAILED",
+    "op": "u:cmd:project:export:docxMin:v1",
+    "reason": "DOCX_WRITE_FAILED"
+  }
+}

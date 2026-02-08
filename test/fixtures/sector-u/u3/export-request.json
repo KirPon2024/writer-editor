@@ -1,0 +1,6 @@
+{
+  "requestId": "u3-test-request",
+  "outPath": "/tmp/u3-test.docx",
+  "bufferSource": "Line one\nLine two",
+  "options": {}
+}

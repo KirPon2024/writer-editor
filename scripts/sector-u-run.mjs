@@ -73,6 +73,14 @@ function extractDoctorSubsetTokens(stdout) {
     'U1_COMMAND_EXPORT_DOCXMIN_EXISTS',
     'U1_COMMANDS_TESTS_OK',
     'U1_COMMANDS_PROOF_OK',
+    'U2_RULE_EXISTS',
+    'U2_TESTS_OK',
+    'U2_PROOF_OK',
+    'U2_MODE',
+    'U2_TTL_EXPIRED',
+    'U2_FINDINGS_TOTAL',
+    'U2_FALSE_POSITIVE_RATE',
+    'U2_PR_COUNT',
   ];
   const out = {};
   for (const key of keys) {
@@ -152,6 +160,13 @@ function buildFastSteps() {
       args: ['--test', 'test/unit/sector-u-u1-command-layer.test.js'],
     });
   }
+  if (phase !== 'U0' && phase !== 'U1') {
+    steps.push({
+      id: 'CHECK_U2_UI_NO_PLATFORM_DIRECT',
+      cmd: process.execPath,
+      args: ['scripts/guards/sector-u-ui-no-platform-direct.mjs'],
+    });
+  }
   steps.push({ id: 'SECTOR_U_FAST_02', cmd: 'node', args: ['scripts/doctor.mjs'] });
   return steps;
 }
@@ -227,7 +242,10 @@ function main() {
   const doctorStatusOk = doctorTokens.SECTOR_U_STATUS_OK === '1' ? 1 : 0;
   const doctorWaiverOk = doctorTokens.SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK === '1' ? 1 : 0;
   const doctorU1ProofOk = doctorTokens.U1_COMMANDS_PROOF_OK === '1' ? 1 : 0;
+  const doctorU2ProofOk = doctorTokens.U2_PROOF_OK === '1' ? 1 : 0;
+  const doctorU2TtlExpired = doctorTokens.U2_TTL_EXPIRED === '1' ? 1 : 0;
   const needsU1Proof = phase !== '' && phase !== 'U0';
+  const needsU2Proof = phase !== '' && phase !== 'U0' && phase !== 'U1';
   if (!failed) {
     if (doctorStatusOk !== 1 || doctorWaiverOk !== 1) {
       failed = true;
@@ -235,6 +253,12 @@ function main() {
     } else if (needsU1Proof && doctorU1ProofOk !== 1) {
       failed = true;
       failReason = 'CHECK_PACK_FAIL';
+    } else if (needsU2Proof && doctorU2ProofOk !== 1) {
+      failed = true;
+      failReason = 'CHECK_PACK_FAIL';
+    } else if (needsU2Proof && doctorU2TtlExpired === 1) {
+      failed = true;
+      failReason = 'U2_TTL_EXPIRED';
     }
   }
 

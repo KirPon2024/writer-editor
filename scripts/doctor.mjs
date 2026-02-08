@@ -19,6 +19,9 @@ const U1_COMMAND_REGISTRY_PATH = 'src/renderer/commands/registry.mjs';
 const U1_COMMAND_RUNNER_PATH = 'src/renderer/commands/runCommand.mjs';
 const U1_COMMAND_PROJECT_PATH = 'src/renderer/commands/projectCommands.mjs';
 const U1_COMMAND_LAYER_TEST_PATH = 'test/unit/sector-u-u1-command-layer.test.js';
+const U2_RULE_ID = 'U2-RULE-001';
+const U2_GUARD_SCRIPT_PATH = 'scripts/guards/sector-u-ui-no-platform-direct.mjs';
+const U2_GUARD_TEST_PATH = 'test/unit/sector-u-u2-ui-no-platform-direct.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2711,6 +2714,14 @@ function evaluateSectorUStatus() {
     statusOk: 0,
     waiversPath: '',
     fastMaxDurationMs: 120000,
+    u2Mode: 'DETECT_ONLY',
+    u2DetectOnlyTtlPrs: 2,
+    u2PrCount: 0,
+    u2FindingsTotal: 0,
+    u2FalsePositives: 0,
+    u2FalsePositiveRate: 0,
+    u2MinSamples: 10,
+    u2TightenThreshold: 0.05,
     level: 'warn',
   };
 
@@ -2756,6 +2767,33 @@ function evaluateSectorUStatus() {
   const fastMaxDurationMs = Number.isInteger(parsed.fastMaxDurationMs) && parsed.fastMaxDurationMs > 0
     ? parsed.fastMaxDurationMs
     : 120000;
+  const u2ModeRaw = typeof parsed.u2Mode === 'string' ? parsed.u2Mode.toUpperCase() : '';
+  const u2Mode = (u2ModeRaw === 'DETECT_ONLY' || u2ModeRaw === 'BLOCKING' || u2ModeRaw === 'DROPPED')
+    ? u2ModeRaw
+    : 'DETECT_ONLY';
+  const u2DetectOnlyTtlPrs = Number.isInteger(parsed.u2DetectOnlyTtlPrs) && parsed.u2DetectOnlyTtlPrs >= 0
+    ? parsed.u2DetectOnlyTtlPrs
+    : 2;
+  const u2PrCount = Number.isInteger(parsed.u2PrCount) && parsed.u2PrCount >= 0 ? parsed.u2PrCount : 0;
+  const u2FindingsTotal = Number.isInteger(parsed.u2FindingsTotal) && parsed.u2FindingsTotal >= 0
+    ? parsed.u2FindingsTotal
+    : 0;
+  const u2FalsePositives = Number.isInteger(parsed.u2FalsePositives) && parsed.u2FalsePositives >= 0
+    ? parsed.u2FalsePositives
+    : 0;
+  const u2FalsePositiveRateFromDoc = typeof parsed.u2FalsePositiveRate === 'number' && Number.isFinite(parsed.u2FalsePositiveRate)
+    ? parsed.u2FalsePositiveRate
+    : null;
+  const u2FalsePositiveRateComputed = u2FindingsTotal > 0 ? (u2FalsePositives / u2FindingsTotal) : 0;
+  const u2FalsePositiveRate = u2FalsePositiveRateFromDoc !== null
+    ? u2FalsePositiveRateFromDoc
+    : u2FalsePositiveRateComputed;
+  const u2MinSamples = Number.isInteger(parsed.u2MinSamples) && parsed.u2MinSamples >= 0
+    ? parsed.u2MinSamples
+    : 10;
+  const u2TightenThreshold = typeof parsed.u2TightenThreshold === 'number' && Number.isFinite(parsed.u2TightenThreshold)
+    ? parsed.u2TightenThreshold
+    : 0.05;
 
   // Keep next-sector synthetic checks stable when only next-sector path is overridden.
   const hasNextSectorOverride = typeof process.env.NEXT_SECTOR_STATUS_PATH === 'string'
@@ -2773,6 +2811,14 @@ function evaluateSectorUStatus() {
   result.goTag = goTag;
   result.waiversPath = waiversPath;
   result.fastMaxDurationMs = fastMaxDurationMs;
+  result.u2Mode = u2Mode;
+  result.u2DetectOnlyTtlPrs = u2DetectOnlyTtlPrs;
+  result.u2PrCount = u2PrCount;
+  result.u2FindingsTotal = u2FindingsTotal;
+  result.u2FalsePositives = u2FalsePositives;
+  result.u2FalsePositiveRate = u2FalsePositiveRate;
+  result.u2MinSamples = u2MinSamples;
+  result.u2TightenThreshold = u2TightenThreshold;
 
   const schemaOk = parsed.schemaVersion === 'sector-u-status.v1';
   const statusOk = typeof parsed.status === 'string' && allowedStatus.has(parsed.status);
@@ -2965,6 +3011,77 @@ function evaluateU1CommandLayerTokens(sectorUStatus) {
   console.log(`U1_COMMAND_EXPORT_DOCXMIN_EXISTS=${result.exportExists}`);
   console.log(`U1_COMMANDS_TESTS_OK=${result.testsOk}`);
   console.log(`U1_COMMANDS_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
+function evaluateU2GuardTokens(sectorUStatus) {
+  const result = {
+    ruleExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    mode: 'DETECT_ONLY',
+    ttlExpired: 0,
+    findingsTotal: 0,
+    falsePositiveRate: 0,
+    prCount: 0,
+    level: 'ok',
+  };
+
+  result.ruleExists = fs.existsSync(U2_GUARD_SCRIPT_PATH)
+    && fs.readFileSync(U2_GUARD_SCRIPT_PATH, 'utf8').includes(`RULE_ID = '${U2_RULE_ID}'`) ? 1 : 0;
+
+  if (fs.existsSync(U2_GUARD_TEST_PATH)) {
+    try {
+      const testRun = spawnSync(
+        process.execPath,
+        ['--test', U2_GUARD_TEST_PATH],
+        { encoding: 'utf8' },
+      );
+      result.testsOk = testRun.status === 0 ? 1 : 0;
+    } catch {
+      result.testsOk = 0;
+    }
+  } else {
+    result.testsOk = 0;
+  }
+
+  const mode = sectorUStatus && typeof sectorUStatus.u2Mode === 'string'
+    ? sectorUStatus.u2Mode
+    : 'DETECT_ONLY';
+  const ttlPrs = sectorUStatus && Number.isInteger(sectorUStatus.u2DetectOnlyTtlPrs)
+    ? sectorUStatus.u2DetectOnlyTtlPrs
+    : 2;
+  const prCount = sectorUStatus && Number.isInteger(sectorUStatus.u2PrCount)
+    ? sectorUStatus.u2PrCount
+    : 0;
+  const findingsTotal = sectorUStatus && Number.isInteger(sectorUStatus.u2FindingsTotal)
+    ? sectorUStatus.u2FindingsTotal
+    : 0;
+  const falsePositiveRateRaw = sectorUStatus && typeof sectorUStatus.u2FalsePositiveRate === 'number'
+    ? sectorUStatus.u2FalsePositiveRate
+    : 0;
+
+  result.mode = mode;
+  result.prCount = prCount;
+  result.findingsTotal = findingsTotal;
+  result.falsePositiveRate = Number.isFinite(falsePositiveRateRaw) ? falsePositiveRateRaw : 0;
+  result.ttlExpired = mode === 'DETECT_ONLY' && prCount >= ttlPrs ? 1 : 0;
+  result.proofOk = result.ruleExists === 1 && result.testsOk === 1 ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU2 = phase !== '' && phase !== 'U0' && phase !== 'U1';
+  result.level = (phaseRequiresU2 && (result.proofOk !== 1 || result.ttlExpired === 1)) ? 'warn' : 'ok';
+
+  console.log(`U2_RULE_EXISTS=${result.ruleExists}`);
+  console.log(`U2_TESTS_OK=${result.testsOk}`);
+  console.log(`U2_PROOF_OK=${result.proofOk}`);
+  console.log(`U2_MODE=${result.mode}`);
+  console.log(`U2_TTL_EXPIRED=${result.ttlExpired}`);
+  console.log(`U2_FINDINGS_TOTAL=${result.findingsTotal}`);
+  console.log(`U2_FALSE_POSITIVE_RATE=${result.falsePositiveRate.toFixed(4)}`);
+  console.log(`U2_PR_COUNT=${result.prCount}`);
   return result;
 }
 
@@ -3180,6 +3297,7 @@ function run() {
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
+  const u2Guard = evaluateU2GuardTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3289,6 +3407,7 @@ function run() {
     || sectorUWaivers.level === 'warn'
     || sectorUFastDuration.level === 'warn'
     || u1CommandLayer.level === 'warn'
+    || u2Guard.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail
@@ -3306,12 +3425,14 @@ function run() {
     && strictLieOk === 1
     && final.exitCode === 0
     && strictLieClass01Count === 0
-    && strictLieClass02Count === 0 ? 1 : 0;
+    && strictLieClass02Count === 0
+    && u2Guard.ttlExpired !== 1 ? 1 : 0;
 
   let currentWaveFailReason = '';
   if (boundaryExitCode !== 0) currentWaveFailReason = 'BOUNDARY_GUARD_FAILED';
   else if (strictLieOk !== 1) currentWaveFailReason = 'STRICT_LIE_CLASSES_NOT_OK';
   else if (final.exitCode !== 0) currentWaveFailReason = 'DOCTOR_FAIL';
+  else if (u2Guard.ttlExpired === 1) currentWaveFailReason = 'U2_TTL_EXPIRED';
 
   console.log('CURRENT_WAVE_GUARD_RAN=1');
   console.log(`CURRENT_WAVE_STOP_CONDITION_OK=${currentWaveOk}`);

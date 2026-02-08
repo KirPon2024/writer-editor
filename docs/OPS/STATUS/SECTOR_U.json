@@ -1,9 +1,9 @@
 {
   "schemaVersion": "sector-u-status.v1",
   "status": "ACTIVE",
-  "phase": "U3",
+  "phase": "U4",
   "baselineSha": "b3cff0045a60cbd9ecce45d95a441ab687e5af2a",
-  "goTag": "GO:SECTOR_U_U3_DONE",
+  "goTag": "GO:SECTOR_U_U4_DONE",
   "uiRootPath": "src/renderer",
   "fastMaxDurationMs": 120000,
   "waiversPath": "docs/OPS/CONTOUR_C/WAIVED_GATES.json",
@@ -14,5 +14,11 @@
   "u2FalsePositives": 0,
   "u2FalsePositiveRate": 0,
   "u2MinSamples": 10,
-  "u2TightenThreshold": 0.05
+  "u2TightenThreshold": 0.05,
+  "u4NoSideEffectsMode": "DETECT_ONLY",
+  "u4NoSideEffectsTtlPrs": 2,
+  "u4NoSideEffectsPrCount": 0,
+  "u4NoSideEffectsFindingsTotal": 0,
+  "u4NoSideEffectsFalsePositives": 0,
+  "u4NoSideEffectsFalsePositiveRate": 0
 }

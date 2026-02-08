@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "ui-state-transitions.v1",
+  "states": [
+    "IDLE",
+    "PROJECT_OPENING",
+    "PROJECT_OPEN",
+    "PROJECT_DIRTY",
+    "SAVING",
+    "EXPORTING",
+    "ERROR"
+  ],
+  "events": [
+    "UI_OPEN_REQUESTED",
+    "UI_OPEN_SUCCEEDED",
+    "UI_OPEN_FAILED",
+    "UI_SAVE_REQUESTED",
+    "UI_SAVE_SUCCEEDED",
+    "UI_SAVE_FAILED",
+    "UI_EXPORT_REQUESTED",
+    "UI_EXPORT_SUCCEEDED",
+    "UI_EXPORT_FAILED",
+    "UI_EDIT_MUTATION"
+  ],
+  "transitions": [
+    { "from": "ERROR", "event": "UI_OPEN_REQUESTED", "to": "PROJECT_OPENING" },
+    { "from": "ERROR", "event": "UI_SAVE_REQUESTED", "to": "SAVING" },
+    { "from": "EXPORTING", "event": "UI_EXPORT_FAILED", "to": "ERROR" },
+    { "from": "EXPORTING", "event": "UI_EXPORT_SUCCEEDED", "to": "PROJECT_OPEN" },
+    { "from": "IDLE", "event": "UI_OPEN_REQUESTED", "to": "PROJECT_OPENING" },
+    { "from": "PROJECT_DIRTY", "event": "UI_EXPORT_REQUESTED", "to": "EXPORTING" },
+    { "from": "PROJECT_DIRTY", "event": "UI_SAVE_REQUESTED", "to": "SAVING" },
+    { "from": "PROJECT_OPEN", "event": "UI_EDIT_MUTATION", "to": "PROJECT_DIRTY" },
+    { "from": "PROJECT_OPEN", "event": "UI_EXPORT_REQUESTED", "to": "EXPORTING" },
+    { "from": "PROJECT_OPEN", "event": "UI_SAVE_REQUESTED", "to": "SAVING" },
+    { "from": "PROJECT_OPENING", "event": "UI_OPEN_FAILED", "to": "ERROR" },
+    { "from": "PROJECT_OPENING", "event": "UI_OPEN_SUCCEEDED", "to": "PROJECT_OPEN" },
+    { "from": "SAVING", "event": "UI_SAVE_FAILED", "to": "ERROR" },
+    { "from": "SAVING", "event": "UI_SAVE_SUCCEEDED", "to": "PROJECT_OPEN" }
+  ]
+}

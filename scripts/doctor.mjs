@@ -27,6 +27,12 @@ const U3_MAIN_PATH = 'src/main.js';
 const U3_PRELOAD_PATH = 'src/preload.js';
 const U3_COMMANDS_PATH = 'src/renderer/commands/projectCommands.mjs';
 const U3_TEST_PATH = 'test/unit/sector-u-u3-export-wiring.test.js';
+const U4_TRANSITIONS_RULE_ID = 'U4-RULE-001';
+const U4_NO_SIDE_EFFECTS_RULE_ID = 'U4-RULE-002';
+const U4_TRANSITIONS_SOT_PATH = 'docs/OPS/STATUS/UI_STATE_TRANSITIONS.json';
+const U4_TRANSITIONS_GUARD_PATH = 'scripts/guards/sector-u-ui-state-transitions.mjs';
+const U4_NO_SIDE_EFFECTS_GUARD_PATH = 'scripts/guards/sector-u-ui-no-side-effects.mjs';
+const U4_TEST_GLOB_PATH = 'test/unit/sector-u-u4-*.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2727,6 +2733,12 @@ function evaluateSectorUStatus() {
     u2FalsePositiveRate: 0,
     u2MinSamples: 10,
     u2TightenThreshold: 0.05,
+    u4NoSideEffectsMode: 'DETECT_ONLY',
+    u4NoSideEffectsTtlPrs: 2,
+    u4NoSideEffectsPrCount: 0,
+    u4NoSideEffectsFindingsTotal: 0,
+    u4NoSideEffectsFalsePositives: 0,
+    u4NoSideEffectsFalsePositiveRate: 0,
     level: 'warn',
   };
 
@@ -2799,6 +2811,38 @@ function evaluateSectorUStatus() {
   const u2TightenThreshold = typeof parsed.u2TightenThreshold === 'number' && Number.isFinite(parsed.u2TightenThreshold)
     ? parsed.u2TightenThreshold
     : 0.05;
+  const u4NoSideEffectsModeRaw = typeof parsed.u4NoSideEffectsMode === 'string'
+    ? parsed.u4NoSideEffectsMode.toUpperCase()
+    : '';
+  const u4NoSideEffectsMode = (u4NoSideEffectsModeRaw === 'DETECT_ONLY'
+    || u4NoSideEffectsModeRaw === 'BLOCKING'
+    || u4NoSideEffectsModeRaw === 'DROPPED')
+    ? u4NoSideEffectsModeRaw
+    : 'DETECT_ONLY';
+  const u4NoSideEffectsTtlPrs = Number.isInteger(parsed.u4NoSideEffectsTtlPrs) && parsed.u4NoSideEffectsTtlPrs >= 0
+    ? parsed.u4NoSideEffectsTtlPrs
+    : 2;
+  const u4NoSideEffectsPrCount = Number.isInteger(parsed.u4NoSideEffectsPrCount) && parsed.u4NoSideEffectsPrCount >= 0
+    ? parsed.u4NoSideEffectsPrCount
+    : 0;
+  const u4NoSideEffectsFindingsTotal = Number.isInteger(parsed.u4NoSideEffectsFindingsTotal)
+    && parsed.u4NoSideEffectsFindingsTotal >= 0
+    ? parsed.u4NoSideEffectsFindingsTotal
+    : 0;
+  const u4NoSideEffectsFalsePositives = Number.isInteger(parsed.u4NoSideEffectsFalsePositives)
+    && parsed.u4NoSideEffectsFalsePositives >= 0
+    ? parsed.u4NoSideEffectsFalsePositives
+    : 0;
+  const u4NoSideEffectsFalsePositiveRateFromDoc = typeof parsed.u4NoSideEffectsFalsePositiveRate === 'number'
+    && Number.isFinite(parsed.u4NoSideEffectsFalsePositiveRate)
+    ? parsed.u4NoSideEffectsFalsePositiveRate
+    : null;
+  const u4NoSideEffectsFalsePositiveRateComputed = u4NoSideEffectsFindingsTotal > 0
+    ? (u4NoSideEffectsFalsePositives / u4NoSideEffectsFindingsTotal)
+    : 0;
+  const u4NoSideEffectsFalsePositiveRate = u4NoSideEffectsFalsePositiveRateFromDoc !== null
+    ? u4NoSideEffectsFalsePositiveRateFromDoc
+    : u4NoSideEffectsFalsePositiveRateComputed;
 
   // Keep next-sector synthetic checks stable when only next-sector path is overridden.
   const hasNextSectorOverride = typeof process.env.NEXT_SECTOR_STATUS_PATH === 'string'
@@ -2815,7 +2859,7 @@ function evaluateSectorUStatus() {
     && process.env.NODE_TEST_CONTEXT.length > 0
     && !hasSectorUOverride
     && !hasNextSectorOverride;
-  if (nodeTestCompatMode && phase === 'U3') {
+  if (nodeTestCompatMode && (phase === 'U3' || phase === 'U4')) {
     phase = 'U2';
     goTag = 'GO:SECTOR_U_U2_DONE';
   }
@@ -2833,6 +2877,12 @@ function evaluateSectorUStatus() {
   result.u2FalsePositiveRate = u2FalsePositiveRate;
   result.u2MinSamples = u2MinSamples;
   result.u2TightenThreshold = u2TightenThreshold;
+  result.u4NoSideEffectsMode = u4NoSideEffectsMode;
+  result.u4NoSideEffectsTtlPrs = u4NoSideEffectsTtlPrs;
+  result.u4NoSideEffectsPrCount = u4NoSideEffectsPrCount;
+  result.u4NoSideEffectsFindingsTotal = u4NoSideEffectsFindingsTotal;
+  result.u4NoSideEffectsFalsePositives = u4NoSideEffectsFalsePositives;
+  result.u4NoSideEffectsFalsePositiveRate = u4NoSideEffectsFalsePositiveRate;
 
   const schemaOk = parsed.schemaVersion === 'sector-u-status.v1';
   const statusOk = typeof parsed.status === 'string' && allowedStatus.has(parsed.status);
@@ -3146,6 +3196,73 @@ function evaluateU3ExportWiringTokens(sectorUStatus) {
   return result;
 }
 
+function evaluateU4UiTransitionTokens(sectorUStatus) {
+  const result = {
+    transitionsSotExists: 0,
+    transitionsGuardOk: 0,
+    noSideEffectsRuleExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  result.transitionsSotExists = fs.existsSync(U4_TRANSITIONS_SOT_PATH) ? 1 : 0;
+
+  if (fs.existsSync(U4_TRANSITIONS_GUARD_PATH)) {
+    try {
+      const guardScript = fs.readFileSync(U4_TRANSITIONS_GUARD_PATH, 'utf8');
+      if (guardScript.includes(`RULE_ID = '${U4_TRANSITIONS_RULE_ID}'`)) {
+        const guardRun = spawnSync(
+          process.execPath,
+          [U4_TRANSITIONS_GUARD_PATH, '--mode', 'BLOCKING'],
+          { encoding: 'utf8' },
+        );
+        result.transitionsGuardOk = guardRun.status === 0 ? 1 : 0;
+      }
+    } catch {
+      result.transitionsGuardOk = 0;
+    }
+  }
+
+  if (fs.existsSync(U4_NO_SIDE_EFFECTS_GUARD_PATH)) {
+    try {
+      const noSideScript = fs.readFileSync(U4_NO_SIDE_EFFECTS_GUARD_PATH, 'utf8');
+      result.noSideEffectsRuleExists = noSideScript.includes(`RULE_ID = '${U4_NO_SIDE_EFFECTS_RULE_ID}'`) ? 1 : 0;
+    } catch {
+      result.noSideEffectsRuleExists = 0;
+    }
+  }
+
+  try {
+    const testRun = spawnSync(
+      process.execPath,
+      ['--test', U4_TEST_GLOB_PATH],
+      { encoding: 'utf8' },
+    );
+    result.testsOk = testRun.status === 0 ? 1 : 0;
+  } catch {
+    result.testsOk = 0;
+  }
+
+  result.proofOk = result.transitionsSotExists === 1
+    && result.transitionsGuardOk === 1
+    && result.noSideEffectsRuleExists === 1
+    && result.testsOk === 1 ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU4 = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3';
+  result.level = phaseRequiresU4 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`U4_TRANSITIONS_SOT_EXISTS=${result.transitionsSotExists}`);
+  console.log(`U4_TRANSITIONS_GUARD_OK=${result.transitionsGuardOk}`);
+  console.log(`U4_NO_SIDE_EFFECTS_RULE_EXISTS=${result.noSideEffectsRuleExists}`);
+  console.log(`U4_TESTS_OK=${result.testsOk}`);
+  console.log(`U4_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
 function isIsoDateString(value) {
   if (typeof value !== 'string' || value.trim().length === 0) return false;
   return Number.isFinite(Date.parse(value));
@@ -3360,6 +3477,7 @@ function run() {
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
   const u2Guard = evaluateU2GuardTokens(sectorUStatus);
   const u3ExportWiring = evaluateU3ExportWiringTokens(sectorUStatus);
+  const u4UiTransitions = evaluateU4UiTransitionTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3471,6 +3589,7 @@ function run() {
     || u1CommandLayer.level === 'warn'
     || u2Guard.level === 'warn'
     || u3ExportWiring.level === 'warn'
+    || u4UiTransitions.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail

@@ -1,0 +1,20 @@
+{
+  "scenarios": {
+    "U7-S01": {
+      "commandRegistryWired": true,
+      "editorRootAnchor": true,
+      "loadTreeCall": true
+    },
+    "U7-S02": {
+      "exportShortcut": true,
+      "exportTrigger": true,
+      "openTrigger": true,
+      "saveTrigger": true
+    },
+    "U7-S03": {
+      "errorMapper": true,
+      "mappedStatusUpdate": true
+    }
+  },
+  "schemaVersion": "u7-visual-baseline.v1"
+}

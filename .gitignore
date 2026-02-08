@@ -7,6 +7,7 @@ dist/**
 *~
 artifacts/contour-c-run/**
 artifacts/sector-w-run/**
+artifacts/sector-u-run/**
 
 # M1: allow pinning renderer bundle checksum
 !dist/renderer/editor.bundle.sha256

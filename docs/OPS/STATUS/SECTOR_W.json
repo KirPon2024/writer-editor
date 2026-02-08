@@ -1,0 +1,25 @@
+{
+  "sector": "W",
+  "status": "DONE",
+  "phase": "DONE",
+  "baselineSha": "d2eb4e8bea86d4e4268ceda873361b2f863ab408",
+  "goTag": "GO:SECTOR_W_DONE",
+  "by": "HO",
+  "date": "2026-02-07T00:00:00.000Z",
+  "notes": "",
+  "w3Mode": "DETECT_ONLY",
+  "w3DetectOnlyTtlPrs": 2,
+  "w3DetectOnlyPrCount": 0,
+  "w3FalsePositives": 0,
+  "w3TotalFindings": 0,
+  "w3TightenThreshold": {
+    "minSamples": 20,
+    "maxFalsePositiveRate": 0.05
+  },
+  "w3Decision": "",
+  "fastMaxDurationMs": 180000,
+  "W4_STATUS": "DONE",
+  "closedBaselineSha": "d2eb4e8bea86d4e4268ceda873361b2f863ab408",
+  "closedAt": "2026-02-07T00:00:00.000Z",
+  "closedBy": "HO"
+}

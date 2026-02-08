@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "ui-error-map.v1",
+  "defaultUserMessage": "Операция не выполнена",
+  "map": [
+    {
+      "code": "E_COMMAND_NOT_FOUND",
+      "userMessage": "Команда не найдена",
+      "severity": "ERROR"
+    },
+    {
+      "code": "E_COMMAND_FAILED",
+      "userMessage": "Команда завершилась с ошибкой",
+      "severity": "ERROR"
+    }
+  ]
+}

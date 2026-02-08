@@ -6,6 +6,27 @@ function fail(code, op, reason, details) {
   return { ok: false, error };
 }
 
+function normalizeCommandError(input, commandId) {
+  const fallbackCode = 'E_COMMAND_FAILED';
+  const fallbackReason = 'UNHANDLED_EXCEPTION';
+  const source = input && typeof input === 'object' ? input : {};
+  const code = typeof source.code === 'string' && source.code.length > 0
+    ? source.code
+    : fallbackCode;
+  const op = typeof source.op === 'string' && source.op.length > 0
+    ? source.op
+    : commandId;
+  const reason = typeof source.reason === 'string' && source.reason.length > 0
+    ? source.reason
+    : (typeof source.message === 'string' && source.message.length > 0
+      ? source.message
+      : fallbackReason);
+  const details = source.details && typeof source.details === 'object' && !Array.isArray(source.details)
+    ? source.details
+    : undefined;
+  return { code, op, reason, details };
+}
+
 export function createCommandRunner(registry) {
   if (!registry || typeof registry.getHandler !== 'function') {
     throw new Error('COMMAND_REGISTRY_INVALID');
@@ -24,14 +45,22 @@ export function createCommandRunner(registry) {
     try {
       const output = await handler(input);
       if (output && typeof output === 'object' && typeof output.ok === 'boolean') {
-        return output;
+        if (output.ok) return output;
+        const normalized = normalizeCommandError(output.error, id);
+        return fail(normalized.code, normalized.op, normalized.reason, normalized.details);
+      }
+      if (output && typeof output === 'object' && output.error && typeof output.error === 'object') {
+        const normalized = normalizeCommandError(output.error, id);
+        return fail(normalized.code, normalized.op, normalized.reason, normalized.details);
+      }
+      if (output && typeof output === 'object' && output.code && output.reason) {
+        const normalized = normalizeCommandError(output, id);
+        return fail(normalized.code, normalized.op, normalized.reason, normalized.details);
       }
       return { ok: true, value: output };
     } catch (error) {
-      const reason = error && typeof error.message === 'string' && error.message.length > 0
-        ? error.message
-        : 'UNHANDLED_EXCEPTION';
-      return fail('E_COMMAND_FAILED', id, reason);
+      const normalized = normalizeCommandError(error, id);
+      return fail(normalized.code, normalized.op, normalized.reason, normalized.details);
     }
   };
 }

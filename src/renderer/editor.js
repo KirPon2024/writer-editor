@@ -2,6 +2,7 @@ import { initTiptap } from './tiptap/index.js';
 import { createCommandRegistry } from './commands/registry.mjs';
 import { createCommandRunner } from './commands/runCommand.mjs';
 import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands.mjs';
+import uiErrorMapDoc from '../../docs/OPS/STATUS/UI_ERROR_MAP.json';
 
 if (window.__USE_TIPTAP) {
   initTiptap(document.getElementById('editor'));
@@ -76,7 +77,9 @@ let currentMeta = {
 let expandedNodesByTab = new Map();
 let autoSaveTimerId = null;
 const AUTO_SAVE_DELAY = 600;
-const EXPORT_DOCX_SHORTCUT_STATUS = 'Export DOCX MIN: backend not wired';
+const UI_ERROR_MAP_SCHEMA_VERSION = 'ui-error-map.v1';
+const UI_ERROR_FALLBACK_MESSAGE = 'Операция не выполнена';
+const UI_ERROR_FALLBACK_SEVERITY = 'ERROR';
 
 const PX_PER_MM_AT_ZOOM_1 = 595 / 210;
 const ZOOM_DEFAULT = 1.0;
@@ -129,22 +132,65 @@ const commandRegistry = createCommandRegistry();
 const runCommand = createCommandRunner(commandRegistry);
 registerProjectCommands(commandRegistry, { electronAPI: window.electronAPI });
 
-function mapCommandErrorToStatus(error) {
-  if (!error || typeof error !== 'object') return 'Ошибка';
-  switch (error.code) {
-    case 'E_UNWIRED_EXPORT_BACKEND':
-      return EXPORT_DOCX_SHORTCUT_STATUS;
-    case 'E_COMMAND_NOT_FOUND':
-      return 'Команда не найдена';
-    default:
-      return 'Ошибка';
+function sanitizeUiErrorMap(input) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) {
+    return { defaultUserMessage: UI_ERROR_FALLBACK_MESSAGE, index: new Map() };
   }
+  const schemaVersion = typeof input.schemaVersion === 'string' ? input.schemaVersion : '';
+  const defaultUserMessage = typeof input.defaultUserMessage === 'string' && input.defaultUserMessage.length > 0
+    ? input.defaultUserMessage
+    : UI_ERROR_FALLBACK_MESSAGE;
+  if (schemaVersion !== UI_ERROR_MAP_SCHEMA_VERSION || !Array.isArray(input.map)) {
+    return { defaultUserMessage, index: new Map() };
+  }
+  const index = new Map();
+  for (const rule of input.map) {
+    if (!rule || typeof rule !== 'object' || Array.isArray(rule)) continue;
+    if (typeof rule.code !== 'string' || rule.code.length === 0) continue;
+    if (typeof rule.userMessage !== 'string' || rule.userMessage.length === 0) continue;
+    if (rule.severity !== 'ERROR' && rule.severity !== 'WARN') continue;
+    if (index.has(rule.code)) continue;
+    index.set(rule.code, { userMessage: rule.userMessage, severity: rule.severity });
+  }
+  return { defaultUserMessage, index };
+}
+
+const uiErrorMap = sanitizeUiErrorMap(uiErrorMapDoc);
+
+function mapCommandErrorToUi(error) {
+  const source = error && typeof error === 'object' && !Array.isArray(error)
+    ? error
+    : {};
+  const code = typeof source.code === 'string' && source.code.length > 0
+    ? source.code
+    : 'E_COMMAND_FAILED';
+  const op = typeof source.op === 'string' && source.op.length > 0 ? source.op : '';
+  const mapped = uiErrorMap.index.get(code);
+  if (mapped) {
+    return {
+      userMessage: mapped.userMessage,
+      severity: mapped.severity,
+      code,
+      op,
+    };
+  }
+  return {
+    userMessage: uiErrorMap.defaultUserMessage,
+    severity: UI_ERROR_FALLBACK_SEVERITY,
+    code,
+    op,
+  };
 }
 
 async function dispatchUiCommand(commandId, payload = {}) {
   const result = await runCommand(commandId, payload);
   if (!result.ok) {
-    updateStatusText(mapCommandErrorToStatus(result.error));
+    const mapped = mapCommandErrorToUi(result.error);
+    updateStatusText(mapped.userMessage);
+    if (mapped.severity === 'ERROR') {
+      const opSuffix = mapped.op ? ` op=${mapped.op}` : '';
+      console.error(`UI_COMMAND_ERROR code=${mapped.code}${opSuffix}`);
+    }
   }
   return result;
 }

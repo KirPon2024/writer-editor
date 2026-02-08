@@ -2896,6 +2896,17 @@ function readTokenFromStatus(path, key) {
   return '';
 }
 
+function parsePrereqPredicate(raw) {
+  const text = typeof raw === 'string' ? raw.trim() : '';
+  const m = /^([A-Z0-9_]+)==(\S+)$/.exec(text);
+  if (!m) return null;
+  return {
+    expression: text,
+    token: m[1],
+    value: m[2],
+  };
+}
+
 function evaluateNextSectorStatus(input) {
   const { strictLie } = input;
   const result = {
@@ -2931,12 +2942,13 @@ function evaluateNextSectorStatus(input) {
   const id = typeof parsed.id === 'string' ? parsed.id.trim() : '';
   const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
   const prereqs = Array.isArray(parsed.prereqs) ? parsed.prereqs : [];
+  const parsedPrereqs = prereqs.map((it) => parsePrereqPredicate(it));
 
   result.nextSectorId = id;
   result.goTag = goTag;
 
   const goTagOk = goTag === 'GO:NEXT_SECTOR_START' || goTag === '';
-  const prereqShapeOk = prereqs.length > 0 && prereqs.every((it) => typeof it === 'string' && it.includes('=='));
+  const prereqShapeOk = parsedPrereqs.length > 0 && parsedPrereqs.every((it) => it !== null);
   const schemaOk = parsed.schemaVersion === 'next-sector.v1';
   result.statusOk = schemaOk && id.length > 0 && goTagOk && prereqShapeOk ? 1 : 0;
 
@@ -2951,17 +2963,15 @@ function evaluateNextSectorStatus(input) {
   ]);
 
   const unmet = [];
-  for (const predicate of prereqs) {
-    if (typeof predicate !== 'string') continue;
-    const [leftRaw, rightRaw] = predicate.split('==');
-    const left = String(leftRaw || '').trim();
-    const right = String(rightRaw || '').trim();
-    if (left.length === 0 || right.length === 0) {
-      unmet.push(predicate);
+  for (let i = 0; i < parsedPrereqs.length; i += 1) {
+    const prereq = parsedPrereqs[i];
+    if (prereq === null) {
+      const fallbackExpr = typeof prereqs[i] === 'string' ? prereqs[i].trim() : '';
+      if (fallbackExpr.length > 0) unmet.push(fallbackExpr);
       continue;
     }
-    const current = predicateTokens.has(left) ? String(predicateTokens.get(left)) : '';
-    if (current !== right) unmet.push(predicate);
+    const current = predicateTokens.has(prereq.token) ? String(predicateTokens.get(prereq.token)) : '';
+    if (current !== prereq.value) unmet.push(prereq.expression);
   }
 
   result.unmet = [...new Set(unmet)].sort();

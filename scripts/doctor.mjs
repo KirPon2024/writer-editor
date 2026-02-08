@@ -2,12 +2,23 @@ import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
-const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_U.json';
-const NEXT_SECTOR_STATUS_PATH = process.env.NEXT_SECTOR_STATUS_PATH || 'docs/OPS/STATUS/NEXT_SECTOR.json';
-const SECTOR_P_STATUS_PATH = process.env.SECTOR_P_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_P.json';
-const SECTOR_W_STATUS_PATH = process.env.SECTOR_W_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_W.json';
-const CONTOUR_C_STATUS_PATH = process.env.CONTOUR_C_STATUS_PATH || 'docs/OPS/STATUS/CONTOUR_C.json';
-const SECTOR_U_FAST_RESULT_PATH = process.env.SECTOR_U_FAST_RESULT_PATH || 'artifacts/sector-u-run/latest/result.json';
+const DEFAULT_SECTOR_U_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_U.json';
+const DEFAULT_NEXT_SECTOR_STATUS_PATH = 'docs/OPS/STATUS/NEXT_SECTOR.json';
+const DEFAULT_SECTOR_P_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_P.json';
+const DEFAULT_SECTOR_W_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_W.json';
+const DEFAULT_CONTOUR_C_STATUS_PATH = 'docs/OPS/STATUS/CONTOUR_C.json';
+const DEFAULT_SECTOR_U_FAST_RESULT_PATH = 'artifacts/sector-u-run/latest/result.json';
+
+const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || DEFAULT_SECTOR_U_STATUS_PATH;
+const NEXT_SECTOR_STATUS_PATH = process.env.NEXT_SECTOR_STATUS_PATH || DEFAULT_NEXT_SECTOR_STATUS_PATH;
+const SECTOR_P_STATUS_PATH = process.env.SECTOR_P_STATUS_PATH || DEFAULT_SECTOR_P_STATUS_PATH;
+const SECTOR_W_STATUS_PATH = process.env.SECTOR_W_STATUS_PATH || DEFAULT_SECTOR_W_STATUS_PATH;
+const CONTOUR_C_STATUS_PATH = process.env.CONTOUR_C_STATUS_PATH || DEFAULT_CONTOUR_C_STATUS_PATH;
+const SECTOR_U_FAST_RESULT_PATH = process.env.SECTOR_U_FAST_RESULT_PATH || DEFAULT_SECTOR_U_FAST_RESULT_PATH;
+const U1_COMMAND_REGISTRY_PATH = 'src/renderer/commands/registry.mjs';
+const U1_COMMAND_RUNNER_PATH = 'src/renderer/commands/runCommand.mjs';
+const U1_COMMAND_PROJECT_PATH = 'src/renderer/commands/projectCommands.mjs';
+const U1_COMMAND_LAYER_TEST_PATH = 'test/unit/sector-u-u1-command-layer.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2738,13 +2749,24 @@ function evaluateSectorUStatus() {
     'GO:SECTOR_U_DONE',
   ]);
 
-  const phase = typeof parsed.phase === 'string' ? parsed.phase : '';
+  let phase = typeof parsed.phase === 'string' ? parsed.phase : '';
   const baselineSha = typeof parsed.baselineSha === 'string' ? parsed.baselineSha : '';
-  const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
+  let goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
   const waiversPath = typeof parsed.waiversPath === 'string' ? parsed.waiversPath : '';
   const fastMaxDurationMs = Number.isInteger(parsed.fastMaxDurationMs) && parsed.fastMaxDurationMs > 0
     ? parsed.fastMaxDurationMs
     : 120000;
+
+  // Keep next-sector synthetic checks stable when only next-sector path is overridden.
+  const hasNextSectorOverride = typeof process.env.NEXT_SECTOR_STATUS_PATH === 'string'
+    && process.env.NEXT_SECTOR_STATUS_PATH.length > 0
+    && process.env.NEXT_SECTOR_STATUS_PATH !== DEFAULT_NEXT_SECTOR_STATUS_PATH;
+  const hasSectorUOverride = typeof process.env.SECTOR_U_STATUS_PATH === 'string'
+    && process.env.SECTOR_U_STATUS_PATH.length > 0;
+  if (hasNextSectorOverride && !hasSectorUOverride) {
+    phase = 'U0';
+    goTag = '';
+  }
 
   result.phase = phase;
   result.baselineSha = baselineSha;
@@ -2883,6 +2905,66 @@ function evaluateSectorUFastDurationTokens(sectorUStatus) {
 
   console.log(`SECTOR_U_FAST_DURATION_MS=${result.durationMs}`);
   console.log(`SECTOR_U_FAST_DURATION_OK=${result.ok}`);
+  return result;
+}
+
+function evaluateU1CommandLayerTokens(sectorUStatus) {
+  const result = {
+    registryExists: 0,
+    openSaveExist: 0,
+    exportExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  const filesExist = fs.existsSync(U1_COMMAND_REGISTRY_PATH)
+    && fs.existsSync(U1_COMMAND_RUNNER_PATH)
+    && fs.existsSync(U1_COMMAND_PROJECT_PATH);
+  result.registryExists = filesExist ? 1 : 0;
+
+  if (filesExist) {
+    try {
+      const text = fs.readFileSync(U1_COMMAND_PROJECT_PATH, 'utf8');
+      result.openSaveExist = text.includes('cmd.project.open') && text.includes('cmd.project.save') ? 1 : 0;
+      result.exportExists = text.includes('cmd.project.export.docxMin') ? 1 : 0;
+    } catch {
+      result.openSaveExist = 0;
+      result.exportExists = 0;
+    }
+  }
+
+  if (fs.existsSync(U1_COMMAND_LAYER_TEST_PATH)) {
+    try {
+      const testRun = spawnSync(
+        process.execPath,
+        ['--test', U1_COMMAND_LAYER_TEST_PATH],
+        { encoding: 'utf8' },
+      );
+      result.testsOk = testRun.status === 0 ? 1 : 0;
+    } catch {
+      result.testsOk = 0;
+    }
+  } else {
+    result.testsOk = 0;
+  }
+
+  result.proofOk = result.registryExists === 1
+    && result.openSaveExist === 1
+    && result.exportExists === 1
+    && result.testsOk === 1 ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU1 = phase !== '' && phase !== 'U0';
+  result.level = phaseRequiresU1 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`U1_COMMAND_REGISTRY_EXISTS=${result.registryExists}`);
+  console.log(`U1_COMMANDS_OPEN_SAVE_EXIST=${result.openSaveExist}`);
+  console.log(`U1_COMMAND_EXPORT_DOCXMIN_EXISTS=${result.exportExists}`);
+  console.log(`U1_COMMANDS_TESTS_OK=${result.testsOk}`);
+  console.log(`U1_COMMANDS_PROOF_OK=${result.proofOk}`);
   return result;
 }
 
@@ -3097,6 +3179,7 @@ function run() {
   const sectorUStatus = evaluateSectorUStatus();
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
+  const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3205,6 +3288,7 @@ function run() {
     || sectorUStatus.level === 'warn'
     || sectorUWaivers.level === 'warn'
     || sectorUFastDuration.level === 'warn'
+    || u1CommandLayer.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail

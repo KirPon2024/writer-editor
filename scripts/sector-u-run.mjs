@@ -68,12 +68,28 @@ function extractDoctorSubsetTokens(stdout) {
     'SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK',
     'SECTOR_U_FAST_DURATION_MS',
     'SECTOR_U_FAST_DURATION_OK',
+    'U1_COMMAND_REGISTRY_EXISTS',
+    'U1_COMMANDS_OPEN_SAVE_EXIST',
+    'U1_COMMAND_EXPORT_DOCXMIN_EXISTS',
+    'U1_COMMANDS_TESTS_OK',
+    'U1_COMMANDS_PROOF_OK',
   ];
   const out = {};
   for (const key of keys) {
     out[key] = source.has(key) ? source.get(key) : '';
   }
   return out;
+}
+
+function readSectorUPhase() {
+  if (!fs.existsSync(DEFAULT_SECTOR_U_STATUS_PATH)) return 'U0';
+  try {
+    const parsed = JSON.parse(fs.readFileSync(DEFAULT_SECTOR_U_STATUS_PATH, 'utf8'));
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return 'U0';
+    return typeof parsed.phase === 'string' && parsed.phase.length > 0 ? parsed.phase : 'U0';
+  } catch {
+    return 'U0';
+  }
 }
 
 function runStep(step, runDir, startedAtMs) {
@@ -123,12 +139,21 @@ function hasNpmScript(scriptName) {
 
 function buildFastSteps() {
   const skipTest = process.env.SECTOR_U_RUN_SKIP_TEST === '1';
-  return [
+  const phase = readSectorUPhase();
+  const steps = [
     skipTest
       ? { id: 'SECTOR_U_FAST_01', cmd: process.execPath, args: ['-e', 'process.exit(0)'] }
       : { id: 'SECTOR_U_FAST_01', cmd: 'npm', args: ['run', 'test:sector-u'] },
-    { id: 'SECTOR_U_FAST_02', cmd: 'node', args: ['scripts/doctor.mjs'] },
   ];
+  if (phase !== 'U0') {
+    steps.push({
+      id: 'CHECK_U1_COMMAND_LAYER',
+      cmd: process.execPath,
+      args: ['--test', 'test/unit/sector-u-u1-command-layer.test.js'],
+    });
+  }
+  steps.push({ id: 'SECTOR_U_FAST_02', cmd: 'node', args: ['scripts/doctor.mjs'] });
+  return steps;
 }
 
 function buildPackSteps(pack) {
@@ -196,6 +221,21 @@ function main() {
   if (args.pack === 'fast' && fastDurationOk !== 1) {
     failed = true;
     failReason = 'FAST_DURATION_EXCEEDED';
+  }
+
+  const phase = typeof doctorTokens.SECTOR_U_PHASE === 'string' ? doctorTokens.SECTOR_U_PHASE : '';
+  const doctorStatusOk = doctorTokens.SECTOR_U_STATUS_OK === '1' ? 1 : 0;
+  const doctorWaiverOk = doctorTokens.SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK === '1' ? 1 : 0;
+  const doctorU1ProofOk = doctorTokens.U1_COMMANDS_PROOF_OK === '1' ? 1 : 0;
+  const needsU1Proof = phase !== '' && phase !== 'U0';
+  if (!failed) {
+    if (doctorStatusOk !== 1 || doctorWaiverOk !== 1) {
+      failed = true;
+      failReason = 'DOCTOR_FAIL';
+    } else if (needsU1Proof && doctorU1ProofOk !== 1) {
+      failed = true;
+      failReason = 'CHECK_PACK_FAIL';
+    }
   }
 
   const finishedAt = new Date().toISOString();

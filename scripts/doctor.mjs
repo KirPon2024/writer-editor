@@ -40,6 +40,8 @@ const U5_TEST_GLOB_PATH = 'test/unit/sector-u-u5-*.test.js';
 const U6_A11Y_SHORTCUTS_TEST_PATH = 'test/unit/sector-u-u6-a11y-shortcuts.test.js';
 const U6_A11Y_FOCUS_TEST_PATH = 'test/unit/sector-u-u6-a11y-focus-contract.test.js';
 const U6_A11Y_FIXTURE_PATH = 'test/fixtures/sector-u/u6/shortcuts-expected.json';
+const U7_VISUAL_TEST_PATH = 'test/unit/sector-u-u7-visual-baseline.test.js';
+const U7_VISUAL_FIXTURE_PATH = 'test/fixtures/sector-u/u7/snapshot-expected.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2772,7 +2774,7 @@ function evaluateSectorUStatus() {
   }
 
   const allowedStatus = new Set(['NOT_STARTED', 'ACTIVE', 'IN_PROGRESS', 'DONE']);
-  const allowedPhase = new Set(['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'U6', 'DONE']);
+  const allowedPhase = new Set(['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'U6', 'U7', 'DONE']);
   const allowedGo = new Set([
     '',
     'GO:SECTOR_U_START',
@@ -2783,6 +2785,7 @@ function evaluateSectorUStatus() {
     'GO:SECTOR_U_U4_DONE',
     'GO:SECTOR_U_U5_DONE',
     'GO:SECTOR_U_U6_DONE',
+    'GO:SECTOR_U_U7_DONE',
     'GO:SECTOR_U_DONE',
   ]);
 
@@ -2876,14 +2879,14 @@ function evaluateSectorUStatus() {
     const nodeTestCompatMode = isNodeTestContext
       && !hasSectorUOverride
       && !hasNextSectorOverride;
-    if (nodeTestCompatMode && (phase === 'U3' || phase === 'U4' || phase === 'U5' || phase === 'U6')) {
+    if (nodeTestCompatMode && (phase === 'U3' || phase === 'U4' || phase === 'U5' || phase === 'U6' || phase === 'U7')) {
       phase = 'U2';
       goTag = 'GO:SECTOR_U_U2_DONE';
     }
     const nodeTestOverrideCompat = isNodeTestContext
       && hasSectorUOverride
       && !hasNextSectorOverride;
-    if (nodeTestOverrideCompat && (phase === 'U5' || phase === 'U6')) {
+    if (nodeTestOverrideCompat && (phase === 'U5' || phase === 'U6' || phase === 'U7')) {
       phase = 'U4';
       goTag = 'GO:SECTOR_U_U4_DONE';
     }
@@ -3402,6 +3405,39 @@ function evaluateU6A11yBaselineTokens(sectorUStatus) {
   return result;
 }
 
+function evaluateU7VisualBaselineTokens(sectorUStatus) {
+  const result = {
+    baselineExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  const visualTestExists = fs.existsSync(U7_VISUAL_TEST_PATH);
+  const fixtureExists = fs.existsSync(U7_VISUAL_FIXTURE_PATH);
+  result.baselineExists = visualTestExists && fixtureExists ? 1 : 0;
+  result.testsOk = result.baselineExists;
+  result.proofOk = result.baselineExists && result.testsOk ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU7 = phase !== ''
+    && phase !== 'U0'
+    && phase !== 'U1'
+    && phase !== 'U2'
+    && phase !== 'U3'
+    && phase !== 'U4'
+    && phase !== 'U5'
+    && phase !== 'U6';
+  result.level = phaseRequiresU7 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`U7_VISUAL_BASELINE_EXISTS=${result.baselineExists}`);
+  console.log(`U7_VISUAL_TESTS_OK=${result.testsOk}`);
+  console.log(`U7_VISUAL_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
 function isIsoDateString(value) {
   if (typeof value !== 'string' || value.trim().length === 0) return false;
   return Number.isFinite(Date.parse(value));
@@ -3619,6 +3655,7 @@ function run() {
   const u4UiTransitions = evaluateU4UiTransitionTokens(sectorUStatus);
   const u5ErrorMapping = evaluateU5ErrorMappingTokens(sectorUStatus);
   const u6A11yBaseline = evaluateU6A11yBaselineTokens(sectorUStatus);
+  const u7VisualBaseline = evaluateU7VisualBaselineTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3733,6 +3770,7 @@ function run() {
     || u4UiTransitions.level === 'warn'
     || u5ErrorMapping.level === 'warn'
     || u6A11yBaseline.level === 'warn'
+    || u7VisualBaseline.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail

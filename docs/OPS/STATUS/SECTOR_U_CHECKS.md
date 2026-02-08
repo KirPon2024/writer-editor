@@ -18,5 +18,6 @@
 
 | CHECK_ID | ORDER | CMD | EXPECT | FAIL_REASON |
 |---|---:|---|---|---|
-| SECTOR_U_FULL_01 | 1 | `npm test` | exit code `0` | `TEST_FAIL` |
-| SECTOR_U_FULL_02 | 2 | `node scripts/doctor.mjs` | `SECTOR_U_STATUS_OK=1` and `SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=1` | `DOCTOR_FAIL` |
+| CHECK_U6_A11Y_BASELINE | 1 | `node --test test/unit/sector-u-u6-*.test.js` with `SECTOR_U_FULL_A11Y=1` | exit code `0` | `CHECK_PACK_FAIL` |
+| SECTOR_U_FULL_01 | 2 | `npm run test:sector-u-full` | exit code `0` | `TEST_FAIL` |
+| SECTOR_U_FULL_02 | 3 | `node scripts/doctor.mjs` | `SECTOR_U_STATUS_OK=1` and `SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=1` | `DOCTOR_FAIL` |

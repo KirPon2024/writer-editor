@@ -37,6 +37,9 @@ const U5_ERROR_MAP_SOT_PATH = 'docs/OPS/STATUS/UI_ERROR_MAP.json';
 const U5_RUN_COMMAND_PATH = 'src/renderer/commands/runCommand.mjs';
 const U5_EDITOR_PATH = 'src/renderer/editor.js';
 const U5_TEST_GLOB_PATH = 'test/unit/sector-u-u5-*.test.js';
+const U6_A11Y_SHORTCUTS_TEST_PATH = 'test/unit/sector-u-u6-a11y-shortcuts.test.js';
+const U6_A11Y_FOCUS_TEST_PATH = 'test/unit/sector-u-u6-a11y-focus-contract.test.js';
+const U6_A11Y_FIXTURE_PATH = 'test/fixtures/sector-u/u6/shortcuts-expected.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2769,7 +2772,7 @@ function evaluateSectorUStatus() {
   }
 
   const allowedStatus = new Set(['NOT_STARTED', 'ACTIVE', 'IN_PROGRESS', 'DONE']);
-  const allowedPhase = new Set(['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'DONE']);
+  const allowedPhase = new Set(['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'U6', 'DONE']);
   const allowedGo = new Set([
     '',
     'GO:SECTOR_U_START',
@@ -2779,6 +2782,7 @@ function evaluateSectorUStatus() {
     'GO:SECTOR_U_U3_DONE',
     'GO:SECTOR_U_U4_DONE',
     'GO:SECTOR_U_U5_DONE',
+    'GO:SECTOR_U_U6_DONE',
     'GO:SECTOR_U_DONE',
   ]);
 
@@ -2872,14 +2876,14 @@ function evaluateSectorUStatus() {
     const nodeTestCompatMode = isNodeTestContext
       && !hasSectorUOverride
       && !hasNextSectorOverride;
-    if (nodeTestCompatMode && (phase === 'U3' || phase === 'U4' || phase === 'U5')) {
+    if (nodeTestCompatMode && (phase === 'U3' || phase === 'U4' || phase === 'U5' || phase === 'U6')) {
       phase = 'U2';
       goTag = 'GO:SECTOR_U_U2_DONE';
     }
     const nodeTestOverrideCompat = isNodeTestContext
       && hasSectorUOverride
       && !hasNextSectorOverride;
-    if (nodeTestOverrideCompat && phase === 'U5') {
+    if (nodeTestOverrideCompat && (phase === 'U5' || phase === 'U6')) {
       phase = 'U4';
       goTag = 'GO:SECTOR_U_U4_DONE';
     }
@@ -3365,6 +3369,39 @@ function evaluateU5ErrorMappingTokens(sectorUStatus) {
   return result;
 }
 
+function evaluateU6A11yBaselineTokens(sectorUStatus) {
+  const result = {
+    baselineExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  const shortcutsTestExists = fs.existsSync(U6_A11Y_SHORTCUTS_TEST_PATH);
+  const focusTestExists = fs.existsSync(U6_A11Y_FOCUS_TEST_PATH);
+  const fixtureExists = fs.existsSync(U6_A11Y_FIXTURE_PATH);
+  result.baselineExists = shortcutsTestExists && focusTestExists && fixtureExists ? 1 : 0;
+  result.testsOk = result.baselineExists;
+  result.proofOk = result.baselineExists && result.testsOk ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU6 = phase !== ''
+    && phase !== 'U0'
+    && phase !== 'U1'
+    && phase !== 'U2'
+    && phase !== 'U3'
+    && phase !== 'U4'
+    && phase !== 'U5';
+  result.level = phaseRequiresU6 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`U6_A11Y_BASELINE_EXISTS=${result.baselineExists}`);
+  console.log(`U6_A11Y_TESTS_OK=${result.testsOk}`);
+  console.log(`U6_A11Y_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
 function isIsoDateString(value) {
   if (typeof value !== 'string' || value.trim().length === 0) return false;
   return Number.isFinite(Date.parse(value));
@@ -3581,6 +3618,7 @@ function run() {
   const u3ExportWiring = evaluateU3ExportWiringTokens(sectorUStatus);
   const u4UiTransitions = evaluateU4UiTransitionTokens(sectorUStatus);
   const u5ErrorMapping = evaluateU5ErrorMappingTokens(sectorUStatus);
+  const u6A11yBaseline = evaluateU6A11yBaselineTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3694,6 +3732,7 @@ function run() {
     || u3ExportWiring.level === 'warn'
     || u4UiTransitions.level === 'warn'
     || u5ErrorMapping.level === 'warn'
+    || u6A11yBaseline.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail

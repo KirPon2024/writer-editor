@@ -1,0 +1,8 @@
+{
+  "commandIds": [
+    "COMMAND_IDS.PROJECT_OPEN",
+    "COMMAND_IDS.PROJECT_SAVE",
+    "COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN"
+  ],
+  "keyboardExportShortcut": "shift+primary+e"
+}

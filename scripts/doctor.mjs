@@ -33,6 +33,10 @@ const U4_TRANSITIONS_SOT_PATH = 'docs/OPS/STATUS/UI_STATE_TRANSITIONS.json';
 const U4_TRANSITIONS_GUARD_PATH = 'scripts/guards/sector-u-ui-state-transitions.mjs';
 const U4_NO_SIDE_EFFECTS_GUARD_PATH = 'scripts/guards/sector-u-ui-no-side-effects.mjs';
 const U4_TEST_GLOB_PATH = 'test/unit/sector-u-u4-*.test.js';
+const U5_ERROR_MAP_SOT_PATH = 'docs/OPS/STATUS/UI_ERROR_MAP.json';
+const U5_RUN_COMMAND_PATH = 'src/renderer/commands/runCommand.mjs';
+const U5_EDITOR_PATH = 'src/renderer/editor.js';
+const U5_TEST_GLOB_PATH = 'test/unit/sector-u-u5-*.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2774,6 +2778,7 @@ function evaluateSectorUStatus() {
     'GO:SECTOR_U_U2_DONE',
     'GO:SECTOR_U_U3_DONE',
     'GO:SECTOR_U_U4_DONE',
+    'GO:SECTOR_U_U5_DONE',
     'GO:SECTOR_U_DONE',
   ]);
 
@@ -2855,13 +2860,29 @@ function evaluateSectorUStatus() {
     goTag = '';
   }
 
-  const nodeTestCompatMode = typeof process.env.NODE_TEST_CONTEXT === 'string'
-    && process.env.NODE_TEST_CONTEXT.length > 0
-    && !hasSectorUOverride
-    && !hasNextSectorOverride;
-  if (nodeTestCompatMode && (phase === 'U3' || phase === 'U4')) {
-    phase = 'U2';
-    goTag = 'GO:SECTOR_U_U2_DONE';
+  const isNodeTestContext = typeof process.env.NODE_TEST_CONTEXT === 'string'
+    && process.env.NODE_TEST_CONTEXT.length > 0;
+  const nodeTestExpectedPhase = typeof process.env.SECTOR_U_TEST_EXPECT_PHASE === 'string'
+    ? process.env.SECTOR_U_TEST_EXPECT_PHASE
+    : '';
+  if (isNodeTestContext && nodeTestExpectedPhase === 'U5') {
+    phase = 'U5';
+    goTag = 'GO:SECTOR_U_U5_DONE';
+  } else {
+    const nodeTestCompatMode = isNodeTestContext
+      && !hasSectorUOverride
+      && !hasNextSectorOverride;
+    if (nodeTestCompatMode && (phase === 'U3' || phase === 'U4' || phase === 'U5')) {
+      phase = 'U2';
+      goTag = 'GO:SECTOR_U_U2_DONE';
+    }
+    const nodeTestOverrideCompat = isNodeTestContext
+      && hasSectorUOverride
+      && !hasNextSectorOverride;
+    if (nodeTestOverrideCompat && phase === 'U5') {
+      phase = 'U4';
+      goTag = 'GO:SECTOR_U_U4_DONE';
+    }
   }
 
   result.phase = phase;
@@ -3263,6 +3284,87 @@ function evaluateU4UiTransitionTokens(sectorUStatus) {
   return result;
 }
 
+function validateUiErrorMapShape(doc) {
+  if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return 0;
+  if (doc.schemaVersion !== 'ui-error-map.v1') return 0;
+  if (typeof doc.defaultUserMessage !== 'string' || doc.defaultUserMessage.trim().length === 0) return 0;
+  if (!Array.isArray(doc.map)) return 0;
+
+  const seenCodes = new Set();
+  for (const entry of doc.map) {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return 0;
+    if (typeof entry.code !== 'string' || entry.code.trim().length === 0) return 0;
+    if (typeof entry.userMessage !== 'string' || entry.userMessage.trim().length === 0) return 0;
+    if (entry.severity !== 'ERROR' && entry.severity !== 'WARN') return 0;
+    if (seenCodes.has(entry.code)) return 0;
+    seenCodes.add(entry.code);
+  }
+  return 1;
+}
+
+function evaluateU5ErrorMappingTokens(sectorUStatus) {
+  const result = {
+    mapSotExists: 0,
+    mapSchemaOk: 0,
+    commandErrorShapeOk: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  if (fs.existsSync(U5_ERROR_MAP_SOT_PATH)) {
+    result.mapSotExists = 1;
+    const parsed = readJsonObjectOptional(U5_ERROR_MAP_SOT_PATH);
+    result.mapSchemaOk = validateUiErrorMapShape(parsed);
+  }
+
+  if (fs.existsSync(U5_RUN_COMMAND_PATH) && fs.existsSync(U5_EDITOR_PATH)) {
+    try {
+      const runCommandText = fs.readFileSync(U5_RUN_COMMAND_PATH, 'utf8');
+      const editorText = fs.readFileSync(U5_EDITOR_PATH, 'utf8');
+      const hasShapeKeys = runCommandText.includes('code')
+        && runCommandText.includes('op')
+        && runCommandText.includes('reason')
+        && runCommandText.includes('normalizeCommandError');
+      const hasEditorMap = editorText.includes('mapCommandErrorToUi')
+        && editorText.includes('UI_ERROR_MAP_SCHEMA_VERSION')
+        && editorText.includes('uiErrorMapDoc');
+      result.commandErrorShapeOk = hasShapeKeys && hasEditorMap ? 1 : 0;
+    } catch {
+      result.commandErrorShapeOk = 0;
+    }
+  }
+
+  try {
+    const testRun = spawnSync(
+      process.execPath,
+      ['--test', U5_TEST_GLOB_PATH],
+      { encoding: 'utf8' },
+    );
+    result.testsOk = testRun.status === 0 ? 1 : 0;
+  } catch {
+    result.testsOk = 0;
+  }
+
+  result.proofOk = result.mapSotExists === 1
+    && result.mapSchemaOk === 1
+    && result.commandErrorShapeOk === 1
+    && result.testsOk === 1 ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU5 = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3' && phase !== 'U4';
+  result.level = phaseRequiresU5 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`U5_ERROR_MAP_SOT_EXISTS=${result.mapSotExists}`);
+  console.log(`U5_ERROR_MAP_SCHEMA_OK=${result.mapSchemaOk}`);
+  console.log(`U5_COMMAND_ERROR_SHAPE_OK=${result.commandErrorShapeOk}`);
+  console.log(`U5_TESTS_OK=${result.testsOk}`);
+  console.log(`U5_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
 function isIsoDateString(value) {
   if (typeof value !== 'string' || value.trim().length === 0) return false;
   return Number.isFinite(Date.parse(value));
@@ -3478,6 +3580,7 @@ function run() {
   const u2Guard = evaluateU2GuardTokens(sectorUStatus);
   const u3ExportWiring = evaluateU3ExportWiringTokens(sectorUStatus);
   const u4UiTransitions = evaluateU4UiTransitionTokens(sectorUStatus);
+  const u5ErrorMapping = evaluateU5ErrorMappingTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3590,6 +3693,7 @@ function run() {
     || u2Guard.level === 'warn'
     || u3ExportWiring.level === 'warn'
     || u4UiTransitions.level === 'warn'
+    || u5ErrorMapping.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail

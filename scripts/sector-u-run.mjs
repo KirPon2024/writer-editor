@@ -89,6 +89,11 @@ function extractDoctorSubsetTokens(stdout) {
     'U4_NO_SIDE_EFFECTS_RULE_EXISTS',
     'U4_TESTS_OK',
     'U4_PROOF_OK',
+    'U5_ERROR_MAP_SOT_EXISTS',
+    'U5_ERROR_MAP_SCHEMA_OK',
+    'U5_COMMAND_ERROR_SHAPE_OK',
+    'U5_TESTS_OK',
+    'U5_PROOF_OK',
   ];
   const out = {};
   for (const key of keys) {
@@ -199,6 +204,13 @@ function buildFastSteps() {
       args: ['--test', 'test/unit/sector-u-u4-*.test.js'],
     });
   }
+  if (phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3' && phase !== 'U4') {
+    steps.push({
+      id: 'CHECK_U5_UI_ERROR_MAPPING',
+      cmd: process.execPath,
+      args: ['--test', 'test/unit/sector-u-u5-*.test.js'],
+    });
+  }
   steps.push({ id: 'SECTOR_U_FAST_02', cmd: 'node', args: ['scripts/doctor.mjs'] });
   return steps;
 }
@@ -278,10 +290,12 @@ function main() {
   const doctorU2TtlExpired = doctorTokens.U2_TTL_EXPIRED === '1' ? 1 : 0;
   const doctorU3ProofOk = doctorTokens.U3_EXPORT_PROOF_OK === '1' ? 1 : 0;
   const doctorU4ProofOk = doctorTokens.U4_PROOF_OK === '1' ? 1 : 0;
+  const doctorU5ProofOk = doctorTokens.U5_PROOF_OK === '1' ? 1 : 0;
   const needsU1Proof = phase !== '' && phase !== 'U0';
   const needsU2Proof = phase !== '' && phase !== 'U0' && phase !== 'U1';
   const needsU3Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2';
   const needsU4Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3';
+  const needsU5Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3' && phase !== 'U4';
   if (!failed) {
     if (doctorStatusOk !== 1 || doctorWaiverOk !== 1) {
       failed = true;
@@ -299,6 +313,9 @@ function main() {
       failed = true;
       failReason = 'CHECK_PACK_FAIL';
     } else if (needsU4Proof && doctorU4ProofOk !== 1) {
+      failed = true;
+      failReason = 'CHECK_PACK_FAIL';
+    } else if (needsU5Proof && doctorU5ProofOk !== 1) {
       failed = true;
       failReason = 'CHECK_PACK_FAIL';
     }

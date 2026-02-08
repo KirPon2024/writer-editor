@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "ui-error-map.v1",
+  "defaultUserMessage": "Операция не выполнена",
+  "map": [
+    {
+      "code": "E_CANCELLED",
+      "userMessage": "Операция отменена",
+      "severity": "WARN"
+    },
+    {
+      "code": "E_COMMAND_FAILED",
+      "userMessage": "Команда завершилась с ошибкой",
+      "severity": "ERROR"
+    },
+    {
+      "code": "E_COMMAND_NOT_FOUND",
+      "userMessage": "Команда не найдена",
+      "severity": "ERROR"
+    },
+    {
+      "code": "E_IO",
+      "userMessage": "Ошибка ввода-вывода",
+      "severity": "ERROR"
+    },
+    {
+      "code": "E_PLATFORM_ID_REQUIRED",
+      "userMessage": "Платформа не определена",
+      "severity": "ERROR"
+    },
+    {
+      "code": "E_UNSUPPORTED_PLATFORM",
+      "userMessage": "Платформа не поддерживается",
+      "severity": "ERROR"
+    },
+    {
+      "code": "E_UNWIRED_EXPORT_BACKEND",
+      "userMessage": "Export DOCX MIN: backend not wired",
+      "severity": "WARN"
+    }
+  ]
+}

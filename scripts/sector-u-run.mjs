@@ -94,6 +94,9 @@ function extractDoctorSubsetTokens(stdout) {
     'U5_COMMAND_ERROR_SHAPE_OK',
     'U5_TESTS_OK',
     'U5_PROOF_OK',
+    'U6_A11Y_BASELINE_EXISTS',
+    'U6_A11Y_TESTS_OK',
+    'U6_A11Y_PROOF_OK',
   ];
   const out = {};
   for (const key of keys) {
@@ -218,10 +221,20 @@ function buildFastSteps() {
 function buildPackSteps(pack) {
   const fast = buildFastSteps();
   if (pack === 'full') {
-    return [
-      ...fast,
-      { id: 'SECTOR_U_FULL_01', cmd: 'npm', args: ['test'] },
-    ];
+    const phase = readSectorUPhase();
+    const out = [...fast];
+    if (phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3' && phase !== 'U4' && phase !== 'U5') {
+      out.push({
+        id: 'CHECK_U6_A11Y_BASELINE',
+        cmd: process.execPath,
+        args: ['--test', 'test/unit/sector-u-u6-*.test.js'],
+        env: {
+          SECTOR_U_FULL_A11Y: '1',
+        },
+      });
+    }
+    out.push({ id: 'SECTOR_U_FULL_01', cmd: 'npm', args: ['run', 'test:sector-u-full'] });
+    return out;
   }
   return fast;
 }

@@ -103,6 +103,10 @@ function extractDoctorSubsetTokens(stdout) {
     'U8_PERF_RULE_EXISTS',
     'U8_PERF_TESTS_OK',
     'U8_PERF_PROOF_OK',
+    'SECTOR_U_CLOSE_READY',
+    'SECTOR_U_CLOSE_OK',
+    'SECTOR_U_CLOSED_MUTATION',
+    'SECTOR_U_CLOSED_MUTATION_VIOLATIONS',
   ];
   const out = {};
   for (const key of keys) {
@@ -220,6 +224,13 @@ function buildFastSteps() {
       args: ['--test', 'test/unit/sector-u-u5-*.test.js'],
     });
   }
+  if (phase === 'DONE') {
+    steps.push({
+      id: 'CHECK_U9_CLOSE_LOCK',
+      cmd: process.execPath,
+      args: ['--test', 'test/unit/sector-u-close*.test.js'],
+    });
+  }
   steps.push({ id: 'SECTOR_U_FAST_02', cmd: 'node', args: ['scripts/doctor.mjs'] });
   return steps;
 }
@@ -330,11 +341,14 @@ function main() {
   const doctorU3ProofOk = doctorTokens.U3_EXPORT_PROOF_OK === '1' ? 1 : 0;
   const doctorU4ProofOk = doctorTokens.U4_PROOF_OK === '1' ? 1 : 0;
   const doctorU5ProofOk = doctorTokens.U5_PROOF_OK === '1' ? 1 : 0;
+  const doctorU9CloseOk = doctorTokens.SECTOR_U_CLOSE_OK === '1' ? 1 : 0;
+  const doctorU9ClosedMutation = doctorTokens.SECTOR_U_CLOSED_MUTATION === '1' ? 1 : 0;
   const needsU1Proof = phase !== '' && phase !== 'U0';
   const needsU2Proof = phase !== '' && phase !== 'U0' && phase !== 'U1';
   const needsU3Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2';
   const needsU4Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3';
   const needsU5Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2' && phase !== 'U3' && phase !== 'U4';
+  const needsU9Proof = phase === 'DONE';
   if (!failed) {
     if (doctorStatusOk !== 1 || doctorWaiverOk !== 1) {
       failed = true;
@@ -357,6 +371,12 @@ function main() {
     } else if (needsU5Proof && doctorU5ProofOk !== 1) {
       failed = true;
       failReason = 'CHECK_PACK_FAIL';
+    } else if (needsU9Proof && doctorU9CloseOk !== 1) {
+      failed = true;
+      failReason = 'CHECK_PACK_FAIL';
+    } else if (needsU9Proof && doctorU9ClosedMutation === 1) {
+      failed = true;
+      failReason = 'SECTOR_U_CLOSED_MUTATION';
     }
   }
 

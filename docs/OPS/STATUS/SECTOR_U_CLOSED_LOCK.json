@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "sector-u-closed-lock.v1",
+  "sector": "U",
+  "generatedAt": "2026-02-08T13:55:00.000Z",
+  "generatedBy": "codex",
+  "artifacts": [
+    {
+      "path": "docs/OPS/STATUS/SECTOR_U.json",
+      "sha256": "f85cb710f4bbbff1deb84f5b4a7acae9ced9fb109bca441d5719eee6284c67ea"
+    },
+    {
+      "path": "docs/OPS/STATUS/SECTOR_U_CLOSE_REPORT.md",
+      "sha256": "78657fff9595081ebec2e8ea8047aae16cefb850a0969c235538062019b9a39f"
+    }
+  ]
+}

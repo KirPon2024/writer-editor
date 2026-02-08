@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 const DEFAULT_SECTOR_U_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_U.json';
@@ -8,6 +9,8 @@ const DEFAULT_SECTOR_P_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_P.json';
 const DEFAULT_SECTOR_W_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_W.json';
 const DEFAULT_CONTOUR_C_STATUS_PATH = 'docs/OPS/STATUS/CONTOUR_C.json';
 const DEFAULT_SECTOR_U_FAST_RESULT_PATH = 'artifacts/sector-u-run/latest/result.json';
+const DEFAULT_SECTOR_U_CLOSE_REPORT_PATH = 'docs/OPS/STATUS/SECTOR_U_CLOSE_REPORT.md';
+const DEFAULT_SECTOR_U_CLOSED_LOCK_PATH = 'docs/OPS/STATUS/SECTOR_U_CLOSED_LOCK.json';
 
 const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || DEFAULT_SECTOR_U_STATUS_PATH;
 const NEXT_SECTOR_STATUS_PATH = process.env.NEXT_SECTOR_STATUS_PATH || DEFAULT_NEXT_SECTOR_STATUS_PATH;
@@ -15,6 +18,8 @@ const SECTOR_P_STATUS_PATH = process.env.SECTOR_P_STATUS_PATH || DEFAULT_SECTOR_
 const SECTOR_W_STATUS_PATH = process.env.SECTOR_W_STATUS_PATH || DEFAULT_SECTOR_W_STATUS_PATH;
 const CONTOUR_C_STATUS_PATH = process.env.CONTOUR_C_STATUS_PATH || DEFAULT_CONTOUR_C_STATUS_PATH;
 const SECTOR_U_FAST_RESULT_PATH = process.env.SECTOR_U_FAST_RESULT_PATH || DEFAULT_SECTOR_U_FAST_RESULT_PATH;
+const SECTOR_U_CLOSE_REPORT_PATH = process.env.SECTOR_U_CLOSE_REPORT_PATH || DEFAULT_SECTOR_U_CLOSE_REPORT_PATH;
+const SECTOR_U_CLOSED_LOCK_PATH = process.env.SECTOR_U_CLOSED_LOCK_PATH || DEFAULT_SECTOR_U_CLOSED_LOCK_PATH;
 const U1_COMMAND_REGISTRY_PATH = 'src/renderer/commands/registry.mjs';
 const U1_COMMAND_RUNNER_PATH = 'src/renderer/commands/runCommand.mjs';
 const U1_COMMAND_PROJECT_PATH = 'src/renderer/commands/projectCommands.mjs';
@@ -2721,6 +2726,15 @@ function readJsonObjectOptional(filePath) {
   }
 }
 
+function sha256File(filePath) {
+  try {
+    const data = fs.readFileSync(filePath);
+    return createHash('sha256').update(data).digest('hex');
+  } catch {
+    return '';
+  }
+}
+
 function evaluateSectorUStatus() {
   function printTokens(result) {
     console.log(`SECTOR_U_PHASE=${result.phase}`);
@@ -2922,6 +2936,14 @@ function evaluateSectorUStatus() {
   const goTagOk = typeof goTag === 'string' && allowedGo.has(goTag);
   const uiRootPathOk = parsed.uiRootPath === 'src/renderer';
   const waiversPathOk = waiversPath.length > 0;
+  const doneRequiresClosed = parsed.status === 'DONE' || phase === 'DONE' || goTag === 'GO:SECTOR_U_DONE';
+  const closedBaselineSha = typeof parsed.closedBaselineSha === 'string' ? parsed.closedBaselineSha : '';
+  const closedBaselineOk = /^[0-9a-f]{7,}$/i.test(closedBaselineSha) && closedBaselineSha === baselineSha;
+  const closedAtOk = isIsoDateString(parsed.closedAt);
+  const closedByOk = typeof parsed.closedBy === 'string' && parsed.closedBy.trim().length > 0;
+  const closeFieldsOk = doneRequiresClosed
+    ? (closedBaselineOk && closedAtOk && closedByOk)
+    : true;
 
   if (
     schemaOk
@@ -2931,6 +2953,7 @@ function evaluateSectorUStatus() {
     && goTagOk
     && uiRootPathOk
     && waiversPathOk
+    && closeFieldsOk
   ) {
     result.statusOk = 1;
     result.level = 'ok';
@@ -3475,6 +3498,106 @@ function evaluateU8PerfBaselineTokens(sectorUStatus) {
   return result;
 }
 
+function evaluateU9CloseTokens(sectorUStatus) {
+  const result = {
+    closeReportPath: SECTOR_U_CLOSE_REPORT_PATH,
+    closedLockPath: SECTOR_U_CLOSED_LOCK_PATH,
+    closeReady: 0,
+    closeOk: 0,
+    closedMutation: 0,
+    violations: [],
+    level: 'ok',
+  };
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU9 = phase === 'DONE';
+  const sectorDoc = readJsonObjectOptional(SECTOR_U_STATUS_PATH);
+  const reportExists = fs.existsSync(SECTOR_U_CLOSE_REPORT_PATH);
+  const lockDoc = readJsonObjectOptional(SECTOR_U_CLOSED_LOCK_PATH);
+  const expectedPaths = [
+    SECTOR_U_STATUS_PATH,
+    SECTOR_U_CLOSE_REPORT_PATH,
+  ];
+  const expectedSet = new Set(expectedPaths);
+  const violations = [];
+
+  const doneShapeOk = !!(
+    sectorDoc
+    && sectorDoc.status === 'DONE'
+    && sectorDoc.phase === 'DONE'
+    && sectorDoc.goTag === 'GO:SECTOR_U_DONE'
+    && typeof sectorDoc.baselineSha === 'string'
+    && /^[0-9a-f]{7,}$/i.test(sectorDoc.baselineSha)
+    && typeof sectorDoc.closedBaselineSha === 'string'
+    && sectorDoc.closedBaselineSha === sectorDoc.baselineSha
+    && isIsoDateString(sectorDoc.closedAt)
+    && typeof sectorDoc.closedBy === 'string'
+    && sectorDoc.closedBy.trim().length > 0
+  );
+  if (!doneShapeOk) violations.push('SECTOR_U_DONE_SHAPE_INVALID');
+  if (!reportExists) violations.push('CLOSE_REPORT_MISSING');
+
+  let lockShapeOk = false;
+  if (!lockDoc) {
+    violations.push('CLOSED_LOCK_MISSING_OR_INVALID');
+  } else {
+    const lockSchemaOk = lockDoc.schemaVersion === 'sector-u-closed-lock.v1';
+    const lockSectorOk = lockDoc.sector === 'U';
+    const lockArtifacts = Array.isArray(lockDoc.artifacts) ? lockDoc.artifacts : [];
+    const lockArtifactsLenOk = lockArtifacts.length === expectedPaths.length;
+    if (!lockSchemaOk || !lockSectorOk || !lockArtifactsLenOk) {
+      violations.push('CLOSED_LOCK_SHAPE_INVALID');
+    } else {
+      const seen = new Set();
+      let artifactsValid = true;
+      for (const artifact of lockArtifacts) {
+        if (!artifact || typeof artifact !== 'object' || Array.isArray(artifact)) {
+          artifactsValid = false;
+          break;
+        }
+        const artifactPath = typeof artifact.path === 'string' ? artifact.path : '';
+        const artifactSha = typeof artifact.sha256 === 'string' ? artifact.sha256 : '';
+        if (!expectedSet.has(artifactPath) || seen.has(artifactPath) || !/^[a-f0-9]{64}$/i.test(artifactSha)) {
+          artifactsValid = false;
+          break;
+        }
+        seen.add(artifactPath);
+      }
+      if (!artifactsValid || seen.size !== expectedPaths.length) {
+        violations.push('CLOSED_LOCK_ARTIFACTS_INVALID');
+      } else {
+        lockShapeOk = true;
+        for (const artifactPath of expectedPaths) {
+          const lockEntry = lockArtifacts.find((entry) => entry.path === artifactPath);
+          const actualSha = sha256File(artifactPath);
+          const lockedSha = lockEntry ? String(lockEntry.sha256 || '') : '';
+          if (!actualSha || !lockedSha || actualSha.toLowerCase() !== lockedSha.toLowerCase()) {
+            violations.push(`LOCK_HASH_MISMATCH:${artifactPath}`);
+          }
+        }
+      }
+    }
+  }
+
+  const uniqViolations = [...new Set(violations)].sort();
+  result.violations = uniqViolations;
+  result.closeReady = doneShapeOk && reportExists && lockShapeOk ? 1 : 0;
+  result.closedMutation = phaseRequiresU9 && uniqViolations.length > 0 ? 1 : 0;
+  result.closeOk = result.closeReady === 1 && result.closedMutation === 0 ? 1 : 0;
+  result.level = phaseRequiresU9 && result.closeOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`SECTOR_U_CLOSE_REPORT_PATH=${result.closeReportPath}`);
+  console.log(`SECTOR_U_CLOSED_LOCK_PATH=${result.closedLockPath}`);
+  console.log(`SECTOR_U_CLOSE_READY=${result.closeReady}`);
+  console.log(`SECTOR_U_CLOSE_OK=${result.closeOk}`);
+  console.log(`SECTOR_U_CLOSED_MUTATION=${result.closedMutation}`);
+  console.log(`SECTOR_U_CLOSED_MUTATION_VIOLATIONS=${JSON.stringify(result.violations)}`);
+
+  return result;
+}
+
 function isIsoDateString(value) {
   if (typeof value !== 'string' || value.trim().length === 0) return false;
   return Number.isFinite(Date.parse(value));
@@ -3694,6 +3817,7 @@ function run() {
   const u6A11yBaseline = evaluateU6A11yBaselineTokens(sectorUStatus);
   const u7VisualBaseline = evaluateU7VisualBaselineTokens(sectorUStatus);
   const u8PerfBaseline = evaluateU8PerfBaselineTokens(sectorUStatus);
+  const u9Close = evaluateU9CloseTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -3810,6 +3934,7 @@ function run() {
     || u6A11yBaseline.level === 'warn'
     || u7VisualBaseline.level === 'warn'
     || u8PerfBaseline.level === 'warn'
+    || u9Close.level === 'warn'
     || nextSector.level === 'warn';
 
   const final = hasFail
@@ -3828,13 +3953,16 @@ function run() {
     && final.exitCode === 0
     && strictLieClass01Count === 0
     && strictLieClass02Count === 0
-    && u2Guard.ttlExpired !== 1 ? 1 : 0;
+    && u2Guard.ttlExpired !== 1
+    && !(sectorUStatus.phase === 'DONE' && (u9Close.closeOk !== 1 || u9Close.closedMutation !== 0)) ? 1 : 0;
 
   let currentWaveFailReason = '';
   if (boundaryExitCode !== 0) currentWaveFailReason = 'BOUNDARY_GUARD_FAILED';
   else if (strictLieOk !== 1) currentWaveFailReason = 'STRICT_LIE_CLASSES_NOT_OK';
   else if (final.exitCode !== 0) currentWaveFailReason = 'DOCTOR_FAIL';
   else if (u2Guard.ttlExpired === 1) currentWaveFailReason = 'U2_TTL_EXPIRED';
+  else if (sectorUStatus.phase === 'DONE' && u9Close.closedMutation !== 0) currentWaveFailReason = 'SECTOR_U_CLOSED_MUTATION';
+  else if (sectorUStatus.phase === 'DONE' && u9Close.closeOk !== 1) currentWaveFailReason = 'SECTOR_U_CLOSE_NOT_OK';
 
   console.log('CURRENT_WAVE_GUARD_RAN=1');
   console.log(`CURRENT_WAVE_STOP_CONDITION_OK=${currentWaveOk}`);

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "waived-gates.v1",
+  "waived": [
+    {
+      "gateId": "DOCS_STYLE_GATE",
+      "reason": "non runtime",
+      "scope": "docs"
+    }
+  ]
+}

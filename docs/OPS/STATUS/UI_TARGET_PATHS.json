@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "ui-target-paths.v1",
+  "pathsInclude": [
+    "src/renderer/**"
+  ],
+  "pathsExclude": [
+    "**/*.spec.*",
+    "test/**",
+    "scripts/**"
+  ]
+}

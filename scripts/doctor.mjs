@@ -2,6 +2,12 @@ import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
+const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_U.json';
+const NEXT_SECTOR_STATUS_PATH = process.env.NEXT_SECTOR_STATUS_PATH || 'docs/OPS/STATUS/NEXT_SECTOR.json';
+const SECTOR_P_STATUS_PATH = process.env.SECTOR_P_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_P.json';
+const SECTOR_W_STATUS_PATH = process.env.SECTOR_W_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_W.json';
+const CONTOUR_C_STATUS_PATH = process.env.CONTOUR_C_STATUS_PATH || 'docs/OPS/STATUS/CONTOUR_C.json';
+const SECTOR_U_FAST_RESULT_PATH = process.env.SECTOR_U_FAST_RESULT_PATH || 'artifacts/sector-u-run/latest/result.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2668,6 +2674,308 @@ function checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry,
   return { level: 'ok', ok, class01Count: c1.violations.length, class02Count: c2.violations.length };
 }
 
+function readJsonObjectOptional(filePath) {
+  if (!fs.existsSync(filePath)) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function evaluateSectorUStatus() {
+  function printTokens(result) {
+    console.log(`SECTOR_U_PHASE=${result.phase}`);
+    console.log(`SECTOR_U_BASELINE_SHA=${result.baselineSha}`);
+    console.log(`SECTOR_U_GO_TAG=${result.goTag}`);
+    console.log(`SECTOR_U_STATUS_OK=${result.statusOk}`);
+  }
+
+  const result = {
+    phase: '',
+    baselineSha: '',
+    goTag: '',
+    statusOk: 0,
+    waiversPath: '',
+    fastMaxDurationMs: 120000,
+    level: 'warn',
+  };
+
+  const parsed = readJsonObjectOptional(SECTOR_U_STATUS_PATH);
+  if (!parsed) {
+    printTokens(result);
+    return result;
+  }
+
+  const requiredTop = [
+    'schemaVersion',
+    'status',
+    'phase',
+    'baselineSha',
+    'goTag',
+    'uiRootPath',
+    'fastMaxDurationMs',
+    'waiversPath',
+  ];
+  const hasRequiredTop = requiredTop.every((key) => Object.prototype.hasOwnProperty.call(parsed, key));
+  if (!hasRequiredTop) {
+    printTokens(result);
+    return result;
+  }
+
+  const allowedStatus = new Set(['NOT_STARTED', 'ACTIVE', 'IN_PROGRESS', 'DONE']);
+  const allowedPhase = new Set(['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'DONE']);
+  const allowedGo = new Set([
+    '',
+    'GO:SECTOR_U_START',
+    'GO:SECTOR_U_U0_DONE',
+    'GO:SECTOR_U_U1_DONE',
+    'GO:SECTOR_U_U2_DONE',
+    'GO:SECTOR_U_U3_DONE',
+    'GO:SECTOR_U_U4_DONE',
+    'GO:SECTOR_U_DONE',
+  ]);
+
+  const phase = typeof parsed.phase === 'string' ? parsed.phase : '';
+  const baselineSha = typeof parsed.baselineSha === 'string' ? parsed.baselineSha : '';
+  const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
+  const waiversPath = typeof parsed.waiversPath === 'string' ? parsed.waiversPath : '';
+  const fastMaxDurationMs = Number.isInteger(parsed.fastMaxDurationMs) && parsed.fastMaxDurationMs > 0
+    ? parsed.fastMaxDurationMs
+    : 120000;
+
+  result.phase = phase;
+  result.baselineSha = baselineSha;
+  result.goTag = goTag;
+  result.waiversPath = waiversPath;
+  result.fastMaxDurationMs = fastMaxDurationMs;
+
+  const schemaOk = parsed.schemaVersion === 'sector-u-status.v1';
+  const statusOk = typeof parsed.status === 'string' && allowedStatus.has(parsed.status);
+  const phaseOk = typeof phase === 'string' && allowedPhase.has(phase);
+  const baselineShaOk = /^[0-9a-f]{7,}$/i.test(baselineSha);
+  const goTagOk = typeof goTag === 'string' && allowedGo.has(goTag);
+  const uiRootPathOk = parsed.uiRootPath === 'src/renderer';
+  const waiversPathOk = waiversPath.length > 0;
+
+  if (
+    schemaOk
+    && statusOk
+    && phaseOk
+    && baselineShaOk
+    && goTagOk
+    && uiRootPathOk
+    && waiversPathOk
+  ) {
+    result.statusOk = 1;
+    result.level = 'ok';
+  }
+
+  printTokens(result);
+  return result;
+}
+
+function isWaiverRuntimeProduct(waiver) {
+  if (!waiver || typeof waiver !== 'object' || Array.isArray(waiver)) return false;
+  const blob = JSON.stringify(waiver).toLowerCase();
+  return blob.includes('runtime') || blob.includes('product');
+}
+
+function isWaiverActiveAtNow(waiver, nowMs) {
+  if (!waiver || typeof waiver !== 'object' || Array.isArray(waiver)) return false;
+  const status = typeof waiver.status === 'string' ? waiver.status.toLowerCase() : '';
+  if (status === 'inactive' || status === 'closed' || status === 'resolved') return false;
+  if (typeof waiver.active === 'boolean' && waiver.active === false) return false;
+  if (typeof waiver.expiresAt === 'string' && waiver.expiresAt.trim().length > 0) {
+    const expiresMs = Date.parse(waiver.expiresAt);
+    if (Number.isFinite(expiresMs) && expiresMs <= nowMs) return false;
+  }
+  return true;
+}
+
+function evaluateSectorUWaiverPredicate(sectorUStatus) {
+  const fallback = {
+    count: 0,
+    list: [],
+    ok: 0,
+    level: 'warn',
+  };
+
+  const waiversPath = sectorUStatus && typeof sectorUStatus.waiversPath === 'string'
+    ? sectorUStatus.waiversPath
+    : '';
+  if (waiversPath.length === 0) {
+    console.log('SECTOR_U_WAIVERS_AFFECTING_COUNT=0');
+    console.log('SECTOR_U_WAIVERS_AFFECTING_LIST=[]');
+    console.log('SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=0');
+    return fallback;
+  }
+
+  const parsed = readJsonObjectOptional(waiversPath);
+  if (!parsed && !Array.isArray(parsed)) {
+    console.log('SECTOR_U_WAIVERS_AFFECTING_COUNT=0');
+    console.log('SECTOR_U_WAIVERS_AFFECTING_LIST=[]');
+    console.log('SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=0');
+    return fallback;
+  }
+
+  const waivers = Array.isArray(parsed)
+    ? parsed
+    : (Array.isArray(parsed.waived) ? parsed.waived : (Array.isArray(parsed.waivers) ? parsed.waivers : []));
+  const nowMs = Date.now();
+  const affecting = [];
+  for (let index = 0; index < waivers.length; index += 1) {
+    const waiver = waivers[index];
+    if (!isWaiverActiveAtNow(waiver, nowMs)) continue;
+    if (!isWaiverRuntimeProduct(waiver)) continue;
+    const id = typeof waiver.gateId === 'string' && waiver.gateId.trim().length > 0
+      ? waiver.gateId.trim()
+      : (typeof waiver.id === 'string' && waiver.id.trim().length > 0 ? waiver.id.trim() : `waiver_${index}`);
+    affecting.push(id);
+  }
+
+  affecting.sort();
+  const count = affecting.length;
+  const ok = count === 0 ? 1 : 0;
+  console.log(`SECTOR_U_WAIVERS_AFFECTING_COUNT=${count}`);
+  console.log(`SECTOR_U_WAIVERS_AFFECTING_LIST=${JSON.stringify(affecting)}`);
+  console.log(`SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=${ok}`);
+  return {
+    count,
+    list: affecting,
+    ok,
+    level: ok === 1 ? 'ok' : 'warn',
+  };
+}
+
+function evaluateSectorUFastDurationTokens(sectorUStatus) {
+  const limitMs = sectorUStatus && Number.isInteger(sectorUStatus.fastMaxDurationMs) && sectorUStatus.fastMaxDurationMs > 0
+    ? sectorUStatus.fastMaxDurationMs
+    : 120000;
+  const result = {
+    durationMs: -1,
+    ok: 0,
+    limitMs,
+    level: 'warn',
+  };
+
+  const envDuration = Number.parseInt(String(process.env.SECTOR_U_FAST_DURATION_MS || ''), 10);
+  if (Number.isInteger(envDuration) && envDuration >= 0) {
+    result.durationMs = envDuration;
+    result.ok = envDuration <= limitMs ? 1 : 0;
+    result.level = result.ok === 1 ? 'ok' : 'warn';
+    console.log(`SECTOR_U_FAST_DURATION_MS=${result.durationMs}`);
+    console.log(`SECTOR_U_FAST_DURATION_OK=${result.ok}`);
+    return result;
+  }
+
+  const parsed = readJsonObjectOptional(SECTOR_U_FAST_RESULT_PATH);
+  if (parsed) {
+    const duration = Number.parseInt(String(parsed.durationMs ?? ''), 10);
+    if (Number.isInteger(duration) && duration >= 0) {
+      result.durationMs = duration;
+      result.ok = duration <= limitMs ? 1 : 0;
+      result.level = result.ok === 1 ? 'ok' : 'warn';
+    }
+  }
+
+  console.log(`SECTOR_U_FAST_DURATION_MS=${result.durationMs}`);
+  console.log(`SECTOR_U_FAST_DURATION_OK=${result.ok}`);
+  return result;
+}
+
+function readTokenFromStatus(path, key) {
+  const parsed = readJsonObjectOptional(path);
+  if (!parsed) return '';
+  const value = parsed[key];
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  if (typeof value === 'string') return value;
+  if (typeof value === 'boolean') return value ? '1' : '0';
+  return '';
+}
+
+function evaluateNextSectorStatus(input) {
+  const { strictLie } = input;
+  const result = {
+    nextSectorId: '',
+    goTag: '',
+    statusOk: 0,
+    ready: 0,
+    unmet: [],
+    level: 'warn',
+  };
+
+  const parsed = readJsonObjectOptional(NEXT_SECTOR_STATUS_PATH);
+  if (!parsed) {
+    console.log('NEXT_SECTOR_ID=');
+    console.log('NEXT_SECTOR_GO_TAG=');
+    console.log('NEXT_SECTOR_STATUS_OK=0');
+    console.log('NEXT_SECTOR_READY=0');
+    console.log('NEXT_SECTOR_UNMET_PREREQS=[]');
+    return result;
+  }
+
+  const required = ['schemaVersion', 'id', 'goTag', 'prereqs'];
+  const hasRequired = required.every((key) => Object.prototype.hasOwnProperty.call(parsed, key));
+  if (!hasRequired) {
+    console.log('NEXT_SECTOR_ID=');
+    console.log('NEXT_SECTOR_GO_TAG=');
+    console.log('NEXT_SECTOR_STATUS_OK=0');
+    console.log('NEXT_SECTOR_READY=0');
+    console.log('NEXT_SECTOR_UNMET_PREREQS=[]');
+    return result;
+  }
+
+  const id = typeof parsed.id === 'string' ? parsed.id.trim() : '';
+  const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
+  const prereqs = Array.isArray(parsed.prereqs) ? parsed.prereqs : [];
+
+  result.nextSectorId = id;
+  result.goTag = goTag;
+
+  const goTagOk = goTag === 'GO:NEXT_SECTOR_START' || goTag === '';
+  const prereqShapeOk = prereqs.length > 0 && prereqs.every((it) => typeof it === 'string' && it.includes('=='));
+  const schemaOk = parsed.schemaVersion === 'next-sector.v1';
+  result.statusOk = schemaOk && id.length > 0 && goTagOk && prereqShapeOk ? 1 : 0;
+
+  const contourStatus = readTokenFromStatus(CONTOUR_C_STATUS_PATH, 'status');
+  const predicateTokens = new Map([
+    ['SECTOR_P_CLOSE_OK', readTokenFromStatus(SECTOR_P_STATUS_PATH, 'closeOk')],
+    ['SECTOR_P_CLOSED_MUTATION', readTokenFromStatus(SECTOR_P_STATUS_PATH, 'closedMutation')],
+    ['SECTOR_W_CLOSE_OK', readTokenFromStatus(SECTOR_W_STATUS_PATH, 'closeOk')],
+    ['SECTOR_W_CLOSED_MUTATION', readTokenFromStatus(SECTOR_W_STATUS_PATH, 'closedMutation')],
+    ['CONTOUR_C_STATUS', contourStatus],
+    ['STRICT_LIE_CLASSES_OK', strictLie && typeof strictLie.ok === 'number' ? String(strictLie.ok) : '0'],
+  ]);
+
+  const unmet = [];
+  for (const predicate of prereqs) {
+    if (typeof predicate !== 'string') continue;
+    const [leftRaw, rightRaw] = predicate.split('==');
+    const left = String(leftRaw || '').trim();
+    const right = String(rightRaw || '').trim();
+    if (left.length === 0 || right.length === 0) {
+      unmet.push(predicate);
+      continue;
+    }
+    const current = predicateTokens.has(left) ? String(predicateTokens.get(left)) : '';
+    if (current !== right) unmet.push(predicate);
+  }
+
+  result.unmet = [...new Set(unmet)].sort();
+  result.ready = result.statusOk === 1 && result.unmet.length === 0 ? 1 : 0;
+  result.level = result.ready === 1 ? 'ok' : 'warn';
+
+  console.log(`NEXT_SECTOR_ID=${result.nextSectorId}`);
+  console.log(`NEXT_SECTOR_GO_TAG=${result.goTag}`);
+  console.log(`NEXT_SECTOR_STATUS_OK=${result.statusOk}`);
+  console.log(`NEXT_SECTOR_READY=${result.ready}`);
+  console.log(`NEXT_SECTOR_UNMET_PREREQS=${JSON.stringify(result.unmet)}`);
+  return result;
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -2733,6 +3041,10 @@ function run() {
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
   const strictLie = checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry, registryItems);
+  const sectorUStatus = evaluateSectorUStatus();
+  const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
+  const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
+  const nextSector = evaluateNextSectorStatus({ strictLie });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -2836,7 +3148,11 @@ function run() {
     || docsContracts.ok === 0
     || (frozenContracts && frozenContracts.ok === 0)
     || ssotBoundary.level === 'warn'
-    || strictLie.level === 'warn';
+    || strictLie.level === 'warn'
+    || sectorUStatus.level === 'warn'
+    || sectorUWaivers.level === 'warn'
+    || sectorUFastDuration.level === 'warn'
+    || nextSector.level === 'warn';
 
   const final = hasFail
     ? { status: 'DOCTOR_FAIL', exitCode: 1 }

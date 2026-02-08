@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "sector-u-status.v1",
+  "sector": "U",
+  "status": "NOT_STARTED",
+  "phase": "U1",
+  "baselineSha": "d2eb4e8bea86d4e4268ceda873361b2f863ab408",
+  "goTag": "GO:SECTOR_U_U1_DONE",
+  "uiRootPath": "src/renderer",
+  "fastMaxDurationMs": 120000,
+  "waiversPath": "docs/OPS/CONTOUR_C/WAIVED_GATES.json"
+}

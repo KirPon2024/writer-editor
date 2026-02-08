@@ -1,7 +1,94 @@
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
+
+const requireCjs = createRequire(import.meta.url);
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
+const CONTOUR_C_P0_01_RULE_ID = 'C-P0-01-RULE-001';
+const CONTOUR_C_P0_02_RULE_ID = 'C-P0-02-RULE-001';
+const CONTOUR_C_WARN_TARGET_PATH = 'docs/OPS/CONTOUR_C/WARN_TARGET.v1.json';
+const CONTOUR_C_P0_01_GUARD_SCRIPT = 'scripts/guards/contour-c-p0-01.mjs';
+const CONTOUR_C_P0_01_TEST_PATH = 'test/unit/contour-c-p0-01-rule.test.js';
+const CONTOUR_C_P0_01_POSITIVE_INVARIANTS = 'test/fixtures/contour-c-p0-01/positive/invariants.json';
+const CONTOUR_C_P0_01_POSITIVE_ENFORCEMENT = 'test/fixtures/contour-c-p0-01/positive/enforcement.json';
+const CONTOUR_C_P0_01_NEGATIVE_INVARIANTS = 'test/fixtures/contour-c-p0-01/negative/invariants.json';
+const CONTOUR_C_P0_01_NEGATIVE_ENFORCEMENT = 'test/fixtures/contour-c-p0-01/negative/enforcement.json';
+const CONTOUR_C_P0_02_GUARD_SCRIPT = 'scripts/guards/contour-c-p0-02.mjs';
+const CONTOUR_C_P0_02_TEST_PATH = 'test/unit/contour-c-p0-02-rule.test.js';
+const CONTOUR_C_P0_02_POLICY_PATH = 'docs/OPS/CONTOUR_C/C-P0-02-CONTRACT-POLICY.json';
+const CONTOUR_C_P0_02_POSITIVE_POLICY = 'test/fixtures/contour-c-p0-02/positive/policy.json';
+const CONTOUR_C_P0_02_NEGATIVE_POLICY = 'test/fixtures/contour-c-p0-02/negative/policy.json';
+const CONTOUR_C_P0_03_RULE_ID = 'C-P0-03-RULE-001';
+const CONTOUR_C_P0_03_GUARD_SCRIPT = 'scripts/guards/contour-c-p0-03.mjs';
+const CONTOUR_C_P0_03_TEST_PATH = 'test/unit/contour-c-p0-03-rule.test.js';
+const CONTOUR_C_P0_03_REQUIRED_GATES_PATH = 'docs/OPS/CONTOUR_C/README.md';
+const CONTOUR_C_P0_03_WAIVED_GATES_PATH = 'docs/OPS/CONTOUR_C/WAIVED_GATES.json';
+const CONTOUR_C_P0_03_POSITIVE_REQUIRED_GATES = 'test/fixtures/contour-c-p0-03/positive/existing/required-gates.md';
+const CONTOUR_C_P0_03_POSITIVE_WAIVERS = 'test/fixtures/contour-c-p0-03/positive/existing/waived-gates.json';
+const CONTOUR_C_P0_03_POSITIVE_WAIVED_REQUIRED_GATES = 'test/fixtures/contour-c-p0-03/positive/waived/required-gates.md';
+const CONTOUR_C_P0_03_POSITIVE_WAIVED_WAIVERS = 'test/fixtures/contour-c-p0-03/positive/waived/waived-gates.json';
+const CONTOUR_C_P0_03_NEGATIVE_REQUIRED_GATES = 'test/fixtures/contour-c-p0-03/negative/required-gates.md';
+const CONTOUR_C_P0_03_NEGATIVE_WAIVERS = 'test/fixtures/contour-c-p0-03/negative/waived-gates.json';
+const C4_PRODUCT_STEP_ID = 'SAVE_V1_MIN';
+const C4_PRODUCT_STEP_GUARD_SCRIPT = 'scripts/guards/contour-c-c4-save-v1-proof.mjs';
+const C4_PRODUCT_STEP_TEST_PATH = 'test/unit/contour-c-c4-save-v1-proof.test.js';
+const C4_PRODUCT_STEP_DOD_PATH = 'docs/OPS/CONTOUR_C/C4_PRODUCT_STEP_SAVE_V1_MIN.md';
+const CONTOUR_C_README_PATH = 'docs/OPS/CONTOUR_C/README.md';
+const CONTOUR_C_CLOSE_REPORT_PATH = 'docs/OPS/CONTOUR_C/CONTOUR_C_CLOSE_REPORT.md';
+const CONTOUR_C_LEDGER_PATH = 'docs/OPS/CONTOUR_C/EXIT_LEDGER.json';
+const SECTOR_P_STATUS_PATH = process.env.SECTOR_P_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_P.json';
+const SECTOR_W_STATUS_PATH = process.env.SECTOR_W_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_W.json';
+const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || 'docs/OPS/STATUS/SECTOR_U.json';
+const NEXT_SECTOR_STATUS_PATH = process.env.NEXT_SECTOR_STATUS_PATH || 'docs/OPS/STATUS/NEXT_SECTOR.json';
+const SECTOR_P_WAIVED_GATES_PATH = process.env.SECTOR_P_WAIVED_GATES_PATH || 'docs/OPS/CONTOUR_C/WAIVED_GATES.json';
+const SECTOR_P_CLOSE_REPORT_PATH = process.env.SECTOR_P_CLOSE_REPORT_PATH || 'docs/OPS/STATUS/SECTOR_P_CLOSE_REPORT.md';
+const SECTOR_P_FAST_RESULT_PATH = process.env.SECTOR_P_FAST_RESULT_PATH || 'artifacts/sector-p-run/latest/result.json';
+const SECTOR_P_CLOSED_LOCK_PATH = process.env.SECTOR_P_CLOSED_LOCK_PATH || 'docs/OPS/STATUS/SECTOR_P_CLOSED_LOCK.json';
+const SECTOR_P_NOW_ISO = process.env.SECTOR_P_NOW_ISO || '';
+const SECTOR_W_WAIVED_GATES_PATH = process.env.SECTOR_W_WAIVED_GATES_PATH || 'docs/OPS/CONTOUR_C/WAIVED_GATES.json';
+const SECTOR_W_CLOSE_REPORT_PATH = process.env.SECTOR_W_CLOSE_REPORT_PATH || 'docs/OPS/STATUS/SECTOR_W_CLOSE_REPORT.md';
+const SECTOR_W_CLOSED_LOCK_PATH = process.env.SECTOR_W_CLOSED_LOCK_PATH || 'docs/OPS/STATUS/SECTOR_W_CLOSED_LOCK.json';
+const SECTOR_P_SLO_P1_FIXTURE_PATH = process.env.SECTOR_P_SLO_P1_FIXTURE_PATH || 'test/fixtures/sector-p/slo/p1-project-small.json';
+const SECTOR_P_SLO_P1_LIMIT_MS = 150;
+const SECTOR_P_SLO_P1_RUNS = 5;
+const P3_SCENE_LIFECYCLE_API_PATH = 'src/scene/index.js';
+const P3_SCENE_LIFECYCLE_TEST_PATH = 'test/unit/p3-scene-lifecycle-v1.test.js';
+const P4_EXPORT_DOCX_API_PATH = 'src/export/index.js';
+const P4_EXPORT_DOCX_TEST_PATH = 'test/unit/p4-export-docx-v1-min.test.js';
+const W0_WEB_SMOKE_RULE_ID = 'W0-RULE-001';
+const W0_WEB_SMOKE_GUARD_SCRIPT = 'scripts/guards/sector-w-web-smoke-no-electron.mjs';
+const W0_WEB_SMOKE_TEST_PATH = 'test/unit/sector-w-web-smoke-no-electron.test.js';
+const W0_WEB_SMOKE_POSITIVE_FIXTURE_ROOT = 'test/fixtures/sector-w/web-smoke/positive';
+const W0_WEB_SMOKE_NEGATIVE_FIXTURE_ROOT = 'test/fixtures/sector-w/web-smoke/negative';
+const W1_WEB_FS_STUB_PATH = 'src/adapters/fs/webFileSystemPortStub.js';
+const W1_WEB_FS_INDEX_PATH = 'src/adapters/fs/index.js';
+const W1_WEB_FS_STUB_TEST_PATH = 'test/unit/sector-w-w1-web-fs-stub.test.js';
+const W1_WEB_FS_STUB_FIXTURE_OPS_PATH = 'test/fixtures/sector-w/w1/ops.json';
+const W1_WEB_FS_STUB_FIXTURE_EXPECTED_PATH = 'test/fixtures/sector-w/w1/expected-error.json';
+const W2_PLATFORM_IDS_PATH = 'docs/OPS/STATUS/PLATFORM_IDS.json';
+const W2_PLATFORM_FACTORY_GUARD_PATH = 'scripts/guards/sector-w-platform-factory.mjs';
+const W2_PLATFORM_FACTORY_TEST_PATH = 'test/unit/sector-w-w2-platform-factory.test.js';
+const W2_PLATFORM_FACTORY_POSITIVE_NODE_PATH = 'test/fixtures/sector-w/w2/platform-id-node.json';
+const W2_PLATFORM_FACTORY_POSITIVE_WEB_PATH = 'test/fixtures/sector-w/w2/platform-id-web.json';
+const W2_PLATFORM_FACTORY_NEGATIVE_MISSING_PATH = 'test/fixtures/sector-w/w2/error-missing.json';
+const W2_PLATFORM_FACTORY_NEGATIVE_UNKNOWN_PATH = 'test/fixtures/sector-w/w2/error-unknown.json';
+const W3_WEB_TARGET_PATHS = 'docs/OPS/STATUS/WEB_TARGET_PATHS.json';
+const W3_WEB_SMOKE_GUARD_PATH = 'scripts/guards/sector-w-web-smoke-no-electron.mjs';
+const W3_WEB_SMOKE_TEST_PATH = 'test/unit/sector-w-w3-web-smoke.test.js';
+const W3_WEB_SMOKE_SCHEMA_TEST_PATH = 'test/unit/sector-w-w3-web-smoke-target-paths-schema.test.js';
+const SECTOR_W_FAST_RESULT_PATH = process.env.SECTOR_W_FAST_RESULT_PATH || 'artifacts/sector-w-run/latest/result.json';
+const SECTOR_U_FAST_RESULT_PATH = process.env.SECTOR_U_FAST_RESULT_PATH || 'artifacts/sector-u-run/latest/result.json';
+const U1_COMMAND_REGISTRY_PATH = 'src/renderer/commands/registry.mjs';
+const U1_COMMAND_RUNNER_PATH = 'src/renderer/commands/runCommand.mjs';
+const U1_COMMAND_PROJECT_PATH = 'src/renderer/commands/projectCommands.mjs';
+const U1_COMMAND_LAYER_TEST_PATH = 'test/unit/sector-u-u1-command-layer.test.js';
+const CONTOUR_C_CLOSED_MUTATION_WHITELIST = new Set([
+  CONTOUR_C_README_PATH,
+  CONTOUR_C_CLOSE_REPORT_PATH,
+  CONTOUR_C_LEDGER_PATH,
+]);
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -560,6 +647,50 @@ function readJson(filePath) {
   } catch {
     die('ERR_DOCTOR_INVALID_SHAPE', filePath, 'json_parse_failed');
   }
+}
+
+function parseKvOutput(text) {
+  const out = new Map();
+  const lines = typeof text === 'string' ? text.split(/\r?\n/) : [];
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    const idx = line.indexOf('=');
+    if (idx <= 0) continue;
+    const key = line.slice(0, idx);
+    const value = line.slice(idx + 1);
+    if (!out.has(key)) out.set(key, value);
+  }
+  return out;
+}
+
+function loadContourCWarnTargetConfig() {
+  const parsed = readJson(CONTOUR_C_WARN_TARGET_PATH);
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_top_level_invalid');
+  }
+  if (parsed.schemaVersion !== 1) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_schema_version_invalid');
+  }
+  const warnTargetSetVersion = typeof parsed.warnTargetSetVersion === 'string' && parsed.warnTargetSetVersion.length > 0 ? parsed.warnTargetSetVersion : 'v1';
+  const baselineSha = typeof parsed.baselineSha === 'string' && parsed.baselineSha.length > 0 && parsed.baselineSha !== '-' ? parsed.baselineSha : '';
+  if (!baselineSha) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_baseline_sha_missing');
+  }
+  const baselineWarnCount = Number.isInteger(parsed.baselineWarnCount) ? parsed.baselineWarnCount : null;
+  if (baselineWarnCount === null || baselineWarnCount < 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_baseline_warn_count_invalid');
+  }
+  const targetWarnIds = Array.isArray(parsed.targetWarnIds) ? parsed.targetWarnIds.filter((x) => typeof x === 'string' && x.length > 0) : [];
+  if (targetWarnIds.length === 0) {
+    die('ERR_DOCTOR_INVALID_SHAPE', CONTOUR_C_WARN_TARGET_PATH, 'warn_target_ids_empty');
+  }
+  return {
+    warnTargetSetVersion,
+    baselineSha,
+    baselineWarnCount,
+    targetWarnIds: [...new Set(targetWarnIds)].sort(),
+  };
 }
 
 function assertObjectShape(filePath, value) {
@@ -1417,9 +1548,25 @@ function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, e
   console.log(`INVARIANT_RESULTS_CONTAINS_IGNORED=${containsIgnored ? 1 : 0}`);
   console.log(`INVARIANT_RESULTS_IGNORED_INTERSECTION=${JSON.stringify(intersectionUniq)}`);
 
+  const warnTarget = loadContourCWarnTargetConfig();
+  let currentWarnCount = 0;
+  for (const invariantId of warnTarget.targetWarnIds) {
+    const status = resultsById.get(invariantId);
+    if (typeof status === 'string' && status.startsWith('WARN')) currentWarnCount += 1;
+  }
+  const warnDeltaTarget = currentWarnCount - warnTarget.baselineWarnCount;
+  console.log(`WARN_TARGET_SET_VERSION=${warnTarget.warnTargetSetVersion}`);
+  console.log(`WARN_TARGET_BASELINE_SHA=${warnTarget.baselineSha}`);
+  console.log(`WARN_TARGET_SET=${JSON.stringify(warnTarget.targetWarnIds)}`);
+  console.log(`WARN_TARGET_BASELINE_COUNT=${warnTarget.baselineWarnCount}`);
+  console.log(`WARN_TARGET_CURRENT_COUNT=${currentWarnCount}`);
+  console.log(`WARN_DELTA_TARGET=${warnDeltaTarget}`);
+
   if (containsIgnored) {
     die('ERR_DOCTOR_INVALID_SHAPE', 'scripts/doctor.mjs', 'invariant_results_contains_ignored');
   }
+
+  return { warnDeltaTarget };
 }
 
 function listSourceFiles(rootDir) {
@@ -2308,7 +2455,283 @@ function computeContourCEnforcementCompleteness(gatingApplicableItems, contourCE
   return { missingCount: missing.length, extraCount: extra.length };
 }
 
-function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditCheckIds) {
+function evaluateContourCP001Proof() {
+  const proofFiles = [
+    CONTOUR_C_P0_01_GUARD_SCRIPT,
+    CONTOUR_C_P0_01_TEST_PATH,
+    CONTOUR_C_P0_01_POSITIVE_INVARIANTS,
+    CONTOUR_C_P0_01_POSITIVE_ENFORCEMENT,
+    CONTOUR_C_P0_01_NEGATIVE_INVARIANTS,
+    CONTOUR_C_P0_01_NEGATIVE_ENFORCEMENT,
+  ];
+  const filesPresent = proofFiles.every((filePath) => fs.existsSync(filePath));
+
+  let positivePass = 0;
+  let negativeFail = 0;
+  let negativeRuleIdMatch = 0;
+  let negativeStdout = '';
+
+  if (filesPresent) {
+    const positive = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_01_GUARD_SCRIPT,
+        '--invariants',
+        'docs/OPS/INVARIANTS_REGISTRY.json',
+        '--enforcement',
+        'docs/OPS/CONTOUR-C-ENFORCEMENT.json',
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    positivePass = positive.status === 0 ? 1 : 0;
+
+    const negative = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_01_GUARD_SCRIPT,
+        '--invariants',
+        CONTOUR_C_P0_01_NEGATIVE_INVARIANTS,
+        '--enforcement',
+        CONTOUR_C_P0_01_NEGATIVE_ENFORCEMENT,
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    negativeStdout = typeof negative.stdout === 'string' ? negative.stdout : '';
+    negativeFail = negative.status !== 0 ? 1 : 0;
+    negativeRuleIdMatch = negativeStdout.split(/\r?\n/).includes(`RULE_ID=${CONTOUR_C_P0_01_RULE_ID}`) ? 1 : 0;
+  }
+
+  const proofOk = filesPresent && positivePass === 1 && negativeFail === 1 && negativeRuleIdMatch === 1 ? 1 : 0;
+
+  console.log(`C_P0_01_RULE_ID=${CONTOUR_C_P0_01_RULE_ID}`);
+  console.log(`C_P0_01_RULE_FILES_PRESENT=${filesPresent ? 1 : 0}`);
+  console.log(`C_P0_01_POSITIVE_PASS=${positivePass}`);
+  console.log(`C_P0_01_NEGATIVE_FAIL=${negativeFail}`);
+  console.log(`C_P0_01_NEGATIVE_RULE_ID_MATCH=${negativeRuleIdMatch}`);
+  console.log(`C_P0_01_PROOF_OK=${proofOk}`);
+
+  return proofOk;
+}
+
+function evaluateContourCP002Proof() {
+  const proofFiles = [
+    CONTOUR_C_P0_02_GUARD_SCRIPT,
+    CONTOUR_C_P0_02_TEST_PATH,
+    CONTOUR_C_P0_02_POLICY_PATH,
+    CONTOUR_C_P0_02_POSITIVE_POLICY,
+    CONTOUR_C_P0_02_NEGATIVE_POLICY,
+  ];
+  const ruleExists = proofFiles.every((filePath) => fs.existsSync(filePath));
+
+  let positivePass = 0;
+  let negativeFail = 0;
+  let negativeRuleIdMatch = 0;
+  let negativeStdout = '';
+
+  if (ruleExists) {
+    const positive = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_02_GUARD_SCRIPT,
+        '--policy',
+        CONTOUR_C_P0_02_POLICY_PATH,
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    positivePass = positive.status === 0 ? 1 : 0;
+
+    const negative = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_02_GUARD_SCRIPT,
+        '--policy',
+        CONTOUR_C_P0_02_NEGATIVE_POLICY,
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    negativeStdout = typeof negative.stdout === 'string' ? negative.stdout : '';
+    negativeFail = negative.status !== 0 ? 1 : 0;
+    negativeRuleIdMatch = negativeStdout.split(/\r?\n/).includes(`RULE_ID=${CONTOUR_C_P0_02_RULE_ID}`) ? 1 : 0;
+  }
+
+  const proofOk = ruleExists && positivePass === 1 && negativeFail === 1 && negativeRuleIdMatch === 1 ? 1 : 0;
+
+  console.log(`C_P0_02_RULE_ID=${CONTOUR_C_P0_02_RULE_ID}`);
+  console.log(`C_P0_02_RULE_EXISTS=${ruleExists ? 1 : 0}`);
+  console.log(`C_P0_02_NEGATIVE_FAIL_OK=${negativeFail}`);
+  console.log(`C_P0_02_POSITIVE_PASS_OK=${positivePass}`);
+  console.log(`C_P0_02_PROOF_OK=${proofOk}`);
+
+  return proofOk;
+}
+
+function evaluateContourCP003Proof() {
+  const proofFiles = [
+    CONTOUR_C_P0_03_GUARD_SCRIPT,
+    CONTOUR_C_P0_03_TEST_PATH,
+    CONTOUR_C_P0_03_REQUIRED_GATES_PATH,
+    CONTOUR_C_P0_03_WAIVED_GATES_PATH,
+    CONTOUR_C_P0_03_POSITIVE_REQUIRED_GATES,
+    CONTOUR_C_P0_03_POSITIVE_WAIVERS,
+    CONTOUR_C_P0_03_POSITIVE_WAIVED_REQUIRED_GATES,
+    CONTOUR_C_P0_03_POSITIVE_WAIVED_WAIVERS,
+    CONTOUR_C_P0_03_NEGATIVE_REQUIRED_GATES,
+    CONTOUR_C_P0_03_NEGATIVE_WAIVERS,
+  ];
+  const ruleExists = proofFiles.every((filePath) => fs.existsSync(filePath));
+
+  let positivePass = 0;
+  let positiveWaivedPass = 0;
+  let negativeFail = 0;
+  let negativeRuleIdMatch = 0;
+  let negativeMissingStatusMatch = 0;
+  let negativeStdout = '';
+
+  if (ruleExists) {
+    const positive = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_03_GUARD_SCRIPT,
+        '--required-gates',
+        CONTOUR_C_P0_03_REQUIRED_GATES_PATH,
+        '--waived-gates',
+        CONTOUR_C_P0_03_WAIVED_GATES_PATH,
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    positivePass = positive.status === 0 ? 1 : 0;
+
+    const positiveWaived = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_03_GUARD_SCRIPT,
+        '--required-gates',
+        CONTOUR_C_P0_03_POSITIVE_WAIVED_REQUIRED_GATES,
+        '--waived-gates',
+        CONTOUR_C_P0_03_POSITIVE_WAIVED_WAIVERS,
+        '--now-iso',
+        '2030-01-01T00:00:00.000Z',
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    const positiveWaivedStdout = typeof positiveWaived.stdout === 'string' ? positiveWaived.stdout : '';
+    positiveWaivedPass = positiveWaived.status === 0 && positiveWaivedStdout.split(/\r?\n/).includes('STATUS=WAIVED') ? 1 : 0;
+
+    const negative = spawnSync(
+      process.execPath,
+      [
+        CONTOUR_C_P0_03_GUARD_SCRIPT,
+        '--required-gates',
+        CONTOUR_C_P0_03_NEGATIVE_REQUIRED_GATES,
+        '--waived-gates',
+        CONTOUR_C_P0_03_NEGATIVE_WAIVERS,
+        '--now-iso',
+        '2030-01-01T00:00:00.000Z',
+      ],
+      { encoding: 'utf8', shell: false },
+    );
+    negativeStdout = typeof negative.stdout === 'string' ? negative.stdout : '';
+    negativeFail = negative.status !== 0 ? 1 : 0;
+    const lines = negativeStdout.split(/\r?\n/);
+    negativeRuleIdMatch = lines.includes(`RULE_ID=${CONTOUR_C_P0_03_RULE_ID}`) ? 1 : 0;
+    negativeMissingStatusMatch = lines.includes('STATUS=MISSING') ? 1 : 0;
+  }
+
+  const positivePassOk = positivePass === 1 && positiveWaivedPass === 1 ? 1 : 0;
+  const proofOk = ruleExists && positivePassOk === 1 && negativeFail === 1 && negativeRuleIdMatch === 1 && negativeMissingStatusMatch === 1 ? 1 : 0;
+
+  console.log(`C_P0_03_RULE_ID=${CONTOUR_C_P0_03_RULE_ID}`);
+  console.log(`C_P0_03_RULE_EXISTS=${ruleExists ? 1 : 0}`);
+  console.log(`C_P0_03_NEGATIVE_FAIL_OK=${negativeFail}`);
+  console.log(`C_P0_03_POSITIVE_PASS_OK=${positivePassOk}`);
+  console.log(`C_P0_03_PROOF_OK=${proofOk}`);
+
+  return proofOk;
+}
+
+function evaluateC4ProductStepProof() {
+  const proofFiles = [
+    C4_PRODUCT_STEP_GUARD_SCRIPT,
+    C4_PRODUCT_STEP_TEST_PATH,
+    C4_PRODUCT_STEP_DOD_PATH,
+  ];
+  const filesPresent = proofFiles.every((filePath) => fs.existsSync(filePath));
+
+  let scenarioPass = 0;
+  let stepIdMatch = 0;
+  if (filesPresent) {
+    const scenario = spawnSync(
+      process.execPath,
+      [C4_PRODUCT_STEP_GUARD_SCRIPT],
+      { encoding: 'utf8', shell: false },
+    );
+    const stdout = typeof scenario.stdout === 'string' ? scenario.stdout : '';
+    const lines = stdout.split(/\r?\n/);
+    scenarioPass = scenario.status === 0 && lines.includes('RESULT=PASS') ? 1 : 0;
+    stepIdMatch = lines.includes(`STEP_ID=${C4_PRODUCT_STEP_ID}`) ? 1 : 0;
+  }
+
+  const proofOk = filesPresent && scenarioPass === 1 && stepIdMatch === 1 ? 1 : 0;
+  console.log(`C4_PRODUCT_STEP_ID=${C4_PRODUCT_STEP_ID}`);
+  console.log(`C4_PRODUCT_STEP_PROOF_OK=${proofOk}`);
+  return proofOk;
+}
+
+function resolveContourCStatus() {
+  let status = 'OPEN';
+  if (fs.existsSync(CONTOUR_C_README_PATH)) {
+    const readme = readText(CONTOUR_C_README_PATH);
+    const match = readme.match(/^STATUS:\s*(OPEN|CLOSED)\s*$/m);
+    if (match && match[1]) status = match[1];
+  }
+  console.log(`CONTOUR_C_STATUS=${status}`);
+  return status;
+}
+
+function readContourCCloseP0Count() {
+  if (!fs.existsSync(CONTOUR_C_CLOSE_REPORT_PATH)) return 3;
+  const report = readText(CONTOUR_C_CLOSE_REPORT_PATH);
+  const match = report.match(/^P0_COUNT=(\d+)\s*$/m);
+  if (!match) return 3;
+  const parsed = Number.parseInt(match[1], 10);
+  return Number.isInteger(parsed) && parsed >= 0 ? parsed : 3;
+}
+
+function checkContourCClosedMutations(status) {
+  if (status !== 'CLOSED') {
+    console.log('CONTOUR_C_CLOSED_MUTATION_CHECK=0');
+    console.log('CONTOUR_C_CLOSED_MUTATION=0');
+    console.log('CONTOUR_C_CLOSED_MUTATION_VIOLATIONS=[]');
+    return { fail: 0, reason: '', violations: [] };
+  }
+
+  const diff = spawnSync(
+    'git',
+    ['diff', '--name-only', 'HEAD', '--', 'docs/OPS/CONTOUR_C'],
+    { encoding: 'utf8', shell: false },
+  );
+
+  if (diff.status !== 0) {
+    console.log('CONTOUR_C_CLOSED_MUTATION_CHECK=1');
+    console.log('CONTOUR_C_CLOSED_MUTATION=1');
+    console.log('CONTOUR_C_CLOSED_MUTATION_VIOLATIONS=["GIT_DIFF_FAILED"]');
+    return { fail: 1, reason: 'C_CONTOUR_C_CLOSED_MUTATION', violations: ['GIT_DIFF_FAILED'] };
+  }
+
+  const changed = (typeof diff.stdout === 'string' ? diff.stdout : '')
+    .split(/\r?\n/)
+    .map((line) => line.trim().replaceAll('\\', '/'))
+    .filter((line) => line.length > 0);
+
+  const violations = changed.filter((path) => !CONTOUR_C_CLOSED_MUTATION_WHITELIST.has(path)).sort();
+  const fail = violations.length > 0 ? 1 : 0;
+  console.log('CONTOUR_C_CLOSED_MUTATION_CHECK=1');
+  console.log(`CONTOUR_C_CLOSED_MUTATION=${fail}`);
+  console.log(`CONTOUR_C_CLOSED_MUTATION_VIOLATIONS=${JSON.stringify(violations)}`);
+  return { fail, reason: fail ? 'C_CONTOUR_C_CLOSED_MUTATION' : '', violations };
+}
+
+function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditCheckIds, requiredProofByInvariant) {
   const required = 3;
   const ids = [];
 
@@ -2324,6 +2747,9 @@ function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditChec
 
     const invariantId = it.invariantId;
     if (typeof invariantId !== 'string' || invariantId.length === 0) continue;
+    if (requiredProofByInvariant && Object.prototype.hasOwnProperty.call(requiredProofByInvariant, invariantId)) {
+      if (requiredProofByInvariant[invariantId] !== 1) continue;
+    }
     ids.push(invariantId);
   }
 
@@ -2335,6 +2761,7 @@ function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditChec
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_REQUIRED=${required}`);
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_OK=${ok}`);
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_IDS=${JSON.stringify(uniqSorted)}`);
+  return { count, required, ok, ids: uniqSorted };
 }
 
 function checkContourCDocsContractsPresence() {
@@ -2668,6 +3095,1693 @@ function checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry,
   return { level: 'ok', ok, class01Count: c1.violations.length, class02Count: c2.violations.length };
 }
 
+function getSectorPNowMs() {
+  if (typeof SECTOR_P_NOW_ISO === 'string' && SECTOR_P_NOW_ISO.length > 0) {
+    const parsed = Date.parse(SECTOR_P_NOW_ISO);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return Date.now();
+}
+
+function toCaseFoldedTokens(value) {
+  const tokens = [];
+  if (typeof value === 'string') {
+    const trimmed = value.trim().toLowerCase();
+    if (trimmed.length === 0) return tokens;
+    if (trimmed.includes(',') || trimmed.includes(' ')) {
+      for (const part of trimmed.split(/[,\s]+/)) {
+        const p = part.trim();
+        if (p.length > 0) tokens.push(p);
+      }
+      return tokens;
+    }
+    tokens.push(trimmed);
+    return tokens;
+  }
+  if (Array.isArray(value)) {
+    for (const it of value) {
+      if (typeof it !== 'string') continue;
+      const t = it.trim().toLowerCase();
+      if (t.length > 0) tokens.push(t);
+    }
+    return tokens;
+  }
+  return tokens;
+}
+
+function hasRuntimeProductMarker(waiver) {
+  const markers = new Set([
+    ...toCaseFoldedTokens(waiver.scope),
+    ...toCaseFoldedTokens(waiver.tags),
+    ...toCaseFoldedTokens(waiver.affects),
+  ]);
+  return markers.has('runtime') || markers.has('product');
+}
+
+function isWaiverActive(waiver) {
+  if (typeof waiver.ACTIVE === 'boolean') return waiver.ACTIVE;
+  if (typeof waiver.active === 'boolean') return waiver.active;
+  const stateRaw = typeof waiver.state === 'string' ? waiver.state : (typeof waiver.status === 'string' ? waiver.status : '');
+  const state = stateRaw.trim().toLowerCase();
+  if (state.length === 0) return false;
+  return state === 'active' || state === 'enabled' || state === 'open';
+}
+
+function evaluateSectorPStatus() {
+  function printTokens(result) {
+    console.log(`SECTOR_P_PHASE=${result.phase}`);
+    console.log(`SECTOR_P_BASELINE_SHA=${result.baselineSha}`);
+    console.log(`SECTOR_P_GO_TAG=${result.goTag}`);
+    console.log(`SECTOR_P_STATUS_OK=${result.statusOk}`);
+  }
+
+  const result = {
+    phase: '',
+    baselineSha: '',
+    goTag: '',
+    statusOk: 0,
+    level: 'warn',
+  };
+
+  const requiredTop = ['sector', 'status', 'phase', 'baselineSha', 'goTag', 'by', 'date'];
+  const allowedStatus = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
+  const allowedPhase = new Set(['P0', 'P1', 'P2', 'P3', 'P4', 'DONE']);
+  const allowedGo = new Set(['GO:SECTOR_P_START', 'GO:P1_DONE', 'GO:P2_DONE', 'GO:P3_DONE', 'GO:P4_DONE', 'GO:SECTOR_P_DONE', '']);
+
+  if (!fs.existsSync(SECTOR_P_STATUS_PATH)) {
+    printTokens(result);
+    return result;
+  }
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(fs.readFileSync(SECTOR_P_STATUS_PATH, 'utf8'));
+  } catch {
+    printTokens(result);
+    return result;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    printTokens(result);
+    return result;
+  }
+
+  for (const key of requiredTop) {
+    if (!Object.prototype.hasOwnProperty.call(parsed, key)) {
+      printTokens(result);
+      return result;
+    }
+  }
+
+  const phase = typeof parsed.phase === 'string' ? parsed.phase : '';
+  const baselineSha = typeof parsed.baselineSha === 'string' ? parsed.baselineSha : '';
+  const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
+  result.phase = phase;
+  result.baselineSha = baselineSha;
+  result.goTag = goTag;
+
+  const shaOk = /^[0-9a-f]{7,}$/i.test(baselineSha);
+  const byOk = typeof parsed.by === 'string' && parsed.by.trim().length > 0;
+  const dateOk = typeof parsed.date === 'string' && parsed.date.trim().length > 0;
+
+  if (
+    parsed.sector === 'P'
+    && typeof parsed.status === 'string' && allowedStatus.has(parsed.status)
+    && typeof phase === 'string' && allowedPhase.has(phase)
+    && shaOk
+    && typeof goTag === 'string' && allowedGo.has(goTag)
+    && byOk
+    && dateOk
+  ) {
+    result.statusOk = 1;
+    result.level = 'ok';
+  }
+
+  printTokens(result);
+  return result;
+}
+
+function evaluateSectorWStatus() {
+  function printTokens(result) {
+    console.log(`SECTOR_W_PHASE=${result.phase}`);
+    console.log(`SECTOR_W_BASELINE_SHA=${result.baselineSha}`);
+    console.log(`SECTOR_W_GO_TAG=${result.goTag}`);
+    console.log(`SECTOR_W_STATUS_OK=${result.statusOk}`);
+  }
+
+  const result = {
+    phase: '',
+    baselineSha: '',
+    goTag: '',
+    statusOk: 0,
+    level: 'warn',
+  };
+
+  const requiredTop = ['sector', 'status', 'phase', 'baselineSha', 'goTag', 'by', 'date'];
+  const allowedStatus = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
+  const allowedPhase = new Set(['W0', 'W1', 'W2', 'W3', 'W4', 'W5', 'DONE']);
+  const allowedGo = new Set([
+    '',
+    'GO:SECTOR_W_START',
+    'GO:SECTOR_W_W0_DONE',
+    'GO:SECTOR_W_W1_DONE',
+    'GO:SECTOR_W_W2_DONE',
+    'GO:SECTOR_W_W3_DONE',
+    'GO:SECTOR_W_W4_DONE',
+    'GO:SECTOR_W_W4_SKIPPED',
+    'GO:SECTOR_W_DONE',
+  ]);
+
+  if (!fs.existsSync(SECTOR_W_STATUS_PATH)) {
+    printTokens(result);
+    return result;
+  }
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(fs.readFileSync(SECTOR_W_STATUS_PATH, 'utf8'));
+  } catch {
+    printTokens(result);
+    return result;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    printTokens(result);
+    return result;
+  }
+
+  for (const key of requiredTop) {
+    if (!Object.prototype.hasOwnProperty.call(parsed, key)) {
+      printTokens(result);
+      return result;
+    }
+  }
+
+  const phase = typeof parsed.phase === 'string' ? parsed.phase : '';
+  const baselineSha = typeof parsed.baselineSha === 'string' ? parsed.baselineSha : '';
+  const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
+  result.phase = phase;
+  result.baselineSha = baselineSha;
+  result.goTag = goTag;
+
+  const shaOk = /^[0-9a-f]{7,}$/i.test(baselineSha);
+  const byOk = typeof parsed.by === 'string' && parsed.by.trim().length > 0;
+  const dateOk = typeof parsed.date === 'string' && parsed.date.trim().length > 0;
+
+  if (
+    parsed.sector === 'W'
+    && typeof parsed.status === 'string' && allowedStatus.has(parsed.status)
+    && typeof phase === 'string' && allowedPhase.has(phase)
+    && shaOk
+    && typeof goTag === 'string' && allowedGo.has(goTag)
+    && byOk
+    && dateOk
+  ) {
+    result.statusOk = 1;
+    result.level = 'ok';
+  }
+
+  printTokens(result);
+  return result;
+}
+
+function evaluateSectorUStatus() {
+  function printTokens(result) {
+    console.log(`SECTOR_U_PHASE=${result.phase}`);
+    console.log(`SECTOR_U_BASELINE_SHA=${result.baselineSha}`);
+    console.log(`SECTOR_U_GO_TAG=${result.goTag}`);
+    console.log(`SECTOR_U_STATUS_OK=${result.statusOk}`);
+  }
+
+  const result = {
+    phase: '',
+    baselineSha: '',
+    goTag: '',
+    statusOk: 0,
+    waiversPath: '',
+    fastMaxDurationMs: 120000,
+    level: 'warn',
+  };
+
+  const requiredTop = [
+    'schemaVersion',
+    'status',
+    'phase',
+    'baselineSha',
+    'goTag',
+    'uiRootPath',
+    'fastMaxDurationMs',
+    'waiversPath',
+  ];
+  const allowedStatus = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
+  const allowedPhase = new Set(['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'DONE']);
+  const allowedGo = new Set([
+    '',
+    'GO:SECTOR_U_START',
+    'GO:SECTOR_U_U0_DONE',
+    'GO:SECTOR_U_U1_DONE',
+    'GO:SECTOR_U_U2_DONE',
+    'GO:SECTOR_U_U3_DONE',
+    'GO:SECTOR_U_U4_DONE',
+    'GO:SECTOR_U_DONE',
+  ]);
+
+  if (!fs.existsSync(SECTOR_U_STATUS_PATH)) {
+    printTokens(result);
+    return result;
+  }
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(fs.readFileSync(SECTOR_U_STATUS_PATH, 'utf8'));
+  } catch {
+    printTokens(result);
+    return result;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    printTokens(result);
+    return result;
+  }
+
+  for (const key of requiredTop) {
+    if (!Object.prototype.hasOwnProperty.call(parsed, key)) {
+      printTokens(result);
+      return result;
+    }
+  }
+
+  const phase = typeof parsed.phase === 'string' ? parsed.phase : '';
+  const baselineSha = typeof parsed.baselineSha === 'string' ? parsed.baselineSha : '';
+  const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
+  const waiversPath = typeof parsed.waiversPath === 'string' ? parsed.waiversPath : '';
+  const fastMaxDurationMs = Number.isInteger(parsed.fastMaxDurationMs) && parsed.fastMaxDurationMs > 0
+    ? parsed.fastMaxDurationMs
+    : 120000;
+
+  result.phase = phase;
+  result.baselineSha = baselineSha;
+  result.goTag = goTag;
+  result.waiversPath = waiversPath;
+  result.fastMaxDurationMs = fastMaxDurationMs;
+
+  const schemaOk = parsed.schemaVersion === 'sector-u-status.v1';
+  const sectorOk = !Object.prototype.hasOwnProperty.call(parsed, 'sector')
+    || parsed.sector === 'U';
+  const statusOk = typeof parsed.status === 'string' && allowedStatus.has(parsed.status);
+  const phaseOk = typeof phase === 'string' && allowedPhase.has(phase);
+  const shaOk = /^[0-9a-f]{7,}$/i.test(baselineSha);
+  const goTagOk = typeof goTag === 'string' && allowedGo.has(goTag);
+  const uiRootPathOk = typeof parsed.uiRootPath === 'string' && parsed.uiRootPath.trim().length > 0;
+  const waiversPathOk = typeof waiversPath === 'string' && waiversPath.trim().length > 0;
+
+  if (
+    schemaOk
+    && sectorOk
+    && statusOk
+    && phaseOk
+    && shaOk
+    && goTagOk
+    && uiRootPathOk
+    && waiversPathOk
+  ) {
+    result.statusOk = 1;
+    result.level = 'ok';
+  }
+
+  printTokens(result);
+  return result;
+}
+
+function evaluateSectorUWaiverPredicate(sectorUStatus) {
+  const fallback = {
+    count: 0,
+    list: [],
+    ok: 0,
+    level: 'warn',
+  };
+
+  const waiversPath = sectorUStatus && typeof sectorUStatus.waiversPath === 'string'
+    ? sectorUStatus.waiversPath
+    : '';
+
+  if (waiversPath.trim().length === 0 || !fs.existsSync(waiversPath)) {
+    console.log('SECTOR_U_WAIVERS_AFFECTING_COUNT=0');
+    console.log('SECTOR_U_WAIVERS_AFFECTING_LIST=[]');
+    console.log('SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=0');
+    return fallback;
+  }
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(fs.readFileSync(waiversPath, 'utf8'));
+  } catch {
+    console.log('SECTOR_U_WAIVERS_AFFECTING_COUNT=0');
+    console.log('SECTOR_U_WAIVERS_AFFECTING_LIST=[]');
+    console.log('SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=0');
+    return fallback;
+  }
+
+  const waivers = Array.isArray(parsed)
+    ? parsed
+    : (parsed && typeof parsed === 'object' && Array.isArray(parsed.waivers) ? parsed.waivers : []);
+
+  const nowMs = getSectorPNowMs();
+  const affecting = [];
+  for (let index = 0; index < waivers.length; index += 1) {
+    const waiver = waivers[index];
+    if (!waiver || typeof waiver !== 'object' || Array.isArray(waiver)) continue;
+    if (!isWaiverActive(waiver)) continue;
+
+    const expiresAt = typeof waiver.expiresAt === 'string' ? waiver.expiresAt : '';
+    const expiresAtMs = Date.parse(expiresAt);
+    if (!Number.isFinite(expiresAtMs)) continue;
+    if (!(expiresAtMs > nowMs)) continue;
+    if (!hasRuntimeProductMarker(waiver)) continue;
+
+    const id = typeof waiver.gateId === 'string' && waiver.gateId.length > 0
+      ? waiver.gateId
+      : (typeof waiver.id === 'string' && waiver.id.length > 0 ? waiver.id : `waiver_${index}`);
+    affecting.push(id);
+  }
+
+  affecting.sort();
+  const count = affecting.length;
+  const ok = count === 0 ? 1 : 0;
+  console.log(`SECTOR_U_WAIVERS_AFFECTING_COUNT=${count}`);
+  console.log(`SECTOR_U_WAIVERS_AFFECTING_LIST=${JSON.stringify(affecting)}`);
+  console.log(`SECTOR_U_NO_RUNTIME_PRODUCT_WAIVERS_OK=${ok}`);
+  return {
+    count,
+    list: affecting,
+    ok,
+    level: ok === 1 ? 'ok' : 'warn',
+  };
+}
+
+function evaluateSectorUFastDurationTokens(sectorUStatus) {
+  const limitMs = sectorUStatus && Number.isInteger(sectorUStatus.fastMaxDurationMs) && sectorUStatus.fastMaxDurationMs > 0
+    ? sectorUStatus.fastMaxDurationMs
+    : 120000;
+
+  const result = {
+    durationMs: -1,
+    ok: 0,
+    limitMs,
+    level: 'warn',
+  };
+
+  const envDuration = Number.parseInt(String(process.env.SECTOR_U_FAST_DURATION_MS || ''), 10);
+  if (Number.isInteger(envDuration) && envDuration >= 0) {
+    result.durationMs = envDuration;
+    result.ok = envDuration <= result.limitMs ? 1 : 0;
+    result.level = result.ok === 1 ? 'ok' : 'warn';
+    console.log(`SECTOR_U_FAST_DURATION_MS=${result.durationMs}`);
+    console.log(`SECTOR_U_FAST_DURATION_OK=${result.ok}`);
+    return result;
+  }
+
+  if (fs.existsSync(SECTOR_U_FAST_RESULT_PATH)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(SECTOR_U_FAST_RESULT_PATH, 'utf8'));
+      const metricDuration = Number.parseInt(String(parsed?.metrics?.fastDurationMs ?? ''), 10);
+      if (Number.isInteger(metricDuration) && metricDuration >= 0) {
+        result.durationMs = metricDuration;
+      } else if (typeof parsed?.startedAt === 'string' && typeof parsed?.finishedAt === 'string') {
+        const started = Date.parse(parsed.startedAt);
+        const finished = Date.parse(parsed.finishedAt);
+        if (Number.isFinite(started) && Number.isFinite(finished) && finished >= started) {
+          result.durationMs = Math.round(finished - started);
+        }
+      }
+      result.ok = result.durationMs >= 0 && result.durationMs <= result.limitMs ? 1 : 0;
+      result.level = result.ok === 1 ? 'ok' : 'warn';
+    } catch {
+      result.durationMs = -1;
+      result.ok = 0;
+      result.level = 'warn';
+    }
+  }
+
+  console.log(`SECTOR_U_FAST_DURATION_MS=${result.durationMs}`);
+  console.log(`SECTOR_U_FAST_DURATION_OK=${result.ok}`);
+  return result;
+}
+
+function evaluateU1CommandLayerTokens(sectorUStatus) {
+  const result = {
+    registryExists: 0,
+    openSaveExist: 0,
+    exportExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  const filesExist = fs.existsSync(U1_COMMAND_REGISTRY_PATH)
+    && fs.existsSync(U1_COMMAND_RUNNER_PATH)
+    && fs.existsSync(U1_COMMAND_PROJECT_PATH);
+  result.registryExists = filesExist ? 1 : 0;
+
+  if (filesExist) {
+    try {
+      const text = fs.readFileSync(U1_COMMAND_PROJECT_PATH, 'utf8');
+      result.openSaveExist = text.includes('cmd.project.open') && text.includes('cmd.project.save') ? 1 : 0;
+      result.exportExists = text.includes('cmd.project.export.docxMin') ? 1 : 0;
+    } catch {
+      result.openSaveExist = 0;
+      result.exportExists = 0;
+    }
+  }
+
+  if (fs.existsSync(U1_COMMAND_LAYER_TEST_PATH)) {
+    try {
+      const testRun = spawnSync(
+        process.execPath,
+        ['--test', U1_COMMAND_LAYER_TEST_PATH],
+        { encoding: 'utf8' },
+      );
+      result.testsOk = testRun.status === 0 ? 1 : 0;
+    } catch {
+      result.testsOk = 0;
+    }
+  } else {
+    result.testsOk = 0;
+  }
+
+  result.proofOk = result.registryExists === 1
+    && result.openSaveExist === 1
+    && result.exportExists === 1
+    && result.testsOk === 1 ? 1 : 0;
+
+  const phase = sectorUStatus && typeof sectorUStatus.phase === 'string'
+    ? sectorUStatus.phase
+    : '';
+  const phaseRequiresU1 = phase !== '' && phase !== 'U0';
+  result.level = phaseRequiresU1 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`U1_COMMAND_REGISTRY_EXISTS=${result.registryExists}`);
+  console.log(`U1_COMMANDS_OPEN_SAVE_EXIST=${result.openSaveExist}`);
+  console.log(`U1_COMMAND_EXPORT_DOCXMIN_EXISTS=${result.exportExists}`);
+  console.log(`U1_COMMANDS_TESTS_OK=${result.testsOk}`);
+  console.log(`U1_COMMANDS_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
+function evaluateSectorPWaiverPredicate() {
+  const fallback = {
+    count: 0,
+    list: [],
+    ok: 0,
+    level: 'warn',
+  };
+
+  if (!fs.existsSync(SECTOR_P_WAIVED_GATES_PATH)) {
+    console.log('SECTOR_P_WAIVERS_AFFECTING_COUNT=0');
+    console.log('SECTOR_P_WAIVERS_AFFECTING_LIST=[]');
+    console.log('SECTOR_P_NO_RUNTIME_PRODUCT_WAIVERS_OK=0');
+    return fallback;
+  }
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(fs.readFileSync(SECTOR_P_WAIVED_GATES_PATH, 'utf8'));
+  } catch {
+    console.log('SECTOR_P_WAIVERS_AFFECTING_COUNT=0');
+    console.log('SECTOR_P_WAIVERS_AFFECTING_LIST=[]');
+    console.log('SECTOR_P_NO_RUNTIME_PRODUCT_WAIVERS_OK=0');
+    return fallback;
+  }
+
+  const waivers = Array.isArray(parsed)
+    ? parsed
+    : (parsed && typeof parsed === 'object' && Array.isArray(parsed.waivers) ? parsed.waivers : []);
+
+  const nowMs = getSectorPNowMs();
+  const affecting = [];
+  for (let index = 0; index < waivers.length; index += 1) {
+    const waiver = waivers[index];
+    if (!waiver || typeof waiver !== 'object' || Array.isArray(waiver)) continue;
+    if (!isWaiverActive(waiver)) continue;
+
+    const expiresAt = typeof waiver.expiresAt === 'string' ? waiver.expiresAt : '';
+    const expiresAtMs = Date.parse(expiresAt);
+    if (!Number.isFinite(expiresAtMs)) continue;
+    if (!(expiresAtMs > nowMs)) continue;
+    if (!hasRuntimeProductMarker(waiver)) continue;
+
+    const id = typeof waiver.gateId === 'string' && waiver.gateId.length > 0
+      ? waiver.gateId
+      : (typeof waiver.id === 'string' && waiver.id.length > 0 ? waiver.id : `waiver_${index}`);
+    affecting.push(id);
+  }
+
+  affecting.sort();
+  const count = affecting.length;
+  const ok = count === 0 ? 1 : 0;
+  console.log(`SECTOR_P_WAIVERS_AFFECTING_COUNT=${count}`);
+  console.log(`SECTOR_P_WAIVERS_AFFECTING_LIST=${JSON.stringify(affecting)}`);
+  console.log(`SECTOR_P_NO_RUNTIME_PRODUCT_WAIVERS_OK=${ok}`);
+  return {
+    count,
+    list: affecting,
+    ok,
+    level: ok === 1 ? 'ok' : 'warn',
+  };
+}
+
+function evaluateSectorWWaiverPredicate() {
+  const fallback = {
+    count: 0,
+    list: [],
+    ok: 0,
+    level: 'warn',
+  };
+
+  if (!fs.existsSync(SECTOR_W_WAIVED_GATES_PATH)) {
+    console.log('SECTOR_W_WAIVERS_AFFECTING_COUNT=0');
+    console.log('SECTOR_W_WAIVERS_AFFECTING_LIST=[]');
+    console.log('SECTOR_W_NO_RUNTIME_PRODUCT_WAIVERS_OK=0');
+    return fallback;
+  }
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(fs.readFileSync(SECTOR_W_WAIVED_GATES_PATH, 'utf8'));
+  } catch {
+    console.log('SECTOR_W_WAIVERS_AFFECTING_COUNT=0');
+    console.log('SECTOR_W_WAIVERS_AFFECTING_LIST=[]');
+    console.log('SECTOR_W_NO_RUNTIME_PRODUCT_WAIVERS_OK=0');
+    return fallback;
+  }
+
+  const waivers = Array.isArray(parsed)
+    ? parsed
+    : (parsed && typeof parsed === 'object' && Array.isArray(parsed.waivers) ? parsed.waivers : []);
+
+  const nowMs = getSectorPNowMs();
+  const affecting = [];
+  for (let index = 0; index < waivers.length; index += 1) {
+    const waiver = waivers[index];
+    if (!waiver || typeof waiver !== 'object' || Array.isArray(waiver)) continue;
+    if (!isWaiverActive(waiver)) continue;
+
+    const expiresAt = typeof waiver.expiresAt === 'string' ? waiver.expiresAt : '';
+    const expiresAtMs = Date.parse(expiresAt);
+    if (!Number.isFinite(expiresAtMs)) continue;
+    if (!(expiresAtMs > nowMs)) continue;
+    if (!hasRuntimeProductMarker(waiver)) continue;
+
+    const id = typeof waiver.gateId === 'string' && waiver.gateId.length > 0
+      ? waiver.gateId
+      : (typeof waiver.id === 'string' && waiver.id.length > 0 ? waiver.id : `waiver_${index}`);
+    affecting.push(id);
+  }
+
+  affecting.sort();
+  const count = affecting.length;
+  const ok = count === 0 ? 1 : 0;
+  console.log(`SECTOR_W_WAIVERS_AFFECTING_COUNT=${count}`);
+  console.log(`SECTOR_W_WAIVERS_AFFECTING_LIST=${JSON.stringify(affecting)}`);
+  console.log(`SECTOR_W_NO_RUNTIME_PRODUCT_WAIVERS_OK=${ok}`);
+  return {
+    count,
+    list: affecting,
+    ok,
+    level: ok === 1 ? 'ok' : 'warn',
+  };
+}
+
+function computeMedianInt(values) {
+  if (!Array.isArray(values) || values.length === 0) return -1;
+  const sorted = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+  return sorted[middle];
+}
+
+function evaluateSectorPSloP1() {
+  const result = {
+    medianMs: -1,
+    ok: 0,
+    level: 'warn',
+    runs: SECTOR_P_SLO_P1_RUNS,
+    limitMs: SECTOR_P_SLO_P1_LIMIT_MS,
+  };
+
+  try {
+    const fixtureText = fs.readFileSync(SECTOR_P_SLO_P1_FIXTURE_PATH, 'utf8');
+    const { deserializeProject, serializeProject } = requireCjs('../src/project');
+    const samples = [];
+
+    for (let index = 0; index < SECTOR_P_SLO_P1_RUNS; index += 1) {
+      const started = process.hrtime.bigint();
+      const decoded = deserializeProject(fixtureText);
+      if (!decoded || decoded.ok !== true) {
+        throw new Error('P1_SLO_FIXTURE_DESERIALIZE_FAIL');
+      }
+      const serialized = serializeProject(decoded.project);
+      const decodedAgain = deserializeProject(serialized);
+      if (!decodedAgain || decodedAgain.ok !== true) {
+        throw new Error('P1_SLO_ROUNDTRIP_FAIL');
+      }
+      const elapsedNs = process.hrtime.bigint() - started;
+      const elapsedMs = Number(elapsedNs / 1000000n);
+      samples.push(elapsedMs);
+    }
+
+    const median = computeMedianInt(samples);
+    result.medianMs = median;
+    result.ok = median >= 0 && median <= SECTOR_P_SLO_P1_LIMIT_MS ? 1 : 0;
+    result.level = result.ok === 1 ? 'ok' : 'warn';
+  } catch {
+    result.medianMs = -1;
+    result.ok = 0;
+    result.level = 'warn';
+  }
+
+  console.log(`P1_SLO_MEDIAN_MS=${result.medianMs}`);
+  console.log(`P1_SLO_OK=${result.ok}`);
+  console.log(`P1_SLO_LIMIT_MS=${SECTOR_P_SLO_P1_LIMIT_MS}`);
+  console.log(`P1_SLO_RUNS=${SECTOR_P_SLO_P1_RUNS}`);
+  return result;
+}
+
+function evaluateSectorPCheckPackTokens(sectorPStatus, sectorPWaivers) {
+  const npmTestOk = process.env.SECTOR_P_NPM_TEST_OK === '1' ? 1 : 0;
+  const fullPackRan = process.env.SECTOR_P_FULL_PACK_RAN === '1' ? 1 : 0;
+  const fastPackOk = npmTestOk === 1 && sectorPStatus.statusOk === 1 && sectorPWaivers.ok === 1 ? 1 : 0;
+  const fullPackOk = fullPackRan === 1 && fastPackOk === 1 ? 1 : 0;
+
+  console.log(`SECTOR_P_FAST_PACK_OK=${fastPackOk}`);
+  console.log(`SECTOR_P_FULL_PACK_RAN=${fullPackRan}`);
+  console.log(`SECTOR_P_FULL_PACK_OK=${fullPackOk}`);
+
+  return {
+    fastPackOk,
+    fullPackRan,
+    fullPackOk,
+  };
+}
+
+function evaluateP3SceneLifecycleTokens() {
+  let apiOk = 0;
+  let testsOk = 0;
+
+  if (fs.existsSync(P3_SCENE_LIFECYCLE_API_PATH)) {
+    try {
+      const sceneLifecycle = requireCjs(`../${P3_SCENE_LIFECYCLE_API_PATH}`);
+      const requiredExports = [
+        'createSceneRegistry',
+        'createScene',
+        'openScene',
+        'switchScene',
+        'disposeScene',
+        'markSceneDirty',
+        'getActiveSceneId',
+      ];
+      apiOk = requiredExports.every((key) => typeof sceneLifecycle[key] === 'function') ? 1 : 0;
+    } catch {
+      apiOk = 0;
+    }
+  }
+
+  testsOk = fs.existsSync(P3_SCENE_LIFECYCLE_TEST_PATH) ? 1 : 0;
+
+  console.log(`P3_SCENE_LIFECYCLE_API_OK=${apiOk}`);
+  console.log(`P3_SCENE_LIFECYCLE_TESTS_OK=${testsOk}`);
+  return {
+    apiOk,
+    testsOk,
+    level: apiOk === 1 && testsOk === 1 ? 'ok' : 'warn',
+  };
+}
+
+function evaluateP4ExportDocxV1MinTokens() {
+  let apiOk = 0;
+  let testsOk = 0;
+  let determinismOk = 0;
+
+  if (fs.existsSync(P4_EXPORT_DOCX_API_PATH)) {
+    try {
+      const p4Export = requireCjs(`../${P4_EXPORT_DOCX_API_PATH}`);
+      const requiredExports = [
+        'buildExportInput',
+        'renderDocxXmlV1Min',
+        'packDocxV1Min',
+        'exportDocxV1Min',
+        'extractDocxDocumentXml',
+        'normalizeDocxDocumentXml',
+      ];
+      apiOk = requiredExports.every((key) => typeof p4Export[key] === 'function') ? 1 : 0;
+
+      if (apiOk === 1) {
+        const sample = {
+          projectId: 'p4-doctor-sample',
+          scenes: [{ sceneId: 'scene-0001', order: 1, meta: { title: 'A', text: 'B' } }],
+        };
+        const normalized = [];
+        for (let index = 0; index < 3; index += 1) {
+          const out = p4Export.exportDocxV1Min(sample);
+          const xml = p4Export.extractDocxDocumentXml(out.docxBuffer);
+          normalized.push(p4Export.normalizeDocxDocumentXml(xml));
+        }
+        determinismOk = normalized[0] === normalized[1] && normalized[1] === normalized[2] ? 1 : 0;
+      }
+    } catch {
+      apiOk = 0;
+      determinismOk = 0;
+    }
+  }
+
+  testsOk = fs.existsSync(P4_EXPORT_DOCX_TEST_PATH) ? 1 : 0;
+
+  console.log(`P4_EXPORT_DOCX_V1_MIN_API_OK=${apiOk}`);
+  console.log(`P4_EXPORT_DOCX_V1_MIN_TESTS_OK=${testsOk}`);
+  console.log(`P4_EXPORT_DOCX_V1_MIN_DETERMINISM_OK=${determinismOk}`);
+  return {
+    apiOk,
+    testsOk,
+    determinismOk,
+    level: apiOk === 1 && testsOk === 1 && determinismOk === 1 ? 'ok' : 'warn',
+  };
+}
+
+function evaluateW0WebSmokeNoElectronTokens() {
+  const result = {
+    ruleExists: fs.existsSync(W0_WEB_SMOKE_GUARD_SCRIPT) ? 1 : 0,
+    testsOk: fs.existsSync(W0_WEB_SMOKE_TEST_PATH) ? 1 : 0,
+    proofOk: 0,
+    level: 'warn',
+  };
+
+  if (result.ruleExists === 1 && result.testsOk === 1) {
+    try {
+      const positive = spawnSync(
+        process.execPath,
+        [
+          W0_WEB_SMOKE_GUARD_SCRIPT,
+          '--scan-root',
+          W0_WEB_SMOKE_POSITIVE_FIXTURE_ROOT,
+        ],
+        { encoding: 'utf8' },
+      );
+      const negative = spawnSync(
+        process.execPath,
+        [
+          W0_WEB_SMOKE_GUARD_SCRIPT,
+          '--scan-root',
+          W0_WEB_SMOKE_NEGATIVE_FIXTURE_ROOT,
+        ],
+        { encoding: 'utf8' },
+      );
+      const positiveOk = positive.status === 0;
+      const negativeOk = negative.status !== 0 && String(negative.stdout || '').includes(`RULE_ID=${W0_WEB_SMOKE_RULE_ID}`);
+      result.proofOk = positiveOk && negativeOk ? 1 : 0;
+    } catch {
+      result.proofOk = 0;
+    }
+  }
+
+  result.level = result.ruleExists === 1 && result.testsOk === 1 && result.proofOk === 1 ? 'ok' : 'warn';
+  console.log(`W0_WEB_SMOKE_NO_ELECTRON_RULE_EXISTS=${result.ruleExists}`);
+  console.log(`W0_WEB_SMOKE_NO_ELECTRON_TESTS_OK=${result.testsOk}`);
+  console.log(`W0_WEB_SMOKE_NO_ELECTRON_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
+function evaluateW1WebFsStubTokens() {
+  const result = {
+    stubExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'warn',
+  };
+
+  const filesExist = fs.existsSync(W1_WEB_FS_STUB_PATH)
+    && fs.existsSync(W1_WEB_FS_INDEX_PATH)
+    && fs.existsSync(W1_WEB_FS_STUB_FIXTURE_OPS_PATH)
+    && fs.existsSync(W1_WEB_FS_STUB_FIXTURE_EXPECTED_PATH);
+  result.stubExists = filesExist ? 1 : 0;
+  result.testsOk = fs.existsSync(W1_WEB_FS_STUB_TEST_PATH) ? 1 : 0;
+
+  if (result.stubExists === 1 && result.testsOk === 1) {
+    let structureOk = 0;
+    let payloadOk = 0;
+    let testsPass = 0;
+
+    try {
+      const stubMod = requireCjs(`../${W1_WEB_FS_STUB_PATH}`);
+      const indexMod = requireCjs(`../${W1_WEB_FS_INDEX_PATH}`);
+      const expected = JSON.parse(fs.readFileSync(W1_WEB_FS_STUB_FIXTURE_EXPECTED_PATH, 'utf8'));
+      const ops = JSON.parse(fs.readFileSync(W1_WEB_FS_STUB_FIXTURE_OPS_PATH, 'utf8'));
+
+      const hasFns = typeof stubMod.createWebFileSystemPortStub === 'function'
+        && typeof indexMod.createFileSystemPortForPlatform === 'function';
+      const validOps = Array.isArray(ops)
+        && ops.length > 0
+        && ops.every((it) => typeof it === 'string' && it.length > 0);
+      structureOk = hasFns && validOps ? 1 : 0;
+
+      if (structureOk === 1) {
+        const sample = stubMod.createUnsupportedPlatformError('readFile');
+        const expectedShapeOk = sample
+          && sample.code === expected.code
+          && sample.platformId === expected.platformId
+          && sample.port === expected.port
+          && sample.reason === expected.reason
+          && sample.message === expected.message
+          && sample.op === 'readFile';
+        payloadOk = expectedShapeOk ? 1 : 0;
+      }
+
+      const testRun = spawnSync(
+        process.execPath,
+        ['--test', W1_WEB_FS_STUB_TEST_PATH],
+        { encoding: 'utf8' },
+      );
+      testsPass = testRun.status === 0 ? 1 : 0;
+    } catch {
+      structureOk = 0;
+      payloadOk = 0;
+      testsPass = 0;
+    }
+
+    result.proofOk = structureOk === 1 && payloadOk === 1 && testsPass === 1 ? 1 : 0;
+  }
+
+  result.level = result.stubExists === 1 && result.testsOk === 1 && result.proofOk === 1 ? 'ok' : 'warn';
+  console.log(`W1_WEB_FS_STUB_EXISTS=${result.stubExists}`);
+  console.log(`W1_WEB_FS_STUB_TESTS_OK=${result.testsOk}`);
+  console.log(`W1_WEB_FS_STUB_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
+function evaluateW2PlatformFactoryTokens() {
+  const result = {
+    ruleExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'warn',
+  };
+
+  const requiredFilesExist = fs.existsSync(W2_PLATFORM_IDS_PATH)
+    && fs.existsSync(W2_PLATFORM_FACTORY_GUARD_PATH)
+    && fs.existsSync(W2_PLATFORM_FACTORY_POSITIVE_NODE_PATH)
+    && fs.existsSync(W2_PLATFORM_FACTORY_POSITIVE_WEB_PATH)
+    && fs.existsSync(W2_PLATFORM_FACTORY_NEGATIVE_MISSING_PATH)
+    && fs.existsSync(W2_PLATFORM_FACTORY_NEGATIVE_UNKNOWN_PATH);
+
+  let platformIdsOk = 0;
+  if (requiredFilesExist) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(W2_PLATFORM_IDS_PATH, 'utf8'));
+      const ids = Array.isArray(parsed?.platformIds) ? parsed.platformIds : [];
+      const uniqueSorted = ids.length === [...new Set(ids)].length
+        && [...ids].sort((a, b) => String(a).localeCompare(String(b))).join('\n') === ids.join('\n');
+      const hasNodeWeb = ids.includes('node') && ids.includes('web');
+      const defaultOk = parsed?.defaultPlatformId === 'node';
+      const schemaOk = parsed?.schemaVersion === 'platform-ids.v1';
+      platformIdsOk = schemaOk && hasNodeWeb && uniqueSorted && defaultOk ? 1 : 0;
+    } catch {
+      platformIdsOk = 0;
+    }
+  }
+
+  result.ruleExists = requiredFilesExist && platformIdsOk === 1 ? 1 : 0;
+  result.testsOk = fs.existsSync(W2_PLATFORM_FACTORY_TEST_PATH) ? 1 : 0;
+
+  if (result.ruleExists === 1 && result.testsOk === 1) {
+    try {
+      const unitRun = spawnSync(
+        process.execPath,
+        ['--test', W2_PLATFORM_FACTORY_TEST_PATH],
+        { encoding: 'utf8' },
+      );
+      result.proofOk = unitRun.status === 0 ? 1 : 0;
+    } catch {
+      result.proofOk = 0;
+    }
+  }
+
+  result.level = result.ruleExists === 1 && result.testsOk === 1 && result.proofOk === 1 ? 'ok' : 'warn';
+  console.log(`W2_PLATFORM_FACTORY_RULE_EXISTS=${result.ruleExists}`);
+  console.log(`W2_PLATFORM_FACTORY_TESTS_OK=${result.testsOk}`);
+  console.log(`W2_PLATFORM_FACTORY_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
+function parseKvMap(text) {
+  const out = new Map();
+  const lines = String(text || '').split(/\r?\n/);
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (line.length === 0) continue;
+    const idx = line.indexOf('=');
+    if (idx <= 0) continue;
+    const key = line.slice(0, idx);
+    const value = line.slice(idx + 1);
+    out.set(key, value);
+  }
+  return out;
+}
+
+function readSectorWConfig() {
+  const fallback = {
+    w3Mode: 'DETECT_ONLY',
+    w3DetectOnlyTtlPrs: 2,
+    w3DetectOnlyPrCount: 0,
+    w3FalsePositives: 0,
+    w3TotalFindings: 0,
+    w3TightenThreshold: {
+      minSamples: 20,
+      maxFalsePositiveRate: 0.05,
+    },
+    w3Decision: '',
+    fastMaxDurationMs: 180000,
+  };
+
+  if (!fs.existsSync(SECTOR_W_STATUS_PATH)) return fallback;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(SECTOR_W_STATUS_PATH, 'utf8'));
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return fallback;
+    const mode = typeof parsed.w3Mode === 'string' ? parsed.w3Mode.trim().toUpperCase() : '';
+    const w3Mode = (mode === 'DETECT_ONLY' || mode === 'BLOCKING' || mode === 'DROPPED')
+      ? mode
+      : fallback.w3Mode;
+    const ttl = Number.isInteger(parsed.w3DetectOnlyTtlPrs) && parsed.w3DetectOnlyTtlPrs >= 0
+      ? parsed.w3DetectOnlyTtlPrs
+      : fallback.w3DetectOnlyTtlPrs;
+    const prCount = Number.isInteger(parsed.w3DetectOnlyPrCount) && parsed.w3DetectOnlyPrCount >= 0
+      ? parsed.w3DetectOnlyPrCount
+      : fallback.w3DetectOnlyPrCount;
+    const falsePositives = Number.isInteger(parsed.w3FalsePositives) && parsed.w3FalsePositives >= 0
+      ? parsed.w3FalsePositives
+      : fallback.w3FalsePositives;
+    const totalFindings = Number.isInteger(parsed.w3TotalFindings) && parsed.w3TotalFindings >= 0
+      ? parsed.w3TotalFindings
+      : fallback.w3TotalFindings;
+    const thresholdObj = parsed.w3TightenThreshold && typeof parsed.w3TightenThreshold === 'object' && !Array.isArray(parsed.w3TightenThreshold)
+      ? parsed.w3TightenThreshold
+      : {};
+    const minSamples = Number.isInteger(thresholdObj.minSamples) && thresholdObj.minSamples >= 0
+      ? thresholdObj.minSamples
+      : fallback.w3TightenThreshold.minSamples;
+    const maxFalsePositiveRate = typeof thresholdObj.maxFalsePositiveRate === 'number'
+      && Number.isFinite(thresholdObj.maxFalsePositiveRate)
+      && thresholdObj.maxFalsePositiveRate >= 0
+      ? thresholdObj.maxFalsePositiveRate
+      : fallback.w3TightenThreshold.maxFalsePositiveRate;
+    const w3Decision = typeof parsed.w3Decision === 'string' ? parsed.w3Decision.trim().toUpperCase() : '';
+    const fastMaxDurationMs = Number.isInteger(parsed.fastMaxDurationMs) && parsed.fastMaxDurationMs > 0
+      ? parsed.fastMaxDurationMs
+      : fallback.fastMaxDurationMs;
+    return {
+      w3Mode,
+      w3DetectOnlyTtlPrs: ttl,
+      w3DetectOnlyPrCount: prCount,
+      w3FalsePositives: falsePositives,
+      w3TotalFindings: totalFindings,
+      w3TightenThreshold: {
+        minSamples,
+        maxFalsePositiveRate,
+      },
+      w3Decision,
+      fastMaxDurationMs,
+    };
+  } catch {
+    return fallback;
+  }
+}
+
+function evaluateW3WebSmokeTokens() {
+  const config = readSectorWConfig();
+  const result = {
+    ruleExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    mode: config.w3Mode,
+    ttlPrs: config.w3DetectOnlyTtlPrs,
+    prCount: config.w3DetectOnlyPrCount,
+    findingsTotal: config.w3TotalFindings,
+    falsePositives: config.w3FalsePositives,
+    falsePositiveRate: 0,
+    ttlExpired: 0,
+    tightenEligible: 0,
+    dropRequired: 0,
+    level: 'warn',
+  };
+
+  if (result.findingsTotal > 0) {
+    result.falsePositiveRate = result.falsePositives / result.findingsTotal;
+  }
+
+  const requiredFilesExist = fs.existsSync(W3_WEB_TARGET_PATHS)
+    && fs.existsSync(W3_WEB_SMOKE_GUARD_PATH)
+    && fs.existsSync(W3_WEB_SMOKE_TEST_PATH)
+    && fs.existsSync(W3_WEB_SMOKE_SCHEMA_TEST_PATH);
+  result.ruleExists = requiredFilesExist ? 1 : 0;
+  result.testsOk = fs.existsSync(W3_WEB_SMOKE_TEST_PATH) && fs.existsSync(W3_WEB_SMOKE_SCHEMA_TEST_PATH) ? 1 : 0;
+
+  if (result.ruleExists === 1 && result.testsOk === 1) {
+    try {
+      const testRun = spawnSync(
+        process.execPath,
+        ['--test', W3_WEB_SMOKE_TEST_PATH, W3_WEB_SMOKE_SCHEMA_TEST_PATH],
+        { encoding: 'utf8' },
+      );
+      const guardPositive = spawnSync(
+        process.execPath,
+        [W3_WEB_SMOKE_GUARD_PATH, '--scan-root', 'test/fixtures/sector-w/w3/positive', '--mode', 'DETECT_ONLY'],
+        { encoding: 'utf8' },
+      );
+      const guardNegative = spawnSync(
+        process.execPath,
+        [W3_WEB_SMOKE_GUARD_PATH, '--scan-root', 'test/fixtures/sector-w/w3/negative', '--mode', 'DETECT_ONLY'],
+        { encoding: 'utf8' },
+      );
+      const negTokens = parseKvMap(guardNegative.stdout);
+      const negCount = Number.parseInt(String(negTokens.get('VIOLATIONS_COUNT') || '0'), 10);
+      result.proofOk = testRun.status === 0
+        && guardPositive.status === 0
+        && guardNegative.status === 0
+        && Number.isInteger(negCount)
+        && negCount > 0 ? 1 : 0;
+    } catch {
+      result.proofOk = 0;
+    }
+  }
+
+  const decisionPending = result.mode === 'DETECT_ONLY' && result.prCount >= result.ttlPrs && config.w3Decision === '';
+  result.ttlExpired = decisionPending ? 1 : 0;
+  result.tightenEligible = result.findingsTotal >= config.w3TightenThreshold.minSamples
+    && result.falsePositiveRate <= config.w3TightenThreshold.maxFalsePositiveRate ? 1 : 0;
+  result.dropRequired = result.ttlExpired === 1 && result.tightenEligible === 0 ? 1 : 0;
+  result.level = result.ruleExists === 1
+    && result.testsOk === 1
+    && result.proofOk === 1
+    && result.ttlExpired === 0 ? 'ok' : 'warn';
+
+  console.log(`W3_RULE_EXISTS=${result.ruleExists}`);
+  console.log(`W3_TESTS_OK=${result.testsOk}`);
+  console.log(`W3_PROOF_OK=${result.proofOk}`);
+  console.log(`W3_MODE=${result.mode}`);
+  console.log(`W3_TTL_PRS=${result.ttlPrs}`);
+  console.log(`W3_PR_COUNT=${result.prCount}`);
+  console.log(`W3_FINDINGS_TOTAL=${result.findingsTotal}`);
+  console.log(`W3_FALSE_POSITIVES=${result.falsePositives}`);
+  console.log(`W3_FALSE_POSITIVE_RATE=${result.falsePositiveRate.toFixed(6)}`);
+  console.log(`W3_TTL_EXPIRED=${result.ttlExpired}`);
+  console.log(`W3_TIGHTEN_ELIGIBLE=${result.tightenEligible}`);
+  console.log(`W3_DROP_REQUIRED=${result.dropRequired}`);
+  return result;
+}
+
+function evaluateSectorWFastDurationTokens() {
+  const config = readSectorWConfig();
+  const result = {
+    ok: 0,
+    medianMs: -1,
+    limitMs: config.fastMaxDurationMs,
+    level: 'warn',
+  };
+
+  if (fs.existsSync(SECTOR_W_FAST_RESULT_PATH)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(SECTOR_W_FAST_RESULT_PATH, 'utf8'));
+      const metrics = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.metrics : null;
+      let history = Array.isArray(metrics?.fastDurationHistoryMs) ? metrics.fastDurationHistoryMs : [];
+      history = history
+        .map((value) => Number.parseInt(String(value), 10))
+        .filter((value) => Number.isInteger(value) && value >= 0);
+
+      if (history.length === 0 && typeof parsed?.startedAt === 'string' && typeof parsed?.finishedAt === 'string') {
+        const started = Date.parse(parsed.startedAt);
+        const finished = Date.parse(parsed.finishedAt);
+        if (Number.isFinite(started) && Number.isFinite(finished) && finished >= started) {
+          history = [Math.round(finished - started)];
+        }
+      }
+
+      const median = computeMedianInt(history);
+      result.medianMs = median;
+      result.ok = median >= 0 && median <= result.limitMs ? 1 : 0;
+      result.level = result.ok === 1 ? 'ok' : 'warn';
+    } catch {
+      result.ok = 0;
+      result.level = 'warn';
+    }
+  }
+
+  console.log(`SECTOR_W_FAST_DURATION_OK=${result.ok}`);
+  console.log(`SECTOR_W_FAST_DURATION_MEDIAN_MS=${result.medianMs}`);
+  console.log(`SECTOR_W_FAST_DURATION_LIMIT_MS=${result.limitMs}`);
+  return result;
+}
+
+function parseCloseReportFields(filePath) {
+  const fields = {
+    P1_PROOF: '',
+    P2_PROOF: '',
+    P3_PROOF: '',
+    P4_PROOF: '',
+    FAST_PACK: '',
+    SLO: '',
+    WAIVERS_AFFECTING_COUNT: '',
+  };
+
+  if (!fs.existsSync(filePath)) return fields;
+
+  let text = '';
+  try {
+    text = fs.readFileSync(filePath, 'utf8');
+  } catch {
+    return fields;
+  }
+
+  const lines = String(text || '').split(/\r?\n/);
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (line.length === 0) continue;
+    for (const key of Object.keys(fields)) {
+      if (!line.startsWith(`${key}:`) && !line.startsWith(`${key}=`)) continue;
+      const idx = line.indexOf(':') >= 0 ? line.indexOf(':') : line.indexOf('=');
+      if (idx < 0) continue;
+      fields[key] = line.slice(idx + 1).trim();
+    }
+  }
+
+  return fields;
+}
+
+function computeSha256Hex(text) {
+  return createHash('sha256').update(String(text || ''), 'utf8').digest('hex');
+}
+
+function normalizeSectorPStatusForLock(statusDoc) {
+  const src = statusDoc && typeof statusDoc === 'object' && !Array.isArray(statusDoc) ? statusDoc : {};
+  return {
+    sector: typeof src.sector === 'string' ? src.sector : '',
+    status: typeof src.status === 'string' ? src.status : '',
+    phase: typeof src.phase === 'string' ? src.phase : '',
+    baselineSha: typeof src.baselineSha === 'string' ? src.baselineSha : '',
+    goTag: typeof src.goTag === 'string' ? src.goTag : '',
+    by: typeof src.by === 'string' ? src.by : '',
+    date: typeof src.date === 'string' ? src.date : '',
+    closedBaselineSha: typeof src.closedBaselineSha === 'string' ? src.closedBaselineSha : '',
+    closedAt: typeof src.closedAt === 'string' ? src.closedAt : '',
+    closedBy: typeof src.closedBy === 'string' ? src.closedBy : '',
+  };
+}
+
+function evaluateSectorPClosedMutation(sectorPStatus) {
+  const output = {
+    mutation: 0,
+    violations: [],
+    level: 'ok',
+  };
+
+  if (!sectorPStatus || sectorPStatus.phase !== 'DONE') {
+    console.log('SECTOR_P_CLOSED_MUTATION=0');
+    console.log('SECTOR_P_CLOSED_MUTATION_VIOLATIONS=[]');
+    return output;
+  }
+
+  let statusDoc = null;
+  try {
+    statusDoc = JSON.parse(fs.readFileSync(SECTOR_P_STATUS_PATH, 'utf8'));
+  } catch {
+    output.violations.push('STATUS_PARSE_FAILED');
+  }
+
+  const normalizedStatus = normalizeSectorPStatusForLock(statusDoc);
+  if (normalizedStatus.closedBaselineSha.length === 0) output.violations.push('STATUS_CLOSED_BASELINE_SHA_MISSING');
+  if (normalizedStatus.closedAt.length === 0) output.violations.push('STATUS_CLOSED_AT_MISSING');
+  if (normalizedStatus.closedBy.length === 0) output.violations.push('STATUS_CLOSED_BY_MISSING');
+  if (normalizedStatus.closedBaselineSha.length > 0 && normalizedStatus.baselineSha.length > 0 && normalizedStatus.closedBaselineSha !== normalizedStatus.baselineSha) {
+    output.violations.push('STATUS_CLOSED_BASELINE_SHA_MISMATCH');
+  }
+
+  let lockDoc = null;
+  if (!fs.existsSync(SECTOR_P_CLOSED_LOCK_PATH)) {
+    output.violations.push('CLOSED_LOCK_MISSING');
+  } else {
+    try {
+      lockDoc = JSON.parse(fs.readFileSync(SECTOR_P_CLOSED_LOCK_PATH, 'utf8'));
+    } catch {
+      output.violations.push('CLOSED_LOCK_PARSE_FAILED');
+    }
+  }
+
+  if (lockDoc && (typeof lockDoc !== 'object' || Array.isArray(lockDoc))) {
+    output.violations.push('CLOSED_LOCK_INVALID_SHAPE');
+  }
+
+  if (lockDoc && typeof lockDoc === 'object' && !Array.isArray(lockDoc)) {
+    const lockStatus = normalizeSectorPStatusForLock(lockDoc.statusFrozen);
+    if (JSON.stringify(normalizedStatus) !== JSON.stringify(lockStatus)) {
+      output.violations.push('STATUS_FROZEN_MISMATCH');
+    }
+
+    let closeReportHash = '';
+    try {
+      closeReportHash = computeSha256Hex(fs.readFileSync(SECTOR_P_CLOSE_REPORT_PATH, 'utf8'));
+    } catch {
+      output.violations.push('CLOSE_REPORT_READ_FAILED');
+    }
+
+    const expectedHash = typeof lockDoc.closeReportSha256 === 'string' ? lockDoc.closeReportSha256 : '';
+    if (expectedHash.length === 0) {
+      output.violations.push('CLOSED_LOCK_REPORT_SHA_MISSING');
+    } else if (closeReportHash !== expectedHash) {
+      output.violations.push('CLOSE_REPORT_HASH_MISMATCH');
+    }
+
+    const lockBaseline = typeof lockDoc.closedBaselineSha === 'string' ? lockDoc.closedBaselineSha : '';
+    if (lockBaseline.length > 0 && normalizedStatus.closedBaselineSha.length > 0 && lockBaseline !== normalizedStatus.closedBaselineSha) {
+      output.violations.push('CLOSED_LOCK_BASELINE_MISMATCH');
+    }
+  }
+
+  output.violations = [...new Set(output.violations)].sort();
+  output.mutation = output.violations.length > 0 ? 1 : 0;
+  output.level = output.mutation === 1 ? 'warn' : 'ok';
+
+  console.log(`SECTOR_P_CLOSED_MUTATION=${output.mutation}`);
+  console.log(`SECTOR_P_CLOSED_MUTATION_VIOLATIONS=${JSON.stringify(output.violations)}`);
+  return output;
+}
+
+function evaluateSectorPCloseTokens(input) {
+  const {
+    sectorPStatus,
+    sectorPWaivers,
+    sectorPSloP1,
+    sectorPCheckPacks,
+    p3SceneLifecycle,
+    p4ExportDocx,
+    sectorPClosedMutation,
+  } = input;
+
+  const closeReportFields = parseCloseReportFields(SECTOR_P_CLOSE_REPORT_PATH);
+  const requiredFieldKeys = [
+    'P1_PROOF',
+    'P2_PROOF',
+    'P3_PROOF',
+    'P4_PROOF',
+    'FAST_PACK',
+    'SLO',
+    'WAIVERS_AFFECTING_COUNT',
+  ];
+  const closeReportFieldsOk = requiredFieldKeys.every((key) => typeof closeReportFields[key] === 'string' && closeReportFields[key].length > 0) ? 1 : 0;
+
+  let fastPackProofOk = sectorPCheckPacks.fastPackOk;
+  if (fastPackProofOk !== 1) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(SECTOR_P_FAST_RESULT_PATH, 'utf8'));
+      fastPackProofOk = parsed && parsed.ok === 1 && parsed.pack === 'fast' ? 1 : 0;
+    } catch {
+      fastPackProofOk = 0;
+    }
+  }
+
+  const proofTokensOk = sectorPSloP1.ok === 1
+    && p3SceneLifecycle.apiOk === 1
+    && p3SceneLifecycle.testsOk === 1
+    && p4ExportDocx.apiOk === 1
+    && p4ExportDocx.testsOk === 1
+    && p4ExportDocx.determinismOk === 1 ? 1 : 0;
+
+  const closeReady = proofTokensOk === 1
+    && sectorPWaivers.ok === 1
+    && fastPackProofOk === 1
+    && closeReportFieldsOk === 1
+    && (!sectorPClosedMutation || sectorPClosedMutation.mutation === 0) ? 1 : 0;
+
+  const closeOk = sectorPStatus.phase === 'DONE' && closeReady === 1 ? 1 : 0;
+  const level = (sectorPStatus.phase === 'DONE' && closeReady === 0)
+    || (sectorPClosedMutation && sectorPClosedMutation.level === 'warn')
+    ? 'warn'
+    : 'ok';
+
+  console.log(`SECTOR_P_CLOSE_REPORT_FIELDS_OK=${closeReportFieldsOk}`);
+  console.log(`SECTOR_P_FAST_PACK_PROOF_OK=${fastPackProofOk}`);
+  console.log(`SECTOR_P_CLOSE_READY=${closeReady}`);
+  console.log(`SECTOR_P_CLOSE_OK=${closeOk}`);
+
+  return {
+    level,
+    closeReady,
+    closeOk,
+  };
+}
+
+function parseSectorWCloseReportFields(filePath) {
+  const fields = {
+    BASELINE_SHA: '',
+    PHASES: '',
+    PROOF_TOKENS: '',
+    WAIVERS_AFFECTING_COUNT: '',
+    FAST_RESULT_PATH: '',
+    COPY_TEXT: '',
+  };
+
+  if (!fs.existsSync(filePath)) return fields;
+
+  let text = '';
+  try {
+    text = fs.readFileSync(filePath, 'utf8');
+  } catch {
+    return fields;
+  }
+
+  const lines = String(text || '').split(/\r?\n/);
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (line.length === 0) continue;
+    for (const key of Object.keys(fields)) {
+      if (!line.startsWith(`${key}:`) && !line.startsWith(`${key}=`)) continue;
+      const idx = line.indexOf(':') >= 0 ? line.indexOf(':') : line.indexOf('=');
+      if (idx < 0) continue;
+      fields[key] = line.slice(idx + 1).trim();
+    }
+  }
+
+  return fields;
+}
+
+function normalizeSectorWStatusForLock(statusDoc) {
+  const src = statusDoc && typeof statusDoc === 'object' && !Array.isArray(statusDoc) ? statusDoc : {};
+  return {
+    sector: typeof src.sector === 'string' ? src.sector : '',
+    status: typeof src.status === 'string' ? src.status : '',
+    phase: typeof src.phase === 'string' ? src.phase : '',
+    baselineSha: typeof src.baselineSha === 'string' ? src.baselineSha : '',
+    goTag: typeof src.goTag === 'string' ? src.goTag : '',
+    by: typeof src.by === 'string' ? src.by : '',
+    date: typeof src.date === 'string' ? src.date : '',
+    W4_STATUS: typeof src.W4_STATUS === 'string' ? src.W4_STATUS : '',
+    closedBaselineSha: typeof src.closedBaselineSha === 'string' ? src.closedBaselineSha : '',
+    closedAt: typeof src.closedAt === 'string' ? src.closedAt : '',
+    closedBy: typeof src.closedBy === 'string' ? src.closedBy : '',
+  };
+}
+
+function computeSectorWLockSha(schemaVersion, baselineSha, closeReportSha256, sectorWStatusSha256) {
+  return computeSha256Hex([
+    String(schemaVersion || ''),
+    String(baselineSha || ''),
+    String(closeReportSha256 || ''),
+    String(sectorWStatusSha256 || ''),
+  ].join('|'));
+}
+
+function evaluateSectorWClosedMutation(sectorWStatus) {
+  const output = {
+    mutation: 0,
+    violations: [],
+    level: 'ok',
+  };
+
+  if (!sectorWStatus || sectorWStatus.phase !== 'DONE') {
+    console.log('SECTOR_W_CLOSED_MUTATION=0');
+    console.log('SECTOR_W_CLOSED_MUTATION_VIOLATIONS=[]');
+    return output;
+  }
+
+  let statusDoc = null;
+  try {
+    statusDoc = JSON.parse(fs.readFileSync(SECTOR_W_STATUS_PATH, 'utf8'));
+  } catch {
+    output.violations.push('STATUS_PARSE_FAILED');
+  }
+
+  const normalizedStatus = normalizeSectorWStatusForLock(statusDoc);
+  if (normalizedStatus.closedBaselineSha.length === 0) output.violations.push('STATUS_CLOSED_BASELINE_SHA_MISSING');
+  if (normalizedStatus.closedAt.length === 0) output.violations.push('STATUS_CLOSED_AT_MISSING');
+  if (normalizedStatus.closedBy.length === 0) output.violations.push('STATUS_CLOSED_BY_MISSING');
+  if (normalizedStatus.closedBaselineSha.length > 0 && normalizedStatus.baselineSha.length > 0 && normalizedStatus.closedBaselineSha !== normalizedStatus.baselineSha) {
+    output.violations.push('STATUS_CLOSED_BASELINE_SHA_MISMATCH');
+  }
+
+  let lockDoc = null;
+  if (!fs.existsSync(SECTOR_W_CLOSED_LOCK_PATH)) {
+    output.violations.push('CLOSED_LOCK_MISSING');
+  } else {
+    try {
+      lockDoc = JSON.parse(fs.readFileSync(SECTOR_W_CLOSED_LOCK_PATH, 'utf8'));
+    } catch {
+      output.violations.push('CLOSED_LOCK_PARSE_FAILED');
+    }
+  }
+
+  let closeReportHash = '';
+  let statusHash = '';
+  try {
+    closeReportHash = computeSha256Hex(fs.readFileSync(SECTOR_W_CLOSE_REPORT_PATH, 'utf8'));
+  } catch {
+    output.violations.push('CLOSE_REPORT_READ_FAILED');
+  }
+  try {
+    statusHash = computeSha256Hex(fs.readFileSync(SECTOR_W_STATUS_PATH, 'utf8'));
+  } catch {
+    output.violations.push('STATUS_READ_FAILED');
+  }
+
+  if (lockDoc && (typeof lockDoc !== 'object' || Array.isArray(lockDoc))) {
+    output.violations.push('CLOSED_LOCK_INVALID_SHAPE');
+  }
+
+  if (lockDoc && typeof lockDoc === 'object' && !Array.isArray(lockDoc)) {
+    const schemaVersion = typeof lockDoc.schemaVersion === 'string' ? lockDoc.schemaVersion : '';
+    if (schemaVersion !== 'sector-w-closed-lock.v1') {
+      output.violations.push('CLOSED_LOCK_SCHEMA_INVALID');
+    }
+
+    const lockBaseline = typeof lockDoc.baselineSha === 'string' ? lockDoc.baselineSha : '';
+    const expectedReportHash = typeof lockDoc.closeReportSha256 === 'string' ? lockDoc.closeReportSha256 : '';
+    const expectedStatusHash = typeof lockDoc.sectorWStatusSha256 === 'string' ? lockDoc.sectorWStatusSha256 : '';
+    const lockSha = typeof lockDoc.lockSha256 === 'string' ? lockDoc.lockSha256 : '';
+
+    if (lockBaseline.length === 0) output.violations.push('CLOSED_LOCK_BASELINE_MISSING');
+    if (expectedReportHash.length === 0) output.violations.push('CLOSED_LOCK_REPORT_SHA_MISSING');
+    if (expectedStatusHash.length === 0) output.violations.push('CLOSED_LOCK_STATUS_SHA_MISSING');
+    if (lockSha.length === 0) output.violations.push('CLOSED_LOCK_SHA_MISSING');
+
+    if (expectedReportHash.length > 0 && closeReportHash.length > 0 && expectedReportHash !== closeReportHash) {
+      output.violations.push('CLOSE_REPORT_HASH_MISMATCH');
+    }
+    if (expectedStatusHash.length > 0 && statusHash.length > 0 && expectedStatusHash !== statusHash) {
+      output.violations.push('STATUS_HASH_MISMATCH');
+    }
+    if (lockBaseline.length > 0 && normalizedStatus.closedBaselineSha.length > 0 && lockBaseline !== normalizedStatus.closedBaselineSha) {
+      output.violations.push('CLOSED_LOCK_BASELINE_MISMATCH');
+    }
+
+    if (schemaVersion === 'sector-w-closed-lock.v1' && lockBaseline.length > 0 && expectedReportHash.length > 0 && expectedStatusHash.length > 0 && lockSha.length > 0) {
+      const computedLockSha = computeSectorWLockSha(schemaVersion, lockBaseline, expectedReportHash, expectedStatusHash);
+      if (computedLockSha !== lockSha) {
+        output.violations.push('CLOSED_LOCK_SHA_MISMATCH');
+      }
+    }
+  }
+
+  output.violations = [...new Set(output.violations)].sort();
+  output.mutation = output.violations.length > 0 ? 1 : 0;
+  output.level = output.mutation === 1 ? 'warn' : 'ok';
+
+  console.log(`SECTOR_W_CLOSED_MUTATION=${output.mutation}`);
+  console.log(`SECTOR_W_CLOSED_MUTATION_VIOLATIONS=${JSON.stringify(output.violations)}`);
+  return output;
+}
+
+function evaluateSectorWCloseTokens(input) {
+  const {
+    sectorWStatus,
+    sectorWWaivers,
+    w0WebSmoke,
+    w1WebFsStub,
+    w2PlatformFactory,
+    w3WebSmoke,
+    sectorWClosedMutation,
+  } = input;
+
+  const closeReportFields = parseSectorWCloseReportFields(SECTOR_W_CLOSE_REPORT_PATH);
+  const requiredFieldKeys = [
+    'BASELINE_SHA',
+    'PHASES',
+    'PROOF_TOKENS',
+    'WAIVERS_AFFECTING_COUNT',
+    'FAST_RESULT_PATH',
+    'COPY_TEXT',
+  ];
+  const closeReportFieldsOk = requiredFieldKeys.every((key) => typeof closeReportFields[key] === 'string' && closeReportFields[key].length > 0) ? 1 : 0;
+
+  let fastPackProofOk = 0;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(SECTOR_W_FAST_RESULT_PATH, 'utf8'));
+    fastPackProofOk = parsed && parsed.ok === 1 && parsed.pack === 'fast' ? 1 : 0;
+  } catch {
+    fastPackProofOk = 0;
+  }
+
+  const w4Status = (() => {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(SECTOR_W_STATUS_PATH, 'utf8'));
+      const value = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed.W4_STATUS : '';
+      return typeof value === 'string' ? value : '';
+    } catch {
+      return '';
+    }
+  })();
+  const w4StatusOk = w4Status === 'DONE' || w4Status === 'SKIPPED' ? 1 : 0;
+
+  const proofTokensOk = w0WebSmoke.proofOk === 1
+    && w1WebFsStub.proofOk === 1
+    && w2PlatformFactory.proofOk === 1
+    && w3WebSmoke.proofOk === 1
+    && w4StatusOk === 1 ? 1 : 0;
+
+  const closeReady = sectorWStatus.statusOk === 1
+    && sectorWStatus.phase === 'DONE'
+    && sectorWWaivers.ok === 1
+    && fastPackProofOk === 1
+    && closeReportFieldsOk === 1
+    && proofTokensOk === 1
+    && (!sectorWClosedMutation || sectorWClosedMutation.mutation === 0) ? 1 : 0;
+  const closeOk = closeReady === 1 ? 1 : 0;
+  const level = closeOk === 1 ? 'ok' : 'warn';
+
+  console.log(`SECTOR_W_CLOSE_REPORT_PATH=${SECTOR_W_CLOSE_REPORT_PATH}`);
+  console.log(`SECTOR_W_CLOSED_LOCK_PATH=${SECTOR_W_CLOSED_LOCK_PATH}`);
+  console.log(`SECTOR_W_FAST_RESULT_PATH=${SECTOR_W_FAST_RESULT_PATH}`);
+  console.log(`SECTOR_W_CLOSE_REPORT_FIELDS_OK=${closeReportFieldsOk}`);
+  console.log(`SECTOR_W_FAST_PACK_OK=${fastPackProofOk}`);
+  console.log(`SECTOR_W_CLOSE_READY=${closeReady}`);
+  console.log(`SECTOR_W_CLOSE_OK=${closeOk}`);
+
+  return {
+    level,
+    closeReady,
+    closeOk,
+  };
+}
+
+function evaluateNextSectorStatus(input) {
+  const {
+    sectorPClose,
+    sectorPClosedMutation,
+    sectorWClose,
+    sectorWClosedMutation,
+    contourCStatus,
+    strictLie,
+    warnDeltaTarget,
+  } = input;
+
+  const result = {
+    nextSectorId: '',
+    goTag: '',
+    statusOk: 0,
+    ready: 0,
+    unmet: [],
+    level: 'warn',
+  };
+
+  if (!fs.existsSync(NEXT_SECTOR_STATUS_PATH)) {
+    console.log('NEXT_SECTOR_ID=');
+    console.log('NEXT_SECTOR_GO_TAG=');
+    console.log('NEXT_SECTOR_STATUS_OK=0');
+    console.log('NEXT_SECTOR_READY=0');
+    return result;
+  }
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(fs.readFileSync(NEXT_SECTOR_STATUS_PATH, 'utf8'));
+  } catch {
+    console.log('NEXT_SECTOR_ID=');
+    console.log('NEXT_SECTOR_GO_TAG=');
+    console.log('NEXT_SECTOR_STATUS_OK=0');
+    console.log('NEXT_SECTOR_READY=0');
+    return result;
+  }
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    console.log('NEXT_SECTOR_ID=');
+    console.log('NEXT_SECTOR_GO_TAG=');
+    console.log('NEXT_SECTOR_STATUS_OK=0');
+    console.log('NEXT_SECTOR_READY=0');
+    return result;
+  }
+
+  const allowedIds = new Set(['SECTOR W', 'SECTOR M', 'SECTOR H', 'SECTOR U']);
+  const allowedGoTags = new Set(['', 'GO:NEXT_SECTOR_START']);
+  const requiredKeys = ['title', 'selectedAt', 'selectedBy', 'baselineSha', 'goTag', 'prereqs'];
+
+  for (const key of requiredKeys) {
+    if (!Object.prototype.hasOwnProperty.call(parsed, key)) {
+      console.log('NEXT_SECTOR_ID=');
+      console.log('NEXT_SECTOR_GO_TAG=');
+      console.log('NEXT_SECTOR_STATUS_OK=0');
+      console.log('NEXT_SECTOR_READY=0');
+      return result;
+    }
+  }
+
+  const nextSectorIdRaw = typeof parsed.nextSectorId === 'string' && parsed.nextSectorId.trim().length > 0
+    ? parsed.nextSectorId
+    : (typeof parsed.id === 'string' ? parsed.id : '');
+  const nextSectorId = String(nextSectorIdRaw || '').trim();
+  const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
+  const titleOk = typeof parsed.title === 'string' && parsed.title.trim().length > 0;
+  const selectedByOk = typeof parsed.selectedBy === 'string' && parsed.selectedBy.trim().length > 0;
+  const selectedAtOk = typeof parsed.selectedAt === 'string' && parsed.selectedAt.trim().length > 0 && Number.isFinite(Date.parse(parsed.selectedAt));
+  const baselineShaOk = typeof parsed.baselineSha === 'string' && /^[0-9a-f]{7,}$/i.test(parsed.baselineSha);
+  const prereqs = Array.isArray(parsed.prereqs) ? parsed.prereqs : [];
+  const prereqsShapeOk = prereqs.length >= 4 && prereqs.every((it) => typeof it === 'string' && it.trim().length > 0);
+
+  result.nextSectorId = nextSectorId;
+  result.goTag = goTag;
+  result.statusOk = allowedIds.has(nextSectorId)
+    && allowedGoTags.has(goTag)
+    && titleOk
+    && selectedByOk
+    && selectedAtOk
+    && baselineShaOk
+    && prereqsShapeOk ? 1 : 0;
+
+  const predicateMap = new Map([
+    ['SECTOR_P_CLOSE_OK==1', sectorPClose && sectorPClose.closeOk === 1],
+    ['SECTOR_P_CLOSED_MUTATION==0', sectorPClosedMutation && sectorPClosedMutation.mutation === 0],
+    ['SECTOR_W_CLOSE_OK==1', sectorWClose && sectorWClose.closeOk === 1],
+    ['SECTOR_W_CLOSED_MUTATION==0', sectorWClosedMutation && sectorWClosedMutation.mutation === 0],
+    ['CONTOUR_C_STATUS==CLOSED', contourCStatus === 'CLOSED'],
+    ['STRICT_LIE_CLASSES_OK==1', strictLie && strictLie.ok === 1],
+    ['WARN_DELTA_TARGET==0', typeof warnDeltaTarget === 'number' ? warnDeltaTarget === 0 : false],
+  ]);
+
+  const mandatory = ['SECTOR_P_CLOSE_OK==1', 'SECTOR_P_CLOSED_MUTATION==0', 'CONTOUR_C_STATUS==CLOSED', 'STRICT_LIE_CLASSES_OK==1'];
+  const selectedPrereqs = prereqsShapeOk ? prereqs : [];
+  const unmet = [];
+  for (const key of selectedPrereqs) {
+    const passed = predicateMap.has(key) ? predicateMap.get(key) : false;
+    if (!passed) unmet.push(key);
+  }
+  for (const key of mandatory) {
+    if (!selectedPrereqs.includes(key)) unmet.push(`${key}:MISSING`);
+  }
+
+  result.unmet = [...new Set(unmet)].sort();
+  result.ready = result.statusOk === 1 && result.unmet.length === 0 ? 1 : 0;
+  result.level = result.statusOk === 1 && result.ready === 1 ? 'ok' : 'warn';
+
+  console.log(`NEXT_SECTOR_ID=${result.nextSectorId}`);
+  console.log(`NEXT_SECTOR_GO_TAG=${result.goTag}`);
+  console.log(`NEXT_SECTOR_STATUS_OK=${result.statusOk}`);
+  console.log(`NEXT_SECTOR_READY=${result.ready}`);
+  console.log(`NEXT_SECTOR_UNMET_PREREQS=${JSON.stringify(result.unmet)}`);
+  return result;
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -2733,6 +4847,43 @@ function run() {
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
   const strictLie = checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry, registryItems);
+  const sectorPStatus = evaluateSectorPStatus();
+  const sectorWStatus = evaluateSectorWStatus();
+  const sectorUStatus = evaluateSectorUStatus();
+  const sectorPWaivers = evaluateSectorPWaiverPredicate();
+  const sectorWWaivers = evaluateSectorWWaiverPredicate();
+  const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
+  const sectorPSloP1 = evaluateSectorPSloP1();
+  const sectorPCheckPacks = evaluateSectorPCheckPackTokens(sectorPStatus, sectorPWaivers);
+  const p3SceneLifecycle = evaluateP3SceneLifecycleTokens();
+  const p4ExportDocx = evaluateP4ExportDocxV1MinTokens();
+  const w0WebSmoke = evaluateW0WebSmokeNoElectronTokens();
+  const w1WebFsStub = evaluateW1WebFsStubTokens();
+  const w2PlatformFactory = evaluateW2PlatformFactoryTokens();
+  const w3WebSmoke = evaluateW3WebSmokeTokens();
+  const sectorWFastDuration = evaluateSectorWFastDurationTokens();
+  const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
+  const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
+  const sectorPClosedMutation = evaluateSectorPClosedMutation(sectorPStatus);
+  const sectorPClose = evaluateSectorPCloseTokens({
+    sectorPStatus,
+    sectorPWaivers,
+    sectorPSloP1,
+    sectorPCheckPacks,
+    p3SceneLifecycle,
+    p4ExportDocx,
+    sectorPClosedMutation,
+  });
+  const sectorWClosedMutation = evaluateSectorWClosedMutation(sectorWStatus);
+  const sectorWClose = evaluateSectorWCloseTokens({
+    sectorWStatus,
+    sectorWWaivers,
+    w0WebSmoke,
+    w1WebFsStub,
+    w2PlatformFactory,
+    w3WebSmoke,
+    sectorWClosedMutation,
+  });
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -2798,12 +4949,42 @@ function run() {
   const gating = applyIntroducedInGating(registryItems, targetParsed);
   const contourCEnforcement = checkContourCEnforcementInventory(gating.applicableItems, targetParsed);
   const contourCCompleteness = computeContourCEnforcementCompleteness(gating.applicableItems, contourCEnforcement.planIds);
-  computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds);
-  computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
+  const p001ProofOk = evaluateContourCP001Proof();
+  const p002ProofOk = evaluateContourCP002Proof();
+  const p003ProofOk = evaluateContourCP003Proof();
+  const c4ProductStepProofOk = evaluateC4ProductStepProof();
+  const requiredProofByInvariant = {
+    C_RUNTIME_NO_BYPASS_CORE: p001ProofOk,
+    C_RUNTIME_SINGLE_WRITER_ORDERING_KEY: p002ProofOk,
+    C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS: p003ProofOk,
+  };
+  const contourCExit = computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds, requiredProofByInvariant);
+  const effectiveReport = computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
   const docsContracts = checkContourCDocsContractsPresence();
   const frozenContracts = checkContourCContractsFrozenEntrypoint(targetParsed);
   checkContourCSrcContractsSkeletonDiagnostics(targetParsed);
+  const p001DeclaredImplemented = gating.applicableItems.some((item) => item && item.invariantId === 'C_RUNTIME_NO_BYPASS_CORE' && item.maturity === 'implemented');
+  const p002DeclaredImplemented = gating.applicableItems.some((item) => item && item.invariantId === 'C_RUNTIME_SINGLE_WRITER_ORDERING_KEY' && item.maturity === 'implemented');
+  const p003DeclaredImplemented = gating.applicableItems.some((item) => item && item.invariantId === 'C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS' && item.maturity === 'implemented');
+  const contourCStatus = resolveContourCStatus();
+  const contourCClosedMutations = checkContourCClosedMutations(contourCStatus);
+  const contourCClosedP0CountLock = readContourCCloseP0Count();
+  const contourCClosedP0Mutation = contourCStatus === 'CLOSED' && contourCExit.count > contourCClosedP0CountLock ? 1 : 0;
+  const nextSector = evaluateNextSectorStatus({
+    sectorPClose,
+    sectorPClosedMutation,
+    sectorWClose,
+    sectorWClosedMutation,
+    contourCStatus,
+    strictLie,
+    warnDeltaTarget: effectiveReport && typeof effectiveReport.warnDeltaTarget === 'number' ? effectiveReport.warnDeltaTarget : NaN,
+  });
+  console.log(`CONTOUR_C_CLOSED_P0_COUNT_LOCK=${contourCClosedP0CountLock}`);
+  console.log(`CONTOUR_C_CLOSED_P0_LOCK_OK=${contourCClosedP0Mutation === 0 ? 1 : 0}`);
+  if (contourCClosedMutations.fail === 1 || contourCClosedP0Mutation === 1) {
+    console.log('DOCTOR_FAIL_REASON=C_CONTOUR_C_CLOSED_MUTATION');
+  }
 
   const hasFail = coreBoundary.level === 'fail'
     || coreDet.level === 'fail'
@@ -2817,7 +4998,13 @@ function run() {
     || debtTtl.level === 'fail'
     || contourCEnforcement.forceFail === true
     || ssotBoundary.level === 'fail'
-    || strictLie.level === 'fail';
+    || strictLie.level === 'fail'
+    || (p001DeclaredImplemented && p001ProofOk !== 1)
+    || (p002DeclaredImplemented && p002ProofOk !== 1)
+    || (p003DeclaredImplemented && p003ProofOk !== 1)
+    || c4ProductStepProofOk !== 1
+    || contourCClosedMutations.fail === 1
+    || contourCClosedP0Mutation === 1;
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'
@@ -2836,7 +5023,27 @@ function run() {
     || docsContracts.ok === 0
     || (frozenContracts && frozenContracts.ok === 0)
     || ssotBoundary.level === 'warn'
-    || strictLie.level === 'warn';
+    || strictLie.level === 'warn'
+    || sectorPStatus.level === 'warn'
+    || sectorWStatus.level === 'warn'
+    || sectorUStatus.level === 'warn'
+    || sectorPWaivers.level === 'warn'
+    || sectorWWaivers.level === 'warn'
+    || sectorUWaivers.level === 'warn'
+    || sectorPSloP1.level === 'warn'
+    || sectorPClosedMutation.level === 'warn'
+    || sectorPClose.level === 'warn'
+    || sectorWClosedMutation.level === 'warn'
+    || sectorWClose.level === 'warn'
+    || nextSector.level === 'warn'
+    || w0WebSmoke.level === 'warn'
+    || w1WebFsStub.level === 'warn'
+    || w2PlatformFactory.level === 'warn'
+    || w3WebSmoke.level === 'warn'
+    || sectorWFastDuration.level === 'warn'
+    || sectorUFastDuration.level === 'warn'
+    || u1CommandLayer.level === 'warn'
+    || (sectorPCheckPacks.fastPackOk === 0 && process.env.SECTOR_P_NPM_TEST_OK === '1');
 
   const final = hasFail
     ? { status: 'DOCTOR_FAIL', exitCode: 1 }
@@ -2858,6 +5065,7 @@ function run() {
   let currentWaveFailReason = '';
   if (boundaryExitCode !== 0) currentWaveFailReason = 'BOUNDARY_GUARD_FAILED';
   else if (strictLieOk !== 1) currentWaveFailReason = 'STRICT_LIE_CLASSES_NOT_OK';
+  else if (contourCClosedMutations.fail === 1 || contourCClosedP0Mutation === 1) currentWaveFailReason = 'C_CONTOUR_C_CLOSED_MUTATION';
   else if (final.exitCode !== 0) currentWaveFailReason = 'DOCTOR_FAIL';
 
   console.log('CURRENT_WAVE_GUARD_RAN=1');

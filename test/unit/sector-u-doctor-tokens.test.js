@@ -119,3 +119,24 @@ test('doctor rejects invalid prereq expression syntax for next-sector status sha
   const unmet = parseJsonToken(tokens, 'NEXT_SECTOR_UNMET_PREREQS');
   assert.ok(unmet.includes('SECTOR_P_CLOSE_OK ==1'));
 });
+
+test('doctor marks next-sector ready when canonical prereq sources are present', () => {
+  const fixtureRoot = path.join(process.cwd(), 'test', 'fixtures', 'sector-next');
+  const expectedUnmet = JSON.parse(
+    fs.readFileSync(path.join(fixtureRoot, 'prereqs-all-met.json'), 'utf8'),
+  );
+
+  const result = runDoctorWithEnv({
+    NEXT_SECTOR_STATUS_PATH: path.join(fixtureRoot, 'next-sector-valid.json'),
+    SECTOR_P_STATUS_PATH: path.join(fixtureRoot, 'sector-p-status-done.json'),
+    SECTOR_W_STATUS_PATH: path.join(fixtureRoot, 'sector-w-status-done.json'),
+    CONTOUR_C_STATUS_PATH: path.join(fixtureRoot, 'contour-c-status-closed.json'),
+  });
+
+  assert.equal(result.status, 0, `Unexpected fail: ${result.stdout}\n${result.stderr}`);
+  const tokens = parseTokens(result.stdout);
+  assert.equal(tokens.get('NEXT_SECTOR_STATUS_OK'), '1');
+  assert.equal(tokens.get('NEXT_SECTOR_READY'), '1');
+  const unmet = parseJsonToken(tokens, 'NEXT_SECTOR_UNMET_PREREQS');
+  assert.deepEqual(unmet, expectedUnmet);
+});

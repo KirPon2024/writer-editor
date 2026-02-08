@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "contour-c-status.v1",
+  "contour": "C",
+  "status": "CLOSED",
+  "baselineSha": "5ded55bd84f9bb26e95ca21cbae6a7febe867214",
+  "closedAt": "2026-02-07T05:51:38.683Z",
+  "closedBy": "HO",
+  "source": {
+    "ledger": "docs/OPS/CONTOUR_C/EXIT_LEDGER.json",
+    "closeReport": "docs/OPS/CONTOUR_C/CONTOUR_C_CLOSE_REPORT.md"
+  }
+}

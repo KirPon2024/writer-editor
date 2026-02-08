@@ -1,0 +1,13 @@
+{
+  "sector": "P",
+  "status": "DONE",
+  "phase": "DONE",
+  "baselineSha": "250368922f3420365984446c5dc344cc9a3e0fb7",
+  "closedBaselineSha": "250368922f3420365984446c5dc344cc9a3e0fb7",
+  "goTag": "GO:SECTOR_P_DONE",
+  "by": "HO",
+  "closedBy": "HO",
+  "date": "2026-02-07T00:00:00.000Z",
+  "closedAt": "2026-02-07T00:00:00.000Z",
+  "notes": ""
+}

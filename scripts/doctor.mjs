@@ -2886,14 +2886,55 @@ function evaluateSectorUFastDurationTokens(sectorUStatus) {
   return result;
 }
 
-function readTokenFromStatus(path, key) {
+function isIsoDateString(value) {
+  if (typeof value !== 'string' || value.trim().length === 0) return false;
+  return Number.isFinite(Date.parse(value));
+}
+
+function evaluateSectorCanonicalCloseStatus(path, sectorId, doneGoTag) {
+  const parsed = readJsonObjectOptional(path);
+  if (!parsed) {
+    return {
+      closeOk: '',
+      closedMutation: '',
+    };
+  }
+
+  const sectorOk = parsed.sector === sectorId;
+  const statusOk = parsed.status === 'DONE';
+  const phaseOk = parsed.phase === 'DONE';
+  const goTagOk = parsed.goTag === doneGoTag;
+  const baselineSha = typeof parsed.baselineSha === 'string' ? parsed.baselineSha : '';
+  const closedBaselineSha = typeof parsed.closedBaselineSha === 'string' ? parsed.closedBaselineSha : '';
+  const baselineShaOk = /^[0-9a-f]{7,}$/i.test(baselineSha);
+  const closedBaselineOk = /^[0-9a-f]{7,}$/i.test(closedBaselineSha) && closedBaselineSha === baselineSha;
+  const closedAtOk = isIsoDateString(parsed.closedAt);
+  const closedByOk = typeof parsed.closedBy === 'string' && parsed.closedBy.trim().length > 0;
+
+  const closeOk = sectorOk
+    && statusOk
+    && phaseOk
+    && goTagOk
+    && baselineShaOk
+    && closedBaselineOk
+    && closedAtOk
+    && closedByOk ? '1' : '';
+
+  const closedMutation = closeOk === '1' ? '0' : '';
+  return {
+    closeOk,
+    closedMutation,
+  };
+}
+
+function evaluateContourCStatusToken(path) {
   const parsed = readJsonObjectOptional(path);
   if (!parsed) return '';
-  const value = parsed[key];
-  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
-  if (typeof value === 'string') return value;
-  if (typeof value === 'boolean') return value ? '1' : '0';
-  return '';
+  if (parsed.status !== 'CLOSED') return '';
+  const baselineShaOk = typeof parsed.baselineSha === 'string' && /^[0-9a-f]{7,}$/i.test(parsed.baselineSha);
+  const closedAtOk = isIsoDateString(parsed.closedAt);
+  const closedByOk = typeof parsed.closedBy === 'string' && parsed.closedBy.trim().length > 0;
+  return baselineShaOk && closedAtOk && closedByOk ? 'CLOSED' : '';
 }
 
 function parsePrereqPredicate(raw) {
@@ -2952,12 +2993,14 @@ function evaluateNextSectorStatus(input) {
   const schemaOk = parsed.schemaVersion === 'next-sector.v1';
   result.statusOk = schemaOk && id.length > 0 && goTagOk && prereqShapeOk ? 1 : 0;
 
-  const contourStatus = readTokenFromStatus(CONTOUR_C_STATUS_PATH, 'status');
+  const sectorP = evaluateSectorCanonicalCloseStatus(SECTOR_P_STATUS_PATH, 'P', 'GO:SECTOR_P_DONE');
+  const sectorW = evaluateSectorCanonicalCloseStatus(SECTOR_W_STATUS_PATH, 'W', 'GO:SECTOR_W_DONE');
+  const contourStatus = evaluateContourCStatusToken(CONTOUR_C_STATUS_PATH);
   const predicateTokens = new Map([
-    ['SECTOR_P_CLOSE_OK', readTokenFromStatus(SECTOR_P_STATUS_PATH, 'closeOk')],
-    ['SECTOR_P_CLOSED_MUTATION', readTokenFromStatus(SECTOR_P_STATUS_PATH, 'closedMutation')],
-    ['SECTOR_W_CLOSE_OK', readTokenFromStatus(SECTOR_W_STATUS_PATH, 'closeOk')],
-    ['SECTOR_W_CLOSED_MUTATION', readTokenFromStatus(SECTOR_W_STATUS_PATH, 'closedMutation')],
+    ['SECTOR_P_CLOSE_OK', sectorP.closeOk],
+    ['SECTOR_P_CLOSED_MUTATION', sectorP.closedMutation],
+    ['SECTOR_W_CLOSE_OK', sectorW.closeOk],
+    ['SECTOR_W_CLOSED_MUTATION', sectorW.closedMutation],
     ['CONTOUR_C_STATUS', contourStatus],
     ['STRICT_LIE_CLASSES_OK', strictLie && typeof strictLie.ok === 'number' ? String(strictLie.ok) : '0'],
   ]);

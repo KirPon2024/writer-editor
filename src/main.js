@@ -55,6 +55,19 @@ const ROMAN_SECTION_LABELS = [
 const ROMAN_MIND_MAP_SECTION_LABELS = ['карта сюжета', 'карта идей'];
 const PRINT_SECTION_LABELS = ['макет'];
 const ROMAN_META_KINDS = new Set(['chapter-file', 'scene']);
+const EXPORT_DOCX_MIN_CHANNEL = 'u:cmd:project:export:docxMin:v1';
+const EXPORT_DOCX_DEFAULT_REQUEST_ID = 'u3-export-docxmin-request';
+const ZIP_CRC32_TABLE = (() => {
+  const table = new Uint32Array(256);
+  for (let i = 0; i < 256; i += 1) {
+    let c = i;
+    for (let j = 0; j < 8; j += 1) {
+      c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+    }
+    table[i] = c >>> 0;
+  }
+  return table;
+})();
 
 function sanitizeFilename(name) {
   const safe = String(name || '')
@@ -305,6 +318,255 @@ async function loadLastFile() {
 
 function computeHash(text) {
   return crypto.createHash('sha256').update(text || '', 'utf8').digest('hex');
+}
+
+function makeTypedExportError(code, reason, details) {
+  const error = {
+    code: typeof code === 'string' && code.length > 0 ? code : 'E_EXPORT_DOCXMIN_FAILED',
+    op: EXPORT_DOCX_MIN_CHANNEL,
+    reason: typeof reason === 'string' && reason.length > 0 ? reason : 'EXPORT_DOCXMIN_FAILED',
+  };
+  if (details && typeof details === 'object' && !Array.isArray(details)) {
+    error.details = details;
+  }
+  return { ok: 0, error };
+}
+
+function normalizeExportPayload(payload) {
+  if (payload === undefined || payload === null) {
+    return {
+      requestId: EXPORT_DOCX_DEFAULT_REQUEST_ID,
+      outPath: '',
+      outDir: '',
+      bufferSource: '',
+      options: {},
+    };
+  }
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return null;
+  }
+
+  const requestId = typeof payload.requestId === 'string' && payload.requestId.trim().length > 0
+    ? payload.requestId.trim()
+    : EXPORT_DOCX_DEFAULT_REQUEST_ID;
+  const outPath = typeof payload.outPath === 'string' ? payload.outPath.trim() : '';
+  const outDir = typeof payload.outDir === 'string' ? payload.outDir.trim() : '';
+  const bufferSource = typeof payload.bufferSource === 'string' ? payload.bufferSource : '';
+  const options = payload.options && typeof payload.options === 'object' && !Array.isArray(payload.options)
+    ? payload.options
+    : {};
+
+  return {
+    requestId,
+    outPath,
+    outDir,
+    bufferSource,
+    options,
+  };
+}
+
+function normalizeDocxExportPath(filePath) {
+  if (typeof filePath !== 'string' || filePath.trim().length === 0) return '';
+  const raw = filePath.trim();
+  return raw.toLowerCase().endsWith('.docx') ? raw : `${raw}.docx`;
+}
+
+async function resolveDocxExportPath(payload) {
+  const fromPayload = normalizeDocxExportPath(payload.outPath);
+  if (fromPayload) return fromPayload;
+
+  const defaultBase = currentFilePath
+    ? currentFilePath.replace(/\.[^/.]+$/i, '')
+    : path.join(fileManager.getDocumentsPath(), 'export');
+  const defaultPath = normalizeDocxExportPath(defaultBase);
+
+  const result = await dialog.showSaveDialog(mainWindow, {
+    title: 'Экспорт DOCX (MIN)',
+    defaultPath,
+    filters: [{ name: 'DOCX', extensions: ['docx'] }],
+  });
+  if (result.canceled) return '';
+  return normalizeDocxExportPath(result.filePath);
+}
+
+function escapeXml(value) {
+  return String(value || '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;');
+}
+
+function crc32(buffer) {
+  let crc = 0xffffffff;
+  for (let i = 0; i < buffer.length; i += 1) {
+    crc = (crc >>> 8) ^ ZIP_CRC32_TABLE[(crc ^ buffer[i]) & 0xff];
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function buildStoredZip(entries) {
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+
+  for (const entry of entries.sort((a, b) => a.name.localeCompare(b.name))) {
+    const nameBuffer = Buffer.from(entry.name, 'utf8');
+    const dataBuffer = Buffer.isBuffer(entry.data) ? entry.data : Buffer.from(String(entry.data || ''), 'utf8');
+    const crc = crc32(dataBuffer);
+
+    const localHeader = Buffer.alloc(30);
+    localHeader.writeUInt32LE(0x04034b50, 0);
+    localHeader.writeUInt16LE(20, 4);
+    localHeader.writeUInt16LE(0, 6);
+    localHeader.writeUInt16LE(0, 8);
+    localHeader.writeUInt16LE(0, 10);
+    localHeader.writeUInt16LE(0, 12);
+    localHeader.writeUInt32LE(crc, 14);
+    localHeader.writeUInt32LE(dataBuffer.length, 18);
+    localHeader.writeUInt32LE(dataBuffer.length, 22);
+    localHeader.writeUInt16LE(nameBuffer.length, 26);
+    localHeader.writeUInt16LE(0, 28);
+    localParts.push(localHeader, nameBuffer, dataBuffer);
+
+    const centralHeader = Buffer.alloc(46);
+    centralHeader.writeUInt32LE(0x02014b50, 0);
+    centralHeader.writeUInt16LE(20, 4);
+    centralHeader.writeUInt16LE(20, 6);
+    centralHeader.writeUInt16LE(0, 8);
+    centralHeader.writeUInt16LE(0, 10);
+    centralHeader.writeUInt16LE(0, 12);
+    centralHeader.writeUInt16LE(0, 14);
+    centralHeader.writeUInt32LE(crc, 16);
+    centralHeader.writeUInt32LE(dataBuffer.length, 20);
+    centralHeader.writeUInt32LE(dataBuffer.length, 24);
+    centralHeader.writeUInt16LE(nameBuffer.length, 28);
+    centralHeader.writeUInt16LE(0, 30);
+    centralHeader.writeUInt16LE(0, 32);
+    centralHeader.writeUInt16LE(0, 34);
+    centralHeader.writeUInt16LE(0, 36);
+    centralHeader.writeUInt32LE(0, 38);
+    centralHeader.writeUInt32LE(offset, 42);
+    centralParts.push(centralHeader, nameBuffer);
+
+    offset += localHeader.length + nameBuffer.length + dataBuffer.length;
+  }
+
+  const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(0, 4);
+  end.writeUInt16LE(0, 6);
+  end.writeUInt16LE(entries.length, 8);
+  end.writeUInt16LE(entries.length, 10);
+  end.writeUInt32LE(centralSize, 12);
+  end.writeUInt32LE(offset, 16);
+  end.writeUInt16LE(0, 20);
+
+  return Buffer.concat([...localParts, ...centralParts, end]);
+}
+
+function buildDocxMinBuffer(sourceText) {
+  const normalized = String(sourceText || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const lines = normalized.length > 0 ? normalized.split('\n') : [''];
+  const paragraphs = lines
+    .map((line) => `<w:p><w:r><w:t xml:space="preserve">${escapeXml(line)}</w:t></w:r></w:p>`)
+    .join('');
+
+  const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+</Types>`;
+  const rootRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`;
+  const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    ${paragraphs}
+    <w:sectPr>
+      <w:pgSz w:w="11906" w:h="16838"/>
+      <w:pgMar w:top="1417" w:right="1417" w:bottom="1417" w:left="1417" w:header="708" w:footer="708" w:gutter="0"/>
+    </w:sectPr>
+  </w:body>
+</w:document>`;
+
+  return buildStoredZip([
+    { name: '[Content_Types].xml', data: contentTypes },
+    { name: '_rels/.rels', data: rootRels },
+    { name: 'word/document.xml', data: documentXml },
+  ]);
+}
+
+async function writeBufferAtomic(filePath, buffer) {
+  const directory = path.dirname(filePath);
+  const baseName = path.basename(filePath);
+  const randomSuffix = crypto.randomBytes(5).toString('hex');
+  const tempPath = path.join(directory, `${baseName}.${randomSuffix}.tmp`);
+
+  await fs.mkdir(directory, { recursive: true });
+  await fs.writeFile(tempPath, buffer);
+  await fs.rename(tempPath, filePath);
+}
+
+async function handleExportDocxMin(payloadRaw) {
+  const payload = normalizeExportPayload(payloadRaw);
+  if (!payload) {
+    return makeTypedExportError('E_EXPORT_PAYLOAD_INVALID', 'PAYLOAD_INVALID');
+  }
+
+  let outPath = '';
+  try {
+    outPath = await resolveDocxExportPath(payload);
+  } catch (error) {
+    return makeTypedExportError('E_EXPORT_DIALOG_FAILED', 'EXPORT_DIALOG_FAILED', {
+      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+    });
+  }
+  if (!outPath) {
+    return makeTypedExportError('E_EXPORT_CANCELED', 'EXPORT_DIALOG_CANCELED', {
+      requestId: payload.requestId,
+    });
+  }
+
+  let sourceText = payload.bufferSource;
+  if (!sourceText) {
+    try {
+      sourceText = await requestEditorText();
+    } catch (error) {
+      return makeTypedExportError('E_EXPORT_TEXT_UNAVAILABLE', 'EDITOR_TEXT_UNAVAILABLE', {
+        message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+      });
+    }
+  }
+
+  let documentBuffer;
+  try {
+    documentBuffer = buildDocxMinBuffer(sourceText);
+  } catch (error) {
+    return makeTypedExportError('E_EXPORT_BUILD_FAILED', 'DOCX_BUILD_FAILED', {
+      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+    });
+  }
+
+  try {
+    await queueDiskOperation(() => writeBufferAtomic(outPath, documentBuffer), 'export docx min');
+    updateStatus('DOCX MIN экспортирован');
+    return {
+      ok: 1,
+      outPath,
+      bytesWritten: documentBuffer.length,
+    };
+  } catch (error) {
+    return makeTypedExportError('E_EXPORT_WRITE_FAILED', 'DOCX_WRITE_FAILED', {
+      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+      outPath,
+    });
+  }
 }
 
 function extractNumericPrefix(name) {
@@ -867,6 +1129,10 @@ ipcMain.handle('file:save-as', async () => {
 
 ipcMain.handle('file:open', async () => {
   return { ok: false, reason: "not-implemented" };
+});
+
+ipcMain.handle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {
+  return handleExportDocxMin(payload);
 });
 
 ipcMain.handle('ui:request-autosave', async () => {

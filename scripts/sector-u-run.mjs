@@ -81,6 +81,9 @@ function extractDoctorSubsetTokens(stdout) {
     'U2_FINDINGS_TOTAL',
     'U2_FALSE_POSITIVE_RATE',
     'U2_PR_COUNT',
+    'U3_EXPORT_WIRING_EXISTS',
+    'U3_EXPORT_TESTS_OK',
+    'U3_EXPORT_PROOF_OK',
   ];
   const out = {};
   for (const key of keys) {
@@ -167,6 +170,13 @@ function buildFastSteps() {
       args: ['scripts/guards/sector-u-ui-no-platform-direct.mjs'],
     });
   }
+  if (phase !== 'U0' && phase !== 'U1' && phase !== 'U2') {
+    steps.push({
+      id: 'CHECK_U3_EXPORT_WIRING',
+      cmd: process.execPath,
+      args: ['--test', 'test/unit/sector-u-u3-*.test.js'],
+    });
+  }
   steps.push({ id: 'SECTOR_U_FAST_02', cmd: 'node', args: ['scripts/doctor.mjs'] });
   return steps;
 }
@@ -244,8 +254,10 @@ function main() {
   const doctorU1ProofOk = doctorTokens.U1_COMMANDS_PROOF_OK === '1' ? 1 : 0;
   const doctorU2ProofOk = doctorTokens.U2_PROOF_OK === '1' ? 1 : 0;
   const doctorU2TtlExpired = doctorTokens.U2_TTL_EXPIRED === '1' ? 1 : 0;
+  const doctorU3ProofOk = doctorTokens.U3_EXPORT_PROOF_OK === '1' ? 1 : 0;
   const needsU1Proof = phase !== '' && phase !== 'U0';
   const needsU2Proof = phase !== '' && phase !== 'U0' && phase !== 'U1';
+  const needsU3Proof = phase !== '' && phase !== 'U0' && phase !== 'U1' && phase !== 'U2';
   if (!failed) {
     if (doctorStatusOk !== 1 || doctorWaiverOk !== 1) {
       failed = true;
@@ -259,6 +271,9 @@ function main() {
     } else if (needsU2Proof && doctorU2TtlExpired === 1) {
       failed = true;
       failReason = 'U2_TTL_EXPIRED';
+    } else if (needsU3Proof && doctorU3ProofOk !== 1) {
+      failed = true;
+      failReason = 'CHECK_PACK_FAIL';
     }
   }
 

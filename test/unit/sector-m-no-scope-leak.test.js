@@ -147,6 +147,7 @@ test('M9 scope addition is exact and does not use wildcard prefixes', () => {
   assert.deepEqual(m9Paths, [
     'test/unit/sector-m-m9-kickoff.test.js',
     'test/unit/sector-m-m9-core.test.js',
+    'test/unit/sector-m-m9-next.test.js',
   ]);
   for (const prefix of m9Prefixes) {
     assert.equal(prefix.includes('*'), false, `wildcard is forbidden in M9 prefixes: ${prefix}`);

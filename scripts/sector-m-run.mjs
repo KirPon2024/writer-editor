@@ -76,6 +76,7 @@ const M9_REQUIRED_FILES = [
   'test/unit/sector-m-m9-kickoff.test.js',
   'test/unit/sector-m-m9-core.test.js',
 ];
+const M9_NEXT_TEST_PATH = 'test/unit/sector-m-m9-next.test.js';
 
 function parseArgs(argv) {
   const out = { pack: 'fast' };
@@ -242,6 +243,7 @@ function readSectorMSoT() {
     'GO:SECTOR_M_M8_NEXT_DONE',
     'GO:SECTOR_M_M9_KICKOFF_DONE',
     'GO:SECTOR_M_M9_CORE_DONE',
+    'GO:SECTOR_M_M9_NEXT_DONE',
     'GO:SECTOR_M_M9_DONE',
     'GO:SECTOR_M_DONE',
   ]);
@@ -403,9 +405,11 @@ function validateChecksDoc(phase) {
       'CHECK_M9_PHASE_READY',
       'CHECK_M9_KICKOFF_HOOK',
       'CHECK_M9_CORE_HOOK',
+      'CHECK_M9_NEXT_HOOK',
       'CHECK_M9_FAST_PATH',
       'CHECK_M9_KICKOFF',
       'CHECK_M9_CORE',
+      'CHECK_M9_NEXT',
     ];
     for (const marker of requiredM9Markers) {
       if (!text.includes(marker)) {
@@ -667,6 +671,31 @@ function validateM9KickoffSurface() {
   return { ok: 1, reason: '', details: 'M9 kickoff+core surface present' };
 }
 
+function validateM9NextSurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M9') {
+    return { ok: 1, reason: '', details: 'M9 next check skipped outside M9 phase' };
+  }
+  if (!fs.existsSync('src/renderer/commands/flowMode.mjs')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 next flow mode source' };
+  }
+  if (!fs.existsSync('src/renderer/editor.js')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 next editor source' };
+  }
+  if (!fs.existsSync(M9_NEXT_TEST_PATH)) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 next test file' };
+  }
+  const flowText = fs.readFileSync('src/renderer/commands/flowMode.mjs', 'utf8');
+  const editorText = fs.readFileSync('src/renderer/editor.js', 'utf8');
+  if (!flowText.includes('buildFlowModeM9NextNoopSaveStatus') || !flowText.includes('no changes to save')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 next no-op save helper markers in flow mode source' };
+  }
+  if (!editorText.includes('if (!flowModeState.dirty)') || !editorText.includes('buildFlowModeM9NextNoopSaveStatus')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 next no-op save guard wiring in editor source' };
+  }
+  return { ok: 1, reason: '', details: 'M9 next surface present' };
+}
+
 function validateFullScopeMapIntegrity() {
   const scopeMapLoad = loadScopeMap();
   if (scopeMapLoad.ok !== 1) {
@@ -795,6 +824,7 @@ function runDoctorCheck(phase) {
     must.push(['M9_PHASE_READY_OK', '1']);
     must.push(['M9_KICKOFF_OK', '1']);
     must.push(['M9_CORE_OK', '1']);
+    must.push(['M9_NEXT_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
@@ -934,6 +964,14 @@ function main() {
     details: m9Surface.details,
   });
   if (!failReason && m9Surface.ok !== 1) failReason = m9Surface.reason;
+
+  const m9NextSurface = validateM9NextSurface();
+  checks.push({
+    checkId: 'CHECK_M9_NEXT_SURFACE',
+    ok: m9NextSurface.ok,
+    details: m9NextSurface.details,
+  });
+  if (!failReason && m9NextSurface.ok !== 1) failReason = m9NextSurface.reason;
 
   if (args.pack === 'full') {
     const fullScope = validateFullScopeMapIntegrity();

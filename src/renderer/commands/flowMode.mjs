@@ -76,6 +76,11 @@ export function buildFlowModeM9CoreSaveErrorStatus(error, sceneCount) {
   return `Flow mode core (${count}) · save blocked: invalid flow payload · reopen flow mode`;
 }
 
+export function buildFlowModeM9NextNoopSaveStatus(sceneCount) {
+  const count = normalizeSceneCount(sceneCount);
+  return `Flow mode core (${count}) · no changes to save · edit and press Shift+S`;
+}
+
 function parseSceneMarker(line) {
   const match = /^---\[ SCENE (\d+): .* \]---$/.exec(String(line || '').trim());
   if (!match) return null;

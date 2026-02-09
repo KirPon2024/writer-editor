@@ -5,7 +5,7 @@ import { spawnSync } from 'node:child_process';
 
 const TASK_ID_RE = /^[A-Z0-9._-]{4,64}$/;
 const DEFAULT_VERIFY_ROOT = '/tmp';
-const DEFAULT_STREAK_PATH = 'scripts/ops/.state/post_merge_cleanup_streak.json';
+const DEFAULT_STREAK_PATH = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
 const STREAK_THRESHOLD = 3;
 
 function parseArgs(argv) {

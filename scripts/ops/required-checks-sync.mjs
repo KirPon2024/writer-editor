@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
+import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const CONTRACT_PATH = process.env.REQUIRED_CHECKS_CONTRACT_PATH || 'scripts/ops/required-checks.json';
-const STALE_DAYS = 7;
 const MODE_LOCAL = 'LOCAL_EXEC';
 const MODE_DELIVERY = 'DELIVERY_EXEC';
+const DEFAULT_TTL_DAYS = 7;
 
 function parseArgs(argv) {
-  const out = { mode: '', pr: '', repo: '' };
+  const out = { mode: '', pr: '', repo: '', profile: '' };
   for (let i = 0; i < argv.length; i += 1) {
     const item = argv[i];
     if (item === '--mode') {
@@ -19,6 +20,9 @@ function parseArgs(argv) {
       i += 1;
     } else if (item === '--repo') {
       out.repo = String(argv[i + 1] || '').trim();
+      i += 1;
+    } else if (item === '--profile') {
+      out.profile = String(argv[i + 1] || '').trim();
       i += 1;
     }
   }
@@ -31,42 +35,78 @@ function normalizeMode(value) {
   return MODE_LOCAL;
 }
 
+function normalizeProfile(value) {
+  const profile = String(value || process.env.REQUIRED_CHECKS_PROFILE || 'default').trim();
+  return profile.length > 0 ? profile : 'default';
+}
+
 function runGh(args) {
   return spawnSync('gh', args, { encoding: 'utf8' });
+}
+
+function hasStringArray(value) {
+  return Array.isArray(value) && value.every((it) => typeof it === 'string');
+}
+
+function validateContract(parsed) {
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return { ok: 0, reason: 'contract_not_object' };
+  }
+  if (parsed.schemaVersion !== 1) return { ok: 0, reason: 'schema_version_invalid' };
+  if (!Number.isInteger(parsed.ttlDays) || parsed.ttlDays <= 0) return { ok: 0, reason: 'ttl_invalid' };
+  if (!(parsed.lastSyncedAt === null || typeof parsed.lastSyncedAt === 'string')) {
+    return { ok: 0, reason: 'last_synced_at_invalid' };
+  }
+  if (!(parsed.lastSyncSource === undefined || parsed.lastSyncSource === 'local' || parsed.lastSyncSource === 'api')) {
+    return { ok: 0, reason: 'last_sync_source_invalid' };
+  }
+  if (!parsed.profiles || typeof parsed.profiles !== 'object' || Array.isArray(parsed.profiles)) {
+    return { ok: 0, reason: 'profiles_invalid' };
+  }
+  for (const key of ['ops', 'sector', 'default']) {
+    const profile = parsed.profiles[key];
+    if (!profile || typeof profile !== 'object' || Array.isArray(profile)) {
+      return { ok: 0, reason: `profile_${key}_missing` };
+    }
+    if (!hasStringArray(profile.required)) {
+      return { ok: 0, reason: `profile_${key}_required_invalid` };
+    }
+  }
+  return { ok: 1, reason: '' };
 }
 
 function readContractOrDefault() {
   try {
     const parsed = JSON.parse(fs.readFileSync(CONTRACT_PATH, 'utf8'));
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('contract_not_object');
-    return parsed;
+    const valid = validateContract(parsed);
+    if (valid.ok === 1) return parsed;
   } catch {
-    return {
-      schemaVersion: 'required-checks.v1',
-      updatedAt: '',
-      source: 'local',
-      requiredChecks: [],
-    };
+    // fallthrough
   }
-}
-
-function writeContract(requiredChecks, source) {
-  const payload = {
-    schemaVersion: 'required-checks.v1',
-    updatedAt: new Date().toISOString(),
-    source,
-    requiredChecks: requiredChecks.slice().sort(),
+  return {
+    schemaVersion: 1,
+    ttlDays: DEFAULT_TTL_DAYS,
+    lastSyncedAt: null,
+    lastSyncSource: 'local',
+    profiles: {
+      ops: { required: ['oss-policy', 'test:ops'] },
+      sector: { required: ['oss-policy', 'test:sector'] },
+      default: { required: ['oss-policy'] },
+    },
   };
-  fs.writeFileSync(CONTRACT_PATH, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-  return payload;
 }
 
-function isStale(updatedAt) {
-  if (!updatedAt) return 1;
-  const parsed = Date.parse(updatedAt);
+function writeContract(contract) {
+  fs.mkdirSync(path.dirname(CONTRACT_PATH), { recursive: true });
+  fs.writeFileSync(CONTRACT_PATH, `${JSON.stringify(contract, null, 2)}\n`, 'utf8');
+}
+
+function computeStale(contract) {
+  if (!contract || contract.lastSyncedAt === null) return 1;
+  const parsed = Date.parse(String(contract.lastSyncedAt || ''));
   if (Number.isNaN(parsed)) return 1;
-  const ageMs = Date.now() - parsed;
-  return ageMs > STALE_DAYS * 24 * 60 * 60 * 1000 ? 1 : 0;
+  const ttlDays = Number.isInteger(contract.ttlDays) && contract.ttlDays > 0 ? contract.ttlDays : DEFAULT_TTL_DAYS;
+  return Date.now() - parsed > ttlDays * 24 * 60 * 60 * 1000 ? 1 : 0;
 }
 
 function loadFixtureChecks() {
@@ -74,9 +114,7 @@ function loadFixtureChecks() {
   if (!fixturePath) return null;
   const parsed = JSON.parse(fs.readFileSync(fixturePath, 'utf8'));
   const checks = Array.isArray(parsed.requiredChecks) ? parsed.requiredChecks : [];
-  return checks
-    .map((it) => String(it || '').trim())
-    .filter(Boolean);
+  return checks.map((it) => String(it || '').trim()).filter(Boolean);
 }
 
 function discoverPrNumber(argPr, repo) {
@@ -101,13 +139,8 @@ function discoverPrNumber(argPr, repo) {
 
 function fetchChecksViaGh(prNumber, repo) {
   const probe = runGh(['--version']);
-  if (probe.status !== 0) {
-    return { ok: 0, checks: [], detail: 'gh_cli_missing' };
-  }
-
-  if (!prNumber) {
-    return { ok: 0, checks: [], detail: 'pr_number_missing' };
-  }
+  if (probe.status !== 0) return { ok: 0, checks: [], detail: 'gh_cli_missing' };
+  if (!prNumber) return { ok: 0, checks: [], detail: 'pr_number_missing' };
 
   const args = ['pr', 'view', prNumber, '--json', 'statusCheckRollup'];
   if (repo) args.push('--repo', repo);
@@ -126,21 +159,21 @@ function fetchChecksViaGh(prNumber, repo) {
         || item.name
         || (item.workflowName && item.workflowName.length > 0 ? item.workflowName : ''),
       ).trim();
-      if (!name) continue;
-      checks.push(name);
+      if (name) checks.push(name);
     }
-    const unique = [...new Set(checks)].sort();
-    return { ok: 1, checks: unique, detail: 'gh_status_check_rollup_ok' };
+    return { ok: 1, checks: [...new Set(checks)].sort(), detail: 'gh_status_check_rollup_ok' };
   } catch {
     return { ok: 0, checks: [], detail: 'gh_status_check_rollup_json_invalid' };
   }
 }
 
 function printTokens(out) {
+  console.log(`REQUIRED_CHECKS_CONTRACT_PRESENT_OK=${out.contractPresentOk}`);
   console.log(`REQUIRED_CHECKS_SYNC_OK=${out.syncOk}`);
   console.log(`REQUIRED_CHECKS_SOURCE=${out.source}`);
   console.log(`REQUIRED_CHECKS_STALE=${out.stale}`);
   console.log(`REQUIRED_CHECKS_COUNT=${out.count}`);
+  console.log(`REQUIRED_CHECKS_PROFILE=${out.profile}`);
   console.log(`REQUIRED_CHECKS_DETAIL=${out.detail}`);
   if (out.failReason) console.log(`FAIL_REASON=${out.failReason}`);
 }
@@ -148,18 +181,51 @@ function printTokens(out) {
 function main() {
   const args = parseArgs(process.argv.slice(2));
   const mode = normalizeMode(args.mode);
+  const profile = normalizeProfile(args.profile);
   const fixtureChecks = loadFixtureChecks();
+  const contract = readContractOrDefault();
+  const contractValid = validateContract(contract);
+  const contractPresentOk = contractValid.ok;
+
+  if (contractPresentOk !== 1) {
+    printTokens({
+      contractPresentOk: 0,
+      syncOk: 0,
+        source: 'local',
+        stale: 1,
+        count: 0,
+        profile,
+        detail: contractValid.reason,
+        failReason: 'REQUIRED_CHECKS_CONTRACT_INVALID',
+      });
+    process.exit(1);
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(contract.profiles, profile)) {
+    printTokens({
+      contractPresentOk: 1,
+      syncOk: 0,
+      source: 'local',
+      stale: 1,
+      count: 0,
+      profile,
+      detail: 'profile_not_found',
+      failReason: 'REQUIRED_CHECKS_PROFILE_INVALID',
+    });
+    process.exit(1);
+  }
 
   if (mode !== MODE_DELIVERY) {
-    const contract = readContractOrDefault();
-    const stale = isStale(contract.updatedAt);
-    const checks = Array.isArray(contract.requiredChecks) ? contract.requiredChecks : [];
+    const stale = computeStale(contract);
+    const count = contract.profiles[profile].required.length;
     printTokens({
-      syncOk: 1,
+      contractPresentOk: 1,
+      syncOk: 0,
       source: 'local',
       stale,
-      count: checks.length,
-      detail: 'local_mode_contract_only',
+      count,
+      profile,
+      detail: 'local_mode_contract_valid',
       failReason: '',
     });
     process.exit(0);
@@ -175,10 +241,12 @@ function main() {
     const fetched = fetchChecksViaGh(prNumber, args.repo);
     if (fetched.ok !== 1) {
       printTokens({
+        contractPresentOk: 1,
         syncOk: 0,
-        source: 'api',
+        source: 'local',
         stale: 1,
         count: 0,
+        profile,
         detail: fetched.detail,
         failReason: 'REQUIRED_CHECKS_SOURCE_UNAVAILABLE',
       });
@@ -188,17 +256,27 @@ function main() {
     detail = fetched.detail;
   }
 
-  const contract = writeContract(checks, fixtureChecks ? 'fixture' : 'api');
-  const stale = isStale(contract.updatedAt);
+  const synced = {
+    ...contract,
+    lastSyncedAt: new Date().toISOString(),
+    lastSyncSource: 'api',
+    profiles: {
+      ...contract.profiles,
+      [profile]: { required: checks },
+    },
+  };
+  writeContract(synced);
+
   printTokens({
+    contractPresentOk: 1,
     syncOk: 1,
-    source: contract.source,
-    stale,
+    source: 'api',
+    stale: computeStale(synced),
     count: checks.length,
+    profile,
     detail,
     failReason: '',
   });
-  process.exit(0);
 }
 
 main();

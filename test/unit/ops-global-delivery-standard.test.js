@@ -28,7 +28,7 @@ function runNode(scriptPath, args, env = {}) {
   };
 }
 
-test('network gate blocks only on git check, http is diagnostic', () => {
+test('network gate blocks on git reachability and keeps http diagnostic non-blocking', () => {
   const okResult = runNode(
     'scripts/ops/network-gate.mjs',
     ['--mode', 'delivery'],
@@ -63,7 +63,7 @@ test('network gate blocks only on git check, http is diagnostic', () => {
   assert.equal(failResult.tokens.get('FAIL_REASON'), 'NETWORK_GATE_FAIL');
 });
 
-test('wip check handles exception artifact only in delivery mode', () => {
+test('wip check supports exception artifacts only for delivery mode', () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'wip-check-'));
   const fixturePath = path.join(tmpDir, 'fixture.json');
   fs.writeFileSync(
@@ -96,7 +96,7 @@ test('wip check handles exception artifact only in delivery mode', () => {
   assert.equal(localMode.tokens.get('WIP_EXCEPTION_OK'), 'N_A');
 });
 
-test('post-merge verify tracks cleanup streak and degrades after threshold', () => {
+test('post-merge verify streak is runtime-only and triggers degraded env threshold', () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'post-merge-verify-'));
   const stateFile = path.join(tmpDir, 'streak.json');
   const fixture = JSON.stringify({
@@ -125,44 +125,73 @@ test('post-merge verify tracks cleanup streak and degrades after threshold', () 
   assert.notEqual(third.status, 0);
   assert.equal(third.tokens.get('POST_MERGE_VERIFY_OK'), '0');
   assert.equal(third.tokens.get('FAIL_REASON'), 'OPS_ENV_DEGRADED');
+
+  const runtimeStatePath = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
+  const scriptText = fs.readFileSync('scripts/ops/post-merge-verify.mjs', 'utf8');
+  assert.match(scriptText, /\/tmp\/writer-editor-ops-state\/post_merge_cleanup_streak\.json/);
+  assert.equal(fs.existsSync(runtimeStatePath), false);
+
+  const defaultStateRun = runNode(
+    'scripts/ops/post-merge-verify.mjs',
+    ['--task', 'OPS-M5-RELIABILITY'],
+    { POST_MERGE_VERIFY_FIXTURE_JSON: JSON.stringify({ fetchOk: 1, worktreeAddOk: 1, doctorOk: 1, cleanupOk: 1 }) },
+  );
+  assert.equal(defaultStateRun.status, 0, defaultStateRun.stderr);
+  assert.equal(fs.existsSync(runtimeStatePath), true, 'runtime cleanup state must be created under /tmp');
 });
 
-test('required checks sync updates local contract in delivery mode via fixture', () => {
+test('required checks sync keeps local mode unsynced and syncs in delivery mode', () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'required-checks-sync-'));
   const fixturePath = path.join(tmpDir, 'required-checks.json');
   const contractPath = path.join(tmpDir, 'contract.json');
   fs.writeFileSync(
     fixturePath,
-    JSON.stringify({ requiredChecks: ['oss-policy', 'unit-tests'] }),
+    JSON.stringify({ requiredChecks: ['oss-policy', 'test:ops'] }),
     'utf8',
   );
 
-  const result = runNode(
+  const local = runNode(
     'scripts/ops/required-checks-sync.mjs',
-    ['--mode', 'DELIVERY_EXEC'],
+    ['--mode', 'LOCAL_EXEC', '--profile', 'ops'],
+    { REQUIRED_CHECKS_CONTRACT_PATH: contractPath },
+  );
+  assert.equal(local.status, 0, local.stderr);
+  assert.equal(local.tokens.get('REQUIRED_CHECKS_CONTRACT_PRESENT_OK'), '1');
+  assert.equal(local.tokens.get('REQUIRED_CHECKS_SYNC_OK'), '0');
+  assert.equal(local.tokens.get('REQUIRED_CHECKS_SOURCE'), 'local');
+  assert.equal(local.tokens.get('REQUIRED_CHECKS_PROFILE'), 'ops');
+
+  const delivery = runNode(
+    'scripts/ops/required-checks-sync.mjs',
+    ['--mode', 'DELIVERY_EXEC', '--profile', 'ops'],
     {
       REQUIRED_CHECKS_SYNC_FIXTURE_PATH: fixturePath,
       REQUIRED_CHECKS_CONTRACT_PATH: contractPath,
     },
   );
-  assert.equal(result.status, 0, result.stderr);
-  assert.equal(result.tokens.get('REQUIRED_CHECKS_SYNC_OK'), '1');
-  assert.equal(result.tokens.get('REQUIRED_CHECKS_SOURCE'), 'fixture');
-  assert.equal(result.tokens.get('REQUIRED_CHECKS_STALE'), '0');
+  assert.equal(delivery.status, 0, delivery.stderr);
+  assert.equal(delivery.tokens.get('REQUIRED_CHECKS_CONTRACT_PRESENT_OK'), '1');
+  assert.equal(delivery.tokens.get('REQUIRED_CHECKS_SYNC_OK'), '1');
+  assert.equal(delivery.tokens.get('REQUIRED_CHECKS_SOURCE'), 'api');
+  assert.equal(delivery.tokens.get('REQUIRED_CHECKS_STALE'), '0');
+  assert.equal(delivery.tokens.get('REQUIRED_CHECKS_PROFILE'), 'ops');
 
   const contract = JSON.parse(fs.readFileSync(contractPath, 'utf8'));
-  assert.equal(contract.schemaVersion, 'required-checks.v1');
-  assert.deepEqual(contract.requiredChecks, ['oss-policy', 'unit-tests']);
+  assert.equal(contract.schemaVersion, 1);
+  assert.equal(contract.lastSyncSource, 'api');
+  assert.deepEqual(contract.profiles.ops.required, ['oss-policy', 'test:ops']);
 });
 
-test('doctor exposes global ops standard tokens', () => {
+test('doctor exposes v0.1.3 ops tokens truthfully in local mode', () => {
   const result = spawnSync(process.execPath, ['scripts/doctor.mjs'], {
     encoding: 'utf8',
-    env: { ...process.env, SECTOR_U_FAST_DURATION_MS: '10' },
+    env: { ...process.env, OPS_EXEC_MODE: 'LOCAL_EXEC', SECTOR_U_FAST_DURATION_MS: '10' },
   });
   assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
   const tokens = parseTokens(result.stdout);
   assert.equal(tokens.get('OPS_STANDARD_GLOBAL_OK'), '1');
-  assert.equal(tokens.get('REQUIRED_CHECKS_SYNC_OK'), '1');
+  assert.equal(tokens.get('REQUIRED_CHECKS_CONTRACT_PRESENT_OK'), '1');
+  assert.equal(tokens.get('REQUIRED_CHECKS_SYNC_OK'), '0');
+  assert.ok(['local', 'api'].includes(tokens.get('REQUIRED_CHECKS_SOURCE')));
   assert.ok(Number(tokens.get('POST_MERGE_VERIFY_CLEANUP_FAIL_STREAK')) >= 0);
 });

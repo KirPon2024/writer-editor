@@ -1,4 +1,4 @@
-# OPS — GLOBAL CANONICAL DELIVERY STANDARD v0.1.2
+# OPS — GLOBAL CANONICAL DELIVERY STANDARD v0.1.3
 STATUS: FINAL / EXECUTABLE / FROZEN (UNTIL M6)
 MODE: FOUNDATIONAL_OPS_CANON
 FORMAT_CANON: ONE_RAW_MD_BLOCK_ONLY
@@ -172,9 +172,9 @@ Cleanup:
 - threshold-stop:
   - если `POST_MERGE_VERIFY_CLEANUP_FAIL_STREAK>=3` → `STOP_REQUIRED=1`, `FAIL_REASON=OPS_ENV_DEGRADED`
 
-Счётчик streak (норматив):
-- хранить в файле:
-  - `scripts/ops/.state/post_merge_cleanup_streak.json`
+Счётчик streak (runtime-only):
+- хранить вне git:
+  - `/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json`
 - обновляется только в DELIVERY_EXEC.
 
 FAIL:
@@ -271,13 +271,22 @@ FAIL:
 Требование:
 - в DELIVERY_EXEC должен существовать единственный источник truth для expected required checks:
   - `scripts/ops/required-checks.json` (repo-local contract)
+  - contract содержит профили: `ops`, `sector`, `default`.
 
 PASS:
-- `REQUIRED_CHECKS_SYNC_OK=1`
+- `REQUIRED_CHECKS_CONTRACT_PRESENT_OK=1`
+- `REQUIRED_CHECKS_SYNC_OK=1` (только в DELIVERY_EXEC)
+
+LOCAL_EXEC:
+- `REQUIRED_CHECKS_CONTRACT_PRESENT_OK=1` обязателен,
+- `REQUIRED_CHECKS_SYNC_OK=0` (локальный режим не может давать “synced” сигнал),
+- `REQUIRED_CHECKS_SOURCE=local|api`,
+- `REQUIRED_CHECKS_STALE=0|1` носит диагностический характер.
 
 Синхронизация:
 - если sync невозможен (API недоступен) → STOP, потому что это delivery-only неопределённость:
   - `FAIL_REASON=REQUIRED_CHECKS_SOURCE_UNAVAILABLE`
+- для OPS PR используются required checks профиля `ops`; unrelated sector failures не являются blocking для OPS delivery, если required profile зелёный.
 
 ---
 

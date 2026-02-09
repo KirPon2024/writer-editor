@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import { atomicWriteFile } from './atomicWriteFile.mjs';
 import { createRecoverySnapshot } from './snapshotFile.mjs';
 import { asMarkdownIoError, createMarkdownIoError } from './ioErrors.mjs';
+import { appendReliabilityLog, buildReliabilityLogRecord } from './reliabilityLog.mjs';
 
 function normalizeMarkdownInput(input) {
   if (typeof input === 'string') return input;
@@ -13,19 +14,26 @@ function normalizeLimit(value) {
   return 1024 * 1024;
 }
 
+function normalizeSafetyMode(input) {
+  return input === 'compat' ? 'compat' : 'strict';
+}
+
 export async function writeMarkdownWithRecovery(targetPath, markdown, options = {}) {
   const text = normalizeMarkdownInput(markdown);
+  const safetyMode = normalizeSafetyMode(options.safetyMode);
   const snapshot = await createRecoverySnapshot(targetPath, {
     maxSnapshots: options.maxSnapshots,
     now: options.now,
   });
   const writeResult = await atomicWriteFile(targetPath, text, {
+    safetyMode,
     beforeRename: options.beforeRename,
   });
 
   return {
     outPath: writeResult.targetPath,
     bytesWritten: writeResult.bytesWritten,
+    safetyMode: writeResult.safetyMode,
     snapshotCreated: snapshot.snapshotCreated,
     snapshotPath: snapshot.snapshotPath,
     purgedSnapshots: snapshot.purgedSnapshots,
@@ -69,6 +77,9 @@ export async function readMarkdownWithLimits(sourcePath, options = {}) {
 
 export {
   atomicWriteFile,
+  appendReliabilityLog,
+  buildReliabilityLogRecord,
   createRecoverySnapshot,
   createMarkdownIoError,
+  normalizeSafetyMode,
 };

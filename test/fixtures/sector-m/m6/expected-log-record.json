@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "sector-m-reliability-log.v1",
+  "op": "m:cmd:project:export:markdownV1:v1",
+  "code": "E_IO_ATOMIC_WRITE_FAIL",
+  "reason": "atomic_write_failed",
+  "safetyMode": "compat",
+  "sourcePath": "",
+  "targetPath": "",
+  "snapshotPath": "",
+  "recoveryActions": [
+    "RETRY",
+    "SAVE_AS"
+  ]
+}

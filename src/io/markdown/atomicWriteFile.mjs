@@ -15,9 +15,14 @@ function normalizeContent(input) {
   throw createMarkdownIoError('E_IO_INVALID_CONTENT', 'invalid_content_payload');
 }
 
+function normalizeSafetyMode(input) {
+  return input === 'compat' ? 'compat' : 'strict';
+}
+
 export async function atomicWriteFile(targetPathRaw, contentRaw, options = {}) {
   const targetPath = normalizeTargetPath(targetPathRaw);
   const content = normalizeContent(contentRaw);
+  const safetyMode = normalizeSafetyMode(options.safetyMode);
   const directory = path.dirname(targetPath);
   const baseName = path.basename(targetPath);
   const suffix = `${process.pid}.${Date.now()}`;
@@ -28,7 +33,9 @@ export async function atomicWriteFile(targetPathRaw, contentRaw, options = {}) {
     await fs.mkdir(directory, { recursive: true });
     handle = await fs.open(tempPath, 'w');
     await handle.writeFile(content);
-    await handle.sync();
+    if (safetyMode === 'strict') {
+      await handle.sync();
+    }
     await handle.close();
     handle = null;
 
@@ -42,9 +49,14 @@ export async function atomicWriteFile(targetPathRaw, contentRaw, options = {}) {
       targetPath,
       tempPath,
       bytesWritten: content.byteLength,
+      safetyMode,
     };
   } catch (error) {
-    throw asMarkdownIoError(error, 'E_IO_ATOMIC_WRITE_FAIL', 'atomic_write_failed', { targetPath, tempPath });
+    throw asMarkdownIoError(error, 'E_IO_ATOMIC_WRITE_FAIL', 'atomic_write_failed', {
+      targetPath,
+      tempPath,
+      safetyMode,
+    });
   } finally {
     if (handle) {
       await handle.close().catch(() => {});

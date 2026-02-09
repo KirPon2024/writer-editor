@@ -8,6 +8,7 @@ import {
   buildFlowModeReopenBlockedStatus,
   buildFlowModeM9KickoffStatus,
   buildFlowModeM9CoreSaveErrorStatus,
+  buildFlowModeM9NextNoopSaveStatus,
   buildFlowSavePayload,
   composeFlowDocument,
   nextSceneCaretAtBoundary,
@@ -320,6 +321,11 @@ async function handleFlowModeOpenUiPath() {
 async function handleFlowModeSaveUiPath() {
   if (!flowModeState.active) {
     updateStatusText(FLOW_SAVE_ERROR_MESSAGE);
+    return;
+  }
+
+  if (!flowModeState.dirty) {
+    updateStatusText(buildFlowModeM9NextNoopSaveStatus(flowModeState.scenes.length));
     return;
   }
 

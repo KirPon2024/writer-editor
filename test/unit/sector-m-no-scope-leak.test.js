@@ -131,6 +131,8 @@ test('ops carveout stays explicit and narrow', () => {
   assert.ok(carveout.includes('scripts/ops/sector-m-scope-map.json'));
   assert.ok(carveout.includes('test/unit/ops-sector-m-process-fixes.test.js'));
   assert.ok(carveout.includes('test/unit/ops-sector-m-stability-003.test.js'));
+  assert.ok(carveout.includes('docs/OPS/STANDARDS/PROCESS_CEILING_FREEZE.md'));
+  assert.ok(carveout.includes('test/unit/ops-process-ceiling-freeze.test.js'));
 
   for (const item of carveout) {
     assert.equal(item.includes('**'), false, `wildcards are forbidden in ops carveout: ${item}`);

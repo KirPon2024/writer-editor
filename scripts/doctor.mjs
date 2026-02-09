@@ -2821,7 +2821,7 @@ function hasNpmScript(scriptName) {
 }
 
 function sectorMPhaseIndex(phase) {
-  const order = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE'];
+  const order = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE'];
   return order.indexOf(String(phase || '').toUpperCase());
 }
 
@@ -2913,7 +2913,7 @@ function evaluateSectorMStatus() {
   }
 
   const allowedStatus = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
-  const allowedPhase = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE']);
+  const allowedPhase = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE']);
   const allowedGo = new Set([
     '',
     'GO:SECTOR_M_M0_DONE',
@@ -2923,6 +2923,7 @@ function evaluateSectorMStatus() {
     'GO:SECTOR_M_M4_DONE',
     'GO:SECTOR_M_M5_DONE',
     'GO:SECTOR_M_M6_DONE',
+    'GO:SECTOR_M_M7_DONE',
     'GO:SECTOR_M_DONE',
   ]);
 
@@ -3518,6 +3519,45 @@ function evaluateM6ReliabilityTokens(sectorMStatus) {
   console.log(`M6_RECOVERY_UX_OK=${result.recoveryUxOk}`);
   console.log(`M6_SAFETY_CONFIG_OK=${result.safetyConfigOk}`);
   console.log(`M6_DETERMINISTIC_LOG_OK=${result.deterministicLogOk}`);
+  return result;
+}
+
+function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
+  const result = {
+    phaseReadyOk: 0,
+    goTagRuleOk: 1,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM7 = phaseIndex >= sectorMPhaseIndex('M7');
+
+  if (phase === 'M7') {
+    result.goTagRuleOk = goTag === '' || goTag === 'GO:SECTOR_M_M7_DONE' ? 1 : 0;
+  }
+
+  const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
+    'CHECK_M7_PHASE_KICKOFF',
+    'CHECK_M7_PHASE_READY',
+    'CHECK_M7_FAST_PATH',
+  ]);
+
+  const m6ReliabilityOk = m6Reliability && m6Reliability.reliabilityOk === 1;
+  result.phaseReadyOk = atLeastM7
+    && m6ReliabilityOk
+    && checksMarkersOk
+    && result.goTagRuleOk === 1 ? 1 : 0;
+
+  result.level = atLeastM7 && result.phaseReadyOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M7_PHASE_READY_OK=${result.phaseReadyOk}`);
+  console.log(`M7_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }
 
@@ -4611,9 +4651,9 @@ function evaluateSectorMOpsProcessFixTokens() {
     .filter((name) => /^sector-m-.*\.test\.js$/u.test(name))
     .filter((name) => !/^sector-m-m[0-9]+-.*\.test\.js$/u.test(name));
 
-  const phaseCoupledPatternA = /\bSECTOR_M_PHASE\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|DONE)['"]/u;
-  const phaseCoupledPatternB = /\bphase\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|DONE)['"]/u;
-  const phaseCoupledPatternC = /tokens\.get\(\s*['"]SECTOR_M_PHASE['"]\s*\)\s*,\s*['"](M0|M1|M2|M3|M4|M5|M6|DONE)['"]/u;
+  const phaseCoupledPatternA = /\bSECTOR_M_PHASE\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|DONE)['"]/u;
+  const phaseCoupledPatternB = /\bphase\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|DONE)['"]/u;
+  const phaseCoupledPatternC = /tokens\.get\(\s*['"]SECTOR_M_PHASE['"]\s*\)\s*,\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|DONE)['"]/u;
 
   const phaseCoupledViolations = [];
   for (const fileName of sectorMBaseTests) {
@@ -4629,7 +4669,7 @@ function evaluateSectorMOpsProcessFixTokens() {
   }
   result.testsPhaseAgnosticOk = phaseCoupledViolations.length === 0 ? 1 : 0;
 
-  const expectedPhases = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE'];
+  const expectedPhases = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE'];
   const scopeMap = readJsonObjectOptional(SECTOR_M_SCOPE_MAP_PATH);
   const scopeMapPhaseOrder = Array.isArray(scopeMap && scopeMap.phaseOrder) ? scopeMap.phaseOrder : [];
   const scopeMapValid = !!(
@@ -4856,7 +4896,7 @@ function evaluateOpsProcessCeilingFreezeTokens(sectorMStatus) {
   };
 
   const phase = String((sectorMStatus && sectorMStatus.phase) || '');
-  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6']);
+  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7']);
   result.freezeActive = freezePhases.has(phase) ? 1 : 0;
 
   const docExists = fs.existsSync(OPS_PROCESS_CEILING_FREEZE_PATH);
@@ -4991,6 +5031,7 @@ function run() {
   const m4UiPath = evaluateM4UiPathTokens(sectorMStatus);
   const m5Reliability = evaluateM5ReliabilityTokens(sectorMStatus);
   const m6Reliability = evaluateM6ReliabilityTokens(sectorMStatus);
+  const m7Phase = evaluateM7PhaseTokens(sectorMStatus, m6Reliability);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -5134,6 +5175,7 @@ function run() {
     || m4UiPath.level === 'warn'
     || m5Reliability.level === 'warn'
     || m6Reliability.level === 'warn'
+    || m7Phase.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

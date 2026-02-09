@@ -188,7 +188,7 @@ function readSectorMSoT() {
   }
 
   const statusAllowed = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
-  const phaseAllowed = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE']);
+  const phaseAllowed = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE']);
   const goTagAllowed = new Set([
     '',
     'GO:SECTOR_M_M0_DONE',
@@ -198,6 +198,7 @@ function readSectorMSoT() {
     'GO:SECTOR_M_M4_DONE',
     'GO:SECTOR_M_M5_DONE',
     'GO:SECTOR_M_M6_DONE',
+    'GO:SECTOR_M_M7_DONE',
     'GO:SECTOR_M_DONE',
   ]);
   if (parsed.schemaVersion !== 'sector-m-status.v1') {
@@ -312,6 +313,18 @@ function validateChecksDoc(phase) {
       'CHECK_M6_RELIABILITY',
     ];
     for (const marker of requiredM6Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
+    }
+  }
+  if (phase === 'M7') {
+    const requiredM7Markers = [
+      'CHECK_M7_PHASE_KICKOFF',
+      'CHECK_M7_PHASE_READY',
+      'CHECK_M7_FAST_PATH',
+    ];
+    for (const marker of requiredM7Markers) {
       if (!text.includes(marker)) {
         return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
       }
@@ -493,7 +506,7 @@ function validateFullScopeMapIntegrity() {
     };
   }
   const scopeMap = scopeMapLoad.scopeMap;
-  const expectedPhases = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE'];
+  const expectedPhases = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE'];
   for (const phase of expectedPhases) {
     if (!scopeMap.phaseOrder.includes(phase)) {
       return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: `scope map missing phase: ${phase}` };
@@ -584,6 +597,10 @@ function runDoctorCheck(phase) {
     must.push(['M6_RECOVERY_UX_OK', '1']);
     must.push(['M6_SAFETY_CONFIG_OK', '1']);
     must.push(['M6_DETERMINISTIC_LOG_OK', '1']);
+  }
+  if (phase === 'M7') {
+    must.push(['M6_RELIABILITY_OK', '1']);
+    must.push(['M7_PHASE_READY_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {

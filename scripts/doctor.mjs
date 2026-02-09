@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 
@@ -113,6 +114,7 @@ const OPS_POST_MERGE_VERIFY_PATH = 'scripts/ops/post-merge-verify.mjs';
 const OPS_REQUIRED_CHECKS_SYNC_PATH = 'scripts/ops/required-checks-sync.mjs';
 const OPS_REQUIRED_CHECKS_CONTRACT_PATH = 'scripts/ops/required-checks.json';
 const OPS_SCOPE_MAP_REGISTRY_PATH = 'scripts/ops/scope-map-registry.json';
+const OPS_PROCESS_CEILING_FREEZE_PATH = 'docs/OPS/STANDARDS/PROCESS_CEILING_FREEZE.md';
 const POST_MERGE_CLEANUP_STREAK_STATE_PATH = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
@@ -4735,6 +4737,78 @@ function evaluateOpsGlobalDeliveryStandardTokens() {
   return result;
 }
 
+function evaluateOpsProcessCeilingFreezeTokens(sectorMStatus) {
+  const result = {
+    freezeActive: 0,
+    blockingGatesMax: 4,
+    blockingGatesOk: 0,
+    ssotSingleSourceOk: 0,
+    ratioRuleDocPresentOk: 0,
+    level: 'warn',
+  };
+
+  const phase = String((sectorMStatus && sectorMStatus.phase) || '');
+  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6']);
+  result.freezeActive = freezePhases.has(phase) ? 1 : 0;
+
+  const docExists = fs.existsSync(OPS_PROCESS_CEILING_FREEZE_PATH);
+  const docText = docExists ? readText(OPS_PROCESS_CEILING_FREEZE_PATH) : '';
+  const requiredDocMarkers = [
+    'PROCESS_CEILING_SCHEMA=process-ceiling-freeze.v1',
+    'OPS_FREEZE_UNTIL=M6',
+    'OPS_BLOCKING_GATES_MAX=4',
+    'OPS_BLOCKING_GATES_SET=NETWORK,TESTS,RUNNER_FAST,DOCTOR',
+    'OPS_NON_BLOCKING_DEFAULT=ADVISORY',
+    'OPS_SSOT_REQUIRED=1',
+    'OPS_RATIO_RULE=OPS_1_PER_PRODUCT_3',
+    'OPS_TWO_STRIKES_RULE=2_STRIKES_1_FIX_FREEZE',
+  ];
+  result.blockingGatesOk = docExists && requiredDocMarkers.every((marker) => docText.includes(marker)) ? 1 : 0;
+  result.ratioRuleDocPresentOk = docExists
+    && docText.includes('OPS_RATIO_RULE=OPS_1_PER_PRODUCT_3')
+    && docText.includes('OPS_TWO_STRIKES_RULE=2_STRIKES_1_FIX_FREEZE')
+    ? 1
+    : 0;
+
+  const scopeRegistry = readJsonObjectOptional(OPS_SCOPE_MAP_REGISTRY_PATH);
+  const mScopeMapPath = scopeRegistry
+    && scopeRegistry.sectors
+    && typeof scopeRegistry.sectors === 'object'
+    && !Array.isArray(scopeRegistry.sectors)
+    ? scopeRegistry.sectors.M
+    : '';
+  const mScopeMapBasename = typeof mScopeMapPath === 'string' && mScopeMapPath.length > 0
+    ? path.basename(mScopeMapPath)
+    : '';
+  const mScopeMapExists = typeof mScopeMapPath === 'string'
+    && mScopeMapPath.length > 0
+    && fs.existsSync(mScopeMapPath);
+
+  const scopeLeakTestText = readText(M0_NO_SCOPE_LEAK_TEST_PATH);
+  const runnerText = readText(M0_RUNNER_PATH);
+  const scopeLeakUsesMap = mScopeMapBasename.length > 0 && scopeLeakTestText.includes(mScopeMapBasename);
+  const runnerUsesMap = mScopeMapBasename.length > 0 && runnerText.includes(mScopeMapBasename);
+  const noLocalAllowlistDup = !scopeLeakTestText.includes('const ALLOWLIST')
+    && !scopeLeakTestText.includes('const ALLOW =')
+    && !runnerText.includes('const M_ALLOWLISTS =');
+
+  result.ssotSingleSourceOk = mScopeMapExists && scopeLeakUsesMap && runnerUsesMap && noLocalAllowlistDup ? 1 : 0;
+
+  result.level = result.blockingGatesOk === 1
+    && result.ssotSingleSourceOk === 1
+    && result.ratioRuleDocPresentOk === 1
+    ? 'ok'
+    : 'warn';
+
+  console.log(`OPS_FREEZE_ACTIVE=${result.freezeActive}`);
+  console.log(`OPS_BLOCKING_GATES_MAX=${result.blockingGatesMax}`);
+  console.log(`OPS_BLOCKING_GATES_OK=${result.blockingGatesOk}`);
+  console.log(`OPS_SSOT_SINGLE_SOURCE_OK=${result.ssotSingleSourceOk}`);
+  console.log(`OPS_RATIO_RULE_DOC_PRESENT_OK=${result.ratioRuleDocPresentOk}`);
+
+  return result;
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -4823,6 +4897,7 @@ function run() {
   const opsP0SectorMPrep = evaluateOpsP0SectorMPrepTokens();
   const opsSectorMProcessFixes = evaluateSectorMOpsProcessFixTokens();
   const opsGlobalStandard = evaluateOpsGlobalDeliveryStandardTokens();
+  const opsProcessCeiling = evaluateOpsProcessCeilingFreezeTokens(sectorMStatus);
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -4943,6 +5018,7 @@ function run() {
     || opsP0SectorMPrep.level === 'warn'
     || opsSectorMProcessFixes.level === 'warn'
     || opsGlobalStandard.level === 'warn'
+    || opsProcessCeiling.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'

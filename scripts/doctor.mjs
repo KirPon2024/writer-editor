@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 const DEFAULT_SECTOR_U_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_U.json';
+const DEFAULT_SECTOR_M_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_M.json';
 const DEFAULT_NEXT_SECTOR_STATUS_PATH = 'docs/OPS/STATUS/NEXT_SECTOR.json';
 const DEFAULT_SECTOR_P_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_P.json';
 const DEFAULT_SECTOR_W_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_W.json';
@@ -17,6 +18,7 @@ const DEFAULT_FULL_POLICY_NO_DUPLICATION_PATH = 'docs/OPS/STATUS/FULL_POLICY_NO_
 const DEFAULT_SECOND_ENTRYPOINT_PATH = 'docs/CRAFTSMAN.md';
 
 const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || DEFAULT_SECTOR_U_STATUS_PATH;
+const SECTOR_M_STATUS_PATH = process.env.SECTOR_M_STATUS_PATH || DEFAULT_SECTOR_M_STATUS_PATH;
 const NEXT_SECTOR_STATUS_PATH = process.env.NEXT_SECTOR_STATUS_PATH || DEFAULT_NEXT_SECTOR_STATUS_PATH;
 const SECTOR_P_STATUS_PATH = process.env.SECTOR_P_STATUS_PATH || DEFAULT_SECTOR_P_STATUS_PATH;
 const SECTOR_W_STATUS_PATH = process.env.SECTOR_W_STATUS_PATH || DEFAULT_SECTOR_W_STATUS_PATH;
@@ -57,6 +59,11 @@ const U7_VISUAL_TEST_PATH = 'test/unit/sector-u-u7-visual-baseline.test.js';
 const U7_VISUAL_FIXTURE_PATH = 'test/fixtures/sector-u/u7/snapshot-expected.json';
 const U8_PERF_TEST_PATH = 'test/unit/sector-u-u8-perf-baseline.test.js';
 const U8_PERF_FIXTURE_PATH = 'test/fixtures/sector-u/u8/perf-expected.json';
+const M0_RUNNER_PATH = 'scripts/sector-m-run.mjs';
+const M0_STATUS_SCHEMA_TEST_PATH = 'test/unit/sector-m-status-schema.test.js';
+const M0_DOCTOR_TOKENS_TEST_PATH = 'test/unit/sector-m-doctor-tokens.test.js';
+const M0_RUNNER_ARTIFACT_TEST_PATH = 'test/unit/sector-m-runner-artifact.test.js';
+const M0_NO_SCOPE_LEAK_TEST_PATH = 'test/unit/sector-m-no-scope-leak.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2743,6 +2750,120 @@ function sha256File(filePath) {
   }
 }
 
+function hasNpmScript(scriptName) {
+  try {
+    const parsed = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return false;
+    const scripts = parsed.scripts;
+    if (!scripts || typeof scripts !== 'object' || Array.isArray(scripts)) return false;
+    const value = scripts[scriptName];
+    return typeof value === 'string' && value.trim().length > 0;
+  } catch {
+    return false;
+  }
+}
+
+function evaluateSectorMStatus() {
+  function printTokens(result) {
+    console.log(`SECTOR_M_PHASE=${result.phase}`);
+    console.log(`SECTOR_M_BASELINE_SHA=${result.baselineSha}`);
+    console.log(`SECTOR_M_GO_TAG=${result.goTag}`);
+    console.log(`SECTOR_M_STATUS_OK=${result.statusOk}`);
+  }
+
+  const result = {
+    phase: '',
+    baselineSha: '',
+    goTag: '',
+    statusOk: 0,
+    level: 'warn',
+  };
+
+  const parsed = readJsonObjectOptional(SECTOR_M_STATUS_PATH);
+  if (!parsed) {
+    printTokens(result);
+    return result;
+  }
+
+  const requiredTop = ['schemaVersion', 'status', 'phase', 'baselineSha', 'goTag'];
+  const hasRequiredTop = requiredTop.every((key) => Object.prototype.hasOwnProperty.call(parsed, key));
+  if (!hasRequiredTop) {
+    printTokens(result);
+    return result;
+  }
+
+  const allowedStatus = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
+  const allowedPhase = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE']);
+  const allowedGo = new Set([
+    '',
+    'GO:SECTOR_M_M0_DONE',
+    'GO:SECTOR_M_M1_DONE',
+    'GO:SECTOR_M_M2_DONE',
+    'GO:SECTOR_M_M3_DONE',
+    'GO:SECTOR_M_M4_DONE',
+    'GO:SECTOR_M_M5_DONE',
+    'GO:SECTOR_M_M6_DONE',
+    'GO:SECTOR_M_DONE',
+  ]);
+
+  const phase = typeof parsed.phase === 'string' ? parsed.phase : '';
+  const baselineSha = typeof parsed.baselineSha === 'string' ? parsed.baselineSha : '';
+  const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
+  result.phase = phase;
+  result.baselineSha = baselineSha;
+  result.goTag = goTag;
+
+  const schemaOk = parsed.schemaVersion === 'sector-m-status.v1';
+  const statusOk = typeof parsed.status === 'string' && allowedStatus.has(parsed.status);
+  const phaseOk = typeof phase === 'string' && allowedPhase.has(phase);
+  const baselineShaOk = /^[0-9a-f]{7,}$/i.test(baselineSha);
+  const goTagOk = typeof goTag === 'string' && allowedGo.has(goTag);
+
+  if (schemaOk && statusOk && phaseOk && baselineShaOk && goTagOk) {
+    result.statusOk = 1;
+    result.level = 'ok';
+  }
+
+  printTokens(result);
+  return result;
+}
+
+function evaluateM0BootstrapTokens(sectorMStatus) {
+  const result = {
+    runnerExists: 0,
+    testsOk: 0,
+    proofOk: 0,
+    level: 'ok',
+  };
+
+  const runnerExists = fs.existsSync(M0_RUNNER_PATH);
+  const testsExist = fs.existsSync(M0_STATUS_SCHEMA_TEST_PATH)
+    && fs.existsSync(M0_DOCTOR_TOKENS_TEST_PATH)
+    && fs.existsSync(M0_RUNNER_ARTIFACT_TEST_PATH)
+    && fs.existsSync(M0_NO_SCOPE_LEAK_TEST_PATH);
+  const testScriptExists = hasNpmScript('test:sector-m');
+
+  result.runnerExists = runnerExists ? 1 : 0;
+  result.testsOk = testsExist && testScriptExists ? 1 : 0;
+  result.proofOk = result.runnerExists === 1
+    && result.testsOk === 1
+    && sectorMStatus
+    && sectorMStatus.statusOk === 1
+    ? 1
+    : 0;
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const phaseRequiresM0 = phase !== '';
+  result.level = phaseRequiresM0 && result.proofOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M0_RUNNER_EXISTS=${result.runnerExists}`);
+  console.log(`M0_TESTS_OK=${result.testsOk}`);
+  console.log(`M0_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
 function evaluateSectorUStatus() {
   function printTokens(result) {
     console.log(`SECTOR_U_PHASE=${result.phase}`);
@@ -3880,6 +4001,8 @@ function run() {
   const inventoryIndexItems = parseInventoryIndex(inventoryIndexPath);
   const strictLie = checkStrictLieClasses(effectiveMode, inventoryIndexItems, debtRegistry, registryItems);
   const sectorUStatus = evaluateSectorUStatus();
+  const sectorMStatus = evaluateSectorMStatus();
+  const m0Bootstrap = evaluateM0BootstrapTokens(sectorMStatus);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -4010,7 +4133,9 @@ function run() {
     || u8PerfBaseline.level === 'warn'
     || u9Close.level === 'warn'
     || nextSector.level === 'warn'
-    || opsP0SectorMPrep.level === 'warn';
+    || opsP0SectorMPrep.level === 'warn'
+    || sectorMStatus.level === 'warn'
+    || m0Bootstrap.level === 'warn';
 
   const final = hasFail
     ? { status: 'DOCTOR_FAIL', exitCode: 1 }

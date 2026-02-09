@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "sector-m-run.v1",
+  "pack": "fast",
+  "ok": 1,
+  "requiredCheckIds": [
+    "CHECK_M0_SOT_SCHEMA",
+    "CHECK_M0_RUNNER_ARTIFACT",
+    "CHECK_M0_NO_SCOPE_LEAK",
+    "CHECK_M0_DOCTOR_TOKENS"
+  ]
+}

@@ -12,7 +12,7 @@ function parseTokens(stdout) {
   return tokens;
 }
 
-test('doctor emits M0 sector tokens', () => {
+test('doctor emits sector-m tokens with valid domains', () => {
   const result = spawnSync(process.execPath, ['scripts/doctor.mjs'], {
     encoding: 'utf8',
     env: {
@@ -25,8 +25,24 @@ test('doctor emits M0 sector tokens', () => {
   const tokens = parseTokens(result.stdout);
 
   assert.equal(tokens.get('SECTOR_M_STATUS_OK'), '1');
-  assert.equal(tokens.get('SECTOR_M_PHASE'), 'M0');
-  assert.equal(tokens.get('SECTOR_M_GO_TAG'), '');
+  assert.ok(
+    ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE'].includes(tokens.get('SECTOR_M_PHASE')),
+    'SECTOR_M_PHASE domain mismatch',
+  );
+  assert.ok(
+    [
+      '',
+      'GO:SECTOR_M_M0_DONE',
+      'GO:SECTOR_M_M1_DONE',
+      'GO:SECTOR_M_M2_DONE',
+      'GO:SECTOR_M_M3_DONE',
+      'GO:SECTOR_M_M4_DONE',
+      'GO:SECTOR_M_M5_DONE',
+      'GO:SECTOR_M_M6_DONE',
+      'GO:SECTOR_M_DONE',
+    ].includes(tokens.get('SECTOR_M_GO_TAG')),
+    'SECTOR_M_GO_TAG domain mismatch',
+  );
   assert.equal(tokens.get('M0_RUNNER_EXISTS'), '1');
   assert.equal(tokens.get('M0_TESTS_OK'), '1');
   assert.equal(tokens.get('M0_PROOF_OK'), '1');

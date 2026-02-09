@@ -64,6 +64,11 @@ const M0_STATUS_SCHEMA_TEST_PATH = 'test/unit/sector-m-status-schema.test.js';
 const M0_DOCTOR_TOKENS_TEST_PATH = 'test/unit/sector-m-doctor-tokens.test.js';
 const M0_RUNNER_ARTIFACT_TEST_PATH = 'test/unit/sector-m-runner-artifact.test.js';
 const M0_NO_SCOPE_LEAK_TEST_PATH = 'test/unit/sector-m-no-scope-leak.test.js';
+const M1_SPEC_PATH = 'docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md';
+const M1_LOSS_PATH = 'docs/FORMAT/MARKDOWN_LOSS_POLICY_v1.md';
+const M1_SECURITY_PATH = 'docs/FORMAT/MARKDOWN_SECURITY_POLICY_v1.md';
+const M1_CONTRACT_TEST_PATH = 'test/unit/sector-m-m1-contract-docs.test.js';
+const M1_DOCTOR_TOKENS_TEST_PATH = 'test/unit/sector-m-m1-doctor-tokens.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -2763,6 +2768,69 @@ function hasNpmScript(scriptName) {
   }
 }
 
+function sectorMPhaseIndex(phase) {
+  const order = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE'];
+  return order.indexOf(String(phase || '').toUpperCase());
+}
+
+function fileContainsAllMarkers(filePath, markers) {
+  if (!fs.existsSync(filePath)) return false;
+  let text = '';
+  try {
+    text = fs.readFileSync(filePath, 'utf8');
+  } catch {
+    return false;
+  }
+  return markers.every((marker) => text.includes(marker));
+}
+
+function listMarkdownFiles(rootDir) {
+  if (!fs.existsSync(rootDir)) return [];
+  const out = [];
+  const stack = [rootDir];
+  while (stack.length > 0) {
+    const current = stack.pop();
+    let entries = [];
+    try {
+      entries = fs.readdirSync(current, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+    for (const entry of entries) {
+      const fullPath = `${current}/${entry.name}`;
+      if (entry.isDirectory()) {
+        stack.push(fullPath);
+      } else if (entry.isFile() && fullPath.toLowerCase().endsWith('.md')) {
+        out.push(fullPath.replaceAll('\\', '/'));
+      }
+    }
+  }
+  out.sort();
+  return out;
+}
+
+function detectCanonEntrypointSplitBrain() {
+  const policyPathNorm = CANON_ENTRYPOINT_POLICY_PATH.replaceAll('\\', '/');
+  const docsFiles = listMarkdownFiles('docs');
+  for (const filePath of docsFiles) {
+    const normalized = filePath.replaceAll('\\', '/');
+    if (normalized === policyPathNorm) continue;
+    let text = '';
+    try {
+      text = fs.readFileSync(filePath, 'utf8');
+    } catch {
+      continue;
+    }
+    if (/^ENTRYPOINT_MUST=(?:1|CANON\.md)$/m.test(text)) return 1;
+    if (/^ENTRYPOINT:\s*MUST\b/m.test(text)) return 1;
+    if (/(absolute entrypoint|единственный entrypoint)/iu.test(text)
+      && /(must|обязател)/iu.test(text)) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
 function evaluateSectorMStatus() {
   function printTokens(result) {
     console.log(`SECTOR_M_PHASE=${result.phase}`);
@@ -2861,6 +2929,87 @@ function evaluateM0BootstrapTokens(sectorMStatus) {
   console.log(`M0_RUNNER_EXISTS=${result.runnerExists}`);
   console.log(`M0_TESTS_OK=${result.testsOk}`);
   console.log(`M0_PROOF_OK=${result.proofOk}`);
+  return result;
+}
+
+function evaluateM1ContractTokens(sectorMStatus) {
+  const result = {
+    docsPresent: 0,
+    docsComplete: 0,
+    securityPolicyOk: 0,
+    lossPolicyOk: 0,
+    goTagRuleOk: 0,
+    contractOk: 0,
+    level: 'ok',
+  };
+
+  const specExists = fs.existsSync(M1_SPEC_PATH);
+  const lossExists = fs.existsSync(M1_LOSS_PATH);
+  const securityExists = fs.existsSync(M1_SECURITY_PATH);
+  result.docsPresent = specExists && lossExists && securityExists ? 1 : 0;
+
+  const specMarkers = [
+    '## Scope',
+    '## Dialect',
+    '## Supported Blocks',
+    '## Supported Inlines',
+    '## Escaping Rules',
+    '## Deterministic Serialization Rules',
+    '## Limits',
+    '## Examples',
+  ];
+  const lossMarkers = [
+    '## Loss Principles',
+    '## Loss Report Format',
+    '## Roundtrip Guarantees',
+    '## Mapping Table',
+    '## Examples',
+  ];
+  const securityMarkers = [
+    '## Raw HTML Policy',
+    '## Links and URIs Policy',
+    '## Code Blocks Policy',
+    '## Sanitization Responsibility',
+    '## Limits',
+  ];
+
+  const specOk = fileContainsAllMarkers(M1_SPEC_PATH, specMarkers);
+  const lossOk = fileContainsAllMarkers(M1_LOSS_PATH, lossMarkers);
+  const securityOk = fileContainsAllMarkers(M1_SECURITY_PATH, securityMarkers);
+
+  result.docsComplete = specOk && lossOk && securityOk ? 1 : 0;
+  result.lossPolicyOk = lossOk ? 1 : 0;
+  result.securityPolicyOk = securityOk ? 1 : 0;
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM1 = phaseIndex >= sectorMPhaseIndex('M1');
+
+  if (phase === 'M1') {
+    result.goTagRuleOk = goTag === '' || goTag === 'GO:SECTOR_M_M1_DONE' ? 1 : 0;
+  } else {
+    result.goTagRuleOk = 1;
+  }
+
+  result.contractOk = result.docsPresent === 1
+    && result.docsComplete === 1
+    && result.securityPolicyOk === 1
+    && result.lossPolicyOk === 1
+    && result.goTagRuleOk === 1 ? 1 : 0;
+
+  result.level = atLeastM1 && result.contractOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M1_CONTRACT_DOCS_PRESENT=${result.docsPresent}`);
+  console.log(`M1_CONTRACT_DOCS_COMPLETE=${result.docsComplete}`);
+  console.log(`M1_SECURITY_POLICY_OK=${result.securityPolicyOk}`);
+  console.log(`M1_LOSS_POLICY_OK=${result.lossPolicyOk}`);
+  console.log(`M1_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  console.log(`M1_CONTRACT_OK=${result.contractOk}`);
   return result;
 }
 
@@ -3896,10 +4045,11 @@ function evaluateOpsP0SectorMPrepTokens() {
     secondMust = /^ENTRYPOINT_MUST=1$/m.test(secondText);
   }
 
-  result.splitBrainDetected = secondMust ? 1 : 0;
+  const splitBrainInDocs = detectCanonEntrypointSplitBrain();
+  result.splitBrainDetected = secondMust || splitBrainInDocs ? 1 : 0;
   result.canonEntrypointPolicyOk = canonEntrypointExists
     && canonPolicyMarkersOk
-    && !secondMust ? 1 : 0;
+    && result.splitBrainDetected !== 1 ? 1 : 0;
 
   const carveoutExists = fs.existsSync(U_DETECT_ONLY_CARVEOUT_PATH);
   const carveoutText = carveoutExists
@@ -4003,6 +4153,7 @@ function run() {
   const sectorUStatus = evaluateSectorUStatus();
   const sectorMStatus = evaluateSectorMStatus();
   const m0Bootstrap = evaluateM0BootstrapTokens(sectorMStatus);
+  const m1Contract = evaluateM1ContractTokens(sectorMStatus);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -4134,6 +4285,7 @@ function run() {
     || u9Close.level === 'warn'
     || nextSector.level === 'warn'
     || opsP0SectorMPrep.level === 'warn'
+    || m1Contract.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

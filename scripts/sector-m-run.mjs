@@ -48,6 +48,17 @@ const M6_REQUIRED_FILES = [
   'test/fixtures/sector-m/m6/expected-log-record.json',
 ];
 
+const M7_REQUIRED_FILES = [
+  'src/renderer/commands/flowMode.mjs',
+  'src/renderer/commands/projectCommands.mjs',
+  'src/preload.js',
+  'src/main.js',
+  'src/renderer/editor.js',
+  'test/unit/sector-m-m7-flow-mode.test.js',
+  'test/unit/sector-m-m7-commands.test.js',
+  'test/unit/sector-m-m7-doctor-tokens.test.js',
+];
+
 function parseArgs(argv) {
   const out = { pack: 'fast' };
   for (let i = 0; i < argv.length; i += 1) {
@@ -323,6 +334,9 @@ function validateChecksDoc(phase) {
       'CHECK_M7_PHASE_KICKOFF',
       'CHECK_M7_PHASE_READY',
       'CHECK_M7_FAST_PATH',
+      'CHECK_M7_FLOW_VIEW',
+      'CHECK_M7_FLOW_EDIT',
+      'CHECK_M7_CORE',
     ];
     for (const marker of requiredM7Markers) {
       if (!text.includes(marker)) {
@@ -496,6 +510,19 @@ function validateM6ReliabilitySurface() {
   return { ok: 1, reason: '', details: 'M6 reliability surface present' };
 }
 
+function validateM7CoreSurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M7') {
+    return { ok: 1, reason: '', details: 'M7 core check skipped outside M7 phase' };
+  }
+  for (const filePath of M7_REQUIRED_FILES) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M7 core file: ${filePath}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'M7 core surface present' };
+}
+
 function validateFullScopeMapIntegrity() {
   const scopeMapLoad = loadScopeMap();
   if (scopeMapLoad.ok !== 1) {
@@ -601,6 +628,9 @@ function runDoctorCheck(phase) {
   if (phase === 'M7') {
     must.push(['M6_RELIABILITY_OK', '1']);
     must.push(['M7_PHASE_READY_OK', '1']);
+    must.push(['M7_FLOW_VIEW_OK', '1']);
+    must.push(['M7_FLOW_EDIT_OK', '1']);
+    must.push(['M7_CORE_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
@@ -700,6 +730,14 @@ function main() {
     details: m6Surface.details,
   });
   if (!failReason && m6Surface.ok !== 1) failReason = m6Surface.reason;
+
+  const m7Surface = validateM7CoreSurface();
+  checks.push({
+    checkId: 'CHECK_M7_CORE_SURFACE',
+    ok: m7Surface.ok,
+    details: m7Surface.details,
+  });
+  if (!failReason && m7Surface.ok !== 1) failReason = m7Surface.reason;
 
   if (args.pack === 'full') {
     const fullScope = validateFullScopeMapIntegrity();

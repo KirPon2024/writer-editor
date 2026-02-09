@@ -2,6 +2,12 @@ import { initTiptap } from './tiptap/index.js';
 import { createCommandRegistry } from './commands/registry.mjs';
 import { createCommandRunner } from './commands/runCommand.mjs';
 import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands.mjs';
+import {
+  buildFlowSavePayload,
+  composeFlowDocument,
+  nextSceneCaretAtBoundary,
+  previousSceneCaretAtBoundary,
+} from './commands/flowMode.mjs';
 import uiErrorMapDoc from '../../docs/OPS/STATUS/UI_ERROR_MAP.json';
 
 if (window.__USE_TIPTAP) {
@@ -67,6 +73,10 @@ let plainTextBuffer = '';
 const activeTab = 'roman';
 let currentDocumentPath = null;
 let currentDocumentKind = null;
+let flowModeState = {
+  active: false,
+  scenes: [],
+};
 let metaEnabled = false;
 let currentCards = [];
 let currentMeta = {
@@ -135,6 +145,10 @@ const MARKDOWN_IMPORT_STATUS_MESSAGE = 'Imported Markdown v1';
 const MARKDOWN_EXPORT_STATUS_MESSAGE = 'Exported Markdown v1';
 const MARKDOWN_IMPORT_PROMPT_TITLE = 'Import Markdown v1';
 const MARKDOWN_EXPORT_PROMPT_COPY_HINT = 'Export Markdown v1 (copy text below)';
+const FLOW_OPEN_STATUS_MESSAGE = 'Flow mode opened';
+const FLOW_SAVE_STATUS_MESSAGE = 'Flow mode saved';
+const FLOW_OPEN_ERROR_MESSAGE = 'Flow mode unavailable';
+const FLOW_SAVE_ERROR_MESSAGE = 'Flow mode save failed';
 
 function sanitizeUiErrorMap(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
@@ -235,6 +249,83 @@ async function runMarkdownImportCommand(markdownText, sourceName) {
 
 async function runMarkdownExportCommand(scene) {
   return dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1, { scene });
+}
+
+async function runFlowOpenCommand() {
+  return dispatchUiCommand(COMMAND_IDS.PROJECT_FLOW_OPEN_V1);
+}
+
+async function runFlowSaveCommand(scenes) {
+  return dispatchUiCommand(COMMAND_IDS.PROJECT_FLOW_SAVE_V1, { scenes });
+}
+
+function clearFlowModeState() {
+  flowModeState = {
+    active: false,
+    scenes: [],
+  };
+}
+
+function normalizeFlowSceneRefs(rawScenes) {
+  const scenes = Array.isArray(rawScenes) ? rawScenes : [];
+  return scenes
+    .map((scene) => {
+      if (!scene || typeof scene !== 'object' || Array.isArray(scene)) return null;
+      const path = typeof scene.path === 'string' ? scene.path : '';
+      const title = typeof scene.title === 'string' ? scene.title : '';
+      const kind = typeof scene.kind === 'string' ? scene.kind : 'scene';
+      const content = typeof scene.content === 'string' ? scene.content : '';
+      if (!path) return null;
+      return { path, title, kind, content };
+    })
+    .filter(Boolean);
+}
+
+async function handleFlowModeOpenUiPath() {
+  const openResult = await runFlowOpenCommand();
+  if (!openResult.ok) return;
+
+  const scenes = normalizeFlowSceneRefs(openResult.value && openResult.value.scenes);
+  if (!scenes.length) {
+    updateStatusText(FLOW_OPEN_ERROR_MESSAGE);
+    return;
+  }
+
+  flowModeState = {
+    active: true,
+    scenes: scenes.map((scene) => ({ path: scene.path, title: scene.title, kind: scene.kind })),
+  };
+
+  setPlainText(composeFlowDocument(scenes));
+  updateWordCount();
+  localDirty = false;
+  if (window.electronAPI && typeof window.electronAPI.notifyDirtyState === 'function') {
+    window.electronAPI.notifyDirtyState(false);
+  }
+  showEditorPanelFor('Flow mode');
+  updateStatusText(`${FLOW_OPEN_STATUS_MESSAGE} (${scenes.length})`);
+}
+
+async function handleFlowModeSaveUiPath() {
+  if (!flowModeState.active) {
+    updateStatusText(FLOW_SAVE_ERROR_MESSAGE);
+    return;
+  }
+
+  const payload = buildFlowSavePayload(getPlainText(), flowModeState.scenes);
+  if (!payload.ok) {
+    updateStatusText(FLOW_SAVE_ERROR_MESSAGE);
+    return;
+  }
+
+  const saveResult = await runFlowSaveCommand(payload.scenes);
+  if (!saveResult.ok) return;
+
+  localDirty = false;
+  if (window.electronAPI && typeof window.electronAPI.notifyDirtyState === 'function') {
+    window.electronAPI.notifyDirtyState(false);
+  }
+  updateStatusText(`${FLOW_SAVE_STATUS_MESSAGE} (${payload.scenes.length})`);
 }
 
 async function handleMarkdownImportUiPath() {
@@ -729,6 +820,7 @@ function ensureCaretInLastPointerPage() {
 
 function parseParagraphLine(line) {
   const patternMatchers = [
+    { prefix: '---[ SCENE ', className: 'line--heading2' },
     { prefix: '::caption:: ', className: 'line--caption' },
     { prefix: '::center:: ', className: 'line--centered' },
     { prefix: '::right:: ', className: 'line--align-right' },
@@ -792,6 +884,7 @@ function showEditorPanelFor(title) {
 }
 
 function collapseSelection() {
+  clearFlowModeState();
   editorPanel?.classList.remove('active');
   mainContent?.classList.remove('main-content--editor');
   emptyState?.classList.remove('hidden');
@@ -2081,7 +2174,11 @@ if (toolbar) {
         void dispatchUiCommand(COMMAND_IDS.PROJECT_OPEN);
         break;
       case 'save':
-        void dispatchUiCommand(COMMAND_IDS.PROJECT_SAVE);
+        if (flowModeState.active) {
+          void handleFlowModeSaveUiPath();
+        } else {
+          void dispatchUiCommand(COMMAND_IDS.PROJECT_SAVE);
+        }
         break;
       case 'export-docx-min':
         void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
@@ -2240,6 +2337,16 @@ document.addEventListener('keydown', (event) => {
       void handleMarkdownExportUiPath();
       return;
     }
+    if ((key === 'F' || key === 'f') && event.shiftKey) {
+      event.preventDefault();
+      void handleFlowModeOpenUiPath();
+      return;
+    }
+    if ((key === 'S' || key === 's') && event.shiftKey && flowModeState.active) {
+      event.preventDefault();
+      void handleFlowModeSaveUiPath();
+      return;
+    }
     return;
   }
 
@@ -2270,6 +2377,7 @@ if (window.electronAPI) {
     const kind = hasKind ? payload.kind : '';
     const nextMetaEnabled = typeof payload === 'object' && payload ? Boolean(payload.metaEnabled) : false;
 
+    clearFlowModeState();
     metaEnabled = nextMetaEnabled;
     if (hasPath) {
       currentDocumentPath = path || null;
@@ -2335,6 +2443,27 @@ editor.addEventListener('paste', (event) => {
 });
 
 editor.addEventListener('keydown', (event) => {
+  if (flowModeState.active) {
+    const { start, end } = getSelectionOffsets();
+    const hasCollapsedSelection = start === end;
+    if (hasCollapsedSelection && event.key === 'ArrowDown') {
+      const nextCaret = nextSceneCaretAtBoundary(getPlainText(), start);
+      if (Number.isInteger(nextCaret)) {
+        event.preventDefault();
+        setSelectionRange(nextCaret, nextCaret);
+        return;
+      }
+    }
+    if (hasCollapsedSelection && event.key === 'Backspace') {
+      const prevCaret = previousSceneCaretAtBoundary(getPlainText(), start);
+      if (Number.isInteger(prevCaret)) {
+        event.preventDefault();
+        setSelectionRange(prevCaret, prevCaret);
+        return;
+      }
+    }
+  }
+
   if (event.key === 'Enter') {
     ensureCaretInLastPointerPage();
     event.preventDefault();

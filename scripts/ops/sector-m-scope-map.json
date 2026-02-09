@@ -119,7 +119,9 @@
       "test/unit/sector-m-m6-",
       "test/fixtures/sector-m/m6/"
     ],
-    "M7": [],
+    "M7": [
+      "test/unit/sector-m-m7-"
+    ],
     "DONE": []
   }
 }

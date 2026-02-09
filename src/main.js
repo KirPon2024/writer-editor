@@ -61,6 +61,8 @@ const EXPORT_DOCX_MIN_CHANNEL = 'u:cmd:project:export:docxMin:v1';
 const EXPORT_DOCX_DEFAULT_REQUEST_ID = 'u3-export-docxmin-request';
 const IMPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:import:markdownV1:v1';
 const EXPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:export:markdownV1:v1';
+const FLOW_OPEN_V1_CHANNEL = 'm:cmd:project:flow:open:v1';
+const FLOW_SAVE_V1_CHANNEL = 'm:cmd:project:flow:save:v1';
 const MARKDOWN_RELIABILITY_LOG_PATH = path.join(os.tmpdir(), 'writer-editor-ops-state', 'markdown-io.log');
 const ZIP_CRC32_TABLE = (() => {
   const table = new Uint32Array(256);
@@ -896,6 +898,122 @@ async function handleExportMarkdownV1(payloadRaw) {
   }
 }
 
+function makeFlowModeError(op, code, reason, details = {}) {
+  return {
+    ok: 0,
+    error: {
+      op,
+      code,
+      reason,
+      details: details && typeof details === 'object' && !Array.isArray(details) ? details : {},
+    },
+  };
+}
+
+async function handleFlowOpenV1() {
+  try {
+    await ensureProjectStructure();
+    const romanRoot = await buildRomanTree();
+    const flowNodes = collectFlowEditableNodes(romanRoot, []);
+
+    const scenes = [];
+    for (const node of flowNodes) {
+      const filePath = node.path;
+      let content = '';
+      try {
+        content = await fs.readFile(filePath, 'utf8');
+      } catch (error) {
+        if (error && error.code === 'ENOENT') {
+          const created = await queueDiskOperation(
+            () => fileManager.writeFileAtomic(filePath, ''),
+            'create flow scene file',
+          );
+          if (!created.success) {
+            return makeFlowModeError(FLOW_OPEN_V1_CHANNEL, 'M7_FLOW_IO_CREATE_FAIL', 'flow_open_create_failed', {
+              path: filePath,
+            });
+          }
+        } else {
+          return makeFlowModeError(FLOW_OPEN_V1_CHANNEL, 'M7_FLOW_IO_READ_FAIL', 'flow_open_read_failed', {
+            path: filePath,
+            message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+          });
+        }
+      }
+
+      scenes.push({
+        path: filePath,
+        title: node.title,
+        kind: node.kind,
+        content: normalizeFlowTextInput(content),
+      });
+    }
+
+    return {
+      ok: 1,
+      scenes,
+    };
+  } catch (error) {
+    return makeFlowModeError(FLOW_OPEN_V1_CHANNEL, 'M7_FLOW_INTERNAL_ERROR', 'flow_open_failed', {
+      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+    });
+  }
+}
+
+async function handleFlowSaveV1(payloadRaw) {
+  const payload = payloadRaw && typeof payloadRaw === 'object' && !Array.isArray(payloadRaw) ? payloadRaw : null;
+  const incomingScenes = payload && Array.isArray(payload.scenes) ? payload.scenes : null;
+  if (!incomingScenes) {
+    return makeFlowModeError(FLOW_SAVE_V1_CHANNEL, 'M7_FLOW_INVALID_PAYLOAD', 'flow_save_payload_invalid');
+  }
+
+  try {
+    await ensureProjectStructure();
+    const romanRoot = await buildRomanTree();
+    const allowedNodes = collectFlowEditableNodes(romanRoot, []);
+    const allowed = new Map(allowedNodes.map((item) => [item.path, item]));
+
+    const normalizedScenes = [];
+    for (const item of incomingScenes) {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) {
+        return makeFlowModeError(FLOW_SAVE_V1_CHANNEL, 'M7_FLOW_INVALID_SCENE_ITEM', 'flow_save_scene_invalid');
+      }
+      const scenePath = typeof item.path === 'string' ? item.path : '';
+      if (!scenePath || !allowed.has(scenePath)) {
+        return makeFlowModeError(FLOW_SAVE_V1_CHANNEL, 'M7_FLOW_PATH_FORBIDDEN', 'flow_save_path_forbidden', {
+          path: scenePath,
+        });
+      }
+      normalizedScenes.push({
+        path: scenePath,
+        content: normalizeFlowTextInput(item.content),
+      });
+    }
+
+    for (const scene of normalizedScenes) {
+      const writeResult = await queueDiskOperation(
+        () => fileManager.writeFileAtomic(scene.path, scene.content),
+        'save flow scene',
+      );
+      if (!writeResult.success) {
+        return makeFlowModeError(FLOW_SAVE_V1_CHANNEL, 'M7_FLOW_IO_WRITE_FAIL', 'flow_save_write_failed', {
+          path: scene.path,
+        });
+      }
+    }
+
+    updateStatus('Flow mode сохранен');
+    return {
+      ok: 1,
+      savedCount: normalizedScenes.length,
+    };
+  } catch (error) {
+    return makeFlowModeError(FLOW_SAVE_V1_CHANNEL, 'M7_FLOW_INTERNAL_ERROR', 'flow_save_failed', {
+      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+    });
+  }
+}
+
 function extractNumericPrefix(name) {
   const match = /^(\d+)_/.exec(name);
   if (!match) return null;
@@ -913,6 +1031,33 @@ function stripTxtExtension(name) {
 
 function getDisplayNameForEntry(entryName) {
   return stripNumericPrefix(stripTxtExtension(entryName));
+}
+
+function normalizeFlowTextInput(value) {
+  return String(value ?? '').replaceAll('\r\n', '\n').replaceAll('\r', '\n');
+}
+
+function collectFlowEditableNodes(node, output = []) {
+  if (!node || typeof node !== 'object') return output;
+  const kind = typeof node.kind === 'string' ? node.kind : '';
+  const nodePath = typeof node.path === 'string' ? node.path : '';
+  if (
+    nodePath &&
+    nodePath.toLowerCase().endsWith('.txt') &&
+    (kind === 'roman-section' || kind === 'scene' || kind === 'chapter-file')
+  ) {
+    output.push({
+      path: nodePath,
+      title: typeof node.label === 'string' ? node.label : getDisplayNameForEntry(path.basename(nodePath)),
+      kind,
+    });
+  }
+  if (Array.isArray(node.children)) {
+    for (const child of node.children) {
+      collectFlowEditableNodes(child, output);
+    }
+  }
+  return output;
 }
 
 function formatPrefixedName(baseName, index) {
@@ -1468,6 +1613,14 @@ ipcMain.handle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {
 
 ipcMain.handle(EXPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {
   return handleExportMarkdownV1(payload);
+});
+
+ipcMain.handle(FLOW_OPEN_V1_CHANNEL, async () => {
+  return handleFlowOpenV1();
+});
+
+ipcMain.handle(FLOW_SAVE_V1_CHANNEL, async (_, payload) => {
+  return handleFlowSaveV1(payload);
 });
 
 ipcMain.handle('ui:request-autosave', async () => {

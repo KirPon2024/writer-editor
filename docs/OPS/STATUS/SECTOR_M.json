@@ -41,6 +41,16 @@
     "test/unit/sector-m-m6-deterministic-log.test.js",
     "test/fixtures/sector-m/m6/expected-log-record.json"
   ],
+  "m7Deliverables": [
+    "src/renderer/commands/flowMode.mjs",
+    "src/renderer/commands/projectCommands.mjs",
+    "src/preload.js",
+    "src/main.js",
+    "src/renderer/editor.js",
+    "test/unit/sector-m-m7-flow-mode.test.js",
+    "test/unit/sector-m-m7-commands.test.js",
+    "test/unit/sector-m-m7-doctor-tokens.test.js"
+  ],
   "waiversPath": "",
   "owners": []
 }

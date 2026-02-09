@@ -2,6 +2,8 @@ const { contextBridge, ipcRenderer } = require('electron');
 const EXPORT_DOCX_MIN_CHANNEL = 'u:cmd:project:export:docxMin:v1';
 const IMPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:import:markdownV1:v1';
 const EXPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:export:markdownV1:v1';
+const FLOW_OPEN_V1_CHANNEL = 'm:cmd:project:flow:open:v1';
+const FLOW_SAVE_V1_CHANNEL = 'm:cmd:project:flow:save:v1';
 
 // Экспорт безопасного API для renderer процесса
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -85,6 +87,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   exportMarkdownV1: (payload) => {
     return ipcRenderer.invoke(EXPORT_MARKDOWN_V1_CHANNEL, payload);
+  },
+  openFlowModeV1: () => {
+    return ipcRenderer.invoke(FLOW_OPEN_V1_CHANNEL);
+  },
+  saveFlowModeV1: (payload) => {
+    return ipcRenderer.invoke(FLOW_SAVE_V1_CHANNEL, payload);
   },
   setTheme: (theme) => {
     ipcRenderer.send('ui:set-theme', theme);

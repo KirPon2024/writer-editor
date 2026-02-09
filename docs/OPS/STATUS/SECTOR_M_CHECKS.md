@@ -46,6 +46,9 @@
 - CHECK_M7_PHASE_KICKOFF: SoT is updated to `phase=M7` and `goTag=GO:SECTOR_M_M7_DONE`.
 - CHECK_M7_PHASE_READY: doctor emits `M7_PHASE_READY_OK=1` with `SECTOR_M_PHASE=M7`.
 - CHECK_M7_FAST_PATH: `test:sector-m`, `sector-m-run --pack fast`, and doctor critical tokens stay green.
+- CHECK_M7_FLOW_VIEW: flow mode opens combined read view over roman scene files with unified scroll.
+- CHECK_M7_FLOW_EDIT: flow mode save path writes edits back to scene files and supports boundary caret transitions.
+- CHECK_M7_CORE: aggregate token is green only when M7 flow view/edit checks and M7 phase-ready are green.
 
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.

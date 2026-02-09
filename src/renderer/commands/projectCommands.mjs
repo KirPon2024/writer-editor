@@ -4,10 +4,14 @@ export const COMMAND_IDS = {
   PROJECT_EXPORT_DOCX_MIN: 'cmd.project.export.docxMin',
   PROJECT_IMPORT_MARKDOWN_V1: 'cmd.project.importMarkdownV1',
   PROJECT_EXPORT_MARKDOWN_V1: 'cmd.project.exportMarkdownV1',
+  PROJECT_FLOW_OPEN_V1: 'cmd.project.flowOpenV1',
+  PROJECT_FLOW_SAVE_V1: 'cmd.project.flowSaveV1',
 };
 const EXPORT_DOCX_MIN_OP = 'u:cmd:project:export:docxMin:v1';
 const IMPORT_MARKDOWN_V1_OP = 'm:cmd:project:import:markdownV1:v1';
 const EXPORT_MARKDOWN_V1_OP = 'm:cmd:project:export:markdownV1:v1';
+const FLOW_OPEN_V1_OP = 'm:cmd:project:flow:open:v1';
+const FLOW_SAVE_V1_OP = 'm:cmd:project:flow:save:v1';
 
 function fail(code, op, reason, details) {
   const error = { code, op, reason };
@@ -243,6 +247,104 @@ export function registerProjectCommands(registry, options = {}) {
       'MDV1_INTERNAL_ERROR',
       COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1,
       'EXPORT_MARKDOWN_INVALID_RESPONSE',
+    );
+  });
+
+  registry.registerCommand(COMMAND_IDS.PROJECT_FLOW_OPEN_V1, async () => {
+    if (!electronAPI || typeof electronAPI.openFlowModeV1 !== 'function') {
+      return fail(
+        'M7_FLOW_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_FLOW_OPEN_V1,
+        'FLOW_OPEN_BACKEND_NOT_WIRED',
+      );
+    }
+
+    let response;
+    try {
+      response = await electronAPI.openFlowModeV1();
+    } catch (error) {
+      return fail(
+        'M7_FLOW_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_FLOW_OPEN_V1,
+        'FLOW_OPEN_IPC_FAILED',
+        { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+      );
+    }
+
+    if (response && response.ok === 1 && Array.isArray(response.scenes)) {
+      return ok({
+        opened: true,
+        scenes: response.scenes,
+      });
+    }
+
+    if (response && response.ok === 0 && response.error && typeof response.error === 'object') {
+      const error = response.error;
+      return fail(
+        typeof error.code === 'string' ? error.code : 'M7_FLOW_INTERNAL_ERROR',
+        typeof error.op === 'string' ? error.op : FLOW_OPEN_V1_OP,
+        typeof error.reason === 'string' ? error.reason : 'FLOW_OPEN_FAILED',
+        error.details && typeof error.details === 'object' && !Array.isArray(error.details) ? error.details : undefined,
+      );
+    }
+
+    return fail(
+      'M7_FLOW_INTERNAL_ERROR',
+      COMMAND_IDS.PROJECT_FLOW_OPEN_V1,
+      'FLOW_OPEN_INVALID_RESPONSE',
+    );
+  });
+
+  registry.registerCommand(COMMAND_IDS.PROJECT_FLOW_SAVE_V1, async (input = {}) => {
+    if (!electronAPI || typeof electronAPI.saveFlowModeV1 !== 'function') {
+      return fail(
+        'M7_FLOW_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_FLOW_SAVE_V1,
+        'FLOW_SAVE_BACKEND_NOT_WIRED',
+      );
+    }
+
+    if (!input || typeof input !== 'object' || Array.isArray(input) || !Array.isArray(input.scenes)) {
+      return fail(
+        'M7_FLOW_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_FLOW_SAVE_V1,
+        'FLOW_SAVE_SCENES_REQUIRED',
+      );
+    }
+
+    let response;
+    try {
+      response = await electronAPI.saveFlowModeV1({ scenes: input.scenes });
+    } catch (error) {
+      return fail(
+        'M7_FLOW_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_FLOW_SAVE_V1,
+        'FLOW_SAVE_IPC_FAILED',
+        { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+      );
+    }
+
+    if (response && response.ok === 1) {
+      return ok({
+        saved: true,
+        savedCount: Number.isInteger(response.savedCount) ? response.savedCount : input.scenes.length,
+      });
+    }
+
+    if (response && response.ok === 0 && response.error && typeof response.error === 'object') {
+      const error = response.error;
+      return fail(
+        typeof error.code === 'string' ? error.code : 'M7_FLOW_INTERNAL_ERROR',
+        typeof error.op === 'string' ? error.op : FLOW_SAVE_V1_OP,
+        typeof error.reason === 'string' ? error.reason : 'FLOW_SAVE_FAILED',
+        error.details && typeof error.details === 'object' && !Array.isArray(error.details) ? error.details : undefined,
+      );
+    }
+
+    return fail(
+      'M7_FLOW_INTERNAL_ERROR',
+      COMMAND_IDS.PROJECT_FLOW_SAVE_V1,
+      'FLOW_SAVE_INVALID_RESPONSE',
     );
   });
 }

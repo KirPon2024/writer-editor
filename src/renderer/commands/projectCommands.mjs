@@ -21,6 +21,10 @@ function ok(value) {
   return { ok: true, value };
 }
 
+function normalizeSafetyMode(input) {
+  return input === 'compat' ? 'compat' : 'strict';
+}
+
 export function registerProjectCommands(registry, options = {}) {
   const electronAPI = options.electronAPI || null;
 
@@ -179,6 +183,7 @@ export function registerProjectCommands(registry, options = {}) {
       snapshotLimit: Number.isInteger(input.snapshotLimit) && input.snapshotLimit >= 1
         ? input.snapshotLimit
         : 3,
+      safetyMode: normalizeSafetyMode(input.safetyMode),
       limits: input.limits && typeof input.limits === 'object' && !Array.isArray(input.limits)
         ? input.limits
         : {},
@@ -210,6 +215,9 @@ export function registerProjectCommands(registry, options = {}) {
       }
       if (Number.isInteger(response.bytesWritten) && response.bytesWritten >= 0) {
         output.bytesWritten = response.bytesWritten;
+      }
+      if (typeof response.safetyMode === 'string' && response.safetyMode.length > 0) {
+        output.safetyMode = response.safetyMode;
       }
       if (response.snapshotCreated === true) {
         output.snapshotCreated = true;

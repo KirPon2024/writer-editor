@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain, session } = require('electron');
 const { performance } = require('perf_hooks');
 const path = require('path');
+const os = require('os');
 const fs = require('fs').promises;
 const fsSync = require('fs');
 const crypto = require('crypto');
@@ -60,6 +61,7 @@ const EXPORT_DOCX_MIN_CHANNEL = 'u:cmd:project:export:docxMin:v1';
 const EXPORT_DOCX_DEFAULT_REQUEST_ID = 'u3-export-docxmin-request';
 const IMPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:import:markdownV1:v1';
 const EXPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:export:markdownV1:v1';
+const MARKDOWN_RELIABILITY_LOG_PATH = path.join(os.tmpdir(), 'writer-editor-ops-state', 'markdown-io.log');
 const ZIP_CRC32_TABLE = (() => {
   const table = new Uint32Array(256);
   for (let i = 0; i < 256; i += 1) {
@@ -379,18 +381,92 @@ function mapMarkdownErrorCode(inputCode, inputReason) {
   return 'MDV1_INTERNAL_ERROR';
 }
 
+function normalizeMarkdownSafetyMode(input) {
+  return input === 'compat' ? 'compat' : 'strict';
+}
+
+function getMarkdownRecoveryGuidance(code) {
+  if (code === 'E_IO_ATOMIC_WRITE_FAIL') {
+    return {
+      userMessage: 'Не удалось безопасно записать Markdown. Действия: Retry / Save As / Open Snapshot.',
+      recoveryActions: ['RETRY', 'SAVE_AS', 'OPEN_SNAPSHOT'],
+    };
+  }
+  if (code === 'E_IO_SNAPSHOT_FAIL') {
+    return {
+      userMessage: 'Не удалось создать recovery snapshot. Действия: Retry / Save As.',
+      recoveryActions: ['RETRY', 'SAVE_AS'],
+    };
+  }
+  if (code === 'E_IO_CORRUPT_INPUT') {
+    return {
+      userMessage: 'Markdown поврежден. Действия: Open Snapshot / Retry.',
+      recoveryActions: ['OPEN_SNAPSHOT', 'RETRY'],
+    };
+  }
+  if (code === 'E_IO_INPUT_TOO_LARGE') {
+    return {
+      userMessage: 'Markdown слишком большой. Действия: Save As / Retry с меньшим файлом.',
+      recoveryActions: ['SAVE_AS', 'RETRY'],
+    };
+  }
+  if (code.startsWith('E_IO_')) {
+    return {
+      userMessage: 'Ошибка ввода-вывода Markdown. Действия: Retry / Save As.',
+      recoveryActions: ['RETRY', 'SAVE_AS'],
+    };
+  }
+  return null;
+}
+
 function makeTypedMarkdownError(op, inputCode, inputReason, details) {
+  const mappedCode = mapMarkdownErrorCode(inputCode, inputReason);
   const error = {
-    code: mapMarkdownErrorCode(inputCode, inputReason),
+    code: mappedCode,
     op,
     reason: typeof inputReason === 'string' && inputReason.length > 0
       ? inputReason
       : 'MARKDOWN_COMMAND_FAILED',
   };
+  const recovery = getMarkdownRecoveryGuidance(mappedCode);
   if (details && typeof details === 'object' && !Array.isArray(details)) {
-    error.details = details;
+    error.details = { ...details };
+  }
+  if (recovery) {
+    error.details = {
+      ...(error.details && typeof error.details === 'object' ? error.details : {}),
+      userMessage: recovery.userMessage,
+      recoveryActions: recovery.recoveryActions,
+    };
   }
   return { ok: 0, error };
+}
+
+async function appendMarkdownReliabilityLog(markdownIo, input = {}) {
+  if (!markdownIo || typeof markdownIo.buildReliabilityLogRecord !== 'function') {
+    return { logRecord: null, logPath: '' };
+  }
+  const logRecord = markdownIo.buildReliabilityLogRecord({
+    op: input.op,
+    code: input.code,
+    reason: input.reason,
+    safetyMode: input.safetyMode,
+    sourcePath: input.sourcePath,
+    targetPath: input.targetPath,
+    snapshotPath: input.snapshotPath,
+    recoveryActions: input.recoveryActions,
+  });
+  if (typeof markdownIo.appendReliabilityLog !== 'function') {
+    return { logRecord, logPath: '' };
+  }
+  try {
+    const appended = await markdownIo.appendReliabilityLog(logRecord, {
+      logPath: MARKDOWN_RELIABILITY_LOG_PATH,
+    });
+    return { logRecord, logPath: appended && typeof appended.logPath === 'string' ? appended.logPath : '' };
+  } catch {
+    return { logRecord, logPath: '' };
+  }
 }
 
 function normalizeMarkdownImportPayload(payload) {
@@ -416,6 +492,7 @@ function normalizeMarkdownExportPayload(payload) {
     snapshotLimit: Number.isInteger(payload.snapshotLimit) && payload.snapshotLimit >= 1
       ? payload.snapshotLimit
       : 3,
+    safetyMode: normalizeMarkdownSafetyMode(payload.safetyMode),
     limits: payload.limits && typeof payload.limits === 'object' && !Array.isArray(payload.limits)
       ? payload.limits
       : {},
@@ -700,13 +777,33 @@ async function handleImportMarkdownV1(payloadRaw) {
         : { count: 0, items: [] },
     };
   } catch (error) {
+    let logRecord = null;
+    let logPath = '';
+    try {
+      const markdownIo = await loadMarkdownIoModule();
+      const log = await appendMarkdownReliabilityLog(markdownIo, {
+        op: IMPORT_MARKDOWN_V1_CHANNEL,
+        code: error && typeof error.code === 'string' ? error.code : 'E_MD_IMPORT_FAILED',
+        reason: error && typeof error.reason === 'string' ? error.reason : 'import_failed',
+        sourcePath: payload.sourcePath,
+      });
+      logRecord = log.logRecord;
+      logPath = log.logPath;
+    } catch {
+      logRecord = null;
+      logPath = '';
+    }
     return makeTypedMarkdownError(
       IMPORT_MARKDOWN_V1_CHANNEL,
       error && typeof error.code === 'string' ? error.code : 'E_MD_IMPORT_FAILED',
       error && typeof error.reason === 'string' ? error.reason : 'import_failed',
-      error && error.details && typeof error.details === 'object' && !Array.isArray(error.details)
-        ? error.details
-        : undefined,
+      {
+        ...(error && error.details && typeof error.details === 'object' && !Array.isArray(error.details)
+          ? error.details
+          : {}),
+        ...(logRecord ? { logRecord } : {}),
+        ...(logPath ? { logPath } : {}),
+      },
     );
   }
 }
@@ -739,6 +836,7 @@ async function handleExportMarkdownV1(payloadRaw) {
       writeResult = await queueDiskOperation(
         () => markdownIo.writeMarkdownWithRecovery(payload.outPath, markdown, {
           maxSnapshots: payload.snapshotLimit,
+          safetyMode: payload.safetyMode,
         }),
         'export markdown v1',
       );
@@ -747,6 +845,7 @@ async function handleExportMarkdownV1(payloadRaw) {
     return {
       ok: 1,
       markdown,
+      safetyMode: payload.safetyMode,
       outPath: writeResult && typeof writeResult.outPath === 'string' ? writeResult.outPath : '',
       bytesWritten: writeResult && Number.isInteger(writeResult.bytesWritten) ? writeResult.bytesWritten : 0,
       snapshotCreated: writeResult ? Boolean(writeResult.snapshotCreated) : false,
@@ -757,13 +856,42 @@ async function handleExportMarkdownV1(payloadRaw) {
         : { count: 0, items: [] },
     };
   } catch (error) {
+    let logRecord = null;
+    let logPath = '';
+    const mappedCode = error && typeof error.code === 'string' ? error.code : 'E_MD_EXPORT_FAILED';
+    const mappedReason = error && typeof error.reason === 'string' ? error.reason : 'export_failed';
+    const recovery = getMarkdownRecoveryGuidance(mapMarkdownErrorCode(mappedCode, mappedReason));
+    try {
+      const markdownIo = await loadMarkdownIoModule();
+      const log = await appendMarkdownReliabilityLog(markdownIo, {
+        op: EXPORT_MARKDOWN_V1_CHANNEL,
+        code: mappedCode,
+        reason: mappedReason,
+        safetyMode: payload.safetyMode,
+        targetPath: payload.outPath,
+        snapshotPath: error && error.details && typeof error.details === 'object'
+          ? error.details.snapshotPath
+          : '',
+        recoveryActions: recovery ? recovery.recoveryActions : [],
+      });
+      logRecord = log.logRecord;
+      logPath = log.logPath;
+    } catch {
+      logRecord = null;
+      logPath = '';
+    }
     return makeTypedMarkdownError(
       EXPORT_MARKDOWN_V1_CHANNEL,
-      error && typeof error.code === 'string' ? error.code : 'E_MD_EXPORT_FAILED',
-      error && typeof error.reason === 'string' ? error.reason : 'export_failed',
-      error && error.details && typeof error.details === 'object' && !Array.isArray(error.details)
-        ? error.details
-        : undefined,
+      mappedCode,
+      mappedReason,
+      {
+        ...(error && error.details && typeof error.details === 'object' && !Array.isArray(error.details)
+          ? error.details
+          : {}),
+        safetyMode: payload.safetyMode,
+        ...(logRecord ? { logRecord } : {}),
+        ...(logPath ? { logPath } : {}),
+      },
     );
   }
 }

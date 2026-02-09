@@ -104,6 +104,11 @@ const M5_TEST_COMMAND_PATH = 'test/unit/sector-m-m5-command-path.test.js';
 const M5_FIXTURE_BIG_PATH = 'test/fixtures/sector-m/m5/big.md';
 const M5_FIXTURE_CORRUPT_PATH = 'test/fixtures/sector-m/m5/corrupt.md';
 const M5_FIXTURE_EXISTING_PATH = 'test/fixtures/sector-m/m5/existing.md';
+const M6_IO_RELIABILITY_LOG_PATH = 'src/io/markdown/reliabilityLog.mjs';
+const M6_TEST_RECOVERY_UX_PATH = 'test/unit/sector-m-m6-recovery-ux.test.js';
+const M6_TEST_SAFETY_CONFIG_PATH = 'test/unit/sector-m-m6-safety-config.test.js';
+const M6_TEST_DETERMINISTIC_LOG_PATH = 'test/unit/sector-m-m6-deterministic-log.test.js';
+const M6_FIXTURE_LOG_RECORD_PATH = 'test/fixtures/sector-m/m6/expected-log-record.json';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
@@ -3413,6 +3418,109 @@ function evaluateM5ReliabilityTokens(sectorMStatus) {
   return result;
 }
 
+function evaluateM6ReliabilityTokens(sectorMStatus) {
+  const result = {
+    reliabilityOk: 0,
+    recoveryUxOk: 0,
+    safetyConfigOk: 0,
+    deterministicLogOk: 0,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM6 = phaseIndex >= sectorMPhaseIndex('M6');
+
+  const testsExist = fs.existsSync(M6_TEST_RECOVERY_UX_PATH)
+    && fs.existsSync(M6_TEST_SAFETY_CONFIG_PATH)
+    && fs.existsSync(M6_TEST_DETERMINISTIC_LOG_PATH);
+  const fixtureExists = fs.existsSync(M6_FIXTURE_LOG_RECORD_PATH);
+  const ioLogModuleExists = fs.existsSync(M6_IO_RELIABILITY_LOG_PATH);
+
+  let mainRecoveryMarkersOk = 0;
+  let editorRecoveryMarkersOk = 0;
+  if (fs.existsSync(M5_MAIN_PATH)) {
+    try {
+      const mainText = fs.readFileSync(M5_MAIN_PATH, 'utf8');
+      mainRecoveryMarkersOk = mainText.includes('getMarkdownRecoveryGuidance')
+        && mainText.includes('userMessage')
+        && mainText.includes('recoveryActions')
+        && mainText.includes('appendMarkdownReliabilityLog')
+        ? 1
+        : 0;
+    } catch {
+      mainRecoveryMarkersOk = 0;
+    }
+  }
+  if (fs.existsSync(M4_EDITOR_PATH)) {
+    try {
+      const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
+      editorRecoveryMarkersOk = editorText.includes('details.userMessage')
+        && editorText.includes('recoveryActions')
+        && editorText.includes("code.startsWith('E_IO_') ? 'WARN'")
+        ? 1
+        : 0;
+    } catch {
+      editorRecoveryMarkersOk = 0;
+    }
+  }
+
+  let safetyConfigMarkersOk = 0;
+  if (fs.existsSync(M5_COMMANDS_PATH) && fs.existsSync(M5_IO_INDEX_PATH) && fs.existsSync(M5_IO_ATOMIC_PATH)) {
+    try {
+      const commandsText = fs.readFileSync(M5_COMMANDS_PATH, 'utf8');
+      const ioIndexText = fs.readFileSync(M5_IO_INDEX_PATH, 'utf8');
+      const atomicText = fs.readFileSync(M5_IO_ATOMIC_PATH, 'utf8');
+      safetyConfigMarkersOk = commandsText.includes('normalizeSafetyMode')
+        && commandsText.includes('safetyMode: normalizeSafetyMode(input.safetyMode)')
+        && ioIndexText.includes('normalizeSafetyMode')
+        && ioIndexText.includes('safetyMode')
+        && atomicText.includes("safetyMode === 'strict'")
+        ? 1
+        : 0;
+    } catch {
+      safetyConfigMarkersOk = 0;
+    }
+  }
+
+  let deterministicLogMarkersOk = 0;
+  if (ioLogModuleExists && fs.existsSync(M5_MAIN_PATH)) {
+    try {
+      const logText = fs.readFileSync(M6_IO_RELIABILITY_LOG_PATH, 'utf8');
+      const mainText = fs.readFileSync(M5_MAIN_PATH, 'utf8');
+      deterministicLogMarkersOk = logText.includes('buildReliabilityLogRecord')
+        && logText.includes('appendReliabilityLog')
+        && logText.includes('sector-m-reliability-log.v1')
+        && mainText.includes('appendMarkdownReliabilityLog')
+        && mainText.includes('logRecord')
+        && mainText.includes('logPath')
+        ? 1
+        : 0;
+    } catch {
+      deterministicLogMarkersOk = 0;
+    }
+  }
+
+  result.recoveryUxOk = testsExist && mainRecoveryMarkersOk === 1 && editorRecoveryMarkersOk === 1 ? 1 : 0;
+  result.safetyConfigOk = testsExist && safetyConfigMarkersOk === 1 ? 1 : 0;
+  result.deterministicLogOk = testsExist && fixtureExists && ioLogModuleExists && deterministicLogMarkersOk === 1 ? 1 : 0;
+  result.reliabilityOk = result.recoveryUxOk === 1
+    && result.safetyConfigOk === 1
+    && result.deterministicLogOk === 1
+    ? 1
+    : 0;
+
+  result.level = atLeastM6 && result.reliabilityOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M6_RELIABILITY_OK=${result.reliabilityOk}`);
+  console.log(`M6_RECOVERY_UX_OK=${result.recoveryUxOk}`);
+  console.log(`M6_SAFETY_CONFIG_OK=${result.safetyConfigOk}`);
+  console.log(`M6_DETERMINISTIC_LOG_OK=${result.deterministicLogOk}`);
+  return result;
+}
+
 function evaluateSectorUStatus() {
   function printTokens(result) {
     console.log(`SECTOR_U_PHASE=${result.phase}`);
@@ -4882,6 +4990,7 @@ function run() {
   const m3CommandWiring = evaluateM3CommandWiringTokens(sectorMStatus);
   const m4UiPath = evaluateM4UiPathTokens(sectorMStatus);
   const m5Reliability = evaluateM5ReliabilityTokens(sectorMStatus);
+  const m6Reliability = evaluateM6ReliabilityTokens(sectorMStatus);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -5024,6 +5133,7 @@ function run() {
     || m3CommandWiring.level === 'warn'
     || m4UiPath.level === 'warn'
     || m5Reliability.level === 'warn'
+    || m6Reliability.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

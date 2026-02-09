@@ -114,7 +114,10 @@
       "test/fixtures/sector-m/m3/"
     ],
     "M5": [],
-    "M6": [],
+    "M6": [
+      "test/unit/sector-m-m6-",
+      "test/fixtures/sector-m/m6/"
+    ],
     "DONE": []
   }
 }

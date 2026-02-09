@@ -35,6 +35,19 @@ const M5_REQUIRED_FILES = [
   'test/fixtures/sector-m/m5/existing.md',
 ];
 
+const M6_REQUIRED_FILES = [
+  'src/io/markdown/reliabilityLog.mjs',
+  'src/io/markdown/atomicWriteFile.mjs',
+  'src/io/markdown/index.mjs',
+  'src/main.js',
+  'src/renderer/commands/projectCommands.mjs',
+  'src/renderer/editor.js',
+  'test/unit/sector-m-m6-recovery-ux.test.js',
+  'test/unit/sector-m-m6-safety-config.test.js',
+  'test/unit/sector-m-m6-deterministic-log.test.js',
+  'test/fixtures/sector-m/m6/expected-log-record.json',
+];
+
 function parseArgs(argv) {
   const out = { pack: 'fast' };
   for (let i = 0; i < argv.length; i += 1) {
@@ -291,6 +304,19 @@ function validateChecksDoc(phase) {
       }
     }
   }
+  if (phase === 'M6') {
+    const requiredM6Markers = [
+      'CHECK_M6_RECOVERY_UX',
+      'CHECK_M6_SAFETY_CONFIG',
+      'CHECK_M6_DETERMINISTIC_LOG',
+      'CHECK_M6_RELIABILITY',
+    ];
+    for (const marker of requiredM6Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
+    }
+  }
   return { ok: 1, reason: '', details: 'SECTOR_M_CHECKS.md markers present' };
 }
 
@@ -433,7 +459,7 @@ function validateM4UiPathSurface() {
 
 function validateM5ReliabilitySurface() {
   const phase = readSectorMSoT().phase;
-  if (phase !== 'M5') {
+  if (phase !== 'M5' && phase !== 'M6') {
     return { ok: 1, reason: '', details: 'M5 reliability check skipped outside M5 phase' };
   }
   for (const filePath of M5_REQUIRED_FILES) {
@@ -442,6 +468,19 @@ function validateM5ReliabilitySurface() {
     }
   }
   return { ok: 1, reason: '', details: 'M5 reliability surface present' };
+}
+
+function validateM6ReliabilitySurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M6') {
+    return { ok: 1, reason: '', details: 'M6 reliability check skipped outside M6 phase' };
+  }
+  for (const filePath of M6_REQUIRED_FILES) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M6 reliability file: ${filePath}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'M6 reliability surface present' };
 }
 
 function validateFullScopeMapIntegrity() {
@@ -534,6 +573,18 @@ function runDoctorCheck(phase) {
     must.push(['M5_TYPED_ERRORS_OK', '1']);
     must.push(['M4_UI_PATH_OK', '1']);
   }
+  if (phase === 'M6') {
+    must.push(['M5_RELIABILITY_OK', '1']);
+    must.push(['M5_ATOMIC_WRITE_OK', '1']);
+    must.push(['M5_RECOVERY_SNAPSHOT_OK', '1']);
+    must.push(['M5_CORRUPTION_HANDLING_OK', '1']);
+    must.push(['M5_LIMITS_ENFORCED_OK', '1']);
+    must.push(['M5_TYPED_ERRORS_OK', '1']);
+    must.push(['M6_RELIABILITY_OK', '1']);
+    must.push(['M6_RECOVERY_UX_OK', '1']);
+    must.push(['M6_SAFETY_CONFIG_OK', '1']);
+    must.push(['M6_DETERMINISTIC_LOG_OK', '1']);
+  }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
       return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: `doctor token mismatch: ${k}=${tokens.get(k) || ''}` };
@@ -624,6 +675,14 @@ function main() {
     details: m5Surface.details,
   });
   if (!failReason && m5Surface.ok !== 1) failReason = m5Surface.reason;
+
+  const m6Surface = validateM6ReliabilitySurface();
+  checks.push({
+    checkId: 'CHECK_M6_RELIABILITY',
+    ok: m6Surface.ok,
+    details: m6Surface.details,
+  });
+  if (!failReason && m6Surface.ok !== 1) failReason = m6Surface.reason;
 
   if (args.pack === 'full') {
     const fullScope = validateFullScopeMapIntegrity();

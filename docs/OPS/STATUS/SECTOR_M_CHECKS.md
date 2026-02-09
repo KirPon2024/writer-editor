@@ -36,6 +36,12 @@
 - CHECK_M5_LIMITS_ENFORCED: oversized markdown input is rejected with typed deterministic error.
 - CHECK_M5_TYPED_ERRORS: command layer preserves typed error codes and does not expose raw stack.
 
+## M6
+- CHECK_M6_RECOVERY_UX: markdown IO typed errors are mapped to deterministic user-facing guidance with recovery actions.
+- CHECK_M6_SAFETY_CONFIG: export command path accepts deterministic safety mode (`strict|compat`) and keeps default safe.
+- CHECK_M6_DETERMINISTIC_LOG: markdown IO failures produce deterministic local log records with stable schema.
+- CHECK_M6_RELIABILITY: M6 aggregate token is green only when M6 UX/config/log checks are green and M5 reliability remains green.
+
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.
 - CHECK_M_FULL_SCOPE_MAP_INTEGRITY (FULL-only):

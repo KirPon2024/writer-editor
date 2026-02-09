@@ -169,6 +169,24 @@ function mapCommandErrorToUi(error) {
     ? source.code
     : 'E_COMMAND_FAILED';
   const op = typeof source.op === 'string' && source.op.length > 0 ? source.op : '';
+  const details = source.details && typeof source.details === 'object' && !Array.isArray(source.details)
+    ? source.details
+    : null;
+  const recoveryActions = details && Array.isArray(details.recoveryActions)
+    ? details.recoveryActions.filter((item) => typeof item === 'string' && item.length > 0).slice(0, 3)
+    : [];
+  const detailsUserMessage = details && typeof details.userMessage === 'string' && details.userMessage.length > 0
+    ? details.userMessage
+    : '';
+  const actionSuffix = recoveryActions.length > 0 ? ` [${recoveryActions.join(' / ')}]` : '';
+  if (detailsUserMessage) {
+    return {
+      userMessage: `${detailsUserMessage}${actionSuffix}`,
+      severity: code.startsWith('E_IO_') ? 'WARN' : UI_ERROR_FALLBACK_SEVERITY,
+      code,
+      op,
+    };
+  }
   const mapped = uiErrorMap.index.get(code);
   if (mapped) {
     return {

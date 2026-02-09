@@ -1,8 +1,8 @@
 {
   "schemaVersion": "sector-m-status.v1",
   "status": "IN_PROGRESS",
-  "phase": "M5",
-  "goTag": "GO:SECTOR_M_M5_DONE",
+  "phase": "M6",
+  "goTag": "GO:SECTOR_M_M6_DONE",
   "baselineSha": "746241f43a9fd25065501f9e17523d8a77d735eb",
   "mdModeVersion": 1,
   "contractPaths": [
@@ -33,6 +33,13 @@
     "test/fixtures/sector-m/m5/big.md",
     "test/fixtures/sector-m/m5/corrupt.md",
     "test/fixtures/sector-m/m5/existing.md"
+  ],
+  "m6Deliverables": [
+    "src/io/markdown/reliabilityLog.mjs",
+    "test/unit/sector-m-m6-recovery-ux.test.js",
+    "test/unit/sector-m-m6-safety-config.test.js",
+    "test/unit/sector-m-m6-deterministic-log.test.js",
+    "test/fixtures/sector-m/m6/expected-log-record.json"
   ],
   "waiversPath": "",
   "owners": []

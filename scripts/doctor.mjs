@@ -88,6 +88,21 @@ const M3_SECURITY_TEST_PATH = 'test/unit/sector-m-m3-security.test.js';
 const M4_EDITOR_PATH = 'src/renderer/editor.js';
 const M4_COMMANDS_PATH = 'src/renderer/commands/projectCommands.mjs';
 const M4_UI_TEST_PATH = 'test/unit/sector-m-m4-ui-path.test.js';
+const M5_IO_INDEX_PATH = 'src/io/markdown/index.mjs';
+const M5_IO_ATOMIC_PATH = 'src/io/markdown/atomicWriteFile.mjs';
+const M5_IO_SNAPSHOT_PATH = 'src/io/markdown/snapshotFile.mjs';
+const M5_IO_ERRORS_PATH = 'src/io/markdown/ioErrors.mjs';
+const M5_MAIN_PATH = 'src/main.js';
+const M5_PRELOAD_PATH = 'src/preload.js';
+const M5_COMMANDS_PATH = 'src/renderer/commands/projectCommands.mjs';
+const M5_TEST_ATOMIC_PATH = 'test/unit/sector-m-m5-atomic-write.test.js';
+const M5_TEST_SNAPSHOT_PATH = 'test/unit/sector-m-m5-snapshot.test.js';
+const M5_TEST_CORRUPTION_PATH = 'test/unit/sector-m-m5-corruption.test.js';
+const M5_TEST_LIMITS_PATH = 'test/unit/sector-m-m5-limits.test.js';
+const M5_TEST_COMMAND_PATH = 'test/unit/sector-m-m5-command-path.test.js';
+const M5_FIXTURE_BIG_PATH = 'test/fixtures/sector-m/m5/big.md';
+const M5_FIXTURE_CORRUPT_PATH = 'test/fixtures/sector-m/m5/corrupt.md';
+const M5_FIXTURE_EXISTING_PATH = 'test/fixtures/sector-m/m5/existing.md';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
@@ -3275,6 +3290,120 @@ function evaluateM4UiPathTokens(sectorMStatus) {
   return result;
 }
 
+function evaluateM5ReliabilityTokens(sectorMStatus) {
+  const result = {
+    reliabilityOk: 0,
+    atomicWriteOk: 0,
+    recoverySnapshotOk: 0,
+    corruptionHandlingOk: 0,
+    limitsEnforcedOk: 0,
+    typedErrorsOk: 0,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM5 = phaseIndex >= sectorMPhaseIndex('M5');
+
+  const ioFilesExist = fs.existsSync(M5_IO_INDEX_PATH)
+    && fs.existsSync(M5_IO_ATOMIC_PATH)
+    && fs.existsSync(M5_IO_SNAPSHOT_PATH)
+    && fs.existsSync(M5_IO_ERRORS_PATH);
+
+  let atomicMarkersOk = 0;
+  let snapshotMarkersOk = 0;
+  let ioTypedErrorsOk = 0;
+  if (ioFilesExist) {
+    try {
+      const atomicText = fs.readFileSync(M5_IO_ATOMIC_PATH, 'utf8');
+      atomicMarkersOk = atomicText.includes('fs.open(')
+        && atomicText.includes('handle.sync(')
+        && atomicText.includes('fs.rename(')
+        ? 1
+        : 0;
+
+      const snapshotText = fs.readFileSync(M5_IO_SNAPSHOT_PATH, 'utf8');
+      snapshotMarkersOk = snapshotText.includes('copyFile(')
+        && snapshotText.includes('maxSnapshots')
+        && snapshotText.includes('purgedSnapshots')
+        ? 1
+        : 0;
+
+      const ioErrorsText = fs.readFileSync(M5_IO_ERRORS_PATH, 'utf8');
+      ioTypedErrorsOk = ioErrorsText.includes('E_IO_ATOMIC_WRITE_FAIL')
+        || ioErrorsText.includes('E_IO_INTERNAL')
+        ? 1
+        : 0;
+    } catch {
+      atomicMarkersOk = 0;
+      snapshotMarkersOk = 0;
+      ioTypedErrorsOk = 0;
+    }
+  }
+
+  let mainWiringOk = 0;
+  let limitsWiringOk = 0;
+  let commandTypedErrorOk = 0;
+  if (fs.existsSync(M5_MAIN_PATH)) {
+    try {
+      const mainText = fs.readFileSync(M5_MAIN_PATH, 'utf8');
+      mainWiringOk = mainText.includes('loadMarkdownIoModule')
+        && mainText.includes('writeMarkdownWithRecovery')
+        && mainText.includes('readMarkdownWithLimits')
+        ? 1
+        : 0;
+      limitsWiringOk = mainText.includes('maxInputBytes')
+        || mainText.includes('E_IO_INPUT_TOO_LARGE')
+        ? 1
+        : 0;
+      commandTypedErrorOk = mainText.includes('mapMarkdownErrorCode')
+        && mainText.includes("code.startsWith('E_IO_')")
+        ? 1
+        : 0;
+    } catch {
+      mainWiringOk = 0;
+      limitsWiringOk = 0;
+      commandTypedErrorOk = 0;
+    }
+  }
+
+  const testsExist = fs.existsSync(M5_TEST_ATOMIC_PATH)
+    && fs.existsSync(M5_TEST_SNAPSHOT_PATH)
+    && fs.existsSync(M5_TEST_CORRUPTION_PATH)
+    && fs.existsSync(M5_TEST_LIMITS_PATH)
+    && fs.existsSync(M5_TEST_COMMAND_PATH);
+
+  const fixturesExist = fs.existsSync(M5_FIXTURE_BIG_PATH)
+    && fs.existsSync(M5_FIXTURE_CORRUPT_PATH)
+    && fs.existsSync(M5_FIXTURE_EXISTING_PATH);
+
+  result.atomicWriteOk = ioFilesExist && atomicMarkersOk === 1 && mainWiringOk === 1 ? 1 : 0;
+  result.recoverySnapshotOk = ioFilesExist && snapshotMarkersOk === 1 && mainWiringOk === 1 ? 1 : 0;
+  result.corruptionHandlingOk = testsExist && fixturesExist && mainWiringOk === 1 ? 1 : 0;
+  result.limitsEnforcedOk = testsExist && fixturesExist && limitsWiringOk === 1 ? 1 : 0;
+  result.typedErrorsOk = commandTypedErrorOk === 1 && ioTypedErrorsOk === 1 && testsExist ? 1 : 0;
+
+  result.reliabilityOk = result.atomicWriteOk === 1
+    && result.recoverySnapshotOk === 1
+    && result.corruptionHandlingOk === 1
+    && result.limitsEnforcedOk === 1
+    && result.typedErrorsOk === 1
+    ? 1
+    : 0;
+
+  result.level = atLeastM5 && result.reliabilityOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M5_RELIABILITY_OK=${result.reliabilityOk}`);
+  console.log(`M5_ATOMIC_WRITE_OK=${result.atomicWriteOk}`);
+  console.log(`M5_RECOVERY_SNAPSHOT_OK=${result.recoverySnapshotOk}`);
+  console.log(`M5_CORRUPTION_HANDLING_OK=${result.corruptionHandlingOk}`);
+  console.log(`M5_LIMITS_ENFORCED_OK=${result.limitsEnforcedOk}`);
+  console.log(`M5_TYPED_ERRORS_OK=${result.typedErrorsOk}`);
+  return result;
+}
+
 function evaluateSectorUStatus() {
   function printTokens(result) {
     console.log(`SECTOR_U_PHASE=${result.phase}`);
@@ -4549,6 +4678,7 @@ function run() {
   const m2Transform = evaluateM2TransformTokens(sectorMStatus);
   const m3CommandWiring = evaluateM3CommandWiringTokens(sectorMStatus);
   const m4UiPath = evaluateM4UiPathTokens(sectorMStatus);
+  const m5Reliability = evaluateM5ReliabilityTokens(sectorMStatus);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -4686,6 +4816,7 @@ function run() {
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'
     || m4UiPath.level === 'warn'
+    || m5Reliability.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

@@ -1,8 +1,8 @@
 {
   "schemaVersion": "sector-m-status.v1",
   "status": "IN_PROGRESS",
-  "phase": "M4",
-  "goTag": "GO:SECTOR_M_M4_DONE",
+  "phase": "M5",
+  "goTag": "GO:SECTOR_M_M5_DONE",
   "baselineSha": "746241f43a9fd25065501f9e17523d8a77d735eb",
   "mdModeVersion": 1,
   "contractPaths": [
@@ -22,6 +22,17 @@
   "commandIds": [
     "cmd.project.importMarkdownV1",
     "cmd.project.exportMarkdownV1"
+  ],
+  "reliabilityPaths": [
+    "src/io/markdown/index.mjs",
+    "src/io/markdown/atomicWriteFile.mjs",
+    "src/io/markdown/snapshotFile.mjs",
+    "src/io/markdown/ioErrors.mjs"
+  ],
+  "m5FixturePaths": [
+    "test/fixtures/sector-m/m5/big.md",
+    "test/fixtures/sector-m/m5/corrupt.md",
+    "test/fixtures/sector-m/m5/existing.md"
   ],
   "waiversPath": "",
   "owners": []

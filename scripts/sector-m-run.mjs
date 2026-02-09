@@ -11,6 +11,30 @@ const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const DOCTOR_PATH = 'scripts/doctor.mjs';
 
+const M5_ALLOW_PREFIXES = [
+  'src/io/markdown/',
+  'test/unit/sector-m-m5-',
+  'test/fixtures/sector-m/m5/',
+];
+
+const M5_REQUIRED_FILES = [
+  'src/io/markdown/index.mjs',
+  'src/io/markdown/atomicWriteFile.mjs',
+  'src/io/markdown/snapshotFile.mjs',
+  'src/io/markdown/ioErrors.mjs',
+  'src/main.js',
+  'src/preload.js',
+  'src/renderer/commands/projectCommands.mjs',
+  'test/unit/sector-m-m5-atomic-write.test.js',
+  'test/unit/sector-m-m5-snapshot.test.js',
+  'test/unit/sector-m-m5-corruption.test.js',
+  'test/unit/sector-m-m5-limits.test.js',
+  'test/unit/sector-m-m5-command-path.test.js',
+  'test/fixtures/sector-m/m5/big.md',
+  'test/fixtures/sector-m/m5/corrupt.md',
+  'test/fixtures/sector-m/m5/existing.md',
+];
+
 function parseArgs(argv) {
   const out = { pack: 'fast' };
   for (let i = 0; i < argv.length; i += 1) {
@@ -97,6 +121,10 @@ function loadScopeMap() {
 function scopeMapPhaseIndex(scopeMap, phase) {
   const idx = scopeMap.phaseOrder.indexOf(phase);
   return idx >= 0 ? idx : 0;
+}
+
+function phaseAtLeast(scopeMap, phase, minPhase) {
+  return scopeMapPhaseIndex(scopeMap, phase) >= scopeMapPhaseIndex(scopeMap, minPhase);
 }
 
 function buildAllowedForPhase(scopeMap, phase) {
@@ -248,6 +276,21 @@ function validateChecksDoc(phase) {
       }
     }
   }
+  if (phase === 'M5') {
+    const requiredM5Markers = [
+      'CHECK_M5_RELIABILITY_FILES_PRESENT',
+      'CHECK_M5_ATOMIC_WRITE',
+      'CHECK_M5_RECOVERY_SNAPSHOT',
+      'CHECK_M5_CORRUPTION_HANDLING',
+      'CHECK_M5_LIMITS_ENFORCED',
+      'CHECK_M5_TYPED_ERRORS',
+    ];
+    for (const marker of requiredM5Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
+    }
+  }
   return { ok: 1, reason: '', details: 'SECTOR_M_CHECKS.md markers present' };
 }
 
@@ -265,6 +308,11 @@ function validateAllowlistLeak(phase) {
   const carveout = new Set(scopeMap.opsCarveoutAllow);
   const allowlist = buildAllowedForPhase(scopeMap, phase);
   const allowPrefixes = buildAllowedPrefixesForPhase(scopeMap, phase);
+  if (phaseAtLeast(scopeMap, phase, 'M5')) {
+    for (const prefix of M5_ALLOW_PREFIXES) {
+      allowPrefixes.add(prefix);
+    }
+  }
   const diff = spawnSync('git', ['diff', '--name-only', 'origin/main..HEAD'], { encoding: 'utf8' });
   if (diff.status !== 0) {
     return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'git diff command failed', violations: [] };
@@ -383,6 +431,19 @@ function validateM4UiPathSurface() {
   return { ok: 1, reason: '', details: 'M4 UI path surface present' };
 }
 
+function validateM5ReliabilitySurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M5') {
+    return { ok: 1, reason: '', details: 'M5 reliability check skipped outside M5 phase' };
+  }
+  for (const filePath of M5_REQUIRED_FILES) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M5 reliability file: ${filePath}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'M5 reliability surface present' };
+}
+
 function validateFullScopeMapIntegrity() {
   const scopeMapLoad = loadScopeMap();
   if (scopeMapLoad.ok !== 1) {
@@ -463,6 +524,15 @@ function runDoctorCheck(phase) {
     must.push(['M4_UI_PATH_OK', '1']);
     must.push(['M4_GO_TAG_RULE_OK', '1']);
     must.push(['M3_COMMAND_WIRING_OK', '1']);
+  }
+  if (phase === 'M5') {
+    must.push(['M5_RELIABILITY_OK', '1']);
+    must.push(['M5_ATOMIC_WRITE_OK', '1']);
+    must.push(['M5_RECOVERY_SNAPSHOT_OK', '1']);
+    must.push(['M5_CORRUPTION_HANDLING_OK', '1']);
+    must.push(['M5_LIMITS_ENFORCED_OK', '1']);
+    must.push(['M5_TYPED_ERRORS_OK', '1']);
+    must.push(['M4_UI_PATH_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
@@ -546,6 +616,14 @@ function main() {
     details: m4Surface.details,
   });
   if (!failReason && m4Surface.ok !== 1) failReason = m4Surface.reason;
+
+  const m5Surface = validateM5ReliabilitySurface();
+  checks.push({
+    checkId: 'CHECK_M5_RELIABILITY_FILES_PRESENT',
+    ok: m5Surface.ok,
+    details: m5Surface.details,
+  });
+  if (!failReason && m5Surface.ok !== 1) failReason = m5Surface.reason;
 
   if (args.pack === 'full') {
     const fullScope = validateFullScopeMapIntegrity();

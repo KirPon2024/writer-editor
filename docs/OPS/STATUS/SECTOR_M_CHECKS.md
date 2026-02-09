@@ -28,6 +28,14 @@
 - CHECK_M4_UI_NO_DIRECT_PLATFORM_BYPASS: editor wiring uses `dispatchUiCommand(...)` and does not call markdown IPC directly.
 - CHECK_M4_UI_FEEDBACK: user receives deterministic success/error status messages for markdown import/export actions.
 
+## M5
+- CHECK_M5_RELIABILITY_FILES_PRESENT: markdown IO reliability modules exist under `src/io/markdown/*`.
+- CHECK_M5_ATOMIC_WRITE: export path uses atomic write (`temp -> fsync -> rename`) with deterministic cleanup.
+- CHECK_M5_RECOVERY_SNAPSHOT: export path creates bounded recovery snapshot before overwrite.
+- CHECK_M5_CORRUPTION_HANDLING: corrupt/invalid markdown input returns typed deterministic error.
+- CHECK_M5_LIMITS_ENFORCED: oversized markdown input is rejected with typed deterministic error.
+- CHECK_M5_TYPED_ERRORS: command layer preserves typed error codes and does not expose raw stack.
+
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.
 - CHECK_M_FULL_SCOPE_MAP_INTEGRITY (FULL-only):

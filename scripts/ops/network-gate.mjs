@@ -13,9 +13,10 @@ const FAIL_CONNECT = 'NETWORK_GATE_FAIL_CONNECT';
 const FAIL_TLS = 'NETWORK_GATE_FAIL_TLS';
 const FAIL_AUTH = 'NETWORK_GATE_FAIL_AUTH';
 const FAIL_ORIGIN_MISCONFIG = 'NETWORK_GATE_FAIL_ORIGIN_MISCONFIG';
+const FAIL_UNKNOWN = 'NETWORK_GATE_FAIL_UNKNOWN';
 
 function parseArgs(argv) {
-  const out = { mode: MODE_DELIVERY, timeoutMs: DEFAULT_TIMEOUT_MS };
+  const out = { mode: MODE_DELIVERY, timeoutMs: DEFAULT_TIMEOUT_MS, json: false };
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--mode') {
       out.mode = String(argv[i + 1] || '').toLowerCase();
@@ -24,6 +25,8 @@ function parseArgs(argv) {
       const parsed = Number.parseInt(String(argv[i + 1] || ''), 10);
       if (Number.isInteger(parsed) && parsed > 0) out.timeoutMs = parsed;
       i += 1;
+    } else if (argv[i] === '--json') {
+      out.json = true;
     }
   }
   return out;
@@ -81,17 +84,7 @@ function detectOriginUrl(timeoutMs) {
     };
   }
 
-  let originHost = '';
-  try {
-    if (/^https?:\/\//i.test(originUrl) || /^ssh:\/\//i.test(originUrl)) {
-      originHost = new URL(originUrl).hostname;
-    } else {
-      const scpMatch = originUrl.match(/^[^@]+@([^:]+):/);
-      originHost = scpMatch ? scpMatch[1] : '';
-    }
-  } catch {
-    originHost = '';
-  }
+  const originHost = parseOriginHost(originUrl);
 
   return {
     ok: 1,
@@ -100,6 +93,20 @@ function detectOriginUrl(timeoutMs) {
     originHost,
     detail: 'origin_remote_ok',
   };
+}
+
+function parseOriginHost(originUrl) {
+  const raw = String(originUrl || '').trim();
+  if (!raw) return '';
+  try {
+    if (/^https?:\/\//i.test(raw) || /^ssh:\/\//i.test(raw)) {
+      return new URL(raw).hostname;
+    }
+    const scpMatch = raw.match(/^[^@]+@([^:]+):/);
+    return scpMatch ? scpMatch[1] : '';
+  } catch {
+    return '';
+  }
 }
 
 function runGitRemoteCheck(timeoutMs) {
@@ -213,7 +220,7 @@ function classifyGitFailure(detail, dnsOk) {
   ) {
     return FAIL_CONNECT;
   }
-  return FAIL_CONNECT;
+  return FAIL_UNKNOWN;
 }
 
 function loadFixture() {
@@ -225,7 +232,9 @@ function loadFixture() {
     const dnsOk = parsed.dns && parsed.dns.ok === 1 ? 1 : 0;
     const httpOk = parsed.http && parsed.http.ok === 1 ? 1 : 0;
     const originUrl = typeof parsed.originUrl === 'string' ? parsed.originUrl : 'fixture://origin';
-    const originHost = typeof parsed.originHost === 'string' ? parsed.originHost : 'fixture-host';
+    const originHost = typeof parsed.originHost === 'string' && parsed.originHost
+      ? parsed.originHost
+      : parseOriginHost(originUrl);
     return {
       dns: { ok: dnsOk, detail: String((parsed.dns && parsed.dns.detail) || 'fixture_dns') },
       git: { ok: gitOk, detail: String((parsed.git && parsed.git.detail) || 'fixture_git') },
@@ -290,37 +299,47 @@ async function main() {
 
   const deliveryMode = mode === MODE_DELIVERY;
   let failReason = '';
-  if (deliveryMode) {
-    if (!originUrl || !originHost) {
-      failReason = FAIL_ORIGIN_MISCONFIG;
-    } else if (dnsCheck.ok !== 1) {
-      failReason = FAIL_DNS;
-    } else if (gitCheck.ok !== 1) {
-      failReason = classifyGitFailure(gitCheck.detail, dnsCheck.ok);
-    }
+  if (!originUrl || !originHost) {
+    failReason = FAIL_ORIGIN_MISCONFIG;
+  } else if (dnsCheck.ok !== 1) {
+    failReason = FAIL_DNS;
+  } else if (gitCheck.ok !== 1) {
+    failReason = classifyGitFailure(gitCheck.detail, dnsCheck.ok);
   }
-  const networkGateOk = deliveryMode ? (failReason === '' ? 1 : 0) : 1;
+  const networkGateOk = failReason === '' ? 1 : 0;
   const retryMax = 1;
 
-  console.log(`NETWORK_GATE_DNS_OK=${dnsCheck.ok}`);
-  console.log(`NETWORK_GATE_GIT_OK=${gitCheck.ok}`);
-  console.log(`NETWORK_GATE_HTTP_OK=${httpCheck.ok}`);
-  console.log(`NETWORK_GATE_OK=${networkGateOk}`);
-  console.log(`NETWORK_GATE_DNS_DETAIL=${dnsCheck.detail}`);
-  console.log(`NETWORK_GATE_GIT_DETAIL=${gitCheck.detail}`);
-  console.log(`NETWORK_GATE_HTTP_DETAIL=${httpCheck.detail}`);
-  console.log(`NETWORK_GATE_ORIGIN_URL=${originUrlRedacted}`);
-  console.log(`NETWORK_GATE_ORIGIN_HOST=${originHost}`);
-  console.log(`NETWORK_GATE_ORIGIN_DETAIL=${originDetail}`);
-  console.log(`NETWORK_GATE_MODE=${deliveryMode ? MODE_DELIVERY : MODE_LOCAL}`);
-  console.log(`NETWORK_GATE_FAIL_REASON=${failReason}`);
-  console.log(`NETWORK_GATE_TIMEOUT_MS=${timeoutMs}`);
-  console.log(`RETRY_MAX=${retryMax}`);
-  if (failReason) {
-    console.log(`FAIL_REASON=${failReason}`);
+  const summary = {
+    NETWORK_GATE_DNS_OK: dnsCheck.ok,
+    NETWORK_GATE_GIT_OK: gitCheck.ok,
+    NETWORK_GATE_HTTP_OK: httpCheck.ok,
+    NETWORK_GATE_OK: networkGateOk,
+    NETWORK_GATE_DNS_DETAIL: dnsCheck.detail,
+    NETWORK_GATE_GIT_DETAIL: gitCheck.detail,
+    NETWORK_GATE_HTTP_DETAIL: httpCheck.detail,
+    NETWORK_GATE_ORIGIN_URL: originUrlRedacted,
+    NETWORK_GATE_ORIGIN_HOST: originHost,
+    NETWORK_GATE_ORIGIN_DETAIL: originDetail,
+    NETWORK_GATE_MODE: deliveryMode ? MODE_DELIVERY : MODE_LOCAL,
+    NETWORK_GATE_FAIL_REASON: failReason,
+    NETWORK_GATE_TIMEOUT_MS: timeoutMs,
+    RETRY_MAX: retryMax,
+    FAIL_REASON: failReason,
+  };
+
+  if (args.json) {
+    process.stdout.write(`${JSON.stringify(summary)}\n`);
+  } else {
+    for (const [key, value] of Object.entries(summary)) {
+      if (key === 'FAIL_REASON' && !value) continue;
+      console.log(`${key}=${value}`);
+    }
   }
 
-  process.exit(networkGateOk === 1 ? 0 : 1);
+  if (deliveryMode) {
+    process.exit(networkGateOk === 1 ? 0 : 1);
+  }
+  process.exit(0);
 }
 
 main();

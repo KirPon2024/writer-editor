@@ -4364,6 +4364,7 @@ function evaluateSectorMOpsProcessFixTokens() {
     splitBrainDetected: 0,
     scopeSsotOk: 0,
     fastFullDivergenceOk: 0,
+    networkGateMode: 'local',
     level: 'warn',
   };
 
@@ -4431,10 +4432,12 @@ function evaluateSectorMOpsProcessFixTokens() {
 
   const opsMode = String(process.env.OPS_EXEC_MODE || 'LOCAL_EXEC').toUpperCase();
   const deliveryMode = opsMode === 'DELIVERY_EXEC';
+  result.networkGateMode = deliveryMode ? 'delivery' : 'local';
   const networkGateScriptExists = fs.existsSync(NETWORK_GATE_SCRIPT_PATH);
   const networkGateScriptText = networkGateScriptExists ? readText(NETWORK_GATE_SCRIPT_PATH) : '';
   const networkGateScriptReady = networkGateScriptExists
-    && networkGateScriptText.includes('NETWORK_GATE_OK=')
+    && networkGateScriptText.includes('NETWORK_GATE_OK')
+    && networkGateScriptText.includes('NETWORK_GATE_GIT_OK')
     && runbookText.includes('node scripts/ops/network-gate.mjs');
   result.networkGateReady = 0;
   if (networkGateScriptReady && deliveryMode) {
@@ -4502,6 +4505,7 @@ function evaluateSectorMOpsProcessFixTokens() {
   console.log(`CANON_WORKTREE_SPLIT_BRAIN_DETECTED=${result.splitBrainDetected}`);
   console.log(`SECTOR_M_SCOPE_SSOT_OK=${result.scopeSsotOk}`);
   console.log(`SECTOR_M_FAST_FULL_DIVERGENCE_OK=${result.fastFullDivergenceOk}`);
+  console.log(`NETWORK_GATE_MODE=${result.networkGateMode}`);
   return result;
 }
 

@@ -4,6 +4,7 @@ import { createCommandRunner } from './commands/runCommand.mjs';
 import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands.mjs';
 import {
   buildFlowModeStatus,
+  buildFlowModeKickoffStatus,
   buildFlowSavePayload,
   composeFlowDocument,
   nextSceneCaretAtBoundary,
@@ -302,7 +303,7 @@ async function handleFlowModeOpenUiPath() {
     window.electronAPI.notifyDirtyState(false);
   }
   showEditorPanelFor('Flow mode');
-  updateStatusText(buildFlowModeStatus('open', scenes.length));
+  updateStatusText(buildFlowModeKickoffStatus('open', scenes.length, { m8Kickoff: true }));
 }
 
 async function handleFlowModeSaveUiPath() {
@@ -324,7 +325,7 @@ async function handleFlowModeSaveUiPath() {
   if (window.electronAPI && typeof window.electronAPI.notifyDirtyState === 'function') {
     window.electronAPI.notifyDirtyState(false);
   }
-  updateStatusText(buildFlowModeStatus('save', payload.scenes.length));
+  updateStatusText(buildFlowModeKickoffStatus('save', payload.scenes.length, { m8Kickoff: true }));
 }
 
 async function handleMarkdownImportUiPath() {

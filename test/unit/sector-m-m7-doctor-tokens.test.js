@@ -12,7 +12,14 @@ function parseTokens(stdout) {
   return out;
 }
 
-test('M7 doctor tokens are consistent when SoT phase is M7', () => {
+function phaseAtLeastM7(phase) {
+  if (phase === 'DONE') return true;
+  const match = /^M(\d+)$/u.exec(String(phase || ''));
+  if (!match) return false;
+  return Number(match[1]) >= 7;
+}
+
+test('M7 doctor tokens stay green once phase is M7 or above', () => {
   const result = spawnSync(process.execPath, ['scripts/doctor.mjs'], {
     encoding: 'utf8',
     env: {
@@ -23,7 +30,9 @@ test('M7 doctor tokens are consistent when SoT phase is M7', () => {
   assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
 
   const tokens = parseTokens(result.stdout);
-  assert.equal(tokens.get('SECTOR_M_PHASE'), 'M7');
+  const phase = tokens.get('SECTOR_M_PHASE') || '';
+  assert.equal(phaseAtLeastM7(phase), true, `phase must be M7+ for M7 token checks: ${phase}`);
+
   assert.equal(tokens.get('M7_PHASE_READY_OK'), '1');
   assert.equal(tokens.get('M7_FLOW_VIEW_OK'), '1');
   assert.equal(tokens.get('M7_FLOW_EDIT_OK'), '1');

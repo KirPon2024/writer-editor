@@ -60,6 +60,14 @@ const M7_REQUIRED_FILES = [
   'test/unit/sector-m-m7-next-kickoff.test.js',
 ];
 
+const M8_REQUIRED_FILES = [
+  'src/renderer/commands/flowMode.mjs',
+  'src/renderer/editor.js',
+  'test/unit/sector-m-m7-flow-mode.test.js',
+  'test/unit/sector-m-m7-doctor-tokens.test.js',
+  'test/unit/sector-m-m7-next-kickoff.test.js',
+];
+
 function parseArgs(argv) {
   const out = { pack: 'fast' };
   for (let i = 0; i < argv.length; i += 1) {
@@ -145,7 +153,15 @@ function loadScopeMap() {
 
 function scopeMapPhaseIndex(scopeMap, phase) {
   const idx = scopeMap.phaseOrder.indexOf(phase);
-  return idx >= 0 ? idx : 0;
+  if (idx >= 0) return idx;
+  const normalized = String(phase || '').toUpperCase();
+  if (/^M\d+$/u.test(normalized)) {
+    const nonDonePhases = scopeMap.phaseOrder.filter((item) => item !== 'DONE');
+    if (nonDonePhases.length > 0) {
+      return scopeMap.phaseOrder.indexOf(nonDonePhases[nonDonePhases.length - 1]);
+    }
+  }
+  return 0;
 }
 
 function phaseAtLeast(scopeMap, phase, minPhase) {
@@ -200,7 +216,7 @@ function readSectorMSoT() {
   }
 
   const statusAllowed = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
-  const phaseAllowed = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE']);
+  const phaseAllowed = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE']);
   const goTagAllowed = new Set([
     '',
     'GO:SECTOR_M_M0_DONE',
@@ -212,6 +228,7 @@ function readSectorMSoT() {
     'GO:SECTOR_M_M6_DONE',
     'GO:SECTOR_M_M7_DONE',
     'GO:SECTOR_M_M7_NEXT_DONE',
+    'GO:SECTOR_M_M8_KICKOFF_DONE',
     'GO:SECTOR_M_DONE',
   ]);
   if (parsed.schemaVersion !== 'sector-m-status.v1') {
@@ -343,6 +360,20 @@ function validateChecksDoc(phase) {
       'CHECK_M7_NEXT',
     ];
     for (const marker of requiredM7Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
+    }
+  }
+  if (phase === 'M8') {
+    const requiredM8Markers = [
+      'CHECK_M8_PHASE_KICKOFF',
+      'CHECK_M8_PHASE_READY',
+      'CHECK_M8_KICKOFF_HOOK',
+      'CHECK_M8_FAST_PATH',
+      'CHECK_M8_KICKOFF',
+    ];
+    for (const marker of requiredM8Markers) {
       if (!text.includes(marker)) {
         return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
       }
@@ -527,6 +558,20 @@ function validateM7CoreSurface() {
   return { ok: 1, reason: '', details: 'M7 core surface present' };
 }
 
+
+function validateM8KickoffSurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M8') {
+    return { ok: 1, reason: '', details: 'M8 kickoff check skipped outside M8 phase' };
+  }
+  for (const filePath of M8_REQUIRED_FILES) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M8 kickoff file: ${filePath}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'M8 kickoff surface present' };
+}
+
 function validateFullScopeMapIntegrity() {
   const scopeMapLoad = loadScopeMap();
   if (scopeMapLoad.ok !== 1) {
@@ -638,6 +683,11 @@ function runDoctorCheck(phase) {
     must.push(['M7_CORE_OK', '1']);
     must.push(['M7_NEXT_OK', '1']);
   }
+  if (phase === 'M8') {
+    must.push(['M7_NEXT_OK', '1']);
+    must.push(['M8_PHASE_READY_OK', '1']);
+    must.push(['M8_KICKOFF_OK', '1']);
+  }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
       return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: `doctor token mismatch: ${k}=${tokens.get(k) || ''}` };
@@ -744,6 +794,14 @@ function main() {
     details: m7Surface.details,
   });
   if (!failReason && m7Surface.ok !== 1) failReason = m7Surface.reason;
+
+  const m8Surface = validateM8KickoffSurface();
+  checks.push({
+    checkId: 'CHECK_M8_KICKOFF_SURFACE',
+    ok: m8Surface.ok,
+    details: m8Surface.details,
+  });
+  if (!failReason && m8Surface.ok !== 1) failReason = m8Surface.reason;
 
   if (args.pack === 'full') {
     const fullScope = validateFullScopeMapIntegrity();

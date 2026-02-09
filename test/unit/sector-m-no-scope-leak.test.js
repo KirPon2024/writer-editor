@@ -34,7 +34,13 @@ function currentPhase() {
 
 function phaseIndex(scopeMap, phase) {
   const idx = scopeMap.phaseOrder.indexOf(phase);
-  return idx >= 0 ? idx : 0;
+  if (idx >= 0) return idx;
+  const normalized = String(phase || '').toUpperCase();
+  if (/^M\d+$/u.test(normalized)) {
+    const nonDonePhases = scopeMap.phaseOrder.filter((item) => item !== 'DONE');
+    return nonDonePhases.length > 0 ? scopeMap.phaseOrder.indexOf(nonDonePhases[nonDonePhases.length - 1]) : 0;
+  }
+  return 0;
 }
 
 function phaseAtLeast(scopeMap, phase, minPhase) {
@@ -110,6 +116,13 @@ test('phase map union includes M0..M4 allowlists when phase is M4', () => {
       assert.equal(m4Union.has(item), true, `missing ${phase} item in M4 union: ${item}`);
     }
   }
+});
+
+test('unknown future phase uses latest known cumulative allowlist', () => {
+  const scopeMap = readScopeMap();
+  const futureAllowed = buildAllowedForPhase(scopeMap, 'M8');
+  const latestKnown = buildAllowedForPhase(scopeMap, 'M7');
+  assert.deepEqual([...futureAllowed].sort(), [...latestKnown].sort());
 });
 
 test('M5 overlay prefixes are allowed only from M5 and above', () => {

@@ -33,6 +33,12 @@ export function buildFlowModeStatus(kind, sceneCount) {
   return `Flow mode ${label} (${count}) · Shift+S save · ArrowUp/ArrowDown jump scenes`;
 }
 
+export function buildFlowModeKickoffStatus(kind, sceneCount, options = {}) {
+  const base = buildFlowModeStatus(kind, sceneCount);
+  if (!options || options.m8Kickoff !== true) return base;
+  return `${base} · M8 kickoff`;
+}
+
 function parseSceneMarker(line) {
   const match = /^---\[ SCENE (\d+): .* \]---$/.exec(String(line || '').trim());
   if (!match) return null;

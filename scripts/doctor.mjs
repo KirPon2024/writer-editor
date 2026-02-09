@@ -2826,7 +2826,7 @@ function hasNpmScript(scriptName) {
 }
 
 function sectorMPhaseIndex(phase) {
-  const order = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE'];
+  const order = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE'];
   return order.indexOf(String(phase || '').toUpperCase());
 }
 
@@ -2918,7 +2918,7 @@ function evaluateSectorMStatus() {
   }
 
   const allowedStatus = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
-  const allowedPhase = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE']);
+  const allowedPhase = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE']);
   const allowedGo = new Set([
     '',
     'GO:SECTOR_M_M0_DONE',
@@ -2930,6 +2930,7 @@ function evaluateSectorMStatus() {
     'GO:SECTOR_M_M6_DONE',
     'GO:SECTOR_M_M7_DONE',
     'GO:SECTOR_M_M7_NEXT_DONE',
+    'GO:SECTOR_M_M8_KICKOFF_DONE',
     'GO:SECTOR_M_DONE',
   ]);
 
@@ -3625,8 +3626,8 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
         : 0;
 
       flowUxMarkersOk = flowText.includes('buildFlowModeStatus')
-        && editorText.includes("buildFlowModeStatus('open'")
-        && editorText.includes("buildFlowModeStatus('save'")
+        && (editorText.includes("buildFlowModeStatus('open'") || editorText.includes("buildFlowModeKickoffStatus('open'"))
+        && (editorText.includes("buildFlowModeStatus('save'") || editorText.includes("buildFlowModeKickoffStatus('save'"))
         && editorText.includes("event.key === 'ArrowUp'")
         && editorText.includes("event.key === 'ArrowDown'")
         ? 1
@@ -3657,6 +3658,74 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
   console.log(`M7_CORE_OK=${result.coreOk}`);
   console.log(`M7_NEXT_OK=${result.nextOk}`);
   console.log(`M7_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  return result;
+}
+
+
+function evaluateM8KickoffTokens(sectorMStatus, m7Phase) {
+  const result = {
+    phaseReadyOk: 0,
+    kickoffOk: 0,
+    goTagRuleOk: 1,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM8 = phaseIndex >= sectorMPhaseIndex('M8');
+
+  if (phase === 'M8') {
+    result.goTagRuleOk = goTag === ''
+      || goTag === 'GO:SECTOR_M_M8_KICKOFF_DONE'
+      ? 1
+      : 0;
+  }
+
+  const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
+    'CHECK_M8_PHASE_KICKOFF',
+    'CHECK_M8_PHASE_READY',
+    'CHECK_M8_KICKOFF_HOOK',
+    'CHECK_M8_FAST_PATH',
+    'CHECK_M8_KICKOFF',
+  ]);
+
+  const m7NextOk = m7Phase && m7Phase.nextOk === 1;
+  result.phaseReadyOk = atLeastM8
+    && m7NextOk
+    && checksMarkersOk
+    && result.goTagRuleOk === 1
+    ? 1
+    : 0;
+
+  let kickoffMarkersOk = 0;
+  if (fs.existsSync(M7_FLOW_MODE_PATH) && fs.existsSync(M4_EDITOR_PATH)) {
+    try {
+      const flowText = fs.readFileSync(M7_FLOW_MODE_PATH, 'utf8');
+      const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
+      kickoffMarkersOk = flowText.includes('buildFlowModeKickoffStatus')
+        && editorText.includes('buildFlowModeKickoffStatus')
+        && flowText.includes('M8 kickoff')
+        && fs.existsSync(M7_FLOW_MODE_TEST_PATH)
+        && fs.existsSync(M7_DOCTOR_TEST_PATH)
+        && fs.existsSync(M7_NEXT_KICKOFF_TEST_PATH)
+        ? 1
+        : 0;
+    } catch {
+      kickoffMarkersOk = 0;
+    }
+  }
+
+  result.kickoffOk = result.phaseReadyOk === 1 && kickoffMarkersOk === 1 ? 1 : 0;
+  result.level = atLeastM8 && result.kickoffOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M8_PHASE_READY_OK=${result.phaseReadyOk}`);
+  console.log(`M8_KICKOFF_OK=${result.kickoffOk}`);
+  console.log(`M8_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }
 
@@ -4750,9 +4819,9 @@ function evaluateSectorMOpsProcessFixTokens() {
     .filter((name) => /^sector-m-.*\.test\.js$/u.test(name))
     .filter((name) => !/^sector-m-m[0-9]+-.*\.test\.js$/u.test(name));
 
-  const phaseCoupledPatternA = /\bSECTOR_M_PHASE\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|DONE)['"]/u;
-  const phaseCoupledPatternB = /\bphase\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|DONE)['"]/u;
-  const phaseCoupledPatternC = /tokens\.get\(\s*['"]SECTOR_M_PHASE['"]\s*\)\s*,\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|DONE)['"]/u;
+  const phaseCoupledPatternA = /\bSECTOR_M_PHASE\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|DONE)['"]/u;
+  const phaseCoupledPatternB = /\bphase\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|DONE)['"]/u;
+  const phaseCoupledPatternC = /tokens\.get\(\s*['"]SECTOR_M_PHASE['"]\s*\)\s*,\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|DONE)['"]/u;
 
   const phaseCoupledViolations = [];
   for (const fileName of sectorMBaseTests) {
@@ -4995,7 +5064,7 @@ function evaluateOpsProcessCeilingFreezeTokens(sectorMStatus) {
   };
 
   const phase = String((sectorMStatus && sectorMStatus.phase) || '');
-  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7']);
+  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8']);
   result.freezeActive = freezePhases.has(phase) ? 1 : 0;
 
   const docExists = fs.existsSync(OPS_PROCESS_CEILING_FREEZE_PATH);
@@ -5131,6 +5200,7 @@ function run() {
   const m5Reliability = evaluateM5ReliabilityTokens(sectorMStatus);
   const m6Reliability = evaluateM6ReliabilityTokens(sectorMStatus);
   const m7Phase = evaluateM7PhaseTokens(sectorMStatus, m6Reliability);
+  const m8Kickoff = evaluateM8KickoffTokens(sectorMStatus, m7Phase);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -5275,6 +5345,7 @@ function run() {
     || m5Reliability.level === 'warn'
     || m6Reliability.level === 'warn'
     || m7Phase.level === 'warn'
+    || m8Kickoff.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

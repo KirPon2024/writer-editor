@@ -24,7 +24,7 @@ test('doctor emits M1 contract tokens', () => {
   const tokens = parseTokens(result.stdout);
 
   const phase = tokens.get('SECTOR_M_PHASE') || '';
-  const allowedPhases = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'DONE'];
+  const allowedPhases = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE'];
   assert.ok(allowedPhases.includes(phase), `unexpected phase for M1 token checks: ${phase}`);
 
   assert.equal(tokens.get('M1_CONTRACT_DOCS_PRESENT'), '1');

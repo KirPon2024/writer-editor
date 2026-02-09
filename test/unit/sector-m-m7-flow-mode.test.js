@@ -86,3 +86,14 @@ test('M7 flow mode status message is deterministic for open/save actions', async
     'Flow mode opened (0) · Shift+S save · ArrowUp/ArrowDown jump scenes',
   );
 });
+
+test('M8 kickoff status helper appends deterministic kickoff hint only when enabled', async () => {
+  const flow = await loadFlowModeModule();
+  const base = flow.buildFlowModeStatus('open', 2);
+  const kickoff = flow.buildFlowModeKickoffStatus('open', 2, { m8Kickoff: true });
+  const disabled = flow.buildFlowModeKickoffStatus('open', 2, { m8Kickoff: false });
+
+  assert.equal(base, 'Flow mode opened (2) · Shift+S save · ArrowUp/ArrowDown jump scenes');
+  assert.equal(kickoff, `${base} · M8 kickoff`);
+  assert.equal(disabled, base);
+});

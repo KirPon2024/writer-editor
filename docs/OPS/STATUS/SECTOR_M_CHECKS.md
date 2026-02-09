@@ -52,6 +52,13 @@
 - CHECK_M7_CORE: aggregate token is green only when M7 flow view/edit checks and M7 phase-ready are green.
 - CHECK_M7_NEXT: aggregate token is green only when `M7_CORE_OK=1` and `M7_FLOW_UX_OK=1`.
 
+## M8
+- CHECK_M8_PHASE_KICKOFF: SoT is updated to `phase=M8` and `goTag=GO:SECTOR_M_M8_KICKOFF_DONE`.
+- CHECK_M8_PHASE_READY: doctor emits `M8_PHASE_READY_OK=1` with `SECTOR_M_PHASE=M8`.
+- CHECK_M8_KICKOFF_HOOK: flow mode status wiring uses `buildFlowModeKickoffStatus(...)` and keeps deterministic status messages.
+- CHECK_M8_FAST_PATH: `test:sector-m`, `sector-m-run --pack fast`, and doctor critical tokens stay green.
+- CHECK_M8_KICKOFF: aggregate token is green only when `M8_PHASE_READY_OK=1` and kickoff hook markers/tests are present.
+
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.
 - CHECK_M_FULL_SCOPE_MAP_INTEGRITY (FULL-only):

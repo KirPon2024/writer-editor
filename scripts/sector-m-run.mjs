@@ -38,6 +38,36 @@ const M_ALLOWLISTS = {
     'test/unit/sector-m-runner-artifact.test.js',
     'test/unit/sector-m-no-scope-leak.test.js',
   ]),
+  M2: new Set([
+    'src/export/markdown/v1/index.mjs',
+    'src/export/markdown/v1/lossReport.mjs',
+    'src/export/markdown/v1/parseMarkdownV1.mjs',
+    'src/export/markdown/v1/serializeMarkdownV1.mjs',
+    'src/export/markdown/v1/types.mjs',
+    'docs/OPS/STATUS/SECTOR_M.json',
+    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
+    'scripts/doctor.mjs',
+    'scripts/sector-m-run.mjs',
+    'test/unit/sector-m-m2-roundtrip.test.js',
+    'test/unit/sector-m-m2-security-policy.test.js',
+    'test/unit/sector-m-m2-limits.test.js',
+    'test/fixtures/sector-m/m2/simple.md',
+    'test/fixtures/sector-m/m2/simple.expected.md',
+    'test/fixtures/sector-m/m2/headings.md',
+    'test/fixtures/sector-m/m2/lists.md',
+    'test/fixtures/sector-m/m2/links_safe.md',
+    'test/fixtures/sector-m/m2/links_unsafe.md',
+    'test/fixtures/sector-m/m2/html_raw.md',
+    'test/fixtures/sector-m/m2/large.md',
+    'test/fixtures/sector-m/m2/deep.md',
+    'test/fixtures/sector-m/m2/lossy.md',
+    'test/fixtures/sector-m/m2/loss.expected.json',
+    // Scope exception: keep M0 tests phase-agnostic.
+    'test/unit/sector-m-status-schema.test.js',
+    'test/unit/sector-m-doctor-tokens.test.js',
+    'test/unit/sector-m-runner-artifact.test.js',
+    'test/unit/sector-m-no-scope-leak.test.js',
+  ]),
 };
 
 function parseArgs(argv) {
@@ -178,6 +208,19 @@ function validateChecksDoc(phase) {
       }
     }
   }
+  if (phase === 'M2') {
+    const requiredM2Markers = [
+      'CHECK_M2_TRANSFORM_FILES_PRESENT',
+      'CHECK_M2_ROUNDTRIP_PROOFS',
+      'CHECK_M2_SECURITY_ENFORCEMENT',
+      'CHECK_M2_LIMITS_ENFORCEMENT',
+    ];
+    for (const marker of requiredM2Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
+    }
+  }
   return { ok: 1, reason: '', details: 'SECTOR_M_CHECKS.md markers present' };
 }
 
@@ -229,6 +272,29 @@ function validateM1ContractDocs() {
   return { ok: 1, reason: '', details: 'M1 contract docs present' };
 }
 
+function validateM2TransformSurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M2') {
+    return { ok: 1, reason: '', details: 'M2 transform surface check skipped outside M2 phase' };
+  }
+  const required = [
+    'src/export/markdown/v1/index.mjs',
+    'src/export/markdown/v1/types.mjs',
+    'src/export/markdown/v1/lossReport.mjs',
+    'src/export/markdown/v1/parseMarkdownV1.mjs',
+    'src/export/markdown/v1/serializeMarkdownV1.mjs',
+    'test/unit/sector-m-m2-roundtrip.test.js',
+    'test/unit/sector-m-m2-security-policy.test.js',
+    'test/unit/sector-m-m2-limits.test.js',
+  ];
+  for (const filePath of required) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M2 transform file: ${filePath}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'M2 transform surface present' };
+}
+
 function runDoctorCheck(phase) {
   if (!fs.existsSync(DOCTOR_PATH)) {
     return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: 'doctor script missing' };
@@ -251,6 +317,12 @@ function runDoctorCheck(phase) {
   ];
   if (phase === 'M1') {
     must.push(['M1_CONTRACT_OK', '1']);
+  }
+  if (phase === 'M2') {
+    must.push(['M2_TRANSFORM_OK', '1']);
+    must.push(['M2_ROUNDTRIP_OK', '1']);
+    must.push(['M2_SECURITY_ENFORCEMENT_OK', '1']);
+    must.push(['M2_LIMITS_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
@@ -310,6 +382,14 @@ function main() {
     details: m1Docs.details,
   });
   if (!failReason && m1Docs.ok !== 1) failReason = m1Docs.reason;
+
+  const m2Surface = validateM2TransformSurface();
+  checks.push({
+    checkId: 'CHECK_M2_TRANSFORM_FILES_PRESENT',
+    ok: m2Surface.ok,
+    details: m2Surface.details,
+  });
+  if (!failReason && m2Surface.ok !== 1) failReason = m2Surface.reason;
 
   const doctor = runDoctorCheck(sot.phase || 'M0');
   checks.push({ checkId: 'CHECK_M0_DOCTOR_TOKENS', ok: doctor.ok, details: doctor.details });

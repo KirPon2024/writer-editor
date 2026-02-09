@@ -14,7 +14,13 @@ test('M7 kickoff artifacts remain aligned for M7+ phases', () => {
   const checksDoc = fs.readFileSync('docs/OPS/STATUS/SECTOR_M_CHECKS.md', 'utf8');
 
   assert.equal(phaseAtLeastM7(sot.phase), true, `phase must be M7+ for this test: ${sot.phase}`);
-  assert.ok(['GO:SECTOR_M_M7_NEXT_DONE', 'GO:SECTOR_M_M8_KICKOFF_DONE', 'GO:SECTOR_M_M8_DONE', 'GO:SECTOR_M_DONE'].includes(sot.goTag));
+  assert.ok([
+    'GO:SECTOR_M_M7_NEXT_DONE',
+    'GO:SECTOR_M_M8_KICKOFF_DONE',
+    'GO:SECTOR_M_M8_DONE',
+    'GO:SECTOR_M_M8_NEXT_DONE',
+    'GO:SECTOR_M_DONE',
+  ].includes(sot.goTag));
   assert.ok(Array.isArray(sot.m7NextDeliverables));
   assert.ok(sot.m7NextDeliverables.includes('src/renderer/editor.js'));
 

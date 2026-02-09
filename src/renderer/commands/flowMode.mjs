@@ -47,6 +47,11 @@ export function buildFlowModeCoreStatus(sceneCount, options = {}) {
     : `Flow mode core (${count}) · synced`;
 }
 
+export function buildFlowModeReopenBlockedStatus(sceneCount) {
+  const count = normalizeSceneCount(sceneCount);
+  return `Flow mode core (${count}) · unsaved changes blocked reopen · Shift+S save`;
+}
+
 function parseSceneMarker(line) {
   const match = /^---\[ SCENE (\d+): .* \]---$/.exec(String(line || '').trim());
   if (!match) return null;

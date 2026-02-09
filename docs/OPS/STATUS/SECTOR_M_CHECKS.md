@@ -53,13 +53,15 @@
 - CHECK_M7_NEXT: aggregate token is green only when `M7_CORE_OK=1` and `M7_FLOW_UX_OK=1`.
 
 ## M8
-- CHECK_M8_PHASE_CORE: SoT stays at `phase=M8` and `goTag=GO:SECTOR_M_M8_DONE`.
+- CHECK_M8_PHASE_CORE: SoT stays at `phase=M8` and `goTag` is one of `GO:SECTOR_M_M8_DONE|GO:SECTOR_M_M8_NEXT_DONE`.
 - CHECK_M8_PHASE_READY: doctor emits `M8_PHASE_READY_OK=1` with `SECTOR_M_PHASE=M8`.
 - CHECK_M8_KICKOFF_HOOK: flow mode status wiring uses `buildFlowModeKickoffStatus(...)` and keeps deterministic status messages.
 - CHECK_M8_CORE_HOOK: flow mode edit path marks dirty state with `buildFlowModeCoreStatus(...)`.
+- CHECK_M8_NEXT_HOOK: flow mode open path blocks reopen when unsaved (`dirty`) and emits deterministic status guidance.
 - CHECK_M8_FAST_PATH: `test:sector-m`, `sector-m-run --pack fast`, and doctor critical tokens stay green.
 - CHECK_M8_KICKOFF: aggregate token is green only when `M8_PHASE_READY_OK=1` and kickoff hook markers/tests are present.
 - CHECK_M8_CORE: aggregate token is green only when `M8_KICKOFF_OK=1` and core hook markers/tests are present.
+- CHECK_M8_NEXT: aggregate token is green only when `M8_CORE_OK=1` and M8 next hook markers/tests are present.
 
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.

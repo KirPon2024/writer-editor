@@ -89,6 +89,21 @@ const M_ALLOWLISTS = {
     'test/unit/sector-m-no-scope-leak.test.js',
     'test/unit/sector-m-m1-doctor-tokens.test.js',
   ]),
+  M4: new Set([
+    'docs/OPS/STATUS/SECTOR_M.json',
+    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
+    'scripts/doctor.mjs',
+    'scripts/sector-m-run.mjs',
+    'src/renderer/editor.js',
+    'test/unit/sector-m-m4-ui-path.test.js',
+    'test/fixtures/sector-m/m4/ui-path-markers.json',
+    // Keep prior tests updated as phase-agnostic.
+    'test/unit/sector-m-status-schema.test.js',
+    'test/unit/sector-m-doctor-tokens.test.js',
+    'test/unit/sector-m-runner-artifact.test.js',
+    'test/unit/sector-m-no-scope-leak.test.js',
+    'test/unit/sector-m-m1-doctor-tokens.test.js',
+  ]),
 };
 
 function parseArgs(argv) {
@@ -254,6 +269,18 @@ function validateChecksDoc(phase) {
       }
     }
   }
+  if (phase === 'M4') {
+    const requiredM4Markers = [
+      'CHECK_M4_UI_PATH_MINIMAL',
+      'CHECK_M4_UI_NO_DIRECT_PLATFORM_BYPASS',
+      'CHECK_M4_UI_FEEDBACK',
+    ];
+    for (const marker of requiredM4Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
+    }
+  }
   return { ok: 1, reason: '', details: 'SECTOR_M_CHECKS.md markers present' };
 }
 
@@ -352,6 +379,24 @@ function validateM3CommandSurface() {
   return { ok: 1, reason: '', details: 'M3 command surface present' };
 }
 
+function validateM4UiPathSurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M4') {
+    return { ok: 1, reason: '', details: 'M4 UI path check skipped outside M4 phase' };
+  }
+  const required = [
+    'src/renderer/editor.js',
+    'test/unit/sector-m-m4-ui-path.test.js',
+    'test/fixtures/sector-m/m4/ui-path-markers.json',
+  ];
+  for (const filePath of required) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M4 UI path file: ${filePath}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'M4 UI path surface present' };
+}
+
 function runDoctorCheck(phase) {
   if (!fs.existsSync(DOCTOR_PATH)) {
     return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: 'doctor script missing' };
@@ -386,6 +431,11 @@ function runDoctorCheck(phase) {
     must.push(['M3_IMPORT_CMD_OK', '1']);
     must.push(['M3_EXPORT_CMD_OK', '1']);
     must.push(['M3_TYPED_ERRORS_OK', '1']);
+  }
+  if (phase === 'M4') {
+    must.push(['M4_UI_PATH_OK', '1']);
+    must.push(['M4_GO_TAG_RULE_OK', '1']);
+    must.push(['M3_COMMAND_WIRING_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
@@ -461,6 +511,14 @@ function main() {
     details: m3Surface.details,
   });
   if (!failReason && m3Surface.ok !== 1) failReason = m3Surface.reason;
+
+  const m4Surface = validateM4UiPathSurface();
+  checks.push({
+    checkId: 'CHECK_M4_UI_PATH_MINIMAL',
+    ok: m4Surface.ok,
+    details: m4Surface.details,
+  });
+  if (!failReason && m4Surface.ok !== 1) failReason = m4Surface.reason;
 
   const doctor = runDoctorCheck(sot.phase || 'M0');
   checks.push({ checkId: 'CHECK_M0_DOCTOR_TOKENS', ok: doctor.ok, details: doctor.details });

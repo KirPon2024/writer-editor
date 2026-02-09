@@ -131,6 +131,10 @@ applyPageViewCssVars(initialPageMetrics);
 const commandRegistry = createCommandRegistry();
 const runCommand = createCommandRunner(commandRegistry);
 registerProjectCommands(commandRegistry, { electronAPI: window.electronAPI });
+const MARKDOWN_IMPORT_STATUS_MESSAGE = 'Imported Markdown v1';
+const MARKDOWN_EXPORT_STATUS_MESSAGE = 'Exported Markdown v1';
+const MARKDOWN_IMPORT_PROMPT_TITLE = 'Import Markdown v1';
+const MARKDOWN_EXPORT_PROMPT_COPY_HINT = 'Export Markdown v1 (copy text below)';
 
 function sanitizeUiErrorMap(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
@@ -193,6 +197,81 @@ async function dispatchUiCommand(commandId, payload = {}) {
     }
   }
   return result;
+}
+
+function resolveSceneFromImportResult(importResult) {
+  if (!importResult || importResult.ok !== true) return null;
+  const value = importResult.value;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const scene = value.scene;
+  if (!scene || typeof scene !== 'object' || Array.isArray(scene)) return null;
+  return scene;
+}
+
+async function runMarkdownImportCommand(markdownText, sourceName) {
+  return dispatchUiCommand(COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1, {
+    text: markdownText,
+    sourceName,
+  });
+}
+
+async function runMarkdownExportCommand(scene) {
+  return dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1, { scene });
+}
+
+async function handleMarkdownImportUiPath() {
+  if (typeof window.prompt !== 'function') {
+    updateStatusText('Import Markdown unavailable');
+    return;
+  }
+  const currentText = getPlainText();
+  const markdown = window.prompt(MARKDOWN_IMPORT_PROMPT_TITLE, currentText);
+  if (markdown === null) return;
+
+  const importResult = await runMarkdownImportCommand(markdown, 'ui-import.md');
+  if (!importResult.ok) return;
+
+  const scene = resolveSceneFromImportResult(importResult);
+  if (!scene) {
+    updateStatusText('Imported Markdown v1 scene missing');
+    return;
+  }
+
+  const exportResult = await runMarkdownExportCommand(scene);
+  if (exportResult.ok && exportResult.value && typeof exportResult.value.markdown === 'string') {
+    setPlainText(exportResult.value.markdown);
+  } else {
+    setPlainText(markdown);
+  }
+  updateWordCount();
+  markAsModified();
+  updateStatusText(MARKDOWN_IMPORT_STATUS_MESSAGE);
+}
+
+async function handleMarkdownExportUiPath() {
+  const sourceText = getPlainText();
+  const importResult = await runMarkdownImportCommand(sourceText, 'editor-buffer.md');
+  if (!importResult.ok) return;
+
+  const scene = resolveSceneFromImportResult(importResult);
+  if (!scene) {
+    updateStatusText('Export Markdown unavailable');
+    return;
+  }
+
+  const exportResult = await runMarkdownExportCommand(scene);
+  if (!exportResult.ok || !exportResult.value || typeof exportResult.value.markdown !== 'string') {
+    return;
+  }
+
+  const markdown = exportResult.value.markdown;
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    navigator.clipboard.writeText(markdown).catch(() => {});
+  }
+  if (typeof window.prompt === 'function') {
+    window.prompt(MARKDOWN_EXPORT_PROMPT_COPY_HINT, markdown);
+  }
+  updateStatusText(MARKDOWN_EXPORT_STATUS_MESSAGE);
 }
 
 function getPlainText() {
@@ -1989,6 +2068,12 @@ if (toolbar) {
       case 'export-docx-min':
         void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
         break;
+      case 'import-markdown-v1':
+        void handleMarkdownImportUiPath();
+        break;
+      case 'export-markdown-v1':
+        void handleMarkdownExportUiPath();
+        break;
       case 'theme-dark':
         window.electronAPI?.setTheme('dark');
         break;
@@ -2125,6 +2210,16 @@ document.addEventListener('keydown', (event) => {
     if ((key === 'E' || key === 'e') && event.shiftKey) {
       event.preventDefault();
       void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
+      return;
+    }
+    if ((key === 'I' || key === 'i') && event.shiftKey) {
+      event.preventDefault();
+      void handleMarkdownImportUiPath();
+      return;
+    }
+    if ((key === 'M' || key === 'm') && event.shiftKey) {
+      event.preventDefault();
+      void handleMarkdownExportUiPath();
       return;
     }
     return;

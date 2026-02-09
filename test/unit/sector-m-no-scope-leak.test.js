@@ -79,6 +79,23 @@ const ALLOWLIST_M3_PREFIXES = [
   'test/fixtures/sector-m/m3/',
 ];
 
+const ALLOWLIST_M4 = new Set([
+  'docs/OPS/STATUS/SECTOR_M.json',
+  'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
+  'scripts/doctor.mjs',
+  'scripts/sector-m-run.mjs',
+  'src/renderer/editor.js',
+  'test/unit/sector-m-no-scope-leak.test.js',
+  'test/unit/sector-m-m4-ui-path.test.js',
+  'test/fixtures/sector-m/m4/ui-path-markers.json',
+]);
+
+const ALLOWLIST_M4_PREFIXES = [
+  'src/renderer/commands/',
+  'test/unit/sector-m-m3-',
+  'test/fixtures/sector-m/m3/',
+];
+
 function currentPhase() {
   const status = spawnSync(process.execPath, ['-e', "const fs=require('node:fs');const p=JSON.parse(fs.readFileSync('docs/OPS/STATUS/SECTOR_M.json','utf8'));process.stdout.write(String(p.phase||''));"], {
     encoding: 'utf8',
@@ -100,6 +117,11 @@ function isAllowedM3Path(filePath) {
   return ALLOWLIST_M3_PREFIXES.some((prefix) => filePath.startsWith(prefix));
 }
 
+function isAllowedM4Path(filePath) {
+  if (ALLOWLIST_M4.has(filePath)) return true;
+  return ALLOWLIST_M4_PREFIXES.some((prefix) => filePath.startsWith(prefix));
+}
+
 test('sector-m diff does not leak outside phase allowlist', () => {
   const diff = spawnSync('git', ['diff', '--name-only', 'origin/main..HEAD'], {
     encoding: 'utf8',
@@ -113,6 +135,7 @@ test('sector-m diff does not leak outside phase allowlist', () => {
 
   const phase = currentPhase();
   const violations = files.filter((filePath) => {
+    if (['M4', 'M5', 'M6', 'DONE'].includes(phase)) return !isAllowedM4Path(filePath);
     if (isPhaseAtLeastM3(phase)) return !isAllowedM3Path(filePath);
     if (isPhaseAtLeastM2(phase)) return !ALLOWLIST_M2.has(filePath);
     if (phase === 'M1') return !ALLOWLIST_M1.has(filePath);

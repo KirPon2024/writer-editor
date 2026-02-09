@@ -1,0 +1,16 @@
+{
+  "requiredMarkers": [
+    "case 'import-markdown-v1'",
+    "case 'export-markdown-v1'",
+    "dispatchUiCommand(COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1",
+    "dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1",
+    "(key === 'I' || key === 'i') && event.shiftKey",
+    "(key === 'M' || key === 'm') && event.shiftKey",
+    "Imported Markdown v1",
+    "Exported Markdown v1"
+  ],
+  "forbiddenMarkers": [
+    "window.electronAPI.importMarkdownV1(",
+    "window.electronAPI.exportMarkdownV1("
+  ]
+}

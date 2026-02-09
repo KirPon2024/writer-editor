@@ -109,6 +109,10 @@ const M6_TEST_RECOVERY_UX_PATH = 'test/unit/sector-m-m6-recovery-ux.test.js';
 const M6_TEST_SAFETY_CONFIG_PATH = 'test/unit/sector-m-m6-safety-config.test.js';
 const M6_TEST_DETERMINISTIC_LOG_PATH = 'test/unit/sector-m-m6-deterministic-log.test.js';
 const M6_FIXTURE_LOG_RECORD_PATH = 'test/fixtures/sector-m/m6/expected-log-record.json';
+const M7_FLOW_MODE_PATH = 'src/renderer/commands/flowMode.mjs';
+const M7_FLOW_MODE_TEST_PATH = 'test/unit/sector-m-m7-flow-mode.test.js';
+const M7_COMMANDS_TEST_PATH = 'test/unit/sector-m-m7-commands.test.js';
+const M7_DOCTOR_TEST_PATH = 'test/unit/sector-m-m7-doctor-tokens.test.js';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
@@ -3525,6 +3529,9 @@ function evaluateM6ReliabilityTokens(sectorMStatus) {
 function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
   const result = {
     phaseReadyOk: 0,
+    flowViewOk: 0,
+    flowEditOk: 0,
+    coreOk: 0,
     goTagRuleOk: 1,
     level: 'ok',
   };
@@ -3546,6 +3553,9 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
     'CHECK_M7_PHASE_KICKOFF',
     'CHECK_M7_PHASE_READY',
     'CHECK_M7_FAST_PATH',
+    'CHECK_M7_FLOW_VIEW',
+    'CHECK_M7_FLOW_EDIT',
+    'CHECK_M7_CORE',
   ]);
 
   const m6ReliabilityOk = m6Reliability && m6Reliability.reliabilityOk === 1;
@@ -3554,9 +3564,73 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
     && checksMarkersOk
     && result.goTagRuleOk === 1 ? 1 : 0;
 
-  result.level = atLeastM7 && result.phaseReadyOk !== 1 ? 'warn' : 'ok';
+  const testsExist = fs.existsSync(M7_FLOW_MODE_TEST_PATH)
+    && fs.existsSync(M7_COMMANDS_TEST_PATH)
+    && fs.existsSync(M7_DOCTOR_TEST_PATH);
+
+  const flowFilesExist = fs.existsSync(M7_FLOW_MODE_PATH)
+    && fs.existsSync(M3_COMMANDS_PATH)
+    && fs.existsSync(M3_PRELOAD_PATH)
+    && fs.existsSync(M3_MAIN_PATH)
+    && fs.existsSync(M4_EDITOR_PATH);
+
+  let flowViewMarkersOk = 0;
+  let flowEditMarkersOk = 0;
+  if (flowFilesExist) {
+    try {
+      const flowText = fs.readFileSync(M7_FLOW_MODE_PATH, 'utf8');
+      const commandsText = fs.readFileSync(M3_COMMANDS_PATH, 'utf8');
+      const preloadText = fs.readFileSync(M3_PRELOAD_PATH, 'utf8');
+      const mainText = fs.readFileSync(M3_MAIN_PATH, 'utf8');
+      const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
+
+      flowViewMarkersOk = flowText.includes('composeFlowDocument')
+        && flowText.includes('sceneMarker(')
+        && commandsText.includes('PROJECT_FLOW_OPEN_V1')
+        && commandsText.includes('openFlowModeV1')
+        && preloadText.includes('FLOW_OPEN_V1_CHANNEL')
+        && preloadText.includes('openFlowModeV1')
+        && mainText.includes('handleFlowOpenV1')
+        && mainText.includes('FLOW_OPEN_V1_CHANNEL')
+        && editorText.includes('handleFlowModeOpenUiPath')
+        && editorText.includes('composeFlowDocument')
+        ? 1
+        : 0;
+
+      flowEditMarkersOk = flowText.includes('buildFlowSavePayload')
+        && flowText.includes('nextSceneCaretAtBoundary')
+        && flowText.includes('previousSceneCaretAtBoundary')
+        && commandsText.includes('PROJECT_FLOW_SAVE_V1')
+        && commandsText.includes('saveFlowModeV1')
+        && preloadText.includes('FLOW_SAVE_V1_CHANNEL')
+        && preloadText.includes('saveFlowModeV1')
+        && mainText.includes('handleFlowSaveV1')
+        && mainText.includes('writeFileAtomic(scene.path, scene.content)')
+        && editorText.includes('handleFlowModeSaveUiPath')
+        && editorText.includes('nextSceneCaretAtBoundary')
+        && editorText.includes('previousSceneCaretAtBoundary')
+        ? 1
+        : 0;
+    } catch {
+      flowViewMarkersOk = 0;
+      flowEditMarkersOk = 0;
+    }
+  }
+
+  result.flowViewOk = atLeastM7 && testsExist && flowViewMarkersOk === 1 ? 1 : 0;
+  result.flowEditOk = atLeastM7 && testsExist && flowEditMarkersOk === 1 ? 1 : 0;
+  result.coreOk = result.phaseReadyOk === 1
+    && result.flowViewOk === 1
+    && result.flowEditOk === 1
+    ? 1
+    : 0;
+
+  result.level = atLeastM7 && result.coreOk !== 1 ? 'warn' : 'ok';
 
   console.log(`M7_PHASE_READY_OK=${result.phaseReadyOk}`);
+  console.log(`M7_FLOW_VIEW_OK=${result.flowViewOk}`);
+  console.log(`M7_FLOW_EDIT_OK=${result.flowEditOk}`);
+  console.log(`M7_CORE_OK=${result.coreOk}`);
   console.log(`M7_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }

@@ -1,0 +1,22 @@
+{
+  "scene": {
+    "kind": "scene.v1",
+    "blocks": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "Export Title"
+      },
+      {
+        "type": "paragraph",
+        "text": "Plain text."
+      }
+    ],
+    "nodeCount": 2,
+    "lossReport": {
+      "count": 0,
+      "items": []
+    }
+  },
+  "markdown": "# Export Title\n\nPlain text.\n"
+}

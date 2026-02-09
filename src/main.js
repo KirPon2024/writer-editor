@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const fsSync = require('fs');
 const crypto = require('crypto');
+const { pathToFileURL } = require('url');
 const fileManager = require('./utils/fileManager');
 const backupManager = require('./utils/backupManager');
 const { hasDirectoryContent, copyDirectoryContents } = require('./utils/fsHelpers');
@@ -57,6 +58,8 @@ const PRINT_SECTION_LABELS = ['макет'];
 const ROMAN_META_KINDS = new Set(['chapter-file', 'scene']);
 const EXPORT_DOCX_MIN_CHANNEL = 'u:cmd:project:export:docxMin:v1';
 const EXPORT_DOCX_DEFAULT_REQUEST_ID = 'u3-export-docxmin-request';
+const IMPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:import:markdownV1:v1';
+const EXPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:export:markdownV1:v1';
 const ZIP_CRC32_TABLE = (() => {
   const table = new Uint32Array(256);
   for (let i = 0; i < 256; i += 1) {
@@ -332,6 +335,75 @@ function makeTypedExportError(code, reason, details) {
   return { ok: 0, error };
 }
 
+let markdownTransformModulePromise = null;
+function loadMarkdownTransformModule() {
+  if (!markdownTransformModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'export', 'markdown', 'v1', 'index.mjs')).href;
+    markdownTransformModulePromise = import(modulePath).catch((error) => {
+      markdownTransformModulePromise = null;
+      throw error;
+    });
+  }
+  return markdownTransformModulePromise;
+}
+
+function mapMarkdownErrorCode(inputCode, inputReason) {
+  const code = typeof inputCode === 'string' ? inputCode : '';
+  const reason = typeof inputReason === 'string' ? inputReason : '';
+  if (code === 'E_MD_LIMIT_SIZE') return 'MDV1_INPUT_TOO_LARGE';
+  if (code === 'E_MD_LIMIT_DEPTH' || code === 'E_MD_LIMIT_NODES' || code === 'E_MD_LIMIT_TIMEOUT') {
+    return 'MDV1_LIMIT_EXCEEDED';
+  }
+  if (code === 'E_MD_SECURITY_URI_SCHEME_DENIED' || code === 'E_MD_SECURITY_RAW_HTML') {
+    return 'MDV1_SECURITY_VIOLATION';
+  }
+  if (code === 'E_MD_SERIALIZE_UNKNOWN_BLOCK' || code === 'E_MD_UNSUPPORTED_FEATURE') {
+    return 'MDV1_UNSUPPORTED_FEATURE';
+  }
+  if (reason.includes('unsupported')) {
+    return 'MDV1_UNSUPPORTED_FEATURE';
+  }
+  return 'MDV1_INTERNAL_ERROR';
+}
+
+function makeTypedMarkdownError(op, inputCode, inputReason, details) {
+  const error = {
+    code: mapMarkdownErrorCode(inputCode, inputReason),
+    op,
+    reason: typeof inputReason === 'string' && inputReason.length > 0
+      ? inputReason
+      : 'MARKDOWN_COMMAND_FAILED',
+  };
+  if (details && typeof details === 'object' && !Array.isArray(details)) {
+    error.details = details;
+  }
+  return { ok: 0, error };
+}
+
+function normalizeMarkdownImportPayload(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
+  return {
+    text: typeof payload.text === 'string'
+      ? payload.text
+      : (typeof payload.markdown === 'string' ? payload.markdown : ''),
+    sourceName: typeof payload.sourceName === 'string' ? payload.sourceName : '',
+    limits: payload.limits && typeof payload.limits === 'object' && !Array.isArray(payload.limits)
+      ? payload.limits
+      : {},
+  };
+}
+
+function normalizeMarkdownExportPayload(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
+  if (!payload.scene || typeof payload.scene !== 'object' || Array.isArray(payload.scene)) return null;
+  return {
+    scene: payload.scene,
+    limits: payload.limits && typeof payload.limits === 'object' && !Array.isArray(payload.limits)
+      ? payload.limits
+      : {},
+  };
+}
+
 function normalizeExportPayload(payload) {
   if (payload === undefined || payload === null) {
     return {
@@ -566,6 +638,86 @@ async function handleExportDocxMin(payloadRaw) {
       message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
       outPath,
     });
+  }
+}
+
+async function handleImportMarkdownV1(payloadRaw) {
+  const payload = normalizeMarkdownImportPayload(payloadRaw);
+  if (!payload) {
+    return makeTypedMarkdownError(IMPORT_MARKDOWN_V1_CHANNEL, 'E_MD_PAYLOAD_INVALID', 'import_payload_invalid');
+  }
+
+  let transform;
+  try {
+    transform = await loadMarkdownTransformModule();
+  } catch (error) {
+    return makeTypedMarkdownError(
+      IMPORT_MARKDOWN_V1_CHANNEL,
+      'E_MD_TRANSFORM_LOAD_FAILED',
+      'transform_module_load_failed',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+
+  try {
+    const scene = transform.parseMarkdownV1(payload.text, { limits: payload.limits });
+    return {
+      ok: 1,
+      scene,
+      sourceName: payload.sourceName,
+      lossReport: scene && scene.lossReport && typeof scene.lossReport === 'object'
+        ? scene.lossReport
+        : { count: 0, items: [] },
+    };
+  } catch (error) {
+    return makeTypedMarkdownError(
+      IMPORT_MARKDOWN_V1_CHANNEL,
+      error && typeof error.code === 'string' ? error.code : 'E_MD_IMPORT_FAILED',
+      error && typeof error.reason === 'string' ? error.reason : 'import_failed',
+      error && error.details && typeof error.details === 'object' && !Array.isArray(error.details)
+        ? error.details
+        : undefined,
+    );
+  }
+}
+
+async function handleExportMarkdownV1(payloadRaw) {
+  const payload = normalizeMarkdownExportPayload(payloadRaw);
+  if (!payload) {
+    return makeTypedMarkdownError(EXPORT_MARKDOWN_V1_CHANNEL, 'E_MD_PAYLOAD_INVALID', 'export_payload_invalid');
+  }
+
+  let transform;
+  try {
+    transform = await loadMarkdownTransformModule();
+  } catch (error) {
+    return makeTypedMarkdownError(
+      EXPORT_MARKDOWN_V1_CHANNEL,
+      'E_MD_TRANSFORM_LOAD_FAILED',
+      'transform_module_load_failed',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+
+  try {
+    const markdown = transform.serializeMarkdownV1(payload.scene);
+    const parsed = transform.parseMarkdownV1(markdown, { limits: payload.limits });
+    return {
+      ok: 1,
+      markdown,
+      lossReport: parsed && parsed.lossReport && typeof parsed.lossReport === 'object'
+        ? parsed.lossReport
+        : { count: 0, items: [] },
+    };
+  } catch (error) {
+    return makeTypedMarkdownError(
+      EXPORT_MARKDOWN_V1_CHANNEL,
+      error && typeof error.code === 'string' ? error.code : 'E_MD_EXPORT_FAILED',
+      error && typeof error.reason === 'string' ? error.reason : 'export_failed',
+      error && error.details && typeof error.details === 'object' && !Array.isArray(error.details)
+        ? error.details
+        : undefined,
+    );
   }
 }
 
@@ -1133,6 +1285,14 @@ ipcMain.handle('file:open', async () => {
 
 ipcMain.handle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {
   return handleExportDocxMin(payload);
+});
+
+ipcMain.handle(IMPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {
+  return handleImportMarkdownV1(payload);
+});
+
+ipcMain.handle(EXPORT_MARKDOWN_V1_CHANNEL, async (_, payload) => {
+  return handleExportMarkdownV1(payload);
 });
 
 ipcMain.handle('ui:request-autosave', async () => {

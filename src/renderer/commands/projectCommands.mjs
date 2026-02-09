@@ -2,8 +2,12 @@ export const COMMAND_IDS = {
   PROJECT_OPEN: 'cmd.project.open',
   PROJECT_SAVE: 'cmd.project.save',
   PROJECT_EXPORT_DOCX_MIN: 'cmd.project.export.docxMin',
+  PROJECT_IMPORT_MARKDOWN_V1: 'cmd.project.importMarkdownV1',
+  PROJECT_EXPORT_MARKDOWN_V1: 'cmd.project.exportMarkdownV1',
 };
 const EXPORT_DOCX_MIN_OP = 'u:cmd:project:export:docxMin:v1';
+const IMPORT_MARKDOWN_V1_OP = 'm:cmd:project:import:markdownV1:v1';
+const EXPORT_MARKDOWN_V1_OP = 'm:cmd:project:export:markdownV1:v1';
 
 function fail(code, op, reason, details) {
   const error = { code, op, reason };
@@ -91,6 +95,126 @@ export function registerProjectCommands(registry, options = {}) {
       'E_COMMAND_FAILED',
       COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN,
       'EXPORT_DOCXMIN_INVALID_RESPONSE',
+    );
+  });
+
+  registry.registerCommand(COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1, async (input = {}) => {
+    if (!electronAPI || typeof electronAPI.importMarkdownV1 !== 'function') {
+      return fail(
+        'MDV1_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1,
+        'IMPORT_MARKDOWN_BACKEND_NOT_WIRED',
+      );
+    }
+
+    const payload = {
+      text: typeof input.text === 'string'
+        ? input.text
+        : (typeof input.markdown === 'string' ? input.markdown : ''),
+      sourceName: typeof input.sourceName === 'string' ? input.sourceName : '',
+      limits: input.limits && typeof input.limits === 'object' && !Array.isArray(input.limits)
+        ? input.limits
+        : {},
+    };
+
+    let response;
+    try {
+      response = await electronAPI.importMarkdownV1(payload);
+    } catch (error) {
+      return fail(
+        'MDV1_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1,
+        'IMPORT_MARKDOWN_IPC_FAILED',
+        { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+      );
+    }
+
+    if (response && response.ok === 1 && response.scene && typeof response.scene === 'object') {
+      return ok({
+        imported: true,
+        scene: response.scene,
+        lossReport: response.lossReport && typeof response.lossReport === 'object'
+          ? response.lossReport
+          : { count: 0, items: [] },
+      });
+    }
+
+    if (response && response.ok === 0 && response.error && typeof response.error === 'object') {
+      const error = response.error;
+      return fail(
+        typeof error.code === 'string' ? error.code : 'MDV1_INTERNAL_ERROR',
+        typeof error.op === 'string' ? error.op : IMPORT_MARKDOWN_V1_OP,
+        typeof error.reason === 'string' ? error.reason : 'IMPORT_MARKDOWN_FAILED',
+        error.details && typeof error.details === 'object' && !Array.isArray(error.details) ? error.details : undefined,
+      );
+    }
+
+    return fail(
+      'MDV1_INTERNAL_ERROR',
+      COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1,
+      'IMPORT_MARKDOWN_INVALID_RESPONSE',
+    );
+  });
+
+  registry.registerCommand(COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1, async (input = {}) => {
+    if (!electronAPI || typeof electronAPI.exportMarkdownV1 !== 'function') {
+      return fail(
+        'MDV1_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1,
+        'EXPORT_MARKDOWN_BACKEND_NOT_WIRED',
+      );
+    }
+    if (!input || typeof input !== 'object' || Array.isArray(input) || !input.scene || typeof input.scene !== 'object') {
+      return fail(
+        'MDV1_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1,
+        'EXPORT_MARKDOWN_SCENE_REQUIRED',
+      );
+    }
+
+    const payload = {
+      scene: input.scene,
+      limits: input.limits && typeof input.limits === 'object' && !Array.isArray(input.limits)
+        ? input.limits
+        : {},
+    };
+
+    let response;
+    try {
+      response = await electronAPI.exportMarkdownV1(payload);
+    } catch (error) {
+      return fail(
+        'MDV1_INTERNAL_ERROR',
+        COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1,
+        'EXPORT_MARKDOWN_IPC_FAILED',
+        { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+      );
+    }
+
+    if (response && response.ok === 1 && typeof response.markdown === 'string') {
+      return ok({
+        exported: true,
+        markdown: response.markdown,
+        lossReport: response.lossReport && typeof response.lossReport === 'object'
+          ? response.lossReport
+          : { count: 0, items: [] },
+      });
+    }
+
+    if (response && response.ok === 0 && response.error && typeof response.error === 'object') {
+      const error = response.error;
+      return fail(
+        typeof error.code === 'string' ? error.code : 'MDV1_INTERNAL_ERROR',
+        typeof error.op === 'string' ? error.op : EXPORT_MARKDOWN_V1_OP,
+        typeof error.reason === 'string' ? error.reason : 'EXPORT_MARKDOWN_FAILED',
+        error.details && typeof error.details === 'object' && !Array.isArray(error.details) ? error.details : undefined,
+      );
+    }
+
+    return fail(
+      'MDV1_INTERNAL_ERROR',
+      COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1,
+      'EXPORT_MARKDOWN_INVALID_RESPONSE',
     );
   });
 }

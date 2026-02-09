@@ -78,6 +78,11 @@ const M2_ROUNDTRIP_TEST_PATH = 'test/unit/sector-m-m2-roundtrip.test.js';
 const M2_SECURITY_TEST_PATH = 'test/unit/sector-m-m2-security-policy.test.js';
 const M2_LIMITS_TEST_PATH = 'test/unit/sector-m-m2-limits.test.js';
 const M2_LOSS_EXPECTED_PATH = 'test/fixtures/sector-m/m2/loss.expected.json';
+const M3_COMMANDS_PATH = 'src/renderer/commands/projectCommands.mjs';
+const M3_MAIN_PATH = 'src/main.js';
+const M3_PRELOAD_PATH = 'src/preload.js';
+const M3_COMMANDS_TEST_PATH = 'test/unit/sector-m-m3-commands.test.js';
+const M3_SECURITY_TEST_PATH = 'test/unit/sector-m-m3-security.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -3077,6 +3082,104 @@ function evaluateM2TransformTokens(sectorMStatus) {
   return result;
 }
 
+function evaluateM3CommandWiringTokens(sectorMStatus) {
+  const result = {
+    commandWiringOk: 0,
+    importCmdOk: 0,
+    exportCmdOk: 0,
+    typedErrorsOk: 0,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM3 = phaseIndex >= sectorMPhaseIndex('M3');
+
+  const commandsExists = fs.existsSync(M3_COMMANDS_PATH);
+  const mainExists = fs.existsSync(M3_MAIN_PATH);
+  const preloadExists = fs.existsSync(M3_PRELOAD_PATH);
+  const testsExist = fs.existsSync(M3_COMMANDS_TEST_PATH) && fs.existsSync(M3_SECURITY_TEST_PATH);
+
+  if (commandsExists) {
+    try {
+      const commandsText = fs.readFileSync(M3_COMMANDS_PATH, 'utf8');
+      result.importCmdOk = commandsText.includes('cmd.project.importMarkdownV1')
+        && commandsText.includes('importMarkdownV1')
+        ? 1
+        : 0;
+      result.exportCmdOk = commandsText.includes('cmd.project.exportMarkdownV1')
+        && commandsText.includes('exportMarkdownV1')
+        ? 1
+        : 0;
+    } catch {
+      result.importCmdOk = 0;
+      result.exportCmdOk = 0;
+    }
+  }
+
+  const typedErrorMarkers = [
+    'MDV1_INPUT_TOO_LARGE',
+    'MDV1_LIMIT_EXCEEDED',
+    'MDV1_UNSUPPORTED_FEATURE',
+    'MDV1_SECURITY_VIOLATION',
+    'MDV1_INTERNAL_ERROR',
+  ];
+  if (mainExists) {
+    try {
+      const mainText = fs.readFileSync(M3_MAIN_PATH, 'utf8');
+      result.typedErrorsOk = typedErrorMarkers.every((marker) => mainText.includes(marker)) ? 1 : 0;
+    } catch {
+      result.typedErrorsOk = 0;
+    }
+  }
+
+  let preloadWired = 0;
+  let mainWired = 0;
+  if (preloadExists) {
+    try {
+      const preloadText = fs.readFileSync(M3_PRELOAD_PATH, 'utf8');
+      preloadWired = preloadText.includes('m:cmd:project:import:markdownV1:v1')
+        && preloadText.includes('m:cmd:project:export:markdownV1:v1')
+        && preloadText.includes('importMarkdownV1')
+        && preloadText.includes('exportMarkdownV1')
+        ? 1
+        : 0;
+    } catch {
+      preloadWired = 0;
+    }
+  }
+  if (mainExists) {
+    try {
+      const mainText = fs.readFileSync(M3_MAIN_PATH, 'utf8');
+      mainWired = mainText.includes('ipcMain.handle(IMPORT_MARKDOWN_V1_CHANNEL')
+        && mainText.includes('ipcMain.handle(EXPORT_MARKDOWN_V1_CHANNEL')
+        ? 1
+        : 0;
+    } catch {
+      mainWired = 0;
+    }
+  }
+
+  result.commandWiringOk = result.importCmdOk === 1
+    && result.exportCmdOk === 1
+    && result.typedErrorsOk === 1
+    && preloadWired === 1
+    && mainWired === 1
+    && testsExist
+    ? 1
+    : 0;
+
+  result.level = atLeastM3 && result.commandWiringOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M3_COMMAND_WIRING_OK=${result.commandWiringOk}`);
+  console.log(`M3_IMPORT_CMD_OK=${result.importCmdOk}`);
+  console.log(`M3_EXPORT_CMD_OK=${result.exportCmdOk}`);
+  console.log(`M3_TYPED_ERRORS_OK=${result.typedErrorsOk}`);
+  return result;
+}
+
 function evaluateSectorUStatus() {
   function printTokens(result) {
     console.log(`SECTOR_U_PHASE=${result.phase}`);
@@ -4219,6 +4322,7 @@ function run() {
   const m0Bootstrap = evaluateM0BootstrapTokens(sectorMStatus);
   const m1Contract = evaluateM1ContractTokens(sectorMStatus);
   const m2Transform = evaluateM2TransformTokens(sectorMStatus);
+  const m3CommandWiring = evaluateM3CommandWiringTokens(sectorMStatus);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -4352,6 +4456,7 @@ function run() {
     || opsP0SectorMPrep.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
+    || m3CommandWiring.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

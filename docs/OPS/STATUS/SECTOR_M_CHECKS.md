@@ -18,5 +18,10 @@
 - CHECK_M2_SECURITY_ENFORCEMENT: security tests pass and doctor emits `M2_SECURITY_ENFORCEMENT_OK=1`.
 - CHECK_M2_LIMITS_ENFORCEMENT: limits tests pass and doctor emits `M2_LIMITS_OK=1`.
 
+## M3
+- CHECK_M3_COMMAND_WIRING: markdown import/export commands are registered in renderer and wired through preload/main IPC.
+- CHECK_M3_TYPED_ERRORS: doctor emits `M3_TYPED_ERRORS_OK=1` and command failures stay typed/deterministic.
+- CHECK_M3_SECURITY_VIA_COMMANDS: security violations from transform surface propagate through command path as typed errors.
+
 FULL policy:
-- M0, M1, and M2 use FAST-equivalent checks only; no additional full-only checks are required yet.
+- M0, M1, M2, and M3 use FAST-equivalent checks only; no additional full-only checks are required yet.

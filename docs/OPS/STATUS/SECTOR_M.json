@@ -1,8 +1,8 @@
 {
   "schemaVersion": "sector-m-status.v1",
   "status": "IN_PROGRESS",
-  "phase": "M2",
-  "goTag": "GO:SECTOR_M_M2_DONE",
+  "phase": "M3",
+  "goTag": "GO:SECTOR_M_M3_DONE",
   "baselineSha": "746241f43a9fd25065501f9e17523d8a77d735eb",
   "mdModeVersion": 1,
   "contractPaths": [
@@ -18,6 +18,10 @@
     "src/export/markdown/v1/lossReport.mjs",
     "src/export/markdown/v1/parseMarkdownV1.mjs",
     "src/export/markdown/v1/serializeMarkdownV1.mjs"
+  ],
+  "commandIds": [
+    "cmd.project.importMarkdownV1",
+    "cmd.project.exportMarkdownV1"
   ],
   "waiversPath": "",
   "owners": []

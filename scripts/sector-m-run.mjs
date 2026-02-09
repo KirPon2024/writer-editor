@@ -68,6 +68,27 @@ const M_ALLOWLISTS = {
     'test/unit/sector-m-runner-artifact.test.js',
     'test/unit/sector-m-no-scope-leak.test.js',
   ]),
+  M3: new Set([
+    'docs/OPS/STATUS/SECTOR_M.json',
+    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
+    'scripts/doctor.mjs',
+    'scripts/sector-m-run.mjs',
+    'src/renderer/commands/projectCommands.mjs',
+    'src/preload.js',
+    'src/main.js',
+    'test/unit/sector-m-m3-commands.test.js',
+    'test/unit/sector-m-m3-security.test.js',
+    'test/fixtures/sector-m/m3/simple.md',
+    'test/fixtures/sector-m/m3/unsafe.html.md',
+    'test/fixtures/sector-m/m3/expected-import.json',
+    'test/fixtures/sector-m/m3/expected-export.json',
+    // Keep prior tests updated as phase-agnostic.
+    'test/unit/sector-m-status-schema.test.js',
+    'test/unit/sector-m-doctor-tokens.test.js',
+    'test/unit/sector-m-runner-artifact.test.js',
+    'test/unit/sector-m-no-scope-leak.test.js',
+    'test/unit/sector-m-m1-doctor-tokens.test.js',
+  ]),
 };
 
 function parseArgs(argv) {
@@ -221,6 +242,18 @@ function validateChecksDoc(phase) {
       }
     }
   }
+  if (phase === 'M3') {
+    const requiredM3Markers = [
+      'CHECK_M3_COMMAND_WIRING',
+      'CHECK_M3_TYPED_ERRORS',
+      'CHECK_M3_SECURITY_VIA_COMMANDS',
+    ];
+    for (const marker of requiredM3Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
+    }
+  }
   return { ok: 1, reason: '', details: 'SECTOR_M_CHECKS.md markers present' };
 }
 
@@ -249,7 +282,7 @@ function validateAllowlistLeak(phase) {
   return {
     ok: 1,
     reason: '',
-    details: `Diff files within M0 allowlist (${files.length})`,
+    details: `Diff files within ${phase || 'M0'} allowlist (${files.length})`,
     violations: [],
   };
 }
@@ -295,6 +328,30 @@ function validateM2TransformSurface() {
   return { ok: 1, reason: '', details: 'M2 transform surface present' };
 }
 
+function validateM3CommandSurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M3') {
+    return { ok: 1, reason: '', details: 'M3 command surface check skipped outside M3 phase' };
+  }
+  const required = [
+    'src/renderer/commands/projectCommands.mjs',
+    'src/preload.js',
+    'src/main.js',
+    'test/unit/sector-m-m3-commands.test.js',
+    'test/unit/sector-m-m3-security.test.js',
+    'test/fixtures/sector-m/m3/simple.md',
+    'test/fixtures/sector-m/m3/unsafe.html.md',
+    'test/fixtures/sector-m/m3/expected-import.json',
+    'test/fixtures/sector-m/m3/expected-export.json',
+  ];
+  for (const filePath of required) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M3 command file: ${filePath}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'M3 command surface present' };
+}
+
 function runDoctorCheck(phase) {
   if (!fs.existsSync(DOCTOR_PATH)) {
     return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: 'doctor script missing' };
@@ -323,6 +380,12 @@ function runDoctorCheck(phase) {
     must.push(['M2_ROUNDTRIP_OK', '1']);
     must.push(['M2_SECURITY_ENFORCEMENT_OK', '1']);
     must.push(['M2_LIMITS_OK', '1']);
+  }
+  if (phase === 'M3') {
+    must.push(['M3_COMMAND_WIRING_OK', '1']);
+    must.push(['M3_IMPORT_CMD_OK', '1']);
+    must.push(['M3_EXPORT_CMD_OK', '1']);
+    must.push(['M3_TYPED_ERRORS_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
@@ -390,6 +453,14 @@ function main() {
     details: m2Surface.details,
   });
   if (!failReason && m2Surface.ok !== 1) failReason = m2Surface.reason;
+
+  const m3Surface = validateM3CommandSurface();
+  checks.push({
+    checkId: 'CHECK_M3_COMMAND_WIRING',
+    ok: m3Surface.ok,
+    details: m3Surface.details,
+  });
+  if (!failReason && m3Surface.ok !== 1) failReason = m3Surface.reason;
 
   const doctor = runDoctorCheck(sot.phase || 'M0');
   checks.push({ checkId: 'CHECK_M0_DOCTOR_TOKENS', ok: doctor.ok, details: doctor.details });

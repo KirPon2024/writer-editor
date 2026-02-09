@@ -4429,13 +4429,33 @@ function evaluateSectorMOpsProcessFixTokens() {
     && runbookText.includes('SECTOR_U_ARTIFACTS_ROOT=/tmp/<task-id>/sector-u-run');
   result.deliveryFallbackRunbookOk = runbookMarkersOk ? 1 : 0;
 
+  const opsMode = String(process.env.OPS_EXEC_MODE || 'LOCAL_EXEC').toUpperCase();
+  const deliveryMode = opsMode === 'DELIVERY_EXEC';
   const networkGateScriptExists = fs.existsSync(NETWORK_GATE_SCRIPT_PATH);
   const networkGateScriptText = networkGateScriptExists ? readText(NETWORK_GATE_SCRIPT_PATH) : '';
-  result.networkGateReady = networkGateScriptExists
+  const networkGateScriptReady = networkGateScriptExists
     && networkGateScriptText.includes('NETWORK_GATE_OK=')
-    && runbookText.includes('node scripts/ops/network-gate.mjs')
-    ? 1
-    : 0;
+    && runbookText.includes('node scripts/ops/network-gate.mjs');
+  result.networkGateReady = 0;
+  if (networkGateScriptReady && deliveryMode) {
+    const gate = spawnSync(process.execPath, [NETWORK_GATE_SCRIPT_PATH, '--mode', 'delivery'], {
+      encoding: 'utf8',
+      timeout: 12000,
+      env: process.env,
+    });
+    const gateTokens = new Map();
+    for (const lineRaw of String(gate.stdout || '').split(/\r?\n/)) {
+      const line = lineRaw.trim();
+      if (!line) continue;
+      const idx = line.indexOf('=');
+      if (idx <= 0) continue;
+      gateTokens.set(line.slice(0, idx), line.slice(idx + 1));
+    }
+    const gateOk = gate.status === 0
+      && gateTokens.get('NETWORK_GATE_OK') === '1'
+      && gateTokens.get('NETWORK_GATE_GIT_OK') === '1';
+    result.networkGateReady = gateOk ? 1 : 0;
+  }
 
   const worktreePolicyExists = fs.existsSync(CANON_WORKTREE_POLICY_PATH);
   const worktreePolicyText = worktreePolicyExists ? readText(CANON_WORKTREE_POLICY_PATH) : '';
@@ -4463,10 +4483,11 @@ function evaluateSectorMOpsProcessFixTokens() {
     && runnerText.includes('CHECK_M_FULL_SCOPE_MAP_INTEGRITY');
   result.fastFullDivergenceOk = fullOnlyDocOk && fullOnlyRunnerOk ? 1 : 0;
 
+  const networkGateLevelOk = deliveryMode ? result.networkGateReady === 1 : true;
   result.level = result.testsPhaseAgnosticOk === 1
     && result.scopeSsotOk === 1
     && result.deliveryFallbackRunbookOk === 1
-    && result.networkGateReady === 1
+    && networkGateLevelOk
     && result.canonWorktreePolicyOk === 1
     && result.fastFullDivergenceOk === 1
     && result.splitBrainDetected === 0

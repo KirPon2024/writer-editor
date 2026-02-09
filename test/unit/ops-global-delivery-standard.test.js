@@ -29,6 +29,11 @@ function runNode(scriptPath, args, env = {}) {
 }
 
 test('network gate blocks on git reachability and keeps http diagnostic non-blocking', () => {
+  const gateScript = fs.readFileSync('scripts/ops/network-gate.mjs', 'utf8');
+  assert.match(gateScript, /['"]get-url['"]/u, 'origin URL must be discovered from git remote');
+  assert.match(gateScript, /['"]origin['"]/u, 'origin URL must be discovered from git remote');
+  assert.doesNotMatch(gateScript, /originHost\s*=\s*['"]github\.com['"]/u, 'origin host must not be hardcoded');
+
   const okResult = runNode(
     'scripts/ops/network-gate.mjs',
     ['--mode', 'delivery'],
@@ -36,15 +41,18 @@ test('network gate blocks on git reachability and keeps http diagnostic non-bloc
       NETWORK_GATE_FIXTURE_JSON: JSON.stringify({
         originUrl: 'https://example.invalid/org/repo.git',
         originHost: 'example.invalid',
+        dns: { ok: 1, detail: 'fixture_dns_ok' },
         git: { ok: 1, detail: 'fixture_git_ok' },
         http: { ok: 0, detail: 'fixture_http_fail' },
       }),
     },
   );
   assert.equal(okResult.status, 0, okResult.stderr);
+  assert.equal(okResult.tokens.get('NETWORK_GATE_DNS_OK'), '1');
   assert.equal(okResult.tokens.get('NETWORK_GATE_GIT_OK'), '1');
   assert.equal(okResult.tokens.get('NETWORK_GATE_HTTP_OK'), '0');
   assert.equal(okResult.tokens.get('NETWORK_GATE_OK'), '1');
+  assert.equal(okResult.tokens.get('NETWORK_GATE_FAIL_REASON'), '');
 
   const failResult = runNode(
     'scripts/ops/network-gate.mjs',
@@ -53,14 +61,17 @@ test('network gate blocks on git reachability and keeps http diagnostic non-bloc
       NETWORK_GATE_FIXTURE_JSON: JSON.stringify({
         originUrl: 'https://example.invalid/org/repo.git',
         originHost: 'example.invalid',
-        git: { ok: 0, detail: 'fixture_git_fail' },
+        dns: { ok: 0, detail: 'fixture_dns_fail' },
+        git: { ok: 0, detail: 'fatal: unable to access https://example.invalid: Could not resolve host: example.invalid' },
         http: { ok: 1, detail: 'fixture_http_ok' },
       }),
     },
   );
   assert.notEqual(failResult.status, 0);
   assert.equal(failResult.tokens.get('NETWORK_GATE_OK'), '0');
-  assert.equal(failResult.tokens.get('FAIL_REASON'), 'NETWORK_GATE_FAIL');
+  assert.equal(failResult.tokens.get('NETWORK_GATE_DNS_OK'), '0');
+  assert.equal(failResult.tokens.get('NETWORK_GATE_FAIL_REASON'), 'NETWORK_GATE_FAIL_DNS');
+  assert.equal(failResult.tokens.get('FAIL_REASON'), 'NETWORK_GATE_FAIL_DNS');
 });
 
 test('wip check supports exception artifacts only for delivery mode', () => {
@@ -129,6 +140,7 @@ test('post-merge verify streak is runtime-only and triggers degraded env thresho
   const runtimeStatePath = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
   const scriptText = fs.readFileSync('scripts/ops/post-merge-verify.mjs', 'utf8');
   assert.match(scriptText, /\/tmp\/writer-editor-ops-state\/post_merge_cleanup_streak\.json/);
+  fs.rmSync(runtimeStatePath, { force: true });
   assert.equal(fs.existsSync(runtimeStatePath), false);
 
   const defaultStateRun = runNode(

@@ -64,9 +64,15 @@
 - CHECK_M8_NEXT: aggregate token is green only when `M8_CORE_OK=1` and M8 next hook markers/tests are present.
 - CHECK_M8_CLOSE: aggregate token is green only when `M8_NEXT_OK=1` and SoT close goTag is `GO:SECTOR_M_M8_DONE`.
 
+## M9
+- CHECK_M9_PHASE_READY: SoT is updated to `phase=M9` with kickoff goTag and doctor emits `M9_PHASE_READY_OK=1`.
+- CHECK_M9_KICKOFF_HOOK: flow mode status wiring uses `buildFlowModeM9KickoffStatus(...)` with deterministic output.
+- CHECK_M9_FAST_PATH: `test:sector-m`, `sector-m-run --pack fast`, and doctor critical tokens stay green.
+- CHECK_M9_KICKOFF: aggregate token is green only when `M8_CLOSE_OK=1`, `M9_PHASE_READY_OK=1`, and M9 kickoff hook markers/tests are present.
+
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.
 - CHECK_M_FULL_SCOPE_MAP_INTEGRITY (FULL-only):
-  - validates `scripts/ops/sector-m-scope-map.json` schema/phase coverage (M0..M7,DONE)
+  - validates `scripts/ops/sector-m-scope-map.json` schema/phase coverage (M0..M9,DONE)
   - validates runbook/network-gate markers for delivery fallback
 - Enforcement token: `SECTOR_M_FAST_FULL_DIVERGENCE_OK=1`.

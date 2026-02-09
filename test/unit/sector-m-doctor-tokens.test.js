@@ -26,7 +26,7 @@ test('doctor emits sector-m tokens with valid domains', () => {
 
   assert.equal(tokens.get('SECTOR_M_STATUS_OK'), '1');
   assert.ok(
-    ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE'].includes(tokens.get('SECTOR_M_PHASE')),
+    ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'DONE'].includes(tokens.get('SECTOR_M_PHASE')),
     'SECTOR_M_PHASE domain mismatch',
   );
   assert.ok(
@@ -44,6 +44,8 @@ test('doctor emits sector-m tokens with valid domains', () => {
       'GO:SECTOR_M_M8_KICKOFF_DONE',
       'GO:SECTOR_M_M8_DONE',
       'GO:SECTOR_M_M8_NEXT_DONE',
+      'GO:SECTOR_M_M9_KICKOFF_DONE',
+      'GO:SECTOR_M_M9_DONE',
       'GO:SECTOR_M_DONE',
     ].includes(tokens.get('SECTOR_M_GO_TAG')),
     'SECTOR_M_GO_TAG domain mismatch',

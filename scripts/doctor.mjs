@@ -116,6 +116,7 @@ const M7_DOCTOR_TEST_PATH = 'test/unit/sector-m-m7-doctor-tokens.test.js';
 const M7_NEXT_KICKOFF_TEST_PATH = 'test/unit/sector-m-m7-next-kickoff.test.js';
 const M8_CORE_TEST_PATH = 'test/unit/sector-m-m8-core.test.js';
 const M8_NEXT_TEST_PATH = 'test/unit/sector-m-m8-next.test.js';
+const M9_KICKOFF_TEST_PATH = 'test/unit/sector-m-m9-kickoff.test.js';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
@@ -2828,7 +2829,7 @@ function hasNpmScript(scriptName) {
 }
 
 function sectorMPhaseIndex(phase) {
-  const order = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE'];
+  const order = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'DONE'];
   return order.indexOf(String(phase || '').toUpperCase());
 }
 
@@ -2920,7 +2921,7 @@ function evaluateSectorMStatus() {
   }
 
   const allowedStatus = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
-  const allowedPhase = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE']);
+  const allowedPhase = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'DONE']);
   const allowedGo = new Set([
     '',
     'GO:SECTOR_M_M0_DONE',
@@ -2935,6 +2936,8 @@ function evaluateSectorMStatus() {
     'GO:SECTOR_M_M8_KICKOFF_DONE',
     'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_M8_NEXT_DONE',
+    'GO:SECTOR_M_M9_KICKOFF_DONE',
+    'GO:SECTOR_M_M9_DONE',
     'GO:SECTOR_M_DONE',
   ]);
 
@@ -3629,9 +3632,19 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
         ? 1
         : 0;
 
-      flowUxMarkersOk = flowText.includes('buildFlowModeStatus')
-        && (editorText.includes("buildFlowModeStatus('open'") || editorText.includes("buildFlowModeKickoffStatus('open'"))
-        && (editorText.includes("buildFlowModeStatus('save'") || editorText.includes("buildFlowModeKickoffStatus('save'"))
+      const hasFlowStatusHelper = flowText.includes('buildFlowModeStatus')
+        || flowText.includes('buildFlowModeKickoffStatus')
+        || flowText.includes('buildFlowModeM9KickoffStatus');
+      const hasOpenStatusCall = editorText.includes("buildFlowModeStatus('open'")
+        || editorText.includes("buildFlowModeKickoffStatus('open'")
+        || editorText.includes("buildFlowModeM9KickoffStatus('open'");
+      const hasSaveStatusCall = editorText.includes("buildFlowModeStatus('save'")
+        || editorText.includes("buildFlowModeKickoffStatus('save'")
+        || editorText.includes("buildFlowModeM9KickoffStatus('save'");
+
+      flowUxMarkersOk = hasFlowStatusHelper
+        && hasOpenStatusCall
+        && hasSaveStatusCall
         && editorText.includes("event.key === 'ArrowUp'")
         && editorText.includes("event.key === 'ArrowDown'")
         ? 1
@@ -3714,7 +3727,11 @@ function evaluateM8KickoffTokens(sectorMStatus, m7Phase) {
       const flowText = fs.readFileSync(M7_FLOW_MODE_PATH, 'utf8');
       const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
       kickoffMarkersOk = flowText.includes('buildFlowModeKickoffStatus')
-        && editorText.includes('buildFlowModeKickoffStatus')
+        && (
+          editorText.includes('buildFlowModeKickoffStatus')
+          || editorText.includes('buildFlowModeM9KickoffStatus')
+        )
+        && editorText.includes('m8Kickoff: true')
         && flowText.includes('M8 kickoff')
         && fs.existsSync(M7_FLOW_MODE_TEST_PATH)
         && fs.existsSync(M7_DOCTOR_TEST_PATH)
@@ -3911,6 +3928,68 @@ function evaluateM8CloseTokens(sectorMStatus, m8Next) {
 
   console.log(`M8_CLOSE_OK=${result.closeOk}`);
   console.log(`M8_CLOSE_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  return result;
+}
+
+function evaluateM9KickoffTokens(sectorMStatus, m8Close) {
+  const result = {
+    phaseReadyOk: 0,
+    kickoffOk: 0,
+    goTagRuleOk: 1,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM9 = phaseIndex >= sectorMPhaseIndex('M9');
+
+  if (phase === 'M9') {
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M9_KICKOFF_DONE' || goTag === 'GO:SECTOR_M_M9_DONE' ? 1 : 0;
+  }
+
+  const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
+    'CHECK_M9_PHASE_READY',
+    'CHECK_M9_KICKOFF_HOOK',
+    'CHECK_M9_FAST_PATH',
+    'CHECK_M9_KICKOFF',
+  ]);
+
+  const m8CloseOk = m8Close && m8Close.closeOk === 1;
+  result.phaseReadyOk = atLeastM9
+    && m8CloseOk
+    && checksMarkersOk
+    && result.goTagRuleOk === 1
+    ? 1
+    : 0;
+
+  let kickoffMarkersOk = 0;
+  if (fs.existsSync(M7_FLOW_MODE_PATH) && fs.existsSync(M4_EDITOR_PATH)) {
+    try {
+      const flowText = fs.readFileSync(M7_FLOW_MODE_PATH, 'utf8');
+      const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
+      kickoffMarkersOk = flowText.includes('buildFlowModeM9KickoffStatus')
+        && flowText.includes('M9 kickoff')
+        && editorText.includes('buildFlowModeM9KickoffStatus')
+        && editorText.includes('m9Kickoff: true')
+        && fs.existsSync(M9_KICKOFF_TEST_PATH)
+        ? 1
+        : 0;
+    } catch {
+      kickoffMarkersOk = 0;
+    }
+  }
+
+  result.kickoffOk = result.phaseReadyOk === 1 && kickoffMarkersOk === 1 ? 1 : 0;
+  result.level = atLeastM9 && result.kickoffOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M9_PHASE_READY_OK=${result.phaseReadyOk}`);
+  console.log(`M9_KICKOFF_OK=${result.kickoffOk}`);
+  console.log(`M9_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }
 
@@ -5004,9 +5083,9 @@ function evaluateSectorMOpsProcessFixTokens() {
     .filter((name) => /^sector-m-.*\.test\.js$/u.test(name))
     .filter((name) => !/^sector-m-m[0-9]+-.*\.test\.js$/u.test(name));
 
-  const phaseCoupledPatternA = /\bSECTOR_M_PHASE\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|DONE)['"]/u;
-  const phaseCoupledPatternB = /\bphase\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|DONE)['"]/u;
-  const phaseCoupledPatternC = /tokens\.get\(\s*['"]SECTOR_M_PHASE['"]\s*\)\s*,\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|DONE)['"]/u;
+  const phaseCoupledPatternA = /\bSECTOR_M_PHASE\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|M9|DONE)['"]/u;
+  const phaseCoupledPatternB = /\bphase\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|M9|DONE)['"]/u;
+  const phaseCoupledPatternC = /tokens\.get\(\s*['"]SECTOR_M_PHASE['"]\s*\)\s*,\s*['"](M0|M1|M2|M3|M4|M5|M6|M7|M8|M9|DONE)['"]/u;
 
   const phaseCoupledViolations = [];
   for (const fileName of sectorMBaseTests) {
@@ -5249,7 +5328,7 @@ function evaluateOpsProcessCeilingFreezeTokens(sectorMStatus) {
   };
 
   const phase = String((sectorMStatus && sectorMStatus.phase) || '');
-  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8']);
+  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9']);
   result.freezeActive = freezePhases.has(phase) ? 1 : 0;
 
   const docExists = fs.existsSync(OPS_PROCESS_CEILING_FREEZE_PATH);
@@ -5389,6 +5468,7 @@ function run() {
   const m8Core = evaluateM8CoreTokens(sectorMStatus, m8Kickoff);
   const m8Next = evaluateM8NextTokens(sectorMStatus, m8Core);
   const m8Close = evaluateM8CloseTokens(sectorMStatus, m8Next);
+  const m9Kickoff = evaluateM9KickoffTokens(sectorMStatus, m8Close);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);

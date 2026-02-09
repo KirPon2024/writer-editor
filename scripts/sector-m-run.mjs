@@ -70,6 +70,12 @@ const M8_REQUIRED_FILES = [
   'test/unit/sector-m-m8-next.test.js',
 ];
 
+const M9_REQUIRED_FILES = [
+  'src/renderer/commands/flowMode.mjs',
+  'src/renderer/editor.js',
+  'test/unit/sector-m-m9-kickoff.test.js',
+];
+
 function parseArgs(argv) {
   const out = { pack: 'fast' };
   for (let i = 0; i < argv.length; i += 1) {
@@ -218,7 +224,7 @@ function readSectorMSoT() {
   }
 
   const statusAllowed = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
-  const phaseAllowed = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE']);
+  const phaseAllowed = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'DONE']);
   const goTagAllowed = new Set([
     '',
     'GO:SECTOR_M_M0_DONE',
@@ -233,6 +239,8 @@ function readSectorMSoT() {
     'GO:SECTOR_M_M8_KICKOFF_DONE',
     'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_M8_NEXT_DONE',
+    'GO:SECTOR_M_M9_KICKOFF_DONE',
+    'GO:SECTOR_M_M9_DONE',
     'GO:SECTOR_M_DONE',
   ]);
   if (parsed.schemaVersion !== 'sector-m-status.v1') {
@@ -383,6 +391,19 @@ function validateChecksDoc(phase) {
       'CHECK_M8_CLOSE',
     ];
     for (const marker of requiredM8Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
+    }
+  }
+  if (phase === 'M9') {
+    const requiredM9Markers = [
+      'CHECK_M9_PHASE_READY',
+      'CHECK_M9_KICKOFF_HOOK',
+      'CHECK_M9_FAST_PATH',
+      'CHECK_M9_KICKOFF',
+    ];
+    for (const marker of requiredM9Markers) {
       if (!text.includes(marker)) {
         return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
       }
@@ -615,6 +636,27 @@ function validateM8NextSurface() {
   return { ok: 1, reason: '', details: 'M8 next surface present' };
 }
 
+function validateM9KickoffSurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M9') {
+    return { ok: 1, reason: '', details: 'M9 kickoff check skipped outside M9 phase' };
+  }
+  for (const filePath of M9_REQUIRED_FILES) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M9 kickoff file: ${filePath}` };
+    }
+  }
+  const flowText = fs.readFileSync('src/renderer/commands/flowMode.mjs', 'utf8');
+  const editorText = fs.readFileSync('src/renderer/editor.js', 'utf8');
+  if (!flowText.includes('buildFlowModeM9KickoffStatus') || !flowText.includes('M9 kickoff')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 kickoff helper markers in flow mode source' };
+  }
+  if (!editorText.includes('buildFlowModeM9KickoffStatus') || !editorText.includes('m9Kickoff: true')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 kickoff status wiring markers in editor source' };
+  }
+  return { ok: 1, reason: '', details: 'M9 kickoff surface present' };
+}
+
 function validateFullScopeMapIntegrity() {
   const scopeMapLoad = loadScopeMap();
   if (scopeMapLoad.ok !== 1) {
@@ -625,7 +667,7 @@ function validateFullScopeMapIntegrity() {
     };
   }
   const scopeMap = scopeMapLoad.scopeMap;
-  const expectedPhases = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE'];
+  const expectedPhases = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'DONE'];
   for (const phase of expectedPhases) {
     if (!scopeMap.phaseOrder.includes(phase)) {
       return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: `scope map missing phase: ${phase}` };
@@ -737,6 +779,11 @@ function runDoctorCheck(phase) {
     if (goTag === 'GO:SECTOR_M_M8_DONE') {
       must.push(['M8_CLOSE_OK', '1']);
     }
+  }
+  if (phase === 'M9') {
+    must.push(['M8_CLOSE_OK', '1']);
+    must.push(['M9_PHASE_READY_OK', '1']);
+    must.push(['M9_KICKOFF_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
@@ -868,6 +915,14 @@ function main() {
     details: m8NextSurface.details,
   });
   if (!failReason && m8NextSurface.ok !== 1) failReason = m8NextSurface.reason;
+
+  const m9Surface = validateM9KickoffSurface();
+  checks.push({
+    checkId: 'CHECK_M9_KICKOFF_SURFACE',
+    ok: m9Surface.ok,
+    details: m9Surface.details,
+  });
+  if (!failReason && m9Surface.ok !== 1) failReason = m9Surface.reason;
 
   if (args.pack === 'full') {
     const fullScope = validateFullScopeMapIntegrity();

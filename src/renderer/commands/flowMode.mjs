@@ -52,6 +52,12 @@ export function buildFlowModeReopenBlockedStatus(sceneCount) {
   return `Flow mode core (${count}) · unsaved changes blocked reopen · Shift+S save`;
 }
 
+export function buildFlowModeM9KickoffStatus(kind, sceneCount, options = {}) {
+  const base = buildFlowModeKickoffStatus(kind, sceneCount, options);
+  if (!options || options.m9Kickoff !== true) return base;
+  return `${base} · M9 kickoff`;
+}
+
 function parseSceneMarker(line) {
   const match = /^---\[ SCENE (\d+): .* \]---$/.exec(String(line || '').trim());
   if (!match) return null;

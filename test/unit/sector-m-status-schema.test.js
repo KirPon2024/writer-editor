@@ -10,7 +10,7 @@ test('SECTOR_M.json has valid schema fields for any sector phase', () => {
   const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   assert.equal(parsed.schemaVersion, 'sector-m-status.v1');
   assert.ok(['NOT_STARTED', 'IN_PROGRESS', 'DONE'].includes(parsed.status), 'status domain mismatch');
-  assert.ok(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'DONE'].includes(parsed.phase), 'phase domain mismatch');
+  assert.ok(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'DONE'].includes(parsed.phase), 'phase domain mismatch');
   assert.ok([
     '',
     'GO:SECTOR_M_M0_DONE',
@@ -25,6 +25,8 @@ test('SECTOR_M.json has valid schema fields for any sector phase', () => {
     'GO:SECTOR_M_M8_KICKOFF_DONE',
     'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_M8_NEXT_DONE',
+    'GO:SECTOR_M_M9_KICKOFF_DONE',
+    'GO:SECTOR_M_M9_DONE',
     'GO:SECTOR_M_DONE',
   ].includes(parsed.goTag), 'goTag domain mismatch');
   assert.match(String(parsed.baselineSha || ''), /^[0-9a-f]{7,}$/i);

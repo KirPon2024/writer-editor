@@ -51,7 +51,11 @@ test('M8 core doctor tokens are green on M8 phase', () => {
   const lines = String(result.stdout || '').split(/\r?\n/);
   const has = (prefix) => lines.some((line) => line === prefix);
 
-  assert.equal(has('SECTOR_M_PHASE=M8'), true);
+  const phaseLine = lines.find((line) => line.startsWith('SECTOR_M_PHASE='));
+  assert.ok(
+    phaseLine === 'SECTOR_M_PHASE=M8' || phaseLine === 'SECTOR_M_PHASE=M9',
+    `unexpected phase token: ${phaseLine || '<missing>'}`,
+  );
   assert.equal(has('M8_PHASE_READY_OK=1'), true);
   assert.equal(has('M8_KICKOFF_OK=1'), true);
   assert.equal(has('M8_CORE_OK=1'), true);

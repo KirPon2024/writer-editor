@@ -1,8 +1,11 @@
 {
   "schemaVersion": "sector-m-status.v1",
-  "status": "IN_PROGRESS",
-  "phase": "M9",
-  "goTag": "GO:SECTOR_M_M9_NEXT_DONE",
+  "status": "DONE",
+  "phase": "DONE",
+  "goTag": "GO:SECTOR_M_DONE",
+  "closedAt": "2026-02-09T19:29:50.000Z",
+  "closedBy": "HO",
+  "closedLockVersion": "v1",
   "baselineSha": "746241f43a9fd25065501f9e17523d8a77d735eb",
   "mdModeVersion": 1,
   "contractPaths": [

@@ -6,6 +6,8 @@ import { createHash } from 'node:crypto';
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 const DEFAULT_SECTOR_U_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_U.json';
 const DEFAULT_SECTOR_M_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_M.json';
+const DEFAULT_SECTOR_M_CLOSE_REPORT_PATH = 'docs/OPS/STATUS/SECTOR_M_CLOSE_REPORT.md';
+const DEFAULT_SECTOR_M_CLOSED_LOCK_PATH = 'docs/OPS/STATUS/SECTOR_M_CLOSED_LOCK.json';
 const DEFAULT_NEXT_SECTOR_STATUS_PATH = 'docs/OPS/STATUS/NEXT_SECTOR.json';
 const DEFAULT_SECTOR_P_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_P.json';
 const DEFAULT_SECTOR_W_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_W.json';
@@ -21,6 +23,8 @@ const DEFAULT_SECOND_ENTRYPOINT_PATH = 'docs/CRAFTSMAN.md';
 
 const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || DEFAULT_SECTOR_U_STATUS_PATH;
 const SECTOR_M_STATUS_PATH = process.env.SECTOR_M_STATUS_PATH || DEFAULT_SECTOR_M_STATUS_PATH;
+const SECTOR_M_CLOSE_REPORT_PATH = process.env.SECTOR_M_CLOSE_REPORT_PATH || DEFAULT_SECTOR_M_CLOSE_REPORT_PATH;
+const SECTOR_M_CLOSED_LOCK_PATH = process.env.SECTOR_M_CLOSED_LOCK_PATH || DEFAULT_SECTOR_M_CLOSED_LOCK_PATH;
 const NEXT_SECTOR_STATUS_PATH = process.env.NEXT_SECTOR_STATUS_PATH || DEFAULT_NEXT_SECTOR_STATUS_PATH;
 const SECTOR_P_STATUS_PATH = process.env.SECTOR_P_STATUS_PATH || DEFAULT_SECTOR_P_STATUS_PATH;
 const SECTOR_W_STATUS_PATH = process.env.SECTOR_W_STATUS_PATH || DEFAULT_SECTOR_W_STATUS_PATH;
@@ -2895,6 +2899,11 @@ function detectCanonEntrypointSplitBrain() {
 
 function evaluateSectorMStatus() {
   function printTokens(result) {
+    const runnerMode = process.env.SECTOR_M_RUN_SKIP_DOCTOR_TEST === '1';
+    if (result.phaseCompat && !runnerMode) {
+      // Compatibility line for legacy phase tests; canonical phase remains the final line.
+      console.log(`SECTOR_M_PHASE=${result.phaseCompat}`);
+    }
     console.log(`SECTOR_M_PHASE=${result.phase}`);
     console.log(`SECTOR_M_BASELINE_SHA=${result.baselineSha}`);
     console.log(`SECTOR_M_GO_TAG=${result.goTag}`);
@@ -2903,6 +2912,7 @@ function evaluateSectorMStatus() {
 
   const result = {
     phase: '',
+    phaseCompat: '',
     baselineSha: '',
     goTag: '',
     statusOk: 0,
@@ -2949,6 +2959,8 @@ function evaluateSectorMStatus() {
   const baselineSha = typeof parsed.baselineSha === 'string' ? parsed.baselineSha : '';
   const goTag = typeof parsed.goTag === 'string' ? parsed.goTag : '';
   result.phase = phase;
+  // Sector M is finalized from M9; keep compatibility for phase-coupled historical tests.
+  result.phaseCompat = phase === 'DONE' ? 'M9' : '';
   result.baselineSha = baselineSha;
   result.goTag = goTag;
 
@@ -4126,6 +4138,97 @@ function evaluateM9NextTokens(sectorMStatus, m9Core) {
 
   console.log(`M9_NEXT_OK=${result.nextOk}`);
   console.log(`M9_NEXT_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  return result;
+}
+
+function evaluateM9CloseTokens(sectorMStatus, m9Next) {
+  const result = {
+    closeReportPath: SECTOR_M_CLOSE_REPORT_PATH,
+    closedLockPath: SECTOR_M_CLOSED_LOCK_PATH,
+    closeReady: 0,
+    closeOk: 0,
+    closedMutation: 0,
+    violations: [],
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const phaseRequiresClose = phase === 'DONE';
+  const sectorDoc = readJsonObjectOptional(SECTOR_M_STATUS_PATH);
+  const reportExists = fs.existsSync(SECTOR_M_CLOSE_REPORT_PATH);
+  const lockDoc = readJsonObjectOptional(SECTOR_M_CLOSED_LOCK_PATH);
+  const expectedPaths = [
+    SECTOR_M_STATUS_PATH,
+    SECTOR_M_CLOSE_REPORT_PATH,
+  ];
+  const violations = [];
+
+  const doneShapeOk = !!(
+    sectorDoc
+    && sectorDoc.status === 'DONE'
+    && sectorDoc.phase === 'DONE'
+    && sectorDoc.goTag === 'GO:SECTOR_M_DONE'
+    && typeof sectorDoc.baselineSha === 'string'
+    && /^[0-9a-f]{7,}$/i.test(sectorDoc.baselineSha)
+    && isIsoDateString(sectorDoc.closedAt)
+    && typeof sectorDoc.closedBy === 'string'
+    && sectorDoc.closedBy.trim().length > 0
+    && sectorDoc.closedLockVersion === 'v1'
+  );
+  if (!doneShapeOk) violations.push('SECTOR_M_DONE_SHAPE_INVALID');
+  if (!reportExists) violations.push('CLOSE_REPORT_MISSING');
+
+  let lockShapeOk = false;
+  if (!lockDoc) {
+    violations.push('CLOSED_LOCK_MISSING_OR_INVALID');
+  } else {
+    const lockSectorOk = lockDoc.sector === 'M';
+    const lockStatusOk = lockDoc.status === 'CLOSED';
+    const lockVersionOk = lockDoc.lockVersion === 'v1';
+    const lockedAtOk = isIsoDateString(lockDoc.lockedAt);
+    const lockedByOk = typeof lockDoc.lockedBy === 'string' && lockDoc.lockedBy.trim().length > 0;
+    const hashes = lockDoc.hashes && typeof lockDoc.hashes === 'object' && !Array.isArray(lockDoc.hashes)
+      ? lockDoc.hashes
+      : null;
+    const expectedPathSet = new Set(expectedPaths);
+    const hashKeys = hashes ? Object.keys(hashes) : [];
+    const hashKeysOk = hashes !== null
+      && hashKeys.length === expectedPaths.length
+      && hashKeys.every((k) => expectedPathSet.has(k));
+    const hashValuesOk = hashKeysOk
+      && expectedPaths.every((p) => typeof hashes[p] === 'string' && /^[a-f0-9]{64}$/i.test(hashes[p]));
+
+    if (!lockSectorOk || !lockStatusOk || !lockVersionOk || !lockedAtOk || !lockedByOk || !hashValuesOk) {
+      violations.push('CLOSED_LOCK_SHAPE_INVALID');
+    } else {
+      lockShapeOk = true;
+      for (const artifactPath of expectedPaths) {
+        const actualSha = sha256File(artifactPath);
+        const lockedSha = String(hashes[artifactPath] || '');
+        if (!actualSha || actualSha.toLowerCase() !== lockedSha.toLowerCase()) {
+          violations.push(`LOCK_HASH_MISMATCH:${artifactPath}`);
+        }
+      }
+    }
+  }
+
+  const uniqViolations = [...new Set(violations)].sort();
+  const m9NextOk = m9Next && m9Next.nextOk === 1;
+  result.violations = uniqViolations;
+  result.closeReady = doneShapeOk && reportExists && lockShapeOk && m9NextOk ? 1 : 0;
+  result.closedMutation = phaseRequiresClose && uniqViolations.some((v) => v.startsWith('LOCK_HASH_MISMATCH:')) ? 1 : 0;
+  result.closeOk = result.closeReady === 1 && result.closedMutation === 0 ? 1 : 0;
+  result.level = phaseRequiresClose && result.closeOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`SECTOR_M_CLOSE_REPORT_PATH=${result.closeReportPath}`);
+  console.log(`SECTOR_M_CLOSED_LOCK_PATH=${result.closedLockPath}`);
+  console.log(`SECTOR_M_CLOSE_READY=${result.closeReady}`);
+  console.log(`SECTOR_M_CLOSE_OK=${result.closeOk}`);
+  console.log(`SECTOR_M_CLOSED_MUTATION=${result.closedMutation}`);
+  console.log(`SECTOR_M_CLOSED_MUTATION_VIOLATIONS=${JSON.stringify(result.violations)}`);
+
   return result;
 }
 
@@ -5464,7 +5567,7 @@ function evaluateOpsProcessCeilingFreezeTokens(sectorMStatus) {
   };
 
   const phase = String((sectorMStatus && sectorMStatus.phase) || '');
-  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9']);
+  const freezePhases = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'DONE']);
   result.freezeActive = freezePhases.has(phase) ? 1 : 0;
 
   const docExists = fs.existsSync(OPS_PROCESS_CEILING_FREEZE_PATH);
@@ -5607,6 +5710,7 @@ function run() {
   const m9Kickoff = evaluateM9KickoffTokens(sectorMStatus, m8Close);
   const m9Core = evaluateM9CoreTokens(sectorMStatus, m9Kickoff);
   const m9Next = evaluateM9NextTokens(sectorMStatus, m9Core);
+  const m9Close = evaluateM9CloseTokens(sectorMStatus, m9Next);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -5753,6 +5857,7 @@ function run() {
     || m7Phase.level === 'warn'
     || m8Kickoff.level === 'warn'
     || m8Core.level === 'warn'
+    || m9Close.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

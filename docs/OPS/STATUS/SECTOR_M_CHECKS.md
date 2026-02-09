@@ -23,5 +23,10 @@
 - CHECK_M3_TYPED_ERRORS: doctor emits `M3_TYPED_ERRORS_OK=1` and command failures stay typed/deterministic.
 - CHECK_M3_SECURITY_VIA_COMMANDS: security violations from transform surface propagate through command path as typed errors.
 
+## M4
+- CHECK_M4_UI_PATH_MINIMAL: renderer exposes minimal user path for markdown import/export via command layer only.
+- CHECK_M4_UI_NO_DIRECT_PLATFORM_BYPASS: editor wiring uses `dispatchUiCommand(...)` and does not call markdown IPC directly.
+- CHECK_M4_UI_FEEDBACK: user receives deterministic success/error status messages for markdown import/export actions.
+
 FULL policy:
-- M0, M1, M2, and M3 use FAST-equivalent checks only; no additional full-only checks are required yet.
+- M0, M1, M2, M3, and M4 use FAST-equivalent checks only; no additional full-only checks are required yet.

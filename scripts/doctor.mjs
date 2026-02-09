@@ -83,6 +83,9 @@ const M3_MAIN_PATH = 'src/main.js';
 const M3_PRELOAD_PATH = 'src/preload.js';
 const M3_COMMANDS_TEST_PATH = 'test/unit/sector-m-m3-commands.test.js';
 const M3_SECURITY_TEST_PATH = 'test/unit/sector-m-m3-security.test.js';
+const M4_EDITOR_PATH = 'src/renderer/editor.js';
+const M4_COMMANDS_PATH = 'src/renderer/commands/projectCommands.mjs';
+const M4_UI_TEST_PATH = 'test/unit/sector-m-m4-ui-path.test.js';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -3180,6 +3183,92 @@ function evaluateM3CommandWiringTokens(sectorMStatus) {
   return result;
 }
 
+function evaluateM4UiPathTokens(sectorMStatus) {
+  const result = {
+    uiPathOk: 0,
+    goTagRuleOk: 1,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM4 = phaseIndex >= sectorMPhaseIndex('M4');
+
+  if (phase === 'M4') {
+    result.goTagRuleOk = goTag === '' || goTag === 'GO:SECTOR_M_M4_DONE' ? 1 : 0;
+  }
+
+  const editorExists = fs.existsSync(M4_EDITOR_PATH);
+  const commandsExists = fs.existsSync(M4_COMMANDS_PATH);
+  const testsExist = fs.existsSync(M4_UI_TEST_PATH);
+
+  let importCmdRegistered = 0;
+  let exportCmdRegistered = 0;
+  if (commandsExists) {
+    try {
+      const commandsText = fs.readFileSync(M4_COMMANDS_PATH, 'utf8');
+      importCmdRegistered = commandsText.includes('cmd.project.importMarkdownV1') ? 1 : 0;
+      exportCmdRegistered = commandsText.includes('cmd.project.exportMarkdownV1') ? 1 : 0;
+    } catch {
+      importCmdRegistered = 0;
+      exportCmdRegistered = 0;
+    }
+  }
+
+  let dispatchWired = 0;
+  let actionWired = 0;
+  let shortcutWired = 0;
+  let noDirectMarkdownIpcBypass = 0;
+  if (editorExists) {
+    try {
+      const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
+      dispatchWired = editorText.includes('dispatchUiCommand(COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1')
+        && editorText.includes('dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1')
+        ? 1
+        : 0;
+      actionWired = editorText.includes("case 'import-markdown-v1'")
+        && editorText.includes("case 'export-markdown-v1'")
+        ? 1
+        : 0;
+      shortcutWired = editorText.includes("(key === 'I' || key === 'i') && event.shiftKey")
+        && editorText.includes("(key === 'M' || key === 'm') && event.shiftKey")
+        ? 1
+        : 0;
+      noDirectMarkdownIpcBypass = !editorText.includes('window.electronAPI.importMarkdownV1(')
+        && !editorText.includes('window.electronAPI.exportMarkdownV1(')
+        ? 1
+        : 0;
+    } catch {
+      dispatchWired = 0;
+      actionWired = 0;
+      shortcutWired = 0;
+      noDirectMarkdownIpcBypass = 0;
+    }
+  }
+
+  result.uiPathOk = editorExists
+    && commandsExists
+    && testsExist
+    && importCmdRegistered === 1
+    && exportCmdRegistered === 1
+    && dispatchWired === 1
+    && actionWired === 1
+    && shortcutWired === 1
+    && noDirectMarkdownIpcBypass === 1
+    && result.goTagRuleOk === 1 ? 1 : 0;
+
+  result.level = atLeastM4 && result.uiPathOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M4_UI_PATH_OK=${result.uiPathOk}`);
+  console.log(`M4_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  return result;
+}
+
 function evaluateSectorUStatus() {
   function printTokens(result) {
     console.log(`SECTOR_U_PHASE=${result.phase}`);
@@ -4323,6 +4412,7 @@ function run() {
   const m1Contract = evaluateM1ContractTokens(sectorMStatus);
   const m2Transform = evaluateM2TransformTokens(sectorMStatus);
   const m3CommandWiring = evaluateM3CommandWiringTokens(sectorMStatus);
+  const m4UiPath = evaluateM4UiPathTokens(sectorMStatus);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -4457,6 +4547,7 @@ function run() {
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'
+    || m4UiPath.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

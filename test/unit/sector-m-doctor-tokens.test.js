@@ -45,6 +45,7 @@ test('doctor emits sector-m tokens with valid domains', () => {
       'GO:SECTOR_M_M8_DONE',
       'GO:SECTOR_M_M8_NEXT_DONE',
       'GO:SECTOR_M_M9_KICKOFF_DONE',
+      'GO:SECTOR_M_M9_CORE_DONE',
       'GO:SECTOR_M_M9_DONE',
       'GO:SECTOR_M_DONE',
     ].includes(tokens.get('SECTOR_M_GO_TAG')),

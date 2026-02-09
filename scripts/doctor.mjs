@@ -117,6 +117,7 @@ const M7_NEXT_KICKOFF_TEST_PATH = 'test/unit/sector-m-m7-next-kickoff.test.js';
 const M8_CORE_TEST_PATH = 'test/unit/sector-m-m8-core.test.js';
 const M8_NEXT_TEST_PATH = 'test/unit/sector-m-m8-next.test.js';
 const M9_KICKOFF_TEST_PATH = 'test/unit/sector-m-m9-kickoff.test.js';
+const M9_CORE_TEST_PATH = 'test/unit/sector-m-m9-core.test.js';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
@@ -2937,6 +2938,7 @@ function evaluateSectorMStatus() {
     'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_M8_NEXT_DONE',
     'GO:SECTOR_M_M9_KICKOFF_DONE',
+    'GO:SECTOR_M_M9_CORE_DONE',
     'GO:SECTOR_M_M9_DONE',
     'GO:SECTOR_M_DONE',
   ]);
@@ -3949,7 +3951,11 @@ function evaluateM9KickoffTokens(sectorMStatus, m8Close) {
   const atLeastM9 = phaseIndex >= sectorMPhaseIndex('M9');
 
   if (phase === 'M9') {
-    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M9_KICKOFF_DONE' || goTag === 'GO:SECTOR_M_M9_DONE' ? 1 : 0;
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M9_KICKOFF_DONE'
+      || goTag === 'GO:SECTOR_M_M9_CORE_DONE'
+      || goTag === 'GO:SECTOR_M_M9_DONE'
+      ? 1
+      : 0;
   }
 
   const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
@@ -3990,6 +3996,66 @@ function evaluateM9KickoffTokens(sectorMStatus, m8Close) {
   console.log(`M9_PHASE_READY_OK=${result.phaseReadyOk}`);
   console.log(`M9_KICKOFF_OK=${result.kickoffOk}`);
   console.log(`M9_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  return result;
+}
+
+function evaluateM9CoreTokens(sectorMStatus, m9Kickoff) {
+  const result = {
+    coreOk: 0,
+    goTagRuleOk: 1,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM9 = phaseIndex >= sectorMPhaseIndex('M9');
+
+  if (phase === 'M9') {
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M9_CORE_DONE' || goTag === 'GO:SECTOR_M_M9_DONE' ? 1 : 0;
+  }
+
+  const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
+    'CHECK_M9_PHASE_READY',
+    'CHECK_M9_KICKOFF_HOOK',
+    'CHECK_M9_CORE_HOOK',
+    'CHECK_M9_FAST_PATH',
+    'CHECK_M9_KICKOFF',
+    'CHECK_M9_CORE',
+  ]);
+
+  let coreMarkersOk = 0;
+  if (fs.existsSync(M7_FLOW_MODE_PATH) && fs.existsSync(M4_EDITOR_PATH)) {
+    try {
+      const flowText = fs.readFileSync(M7_FLOW_MODE_PATH, 'utf8');
+      const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
+      coreMarkersOk = flowText.includes('buildFlowModeM9CoreSaveErrorStatus')
+        && flowText.includes('save blocked: marker count mismatch')
+        && editorText.includes('buildFlowModeM9CoreSaveErrorStatus(payload.error')
+        && fs.existsSync(M9_CORE_TEST_PATH)
+        ? 1
+        : 0;
+    } catch {
+      coreMarkersOk = 0;
+    }
+  }
+
+  const kickoffOk = m9Kickoff && m9Kickoff.kickoffOk === 1;
+  result.coreOk = atLeastM9
+    && kickoffOk
+    && checksMarkersOk
+    && coreMarkersOk === 1
+    && result.goTagRuleOk === 1
+    ? 1
+    : 0;
+  result.level = atLeastM9 && result.coreOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M9_CORE_OK=${result.coreOk}`);
+  console.log(`M9_CORE_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }
 
@@ -5469,6 +5535,7 @@ function run() {
   const m8Next = evaluateM8NextTokens(sectorMStatus, m8Core);
   const m8Close = evaluateM8CloseTokens(sectorMStatus, m8Next);
   const m9Kickoff = evaluateM9KickoffTokens(sectorMStatus, m8Close);
+  const m9Core = evaluateM9CoreTokens(sectorMStatus, m9Kickoff);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);

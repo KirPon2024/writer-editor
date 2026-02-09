@@ -65,10 +65,12 @@
 - CHECK_M8_CLOSE: aggregate token is green only when `M8_NEXT_OK=1` and SoT close goTag is `GO:SECTOR_M_M8_DONE`.
 
 ## M9
-- CHECK_M9_PHASE_READY: SoT is updated to `phase=M9` with kickoff goTag and doctor emits `M9_PHASE_READY_OK=1`.
+- CHECK_M9_PHASE_READY: SoT is updated to `phase=M9` and doctor emits `M9_PHASE_READY_OK=1`.
 - CHECK_M9_KICKOFF_HOOK: flow mode status wiring uses `buildFlowModeM9KickoffStatus(...)` with deterministic output.
+- CHECK_M9_CORE_HOOK: flow mode save payload validation maps deterministic reason-specific status via `buildFlowModeM9CoreSaveErrorStatus(...)`.
 - CHECK_M9_FAST_PATH: `test:sector-m`, `sector-m-run --pack fast`, and doctor critical tokens stay green.
 - CHECK_M9_KICKOFF: aggregate token is green only when `M8_CLOSE_OK=1`, `M9_PHASE_READY_OK=1`, and M9 kickoff hook markers/tests are present.
+- CHECK_M9_CORE: aggregate token is green only when `M9_KICKOFF_OK=1`, `M9_CORE_HOOK` markers/tests are present, and SoT goTag is `GO:SECTOR_M_M9_CORE_DONE|GO:SECTOR_M_M9_DONE`.
 
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.

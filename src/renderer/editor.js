@@ -7,6 +7,7 @@ import {
   buildFlowModeCoreStatus,
   buildFlowModeReopenBlockedStatus,
   buildFlowModeM9KickoffStatus,
+  buildFlowModeM9CoreSaveErrorStatus,
   buildFlowSavePayload,
   composeFlowDocument,
   nextSceneCaretAtBoundary,
@@ -324,7 +325,7 @@ async function handleFlowModeSaveUiPath() {
 
   const payload = buildFlowSavePayload(getPlainText(), flowModeState.scenes);
   if (!payload.ok) {
-    updateStatusText(FLOW_SAVE_ERROR_MESSAGE);
+    updateStatusText(buildFlowModeM9CoreSaveErrorStatus(payload.error, flowModeState.scenes.length));
     return;
   }
 

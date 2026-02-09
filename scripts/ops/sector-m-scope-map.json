@@ -4,10 +4,18 @@
   "opsCarveoutAllow": [
     "docs/OPS/STATUS/CANON_WORKTREE_POLICY.md",
     "docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md",
+    "docs/OPS/STANDARDS/CANONICAL_DELIVERY_STANDARD_GLOBAL.md",
     "scripts/ops/network-gate.mjs",
+    "scripts/ops/wip-check.mjs",
+    "scripts/ops/post-merge-verify.mjs",
+    "scripts/ops/required-checks.json",
+    "scripts/ops/required-checks-sync.mjs",
+    "scripts/ops/scope-map-registry.json",
+    "scripts/ops/.state/post_merge_cleanup_streak.json",
     "scripts/ops/sector-m-scope-map.json",
     "test/unit/ops-sector-m-process-fixes.test.js",
-    "test/unit/ops-sector-m-stability-003.test.js"
+    "test/unit/ops-sector-m-stability-003.test.js",
+    "test/unit/ops-global-delivery-standard.test.js"
   ],
   "allowByPhase": {
     "M0": [

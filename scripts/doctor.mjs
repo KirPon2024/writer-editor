@@ -92,6 +92,13 @@ const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
 const NETWORK_GATE_SCRIPT_PATH = 'scripts/ops/network-gate.mjs';
+const OPS_STANDARD_GLOBAL_PATH = 'docs/OPS/STANDARDS/CANONICAL_DELIVERY_STANDARD_GLOBAL.md';
+const OPS_WIP_CHECK_PATH = 'scripts/ops/wip-check.mjs';
+const OPS_POST_MERGE_VERIFY_PATH = 'scripts/ops/post-merge-verify.mjs';
+const OPS_REQUIRED_CHECKS_SYNC_PATH = 'scripts/ops/required-checks-sync.mjs';
+const OPS_REQUIRED_CHECKS_CONTRACT_PATH = 'scripts/ops/required-checks.json';
+const OPS_SCOPE_MAP_REGISTRY_PATH = 'scripts/ops/scope-map-registry.json';
+const POST_MERGE_CLEANUP_STREAK_STATE_PATH = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -4357,6 +4364,7 @@ function evaluateSectorMOpsProcessFixTokens() {
     splitBrainDetected: 0,
     scopeSsotOk: 0,
     fastFullDivergenceOk: 0,
+    networkGateMode: 'local',
     level: 'warn',
   };
 
@@ -4422,13 +4430,35 @@ function evaluateSectorMOpsProcessFixTokens() {
     && runbookText.includes('SECTOR_U_ARTIFACTS_ROOT=/tmp/<task-id>/sector-u-run');
   result.deliveryFallbackRunbookOk = runbookMarkersOk ? 1 : 0;
 
+  const opsMode = String(process.env.OPS_EXEC_MODE || 'LOCAL_EXEC').toUpperCase();
+  const deliveryMode = opsMode === 'DELIVERY_EXEC';
+  result.networkGateMode = deliveryMode ? 'delivery' : 'local';
   const networkGateScriptExists = fs.existsSync(NETWORK_GATE_SCRIPT_PATH);
   const networkGateScriptText = networkGateScriptExists ? readText(NETWORK_GATE_SCRIPT_PATH) : '';
-  result.networkGateReady = networkGateScriptExists
-    && networkGateScriptText.includes('NETWORK_GATE_OK=')
-    && runbookText.includes('node scripts/ops/network-gate.mjs')
-    ? 1
-    : 0;
+  const networkGateScriptReady = networkGateScriptExists
+    && networkGateScriptText.includes('NETWORK_GATE_OK')
+    && networkGateScriptText.includes('NETWORK_GATE_GIT_OK')
+    && runbookText.includes('node scripts/ops/network-gate.mjs');
+  result.networkGateReady = 0;
+  if (networkGateScriptReady && deliveryMode) {
+    const gate = spawnSync(process.execPath, [NETWORK_GATE_SCRIPT_PATH, '--mode', 'delivery'], {
+      encoding: 'utf8',
+      timeout: 12000,
+      env: process.env,
+    });
+    const gateTokens = new Map();
+    for (const lineRaw of String(gate.stdout || '').split(/\r?\n/)) {
+      const line = lineRaw.trim();
+      if (!line) continue;
+      const idx = line.indexOf('=');
+      if (idx <= 0) continue;
+      gateTokens.set(line.slice(0, idx), line.slice(idx + 1));
+    }
+    const gateOk = gate.status === 0
+      && gateTokens.get('NETWORK_GATE_OK') === '1'
+      && gateTokens.get('NETWORK_GATE_GIT_OK') === '1';
+    result.networkGateReady = gateOk ? 1 : 0;
+  }
 
   const worktreePolicyExists = fs.existsSync(CANON_WORKTREE_POLICY_PATH);
   const worktreePolicyText = worktreePolicyExists ? readText(CANON_WORKTREE_POLICY_PATH) : '';
@@ -4456,10 +4486,11 @@ function evaluateSectorMOpsProcessFixTokens() {
     && runnerText.includes('CHECK_M_FULL_SCOPE_MAP_INTEGRITY');
   result.fastFullDivergenceOk = fullOnlyDocOk && fullOnlyRunnerOk ? 1 : 0;
 
+  const networkGateLevelOk = deliveryMode ? result.networkGateReady === 1 : true;
   result.level = result.testsPhaseAgnosticOk === 1
     && result.scopeSsotOk === 1
     && result.deliveryFallbackRunbookOk === 1
-    && result.networkGateReady === 1
+    && networkGateLevelOk
     && result.canonWorktreePolicyOk === 1
     && result.fastFullDivergenceOk === 1
     && result.splitBrainDetected === 0
@@ -4474,6 +4505,104 @@ function evaluateSectorMOpsProcessFixTokens() {
   console.log(`CANON_WORKTREE_SPLIT_BRAIN_DETECTED=${result.splitBrainDetected}`);
   console.log(`SECTOR_M_SCOPE_SSOT_OK=${result.scopeSsotOk}`);
   console.log(`SECTOR_M_FAST_FULL_DIVERGENCE_OK=${result.fastFullDivergenceOk}`);
+  console.log(`NETWORK_GATE_MODE=${result.networkGateMode}`);
+  return result;
+}
+
+function evaluateOpsGlobalDeliveryStandardTokens() {
+  const result = {
+    standardOk: 0,
+    requiredChecksContractPresentOk: 0,
+    requiredChecksSyncOk: 0,
+    requiredChecksSource: 'local',
+    requiredChecksStale: 1,
+    cleanupFailStreak: 0,
+    level: 'warn',
+  };
+
+  const opsMode = String(process.env.OPS_EXEC_MODE || 'LOCAL_EXEC').toUpperCase();
+  const deliveryMode = opsMode === 'DELIVERY_EXEC';
+
+  const standardDocExists = fs.existsSync(OPS_STANDARD_GLOBAL_PATH);
+  const networkGateExists = fs.existsSync(NETWORK_GATE_SCRIPT_PATH);
+  const wipCheckExists = fs.existsSync(OPS_WIP_CHECK_PATH);
+  const postMergeVerifyExists = fs.existsSync(OPS_POST_MERGE_VERIFY_PATH);
+  const requiredChecksSyncExists = fs.existsSync(OPS_REQUIRED_CHECKS_SYNC_PATH);
+  const scopeRegistryExists = fs.existsSync(OPS_SCOPE_MAP_REGISTRY_PATH);
+
+  const standardText = standardDocExists ? readText(OPS_STANDARD_GLOBAL_PATH) : '';
+  const standardMarkersOk = standardText.includes('GLOBAL CANONICAL DELIVERY STANDARD')
+    && standardText.includes('HARD GATES (BLOCKING, MAX=5)')
+    && standardText.includes('DELIVERY_NETWORK_GATE')
+    && standardText.includes('WIP POLICY');
+  result.standardOk = standardDocExists
+    && standardMarkersOk
+    && networkGateExists
+    && wipCheckExists
+    && postMergeVerifyExists
+    && requiredChecksSyncExists
+    && scopeRegistryExists
+    ? 1
+    : 0;
+
+  const checksContract = readJsonObjectOptional(OPS_REQUIRED_CHECKS_CONTRACT_PATH);
+  const contractPresent = !!(
+    checksContract
+    && checksContract.schemaVersion === 1
+    && Number.isInteger(checksContract.ttlDays)
+    && checksContract.ttlDays > 0
+    && (checksContract.lastSyncedAt === null || typeof checksContract.lastSyncedAt === 'string')
+    && (!Object.prototype.hasOwnProperty.call(checksContract, 'lastSyncSource')
+      || checksContract.lastSyncSource === 'local'
+      || checksContract.lastSyncSource === 'api')
+    && checksContract.profiles
+    && typeof checksContract.profiles === 'object'
+    && !Array.isArray(checksContract.profiles)
+    && checksContract.profiles.ops
+    && checksContract.profiles.sector
+    && checksContract.profiles.default
+    && Array.isArray(checksContract.profiles.ops.required)
+    && Array.isArray(checksContract.profiles.sector.required)
+    && Array.isArray(checksContract.profiles.default.required)
+  );
+  result.requiredChecksContractPresentOk = contractPresent ? 1 : 0;
+
+  if (contractPresent) {
+    result.requiredChecksSource = checksContract.lastSyncSource === 'api' ? 'api' : 'local';
+    if (checksContract.lastSyncedAt === null) {
+      result.requiredChecksStale = 1;
+    } else {
+      const updatedMs = Date.parse(String(checksContract.lastSyncedAt || ''));
+      if (Number.isNaN(updatedMs)) {
+        result.requiredChecksStale = 1;
+      } else {
+        const staleMs = checksContract.ttlDays * 24 * 60 * 60 * 1000;
+        result.requiredChecksStale = (Date.now() - updatedMs) > staleMs ? 1 : 0;
+      }
+    }
+    if (deliveryMode) {
+      result.requiredChecksSyncOk = result.requiredChecksSource === 'api' && result.requiredChecksStale === 0 ? 1 : 0;
+    } else {
+      // Local mode never reports synced checks to avoid false green.
+      result.requiredChecksSyncOk = 0;
+    }
+  }
+
+  const streakState = readJsonObjectOptional(POST_MERGE_CLEANUP_STREAK_STATE_PATH);
+  const streak = Number(streakState && streakState.cleanupFailStreak);
+  result.cleanupFailStreak = Number.isInteger(streak) && streak >= 0 ? streak : 0;
+
+  const requiredChecksOk = deliveryMode
+    ? (result.requiredChecksContractPresentOk === 1 && result.requiredChecksSyncOk === 1)
+    : (result.requiredChecksContractPresentOk === 1);
+  result.level = result.standardOk === 1 && requiredChecksOk ? 'ok' : 'warn';
+
+  console.log(`OPS_STANDARD_GLOBAL_OK=${result.standardOk}`);
+  console.log(`REQUIRED_CHECKS_CONTRACT_PRESENT_OK=${result.requiredChecksContractPresentOk}`);
+  console.log(`REQUIRED_CHECKS_SYNC_OK=${result.requiredChecksSyncOk}`);
+  console.log(`REQUIRED_CHECKS_SOURCE=${result.requiredChecksSource}`);
+  console.log(`REQUIRED_CHECKS_STALE=${result.requiredChecksStale}`);
+  console.log(`POST_MERGE_VERIFY_CLEANUP_FAIL_STREAK=${result.cleanupFailStreak}`);
   return result;
 }
 
@@ -4563,6 +4692,7 @@ function run() {
   const nextSector = evaluateNextSectorStatus({ strictLie });
   const opsP0SectorMPrep = evaluateOpsP0SectorMPrepTokens();
   const opsSectorMProcessFixes = evaluateSectorMOpsProcessFixTokens();
+  const opsGlobalStandard = evaluateOpsGlobalDeliveryStandardTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -4682,6 +4812,7 @@ function run() {
     || nextSector.level === 'warn'
     || opsP0SectorMPrep.level === 'warn'
     || opsSectorMProcessFixes.level === 'warn'
+    || opsGlobalStandard.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'

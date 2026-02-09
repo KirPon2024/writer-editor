@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "ttlDays": 7,
+  "lastSyncedAt": null,
+  "lastSyncSource": "local",
+  "profiles": {
+    "ops": {
+      "required": [
+        "oss-policy",
+        "test:ops"
+      ]
+    },
+    "sector": {
+      "required": [
+        "oss-policy",
+        "test:sector"
+      ]
+    },
+    "default": {
+      "required": [
+        "oss-policy"
+      ]
+    }
+  }
+}

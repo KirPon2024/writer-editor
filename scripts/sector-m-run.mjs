@@ -57,6 +57,7 @@ const M7_REQUIRED_FILES = [
   'test/unit/sector-m-m7-flow-mode.test.js',
   'test/unit/sector-m-m7-commands.test.js',
   'test/unit/sector-m-m7-doctor-tokens.test.js',
+  'test/unit/sector-m-m7-next-kickoff.test.js',
 ];
 
 function parseArgs(argv) {
@@ -210,6 +211,7 @@ function readSectorMSoT() {
     'GO:SECTOR_M_M5_DONE',
     'GO:SECTOR_M_M6_DONE',
     'GO:SECTOR_M_M7_DONE',
+    'GO:SECTOR_M_M7_NEXT_DONE',
     'GO:SECTOR_M_DONE',
   ]);
   if (parsed.schemaVersion !== 'sector-m-status.v1') {
@@ -336,7 +338,9 @@ function validateChecksDoc(phase) {
       'CHECK_M7_FAST_PATH',
       'CHECK_M7_FLOW_VIEW',
       'CHECK_M7_FLOW_EDIT',
+      'CHECK_M7_FLOW_UX',
       'CHECK_M7_CORE',
+      'CHECK_M7_NEXT',
     ];
     for (const marker of requiredM7Markers) {
       if (!text.includes(marker)) {
@@ -630,7 +634,9 @@ function runDoctorCheck(phase) {
     must.push(['M7_PHASE_READY_OK', '1']);
     must.push(['M7_FLOW_VIEW_OK', '1']);
     must.push(['M7_FLOW_EDIT_OK', '1']);
+    must.push(['M7_FLOW_UX_OK', '1']);
     must.push(['M7_CORE_OK', '1']);
+    must.push(['M7_NEXT_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {

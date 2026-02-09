@@ -70,3 +70,19 @@ test('M7 flow mode boundary helpers move caret between scenes only at boundaries
   assert.equal(prev < secondSceneMarker, true);
   assert.equal(prev > text.indexOf('A'), true);
 });
+
+test('M7 flow mode status message is deterministic for open/save actions', async () => {
+  const flow = await loadFlowModeModule();
+  assert.equal(
+    flow.buildFlowModeStatus('open', 3),
+    'Flow mode opened (3) · Shift+S save · ArrowUp/ArrowDown jump scenes',
+  );
+  assert.equal(
+    flow.buildFlowModeStatus('save', 2),
+    'Flow mode saved (2) · Shift+S save · ArrowUp/ArrowDown jump scenes',
+  );
+  assert.equal(
+    flow.buildFlowModeStatus('open', -1),
+    'Flow mode opened (0) · Shift+S save · ArrowUp/ArrowDown jump scenes',
+  );
+});

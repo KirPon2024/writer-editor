@@ -113,6 +113,7 @@ const M7_FLOW_MODE_PATH = 'src/renderer/commands/flowMode.mjs';
 const M7_FLOW_MODE_TEST_PATH = 'test/unit/sector-m-m7-flow-mode.test.js';
 const M7_COMMANDS_TEST_PATH = 'test/unit/sector-m-m7-commands.test.js';
 const M7_DOCTOR_TEST_PATH = 'test/unit/sector-m-m7-doctor-tokens.test.js';
+const M7_NEXT_KICKOFF_TEST_PATH = 'test/unit/sector-m-m7-next-kickoff.test.js';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
@@ -2928,6 +2929,7 @@ function evaluateSectorMStatus() {
     'GO:SECTOR_M_M5_DONE',
     'GO:SECTOR_M_M6_DONE',
     'GO:SECTOR_M_M7_DONE',
+    'GO:SECTOR_M_M7_NEXT_DONE',
     'GO:SECTOR_M_DONE',
   ]);
 
@@ -3531,7 +3533,9 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
     phaseReadyOk: 0,
     flowViewOk: 0,
     flowEditOk: 0,
+    flowUxOk: 0,
     coreOk: 0,
+    nextOk: 0,
     goTagRuleOk: 1,
     level: 'ok',
   };
@@ -3546,7 +3550,11 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
   const atLeastM7 = phaseIndex >= sectorMPhaseIndex('M7');
 
   if (phase === 'M7') {
-    result.goTagRuleOk = goTag === '' || goTag === 'GO:SECTOR_M_M7_DONE' ? 1 : 0;
+    result.goTagRuleOk = goTag === ''
+      || goTag === 'GO:SECTOR_M_M7_DONE'
+      || goTag === 'GO:SECTOR_M_M7_NEXT_DONE'
+      ? 1
+      : 0;
   }
 
   const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
@@ -3555,7 +3563,9 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
     'CHECK_M7_FAST_PATH',
     'CHECK_M7_FLOW_VIEW',
     'CHECK_M7_FLOW_EDIT',
+    'CHECK_M7_FLOW_UX',
     'CHECK_M7_CORE',
+    'CHECK_M7_NEXT',
   ]);
 
   const m6ReliabilityOk = m6Reliability && m6Reliability.reliabilityOk === 1;
@@ -3566,7 +3576,8 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
 
   const testsExist = fs.existsSync(M7_FLOW_MODE_TEST_PATH)
     && fs.existsSync(M7_COMMANDS_TEST_PATH)
-    && fs.existsSync(M7_DOCTOR_TEST_PATH);
+    && fs.existsSync(M7_DOCTOR_TEST_PATH)
+    && fs.existsSync(M7_NEXT_KICKOFF_TEST_PATH);
 
   const flowFilesExist = fs.existsSync(M7_FLOW_MODE_PATH)
     && fs.existsSync(M3_COMMANDS_PATH)
@@ -3576,6 +3587,7 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
 
   let flowViewMarkersOk = 0;
   let flowEditMarkersOk = 0;
+  let flowUxMarkersOk = 0;
   if (flowFilesExist) {
     try {
       const flowText = fs.readFileSync(M7_FLOW_MODE_PATH, 'utf8');
@@ -3611,26 +3623,39 @@ function evaluateM7PhaseTokens(sectorMStatus, m6Reliability) {
         && editorText.includes('previousSceneCaretAtBoundary')
         ? 1
         : 0;
+
+      flowUxMarkersOk = flowText.includes('buildFlowModeStatus')
+        && editorText.includes("buildFlowModeStatus('open'")
+        && editorText.includes("buildFlowModeStatus('save'")
+        && editorText.includes("event.key === 'ArrowUp'")
+        && editorText.includes("event.key === 'ArrowDown'")
+        ? 1
+        : 0;
     } catch {
       flowViewMarkersOk = 0;
       flowEditMarkersOk = 0;
+      flowUxMarkersOk = 0;
     }
   }
 
   result.flowViewOk = atLeastM7 && testsExist && flowViewMarkersOk === 1 ? 1 : 0;
   result.flowEditOk = atLeastM7 && testsExist && flowEditMarkersOk === 1 ? 1 : 0;
+  result.flowUxOk = atLeastM7 && testsExist && flowUxMarkersOk === 1 ? 1 : 0;
   result.coreOk = result.phaseReadyOk === 1
     && result.flowViewOk === 1
     && result.flowEditOk === 1
     ? 1
     : 0;
+  result.nextOk = result.coreOk === 1 && result.flowUxOk === 1 ? 1 : 0;
 
-  result.level = atLeastM7 && result.coreOk !== 1 ? 'warn' : 'ok';
+  result.level = atLeastM7 && result.nextOk !== 1 ? 'warn' : 'ok';
 
   console.log(`M7_PHASE_READY_OK=${result.phaseReadyOk}`);
   console.log(`M7_FLOW_VIEW_OK=${result.flowViewOk}`);
   console.log(`M7_FLOW_EDIT_OK=${result.flowEditOk}`);
+  console.log(`M7_FLOW_UX_OK=${result.flowUxOk}`);
   console.log(`M7_CORE_OK=${result.coreOk}`);
+  console.log(`M7_NEXT_OK=${result.nextOk}`);
   console.log(`M7_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }

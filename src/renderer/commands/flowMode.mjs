@@ -6,6 +6,11 @@ function escapeTitle(title) {
   return String(title ?? '').replaceAll('\n', ' ').trim();
 }
 
+function normalizeSceneCount(sceneCount) {
+  if (!Number.isInteger(sceneCount) || sceneCount < 0) return 0;
+  return sceneCount;
+}
+
 export function sceneMarker(index, title) {
   return `---[ SCENE ${index}: ${escapeTitle(title) || 'Untitled'} ]---`;
 }
@@ -20,6 +25,12 @@ export function composeFlowDocument(scenes = []) {
     if (i < normalizedScenes.length - 1) lines.push('');
   }
   return `${lines.join('\n').trimEnd()}\n`;
+}
+
+export function buildFlowModeStatus(kind, sceneCount) {
+  const count = normalizeSceneCount(sceneCount);
+  const label = kind === 'save' ? 'saved' : 'opened';
+  return `Flow mode ${label} (${count}) · Shift+S save · ArrowUp/ArrowDown jump scenes`;
 }
 
 function parseSceneMarker(line) {

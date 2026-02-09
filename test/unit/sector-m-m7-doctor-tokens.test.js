@@ -27,7 +27,9 @@ test('M7 doctor tokens are consistent when SoT phase is M7', () => {
   assert.equal(tokens.get('M7_PHASE_READY_OK'), '1');
   assert.equal(tokens.get('M7_FLOW_VIEW_OK'), '1');
   assert.equal(tokens.get('M7_FLOW_EDIT_OK'), '1');
+  assert.equal(tokens.get('M7_FLOW_UX_OK'), '1');
   assert.equal(tokens.get('M7_CORE_OK'), '1');
+  assert.equal(tokens.get('M7_NEXT_OK'), '1');
   assert.equal(tokens.get('OPS_FREEZE_ACTIVE'), '1');
   assert.equal(tokens.get('CANON_WORKTREE_SPLIT_BRAIN_DETECTED'), '0');
 });

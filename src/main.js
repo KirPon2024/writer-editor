@@ -347,9 +347,22 @@ function loadMarkdownTransformModule() {
   return markdownTransformModulePromise;
 }
 
+let markdownIoModulePromise = null;
+function loadMarkdownIoModule() {
+  if (!markdownIoModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'io', 'markdown', 'index.mjs')).href;
+    markdownIoModulePromise = import(modulePath).catch((error) => {
+      markdownIoModulePromise = null;
+      throw error;
+    });
+  }
+  return markdownIoModulePromise;
+}
+
 function mapMarkdownErrorCode(inputCode, inputReason) {
   const code = typeof inputCode === 'string' ? inputCode : '';
   const reason = typeof inputReason === 'string' ? inputReason : '';
+  if (code.startsWith('E_IO_')) return code;
   if (code === 'E_MD_LIMIT_SIZE') return 'MDV1_INPUT_TOO_LARGE';
   if (code === 'E_MD_LIMIT_DEPTH' || code === 'E_MD_LIMIT_NODES' || code === 'E_MD_LIMIT_TIMEOUT') {
     return 'MDV1_LIMIT_EXCEEDED';
@@ -387,6 +400,7 @@ function normalizeMarkdownImportPayload(payload) {
       ? payload.text
       : (typeof payload.markdown === 'string' ? payload.markdown : ''),
     sourceName: typeof payload.sourceName === 'string' ? payload.sourceName : '',
+    sourcePath: typeof payload.sourcePath === 'string' ? payload.sourcePath : '',
     limits: payload.limits && typeof payload.limits === 'object' && !Array.isArray(payload.limits)
       ? payload.limits
       : {},
@@ -398,6 +412,10 @@ function normalizeMarkdownExportPayload(payload) {
   if (!payload.scene || typeof payload.scene !== 'object' || Array.isArray(payload.scene)) return null;
   return {
     scene: payload.scene,
+    outPath: typeof payload.outPath === 'string' ? payload.outPath.trim() : '',
+    snapshotLimit: Number.isInteger(payload.snapshotLimit) && payload.snapshotLimit >= 1
+      ? payload.snapshotLimit
+      : 3,
     limits: payload.limits && typeof payload.limits === 'object' && !Array.isArray(payload.limits)
       ? payload.limits
       : {},
@@ -660,7 +678,19 @@ async function handleImportMarkdownV1(payloadRaw) {
   }
 
   try {
-    const scene = transform.parseMarkdownV1(payload.text, { limits: payload.limits });
+    let markdownText = payload.text;
+    if (!markdownText && payload.sourcePath) {
+      const markdownIo = await loadMarkdownIoModule();
+      const limits = typeof transform.normalizeLimits === 'function'
+        ? transform.normalizeLimits(payload.limits)
+        : { maxInputBytes: 1024 * 1024 };
+      const loaded = await markdownIo.readMarkdownWithLimits(payload.sourcePath, {
+        maxInputBytes: limits.maxInputBytes,
+      });
+      markdownText = loaded.text;
+    }
+
+    const scene = transform.parseMarkdownV1(markdownText, { limits: payload.limits });
     return {
       ok: 1,
       scene,
@@ -702,9 +732,26 @@ async function handleExportMarkdownV1(payloadRaw) {
   try {
     const markdown = transform.serializeMarkdownV1(payload.scene);
     const parsed = transform.parseMarkdownV1(markdown, { limits: payload.limits });
+
+    let writeResult = null;
+    if (payload.outPath) {
+      const markdownIo = await loadMarkdownIoModule();
+      writeResult = await queueDiskOperation(
+        () => markdownIo.writeMarkdownWithRecovery(payload.outPath, markdown, {
+          maxSnapshots: payload.snapshotLimit,
+        }),
+        'export markdown v1',
+      );
+    }
+
     return {
       ok: 1,
       markdown,
+      outPath: writeResult && typeof writeResult.outPath === 'string' ? writeResult.outPath : '',
+      bytesWritten: writeResult && Number.isInteger(writeResult.bytesWritten) ? writeResult.bytesWritten : 0,
+      snapshotCreated: writeResult ? Boolean(writeResult.snapshotCreated) : false,
+      snapshotPath: writeResult && typeof writeResult.snapshotPath === 'string' ? writeResult.snapshotPath : '',
+      purgedSnapshots: writeResult && Array.isArray(writeResult.purgedSnapshots) ? writeResult.purgedSnapshots : [],
       lossReport: parsed && parsed.lossReport && typeof parsed.lossReport === 'object'
         ? parsed.lossReport
         : { count: 0, items: [] },

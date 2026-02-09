@@ -6,6 +6,12 @@ const { spawnSync } = require('node:child_process');
 
 const SCOPE_MAP_PATH = path.join(process.cwd(), 'scripts', 'ops', 'sector-m-scope-map.json');
 
+const M5_OVERLAY_ALLOW_PREFIXES = [
+  'src/io/markdown/',
+  'test/unit/sector-m-m5-',
+  'test/fixtures/sector-m/m5/',
+];
+
 function readScopeMap() {
   const parsed = JSON.parse(fs.readFileSync(SCOPE_MAP_PATH, 'utf8'));
   assert.equal(parsed.schemaVersion, 'sector-m-scope-map.v1');
@@ -29,6 +35,10 @@ function currentPhase() {
 function phaseIndex(scopeMap, phase) {
   const idx = scopeMap.phaseOrder.indexOf(phase);
   return idx >= 0 ? idx : 0;
+}
+
+function phaseAtLeast(scopeMap, phase, minPhase) {
+  return phaseIndex(scopeMap, phase) >= phaseIndex(scopeMap, minPhase);
 }
 
 function buildAllowedForPhase(scopeMap, phase) {
@@ -61,6 +71,12 @@ function isAllowedPathForPhase(scopeMap, filePath, phase) {
   if (allowed.has(filePath)) return true;
 
   const prefixes = buildAllowedPrefixesForPhase(scopeMap, phase);
+  if (phaseAtLeast(scopeMap, phase, 'M5')) {
+    for (const prefix of M5_OVERLAY_ALLOW_PREFIXES) {
+      prefixes.add(prefix);
+    }
+  }
+
   for (const prefix of prefixes) {
     if (filePath.startsWith(prefix)) return true;
   }
@@ -93,6 +109,15 @@ test('phase map union includes M0..M4 allowlists when phase is M4', () => {
     for (const item of items) {
       assert.equal(m4Union.has(item), true, `missing ${phase} item in M4 union: ${item}`);
     }
+  }
+});
+
+test('M5 overlay prefixes are allowed only from M5 and above', () => {
+  const scopeMap = readScopeMap();
+  for (const prefix of M5_OVERLAY_ALLOW_PREFIXES) {
+    const sample = prefix + 'sample.txt';
+    assert.equal(isAllowedPathForPhase(scopeMap, sample, 'M4'), false, `M4 must reject M5 overlay path: ${sample}`);
+    assert.equal(isAllowedPathForPhase(scopeMap, sample, 'M5'), true, `M5 must allow overlay path: ${sample}`);
   }
 });
 

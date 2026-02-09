@@ -112,6 +112,7 @@ export function registerProjectCommands(registry, options = {}) {
         ? input.text
         : (typeof input.markdown === 'string' ? input.markdown : ''),
       sourceName: typeof input.sourceName === 'string' ? input.sourceName : '',
+      sourcePath: typeof input.sourcePath === 'string' ? input.sourcePath : '',
       limits: input.limits && typeof input.limits === 'object' && !Array.isArray(input.limits)
         ? input.limits
         : {},
@@ -174,6 +175,10 @@ export function registerProjectCommands(registry, options = {}) {
 
     const payload = {
       scene: input.scene,
+      outPath: typeof input.outPath === 'string' ? input.outPath : '',
+      snapshotLimit: Number.isInteger(input.snapshotLimit) && input.snapshotLimit >= 1
+        ? input.snapshotLimit
+        : 3,
       limits: input.limits && typeof input.limits === 'object' && !Array.isArray(input.limits)
         ? input.limits
         : {},
@@ -192,13 +197,28 @@ export function registerProjectCommands(registry, options = {}) {
     }
 
     if (response && response.ok === 1 && typeof response.markdown === 'string') {
-      return ok({
+      const output = {
         exported: true,
         markdown: response.markdown,
         lossReport: response.lossReport && typeof response.lossReport === 'object'
           ? response.lossReport
           : { count: 0, items: [] },
-      });
+      };
+
+      if (typeof response.outPath === 'string' && response.outPath.length > 0) {
+        output.outPath = response.outPath;
+      }
+      if (Number.isInteger(response.bytesWritten) && response.bytesWritten >= 0) {
+        output.bytesWritten = response.bytesWritten;
+      }
+      if (response.snapshotCreated === true) {
+        output.snapshotCreated = true;
+        if (typeof response.snapshotPath === 'string' && response.snapshotPath.length > 0) {
+          output.snapshotPath = response.snapshotPath;
+        }
+      }
+
+      return ok(output);
     }
 
     if (response && response.ok === 0 && response.error && typeof response.error === 'object') {

@@ -120,8 +120,8 @@ test('phase map union includes M0..M4 allowlists when phase is M4', () => {
 
 test('unknown future phase uses latest known cumulative allowlist', () => {
   const scopeMap = readScopeMap();
-  const futureAllowed = buildAllowedForPhase(scopeMap, 'M9');
-  const latestKnown = buildAllowedForPhase(scopeMap, 'M8');
+  const futureAllowed = buildAllowedForPhase(scopeMap, 'M10');
+  const latestKnown = buildAllowedForPhase(scopeMap, 'M9');
   assert.deepEqual([...futureAllowed].sort(), [...latestKnown].sort());
 });
 
@@ -136,6 +136,19 @@ test('M8 scope addition is exact and does not use wildcard prefixes', () => {
   ]);
   for (const prefix of m8Prefixes) {
     assert.equal(prefix.includes('*'), false, `wildcard is forbidden in M8 prefixes: ${prefix}`);
+  }
+});
+
+test('M9 scope addition is exact and does not use wildcard prefixes', () => {
+  const scopeMap = readScopeMap();
+  const m9Paths = Array.isArray(scopeMap.allowByPhase.M9) ? scopeMap.allowByPhase.M9 : [];
+  const m9Prefixes = Array.isArray(scopeMap.allowPrefixByPhase.M9) ? scopeMap.allowPrefixByPhase.M9 : [];
+
+  assert.deepEqual(m9Paths, [
+    'test/unit/sector-m-m9-kickoff.test.js',
+  ]);
+  for (const prefix of m9Prefixes) {
+    assert.equal(prefix.includes('*'), false, `wildcard is forbidden in M9 prefixes: ${prefix}`);
   }
 });
 

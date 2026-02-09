@@ -6,6 +6,7 @@ import {
   buildFlowModeKickoffStatus,
   buildFlowModeCoreStatus,
   buildFlowModeReopenBlockedStatus,
+  buildFlowModeM9KickoffStatus,
   buildFlowSavePayload,
   composeFlowDocument,
   nextSceneCaretAtBoundary,
@@ -312,7 +313,7 @@ async function handleFlowModeOpenUiPath() {
     window.electronAPI.notifyDirtyState(false);
   }
   showEditorPanelFor('Flow mode');
-  updateStatusText(buildFlowModeKickoffStatus('open', scenes.length, { m8Kickoff: true }));
+  updateStatusText(buildFlowModeM9KickoffStatus('open', scenes.length, { m8Kickoff: true, m9Kickoff: true }));
 }
 
 async function handleFlowModeSaveUiPath() {
@@ -338,7 +339,7 @@ async function handleFlowModeSaveUiPath() {
   if (window.electronAPI && typeof window.electronAPI.notifyDirtyState === 'function') {
     window.electronAPI.notifyDirtyState(false);
   }
-  updateStatusText(buildFlowModeKickoffStatus('save', payload.scenes.length, { m8Kickoff: true }));
+  updateStatusText(buildFlowModeM9KickoffStatus('save', payload.scenes.length, { m8Kickoff: true, m9Kickoff: true }));
 }
 
 async function handleMarkdownImportUiPath() {

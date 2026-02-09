@@ -130,7 +130,10 @@ test('M8 scope addition is exact and does not use wildcard prefixes', () => {
   const m8Paths = Array.isArray(scopeMap.allowByPhase.M8) ? scopeMap.allowByPhase.M8 : [];
   const m8Prefixes = Array.isArray(scopeMap.allowPrefixByPhase.M8) ? scopeMap.allowPrefixByPhase.M8 : [];
 
-  assert.deepEqual(m8Paths, ['test/unit/sector-m-m8-core.test.js']);
+  assert.deepEqual(m8Paths, [
+    'test/unit/sector-m-m8-core.test.js',
+    'test/unit/sector-m-m8-next.test.js',
+  ]);
   for (const prefix of m8Prefixes) {
     assert.equal(prefix.includes('*'), false, `wildcard is forbidden in M8 prefixes: ${prefix}`);
   }

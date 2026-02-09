@@ -67,6 +67,7 @@ const M8_REQUIRED_FILES = [
   'test/unit/sector-m-m7-doctor-tokens.test.js',
   'test/unit/sector-m-m7-next-kickoff.test.js',
   'test/unit/sector-m-m8-core.test.js',
+  'test/unit/sector-m-m8-next.test.js',
 ];
 
 function parseArgs(argv) {
@@ -231,6 +232,7 @@ function readSectorMSoT() {
     'GO:SECTOR_M_M7_NEXT_DONE',
     'GO:SECTOR_M_M8_KICKOFF_DONE',
     'GO:SECTOR_M_M8_DONE',
+    'GO:SECTOR_M_M8_NEXT_DONE',
     'GO:SECTOR_M_DONE',
   ]);
   if (parsed.schemaVersion !== 'sector-m-status.v1') {
@@ -373,9 +375,11 @@ function validateChecksDoc(phase) {
       'CHECK_M8_PHASE_READY',
       'CHECK_M8_KICKOFF_HOOK',
       'CHECK_M8_CORE_HOOK',
+      'CHECK_M8_NEXT_HOOK',
       'CHECK_M8_FAST_PATH',
       'CHECK_M8_KICKOFF',
       'CHECK_M8_CORE',
+      'CHECK_M8_NEXT',
     ];
     for (const marker of requiredM8Markers) {
       if (!text.includes(marker)) {
@@ -593,6 +597,23 @@ function validateM8CoreSurface() {
   return { ok: 1, reason: '', details: 'M8 core surface present' };
 }
 
+function validateM8NextSurface() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M8') {
+    return { ok: 1, reason: '', details: 'M8 next check skipped outside M8 phase' };
+  }
+  if (!fs.existsSync('src/renderer/commands/flowMode.mjs')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M8 next flow mode source' };
+  }
+  if (!fs.existsSync('src/renderer/editor.js')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M8 next editor source' };
+  }
+  if (!fs.existsSync('test/unit/sector-m-m8-next.test.js')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M8 next test file' };
+  }
+  return { ok: 1, reason: '', details: 'M8 next surface present' };
+}
+
 function validateFullScopeMapIntegrity() {
   const scopeMapLoad = loadScopeMap();
   if (scopeMapLoad.ok !== 1) {
@@ -709,6 +730,7 @@ function runDoctorCheck(phase) {
     must.push(['M8_PHASE_READY_OK', '1']);
     must.push(['M8_KICKOFF_OK', '1']);
     must.push(['M8_CORE_OK', '1']);
+    must.push(['M8_NEXT_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
@@ -832,6 +854,14 @@ function main() {
     details: m8CoreSurface.details,
   });
   if (!failReason && m8CoreSurface.ok !== 1) failReason = m8CoreSurface.reason;
+
+  const m8NextSurface = validateM8NextSurface();
+  checks.push({
+    checkId: 'CHECK_M8_NEXT_SURFACE',
+    ok: m8NextSurface.ok,
+    details: m8NextSurface.details,
+  });
+  if (!failReason && m8NextSurface.ok !== 1) failReason = m8NextSurface.reason;
 
   if (args.pack === 'full') {
     const fullScope = validateFullScopeMapIntegrity();

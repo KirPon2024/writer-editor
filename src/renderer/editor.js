@@ -5,6 +5,7 @@ import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands
 import {
   buildFlowModeKickoffStatus,
   buildFlowModeCoreStatus,
+  buildFlowModeReopenBlockedStatus,
   buildFlowSavePayload,
   composeFlowDocument,
   nextSceneCaretAtBoundary,
@@ -284,6 +285,11 @@ function normalizeFlowSceneRefs(rawScenes) {
 }
 
 async function handleFlowModeOpenUiPath() {
+  if (flowModeState.active && flowModeState.dirty) {
+    updateStatusText(buildFlowModeReopenBlockedStatus(flowModeState.scenes.length));
+    return;
+  }
+
   const openResult = await runFlowOpenCommand();
   if (!openResult.ok) return;
 

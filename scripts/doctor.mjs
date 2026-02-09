@@ -115,6 +115,7 @@ const M7_COMMANDS_TEST_PATH = 'test/unit/sector-m-m7-commands.test.js';
 const M7_DOCTOR_TEST_PATH = 'test/unit/sector-m-m7-doctor-tokens.test.js';
 const M7_NEXT_KICKOFF_TEST_PATH = 'test/unit/sector-m-m7-next-kickoff.test.js';
 const M8_CORE_TEST_PATH = 'test/unit/sector-m-m8-core.test.js';
+const M8_NEXT_TEST_PATH = 'test/unit/sector-m-m8-next.test.js';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
@@ -2933,6 +2934,7 @@ function evaluateSectorMStatus() {
     'GO:SECTOR_M_M7_NEXT_DONE',
     'GO:SECTOR_M_M8_KICKOFF_DONE',
     'GO:SECTOR_M_M8_DONE',
+    'GO:SECTOR_M_M8_NEXT_DONE',
     'GO:SECTOR_M_DONE',
   ]);
 
@@ -3685,6 +3687,7 @@ function evaluateM8KickoffTokens(sectorMStatus, m7Phase) {
     result.goTagRuleOk = goTag === ''
       || goTag === 'GO:SECTOR_M_M8_KICKOFF_DONE'
       || goTag === 'GO:SECTOR_M_M8_DONE'
+      || goTag === 'GO:SECTOR_M_M8_NEXT_DONE'
       ? 1
       : 0;
   }
@@ -3749,7 +3752,10 @@ function evaluateM8CoreTokens(sectorMStatus, m8Kickoff) {
   const atLeastM8 = phaseIndex >= sectorMPhaseIndex('M8');
 
   if (phase === 'M8') {
-    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M8_DONE' ? 1 : 0;
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M8_DONE'
+      || goTag === 'GO:SECTOR_M_M8_NEXT_DONE'
+      ? 1
+      : 0;
   }
 
   const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
@@ -3792,6 +3798,70 @@ function evaluateM8CoreTokens(sectorMStatus, m8Kickoff) {
 
   console.log(`M8_CORE_OK=${result.coreOk}`);
   console.log(`M8_CORE_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  return result;
+}
+
+function evaluateM8NextTokens(sectorMStatus, m8Core) {
+  const result = {
+    nextOk: 0,
+    goTagRuleOk: 1,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM8 = phaseIndex >= sectorMPhaseIndex('M8');
+
+  if (phase === 'M8') {
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M8_NEXT_DONE' ? 1 : 0;
+  }
+
+  const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
+    'CHECK_M8_PHASE_CORE',
+    'CHECK_M8_PHASE_READY',
+    'CHECK_M8_KICKOFF_HOOK',
+    'CHECK_M8_CORE_HOOK',
+    'CHECK_M8_NEXT_HOOK',
+    'CHECK_M8_FAST_PATH',
+    'CHECK_M8_KICKOFF',
+    'CHECK_M8_CORE',
+    'CHECK_M8_NEXT',
+  ]);
+
+  let nextMarkersOk = 0;
+  if (fs.existsSync(M7_FLOW_MODE_PATH) && fs.existsSync(M4_EDITOR_PATH)) {
+    try {
+      const flowText = fs.readFileSync(M7_FLOW_MODE_PATH, 'utf8');
+      const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
+      nextMarkersOk = flowText.includes('buildFlowModeReopenBlockedStatus')
+        && flowText.includes('blocked reopen')
+        && editorText.includes('flowModeState.active && flowModeState.dirty')
+        && editorText.includes('buildFlowModeReopenBlockedStatus')
+        && fs.existsSync(M8_NEXT_TEST_PATH)
+        ? 1
+        : 0;
+    } catch {
+      nextMarkersOk = 0;
+    }
+  }
+
+  const m8CoreOk = m8Core && m8Core.coreOk === 1;
+  result.nextOk = atLeastM8
+    && m8CoreOk
+    && checksMarkersOk
+    && nextMarkersOk === 1
+    && result.goTagRuleOk === 1
+    ? 1
+    : 0;
+  result.level = atLeastM8 && result.nextOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M8_NEXT_OK=${result.nextOk}`);
+  console.log(`M8_NEXT_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }
 
@@ -5268,6 +5338,7 @@ function run() {
   const m7Phase = evaluateM7PhaseTokens(sectorMStatus, m6Reliability);
   const m8Kickoff = evaluateM8KickoffTokens(sectorMStatus, m7Phase);
   const m8Core = evaluateM8CoreTokens(sectorMStatus, m8Kickoff);
+  const m8Next = evaluateM8NextTokens(sectorMStatus, m8Core);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);

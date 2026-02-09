@@ -3818,7 +3818,10 @@ function evaluateM8NextTokens(sectorMStatus, m8Core) {
   const atLeastM8 = phaseIndex >= sectorMPhaseIndex('M8');
 
   if (phase === 'M8') {
-    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M8_NEXT_DONE' ? 1 : 0;
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M8_NEXT_DONE'
+      || goTag === 'GO:SECTOR_M_M8_DONE'
+      ? 1
+      : 0;
   }
 
   const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
@@ -3862,6 +3865,52 @@ function evaluateM8NextTokens(sectorMStatus, m8Core) {
 
   console.log(`M8_NEXT_OK=${result.nextOk}`);
   console.log(`M8_NEXT_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  return result;
+}
+
+function evaluateM8CloseTokens(sectorMStatus, m8Next) {
+  const result = {
+    closeOk: 0,
+    goTagRuleOk: 1,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM8 = phaseIndex >= sectorMPhaseIndex('M8');
+
+  if (phase === 'M8') {
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M8_DONE' ? 1 : 0;
+  } else if (phase === 'DONE') {
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M8_DONE' || goTag === 'GO:SECTOR_M_DONE' ? 1 : 0;
+  }
+
+  const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
+    'CHECK_M8_PHASE_CORE',
+    'CHECK_M8_PHASE_READY',
+    'CHECK_M8_FAST_PATH',
+    'CHECK_M8_KICKOFF',
+    'CHECK_M8_CORE',
+    'CHECK_M8_NEXT',
+    'CHECK_M8_CLOSE',
+  ]);
+
+  const m8NextOk = m8Next && m8Next.nextOk === 1;
+  result.closeOk = atLeastM8
+    && m8NextOk
+    && checksMarkersOk
+    && result.goTagRuleOk === 1
+    ? 1
+    : 0;
+  result.level = atLeastM8 && result.closeOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M8_CLOSE_OK=${result.closeOk}`);
+  console.log(`M8_CLOSE_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }
 
@@ -5339,6 +5388,7 @@ function run() {
   const m8Kickoff = evaluateM8KickoffTokens(sectorMStatus, m7Phase);
   const m8Core = evaluateM8CoreTokens(sectorMStatus, m8Kickoff);
   const m8Next = evaluateM8NextTokens(sectorMStatus, m8Core);
+  const m8Close = evaluateM8CloseTokens(sectorMStatus, m8Next);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);

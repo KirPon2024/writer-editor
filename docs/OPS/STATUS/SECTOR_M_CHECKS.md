@@ -62,6 +62,7 @@
 - CHECK_M8_KICKOFF: aggregate token is green only when `M8_PHASE_READY_OK=1` and kickoff hook markers/tests are present.
 - CHECK_M8_CORE: aggregate token is green only when `M8_KICKOFF_OK=1` and core hook markers/tests are present.
 - CHECK_M8_NEXT: aggregate token is green only when `M8_CORE_OK=1` and M8 next hook markers/tests are present.
+- CHECK_M8_CLOSE: aggregate token is green only when `M8_NEXT_OK=1` and SoT close goTag is `GO:SECTOR_M_M8_DONE`.
 
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.

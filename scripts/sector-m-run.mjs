@@ -380,6 +380,7 @@ function validateChecksDoc(phase) {
       'CHECK_M8_KICKOFF',
       'CHECK_M8_CORE',
       'CHECK_M8_NEXT',
+      'CHECK_M8_CLOSE',
     ];
     for (const marker of requiredM8Markers) {
       if (!text.includes(marker)) {
@@ -670,6 +671,8 @@ function runDoctorCheck(phase) {
     return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: 'doctor exited non-zero' };
   }
   const tokens = parseKvTokens(out.stdout);
+  const sectorMStatus = readSectorMSoT();
+  const goTag = typeof sectorMStatus.goTag === 'string' ? sectorMStatus.goTag : '';
   const must = [
     ['SECTOR_M_STATUS_OK', '1'],
     ['SECTOR_M_PHASE', phase],
@@ -731,6 +734,9 @@ function runDoctorCheck(phase) {
     must.push(['M8_KICKOFF_OK', '1']);
     must.push(['M8_CORE_OK', '1']);
     must.push(['M8_NEXT_OK', '1']);
+    if (goTag === 'GO:SECTOR_M_M8_DONE') {
+      must.push(['M8_CLOSE_OK', '1']);
+    }
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {

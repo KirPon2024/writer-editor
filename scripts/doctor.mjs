@@ -11,6 +11,10 @@ const DEFAULT_CONTOUR_C_STATUS_PATH = 'docs/OPS/STATUS/CONTOUR_C.json';
 const DEFAULT_SECTOR_U_FAST_RESULT_PATH = 'artifacts/sector-u-run/latest/result.json';
 const DEFAULT_SECTOR_U_CLOSE_REPORT_PATH = 'docs/OPS/STATUS/SECTOR_U_CLOSE_REPORT.md';
 const DEFAULT_SECTOR_U_CLOSED_LOCK_PATH = 'docs/OPS/STATUS/SECTOR_U_CLOSED_LOCK.json';
+const DEFAULT_CANON_ENTRYPOINT_POLICY_PATH = 'docs/OPS/STATUS/CANON_ENTRYPOINT_POLICY.md';
+const DEFAULT_U_DETECT_ONLY_CARVEOUT_PATH = 'docs/OPS/STATUS/U_DETECT_ONLY_CARVEOUT.md';
+const DEFAULT_FULL_POLICY_NO_DUPLICATION_PATH = 'docs/OPS/STATUS/FULL_POLICY_NO_DUPLICATION.md';
+const DEFAULT_SECOND_ENTRYPOINT_PATH = 'docs/CRAFTSMAN.md';
 
 const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || DEFAULT_SECTOR_U_STATUS_PATH;
 const NEXT_SECTOR_STATUS_PATH = process.env.NEXT_SECTOR_STATUS_PATH || DEFAULT_NEXT_SECTOR_STATUS_PATH;
@@ -20,6 +24,10 @@ const CONTOUR_C_STATUS_PATH = process.env.CONTOUR_C_STATUS_PATH || DEFAULT_CONTO
 const SECTOR_U_FAST_RESULT_PATH = process.env.SECTOR_U_FAST_RESULT_PATH || DEFAULT_SECTOR_U_FAST_RESULT_PATH;
 const SECTOR_U_CLOSE_REPORT_PATH = process.env.SECTOR_U_CLOSE_REPORT_PATH || DEFAULT_SECTOR_U_CLOSE_REPORT_PATH;
 const SECTOR_U_CLOSED_LOCK_PATH = process.env.SECTOR_U_CLOSED_LOCK_PATH || DEFAULT_SECTOR_U_CLOSED_LOCK_PATH;
+const CANON_ENTRYPOINT_POLICY_PATH = process.env.CANON_ENTRYPOINT_POLICY_PATH || DEFAULT_CANON_ENTRYPOINT_POLICY_PATH;
+const U_DETECT_ONLY_CARVEOUT_PATH = process.env.U_DETECT_ONLY_CARVEOUT_PATH || DEFAULT_U_DETECT_ONLY_CARVEOUT_PATH;
+const FULL_POLICY_NO_DUPLICATION_PATH = process.env.FULL_POLICY_NO_DUPLICATION_PATH || DEFAULT_FULL_POLICY_NO_DUPLICATION_PATH;
+const SECOND_ENTRYPOINT_PATH = process.env.SECOND_ENTRYPOINT_PATH || DEFAULT_SECOND_ENTRYPOINT_PATH;
 const U1_COMMAND_REGISTRY_PATH = 'src/renderer/commands/registry.mjs';
 const U1_COMMAND_RUNNER_PATH = 'src/renderer/commands/runCommand.mjs';
 const U1_COMMAND_PROJECT_PATH = 'src/renderer/commands/projectCommands.mjs';
@@ -3741,6 +3749,71 @@ function evaluateNextSectorStatus(input) {
   return result;
 }
 
+function evaluateOpsP0SectorMPrepTokens() {
+  const result = {
+    canonEntrypointPolicyOk: 0,
+    uDetectOnlyCarveoutOk: 0,
+    fullPolicyNoDuplicationOk: 0,
+    splitBrainDetected: 0,
+    level: 'warn',
+  };
+
+  const canonEntrypointPath = 'CANON.md';
+  const canonEntrypointExists = fs.existsSync(canonEntrypointPath);
+
+  const canonPolicyExists = fs.existsSync(CANON_ENTRYPOINT_POLICY_PATH);
+  const canonPolicyText = canonPolicyExists
+    ? fs.readFileSync(CANON_ENTRYPOINT_POLICY_PATH, 'utf8')
+    : '';
+  const canonPolicyMarkersOk = canonPolicyText.includes('ENTRYPOINT_POLICY_SCHEMA=entrypoint-policy.v1')
+    && canonPolicyText.includes('ENTRYPOINT_MUST=CANON.md')
+    && canonPolicyText.includes('ENTRYPOINT_SECOND_MUST_ALLOWED=0');
+
+  let secondMust = false;
+  if (fs.existsSync(SECOND_ENTRYPOINT_PATH)) {
+    const secondText = fs.readFileSync(SECOND_ENTRYPOINT_PATH, 'utf8');
+    secondMust = /^ENTRYPOINT_MUST=1$/m.test(secondText);
+  }
+
+  result.splitBrainDetected = secondMust ? 1 : 0;
+  result.canonEntrypointPolicyOk = canonEntrypointExists
+    && canonPolicyMarkersOk
+    && !secondMust ? 1 : 0;
+
+  const carveoutExists = fs.existsSync(U_DETECT_ONLY_CARVEOUT_PATH);
+  const carveoutText = carveoutExists
+    ? fs.readFileSync(U_DETECT_ONLY_CARVEOUT_PATH, 'utf8')
+    : '';
+  result.uDetectOnlyCarveoutOk = carveoutText.includes('CARVEOUT_SCHEMA=u-detect-only-carveout.v1')
+    && carveoutText.includes('WHAT=')
+    && carveoutText.includes('WHY=')
+    && carveoutText.includes('UNTIL=')
+    && carveoutText.includes('NON_BLOCKING_FOR_SECTOR_M=1')
+    && carveoutText.includes('FAIL_REASON=E_U_DETECT_ONLY_CARVEOUT_MISSING') ? 1 : 0;
+
+  const fullPolicyExists = fs.existsSync(FULL_POLICY_NO_DUPLICATION_PATH);
+  const fullPolicyText = fullPolicyExists
+    ? fs.readFileSync(FULL_POLICY_NO_DUPLICATION_PATH, 'utf8')
+    : '';
+  result.fullPolicyNoDuplicationOk = fullPolicyText.includes('FULL_POLICY_SCHEMA=full-policy.v1')
+    && fullPolicyText.includes('FULL_ONLY=1')
+    && fullPolicyText.includes('NO_DUPLICATION=1')
+    && fullPolicyText.includes('ENFORCE_TOKEN=FULL_POLICY_NO_DUPLICATION_OK')
+    && fullPolicyText.includes('FAIL_REASON=E_FULL_POLICY_NO_DUPLICATION_MISSING') ? 1 : 0;
+
+  result.level = result.canonEntrypointPolicyOk === 1
+    && result.uDetectOnlyCarveoutOk === 1
+    && result.fullPolicyNoDuplicationOk === 1
+    ? 'ok'
+    : 'warn';
+
+  console.log(`CANON_ENTRYPOINT_POLICY_OK=${result.canonEntrypointPolicyOk}`);
+  console.log(`U_DETECT_ONLY_CARVEOUT_OK=${result.uDetectOnlyCarveoutOk}`);
+  console.log(`FULL_POLICY_NO_DUPLICATION_OK=${result.fullPolicyNoDuplicationOk}`);
+  console.log(`CANON_ENTRYPOINT_SPLIT_BRAIN_DETECTED=${result.splitBrainDetected}`);
+  return result;
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -3819,6 +3892,7 @@ function run() {
   const u8PerfBaseline = evaluateU8PerfBaselineTokens(sectorUStatus);
   const u9Close = evaluateU9CloseTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
+  const opsP0SectorMPrep = evaluateOpsP0SectorMPrepTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -3935,7 +4009,8 @@ function run() {
     || u7VisualBaseline.level === 'warn'
     || u8PerfBaseline.level === 'warn'
     || u9Close.level === 'warn'
-    || nextSector.level === 'warn';
+    || nextSector.level === 'warn'
+    || opsP0SectorMPrep.level === 'warn';
 
   const final = hasFail
     ? { status: 'DOCTOR_FAIL', exitCode: 1 }

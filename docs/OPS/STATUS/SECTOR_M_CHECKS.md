@@ -42,9 +42,14 @@
 - CHECK_M6_DETERMINISTIC_LOG: markdown IO failures produce deterministic local log records with stable schema.
 - CHECK_M6_RELIABILITY: M6 aggregate token is green only when M6 UX/config/log checks are green and M5 reliability remains green.
 
+## M7
+- CHECK_M7_PHASE_KICKOFF: SoT is updated to `phase=M7` and `goTag=GO:SECTOR_M_M7_DONE`.
+- CHECK_M7_PHASE_READY: doctor emits `M7_PHASE_READY_OK=1` with `SECTOR_M_PHASE=M7`.
+- CHECK_M7_FAST_PATH: `test:sector-m`, `sector-m-run --pack fast`, and doctor critical tokens stay green.
+
 FULL policy:
 - FULL extends FAST with full-only checks; it must not duplicate FAST commands.
 - CHECK_M_FULL_SCOPE_MAP_INTEGRITY (FULL-only):
-  - validates `scripts/ops/sector-m-scope-map.json` schema/phase coverage (M0..M6,DONE)
+  - validates `scripts/ops/sector-m-scope-map.json` schema/phase coverage (M0..M7,DONE)
   - validates runbook/network-gate markers for delivery fallback
 - Enforcement token: `SECTOR_M_FAST_FULL_DIVERGENCE_OK=1`.

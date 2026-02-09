@@ -2,7 +2,7 @@
   "schemaVersion": "sector-m-status.v1",
   "status": "IN_PROGRESS",
   "phase": "M8",
-  "goTag": "GO:SECTOR_M_M8_KICKOFF_DONE",
+  "goTag": "GO:SECTOR_M_M8_DONE",
   "baselineSha": "746241f43a9fd25065501f9e17523d8a77d735eb",
   "mdModeVersion": 1,
   "contractPaths": [
@@ -64,6 +64,11 @@
     "test/unit/sector-m-m7-flow-mode.test.js",
     "test/unit/sector-m-m7-doctor-tokens.test.js",
     "test/unit/sector-m-m7-next-kickoff.test.js"
+  ],
+  "m8CoreDeliverables": [
+    "src/renderer/commands/flowMode.mjs",
+    "src/renderer/editor.js",
+    "test/unit/sector-m-m8-core.test.js"
   ],
   "waiversPath": "",
   "owners": []

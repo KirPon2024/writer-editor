@@ -39,6 +39,14 @@ export function buildFlowModeKickoffStatus(kind, sceneCount, options = {}) {
   return `${base} · M8 kickoff`;
 }
 
+export function buildFlowModeCoreStatus(sceneCount, options = {}) {
+  const count = normalizeSceneCount(sceneCount);
+  const dirty = options && options.dirty === true;
+  return dirty
+    ? `Flow mode core (${count}) · unsaved changes · Shift+S save`
+    : `Flow mode core (${count}) · synced`;
+}
+
 function parseSceneMarker(line) {
   const match = /^---\[ SCENE (\d+): .* \]---$/.exec(String(line || '').trim());
   if (!match) return null;

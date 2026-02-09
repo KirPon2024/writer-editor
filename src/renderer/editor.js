@@ -3,8 +3,8 @@ import { createCommandRegistry } from './commands/registry.mjs';
 import { createCommandRunner } from './commands/runCommand.mjs';
 import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands.mjs';
 import {
-  buildFlowModeStatus,
   buildFlowModeKickoffStatus,
+  buildFlowModeCoreStatus,
   buildFlowSavePayload,
   composeFlowDocument,
   nextSceneCaretAtBoundary,
@@ -78,6 +78,7 @@ let currentDocumentKind = null;
 let flowModeState = {
   active: false,
   scenes: [],
+  dirty: false,
 };
 let metaEnabled = false;
 let currentCards = [];
@@ -263,6 +264,7 @@ function clearFlowModeState() {
   flowModeState = {
     active: false,
     scenes: [],
+    dirty: false,
   };
 }
 
@@ -294,6 +296,7 @@ async function handleFlowModeOpenUiPath() {
   flowModeState = {
     active: true,
     scenes: scenes.map((scene) => ({ path: scene.path, title: scene.title, kind: scene.kind })),
+    dirty: false,
   };
 
   setPlainText(composeFlowDocument(scenes));
@@ -321,6 +324,10 @@ async function handleFlowModeSaveUiPath() {
   const saveResult = await runFlowSaveCommand(payload.scenes);
   if (!saveResult.ok) return;
 
+  flowModeState = {
+    ...flowModeState,
+    dirty: false,
+  };
   localDirty = false;
   if (window.electronAPI && typeof window.electronAPI.notifyDirtyState === 'function') {
     window.electronAPI.notifyDirtyState(false);
@@ -1638,14 +1645,22 @@ function scheduleAutoSave(delay = AUTO_SAVE_DELAY) {
 }
 
 function markAsModified() {
+  if (flowModeState.active) {
+    flowModeState = {
+      ...flowModeState,
+      dirty: true,
+    };
+    updateStatusText(buildFlowModeCoreStatus(flowModeState.scenes.length, { dirty: true }));
+  } else {
+    updateStatusText('Изменено');
+  }
+
   if (!localDirty) {
     localDirty = true;
     if (window.electronAPI && window.electronAPI.notifyDirtyState) {
       window.electronAPI.notifyDirtyState(true);
     }
   }
-
-  updateStatusText('Изменено');
   scheduleAutoSave();
 }
 

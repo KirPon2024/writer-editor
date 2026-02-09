@@ -1,6 +1,6 @@
 {
   "schemaVersion": "sector-m-scope-map.v1",
-  "phaseOrder": ["M0", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "DONE"],
+  "phaseOrder": ["M0", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "DONE"],
   "opsCarveoutAllow": [
     "docs/OPS/STATUS/CANON_WORKTREE_POLICY.md",
     "docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md",
@@ -98,6 +98,9 @@
     "M5": [],
     "M6": [],
     "M7": [],
+    "M8": [
+      "test/unit/sector-m-m8-core.test.js"
+    ],
     "DONE": []
   },
   "allowPrefixByPhase": {
@@ -122,6 +125,7 @@
     "M7": [
       "test/unit/sector-m-m7-"
     ],
+    "M8": [],
     "DONE": []
   }
 }

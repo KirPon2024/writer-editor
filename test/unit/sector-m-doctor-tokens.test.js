@@ -42,6 +42,7 @@ test('doctor emits sector-m tokens with valid domains', () => {
       'GO:SECTOR_M_M7_DONE',
       'GO:SECTOR_M_M7_NEXT_DONE',
       'GO:SECTOR_M_M8_KICKOFF_DONE',
+      'GO:SECTOR_M_M8_DONE',
       'GO:SECTOR_M_DONE',
     ].includes(tokens.get('SECTOR_M_GO_TAG')),
     'SECTOR_M_GO_TAG domain mismatch',

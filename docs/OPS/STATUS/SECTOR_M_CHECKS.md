@@ -12,5 +12,11 @@
 - CHECK_M1_NO_SPLIT_BRAIN_ENTRYPOINT: `CANON_ENTRYPOINT_SPLIT_BRAIN_DETECTED=0`.
 - CHECK_M1_POLICIES_NON_AMBIGUOUS: doctor emits `M1_CONTRACT_OK=1` and policy tokens.
 
+## M2
+- CHECK_M2_TRANSFORM_FILES_PRESENT: `src/export/markdown/v1/*` transform files and M2 tests exist.
+- CHECK_M2_ROUNDTRIP_PROOFS: roundtrip tests pass and doctor emits `M2_ROUNDTRIP_OK=1`.
+- CHECK_M2_SECURITY_ENFORCEMENT: security tests pass and doctor emits `M2_SECURITY_ENFORCEMENT_OK=1`.
+- CHECK_M2_LIMITS_ENFORCEMENT: limits tests pass and doctor emits `M2_LIMITS_OK=1`.
+
 FULL policy:
-- M0 and M1 use FAST-equivalent checks only; no additional full-only checks are required yet.
+- M0, M1, and M2 use FAST-equivalent checks only; no additional full-only checks are required yet.

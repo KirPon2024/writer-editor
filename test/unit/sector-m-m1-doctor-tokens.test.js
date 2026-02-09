@@ -23,7 +23,10 @@ test('doctor emits M1 contract tokens', () => {
   assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
   const tokens = parseTokens(result.stdout);
 
-  assert.equal(tokens.get('SECTOR_M_PHASE'), 'M1');
+  const phase = tokens.get('SECTOR_M_PHASE') || '';
+  const allowedPhases = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE'];
+  assert.ok(allowedPhases.includes(phase), `unexpected phase for M1 token checks: ${phase}`);
+
   assert.equal(tokens.get('M1_CONTRACT_DOCS_PRESENT'), '1');
   assert.equal(tokens.get('M1_CONTRACT_DOCS_COMPLETE'), '1');
   assert.equal(tokens.get('M1_SECURITY_POLICY_OK'), '1');

@@ -32,12 +32,47 @@ const ALLOWLIST_M1 = new Set([
   'test/unit/sector-m-no-scope-leak.test.js',
 ]);
 
+const ALLOWLIST_M2 = new Set([
+  'src/export/markdown/v1/index.mjs',
+  'src/export/markdown/v1/lossReport.mjs',
+  'src/export/markdown/v1/parseMarkdownV1.mjs',
+  'src/export/markdown/v1/serializeMarkdownV1.mjs',
+  'src/export/markdown/v1/types.mjs',
+  'docs/OPS/STATUS/SECTOR_M.json',
+  'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
+  'scripts/doctor.mjs',
+  'scripts/sector-m-run.mjs',
+  'test/unit/sector-m-m2-roundtrip.test.js',
+  'test/unit/sector-m-m2-security-policy.test.js',
+  'test/unit/sector-m-m2-limits.test.js',
+  'test/fixtures/sector-m/m2/simple.md',
+  'test/fixtures/sector-m/m2/simple.expected.md',
+  'test/fixtures/sector-m/m2/headings.md',
+  'test/fixtures/sector-m/m2/lists.md',
+  'test/fixtures/sector-m/m2/links_safe.md',
+  'test/fixtures/sector-m/m2/links_unsafe.md',
+  'test/fixtures/sector-m/m2/html_raw.md',
+  'test/fixtures/sector-m/m2/large.md',
+  'test/fixtures/sector-m/m2/deep.md',
+  'test/fixtures/sector-m/m2/lossy.md',
+  'test/fixtures/sector-m/m2/loss.expected.json',
+  // Keep prior tests updated as phase-agnostic.
+  'test/unit/sector-m-status-schema.test.js',
+  'test/unit/sector-m-doctor-tokens.test.js',
+  'test/unit/sector-m-runner-artifact.test.js',
+  'test/unit/sector-m-no-scope-leak.test.js',
+]);
+
 function currentPhase() {
   const status = spawnSync(process.execPath, ['-e', "const fs=require('node:fs');const p=JSON.parse(fs.readFileSync('docs/OPS/STATUS/SECTOR_M.json','utf8'));process.stdout.write(String(p.phase||''));"], {
     encoding: 'utf8',
   });
   if (status.status !== 0) return '';
   return String(status.stdout || '').trim();
+}
+
+function isPhaseAtLeastM2(phase) {
+  return ['M2', 'M3', 'M4', 'M5', 'M6', 'DONE'].includes(phase);
 }
 
 test('sector-m diff does not leak outside phase allowlist', () => {
@@ -52,7 +87,7 @@ test('sector-m diff does not leak outside phase allowlist', () => {
     .filter(Boolean);
 
   const phase = currentPhase();
-  const allowlist = phase === 'M1' ? ALLOWLIST_M1 : ALLOWLIST;
+  const allowlist = isPhaseAtLeastM2(phase) ? ALLOWLIST_M2 : (phase === 'M1' ? ALLOWLIST_M1 : ALLOWLIST);
   const violations = files.filter((filePath) => !allowlist.has(filePath));
   assert.deepEqual(violations, [], `scope leak detected: ${violations.join(', ')}`);
 });

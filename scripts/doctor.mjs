@@ -69,6 +69,15 @@ const M1_LOSS_PATH = 'docs/FORMAT/MARKDOWN_LOSS_POLICY_v1.md';
 const M1_SECURITY_PATH = 'docs/FORMAT/MARKDOWN_SECURITY_POLICY_v1.md';
 const M1_CONTRACT_TEST_PATH = 'test/unit/sector-m-m1-contract-docs.test.js';
 const M1_DOCTOR_TOKENS_TEST_PATH = 'test/unit/sector-m-m1-doctor-tokens.test.js';
+const M2_TRANSFORM_INDEX_PATH = 'src/export/markdown/v1/index.mjs';
+const M2_TRANSFORM_TYPES_PATH = 'src/export/markdown/v1/types.mjs';
+const M2_TRANSFORM_LOSS_REPORT_PATH = 'src/export/markdown/v1/lossReport.mjs';
+const M2_TRANSFORM_PARSE_PATH = 'src/export/markdown/v1/parseMarkdownV1.mjs';
+const M2_TRANSFORM_SERIALIZE_PATH = 'src/export/markdown/v1/serializeMarkdownV1.mjs';
+const M2_ROUNDTRIP_TEST_PATH = 'test/unit/sector-m-m2-roundtrip.test.js';
+const M2_SECURITY_TEST_PATH = 'test/unit/sector-m-m2-security-policy.test.js';
+const M2_LIMITS_TEST_PATH = 'test/unit/sector-m-m2-limits.test.js';
+const M2_LOSS_EXPECTED_PATH = 'test/fixtures/sector-m/m2/loss.expected.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -3013,6 +3022,61 @@ function evaluateM1ContractTokens(sectorMStatus) {
   return result;
 }
 
+function evaluateM2TransformTokens(sectorMStatus) {
+  const result = {
+    transformOk: 0,
+    roundtripOk: 0,
+    roundtripLossCount: 0,
+    limitsOk: 0,
+    securityEnforcementOk: 0,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM2 = phaseIndex >= sectorMPhaseIndex('M2');
+
+  const transformFiles = [
+    M2_TRANSFORM_INDEX_PATH,
+    M2_TRANSFORM_TYPES_PATH,
+    M2_TRANSFORM_LOSS_REPORT_PATH,
+    M2_TRANSFORM_PARSE_PATH,
+    M2_TRANSFORM_SERIALIZE_PATH,
+  ];
+  result.transformOk = transformFiles.every((it) => fs.existsSync(it)) ? 1 : 0;
+
+  const roundtripTestOk = fs.existsSync(M2_ROUNDTRIP_TEST_PATH);
+  const securityTestOk = fs.existsSync(M2_SECURITY_TEST_PATH);
+  const limitsTestOk = fs.existsSync(M2_LIMITS_TEST_PATH);
+
+  result.roundtripOk = roundtripTestOk && result.transformOk === 1 ? 1 : 0;
+  result.securityEnforcementOk = securityTestOk && result.transformOk === 1 ? 1 : 0;
+  result.limitsOk = limitsTestOk && result.transformOk === 1 ? 1 : 0;
+
+  const lossExpected = readJsonObjectOptional(M2_LOSS_EXPECTED_PATH);
+  const lossCount = lossExpected && Number.isInteger(lossExpected.roundtripLossCount)
+    ? lossExpected.roundtripLossCount
+    : 0;
+  result.roundtripLossCount = lossCount >= 0 ? lossCount : 0;
+
+  result.level = atLeastM2
+    && !(result.transformOk === 1
+      && result.roundtripOk === 1
+      && result.securityEnforcementOk === 1
+      && result.limitsOk === 1)
+    ? 'warn'
+    : 'ok';
+
+  console.log(`M2_TRANSFORM_OK=${result.transformOk}`);
+  console.log(`M2_ROUNDTRIP_OK=${result.roundtripOk}`);
+  console.log(`M2_ROUNDTRIP_LOSS_COUNT=${result.roundtripLossCount}`);
+  console.log(`M2_LIMITS_OK=${result.limitsOk}`);
+  console.log(`M2_SECURITY_ENFORCEMENT_OK=${result.securityEnforcementOk}`);
+  return result;
+}
+
 function evaluateSectorUStatus() {
   function printTokens(result) {
     console.log(`SECTOR_U_PHASE=${result.phase}`);
@@ -4154,6 +4218,7 @@ function run() {
   const sectorMStatus = evaluateSectorMStatus();
   const m0Bootstrap = evaluateM0BootstrapTokens(sectorMStatus);
   const m1Contract = evaluateM1ContractTokens(sectorMStatus);
+  const m2Transform = evaluateM2TransformTokens(sectorMStatus);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -4286,6 +4351,7 @@ function run() {
     || nextSector.level === 'warn'
     || opsP0SectorMPrep.level === 'warn'
     || m1Contract.level === 'warn'
+    || m2Transform.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

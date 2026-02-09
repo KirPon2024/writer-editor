@@ -114,6 +114,7 @@ const M7_FLOW_MODE_TEST_PATH = 'test/unit/sector-m-m7-flow-mode.test.js';
 const M7_COMMANDS_TEST_PATH = 'test/unit/sector-m-m7-commands.test.js';
 const M7_DOCTOR_TEST_PATH = 'test/unit/sector-m-m7-doctor-tokens.test.js';
 const M7_NEXT_KICKOFF_TEST_PATH = 'test/unit/sector-m-m7-next-kickoff.test.js';
+const M8_CORE_TEST_PATH = 'test/unit/sector-m-m8-core.test.js';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
@@ -2931,6 +2932,7 @@ function evaluateSectorMStatus() {
     'GO:SECTOR_M_M7_DONE',
     'GO:SECTOR_M_M7_NEXT_DONE',
     'GO:SECTOR_M_M8_KICKOFF_DONE',
+    'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_DONE',
   ]);
 
@@ -3682,12 +3684,13 @@ function evaluateM8KickoffTokens(sectorMStatus, m7Phase) {
   if (phase === 'M8') {
     result.goTagRuleOk = goTag === ''
       || goTag === 'GO:SECTOR_M_M8_KICKOFF_DONE'
+      || goTag === 'GO:SECTOR_M_M8_DONE'
       ? 1
       : 0;
   }
 
   const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
-    'CHECK_M8_PHASE_KICKOFF',
+    'CHECK_M8_PHASE_CORE',
     'CHECK_M8_PHASE_READY',
     'CHECK_M8_KICKOFF_HOOK',
     'CHECK_M8_FAST_PATH',
@@ -3726,6 +3729,69 @@ function evaluateM8KickoffTokens(sectorMStatus, m7Phase) {
   console.log(`M8_PHASE_READY_OK=${result.phaseReadyOk}`);
   console.log(`M8_KICKOFF_OK=${result.kickoffOk}`);
   console.log(`M8_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
+  return result;
+}
+
+function evaluateM8CoreTokens(sectorMStatus, m8Kickoff) {
+  const result = {
+    coreOk: 0,
+    goTagRuleOk: 1,
+    level: 'ok',
+  };
+
+  const phase = sectorMStatus && typeof sectorMStatus.phase === 'string'
+    ? sectorMStatus.phase
+    : '';
+  const goTag = sectorMStatus && typeof sectorMStatus.goTag === 'string'
+    ? sectorMStatus.goTag
+    : '';
+  const phaseIndex = sectorMPhaseIndex(phase);
+  const atLeastM8 = phaseIndex >= sectorMPhaseIndex('M8');
+
+  if (phase === 'M8') {
+    result.goTagRuleOk = goTag === 'GO:SECTOR_M_M8_DONE' ? 1 : 0;
+  }
+
+  const checksMarkersOk = fileContainsAllMarkers(SECTOR_M_CHECKS_PATH, [
+    'CHECK_M8_PHASE_CORE',
+    'CHECK_M8_PHASE_READY',
+    'CHECK_M8_KICKOFF_HOOK',
+    'CHECK_M8_CORE_HOOK',
+    'CHECK_M8_FAST_PATH',
+    'CHECK_M8_KICKOFF',
+    'CHECK_M8_CORE',
+  ]);
+
+  let coreMarkersOk = 0;
+  if (fs.existsSync(M7_FLOW_MODE_PATH) && fs.existsSync(M4_EDITOR_PATH)) {
+    try {
+      const flowText = fs.readFileSync(M7_FLOW_MODE_PATH, 'utf8');
+      const editorText = fs.readFileSync(M4_EDITOR_PATH, 'utf8');
+      coreMarkersOk = flowText.includes('buildFlowModeCoreStatus')
+        && flowText.includes('unsaved changes')
+        && editorText.includes('buildFlowModeCoreStatus')
+        && editorText.includes('flowModeState.active')
+        && editorText.includes('dirty: true')
+        && fs.existsSync(M8_CORE_TEST_PATH)
+        ? 1
+        : 0;
+    } catch {
+      coreMarkersOk = 0;
+    }
+  }
+
+  const m8KickoffOk = m8Kickoff && m8Kickoff.kickoffOk === 1;
+  result.coreOk = atLeastM8
+    && m8KickoffOk
+    && checksMarkersOk
+    && coreMarkersOk === 1
+    && result.goTagRuleOk === 1
+    ? 1
+    : 0;
+  result.level = atLeastM8 && result.coreOk !== 1 ? 'warn' : 'ok';
+
+  console.log(`M8_CORE_OK=${result.coreOk}`);
+  console.log(`M8_CORE_GO_TAG_RULE_OK=${result.goTagRuleOk}`);
   return result;
 }
 
@@ -5201,6 +5267,7 @@ function run() {
   const m6Reliability = evaluateM6ReliabilityTokens(sectorMStatus);
   const m7Phase = evaluateM7PhaseTokens(sectorMStatus, m6Reliability);
   const m8Kickoff = evaluateM8KickoffTokens(sectorMStatus, m7Phase);
+  const m8Core = evaluateM8CoreTokens(sectorMStatus, m8Kickoff);
   const sectorUWaivers = evaluateSectorUWaiverPredicate(sectorUStatus);
   const sectorUFastDuration = evaluateSectorUFastDurationTokens(sectorUStatus);
   const u1CommandLayer = evaluateU1CommandLayerTokens(sectorUStatus);
@@ -5346,6 +5413,7 @@ function run() {
     || m6Reliability.level === 'warn'
     || m7Phase.level === 'warn'
     || m8Kickoff.level === 'warn'
+    || m8Core.level === 'warn'
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 

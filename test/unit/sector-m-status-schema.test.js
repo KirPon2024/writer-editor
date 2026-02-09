@@ -23,6 +23,7 @@ test('SECTOR_M.json has valid schema fields for any sector phase', () => {
     'GO:SECTOR_M_M7_DONE',
     'GO:SECTOR_M_M7_NEXT_DONE',
     'GO:SECTOR_M_M8_KICKOFF_DONE',
+    'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_DONE',
   ].includes(parsed.goTag), 'goTag domain mismatch');
   assert.match(String(parsed.baselineSha || ''), /^[0-9a-f]{7,}$/i);

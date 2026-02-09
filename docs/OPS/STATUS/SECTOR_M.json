@@ -1,8 +1,8 @@
 {
   "schemaVersion": "sector-m-status.v1",
-  "status": "IN_PROGRESS",
+  "status": "DONE",
   "phase": "M8",
-  "goTag": "GO:SECTOR_M_M8_NEXT_DONE",
+  "goTag": "GO:SECTOR_M_M8_DONE",
   "baselineSha": "746241f43a9fd25065501f9e17523d8a77d735eb",
   "mdModeVersion": 1,
   "contractPaths": [

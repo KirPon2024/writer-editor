@@ -51,4 +51,5 @@ test('M8 next doctor token is green on M8 phase', () => {
   assert.equal(has('SECTOR_M_PHASE=M8'), true);
   assert.equal(has('M8_CORE_OK=1'), true);
   assert.equal(has('M8_NEXT_OK=1'), true);
+  assert.equal(has('M8_CLOSE_OK=1'), true);
 });

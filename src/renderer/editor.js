@@ -3,6 +3,7 @@ import { createCommandRegistry } from './commands/registry.mjs';
 import { createCommandRunner } from './commands/runCommand.mjs';
 import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands.mjs';
 import {
+  buildFlowModeStatus,
   buildFlowSavePayload,
   composeFlowDocument,
   nextSceneCaretAtBoundary,
@@ -145,8 +146,6 @@ const MARKDOWN_IMPORT_STATUS_MESSAGE = 'Imported Markdown v1';
 const MARKDOWN_EXPORT_STATUS_MESSAGE = 'Exported Markdown v1';
 const MARKDOWN_IMPORT_PROMPT_TITLE = 'Import Markdown v1';
 const MARKDOWN_EXPORT_PROMPT_COPY_HINT = 'Export Markdown v1 (copy text below)';
-const FLOW_OPEN_STATUS_MESSAGE = 'Flow mode opened';
-const FLOW_SAVE_STATUS_MESSAGE = 'Flow mode saved';
 const FLOW_OPEN_ERROR_MESSAGE = 'Flow mode unavailable';
 const FLOW_SAVE_ERROR_MESSAGE = 'Flow mode save failed';
 
@@ -303,7 +302,7 @@ async function handleFlowModeOpenUiPath() {
     window.electronAPI.notifyDirtyState(false);
   }
   showEditorPanelFor('Flow mode');
-  updateStatusText(`${FLOW_OPEN_STATUS_MESSAGE} (${scenes.length})`);
+  updateStatusText(buildFlowModeStatus('open', scenes.length));
 }
 
 async function handleFlowModeSaveUiPath() {
@@ -325,7 +324,7 @@ async function handleFlowModeSaveUiPath() {
   if (window.electronAPI && typeof window.electronAPI.notifyDirtyState === 'function') {
     window.electronAPI.notifyDirtyState(false);
   }
-  updateStatusText(`${FLOW_SAVE_STATUS_MESSAGE} (${payload.scenes.length})`);
+  updateStatusText(buildFlowModeStatus('save', payload.scenes.length));
 }
 
 async function handleMarkdownImportUiPath() {
@@ -2451,6 +2450,14 @@ editor.addEventListener('keydown', (event) => {
       if (Number.isInteger(nextCaret)) {
         event.preventDefault();
         setSelectionRange(nextCaret, nextCaret);
+        return;
+      }
+    }
+    if (hasCollapsedSelection && event.key === 'ArrowUp') {
+      const prevCaret = previousSceneCaretAtBoundary(getPlainText(), start);
+      if (Number.isInteger(prevCaret)) {
+        event.preventDefault();
+        setSelectionRange(prevCaret, prevCaret);
         return;
       }
     }

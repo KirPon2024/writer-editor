@@ -58,6 +58,24 @@ export function buildFlowModeM9KickoffStatus(kind, sceneCount, options = {}) {
   return `${base} · M9 kickoff`;
 }
 
+export function buildFlowModeM9CoreSaveErrorStatus(error, sceneCount) {
+  const count = normalizeSceneCount(sceneCount);
+  const reason = error && typeof error === 'object' && !Array.isArray(error)
+    ? String(error.reason || '')
+    : '';
+
+  if (reason === 'flow_marker_count_mismatch') {
+    return `Flow mode core (${count}) · save blocked: marker count mismatch · reopen flow mode`;
+  }
+  if (reason === 'flow_marker_sequence_invalid') {
+    return `Flow mode core (${count}) · save blocked: marker sequence invalid · reopen flow mode`;
+  }
+  if (reason === 'flow_scene_path_missing') {
+    return `Flow mode core (${count}) · save blocked: scene path missing · reopen flow mode`;
+  }
+  return `Flow mode core (${count}) · save blocked: invalid flow payload · reopen flow mode`;
+}
+
 function parseSceneMarker(line) {
   const match = /^---\[ SCENE (\d+): .* \]---$/.exec(String(line || '').trim());
   if (!match) return null;

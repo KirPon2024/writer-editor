@@ -20,6 +20,7 @@ test('M7 kickoff artifacts remain aligned for M7+ phases', () => {
     'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_M8_NEXT_DONE',
     'GO:SECTOR_M_M9_KICKOFF_DONE',
+    'GO:SECTOR_M_M9_CORE_DONE',
     'GO:SECTOR_M_M9_DONE',
     'GO:SECTOR_M_DONE',
   ].includes(sot.goTag));

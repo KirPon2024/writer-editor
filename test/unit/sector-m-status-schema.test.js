@@ -26,6 +26,7 @@ test('SECTOR_M.json has valid schema fields for any sector phase', () => {
     'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_M8_NEXT_DONE',
     'GO:SECTOR_M_M9_KICKOFF_DONE',
+    'GO:SECTOR_M_M9_CORE_DONE',
     'GO:SECTOR_M_M9_DONE',
     'GO:SECTOR_M_DONE',
   ].includes(parsed.goTag), 'goTag domain mismatch');

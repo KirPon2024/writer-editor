@@ -74,6 +74,7 @@ const M9_REQUIRED_FILES = [
   'src/renderer/commands/flowMode.mjs',
   'src/renderer/editor.js',
   'test/unit/sector-m-m9-kickoff.test.js',
+  'test/unit/sector-m-m9-core.test.js',
 ];
 
 function parseArgs(argv) {
@@ -240,6 +241,7 @@ function readSectorMSoT() {
     'GO:SECTOR_M_M8_DONE',
     'GO:SECTOR_M_M8_NEXT_DONE',
     'GO:SECTOR_M_M9_KICKOFF_DONE',
+    'GO:SECTOR_M_M9_CORE_DONE',
     'GO:SECTOR_M_M9_DONE',
     'GO:SECTOR_M_DONE',
   ]);
@@ -400,8 +402,10 @@ function validateChecksDoc(phase) {
     const requiredM9Markers = [
       'CHECK_M9_PHASE_READY',
       'CHECK_M9_KICKOFF_HOOK',
+      'CHECK_M9_CORE_HOOK',
       'CHECK_M9_FAST_PATH',
       'CHECK_M9_KICKOFF',
+      'CHECK_M9_CORE',
     ];
     for (const marker of requiredM9Markers) {
       if (!text.includes(marker)) {
@@ -654,7 +658,13 @@ function validateM9KickoffSurface() {
   if (!editorText.includes('buildFlowModeM9KickoffStatus') || !editorText.includes('m9Kickoff: true')) {
     return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 kickoff status wiring markers in editor source' };
   }
-  return { ok: 1, reason: '', details: 'M9 kickoff surface present' };
+  if (!flowText.includes('buildFlowModeM9CoreSaveErrorStatus') || !flowText.includes('save blocked: marker count mismatch')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 core save-error helper markers in flow mode source' };
+  }
+  if (!editorText.includes('buildFlowModeM9CoreSaveErrorStatus(payload.error')) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'missing M9 core save-error wiring markers in editor source' };
+  }
+  return { ok: 1, reason: '', details: 'M9 kickoff+core surface present' };
 }
 
 function validateFullScopeMapIntegrity() {
@@ -784,6 +794,7 @@ function runDoctorCheck(phase) {
     must.push(['M8_CLOSE_OK', '1']);
     must.push(['M9_PHASE_READY_OK', '1']);
     must.push(['M9_KICKOFF_OK', '1']);
+    must.push(['M9_CORE_OK', '1']);
   }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {

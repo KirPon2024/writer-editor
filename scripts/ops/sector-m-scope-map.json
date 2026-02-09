@@ -103,7 +103,8 @@
       "test/unit/sector-m-m8-next.test.js"
     ],
     "M9": [
-      "test/unit/sector-m-m9-kickoff.test.js"
+      "test/unit/sector-m-m9-kickoff.test.js",
+      "test/unit/sector-m-m9-core.test.js"
     ],
     "DONE": []
   },

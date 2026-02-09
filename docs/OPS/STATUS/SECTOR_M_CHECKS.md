@@ -29,4 +29,8 @@
 - CHECK_M4_UI_FEEDBACK: user receives deterministic success/error status messages for markdown import/export actions.
 
 FULL policy:
-- M0, M1, M2, M3, and M4 use FAST-equivalent checks only; no additional full-only checks are required yet.
+- FULL extends FAST with full-only checks; it must not duplicate FAST commands.
+- CHECK_M_FULL_SCOPE_MAP_INTEGRITY (FULL-only):
+  - validates `scripts/ops/sector-m-scope-map.json` schema/phase coverage (M0..M6,DONE)
+  - validates runbook/network-gate markers for delivery fallback
+- Enforcement token: `SECTOR_M_FAST_FULL_DIVERGENCE_OK=1`.

@@ -1,128 +1,74 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 
-const ALLOWLIST = new Set([
-  'docs/OPS/STATUS/SECTOR_M.json',
-  'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-  'scripts/sector-m-run.mjs',
-  'scripts/doctor.mjs',
-  'package.json',
-  'test/unit/sector-m-status-schema.test.js',
-  'test/unit/sector-m-doctor-tokens.test.js',
-  'test/unit/sector-m-runner-artifact.test.js',
-  'test/unit/sector-m-no-scope-leak.test.js',
-  'test/fixtures/sector-m/expected-result.json',
-]);
+const SCOPE_MAP_PATH = path.join(process.cwd(), 'scripts', 'ops', 'sector-m-scope-map.json');
 
-const ALLOWLIST_M1 = new Set([
-  'docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md',
-  'docs/FORMAT/MARKDOWN_LOSS_POLICY_v1.md',
-  'docs/FORMAT/MARKDOWN_SECURITY_POLICY_v1.md',
-  'docs/OPS/STATUS/SECTOR_M.json',
-  'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-  'scripts/doctor.mjs',
-  'scripts/sector-m-run.mjs',
-  'test/unit/sector-m-m1-contract-docs.test.js',
-  'test/unit/sector-m-m1-doctor-tokens.test.js',
-  // Scope exception for phase-agnostic M0 tests.
-  'test/unit/sector-m-status-schema.test.js',
-  'test/unit/sector-m-doctor-tokens.test.js',
-  'test/unit/sector-m-runner-artifact.test.js',
-  'test/unit/sector-m-no-scope-leak.test.js',
-]);
-
-const ALLOWLIST_M2 = new Set([
-  'src/export/markdown/v1/index.mjs',
-  'src/export/markdown/v1/lossReport.mjs',
-  'src/export/markdown/v1/parseMarkdownV1.mjs',
-  'src/export/markdown/v1/serializeMarkdownV1.mjs',
-  'src/export/markdown/v1/types.mjs',
-  'docs/OPS/STATUS/SECTOR_M.json',
-  'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-  'scripts/doctor.mjs',
-  'scripts/sector-m-run.mjs',
-  'test/unit/sector-m-m2-roundtrip.test.js',
-  'test/unit/sector-m-m2-security-policy.test.js',
-  'test/unit/sector-m-m2-limits.test.js',
-  'test/fixtures/sector-m/m2/simple.md',
-  'test/fixtures/sector-m/m2/simple.expected.md',
-  'test/fixtures/sector-m/m2/headings.md',
-  'test/fixtures/sector-m/m2/lists.md',
-  'test/fixtures/sector-m/m2/links_safe.md',
-  'test/fixtures/sector-m/m2/links_unsafe.md',
-  'test/fixtures/sector-m/m2/html_raw.md',
-  'test/fixtures/sector-m/m2/large.md',
-  'test/fixtures/sector-m/m2/deep.md',
-  'test/fixtures/sector-m/m2/lossy.md',
-  'test/fixtures/sector-m/m2/loss.expected.json',
-  // Keep prior tests updated as phase-agnostic.
-  'test/unit/sector-m-status-schema.test.js',
-  'test/unit/sector-m-doctor-tokens.test.js',
-  'test/unit/sector-m-runner-artifact.test.js',
-  'test/unit/sector-m-no-scope-leak.test.js',
-]);
-
-const ALLOWLIST_M3 = new Set([
-  'docs/OPS/STATUS/SECTOR_M.json',
-  'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-  'scripts/doctor.mjs',
-  'scripts/sector-m-run.mjs',
-  'src/preload.js',
-  'src/main.js',
-  'test/unit/sector-m-no-scope-leak.test.js',
-]);
-
-const ALLOWLIST_M3_PREFIXES = [
-  'src/renderer/commands/',
-  'test/unit/sector-m-m3-',
-  'test/fixtures/sector-m/m3/',
-];
-
-const ALLOWLIST_M4 = new Set([
-  'docs/OPS/STATUS/SECTOR_M.json',
-  'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-  'scripts/doctor.mjs',
-  'scripts/sector-m-run.mjs',
-  'src/renderer/editor.js',
-  'test/unit/sector-m-no-scope-leak.test.js',
-  'test/unit/sector-m-m4-ui-path.test.js',
-  'test/fixtures/sector-m/m4/ui-path-markers.json',
-]);
-
-const ALLOWLIST_M4_PREFIXES = [
-  'src/renderer/commands/',
-  'test/unit/sector-m-m3-',
-  'test/fixtures/sector-m/m3/',
-];
+function readScopeMap() {
+  const parsed = JSON.parse(fs.readFileSync(SCOPE_MAP_PATH, 'utf8'));
+  assert.equal(parsed.schemaVersion, 'sector-m-scope-map.v1');
+  assert.ok(Array.isArray(parsed.phaseOrder), 'phaseOrder must be array');
+  assert.ok(parsed.allowByPhase && typeof parsed.allowByPhase === 'object', 'allowByPhase missing');
+  assert.ok(parsed.allowPrefixByPhase && typeof parsed.allowPrefixByPhase === 'object', 'allowPrefixByPhase missing');
+  assert.ok(Array.isArray(parsed.opsCarveoutAllow), 'opsCarveoutAllow must be array');
+  return parsed;
+}
 
 function currentPhase() {
-  const status = spawnSync(process.execPath, ['-e', "const fs=require('node:fs');const p=JSON.parse(fs.readFileSync('docs/OPS/STATUS/SECTOR_M.json','utf8'));process.stdout.write(String(p.phase||''));"], {
-    encoding: 'utf8',
-  });
+  const status = spawnSync(
+    process.execPath,
+    ['-e', "const fs=require('node:fs');const p=JSON.parse(fs.readFileSync('docs/OPS/STATUS/SECTOR_M.json','utf8'));process.stdout.write(String(p.phase||''));"],
+    { encoding: 'utf8' },
+  );
   if (status.status !== 0) return '';
   return String(status.stdout || '').trim();
 }
 
-function isPhaseAtLeastM2(phase) {
-  return ['M2', 'M3', 'M4', 'M5', 'M6', 'DONE'].includes(phase);
+function phaseIndex(scopeMap, phase) {
+  const idx = scopeMap.phaseOrder.indexOf(phase);
+  return idx >= 0 ? idx : 0;
 }
 
-function isPhaseAtLeastM3(phase) {
-  return ['M3', 'M4', 'M5', 'M6', 'DONE'].includes(phase);
+function buildAllowedForPhase(scopeMap, phase) {
+  const allowed = new Set();
+  const cappedIndex = phaseIndex(scopeMap, phase);
+  for (let i = 0; i <= cappedIndex; i += 1) {
+    const phaseName = scopeMap.phaseOrder[i];
+    const phaseItems = Array.isArray(scopeMap.allowByPhase[phaseName]) ? scopeMap.allowByPhase[phaseName] : [];
+    for (const item of phaseItems) allowed.add(item);
+  }
+  return allowed;
 }
 
-function isAllowedM3Path(filePath) {
-  if (ALLOWLIST_M3.has(filePath)) return true;
-  return ALLOWLIST_M3_PREFIXES.some((prefix) => filePath.startsWith(prefix));
+function buildAllowedPrefixesForPhase(scopeMap, phase) {
+  const prefixes = new Set();
+  const cappedIndex = phaseIndex(scopeMap, phase);
+  for (let i = 0; i <= cappedIndex; i += 1) {
+    const phaseName = scopeMap.phaseOrder[i];
+    const phasePrefixes = Array.isArray(scopeMap.allowPrefixByPhase[phaseName]) ? scopeMap.allowPrefixByPhase[phaseName] : [];
+    for (const item of phasePrefixes) prefixes.add(item);
+  }
+  return prefixes;
 }
 
-function isAllowedM4Path(filePath) {
-  if (ALLOWLIST_M4.has(filePath)) return true;
-  return ALLOWLIST_M4_PREFIXES.some((prefix) => filePath.startsWith(prefix));
+function isAllowedPathForPhase(scopeMap, filePath, phase) {
+  const carveout = new Set(scopeMap.opsCarveoutAllow);
+  if (carveout.has(filePath)) return true;
+
+  const allowed = buildAllowedForPhase(scopeMap, phase);
+  if (allowed.has(filePath)) return true;
+
+  const prefixes = buildAllowedPrefixesForPhase(scopeMap, phase);
+  for (const prefix of prefixes) {
+    if (filePath.startsWith(prefix)) return true;
+  }
+  return false;
 }
 
-test('sector-m diff does not leak outside phase allowlist', () => {
+test('sector-m diff does not leak outside cumulative phase allowlist', () => {
+  const scopeMap = readScopeMap();
   const diff = spawnSync('git', ['diff', '--name-only', 'origin/main..HEAD'], {
     encoding: 'utf8',
   });
@@ -134,12 +80,34 @@ test('sector-m diff does not leak outside phase allowlist', () => {
     .filter(Boolean);
 
   const phase = currentPhase();
-  const violations = files.filter((filePath) => {
-    if (['M4', 'M5', 'M6', 'DONE'].includes(phase)) return !isAllowedM4Path(filePath);
-    if (isPhaseAtLeastM3(phase)) return !isAllowedM3Path(filePath);
-    if (isPhaseAtLeastM2(phase)) return !ALLOWLIST_M2.has(filePath);
-    if (phase === 'M1') return !ALLOWLIST_M1.has(filePath);
-    return !ALLOWLIST.has(filePath);
-  });
+  const violations = files.filter((filePath) => !isAllowedPathForPhase(scopeMap, filePath, phase));
   assert.deepEqual(violations, [], `scope leak detected: ${violations.join(', ')}`);
+});
+
+test('phase map union includes M0..M4 allowlists when phase is M4', () => {
+  const scopeMap = readScopeMap();
+  const m4Union = buildAllowedForPhase(scopeMap, 'M4');
+
+  for (const phase of ['M0', 'M1', 'M2', 'M3', 'M4']) {
+    const items = Array.isArray(scopeMap.allowByPhase[phase]) ? scopeMap.allowByPhase[phase] : [];
+    for (const item of items) {
+      assert.equal(m4Union.has(item), true, `missing ${phase} item in M4 union: ${item}`);
+    }
+  }
+});
+
+test('ops carveout stays explicit and narrow', () => {
+  const scopeMap = readScopeMap();
+  const carveout = scopeMap.opsCarveoutAllow;
+
+  assert.ok(carveout.includes('docs/OPS/STATUS/CANON_WORKTREE_POLICY.md'));
+  assert.ok(carveout.includes('docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md'));
+  assert.ok(carveout.includes('scripts/ops/network-gate.mjs'));
+  assert.ok(carveout.includes('scripts/ops/sector-m-scope-map.json'));
+  assert.ok(carveout.includes('test/unit/ops-sector-m-process-fixes.test.js'));
+  assert.ok(carveout.includes('test/unit/ops-sector-m-stability-003.test.js'));
+
+  for (const item of carveout) {
+    assert.equal(item.includes('**'), false, `wildcards are forbidden in ops carveout: ${item}`);
+  }
 });

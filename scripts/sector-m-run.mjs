@@ -7,104 +7,9 @@ const RESULT_SCHEMA_VERSION = 'sector-m-run.v1';
 const DEFAULT_ARTIFACTS_ROOT = 'artifacts/sector-m-run';
 const SECTOR_M_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_M.json';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
+const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
+const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const DOCTOR_PATH = 'scripts/doctor.mjs';
-
-const M_ALLOWLISTS = {
-  M0: new Set([
-    'docs/OPS/STATUS/SECTOR_M.json',
-    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-    'scripts/sector-m-run.mjs',
-    'scripts/doctor.mjs',
-    'package.json',
-    'test/unit/sector-m-status-schema.test.js',
-    'test/unit/sector-m-doctor-tokens.test.js',
-    'test/unit/sector-m-runner-artifact.test.js',
-    'test/unit/sector-m-no-scope-leak.test.js',
-    'test/fixtures/sector-m/expected-result.json',
-  ]),
-  M1: new Set([
-    'docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md',
-    'docs/FORMAT/MARKDOWN_LOSS_POLICY_v1.md',
-    'docs/FORMAT/MARKDOWN_SECURITY_POLICY_v1.md',
-    'docs/OPS/STATUS/SECTOR_M.json',
-    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-    'scripts/doctor.mjs',
-    'scripts/sector-m-run.mjs',
-    'test/unit/sector-m-m1-contract-docs.test.js',
-    'test/unit/sector-m-m1-doctor-tokens.test.js',
-    // Scope exception: keep M0 tests phase-agnostic.
-    'test/unit/sector-m-status-schema.test.js',
-    'test/unit/sector-m-doctor-tokens.test.js',
-    'test/unit/sector-m-runner-artifact.test.js',
-    'test/unit/sector-m-no-scope-leak.test.js',
-  ]),
-  M2: new Set([
-    'src/export/markdown/v1/index.mjs',
-    'src/export/markdown/v1/lossReport.mjs',
-    'src/export/markdown/v1/parseMarkdownV1.mjs',
-    'src/export/markdown/v1/serializeMarkdownV1.mjs',
-    'src/export/markdown/v1/types.mjs',
-    'docs/OPS/STATUS/SECTOR_M.json',
-    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-    'scripts/doctor.mjs',
-    'scripts/sector-m-run.mjs',
-    'test/unit/sector-m-m2-roundtrip.test.js',
-    'test/unit/sector-m-m2-security-policy.test.js',
-    'test/unit/sector-m-m2-limits.test.js',
-    'test/fixtures/sector-m/m2/simple.md',
-    'test/fixtures/sector-m/m2/simple.expected.md',
-    'test/fixtures/sector-m/m2/headings.md',
-    'test/fixtures/sector-m/m2/lists.md',
-    'test/fixtures/sector-m/m2/links_safe.md',
-    'test/fixtures/sector-m/m2/links_unsafe.md',
-    'test/fixtures/sector-m/m2/html_raw.md',
-    'test/fixtures/sector-m/m2/large.md',
-    'test/fixtures/sector-m/m2/deep.md',
-    'test/fixtures/sector-m/m2/lossy.md',
-    'test/fixtures/sector-m/m2/loss.expected.json',
-    // Scope exception: keep M0 tests phase-agnostic.
-    'test/unit/sector-m-status-schema.test.js',
-    'test/unit/sector-m-doctor-tokens.test.js',
-    'test/unit/sector-m-runner-artifact.test.js',
-    'test/unit/sector-m-no-scope-leak.test.js',
-  ]),
-  M3: new Set([
-    'docs/OPS/STATUS/SECTOR_M.json',
-    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-    'scripts/doctor.mjs',
-    'scripts/sector-m-run.mjs',
-    'src/renderer/commands/projectCommands.mjs',
-    'src/preload.js',
-    'src/main.js',
-    'test/unit/sector-m-m3-commands.test.js',
-    'test/unit/sector-m-m3-security.test.js',
-    'test/fixtures/sector-m/m3/simple.md',
-    'test/fixtures/sector-m/m3/unsafe.html.md',
-    'test/fixtures/sector-m/m3/expected-import.json',
-    'test/fixtures/sector-m/m3/expected-export.json',
-    // Keep prior tests updated as phase-agnostic.
-    'test/unit/sector-m-status-schema.test.js',
-    'test/unit/sector-m-doctor-tokens.test.js',
-    'test/unit/sector-m-runner-artifact.test.js',
-    'test/unit/sector-m-no-scope-leak.test.js',
-    'test/unit/sector-m-m1-doctor-tokens.test.js',
-  ]),
-  M4: new Set([
-    'docs/OPS/STATUS/SECTOR_M.json',
-    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-    'scripts/doctor.mjs',
-    'scripts/sector-m-run.mjs',
-    'src/renderer/editor.js',
-    'test/unit/sector-m-m4-ui-path.test.js',
-    'test/fixtures/sector-m/m4/ui-path-markers.json',
-    // Keep prior tests updated as phase-agnostic.
-    'test/unit/sector-m-status-schema.test.js',
-    'test/unit/sector-m-doctor-tokens.test.js',
-    'test/unit/sector-m-runner-artifact.test.js',
-    'test/unit/sector-m-no-scope-leak.test.js',
-    'test/unit/sector-m-m1-doctor-tokens.test.js',
-  ]),
-};
 
 function parseArgs(argv) {
   const out = { pack: 'fast' };
@@ -156,6 +61,68 @@ function hasNpmScript(scriptName) {
   } catch {
     return false;
   }
+}
+
+function loadScopeMap() {
+  if (!fs.existsSync(SECTOR_M_SCOPE_MAP_PATH)) {
+    return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: `${SECTOR_M_SCOPE_MAP_PATH} is missing` };
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(fs.readFileSync(SECTOR_M_SCOPE_MAP_PATH, 'utf8'));
+  } catch {
+    return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: `${SECTOR_M_SCOPE_MAP_PATH} is invalid JSON` };
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'scope map must be an object' };
+  }
+  if (parsed.schemaVersion !== 'sector-m-scope-map.v1') {
+    return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'scope map schemaVersion mismatch' };
+  }
+  if (!Array.isArray(parsed.phaseOrder) || parsed.phaseOrder.length === 0) {
+    return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'scope map phaseOrder is invalid' };
+  }
+  if (!parsed.allowByPhase || typeof parsed.allowByPhase !== 'object' || Array.isArray(parsed.allowByPhase)) {
+    return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'scope map allowByPhase is invalid' };
+  }
+  if (!parsed.allowPrefixByPhase || typeof parsed.allowPrefixByPhase !== 'object' || Array.isArray(parsed.allowPrefixByPhase)) {
+    return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'scope map allowPrefixByPhase is invalid' };
+  }
+  if (!Array.isArray(parsed.opsCarveoutAllow)) {
+    return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'scope map opsCarveoutAllow is invalid' };
+  }
+  return { ok: 1, reason: '', details: 'scope map loaded', scopeMap: parsed };
+}
+
+function scopeMapPhaseIndex(scopeMap, phase) {
+  const idx = scopeMap.phaseOrder.indexOf(phase);
+  return idx >= 0 ? idx : 0;
+}
+
+function buildAllowedForPhase(scopeMap, phase) {
+  const allowed = new Set();
+  const cappedIndex = scopeMapPhaseIndex(scopeMap, phase);
+  for (let i = 0; i <= cappedIndex; i += 1) {
+    const phaseName = scopeMap.phaseOrder[i];
+    const items = Array.isArray(scopeMap.allowByPhase[phaseName]) ? scopeMap.allowByPhase[phaseName] : [];
+    for (const item of items) {
+      allowed.add(item);
+    }
+  }
+  return allowed;
+}
+
+function buildAllowedPrefixesForPhase(scopeMap, phase) {
+  const prefixes = new Set();
+  const cappedIndex = scopeMapPhaseIndex(scopeMap, phase);
+  for (let i = 0; i <= cappedIndex; i += 1) {
+    const phaseName = scopeMap.phaseOrder[i];
+    const items = Array.isArray(scopeMap.allowPrefixByPhase[phaseName]) ? scopeMap.allowPrefixByPhase[phaseName] : [];
+    for (const item of items) {
+      prefixes.add(item);
+    }
+  }
+  return prefixes;
 }
 
 function readSectorMSoT() {
@@ -285,7 +252,19 @@ function validateChecksDoc(phase) {
 }
 
 function validateAllowlistLeak(phase) {
-  const allowlist = M_ALLOWLISTS[phase] || M_ALLOWLISTS.M0;
+  const scopeMapLoad = loadScopeMap();
+  if (scopeMapLoad.ok !== 1) {
+    return {
+      ok: 0,
+      reason: scopeMapLoad.reason,
+      details: scopeMapLoad.details,
+      violations: [],
+    };
+  }
+  const scopeMap = scopeMapLoad.scopeMap;
+  const carveout = new Set(scopeMap.opsCarveoutAllow);
+  const allowlist = buildAllowedForPhase(scopeMap, phase);
+  const allowPrefixes = buildAllowedPrefixesForPhase(scopeMap, phase);
   const diff = spawnSync('git', ['diff', '--name-only', 'origin/main..HEAD'], { encoding: 'utf8' });
   if (diff.status !== 0) {
     return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'git diff command failed', violations: [] };
@@ -296,7 +275,14 @@ function validateAllowlistLeak(phase) {
     .filter(Boolean)
     .sort();
 
-  const violations = files.filter((filePath) => !allowlist.has(filePath));
+  const violations = files.filter((filePath) => {
+    if (carveout.has(filePath)) return false;
+    if (allowlist.has(filePath)) return false;
+    for (const prefix of allowPrefixes) {
+      if (filePath.startsWith(prefix)) return false;
+    }
+    return true;
+  });
   if (violations.length > 0) {
     return {
       ok: 0,
@@ -395,6 +381,47 @@ function validateM4UiPathSurface() {
     }
   }
   return { ok: 1, reason: '', details: 'M4 UI path surface present' };
+}
+
+function validateFullScopeMapIntegrity() {
+  const scopeMapLoad = loadScopeMap();
+  if (scopeMapLoad.ok !== 1) {
+    return {
+      ok: 0,
+      reason: scopeMapLoad.reason,
+      details: scopeMapLoad.details,
+    };
+  }
+  const scopeMap = scopeMapLoad.scopeMap;
+  const expectedPhases = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE'];
+  for (const phase of expectedPhases) {
+    if (!scopeMap.phaseOrder.includes(phase)) {
+      return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: `scope map missing phase: ${phase}` };
+    }
+    if (!Array.isArray(scopeMap.allowByPhase[phase])) {
+      return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: `scope map allowByPhase missing: ${phase}` };
+    }
+    if (!Array.isArray(scopeMap.allowPrefixByPhase[phase])) {
+      return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: `scope map allowPrefixByPhase missing: ${phase}` };
+    }
+  }
+
+  if (!fs.existsSync(DELIVERY_FALLBACK_RUNBOOK_PATH)) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'delivery fallback runbook is missing' };
+  }
+  const runbook = fs.readFileSync(DELIVERY_FALLBACK_RUNBOOK_PATH, 'utf8');
+  const markers = [
+    '## NETWORK_GATE',
+    'RETRY_MAX=1',
+    'git ls-remote origin -h refs/heads/main',
+    'node scripts/ops/network-gate.mjs',
+  ];
+  for (const marker of markers) {
+    if (!runbook.includes(marker)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `runbook missing marker: ${marker}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'full-only scope-map integrity checks passed' };
 }
 
 function runDoctorCheck(phase) {
@@ -519,6 +546,16 @@ function main() {
     details: m4Surface.details,
   });
   if (!failReason && m4Surface.ok !== 1) failReason = m4Surface.reason;
+
+  if (args.pack === 'full') {
+    const fullScope = validateFullScopeMapIntegrity();
+    checks.push({
+      checkId: 'CHECK_M_FULL_SCOPE_MAP_INTEGRITY',
+      ok: fullScope.ok,
+      details: fullScope.details,
+    });
+    if (!failReason && fullScope.ok !== 1) failReason = fullScope.reason;
+  }
 
   const doctor = runDoctorCheck(sot.phase || 'M0');
   checks.push({ checkId: 'CHECK_M0_DOCTOR_TOKENS', ok: doctor.ok, details: doctor.details });

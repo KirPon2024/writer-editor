@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "sector-m-scope-map.v1",
+  "phaseOrder": ["M0", "M1", "M2", "M3", "M4", "M5", "M6", "DONE"],
+  "opsCarveoutAllow": [
+    "docs/OPS/STATUS/CANON_WORKTREE_POLICY.md",
+    "docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md",
+    "scripts/ops/network-gate.mjs",
+    "scripts/ops/sector-m-scope-map.json",
+    "test/unit/ops-sector-m-process-fixes.test.js",
+    "test/unit/ops-sector-m-stability-003.test.js"
+  ],
+  "allowByPhase": {
+    "M0": [
+      "docs/OPS/STATUS/SECTOR_M.json",
+      "docs/OPS/STATUS/SECTOR_M_CHECKS.md",
+      "scripts/sector-m-run.mjs",
+      "scripts/doctor.mjs",
+      "package.json",
+      "test/unit/sector-m-status-schema.test.js",
+      "test/unit/sector-m-doctor-tokens.test.js",
+      "test/unit/sector-m-runner-artifact.test.js",
+      "test/unit/sector-m-no-scope-leak.test.js",
+      "test/fixtures/sector-m/expected-result.json"
+    ],
+    "M1": [
+      "docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md",
+      "docs/FORMAT/MARKDOWN_LOSS_POLICY_v1.md",
+      "docs/FORMAT/MARKDOWN_SECURITY_POLICY_v1.md",
+      "docs/OPS/STATUS/SECTOR_M.json",
+      "docs/OPS/STATUS/SECTOR_M_CHECKS.md",
+      "scripts/doctor.mjs",
+      "scripts/sector-m-run.mjs",
+      "test/unit/sector-m-m1-contract-docs.test.js",
+      "test/unit/sector-m-m1-doctor-tokens.test.js",
+      "test/unit/sector-m-status-schema.test.js",
+      "test/unit/sector-m-doctor-tokens.test.js",
+      "test/unit/sector-m-runner-artifact.test.js",
+      "test/unit/sector-m-no-scope-leak.test.js"
+    ],
+    "M2": [
+      "src/export/markdown/v1/index.mjs",
+      "src/export/markdown/v1/lossReport.mjs",
+      "src/export/markdown/v1/parseMarkdownV1.mjs",
+      "src/export/markdown/v1/serializeMarkdownV1.mjs",
+      "src/export/markdown/v1/types.mjs",
+      "docs/OPS/STATUS/SECTOR_M.json",
+      "docs/OPS/STATUS/SECTOR_M_CHECKS.md",
+      "scripts/doctor.mjs",
+      "scripts/sector-m-run.mjs",
+      "test/unit/sector-m-m2-roundtrip.test.js",
+      "test/unit/sector-m-m2-security-policy.test.js",
+      "test/unit/sector-m-m2-limits.test.js",
+      "test/fixtures/sector-m/m2/simple.md",
+      "test/fixtures/sector-m/m2/simple.expected.md",
+      "test/fixtures/sector-m/m2/headings.md",
+      "test/fixtures/sector-m/m2/lists.md",
+      "test/fixtures/sector-m/m2/links_safe.md",
+      "test/fixtures/sector-m/m2/links_unsafe.md",
+      "test/fixtures/sector-m/m2/html_raw.md",
+      "test/fixtures/sector-m/m2/large.md",
+      "test/fixtures/sector-m/m2/deep.md",
+      "test/fixtures/sector-m/m2/lossy.md",
+      "test/fixtures/sector-m/m2/loss.expected.json",
+      "test/unit/sector-m-status-schema.test.js",
+      "test/unit/sector-m-doctor-tokens.test.js",
+      "test/unit/sector-m-runner-artifact.test.js",
+      "test/unit/sector-m-no-scope-leak.test.js"
+    ],
+    "M3": [
+      "docs/OPS/STATUS/SECTOR_M.json",
+      "docs/OPS/STATUS/SECTOR_M_CHECKS.md",
+      "scripts/doctor.mjs",
+      "scripts/sector-m-run.mjs",
+      "src/preload.js",
+      "src/main.js",
+      "test/unit/sector-m-no-scope-leak.test.js"
+    ],
+    "M4": [
+      "docs/OPS/STATUS/SECTOR_M.json",
+      "docs/OPS/STATUS/SECTOR_M_CHECKS.md",
+      "scripts/doctor.mjs",
+      "scripts/sector-m-run.mjs",
+      "src/renderer/editor.js",
+      "test/unit/sector-m-no-scope-leak.test.js",
+      "test/unit/sector-m-m4-ui-path.test.js",
+      "test/fixtures/sector-m/m4/ui-path-markers.json"
+    ],
+    "M5": [],
+    "M6": [],
+    "DONE": []
+  },
+  "allowPrefixByPhase": {
+    "M0": [],
+    "M1": [],
+    "M2": [],
+    "M3": [
+      "src/renderer/commands/",
+      "test/unit/sector-m-m3-",
+      "test/fixtures/sector-m/m3/"
+    ],
+    "M4": [
+      "src/renderer/commands/",
+      "test/unit/sector-m-m3-",
+      "test/fixtures/sector-m/m3/"
+    ],
+    "M5": [],
+    "M6": [],
+    "DONE": []
+  }
+}

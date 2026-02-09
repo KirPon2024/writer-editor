@@ -13,6 +13,7 @@ const DEFAULT_SECTOR_U_FAST_RESULT_PATH = 'artifacts/sector-u-run/latest/result.
 const DEFAULT_SECTOR_U_CLOSE_REPORT_PATH = 'docs/OPS/STATUS/SECTOR_U_CLOSE_REPORT.md';
 const DEFAULT_SECTOR_U_CLOSED_LOCK_PATH = 'docs/OPS/STATUS/SECTOR_U_CLOSED_LOCK.json';
 const DEFAULT_CANON_ENTRYPOINT_POLICY_PATH = 'docs/OPS/STATUS/CANON_ENTRYPOINT_POLICY.md';
+const DEFAULT_CANON_WORKTREE_POLICY_PATH = 'docs/OPS/STATUS/CANON_WORKTREE_POLICY.md';
 const DEFAULT_U_DETECT_ONLY_CARVEOUT_PATH = 'docs/OPS/STATUS/U_DETECT_ONLY_CARVEOUT.md';
 const DEFAULT_FULL_POLICY_NO_DUPLICATION_PATH = 'docs/OPS/STATUS/FULL_POLICY_NO_DUPLICATION.md';
 const DEFAULT_SECOND_ENTRYPOINT_PATH = 'docs/CRAFTSMAN.md';
@@ -27,6 +28,7 @@ const SECTOR_U_FAST_RESULT_PATH = process.env.SECTOR_U_FAST_RESULT_PATH || DEFAU
 const SECTOR_U_CLOSE_REPORT_PATH = process.env.SECTOR_U_CLOSE_REPORT_PATH || DEFAULT_SECTOR_U_CLOSE_REPORT_PATH;
 const SECTOR_U_CLOSED_LOCK_PATH = process.env.SECTOR_U_CLOSED_LOCK_PATH || DEFAULT_SECTOR_U_CLOSED_LOCK_PATH;
 const CANON_ENTRYPOINT_POLICY_PATH = process.env.CANON_ENTRYPOINT_POLICY_PATH || DEFAULT_CANON_ENTRYPOINT_POLICY_PATH;
+const CANON_WORKTREE_POLICY_PATH = process.env.CANON_WORKTREE_POLICY_PATH || DEFAULT_CANON_WORKTREE_POLICY_PATH;
 const U_DETECT_ONLY_CARVEOUT_PATH = process.env.U_DETECT_ONLY_CARVEOUT_PATH || DEFAULT_U_DETECT_ONLY_CARVEOUT_PATH;
 const FULL_POLICY_NO_DUPLICATION_PATH = process.env.FULL_POLICY_NO_DUPLICATION_PATH || DEFAULT_FULL_POLICY_NO_DUPLICATION_PATH;
 const SECOND_ENTRYPOINT_PATH = process.env.SECOND_ENTRYPOINT_PATH || DEFAULT_SECOND_ENTRYPOINT_PATH;
@@ -86,6 +88,10 @@ const M3_SECURITY_TEST_PATH = 'test/unit/sector-m-m3-security.test.js';
 const M4_EDITOR_PATH = 'src/renderer/editor.js';
 const M4_COMMANDS_PATH = 'src/renderer/commands/projectCommands.mjs';
 const M4_UI_TEST_PATH = 'test/unit/sector-m-m4-ui-path.test.js';
+const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
+const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
+const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
+const NETWORK_GATE_SCRIPT_PATH = 'scripts/ops/network-gate.mjs';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -4341,6 +4347,136 @@ function evaluateOpsP0SectorMPrepTokens() {
   return result;
 }
 
+function evaluateSectorMOpsProcessFixTokens() {
+  const result = {
+    testsPhaseAgnosticOk: 0,
+    scopeMapOk: 0,
+    deliveryFallbackRunbookOk: 0,
+    networkGateReady: 0,
+    canonWorktreePolicyOk: 0,
+    splitBrainDetected: 0,
+    scopeSsotOk: 0,
+    fastFullDivergenceOk: 0,
+    level: 'warn',
+  };
+
+  const sectorMBaseTests = fs.readdirSync('test/unit')
+    .filter((name) => /^sector-m-.*\.test\.js$/u.test(name))
+    .filter((name) => !/^sector-m-m[0-9]+-.*\.test\.js$/u.test(name));
+
+  const phaseCoupledPatternA = /\bSECTOR_M_PHASE\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|DONE)['"]/u;
+  const phaseCoupledPatternB = /\bphase\s*={2,3}\s*['"](M0|M1|M2|M3|M4|M5|M6|DONE)['"]/u;
+  const phaseCoupledPatternC = /tokens\.get\(\s*['"]SECTOR_M_PHASE['"]\s*\)\s*,\s*['"](M0|M1|M2|M3|M4|M5|M6|DONE)['"]/u;
+
+  const phaseCoupledViolations = [];
+  for (const fileName of sectorMBaseTests) {
+    const filePath = `test/unit/${fileName}`;
+    const fileText = readText(filePath);
+    if (
+      phaseCoupledPatternA.test(fileText)
+      || phaseCoupledPatternB.test(fileText)
+      || phaseCoupledPatternC.test(fileText)
+    ) {
+      phaseCoupledViolations.push(filePath);
+    }
+  }
+  result.testsPhaseAgnosticOk = phaseCoupledViolations.length === 0 ? 1 : 0;
+
+  const expectedPhases = ['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE'];
+  const scopeMap = readJsonObjectOptional(SECTOR_M_SCOPE_MAP_PATH);
+  const scopeMapPhaseOrder = Array.isArray(scopeMap && scopeMap.phaseOrder) ? scopeMap.phaseOrder : [];
+  const scopeMapValid = !!(
+    scopeMap
+    && scopeMap.schemaVersion === 'sector-m-scope-map.v1'
+    && Array.isArray(scopeMap.opsCarveoutAllow)
+    && scopeMap.opsCarveoutAllow.length >= 2
+    && expectedPhases.every((phase) => scopeMapPhaseOrder.includes(phase))
+    && expectedPhases.every((phase) => Array.isArray(scopeMap.allowByPhase && scopeMap.allowByPhase[phase]))
+    && expectedPhases.every((phase) => Array.isArray(scopeMap.allowPrefixByPhase && scopeMap.allowPrefixByPhase[phase]))
+  );
+
+  const scopeLeakTestText = readText(M0_NO_SCOPE_LEAK_TEST_PATH);
+  const scopeLeakUsesSsot = scopeLeakTestText.includes('sector-m-scope-map.json')
+    && !scopeLeakTestText.includes('const ALLOWLIST')
+    && !scopeLeakTestText.includes('const ALLOW =');
+
+  const runnerText = readText(M0_RUNNER_PATH);
+  const runnerUsesSsot = runnerText.includes('sector-m-scope-map.json')
+    && !runnerText.includes('const M_ALLOWLISTS =');
+
+  result.scopeSsotOk = scopeMapValid && scopeLeakUsesSsot && runnerUsesSsot ? 1 : 0;
+  result.scopeMapOk = result.scopeSsotOk;
+
+  const runbookExists = fs.existsSync(DELIVERY_FALLBACK_RUNBOOK_PATH);
+  const runbookText = runbookExists ? readText(DELIVERY_FALLBACK_RUNBOOK_PATH) : '';
+  const runbookMarkersOk = runbookText.includes('## WHEN_TO_SWITCH')
+    && runbookText.includes('RETRY_MAX=1')
+    && runbookText.includes('## NETWORK_GATE')
+    && runbookText.includes('git ls-remote origin -h refs/heads/main')
+    && runbookText.includes('node scripts/ops/network-gate.mjs')
+    && runbookText.includes('## MANUAL_PROTOCOL')
+    && runbookText.includes('## STOP_CONDITION')
+    && runbookText.includes('git push -u origin <branch>')
+    && runbookText.includes('GO:<TAG>')
+    && runbookText.includes('SECTOR_M_ARTIFACTS_ROOT=/tmp/<task-id>/sector-m-run')
+    && runbookText.includes('SECTOR_U_ARTIFACTS_ROOT=/tmp/<task-id>/sector-u-run');
+  result.deliveryFallbackRunbookOk = runbookMarkersOk ? 1 : 0;
+
+  const networkGateScriptExists = fs.existsSync(NETWORK_GATE_SCRIPT_PATH);
+  const networkGateScriptText = networkGateScriptExists ? readText(NETWORK_GATE_SCRIPT_PATH) : '';
+  result.networkGateReady = networkGateScriptExists
+    && networkGateScriptText.includes('NETWORK_GATE_OK=')
+    && runbookText.includes('node scripts/ops/network-gate.mjs')
+    ? 1
+    : 0;
+
+  const worktreePolicyExists = fs.existsSync(CANON_WORKTREE_POLICY_PATH);
+  const worktreePolicyText = worktreePolicyExists ? readText(CANON_WORKTREE_POLICY_PATH) : '';
+  result.canonWorktreePolicyOk = worktreePolicyText.includes('CANON_WORKTREE_POLICY_SCHEMA=canon-worktree-policy.v1')
+    && worktreePolicyText.includes('CANON_WORKTREE_SOURCE=origin/main')
+    && worktreePolicyText.includes('CANON_WORKTREE_MUST_BE_CLEAN=1')
+    && worktreePolicyText.includes('CANON_WORKTREE_DECISION_SOURCE=origin/main_only')
+    ? 1
+    : 0;
+
+  const opsDocs = listMarkdownFiles('docs/OPS');
+  const splitBrainHits = [];
+  for (const docPath of opsDocs) {
+    const text = readText(docPath);
+    if (/\/Volumes\/Work\//u.test(text) || /\/private\/tmp\/writer-editor/u.test(text)) {
+      splitBrainHits.push(docPath);
+    }
+  }
+  result.splitBrainDetected = splitBrainHits.length > 0 ? 1 : 0;
+
+  const checksDocText = readText(SECTOR_M_CHECKS_PATH);
+  const fullOnlyDocOk = checksDocText.includes('CHECK_M_FULL_SCOPE_MAP_INTEGRITY')
+    && /FULL extends FAST/i.test(checksDocText);
+  const fullOnlyRunnerOk = runnerText.includes("if (args.pack === 'full')")
+    && runnerText.includes('CHECK_M_FULL_SCOPE_MAP_INTEGRITY');
+  result.fastFullDivergenceOk = fullOnlyDocOk && fullOnlyRunnerOk ? 1 : 0;
+
+  result.level = result.testsPhaseAgnosticOk === 1
+    && result.scopeSsotOk === 1
+    && result.deliveryFallbackRunbookOk === 1
+    && result.networkGateReady === 1
+    && result.canonWorktreePolicyOk === 1
+    && result.fastFullDivergenceOk === 1
+    && result.splitBrainDetected === 0
+    ? 'ok'
+    : 'warn';
+
+  console.log(`SECTOR_M_TESTS_PHASE_AGNOSTIC_OK=${result.testsPhaseAgnosticOk}`);
+  console.log(`SECTOR_M_SCOPE_MAP_OK=${result.scopeMapOk}`);
+  console.log(`DELIVERY_FALLBACK_RUNBOOK_OK=${result.deliveryFallbackRunbookOk}`);
+  console.log(`NETWORK_GATE_READY=${result.networkGateReady}`);
+  console.log(`CANON_WORKTREE_POLICY_OK=${result.canonWorktreePolicyOk}`);
+  console.log(`CANON_WORKTREE_SPLIT_BRAIN_DETECTED=${result.splitBrainDetected}`);
+  console.log(`SECTOR_M_SCOPE_SSOT_OK=${result.scopeSsotOk}`);
+  console.log(`SECTOR_M_FAST_FULL_DIVERGENCE_OK=${result.fastFullDivergenceOk}`);
+  return result;
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -4426,6 +4562,7 @@ function run() {
   const u9Close = evaluateU9CloseTokens(sectorUStatus);
   const nextSector = evaluateNextSectorStatus({ strictLie });
   const opsP0SectorMPrep = evaluateOpsP0SectorMPrepTokens();
+  const opsSectorMProcessFixes = evaluateSectorMOpsProcessFixTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -4544,6 +4681,7 @@ function run() {
     || u9Close.level === 'warn'
     || nextSector.level === 'warn'
     || opsP0SectorMPrep.level === 'warn'
+    || opsSectorMProcessFixes.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'

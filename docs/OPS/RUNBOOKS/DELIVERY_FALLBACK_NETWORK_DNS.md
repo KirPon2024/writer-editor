@@ -10,10 +10,13 @@
 - `RETRY_MAX=1`. After that: STOP and move to manual protocol.
 
 ## NETWORK_GATE
-- PASS when both checks are green:
+- PASS when blocking git check is green:
   - `NETWORK_GATE_GIT_OK=1`
-  - `NETWORK_GATE_HTTP_OK=1`
-- FAIL when any check is red:
+  - `NETWORK_GATE_OK=1`
+- HTTP/SSH checks are diagnostic-only:
+  - `NETWORK_GATE_HTTP_OK=0|1`
+  - never blocks by itself
+- FAIL when blocking check is red:
   - `STOP_REQUIRED=1`
   - `FAIL_REASON=NETWORK_GATE_FAIL`
 

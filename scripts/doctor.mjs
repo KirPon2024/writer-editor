@@ -92,6 +92,13 @@ const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DELIVERY_FALLBACK_RUNBOOK_PATH = 'docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md';
 const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
 const NETWORK_GATE_SCRIPT_PATH = 'scripts/ops/network-gate.mjs';
+const OPS_STANDARD_GLOBAL_PATH = 'docs/OPS/STANDARDS/CANONICAL_DELIVERY_STANDARD_GLOBAL.md';
+const OPS_WIP_CHECK_PATH = 'scripts/ops/wip-check.mjs';
+const OPS_POST_MERGE_VERIFY_PATH = 'scripts/ops/post-merge-verify.mjs';
+const OPS_REQUIRED_CHECKS_SYNC_PATH = 'scripts/ops/required-checks-sync.mjs';
+const OPS_REQUIRED_CHECKS_CONTRACT_PATH = 'scripts/ops/required-checks.json';
+const OPS_SCOPE_MAP_REGISTRY_PATH = 'scripts/ops/scope-map-registry.json';
+const POST_MERGE_CLEANUP_STREAK_STATE_PATH = 'scripts/ops/.state/post_merge_cleanup_streak.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
 
@@ -4477,6 +4484,71 @@ function evaluateSectorMOpsProcessFixTokens() {
   return result;
 }
 
+function evaluateOpsGlobalDeliveryStandardTokens() {
+  const result = {
+    standardOk: 0,
+    requiredChecksSyncOk: 0,
+    requiredChecksSource: 'unknown',
+    requiredChecksStale: 1,
+    cleanupFailStreak: 0,
+    level: 'warn',
+  };
+
+  const standardDocExists = fs.existsSync(OPS_STANDARD_GLOBAL_PATH);
+  const networkGateExists = fs.existsSync(NETWORK_GATE_SCRIPT_PATH);
+  const wipCheckExists = fs.existsSync(OPS_WIP_CHECK_PATH);
+  const postMergeVerifyExists = fs.existsSync(OPS_POST_MERGE_VERIFY_PATH);
+  const requiredChecksSyncExists = fs.existsSync(OPS_REQUIRED_CHECKS_SYNC_PATH);
+  const scopeRegistryExists = fs.existsSync(OPS_SCOPE_MAP_REGISTRY_PATH);
+
+  const standardText = standardDocExists ? readText(OPS_STANDARD_GLOBAL_PATH) : '';
+  const standardMarkersOk = standardText.includes('GLOBAL CANONICAL DELIVERY STANDARD')
+    && standardText.includes('HARD GATES (BLOCKING, MAX=5)')
+    && standardText.includes('DELIVERY_NETWORK_GATE')
+    && standardText.includes('WIP POLICY');
+  result.standardOk = standardDocExists
+    && standardMarkersOk
+    && networkGateExists
+    && wipCheckExists
+    && postMergeVerifyExists
+    && requiredChecksSyncExists
+    && scopeRegistryExists
+    ? 1
+    : 0;
+
+  const checksContract = readJsonObjectOptional(OPS_REQUIRED_CHECKS_CONTRACT_PATH);
+  if (
+    checksContract
+    && checksContract.schemaVersion === 'required-checks.v1'
+    && Array.isArray(checksContract.requiredChecks)
+  ) {
+    result.requiredChecksSource = typeof checksContract.source === 'string' && checksContract.source
+      ? checksContract.source
+      : 'local';
+    const updatedMs = Date.parse(String(checksContract.updatedAt || ''));
+    if (Number.isNaN(updatedMs)) {
+      result.requiredChecksStale = 1;
+    } else {
+      const staleMs = 7 * 24 * 60 * 60 * 1000;
+      result.requiredChecksStale = (Date.now() - updatedMs) > staleMs ? 1 : 0;
+    }
+    result.requiredChecksSyncOk = 1;
+  }
+
+  const streakState = readJsonObjectOptional(POST_MERGE_CLEANUP_STREAK_STATE_PATH);
+  const streak = Number(streakState && streakState.cleanupFailStreak);
+  result.cleanupFailStreak = Number.isInteger(streak) && streak >= 0 ? streak : 0;
+
+  result.level = result.standardOk === 1 && result.requiredChecksSyncOk === 1 ? 'ok' : 'warn';
+
+  console.log(`OPS_STANDARD_GLOBAL_OK=${result.standardOk}`);
+  console.log(`REQUIRED_CHECKS_SYNC_OK=${result.requiredChecksSyncOk}`);
+  console.log(`REQUIRED_CHECKS_SOURCE=${result.requiredChecksSource}`);
+  console.log(`REQUIRED_CHECKS_STALE=${result.requiredChecksStale}`);
+  console.log(`POST_MERGE_VERIFY_CLEANUP_FAIL_STREAK=${result.cleanupFailStreak}`);
+  return result;
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -4563,6 +4635,7 @@ function run() {
   const nextSector = evaluateNextSectorStatus({ strictLie });
   const opsP0SectorMPrep = evaluateOpsP0SectorMPrepTokens();
   const opsSectorMProcessFixes = evaluateSectorMOpsProcessFixTokens();
+  const opsGlobalStandard = evaluateOpsGlobalDeliveryStandardTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -4682,6 +4755,7 @@ function run() {
     || nextSector.level === 'warn'
     || opsP0SectorMPrep.level === 'warn'
     || opsSectorMProcessFixes.level === 'warn'
+    || opsGlobalStandard.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'

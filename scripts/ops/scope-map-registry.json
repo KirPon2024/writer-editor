@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "ops-scope-map-registry.v1",
+  "sectors": {
+    "M": "scripts/ops/sector-m-scope-map.json"
+  },
+  "opsScopeMap": ""
+}

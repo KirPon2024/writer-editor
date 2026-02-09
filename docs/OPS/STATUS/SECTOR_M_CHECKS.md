@@ -1,10 +1,16 @@
-# SECTOR M Checks (M0)
+# SECTOR M Checks
 
-- CHECK_M0_SOT_SCHEMA: `docs/OPS/STATUS/SECTOR_M.json` matches `sector-m-status.v1` minimal schema and M0 values.
+## M0
+- CHECK_M0_SOT_SCHEMA: `docs/OPS/STATUS/SECTOR_M.json` matches `sector-m-status.v1` and valid value domains.
 - CHECK_M0_RUNNER_ARTIFACT: `scripts/sector-m-run.mjs --pack fast` produces deterministic artifact `sector-m-run.v1`.
 - CHECK_M0_DOCTOR_TOKENS: doctor emits `SECTOR_M_*` and `M0_*` tokens.
-- CHECK_M0_NO_SCOPE_LEAK: branch diff vs `origin/main` stays within M0 allowlist.
+- CHECK_M0_NO_SCOPE_LEAK: branch diff vs `origin/main` stays within phase allowlist.
 
-FULL policy for M0:
-- FULL is intentionally same as FAST at bootstrap stage.
-- No markdown implementation checks are part of M0.
+## M1
+- CHECK_M1_CONTRACT_DOCS_PRESENT: `docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md`, `docs/FORMAT/MARKDOWN_LOSS_POLICY_v1.md`, `docs/FORMAT/MARKDOWN_SECURITY_POLICY_v1.md` exist.
+- CHECK_M1_CONTRACT_DOCS_COMPLETE: required contract headings are present.
+- CHECK_M1_NO_SPLIT_BRAIN_ENTRYPOINT: `CANON_ENTRYPOINT_SPLIT_BRAIN_DETECTED=0`.
+- CHECK_M1_POLICIES_NON_AMBIGUOUS: doctor emits `M1_CONTRACT_OK=1` and policy tokens.
+
+FULL policy:
+- M0 and M1 use FAST-equivalent checks only; no additional full-only checks are required yet.

@@ -9,18 +9,36 @@ const SECTOR_M_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_M.json';
 const SECTOR_M_CHECKS_PATH = 'docs/OPS/STATUS/SECTOR_M_CHECKS.md';
 const DOCTOR_PATH = 'scripts/doctor.mjs';
 
-const M0_ALLOWLIST = new Set([
-  'docs/OPS/STATUS/SECTOR_M.json',
-  'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
-  'scripts/sector-m-run.mjs',
-  'scripts/doctor.mjs',
-  'package.json',
-  'test/unit/sector-m-status-schema.test.js',
-  'test/unit/sector-m-doctor-tokens.test.js',
-  'test/unit/sector-m-runner-artifact.test.js',
-  'test/unit/sector-m-no-scope-leak.test.js',
-  'test/fixtures/sector-m/expected-result.json',
-]);
+const M_ALLOWLISTS = {
+  M0: new Set([
+    'docs/OPS/STATUS/SECTOR_M.json',
+    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
+    'scripts/sector-m-run.mjs',
+    'scripts/doctor.mjs',
+    'package.json',
+    'test/unit/sector-m-status-schema.test.js',
+    'test/unit/sector-m-doctor-tokens.test.js',
+    'test/unit/sector-m-runner-artifact.test.js',
+    'test/unit/sector-m-no-scope-leak.test.js',
+    'test/fixtures/sector-m/expected-result.json',
+  ]),
+  M1: new Set([
+    'docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md',
+    'docs/FORMAT/MARKDOWN_LOSS_POLICY_v1.md',
+    'docs/FORMAT/MARKDOWN_SECURITY_POLICY_v1.md',
+    'docs/OPS/STATUS/SECTOR_M.json',
+    'docs/OPS/STATUS/SECTOR_M_CHECKS.md',
+    'scripts/doctor.mjs',
+    'scripts/sector-m-run.mjs',
+    'test/unit/sector-m-m1-contract-docs.test.js',
+    'test/unit/sector-m-m1-doctor-tokens.test.js',
+    // Scope exception: keep M0 tests phase-agnostic.
+    'test/unit/sector-m-status-schema.test.js',
+    'test/unit/sector-m-doctor-tokens.test.js',
+    'test/unit/sector-m-runner-artifact.test.js',
+    'test/unit/sector-m-no-scope-leak.test.js',
+  ]),
+};
 
 function parseArgs(argv) {
   const out = { pack: 'fast' };
@@ -74,66 +92,97 @@ function hasNpmScript(scriptName) {
   }
 }
 
-function validateSectorMSoT() {
+function readSectorMSoT() {
   if (!fs.existsSync(SECTOR_M_STATUS_PATH)) {
-    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'SECTOR_M.json is missing' };
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'SECTOR_M.json is missing', phase: '' };
   }
   let parsed;
   try {
     parsed = JSON.parse(fs.readFileSync(SECTOR_M_STATUS_PATH, 'utf8'));
   } catch {
-    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'SECTOR_M.json is not valid JSON' };
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'SECTOR_M.json is not valid JSON', phase: '' };
   }
   if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'SECTOR_M.json top-level must be object' };
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'SECTOR_M.json top-level must be object', phase: '' };
   }
 
   const required = ['schemaVersion', 'status', 'phase', 'goTag', 'baselineSha'];
   for (const key of required) {
     if (!(key in parsed)) {
-      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M.json missing field: ${key}` };
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M.json missing field: ${key}`, phase: '' };
     }
   }
 
   const statusAllowed = new Set(['NOT_STARTED', 'IN_PROGRESS', 'DONE']);
+  const phaseAllowed = new Set(['M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'DONE']);
+  const goTagAllowed = new Set([
+    '',
+    'GO:SECTOR_M_M0_DONE',
+    'GO:SECTOR_M_M1_DONE',
+    'GO:SECTOR_M_M2_DONE',
+    'GO:SECTOR_M_M3_DONE',
+    'GO:SECTOR_M_M4_DONE',
+    'GO:SECTOR_M_M5_DONE',
+    'GO:SECTOR_M_M6_DONE',
+    'GO:SECTOR_M_DONE',
+  ]);
   if (parsed.schemaVersion !== 'sector-m-status.v1') {
-    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'schemaVersion must be sector-m-status.v1' };
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'schemaVersion must be sector-m-status.v1', phase: '' };
   }
   if (!statusAllowed.has(parsed.status)) {
-    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'status must be NOT_STARTED|IN_PROGRESS|DONE' };
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'status must be NOT_STARTED|IN_PROGRESS|DONE', phase: '' };
   }
-  if (parsed.phase !== 'M0') {
-    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'phase must be M0' };
+  if (!phaseAllowed.has(parsed.phase)) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'phase is invalid', phase: '' };
   }
-  if (parsed.goTag !== '') {
-    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'goTag must be empty string for M0' };
+  if (!goTagAllowed.has(parsed.goTag)) {
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'goTag is invalid', phase: '' };
   }
   if (!/^[0-9a-f]{7,}$/i.test(String(parsed.baselineSha || ''))) {
-    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'baselineSha must be a git sha' };
+    return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'baselineSha must be a git sha', phase: '' };
   }
-  return { ok: 1, reason: '', details: 'SECTOR_M.json schema is valid for M0' };
+  return {
+    ok: 1,
+    reason: '',
+    details: `SECTOR_M.json schema is valid for ${parsed.phase}`,
+    phase: parsed.phase,
+  };
 }
 
-function validateChecksDoc() {
+function validateChecksDoc(phase) {
   if (!fs.existsSync(SECTOR_M_CHECKS_PATH)) {
     return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: 'SECTOR_M_CHECKS.md is missing' };
   }
   const text = fs.readFileSync(SECTOR_M_CHECKS_PATH, 'utf8');
-  const requiredMarkers = [
+  const requiredM0Markers = [
     'CHECK_M0_SOT_SCHEMA',
     'CHECK_M0_RUNNER_ARTIFACT',
     'CHECK_M0_DOCTOR_TOKENS',
     'CHECK_M0_NO_SCOPE_LEAK',
   ];
-  for (const marker of requiredMarkers) {
+  for (const marker of requiredM0Markers) {
     if (!text.includes(marker)) {
       return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+    }
+  }
+  if (phase === 'M1') {
+    const requiredM1Markers = [
+      'CHECK_M1_CONTRACT_DOCS_PRESENT',
+      'CHECK_M1_CONTRACT_DOCS_COMPLETE',
+      'CHECK_M1_NO_SPLIT_BRAIN_ENTRYPOINT',
+      'CHECK_M1_POLICIES_NON_AMBIGUOUS',
+    ];
+    for (const marker of requiredM1Markers) {
+      if (!text.includes(marker)) {
+        return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `SECTOR_M_CHECKS.md missing marker: ${marker}` };
+      }
     }
   }
   return { ok: 1, reason: '', details: 'SECTOR_M_CHECKS.md markers present' };
 }
 
-function validateAllowlistLeak() {
+function validateAllowlistLeak(phase) {
+  const allowlist = M_ALLOWLISTS[phase] || M_ALLOWLISTS.M0;
   const diff = spawnSync('git', ['diff', '--name-only', 'origin/main..HEAD'], { encoding: 'utf8' });
   if (diff.status !== 0) {
     return { ok: 0, reason: 'ALLOWLIST_VIOLATION', details: 'git diff command failed', violations: [] };
@@ -144,7 +193,7 @@ function validateAllowlistLeak() {
     .filter(Boolean)
     .sort();
 
-  const violations = files.filter((filePath) => !M0_ALLOWLIST.has(filePath));
+  const violations = files.filter((filePath) => !allowlist.has(filePath));
   if (violations.length > 0) {
     return {
       ok: 0,
@@ -162,7 +211,25 @@ function validateAllowlistLeak() {
   };
 }
 
-function runDoctorCheck() {
+function validateM1ContractDocs() {
+  const phase = readSectorMSoT().phase;
+  if (phase !== 'M1') {
+    return { ok: 1, reason: '', details: 'M1 contract doc check skipped outside M1 phase' };
+  }
+  const required = [
+    'docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md',
+    'docs/FORMAT/MARKDOWN_LOSS_POLICY_v1.md',
+    'docs/FORMAT/MARKDOWN_SECURITY_POLICY_v1.md',
+  ];
+  for (const filePath of required) {
+    if (!fs.existsSync(filePath)) {
+      return { ok: 0, reason: 'SOT_MISSING_OR_INVALID', details: `missing M1 contract doc: ${filePath}` };
+    }
+  }
+  return { ok: 1, reason: '', details: 'M1 contract docs present' };
+}
+
+function runDoctorCheck(phase) {
   if (!fs.existsSync(DOCTOR_PATH)) {
     return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: 'doctor script missing' };
   }
@@ -179,9 +246,12 @@ function runDoctorCheck() {
   const tokens = parseKvTokens(out.stdout);
   const must = [
     ['SECTOR_M_STATUS_OK', '1'],
-    ['SECTOR_M_PHASE', 'M0'],
+    ['SECTOR_M_PHASE', phase],
     ['M0_RUNNER_EXISTS', '1'],
   ];
+  if (phase === 'M1') {
+    must.push(['M1_CONTRACT_OK', '1']);
+  }
   for (const [k, v] of must) {
     if (tokens.get(k) !== v) {
       return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: `doctor token mismatch: ${k}=${tokens.get(k) || ''}` };
@@ -216,15 +286,15 @@ function main() {
   const checks = [];
   let failReason = '';
 
-  const sot = validateSectorMSoT();
+  const sot = readSectorMSoT();
   checks.push({ checkId: 'CHECK_M0_SOT_SCHEMA', ok: sot.ok, details: sot.details });
   if (!failReason && sot.ok !== 1) failReason = sot.reason;
 
-  const checksDoc = validateChecksDoc();
+  const checksDoc = validateChecksDoc(sot.phase);
   checks.push({ checkId: 'CHECK_M0_CHECKS_DOC', ok: checksDoc.ok, details: checksDoc.details });
   if (!failReason && checksDoc.ok !== 1) failReason = checksDoc.reason;
 
-  const noLeak = validateAllowlistLeak();
+  const noLeak = validateAllowlistLeak(sot.phase);
   checks.push({
     checkId: 'CHECK_M0_NO_SCOPE_LEAK',
     ok: noLeak.ok,
@@ -233,7 +303,15 @@ function main() {
   });
   if (!failReason && noLeak.ok !== 1) failReason = noLeak.reason;
 
-  const doctor = runDoctorCheck();
+  const m1Docs = validateM1ContractDocs();
+  checks.push({
+    checkId: 'CHECK_M1_CONTRACT_DOCS_PRESENT',
+    ok: m1Docs.ok,
+    details: m1Docs.details,
+  });
+  if (!failReason && m1Docs.ok !== 1) failReason = m1Docs.reason;
+
+  const doctor = runDoctorCheck(sot.phase || 'M0');
   checks.push({ checkId: 'CHECK_M0_DOCTOR_TOKENS', ok: doctor.ok, details: doctor.details });
   if (!failReason && doctor.ok !== 1) failReason = doctor.reason;
 

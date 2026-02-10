@@ -1,0 +1,61 @@
+{
+  "policyVersion": "v1.4",
+  "promptMode": "prompt_disabled",
+  "autoApplyWithinAllowlist": true,
+  "denylistAbsolute": true,
+  "allowlist": [
+    "docs/OPERATIONS/**",
+    "docs/ADR/**",
+    "docs/FEATURES/**",
+    "scripts/guards/**",
+    "scripts/contracts/**",
+    "test/contracts/**",
+    "test/fixtures/**",
+    "configs/**"
+  ],
+  "denylist": [
+    "docs/OPS/**",
+    "src/**",
+    ".github/**",
+    "package.json",
+    "**/*lock*",
+    "**/.env*",
+    "**/secrets/**"
+  ],
+  "commandAllowlist": [
+    "node scripts/contracts/check-codex-policy-schema.mjs",
+    "node scripts/guards/check-codex-allowlist-boundary.mjs",
+    "node scripts/guards/check-codex-denylist-boundary.mjs",
+    "node scripts/contracts/check-codex-prompt-mode.mjs",
+    "npm test -- test/contracts/codex-automation-policy.test.js"
+  ],
+  "dangerousOps": [
+    "network",
+    "secrets",
+    "destructive",
+    "out_of_allowlist_cmd"
+  ],
+  "promptDetection": {
+    "markerRegex": "(permission|allowlist|approve|apply\\s+changes)",
+    "exitCodeOnPrompt": 97
+  },
+  "runnerProfileRef": "docs/OPERATIONS/STATUS/CODEX_RUNNER_PROFILE.md",
+  "failReasonRegistryRef": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json#/failReasons",
+  "evidence": {
+    "verifiedAt": null,
+    "verifiedBy": "HO",
+    "notes": "PR-1 bootstrap only; no synthetic validation yet"
+  },
+  "failReasons": [
+    "ARTIFACT_MISSING",
+    "POLICY_SCHEMA_INVALID",
+    "ALLOWLIST_GUARD_FAIL",
+    "DENYLIST_GUARD_FAIL",
+    "PROMPT_MODE_UNPROVEN",
+    "DENYLIST_BREACH",
+    "ALLOWLIST_BREACH",
+    "PROMPT_NOT_ELIMINATED",
+    "DANGEROUS_OP_BLOCKED",
+    "EVIDENCE_MISSING"
+  ]
+}

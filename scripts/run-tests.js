@@ -210,9 +210,13 @@ function listTestFiles(dir, out = []) {
 }
 
 const rootDir = path.resolve(__dirname, '..');
-const mode = process.argv[2] === 'electron' ? 'electron' : 'unit';
+const args = process.argv.slice(2);
+const explicitTests = args.filter((arg) => arg.endsWith('.test.js'));
+const mode = args[0] === 'electron' ? 'electron' : 'unit';
 const testDir = path.join(rootDir, 'test', mode);
-const testFiles = fs.existsSync(testDir) ? listTestFiles(testDir).sort() : [];
+const testFiles = explicitTests.length > 0
+  ? explicitTests.map((item) => path.resolve(rootDir, item)).sort()
+  : (fs.existsSync(testDir) ? listTestFiles(testDir).sort() : []);
 
 if (testFiles.length === 0) {
   console.error(`No test files found in ./test/${mode} (expected **/*.test.js).`);
@@ -220,10 +224,12 @@ if (testFiles.length === 0) {
 } else {
   let exitCode = 0;
 
-  const opsExit = runOpsSynthNegativeTests(rootDir);
-  if (opsExit !== 0) {
-    process.exitCode = opsExit;
-    return;
+  if (explicitTests.length === 0) {
+    const opsExit = runOpsSynthNegativeTests(rootDir);
+    if (opsExit !== 0) {
+      process.exitCode = opsExit;
+      return;
+    }
   }
 
   const result = spawnSync(process.execPath, ['--test', ...testFiles], { cwd: rootDir, stdio: 'inherit' });

@@ -2901,8 +2901,8 @@ function evaluateSectorMStatus() {
   function printTokens(result) {
     const runnerMode = process.env.SECTOR_M_RUN_SKIP_DOCTOR_TEST === '1';
     if (result.phaseCompat && !runnerMode) {
-      // Compatibility line for legacy phase tests; canonical phase remains the final line.
-      console.log(`SECTOR_M_PHASE=${result.phaseCompat}`);
+      // Compatibility line must use a distinct key to avoid duplicate canonical phase tokens.
+      console.log(`SECTOR_M_PHASE_COMPAT=${result.phaseCompat}`);
     }
     console.log(`SECTOR_M_PHASE=${result.phase}`);
     console.log(`SECTOR_M_BASELINE_SHA=${result.baselineSha}`);

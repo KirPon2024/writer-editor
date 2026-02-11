@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "opsCanonVersion": "v1.3",
+  "codes": [
+    "E_PLATFORM_ID_REQUIRED",
+    "E_UNSUPPORTED_PLATFORM",
+    "E_CAPABILITY_MATRIX_EMPTY",
+    "E_CAPABILITY_MISSING",
+    "E_CAPABILITY_DISABLED_FOR_COMMAND",
+    "E_CAPABILITY_ENFORCEMENT_MISSING"
+  ]
+}

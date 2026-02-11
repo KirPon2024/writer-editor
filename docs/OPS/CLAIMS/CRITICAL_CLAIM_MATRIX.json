@@ -66,6 +66,62 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "CAPABILITY_MATRIX_NON_EMPTY",
+      "requiredToken": "CAPABILITY_MATRIX_NON_EMPTY_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CAPABILITY_MATRIX_EMPTY",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CAPABILITY_BASELINE_MIN",
+      "requiredToken": "CAPABILITY_BASELINE_MIN_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CAPABILITY_BASELINE_MIN_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CAPABILITY_COMMAND_BINDING",
+      "requiredToken": "CAPABILITY_COMMAND_BINDING_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CAPABILITY_COMMAND_BINDING_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CAPABILITY_COMMAND_COVERAGE",
+      "requiredToken": "CAPABILITY_COMMAND_COVERAGE_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CAPABILITY_COMMAND_COVERAGE_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CAPABILITY_PLATFORM_RESOLVER",
+      "requiredToken": "CAPABILITY_PLATFORM_RESOLVER_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CAPABILITY_PLATFORM_RESOLVER_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CAPABILITY_UNSUPPORTED_TYPED_ERRORS",
+      "requiredToken": "CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CAPABILITY_UNSUPPORTED_TYPED_ERRORS_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CAPABILITY_UNSUPPORTED_MAP_COVERAGE",
+      "requiredToken": "CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CAPABILITY_UNSUPPORTED_MAP_COVERAGE_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
       "claimId": "RECOVERY_IO",
       "requiredToken": "RECOVERY_IO_OK",
       "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",

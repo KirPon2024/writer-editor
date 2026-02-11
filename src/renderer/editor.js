@@ -146,7 +146,11 @@ const initialPageMetrics = getPageMetrics({ pageWidthMm: initialPageWidthMm, zoo
 applyPageViewCssVars(initialPageMetrics);
 
 const commandRegistry = createCommandRegistry();
-const runCommand = createCommandRunner(commandRegistry);
+const runCommand = createCommandRunner(commandRegistry, {
+  capability: {
+    defaultPlatformId: window.electronAPI ? 'node' : 'web',
+  },
+});
 registerProjectCommands(commandRegistry, { electronAPI: window.electronAPI });
 const MARKDOWN_IMPORT_STATUS_MESSAGE = 'Imported Markdown v1';
 const MARKDOWN_EXPORT_STATUS_MESSAGE = 'Exported Markdown v1';

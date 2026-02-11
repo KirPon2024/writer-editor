@@ -1,6 +1,71 @@
 {
   "schemaVersion": 1,
   "opsCanonVersion": "v1.3",
-  "declaredEmpty": true,
-  "items": []
+  "declaredEmpty": false,
+  "items": [
+    {
+      "platformId": "node",
+      "capabilities": {
+        "cap.core.project.create": true,
+        "cap.core.project.applyTextEdit": true,
+        "cap.project.open": true,
+        "cap.project.save": true,
+        "cap.project.export.docxMin": true,
+        "cap.project.import.markdownV1": true,
+        "cap.project.export.markdownV1": true,
+        "cap.project.flow.openV1": true,
+        "cap.project.flow.saveV1": true
+      },
+      "disabledCommands": [],
+      "degradedFeatures": []
+    },
+    {
+      "platformId": "web",
+      "capabilities": {
+        "cap.core.project.create": true,
+        "cap.core.project.applyTextEdit": true,
+        "cap.project.open": false,
+        "cap.project.save": false,
+        "cap.project.export.docxMin": false,
+        "cap.project.import.markdownV1": false,
+        "cap.project.export.markdownV1": false,
+        "cap.project.flow.openV1": false,
+        "cap.project.flow.saveV1": false
+      },
+      "disabledCommands": [
+        "cmd.project.open",
+        "cmd.project.save",
+        "cmd.project.export.docxMin",
+        "cmd.project.importMarkdownV1",
+        "cmd.project.exportMarkdownV1",
+        "cmd.project.flowOpenV1",
+        "cmd.project.flowSaveV1"
+      ],
+      "degradedFeatures": []
+    },
+    {
+      "platformId": "mobile-wrapper",
+      "capabilities": {
+        "cap.core.project.create": true,
+        "cap.core.project.applyTextEdit": true,
+        "cap.project.open": false,
+        "cap.project.save": false,
+        "cap.project.export.docxMin": false,
+        "cap.project.import.markdownV1": false,
+        "cap.project.export.markdownV1": false,
+        "cap.project.flow.openV1": false,
+        "cap.project.flow.saveV1": false
+      },
+      "disabledCommands": [
+        "cmd.project.open",
+        "cmd.project.save",
+        "cmd.project.export.docxMin",
+        "cmd.project.importMarkdownV1",
+        "cmd.project.exportMarkdownV1",
+        "cmd.project.flowOpenV1",
+        "cmd.project.flowSaveV1"
+      ],
+      "degradedFeatures": []
+    }
+  ]
 }

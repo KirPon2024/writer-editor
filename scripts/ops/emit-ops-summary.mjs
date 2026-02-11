@@ -106,6 +106,13 @@ function main() {
     coreSotHashDeterministicOk: freezeRollups.CORE_SOT_HASH_DETERMINISTIC_OK,
     coreSotExecutableOk: freezeRollups.CORE_SOT_EXECUTABLE_OK,
     commandSurfaceEnforcedOk: freezeRollups.COMMAND_SURFACE_ENFORCED_OK,
+    capabilityMatrixNonEmptyOk: freezeRollups.CAPABILITY_MATRIX_NON_EMPTY_OK,
+    capabilityBaselineMinOk: freezeRollups.CAPABILITY_BASELINE_MIN_OK,
+    capabilityCommandBindingOk: freezeRollups.CAPABILITY_COMMAND_BINDING_OK,
+    capabilityCommandCoverageOk: freezeRollups.CAPABILITY_COMMAND_COVERAGE_OK,
+    capabilityPlatformResolverOk: freezeRollups.CAPABILITY_PLATFORM_RESOLVER_OK,
+    capabilityUnsupportedTypedErrorsOk: freezeRollups.CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK,
+    capabilityUnsupportedMapCoverageOk: freezeRollups.CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK,
     capabilityEnforcedOk: freezeRollups.CAPABILITY_ENFORCED_OK,
     recoveryIoOk: freezeRollups.RECOVERY_IO_OK,
     perfBaselineOk: freezeRollups.PERF_BASELINE_OK,
@@ -148,6 +155,13 @@ function main() {
   console.log(`OPS_SUMMARY_CORE_SOT_HASH_DETERMINISTIC_OK=${summary.coreSotHashDeterministicOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_EXECUTABLE_OK=${summary.coreSotExecutableOk}`);
   console.log(`OPS_SUMMARY_COMMAND_SURFACE_ENFORCED_OK=${summary.commandSurfaceEnforcedOk}`);
+  console.log(`OPS_SUMMARY_CAPABILITY_MATRIX_NON_EMPTY_OK=${summary.capabilityMatrixNonEmptyOk}`);
+  console.log(`OPS_SUMMARY_CAPABILITY_BASELINE_MIN_OK=${summary.capabilityBaselineMinOk}`);
+  console.log(`OPS_SUMMARY_CAPABILITY_COMMAND_BINDING_OK=${summary.capabilityCommandBindingOk}`);
+  console.log(`OPS_SUMMARY_CAPABILITY_COMMAND_COVERAGE_OK=${summary.capabilityCommandCoverageOk}`);
+  console.log(`OPS_SUMMARY_CAPABILITY_PLATFORM_RESOLVER_OK=${summary.capabilityPlatformResolverOk}`);
+  console.log(`OPS_SUMMARY_CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK=${summary.capabilityUnsupportedTypedErrorsOk}`);
+  console.log(`OPS_SUMMARY_CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK=${summary.capabilityUnsupportedMapCoverageOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_ENFORCED_OK=${summary.capabilityEnforcedOk}`);
   console.log(`OPS_SUMMARY_RECOVERY_IO_OK=${summary.recoveryIoOk}`);
   console.log(`OPS_SUMMARY_PERF_BASELINE_OK=${summary.perfBaselineOk}`);

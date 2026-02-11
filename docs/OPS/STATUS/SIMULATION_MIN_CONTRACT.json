@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "simulation-min-contract.v1",
+  "scenarios": [
+    {
+      "scenarioId": "S1_COLLAB_INTRO",
+      "inputsRef": "test/fixtures/simulation-min/S1_COLLAB_INTRO.json",
+      "expectedTokens": [
+        {
+          "name": "COLLAB_STRESS_SAFE_OK",
+          "value": 1
+        }
+      ],
+      "proofHook": "node scripts/ops/collab-stress-safe-state.mjs --json",
+      "deterministic": true
+    },
+    {
+      "scenarioId": "S2_DERIVED_MINDMAP",
+      "inputsRef": "test/fixtures/simulation-min/S2_DERIVED_MINDMAP.json",
+      "expectedTokens": [
+        {
+          "name": "MINDMAP_DERIVED_GRAPH_OK",
+          "value": 1
+        }
+      ],
+      "proofHook": "node scripts/ops/mindmap-derived-state.mjs --json",
+      "deterministic": true
+    },
+    {
+      "scenarioId": "S3_COMMENTS_HISTORY",
+      "inputsRef": "test/fixtures/simulation-min/S3_COMMENTS_HISTORY.json",
+      "expectedTokens": [
+        {
+          "name": "COMMENTS_HISTORY_SAFE_OK",
+          "value": 1
+        }
+      ],
+      "proofHook": "node scripts/ops/comments-history-safe-state.mjs --json",
+      "deterministic": true
+    },
+    {
+      "scenarioId": "S4_RECOVERY_REPLAY",
+      "inputsRef": "test/fixtures/simulation-min/S4_RECOVERY_REPLAY.json",
+      "expectedTokens": [
+        {
+          "name": "RECOVERY_IO_OK",
+          "value": 1
+        }
+      ],
+      "proofHook": "node scripts/ops/recovery-io-state.mjs --json",
+      "deterministic": true
+    }
+  ]
+}

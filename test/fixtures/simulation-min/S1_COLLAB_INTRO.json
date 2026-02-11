@@ -1,0 +1,21 @@
+{
+  "fixtureId": "S1_COLLAB_INTRO",
+  "seed": "simulation-min-v1",
+  "description": "No-network collab intro replay fixture for deterministic stress-safe infra checks.",
+  "events": [
+    {
+      "opId": "op-1",
+      "authorId": "writer-A",
+      "commandId": "project.applyTextEdit",
+      "baseVersion": 1,
+      "nextVersion": 2
+    },
+    {
+      "opId": "op-2",
+      "authorId": "writer-B",
+      "commandId": "project.applyTextEdit",
+      "baseVersion": 2,
+      "nextVersion": 3
+    }
+  ]
+}

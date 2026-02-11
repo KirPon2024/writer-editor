@@ -15,6 +15,7 @@ import { evaluateDerivedViewsState } from './derived-views-state.mjs';
 import { evaluateMindMapDerivedState } from './mindmap-derived-state.mjs';
 import { evaluateCommentsHistorySafeState } from './comments-history-safe-state.mjs';
 import { evaluateCollabStressSafeState } from './collab-stress-safe-state.mjs';
+import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -346,6 +347,17 @@ function evaluateCollabStressSafe() {
   };
 }
 
+function evaluateSimulationMinContract() {
+  const state = evaluateSimulationMinContractState();
+  return {
+    SIMULATION_MIN_CONTRACT_OK: Number(state.SIMULATION_MIN_CONTRACT_OK) === 1 ? 1 : 0,
+    SIMULATION_SCENARIOS_TOTAL: Number(state.SIMULATION_SCENARIOS_TOTAL) || 0,
+    SIMULATION_SCENARIOS_PASS: Number(state.SIMULATION_SCENARIOS_PASS) || 0,
+    failReason: typeof state.failReason === 'string' ? state.failReason : '',
+    failReasons: Array.isArray(state.failReasons) ? state.failReasons : [],
+  };
+}
+
 function listFilesRecursive(rootDir) {
   const out = [];
   if (!fileExists(rootDir)) return out;
@@ -526,6 +538,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const mindmapDerived = evaluateMindMapDerived();
   const commentsHistory = evaluateCommentsHistory();
   const collabStressSafe = evaluateCollabStressSafe();
+  const simulationMinContract = evaluateSimulationMinContract();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -605,7 +618,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     ADAPTERS_ENFORCED_OK: adapters.ADAPTERS_ENFORCED_OK,
     COLLAB_STRESS_SAFE_OK: collabStressSafe.COLLAB_STRESS_SAFE_OK,
     COMMENTS_HISTORY_SAFE_OK: commentsHistory.COMMENTS_HISTORY_SAFE_OK,
-    SIMULATION_MIN_CONTRACT_OK: 0,
+    SIMULATION_MIN_CONTRACT_OK: simulationMinContract.SIMULATION_MIN_CONTRACT_OK,
     details: {
       remote,
       nextSector,
@@ -625,6 +638,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       mindmapDerived,
       commentsHistory,
       collabStressSafe,
+      simulationMinContract,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
         requires: xplatCostGuaranteeRequires,

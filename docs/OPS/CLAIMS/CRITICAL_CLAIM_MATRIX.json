@@ -336,6 +336,14 @@
       "failSignal": "E_COLLAB_STRESS_SAFE_FAIL",
       "blocking": false,
       "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "SIMULATION_MIN_CONTRACT_BASELINE",
+      "requiredToken": "SIMULATION_MIN_CONTRACT_OK",
+      "proofHook": "node scripts/ops/simulation-min-contract-state.mjs --json",
+      "failSignal": "E_SIMULATION_MIN_CONTRACT_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

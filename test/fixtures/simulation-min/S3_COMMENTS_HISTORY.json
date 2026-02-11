@@ -1,0 +1,9 @@
+{
+  "fixtureId": "S3_COMMENTS_HISTORY",
+  "seed": "simulation-min-v1",
+  "description": "Comments/history derived baseline deterministic fixture.",
+  "params": {
+    "projectId": "sim-project",
+    "filter": "all"
+  }
+}

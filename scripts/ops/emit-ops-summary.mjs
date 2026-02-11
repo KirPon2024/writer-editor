@@ -130,6 +130,7 @@ function main() {
     perfBaselineOk: freezeRollups.PERF_BASELINE_OK,
     platformCoverageDeclaredOk: freezeRollups.PLATFORM_COVERAGE_DECLARED_OK,
     platformCoverageBoundaryTestedOk: freezeRollups.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK,
+    xplatCostGuaranteeOk: freezeRollups.XPLAT_COST_GUARANTEE_OK,
     adaptersDeclaredOk: freezeRollups.ADAPTERS_DECLARED_OK,
     adaptersBoundaryTestedOk: freezeRollups.ADAPTERS_BOUNDARY_TESTED_OK,
     adaptersParityOk: freezeRollups.ADAPTERS_PARITY_OK,
@@ -196,6 +197,7 @@ function main() {
   console.log(`OPS_SUMMARY_PERF_BASELINE_OK=${summary.perfBaselineOk}`);
   console.log(`OPS_SUMMARY_PLATFORM_COVERAGE_DECLARED_OK=${summary.platformCoverageDeclaredOk}`);
   console.log(`OPS_SUMMARY_PLATFORM_COVERAGE_BOUNDARY_TESTED_OK=${summary.platformCoverageBoundaryTestedOk}`);
+  console.log(`OPS_SUMMARY_XPLAT_COST_GUARANTEE_OK=${summary.xplatCostGuaranteeOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_DECLARED_OK=${summary.adaptersDeclaredOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_BOUNDARY_TESTED_OK=${summary.adaptersBoundaryTestedOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_PARITY_OK=${summary.adaptersParityOk}`);
@@ -250,6 +252,10 @@ function main() {
   }
   if (summary.platformCoverageBoundaryTestedOk !== 1) {
     console.log('FAIL_REASON=OPS_SUMMARY_PLATFORM_COVERAGE_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.xplatCostGuaranteeOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_XPLAT_COST_GUARANTEE_NOT_OK');
     process.exit(1);
   }
 

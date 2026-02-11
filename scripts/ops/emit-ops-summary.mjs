@@ -151,6 +151,10 @@ function main() {
     collabEventLogReplayDeterministicOk: freezeRollups.COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK,
     collabEventLogIdempotencyOk: freezeRollups.COLLAB_EVENTLOG_IDEMPOTENCY_OK,
     collabEventLogOk: freezeRollups.COLLAB_EVENTLOG_OK,
+    collabApplyPipelinePureOk: freezeRollups.COLLAB_APPLY_PIPELINE_PURE_OK,
+    collabApplyPipelineDeterministicOk: freezeRollups.COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK,
+    collabApplyPipelineTypedErrorsOk: freezeRollups.COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK,
+    collabApplyPipelineOk: freezeRollups.COLLAB_APPLY_PIPELINE_OK,
     commentsHistorySafeOk: freezeRollups.COMMENTS_HISTORY_SAFE_OK,
     simulationMinContractOk: freezeRollups.SIMULATION_MIN_CONTRACT_OK,
     generatedAt: new Date().toISOString(),
@@ -233,6 +237,10 @@ function main() {
   console.log(`OPS_SUMMARY_COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK=${summary.collabEventLogReplayDeterministicOk}`);
   console.log(`OPS_SUMMARY_COLLAB_EVENTLOG_IDEMPOTENCY_OK=${summary.collabEventLogIdempotencyOk}`);
   console.log(`OPS_SUMMARY_COLLAB_EVENTLOG_OK=${summary.collabEventLogOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_APPLY_PIPELINE_PURE_OK=${summary.collabApplyPipelinePureOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK=${summary.collabApplyPipelineDeterministicOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK=${summary.collabApplyPipelineTypedErrorsOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_APPLY_PIPELINE_OK=${summary.collabApplyPipelineOk}`);
   console.log(`OPS_SUMMARY_COMMENTS_HISTORY_SAFE_OK=${summary.commentsHistorySafeOk}`);
   console.log(`OPS_SUMMARY_SIMULATION_MIN_CONTRACT_OK=${summary.simulationMinContractOk}`);
 

@@ -16,6 +16,7 @@ import { evaluateMindMapDerivedState } from './mindmap-derived-state.mjs';
 import { evaluateCommentsHistorySafeState } from './comments-history-safe-state.mjs';
 import { evaluateCollabStressSafeState } from './collab-stress-safe-state.mjs';
 import { evaluateCollabEventLogState } from './collab-eventlog-state.mjs';
+import { evaluateCollabApplyPipelineState } from './collab-apply-pipeline-state.mjs';
 import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
 
 function runGit(args) {
@@ -360,6 +361,17 @@ function evaluateCollabEventLog() {
   };
 }
 
+function evaluateCollabApplyPipeline() {
+  const state = evaluateCollabApplyPipelineState();
+  return {
+    COLLAB_APPLY_PIPELINE_PURE_OK: Number(state.COLLAB_APPLY_PIPELINE_PURE_OK) === 1 ? 1 : 0,
+    COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK: Number(state.COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK) === 1 ? 1 : 0,
+    COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK: Number(state.COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK) === 1 ? 1 : 0,
+    COLLAB_APPLY_PIPELINE_OK: Number(state.COLLAB_APPLY_PIPELINE_OK) === 1 ? 1 : 0,
+    failReason: typeof state.failReason === 'string' ? state.failReason : '',
+  };
+}
+
 function evaluateSimulationMinContract() {
   const state = evaluateSimulationMinContractState();
   return {
@@ -552,6 +564,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const commentsHistory = evaluateCommentsHistory();
   const collabStressSafe = evaluateCollabStressSafe();
   const collabEventLog = evaluateCollabEventLog();
+  const collabApplyPipeline = evaluateCollabApplyPipeline();
   const simulationMinContract = evaluateSimulationMinContract();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
@@ -636,6 +649,10 @@ export function evaluateFreezeRollupsState(input = {}) {
     COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK: collabEventLog.COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK,
     COLLAB_EVENTLOG_IDEMPOTENCY_OK: collabEventLog.COLLAB_EVENTLOG_IDEMPOTENCY_OK,
     COLLAB_EVENTLOG_OK: collabEventLog.COLLAB_EVENTLOG_OK,
+    COLLAB_APPLY_PIPELINE_PURE_OK: collabApplyPipeline.COLLAB_APPLY_PIPELINE_PURE_OK,
+    COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK: collabApplyPipeline.COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK,
+    COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK: collabApplyPipeline.COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK,
+    COLLAB_APPLY_PIPELINE_OK: collabApplyPipeline.COLLAB_APPLY_PIPELINE_OK,
     COMMENTS_HISTORY_SAFE_OK: commentsHistory.COMMENTS_HISTORY_SAFE_OK,
     SIMULATION_MIN_CONTRACT_OK: simulationMinContract.SIMULATION_MIN_CONTRACT_OK,
     details: {
@@ -658,6 +675,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       commentsHistory,
       collabStressSafe,
       collabEventLog,
+      collabApplyPipeline,
       simulationMinContract,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
@@ -734,6 +752,10 @@ function printTokens(state) {
     'COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK',
     'COLLAB_EVENTLOG_IDEMPOTENCY_OK',
     'COLLAB_EVENTLOG_OK',
+    'COLLAB_APPLY_PIPELINE_PURE_OK',
+    'COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK',
+    'COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK',
+    'COLLAB_APPLY_PIPELINE_OK',
     'COMMENTS_HISTORY_SAFE_OK',
     'SIMULATION_MIN_CONTRACT_OK',
   ];

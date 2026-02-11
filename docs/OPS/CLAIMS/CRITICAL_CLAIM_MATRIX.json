@@ -320,6 +320,14 @@
       "failSignal": "E_MINDMAP_DERIVED_GRAPH_FAIL",
       "blocking": false,
       "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "COMMENTS_HISTORY_SAFETY_BASELINE",
+      "requiredToken": "COMMENTS_HISTORY_SAFE_OK",
+      "proofHook": "node scripts/ops/comments-history-safe-state.mjs --json",
+      "failSignal": "E_COMMENTS_HISTORY_SAFE_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

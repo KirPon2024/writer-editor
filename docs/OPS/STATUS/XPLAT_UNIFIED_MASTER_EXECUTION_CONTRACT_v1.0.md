@@ -119,17 +119,26 @@ shared_runtime_loc включает (канонический scope):
 - один фиксированный список include/exclude (как выше)
 - считает LOC как: non-blank AND not comment-only
 - выдаёт JSON с полями:
-  - shared_runtime_loc
-  - total_runtime_loc
-  - scr (0..1)
+  - runtime_shared_loc
+  - runtime_total_loc
+  - runtime_scr (0..1)
+  - app_total_loc
+  - app_scr (0..1)
+  - runtime_platform_breakdown (top platform-specific runtime paths)
   - toolVersion
-  - configHash (sha256 от нормализованного конфига include/exclude)
+  - configHash (sha256 от нормализованного runtime/app scope rules)
 
-Token:
-SCR_SHARED_CODE_RATIO_OK
+Blocking token:
+SCR_RUNTIME_SHARED_RATIO_OK
+
+Info token (non-blocking):
+SCR_APP_TOTAL_SHARED_RATIO_INFO
+
+Legacy compatibility:
+SCR_SHARED_CODE_RATIO_OK = alias(SCR_RUNTIME_SHARED_RATIO_OK)
 
 PASS для экономического claim (85–95% shared code) возможен только если одновременно:
-- SCR_SHARED_CODE_RATIO_OK = 1 (scr ≥ 0.85)
+- SCR_RUNTIME_SHARED_RATIO_OK = 1 (runtime_scr ≥ 0.85)
 - PLATFORM_COVERAGE_BOUNDARY_TESTED_OK = 1
 - CAPABILITY_ENFORCED_OK = 1
 - ADAPTERS_ENFORCED_OK = 1
@@ -181,7 +190,7 @@ GOVERNANCE_STRICT_OK
 XPLAT_CONTRACT_OK
 HEAD_STRICT_OK
 TOKEN_DECLARATION_VALID_OK
-SCR_SHARED_CODE_RATIO_OK
+SCR_RUNTIME_SHARED_RATIO_OK
 
 Optional (только если feature входит в release-scope):
 
@@ -249,7 +258,7 @@ PASS только если:
 - DEBT_TTL_VALID_OK = 1
 - HEAD_STRICT_OK = 1
 - TOKEN_DECLARATION_VALID_OK = 1
-- SCR_SHARED_CODE_RATIO_OK = 1
+- SCR_RUNTIME_SHARED_RATIO_OK = 1
 
 ---
 
@@ -265,7 +274,7 @@ BLOCKED если:
 - expired TTL
 - CRITICAL_CLAIM_MATRIX отсутствует/невалиден
 - TOKEN_DECLARATION отсутствует/невалиден
-- SCR < 0.85 (при заявке на экономический claim)
+- runtime_scr < 0.85 (при заявке на экономический claim)
 
 ---
 

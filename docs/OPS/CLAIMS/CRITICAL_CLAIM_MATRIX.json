@@ -202,8 +202,8 @@
       "sourceBinding": "doctor"
     },
     {
-      "claimId": "SCR_SHARED_CODE_RATIO",
-      "requiredToken": "SCR_SHARED_CODE_RATIO_OK",
+      "claimId": "SCR_RUNTIME_SHARED_RATIO",
+      "requiredToken": "SCR_RUNTIME_SHARED_RATIO_OK",
       "proofHook": "node scripts/ops/scr-calc.mjs --json",
       "failSignal": "E_SHARED_CODE_RATIO_BELOW_MIN",
       "blocking": true,

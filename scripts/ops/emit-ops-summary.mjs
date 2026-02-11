@@ -95,6 +95,8 @@ function main() {
     headStrictOk: freezeRollups.HEAD_STRICT_OK,
     criticalClaimMatrixOk: freezeRollups.CRITICAL_CLAIM_MATRIX_OK,
     tokenDeclarationValidOk: freezeRollups.TOKEN_DECLARATION_VALID_OK,
+    scrRuntimeSharedRatioOk: freezeRollups.SCR_RUNTIME_SHARED_RATIO_OK,
+    scrAppTotalSharedRatioInfo: freezeRollups.SCR_APP_TOTAL_SHARED_RATIO_INFO,
     scrSharedCodeRatioOk: freezeRollups.SCR_SHARED_CODE_RATIO_OK,
     debtTtlValidOk: freezeRollups.DEBT_TTL_VALID_OK,
     debtTtlExpiredCount: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
@@ -147,6 +149,8 @@ function main() {
   console.log(`OPS_SUMMARY_HEAD_STRICT_OK=${summary.headStrictOk}`);
   console.log(`OPS_SUMMARY_CRITICAL_CLAIM_MATRIX_OK=${summary.criticalClaimMatrixOk}`);
   console.log(`OPS_SUMMARY_TOKEN_DECLARATION_VALID_OK=${summary.tokenDeclarationValidOk}`);
+  console.log(`OPS_SUMMARY_SCR_RUNTIME_SHARED_RATIO_OK=${summary.scrRuntimeSharedRatioOk}`);
+  console.log(`OPS_SUMMARY_SCR_APP_TOTAL_SHARED_RATIO_INFO=${summary.scrAppTotalSharedRatioInfo}`);
   console.log(`OPS_SUMMARY_SCR_SHARED_CODE_RATIO_OK=${summary.scrSharedCodeRatioOk}`);
   console.log(`OPS_SUMMARY_DEBT_TTL_VALID_OK=${summary.debtTtlValidOk}`);
   console.log(`OPS_SUMMARY_DEBT_TTL_EXPIRED_COUNT=${summary.debtTtlExpiredCount}`);

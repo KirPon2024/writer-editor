@@ -1,5 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
@@ -50,4 +51,48 @@ test('desktop adapter returns deterministic typed error when method is unavailab
       details: { platformId: 'node', portId: 'FileSystemPort' },
     },
   );
+});
+
+test('shared adapters layer contains no platform-specific imports/usages', () => {
+  const root = process.cwd();
+  const sharedRoot = path.join(root, 'src', 'adapters', 'shared');
+  assert.equal(fs.existsSync(sharedRoot), true, 'src/adapters/shared must exist');
+
+  const forbidden = [
+    /\bipcRenderer\b/u,
+    /\bipcMain\b/u,
+    /\bBrowserWindow\b/u,
+    /\bwindow\./u,
+    /\bdocument\./u,
+    /\bnavigator\./u,
+    /from\s+['"]electron['"]/u,
+    /require\(['"]electron['"]\)/u,
+    /@electron\//u,
+  ];
+
+  const stack = [sharedRoot];
+  const violations = [];
+  while (stack.length > 0) {
+    const dir = stack.pop();
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(fullPath);
+        continue;
+      }
+      if (!entry.isFile() || !/\.(mjs|cjs|js|ts)$/u.test(entry.name)) continue;
+      const text = fs.readFileSync(fullPath, 'utf8');
+      for (const re of forbidden) {
+        if (re.test(text)) {
+          violations.push({
+            file: path.relative(root, fullPath),
+            pattern: re.source,
+          });
+        }
+      }
+    }
+  }
+
+  assert.deepEqual(violations, []);
 });

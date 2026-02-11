@@ -227,6 +227,77 @@ function evaluatePerf() {
   };
 }
 
+function listFilesRecursive(rootDir) {
+  const out = [];
+  if (!fileExists(rootDir)) return out;
+  const stack = [rootDir];
+  while (stack.length > 0) {
+    const dir = stack.pop();
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(fullPath);
+        continue;
+      }
+      if (!entry.isFile()) continue;
+      out.push(fullPath);
+    }
+  }
+  return out;
+}
+
+function evaluateAdaptersBoundary() {
+  const requiredPortContracts = [
+    'src/ports/FileSystemPort.mjs',
+    'src/ports/DialogPort.mjs',
+    'src/ports/PlatformInfoPort.mjs',
+    'src/ports/index.mjs',
+    'src/contracts/filesystem-port.contract.ts',
+    'src/contracts/dialog-port.contract.ts',
+    'src/contracts/platform-info-port.contract.ts',
+  ];
+  const desktopAdapterPath = 'src/adapters/desktop/desktopPortsAdapter.mjs';
+  const requiredBoundaryTests = [
+    'test/contracts/adapters-boundary-baseline.contract.test.js',
+    'test/contracts/core-no-platform-wiring.contract.test.js',
+  ];
+  const adapterDeclared = requiredPortContracts.every((filePath) => fileExists(filePath))
+    && fileExists(desktopAdapterPath);
+
+  const forbiddenPatterns = [
+    /\bipcRenderer\b/u,
+    /\bipcMain\b/u,
+    /\bBrowserWindow\b/u,
+    /\bwindow\./u,
+    /\bdocument\./u,
+    /\bnavigator\./u,
+    /from\s+['"]electron['"]/u,
+    /require\(['"]electron['"]\)/u,
+    /@electron\//u,
+  ];
+  const coreFiles = listFilesRecursive('src/core')
+    .filter((filePath) => /\.(mjs|cjs|js|ts)$/u.test(filePath));
+  const coreViolations = [];
+  for (const filePath of coreFiles) {
+    const text = readText(filePath);
+    for (const pattern of forbiddenPatterns) {
+      if (pattern.test(text)) {
+        coreViolations.push({ filePath, pattern: pattern.source });
+      }
+    }
+  }
+  const coreNoPlatformWiring = coreViolations.length === 0;
+  const boundaryTestsPresent = requiredBoundaryTests.every((filePath) => fileExists(filePath));
+  const boundaryTested = adapterDeclared && boundaryTestsPresent && coreNoPlatformWiring;
+
+  return {
+    ADAPTERS_DECLARED_OK: adapterDeclared ? 1 : 0,
+    ADAPTERS_BOUNDARY_TESTED_OK: boundaryTested ? 1 : 0,
+    ADAPTERS_ENFORCED_OK: 0,
+  };
+}
+
 function evaluateDebtTtlState() {
   const doc = parseJsonObject('docs/OPS/DEBT_REGISTRY.json');
   if (!doc || !Array.isArray(doc.items)) {
@@ -317,6 +388,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const capability = evaluateCapability();
   const recoveryIo = evaluateRecoveryIo();
   const perf = evaluatePerf();
+  const adapters = evaluateAdaptersBoundary();
 
   const governanceStrictOk = remote.remoteBindingOk === 1
     && nextSector.valid
@@ -357,7 +429,9 @@ export function evaluateFreezeRollupsState(input = {}) {
     CAPABILITY_ENFORCED_OK: capability.CAPABILITY_ENFORCED_OK,
     RECOVERY_IO_OK: recoveryIo.RECOVERY_IO_OK,
     PERF_BASELINE_OK: perf.PERF_BASELINE_OK,
-    ADAPTERS_ENFORCED_OK: 0,
+    ADAPTERS_DECLARED_OK: adapters.ADAPTERS_DECLARED_OK,
+    ADAPTERS_BOUNDARY_TESTED_OK: adapters.ADAPTERS_BOUNDARY_TESTED_OK,
+    ADAPTERS_ENFORCED_OK: adapters.ADAPTERS_ENFORCED_OK,
     COLLAB_STRESS_SAFE_OK: 0,
     COMMENTS_HISTORY_SAFE_OK: 0,
     SIMULATION_MIN_CONTRACT_OK: 0,
@@ -375,6 +449,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       capability,
       recoveryIo,
       perf,
+      adapters,
     },
   };
 }
@@ -410,6 +485,8 @@ function printTokens(state) {
     'CAPABILITY_ENFORCED_OK',
     'RECOVERY_IO_OK',
     'PERF_BASELINE_OK',
+    'ADAPTERS_DECLARED_OK',
+    'ADAPTERS_BOUNDARY_TESTED_OK',
     'ADAPTERS_ENFORCED_OK',
     'COLLAB_STRESS_SAFE_OK',
     'COMMENTS_HISTORY_SAFE_OK',

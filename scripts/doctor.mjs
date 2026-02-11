@@ -1434,7 +1434,7 @@ function checkContourCEnforcementInventory(applicableRegistryItems, targetParsed
   return { forceFail, level: violationsOut.length > 0 ? 'warn' : 'ok', planIds: entries };
 }
 
-function evaluateRegistry(items, auditCheckIds) {
+function evaluateRegistry(items, auditCheckIds, effectiveMode = 'TRANSITIONAL') {
   const enforced = [];
   const placeholders = [];
   const noSource = [];
@@ -1489,7 +1489,7 @@ function evaluateRegistry(items, auditCheckIds) {
   console.log(`NO_SOURCE_INVARIANTS_COUNT=${noSource.length}`);
 
   const hasWarn = placeholders.length > 0 || noSource.length > 0;
-  return { level: hasWarn ? 'warn' : 'ok' };
+  return { level: hasWarn && effectiveMode === 'STRICT' ? 'warn' : 'ok' };
 }
 
 function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, effectiveMode, ignoredInvariantIds) {
@@ -5794,7 +5794,7 @@ function run() {
   const contourCCompleteness = computeContourCEnforcementCompleteness(gating.applicableItems, contourCEnforcement.planIds);
   computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds);
   computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
-  const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds);
+  const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds, effectiveMode);
   const docsContracts = checkContourCDocsContractsPresence();
   const frozenContracts = checkContourCContractsFrozenEntrypoint(targetParsed);
   checkContourCSrcContractsSkeletonDiagnostics(targetParsed);

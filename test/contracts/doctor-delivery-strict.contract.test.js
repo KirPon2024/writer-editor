@@ -7,9 +7,12 @@ function parseTokens(stdout) {
   for (const raw of String(stdout || '').split(/\r?\n/)) {
     const line = raw.trim();
     if (!line) continue;
-    const idx = line.indexOf('=');
+    const normalized = line.startsWith('DOCTOR_TOKEN ')
+      ? line.slice('DOCTOR_TOKEN '.length).trim()
+      : line;
+    const idx = normalized.indexOf('=');
     if (idx <= 0) continue;
-    map.set(line.slice(0, idx), line.slice(idx + 1));
+    map.set(normalized.slice(0, idx), normalized.slice(idx + 1));
   }
   return map;
 }

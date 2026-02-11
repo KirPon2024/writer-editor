@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "opsCanonVersion": "v1.3",
+  "items": [
+    { "commandId": "project.create", "capabilityId": "cap.core.project.create" },
+    { "commandId": "project.applyTextEdit", "capabilityId": "cap.core.project.applyTextEdit" },
+    { "commandId": "cmd.project.open", "capabilityId": "cap.project.open" },
+    { "commandId": "cmd.project.save", "capabilityId": "cap.project.save" },
+    { "commandId": "cmd.project.export.docxMin", "capabilityId": "cap.project.export.docxMin" },
+    { "commandId": "cmd.project.importMarkdownV1", "capabilityId": "cap.project.import.markdownV1" },
+    { "commandId": "cmd.project.exportMarkdownV1", "capabilityId": "cap.project.export.markdownV1" },
+    { "commandId": "cmd.project.flowOpenV1", "capabilityId": "cap.project.flow.openV1" },
+    { "commandId": "cmd.project.flowSaveV1", "capabilityId": "cap.project.flow.saveV1" }
+  ]
+}

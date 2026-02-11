@@ -108,6 +108,27 @@ function evaluateCommandSurface() {
 }
 
 function evaluateCapability() {
+  const requiredPlatformIds = new Set(['node', 'web', 'mobile-wrapper']);
+  const requiredCommandIds = [
+    'project.create',
+    'project.applyTextEdit',
+    'cmd.project.open',
+    'cmd.project.save',
+    'cmd.project.export.docxMin',
+    'cmd.project.importMarkdownV1',
+    'cmd.project.exportMarkdownV1',
+    'cmd.project.flowOpenV1',
+    'cmd.project.flowSaveV1',
+  ];
+  const requiredUnsupportedCodes = new Set([
+    'E_PLATFORM_ID_REQUIRED',
+    'E_UNSUPPORTED_PLATFORM',
+    'E_CAPABILITY_MATRIX_EMPTY',
+    'E_CAPABILITY_MISSING',
+    'E_CAPABILITY_DISABLED_FOR_COMMAND',
+    'E_CAPABILITY_ENFORCEMENT_MISSING',
+  ]);
+
   const caps = parseJsonObject('docs/OPS/CAPABILITIES_MATRIX.json');
   if (!caps || !Array.isArray(caps.items)) {
     return {
@@ -125,13 +146,35 @@ function evaluateCapability() {
   const items = caps.items.filter((item) => item && typeof item === 'object' && !Array.isArray(item));
   const nonEmpty = caps.declaredEmpty !== true && items.length > 0;
   const platformIds = new Set(items.map((item) => String(item.platformId || '').trim()).filter(Boolean));
-  const baselineMin = platformIds.has('node') && platformIds.has('web') && platformIds.has('mobile-wrapper');
+  const baselineMin = [...requiredPlatformIds].every((id) => platformIds.has(id));
   const validShape = items.every((item) => item.capabilities && typeof item.capabilities === 'object' && !Array.isArray(item.capabilities));
 
-  const commandBinding = fileExists('docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json') ? 1 : 0;
-  const commandCoverage = fileExists('test/contracts/capability-command-coverage.contract.test.js') ? 1 : 0;
+  const binding = parseJsonObject('docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json');
+  const bindingItems = binding && Array.isArray(binding.items) ? binding.items : [];
+  const bindingMap = new Map();
+  let bindingShapeOk = true;
+  for (const item of bindingItems) {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
+      bindingShapeOk = false;
+      continue;
+    }
+    const commandId = typeof item.commandId === 'string' ? item.commandId.trim() : '';
+    const capabilityId = typeof item.capabilityId === 'string' ? item.capabilityId.trim() : '';
+    if (!commandId || !capabilityId || bindingMap.has(commandId)) {
+      bindingShapeOk = false;
+      continue;
+    }
+    bindingMap.set(commandId, capabilityId);
+  }
+
+  const commandBinding = bindingShapeOk && requiredCommandIds.every((commandId) => bindingMap.has(commandId)) ? 1 : 0;
+  const commandCoverage = commandBinding === 1 && fileExists('test/contracts/capability-command-coverage.contract.test.js') ? 1 : 0;
   const platformResolver = fileExists('scripts/guards/platform-capability-resolver.mjs') ? 1 : 0;
-  const unsupportedTyped = fileExists('docs/OPS/STATUS/CAPABILITY_UNSUPPORTED_ERRORS.json') ? 1 : 0;
+  const unsupportedDoc = parseJsonObject('docs/OPS/STATUS/CAPABILITY_UNSUPPORTED_ERRORS.json');
+  const unsupportedCodes = unsupportedDoc && Array.isArray(unsupportedDoc.codes)
+    ? new Set(unsupportedDoc.codes.map((code) => String(code || '').trim()).filter(Boolean))
+    : new Set();
+  const unsupportedTyped = [...requiredUnsupportedCodes].every((code) => unsupportedCodes.has(code)) ? 1 : 0;
   const unsupportedCoverage = fileExists('test/contracts/capability-unsupported.contract.test.js') ? 1 : 0;
 
   const rollup = nonEmpty
@@ -304,6 +347,13 @@ export function evaluateFreezeRollupsState(input = {}) {
     CORE_SOT_HASH_DETERMINISTIC_OK: core.CORE_SOT_HASH_DETERMINISTIC_OK,
     CORE_SOT_EXECUTABLE_OK: core.CORE_SOT_EXECUTABLE_OK,
     COMMAND_SURFACE_ENFORCED_OK: commandSurface.COMMAND_SURFACE_ENFORCED_OK,
+    CAPABILITY_MATRIX_NON_EMPTY_OK: capability.CAPABILITY_MATRIX_NON_EMPTY_OK,
+    CAPABILITY_BASELINE_MIN_OK: capability.CAPABILITY_BASELINE_MIN_OK,
+    CAPABILITY_COMMAND_BINDING_OK: capability.CAPABILITY_COMMAND_BINDING_OK,
+    CAPABILITY_COMMAND_COVERAGE_OK: capability.CAPABILITY_COMMAND_COVERAGE_OK,
+    CAPABILITY_PLATFORM_RESOLVER_OK: capability.CAPABILITY_PLATFORM_RESOLVER_OK,
+    CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK: capability.CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK,
+    CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK: capability.CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK,
     CAPABILITY_ENFORCED_OK: capability.CAPABILITY_ENFORCED_OK,
     RECOVERY_IO_OK: recoveryIo.RECOVERY_IO_OK,
     PERF_BASELINE_OK: perf.PERF_BASELINE_OK,
@@ -350,6 +400,13 @@ function printTokens(state) {
     'CORE_SOT_HASH_DETERMINISTIC_OK',
     'CORE_SOT_EXECUTABLE_OK',
     'COMMAND_SURFACE_ENFORCED_OK',
+    'CAPABILITY_MATRIX_NON_EMPTY_OK',
+    'CAPABILITY_BASELINE_MIN_OK',
+    'CAPABILITY_COMMAND_BINDING_OK',
+    'CAPABILITY_COMMAND_COVERAGE_OK',
+    'CAPABILITY_PLATFORM_RESOLVER_OK',
+    'CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK',
+    'CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK',
     'CAPABILITY_ENFORCED_OK',
     'RECOVERY_IO_OK',
     'PERF_BASELINE_OK',

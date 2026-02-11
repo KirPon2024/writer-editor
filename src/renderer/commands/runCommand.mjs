@@ -1,3 +1,5 @@
+import { enforceCapabilityForCommand } from './capabilityPolicy.mjs';
+
 function fail(code, op, reason, details) {
   const error = { code, op, reason };
   if (details && typeof details === 'object' && !Array.isArray(details)) {
@@ -27,7 +29,7 @@ function normalizeCommandError(input, commandId) {
   return { code, op, reason, details };
 }
 
-export function createCommandRunner(registry) {
+export function createCommandRunner(registry, options = {}) {
   if (!registry || typeof registry.getHandler !== 'function') {
     throw new Error('COMMAND_REGISTRY_INVALID');
   }
@@ -40,6 +42,12 @@ export function createCommandRunner(registry) {
     const handler = registry.getHandler(id);
     if (typeof handler !== 'function') {
       return fail('E_COMMAND_NOT_FOUND', id, 'COMMAND_NOT_REGISTERED');
+    }
+
+    const capabilityCheck = enforceCapabilityForCommand(id, input, options.capability || {});
+    if (!capabilityCheck.ok) {
+      const normalized = normalizeCommandError(capabilityCheck.error, id);
+      return fail(normalized.code, normalized.op, normalized.reason, normalized.details);
     }
 
     try {

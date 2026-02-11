@@ -33,6 +33,9 @@ export async function atomicWriteFile(targetPathRaw, contentRaw, options = {}) {
     await fs.mkdir(directory, { recursive: true });
     handle = await fs.open(tempPath, 'w');
     await handle.writeFile(content);
+    if (typeof options.afterTempWrite === 'function') {
+      await options.afterTempWrite({ targetPath, tempPath, bytesWritten: content.byteLength });
+    }
     if (safetyMode === 'strict') {
       await handle.sync();
     }

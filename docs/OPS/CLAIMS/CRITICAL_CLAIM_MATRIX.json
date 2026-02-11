@@ -130,6 +130,54 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "RECOVERY_ATOMIC_WRITE",
+      "requiredToken": "RECOVERY_ATOMIC_WRITE_OK",
+      "proofHook": "node scripts/ops/recovery-io-state.mjs --json",
+      "failSignal": "E_RECOVERY_ATOMIC_WRITE_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "RECOVERY_SNAPSHOT",
+      "requiredToken": "RECOVERY_SNAPSHOT_OK",
+      "proofHook": "node scripts/ops/recovery-io-state.mjs --json",
+      "failSignal": "E_RECOVERY_SNAPSHOT_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "RECOVERY_CORRUPTION",
+      "requiredToken": "RECOVERY_CORRUPTION_OK",
+      "proofHook": "node scripts/ops/recovery-io-state.mjs --json",
+      "failSignal": "E_RECOVERY_CORRUPTION_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "RECOVERY_TYPED_ERRORS",
+      "requiredToken": "RECOVERY_TYPED_ERRORS_OK",
+      "proofHook": "node scripts/ops/recovery-io-state.mjs --json",
+      "failSignal": "E_RECOVERY_TYPED_ERRORS_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "RECOVERY_REPLAY",
+      "requiredToken": "RECOVERY_REPLAY_OK",
+      "proofHook": "node scripts/ops/recovery-io-state.mjs --json",
+      "failSignal": "E_RECOVERY_REPLAY_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "RECOVERY_ACTION_CANON",
+      "requiredToken": "RECOVERY_ACTION_CANON_OK",
+      "proofHook": "node scripts/ops/recovery-io-state.mjs --json",
+      "failSignal": "E_RECOVERY_ACTION_CANON_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
       "claimId": "ADAPTERS_DECLARED",
       "requiredToken": "ADAPTERS_DECLARED_OK",
       "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",

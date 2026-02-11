@@ -199,16 +199,53 @@ function evaluateCapability() {
 }
 
 function evaluateRecoveryIo() {
-  const requiredFiles = [
-    'src/io/markdown/atomicWriteFile.mjs',
-    'src/io/markdown/snapshotFile.mjs',
-    'src/io/markdown/reliabilityLog.mjs',
-    'test/unit/sector-m-m5-atomic-write.test.js',
-    'test/unit/sector-m-m5-snapshot.test.js',
-    'test/unit/sector-m-m5-corruption.test.js',
-  ];
-  const ok = requiredFiles.every((filePath) => fileExists(filePath)) ? 1 : 0;
-  return { RECOVERY_IO_OK: ok };
+  const result = spawnSync(process.execPath, ['scripts/ops/recovery-io-state.mjs', '--json'], {
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      FORCE_COLOR: '0',
+      NO_COLOR: '1',
+    },
+  });
+
+  if (result.status !== 0 && !String(result.stdout || '').trim()) {
+    return {
+      RECOVERY_ATOMIC_WRITE_OK: 0,
+      RECOVERY_SNAPSHOT_OK: 0,
+      RECOVERY_CORRUPTION_OK: 0,
+      RECOVERY_TYPED_ERRORS_OK: 0,
+      RECOVERY_REPLAY_OK: 0,
+      RECOVERY_ACTION_CANON_OK: 0,
+      RECOVERY_IO_OK: 0,
+      failReason: 'RECOVERY_IO_STATE_EXEC_FAILED',
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(String(result.stdout || '{}'));
+    return {
+      RECOVERY_ATOMIC_WRITE_OK: Number(parsed.RECOVERY_ATOMIC_WRITE_OK) === 1 ? 1 : 0,
+      RECOVERY_SNAPSHOT_OK: Number(parsed.RECOVERY_SNAPSHOT_OK) === 1 ? 1 : 0,
+      RECOVERY_CORRUPTION_OK: Number(parsed.RECOVERY_CORRUPTION_OK) === 1 ? 1 : 0,
+      RECOVERY_TYPED_ERRORS_OK: Number(parsed.RECOVERY_TYPED_ERRORS_OK) === 1 ? 1 : 0,
+      RECOVERY_REPLAY_OK: Number(parsed.RECOVERY_REPLAY_OK) === 1 ? 1 : 0,
+      RECOVERY_ACTION_CANON_OK: Number(parsed.RECOVERY_ACTION_CANON_OK) === 1 ? 1 : 0,
+      RECOVERY_IO_OK: Number(parsed.RECOVERY_IO_OK) === 1 ? 1 : 0,
+      failReason: typeof parsed.failReason === 'string' ? parsed.failReason : '',
+      failingProofs: Array.isArray(parsed.failingProofs) ? parsed.failingProofs : [],
+    };
+  } catch {
+    return {
+      RECOVERY_ATOMIC_WRITE_OK: 0,
+      RECOVERY_SNAPSHOT_OK: 0,
+      RECOVERY_CORRUPTION_OK: 0,
+      RECOVERY_TYPED_ERRORS_OK: 0,
+      RECOVERY_REPLAY_OK: 0,
+      RECOVERY_ACTION_CANON_OK: 0,
+      RECOVERY_IO_OK: 0,
+      failReason: 'RECOVERY_IO_STATE_JSON_INVALID',
+    };
+  }
 }
 
 function evaluatePerf() {
@@ -443,6 +480,12 @@ export function evaluateFreezeRollupsState(input = {}) {
     CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK: capability.CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK,
     CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK: capability.CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK,
     CAPABILITY_ENFORCED_OK: capability.CAPABILITY_ENFORCED_OK,
+    RECOVERY_ATOMIC_WRITE_OK: recoveryIo.RECOVERY_ATOMIC_WRITE_OK,
+    RECOVERY_SNAPSHOT_OK: recoveryIo.RECOVERY_SNAPSHOT_OK,
+    RECOVERY_CORRUPTION_OK: recoveryIo.RECOVERY_CORRUPTION_OK,
+    RECOVERY_TYPED_ERRORS_OK: recoveryIo.RECOVERY_TYPED_ERRORS_OK,
+    RECOVERY_REPLAY_OK: recoveryIo.RECOVERY_REPLAY_OK,
+    RECOVERY_ACTION_CANON_OK: recoveryIo.RECOVERY_ACTION_CANON_OK,
     RECOVERY_IO_OK: recoveryIo.RECOVERY_IO_OK,
     PERF_BASELINE_OK: perf.PERF_BASELINE_OK,
     ADAPTERS_DECLARED_OK: adapters.ADAPTERS_DECLARED_OK,
@@ -502,6 +545,12 @@ function printTokens(state) {
     'CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK',
     'CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK',
     'CAPABILITY_ENFORCED_OK',
+    'RECOVERY_ATOMIC_WRITE_OK',
+    'RECOVERY_SNAPSHOT_OK',
+    'RECOVERY_CORRUPTION_OK',
+    'RECOVERY_TYPED_ERRORS_OK',
+    'RECOVERY_REPLAY_OK',
+    'RECOVERY_ACTION_CANON_OK',
     'RECOVERY_IO_OK',
     'PERF_BASELINE_OK',
     'ADAPTERS_DECLARED_OK',

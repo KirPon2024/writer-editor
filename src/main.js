@@ -388,6 +388,12 @@ function normalizeMarkdownSafetyMode(input) {
 }
 
 function getMarkdownRecoveryGuidance(code) {
+  if (code === 'E_IO_INTEGRITY_MISMATCH') {
+    return {
+      userMessage: 'Нарушена целостность Markdown. Действия: Open Snapshot / Retry / Abort.',
+      recoveryActions: ['OPEN_SNAPSHOT', 'RETRY', 'ABORT'],
+    };
+  }
   if (code === 'E_IO_ATOMIC_WRITE_FAIL') {
     return {
       userMessage: 'Не удалось безопасно записать Markdown. Действия: Retry / Save As / Open Snapshot.',
@@ -406,6 +412,24 @@ function getMarkdownRecoveryGuidance(code) {
       recoveryActions: ['OPEN_SNAPSHOT', 'RETRY'],
     };
   }
+  if (code === 'E_IO_INVALID_ENCODING' || code === 'E_IO_TRUNCATED_INPUT') {
+    return {
+      userMessage: 'Markdown поврежден кодировкой. Действия: Open Snapshot / Retry / Abort.',
+      recoveryActions: ['OPEN_SNAPSHOT', 'RETRY', 'ABORT'],
+    };
+  }
+  if (code === 'E_IO_SNAPSHOT_MISSING') {
+    return {
+      userMessage: 'Recovery snapshot не найден. Действия: Retry / Save As / Abort.',
+      recoveryActions: ['RETRY', 'SAVE_AS', 'ABORT'],
+    };
+  }
+  if (code === 'E_IO_SNAPSHOT_MISMATCH') {
+    return {
+      userMessage: 'Recovery snapshot поврежден. Действия: Retry / Save As / Abort.',
+      recoveryActions: ['RETRY', 'SAVE_AS', 'ABORT'],
+    };
+  }
   if (code === 'E_IO_INPUT_TOO_LARGE') {
     return {
       userMessage: 'Markdown слишком большой. Действия: Save As / Retry с меньшим файлом.',
@@ -414,8 +438,8 @@ function getMarkdownRecoveryGuidance(code) {
   }
   if (code.startsWith('E_IO_')) {
     return {
-      userMessage: 'Ошибка ввода-вывода Markdown. Действия: Retry / Save As.',
-      recoveryActions: ['RETRY', 'SAVE_AS'],
+      userMessage: 'Ошибка ввода-вывода Markdown. Действия: Retry / Save As / Abort.',
+      recoveryActions: ['RETRY', 'SAVE_AS', 'ABORT'],
     };
   }
   return null;
@@ -758,19 +782,28 @@ async function handleImportMarkdownV1(payloadRaw) {
 
   try {
     let markdownText = payload.text;
+    let ioRecovery = null;
     if (!markdownText && payload.sourcePath) {
       const markdownIo = await loadMarkdownIoModule();
       const limits = typeof transform.normalizeLimits === 'function'
         ? transform.normalizeLimits(payload.limits)
         : { maxInputBytes: 1024 * 1024 };
-      const loaded = await markdownIo.readMarkdownWithLimits(payload.sourcePath, {
+      const loaded = await markdownIo.readMarkdownWithRecovery(payload.sourcePath, {
         maxInputBytes: limits.maxInputBytes,
       });
       markdownText = loaded.text;
+      if (loaded && loaded.recoveredFromSnapshot === true) {
+        ioRecovery = {
+          sourceKind: loaded.sourceKind,
+          snapshotPath: loaded.snapshotPath,
+          recoveryAction: loaded.recoveryAction,
+          primaryError: loaded.primaryError,
+        };
+      }
     }
 
     const scene = transform.parseMarkdownV1(markdownText, { limits: payload.limits });
-    return {
+    const out = {
       ok: 1,
       scene,
       sourceName: payload.sourceName,
@@ -778,6 +811,10 @@ async function handleImportMarkdownV1(payloadRaw) {
         ? scene.lossReport
         : { count: 0, items: [] },
     };
+    if (ioRecovery) {
+      out.recovery = ioRecovery;
+    }
+    return out;
   } catch (error) {
     let logRecord = null;
     let logPath = '';

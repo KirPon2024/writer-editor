@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { normalizeRecoveryActions } from '../../shared/recoveryActionCanon.mjs';
 
 const LOG_SCHEMA_VERSION = 'sector-m-reliability-log.v1';
 const DEFAULT_LOG_PATH = path.join(os.tmpdir(), 'writer-editor-ops-state', 'markdown-io.log');
@@ -19,15 +20,6 @@ function normalizeSafetyMode(input) {
   return input === 'compat' ? 'compat' : 'strict';
 }
 
-function normalizeActions(input) {
-  if (!Array.isArray(input)) return [];
-  return input
-    .filter((item) => typeof item === 'string' && item.length > 0)
-    .map((item) => item.trim().toUpperCase())
-    .filter(Boolean)
-    .slice(0, 5);
-}
-
 export function buildReliabilityLogRecord(input = {}) {
   return {
     schemaVersion: LOG_SCHEMA_VERSION,
@@ -38,7 +30,7 @@ export function buildReliabilityLogRecord(input = {}) {
     sourcePath: sanitizePath(input.sourcePath),
     targetPath: sanitizePath(input.targetPath),
     snapshotPath: sanitizePath(input.snapshotPath),
-    recoveryActions: normalizeActions(input.recoveryActions),
+    recoveryActions: normalizeRecoveryActions(input.recoveryActions),
   };
 }
 
@@ -49,4 +41,3 @@ export async function appendReliabilityLog(record, options = {}) {
   await fs.appendFile(logPath, `${JSON.stringify(record)}\n`, 'utf8');
   return { logPath };
 }
-

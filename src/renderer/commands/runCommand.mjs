@@ -1,4 +1,5 @@
 import { enforceCapabilityForCommand } from './capabilityPolicy.mjs';
+import { normalizeRecoveryActions } from '../../shared/recoveryActionCanon.mjs';
 
 function fail(code, op, reason, details) {
   const error = { code, op, reason };
@@ -24,8 +25,11 @@ function normalizeCommandError(input, commandId) {
       ? source.message
       : fallbackReason);
   const details = source.details && typeof source.details === 'object' && !Array.isArray(source.details)
-    ? source.details
+    ? { ...source.details }
     : undefined;
+  if (details && Object.prototype.hasOwnProperty.call(details, 'recoveryActions')) {
+    details.recoveryActions = normalizeRecoveryActions(details.recoveryActions);
+  }
   return { code, op, reason, details };
 }
 

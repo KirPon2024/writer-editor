@@ -18,14 +18,37 @@ function formatTimestamp(ms) {
   return String(ms).padStart(13, '0');
 }
 
+function buildSnapshotPrefix(targetPath) {
+  const baseName = path.basename(targetPath);
+  return `.${baseName}.bak.`;
+}
+
+export async function listRecoverySnapshots(targetPathRaw) {
+  const targetPath = normalizeSnapshotPath(targetPathRaw);
+  const directory = path.dirname(targetPath);
+  const snapshotPrefix = buildSnapshotPrefix(targetPath);
+
+  try {
+    const entries = await fs.readdir(directory, { withFileTypes: true });
+    return entries
+      .filter((entry) => entry.isFile() && entry.name.startsWith(snapshotPrefix))
+      .map((entry) => path.join(directory, entry.name))
+      .sort((a, b) => b.localeCompare(a));
+  } catch (error) {
+    throw asMarkdownIoError(error, 'E_IO_SNAPSHOT_FAIL', 'snapshot_list_failed', {
+      targetPath,
+      directory,
+    });
+  }
+}
+
 export async function createRecoverySnapshot(targetPathRaw, options = {}) {
   const targetPath = normalizeSnapshotPath(targetPathRaw);
   const maxSnapshots = normalizeMaxSnapshots(options.maxSnapshots);
   const nowFn = typeof options.now === 'function' ? options.now : Date.now;
 
   const directory = path.dirname(targetPath);
-  const baseName = path.basename(targetPath);
-  const snapshotPrefix = `.${baseName}.bak.`;
+  const snapshotPrefix = buildSnapshotPrefix(targetPath);
 
   try {
     await fs.access(targetPath);
@@ -45,11 +68,7 @@ export async function createRecoverySnapshot(targetPathRaw, options = {}) {
   try {
     await fs.copyFile(targetPath, snapshotPath);
 
-    const entries = await fs.readdir(directory, { withFileTypes: true });
-    const matching = entries
-      .filter((entry) => entry.isFile() && entry.name.startsWith(snapshotPrefix))
-      .map((entry) => path.join(directory, entry.name))
-      .sort((a, b) => b.localeCompare(a));
+    const matching = await listRecoverySnapshots(targetPath);
 
     const purgedSnapshots = [];
     if (matching.length > maxSnapshots) {

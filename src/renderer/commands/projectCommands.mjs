@@ -7,6 +7,12 @@ export const COMMAND_IDS = {
   PROJECT_FLOW_OPEN_V1: 'cmd.project.flowOpenV1',
   PROJECT_FLOW_SAVE_V1: 'cmd.project.flowSaveV1',
 };
+
+// Canonical Core command IDs used by CORE_SOT checks.
+export const CORE_COMMAND_CANON = Object.freeze([
+  'project.create',
+  'project.applyTextEdit',
+]);
 const EXPORT_DOCX_MIN_OP = 'u:cmd:project:export:docxMin:v1';
 const IMPORT_MARKDOWN_V1_OP = 'm:cmd:project:import:markdownV1:v1';
 const EXPORT_MARKDOWN_V1_OP = 'm:cmd:project:export:markdownV1:v1';

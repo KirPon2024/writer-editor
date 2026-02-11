@@ -99,6 +99,11 @@ function main() {
     debtTtlValidOk: freezeRollups.DEBT_TTL_VALID_OK,
     debtTtlExpiredCount: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
     driftUnresolvedP0Count: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
+    coreSotReducerImplementedOk: freezeRollups.CORE_SOT_REDUCER_IMPLEMENTED_OK,
+    coreSotSchemaAlignedOk: freezeRollups.CORE_SOT_SCHEMA_ALIGNED_OK,
+    coreSotCommandCanonOk: freezeRollups.CORE_SOT_COMMAND_CANON_OK,
+    coreSotTypedErrorsOk: freezeRollups.CORE_SOT_TYPED_ERRORS_OK,
+    coreSotHashDeterministicOk: freezeRollups.CORE_SOT_HASH_DETERMINISTIC_OK,
     coreSotExecutableOk: freezeRollups.CORE_SOT_EXECUTABLE_OK,
     commandSurfaceEnforcedOk: freezeRollups.COMMAND_SURFACE_ENFORCED_OK,
     capabilityEnforcedOk: freezeRollups.CAPABILITY_ENFORCED_OK,
@@ -136,6 +141,11 @@ function main() {
   console.log(`OPS_SUMMARY_DEBT_TTL_VALID_OK=${summary.debtTtlValidOk}`);
   console.log(`OPS_SUMMARY_DEBT_TTL_EXPIRED_COUNT=${summary.debtTtlExpiredCount}`);
   console.log(`OPS_SUMMARY_DRIFT_UNRESOLVED_P0_COUNT=${summary.driftUnresolvedP0Count}`);
+  console.log(`OPS_SUMMARY_CORE_SOT_REDUCER_IMPLEMENTED_OK=${summary.coreSotReducerImplementedOk}`);
+  console.log(`OPS_SUMMARY_CORE_SOT_SCHEMA_ALIGNED_OK=${summary.coreSotSchemaAlignedOk}`);
+  console.log(`OPS_SUMMARY_CORE_SOT_COMMAND_CANON_OK=${summary.coreSotCommandCanonOk}`);
+  console.log(`OPS_SUMMARY_CORE_SOT_TYPED_ERRORS_OK=${summary.coreSotTypedErrorsOk}`);
+  console.log(`OPS_SUMMARY_CORE_SOT_HASH_DETERMINISTIC_OK=${summary.coreSotHashDeterministicOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_EXECUTABLE_OK=${summary.coreSotExecutableOk}`);
   console.log(`OPS_SUMMARY_COMMAND_SURFACE_ENFORCED_OK=${summary.commandSurfaceEnforcedOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_ENFORCED_OK=${summary.capabilityEnforcedOk}`);

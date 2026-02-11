@@ -155,12 +155,24 @@ if (DELIVERY_STRICT_OUTPUT) {
   console.log = (...args) => {
     const line = args.map((part) => (typeof part === 'string' ? part : String(part))).join(' ');
     const upper = line.toUpperCase();
-    if (upper.includes('DOCTOR_WARN') || upper.includes('DOCTOR_INFO') || upper.includes('INFO') || upper.includes('PLACEHOLDER')) {
+    if (upper === 'DOCTOR_WARN' || upper === 'DOCTOR_INFO') {
       return;
     }
     __rawConsoleLog(...args);
   };
 }
+
+const RUNTIME_INVARIANT_COVERAGE_MAP = Object.freeze({
+  C_RUNTIME_NO_BYPASS_CORE: [
+    'test/unit/runtime-invariants-registry-strict.test.js',
+  ],
+  C_RUNTIME_SINGLE_WRITER_ORDERING_KEY: [
+    'test/unit/runtime-invariants-registry-strict.test.js',
+  ],
+  C_RUNTIME_TRACE_STRUCTURED_DIAGNOSTICS: [
+    'test/contracts/runtime-delivery-strict.contract.test.js',
+  ],
+});
 
 function normalizeRepoRelativePosixPath(p) {
   if (typeof p !== 'string') return null;
@@ -1118,7 +1130,7 @@ function checkInventoryEmptiness(inventoryIndexItems, debtRegistry) {
   return { violations };
 }
 
-function checkRuntimeSignalsInventory() {
+function checkRuntimeSignalsInventory(effectiveMode = 'TRANSITIONAL') {
   const filePath = 'docs/OPS/RUNTIME_SIGNALS.json';
   const violations = [];
 
@@ -1259,7 +1271,9 @@ function checkRuntimeSignalsInventory() {
   console.log(`RUNTIME_SIGNALS_VIOLATIONS=${JSON.stringify(uniqSorted)}`);
   console.log(`RUNTIME_SIGNALS_VIOLATIONS_COUNT=${uniqSorted.length}`);
 
-  return { level: uniqSorted.length > 0 ? 'warn' : 'ok' };
+  if (uniqSorted.length === 0) return { level: 'ok' };
+  if (effectiveMode === 'STRICT') return { level: 'fail' };
+  return { level: 'warn' };
 }
 
 function parseRuntimeSignalIdSet() {
@@ -1510,12 +1524,13 @@ function evaluateRegistry(items, auditCheckIds, effectiveMode = 'TRANSITIONAL') 
   console.log(`PLACEHOLDER_INVARIANTS_COUNT=${placeholders.length}`);
   console.log(`NO_SOURCE_INVARIANTS_COUNT=${noSource.length}`);
 
-  const hasWarn = placeholders.length > 0 || noSource.length > 0;
-  return { level: hasWarn && effectiveMode === 'STRICT' ? 'warn' : 'ok' };
+  const hasGap = placeholders.length > 0 || noSource.length > 0;
+  if (hasGap && effectiveMode === 'STRICT') return { level: 'fail' };
+  if (hasGap) return { level: 'warn' };
+  return { level: 'ok' };
 }
 
 function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, effectiveMode, ignoredInvariantIds) {
-  const canExecuteCheckId = false;
   const resultsById = new Map();
 
   for (const it of items) {
@@ -1525,30 +1540,14 @@ function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, e
     const invariantId = it.invariantId;
     const maturityRaw = it.maturity;
     const checkId = it.checkId;
-
-    let effectiveMaturity = maturityRaw;
-    if (maturityRaw === 'implemented' && typeof checkId === 'string' && checkId.length > 0) {
-      const resolvable = auditCheckIds.has(checkId);
-      if (!resolvable || !canExecuteCheckId) {
-        effectiveMaturity = 'no_source';
-      }
-    }
-
-    // In transitional mode these tokens are informational diagnostics, not warning signals.
-    let status = effectiveMode === 'STRICT' ? 'WARN' : 'INFO';
-    if (effectiveMaturity === 'implemented' && effectiveMode === 'STRICT') {
-      status = 'WARN';
-    }
-
+    const checkResolvable = typeof checkId === 'string' && checkId.length > 0 && auditCheckIds.has(checkId);
+    const status = maturityRaw === 'implemented' && checkResolvable ? 'OK' : 'FAIL';
     resultsById.set(invariantId, status);
   }
 
   const ids = [...resultsById.keys()].sort();
   const results = ids.map((id) => `${id}:${resultsById.get(id)}`);
-
-  const counts = effectiveMode === 'STRICT'
-    ? { OK: 0, WARN: 0, WARN_MISSING_DEBT: 0, FAIL: 0 }
-    : { OK: 0, INFO: 0, FAIL: 0 };
+  const counts = { OK: 0, FAIL: 0 };
 
   for (const v of resultsById.values()) {
     if (v in counts) counts[v] += 1;
@@ -1575,6 +1574,11 @@ function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, e
   if (containsIgnored) {
     die('ERR_DOCTOR_INVALID_SHAPE', 'scripts/doctor.mjs', 'invariant_results_contains_ignored');
   }
+
+  const failCount = counts.FAIL;
+  if (failCount > 0 && effectiveMode === 'STRICT') return { level: 'fail', failCount };
+  if (failCount > 0) return { level: 'warn', failCount };
+  return { level: 'ok', failCount };
 }
 
 function listSourceFiles(rootDir) {
@@ -2490,6 +2494,66 @@ function computeContourCExitImplementedP0Signal(gatingApplicableItems, auditChec
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_REQUIRED=${required}`);
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_OK=${ok}`);
   console.log(`CONTOUR_C_EXIT_IMPLEMENTED_P0_IDS=${JSON.stringify(uniqSorted)}`);
+}
+
+function computeRuntimeInvariantCoverageSignal(gatingApplicableItems) {
+  const runtimeIds = [];
+
+  for (const it of Array.isArray(gatingApplicableItems) ? gatingApplicableItems : []) {
+    if (!it || typeof it !== 'object' || Array.isArray(it)) continue;
+    const invariantId = it.invariantId;
+    if (typeof invariantId !== 'string' || invariantId.length === 0) continue;
+    if (!invariantId.startsWith('C_RUNTIME_')) continue;
+    if (it.enforcementMode === 'off') continue;
+    runtimeIds.push(invariantId);
+  }
+
+  const runtimeUniqSorted = [...new Set(runtimeIds)].sort();
+  const mapIds = Object.keys(RUNTIME_INVARIANT_COVERAGE_MAP).sort();
+  const runtimeSet = new Set(runtimeUniqSorted);
+
+  const missingMapIds = runtimeUniqSorted.filter((id) => !Object.prototype.hasOwnProperty.call(RUNTIME_INVARIANT_COVERAGE_MAP, id));
+  const orphanMapIds = mapIds.filter((id) => !runtimeSet.has(id));
+  const missingFiles = [];
+
+  for (const id of mapIds) {
+    if (!runtimeSet.has(id)) continue;
+    const tests = RUNTIME_INVARIANT_COVERAGE_MAP[id];
+    if (!Array.isArray(tests) || tests.length === 0) {
+      missingFiles.push(`${id}:missing_test_binding`);
+      continue;
+    }
+    for (const testPath of tests) {
+      if (typeof testPath !== 'string' || testPath.length === 0 || !fs.existsSync(testPath)) {
+        missingFiles.push(`${id}:${String(testPath)}`);
+      }
+    }
+  }
+
+  const missingUniqSorted = [...new Set(missingMapIds)].sort();
+  const orphanUniqSorted = [...new Set(orphanMapIds)].sort();
+  const missingFilesUniqSorted = [...new Set(missingFiles)].sort();
+  const ok = missingUniqSorted.length === 0 && orphanUniqSorted.length === 0 && missingFilesUniqSorted.length === 0 ? 1 : 0;
+
+  console.log(`RUNTIME_INVARIANT_IDS=${JSON.stringify(runtimeUniqSorted)}`);
+  console.log(`RUNTIME_INVARIANT_IDS_COUNT=${runtimeUniqSorted.length}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_MAP_IDS=${JSON.stringify(mapIds)}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_MAP_IDS_COUNT=${mapIds.length}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_MISSING_IDS=${JSON.stringify(missingUniqSorted)}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_MISSING_IDS_COUNT=${missingUniqSorted.length}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_ORPHAN_IDS=${JSON.stringify(orphanUniqSorted)}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_ORPHAN_IDS_COUNT=${orphanUniqSorted.length}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_MISSING_FILES=${JSON.stringify(missingFilesUniqSorted)}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_MISSING_FILES_COUNT=${missingFilesUniqSorted.length}`);
+  console.log(`RUNTIME_INVARIANT_COVERAGE_OK=${ok}`);
+
+  return {
+    level: ok === 1 ? 'ok' : 'fail',
+    ok,
+    missingIdsCount: missingUniqSorted.length,
+    orphanIdsCount: orphanUniqSorted.length,
+    missingFilesCount: missingFilesUniqSorted.length,
+  };
 }
 
 function checkContourCDocsContractsPresence() {
@@ -5694,7 +5758,8 @@ function run() {
   const debtPath = 'docs/OPS/DEBT_REGISTRY.json';
   const debtRegistry = parseDebtRegistry(debtPath);
 
-  const effectiveMode = process.env.EFFECTIVE_MODE === 'STRICT' ? 'STRICT' : 'TRANSITIONAL';
+  const requestedMode = process.env.EFFECTIVE_MODE === 'STRICT' ? 'STRICT' : 'TRANSITIONAL';
+  const effectiveMode = isDeliveryExecutionMode() ? 'STRICT' : requestedMode;
   const ssotBoundary = checkSsotBoundaryGuard(effectiveMode);
 
   const inventoryIndexPath = 'docs/OPS/INVENTORY_INDEX.json';
@@ -5753,7 +5818,7 @@ function run() {
     die('ERR_DOCTOR_INVALID_SHAPE', inventoryIndexPath, 'inventory_empty_violations_present');
   }
 
-  const runtimeSignalsEval = checkRuntimeSignalsInventory();
+  const runtimeSignalsEval = checkRuntimeSignalsInventory(effectiveMode);
 
   const queuePath = 'docs/OPS/QUEUE_POLICIES.json';
   const queue = readJson(queuePath);
@@ -5801,8 +5866,15 @@ function run() {
   const contourCEnforcement = checkContourCEnforcementInventory(gating.applicableItems, targetParsed);
   const contourCCompleteness = computeContourCEnforcementCompleteness(gating.applicableItems, contourCEnforcement.planIds);
   computeContourCExitImplementedP0Signal(gating.applicableItems, auditCheckIds);
-  computeEffectiveEnforcementReport(gating.applicableItems, auditCheckIds, debtRegistry, effectiveMode, gating.ignoredInvariantIds);
+  const enforcementReport = computeEffectiveEnforcementReport(
+    gating.applicableItems,
+    auditCheckIds,
+    debtRegistry,
+    effectiveMode,
+    gating.ignoredInvariantIds,
+  );
   const registryEval = evaluateRegistry(gating.applicableItems, auditCheckIds, effectiveMode);
+  const runtimeCoverage = computeRuntimeInvariantCoverageSignal(gating.applicableItems);
   const docsContracts = checkContourCDocsContractsPresence();
   const frozenContracts = checkContourCContractsFrozenEntrypoint(targetParsed);
   checkContourCSrcContractsSkeletonDiagnostics(targetParsed);
@@ -5817,7 +5889,11 @@ function run() {
     || effectsIdemp.level === 'fail'
     || ondiskPolicy.level === 'fail'
     || debtTtl.level === 'fail'
+    || runtimeSignalsEval.level === 'fail'
+    || enforcementReport.level === 'fail'
+    || registryEval.level === 'fail'
     || contourCEnforcement.forceFail === true
+    || runtimeCoverage.level === 'fail'
     || ssotBoundary.level === 'fail'
     || strictLie.level === 'fail'
     || xplatContract.level === 'fail';
@@ -5832,6 +5908,7 @@ function run() {
     || ondiskPolicy.level === 'warn'
     || debtTtl.level === 'warn'
     || runtimeSignalsEval.level === 'warn'
+    || enforcementReport.level === 'warn'
     || registryEval.level === 'warn'
     || contourCEnforcement.level === 'warn'
     || contourCCompleteness.missingCount > 0

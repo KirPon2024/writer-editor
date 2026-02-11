@@ -14,7 +14,7 @@ function parseTokens(stdout) {
   return map;
 }
 
-test('doctor delivery strict: deterministic PASS tokens without DOCTOR_WARN/DOCTOR_INFO', () => {
+test('delivery doctor enforces contour C runtime invariants in strict mode', () => {
   const result = spawnSync(process.execPath, ['scripts/doctor.mjs'], {
     encoding: 'utf8',
     env: {
@@ -26,13 +26,14 @@ test('doctor delivery strict: deterministic PASS tokens without DOCTOR_WARN/DOCT
   assert.equal(result.status, 0, `doctor delivery failed:\n${result.stdout}\n${result.stderr}`);
   const stdout = String(result.stdout || '');
   const tokens = parseTokens(stdout);
+
   assert.equal(stdout.includes('DOCTOR_WARN'), false, `unexpected DOCTOR_WARN:\n${stdout}`);
   assert.equal(stdout.includes('DOCTOR_INFO'), false, `unexpected DOCTOR_INFO:\n${stdout}`);
-  assert.equal(stdout.includes('DOCTOR_OK'), true, `missing DOCTOR_OK token:\n${stdout}`);
-  assert.equal(stdout.includes('DOCTOR_FAIL'), false, `unexpected DOCTOR_FAIL token:\n${stdout}`);
   assert.equal(tokens.get('EFFECTIVE_MODE'), 'STRICT');
+  assert.equal(stdout.includes('DOCTOR_OK'), true, `missing DOCTOR_OK:\n${stdout}`);
+  assert.equal(tokens.get('CONTOUR_C_EXIT_IMPLEMENTED_P0_OK'), '1');
   assert.equal(tokens.get('PLACEHOLDER_INVARIANTS_COUNT'), '0');
   assert.equal(tokens.get('NO_SOURCE_INVARIANTS_COUNT'), '0');
-  assert.equal(tokens.get('CONTOUR_C_EXIT_IMPLEMENTED_P0_OK'), '1');
+  assert.equal(tokens.get('RUNTIME_SIGNALS_VIOLATIONS_COUNT'), '0');
   assert.equal(tokens.get('RUNTIME_INVARIANT_COVERAGE_OK'), '1');
 });

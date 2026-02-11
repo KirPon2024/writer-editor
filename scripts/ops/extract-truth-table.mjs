@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { evaluateNextSectorState } from './next-sector-state.mjs';
 import { evaluateXplatContractState } from './xplat-contract-state.mjs';
 import { evaluateRequiredChecksState } from './required-checks-state.mjs';
+import { evaluateFreezeRollupsState } from './freeze-rollups-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -41,6 +42,10 @@ function buildTruthTable() {
   const nextSector = evaluateNextSectorState();
   const xplat = evaluateXplatContractState();
   const requiredChecks = evaluateRequiredChecksState({ profile: 'ops' });
+  const freezeRollups = evaluateFreezeRollupsState({
+    mode: 'release',
+    skipTokenEmissionCheck: true,
+  });
 
   return {
     schemaVersion: 'truth-table.v1',
@@ -56,6 +61,23 @@ function buildTruthTable() {
     REQUIRED_CHECKS_SYNC_OK: requiredChecks.syncOk,
     REQUIRED_CHECKS_STALE: requiredChecks.stale,
     REQUIRED_CHECKS_SOURCE: requiredChecks.source,
+    HEAD_STRICT_OK: freezeRollups.HEAD_STRICT_OK,
+    CRITICAL_CLAIM_MATRIX_OK: freezeRollups.CRITICAL_CLAIM_MATRIX_OK,
+    TOKEN_DECLARATION_VALID_OK: freezeRollups.TOKEN_DECLARATION_VALID_OK,
+    SCR_SHARED_CODE_RATIO_OK: freezeRollups.SCR_SHARED_CODE_RATIO_OK,
+    DEBT_TTL_VALID_OK: freezeRollups.DEBT_TTL_VALID_OK,
+    DEBT_TTL_EXPIRED_COUNT: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
+    DRIFT_UNRESOLVED_P0_COUNT: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
+    CORE_SOT_EXECUTABLE_OK: freezeRollups.CORE_SOT_EXECUTABLE_OK,
+    COMMAND_SURFACE_ENFORCED_OK: freezeRollups.COMMAND_SURFACE_ENFORCED_OK,
+    CAPABILITY_ENFORCED_OK: freezeRollups.CAPABILITY_ENFORCED_OK,
+    RECOVERY_IO_OK: freezeRollups.RECOVERY_IO_OK,
+    PERF_BASELINE_OK: freezeRollups.PERF_BASELINE_OK,
+    GOVERNANCE_STRICT_OK: freezeRollups.GOVERNANCE_STRICT_OK,
+    ADAPTERS_ENFORCED_OK: freezeRollups.ADAPTERS_ENFORCED_OK,
+    COLLAB_STRESS_SAFE_OK: freezeRollups.COLLAB_STRESS_SAFE_OK,
+    COMMENTS_HISTORY_SAFE_OK: freezeRollups.COMMENTS_HISTORY_SAFE_OK,
+    SIMULATION_MIN_CONTRACT_OK: freezeRollups.SIMULATION_MIN_CONTRACT_OK,
     checks: [
       {
         id: 'REMOTE_BINDING',
@@ -99,6 +121,24 @@ function buildTruthTable() {
         actual: requiredChecks.stale === 1,
         pass: requiredChecks.stale === 0,
       },
+      {
+        id: 'HEAD_STRICT_OK',
+        expected: true,
+        actual: freezeRollups.HEAD_STRICT_OK === 1,
+        pass: freezeRollups.HEAD_STRICT_OK === 1,
+      },
+      {
+        id: 'CRITICAL_CLAIM_MATRIX_OK',
+        expected: true,
+        actual: freezeRollups.CRITICAL_CLAIM_MATRIX_OK === 1,
+        pass: freezeRollups.CRITICAL_CLAIM_MATRIX_OK === 1,
+      },
+      {
+        id: 'TOKEN_DECLARATION_VALID_OK',
+        expected: true,
+        actual: freezeRollups.TOKEN_DECLARATION_VALID_OK === 1,
+        pass: freezeRollups.TOKEN_DECLARATION_VALID_OK === 1,
+      },
     ],
     context: {
       headSha,
@@ -106,6 +146,7 @@ function buildTruthTable() {
       nextSector,
       xplat,
       requiredChecks,
+      freezeRollups,
     },
   };
 }
@@ -129,6 +170,23 @@ function emitMd(table) {
   console.log(`REQUIRED_CHECKS_SYNC_OK=${table.REQUIRED_CHECKS_SYNC_OK}`);
   console.log(`REQUIRED_CHECKS_STALE=${table.REQUIRED_CHECKS_STALE}`);
   console.log(`REQUIRED_CHECKS_SOURCE=${table.REQUIRED_CHECKS_SOURCE}`);
+  console.log(`HEAD_STRICT_OK=${table.HEAD_STRICT_OK}`);
+  console.log(`CRITICAL_CLAIM_MATRIX_OK=${table.CRITICAL_CLAIM_MATRIX_OK}`);
+  console.log(`TOKEN_DECLARATION_VALID_OK=${table.TOKEN_DECLARATION_VALID_OK}`);
+  console.log(`SCR_SHARED_CODE_RATIO_OK=${table.SCR_SHARED_CODE_RATIO_OK}`);
+  console.log(`DEBT_TTL_VALID_OK=${table.DEBT_TTL_VALID_OK}`);
+  console.log(`DEBT_TTL_EXPIRED_COUNT=${table.DEBT_TTL_EXPIRED_COUNT}`);
+  console.log(`DRIFT_UNRESOLVED_P0_COUNT=${table.DRIFT_UNRESOLVED_P0_COUNT}`);
+  console.log(`CORE_SOT_EXECUTABLE_OK=${table.CORE_SOT_EXECUTABLE_OK}`);
+  console.log(`COMMAND_SURFACE_ENFORCED_OK=${table.COMMAND_SURFACE_ENFORCED_OK}`);
+  console.log(`CAPABILITY_ENFORCED_OK=${table.CAPABILITY_ENFORCED_OK}`);
+  console.log(`RECOVERY_IO_OK=${table.RECOVERY_IO_OK}`);
+  console.log(`PERF_BASELINE_OK=${table.PERF_BASELINE_OK}`);
+  console.log(`GOVERNANCE_STRICT_OK=${table.GOVERNANCE_STRICT_OK}`);
+  console.log(`ADAPTERS_ENFORCED_OK=${table.ADAPTERS_ENFORCED_OK}`);
+  console.log(`COLLAB_STRESS_SAFE_OK=${table.COLLAB_STRESS_SAFE_OK}`);
+  console.log(`COMMENTS_HISTORY_SAFE_OK=${table.COMMENTS_HISTORY_SAFE_OK}`);
+  console.log(`SIMULATION_MIN_CONTRACT_OK=${table.SIMULATION_MIN_CONTRACT_OK}`);
 }
 
 function main() {

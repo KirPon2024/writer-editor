@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { evaluateXplatContractState } from './ops/xplat-contract-state.mjs';
 import { evaluateRequiredChecksState } from './ops/required-checks-state.mjs';
+import { evaluateFreezeRollupsState } from './ops/freeze-rollups-state.mjs';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 const DEFAULT_SECTOR_U_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_U.json';
@@ -5699,6 +5700,50 @@ function evaluateXplatContractTokens() {
   };
 }
 
+function evaluateFreezeRollupTokens() {
+  const state = evaluateFreezeRollupsState({
+    mode: isDeliveryExecutionMode() ? 'release' : 'dev',
+    skipTokenEmissionCheck: true,
+  });
+
+  const ordered = [
+    'REMOTE_BINDING_OK',
+    'HEAD_STRICT_OK',
+    'CRITICAL_CLAIM_MATRIX_OK',
+    'TOKEN_DECLARATION_VALID_OK',
+    'SCR_SHARED_CODE_RATIO_OK',
+    'DEBT_TTL_VALID_OK',
+    'DEBT_TTL_EXPIRED_COUNT',
+    'DRIFT_UNRESOLVED_P0_COUNT',
+    'GOVERNANCE_STRICT_OK',
+    'CORE_SOT_EXECUTABLE_OK',
+    'COMMAND_SURFACE_ENFORCED_OK',
+    'CAPABILITY_ENFORCED_OK',
+    'RECOVERY_IO_OK',
+    'PERF_BASELINE_OK',
+    'ADAPTERS_ENFORCED_OK',
+    'COLLAB_STRESS_SAFE_OK',
+    'COMMENTS_HISTORY_SAFE_OK',
+    'SIMULATION_MIN_CONTRACT_OK',
+  ];
+
+  for (const key of ordered) {
+    console.log(`${key}=${state[key]}`);
+  }
+  if (state.HEAD_STRICT_FAIL_REASON) {
+    console.log(`HEAD_STRICT_FAIL_REASON=${state.HEAD_STRICT_FAIL_REASON}`);
+  }
+
+  const level = state.HEAD_STRICT_OK === 1
+    && state.CRITICAL_CLAIM_MATRIX_OK === 1
+    && state.TOKEN_DECLARATION_VALID_OK === 1
+    && state.DEBT_TTL_VALID_OK === 1
+    ? 'ok'
+    : 'fail';
+
+  return { level, state };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -5800,6 +5845,7 @@ function run() {
   const opsGlobalStandard = evaluateOpsGlobalDeliveryStandardTokens();
   const opsProcessCeiling = evaluateOpsProcessCeilingFreezeTokens(sectorMStatus);
   const xplatContract = evaluateXplatContractTokens();
+  const freezeRollups = evaluateFreezeRollupTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -5896,7 +5942,8 @@ function run() {
     || runtimeCoverage.level === 'fail'
     || ssotBoundary.level === 'fail'
     || strictLie.level === 'fail'
-    || xplatContract.level === 'fail';
+    || xplatContract.level === 'fail'
+    || freezeRollups.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'
@@ -5923,6 +5970,7 @@ function run() {
     || u1CommandLayer.level === 'warn'
     || u2Guard.level === 'warn'
     || u3ExportWiring.level === 'warn'
+    || freezeRollups.level === 'warn'
     || u4UiTransitions.level === 'warn'
     || u5ErrorMapping.level === 'warn'
     || u6A11yBaseline.level === 'warn'

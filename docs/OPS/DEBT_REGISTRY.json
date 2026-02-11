@@ -6,8 +6,11 @@
       "debtId": "DEBT:INV_CAPABILITIES_MATRIX_DECLARED_EMPTY",
       "active": true,
       "owner": "OPS_CANON",
-      "ttlUntil": "2099-12-31",
+      "severity": "D2",
+      "createdAt": "2026-02-11",
+      "ttlUntil": "2026-05-10",
       "exitCriteria": "Populate docs/OPS/CAPABILITIES_MATRIX.json items and remove declaredEmpty and this debt entry.",
+      "rollbackPlan": "Revert to previous DEBT_REGISTRY.json entry and disable release freeze for capability matrix until replacement debt is defined.",
       "invariantIds": [],
       "artifactPaths": [
         "docs/OPS/CAPABILITIES_MATRIX.json"
@@ -17,8 +20,11 @@
       "debtId": "DEBT:INV_QUEUE_POLICIES_DECLARED_EMPTY",
       "active": true,
       "owner": "OPS_CANON",
-      "ttlUntil": "2099-12-31",
+      "severity": "D2",
+      "createdAt": "2026-02-11",
+      "ttlUntil": "2026-05-10",
       "exitCriteria": "Populate docs/OPS/QUEUE_POLICIES.json items and remove declaredEmpty and this debt entry.",
+      "rollbackPlan": "Revert to previous DEBT_REGISTRY.json entry and disable release freeze for queue policies until replacement debt is defined.",
       "invariantIds": [],
       "artifactPaths": [
         "docs/OPS/QUEUE_POLICIES.json"

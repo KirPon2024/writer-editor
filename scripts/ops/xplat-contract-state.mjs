@@ -7,9 +7,6 @@ export const DEFAULT_XPLAT_CONTRACT_PATH = 'docs/OPS/STATUS/XPLAT_UNIFIED_MASTER
 const REQUIRED_MARKERS = [
   'SSOT-only',
   'no runtime wiring',
-  'XPLAT_CONTRACT_PRESENT',
-  'XPLAT_CONTRACT_SHA256',
-  'XPLAT_CONTRACT_OK',
   'PASS criteria',
   'BLOCKED criteria',
   'sha256',

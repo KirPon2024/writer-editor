@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { evaluateNextSectorState } from './next-sector-state.mjs';
 import { evaluateXplatContractState } from './xplat-contract-state.mjs';
 import { evaluateRequiredChecksState } from './required-checks-state.mjs';
+import { evaluateFreezeRollupsState } from './freeze-rollups-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -62,6 +63,10 @@ function main() {
   const xplat = evaluateXplatContractState();
   const requiredChecks = evaluateRequiredChecksState({ profile: 'ops' });
   const doctorDeliveryStrict = evaluateDoctorDeliveryStrict();
+  const freezeRollups = evaluateFreezeRollupsState({
+    mode: 'release',
+    skipTokenEmissionCheck: true,
+  });
 
   const summary = {
     schemaVersion: 'ops-summary.v1',
@@ -85,7 +90,24 @@ function main() {
       && requiredChecks.syncOk === 1
       && requiredChecks.stale === 0
       && requiredChecks.source === 'canonical'
-      && doctorDeliveryStrict.ok === 1,
+      && doctorDeliveryStrict.ok === 1
+      && freezeRollups.HEAD_STRICT_OK === 1,
+    headStrictOk: freezeRollups.HEAD_STRICT_OK,
+    criticalClaimMatrixOk: freezeRollups.CRITICAL_CLAIM_MATRIX_OK,
+    tokenDeclarationValidOk: freezeRollups.TOKEN_DECLARATION_VALID_OK,
+    scrSharedCodeRatioOk: freezeRollups.SCR_SHARED_CODE_RATIO_OK,
+    debtTtlValidOk: freezeRollups.DEBT_TTL_VALID_OK,
+    debtTtlExpiredCount: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
+    driftUnresolvedP0Count: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
+    coreSotExecutableOk: freezeRollups.CORE_SOT_EXECUTABLE_OK,
+    commandSurfaceEnforcedOk: freezeRollups.COMMAND_SURFACE_ENFORCED_OK,
+    capabilityEnforcedOk: freezeRollups.CAPABILITY_ENFORCED_OK,
+    recoveryIoOk: freezeRollups.RECOVERY_IO_OK,
+    perfBaselineOk: freezeRollups.PERF_BASELINE_OK,
+    adaptersEnforcedOk: freezeRollups.ADAPTERS_ENFORCED_OK,
+    collabStressSafeOk: freezeRollups.COLLAB_STRESS_SAFE_OK,
+    commentsHistorySafeOk: freezeRollups.COMMENTS_HISTORY_SAFE_OK,
+    simulationMinContractOk: freezeRollups.SIMULATION_MIN_CONTRACT_OK,
     generatedAt: new Date().toISOString(),
   };
 
@@ -107,6 +129,22 @@ function main() {
   console.log(`OPS_SUMMARY_REQUIRED_CHECKS_SOURCE=${summary.requiredChecksSource}`);
   console.log(`OPS_SUMMARY_DOCTOR_DELIVERY_STRICT_OK=${summary.doctorDeliveryStrictOk}`);
   console.log(`OPS_SUMMARY_GOVERNANCE_STRICT_OK=${summary.governanceStrictOk ? 1 : 0}`);
+  console.log(`OPS_SUMMARY_HEAD_STRICT_OK=${summary.headStrictOk}`);
+  console.log(`OPS_SUMMARY_CRITICAL_CLAIM_MATRIX_OK=${summary.criticalClaimMatrixOk}`);
+  console.log(`OPS_SUMMARY_TOKEN_DECLARATION_VALID_OK=${summary.tokenDeclarationValidOk}`);
+  console.log(`OPS_SUMMARY_SCR_SHARED_CODE_RATIO_OK=${summary.scrSharedCodeRatioOk}`);
+  console.log(`OPS_SUMMARY_DEBT_TTL_VALID_OK=${summary.debtTtlValidOk}`);
+  console.log(`OPS_SUMMARY_DEBT_TTL_EXPIRED_COUNT=${summary.debtTtlExpiredCount}`);
+  console.log(`OPS_SUMMARY_DRIFT_UNRESOLVED_P0_COUNT=${summary.driftUnresolvedP0Count}`);
+  console.log(`OPS_SUMMARY_CORE_SOT_EXECUTABLE_OK=${summary.coreSotExecutableOk}`);
+  console.log(`OPS_SUMMARY_COMMAND_SURFACE_ENFORCED_OK=${summary.commandSurfaceEnforcedOk}`);
+  console.log(`OPS_SUMMARY_CAPABILITY_ENFORCED_OK=${summary.capabilityEnforcedOk}`);
+  console.log(`OPS_SUMMARY_RECOVERY_IO_OK=${summary.recoveryIoOk}`);
+  console.log(`OPS_SUMMARY_PERF_BASELINE_OK=${summary.perfBaselineOk}`);
+  console.log(`OPS_SUMMARY_ADAPTERS_ENFORCED_OK=${summary.adaptersEnforcedOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_STRESS_SAFE_OK=${summary.collabStressSafeOk}`);
+  console.log(`OPS_SUMMARY_COMMENTS_HISTORY_SAFE_OK=${summary.commentsHistorySafeOk}`);
+  console.log(`OPS_SUMMARY_SIMULATION_MIN_CONTRACT_OK=${summary.simulationMinContractOk}`);
 
   if (!summary.remoteBindingOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_REMOTE_BINDING_MISMATCH');
@@ -130,6 +168,22 @@ function main() {
   }
   if (summary.doctorDeliveryStrictOk !== 1) {
     console.log('FAIL_REASON=OPS_SUMMARY_DOCTOR_DELIVERY_NOT_STRICT');
+    process.exit(1);
+  }
+  if (summary.headStrictOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_HEAD_STRICT_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.criticalClaimMatrixOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_CRITICAL_CLAIM_MATRIX_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.tokenDeclarationValidOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_TOKEN_DECLARATION_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.debtTtlValidOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_DEBT_TTL_NOT_OK');
     process.exit(1);
   }
   if (!summary.governanceStrictOk) {

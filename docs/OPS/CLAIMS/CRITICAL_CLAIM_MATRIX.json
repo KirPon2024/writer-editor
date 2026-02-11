@@ -130,6 +130,22 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "ADAPTERS_DECLARED",
+      "requiredToken": "ADAPTERS_DECLARED_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_ADAPTERS_DECLARED_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "ADAPTERS_BOUNDARY_TESTED",
+      "requiredToken": "ADAPTERS_BOUNDARY_TESTED_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_ADAPTERS_BOUNDARY_TESTS_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
       "claimId": "PERFORMANCE_BASELINE",
       "requiredToken": "PERF_BASELINE_OK",
       "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",

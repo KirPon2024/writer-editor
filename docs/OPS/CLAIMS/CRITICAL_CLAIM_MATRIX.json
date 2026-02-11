@@ -304,6 +304,14 @@
       "failSignal": "E_XPLAT_COST_GUARANTEE_FAIL",
       "blocking": true,
       "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "DERIVED_VIEWS_INFRA",
+      "requiredToken": "DERIVED_VIEWS_INFRA_OK",
+      "proofHook": "node scripts/ops/derived-views-state.mjs --json",
+      "failSignal": "E_DERIVED_VIEWS_INFRA_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

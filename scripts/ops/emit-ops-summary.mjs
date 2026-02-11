@@ -130,6 +130,11 @@ function main() {
     perfBaselineOk: freezeRollups.PERF_BASELINE_OK,
     platformCoverageDeclaredOk: freezeRollups.PLATFORM_COVERAGE_DECLARED_OK,
     platformCoverageBoundaryTestedOk: freezeRollups.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK,
+    derivedViewsPureOk: freezeRollups.DERIVED_VIEWS_PURE_OK,
+    derivedViewsDeterministicOk: freezeRollups.DERIVED_VIEWS_DETERMINISTIC_OK,
+    derivedViewsNoSecondSotOk: freezeRollups.DERIVED_VIEWS_NO_SECOND_SOT_OK,
+    derivedViewsInvalidationKeyOk: freezeRollups.DERIVED_VIEWS_INVALIDATION_KEY_OK,
+    derivedViewsInfraOk: freezeRollups.DERIVED_VIEWS_INFRA_OK,
     xplatCostGuaranteeOk: freezeRollups.XPLAT_COST_GUARANTEE_OK,
     adaptersDeclaredOk: freezeRollups.ADAPTERS_DECLARED_OK,
     adaptersBoundaryTestedOk: freezeRollups.ADAPTERS_BOUNDARY_TESTED_OK,
@@ -197,6 +202,11 @@ function main() {
   console.log(`OPS_SUMMARY_PERF_BASELINE_OK=${summary.perfBaselineOk}`);
   console.log(`OPS_SUMMARY_PLATFORM_COVERAGE_DECLARED_OK=${summary.platformCoverageDeclaredOk}`);
   console.log(`OPS_SUMMARY_PLATFORM_COVERAGE_BOUNDARY_TESTED_OK=${summary.platformCoverageBoundaryTestedOk}`);
+  console.log(`OPS_SUMMARY_DERIVED_VIEWS_PURE_OK=${summary.derivedViewsPureOk}`);
+  console.log(`OPS_SUMMARY_DERIVED_VIEWS_DETERMINISTIC_OK=${summary.derivedViewsDeterministicOk}`);
+  console.log(`OPS_SUMMARY_DERIVED_VIEWS_NO_SECOND_SOT_OK=${summary.derivedViewsNoSecondSotOk}`);
+  console.log(`OPS_SUMMARY_DERIVED_VIEWS_INVALIDATION_KEY_OK=${summary.derivedViewsInvalidationKeyOk}`);
+  console.log(`OPS_SUMMARY_DERIVED_VIEWS_INFRA_OK=${summary.derivedViewsInfraOk}`);
   console.log(`OPS_SUMMARY_XPLAT_COST_GUARANTEE_OK=${summary.xplatCostGuaranteeOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_DECLARED_OK=${summary.adaptersDeclaredOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_BOUNDARY_TESTED_OK=${summary.adaptersBoundaryTestedOk}`);

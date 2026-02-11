@@ -29,6 +29,21 @@
       "artifactPaths": [
         "docs/OPS/QUEUE_POLICIES.json"
       ]
+    },
+    {
+      "debtId": "DEBT:AGPL_ABOUT_UI_LINK_PENDING",
+      "active": true,
+      "owner": "DESKTOP_UI",
+      "severity": "D1",
+      "createdAt": "2026-02-11",
+      "ttlUntil": "2026-03-13",
+      "exitCriteria": "Add visible About/Licenses UI entry that displays AGPL-3.0-or-later notice and links to exact Corresponding Source ref.",
+      "rollbackPlan": "If About integration is deferred, keep AGPL notices in README and docs while renewing debt TTL through approved governance process.",
+      "invariantIds": [],
+      "artifactPaths": [
+        "docs/OPERATIONS/ABOUT_LICENSE_TEXT.md",
+        "src/main.js"
+      ]
     }
   ]
 }

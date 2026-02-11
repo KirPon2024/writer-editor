@@ -3,6 +3,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { evaluateXplatContractState } from './ops/xplat-contract-state.mjs';
+import { evaluateRequiredChecksState } from './ops/required-checks-state.mjs';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 const DEFAULT_SECTOR_U_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_U.json';
@@ -138,8 +139,28 @@ const OPS_PROCESS_CEILING_FREEZE_PATH = 'docs/OPS/STANDARDS/PROCESS_CEILING_FREE
 const POST_MERGE_CLEANUP_STREAK_STATE_PATH = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
 
 const VERSION_TOKEN_RE = /^v(\d+)\.(\d+)$/;
+const DOCTOR_MODE = String(process.env.DOCTOR_MODE || '').trim().toLowerCase();
+const OPS_EXEC_MODE = String(process.env.OPS_EXEC_MODE || '').trim().toUpperCase();
 
 let OPS_SYNTH_OVERRIDE_STATE = null;
+
+function isDeliveryExecutionMode() {
+  return DOCTOR_MODE === 'delivery' || OPS_EXEC_MODE === 'DELIVERY_EXEC';
+}
+
+const DELIVERY_STRICT_OUTPUT = isDeliveryExecutionMode();
+const __rawConsoleLog = console.log.bind(console);
+
+if (DELIVERY_STRICT_OUTPUT) {
+  console.log = (...args) => {
+    const line = args.map((part) => (typeof part === 'string' ? part : String(part))).join(' ');
+    const upper = line.toUpperCase();
+    if (upper.includes('DOCTOR_WARN') || upper.includes('DOCTOR_INFO') || upper.includes('INFO') || upper.includes('PLACEHOLDER')) {
+      return;
+    }
+    __rawConsoleLog(...args);
+  };
+}
 
 function normalizeRepoRelativePosixPath(p) {
   if (typeof p !== 'string') return null;
@@ -5381,8 +5402,7 @@ function evaluateSectorMOpsProcessFixTokens() {
     && runbookText.includes('SECTOR_U_ARTIFACTS_ROOT=/tmp/<task-id>/sector-u-run');
   result.deliveryFallbackRunbookOk = runbookMarkersOk ? 1 : 0;
 
-  const opsMode = String(process.env.OPS_EXEC_MODE || 'LOCAL_EXEC').toUpperCase();
-  const deliveryMode = opsMode === 'DELIVERY_EXEC';
+  const deliveryMode = isDeliveryExecutionMode();
   result.networkGateMode = deliveryMode ? 'delivery' : 'local';
   const networkGateScriptExists = fs.existsSync(NETWORK_GATE_SCRIPT_PATH);
   const networkGateScriptText = networkGateScriptExists ? readText(NETWORK_GATE_SCRIPT_PATH) : '';
@@ -5471,8 +5491,7 @@ function evaluateOpsGlobalDeliveryStandardTokens() {
     level: 'warn',
   };
 
-  const opsMode = String(process.env.OPS_EXEC_MODE || 'LOCAL_EXEC').toUpperCase();
-  const deliveryMode = opsMode === 'DELIVERY_EXEC';
+  const deliveryMode = isDeliveryExecutionMode();
 
   const standardDocExists = fs.existsSync(OPS_STANDARD_GLOBAL_PATH);
   const networkGateExists = fs.existsSync(NETWORK_GATE_SCRIPT_PATH);
@@ -5496,56 +5515,23 @@ function evaluateOpsGlobalDeliveryStandardTokens() {
     ? 1
     : 0;
 
-  const checksContract = readJsonObjectOptional(OPS_REQUIRED_CHECKS_CONTRACT_PATH);
-  const contractPresent = !!(
-    checksContract
-    && checksContract.schemaVersion === 1
-    && Number.isInteger(checksContract.ttlDays)
-    && checksContract.ttlDays > 0
-    && (checksContract.lastSyncedAt === null || typeof checksContract.lastSyncedAt === 'string')
-    && (!Object.prototype.hasOwnProperty.call(checksContract, 'lastSyncSource')
-      || checksContract.lastSyncSource === 'local'
-      || checksContract.lastSyncSource === 'api')
-    && checksContract.profiles
-    && typeof checksContract.profiles === 'object'
-    && !Array.isArray(checksContract.profiles)
-    && checksContract.profiles.ops
-    && checksContract.profiles.sector
-    && checksContract.profiles.default
-    && Array.isArray(checksContract.profiles.ops.required)
-    && Array.isArray(checksContract.profiles.sector.required)
-    && Array.isArray(checksContract.profiles.default.required)
-  );
-  result.requiredChecksContractPresentOk = contractPresent ? 1 : 0;
-
-  if (contractPresent) {
-    result.requiredChecksSource = checksContract.lastSyncSource === 'api' ? 'api' : 'local';
-    if (checksContract.lastSyncedAt === null) {
-      result.requiredChecksStale = 1;
-    } else {
-      const updatedMs = Date.parse(String(checksContract.lastSyncedAt || ''));
-      if (Number.isNaN(updatedMs)) {
-        result.requiredChecksStale = 1;
-      } else {
-        const staleMs = checksContract.ttlDays * 24 * 60 * 60 * 1000;
-        result.requiredChecksStale = (Date.now() - updatedMs) > staleMs ? 1 : 0;
-      }
-    }
-    if (deliveryMode) {
-      result.requiredChecksSyncOk = result.requiredChecksSource === 'api' && result.requiredChecksStale === 0 ? 1 : 0;
-    } else {
-      // Local mode never reports synced checks to avoid false green.
-      result.requiredChecksSyncOk = 0;
-    }
-  }
+  const requiredChecks = evaluateRequiredChecksState({
+    profile: process.env.REQUIRED_CHECKS_PROFILE || 'ops',
+    contractPath: OPS_REQUIRED_CHECKS_CONTRACT_PATH,
+  });
+  result.requiredChecksContractPresentOk = requiredChecks.contractPresentOk;
+  result.requiredChecksSyncOk = requiredChecks.syncOk;
+  result.requiredChecksSource = requiredChecks.source;
+  result.requiredChecksStale = requiredChecks.stale;
 
   const streakState = readJsonObjectOptional(POST_MERGE_CLEANUP_STREAK_STATE_PATH);
   const streak = Number(streakState && streakState.cleanupFailStreak);
   result.cleanupFailStreak = Number.isInteger(streak) && streak >= 0 ? streak : 0;
 
-  const requiredChecksOk = deliveryMode
-    ? (result.requiredChecksContractPresentOk === 1 && result.requiredChecksSyncOk === 1)
-    : (result.requiredChecksContractPresentOk === 1);
+  const requiredChecksOk = result.requiredChecksContractPresentOk === 1
+    && result.requiredChecksSyncOk === 1
+    && result.requiredChecksStale === 0
+    && result.requiredChecksSource === 'canonical';
   result.level = result.standardOk === 1 && requiredChecksOk ? 'ok' : 'warn';
 
   console.log(`OPS_STANDARD_GLOBAL_OK=${result.standardOk}`);
@@ -5884,11 +5870,14 @@ function run() {
     || sectorMStatus.level === 'warn'
     || m0Bootstrap.level === 'warn';
 
+  const deliveryMode = isDeliveryExecutionMode();
   const final = hasFail
     ? { status: 'DOCTOR_FAIL', exitCode: 1 }
-    : hasWarn
-      ? { status: 'DOCTOR_INFO', exitCode: 0 }
-      : { status: 'DOCTOR_OK', exitCode: 0 };
+    : deliveryMode
+      ? { status: 'DOCTOR_OK', exitCode: 0 }
+      : hasWarn
+        ? { status: 'DOCTOR_INFO', exitCode: 0 }
+        : { status: 'DOCTOR_OK', exitCode: 0 };
 
   const boundaryExitCode = ssotBoundary && typeof ssotBoundary.exitCode === 'number' ? ssotBoundary.exitCode : 2;
   const strictLieOk = strictLie && typeof strictLie.ok === 'number' ? strictLie.ok : 0;

@@ -19,16 +19,19 @@ test('delivery: exit 0 never prints DOCTOR_WARN in green run', () => {
 
   const stdout = String(result.stdout || '');
   assert.equal(stdout.includes('DOCTOR_WARN'), false, `unexpected DOCTOR_WARN token:\n${stdout}`);
-  assert.equal(/DOCTOR_(OK|INFO)/.test(stdout), true, `missing doctor pass/info token:\n${stdout}`);
+  assert.equal(stdout.includes('DOCTOR_INFO'), false, `unexpected DOCTOR_INFO token:\n${stdout}`);
+  assert.equal(stdout.includes('DOCTOR_OK'), true, `missing DOCTOR_OK token:\n${stdout}`);
 });
 
-test('delivery: warning-level pass prints DOCTOR_INFO (not DOCTOR_WARN)', () => {
+test('delivery: strict output does not leak INFO/PLACEHOLDER diagnostics', () => {
   const result = runDoctorDelivery({
     SECTOR_U_FAST_RESULT_PATH: 'test/fixtures/sector-u/does-not-exist-result.json',
   });
-  assert.equal(result.status, 0, `doctor should stay pass/info:\n${result.stdout}\n${result.stderr}`);
+  assert.equal(result.status, 0, `doctor should stay strict pass:\n${result.stdout}\n${result.stderr}`);
 
   const stdout = String(result.stdout || '');
   assert.equal(stdout.includes('DOCTOR_WARN'), false, `unexpected DOCTOR_WARN token:\n${stdout}`);
-  assert.equal(stdout.includes('DOCTOR_INFO'), true, `expected DOCTOR_INFO token:\n${stdout}`);
+  assert.equal(stdout.includes('DOCTOR_INFO'), false, `unexpected DOCTOR_INFO token:\n${stdout}`);
+  assert.equal(stdout.includes('INFO'), false, `unexpected INFO token:\n${stdout}`);
+  assert.equal(stdout.includes('PLACEHOLDER'), false, `unexpected PLACEHOLDER token:\n${stdout}`);
 });

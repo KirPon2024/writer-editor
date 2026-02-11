@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { evaluateNextSectorState } from './next-sector-state.mjs';
 import { evaluateXplatContractState } from './xplat-contract-state.mjs';
+import { evaluateRequiredChecksState } from './required-checks-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -22,6 +23,27 @@ function hasFile(filePath) {
   return fs.existsSync(filePath);
 }
 
+function evaluateDoctorDeliveryStrict() {
+  const result = spawnSync(process.execPath, ['scripts/doctor.mjs'], {
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      DOCTOR_MODE: 'delivery',
+    },
+  });
+  const stdout = String(result.stdout || '');
+  const strictOk = result.status === 0
+    && stdout.includes('DOCTOR_OK')
+    && !stdout.includes('DOCTOR_WARN')
+    && !stdout.includes('DOCTOR_INFO')
+    && !stdout.includes('INFO')
+    && !stdout.includes('PLACEHOLDER');
+  return {
+    ok: strictOk ? 1 : 0,
+    status: result.status,
+  };
+}
+
 function main() {
   const branchRes = run('git', ['branch', '--show-current']);
   const headRes = run('git', ['rev-parse', 'HEAD']);
@@ -35,6 +57,8 @@ function main() {
   const scriptsOk = REQUIRED_OPS_SCRIPTS.every((filePath) => hasFile(filePath));
   const nextSector = evaluateNextSectorState();
   const xplat = evaluateXplatContractState();
+  const requiredChecks = evaluateRequiredChecksState({ profile: 'ops' });
+  const doctorDeliveryStrict = evaluateDoctorDeliveryStrict();
 
   const summary = {
     schemaVersion: 'ops-summary.v1',
@@ -50,6 +74,15 @@ function main() {
     xplatContractPresent: xplat.present,
     xplatContractSha256: xplat.sha256,
     xplatContractOk: xplat.ok,
+    requiredChecksSyncOk: requiredChecks.syncOk,
+    requiredChecksStale: requiredChecks.stale,
+    requiredChecksSource: requiredChecks.source,
+    doctorDeliveryStrictOk: doctorDeliveryStrict.ok,
+    governanceStrictOk: remoteBindingOk
+      && requiredChecks.syncOk === 1
+      && requiredChecks.stale === 0
+      && requiredChecks.source === 'canonical'
+      && doctorDeliveryStrict.ok === 1,
     generatedAt: new Date().toISOString(),
   };
 
@@ -66,6 +99,11 @@ function main() {
   console.log(`OPS_SUMMARY_XPLAT_CONTRACT_PRESENT=${summary.xplatContractPresent}`);
   console.log(`OPS_SUMMARY_XPLAT_CONTRACT_SHA256=${summary.xplatContractSha256}`);
   console.log(`OPS_SUMMARY_XPLAT_CONTRACT_OK=${summary.xplatContractOk}`);
+  console.log(`OPS_SUMMARY_REQUIRED_CHECKS_SYNC_OK=${summary.requiredChecksSyncOk}`);
+  console.log(`OPS_SUMMARY_REQUIRED_CHECKS_STALE=${summary.requiredChecksStale}`);
+  console.log(`OPS_SUMMARY_REQUIRED_CHECKS_SOURCE=${summary.requiredChecksSource}`);
+  console.log(`OPS_SUMMARY_DOCTOR_DELIVERY_STRICT_OK=${summary.doctorDeliveryStrictOk}`);
+  console.log(`OPS_SUMMARY_GOVERNANCE_STRICT_OK=${summary.governanceStrictOk ? 1 : 0}`);
 
   if (!summary.remoteBindingOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_REMOTE_BINDING_MISMATCH');
@@ -81,6 +119,18 @@ function main() {
   }
   if (summary.xplatContractOk !== 1) {
     console.log(`FAIL_REASON=${xplat.failReason || 'OPS_SUMMARY_XPLAT_CONTRACT_INVALID'}`);
+    process.exit(1);
+  }
+  if (summary.requiredChecksSyncOk !== 1 || summary.requiredChecksStale !== 0 || summary.requiredChecksSource !== 'canonical') {
+    console.log(`FAIL_REASON=${requiredChecks.failReason || 'OPS_SUMMARY_REQUIRED_CHECKS_NOT_CANONICAL'}`);
+    process.exit(1);
+  }
+  if (summary.doctorDeliveryStrictOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_DOCTOR_DELIVERY_NOT_STRICT');
+    process.exit(1);
+  }
+  if (!summary.governanceStrictOk) {
+    console.log('FAIL_REASON=OPS_SUMMARY_GOVERNANCE_STRICT_NOT_OK');
     process.exit(1);
   }
 

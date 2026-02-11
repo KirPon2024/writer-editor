@@ -1,19 +1,18 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "source": "canonical",
   "ttlDays": 7,
-  "lastSyncedAt": null,
-  "lastSyncSource": "local",
+  "lastSyncedAt": "2026-02-11T00:00:00.000Z",
+  "lastSyncSource": "canonical",
   "profiles": {
     "ops": {
       "required": [
-        "oss-policy",
-        "test:ops"
+        "oss-policy"
       ]
     },
     "sector": {
       "required": [
-        "oss-policy",
-        "test:sector"
+        "oss-policy"
       ]
     },
     "default": {

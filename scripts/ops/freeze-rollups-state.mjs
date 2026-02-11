@@ -10,6 +10,7 @@ import { evaluateHeadStrictState } from './head-strict-state.mjs';
 import { evaluateCriticalClaimMatrixState } from './critical-claim-matrix-state.mjs';
 import { evaluateTokenDeclarationState } from './token-declaration-state.mjs';
 import { evaluateScrState } from './scr-calc.mjs';
+import { evaluatePlatformCoverageState } from './platform-coverage-state.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -292,6 +293,15 @@ function evaluatePerf() {
   }
 }
 
+function evaluatePlatformCoverage() {
+  const state = evaluatePlatformCoverageState();
+  return {
+    PLATFORM_COVERAGE_DECLARED_OK: Number(state.PLATFORM_COVERAGE_DECLARED_OK) === 1 ? 1 : 0,
+    PLATFORM_COVERAGE_BOUNDARY_TESTED_OK: Number(state.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK) === 1 ? 1 : 0,
+    failReason: typeof state.failReason === 'string' ? state.failReason : '',
+  };
+}
+
 function listFilesRecursive(rootDir) {
   const out = [];
   if (!fileExists(rootDir)) return out;
@@ -467,6 +477,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const capability = evaluateCapability();
   const recoveryIo = evaluateRecoveryIo();
   const perf = evaluatePerf();
+  const platformCoverage = evaluatePlatformCoverage();
   const adapters = evaluateAdaptersBoundary();
 
   const governanceStrictOk = remote.remoteBindingOk === 1
@@ -520,6 +531,8 @@ export function evaluateFreezeRollupsState(input = {}) {
     PERF_RUNNER_DETERMINISTIC_OK: perf.PERF_RUNNER_DETERMINISTIC_OK,
     PERF_THRESHOLD_OK: perf.PERF_THRESHOLD_OK,
     PERF_BASELINE_OK: perf.PERF_BASELINE_OK,
+    PLATFORM_COVERAGE_DECLARED_OK: platformCoverage.PLATFORM_COVERAGE_DECLARED_OK,
+    PLATFORM_COVERAGE_BOUNDARY_TESTED_OK: platformCoverage.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK,
     ADAPTERS_DECLARED_OK: adapters.ADAPTERS_DECLARED_OK,
     ADAPTERS_BOUNDARY_TESTED_OK: adapters.ADAPTERS_BOUNDARY_TESTED_OK,
     ADAPTERS_PARITY_OK: adapters.ADAPTERS_PARITY_OK,
@@ -541,6 +554,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       capability,
       recoveryIo,
       perf,
+      platformCoverage,
       adapters,
     },
   };
@@ -589,6 +603,8 @@ function printTokens(state) {
     'PERF_RUNNER_DETERMINISTIC_OK',
     'PERF_THRESHOLD_OK',
     'PERF_BASELINE_OK',
+    'PLATFORM_COVERAGE_DECLARED_OK',
+    'PLATFORM_COVERAGE_BOUNDARY_TESTED_OK',
     'ADAPTERS_DECLARED_OK',
     'ADAPTERS_BOUNDARY_TESTED_OK',
     'ADAPTERS_PARITY_OK',

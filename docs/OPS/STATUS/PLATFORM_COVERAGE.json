@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "platform-coverage.v1",
+  "platforms": [
+    {
+      "platformId": "node",
+      "capabilityBaseline": "CAPABILITY_BASELINE_MIN_OK",
+      "adapterBoundaryTest": "test/contracts/adapters-boundary-baseline.contract.test.js",
+      "notes": "Desktop runtime adapter boundary contract baseline."
+    },
+    {
+      "platformId": "web",
+      "capabilityBaseline": "CAPABILITY_BASELINE_MIN_OK",
+      "adapterBoundaryTest": "test/contracts/capability-unsupported.contract.test.js",
+      "notes": "Unsupported command boundary is enforced by typed capability envelopes."
+    },
+    {
+      "platformId": "mobile-wrapper",
+      "capabilityBaseline": "CAPABILITY_BASELINE_MIN_OK",
+      "adapterBoundaryTest": "test/contracts/capability-unsupported.contract.test.js",
+      "notes": "Mobile wrapper baseline remains capability-gated and boundary-tested."
+    }
+  ]
+}

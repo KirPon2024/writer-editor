@@ -210,6 +210,14 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "PLATFORM_COVERAGE_BOUNDARY_TESTED",
+      "requiredToken": "PLATFORM_COVERAGE_BOUNDARY_TESTED_OK",
+      "proofHook": "node scripts/ops/platform-coverage-state.mjs --json",
+      "failSignal": "E_PLATFORM_COVERAGE_BOUNDARY_TESTS_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
       "claimId": "PERFORMANCE_HOTPATH_POLICY",
       "requiredToken": "HOTPATH_POLICY_OK",
       "proofHook": "node scripts/ops/perf-state.mjs --json",

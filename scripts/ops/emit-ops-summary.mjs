@@ -128,6 +128,8 @@ function main() {
     perfRunnerDeterministicOk: freezeRollups.PERF_RUNNER_DETERMINISTIC_OK,
     perfThresholdOk: freezeRollups.PERF_THRESHOLD_OK,
     perfBaselineOk: freezeRollups.PERF_BASELINE_OK,
+    platformCoverageDeclaredOk: freezeRollups.PLATFORM_COVERAGE_DECLARED_OK,
+    platformCoverageBoundaryTestedOk: freezeRollups.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK,
     adaptersDeclaredOk: freezeRollups.ADAPTERS_DECLARED_OK,
     adaptersBoundaryTestedOk: freezeRollups.ADAPTERS_BOUNDARY_TESTED_OK,
     adaptersParityOk: freezeRollups.ADAPTERS_PARITY_OK,
@@ -192,6 +194,8 @@ function main() {
   console.log(`OPS_SUMMARY_PERF_RUNNER_DETERMINISTIC_OK=${summary.perfRunnerDeterministicOk}`);
   console.log(`OPS_SUMMARY_PERF_THRESHOLD_OK=${summary.perfThresholdOk}`);
   console.log(`OPS_SUMMARY_PERF_BASELINE_OK=${summary.perfBaselineOk}`);
+  console.log(`OPS_SUMMARY_PLATFORM_COVERAGE_DECLARED_OK=${summary.platformCoverageDeclaredOk}`);
+  console.log(`OPS_SUMMARY_PLATFORM_COVERAGE_BOUNDARY_TESTED_OK=${summary.platformCoverageBoundaryTestedOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_DECLARED_OK=${summary.adaptersDeclaredOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_BOUNDARY_TESTED_OK=${summary.adaptersBoundaryTestedOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_PARITY_OK=${summary.adaptersParityOk}`);
@@ -242,6 +246,10 @@ function main() {
   }
   if (!summary.governanceStrictOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_GOVERNANCE_STRICT_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.platformCoverageBoundaryTestedOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_PLATFORM_COVERAGE_NOT_OK');
     process.exit(1);
   }
 

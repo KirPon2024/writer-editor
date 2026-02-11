@@ -49,6 +49,21 @@ test('capability enforcement returns deterministic typed unsupported errors and 
     commandId: COMMAND_IDS.PROJECT_OPEN,
   });
   assert.equal(openCalls, 0, 'silent fallback detected: handler must not run when capability is disabled');
+
+  const mobile = await runCommand(COMMAND_IDS.PROJECT_OPEN, { platformId: 'mobile-wrapper' });
+  assert.deepEqual(mobile, {
+    ok: false,
+    error: {
+      code: 'E_CAPABILITY_DISABLED_FOR_COMMAND',
+      op: COMMAND_IDS.PROJECT_OPEN,
+      reason: 'CAPABILITY_DISABLED_FOR_COMMAND',
+      details: {
+        platformId: 'mobile-wrapper',
+        capabilityId: 'cap.project.open',
+        commandId: COMMAND_IDS.PROJECT_OPEN,
+      },
+    },
+  });
 });
 
 test('capability enforcement returns deterministic unsupported-platform and missing-binding envelopes', async () => {

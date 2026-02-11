@@ -1,0 +1,9 @@
+{
+  "fixtureId": "S4_RECOVERY_REPLAY",
+  "seed": "simulation-min-v1",
+  "description": "Recovery replay deterministic fixture referencing corruption/snapshot fallback proof path.",
+  "recovery": {
+    "mode": "snapshot-fallback",
+    "typedErrors": true
+  }
+}

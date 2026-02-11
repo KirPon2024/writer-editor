@@ -1,0 +1,9 @@
+{
+  "fixtureId": "S2_DERIVED_MINDMAP",
+  "seed": "simulation-min-v1",
+  "description": "Reference mindmap derived graph deterministic fixture.",
+  "params": {
+    "projectId": "sim-project",
+    "rootSceneId": "scene-1"
+  }
+}

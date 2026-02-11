@@ -19,7 +19,7 @@ const FORBIDDEN_PATTERNS = [
 
 test('collab infra has no network wiring and no core/renderer bypass imports', () => {
   const files = fs.readdirSync(COLLAB_DIR).filter((entry) => entry.endsWith('.mjs')).sort();
-  assert.deepEqual(files, ['conflictEnvelope.mjs', 'eventLog.mjs', 'index.mjs', 'mergePolicy.mjs', 'replayDeterminism.mjs']);
+  assert.deepEqual(files, ['applyEventLog.mjs', 'conflictEnvelope.mjs', 'eventLog.mjs', 'index.mjs', 'mergePolicy.mjs', 'replayDeterminism.mjs']);
   for (const fileName of files) {
     const text = fs.readFileSync(path.join(COLLAB_DIR, fileName), 'utf8');
     for (const pattern of FORBIDDEN_PATTERNS) {

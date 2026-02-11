@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { evaluateXplatContractState } from './ops/xplat-contract-state.mjs';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 const DEFAULT_SECTOR_U_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_U.json';
@@ -5628,6 +5629,26 @@ function evaluateOpsProcessCeilingFreezeTokens(sectorMStatus) {
   return result;
 }
 
+function evaluateXplatContractTokens() {
+  const xplat = evaluateXplatContractState();
+  const level = xplat.ok === 1 ? 'ok' : 'fail';
+
+  console.log(`XPLAT_CONTRACT_PATH=${xplat.path}`);
+  console.log(`XPLAT_CONTRACT_PRESENT=${xplat.present}`);
+  console.log(`XPLAT_CONTRACT_SHA256=${xplat.sha256}`);
+  console.log(`XPLAT_CONTRACT_OK=${xplat.ok}`);
+  console.log(`XPLAT_CONTRACT_FAIL_REASON=${xplat.failReason}`);
+
+  return {
+    level,
+    present: xplat.present,
+    sha256: xplat.sha256,
+    ok: xplat.ok,
+    failReason: xplat.failReason,
+    path: xplat.path,
+  };
+}
+
 function run() {
   for (const filePath of REQUIRED_FILES) {
     if (!fs.existsSync(filePath)) {
@@ -5727,6 +5748,7 @@ function run() {
   const opsSectorMProcessFixes = evaluateSectorMOpsProcessFixTokens();
   const opsGlobalStandard = evaluateOpsGlobalDeliveryStandardTokens();
   const opsProcessCeiling = evaluateOpsProcessCeilingFreezeTokens(sectorMStatus);
+  const xplatContract = evaluateXplatContractTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
   console.log(`INDEX_INVENTORY_IDS_SORTED=${indexDiag.sortedOk ? 1 : 0}`);
@@ -5811,7 +5833,8 @@ function run() {
     || debtTtl.level === 'fail'
     || contourCEnforcement.forceFail === true
     || ssotBoundary.level === 'fail'
-    || strictLie.level === 'fail';
+    || strictLie.level === 'fail'
+    || xplatContract.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
     || queuePolicy.level === 'warn'

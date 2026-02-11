@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { evaluateNextSectorState } from './next-sector-state.mjs';
+import { evaluateXplatContractState } from './xplat-contract-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -33,6 +34,7 @@ function main() {
   const remoteBindingOk = headRes.status === 0 && originRes.status === 0 && ancestorRes.status === 0 && headSha === originMainSha;
   const scriptsOk = REQUIRED_OPS_SCRIPTS.every((filePath) => hasFile(filePath));
   const nextSector = evaluateNextSectorState();
+  const xplat = evaluateXplatContractState();
 
   const summary = {
     schemaVersion: 'ops-summary.v1',
@@ -45,6 +47,9 @@ function main() {
     nextSectorMode: nextSector.mode || '',
     nextSectorId: nextSector.id || '',
     nextSectorReason: nextSector.reason || '',
+    xplatContractPresent: xplat.present,
+    xplatContractSha256: xplat.sha256,
+    xplatContractOk: xplat.ok,
     generatedAt: new Date().toISOString(),
   };
 
@@ -58,6 +63,9 @@ function main() {
   console.log(`OPS_SUMMARY_NEXT_SECTOR_MODE=${summary.nextSectorMode}`);
   console.log(`OPS_SUMMARY_NEXT_SECTOR_REASON=${summary.nextSectorReason}`);
   console.log(`OPS_SUMMARY_NEXT_SECTOR_VALID=${summary.nextSectorValid ? 1 : 0}`);
+  console.log(`OPS_SUMMARY_XPLAT_CONTRACT_PRESENT=${summary.xplatContractPresent}`);
+  console.log(`OPS_SUMMARY_XPLAT_CONTRACT_SHA256=${summary.xplatContractSha256}`);
+  console.log(`OPS_SUMMARY_XPLAT_CONTRACT_OK=${summary.xplatContractOk}`);
 
   if (!summary.remoteBindingOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_REMOTE_BINDING_MISMATCH');
@@ -69,6 +77,10 @@ function main() {
   }
   if (!summary.nextSectorValid) {
     console.log(`FAIL_REASON=${nextSector.failReason || 'OPS_SUMMARY_NEXT_SECTOR_INVALID'}`);
+    process.exit(1);
+  }
+  if (summary.xplatContractOk !== 1) {
+    console.log(`FAIL_REASON=${xplat.failReason || 'OPS_SUMMARY_XPLAT_CONTRACT_INVALID'}`);
     process.exit(1);
   }
 

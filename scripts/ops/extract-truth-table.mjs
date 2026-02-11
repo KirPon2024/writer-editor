@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { evaluateNextSectorState } from './next-sector-state.mjs';
+import { evaluateXplatContractState } from './xplat-contract-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -37,6 +38,7 @@ function buildTruthTable() {
   const opsBaselineFilesOk = REQUIRED_OPS_SCRIPTS.every((filePath) => fs.existsSync(filePath));
   const doctorScriptOk = fs.existsSync('scripts/doctor.mjs');
   const nextSector = evaluateNextSectorState();
+  const xplat = evaluateXplatContractState();
 
   return {
     schemaVersion: 'truth-table.v1',
@@ -46,6 +48,9 @@ function buildTruthTable() {
     NEXT_SECTOR_ID: nextSector.id || '',
     NEXT_SECTOR_REASON: nextSector.reason || '',
     NEXT_SECTOR_FAIL_REASON: nextSector.failReason || '',
+    XPLAT_CONTRACT_PRESENT: xplat.present,
+    XPLAT_CONTRACT_SHA256: xplat.sha256,
+    XPLAT_CONTRACT_OK: xplat.ok,
     checks: [
       {
         id: 'REMOTE_BINDING',
@@ -71,11 +76,18 @@ function buildTruthTable() {
         actual: nextSector.valid,
         pass: nextSector.valid,
       },
+      {
+        id: 'XPLAT_CONTRACT_OK',
+        expected: true,
+        actual: xplat.ok === 1,
+        pass: xplat.ok === 1,
+      },
     ],
     context: {
       headSha,
       originMainSha,
       nextSector,
+      xplat,
     },
   };
 }
@@ -93,6 +105,9 @@ function emitMd(table) {
   console.log(`NEXT_SECTOR_MODE=${table.NEXT_SECTOR_MODE}`);
   console.log(`NEXT_SECTOR_REASON=${table.NEXT_SECTOR_REASON}`);
   console.log(`NEXT_SECTOR_VALID=${table.NEXT_SECTOR_VALID}`);
+  console.log(`XPLAT_CONTRACT_PRESENT=${table.XPLAT_CONTRACT_PRESENT}`);
+  console.log(`XPLAT_CONTRACT_SHA256=${table.XPLAT_CONTRACT_SHA256}`);
+  console.log(`XPLAT_CONTRACT_OK=${table.XPLAT_CONTRACT_OK}`);
 }
 
 function main() {

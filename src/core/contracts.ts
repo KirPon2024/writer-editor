@@ -21,6 +21,51 @@
  * - docs/ADR/ADR-CONTRACTS-TOPOLOGY.md
  */
 
-export type CoreState = { version: string; data: Record<string, unknown>; };
-export type CoreCommand = { type: string };
+export type CoreSceneState = {
+  id: string
+  text: string
+}
+
+export type CoreProjectState = {
+  id: string
+  title: string
+  scenes: Record<string, CoreSceneState>
+}
+
+export type CoreState = {
+  version: number
+  data: {
+    projects: Record<string, CoreProjectState>
+    lastCommandId: number
+  }
+}
+
+export type CoreCommand =
+  | {
+      type: "project.create"
+      payload: { projectId: string; title?: string; sceneId?: string }
+    }
+  | {
+      type: "project.applyTextEdit"
+      payload: { projectId: string; sceneId: string; text: string }
+    }
+  | {
+      type: string
+      payload?: Record<string, unknown>
+    };
+
+export type CoreTypedError = {
+  code: string
+  op: string
+  reason: string
+  details?: Record<string, unknown>
+}
+
+export type CoreReduceResult = {
+  ok: boolean
+  state: CoreState
+  stateHash: string
+  error?: CoreTypedError
+}
+
 export type CoreEvent = { type: string };

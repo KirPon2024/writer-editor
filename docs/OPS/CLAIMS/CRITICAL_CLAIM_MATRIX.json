@@ -10,6 +10,46 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "CORE_SOT_REDUCER_IMPLEMENTED",
+      "requiredToken": "CORE_SOT_REDUCER_IMPLEMENTED_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CORE_SOT_REDUCER_NOT_IMPLEMENTED",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CORE_SOT_SCHEMA_ALIGNED",
+      "requiredToken": "CORE_SOT_SCHEMA_ALIGNED_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CORE_SOT_SCHEMA_NOT_ALIGNED",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CORE_SOT_COMMAND_CANON",
+      "requiredToken": "CORE_SOT_COMMAND_CANON_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CORE_SOT_COMMAND_CANON_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CORE_SOT_TYPED_ERRORS",
+      "requiredToken": "CORE_SOT_TYPED_ERRORS_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CORE_SOT_TYPED_ERRORS_MISSING",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CORE_SOT_HASH_DETERMINISTIC",
+      "requiredToken": "CORE_SOT_HASH_DETERMINISTIC_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CORE_SOT_HASH_NOT_DETERMINISTIC",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
       "claimId": "COMMAND_SURFACE_ENFORCED",
       "requiredToken": "COMMAND_SURFACE_ENFORCED_OK",
       "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",

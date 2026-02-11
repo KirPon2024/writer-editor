@@ -22,6 +22,6 @@ test('freeze rollups emit adapters boundary baseline tokens', () => {
   const tokens = parseTokens(result.stdout);
   assert.equal(tokens.get('ADAPTERS_DECLARED_OK'), '1');
   assert.equal(tokens.get('ADAPTERS_BOUNDARY_TESTED_OK'), '1');
-  assert.equal(tokens.get('ADAPTERS_ENFORCED_OK'), '0');
+  assert.equal(tokens.get('ADAPTERS_PARITY_OK'), '1');
+  assert.equal(tokens.get('ADAPTERS_ENFORCED_OK'), '1');
 });
-

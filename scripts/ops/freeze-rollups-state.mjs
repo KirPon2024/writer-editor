@@ -262,6 +262,10 @@ function evaluateAdaptersBoundary() {
     'test/contracts/adapters-boundary-baseline.contract.test.js',
     'test/contracts/core-no-platform-wiring.contract.test.js',
   ];
+  const requiredParityArtifacts = [
+    'test/contracts/adapters-parity-desktop.contract.test.js',
+    'test/fixtures/adapters/desktop-parity-fixtures.json',
+  ];
   const adapterDeclared = requiredPortContracts.every((filePath) => fileExists(filePath))
     && fileExists(desktopAdapterPath);
 
@@ -290,11 +294,21 @@ function evaluateAdaptersBoundary() {
   const coreNoPlatformWiring = coreViolations.length === 0;
   const boundaryTestsPresent = requiredBoundaryTests.every((filePath) => fileExists(filePath));
   const boundaryTested = adapterDeclared && boundaryTestsPresent && coreNoPlatformWiring;
+  const parityArtifactsPresent = requiredParityArtifacts.every((filePath) => fileExists(filePath));
+  const adapterText = readText(desktopAdapterPath);
+  const typedParityEnvelope = adapterText.includes('code')
+    && adapterText.includes('op')
+    && adapterText.includes('reason')
+    && adapterText.includes('platformId')
+    && adapterText.includes('portId');
+  const parityOk = boundaryTested && parityArtifactsPresent && typedParityEnvelope;
+  const enforcedOk = adapterDeclared && boundaryTested && parityOk;
 
   return {
     ADAPTERS_DECLARED_OK: adapterDeclared ? 1 : 0,
     ADAPTERS_BOUNDARY_TESTED_OK: boundaryTested ? 1 : 0,
-    ADAPTERS_ENFORCED_OK: 0,
+    ADAPTERS_PARITY_OK: parityOk ? 1 : 0,
+    ADAPTERS_ENFORCED_OK: enforcedOk ? 1 : 0,
   };
 }
 
@@ -431,6 +445,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     PERF_BASELINE_OK: perf.PERF_BASELINE_OK,
     ADAPTERS_DECLARED_OK: adapters.ADAPTERS_DECLARED_OK,
     ADAPTERS_BOUNDARY_TESTED_OK: adapters.ADAPTERS_BOUNDARY_TESTED_OK,
+    ADAPTERS_PARITY_OK: adapters.ADAPTERS_PARITY_OK,
     ADAPTERS_ENFORCED_OK: adapters.ADAPTERS_ENFORCED_OK,
     COLLAB_STRESS_SAFE_OK: 0,
     COMMENTS_HISTORY_SAFE_OK: 0,
@@ -487,6 +502,7 @@ function printTokens(state) {
     'PERF_BASELINE_OK',
     'ADAPTERS_DECLARED_OK',
     'ADAPTERS_BOUNDARY_TESTED_OK',
+    'ADAPTERS_PARITY_OK',
     'ADAPTERS_ENFORCED_OK',
     'COLLAB_STRESS_SAFE_OK',
     'COMMENTS_HISTORY_SAFE_OK',

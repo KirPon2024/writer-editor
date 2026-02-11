@@ -118,6 +118,7 @@ function main() {
     perfBaselineOk: freezeRollups.PERF_BASELINE_OK,
     adaptersDeclaredOk: freezeRollups.ADAPTERS_DECLARED_OK,
     adaptersBoundaryTestedOk: freezeRollups.ADAPTERS_BOUNDARY_TESTED_OK,
+    adaptersParityOk: freezeRollups.ADAPTERS_PARITY_OK,
     adaptersEnforcedOk: freezeRollups.ADAPTERS_ENFORCED_OK,
     collabStressSafeOk: freezeRollups.COLLAB_STRESS_SAFE_OK,
     commentsHistorySafeOk: freezeRollups.COMMENTS_HISTORY_SAFE_OK,
@@ -169,6 +170,7 @@ function main() {
   console.log(`OPS_SUMMARY_PERF_BASELINE_OK=${summary.perfBaselineOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_DECLARED_OK=${summary.adaptersDeclaredOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_BOUNDARY_TESTED_OK=${summary.adaptersBoundaryTestedOk}`);
+  console.log(`OPS_SUMMARY_ADAPTERS_PARITY_OK=${summary.adaptersParityOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_ENFORCED_OK=${summary.adaptersEnforcedOk}`);
   console.log(`OPS_SUMMARY_COLLAB_STRESS_SAFE_OK=${summary.collabStressSafeOk}`);
   console.log(`OPS_SUMMARY_COMMENTS_HISTORY_SAFE_OK=${summary.commentsHistorySafeOk}`);

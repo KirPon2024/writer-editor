@@ -479,6 +479,13 @@ export function evaluateFreezeRollupsState(input = {}) {
   const perf = evaluatePerf();
   const platformCoverage = evaluatePlatformCoverage();
   const adapters = evaluateAdaptersBoundary();
+  const xplatCostGuaranteeRequires = {
+    SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
+    PLATFORM_COVERAGE_BOUNDARY_TESTED_OK: Number(platformCoverage.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK) === 1 ? 1 : 0,
+    CAPABILITY_ENFORCED_OK: Number(capability.CAPABILITY_ENFORCED_OK) === 1 ? 1 : 0,
+    ADAPTERS_ENFORCED_OK: Number(adapters.ADAPTERS_ENFORCED_OK) === 1 ? 1 : 0,
+  };
+  const xplatCostGuaranteeOk = Object.values(xplatCostGuaranteeRequires).every((value) => value === 1) ? 1 : 0;
 
   const governanceStrictOk = remote.remoteBindingOk === 1
     && nextSector.valid
@@ -533,6 +540,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     PERF_BASELINE_OK: perf.PERF_BASELINE_OK,
     PLATFORM_COVERAGE_DECLARED_OK: platformCoverage.PLATFORM_COVERAGE_DECLARED_OK,
     PLATFORM_COVERAGE_BOUNDARY_TESTED_OK: platformCoverage.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK,
+    XPLAT_COST_GUARANTEE_OK: xplatCostGuaranteeOk,
     ADAPTERS_DECLARED_OK: adapters.ADAPTERS_DECLARED_OK,
     ADAPTERS_BOUNDARY_TESTED_OK: adapters.ADAPTERS_BOUNDARY_TESTED_OK,
     ADAPTERS_PARITY_OK: adapters.ADAPTERS_PARITY_OK,
@@ -555,6 +563,10 @@ export function evaluateFreezeRollupsState(input = {}) {
       recoveryIo,
       perf,
       platformCoverage,
+      xplatCostGuarantee: {
+        ok: xplatCostGuaranteeOk,
+        requires: xplatCostGuaranteeRequires,
+      },
       adapters,
     },
   };
@@ -605,6 +617,7 @@ function printTokens(state) {
     'PERF_BASELINE_OK',
     'PLATFORM_COVERAGE_DECLARED_OK',
     'PLATFORM_COVERAGE_BOUNDARY_TESTED_OK',
+    'XPLAT_COST_GUARANTEE_OK',
     'ADAPTERS_DECLARED_OK',
     'ADAPTERS_BOUNDARY_TESTED_OK',
     'ADAPTERS_PARITY_OK',

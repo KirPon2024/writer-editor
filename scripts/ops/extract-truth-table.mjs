@@ -99,6 +99,7 @@ function buildTruthTable() {
     PERF_BASELINE_OK: freezeRollups.PERF_BASELINE_OK,
     PLATFORM_COVERAGE_DECLARED_OK: freezeRollups.PLATFORM_COVERAGE_DECLARED_OK,
     PLATFORM_COVERAGE_BOUNDARY_TESTED_OK: freezeRollups.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK,
+    XPLAT_COST_GUARANTEE_OK: freezeRollups.XPLAT_COST_GUARANTEE_OK,
     GOVERNANCE_STRICT_OK: freezeRollups.GOVERNANCE_STRICT_OK,
     ADAPTERS_DECLARED_OK: freezeRollups.ADAPTERS_DECLARED_OK,
     ADAPTERS_BOUNDARY_TESTED_OK: freezeRollups.ADAPTERS_BOUNDARY_TESTED_OK,
@@ -167,6 +168,12 @@ function buildTruthTable() {
         expected: true,
         actual: freezeRollups.TOKEN_DECLARATION_VALID_OK === 1,
         pass: freezeRollups.TOKEN_DECLARATION_VALID_OK === 1,
+      },
+      {
+        id: 'XPLAT_COST_GUARANTEE_OK',
+        expected: true,
+        actual: freezeRollups.XPLAT_COST_GUARANTEE_OK === 1,
+        pass: freezeRollups.XPLAT_COST_GUARANTEE_OK === 1,
       },
     ],
     context: {
@@ -237,6 +244,7 @@ function emitMd(table) {
   console.log(`PERF_BASELINE_OK=${table.PERF_BASELINE_OK}`);
   console.log(`PLATFORM_COVERAGE_DECLARED_OK=${table.PLATFORM_COVERAGE_DECLARED_OK}`);
   console.log(`PLATFORM_COVERAGE_BOUNDARY_TESTED_OK=${table.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK}`);
+  console.log(`XPLAT_COST_GUARANTEE_OK=${table.XPLAT_COST_GUARANTEE_OK}`);
   console.log(`GOVERNANCE_STRICT_OK=${table.GOVERNANCE_STRICT_OK}`);
   console.log(`ADAPTERS_DECLARED_OK=${table.ADAPTERS_DECLARED_OK}`);
   console.log(`ADAPTERS_BOUNDARY_TESTED_OK=${table.ADAPTERS_BOUNDARY_TESTED_OK}`);

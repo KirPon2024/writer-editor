@@ -296,6 +296,14 @@
       "failSignal": "E_SHARED_CODE_RATIO_BELOW_MIN",
       "blocking": true,
       "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "XPLAT_COST_GUARANTEE",
+      "requiredToken": "XPLAT_COST_GUARANTEE_OK",
+      "proofHook": "node scripts/ops/xplat-cost-guarantee-state.mjs --json",
+      "failSignal": "E_XPLAT_COST_GUARANTEE_FAIL",
+      "blocking": true,
+      "sourceBinding": "doctor"
     }
   ]
 }

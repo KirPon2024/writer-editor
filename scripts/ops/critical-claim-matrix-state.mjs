@@ -19,6 +19,7 @@ const ALLOWED_NAMESPACE_PREFIXES = [
   'COMMENTS_',
   'HISTORY_',
   'SIMULATION_',
+  'XPLAT_',
   'XPLAT_CONTRACT_',
   'DRIFT_',
   'SCR_',

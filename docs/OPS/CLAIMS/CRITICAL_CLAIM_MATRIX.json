@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "claims": [
+    {
+      "claimId": "CORE_SOT_EXECUTABLE",
+      "requiredToken": "CORE_SOT_EXECUTABLE_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CORE_SOT_NOT_EXECUTABLE",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "COMMAND_SURFACE_ENFORCED",
+      "requiredToken": "COMMAND_SURFACE_ENFORCED_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_COMMAND_SURFACE_NOT_ENFORCED",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "CAPABILITY_ENFORCEMENT",
+      "requiredToken": "CAPABILITY_ENFORCED_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_CAPABILITY_NOT_ENFORCED",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "RECOVERY_IO",
+      "requiredToken": "RECOVERY_IO_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_RECOVERY_IO_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "PERFORMANCE_BASELINE",
+      "requiredToken": "PERF_BASELINE_OK",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "failSignal": "E_PERF_BASELINE_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "GOVERNANCE_STRICT",
+      "requiredToken": "GOVERNANCE_STRICT_OK",
+      "proofHook": "node scripts/ops/emit-ops-summary.mjs",
+      "failSignal": "E_GOVERNANCE_STRICT_FAIL",
+      "blocking": true,
+      "sourceBinding": "ops-summary"
+    },
+    {
+      "claimId": "XPLAT_CONTRACT",
+      "requiredToken": "XPLAT_CONTRACT_OK",
+      "proofHook": "node scripts/ops/extract-truth-table.mjs --json",
+      "failSignal": "E_XPLAT_CONTRACT_INVALID",
+      "blocking": true,
+      "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "HEAD_STRICT",
+      "requiredToken": "HEAD_STRICT_OK",
+      "proofHook": "node scripts/ops/head-strict-state.mjs --mode release",
+      "failSignal": "E_HEAD_BINDING_INVALID",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "TOKEN_DECLARATION",
+      "requiredToken": "TOKEN_DECLARATION_VALID_OK",
+      "proofHook": "node scripts/ops/token-declaration-state.mjs",
+      "failSignal": "E_TOKEN_DECLARATION_INVALID",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "SCR_SHARED_CODE_RATIO",
+      "requiredToken": "SCR_SHARED_CODE_RATIO_OK",
+      "proofHook": "node scripts/ops/scr-calc.mjs --json",
+      "failSignal": "E_SHARED_CODE_RATIO_BELOW_MIN",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    }
+  ]
+}

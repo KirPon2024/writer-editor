@@ -328,6 +328,14 @@
       "failSignal": "E_COMMENTS_HISTORY_SAFE_FAIL",
       "blocking": false,
       "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "COLLAB_STRESS_SAFETY_BASELINE",
+      "requiredToken": "COLLAB_STRESS_SAFE_OK",
+      "proofHook": "node scripts/ops/collab-stress-safe-state.mjs --json",
+      "failSignal": "E_COLLAB_STRESS_SAFE_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

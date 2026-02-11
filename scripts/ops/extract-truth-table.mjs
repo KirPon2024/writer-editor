@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { evaluateNextSectorState } from './next-sector-state.mjs';
 import { evaluateXplatContractState } from './xplat-contract-state.mjs';
+import { evaluateRequiredChecksState } from './required-checks-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -39,6 +40,7 @@ function buildTruthTable() {
   const doctorScriptOk = fs.existsSync('scripts/doctor.mjs');
   const nextSector = evaluateNextSectorState();
   const xplat = evaluateXplatContractState();
+  const requiredChecks = evaluateRequiredChecksState({ profile: 'ops' });
 
   return {
     schemaVersion: 'truth-table.v1',
@@ -51,6 +53,9 @@ function buildTruthTable() {
     XPLAT_CONTRACT_PRESENT: xplat.present,
     XPLAT_CONTRACT_SHA256: xplat.sha256,
     XPLAT_CONTRACT_OK: xplat.ok,
+    REQUIRED_CHECKS_SYNC_OK: requiredChecks.syncOk,
+    REQUIRED_CHECKS_STALE: requiredChecks.stale,
+    REQUIRED_CHECKS_SOURCE: requiredChecks.source,
     checks: [
       {
         id: 'REMOTE_BINDING',
@@ -82,12 +87,25 @@ function buildTruthTable() {
         actual: xplat.ok === 1,
         pass: xplat.ok === 1,
       },
+      {
+        id: 'REQUIRED_CHECKS_SYNC_OK',
+        expected: true,
+        actual: requiredChecks.syncOk === 1,
+        pass: requiredChecks.syncOk === 1,
+      },
+      {
+        id: 'REQUIRED_CHECKS_STALE',
+        expected: false,
+        actual: requiredChecks.stale === 1,
+        pass: requiredChecks.stale === 0,
+      },
     ],
     context: {
       headSha,
       originMainSha,
       nextSector,
       xplat,
+      requiredChecks,
     },
   };
 }
@@ -108,6 +126,9 @@ function emitMd(table) {
   console.log(`XPLAT_CONTRACT_PRESENT=${table.XPLAT_CONTRACT_PRESENT}`);
   console.log(`XPLAT_CONTRACT_SHA256=${table.XPLAT_CONTRACT_SHA256}`);
   console.log(`XPLAT_CONTRACT_OK=${table.XPLAT_CONTRACT_OK}`);
+  console.log(`REQUIRED_CHECKS_SYNC_OK=${table.REQUIRED_CHECKS_SYNC_OK}`);
+  console.log(`REQUIRED_CHECKS_STALE=${table.REQUIRED_CHECKS_STALE}`);
+  console.log(`REQUIRED_CHECKS_SOURCE=${table.REQUIRED_CHECKS_SOURCE}`);
 }
 
 function main() {

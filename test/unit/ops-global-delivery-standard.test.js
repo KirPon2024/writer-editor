@@ -270,7 +270,8 @@ test('doctor exposes v0.1.3 ops tokens truthfully in local mode', () => {
   const tokens = parseTokens(result.stdout);
   assert.equal(tokens.get('OPS_STANDARD_GLOBAL_OK'), '1');
   assert.equal(tokens.get('REQUIRED_CHECKS_CONTRACT_PRESENT_OK'), '1');
-  assert.equal(tokens.get('REQUIRED_CHECKS_SYNC_OK'), '0');
-  assert.ok(['local', 'api'].includes(tokens.get('REQUIRED_CHECKS_SOURCE')));
+  assert.equal(tokens.get('REQUIRED_CHECKS_SYNC_OK'), '1');
+  assert.equal(tokens.get('REQUIRED_CHECKS_STALE'), '0');
+  assert.equal(tokens.get('REQUIRED_CHECKS_SOURCE'), 'canonical');
   assert.ok(Number(tokens.get('POST_MERGE_VERIFY_CLEANUP_FAIL_STREAK')) >= 0);
 });

@@ -3483,7 +3483,8 @@ function evaluateM5ReliabilityTokens(sectorMStatus) {
       const mainText = fs.readFileSync(M5_MAIN_PATH, 'utf8');
       mainWiringOk = mainText.includes('loadMarkdownIoModule')
         && mainText.includes('writeMarkdownWithRecovery')
-        && mainText.includes('readMarkdownWithLimits')
+        && (mainText.includes('readMarkdownWithLimits')
+          || mainText.includes('readMarkdownWithRecovery'))
         ? 1
         : 0;
       limitsWiringOk = mainText.includes('maxInputBytes')
@@ -5733,6 +5734,12 @@ function evaluateFreezeRollupTokens() {
     'CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK',
     'CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK',
     'CAPABILITY_ENFORCED_OK',
+    'RECOVERY_ATOMIC_WRITE_OK',
+    'RECOVERY_SNAPSHOT_OK',
+    'RECOVERY_CORRUPTION_OK',
+    'RECOVERY_TYPED_ERRORS_OK',
+    'RECOVERY_REPLAY_OK',
+    'RECOVERY_ACTION_CANON_OK',
     'RECOVERY_IO_OK',
     'PERF_BASELINE_OK',
     'ADAPTERS_DECLARED_OK',

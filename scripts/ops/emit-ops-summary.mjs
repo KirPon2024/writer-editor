@@ -116,6 +116,12 @@ function main() {
     capabilityUnsupportedTypedErrorsOk: freezeRollups.CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK,
     capabilityUnsupportedMapCoverageOk: freezeRollups.CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK,
     capabilityEnforcedOk: freezeRollups.CAPABILITY_ENFORCED_OK,
+    recoveryAtomicWriteOk: freezeRollups.RECOVERY_ATOMIC_WRITE_OK,
+    recoverySnapshotOk: freezeRollups.RECOVERY_SNAPSHOT_OK,
+    recoveryCorruptionOk: freezeRollups.RECOVERY_CORRUPTION_OK,
+    recoveryTypedErrorsOk: freezeRollups.RECOVERY_TYPED_ERRORS_OK,
+    recoveryReplayOk: freezeRollups.RECOVERY_REPLAY_OK,
+    recoveryActionCanonOk: freezeRollups.RECOVERY_ACTION_CANON_OK,
     recoveryIoOk: freezeRollups.RECOVERY_IO_OK,
     perfBaselineOk: freezeRollups.PERF_BASELINE_OK,
     adaptersDeclaredOk: freezeRollups.ADAPTERS_DECLARED_OK,
@@ -170,6 +176,12 @@ function main() {
   console.log(`OPS_SUMMARY_CAPABILITY_UNSUPPORTED_TYPED_ERRORS_OK=${summary.capabilityUnsupportedTypedErrorsOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_UNSUPPORTED_MAP_COVERAGE_OK=${summary.capabilityUnsupportedMapCoverageOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_ENFORCED_OK=${summary.capabilityEnforcedOk}`);
+  console.log(`OPS_SUMMARY_RECOVERY_ATOMIC_WRITE_OK=${summary.recoveryAtomicWriteOk}`);
+  console.log(`OPS_SUMMARY_RECOVERY_SNAPSHOT_OK=${summary.recoverySnapshotOk}`);
+  console.log(`OPS_SUMMARY_RECOVERY_CORRUPTION_OK=${summary.recoveryCorruptionOk}`);
+  console.log(`OPS_SUMMARY_RECOVERY_TYPED_ERRORS_OK=${summary.recoveryTypedErrorsOk}`);
+  console.log(`OPS_SUMMARY_RECOVERY_REPLAY_OK=${summary.recoveryReplayOk}`);
+  console.log(`OPS_SUMMARY_RECOVERY_ACTION_CANON_OK=${summary.recoveryActionCanonOk}`);
   console.log(`OPS_SUMMARY_RECOVERY_IO_OK=${summary.recoveryIoOk}`);
   console.log(`OPS_SUMMARY_PERF_BASELINE_OK=${summary.perfBaselineOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_DECLARED_OK=${summary.adaptersDeclaredOk}`);

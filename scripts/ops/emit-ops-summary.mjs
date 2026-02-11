@@ -36,8 +36,11 @@ function evaluateDoctorDeliveryStrict() {
     && stdout.includes('DOCTOR_OK')
     && !stdout.includes('DOCTOR_WARN')
     && !stdout.includes('DOCTOR_INFO')
-    && !stdout.includes('INFO')
-    && !stdout.includes('PLACEHOLDER');
+    && stdout.includes('EFFECTIVE_MODE=STRICT')
+    && stdout.includes('PLACEHOLDER_INVARIANTS_COUNT=0')
+    && stdout.includes('NO_SOURCE_INVARIANTS_COUNT=0')
+    && stdout.includes('CONTOUR_C_EXIT_IMPLEMENTED_P0_OK=1')
+    && stdout.includes('RUNTIME_INVARIANT_COVERAGE_OK=1');
   return {
     ok: strictOk ? 1 : 0,
     status: result.status,

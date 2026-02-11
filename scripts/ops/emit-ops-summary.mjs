@@ -146,6 +146,11 @@ function main() {
     adaptersParityOk: freezeRollups.ADAPTERS_PARITY_OK,
     adaptersEnforcedOk: freezeRollups.ADAPTERS_ENFORCED_OK,
     collabStressSafeOk: freezeRollups.COLLAB_STRESS_SAFE_OK,
+    collabEventLogSchemaOk: freezeRollups.COLLAB_EVENTLOG_SCHEMA_OK,
+    collabEventLogAppendOnlyOk: freezeRollups.COLLAB_EVENTLOG_APPEND_ONLY_OK,
+    collabEventLogReplayDeterministicOk: freezeRollups.COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK,
+    collabEventLogIdempotencyOk: freezeRollups.COLLAB_EVENTLOG_IDEMPOTENCY_OK,
+    collabEventLogOk: freezeRollups.COLLAB_EVENTLOG_OK,
     commentsHistorySafeOk: freezeRollups.COMMENTS_HISTORY_SAFE_OK,
     simulationMinContractOk: freezeRollups.SIMULATION_MIN_CONTRACT_OK,
     generatedAt: new Date().toISOString(),
@@ -223,6 +228,11 @@ function main() {
   console.log(`OPS_SUMMARY_ADAPTERS_PARITY_OK=${summary.adaptersParityOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_ENFORCED_OK=${summary.adaptersEnforcedOk}`);
   console.log(`OPS_SUMMARY_COLLAB_STRESS_SAFE_OK=${summary.collabStressSafeOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_EVENTLOG_SCHEMA_OK=${summary.collabEventLogSchemaOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_EVENTLOG_APPEND_ONLY_OK=${summary.collabEventLogAppendOnlyOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK=${summary.collabEventLogReplayDeterministicOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_EVENTLOG_IDEMPOTENCY_OK=${summary.collabEventLogIdempotencyOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_EVENTLOG_OK=${summary.collabEventLogOk}`);
   console.log(`OPS_SUMMARY_COMMENTS_HISTORY_SAFE_OK=${summary.commentsHistorySafeOk}`);
   console.log(`OPS_SUMMARY_SIMULATION_MIN_CONTRACT_OK=${summary.simulationMinContractOk}`);
 

@@ -338,6 +338,14 @@
       "sourceBinding": "truth-table"
     },
     {
+      "claimId": "COLLAB_EVENTLOG_BASELINE",
+      "requiredToken": "COLLAB_EVENTLOG_OK",
+      "proofHook": "node scripts/ops/collab-eventlog-state.mjs --json",
+      "failSignal": "E_COLLAB_EVENTLOG_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
+    },
+    {
       "claimId": "SIMULATION_MIN_CONTRACT_BASELINE",
       "requiredToken": "SIMULATION_MIN_CONTRACT_OK",
       "proofHook": "node scripts/ops/simulation-min-contract-state.mjs --json",

@@ -15,6 +15,7 @@ import { evaluateDerivedViewsState } from './derived-views-state.mjs';
 import { evaluateMindMapDerivedState } from './mindmap-derived-state.mjs';
 import { evaluateCommentsHistorySafeState } from './comments-history-safe-state.mjs';
 import { evaluateCollabStressSafeState } from './collab-stress-safe-state.mjs';
+import { evaluateCollabEventLogState } from './collab-eventlog-state.mjs';
 import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
 
 function runGit(args) {
@@ -347,6 +348,18 @@ function evaluateCollabStressSafe() {
   };
 }
 
+function evaluateCollabEventLog() {
+  const state = evaluateCollabEventLogState();
+  return {
+    COLLAB_EVENTLOG_SCHEMA_OK: Number(state.COLLAB_EVENTLOG_SCHEMA_OK) === 1 ? 1 : 0,
+    COLLAB_EVENTLOG_APPEND_ONLY_OK: Number(state.COLLAB_EVENTLOG_APPEND_ONLY_OK) === 1 ? 1 : 0,
+    COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK: Number(state.COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK) === 1 ? 1 : 0,
+    COLLAB_EVENTLOG_IDEMPOTENCY_OK: Number(state.COLLAB_EVENTLOG_IDEMPOTENCY_OK) === 1 ? 1 : 0,
+    COLLAB_EVENTLOG_OK: Number(state.COLLAB_EVENTLOG_OK) === 1 ? 1 : 0,
+    failReason: typeof state.failReason === 'string' ? state.failReason : '',
+  };
+}
+
 function evaluateSimulationMinContract() {
   const state = evaluateSimulationMinContractState();
   return {
@@ -538,6 +551,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const mindmapDerived = evaluateMindMapDerived();
   const commentsHistory = evaluateCommentsHistory();
   const collabStressSafe = evaluateCollabStressSafe();
+  const collabEventLog = evaluateCollabEventLog();
   const simulationMinContract = evaluateSimulationMinContract();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
@@ -617,6 +631,11 @@ export function evaluateFreezeRollupsState(input = {}) {
     ADAPTERS_PARITY_OK: adapters.ADAPTERS_PARITY_OK,
     ADAPTERS_ENFORCED_OK: adapters.ADAPTERS_ENFORCED_OK,
     COLLAB_STRESS_SAFE_OK: collabStressSafe.COLLAB_STRESS_SAFE_OK,
+    COLLAB_EVENTLOG_SCHEMA_OK: collabEventLog.COLLAB_EVENTLOG_SCHEMA_OK,
+    COLLAB_EVENTLOG_APPEND_ONLY_OK: collabEventLog.COLLAB_EVENTLOG_APPEND_ONLY_OK,
+    COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK: collabEventLog.COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK,
+    COLLAB_EVENTLOG_IDEMPOTENCY_OK: collabEventLog.COLLAB_EVENTLOG_IDEMPOTENCY_OK,
+    COLLAB_EVENTLOG_OK: collabEventLog.COLLAB_EVENTLOG_OK,
     COMMENTS_HISTORY_SAFE_OK: commentsHistory.COMMENTS_HISTORY_SAFE_OK,
     SIMULATION_MIN_CONTRACT_OK: simulationMinContract.SIMULATION_MIN_CONTRACT_OK,
     details: {
@@ -638,6 +657,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       mindmapDerived,
       commentsHistory,
       collabStressSafe,
+      collabEventLog,
       simulationMinContract,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
@@ -709,6 +729,11 @@ function printTokens(state) {
     'ADAPTERS_PARITY_OK',
     'ADAPTERS_ENFORCED_OK',
     'COLLAB_STRESS_SAFE_OK',
+    'COLLAB_EVENTLOG_SCHEMA_OK',
+    'COLLAB_EVENTLOG_APPEND_ONLY_OK',
+    'COLLAB_EVENTLOG_REPLAY_DETERMINISTIC_OK',
+    'COLLAB_EVENTLOG_IDEMPOTENCY_OK',
+    'COLLAB_EVENTLOG_OK',
     'COMMENTS_HISTORY_SAFE_OK',
     'SIMULATION_MIN_CONTRACT_OK',
   ];

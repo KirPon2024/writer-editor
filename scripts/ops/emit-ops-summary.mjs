@@ -98,6 +98,7 @@ function main() {
     scrRuntimeSharedRatioOk: freezeRollups.SCR_RUNTIME_SHARED_RATIO_OK,
     scrAppTotalSharedRatioInfo: freezeRollups.SCR_APP_TOTAL_SHARED_RATIO_INFO,
     scrSharedCodeRatioOk: freezeRollups.SCR_SHARED_CODE_RATIO_OK,
+    freezeReadyOk: freezeRollups.FREEZE_READY_OK,
     debtTtlValidOk: freezeRollups.DEBT_TTL_VALID_OK,
     debtTtlExpiredCount: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
     driftUnresolvedP0Count: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
@@ -184,6 +185,7 @@ function main() {
   console.log(`OPS_SUMMARY_SCR_RUNTIME_SHARED_RATIO_OK=${summary.scrRuntimeSharedRatioOk}`);
   console.log(`OPS_SUMMARY_SCR_APP_TOTAL_SHARED_RATIO_INFO=${summary.scrAppTotalSharedRatioInfo}`);
   console.log(`OPS_SUMMARY_SCR_SHARED_CODE_RATIO_OK=${summary.scrSharedCodeRatioOk}`);
+  console.log(`OPS_SUMMARY_FREEZE_READY_OK=${summary.freezeReadyOk}`);
   console.log(`OPS_SUMMARY_DEBT_TTL_VALID_OK=${summary.debtTtlValidOk}`);
   console.log(`OPS_SUMMARY_DEBT_TTL_EXPIRED_COUNT=${summary.debtTtlExpiredCount}`);
   console.log(`OPS_SUMMARY_DRIFT_UNRESOLVED_P0_COUNT=${summary.driftUnresolvedP0Count}`);

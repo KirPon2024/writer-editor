@@ -18,6 +18,7 @@ import { evaluateCollabStressSafeState } from './collab-stress-safe-state.mjs';
 import { evaluateCollabEventLogState } from './collab-eventlog-state.mjs';
 import { evaluateCollabApplyPipelineState } from './collab-apply-pipeline-state.mjs';
 import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
+import { evaluateFreezeReadyFromRollups } from './freeze-ready-evaluator.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -582,7 +583,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     && headStrict.ok === 1
     ? 1 : 0;
 
-  return {
+  const state = {
     mode,
     REMOTE_BINDING_OK: remote.remoteBindingOk,
     HEAD_STRICT_OK: headStrict.ok,
@@ -684,6 +685,11 @@ export function evaluateFreezeRollupsState(input = {}) {
       adapters,
     },
   };
+
+  const freezeReady = evaluateFreezeReadyFromRollups(state);
+  state.FREEZE_READY_OK = freezeReady.FREEZE_READY_OK;
+  state.details.freezeReady = freezeReady;
+  return state;
 }
 
 function printTokens(state) {
@@ -695,6 +701,7 @@ function printTokens(state) {
     'SCR_RUNTIME_SHARED_RATIO_OK',
     'SCR_APP_TOTAL_SHARED_RATIO_INFO',
     'SCR_SHARED_CODE_RATIO_OK',
+    'FREEZE_READY_OK',
     'DEBT_TTL_VALID_OK',
     'DEBT_TTL_EXPIRED_COUNT',
     'DRIFT_UNRESOLVED_P0_COUNT',

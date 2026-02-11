@@ -306,6 +306,14 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "FREEZE_READY_ROLLUP",
+      "requiredToken": "FREEZE_READY_OK",
+      "proofHook": "node scripts/ops/freeze-ready-state.mjs --json",
+      "failSignal": "E_FREEZE_READY_ROLLUP_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
+    },
+    {
       "claimId": "DERIVED_VIEWS_INFRA",
       "requiredToken": "DERIVED_VIEWS_INFRA_OK",
       "proofHook": "node scripts/ops/derived-views-state.mjs --json",

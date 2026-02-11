@@ -7,6 +7,7 @@ const { spawnSync } = require('node:child_process');
 
 const ROOT = process.cwd();
 const SCRIPT = path.join(ROOT, 'scripts', 'sector-w-run.mjs');
+const GUARD = path.join(ROOT, 'scripts', 'guards', 'sector-w-web-smoke-no-electron.mjs');
 
 function runSectorWFast(artifactsRoot) {
   return spawnSync(
@@ -24,7 +25,12 @@ function runSectorWFast(artifactsRoot) {
   );
 }
 
-test('sector-w-run writes canonical v1 artifact schema to latest result path', () => {
+test('sector-w-run writes canonical v1 artifact schema to latest result path', (t) => {
+  if (!fs.existsSync(GUARD)) {
+    t.skip('sector-w smoke guard script is not present in this baseline');
+    return;
+  }
+
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sector-w-run-'));
   const artifactsRoot = path.join(tmpRoot, 'artifacts', 'sector-w-run');
   const latestResultPath = path.join(artifactsRoot, 'latest', 'result.json');

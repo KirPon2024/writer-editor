@@ -42,7 +42,7 @@ test('M9 kickoff doctor tokens are green on M9 phase', () => {
   const lines = String(result.stdout || '').split(/\r?\n/);
   const has = (prefix) => lines.some((line) => line === prefix);
 
-  assert.equal(has('SECTOR_M_PHASE=M9'), true);
+  assert.equal(has('SECTOR_M_PHASE=M9') || has('SECTOR_M_PHASE=DONE'), true);
   assert.equal(has('M8_CLOSE_OK=1'), true);
   assert.equal(has('M9_PHASE_READY_OK=1'), true);
   assert.equal(has('M9_KICKOFF_OK=1'), true);

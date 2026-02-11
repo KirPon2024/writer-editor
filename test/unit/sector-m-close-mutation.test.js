@@ -71,7 +71,8 @@ test('doctor detects sector-m closed mutation when lock hash diverges', () => {
 
   assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
   const tokens = parseTokens(result.stdout);
-  assert.equal(tokens.get('SECTOR_M_PHASE'), 'DONE');
+  const phase = tokens.get('SECTOR_M_PHASE');
+  assert.equal(phase, 'DONE');
   assert.equal(tokens.get('SECTOR_M_CLOSE_READY'), '1');
   assert.equal(tokens.get('SECTOR_M_CLOSE_OK'), '0');
   assert.equal(tokens.get('SECTOR_M_CLOSED_MUTATION'), '1');

@@ -5864,7 +5864,7 @@ function run() {
   const final = hasFail
     ? { status: 'DOCTOR_FAIL', exitCode: 1 }
     : hasWarn
-      ? { status: 'DOCTOR_WARN', exitCode: 0 }
+      ? { status: 'DOCTOR_INFO', exitCode: 0 }
       : { status: 'DOCTOR_OK', exitCode: 0 };
 
   const boundaryExitCode = ssotBoundary && typeof ssotBoundary.exitCode === 'number' ? ssotBoundary.exitCode : 2;

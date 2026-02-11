@@ -18,11 +18,23 @@ function parseTokens(stdout) {
   for (const raw of String(stdout || '').split(/\r?\n/)) {
     const line = raw.trim();
     if (!line) continue;
-    const idx = line.indexOf('=');
+    const normalized = line.startsWith('DOCTOR_TOKEN ')
+      ? line.slice('DOCTOR_TOKEN '.length).trim()
+      : line;
+    const idx = normalized.indexOf('=');
     if (idx <= 0) continue;
-    map.set(line.slice(0, idx), line.slice(idx + 1));
+    map.set(normalized.slice(0, idx), normalized.slice(idx + 1));
   }
   return map;
+}
+
+function assertDeliveryPrefixWhitelist(stdout) {
+  const lines = String(stdout || '').split(/\r?\n/u).map((line) => line.trim()).filter(Boolean);
+  for (const line of lines) {
+    const isStatus = line === 'DOCTOR_OK' || line === 'DOCTOR_FAIL';
+    const isToken = /^DOCTOR_TOKEN [A-Z0-9_]+=.*$/u.test(line);
+    assert.equal(isStatus || isToken, true, `non-canonical delivery prefix line: ${line}`);
+  }
 }
 
 test('delivery: exit 0 never prints DOCTOR_WARN in green run', () => {
@@ -36,6 +48,7 @@ test('delivery: exit 0 never prints DOCTOR_WARN in green run', () => {
   assert.equal(stdout.includes('DOCTOR_OK'), true, `missing DOCTOR_OK token:\n${stdout}`);
   assert.equal(tokens.get('PLACEHOLDER_INVARIANTS_COUNT'), '0');
   assert.equal(tokens.get('NO_SOURCE_INVARIANTS_COUNT'), '0');
+  assertDeliveryPrefixWhitelist(stdout);
 });
 
 test('delivery: strict output includes explicit zero-debt runtime tokens', () => {
@@ -53,4 +66,5 @@ test('delivery: strict output includes explicit zero-debt runtime tokens', () =>
   assert.equal(tokens.get('NO_SOURCE_INVARIANTS_COUNT'), '0');
   assert.equal(tokens.get('CONTOUR_C_EXIT_IMPLEMENTED_P0_OK'), '1');
   assert.equal(tokens.get('RUNTIME_INVARIANT_COVERAGE_OK'), '1');
+  assertDeliveryPrefixWhitelist(stdout);
 });

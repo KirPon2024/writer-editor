@@ -21,10 +21,13 @@ function parseTokenMap(text) {
   for (const raw of String(text || '').split(/\r?\n/u)) {
     const line = raw.trim();
     if (!line) continue;
-    const idx = line.indexOf('=');
+    const normalized = line.startsWith('DOCTOR_TOKEN ')
+      ? line.slice('DOCTOR_TOKEN '.length).trim()
+      : line;
+    const idx = normalized.indexOf('=');
     if (idx <= 0) continue;
-    const key = line.slice(0, idx).trim();
-    const value = line.slice(idx + 1).trim();
+    const key = normalized.slice(0, idx).trim();
+    const value = normalized.slice(idx + 1).trim();
     if (!key) continue;
     out.set(key, value);
   }

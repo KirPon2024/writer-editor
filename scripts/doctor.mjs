@@ -151,15 +151,29 @@ function isDeliveryExecutionMode() {
 
 const DELIVERY_STRICT_OUTPUT = isDeliveryExecutionMode();
 const __rawConsoleLog = console.log.bind(console);
+const DOCTOR_TOKEN_LINE_RE = /^[A-Z0-9_]+=.*$/u;
+const DOCTOR_STATUS_LINE_RE = /^[A-Z0-9_]+$/u;
 
 if (DELIVERY_STRICT_OUTPUT) {
   console.log = (...args) => {
-    const line = args.map((part) => (typeof part === 'string' ? part : String(part))).join(' ');
+    const line = args.map((part) => (typeof part === 'string' ? part : String(part))).join(' ').trim();
+    if (!line) return;
     const upper = line.toUpperCase();
     if (upper === 'DOCTOR_WARN' || upper === 'DOCTOR_INFO') {
       return;
     }
-    __rawConsoleLog(...args);
+    if (line === 'DOCTOR_OK' || line === 'DOCTOR_FAIL') {
+      __rawConsoleLog(line);
+      return;
+    }
+    if (DOCTOR_TOKEN_LINE_RE.test(line)) {
+      __rawConsoleLog(`DOCTOR_TOKEN ${line}`);
+      return;
+    }
+    if (DOCTOR_STATUS_LINE_RE.test(line)) {
+      __rawConsoleLog(`DOCTOR_TOKEN ${line}=1`);
+      return;
+    }
   };
 }
 

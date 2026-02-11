@@ -14,6 +14,7 @@ import { evaluatePlatformCoverageState } from './platform-coverage-state.mjs';
 import { evaluateDerivedViewsState } from './derived-views-state.mjs';
 import { evaluateMindMapDerivedState } from './mindmap-derived-state.mjs';
 import { evaluateCommentsHistorySafeState } from './comments-history-safe-state.mjs';
+import { evaluateCollabStressSafeState } from './collab-stress-safe-state.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -337,6 +338,14 @@ function evaluateCommentsHistory() {
   };
 }
 
+function evaluateCollabStressSafe() {
+  const state = evaluateCollabStressSafeState();
+  return {
+    COLLAB_STRESS_SAFE_OK: Number(state.COLLAB_STRESS_SAFE_OK) === 1 ? 1 : 0,
+    failReason: typeof state.failReason === 'string' ? state.failReason : '',
+  };
+}
+
 function listFilesRecursive(rootDir) {
   const out = [];
   if (!fileExists(rootDir)) return out;
@@ -516,6 +525,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const derivedViews = evaluateDerivedViews();
   const mindmapDerived = evaluateMindMapDerived();
   const commentsHistory = evaluateCommentsHistory();
+  const collabStressSafe = evaluateCollabStressSafe();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -593,7 +603,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     ADAPTERS_BOUNDARY_TESTED_OK: adapters.ADAPTERS_BOUNDARY_TESTED_OK,
     ADAPTERS_PARITY_OK: adapters.ADAPTERS_PARITY_OK,
     ADAPTERS_ENFORCED_OK: adapters.ADAPTERS_ENFORCED_OK,
-    COLLAB_STRESS_SAFE_OK: 0,
+    COLLAB_STRESS_SAFE_OK: collabStressSafe.COLLAB_STRESS_SAFE_OK,
     COMMENTS_HISTORY_SAFE_OK: commentsHistory.COMMENTS_HISTORY_SAFE_OK,
     SIMULATION_MIN_CONTRACT_OK: 0,
     details: {
@@ -614,6 +624,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       derivedViews,
       mindmapDerived,
       commentsHistory,
+      collabStressSafe,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
         requires: xplatCostGuaranteeRequires,

@@ -18,6 +18,7 @@
     "scripts/ops/platform-coverage-state.mjs",
     "scripts/ops/mindmap-derived-state.mjs",
     "scripts/ops/comments-history-safe-state.mjs",
+    "scripts/ops/collab-stress-safe-state.mjs",
     "scripts/ops/xplat-cost-guarantee-state.mjs",
     "scripts/ops/token-declaration-state.mjs",
     "scripts/ops/wip-check.mjs",
@@ -47,6 +48,11 @@
     "test/contracts/comments-history-no-second-sot.contract.test.js",
     "test/contracts/comments-history-recovery-safe.contract.test.js",
     "test/contracts/comments-history-tokens.contract.test.js",
+    "test/contracts/collab-conflict-envelope.contract.test.js",
+    "test/contracts/collab-merge-deterministic.contract.test.js",
+    "test/contracts/collab-replay-deterministic.contract.test.js",
+    "test/contracts/collab-no-network-wiring.contract.test.js",
+    "test/contracts/collab-tokens.contract.test.js",
     "test/contracts/xplat-unified-master-execution.contract.test.js",
     "test/unit/ops-sector-m-process-fixes.test.js",
     "test/unit/ops-sector-m-stability-003.test.js",
@@ -61,7 +67,11 @@
     "src/derived/mindmap/deriveMindMapGraph.mjs",
     "src/derived/commentsHistory/index.mjs",
     "src/derived/commentsHistory/deriveComments.mjs",
-    "src/derived/commentsHistory/deriveHistory.mjs"
+    "src/derived/commentsHistory/deriveHistory.mjs",
+    "src/collab/conflictEnvelope.mjs",
+    "src/collab/mergePolicy.mjs",
+    "src/collab/replayDeterminism.mjs",
+    "src/collab/index.mjs"
   ],
   "allowByPhase": {
     "M0": [

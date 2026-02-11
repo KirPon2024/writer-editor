@@ -1512,9 +1512,9 @@ function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, e
       }
     }
 
-    let status = 'WARN';
-
-    if (effectiveMaturity === 'implemented') {
+    // In transitional mode these tokens are informational diagnostics, not warning signals.
+    let status = effectiveMode === 'STRICT' ? 'WARN' : 'INFO';
+    if (effectiveMaturity === 'implemented' && effectiveMode === 'STRICT') {
       status = 'WARN';
     }
 
@@ -1524,18 +1524,18 @@ function computeEffectiveEnforcementReport(items, auditCheckIds, debtRegistry, e
   const ids = [...resultsById.keys()].sort();
   const results = ids.map((id) => `${id}:${resultsById.get(id)}`);
 
-  const counts = {
-    OK: 0,
-    WARN: 0,
-    WARN_MISSING_DEBT: 0,
-    FAIL: 0,
-  };
+  const counts = effectiveMode === 'STRICT'
+    ? { OK: 0, WARN: 0, WARN_MISSING_DEBT: 0, FAIL: 0 }
+    : { OK: 0, INFO: 0, FAIL: 0 };
 
   for (const v of resultsById.values()) {
     if (v in counts) counts[v] += 1;
   }
 
-  const sum = counts.OK + counts.WARN + counts.WARN_MISSING_DEBT + counts.FAIL;
+  const sum = Object.values(counts).reduce((acc, value) => {
+    const n = Number(value);
+    return Number.isFinite(n) ? acc + n : acc;
+  }, 0);
 
   const ignoredSet = new Set(Array.isArray(ignoredInvariantIds) ? ignoredInvariantIds : []);
   const intersection = ids.filter((id) => ignoredSet.has(id));

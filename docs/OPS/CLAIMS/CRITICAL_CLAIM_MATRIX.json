@@ -312,6 +312,14 @@
       "failSignal": "E_DERIVED_VIEWS_INFRA_FAIL",
       "blocking": false,
       "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "MINDMAP_DERIVED_GRAPH",
+      "requiredToken": "MINDMAP_DERIVED_GRAPH_OK",
+      "proofHook": "node scripts/ops/mindmap-derived-state.mjs --json",
+      "failSignal": "E_MINDMAP_DERIVED_GRAPH_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

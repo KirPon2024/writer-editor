@@ -11,6 +11,7 @@ import { evaluateCriticalClaimMatrixState } from './critical-claim-matrix-state.
 import { evaluateTokenDeclarationState } from './token-declaration-state.mjs';
 import { evaluateScrState } from './scr-calc.mjs';
 import { evaluatePlatformCoverageState } from './platform-coverage-state.mjs';
+import { evaluateDerivedViewsState } from './derived-views-state.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -302,6 +303,18 @@ function evaluatePlatformCoverage() {
   };
 }
 
+function evaluateDerivedViews() {
+  const state = evaluateDerivedViewsState();
+  return {
+    DERIVED_VIEWS_PURE_OK: Number(state.DERIVED_VIEWS_PURE_OK) === 1 ? 1 : 0,
+    DERIVED_VIEWS_DETERMINISTIC_OK: Number(state.DERIVED_VIEWS_DETERMINISTIC_OK) === 1 ? 1 : 0,
+    DERIVED_VIEWS_NO_SECOND_SOT_OK: Number(state.DERIVED_VIEWS_NO_SECOND_SOT_OK) === 1 ? 1 : 0,
+    DERIVED_VIEWS_INVALIDATION_KEY_OK: Number(state.DERIVED_VIEWS_INVALIDATION_KEY_OK) === 1 ? 1 : 0,
+    DERIVED_VIEWS_INFRA_OK: Number(state.DERIVED_VIEWS_INFRA_OK) === 1 ? 1 : 0,
+    failReason: typeof state.failReason === 'string' ? state.failReason : '',
+  };
+}
+
 function listFilesRecursive(rootDir) {
   const out = [];
   if (!fileExists(rootDir)) return out;
@@ -478,6 +491,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const recoveryIo = evaluateRecoveryIo();
   const perf = evaluatePerf();
   const platformCoverage = evaluatePlatformCoverage();
+  const derivedViews = evaluateDerivedViews();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -540,6 +554,11 @@ export function evaluateFreezeRollupsState(input = {}) {
     PERF_BASELINE_OK: perf.PERF_BASELINE_OK,
     PLATFORM_COVERAGE_DECLARED_OK: platformCoverage.PLATFORM_COVERAGE_DECLARED_OK,
     PLATFORM_COVERAGE_BOUNDARY_TESTED_OK: platformCoverage.PLATFORM_COVERAGE_BOUNDARY_TESTED_OK,
+    DERIVED_VIEWS_PURE_OK: derivedViews.DERIVED_VIEWS_PURE_OK,
+    DERIVED_VIEWS_DETERMINISTIC_OK: derivedViews.DERIVED_VIEWS_DETERMINISTIC_OK,
+    DERIVED_VIEWS_NO_SECOND_SOT_OK: derivedViews.DERIVED_VIEWS_NO_SECOND_SOT_OK,
+    DERIVED_VIEWS_INVALIDATION_KEY_OK: derivedViews.DERIVED_VIEWS_INVALIDATION_KEY_OK,
+    DERIVED_VIEWS_INFRA_OK: derivedViews.DERIVED_VIEWS_INFRA_OK,
     XPLAT_COST_GUARANTEE_OK: xplatCostGuaranteeOk,
     ADAPTERS_DECLARED_OK: adapters.ADAPTERS_DECLARED_OK,
     ADAPTERS_BOUNDARY_TESTED_OK: adapters.ADAPTERS_BOUNDARY_TESTED_OK,
@@ -563,6 +582,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       recoveryIo,
       perf,
       platformCoverage,
+      derivedViews,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
         requires: xplatCostGuaranteeRequires,
@@ -617,6 +637,11 @@ function printTokens(state) {
     'PERF_BASELINE_OK',
     'PLATFORM_COVERAGE_DECLARED_OK',
     'PLATFORM_COVERAGE_BOUNDARY_TESTED_OK',
+    'DERIVED_VIEWS_PURE_OK',
+    'DERIVED_VIEWS_DETERMINISTIC_OK',
+    'DERIVED_VIEWS_NO_SECOND_SOT_OK',
+    'DERIVED_VIEWS_INVALIDATION_KEY_OK',
+    'DERIVED_VIEWS_INFRA_OK',
     'XPLAT_COST_GUARANTEE_OK',
     'ADAPTERS_DECLARED_OK',
     'ADAPTERS_BOUNDARY_TESTED_OK',

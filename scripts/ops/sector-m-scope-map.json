@@ -10,6 +10,7 @@
     "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
     "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
     "scripts/ops/critical-claim-matrix-state.mjs",
+    "scripts/ops/derived-views-state.mjs",
     "scripts/ops/emit-ops-summary.mjs",
     "scripts/ops/extract-truth-table.mjs",
     "scripts/ops/freeze-rollups-state.mjs",
@@ -31,11 +32,19 @@
     "test/contracts/xplat-cost-guarantee.contract.test.js",
     "test/contracts/runtime-delivery-strict.contract.test.js",
     "test/contracts/capability-unsupported.contract.test.js",
+    "test/contracts/derived-views-deterministic.contract.test.js",
+    "test/contracts/derived-views-no-second-sot.contract.test.js",
+    "test/contracts/derived-views-pure.contract.test.js",
+    "test/contracts/derived-views-tokens.contract.test.js",
     "test/contracts/xplat-unified-master-execution.contract.test.js",
     "test/unit/ops-sector-m-process-fixes.test.js",
     "test/unit/ops-sector-m-stability-003.test.js",
     "test/unit/ops-global-delivery-standard.test.js",
-    "test/unit/ops-process-ceiling-freeze.test.js"
+    "test/unit/ops-process-ceiling-freeze.test.js",
+    "src/derived/deriveView.mjs",
+    "src/derived/deriveCache.mjs",
+    "src/derived/referenceOutline.mjs",
+    "src/derived/index.mjs"
   ],
   "allowByPhase": {
     "M0": [

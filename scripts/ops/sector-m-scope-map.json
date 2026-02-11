@@ -16,6 +16,7 @@
     "scripts/ops/freeze-rollups-state.mjs",
     "scripts/ops/network-gate.mjs",
     "scripts/ops/platform-coverage-state.mjs",
+    "scripts/ops/mindmap-derived-state.mjs",
     "scripts/ops/xplat-cost-guarantee-state.mjs",
     "scripts/ops/token-declaration-state.mjs",
     "scripts/ops/wip-check.mjs",
@@ -36,6 +37,11 @@
     "test/contracts/derived-views-no-second-sot.contract.test.js",
     "test/contracts/derived-views-pure.contract.test.js",
     "test/contracts/derived-views-tokens.contract.test.js",
+    "test/contracts/mindmap-derived-deterministic.contract.test.js",
+    "test/contracts/mindmap-derived-hotpath.contract.test.js",
+    "test/contracts/mindmap-derived-invalidation.contract.test.js",
+    "test/contracts/mindmap-derived-no-second-sot.contract.test.js",
+    "test/contracts/mindmap-derived-tokens.contract.test.js",
     "test/contracts/xplat-unified-master-execution.contract.test.js",
     "test/unit/ops-sector-m-process-fixes.test.js",
     "test/unit/ops-sector-m-stability-003.test.js",
@@ -44,7 +50,10 @@
     "src/derived/deriveView.mjs",
     "src/derived/deriveCache.mjs",
     "src/derived/referenceOutline.mjs",
-    "src/derived/index.mjs"
+    "src/derived/index.mjs",
+    "src/derived/mindmap/index.mjs",
+    "src/derived/mindmap/mindMapGraphTypes.mjs",
+    "src/derived/mindmap/deriveMindMapGraph.mjs"
   ],
   "allowByPhase": {
     "M0": [

@@ -135,6 +135,11 @@ function main() {
     derivedViewsNoSecondSotOk: freezeRollups.DERIVED_VIEWS_NO_SECOND_SOT_OK,
     derivedViewsInvalidationKeyOk: freezeRollups.DERIVED_VIEWS_INVALIDATION_KEY_OK,
     derivedViewsInfraOk: freezeRollups.DERIVED_VIEWS_INFRA_OK,
+    mindmapDerivedGraphDeterministicOk: freezeRollups.MINDMAP_DERIVED_GRAPH_DETERMINISTIC_OK,
+    mindmapDerivedGraphHashOk: freezeRollups.MINDMAP_DERIVED_GRAPH_HASH_OK,
+    mindmapDerivedGraphInvalidationKeyOk: freezeRollups.MINDMAP_DERIVED_GRAPH_INVALIDATION_KEY_OK,
+    mindmapDerivedGraphNoSecondSotOk: freezeRollups.MINDMAP_DERIVED_GRAPH_NO_SECOND_SOT_OK,
+    mindmapDerivedGraphOk: freezeRollups.MINDMAP_DERIVED_GRAPH_OK,
     xplatCostGuaranteeOk: freezeRollups.XPLAT_COST_GUARANTEE_OK,
     adaptersDeclaredOk: freezeRollups.ADAPTERS_DECLARED_OK,
     adaptersBoundaryTestedOk: freezeRollups.ADAPTERS_BOUNDARY_TESTED_OK,
@@ -207,6 +212,11 @@ function main() {
   console.log(`OPS_SUMMARY_DERIVED_VIEWS_NO_SECOND_SOT_OK=${summary.derivedViewsNoSecondSotOk}`);
   console.log(`OPS_SUMMARY_DERIVED_VIEWS_INVALIDATION_KEY_OK=${summary.derivedViewsInvalidationKeyOk}`);
   console.log(`OPS_SUMMARY_DERIVED_VIEWS_INFRA_OK=${summary.derivedViewsInfraOk}`);
+  console.log(`OPS_SUMMARY_MINDMAP_DERIVED_GRAPH_DETERMINISTIC_OK=${summary.mindmapDerivedGraphDeterministicOk}`);
+  console.log(`OPS_SUMMARY_MINDMAP_DERIVED_GRAPH_HASH_OK=${summary.mindmapDerivedGraphHashOk}`);
+  console.log(`OPS_SUMMARY_MINDMAP_DERIVED_GRAPH_INVALIDATION_KEY_OK=${summary.mindmapDerivedGraphInvalidationKeyOk}`);
+  console.log(`OPS_SUMMARY_MINDMAP_DERIVED_GRAPH_NO_SECOND_SOT_OK=${summary.mindmapDerivedGraphNoSecondSotOk}`);
+  console.log(`OPS_SUMMARY_MINDMAP_DERIVED_GRAPH_OK=${summary.mindmapDerivedGraphOk}`);
   console.log(`OPS_SUMMARY_XPLAT_COST_GUARANTEE_OK=${summary.xplatCostGuaranteeOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_DECLARED_OK=${summary.adaptersDeclaredOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_BOUNDARY_TESTED_OK=${summary.adaptersBoundaryTestedOk}`);

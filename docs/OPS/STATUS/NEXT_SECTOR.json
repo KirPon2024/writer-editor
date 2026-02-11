@@ -1,6 +1,8 @@
 {
   "schemaVersion": "next-sector.v1",
-  "id": "SECTOR M",
+  "id": "NONE",
+  "mode": "IDLE",
+  "reason": "ALL_SECTORS_DONE",
   "goTag": "GO:NEXT_SECTOR_START",
   "prereqs": [
     "SECTOR_P_CLOSE_OK==1",

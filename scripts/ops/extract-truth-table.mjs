@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { evaluateNextSectorState } from './next-sector-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -35,10 +36,16 @@ function buildTruthTable() {
   const remoteBindingOk = headRes.status === 0 && originRes.status === 0 && ancestorRes.status === 0 && headSha === originMainSha;
   const opsBaselineFilesOk = REQUIRED_OPS_SCRIPTS.every((filePath) => fs.existsSync(filePath));
   const doctorScriptOk = fs.existsSync('scripts/doctor.mjs');
+  const nextSector = evaluateNextSectorState();
 
   return {
     schemaVersion: 'truth-table.v1',
     generatedAt: new Date().toISOString(),
+    NEXT_SECTOR_VALID: nextSector.valid ? 1 : 0,
+    NEXT_SECTOR_MODE: nextSector.mode || '',
+    NEXT_SECTOR_ID: nextSector.id || '',
+    NEXT_SECTOR_REASON: nextSector.reason || '',
+    NEXT_SECTOR_FAIL_REASON: nextSector.failReason || '',
     checks: [
       {
         id: 'REMOTE_BINDING',
@@ -58,10 +65,17 @@ function buildTruthTable() {
         actual: doctorScriptOk,
         pass: doctorScriptOk,
       },
+      {
+        id: 'NEXT_SECTOR_VALID',
+        expected: true,
+        actual: nextSector.valid,
+        pass: nextSector.valid,
+      },
     ],
     context: {
       headSha,
       originMainSha,
+      nextSector,
     },
   };
 }
@@ -75,6 +89,10 @@ function emitMd(table) {
   console.log('');
   console.log(`HEAD_SHA=${table.context.headSha || 'unknown'}`);
   console.log(`ORIGIN_MAIN_SHA=${table.context.originMainSha || 'unknown'}`);
+  console.log(`NEXT_SECTOR_ID=${table.NEXT_SECTOR_ID}`);
+  console.log(`NEXT_SECTOR_MODE=${table.NEXT_SECTOR_MODE}`);
+  console.log(`NEXT_SECTOR_REASON=${table.NEXT_SECTOR_REASON}`);
+  console.log(`NEXT_SECTOR_VALID=${table.NEXT_SECTOR_VALID}`);
 }
 
 function main() {

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { evaluateNextSectorState } from './next-sector-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -31,6 +32,7 @@ function main() {
   const originMainSha = readStdout(originRes);
   const remoteBindingOk = headRes.status === 0 && originRes.status === 0 && ancestorRes.status === 0 && headSha === originMainSha;
   const scriptsOk = REQUIRED_OPS_SCRIPTS.every((filePath) => hasFile(filePath));
+  const nextSector = evaluateNextSectorState();
 
   const summary = {
     schemaVersion: 'ops-summary.v1',
@@ -39,6 +41,10 @@ function main() {
     originMainSha,
     remoteBindingOk,
     opsBaselineFilesOk: scriptsOk,
+    nextSectorValid: nextSector.valid,
+    nextSectorMode: nextSector.mode || '',
+    nextSectorId: nextSector.id || '',
+    nextSectorReason: nextSector.reason || '',
     generatedAt: new Date().toISOString(),
   };
 
@@ -48,6 +54,10 @@ function main() {
   console.log(`OPS_SUMMARY_ORIGIN_MAIN_SHA=${summary.originMainSha || 'unknown'}`);
   console.log(`OPS_SUMMARY_REMOTE_BINDING_OK=${summary.remoteBindingOk ? 1 : 0}`);
   console.log(`OPS_SUMMARY_BASELINE_FILES_OK=${summary.opsBaselineFilesOk ? 1 : 0}`);
+  console.log(`OPS_SUMMARY_NEXT_SECTOR_ID=${summary.nextSectorId}`);
+  console.log(`OPS_SUMMARY_NEXT_SECTOR_MODE=${summary.nextSectorMode}`);
+  console.log(`OPS_SUMMARY_NEXT_SECTOR_REASON=${summary.nextSectorReason}`);
+  console.log(`OPS_SUMMARY_NEXT_SECTOR_VALID=${summary.nextSectorValid ? 1 : 0}`);
 
   if (!summary.remoteBindingOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_REMOTE_BINDING_MISMATCH');
@@ -55,6 +65,10 @@ function main() {
   }
   if (!summary.opsBaselineFilesOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_BASELINE_FILES_MISSING');
+    process.exit(1);
+  }
+  if (!summary.nextSectorValid) {
+    console.log(`FAIL_REASON=${nextSector.failReason || 'OPS_SUMMARY_NEXT_SECTOR_INVALID'}`);
     process.exit(1);
   }
 

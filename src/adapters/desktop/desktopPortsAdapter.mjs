@@ -4,8 +4,34 @@ import {
   isPlatformInfoPort,
 } from '../../ports/index.mjs';
 
-function makePortMethodError(code, details = {}) {
-  return { code, reason: code, details };
+const PLATFORM_ID = 'node';
+
+function toOptionalCommandId(value) {
+  if (typeof value !== 'string') return '';
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : '';
+}
+
+function makeAdapterError({
+  code,
+  op,
+  reason,
+  portId,
+  commandId = '',
+}) {
+  const details = {
+    platformId: PLATFORM_ID,
+    portId,
+  };
+  if (commandId) {
+    details.commandId = commandId;
+  }
+  return {
+    code,
+    op,
+    reason,
+    details,
+  };
 }
 
 function ensureFunction(api, methodName) {
@@ -15,7 +41,42 @@ function ensureFunction(api, methodName) {
   return null;
 }
 
-export function createDesktopPortsAdapter(electronAPI = {}) {
+function wrapMethod(fn, {
+  codeOnMissing = 'E_PORT_METHOD_UNAVAILABLE',
+  codeOnFailure = 'E_PORT_METHOD_FAILED',
+  op,
+  portId,
+  commandId = '',
+}) {
+  if (!fn) {
+    return async () => {
+      throw makeAdapterError({
+        code: codeOnMissing,
+        op,
+        reason: 'PORT_METHOD_UNAVAILABLE',
+        portId,
+        commandId,
+      });
+    };
+  }
+
+  return async (...args) => {
+    try {
+      return await fn(...args);
+    } catch {
+      throw makeAdapterError({
+        code: codeOnFailure,
+        op,
+        reason: 'PORT_METHOD_FAILED',
+        portId,
+        commandId,
+      });
+    }
+  };
+}
+
+export function createDesktopPortsAdapter(electronAPI = {}, context = {}) {
+  const commandId = toOptionalCommandId(context.commandId);
   const readFileText = ensureFunction(electronAPI, 'readFileText');
   const writeFileText = ensureFunction(electronAPI, 'writeFileText');
   const fileExists = ensureFunction(electronAPI, 'fileExists');
@@ -23,44 +84,39 @@ export function createDesktopPortsAdapter(electronAPI = {}) {
   const saveFile = ensureFunction(electronAPI, 'saveFile');
 
   const fileSystemPort = {
-    async read(path) {
-      if (!readFileText) {
-        throw makePortMethodError('E_PORT_METHOD_UNAVAILABLE', { method: 'readFileText' });
-      }
-      return readFileText(path);
-    },
-    async write(path, data) {
-      if (!writeFileText) {
-        throw makePortMethodError('E_PORT_METHOD_UNAVAILABLE', { method: 'writeFileText' });
-      }
-      return writeFileText(path, data);
-    },
-    async exists(path) {
-      if (!fileExists) {
-        throw makePortMethodError('E_PORT_METHOD_UNAVAILABLE', { method: 'fileExists' });
-      }
-      return fileExists(path);
-    },
+    read: wrapMethod(readFileText, {
+      op: 'filesystem.read',
+      portId: 'FileSystemPort',
+      commandId,
+    }),
+    write: wrapMethod(writeFileText, {
+      op: 'filesystem.write',
+      portId: 'FileSystemPort',
+      commandId,
+    }),
+    exists: wrapMethod(fileExists, {
+      op: 'filesystem.exists',
+      portId: 'FileSystemPort',
+      commandId,
+    }),
   };
 
   const dialogPort = {
-    async openFile() {
-      if (!openFile) {
-        throw makePortMethodError('E_PORT_METHOD_UNAVAILABLE', { method: 'openFile' });
-      }
-      return openFile();
-    },
-    async saveFile() {
-      if (!saveFile) {
-        throw makePortMethodError('E_PORT_METHOD_UNAVAILABLE', { method: 'saveFile' });
-      }
-      return saveFile();
-    },
+    openFile: wrapMethod(openFile, {
+      op: 'dialog.openFile',
+      portId: 'DialogPort',
+      commandId,
+    }),
+    saveFile: wrapMethod(saveFile, {
+      op: 'dialog.saveFile',
+      portId: 'DialogPort',
+      commandId,
+    }),
   };
 
   const platformInfoPort = {
     getPlatformId() {
-      return 'node';
+      return PLATFORM_ID;
     },
   };
 
@@ -73,4 +129,3 @@ export function createDesktopPortsAdapter(electronAPI = {}) {
       && isPlatformInfoPort(platformInfoPort),
   });
 }
-

@@ -1,0 +1,124 @@
+{
+  "commandId": "cmd.project.open",
+  "cases": [
+    {
+      "id": "filesystem-read-success",
+      "api": {
+        "readFileText": { "kind": "return", "value": "alpha" }
+      },
+      "invoke": {
+        "port": "fileSystemPort",
+        "method": "read",
+        "args": ["/tmp/a.md"]
+      },
+      "expected": {
+        "kind": "value",
+        "value": "alpha"
+      }
+    },
+    {
+      "id": "filesystem-write-success",
+      "api": {
+        "writeFileText": { "kind": "return", "value": null }
+      },
+      "invoke": {
+        "port": "fileSystemPort",
+        "method": "write",
+        "args": ["/tmp/a.md", "updated"]
+      },
+      "expected": {
+        "kind": "value",
+        "value": null
+      }
+    },
+    {
+      "id": "filesystem-exists-success",
+      "api": {
+        "fileExists": { "kind": "return", "value": false }
+      },
+      "invoke": {
+        "port": "fileSystemPort",
+        "method": "exists",
+        "args": ["/tmp/a.md"]
+      },
+      "expected": {
+        "kind": "value",
+        "value": false
+      }
+    },
+    {
+      "id": "dialog-open-cancel",
+      "api": {
+        "openFile": { "kind": "return", "value": null }
+      },
+      "invoke": {
+        "port": "dialogPort",
+        "method": "openFile",
+        "args": []
+      },
+      "expected": {
+        "kind": "value",
+        "value": null
+      }
+    },
+    {
+      "id": "dialog-save-confirm",
+      "api": {
+        "saveFile": { "kind": "return", "value": "/tmp/out.md" }
+      },
+      "invoke": {
+        "port": "dialogPort",
+        "method": "saveFile",
+        "args": []
+      },
+      "expected": {
+        "kind": "value",
+        "value": "/tmp/out.md"
+      }
+    },
+    {
+      "id": "filesystem-read-missing-method",
+      "api": {
+        "readFileText": { "kind": "missing" }
+      },
+      "invoke": {
+        "port": "fileSystemPort",
+        "method": "read",
+        "args": ["/tmp/missing.md"]
+      },
+      "expected": {
+        "kind": "error",
+        "code": "E_PORT_METHOD_UNAVAILABLE",
+        "op": "filesystem.read",
+        "reason": "PORT_METHOD_UNAVAILABLE",
+        "details": {
+          "platformId": "node",
+          "portId": "FileSystemPort",
+          "commandId": "cmd.project.open"
+        }
+      }
+    },
+    {
+      "id": "dialog-save-runtime-failure",
+      "api": {
+        "saveFile": { "kind": "throw", "value": "disk offline" }
+      },
+      "invoke": {
+        "port": "dialogPort",
+        "method": "saveFile",
+        "args": []
+      },
+      "expected": {
+        "kind": "error",
+        "code": "E_PORT_METHOD_FAILED",
+        "op": "dialog.saveFile",
+        "reason": "PORT_METHOD_FAILED",
+        "details": {
+          "platformId": "node",
+          "portId": "DialogPort",
+          "commandId": "cmd.project.open"
+        }
+      }
+    }
+  ]
+}

@@ -45,9 +45,9 @@ test('desktop adapter returns deterministic typed error when method is unavailab
     adapter.fileSystemPort.read('/tmp/a.md'),
     {
       code: 'E_PORT_METHOD_UNAVAILABLE',
-      reason: 'E_PORT_METHOD_UNAVAILABLE',
-      details: { method: 'readFileText' },
+      op: 'filesystem.read',
+      reason: 'PORT_METHOD_UNAVAILABLE',
+      details: { platformId: 'node', portId: 'FileSystemPort' },
     },
   );
 });
-

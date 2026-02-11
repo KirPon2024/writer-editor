@@ -54,6 +54,12 @@
 Программа бесплатна для пользователей.
 В текущей версии отсутствуют платные функции, подписки и ограничения.
 
+## License
+- License: AGPL-3.0-or-later
+- Full license text: `LICENSE`
+- AGPL source-availability policy: `docs/OPERATIONS/AGPL_SOURCE_OFFER.md`
+- Contributions are licensed under AGPL-3.0-or-later.
+
 ## Перспектива развития
 Проект может развиваться и расширяться со временем, однако текущая версия сознательно ограничена базовыми задачами письма и редактуры текста.
 

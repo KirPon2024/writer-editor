@@ -17,6 +17,7 @@
     "scripts/ops/network-gate.mjs",
     "scripts/ops/platform-coverage-state.mjs",
     "scripts/ops/mindmap-derived-state.mjs",
+    "scripts/ops/comments-history-safe-state.mjs",
     "scripts/ops/xplat-cost-guarantee-state.mjs",
     "scripts/ops/token-declaration-state.mjs",
     "scripts/ops/wip-check.mjs",
@@ -42,6 +43,10 @@
     "test/contracts/mindmap-derived-invalidation.contract.test.js",
     "test/contracts/mindmap-derived-no-second-sot.contract.test.js",
     "test/contracts/mindmap-derived-tokens.contract.test.js",
+    "test/contracts/comments-history-deterministic.contract.test.js",
+    "test/contracts/comments-history-no-second-sot.contract.test.js",
+    "test/contracts/comments-history-recovery-safe.contract.test.js",
+    "test/contracts/comments-history-tokens.contract.test.js",
     "test/contracts/xplat-unified-master-execution.contract.test.js",
     "test/unit/ops-sector-m-process-fixes.test.js",
     "test/unit/ops-sector-m-stability-003.test.js",
@@ -53,7 +58,10 @@
     "src/derived/index.mjs",
     "src/derived/mindmap/index.mjs",
     "src/derived/mindmap/mindMapGraphTypes.mjs",
-    "src/derived/mindmap/deriveMindMapGraph.mjs"
+    "src/derived/mindmap/deriveMindMapGraph.mjs",
+    "src/derived/commentsHistory/index.mjs",
+    "src/derived/commentsHistory/deriveComments.mjs",
+    "src/derived/commentsHistory/deriveHistory.mjs"
   ],
   "allowByPhase": {
     "M0": [

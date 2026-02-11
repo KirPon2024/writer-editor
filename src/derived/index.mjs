@@ -11,3 +11,9 @@ export {
   sortMindMapEdges,
   sortMindMapNodes,
 } from './mindmap/index.mjs';
+export {
+  COMMENTS_VIEW_ID,
+  deriveComments,
+  deriveHistory,
+  HISTORY_VIEW_ID,
+} from './commentsHistory/index.mjs';

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process';
+import { evaluateNextSectorState } from './next-sector-state.mjs';
 
 function run(cmd, args) {
   return spawnSync(cmd, args, { encoding: 'utf8' });
@@ -24,12 +25,17 @@ function main() {
   const originMainSha = readStdout(originRes);
   const remoteBindingOk = headRes.status === 0 && originRes.status === 0 && ancestorRes.status === 0 && headSha === originMainSha;
   const branchOk = branchRes.status === 0 && branch === 'main';
+  const nextSector = evaluateNextSectorState();
 
   printLine('CHECK_MERGE_READINESS_BRANCH', branch || 'unknown');
   printLine('CHECK_MERGE_READINESS_BRANCH_OK', branchOk ? 1 : 0);
   printLine('CHECK_MERGE_READINESS_HEAD_SHA', headSha || 'unknown');
   printLine('CHECK_MERGE_READINESS_ORIGIN_MAIN_SHA', originMainSha || 'unknown');
   printLine('CHECK_MERGE_READINESS_REMOTE_BINDING_OK', remoteBindingOk ? 1 : 0);
+  printLine('NEXT_SECTOR_ID', nextSector.id || '');
+  printLine('NEXT_SECTOR_MODE', nextSector.mode || '');
+  printLine('NEXT_SECTOR_REASON', nextSector.reason || '');
+  printLine('NEXT_SECTOR_VALID', nextSector.valid ? 1 : 0);
 
   if (!branchOk) {
     printLine('FAIL_REASON', 'CHECK_MERGE_READINESS_BRANCH_NOT_MAIN');
@@ -37,6 +43,10 @@ function main() {
   }
   if (!remoteBindingOk) {
     printLine('FAIL_REASON', 'CHECK_MERGE_READINESS_REMOTE_BINDING_MISMATCH');
+    process.exit(1);
+  }
+  if (!nextSector.valid) {
+    printLine('FAIL_REASON', nextSector.failReason || 'CHECK_MERGE_READINESS_NEXT_SECTOR_INVALID');
     process.exit(1);
   }
 

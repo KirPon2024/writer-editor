@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "perf-fixture.v1",
+  "fixtureId": "PERF_MVP_HOTPATH_S01",
+  "seed": "seed-perf-20260211",
+  "runs": 11,
+  "projectId": "perf-project",
+  "sceneId": "scene-1",
+  "openPayload": {
+    "platformId": "node"
+  },
+  "savePayload": {
+    "platformId": "node"
+  },
+  "dispatchProbe": {
+    "commandId": "cmd.project.export.docxMin",
+    "payload": {
+      "platformId": "node"
+    },
+    "expected": {
+      "ok": false,
+      "errorCode": "E_UNWIRED_EXPORT_BACKEND"
+    }
+  },
+  "coreCommands": [
+    {
+      "type": "project.create",
+      "payload": {
+        "projectId": "perf-project",
+        "title": "Perf baseline project",
+        "sceneId": "scene-1"
+      }
+    },
+    {
+      "type": "project.applyTextEdit",
+      "payload": {
+        "projectId": "perf-project",
+        "sceneId": "scene-1",
+        "text": "Draft line 1\n"
+      }
+    },
+    {
+      "type": "project.applyTextEdit",
+      "payload": {
+        "projectId": "perf-project",
+        "sceneId": "scene-1",
+        "text": "Draft line 1\nDraft line 2\n"
+      }
+    },
+    {
+      "type": "project.applyTextEdit",
+      "payload": {
+        "projectId": "perf-project",
+        "sceneId": "scene-1",
+        "text": "Final deterministic snapshot\n"
+      }
+    }
+  ],
+  "expectedStateHash": "f199942172d0443f58268e2df12a02f3562fc2e86e2f21155d0eac97cffcd82e"
+}

@@ -249,19 +249,47 @@ function evaluateRecoveryIo() {
 }
 
 function evaluatePerf() {
-  const hotpathPolicy = fileExists('docs/CONTRACTS/runtime-execution.contract.md') ? 1 : 0;
-  const fixture = fileExists('test/fixtures/sector-u/u8/perf-expected.json') ? 1 : 0;
-  const runnerDeterministic = fileExists('test/unit/sector-u-u8-perf-baseline.test.js') ? 1 : 0;
-  const threshold = runnerDeterministic;
-  const rollup = hotpathPolicy === 1 && fixture === 1 && runnerDeterministic === 1 && threshold === 1 ? 1 : 0;
+  const result = spawnSync(process.execPath, ['scripts/ops/perf-state.mjs', '--json'], {
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      FORCE_COLOR: '0',
+      NO_COLOR: '1',
+    },
+  });
 
-  return {
-    HOTPATH_POLICY_OK: hotpathPolicy,
-    PERF_FIXTURE_OK: fixture,
-    PERF_RUNNER_DETERMINISTIC_OK: runnerDeterministic,
-    PERF_THRESHOLD_OK: threshold,
-    PERF_BASELINE_OK: rollup,
-  };
+  if (result.status !== 0 && !String(result.stdout || '').trim()) {
+    return {
+      HOTPATH_POLICY_OK: 0,
+      PERF_FIXTURE_OK: 0,
+      PERF_RUNNER_DETERMINISTIC_OK: 0,
+      PERF_THRESHOLD_OK: 0,
+      PERF_BASELINE_OK: 0,
+      failReason: 'PERF_STATE_EXEC_FAILED',
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(String(result.stdout || '{}'));
+    return {
+      HOTPATH_POLICY_OK: Number(parsed.HOTPATH_POLICY_OK) === 1 ? 1 : 0,
+      PERF_FIXTURE_OK: Number(parsed.PERF_FIXTURE_OK) === 1 ? 1 : 0,
+      PERF_RUNNER_DETERMINISTIC_OK: Number(parsed.PERF_RUNNER_DETERMINISTIC_OK) === 1 ? 1 : 0,
+      PERF_THRESHOLD_OK: Number(parsed.PERF_THRESHOLD_OK) === 1 ? 1 : 0,
+      PERF_BASELINE_OK: Number(parsed.PERF_BASELINE_OK) === 1 ? 1 : 0,
+      failReason: typeof parsed.failReason === 'string' ? parsed.failReason : '',
+      failingProofs: Array.isArray(parsed.failingProofs) ? parsed.failingProofs : [],
+    };
+  } catch {
+    return {
+      HOTPATH_POLICY_OK: 0,
+      PERF_FIXTURE_OK: 0,
+      PERF_RUNNER_DETERMINISTIC_OK: 0,
+      PERF_THRESHOLD_OK: 0,
+      PERF_BASELINE_OK: 0,
+      failReason: 'PERF_STATE_JSON_INVALID',
+    };
+  }
 }
 
 function listFilesRecursive(rootDir) {
@@ -487,6 +515,10 @@ export function evaluateFreezeRollupsState(input = {}) {
     RECOVERY_REPLAY_OK: recoveryIo.RECOVERY_REPLAY_OK,
     RECOVERY_ACTION_CANON_OK: recoveryIo.RECOVERY_ACTION_CANON_OK,
     RECOVERY_IO_OK: recoveryIo.RECOVERY_IO_OK,
+    HOTPATH_POLICY_OK: perf.HOTPATH_POLICY_OK,
+    PERF_FIXTURE_OK: perf.PERF_FIXTURE_OK,
+    PERF_RUNNER_DETERMINISTIC_OK: perf.PERF_RUNNER_DETERMINISTIC_OK,
+    PERF_THRESHOLD_OK: perf.PERF_THRESHOLD_OK,
     PERF_BASELINE_OK: perf.PERF_BASELINE_OK,
     ADAPTERS_DECLARED_OK: adapters.ADAPTERS_DECLARED_OK,
     ADAPTERS_BOUNDARY_TESTED_OK: adapters.ADAPTERS_BOUNDARY_TESTED_OK,
@@ -552,6 +584,10 @@ function printTokens(state) {
     'RECOVERY_REPLAY_OK',
     'RECOVERY_ACTION_CANON_OK',
     'RECOVERY_IO_OK',
+    'HOTPATH_POLICY_OK',
+    'PERF_FIXTURE_OK',
+    'PERF_RUNNER_DETERMINISTIC_OK',
+    'PERF_THRESHOLD_OK',
     'PERF_BASELINE_OK',
     'ADAPTERS_DECLARED_OK',
     'ADAPTERS_BOUNDARY_TESTED_OK',

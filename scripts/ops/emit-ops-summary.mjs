@@ -123,6 +123,10 @@ function main() {
     recoveryReplayOk: freezeRollups.RECOVERY_REPLAY_OK,
     recoveryActionCanonOk: freezeRollups.RECOVERY_ACTION_CANON_OK,
     recoveryIoOk: freezeRollups.RECOVERY_IO_OK,
+    hotpathPolicyOk: freezeRollups.HOTPATH_POLICY_OK,
+    perfFixtureOk: freezeRollups.PERF_FIXTURE_OK,
+    perfRunnerDeterministicOk: freezeRollups.PERF_RUNNER_DETERMINISTIC_OK,
+    perfThresholdOk: freezeRollups.PERF_THRESHOLD_OK,
     perfBaselineOk: freezeRollups.PERF_BASELINE_OK,
     adaptersDeclaredOk: freezeRollups.ADAPTERS_DECLARED_OK,
     adaptersBoundaryTestedOk: freezeRollups.ADAPTERS_BOUNDARY_TESTED_OK,
@@ -183,6 +187,10 @@ function main() {
   console.log(`OPS_SUMMARY_RECOVERY_REPLAY_OK=${summary.recoveryReplayOk}`);
   console.log(`OPS_SUMMARY_RECOVERY_ACTION_CANON_OK=${summary.recoveryActionCanonOk}`);
   console.log(`OPS_SUMMARY_RECOVERY_IO_OK=${summary.recoveryIoOk}`);
+  console.log(`OPS_SUMMARY_HOTPATH_POLICY_OK=${summary.hotpathPolicyOk}`);
+  console.log(`OPS_SUMMARY_PERF_FIXTURE_OK=${summary.perfFixtureOk}`);
+  console.log(`OPS_SUMMARY_PERF_RUNNER_DETERMINISTIC_OK=${summary.perfRunnerDeterministicOk}`);
+  console.log(`OPS_SUMMARY_PERF_THRESHOLD_OK=${summary.perfThresholdOk}`);
   console.log(`OPS_SUMMARY_PERF_BASELINE_OK=${summary.perfBaselineOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_DECLARED_OK=${summary.adaptersDeclaredOk}`);
   console.log(`OPS_SUMMARY_ADAPTERS_BOUNDARY_TESTED_OK=${summary.adaptersBoundaryTestedOk}`);

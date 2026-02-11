@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "hotpath-policy.v1",
+  "profile": "mvp-hotpath",
+  "monitoredPaths": [
+    "src/core/runtime.mjs",
+    "src/renderer/commands/runCommand.mjs",
+    "src/renderer/commands/projectCommands.mjs",
+    "src/renderer/editor.js"
+  ],
+  "rules": [
+    {
+      "id": "FORBID_HEAVY_IO_IMPORTS",
+      "reason": "input hot-path must not perform heavy local IO directly",
+      "pattern": "(from\\s+['\"]node:fs(?:\\/promises)?['\"]|require\\(['\"]node:fs(?:\\/promises)?['\"]\\))"
+    },
+    {
+      "id": "FORBID_CHILD_PROCESS",
+      "reason": "input hot-path must not spawn process-level scans or shell commands",
+      "pattern": "(from\\s+['\"]node:child_process['\"]|require\\(['\"]node:child_process['\"]\\)|\\bspawnSync\\(|\\bexecSync\\(|\\bexecFileSync\\()"
+    },
+    {
+      "id": "FORBID_GOVERNANCE_SCAN_WIRING",
+      "reason": "governance checks must stay in ops/doctor and never appear in runtime hot-path",
+      "pattern": "(scripts/ops/|check-merge-readiness|extract-truth-table|emit-ops-summary|doctor\\.mjs)"
+    },
+    {
+      "id": "FORBID_NETWORK_RUNTIME",
+      "reason": "MVP runtime remains desktop-first offline-first without network hot-path calls",
+      "pattern": "(\\bfetch\\(|\\bXMLHttpRequest\\b|\\bWebSocket\\b)"
+    },
+    {
+      "id": "FORBID_NONDETERMINISTIC_RANDOM",
+      "reason": "runtime decision points must stay deterministic for baseline replay proofs",
+      "pattern": "(\\bMath\\.random\\()"
+    }
+  ]
+}

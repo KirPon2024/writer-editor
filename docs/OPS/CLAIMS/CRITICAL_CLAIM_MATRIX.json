@@ -210,9 +210,41 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "PERFORMANCE_HOTPATH_POLICY",
+      "requiredToken": "HOTPATH_POLICY_OK",
+      "proofHook": "node scripts/ops/perf-state.mjs --json",
+      "failSignal": "E_HOTPATH_POLICY_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "PERFORMANCE_FIXTURE",
+      "requiredToken": "PERF_FIXTURE_OK",
+      "proofHook": "node scripts/ops/perf-state.mjs --json",
+      "failSignal": "E_PERF_FIXTURE_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "PERFORMANCE_RUNNER_DETERMINISTIC",
+      "requiredToken": "PERF_RUNNER_DETERMINISTIC_OK",
+      "proofHook": "node scripts/ops/perf-state.mjs --json",
+      "failSignal": "E_PERF_RUNNER_NOT_DETERMINISTIC",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
+      "claimId": "PERFORMANCE_THRESHOLDS",
+      "requiredToken": "PERF_THRESHOLD_OK",
+      "proofHook": "node scripts/ops/perf-state.mjs --json",
+      "failSignal": "E_PERF_THRESHOLD_NOT_OK",
+      "blocking": true,
+      "sourceBinding": "doctor"
+    },
+    {
       "claimId": "PERFORMANCE_BASELINE",
       "requiredToken": "PERF_BASELINE_OK",
-      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "proofHook": "node scripts/ops/perf-state.mjs --json",
       "failSignal": "E_PERF_BASELINE_NOT_OK",
       "blocking": true,
       "sourceBinding": "doctor"

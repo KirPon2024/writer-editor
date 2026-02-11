@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "perf-thresholds.v1",
+  "profile": "mvp-hotpath",
+  "metrics": {
+    "command_dispatch_p95_ms": 60,
+    "open_median_ms": 60,
+    "save_median_ms": 60
+  }
+}

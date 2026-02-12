@@ -376,6 +376,14 @@
       "failSignal": "E_MACOS_SIGNING_READINESS_FAIL",
       "blocking": false,
       "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "RELEASE_ARTIFACT_SOURCES_ROLLUP",
+      "requiredToken": "RELEASE_ARTIFACT_SOURCES_OK",
+      "proofHook": "node scripts/ops/release-artifact-sources-state.mjs --json",
+      "failSignal": "E_RELEASE_ARTIFACT_SOURCES_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

@@ -164,6 +164,7 @@ function main() {
     commentsHistorySafeOk: freezeRollups.COMMENTS_HISTORY_SAFE_OK,
     simulationMinContractOk: freezeRollups.SIMULATION_MIN_CONTRACT_OK,
     xplatContractMacosSigningReadyOk: freezeRollups.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
+    releaseArtifactSourcesOk: freezeRollups.RELEASE_ARTIFACT_SOURCES_OK,
     generatedAt: new Date().toISOString(),
   };
 
@@ -252,6 +253,7 @@ function main() {
   console.log(`OPS_SUMMARY_COMMENTS_HISTORY_SAFE_OK=${summary.commentsHistorySafeOk}`);
   console.log(`OPS_SUMMARY_SIMULATION_MIN_CONTRACT_OK=${summary.simulationMinContractOk}`);
   console.log(`OPS_SUMMARY_XPLAT_CONTRACT_MACOS_SIGNING_READY_OK=${summary.xplatContractMacosSigningReadyOk}`);
+  console.log(`OPS_SUMMARY_RELEASE_ARTIFACT_SOURCES_OK=${summary.releaseArtifactSourcesOk}`);
 
   if (!summary.remoteBindingOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_REMOTE_BINDING_MISMATCH');

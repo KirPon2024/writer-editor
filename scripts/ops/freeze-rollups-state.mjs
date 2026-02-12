@@ -19,6 +19,7 @@ import { evaluateCollabEventLogState } from './collab-eventlog-state.mjs';
 import { evaluateCollabApplyPipelineState } from './collab-apply-pipeline-state.mjs';
 import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
 import { evaluateMacosSigningReadinessState } from './macos-signing-readiness-state.mjs';
+import { evaluateReleaseArtifactSourcesState } from './release-artifact-sources-state.mjs';
 import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
 
 function runGit(args) {
@@ -569,6 +570,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const collabApplyPipeline = evaluateCollabApplyPipeline();
   const simulationMinContract = evaluateSimulationMinContract();
   const macosSigningReadiness = evaluateMacosSigningReadinessState();
+  const releaseArtifactSources = evaluateReleaseArtifactSourcesState();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -659,6 +661,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     COMMENTS_HISTORY_SAFE_OK: commentsHistory.COMMENTS_HISTORY_SAFE_OK,
     SIMULATION_MIN_CONTRACT_OK: simulationMinContract.SIMULATION_MIN_CONTRACT_OK,
     XPLAT_CONTRACT_MACOS_SIGNING_READY_OK: macosSigningReadiness.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
+    RELEASE_ARTIFACT_SOURCES_OK: releaseArtifactSources.RELEASE_ARTIFACT_SOURCES_OK,
     details: {
       remote,
       nextSector,
@@ -682,6 +685,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       collabApplyPipeline,
       simulationMinContract,
       macosSigningReadiness,
+      releaseArtifactSources,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
         requires: xplatCostGuaranteeRequires,
@@ -773,6 +777,7 @@ function printTokens(state) {
     'COMMENTS_HISTORY_SAFE_OK',
     'SIMULATION_MIN_CONTRACT_OK',
     'XPLAT_CONTRACT_MACOS_SIGNING_READY_OK',
+    'RELEASE_ARTIFACT_SOURCES_OK',
   ];
 
   for (const key of tokens) {

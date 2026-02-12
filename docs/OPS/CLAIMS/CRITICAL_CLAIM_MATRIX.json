@@ -368,6 +368,14 @@
       "failSignal": "E_FREEZE_MODE_STRICT_FAIL",
       "blocking": false,
       "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "MACOS_SIGNING_READINESS",
+      "requiredToken": "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK",
+      "proofHook": "node scripts/ops/macos-signing-readiness-state.mjs --json",
+      "failSignal": "E_MACOS_SIGNING_READINESS_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

@@ -5795,6 +5795,7 @@ function evaluateFreezeRollupTokens() {
     'COLLAB_APPLY_PIPELINE_OK',
     'COMMENTS_HISTORY_SAFE_OK',
     'SIMULATION_MIN_CONTRACT_OK',
+    'XPLAT_CONTRACT_MACOS_SIGNING_READY_OK',
   ];
 
   for (const key of ordered) {

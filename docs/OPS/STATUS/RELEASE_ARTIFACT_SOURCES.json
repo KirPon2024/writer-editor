@@ -1,6 +1,17 @@
 {
   "schemaVersion": "release-artifact-sources.v1",
-  "status": "PLACEHOLDER",
-  "artifacts": [],
-  "updatedAt": "2026-02-12T00:00:00.000Z"
+  "status": "READY",
+  "baselineSha": "e9426db95fdba603b7b2d97de60c6a053da9fa59",
+  "artifacts": [
+    {
+      "artifactId": "desktop-macos-main-baseline",
+      "sourceType": "commit",
+      "sourceRef": "e9426db95fdba603b7b2d97de60c6a053da9fa59",
+      "proof": {
+        "proofType": "deterministic_hash_check",
+        "notes": "Artifact mapping readiness binds release artifact lineage to a concrete repository commit SHA."
+      }
+    }
+  ],
+  "configHash": "8769df907d3c48f0e23e35ab74d38074745ff0242a505b578422b789ea7d3cd1"
 }

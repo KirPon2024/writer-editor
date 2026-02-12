@@ -3,7 +3,52 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
+
+const CONFIG_POLICY_VERSION = 'release-artifact-sources-config.v1';
+
+function sha256Hex(input) {
+  return crypto.createHash('sha256').update(input).digest('hex');
+}
+
+function stableSortValue(value) {
+  if (Array.isArray(value)) return value.map((item) => stableSortValue(item));
+  if (!value || typeof value !== 'object') return value;
+  const out = {};
+  for (const key of Object.keys(value).sort()) out[key] = stableSortValue(value[key]);
+  return out;
+}
+
+function stableStringify(value) {
+  return JSON.stringify(stableSortValue(value));
+}
+
+function normalizeArtifactsForConfigHash(artifacts) {
+  return (Array.isArray(artifacts) ? artifacts : [])
+    .map((item) => ({
+      artifactId: typeof item?.artifactId === 'string' ? item.artifactId.trim() : '',
+      sourceType: typeof item?.sourceType === 'string' ? item.sourceType.trim() : '',
+      sourceRef: typeof item?.sourceRef === 'string' ? item.sourceRef.trim() : '',
+      proofType: typeof item?.proof?.proofType === 'string' ? item.proof.proofType.trim() : '',
+    }))
+    .sort((a, b) => {
+      const ak = `${a.artifactId}\u0000${a.sourceType}\u0000${a.sourceRef}`;
+      const bk = `${b.artifactId}\u0000${b.sourceType}\u0000${b.sourceRef}`;
+      if (ak < bk) return -1;
+      if (ak > bk) return 1;
+      return 0;
+    });
+}
+
+function computeConfigHash(doc) {
+  const normalized = {
+    policyVersion: CONFIG_POLICY_VERSION,
+    baselineSha: String(doc?.baselineSha || '').trim().toLowerCase(),
+    artifacts: normalizeArtifactsForConfigHash(doc?.artifacts),
+  };
+  return sha256Hex(stableStringify(normalized));
+}
 
 function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
@@ -37,121 +82,152 @@ function parseTokens(stdout) {
 }
 
 function buildSpec(overrides = {}) {
-  return {
+  const base = {
     schemaVersion: 'release-artifact-sources.v1',
-    status: 'PLACEHOLDER',
-    artifacts: [],
-    updatedAt: '2026-02-12T00:00:00.000Z',
-    ...overrides,
+    status: 'READY',
+    baselineSha: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    artifacts: [
+      {
+        artifactId: 'desktop-macos-main-baseline',
+        sourceType: 'commit',
+        sourceRef: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        proof: {
+          proofType: 'static_policy_check',
+          notes: 'Readiness mapping baseline',
+        },
+      },
+    ],
   };
+  const merged = {
+    ...base,
+    ...overrides,
+    artifacts: Array.isArray(overrides.artifacts) ? overrides.artifacts : base.artifacts,
+  };
+  merged.configHash = computeConfigHash(merged);
+  return merged;
 }
 
-test('release artifact sources: PLACEHOLDER returns ok=false', () => {
-  const payload = runStateJson();
+test('release artifact sources: PLACEHOLDER returns token=0', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'release-artifact-placeholder-'));
+  const specPath = path.join(tmp, 'RELEASE_ARTIFACT_SOURCES.json');
+  writeJson(specPath, buildSpec({
+    status: 'PLACEHOLDER',
+    artifacts: [],
+  }));
+
+  const payload = runStateJson(['--spec-path', specPath, '--repo-root', tmp, '--head-strict-ok', '1']);
   assert.equal(payload.ok, false);
   assert.equal(payload.status, 'PLACEHOLDER');
   assert.equal(payload.RELEASE_ARTIFACT_SOURCES_OK, 0);
 });
 
-test('release artifact sources: READY with invalid commit shape fails and reports sorted failures', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'release-artifact-invalid-'));
-  const specPath = path.join(tmp, 'RELEASE_ARTIFACT_SOURCES.json');
-  writeJson(specPath, buildSpec({
-    status: 'READY',
-    artifacts: [
-      {
-        artifactId: 'desktop-macos-arm64',
-        sourceRepo: 'KirPon2024/writer-editor',
-        sourceCommit: '1234',
-      },
-      {
-        artifactId: 'desktop-macos-arm64',
-        sourceRepo: '',
-        sourceCommit: 'not-a-sha',
-        sourceTag: 'v1.0.0',
-      },
-    ],
-  }));
-
-  const payload = runStateJson(['--spec-path', specPath, '--repo-root', tmp]);
-  assert.equal(payload.ok, false);
-  assert.equal(payload.sourceCommitShapeOk, false);
-  assert.equal(payload.releaseTagShapeOk, false);
-  assert.equal(payload.uniqueArtifactIdsOk, false);
-  const sorted = [...payload.failures].sort();
-  assert.deepEqual(payload.failures, sorted);
-});
-
-test('release artifact sources: valid READY returns ok=true', () => {
+test('release artifact sources: READY valid data returns token=1', () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'release-artifact-ready-'));
-  const sourcePath = path.join(tmp, 'dist');
-  fs.mkdirSync(sourcePath, { recursive: true });
-  fs.writeFileSync(path.join(sourcePath, 'app.dmg.sha256'), 'abc\n', 'utf8');
-
   const specPath = path.join(tmp, 'RELEASE_ARTIFACT_SOURCES.json');
   writeJson(specPath, buildSpec({
-    status: 'READY',
+    baselineSha: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
     artifacts: [
       {
-        artifactId: 'desktop-macos-arm64',
-        sourceRepo: 'KirPon2024/writer-editor',
-        sourceCommit: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        sourceTag: 'release/2026.02.12',
-        sourcePath: 'dist/app.dmg.sha256',
-        evidenceLinks: ['https://github.com/KirPon2024/writer-editor/releases/tag/release/2026.02.12'],
+        artifactId: 'desktop-macos-main-baseline',
+        sourceType: 'tag',
+        sourceRef: 'release/2026.02.12',
+        proof: {
+          proofType: 'deterministic_hash_check',
+          notes: 'Tag anchored mapping',
+        },
       },
     ],
   }));
 
-  const payload = runStateJson(['--spec-path', specPath, '--repo-root', tmp]);
+  const payload = runStateJson(['--spec-path', specPath, '--repo-root', tmp, '--head-strict-ok', '1']);
   assert.equal(payload.ok, true);
   assert.equal(payload.RELEASE_ARTIFACT_SOURCES_OK, 1);
-  assert.equal(payload.artifactsCount, 1);
-  assert.equal(payload.schemaOk, true);
-  assert.equal(payload.sourceCommitShapeOk, true);
-  assert.equal(payload.releaseTagShapeOk, true);
-  assert.match(payload.fileSha256, /^[0-9a-f]{64}$/u);
+  assert.equal(payload.status, 'READY');
+  assert.equal(payload.evidence.artifactsCount, 1);
 });
 
-test('release artifact sources: deterministic hash and deterministic output for same input', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'release-artifact-deterministic-'));
+test('release artifact sources: broken fields fail with deterministic sorted fail codes', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'release-artifact-invalid-'));
   const specPath = path.join(tmp, 'RELEASE_ARTIFACT_SOURCES.json');
-  writeJson(specPath, buildSpec({
-    status: 'READY',
+  const invalid = buildSpec({
+    baselineSha: 'not-a-sha',
     artifacts: [
       {
-        artifactId: 'desktop-macos-arm64',
-        sourceRepo: 'KirPon2024/writer-editor',
-        sourceCommit: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        artifactId: 'duplicate-id',
+        sourceType: 'bad_type',
+        sourceRef: '',
+        proof: {
+          proofType: 'unknown',
+          notes: '',
+        },
+      },
+      {
+        artifactId: 'duplicate-id',
+        sourceType: 'source_link',
+        sourceRef: 'https://example.com/*',
+        proof: {
+          proofType: 'static_policy_check',
+          notes: 'ok',
+        },
       },
     ],
-  }));
+  });
+  invalid.configHash = 'f'.repeat(64);
+  writeJson(specPath, invalid);
 
-  const a = runStateJson(['--spec-path', specPath, '--repo-root', tmp]);
-  const b = runStateJson(['--spec-path', specPath, '--repo-root', tmp]);
+  const payload = runStateJson(['--spec-path', specPath, '--repo-root', tmp, '--head-strict-ok', '1']);
+  assert.equal(payload.ok, false);
+  assert.equal(payload.RELEASE_ARTIFACT_SOURCES_OK, 0);
+  assert.ok(payload.failures.includes('E_RELEASE_ARTIFACT_BASELINE_SHA_INVALID'));
+  assert.ok(payload.failures.includes('E_RELEASE_ARTIFACT_SOURCE_TYPE_INVALID'));
+  assert.ok(payload.failures.includes('E_RELEASE_ARTIFACT_CONFIG_HASH_MISMATCH'));
+  assert.deepEqual(payload.failures, [...payload.failures].sort());
+  assert.deepEqual(payload.missingFields, [...payload.missingFields].sort());
+});
+
+test('release artifact sources: configHash determinism and stable output', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'release-artifact-deterministic-'));
+  const specPath = path.join(tmp, 'RELEASE_ARTIFACT_SOURCES.json');
+  const spec = buildSpec({
+    baselineSha: 'cccccccccccccccccccccccccccccccccccccccc',
+    artifacts: [
+      {
+        artifactId: 'artifact-b',
+        sourceType: 'commit',
+        sourceRef: 'cccccccccccccccccccccccccccccccccccccccc',
+        proof: {
+          proofType: 'static_policy_check',
+          notes: 'B',
+        },
+      },
+      {
+        artifactId: 'artifact-a',
+        sourceType: 'source_link',
+        sourceRef: 'https://example.com/source/a',
+        proof: {
+          proofType: 'static_policy_check',
+          notes: 'A',
+        },
+      },
+    ],
+  });
+  writeJson(specPath, spec);
+
+  const a = runStateJson(['--spec-path', specPath, '--repo-root', tmp, '--head-strict-ok', '1']);
+  const b = runStateJson(['--spec-path', specPath, '--repo-root', tmp, '--head-strict-ok', '1']);
+  assert.equal(a.configHash, computeConfigHash(spec));
+  assert.equal(a.configHash, b.configHash);
   assert.deepEqual(a, b);
 });
 
-test('release artifact sources: FREEZE_MODE=1 enforces HEAD_STRICT_OK binding', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'release-artifact-freeze-'));
+test('release artifact sources: head-binding semantics enforced', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'release-artifact-head-'));
   const specPath = path.join(tmp, 'RELEASE_ARTIFACT_SOURCES.json');
-  writeJson(specPath, buildSpec({
-    status: 'READY',
-    artifacts: [
-      {
-        artifactId: 'desktop-macos-arm64',
-        sourceRepo: 'KirPon2024/writer-editor',
-        sourceCommit: 'cccccccccccccccccccccccccccccccccccccccc',
-      },
-    ],
-  }));
+  writeJson(specPath, buildSpec());
 
-  const payload = runStateJson(
-    ['--spec-path', specPath, '--repo-root', tmp, '--head-strict-ok', '0'],
-    { FREEZE_MODE: '1' },
-  );
+  const payload = runStateJson(['--spec-path', specPath, '--repo-root', tmp, '--head-strict-ok', '0']);
   assert.equal(payload.ok, false);
-  assert.equal(payload.headBindingOk, false);
+  assert.equal(payload.RELEASE_ARTIFACT_SOURCES_OK, 0);
   assert.ok(payload.failures.includes('E_RELEASE_ARTIFACT_HEAD_STRICT_REQUIRED'));
 });
 

@@ -5798,6 +5798,7 @@ function evaluateFreezeRollupTokens() {
     'SIMULATION_MIN_CONTRACT_OK',
     'XPLAT_CONTRACT_MACOS_SIGNING_READY_OK',
     'RELEASE_ARTIFACT_SOURCES_OK',
+    'THIRD_PARTY_NOTICES_READINESS_OK',
   ];
 
   for (const key of ordered) {

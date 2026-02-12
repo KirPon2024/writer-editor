@@ -386,6 +386,14 @@
       "sourceBinding": "truth-table"
     },
     {
+      "claimId": "THIRD_PARTY_NOTICES_READINESS",
+      "requiredToken": "THIRD_PARTY_NOTICES_READINESS_OK",
+      "proofHook": "node scripts/ops/third-party-notices-readiness-state.mjs --json",
+      "failSignal": "E_THIRD_PARTY_NOTICES_READINESS_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
+    },
+    {
       "claimId": "FREEZE_READY_ROLLUP",
       "requiredToken": "FREEZE_READY_OK",
       "proofHook": "node scripts/ops/freeze-ready-state.mjs --json",

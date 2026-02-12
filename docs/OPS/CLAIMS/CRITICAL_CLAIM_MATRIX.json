@@ -418,6 +418,14 @@
       "sourceBinding": "truth-table"
     },
     {
+      "claimId": "FREEZE_PROFILE_DOC_ALIGNMENT",
+      "requiredToken": "FREEZE_PROFILE_DOC_ALIGNMENT_OK",
+      "proofHook": "node scripts/ops/freeze-profile-doc-alignment-state.mjs --json",
+      "failSignal": "E_FREEZE_PROFILE_DOC_ALIGNMENT_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
+    },
+    {
       "claimId": "FREEZE_READY_ROLLUP",
       "requiredToken": "FREEZE_READY_OK",
       "proofHook": "node scripts/ops/freeze-ready-state.mjs --json",

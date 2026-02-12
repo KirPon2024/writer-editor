@@ -26,6 +26,7 @@ import { evaluateGovernanceStateValidState } from './governance-state-valid-stat
 import { evaluateStrategyProgressValidState } from './strategy-progress-valid-state.mjs';
 import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
 import { evaluateFreezeReady } from './freeze-ready-evaluator.mjs';
+import { evaluateFreezeProfileDocAlignmentState } from './freeze-profile-doc-alignment-state.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -725,6 +726,10 @@ export function evaluateFreezeRollupsState(input = {}) {
   state.FREEZE_READY_OK = freezeReadyState.ok ? 1 : 0;
   state.details.freezeReady = freezeReadyState;
 
+  const freezeProfileDocAlignmentState = evaluateFreezeProfileDocAlignmentState();
+  state.FREEZE_PROFILE_DOC_ALIGNMENT_OK = freezeProfileDocAlignmentState.token;
+  state.details.freezeProfileDocAlignment = freezeProfileDocAlignmentState;
+
   return state;
 }
 
@@ -742,6 +747,7 @@ function printTokens(state) {
     'DRIFT_UNRESOLVED_P0_COUNT',
     'FREEZE_MODE_STRICT_OK',
     'FREEZE_READY_OK',
+    'FREEZE_PROFILE_DOC_ALIGNMENT_OK',
     'GOVERNANCE_STRICT_OK',
     'GOVERNANCE_STATE_VALID',
     'STRATEGY_PROGRESS_VALID',

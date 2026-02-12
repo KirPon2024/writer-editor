@@ -266,6 +266,22 @@
       "sourceBinding": "ops-summary"
     },
     {
+      "claimId": "GOVERNANCE_STATE_VALIDATION_BASELINE",
+      "requiredToken": "GOVERNANCE_STATE_VALID",
+      "proofHook": "node scripts/ops/governance-state-valid-state.mjs --json",
+      "failSignal": "E_GOVERNANCE_STATE_VALID_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "STRATEGY_PROGRESS_VALIDATION_BASELINE",
+      "requiredToken": "STRATEGY_PROGRESS_VALID",
+      "proofHook": "node scripts/ops/strategy-progress-valid-state.mjs --json",
+      "failSignal": "E_STRATEGY_PROGRESS_VALID_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
+    },
+    {
       "claimId": "XPLAT_CONTRACT",
       "requiredToken": "XPLAT_CONTRACT_OK",
       "proofHook": "node scripts/ops/extract-truth-table.mjs --json",

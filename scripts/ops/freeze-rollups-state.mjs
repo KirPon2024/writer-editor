@@ -22,6 +22,8 @@ import { evaluateSimulationMinContractState } from './simulation-min-contract-st
 import { evaluateMacosSigningReadinessState } from './macos-signing-readiness-state.mjs';
 import { evaluateReleaseArtifactSourcesState } from './release-artifact-sources-state.mjs';
 import { evaluateThirdPartyNoticesReadinessState } from './third-party-notices-readiness-state.mjs';
+import { evaluateGovernanceStateValidState } from './governance-state-valid-state.mjs';
+import { evaluateStrategyProgressValidState } from './strategy-progress-valid-state.mjs';
 import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
 import { evaluateFreezeReady } from './freeze-ready-evaluator.mjs';
 
@@ -558,6 +560,8 @@ export function evaluateFreezeRollupsState(input = {}) {
   });
   const scr = evaluateScrState();
   const debtTtl = evaluateDebtTtlState();
+  const governanceStateValid = evaluateGovernanceStateValidState();
+  const strategyProgressValid = evaluateStrategyProgressValidState();
 
   const core = evaluateCoreSot();
   const commandSurface = evaluateCommandSurface();
@@ -606,6 +610,8 @@ export function evaluateFreezeRollupsState(input = {}) {
     DEBT_TTL_EXPIRED_COUNT: debtTtl.DEBT_TTL_EXPIRED_COUNT,
     DRIFT_UNRESOLVED_P0_COUNT: 0,
     GOVERNANCE_STRICT_OK: governanceStrictOk,
+    GOVERNANCE_STATE_VALID: Number(governanceStateValid.GOVERNANCE_STATE_VALID) === 1 ? 1 : 0,
+    STRATEGY_PROGRESS_VALID: Number(strategyProgressValid.STRATEGY_PROGRESS_VALID) === 1 ? 1 : 0,
     XPLAT_CONTRACT_OK: xplat.ok,
     XPLAT_CONTRACT_PRESENT: xplat.present,
     XPLAT_CONTRACT_SHA256: xplat.sha256,
@@ -678,6 +684,8 @@ export function evaluateFreezeRollupsState(input = {}) {
       tokenDeclaration,
       scr,
       debtTtl,
+      governanceStateValid,
+      strategyProgressValid,
       core,
       commandSurface,
       capability,
@@ -735,6 +743,8 @@ function printTokens(state) {
     'FREEZE_MODE_STRICT_OK',
     'FREEZE_READY_OK',
     'GOVERNANCE_STRICT_OK',
+    'GOVERNANCE_STATE_VALID',
+    'STRATEGY_PROGRESS_VALID',
     'XPLAT_CONTRACT_PRESENT',
     'XPLAT_CONTRACT_SHA256',
     'XPLAT_CONTRACT_OK',

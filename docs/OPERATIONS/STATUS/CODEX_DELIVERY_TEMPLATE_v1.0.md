@@ -63,8 +63,12 @@ Policy:
 - Facts-only body.
 
 ## SAFE_AUTOMERGE GATES (OPS-ONLY)
+Single source of truth:
+- `docs/OPERATIONS/STATUS/SAFE_AUTOMERGE_OPS_ONLY_PROFILE.json`
+- Guard must read this profile; OPS-only path rules are not duplicated in code/docs.
+
 1. OPS-only diff:
-   - `git diff --name-only origin/main...HEAD` содержит только allowlist OPS paths.
+   - `git diff --name-only origin/main...HEAD` содержит только allowlist OPS paths из SoT-профиля.
 2. Base:
    - `baseRefName == "main"`.
 3. Head SHA:

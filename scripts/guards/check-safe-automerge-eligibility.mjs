@@ -1,18 +1,16 @@
 #!/usr/bin/env node
+import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const TOOL_VERSION = 'safe-automerge-eligibility.v1';
 const DEFAULT_REPO = 'KirPon2024/writer-editor';
-const OPS_ONLY_ALLOWED_PATHS = Object.freeze([
-  'docs/OPS/',
-  'scripts/ops/',
-  'scripts/doctor.mjs',
-  'test/contracts/',
-  'docs/OPERATIONS/',
-  'scripts/guards/',
-]);
+const DEFAULT_PROFILE_PATH = 'docs/OPERATIONS/STATUS/SAFE_AUTOMERGE_OPS_ONLY_PROFILE.json';
+const PROFILE_SCHEMA_VERSION = 1;
+const EXPECTED_MERGE_METHOD = 'merge_only';
+const EXPECTED_REQUIRED_ROLLUP = 'SUCCESS';
+const EXPECTED_BASE_BRANCH = 'main';
 const FAILURE = Object.freeze({
   BASE_BRANCH_NOT_MAIN: 'E_BASE_BRANCH_NOT_MAIN',
   HEAD_SHA_MISMATCH: 'E_HEAD_SHA_MISMATCH',
@@ -20,6 +18,7 @@ const FAILURE = Object.freeze({
   DIFF_NOT_OPS_ONLY: 'E_DIFF_NOT_OPS_ONLY',
   GH_API_UNAVAILABLE: 'E_GH_API_UNAVAILABLE',
   PR_NOT_FOUND: 'E_PR_NOT_FOUND',
+  OPS_ONLY_PROFILE_INVALID: 'E_OPS_ONLY_PROFILE_INVALID',
 });
 
 function parseArgs(argv) {
@@ -27,6 +26,7 @@ function parseArgs(argv) {
     prNumber: '',
     repo: DEFAULT_REPO,
     expectedHeadSha: '',
+    profilePath: '',
     mergeMethod: 'merge',
     admin: false,
     squash: false,
@@ -44,6 +44,9 @@ function parseArgs(argv) {
       i += 1;
     } else if (arg === '--expected-head-sha') {
       out.expectedHeadSha = String(argv[i + 1] || '').trim();
+      i += 1;
+    } else if (arg === '--profile-path') {
+      out.profilePath = String(argv[i + 1] || '').trim();
       i += 1;
     } else if (arg === '--merge-method') {
       out.mergeMethod = String(argv[i + 1] || '').trim().toLowerCase();
@@ -115,21 +118,90 @@ function normalizeChangedFiles(files) {
   return [...new Set(files.map((entry) => String(entry || '').trim()).filter(Boolean))].sort();
 }
 
-function isOpsOnlyAllowedPath(filePath) {
-  for (const allowedEntry of OPS_ONLY_ALLOWED_PATHS) {
-    if (allowedEntry.endsWith('/')) {
-      if (filePath.startsWith(allowedEntry)) return true;
-      continue;
-    }
-    if (filePath === allowedEntry) return true;
+function normalizeGlobList(value) {
+  if (!Array.isArray(value)) return null;
+  const out = [];
+  const seen = new Set();
+  for (const item of value) {
+    const entry = String(item || '').trim();
+    if (!entry || seen.has(entry)) continue;
+    seen.add(entry);
+    out.push(entry);
+  }
+  return out.sort();
+}
+
+function parseOpsOnlyProfile(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  const allowedPathGlobs = normalizeGlobList(raw.allowedPathGlobs);
+  const denyPathGlobs = normalizeGlobList(raw.denyPathGlobs);
+  const mergeMethod = String(raw.mergeMethod || '').trim();
+  const requiredRollup = String(raw.requiredRollup || '').trim().toUpperCase();
+  const baseBranch = String(raw.baseBranch || '').trim();
+  if (Number(raw.schemaVersion) !== PROFILE_SCHEMA_VERSION) return null;
+  if (!allowedPathGlobs || allowedPathGlobs.length === 0) return null;
+  if (!denyPathGlobs || denyPathGlobs.length === 0) return null;
+  if (mergeMethod !== EXPECTED_MERGE_METHOD) return null;
+  if (requiredRollup !== EXPECTED_REQUIRED_ROLLUP) return null;
+  if (baseBranch !== EXPECTED_BASE_BRANCH) return null;
+  return {
+    schemaVersion: PROFILE_SCHEMA_VERSION,
+    allowedPathGlobs,
+    denyPathGlobs,
+    mergeMethod,
+    requiredRollup,
+    baseBranch,
+  };
+}
+
+function loadOpsOnlyProfile(profilePath, profileOverride = null) {
+  const sourcePath = String(profilePath || DEFAULT_PROFILE_PATH).trim() || DEFAULT_PROFILE_PATH;
+  if (profileOverride && typeof profileOverride === 'object' && !Array.isArray(profileOverride)) {
+    const parsed = parseOpsOnlyProfile(profileOverride);
+    if (!parsed) return { ok: false, profilePath: '<override>', profile: null };
+    return { ok: true, profilePath: '<override>', profile: parsed };
+  }
+  let raw = null;
+  try {
+    raw = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
+  } catch {
+    return { ok: false, profilePath: sourcePath, profile: null };
+  }
+  const parsed = parseOpsOnlyProfile(raw);
+  if (!parsed) return { ok: false, profilePath: sourcePath, profile: null };
+  return { ok: true, profilePath: sourcePath, profile: parsed };
+}
+
+function matchesGlob(filePath, glob) {
+  if (glob.endsWith('/**')) {
+    const prefix = glob.slice(0, -2);
+    return filePath.startsWith(prefix);
+  }
+  return filePath === glob;
+}
+
+function pathMatchesAnyGlob(filePath, globs) {
+  for (const glob of globs) {
+    if (matchesGlob(filePath, glob)) return true;
   }
   return false;
 }
 
-function evaluateOpsOnlyPaths(changedFiles) {
-  const outsideAllowlist = changedFiles.filter((filePath) => !isOpsOnlyAllowedPath(filePath));
+function evaluateOpsOnlyPaths(changedFiles, profile) {
+  const denyMatches = [];
+  const outsideAllowlist = [];
+  for (const filePath of changedFiles) {
+    if (pathMatchesAnyGlob(filePath, profile.denyPathGlobs)) {
+      denyMatches.push(filePath);
+      continue;
+    }
+    if (!pathMatchesAnyGlob(filePath, profile.allowedPathGlobs)) {
+      outsideAllowlist.push(filePath);
+    }
+  }
   return {
-    ok: outsideAllowlist.length === 0,
+    ok: denyMatches.length === 0 && outsideAllowlist.length === 0,
+    denyMatches,
     outsideAllowlist,
   };
 }
@@ -280,6 +352,10 @@ function fetchPrState({ repo, prNumber, fixtureJson }) {
 export function evaluateSafeAutomergeEligibility(input = {}) {
   const failures = new Set();
 
+  const profilePath = String(input.profilePath || process.env.SAFE_AUTOMERGE_OPS_ONLY_PROFILE_PATH || DEFAULT_PROFILE_PATH).trim();
+  const loadedProfile = loadOpsOnlyProfile(profilePath, input.opsOnlyProfile || null);
+  if (!loadedProfile.ok) failures.add(FAILURE.OPS_ONLY_PROFILE_INVALID);
+
   const apiUnavailable = input.apiUnavailable === true;
   const prNotFound = input.prNotFound === true;
   const base = String(input.base || '').trim();
@@ -295,15 +371,22 @@ export function evaluateSafeAutomergeEligibility(input = {}) {
   if (apiUnavailable) failures.add(FAILURE.GH_API_UNAVAILABLE);
   if (prNotFound) failures.add(FAILURE.PR_NOT_FOUND);
 
-  const opsOnlyEval = evaluateOpsOnlyPaths(changedFiles);
-  const opsOnlyOk = opsOnlyEval.ok;
+  const profile = loadedProfile.profile || {
+    allowedPathGlobs: [],
+    denyPathGlobs: [],
+    baseBranch: EXPECTED_BASE_BRANCH,
+    requiredRollup: EXPECTED_REQUIRED_ROLLUP,
+  };
+
+  const opsOnlyEval = evaluateOpsOnlyPaths(changedFiles, profile);
+  const opsOnlyOk = loadedProfile.ok && opsOnlyEval.ok;
   if (!opsOnlyOk) failures.add(FAILURE.DIFF_NOT_OPS_ONLY);
 
-  if (base !== 'main') failures.add(FAILURE.BASE_BRANCH_NOT_MAIN);
+  if (base !== profile.baseBranch) failures.add(FAILURE.BASE_BRANCH_NOT_MAIN);
   if (!expectedHeadSha || !headSha || headSha !== expectedHeadSha) {
     failures.add(FAILURE.HEAD_SHA_MISMATCH);
   }
-  if (rollup !== 'SUCCESS') failures.add(FAILURE.STATUS_CHECKS_NOT_SUCCESS);
+  if (rollup !== profile.requiredRollup) failures.add(FAILURE.STATUS_CHECKS_NOT_SUCCESS);
 
   // Merge policy: merge only, no admin/squash/rebase.
   if (mergeMethod !== 'merge' || admin || squash || rebase) {
@@ -320,6 +403,10 @@ export function evaluateSafeAutomergeEligibility(input = {}) {
       expectedHeadSha,
       rollup,
       opsOnlyOk,
+      opsOnlyProfilePath: loadedProfile.profilePath,
+      opsOnlyAllowedPathGlobs: profile.allowedPathGlobs,
+      opsOnlyDenyPathGlobs: profile.denyPathGlobs,
+      opsOnlyDenyMatches: opsOnlyEval.denyMatches,
       opsOnlyOutsideAllowlist: opsOnlyEval.outsideAllowlist,
     },
     toolVersion: TOOL_VERSION,
@@ -337,6 +424,7 @@ function main() {
   const state = evaluateSafeAutomergeEligibility({
     ...prState,
     expectedHeadSha: args.expectedHeadSha,
+    profilePath: args.profilePath,
     mergeMethod: args.mergeMethod,
     admin: args.admin,
     squash: args.squash,

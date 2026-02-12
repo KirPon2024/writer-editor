@@ -18,6 +18,7 @@ import { evaluateCollabStressSafeState } from './collab-stress-safe-state.mjs';
 import { evaluateCollabEventLogState } from './collab-eventlog-state.mjs';
 import { evaluateCollabApplyPipelineState } from './collab-apply-pipeline-state.mjs';
 import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
+import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -582,7 +583,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     && headStrict.ok === 1
     ? 1 : 0;
 
-  return {
+  const state = {
     mode,
     REMOTE_BINDING_OK: remote.remoteBindingOk,
     HEAD_STRICT_OK: headStrict.ok,
@@ -684,6 +685,14 @@ export function evaluateFreezeRollupsState(input = {}) {
       adapters,
     },
   };
+
+  const freezeModeState = evaluateFreezeModeFromRollups(state, {
+    freezeModeEnabled: String(process.env.FREEZE_MODE || '').trim() === '1',
+  });
+  state.FREEZE_MODE_STRICT_OK = freezeModeState.FREEZE_MODE_STRICT_OK;
+  state.details.freezeMode = freezeModeState;
+
+  return state;
 }
 
 function printTokens(state) {
@@ -698,6 +707,7 @@ function printTokens(state) {
     'DEBT_TTL_VALID_OK',
     'DEBT_TTL_EXPIRED_COUNT',
     'DRIFT_UNRESOLVED_P0_COUNT',
+    'FREEZE_MODE_STRICT_OK',
     'GOVERNANCE_STRICT_OK',
     'XPLAT_CONTRACT_PRESENT',
     'XPLAT_CONTRACT_SHA256',

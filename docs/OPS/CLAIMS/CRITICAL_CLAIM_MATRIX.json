@@ -360,6 +360,14 @@
       "failSignal": "E_SIMULATION_MIN_CONTRACT_FAIL",
       "blocking": false,
       "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "FREEZE_MODE_STRICT_SEMANTICS",
+      "requiredToken": "FREEZE_MODE_STRICT_OK",
+      "proofHook": "FREEZE_MODE=1 node scripts/ops/freeze-mode-state.mjs --json",
+      "failSignal": "E_FREEZE_MODE_STRICT_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

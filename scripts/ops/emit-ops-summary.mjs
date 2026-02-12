@@ -5,6 +5,7 @@ import { evaluateNextSectorState } from './next-sector-state.mjs';
 import { evaluateXplatContractState } from './xplat-contract-state.mjs';
 import { evaluateRequiredChecksState } from './required-checks-state.mjs';
 import { evaluateFreezeRollupsState } from './freeze-rollups-state.mjs';
+import { evaluateFreezeModeState } from './freeze-mode-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -67,6 +68,10 @@ function main() {
     mode: 'release',
     skipTokenEmissionCheck: true,
   });
+  const freezeMode = evaluateFreezeModeState({
+    freezeRollups,
+    freezeModeEnabled: String(process.env.FREEZE_MODE || '').trim() === '1',
+  });
 
   const summary = {
     schemaVersion: 'ops-summary.v1',
@@ -101,6 +106,7 @@ function main() {
     debtTtlValidOk: freezeRollups.DEBT_TTL_VALID_OK,
     debtTtlExpiredCount: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
     driftUnresolvedP0Count: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
+    freezeModeStrictOk: freezeMode.FREEZE_MODE_STRICT_OK,
     coreSotReducerImplementedOk: freezeRollups.CORE_SOT_REDUCER_IMPLEMENTED_OK,
     coreSotSchemaAlignedOk: freezeRollups.CORE_SOT_SCHEMA_ALIGNED_OK,
     coreSotCommandCanonOk: freezeRollups.CORE_SOT_COMMAND_CANON_OK,
@@ -187,6 +193,7 @@ function main() {
   console.log(`OPS_SUMMARY_DEBT_TTL_VALID_OK=${summary.debtTtlValidOk}`);
   console.log(`OPS_SUMMARY_DEBT_TTL_EXPIRED_COUNT=${summary.debtTtlExpiredCount}`);
   console.log(`OPS_SUMMARY_DRIFT_UNRESOLVED_P0_COUNT=${summary.driftUnresolvedP0Count}`);
+  console.log(`OPS_SUMMARY_FREEZE_MODE_STRICT_OK=${summary.freezeModeStrictOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_REDUCER_IMPLEMENTED_OK=${summary.coreSotReducerImplementedOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_SCHEMA_ALIGNED_OK=${summary.coreSotSchemaAlignedOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_COMMAND_CANON_OK=${summary.coreSotCommandCanonOk}`);
@@ -294,6 +301,10 @@ function main() {
   }
   if (summary.xplatCostGuaranteeOk !== 1) {
     console.log('FAIL_REASON=OPS_SUMMARY_XPLAT_COST_GUARANTEE_NOT_OK');
+    process.exit(1);
+  }
+  if (String(process.env.FREEZE_MODE || '').trim() === '1' && summary.freezeModeStrictOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_FREEZE_MODE_STRICT_NOT_OK');
     process.exit(1);
   }
 

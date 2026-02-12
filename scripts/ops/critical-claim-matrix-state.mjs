@@ -29,6 +29,7 @@ const ALLOWED_NAMESPACE_PREFIXES = [
   'CRITICAL_CLAIM_MATRIX_',
   'HEAD_STRICT_',
   'DEBT_TTL_',
+  'FREEZE_',
 ];
 
 function parseJson(filePath) {

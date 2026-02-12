@@ -418,6 +418,16 @@
       "sourceBinding": "truth-table"
     },
     {
+      "claimId": "CONFIG_HASH_LOCK",
+      "requiredToken": "CONFIG_HASH_LOCK_OK",
+      "proofHook": "node scripts/ops/config-hash-lock-state.mjs --json",
+      "failSignal": "E_CONFIG_HASH_CONFLICT",
+      "failSignalCode": "E_CONFIG_HASH_CONFLICT",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "TOKEN_SOURCE_CONFLICT_DETECTION",
       "requiredToken": "TOKEN_SOURCE_CONFLICT_OK",
       "proofHook": "node scripts/ops/token-source-conflict-state.mjs --json",

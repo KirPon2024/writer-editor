@@ -1,0 +1,17 @@
+{
+  "policyVersion": "v1.0",
+  "allowedOps": [
+    "pr_create_only"
+  ],
+  "repoAllowlist": [
+    "KirPon2024/writer-editor"
+  ],
+  "hostname": "github.com",
+  "denyOps": [
+    "pr_merge",
+    "pr_close",
+    "repo_admin"
+  ],
+  "verifiedBy": "CODEX_AGENT",
+  "verifiedAt": "2026-02-12T00:00:00Z"
+}

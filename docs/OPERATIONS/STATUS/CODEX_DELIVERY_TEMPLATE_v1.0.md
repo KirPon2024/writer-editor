@@ -87,31 +87,32 @@ Single source of truth:
 - human merge через UI (последний клик человеком).
 
 ## POST-MERGE STRICT VERIFY 1→13
-NETWORK GATE (MUST, before 1→13):
-- STEP_01: `git fetch origin` MUST PASS.
-- STEP_02: `git ls-remote origin` MUST PASS.
-- STEP_03: `git rev-parse --verify origin/main` MUST PASS.
-- Recommended guard command: `node scripts/guards/check-post-merge-origin-availability.mjs --json`.
-- If any network gate step fails: `STOP_REQUIRED=1`, `FAIL_REASON=NETWORK_ORIGIN_UNAVAILABLE`.
-- Запрещено засчитывать verify при fallback на локальные SHA/кэш.
+ORIGIN_SMOKE (MUST, before verify):
+- `node scripts/guards/check-origin-smoke.mjs`
+- Expected:
+  - `ORIGIN_SMOKE_OK=1`
+- On any fail:
+  - `STOP_REQUIRED=1`
+  - `FAIL_REASON=NETWORK_ORIGIN_UNAVAILABLE`
+  - verify незачтён.
 
-1. `git --version`
-2. `node -v`
-3. `npm -v`
-4. `gh --version`
-5. `git status --porcelain --untracked-files=all`
-6. `git fetch origin`
-7. `git ls-remote origin`
-8. `gh auth status --hostname github.com`
-9. `gh api /rate_limit`
-10. `node scripts/guards/check-safe-automerge-eligibility.mjs --pr <PR_NUMBER> --repo <OWNER/REPO> --expected-head-sha <MERGE_EXPECTED_HEAD_SHA> --merge-method merge`
-11. `node --test test/contracts/safe-automerge-eligibility.contract.test.js`
-12. `npm test`
-13. `node scripts/contracts/check-codex-prompt-mode.mjs`
+STRICT VERIFY + ATTESTATION (MUST):
+- `EXPECTED_MERGE_SHA=<MERGE_SHA> node scripts/ops/emit-post-merge-verify-attestation.mjs`
+- Script runs strict verify `STEP_01..STEP_13` and writes:
+  - `docs/OPERATIONS/STATUS/POST_MERGE_STRICT_VERIFY_ATTESTATION.json`
+- Script prints:
+  - `VERIFY_ATTESTATION_OK=<0|1>`
+  - `VERIFY_ATTESTATION_PATH=<path>`
+  - `PROMPT_DETECTION=<...>`
 
-Expected:
-- `PASS` по всем `1..13`.
-- `PROMPT_DETECTION=NOT_DETECTED`.
+Verify считается зачтённым только если одновременно:
+- `ORIGIN_SMOKE_OK=1`
+- `VERIFY_ATTESTATION_OK=1`
+- `equalityOk=true` в attestation JSON (`HEAD==origin/main==MERGE_SHA`)
+- `PROMPT_DETECTION=NOT_DETECTED`
+
+Запрещено:
+- засчитывать verify при fallback на локальные SHA/кэш.
 
 ## STOP REGISTRY
 - `BOOTSTRAP_FAIL`: любой FAIL в bootstrap `1..9`.

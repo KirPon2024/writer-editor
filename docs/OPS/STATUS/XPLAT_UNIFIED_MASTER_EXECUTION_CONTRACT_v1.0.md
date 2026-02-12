@@ -1,7 +1,9 @@
-# XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v2.8
+# XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v2.9
 ## FINAL MASTER — PROOF-BOUND / HEAD-STRICT / TOKEN-AUTHORITATIVE / XPLAT-COST-GUARANTEED / FREEZE-READY
 
-STATUS: FREEZE CANDIDATE
+VERSION: v2.9
+STATUS: ACTIVE CANON
+NOTE: Freeze profile currently governed by runtime evaluator
 MODE: PRODUCT_ARCHITECTURE + DELIVERY
 CANON: CRAFTSMAN v1.2 (STRICT)
 OPS_BASELINE: v1.3 (ACTIVE)
@@ -280,7 +282,7 @@ BLOCKED если:
 
 # 11. FINAL VERDICT
 
-v2.8:
+v2.9:
 
 - полностью устраняет двусмысленность release-tag rule
 - фиксирует конкретный SCR proofHook и анти-подкрутку методики
@@ -289,5 +291,15 @@ v2.8:
 - запрещает только дорогие и опасные нарушения (второй SoT, silent fallback, недетерминизм, platform-ветвления в домене)
 
 Это freeze-grade мастер-контракт при условии фактической реализации и эмиссии proofHooks/токенов.
+
+# 12. RUNTIME_ALIGNMENT_NOTE
+
+На момент активации v2.9 фактический freeze-profile
+определяется `scripts/ops/freeze-ready-evaluator.mjs`.
+
+Документ v2.9 задаёт целевую модель.
+Runtime alignment выполняется отдельными микрошагами.
+
+Это intentional staged activation.
 
 END

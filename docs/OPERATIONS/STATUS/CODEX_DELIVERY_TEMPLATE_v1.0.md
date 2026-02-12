@@ -87,6 +87,14 @@ Single source of truth:
 - human merge через UI (последний клик человеком).
 
 ## POST-MERGE STRICT VERIFY 1→13
+NETWORK GATE (MUST, before 1→13):
+- STEP_01: `git fetch origin` MUST PASS.
+- STEP_02: `git ls-remote origin` MUST PASS.
+- STEP_03: `git rev-parse --verify origin/main` MUST PASS.
+- Recommended guard command: `node scripts/guards/check-post-merge-origin-availability.mjs --json`.
+- If any network gate step fails: `STOP_REQUIRED=1`, `FAIL_REASON=NETWORK_ORIGIN_UNAVAILABLE`.
+- Запрещено засчитывать verify при fallback на локальные SHA/кэш.
+
 1. `git --version`
 2. `node -v`
 3. `npm -v`

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "collab-causal-queue-readiness.v1",
+  "status": "PLACEHOLDER",
+  "baselineSha": "ebfd97cc1c710498ee0e20aee6e1d98a1ebf3f2a",
+  "design": {
+    "queueModel": "UNKNOWN",
+    "orderingKey": "UNKNOWN",
+    "conflictPolicy": "UNKNOWN",
+    "noNetwork": true
+  },
+  "proofRequirements": {
+    "deterministicReplayRequired": true,
+    "typedRejectionEnvelopeRequired": true,
+    "noSecondSotRequired": true
+  },
+  "configHash": "eadc709e881176745da0dfd1caf18a6ab9a81f4fac6f5ae5348fc8124b95a89c"
+}

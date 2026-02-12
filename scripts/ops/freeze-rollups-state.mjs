@@ -17,6 +17,7 @@ import { evaluateCommentsHistorySafeState } from './comments-history-safe-state.
 import { evaluateCollabStressSafeState } from './collab-stress-safe-state.mjs';
 import { evaluateCollabEventLogState } from './collab-eventlog-state.mjs';
 import { evaluateCollabApplyPipelineState } from './collab-apply-pipeline-state.mjs';
+import { evaluateCollabCausalQueueReadinessState } from './collab-causal-queue-readiness-state.mjs';
 import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
 import { evaluateMacosSigningReadinessState } from './macos-signing-readiness-state.mjs';
 import { evaluateReleaseArtifactSourcesState } from './release-artifact-sources-state.mjs';
@@ -570,6 +571,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const collabStressSafe = evaluateCollabStressSafe();
   const collabEventLog = evaluateCollabEventLog();
   const collabApplyPipeline = evaluateCollabApplyPipeline();
+  const collabCausalQueueReadiness = evaluateCollabCausalQueueReadinessState();
   const simulationMinContract = evaluateSimulationMinContract();
   const macosSigningReadiness = evaluateMacosSigningReadinessState();
   const releaseArtifactSources = evaluateReleaseArtifactSourcesState();
@@ -661,6 +663,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK: collabApplyPipeline.COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK,
     COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK: collabApplyPipeline.COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK,
     COLLAB_APPLY_PIPELINE_OK: collabApplyPipeline.COLLAB_APPLY_PIPELINE_OK,
+    COLLAB_CAUSAL_QUEUE_READINESS_OK: collabCausalQueueReadiness.COLLAB_CAUSAL_QUEUE_READINESS_OK,
     COMMENTS_HISTORY_SAFE_OK: commentsHistory.COMMENTS_HISTORY_SAFE_OK,
     SIMULATION_MIN_CONTRACT_OK: simulationMinContract.SIMULATION_MIN_CONTRACT_OK,
     XPLAT_CONTRACT_MACOS_SIGNING_READY_OK: macosSigningReadiness.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
@@ -687,6 +690,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       collabStressSafe,
       collabEventLog,
       collabApplyPipeline,
+      collabCausalQueueReadiness,
       simulationMinContract,
       macosSigningReadiness,
       releaseArtifactSources,
@@ -788,6 +792,7 @@ function printTokens(state) {
     'COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK',
     'COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK',
     'COLLAB_APPLY_PIPELINE_OK',
+    'COLLAB_CAUSAL_QUEUE_READINESS_OK',
     'COMMENTS_HISTORY_SAFE_OK',
     'SIMULATION_MIN_CONTRACT_OK',
     'XPLAT_CONTRACT_MACOS_SIGNING_READY_OK',

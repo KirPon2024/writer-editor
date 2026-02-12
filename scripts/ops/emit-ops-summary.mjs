@@ -162,6 +162,7 @@ function main() {
     collabApplyPipelineDeterministicOk: freezeRollups.COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK,
     collabApplyPipelineTypedErrorsOk: freezeRollups.COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK,
     collabApplyPipelineOk: freezeRollups.COLLAB_APPLY_PIPELINE_OK,
+    collabCausalQueueReadinessOk: freezeRollups.COLLAB_CAUSAL_QUEUE_READINESS_OK,
     commentsHistorySafeOk: freezeRollups.COMMENTS_HISTORY_SAFE_OK,
     simulationMinContractOk: freezeRollups.SIMULATION_MIN_CONTRACT_OK,
     xplatContractMacosSigningReadyOk: freezeRollups.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
@@ -253,6 +254,7 @@ function main() {
   console.log(`OPS_SUMMARY_COLLAB_APPLY_PIPELINE_DETERMINISTIC_OK=${summary.collabApplyPipelineDeterministicOk}`);
   console.log(`OPS_SUMMARY_COLLAB_APPLY_PIPELINE_TYPED_ERRORS_OK=${summary.collabApplyPipelineTypedErrorsOk}`);
   console.log(`OPS_SUMMARY_COLLAB_APPLY_PIPELINE_OK=${summary.collabApplyPipelineOk}`);
+  console.log(`OPS_SUMMARY_COLLAB_CAUSAL_QUEUE_READINESS_OK=${summary.collabCausalQueueReadinessOk}`);
   console.log(`OPS_SUMMARY_COMMENTS_HISTORY_SAFE_OK=${summary.commentsHistorySafeOk}`);
   console.log(`OPS_SUMMARY_SIMULATION_MIN_CONTRACT_OK=${summary.simulationMinContractOk}`);
   console.log(`OPS_SUMMARY_XPLAT_CONTRACT_MACOS_SIGNING_READY_OK=${summary.xplatContractMacosSigningReadyOk}`);

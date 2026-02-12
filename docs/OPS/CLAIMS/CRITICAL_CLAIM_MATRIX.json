@@ -426,6 +426,16 @@
       "sourceBinding": "truth-table"
     },
     {
+      "claimId": "GOVERNANCE_SINGLE_VERIFY_CONTOUR_ENFORCED",
+      "requiredToken": "GOVERNANCE_SINGLE_VERIFY_CONTOUR_ENFORCED_OK",
+      "proofHook": "node scripts/ops/verify-contour-state.mjs --json",
+      "failSignal": "E_DOUBLE_VERIFY_CONTOUR_DETECTED",
+      "failSignalCode": "E_DOUBLE_VERIFY_CONTOUR_DETECTED",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "truth-table"
+    },
+    {
       "claimId": "FREEZE_READY_ROLLUP",
       "requiredToken": "FREEZE_READY_OK",
       "proofHook": "node scripts/ops/freeze-ready-state.mjs --json",

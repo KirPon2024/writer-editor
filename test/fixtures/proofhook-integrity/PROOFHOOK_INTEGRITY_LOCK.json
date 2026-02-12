@@ -1,0 +1,13 @@
+{
+  "version": "fixture.v1",
+  "items": [
+    {
+      "path": "alpha.txt",
+      "sha256": "e834f165105c796bdb1a3182e119a7550fee3463df0b60ee456b5dd8269fd742"
+    },
+    {
+      "path": "beta.txt",
+      "sha256": "ae5e8ac1a719c880768d1e6a5068334bceb65f7454b48845cbef759e8275b345"
+    }
+  ]
+}

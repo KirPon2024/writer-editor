@@ -418,6 +418,16 @@
       "sourceBinding": "truth-table"
     },
     {
+      "claimId": "PROOFHOOK_INTEGRITY",
+      "requiredToken": "PROOFHOOK_INTEGRITY_OK",
+      "proofHook": "node scripts/ops/proofhook-integrity-state.mjs --json",
+      "failSignal": "E_PROOFHOOK_TAMPER_DETECTED",
+      "failSignalCode": "E_PROOFHOOK_TAMPER_DETECTED",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "TOKEN_SOURCE_CONFLICT_DETECTION",
       "requiredToken": "TOKEN_SOURCE_CONFLICT_OK",
       "proofHook": "node scripts/ops/token-source-conflict-state.mjs --json",

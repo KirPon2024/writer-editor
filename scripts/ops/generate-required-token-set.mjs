@@ -13,6 +13,12 @@ const TOKEN_NAME = 'GATE_TIER_POLICY_OK';
 const DEFAULT_PROFILE_PATH = 'docs/OPS/EXECUTION/EXECUTION_PROFILE.example.json';
 const DEFAULT_LOCK_PATH = 'docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json';
 const TOKEN_RE = /^[A-Z0-9_]+$/u;
+const RELEASE_ALWAYS_REQUIRED_TOKENS = Object.freeze([
+  'PROOFHOOK_INTEGRITY_OK',
+]);
+const FREEZE_READY_EXCLUDED_RELEASE_TOKENS = new Set([
+  'PROOFHOOK_INTEGRITY_OK',
+]);
 
 function isObjectRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -100,10 +106,17 @@ export function buildRequiredTokenSetFromProfile(profileDoc = {}) {
   const coreConditional = collectConditionalTokens(profile, 'core');
   const releaseConditional = collectConditionalTokens(profile, 'release');
   const coreRequired = uniqueSortedTokens([...coreBase, ...coreConditional]);
-  const releaseRequired = uniqueSortedTokens([...releaseBase, ...releaseConditional]);
+  const releaseRequired = uniqueSortedTokens([
+    ...releaseBase,
+    ...releaseConditional,
+    ...RELEASE_ALWAYS_REQUIRED_TOKENS,
+  ]);
   const activeTier = String(profile.gateTier || '') === 'release' ? 'release' : 'core';
   const activeRequired = activeTier === 'release' ? releaseRequired : coreRequired;
-  const freezeReadyRequiredTokens = uniqueSortedTokens([...releaseRequired, ...freezeModeBase]);
+  const freezeReadyRequiredAlways = releaseRequired.filter(
+    (token) => !FREEZE_READY_EXCLUDED_RELEASE_TOKENS.has(token),
+  );
+  const freezeReadyRequiredTokens = uniqueSortedTokens([...freezeReadyRequiredAlways, ...freezeModeBase]);
 
   const payloadWithoutHash = {
     schemaVersion: 1,
@@ -118,7 +131,7 @@ export function buildRequiredTokenSetFromProfile(profileDoc = {}) {
       freezeMode: freezeModeBase,
     },
     freezeReady: {
-      requiredAlways: releaseRequired,
+      requiredAlways: freezeReadyRequiredAlways,
       requiredFreezeMode: freezeModeBase,
       requiredTokens: freezeReadyRequiredTokens,
     },

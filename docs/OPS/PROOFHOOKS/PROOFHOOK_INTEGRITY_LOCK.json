@@ -1,0 +1,29 @@
+{
+  "version": "proofhook-integrity-lock.v1",
+  "items": [
+    {
+      "path": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+      "sha256": "54070cc72f650f9a951456362b3dded4dc47766dda7e528b3c79322ff124d2a6"
+    },
+    {
+      "path": "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+      "sha256": "6fa9cb4adf8cbc6df8776475e23200b8149c69a4f0cf011553e0a1371c672bdf"
+    },
+    {
+      "path": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
+      "sha256": "d7ded18921bb0421a4daf68e2e7cb3024d16c63918ff30dd788d33cb41a81bf5"
+    },
+    {
+      "path": "scripts/ops/critical-claim-matrix-state.mjs",
+      "sha256": "f03ffbc681b5e138390817f95dd7667ebc72bf87d7c230b6acc708f3a232d4e5"
+    },
+    {
+      "path": "scripts/ops/generate-required-token-set.mjs",
+      "sha256": "d579845e4dea311d7ad7217c9321a40543bd61d116fcf8d64453bbd98b889dcd"
+    },
+    {
+      "path": "scripts/ops/proofhook-integrity-state.mjs",
+      "sha256": "5ad0b54e1026c54e0f53e392ebef5d14b65fd5b5763a15a3286940fa0a21be03"
+    }
+  ]
+}

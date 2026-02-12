@@ -384,6 +384,14 @@
       "failSignal": "E_RELEASE_ARTIFACT_SOURCES_FAIL",
       "blocking": false,
       "sourceBinding": "truth-table"
+    },
+    {
+      "claimId": "FREEZE_READY_ROLLUP",
+      "requiredToken": "FREEZE_READY_OK",
+      "proofHook": "node scripts/ops/freeze-ready-state.mjs --json",
+      "failSignal": "E_FREEZE_READY_ROLLUP_FAIL",
+      "blocking": false,
+      "sourceBinding": "truth-table"
     }
   ]
 }

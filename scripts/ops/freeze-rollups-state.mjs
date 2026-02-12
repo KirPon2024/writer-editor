@@ -21,6 +21,7 @@ import { evaluateSimulationMinContractState } from './simulation-min-contract-st
 import { evaluateMacosSigningReadinessState } from './macos-signing-readiness-state.mjs';
 import { evaluateReleaseArtifactSourcesState } from './release-artifact-sources-state.mjs';
 import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
+import { evaluateFreezeReady } from './freeze-ready-evaluator.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -700,6 +701,14 @@ export function evaluateFreezeRollupsState(input = {}) {
   state.FREEZE_MODE_STRICT_OK = freezeModeState.FREEZE_MODE_STRICT_OK;
   state.details.freezeMode = freezeModeState;
 
+  const freezeReadyState = evaluateFreezeReady({
+    freezeMode: String(process.env.FREEZE_MODE || '').trim() === '1' ? 1 : 0,
+    rollupsJson: state,
+    truthTableJson: state,
+  });
+  state.FREEZE_READY_OK = freezeReadyState.ok ? 1 : 0;
+  state.details.freezeReady = freezeReadyState;
+
   return state;
 }
 
@@ -716,6 +725,7 @@ function printTokens(state) {
     'DEBT_TTL_EXPIRED_COUNT',
     'DRIFT_UNRESOLVED_P0_COUNT',
     'FREEZE_MODE_STRICT_OK',
+    'FREEZE_READY_OK',
     'GOVERNANCE_STRICT_OK',
     'XPLAT_CONTRACT_PRESENT',
     'XPLAT_CONTRACT_SHA256',

@@ -1,0 +1,16 @@
+{
+  "version": "config-hash-lock.v1",
+  "inputs": [
+    "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+    "docs/OPS/EXECUTION/EXECUTION_PROFILE.example.json",
+    "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+    "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+  ],
+  "inputHashes": {
+    "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json": "a7b1fcc7f5095603f05ce56873bfda2e68c237135f7ecea460ca96c86bb8d8e4",
+    "docs/OPS/EXECUTION/EXECUTION_PROFILE.example.json": "78a76e7a7af24ce04dbf2b7d239ce837914f1e71966f1faa9d33dd2909e2c56c",
+    "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json": "161925e541da57f5f003646421301e5e8ea5d30d8f886b61e48a552b76969df0",
+    "docs/OPS/TOKENS/TOKEN_DECLARATION.json": "3f587369884c9597623386877afa7f99848297082c21503e43bc05bf98521551"
+  },
+  "configHash": "2dd9fb3dca860ff02e2f415c98a53a2a1f8c99cc714b68d5d70a9e7f8ec5a9a6"
+}

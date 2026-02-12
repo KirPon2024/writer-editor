@@ -163,6 +163,7 @@ function main() {
     collabApplyPipelineOk: freezeRollups.COLLAB_APPLY_PIPELINE_OK,
     commentsHistorySafeOk: freezeRollups.COMMENTS_HISTORY_SAFE_OK,
     simulationMinContractOk: freezeRollups.SIMULATION_MIN_CONTRACT_OK,
+    xplatContractMacosSigningReadyOk: freezeRollups.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
     generatedAt: new Date().toISOString(),
   };
 
@@ -250,6 +251,7 @@ function main() {
   console.log(`OPS_SUMMARY_COLLAB_APPLY_PIPELINE_OK=${summary.collabApplyPipelineOk}`);
   console.log(`OPS_SUMMARY_COMMENTS_HISTORY_SAFE_OK=${summary.commentsHistorySafeOk}`);
   console.log(`OPS_SUMMARY_SIMULATION_MIN_CONTRACT_OK=${summary.simulationMinContractOk}`);
+  console.log(`OPS_SUMMARY_XPLAT_CONTRACT_MACOS_SIGNING_READY_OK=${summary.xplatContractMacosSigningReadyOk}`);
 
   if (!summary.remoteBindingOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_REMOTE_BINDING_MISMATCH');

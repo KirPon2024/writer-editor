@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "macos-signing-readiness.v1",
+  "status": "PLACEHOLDER",
+  "requiredArtifacts": [
+    "docs/OPS/STATUS/MACOS_NOTARIZATION_PROFILE.json",
+    "docs/OPS/STATUS/MACOS_SIGNING_IDENTITIES.json"
+  ],
+  "forbiddenPlaceholders": [
+    "TODO_NOTARIZATION",
+    "PLACEHOLDER_APPLE_ID",
+    "PLACEHOLDER_IDENTITY",
+    "PLACEHOLDER_TEAM_ID"
+  ],
+  "notes": "Machine-check baseline only. No local codesign/notarytool execution in this repository state."
+}

@@ -3,6 +3,7 @@
   "phaseOrder": ["M0", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "DONE"],
   "opsCarveoutAllow": [
     "docs/OPS/STATUS/CANON_WORKTREE_POLICY.md",
+    "docs/OPS/STATUS/MACOS_SIGNING_READINESS.json",
     "docs/OPS/STATUS/PLATFORM_COVERAGE.json",
     "docs/OPS/STATUS/SIMULATION_MIN_CONTRACT.json",
     "docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md",
@@ -20,6 +21,7 @@
     "scripts/ops/network-gate.mjs",
     "scripts/ops/platform-coverage-state.mjs",
     "scripts/ops/mindmap-derived-state.mjs",
+    "scripts/ops/macos-signing-readiness-state.mjs",
     "scripts/ops/comments-history-safe-state.mjs",
     "scripts/ops/collab-apply-pipeline-state.mjs",
     "scripts/ops/collab-eventlog-state.mjs",
@@ -51,6 +53,7 @@
     "test/contracts/mindmap-derived-invalidation.contract.test.js",
     "test/contracts/mindmap-derived-no-second-sot.contract.test.js",
     "test/contracts/mindmap-derived-tokens.contract.test.js",
+    "test/contracts/macos-signing-readiness.contract.test.js",
     "test/contracts/comments-history-deterministic.contract.test.js",
     "test/contracts/comments-history-no-second-sot.contract.test.js",
     "test/contracts/comments-history-recovery-safe.contract.test.js",

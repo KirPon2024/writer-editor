@@ -18,6 +18,7 @@ import { evaluateCollabStressSafeState } from './collab-stress-safe-state.mjs';
 import { evaluateCollabEventLogState } from './collab-eventlog-state.mjs';
 import { evaluateCollabApplyPipelineState } from './collab-apply-pipeline-state.mjs';
 import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
+import { evaluateMacosSigningReadinessState } from './macos-signing-readiness-state.mjs';
 import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
 
 function runGit(args) {
@@ -567,6 +568,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const collabEventLog = evaluateCollabEventLog();
   const collabApplyPipeline = evaluateCollabApplyPipeline();
   const simulationMinContract = evaluateSimulationMinContract();
+  const macosSigningReadiness = evaluateMacosSigningReadinessState();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -656,6 +658,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     COLLAB_APPLY_PIPELINE_OK: collabApplyPipeline.COLLAB_APPLY_PIPELINE_OK,
     COMMENTS_HISTORY_SAFE_OK: commentsHistory.COMMENTS_HISTORY_SAFE_OK,
     SIMULATION_MIN_CONTRACT_OK: simulationMinContract.SIMULATION_MIN_CONTRACT_OK,
+    XPLAT_CONTRACT_MACOS_SIGNING_READY_OK: macosSigningReadiness.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
     details: {
       remote,
       nextSector,
@@ -678,6 +681,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       collabEventLog,
       collabApplyPipeline,
       simulationMinContract,
+      macosSigningReadiness,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
         requires: xplatCostGuaranteeRequires,
@@ -768,6 +772,7 @@ function printTokens(state) {
     'COLLAB_APPLY_PIPELINE_OK',
     'COMMENTS_HISTORY_SAFE_OK',
     'SIMULATION_MIN_CONTRACT_OK',
+    'XPLAT_CONTRACT_MACOS_SIGNING_READY_OK',
   ];
 
   for (const key of tokens) {

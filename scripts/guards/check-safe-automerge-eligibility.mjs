@@ -152,7 +152,10 @@ function fetchPrState({ repo, prNumber, fixtureJson }) {
     name: parsedRepo.name,
     number,
   });
-  if (!prRes.ok || !prRes.data || !prRes.data.repository) {
+  const prPayload = prRes.ok && prRes.data && typeof prRes.data === 'object'
+    ? (prRes.data.data && typeof prRes.data.data === 'object' ? prRes.data.data : prRes.data)
+    : null;
+  if (!prRes.ok || !prPayload || !prPayload.repository) {
     return {
       apiUnavailable: true,
       prNotFound: false,
@@ -163,7 +166,7 @@ function fetchPrState({ repo, prNumber, fixtureJson }) {
     };
   }
 
-  const pr = prRes.data.repository.pullRequest;
+  const pr = prPayload.repository.pullRequest;
   if (!pr) {
     return {
       apiUnavailable: false,
@@ -202,7 +205,10 @@ function fetchPrState({ repo, prNumber, fixtureJson }) {
       after: after || undefined,
     };
     const filesRes = runGhGraphql(filesQuery, filesVars);
-    if (!filesRes.ok || !filesRes.data || !filesRes.data.repository || !filesRes.data.repository.pullRequest) {
+    const filesPayload = filesRes.ok && filesRes.data && typeof filesRes.data === 'object'
+      ? (filesRes.data.data && typeof filesRes.data.data === 'object' ? filesRes.data.data : filesRes.data)
+      : null;
+    if (!filesRes.ok || !filesPayload || !filesPayload.repository || !filesPayload.repository.pullRequest) {
       return {
         apiUnavailable: true,
         prNotFound: false,
@@ -213,7 +219,7 @@ function fetchPrState({ repo, prNumber, fixtureJson }) {
       };
     }
 
-    const filesBlock = filesRes.data.repository.pullRequest.files;
+    const filesBlock = filesPayload.repository.pullRequest.files;
     const nodes = Array.isArray(filesBlock && filesBlock.nodes) ? filesBlock.nodes : [];
     for (const node of nodes) {
       const filePath = String(node && node.path ? node.path : '').trim();

@@ -3,7 +3,8 @@
 ## STATUS
 - VERSION: `v1.0`
 - MODE: `CANON-ALIGNED / LOW-RISK / STRUCTURAL`
-- PR_MODE: `CLI_CREATE`
+- PR_MODE: `CLI_CREATE` (default)
+- PR_MODE (optional): `CLI_CREATE_AND_AUTOMERGE_OPS_ONLY`
 - SAFE_AUTOMERGE_OPS_ONLY: `true`
 
 ## EXECUTOR
@@ -13,9 +14,10 @@
 - CODEX:
   - Реализует файлы и tests в allowlist scope.
   - Выполняет checks, commit/push, PR create.
-  - Выполняет merge только при PASS всех safe gates.
+  - По умолчанию оставляет merge человеку (human merge).
+  - Может выполнить `gh pr merge --merge` только при PASS всех safe gates.
 
-## BOOTSTRAP-PERMISSIONS
+## ACCOUNT BOOTSTRAP-PERMISSIONS (MANDATORY PREFLIGHT)
 1. `git --version`
 2. `node -v`
 3. `npm -v`
@@ -44,7 +46,7 @@
 - `FREEZE_READY_OK` не должен измениться.
 
 ## REQUIRED CHECKS (BEFORE COMMIT)
-1. `node scripts/guards/check-safe-automerge-ops-only.mjs --pr <PR_NUMBER> --expected-head-sha <EXPECTED_HEAD_SHA>`
+1. `node --test test/contracts/safe-automerge-eligibility.contract.test.js`
 2. `node --test test/contracts/safe-automerge-ops-only.contract.test.js`
 3. `npm test`
 4. `node scripts/contracts/check-codex-prompt-mode.mjs`
@@ -72,6 +74,9 @@ Policy:
 5. Merge method:
    - только `gh pr merge --merge`.
    - запрет `squash`, `rebase`, `--admin`.
+6. Mandatory eligibility guard before merge:
+   - `node scripts/guards/check-safe-automerge-eligibility.mjs --pr <PR_NUMBER> --repo <OWNER/REPO> --expected-head-sha <EXPECTED_HEAD_SHA> --merge-method merge`
+   - только при `ok=true` разрешен `gh pr merge --merge`.
 
 Если любой gate FAIL:
 - `STOP_REQUIRED=1`
@@ -87,8 +92,8 @@ Policy:
 7. `git ls-remote origin`
 8. `gh auth status --hostname github.com`
 9. `gh api /rate_limit`
-10. `node scripts/guards/check-safe-automerge-ops-only.mjs --pr <PR_NUMBER> --expected-head-sha <MERGE_EXPECTED_HEAD_SHA>`
-11. `node --test test/contracts/safe-automerge-ops-only.contract.test.js`
+10. `node scripts/guards/check-safe-automerge-eligibility.mjs --pr <PR_NUMBER> --repo <OWNER/REPO> --expected-head-sha <MERGE_EXPECTED_HEAD_SHA> --merge-method merge`
+11. `node --test test/contracts/safe-automerge-eligibility.contract.test.js`
 12. `npm test`
 13. `node scripts/contracts/check-codex-prompt-mode.mjs`
 

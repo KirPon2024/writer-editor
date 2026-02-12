@@ -1,6 +1,9 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 
 function parseTokenMap(text) {
   const out = new Map();
@@ -23,4 +26,63 @@ test('critical claim matrix is machine-readable and valid', () => {
   assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_PRESENT'), '1');
   assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
   assert.ok(Number(tokens.get('CRITICAL_CLAIM_MATRIX_CLAIMS_COUNT')) >= 1);
+});
+
+test('critical claim matrix validator accepts FAILSIGNAL namespace tokens', () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
+  const matrixPath = path.join(tmpDir, 'matrix.json');
+  fs.writeFileSync(matrixPath, JSON.stringify({
+    schemaVersion: 1,
+    claims: [
+      {
+        claimId: 'FAILSIGNAL_REGISTRY',
+        requiredToken: 'FAILSIGNAL_REGISTRY_VALID_OK',
+        proofHook: 'node scripts/ops/failsignal-registry-state.mjs --json',
+        failSignal: 'E_FAILSIGNAL_REGISTRY_INVALID',
+        blocking: true,
+        sourceBinding: 'ops_script',
+      },
+    ],
+  }, null, 2));
+
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/critical-claim-matrix-state.mjs', '--matrix-path', matrixPath],
+    { encoding: 'utf8' },
+  );
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+
+  assert.equal(result.status, 0, `validator rejected FAILSIGNAL namespace:\n${result.stdout}\n${result.stderr}`);
+  const tokens = parseTokenMap(result.stdout);
+  assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
+});
+
+test('critical claim matrix validator still rejects unknown namespaces', () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
+  const matrixPath = path.join(tmpDir, 'matrix.json');
+  fs.writeFileSync(matrixPath, JSON.stringify({
+    schemaVersion: 1,
+    claims: [
+      {
+        claimId: 'UNKNOWN_NAMESPACE',
+        requiredToken: 'UNKNOWN_NAMESPACE_OK',
+        proofHook: 'node scripts/ops/failsignal-registry-state.mjs --json',
+        failSignal: 'E_UNKNOWN_NAMESPACE',
+        blocking: true,
+        sourceBinding: 'ops_script',
+      },
+    ],
+  }, null, 2));
+
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/critical-claim-matrix-state.mjs', '--matrix-path', matrixPath],
+    { encoding: 'utf8' },
+  );
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+
+  assert.notEqual(result.status, 0);
+  const tokens = parseTokenMap(result.stdout);
+  assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '0');
+  assert.match(String(tokens.get('FAIL_REASON') || ''), /^CRITICAL_CLAIM_MATRIX_TOKEN_NAMESPACE_INVALID_/u);
 });

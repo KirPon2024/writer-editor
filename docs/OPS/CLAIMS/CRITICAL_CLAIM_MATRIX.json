@@ -306,6 +306,16 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "FAILSIGNAL_REGISTRY",
+      "requiredToken": "FAILSIGNAL_REGISTRY_VALID_OK",
+      "proofHook": "node scripts/ops/failsignal-registry-state.mjs --json",
+      "failSignal": "E_FAILSIGNAL_REGISTRY_INVALID",
+      "failSignalCode": "E_FAILSIGNAL_REGISTRY_INVALID",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "SCR_RUNTIME_SHARED_RATIO",
       "requiredToken": "SCR_RUNTIME_SHARED_RATIO_OK",
       "proofHook": "node scripts/ops/scr-calc.mjs --json",

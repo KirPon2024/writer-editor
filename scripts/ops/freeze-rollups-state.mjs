@@ -26,6 +26,7 @@ import { evaluateGovernanceStateValidState } from './governance-state-valid-stat
 import { evaluateStrategyProgressValidState } from './strategy-progress-valid-state.mjs';
 import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
 import { evaluateFreezeReady } from './freeze-ready-evaluator.mjs';
+import { evaluateTokenSourceConflictState } from './token-source-conflict-state.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -547,6 +548,11 @@ function evaluateDebtTtlState() {
   };
 }
 
+function shouldSkipTokenSourceConflictCheck(input) {
+  if (input && input.skipTokenSourceConflictCheck === true) return true;
+  return String(process.env.TOKEN_SOURCE_CONFLICT_SKIP || '').trim() === '1';
+}
+
 export function evaluateFreezeRollupsState(input = {}) {
   const mode = String(input.mode || '').toLowerCase() === 'release' ? 'release' : 'dev';
   const remote = evaluateRemoteBinding();
@@ -580,6 +586,17 @@ export function evaluateFreezeRollupsState(input = {}) {
   const macosSigningReadiness = evaluateMacosSigningReadinessState();
   const releaseArtifactSources = evaluateReleaseArtifactSourcesState();
   const thirdPartyNoticesReadiness = evaluateThirdPartyNoticesReadinessState();
+  const tokenSourceConflict = shouldSkipTokenSourceConflictCheck(input)
+    ? {
+      ok: true,
+      TOKEN_SOURCE_CONFLICT_OK: 1,
+      conflicts: [],
+      failures: [],
+      toolVersion: 'token-source-conflict-state.v1',
+      configHash: '',
+      skipped: 1,
+    }
+    : evaluateTokenSourceConflictState();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -675,6 +692,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     XPLAT_CONTRACT_MACOS_SIGNING_READY_OK: macosSigningReadiness.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
     RELEASE_ARTIFACT_SOURCES_OK: releaseArtifactSources.RELEASE_ARTIFACT_SOURCES_OK,
     THIRD_PARTY_NOTICES_READINESS_OK: thirdPartyNoticesReadiness.THIRD_PARTY_NOTICES_READINESS_OK,
+    TOKEN_SOURCE_CONFLICT_OK: tokenSourceConflict.TOKEN_SOURCE_CONFLICT_OK,
     details: {
       remote,
       nextSector,
@@ -703,6 +721,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       macosSigningReadiness,
       releaseArtifactSources,
       thirdPartyNoticesReadiness,
+      tokenSourceConflict,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
         requires: xplatCostGuaranteeRequires,
@@ -808,6 +827,7 @@ function printTokens(state) {
     'XPLAT_CONTRACT_MACOS_SIGNING_READY_OK',
     'RELEASE_ARTIFACT_SOURCES_OK',
     'THIRD_PARTY_NOTICES_READINESS_OK',
+    'TOKEN_SOURCE_CONFLICT_OK',
   ];
 
   for (const key of tokens) {

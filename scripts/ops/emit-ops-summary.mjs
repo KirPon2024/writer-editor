@@ -25,6 +25,29 @@ function hasFile(filePath) {
   return fs.existsSync(filePath);
 }
 
+function parseArgs(argv) {
+  return {
+    json: argv.includes('--json'),
+  };
+}
+
+function buildTokenValues({ nextSector, xplat, requiredChecks, freezeRollups, freezeMode }) {
+  const tokenValues = {};
+  for (const [key, value] of Object.entries(freezeRollups)) {
+    if (/^[A-Z0-9_]+$/u.test(key)) {
+      tokenValues[key] = value;
+    }
+  }
+  tokenValues.NEXT_SECTOR_VALID = nextSector.valid ? 1 : 0;
+  tokenValues.XPLAT_CONTRACT_PRESENT = xplat.present;
+  tokenValues.XPLAT_CONTRACT_SHA256 = xplat.sha256;
+  tokenValues.XPLAT_CONTRACT_OK = xplat.ok;
+  tokenValues.REQUIRED_CHECKS_SYNC_OK = requiredChecks.syncOk;
+  tokenValues.REQUIRED_CHECKS_STALE = requiredChecks.stale;
+  tokenValues.FREEZE_MODE_STRICT_OK = freezeMode.FREEZE_MODE_STRICT_OK;
+  return tokenValues;
+}
+
 function evaluateDoctorDeliveryStrict() {
   const result = spawnSync(process.execPath, ['scripts/doctor.mjs'], {
     encoding: 'utf8',
@@ -50,6 +73,7 @@ function evaluateDoctorDeliveryStrict() {
 }
 
 function main() {
+  const args = parseArgs(process.argv.slice(2));
   const branchRes = run('git', ['branch', '--show-current']);
   const headRes = run('git', ['rev-parse', 'HEAD']);
   const originRes = run('git', ['rev-parse', 'origin/main']);
@@ -170,8 +194,21 @@ function main() {
     xplatContractMacosSigningReadyOk: freezeRollups.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
     releaseArtifactSourcesOk: freezeRollups.RELEASE_ARTIFACT_SOURCES_OK,
     thirdPartyNoticesReadinessOk: freezeRollups.THIRD_PARTY_NOTICES_READINESS_OK,
+    tokenSourceConflictOk: freezeRollups.TOKEN_SOURCE_CONFLICT_OK,
     generatedAt: new Date().toISOString(),
   };
+  summary.tokenValues = buildTokenValues({
+    nextSector,
+    xplat,
+    requiredChecks,
+    freezeRollups,
+    freezeMode,
+  });
+
+  if (args.json) {
+    process.stdout.write(`${JSON.stringify(summary, null, 2)}\n`);
+    return;
+  }
 
   console.log(`OPS_SUMMARY_VERSION=${summary.schemaVersion}`);
   console.log(`OPS_SUMMARY_BRANCH=${summary.branch || 'unknown'}`);
@@ -264,6 +301,7 @@ function main() {
   console.log(`OPS_SUMMARY_XPLAT_CONTRACT_MACOS_SIGNING_READY_OK=${summary.xplatContractMacosSigningReadyOk}`);
   console.log(`OPS_SUMMARY_RELEASE_ARTIFACT_SOURCES_OK=${summary.releaseArtifactSourcesOk}`);
   console.log(`OPS_SUMMARY_THIRD_PARTY_NOTICES_READINESS_OK=${summary.thirdPartyNoticesReadinessOk}`);
+  console.log(`OPS_SUMMARY_TOKEN_SOURCE_CONFLICT_OK=${summary.tokenSourceConflictOk}`);
 
   if (!summary.remoteBindingOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_REMOTE_BINDING_MISMATCH');

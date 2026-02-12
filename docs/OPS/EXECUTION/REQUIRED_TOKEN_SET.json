@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "toolVersion": "generate-required-token-set.v1",
+  "profile": "release",
+  "gateTier": "release",
+  "scopeFlags": {
+    "ECONOMIC_CLAIM_SHARED_CODE": false,
+    "RELEASE_SCOPE_PERF": true,
+    "VNEXT_TOUCHED": false
+  },
+  "requiredSets": {
+    "core": [
+      "CORE_SOT_EXECUTABLE_OK",
+      "RECOVERY_IO_OK",
+      "TOKEN_SOURCE_CONFLICT_OK"
+    ],
+    "release": [
+      "ADAPTERS_ENFORCED_OK",
+      "CAPABILITY_ENFORCED_OK",
+      "COMMAND_SURFACE_ENFORCED_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "CRITICAL_CLAIM_MATRIX_OK",
+      "GOVERNANCE_STRICT_OK",
+      "HEAD_STRICT_OK",
+      "PERF_BASELINE_OK",
+      "RECOVERY_IO_OK",
+      "RELEASE_ARTIFACT_SOURCES_OK",
+      "TOKEN_DECLARATION_VALID_OK",
+      "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK"
+    ],
+    "active": [
+      "ADAPTERS_ENFORCED_OK",
+      "CAPABILITY_ENFORCED_OK",
+      "COMMAND_SURFACE_ENFORCED_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "CRITICAL_CLAIM_MATRIX_OK",
+      "GOVERNANCE_STRICT_OK",
+      "HEAD_STRICT_OK",
+      "PERF_BASELINE_OK",
+      "RECOVERY_IO_OK",
+      "RELEASE_ARTIFACT_SOURCES_OK",
+      "TOKEN_DECLARATION_VALID_OK",
+      "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK"
+    ],
+    "freezeMode": [
+      "FREEZE_MODE_STRICT_OK"
+    ]
+  },
+  "freezeReady": {
+    "requiredAlways": [
+      "ADAPTERS_ENFORCED_OK",
+      "CAPABILITY_ENFORCED_OK",
+      "COMMAND_SURFACE_ENFORCED_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "CRITICAL_CLAIM_MATRIX_OK",
+      "GOVERNANCE_STRICT_OK",
+      "HEAD_STRICT_OK",
+      "PERF_BASELINE_OK",
+      "RECOVERY_IO_OK",
+      "RELEASE_ARTIFACT_SOURCES_OK",
+      "TOKEN_DECLARATION_VALID_OK",
+      "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK"
+    ],
+    "requiredFreezeMode": [
+      "FREEZE_MODE_STRICT_OK"
+    ],
+    "requiredTokens": [
+      "ADAPTERS_ENFORCED_OK",
+      "CAPABILITY_ENFORCED_OK",
+      "COMMAND_SURFACE_ENFORCED_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "CRITICAL_CLAIM_MATRIX_OK",
+      "FREEZE_MODE_STRICT_OK",
+      "GOVERNANCE_STRICT_OK",
+      "HEAD_STRICT_OK",
+      "PERF_BASELINE_OK",
+      "RECOVERY_IO_OK",
+      "RELEASE_ARTIFACT_SOURCES_OK",
+      "TOKEN_DECLARATION_VALID_OK",
+      "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK"
+    ]
+  },
+  "configHash": "4b83ea9b74aadd6cf4b2f2e5f09587d200bb8639432354418ec472cfb7f4a804"
+}

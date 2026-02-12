@@ -1,21 +1,51 @@
-const BASELINE_REQUIRED_TOKENS = Object.freeze([
-  'ADAPTERS_ENFORCED_OK',
-  'CAPABILITY_ENFORCED_OK',
-  'COMMAND_SURFACE_ENFORCED_OK',
-  'CORE_SOT_EXECUTABLE_OK',
-  'CRITICAL_CLAIM_MATRIX_OK',
-  'GOVERNANCE_STRICT_OK',
-  'HEAD_STRICT_OK',
-  'PERF_BASELINE_OK',
-  'RECOVERY_IO_OK',
-  'RELEASE_ARTIFACT_SOURCES_OK',
-  'TOKEN_DECLARATION_VALID_OK',
-  'XPLAT_CONTRACT_MACOS_SIGNING_READY_OK',
-]);
+import requiredTokenSetLock from '../../docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json' with { type: 'json' };
 
-const FREEZE_MODE_CONDITIONAL_TOKENS = Object.freeze([
-  'FREEZE_MODE_STRICT_OK',
-]);
+const TOKEN_RE = /^[A-Z0-9_]+$/u;
+
+function uniqueSortedTokens(values) {
+  if (!Array.isArray(values)) return [];
+  const seen = new Set();
+  const out = [];
+  for (const raw of values) {
+    const token = String(raw || '').trim();
+    if (!token || seen.has(token) || !TOKEN_RE.test(token)) continue;
+    seen.add(token);
+    out.push(token);
+  }
+  return out.sort();
+}
+
+function resolveRequiredSetFromLock(lockDoc) {
+  if (!lockDoc || typeof lockDoc !== 'object' || Array.isArray(lockDoc)) {
+    return {
+      valid: false,
+      requiredAlways: [],
+      requiredFreezeMode: [],
+    };
+  }
+  const freezeReady = lockDoc.freezeReady;
+  if (!freezeReady || typeof freezeReady !== 'object' || Array.isArray(freezeReady)) {
+    return {
+      valid: false,
+      requiredAlways: [],
+      requiredFreezeMode: [],
+    };
+  }
+
+  const requiredAlways = uniqueSortedTokens(freezeReady.requiredAlways);
+  const requiredFreezeMode = uniqueSortedTokens(freezeReady.requiredFreezeMode);
+  const valid = requiredAlways.length > 0 && requiredFreezeMode.length > 0;
+  return {
+    valid,
+    requiredAlways,
+    requiredFreezeMode,
+  };
+}
+
+const resolvedLock = resolveRequiredSetFromLock(requiredTokenSetLock);
+
+const BASELINE_REQUIRED_TOKENS = Object.freeze(resolvedLock.requiredAlways);
+const FREEZE_MODE_CONDITIONAL_TOKENS = Object.freeze(resolvedLock.requiredFreezeMode);
 
 function isObjectRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -69,6 +99,10 @@ export function evaluateFreezeReady(input = {}) {
   const missingTokensSet = new Set();
   const failuresSet = new Set();
   const requires = {};
+
+  if (!resolvedLock.valid) {
+    failuresSet.add('E_REQUIRED_TOKEN_SET_LOCK_INVALID');
+  }
 
   for (const token of requiredActive) {
     const resolved = resolveTokenValue(token, rollupsJson, truthTableJson);

@@ -5,6 +5,7 @@
   "gateTier": "release",
   "scopeFlags": {
     "ECONOMIC_CLAIM_SHARED_CODE": false,
+    "PR_MODE_CLI": false,
     "RELEASE_SCOPE_PERF": true,
     "VNEXT_TOUCHED": false
   },
@@ -80,5 +81,5 @@
       "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK"
     ]
   },
-  "configHash": "4b83ea9b74aadd6cf4b2f2e5f09587d200bb8639432354418ec472cfb7f4a804"
+  "configHash": "ee6cbf1fe340f641f0f538a30a218801f4bdbaad1626ddc7de71d1773d4be5c8"
 }

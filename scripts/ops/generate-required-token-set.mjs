@@ -58,9 +58,17 @@ function readJsonObject(filePath) {
   }
 }
 
+function resolveScopeFlags(profile) {
+  const base = isObjectRecord(profile.scopeFlags) ? { ...profile.scopeFlags } : {};
+  const prMode = String(profile.prMode || '').trim().toUpperCase();
+  if (prMode === 'CLI') base.PR_MODE_CLI = true;
+  if (prMode === 'URL_ONLY') base.PR_MODE_CLI = false;
+  return base;
+}
+
 function collectConditionalTokens(profile, tier) {
   const requiredSets = isObjectRecord(profile.requiredSets) ? profile.requiredSets : {};
-  const scopeFlags = isObjectRecord(profile.scopeFlags) ? profile.scopeFlags : {};
+  const scopeFlags = resolveScopeFlags(profile);
   const rows = Array.isArray(requiredSets.conditional) ? requiredSets.conditional : [];
   const tokens = [];
   for (const row of rows) {
@@ -93,6 +101,7 @@ export function buildRequiredTokenSetFromProfile(profileDoc = {}) {
 
   const profile = validated.normalizedProfile;
   const requiredSets = profile.requiredSets;
+  const scopeFlags = resolveScopeFlags(profile);
   const coreBase = uniqueSortedTokens(requiredSets.core);
   const releaseBase = uniqueSortedTokens(requiredSets.release);
   const freezeModeBase = uniqueSortedTokens(requiredSets.freezeMode);
@@ -110,7 +119,7 @@ export function buildRequiredTokenSetFromProfile(profileDoc = {}) {
     toolVersion: TOOL_VERSION,
     profile: String(profile.profile || ''),
     gateTier: activeTier,
-    scopeFlags: stableSortObject(profile.scopeFlags || {}),
+    scopeFlags: stableSortObject(scopeFlags),
     requiredSets: {
       core: coreRequired,
       release: releaseRequired,

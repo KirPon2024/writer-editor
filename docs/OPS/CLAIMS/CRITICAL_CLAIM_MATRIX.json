@@ -298,6 +298,18 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "AUTOMATION_GH_AUTH_PREFLIGHT",
+      "requiredToken": "AUTOMATION_GH_AUTH_OK",
+      "proofHook": "node scripts/ops/automation-gh-auth-state.mjs --json",
+      "failSignal": "E_AUTOMATION_GH_AUTH_INVALID",
+      "blocking": true,
+      "sourceBinding": "ops_script",
+      "gateTier": "release",
+      "scopeFlags": {
+        "PR_MODE_CLI": true
+      }
+    },
+    {
       "claimId": "TOKEN_DECLARATION",
       "requiredToken": "TOKEN_DECLARATION_VALID_OK",
       "proofHook": "node scripts/ops/token-declaration-state.mjs",

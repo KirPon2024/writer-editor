@@ -10,7 +10,8 @@
   "scopeFlags": {
     "RELEASE_SCOPE_PERF": true,
     "ECONOMIC_CLAIM_SHARED_CODE": false,
-    "VNEXT_TOUCHED": false
+    "VNEXT_TOUCHED": false,
+    "PR_MODE_CLI": false
   },
   "requiredSets": {
     "core": [
@@ -44,6 +45,17 @@
         ],
         "applyTo": [
           "core"
+        ]
+      },
+      {
+        "flag": "PR_MODE_CLI",
+        "enabledWhen": true,
+        "tokens": [
+          "AUTOMATION_GH_AUTH_OK"
+        ],
+        "applyTo": [
+          "core",
+          "release"
         ]
       }
     ]

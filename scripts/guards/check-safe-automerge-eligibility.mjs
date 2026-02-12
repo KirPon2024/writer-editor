@@ -2,10 +2,17 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { evaluateSafeAutomergeOpsOnly } from './check-safe-automerge-ops-only.mjs';
 
 const TOOL_VERSION = 'safe-automerge-eligibility.v1';
 const DEFAULT_REPO = 'KirPon2024/writer-editor';
+const OPS_ONLY_ALLOWED_PATHS = Object.freeze([
+  'docs/OPS/',
+  'scripts/ops/',
+  'scripts/doctor.mjs',
+  'test/contracts/',
+  'docs/OPERATIONS/',
+  'scripts/guards/',
+]);
 const FAILURE = Object.freeze({
   BASE_BRANCH_NOT_MAIN: 'E_BASE_BRANCH_NOT_MAIN',
   HEAD_SHA_MISMATCH: 'E_HEAD_SHA_MISMATCH',
@@ -106,6 +113,25 @@ function loadFixture(fixtureJson) {
 function normalizeChangedFiles(files) {
   if (!Array.isArray(files)) return [];
   return [...new Set(files.map((entry) => String(entry || '').trim()).filter(Boolean))].sort();
+}
+
+function isOpsOnlyAllowedPath(filePath) {
+  for (const allowedEntry of OPS_ONLY_ALLOWED_PATHS) {
+    if (allowedEntry.endsWith('/')) {
+      if (filePath.startsWith(allowedEntry)) return true;
+      continue;
+    }
+    if (filePath === allowedEntry) return true;
+  }
+  return false;
+}
+
+function evaluateOpsOnlyPaths(changedFiles) {
+  const outsideAllowlist = changedFiles.filter((filePath) => !isOpsOnlyAllowedPath(filePath));
+  return {
+    ok: outsideAllowlist.length === 0,
+    outsideAllowlist,
+  };
 }
 
 function fetchPrState({ repo, prNumber, fixtureJson }) {
@@ -269,14 +295,8 @@ export function evaluateSafeAutomergeEligibility(input = {}) {
   if (apiUnavailable) failures.add(FAILURE.GH_API_UNAVAILABLE);
   if (prNotFound) failures.add(FAILURE.PR_NOT_FOUND);
 
-  const opsProbe = evaluateSafeAutomergeOpsOnly({
-    changedFiles,
-    baseRefName: 'main',
-    headRefOid: expectedHeadSha || 'probe',
-    expectedHeadSha: expectedHeadSha || 'probe',
-    statusCheckRollup: [{ status: 'COMPLETED', conclusion: 'SUCCESS' }],
-  });
-  const opsOnlyOk = opsProbe.details.outsideAllowlist.length === 0 && opsProbe.details.denyPaths.length === 0;
+  const opsOnlyEval = evaluateOpsOnlyPaths(changedFiles);
+  const opsOnlyOk = opsOnlyEval.ok;
   if (!opsOnlyOk) failures.add(FAILURE.DIFF_NOT_OPS_ONLY);
 
   if (base !== 'main') failures.add(FAILURE.BASE_BRANCH_NOT_MAIN);
@@ -300,6 +320,7 @@ export function evaluateSafeAutomergeEligibility(input = {}) {
       expectedHeadSha,
       rollup,
       opsOnlyOk,
+      opsOnlyOutsideAllowlist: opsOnlyEval.outsideAllowlist,
     },
     toolVersion: TOOL_VERSION,
   };

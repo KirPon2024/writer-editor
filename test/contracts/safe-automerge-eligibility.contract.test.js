@@ -93,6 +93,77 @@ test('eligibility blocks when non-ops file is present in PR diff', async () => {
 
   assert.equal(state.ok, false);
   assert.ok(state.failures.includes('E_DIFF_NOT_OPS_ONLY'));
+  assert.equal(state.details.opsOnlyOk, false);
+});
+
+test('eligibility accepts ops-only diff paths from expanded allowlist', async () => {
+  const { evaluateSafeAutomergeEligibility } = await loadModule();
+  const state = evaluateSafeAutomergeEligibility({
+    apiUnavailable: false,
+    prNotFound: false,
+    base: 'main',
+    headSha: 'abc123',
+    expectedHeadSha: 'abc123',
+    rollup: 'SUCCESS',
+    changedFiles: [
+      'docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json',
+      'scripts/ops/check-merge-readiness.mjs',
+      'scripts/doctor.mjs',
+      'test/contracts/safe-automerge-eligibility.contract.test.js',
+      'docs/OPERATIONS/STATUS/CODEX_DELIVERY_TEMPLATE_v1.0.md',
+      'scripts/guards/check-safe-automerge-eligibility.mjs',
+    ],
+    mergeMethod: 'merge',
+    admin: false,
+    squash: false,
+    rebase: false,
+  });
+
+  assert.equal(state.ok, true);
+  assert.equal(state.details.opsOnlyOk, true);
+  assert.deepEqual(state.failures, []);
+});
+
+test('eligibility blocks when .github path is present in PR diff', async () => {
+  const { evaluateSafeAutomergeEligibility } = await loadModule();
+  const state = evaluateSafeAutomergeEligibility({
+    apiUnavailable: false,
+    prNotFound: false,
+    base: 'main',
+    headSha: 'abc123',
+    expectedHeadSha: 'abc123',
+    rollup: 'SUCCESS',
+    changedFiles: ['.github/workflows/ci.yml'],
+    mergeMethod: 'merge',
+    admin: false,
+    squash: false,
+    rebase: false,
+  });
+
+  assert.equal(state.ok, false);
+  assert.ok(state.failures.includes('E_DIFF_NOT_OPS_ONLY'));
+  assert.equal(state.details.opsOnlyOk, false);
+});
+
+test('eligibility blocks when unexpected path is present in PR diff', async () => {
+  const { evaluateSafeAutomergeEligibility } = await loadModule();
+  const state = evaluateSafeAutomergeEligibility({
+    apiUnavailable: false,
+    prNotFound: false,
+    base: 'main',
+    headSha: 'abc123',
+    expectedHeadSha: 'abc123',
+    rollup: 'SUCCESS',
+    changedFiles: ['README.md'],
+    mergeMethod: 'merge',
+    admin: false,
+    squash: false,
+    rebase: false,
+  });
+
+  assert.equal(state.ok, false);
+  assert.ok(state.failures.includes('E_DIFF_NOT_OPS_ONLY'));
+  assert.equal(state.details.opsOnlyOk, false);
 });
 
 test('eligibility failure list is deterministic and sorted', async () => {

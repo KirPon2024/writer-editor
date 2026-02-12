@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "craftsman.ops.execution-profile.schema.v1",
+  "title": "Execution Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profile",
+    "gateTier",
+    "requirePerfBaseline",
+    "economicClaimDeclared",
+    "requireScrSharedRatio",
+    "headStrictEnforced",
+    "networkStrictVerifyRequired",
+    "scopeFlags",
+    "requiredSets"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "profile": {
+      "type": "string",
+      "enum": [
+        "dev",
+        "pr",
+        "release"
+      ]
+    },
+    "gateTier": {
+      "type": "string",
+      "enum": [
+        "core",
+        "release"
+      ]
+    },
+    "requirePerfBaseline": {
+      "type": "boolean"
+    },
+    "economicClaimDeclared": {
+      "type": "boolean"
+    },
+    "requireScrSharedRatio": {
+      "type": "boolean"
+    },
+    "headStrictEnforced": {
+      "type": "boolean"
+    },
+    "networkStrictVerifyRequired": {
+      "type": "boolean"
+    },
+    "scopeFlags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "requiredSets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "core",
+        "release",
+        "freezeMode",
+        "conditional"
+      ],
+      "properties": {
+        "core": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          }
+        },
+        "release": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          }
+        },
+        "freezeMode": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          }
+        },
+        "conditional": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "flag",
+              "tokens",
+              "applyTo"
+            ],
+            "properties": {
+              "flag": {
+                "type": "string",
+                "pattern": "^[A-Z0-9_]+$"
+              },
+              "tokens": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z0-9_]+$"
+                }
+              },
+              "enabledWhen": {
+                "type": "boolean"
+              },
+              "applyTo": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "core",
+                    "release"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

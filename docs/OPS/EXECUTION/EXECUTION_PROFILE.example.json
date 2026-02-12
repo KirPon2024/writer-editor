@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "profile": "release",
+  "gateTier": "release",
+  "requirePerfBaseline": true,
+  "economicClaimDeclared": false,
+  "requireScrSharedRatio": false,
+  "headStrictEnforced": true,
+  "networkStrictVerifyRequired": true,
+  "scopeFlags": {
+    "RELEASE_SCOPE_PERF": true,
+    "ECONOMIC_CLAIM_SHARED_CODE": false,
+    "VNEXT_TOUCHED": false
+  },
+  "requiredSets": {
+    "core": [
+      "CORE_SOT_EXECUTABLE_OK",
+      "RECOVERY_IO_OK",
+      "TOKEN_SOURCE_CONFLICT_OK"
+    ],
+    "release": [
+      "ADAPTERS_ENFORCED_OK",
+      "CAPABILITY_ENFORCED_OK",
+      "COMMAND_SURFACE_ENFORCED_OK",
+      "CORE_SOT_EXECUTABLE_OK",
+      "CRITICAL_CLAIM_MATRIX_OK",
+      "GOVERNANCE_STRICT_OK",
+      "HEAD_STRICT_OK",
+      "PERF_BASELINE_OK",
+      "RECOVERY_IO_OK",
+      "RELEASE_ARTIFACT_SOURCES_OK",
+      "TOKEN_DECLARATION_VALID_OK",
+      "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK"
+    ],
+    "freezeMode": [
+      "FREEZE_MODE_STRICT_OK"
+    ],
+    "conditional": [
+      {
+        "flag": "VNEXT_TOUCHED",
+        "enabledWhen": true,
+        "tokens": [
+          "E2E_CRITICAL_USER_PATH_OK"
+        ],
+        "applyTo": [
+          "core"
+        ]
+      }
+    ]
+  }
+}

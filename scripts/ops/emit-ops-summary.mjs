@@ -110,6 +110,7 @@ function main() {
     driftUnresolvedP0Count: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
     freezeModeStrictOk: freezeMode.FREEZE_MODE_STRICT_OK,
     freezeReadyOk: freezeRollups.FREEZE_READY_OK,
+    freezeProfileDocAlignmentOk: freezeRollups.FREEZE_PROFILE_DOC_ALIGNMENT_OK,
     coreSotReducerImplementedOk: freezeRollups.CORE_SOT_REDUCER_IMPLEMENTED_OK,
     coreSotSchemaAlignedOk: freezeRollups.CORE_SOT_SCHEMA_ALIGNED_OK,
     coreSotCommandCanonOk: freezeRollups.CORE_SOT_COMMAND_CANON_OK,
@@ -204,6 +205,7 @@ function main() {
   console.log(`OPS_SUMMARY_DRIFT_UNRESOLVED_P0_COUNT=${summary.driftUnresolvedP0Count}`);
   console.log(`OPS_SUMMARY_FREEZE_MODE_STRICT_OK=${summary.freezeModeStrictOk}`);
   console.log(`OPS_SUMMARY_FREEZE_READY_OK=${summary.freezeReadyOk}`);
+  console.log(`OPS_SUMMARY_FREEZE_PROFILE_DOC_ALIGNMENT_OK=${summary.freezeProfileDocAlignmentOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_REDUCER_IMPLEMENTED_OK=${summary.coreSotReducerImplementedOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_SCHEMA_ALIGNED_OK=${summary.coreSotSchemaAlignedOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_COMMAND_CANON_OK=${summary.coreSotCommandCanonOk}`);

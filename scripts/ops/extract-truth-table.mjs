@@ -5,6 +5,7 @@ import { evaluateNextSectorState } from './next-sector-state.mjs';
 import { evaluateXplatContractState } from './xplat-contract-state.mjs';
 import { evaluateRequiredChecksState } from './required-checks-state.mjs';
 import { evaluateFreezeRollupsState } from './freeze-rollups-state.mjs';
+import { evaluateFreezeModeState } from './freeze-mode-state.mjs';
 
 const REQUIRED_OPS_SCRIPTS = [
   'scripts/ops/check-merge-readiness.mjs',
@@ -46,6 +47,10 @@ function buildTruthTable() {
     mode: 'release',
     skipTokenEmissionCheck: true,
   });
+  const freezeMode = evaluateFreezeModeState({
+    freezeRollups,
+    freezeModeEnabled: String(process.env.FREEZE_MODE || '').trim() === '1',
+  });
 
   return {
     schemaVersion: 'truth-table.v1',
@@ -70,6 +75,7 @@ function buildTruthTable() {
     DEBT_TTL_VALID_OK: freezeRollups.DEBT_TTL_VALID_OK,
     DEBT_TTL_EXPIRED_COUNT: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
     DRIFT_UNRESOLVED_P0_COUNT: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
+    FREEZE_MODE_STRICT_OK: freezeMode.FREEZE_MODE_STRICT_OK,
     CORE_SOT_REDUCER_IMPLEMENTED_OK: freezeRollups.CORE_SOT_REDUCER_IMPLEMENTED_OK,
     CORE_SOT_SCHEMA_ALIGNED_OK: freezeRollups.CORE_SOT_SCHEMA_ALIGNED_OK,
     CORE_SOT_COMMAND_CANON_OK: freezeRollups.CORE_SOT_COMMAND_CANON_OK,
@@ -194,6 +200,12 @@ function buildTruthTable() {
         actual: freezeRollups.XPLAT_COST_GUARANTEE_OK === 1,
         pass: freezeRollups.XPLAT_COST_GUARANTEE_OK === 1,
       },
+      {
+        id: 'FREEZE_MODE_STRICT_OK',
+        expected: true,
+        actual: freezeMode.FREEZE_MODE_STRICT_OK === 1,
+        pass: freezeMode.FREEZE_MODE_STRICT_OK === 1,
+      },
     ],
     context: {
       headSha,
@@ -234,6 +246,7 @@ function emitMd(table) {
   console.log(`DEBT_TTL_VALID_OK=${table.DEBT_TTL_VALID_OK}`);
   console.log(`DEBT_TTL_EXPIRED_COUNT=${table.DEBT_TTL_EXPIRED_COUNT}`);
   console.log(`DRIFT_UNRESOLVED_P0_COUNT=${table.DRIFT_UNRESOLVED_P0_COUNT}`);
+  console.log(`FREEZE_MODE_STRICT_OK=${table.FREEZE_MODE_STRICT_OK}`);
   console.log(`CORE_SOT_REDUCER_IMPLEMENTED_OK=${table.CORE_SOT_REDUCER_IMPLEMENTED_OK}`);
   console.log(`CORE_SOT_SCHEMA_ALIGNED_OK=${table.CORE_SOT_SCHEMA_ALIGNED_OK}`);
   console.log(`CORE_SOT_COMMAND_CANON_OK=${table.CORE_SOT_COMMAND_CANON_OK}`);

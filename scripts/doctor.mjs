@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { evaluateXplatContractState } from './ops/xplat-contract-state.mjs';
 import { evaluateRequiredChecksState } from './ops/required-checks-state.mjs';
 import { evaluateFreezeRollupsState } from './ops/freeze-rollups-state.mjs';
+import { evaluateFreezeModeState } from './ops/freeze-mode-state.mjs';
 
 const SUPPORTED_OPS_CANON_VERSION = 'v1.3';
 const DEFAULT_SECTOR_U_STATUS_PATH = 'docs/OPS/STATUS/SECTOR_U.json';
@@ -5720,6 +5721,10 @@ function evaluateFreezeRollupTokens() {
     mode: isDeliveryExecutionMode() ? 'release' : 'dev',
     skipTokenEmissionCheck: true,
   });
+  const freezeModeState = evaluateFreezeModeState({
+    freezeRollups: state,
+    freezeModeEnabled: String(process.env.FREEZE_MODE || '').trim() === '1',
+  });
 
   const ordered = [
     'REMOTE_BINDING_OK',
@@ -5732,6 +5737,7 @@ function evaluateFreezeRollupTokens() {
     'DEBT_TTL_VALID_OK',
     'DEBT_TTL_EXPIRED_COUNT',
     'DRIFT_UNRESOLVED_P0_COUNT',
+    'FREEZE_MODE_STRICT_OK',
     'GOVERNANCE_STRICT_OK',
     'CORE_SOT_REDUCER_IMPLEMENTED_OK',
     'CORE_SOT_SCHEMA_ALIGNED_OK',
@@ -5802,10 +5808,11 @@ function evaluateFreezeRollupTokens() {
     && state.CRITICAL_CLAIM_MATRIX_OK === 1
     && state.TOKEN_DECLARATION_VALID_OK === 1
     && state.DEBT_TTL_VALID_OK === 1
+    && freezeModeState.FREEZE_MODE_STRICT_OK === 1
     ? 'ok'
     : 'fail';
 
-  return { level, state };
+  return { level, state, freezeModeState };
 }
 
 function run() {

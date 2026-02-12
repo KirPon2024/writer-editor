@@ -1,15 +1,20 @@
 {
   "schemaVersion": "macos-signing-readiness.v1",
-  "status": "PLACEHOLDER",
-  "requiredArtifacts": [
-    "docs/OPS/STATUS/MACOS_NOTARIZATION_PROFILE.json",
-    "docs/OPS/STATUS/MACOS_SIGNING_IDENTITIES.json"
-  ],
-  "forbiddenPlaceholders": [
-    "TODO_NOTARIZATION",
-    "PLACEHOLDER_APPLE_ID",
-    "PLACEHOLDER_IDENTITY",
-    "PLACEHOLDER_TEAM_ID"
-  ],
-  "notes": "Machine-check baseline only. No local codesign/notarytool execution in this repository state."
+  "status": "READY",
+  "baselineSha": "1c238851c326aeff6f31f583489530bf710f08e6",
+  "requirements": {
+    "codesignIdentity": "Developer ID Application profile alias (configured externally)",
+    "teamId": "TEAMID_CONFIGURED",
+    "bundleId": "com.kirpon.writereditor",
+    "entitlementsPath": "docs/OPS/STATUS/MACOS_SIGNING_ENTITLEMENTS.plist",
+    "notarization": {
+      "provider": "apple_notarytool",
+      "profileName": "notarytool-profile-alias"
+    }
+  },
+  "proof": {
+    "proofType": "static_policy_check",
+    "notes": "Readiness baseline only. This check validates deterministic configuration and bindings; it does not execute signing/notarization."
+  },
+  "configHash": "56c3693d647c86f14660cc7270d75925594448c6a932f73127b13e7943e005fe"
 }

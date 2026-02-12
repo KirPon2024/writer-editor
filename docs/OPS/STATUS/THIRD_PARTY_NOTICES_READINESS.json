@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "third-party-notices-readiness.v1",
+  "status": "PLACEHOLDER",
+  "baselineSha": "c85fca02e98d831d7b65195a2a593f969dfe5306",
+  "policy": {
+    "licenseHygieneNotePresent": true,
+    "sourceOfferPolicyPresent": true
+  },
+  "inputs": {
+    "packageLockDetected": "npm",
+    "packageJsonPresent": true,
+    "knownLicenseFiles": [
+      "LICENSE",
+      "NOTICE"
+    ]
+  },
+  "configHash": "23218fcc8d478dfec87f163cc142632dfc3b8b2202e8be9ab0ba34e075cd4c5e"
+}

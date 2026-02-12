@@ -20,6 +20,7 @@ import { evaluateCollabApplyPipelineState } from './collab-apply-pipeline-state.
 import { evaluateSimulationMinContractState } from './simulation-min-contract-state.mjs';
 import { evaluateMacosSigningReadinessState } from './macos-signing-readiness-state.mjs';
 import { evaluateReleaseArtifactSourcesState } from './release-artifact-sources-state.mjs';
+import { evaluateThirdPartyNoticesReadinessState } from './third-party-notices-readiness-state.mjs';
 import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
 import { evaluateFreezeReady } from './freeze-ready-evaluator.mjs';
 
@@ -572,6 +573,7 @@ export function evaluateFreezeRollupsState(input = {}) {
   const simulationMinContract = evaluateSimulationMinContract();
   const macosSigningReadiness = evaluateMacosSigningReadinessState();
   const releaseArtifactSources = evaluateReleaseArtifactSourcesState();
+  const thirdPartyNoticesReadiness = evaluateThirdPartyNoticesReadinessState();
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -663,6 +665,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     SIMULATION_MIN_CONTRACT_OK: simulationMinContract.SIMULATION_MIN_CONTRACT_OK,
     XPLAT_CONTRACT_MACOS_SIGNING_READY_OK: macosSigningReadiness.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
     RELEASE_ARTIFACT_SOURCES_OK: releaseArtifactSources.RELEASE_ARTIFACT_SOURCES_OK,
+    THIRD_PARTY_NOTICES_READINESS_OK: thirdPartyNoticesReadiness.THIRD_PARTY_NOTICES_READINESS_OK,
     details: {
       remote,
       nextSector,
@@ -687,6 +690,7 @@ export function evaluateFreezeRollupsState(input = {}) {
       simulationMinContract,
       macosSigningReadiness,
       releaseArtifactSources,
+      thirdPartyNoticesReadiness,
       xplatCostGuarantee: {
         ok: xplatCostGuaranteeOk,
         requires: xplatCostGuaranteeRequires,
@@ -788,6 +792,7 @@ function printTokens(state) {
     'SIMULATION_MIN_CONTRACT_OK',
     'XPLAT_CONTRACT_MACOS_SIGNING_READY_OK',
     'RELEASE_ARTIFACT_SOURCES_OK',
+    'THIRD_PARTY_NOTICES_READINESS_OK',
   ];
 
   for (const key of tokens) {

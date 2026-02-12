@@ -23,6 +23,7 @@ const ALLOWED_NAMESPACE_PREFIXES = [
   'SIMULATION_',
   'XPLAT_',
   'XPLAT_CONTRACT_',
+  'THIRD_PARTY_',
   'DRIFT_',
   'SCR_',
   'RELEASE_',

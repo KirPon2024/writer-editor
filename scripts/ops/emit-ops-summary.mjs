@@ -166,6 +166,7 @@ function main() {
     simulationMinContractOk: freezeRollups.SIMULATION_MIN_CONTRACT_OK,
     xplatContractMacosSigningReadyOk: freezeRollups.XPLAT_CONTRACT_MACOS_SIGNING_READY_OK,
     releaseArtifactSourcesOk: freezeRollups.RELEASE_ARTIFACT_SOURCES_OK,
+    thirdPartyNoticesReadinessOk: freezeRollups.THIRD_PARTY_NOTICES_READINESS_OK,
     generatedAt: new Date().toISOString(),
   };
 
@@ -256,6 +257,7 @@ function main() {
   console.log(`OPS_SUMMARY_SIMULATION_MIN_CONTRACT_OK=${summary.simulationMinContractOk}`);
   console.log(`OPS_SUMMARY_XPLAT_CONTRACT_MACOS_SIGNING_READY_OK=${summary.xplatContractMacosSigningReadyOk}`);
   console.log(`OPS_SUMMARY_RELEASE_ARTIFACT_SOURCES_OK=${summary.releaseArtifactSourcesOk}`);
+  console.log(`OPS_SUMMARY_THIRD_PARTY_NOTICES_READINESS_OK=${summary.thirdPartyNoticesReadinessOk}`);
 
   if (!summary.remoteBindingOk) {
     console.log('FAIL_REASON=OPS_SUMMARY_REMOTE_BINDING_MISMATCH');

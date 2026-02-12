@@ -97,6 +97,8 @@ function main() {
       && requiredChecks.source === 'canonical'
       && doctorDeliveryStrict.ok === 1
       && freezeRollups.HEAD_STRICT_OK === 1,
+    governanceStateValid: freezeRollups.GOVERNANCE_STATE_VALID,
+    strategyProgressValid: freezeRollups.STRATEGY_PROGRESS_VALID,
     headStrictOk: freezeRollups.HEAD_STRICT_OK,
     criticalClaimMatrixOk: freezeRollups.CRITICAL_CLAIM_MATRIX_OK,
     tokenDeclarationValidOk: freezeRollups.TOKEN_DECLARATION_VALID_OK,
@@ -189,6 +191,8 @@ function main() {
   console.log(`OPS_SUMMARY_REQUIRED_CHECKS_SOURCE=${summary.requiredChecksSource}`);
   console.log(`OPS_SUMMARY_DOCTOR_DELIVERY_STRICT_OK=${summary.doctorDeliveryStrictOk}`);
   console.log(`OPS_SUMMARY_GOVERNANCE_STRICT_OK=${summary.governanceStrictOk ? 1 : 0}`);
+  console.log(`OPS_SUMMARY_GOVERNANCE_STATE_VALID=${summary.governanceStateValid}`);
+  console.log(`OPS_SUMMARY_STRATEGY_PROGRESS_VALID=${summary.strategyProgressValid}`);
   console.log(`OPS_SUMMARY_HEAD_STRICT_OK=${summary.headStrictOk}`);
   console.log(`OPS_SUMMARY_CRITICAL_CLAIM_MATRIX_OK=${summary.criticalClaimMatrixOk}`);
   console.log(`OPS_SUMMARY_TOKEN_DECLARATION_VALID_OK=${summary.tokenDeclarationValidOk}`);

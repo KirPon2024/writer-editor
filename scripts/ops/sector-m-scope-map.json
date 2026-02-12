@@ -204,7 +204,12 @@
     "DONE": []
   },
   "allowPrefixByPhase": {
-    "M0": [],
+    "M0": [
+      "docs/OPS/",
+      "docs/OPERATIONS/",
+      "scripts/ops/",
+      "test/contracts/"
+    ],
     "M1": [],
     "M2": [],
     "M3": [

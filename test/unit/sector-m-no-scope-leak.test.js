@@ -166,6 +166,7 @@ test('M5 overlay prefixes are allowed only from M5 and above', () => {
 test('ops carveout stays explicit and narrow', () => {
   const scopeMap = readScopeMap();
   const carveout = scopeMap.opsCarveoutAllow;
+  const m0Prefixes = Array.isArray(scopeMap.allowPrefixByPhase.M0) ? scopeMap.allowPrefixByPhase.M0 : [];
 
   assert.ok(carveout.includes('docs/OPS/STATUS/CANON_WORKTREE_POLICY.md'));
   assert.ok(carveout.includes('docs/OPS/RUNBOOKS/DELIVERY_FALLBACK_NETWORK_DNS.md'));
@@ -179,4 +180,13 @@ test('ops carveout stays explicit and narrow', () => {
   for (const item of carveout) {
     assert.equal(item.includes('**'), false, `wildcards are forbidden in ops carveout: ${item}`);
   }
+
+  assert.ok(m0Prefixes.includes('docs/OPS/'));
+  assert.ok(m0Prefixes.includes('docs/OPERATIONS/'));
+  assert.ok(m0Prefixes.includes('scripts/ops/'));
+  assert.ok(m0Prefixes.includes('test/contracts/'));
+  for (const prefix of m0Prefixes) {
+    assert.equal(prefix.includes('**'), false, `wildcards are forbidden in ops prefixes: ${prefix}`);
+  }
+  assert.equal(m0Prefixes.some((prefix) => prefix.startsWith('src/')), false, 'src/** must stay guarded');
 });

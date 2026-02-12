@@ -34,6 +34,7 @@ const ALLOWED_NAMESPACE_PREFIXES = [
   'HEAD_STRICT_',
   'DEBT_TTL_',
   'FREEZE_',
+  'AUTOMATION_',
 ];
 
 function parseJson(filePath) {

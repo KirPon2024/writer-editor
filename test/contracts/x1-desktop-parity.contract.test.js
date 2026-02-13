@@ -32,56 +32,80 @@ function makeMetricsDoc(overrides = {}) {
   };
 }
 
-test('x1 desktop parity state passes with mocked harness success', async () => {
+function makeHarnessReport(overrides = {}) {
+  return {
+    X1_DESKTOP_PARITY_RUNTIME_OK: 1,
+    passPct: 100,
+    runtimeParityPassPct: 100,
+    flakyRatePct: 0,
+    maxDocSizeMbVerified: 2,
+    durationMs: 120,
+    platform: 'linux',
+    fails: 0,
+    ...overrides,
+  };
+}
+
+test('x1 desktop parity state passes with behavioral harness report at 100%', async () => {
   const { evaluateX1DesktopParityState } = await loadModule();
-  const state = evaluateX1DesktopParityState({
+  const state = await evaluateX1DesktopParityState({
     metricsDoc: makeMetricsDoc(),
-    harnessRunner: () => ({
-      X1_DESKTOP_PARITY_RUNTIME_OK: 1,
-      roundtripOk: true,
-      exportImportOk: true,
-      normalizationOk: true,
-      durationMs: 42,
-      docSizeMb: 0.001,
-      flakyRatePct: 0,
-      runtimeParityPassPct: 100,
-      failSignalCode: '',
-      failSignal: null,
-      errors: [],
-    }),
+    harnessRunner: () => makeHarnessReport(),
   });
 
   assert.equal(state.X1_DESKTOP_PARITY_STATE_OK, 1);
+  assert.equal(state.X1_DESKTOP_PARITY_PASS_PCT, 100);
+  assert.equal(state.X1_DESKTOP_PARITY_PLATFORM, 'linux');
   assert.equal(state.failSignalCode, '');
   assert.equal(state.failSignal, null);
-  assert.equal(state.metricsEvidenceRef, 'docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json');
   assert.deepEqual(state.errors, []);
 });
 
-test('x1 desktop parity state fails with mocked invariant failure and emits failSignal', async () => {
+test('x1 desktop parity state fails when harness passPct is below 100', async () => {
   const { evaluateX1DesktopParityState } = await loadModule();
-  const state = evaluateX1DesktopParityState({
+  const state = await evaluateX1DesktopParityState({
     metricsDoc: makeMetricsDoc(),
-    harnessRunner: () => ({
-      X1_DESKTOP_PARITY_RUNTIME_OK: 0,
-      roundtripOk: false,
-      exportImportOk: true,
-      normalizationOk: true,
-      durationMs: 50,
-      docSizeMb: 0.002,
-      flakyRatePct: 0,
-      runtimeParityPassPct: 0,
-      failSignalCode: 'E_X1_DESKTOP_PARITY_RUNTIME_INVALID',
-      failSignal: {
-        code: 'E_X1_DESKTOP_PARITY_RUNTIME_INVALID',
-      },
-      errors: [{ code: 'E_X1_DESKTOP_PARITY_ROUNDTRIP_FAILED', message: 'Roundtrip failed.' }],
-    }),
+    harnessRunner: () => makeHarnessReport({ passPct: 90, runtimeParityPassPct: 90, fails: 1 }),
   });
 
   assert.equal(state.X1_DESKTOP_PARITY_STATE_OK, 0);
   assert.equal(state.failSignalCode, 'E_X1_DESKTOP_PARITY_RUNTIME_INVALID');
-  assert.equal(state.failSignal.code, 'E_X1_DESKTOP_PARITY_RUNTIME_INVALID');
-  assert.ok(state.errors.some((entry) => entry.code === 'E_X1_PARITY_HARNESS_FAILED'));
-  assert.ok(state.errors.some((entry) => entry.code === 'E_X1_PARITY_ROUNDTRIP_FAILED'));
+  assert.ok(state.errors.some((entry) => entry.code === 'E_X1_PARITY_PASS_PCT_NOT_FULL'));
+});
+
+test('x1 desktop parity state fails schema when required harness field is missing', async () => {
+  const { evaluateX1DesktopParityState } = await loadModule();
+  const state = await evaluateX1DesktopParityState({
+    metricsDoc: makeMetricsDoc(),
+    harnessRunner: () => {
+      const report = makeHarnessReport();
+      delete report.maxDocSizeMbVerified;
+      return report;
+    },
+  });
+
+  assert.equal(state.X1_DESKTOP_PARITY_STATE_OK, 0);
+  assert.ok(state.errors.some((entry) => entry.code === 'E_X1_PARITY_REPORT_FIELD_REQUIRED'));
+});
+
+test('x1 desktop parity state fails on unsupported platform', async () => {
+  const { evaluateX1DesktopParityState } = await loadModule();
+  const state = await evaluateX1DesktopParityState({
+    metricsDoc: makeMetricsDoc(),
+    harnessRunner: () => makeHarnessReport({ platform: 'solaris' }),
+  });
+
+  assert.equal(state.X1_DESKTOP_PARITY_STATE_OK, 0);
+  assert.ok(state.errors.some((entry) => entry.code === 'E_X1_PARITY_PLATFORM_UNSUPPORTED'));
+});
+
+test('x1 desktop parity state never false-greens when harness report is absent', async () => {
+  const { evaluateX1DesktopParityState } = await loadModule();
+  const state = await evaluateX1DesktopParityState({
+    metricsDoc: makeMetricsDoc(),
+    harnessRunner: () => null,
+  });
+
+  assert.equal(state.X1_DESKTOP_PARITY_STATE_OK, 0);
+  assert.ok(state.errors.some((entry) => entry.code === 'E_X1_PARITY_HARNESS_INVALID'));
 });

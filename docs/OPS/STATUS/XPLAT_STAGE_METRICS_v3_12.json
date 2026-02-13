@@ -4,13 +4,22 @@
     "X1": {
       "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
       "x1RuntimeParityRef": "scripts/ops/x1-desktop-parity-state.mjs --json",
+      "x1RuntimeParityHarnessRef": "scripts/ops/x1-desktop-parity-harness.mjs --json",
       "parityPassRatePct": 100,
       "runtimeParityPassPct": 100,
       "flakyRatePct": 0,
       "maxDocSizeMb": 16,
-      "baseSha": "c96ed8685f5c0a7453d9710104151b859121a7d0",
-      "capturedAtUtc": "2026-02-13T18:54:26Z",
-      "source": "local strict doctor and npm test"
+      "maxDocSizeMbVerified": 1.00035,
+      "repeatN": 1,
+      "baseSha": "ee537ee38d72e6643ca0a0857f42ea41d00f2479",
+      "capturedAtUtc": "2026-02-13T19:40:00Z",
+      "platform": "darwin",
+      "platformEvidence": {
+        "darwin": "local-harness-run",
+        "win": "pending-run",
+        "linux": "pending-run"
+      },
+      "source": "x1 behavioral harness + strict doctor + npm test"
     }
   },
   "metrics": {

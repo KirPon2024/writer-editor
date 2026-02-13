@@ -38,10 +38,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",
-      "sha256": "8a9c2f3413ea6ce1ccb41f0abe6c3bfa8c13020368d3007a5d1ae38d7725bb3d",
-      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:35:00Z",
-      "rationale": "Approve X1 hard parity baseline runtime parity binding."
+      "sha256": "de854f7eecefb0642b553ac996c3edddc5e523f2652272a4834a3546ef2edf6c",
+      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
+      "approvedAtUtc": "2026-02-13T19:40:00Z",
+      "rationale": "Approve X1 tricky-pack baseline clarification for win reserved names and linux case-collision policies."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
@@ -52,10 +52,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "f4dd017e2a3aa6338dfa5f2eb16ccbb739c476fdcce12b96847b62689b2e4b1b",
-      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:35:00Z",
-      "rationale": "Approve X1 runtime parity thresholds and evidence linkage in stage metrics SSOT."
+      "sha256": "c0054ab38287d4aa32a1582808a6bd25e83d19ac7ba3acd46de66ef0f791f502",
+      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
+      "approvedAtUtc": "2026-02-13T19:40:00Z",
+      "rationale": "Approve X1 stage evidence metrics wiring for runtime parity pass, flaky rate, and max doc size verification."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
@@ -101,17 +101,17 @@
     },
     {
       "filePath": "scripts/ops/x1-desktop-parity-harness.mjs",
-      "sha256": "0bd85370ebb3314a69bcb0ce74120ac3f717a7d4ea2e406bda0acb7c65fa650e",
-      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:35:00Z",
-      "rationale": "Approve executable X1 desktop parity runtime harness."
+      "sha256": "0a7807745d8099a22de4d561443f1ae27c4a90f69a46efc82984e8d89f0b006c",
+      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
+      "approvedAtUtc": "2026-02-13T19:40:00Z",
+      "rationale": "Approve behavioral X1 runtime parity harness with tricky-pack and metrics output."
     },
     {
       "filePath": "scripts/ops/x1-desktop-parity-state.mjs",
-      "sha256": "a009e92d4b07325dfa5cfcb5758701a9d3b525b63231355a44156ae25f841e5e",
-      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:35:00Z",
-      "rationale": "Approve X1 desktop parity state validator bound to runtime harness and metrics thresholds."
+      "sha256": "cd6637962b25fb90618070cc61ef6fa2375b354e0731d67afd90b3b8bb9d1e6f",
+      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
+      "approvedAtUtc": "2026-02-13T19:40:00Z",
+      "rationale": "Approve strict X1 runtime parity state evaluation with report schema and hard-pass enforcement."
     },
     {
       "filePath": "scripts/ops/xplat-rollout-plan-state.mjs",
@@ -157,10 +157,10 @@
     },
     {
       "filePath": "test/contracts/x1-desktop-parity.contract.test.js",
-      "sha256": "fb79fdf81fbd4ab99a494b9518f889ec9714067eb7f9f72e7a87f8fbbf5725be",
-      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:35:00Z",
-      "rationale": "Approve contract coverage for X1 desktop runtime parity state validator."
+      "sha256": "6302f3c53074603f9bf140b2cc79b910802dd388fb7e2c56f89d7f96c0c9572b",
+      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
+      "approvedAtUtc": "2026-02-13T19:40:00Z",
+      "rationale": "Approve contract coverage for X1 behavioral parity report validation and false-green prevention."
     },
     {
       "filePath": "test/contracts/xplat-rollout-plan.contract.test.js",

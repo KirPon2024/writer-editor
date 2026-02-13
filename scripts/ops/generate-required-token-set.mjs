@@ -15,9 +15,11 @@ const DEFAULT_LOCK_PATH = 'docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json';
 const TOKEN_RE = /^[A-Z0-9_]+$/u;
 const RELEASE_ALWAYS_REQUIRED_TOKENS = Object.freeze([
   'CONFIG_HASH_LOCK_OK',
+  'LOSSLESS_MAP_OK',
 ]);
 const FREEZE_READY_EXCLUDED_RELEASE_TOKENS = new Set([
   'CONFIG_HASH_LOCK_OK',
+  'LOSSLESS_MAP_OK',
 ]);
 
 function isObjectRecord(value) {

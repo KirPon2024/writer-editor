@@ -308,5 +308,18 @@
         "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
       ]
     }
+  ],
+  "bridgeBindings": [
+    {
+      "token": "PROOFHOOK_BRIDGE_VALID_OK",
+      "claimId": "PROOFHOOK_BRIDGE_VALID",
+      "proofHook": "node scripts/ops/proofhook-bridge-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/BRIDGES/PROOFHOOK_BRIDGE_MAP.json",
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    }
   ]
 }

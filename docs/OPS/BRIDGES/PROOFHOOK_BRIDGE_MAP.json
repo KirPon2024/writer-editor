@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "bridges": [
+    {
+      "tokenId": "PROOFHOOK_BRIDGE_VALID_OK",
+      "status": "TARGET_ONLY",
+      "currentProofHook": null,
+      "targetProofHook": "node scripts/ops/proofhook-bridge-state.mjs --json",
+      "sunsetAtUtc": "2026-12-31T23:59:59Z",
+      "sunsetCommitMarker": "bridge-proofhook-b3-rollout",
+      "rationale": "Annex B3 bridge validator is introduced as advisory before release-tier hard enforcement."
+    },
+    {
+      "tokenId": "TOKEN_CATALOG_VALID_OK",
+      "status": "DONE_NATIVE",
+      "currentProofHook": "node scripts/ops/token-catalog-state.mjs --json",
+      "targetProofHook": "node scripts/ops/token-catalog-state.mjs --json",
+      "sunsetAtUtc": null,
+      "sunsetCommitMarker": null,
+      "rationale": "Token catalog proofHook already runs natively."
+    }
+  ]
+}

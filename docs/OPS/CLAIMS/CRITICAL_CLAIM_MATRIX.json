@@ -478,6 +478,36 @@
       "sourceBinding": "ops_script+contract_test"
     },
     {
+      "claimId": "ORIGIN_SMOKE",
+      "requiredToken": "ORIGIN_SMOKE_OK",
+      "proofHook": "node scripts/ops/origin-smoke-state.mjs --json",
+      "failSignal": "E_NETWORK_ORIGIN_UNAVAILABLE",
+      "failSignalCode": "E_NETWORK_ORIGIN_UNAVAILABLE",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
+      "claimId": "VERIFY_ATTESTATION",
+      "requiredToken": "VERIFY_ATTESTATION_OK",
+      "proofHook": "node scripts/ops/verify-attestation-state.mjs --json",
+      "failSignal": "E_VERIFY_ATTESTATION_INVALID",
+      "failSignalCode": "E_VERIFY_ATTESTATION_INVALID",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
+      "claimId": "ATTESTATION_SIGNATURE",
+      "requiredToken": "ATTESTATION_SIGNATURE_OK",
+      "proofHook": "node scripts/ops/attestation-signature-state.mjs --json",
+      "failSignal": "E_ATTESTATION_SIGNATURE_INVALID",
+      "failSignalCode": "E_ATTESTATION_SIGNATURE_INVALID",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "PROOFHOOK_INTEGRITY",
       "requiredToken": "PROOFHOOK_INTEGRITY_OK",
       "proofHook": "node scripts/ops/proofhook-integrity-state.mjs --json",

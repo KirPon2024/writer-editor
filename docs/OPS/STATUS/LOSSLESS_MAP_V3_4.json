@@ -75,6 +75,26 @@
       ]
     },
     {
+      "sectionId": "PART_A_STRICT_VERIFY_ATTESTATION",
+      "title": "Strict verify attestation and origin smoke controls",
+      "tokens": [
+        "ATTESTATION_SIGNATURE_OK",
+        "ORIGIN_SMOKE_OK",
+        "VERIFY_ATTESTATION_OK"
+      ],
+      "proofHooks": [
+        "node scripts/ops/attestation-signature-state.mjs --json",
+        "node scripts/ops/origin-smoke-state.mjs --json",
+        "node scripts/ops/verify-attestation-state.mjs --json"
+      ],
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
       "sectionId": "PART_A_LOCK_AND_MAP_GATES",
       "title": "Lock and mapping integrity",
       "tokens": [
@@ -222,6 +242,17 @@
       ]
     },
     {
+      "token": "ATTESTATION_SIGNATURE_OK",
+      "sectionId": "PART_A_STRICT_VERIFY_ATTESTATION",
+      "proofHook": "node scripts/ops/attestation-signature-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
       "token": "LOSSLESS_MAP_OK",
       "sectionId": "PART_A_LOCK_AND_MAP_GATES",
       "proofHook": "node scripts/ops/lossless-map-state.mjs --json",
@@ -236,6 +267,17 @@
       "token": "PERF_BASELINE_OK",
       "sectionId": "PART_A_RELEASE_ARTIFACTS_AND_PERF",
       "proofHook": "node scripts/ops/perf-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "ORIGIN_SMOKE_OK",
+      "sectionId": "PART_A_STRICT_VERIFY_ATTESTATION",
+      "proofHook": "node scripts/ops/origin-smoke-state.mjs --json",
       "registryFiles": [
         "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
         "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
@@ -291,6 +333,17 @@
       "token": "TOKEN_DECLARATION_VALID_OK",
       "sectionId": "PART_A_GOVERNANCE_BINDING",
       "proofHook": "node scripts/ops/token-declaration-state.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "VERIFY_ATTESTATION_OK",
+      "sectionId": "PART_A_STRICT_VERIFY_ATTESTATION",
+      "proofHook": "node scripts/ops/verify-attestation-state.mjs --json",
       "registryFiles": [
         "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
         "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",

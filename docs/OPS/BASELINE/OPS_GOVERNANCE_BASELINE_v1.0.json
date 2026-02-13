@@ -1,0 +1,23 @@
+{
+  "version": "v1.0",
+  "scope": "OPS_GOVERNANCE_LAYER",
+  "files": {
+    "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json": {
+      "sha256": "69e99204c0eca1d502dcd59b6a1e67e0416bf658af8783bb29d0c3c893938cd5"
+    },
+    "docs/OPS/DOCTOR/INVARIANTS.md": {
+      "sha256": "50e62595237c9d8d9594051933b64fdda575130484a6594ab21f3af39066203c"
+    },
+    "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json": {
+      "sha256": "d2d719d34636100e5c70e9e5a858bfc3373bd5e6db80455f9f87b147b68be972"
+    },
+    "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json": {
+      "sha256": "cd6bd451a13dadda588df4c0032b69a6f1e51d88c40e21bac4e5851bfab13acd"
+    },
+    "docs/OPS/TOKENS/TOKEN_DECLARATION.json": {
+      "sha256": "71dfdd3a9af394e926cfee0ac5bd8a4cae7d3bfadd4ce3c95755fbfddb4acfc5"
+    }
+  },
+  "global_sha256": "7cde8373add742b6cc69697bf2710ae2ebfe29430dbe9898c3fd68dae8e423df",
+  "generated_at": "2026-02-13T04:46:04.803Z"
+}

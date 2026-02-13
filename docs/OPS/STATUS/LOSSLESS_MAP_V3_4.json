@@ -26,6 +26,7 @@
       "sectionId": "PART_A_GOVERNANCE_BINDING",
       "title": "Governance and declaration bindings",
       "tokens": [
+        "CONDITIONAL_GATES_BOUND_OK",
         "CRITICAL_CLAIM_MATRIX_OK",
         "FAILSIGNAL_REGISTRY_VALID_OK",
         "GOVERNANCE_STRICT_OK",
@@ -33,6 +34,7 @@
         "TOKEN_DECLARATION_VALID_OK"
       ],
       "proofHooks": [
+        "node scripts/ops/conditional-gates-state.mjs --json",
         "node scripts/ops/critical-claim-matrix-state.mjs",
         "node scripts/ops/emit-ops-summary.mjs",
         "node scripts/ops/failsignal-registry-state.mjs --json",
@@ -151,6 +153,17 @@
       "token": "CORE_SOT_EXECUTABLE_OK",
       "sectionId": "PART_A_RUNTIME_ENFORCEMENT",
       "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "CONDITIONAL_GATES_BOUND_OK",
+      "sectionId": "PART_A_GOVERNANCE_BINDING",
+      "proofHook": "node scripts/ops/conditional-gates-state.mjs --json",
       "registryFiles": [
         "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
         "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",

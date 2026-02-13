@@ -14,10 +14,23 @@ const DEFAULT_PROFILE_PATH = 'docs/OPS/EXECUTION/EXECUTION_PROFILE.example.json'
 const DEFAULT_LOCK_PATH = 'docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json';
 const TOKEN_RE = /^[A-Z0-9_]+$/u;
 const RELEASE_ALWAYS_REQUIRED_TOKENS = Object.freeze([
+  'CONDITIONAL_GATES_BOUND_OK',
   'CONFIG_HASH_LOCK_OK',
   'FAILSIGNAL_REGISTRY_VALID_OK',
   'LOSSLESS_MAP_OK',
   'PROOFHOOK_INTEGRITY_OK',
+]);
+const RELEASE_IF_AND_ONLY_IF_TOKEN_RULES = Object.freeze([
+  Object.freeze({
+    token: 'PERF_BASELINE_OK',
+    flag: 'RELEASE_SCOPE_PERF',
+    enabledWhen: true,
+  }),
+  Object.freeze({
+    token: 'SCR_SHARED_CODE_RATIO_OK',
+    flag: 'ECONOMIC_CLAIM_SHARED_CODE',
+    enabledWhen: true,
+  }),
 ]);
 const FREEZE_READY_EXCLUDED_RELEASE_TOKENS = new Set([
   'CONFIG_HASH_LOCK_OK',
@@ -87,6 +100,25 @@ function collectConditionalTokens(profile, tier) {
   return uniqueSortedTokens(tokens);
 }
 
+function applyReleaseIffRules(tokens, scopeFlags) {
+  const normalizedTokens = uniqueSortedTokens(tokens);
+  const flags = isObjectRecord(scopeFlags) ? scopeFlags : {};
+  const out = new Set(normalizedTokens);
+
+  for (const rule of RELEASE_IF_AND_ONLY_IF_TOKEN_RULES) {
+    out.delete(rule.token);
+  }
+
+  for (const rule of RELEASE_IF_AND_ONLY_IF_TOKEN_RULES) {
+    const flagValue = flags[rule.flag];
+    if (flagValue === rule.enabledWhen) {
+      out.add(rule.token);
+    }
+  }
+
+  return uniqueSortedTokens([...out]);
+}
+
 export function buildRequiredTokenSetFromProfile(profileDoc = {}) {
   const validated = validateExecutionProfileDocument(profileDoc);
   if (!validated.ok) {
@@ -110,11 +142,11 @@ export function buildRequiredTokenSetFromProfile(profileDoc = {}) {
   const coreConditional = collectConditionalTokens(profile, 'core');
   const releaseConditional = collectConditionalTokens(profile, 'release');
   const coreRequired = uniqueSortedTokens([...coreBase, ...coreConditional]);
-  const releaseRequired = uniqueSortedTokens([
+  const releaseRequired = applyReleaseIffRules([
     ...releaseBase,
     ...releaseConditional,
     ...RELEASE_ALWAYS_REQUIRED_TOKENS,
-  ]);
+  ], profile.scopeFlags || {});
   const activeTier = String(profile.gateTier || '') === 'release' ? 'release' : 'core';
   const activeRequired = activeTier === 'release' ? releaseRequired : coreRequired;
   const freezeReadyRequiredAlways = releaseRequired.filter(

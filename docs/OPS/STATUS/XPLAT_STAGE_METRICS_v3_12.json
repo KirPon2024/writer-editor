@@ -3,7 +3,9 @@
   "stageEvidence": {
     "X1": {
       "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+      "x1RuntimeParityRef": "scripts/ops/x1-desktop-parity-state.mjs --json",
       "parityPassRatePct": 100,
+      "runtimeParityPassPct": 100,
       "flakyRatePct": 0,
       "maxDocSizeMb": 16,
       "baseSha": "c96ed8685f5c0a7453d9710104151b859121a7d0",
@@ -42,6 +44,11 @@
     "reopenP95Ms": {
       "type": "number",
       "minimum": 0
+    },
+    "runtimeParityPassPct": {
+      "type": "percent",
+      "minimum": 0,
+      "maximum": 100
     },
     "replayProtectionPass": {
       "type": "boolean"

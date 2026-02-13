@@ -139,6 +139,7 @@ const OPS_REQUIRED_CHECKS_CONTRACT_PATH = 'scripts/ops/required-checks.json';
 const OPS_SCOPE_MAP_REGISTRY_PATH = 'scripts/ops/scope-map-registry.json';
 const TOKEN_CATALOG_IMMUTABILITY_STATE_SCRIPT_PATH = 'scripts/ops/token-catalog-immutability-state.mjs';
 const OPS_GOVERNANCE_BASELINE_STATE_SCRIPT_PATH = 'scripts/ops/ops-governance-baseline-state.mjs';
+const GOVERNANCE_CHANGE_DETECTION_STATE_SCRIPT_PATH = 'scripts/ops/governance-change-detection.mjs';
 const OPS_PROCESS_CEILING_FREEZE_PATH = 'docs/OPS/STANDARDS/PROCESS_CEILING_FREEZE.md';
 const POST_MERGE_CLEANUP_STREAK_STATE_PATH = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
 
@@ -5851,6 +5852,67 @@ function evaluateOpsGovernanceBaselineTokens(effectiveMode = 'TRANSITIONAL') {
   };
 }
 
+function evaluateGovernanceChangeDetectionTokens(effectiveMode = 'TRANSITIONAL') {
+  const scriptRun = spawnSync(
+    process.execPath,
+    [GOVERNANCE_CHANGE_DETECTION_STATE_SCRIPT_PATH, '--json'],
+    {
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        FORCE_COLOR: '0',
+        NO_COLOR: '1',
+      },
+    },
+  );
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(String(scriptRun.stdout || '{}'));
+  } catch {
+    parsed = null;
+  }
+
+  const token = Number(parsed && parsed.tokens && parsed.tokens.GOVERNANCE_CHANGE_OK) === 1 ? 1 : 0;
+  const changedFiles = Array.isArray(parsed && parsed.changed_governance_files)
+    ? parsed.changed_governance_files
+    : [];
+  const failReason = parsed && typeof parsed.failReason === 'string' && parsed.failReason
+    ? parsed.failReason
+    : scriptRun.status === 0 && token === 1
+      ? ''
+      : 'GOVERNANCE_CHANGE_STATE_INVALID';
+
+  console.log(`GOVERNANCE_CHANGE_OK=${token}`);
+  console.log(`GOVERNANCE_CHANGE_FILES=${JSON.stringify(changedFiles)}`);
+  if (failReason) {
+    console.log(`GOVERNANCE_CHANGE_FAIL_REASON=${failReason}`);
+  }
+
+  if (token === 1) {
+    return {
+      level: 'ok',
+      token,
+      changedFiles,
+      failReason: '',
+    };
+  }
+  if (effectiveMode === 'STRICT') {
+    return {
+      level: 'fail',
+      token,
+      changedFiles,
+      failReason,
+    };
+  }
+  return {
+    level: 'warn',
+    token,
+    changedFiles,
+    failReason,
+  };
+}
+
 function evaluateFreezeRollupTokens() {
   const state = evaluateFreezeRollupsState({
     mode: isDeliveryExecutionMode() ? 'release' : 'dev',
@@ -6061,6 +6123,7 @@ function run() {
   const xplatContract = evaluateXplatContractTokens();
   const tokenCatalogImmutability = evaluateTokenCatalogImmutabilityTokens(effectiveMode);
   const opsGovernanceBaseline = evaluateOpsGovernanceBaselineTokens(effectiveMode);
+  const governanceChangeDetection = evaluateGovernanceChangeDetectionTokens(effectiveMode);
   const freezeRollups = evaluateFreezeRollupTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -6161,6 +6224,7 @@ function run() {
     || xplatContract.level === 'fail'
     || tokenCatalogImmutability.level === 'fail'
     || opsGovernanceBaseline.level === 'fail'
+    || governanceChangeDetection.level === 'fail'
     || freezeRollups.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
@@ -6202,6 +6266,7 @@ function run() {
     || opsProcessCeiling.level === 'warn'
     || tokenCatalogImmutability.level === 'warn'
     || opsGovernanceBaseline.level === 'warn'
+    || governanceChangeDetection.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'

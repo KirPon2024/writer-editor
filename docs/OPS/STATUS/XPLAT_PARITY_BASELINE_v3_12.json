@@ -1,8 +1,8 @@
 {
   "schemaVersion": "v3.12",
   "stageId": "X1",
-  "baselineCapturedFromSha": "e7efc9ed59eb594af9ab97166c19ca517799045d",
-  "capturedAtUtc": "2026-02-13T19:15:00Z",
+  "baselineCapturedFromSha": "ee537ee38d72e6643ca0a0857f42ea41d00f2479",
+  "capturedAtUtc": "2026-02-13T19:40:00Z",
   "concurrencyUnit": "Scene",
   "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
   "x1RuntimeParityRef": "scripts/ops/x1-desktop-parity-state.mjs --json",
@@ -11,11 +11,33 @@
     "migrationsDeterministic": true,
     "recoveryRoundtripOk": true,
     "normalizationInvariant": true,
-    "exportImportRoundtripOk": true
+    "exportImportRoundtripOk": true,
+    "behavioralUserPathRequired": true
+  },
+  "trickyPack": {
+    "unicodeNormalization": [
+      "NFC",
+      "NFD"
+    ],
+    "newlineVariants": [
+      "LF",
+      "CRLF",
+      "mixed"
+    ],
+    "largeDocSmokeMinMb": 1,
+    "platformPolicies": {
+      "win": {
+        "reservedNames": "reject"
+      },
+      "linux": {
+        "caseCollisions": "distinct_paths_required"
+      }
+    }
   },
   "testedPlatforms": {
-    "win": "subset",
-    "linux": "subset"
+    "win": "required",
+    "linux": "required",
+    "darwin": "advisory"
   },
-  "notes": "X1 desktop hard parity baseline snapshot with executable runtime parity harness binding. X2 remains inactive."
+  "notes": "X1 hard parity baseline is bound to behavioral runtime harness path (open/edit/save/reopen/export/import/diff) with tricky-pack checks and platform policies."
 }

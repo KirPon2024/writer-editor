@@ -488,6 +488,26 @@
       "sourceBinding": "ops_script"
     },
     {
+      "claimId": "VERIFY_ORCHESTRATOR_CANON",
+      "requiredToken": "VERIFY_ORCHESTRATOR_CANON_OK",
+      "proofHook": "node scripts/ops/verify-orchestrator-canon-state.mjs --json",
+      "failSignal": "E_VERIFY_ORCHESTRATOR_MISMATCH",
+      "failSignalCode": "E_VERIFY_ORCHESTRATOR_MISMATCH",
+      "blocking": false,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
+      "claimId": "LEGACY_VERIFY_SUNSET_GUARD",
+      "requiredToken": "LEGACY_VERIFY_SUNSET_GUARD_OK",
+      "proofHook": "node scripts/ops/legacy-verify-sunset-guard-state.mjs --json",
+      "failSignal": "E_LEGACY_VERIFY_PATH_STILL_PASSING",
+      "failSignalCode": "E_LEGACY_VERIFY_PATH_STILL_PASSING",
+      "blocking": false,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "TOKEN_SOURCE_CONFLICT_DETECTION",
       "requiredToken": "TOKEN_SOURCE_CONFLICT_OK",
       "proofHook": "node scripts/ops/token-source-conflict-state.mjs --json",

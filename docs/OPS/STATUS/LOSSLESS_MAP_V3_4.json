@@ -311,11 +311,31 @@
   ],
   "bridgeBindings": [
     {
+      "token": "LEGACY_VERIFY_SUNSET_GUARD_OK",
+      "claimId": "LEGACY_VERIFY_SUNSET_GUARD",
+      "proofHook": "node scripts/ops/legacy-verify-sunset-guard-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
       "token": "PROOFHOOK_BRIDGE_VALID_OK",
       "claimId": "PROOFHOOK_BRIDGE_VALID",
       "proofHook": "node scripts/ops/proofhook-bridge-state.mjs --json",
       "registryFiles": [
         "docs/OPS/BRIDGES/PROOFHOOK_BRIDGE_MAP.json",
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "VERIFY_ORCHESTRATOR_CANON_OK",
+      "claimId": "VERIFY_ORCHESTRATOR_CANON",
+      "proofHook": "node scripts/ops/verify-orchestrator-canon-state.mjs --json",
+      "registryFiles": [
         "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
         "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
         "docs/OPS/TOKENS/TOKEN_DECLARATION.json"

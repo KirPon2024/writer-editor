@@ -36,7 +36,7 @@
     },
     {
       "tokenId": "CONDITIONAL_GATES_BOUND_OK",
-      "promotionState": "target",
+      "promotionState": "existing",
       "gateTier": "release",
       "requiredWhen": null,
       "proofHook": "node scripts/ops/conditional-gates-state.mjs --json",
@@ -47,7 +47,7 @@
     },
     {
       "tokenId": "CONFIG_HASH_LOCK_OK",
-      "promotionState": "target",
+      "promotionState": "existing",
       "gateTier": "release",
       "requiredWhen": null,
       "proofHook": "node scripts/ops/config-hash-lock-state.mjs --json",
@@ -89,7 +89,7 @@
     },
     {
       "tokenId": "FAILSIGNAL_REGISTRY_VALID_OK",
-      "promotionState": "target",
+      "promotionState": "existing",
       "gateTier": "release",
       "requiredWhen": null,
       "proofHook": "node scripts/ops/failsignal-registry-state.mjs --json",
@@ -122,7 +122,7 @@
     },
     {
       "tokenId": "LOSSLESS_MAP_OK",
-      "promotionState": "target",
+      "promotionState": "existing",
       "gateTier": "release",
       "requiredWhen": null,
       "proofHook": "node scripts/ops/lossless-map-state.mjs --json",
@@ -144,7 +144,7 @@
     },
     {
       "tokenId": "PROOFHOOK_INTEGRITY_OK",
-      "promotionState": "target",
+      "promotionState": "existing",
       "gateTier": "release",
       "requiredWhen": null,
       "proofHook": "node scripts/ops/proofhook-integrity-state.mjs --json",
@@ -175,6 +175,17 @@
       "namespace": "RELEASE_ARTIFACT_SOURCES"
     },
     {
+      "tokenId": "REQUIRED_SET_NO_TARGET_OK",
+      "promotionState": "target",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/required-set-no-target-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_REQUIRED_SET_CONTAINS_TARGET",
+      "namespace": "REQUIRED_SET"
+    },
+    {
       "tokenId": "SCR_SHARED_CODE_RATIO_OK",
       "promotionState": "existing",
       "gateTier": "conditional",
@@ -186,7 +197,7 @@
     },
     {
       "tokenId": "TOKEN_CATALOG_VALID_OK",
-      "promotionState": "target",
+      "promotionState": "existing",
       "gateTier": "release",
       "requiredWhen": null,
       "proofHook": "node scripts/ops/token-catalog-state.mjs --json",

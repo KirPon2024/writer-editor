@@ -468,6 +468,16 @@
       "sourceBinding": "ops_script"
     },
     {
+      "claimId": "REQUIRED_SET_NO_TARGET",
+      "requiredToken": "REQUIRED_SET_NO_TARGET_OK",
+      "proofHook": "node scripts/ops/required-set-no-target-state.mjs --json",
+      "failSignal": "E_REQUIRED_SET_CONTAINS_TARGET",
+      "failSignalCode": "E_REQUIRED_SET_CONTAINS_TARGET",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script+contract_test"
+    },
+    {
       "claimId": "PROOFHOOK_INTEGRITY",
       "requiredToken": "PROOFHOOK_INTEGRITY_OK",
       "proofHook": "node scripts/ops/proofhook-integrity-state.mjs --json",

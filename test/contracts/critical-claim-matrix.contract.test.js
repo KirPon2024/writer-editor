@@ -187,6 +187,35 @@ test('critical claim matrix validator accepts LEGACY namespace tokens', () => {
   assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
 });
 
+test('critical claim matrix validator accepts REQUIRED_SET namespace tokens', () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
+  const matrixPath = path.join(tmpDir, 'matrix.json');
+  fs.writeFileSync(matrixPath, JSON.stringify({
+    schemaVersion: 1,
+    claims: [
+      {
+        claimId: 'REQUIRED_SET_NO_TARGET',
+        requiredToken: 'REQUIRED_SET_NO_TARGET_OK',
+        proofHook: 'node scripts/ops/required-set-no-target-state.mjs --json',
+        failSignal: 'E_REQUIRED_SET_CONTAINS_TARGET',
+        blocking: true,
+        sourceBinding: 'ops_script+contract_test',
+      },
+    ],
+  }, null, 2));
+
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/critical-claim-matrix-state.mjs', '--matrix-path', matrixPath],
+    { encoding: 'utf8' },
+  );
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+
+  assert.equal(result.status, 0, `validator rejected REQUIRED_SET namespace:\n${result.stdout}\n${result.stderr}`);
+  const tokens = parseTokenMap(result.stdout);
+  assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
+});
+
 test('critical claim matrix validator rejects unknown gate tiers', () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
   const matrixPath = path.join(tmpDir, 'matrix.json');

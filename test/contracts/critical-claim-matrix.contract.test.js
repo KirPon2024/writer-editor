@@ -28,6 +28,20 @@ test('critical claim matrix is machine-readable and valid', () => {
   assert.ok(Number(tokens.get('CRITICAL_CLAIM_MATRIX_CLAIMS_COUNT')) >= 1);
 });
 
+test('critical claim matrix includes release-tier blocking claim for proofhook integrity', () => {
+  const matrixPath = path.join(process.cwd(), 'docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json');
+  const doc = JSON.parse(fs.readFileSync(matrixPath, 'utf8'));
+  const claim = Array.isArray(doc.claims)
+    ? doc.claims.find((item) => item && item.claimId === 'PROOFHOOK_INTEGRITY')
+    : null;
+  assert.ok(claim, 'PROOFHOOK_INTEGRITY claim is missing');
+  assert.equal(claim.requiredToken, 'PROOFHOOK_INTEGRITY_OK');
+  assert.equal(claim.blocking, true);
+  assert.equal(claim.gateTier, 'release');
+  assert.equal(claim.proofHook, 'node scripts/ops/proofhook-integrity-state.mjs --json');
+  assert.equal(claim.failSignal, 'E_PROOFHOOK_TAMPER_DETECTED');
+});
+
 test('critical claim matrix validator accepts PROOFHOOK namespace tokens', () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
   const matrixPath = path.join(tmpDir, 'matrix.json');
@@ -55,6 +69,37 @@ test('critical claim matrix validator accepts PROOFHOOK namespace tokens', () =>
   assert.equal(result.status, 0, `validator rejected PROOFHOOK namespace:\n${result.stdout}\n${result.stderr}`);
   const tokens = parseTokenMap(result.stdout);
   assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
+});
+
+test('critical claim matrix validator rejects unknown gate tiers', () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
+  const matrixPath = path.join(tmpDir, 'matrix.json');
+  fs.writeFileSync(matrixPath, JSON.stringify({
+    schemaVersion: 1,
+    claims: [
+      {
+        claimId: 'PROOFHOOK_GATE_TIER_INVALID',
+        requiredToken: 'PROOFHOOK_INTEGRITY_OK',
+        proofHook: 'node scripts/ops/proofhook-integrity-state.mjs --json',
+        failSignal: 'E_PROOFHOOK_TAMPER_DETECTED',
+        blocking: true,
+        gateTier: 'ship',
+        sourceBinding: 'ops_script',
+      },
+    ],
+  }, null, 2));
+
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/critical-claim-matrix-state.mjs', '--matrix-path', matrixPath],
+    { encoding: 'utf8' },
+  );
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+
+  assert.notEqual(result.status, 0);
+  const tokens = parseTokenMap(result.stdout);
+  assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '0');
+  assert.match(String(tokens.get('FAIL_REASON') || ''), /^CRITICAL_CLAIM_MATRIX_GATE_TIER_INVALID_/u);
 });
 
 test('critical claim matrix validator still rejects unknown namespaces', () => {

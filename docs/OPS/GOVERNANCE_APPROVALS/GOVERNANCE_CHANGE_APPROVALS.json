@@ -37,6 +37,13 @@
       "rationale": "Approve X1 promotion record activation evidence."
     },
     {
+      "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",
+      "sha256": "d01a77f6225894ff12f5aba66e2d08a47cce2df7d208ca3eb94e1032578fd5d5",
+      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:15:00Z",
+      "rationale": "Approve X1 hard parity baseline snapshot SSOT."
+    },
+    {
       "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
       "sha256": "b6865080b9bdd00cd28a1f48a232b8179ac68fc61800c791dfbd96b3d1364b40",
       "approvedBy": "ticket:X1_DESKTOP_PARITY_ACTIVATION_v1.0",
@@ -45,10 +52,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "7e672f8a7a2cf3a39f5450f41f13189379f1f5b207565b53ab06af8867841dfa",
-      "approvedBy": "ticket:X1_DESKTOP_PARITY_ACTIVATION_v1.0",
-      "approvedAtUtc": "2026-02-13T18:54:26Z",
-      "rationale": "Approve X1 baseline metrics snapshot values."
+      "sha256": "ef5628c1911c15b3b39d95dfde54e9659a2cdfd1197aa38ac5b88da9916c97ce",
+      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:15:00Z",
+      "rationale": "Approve X1 parity metrics linkage in stage metrics SSOT."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
@@ -86,6 +93,13 @@
       "rationale": "Approve promotion record state validator with required metrics constraints."
     },
     {
+      "filePath": "scripts/ops/xplat-parity-baseline-state.mjs",
+      "sha256": "b810a06f1edfc7d5903000674c5b8183c5ab36d83738cd17e6df4bd1f7e948cb",
+      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:15:00Z",
+      "rationale": "Approve machine-check validator for X1 hard parity baseline."
+    },
+    {
       "filePath": "scripts/ops/xplat-rollout-plan-state.mjs",
       "sha256": "ddd490df30e3dcf42bce20fcfdc4c88346dbfbcd37c5f5b16a6b5acb5c1fca5f",
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
@@ -119,6 +133,13 @@
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
       "approvedAtUtc": "2026-02-13T17:34:58.529Z",
       "rationale": "Approve promotion record contract coverage for template and evidence failures."
+    },
+    {
+      "filePath": "test/contracts/xplat-parity-baseline.contract.test.js",
+      "sha256": "7f4a5c30736ffb79c0f10572d89637507451ff3b29813beb1710f41cd647555e",
+      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:15:00Z",
+      "rationale": "Approve contract coverage for X1 parity baseline validator."
     },
     {
       "filePath": "test/contracts/xplat-rollout-plan.contract.test.js",

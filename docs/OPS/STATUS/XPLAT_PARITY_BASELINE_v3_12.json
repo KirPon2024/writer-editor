@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "v3.12",
+  "stageId": "X1",
+  "baselineCapturedFromSha": "e7efc9ed59eb594af9ab97166c19ca517799045d",
+  "capturedAtUtc": "2026-02-13T19:15:00Z",
+  "concurrencyUnit": "Scene",
+  "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+  "hardParity": {
+    "schemaStable": true,
+    "migrationsDeterministic": true,
+    "recoveryRoundtripOk": true,
+    "normalizationInvariant": true,
+    "exportImportRoundtripOk": true
+  },
+  "testedPlatforms": {
+    "win": "subset",
+    "linux": "subset"
+  },
+  "notes": "X1 desktop hard parity baseline snapshot. X2 remains inactive."
+}

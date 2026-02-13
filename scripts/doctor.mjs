@@ -138,6 +138,7 @@ const OPS_REQUIRED_CHECKS_SYNC_PATH = 'scripts/ops/required-checks-sync.mjs';
 const OPS_REQUIRED_CHECKS_CONTRACT_PATH = 'scripts/ops/required-checks.json';
 const OPS_SCOPE_MAP_REGISTRY_PATH = 'scripts/ops/scope-map-registry.json';
 const TOKEN_CATALOG_IMMUTABILITY_STATE_SCRIPT_PATH = 'scripts/ops/token-catalog-immutability-state.mjs';
+const OPS_GOVERNANCE_BASELINE_STATE_SCRIPT_PATH = 'scripts/ops/ops-governance-baseline-state.mjs';
 const OPS_PROCESS_CEILING_FREEZE_PATH = 'docs/OPS/STANDARDS/PROCESS_CEILING_FREEZE.md';
 const POST_MERGE_CLEANUP_STREAK_STATE_PATH = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
 
@@ -5781,6 +5782,75 @@ function evaluateTokenCatalogImmutabilityTokens(effectiveMode = 'TRANSITIONAL') 
   };
 }
 
+function evaluateOpsGovernanceBaselineTokens(effectiveMode = 'TRANSITIONAL') {
+  const scriptRun = spawnSync(
+    process.execPath,
+    [OPS_GOVERNANCE_BASELINE_STATE_SCRIPT_PATH, '--json'],
+    {
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        FORCE_COLOR: '0',
+        NO_COLOR: '1',
+      },
+    },
+  );
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(String(scriptRun.stdout || '{}'));
+  } catch {
+    parsed = null;
+  }
+
+  const token = Number(parsed && parsed.tokens && parsed.tokens.OPS_GOVERNANCE_BASELINE_OK) === 1 ? 1 : 0;
+  const expectedGlobal = parsed && typeof parsed.expected_global === 'string' ? parsed.expected_global : '';
+  const actualGlobal = parsed && typeof parsed.actual_global === 'string' ? parsed.actual_global : '';
+  const mismatchFiles = Array.isArray(parsed && parsed.mismatch_files) ? parsed.mismatch_files : [];
+  const failReason = parsed && typeof parsed.failReason === 'string' && parsed.failReason
+    ? parsed.failReason
+    : scriptRun.status === 0 && token === 1
+      ? ''
+      : 'OPS_GOVERNANCE_BASELINE_STATE_INVALID';
+
+  console.log(`OPS_GOVERNANCE_BASELINE_OK=${token}`);
+  console.log(`OPS_GOVERNANCE_BASELINE_EXPECTED_GLOBAL=${expectedGlobal}`);
+  console.log(`OPS_GOVERNANCE_BASELINE_ACTUAL_GLOBAL=${actualGlobal}`);
+  console.log(`OPS_GOVERNANCE_BASELINE_MISMATCH_FILES=${JSON.stringify(mismatchFiles)}`);
+  if (failReason) {
+    console.log(`OPS_GOVERNANCE_BASELINE_FAIL_REASON=${failReason}`);
+  }
+
+  if (token === 1) {
+    return {
+      level: 'ok',
+      token,
+      expectedGlobal,
+      actualGlobal,
+      mismatchFiles,
+      failReason: '',
+    };
+  }
+  if (effectiveMode === 'STRICT') {
+    return {
+      level: 'fail',
+      token,
+      expectedGlobal,
+      actualGlobal,
+      mismatchFiles,
+      failReason,
+    };
+  }
+  return {
+    level: 'warn',
+    token,
+    expectedGlobal,
+    actualGlobal,
+    mismatchFiles,
+    failReason,
+  };
+}
+
 function evaluateFreezeRollupTokens() {
   const state = evaluateFreezeRollupsState({
     mode: isDeliveryExecutionMode() ? 'release' : 'dev',
@@ -5990,6 +6060,7 @@ function run() {
   const opsProcessCeiling = evaluateOpsProcessCeilingFreezeTokens(sectorMStatus);
   const xplatContract = evaluateXplatContractTokens();
   const tokenCatalogImmutability = evaluateTokenCatalogImmutabilityTokens(effectiveMode);
+  const opsGovernanceBaseline = evaluateOpsGovernanceBaselineTokens(effectiveMode);
   const freezeRollups = evaluateFreezeRollupTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -6089,6 +6160,7 @@ function run() {
     || strictLie.level === 'fail'
     || xplatContract.level === 'fail'
     || tokenCatalogImmutability.level === 'fail'
+    || opsGovernanceBaseline.level === 'fail'
     || freezeRollups.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
@@ -6129,6 +6201,7 @@ function run() {
     || opsGlobalStandard.level === 'warn'
     || opsProcessCeiling.level === 'warn'
     || tokenCatalogImmutability.level === 'warn'
+    || opsGovernanceBaseline.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'

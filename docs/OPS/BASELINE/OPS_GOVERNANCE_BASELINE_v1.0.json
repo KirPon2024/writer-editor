@@ -19,5 +19,10 @@
     }
   },
   "global_sha256": "91d61f2677093606690a8636dac88401863778652cefee07b47393e318c5c195",
-  "generated_at": "2026-02-13T11:55:44.581Z"
+  "generated_at": "2026-02-13T11:55:44.581Z",
+  "governance_change_approval_registry": {
+    "path": "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+    "version": "v1.0",
+    "hashAlgorithm": "sha256"
+  }
 }

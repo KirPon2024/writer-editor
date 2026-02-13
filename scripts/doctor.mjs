@@ -140,6 +140,7 @@ const OPS_SCOPE_MAP_REGISTRY_PATH = 'scripts/ops/scope-map-registry.json';
 const TOKEN_CATALOG_IMMUTABILITY_STATE_SCRIPT_PATH = 'scripts/ops/token-catalog-immutability-state.mjs';
 const OPS_GOVERNANCE_BASELINE_STATE_SCRIPT_PATH = 'scripts/ops/ops-governance-baseline-state.mjs';
 const GOVERNANCE_CHANGE_DETECTION_STATE_SCRIPT_PATH = 'scripts/ops/governance-change-detection.mjs';
+const GOVERNANCE_FREEZE_STATE_SCRIPT_PATH = 'scripts/ops/governance-freeze-state.mjs';
 const OPS_PROCESS_CEILING_FREEZE_PATH = 'docs/OPS/STANDARDS/PROCESS_CEILING_FREEZE.md';
 const POST_MERGE_CLEANUP_STREAK_STATE_PATH = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
 
@@ -5913,6 +5914,72 @@ function evaluateGovernanceChangeDetectionTokens(effectiveMode = 'TRANSITIONAL')
   };
 }
 
+function evaluateGovernanceFreezeTokens(effectiveMode = 'TRANSITIONAL') {
+  const scriptRun = spawnSync(
+    process.execPath,
+    [GOVERNANCE_FREEZE_STATE_SCRIPT_PATH, '--json'],
+    {
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        FORCE_COLOR: '0',
+        NO_COLOR: '1',
+      },
+    },
+  );
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(String(scriptRun.stdout || '{}'));
+  } catch {
+    parsed = null;
+  }
+
+  const token = Number(parsed && parsed.tokens && parsed.tokens.GOVERNANCE_FREEZE_OK) === 1 ? 1 : 0;
+  const freezeActive = Boolean(parsed && parsed.freeze_active === true);
+  const changedFiles = Array.isArray(parsed && parsed.changed_files)
+    ? parsed.changed_files
+    : [];
+  const failReason = parsed && typeof parsed.failReason === 'string' && parsed.failReason
+    ? parsed.failReason
+    : scriptRun.status === 0 && token === 1
+      ? ''
+      : 'GOVERNANCE_FREEZE_STATE_INVALID';
+
+  console.log(`GOVERNANCE_FREEZE_OK=${token}`);
+  console.log(`GOVERNANCE_FREEZE_ACTIVE=${freezeActive ? 1 : 0}`);
+  console.log(`GOVERNANCE_FREEZE_CHANGED_FILES=${JSON.stringify(changedFiles)}`);
+  if (failReason) {
+    console.log(`GOVERNANCE_FREEZE_FAIL_REASON=${failReason}`);
+  }
+
+  if (token === 1) {
+    return {
+      level: 'ok',
+      token,
+      freezeActive,
+      changedFiles,
+      failReason: '',
+    };
+  }
+  if (effectiveMode === 'STRICT') {
+    return {
+      level: 'fail',
+      token,
+      freezeActive,
+      changedFiles,
+      failReason,
+    };
+  }
+  return {
+    level: 'warn',
+    token,
+    freezeActive,
+    changedFiles,
+    failReason,
+  };
+}
+
 function evaluateFreezeRollupTokens() {
   const state = evaluateFreezeRollupsState({
     mode: isDeliveryExecutionMode() ? 'release' : 'dev',
@@ -6121,9 +6188,10 @@ function run() {
   const opsGlobalStandard = evaluateOpsGlobalDeliveryStandardTokens();
   const opsProcessCeiling = evaluateOpsProcessCeilingFreezeTokens(sectorMStatus);
   const xplatContract = evaluateXplatContractTokens();
-  const tokenCatalogImmutability = evaluateTokenCatalogImmutabilityTokens(effectiveMode);
-  const opsGovernanceBaseline = evaluateOpsGovernanceBaselineTokens(effectiveMode);
+  const governanceFreeze = evaluateGovernanceFreezeTokens(effectiveMode);
   const governanceChangeDetection = evaluateGovernanceChangeDetectionTokens(effectiveMode);
+  const opsGovernanceBaseline = evaluateOpsGovernanceBaselineTokens(effectiveMode);
+  const tokenCatalogImmutability = evaluateTokenCatalogImmutabilityTokens(effectiveMode);
   const freezeRollups = evaluateFreezeRollupTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -6222,9 +6290,10 @@ function run() {
     || ssotBoundary.level === 'fail'
     || strictLie.level === 'fail'
     || xplatContract.level === 'fail'
-    || tokenCatalogImmutability.level === 'fail'
-    || opsGovernanceBaseline.level === 'fail'
+    || governanceFreeze.level === 'fail'
     || governanceChangeDetection.level === 'fail'
+    || opsGovernanceBaseline.level === 'fail'
+    || tokenCatalogImmutability.level === 'fail'
     || freezeRollups.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
@@ -6264,9 +6333,10 @@ function run() {
     || opsSectorMProcessFixes.level === 'warn'
     || opsGlobalStandard.level === 'warn'
     || opsProcessCeiling.level === 'warn'
-    || tokenCatalogImmutability.level === 'warn'
-    || opsGovernanceBaseline.level === 'warn'
+    || governanceFreeze.level === 'warn'
     || governanceChangeDetection.level === 'warn'
+    || opsGovernanceBaseline.level === 'warn'
+    || tokenCatalogImmutability.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'

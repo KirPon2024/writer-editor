@@ -3,10 +3,45 @@
   "approvals": [
     {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
-      "sha256": "268fa0f4efc2fcbfbe692385703d2e826e20549e90c938b2661755fbde0560a7",
-      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
-      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
-      "rationale": "Introduce artifact-bound governance approval mechanism metadata in baseline."
+      "sha256": "eeb471b94b20dd68a196c270ed68251f72ebaccc2a7f853751d68f41802ba916",
+      "approvedBy": "ticket:OPS_INTEGRITY_P0_BASELINE_ALIGNMENT_v1.0",
+      "approvedAtUtc": "2026-02-13T17:11:43.000Z",
+      "rationale": "Refresh governance baseline hashes after OPS integrity baseline alignment."
+    },
+    {
+      "filePath": "docs/OPS/LOCKS/CONFIG_HASH_LOCK.json",
+      "sha256": "cf7a27ac2796b54c78960f6d1fdbf7d613ad90644b621c09eaaae2493f2fd5bf",
+      "approvedBy": "ticket:OPS_INTEGRITY_P0_BASELINE_ALIGNMENT_v1.0",
+      "approvedAtUtc": "2026-02-13T17:11:43.000Z",
+      "rationale": "Approve refreshed config hash lock after declaration and required-set alignment."
+    },
+    {
+      "filePath": "docs/OPS/PROOFHOOKS/PROOFHOOK_INTEGRITY_LOCK.json",
+      "sha256": "7bf8e60d728eaed80d5468cf2d3dcca8b6e769c15856b27046525aefe7af5005",
+      "approvedBy": "ticket:OPS_INTEGRITY_P0_BASELINE_ALIGNMENT_v1.0",
+      "approvedAtUtc": "2026-02-13T17:11:43.000Z",
+      "rationale": "Approve refreshed proofhook integrity lock after baseline alignment."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
+      "sha256": "b543a47986a0ec10e9683f0524bd1cf0e6b6df59864799779eba0516f393f6c8",
+      "approvedBy": "ticket:OPS_INTEGRITY_P0_BASELINE_ALIGNMENT_v1.0",
+      "approvedAtUtc": "2026-02-13T17:11:43.000Z",
+      "rationale": "Approve token catalog alignment for release-required attestation and origin tokens."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
+      "sha256": "5ef6bc9b2f4f6d6a9037861b603aa7c99972385370cb0501307fb31ccb4ae4c0",
+      "approvedBy": "ticket:OPS_INTEGRITY_P0_BASELINE_ALIGNMENT_v1.0",
+      "approvedAtUtc": "2026-02-13T17:11:43.000Z",
+      "rationale": "Approve updated token catalog immutability lock after declaration reclassification."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
+      "sha256": "21cbfa43871b67a625a9fb8aa9bd471d92854fa8f8ab3628cee6b876fcfc9b2f",
+      "approvedBy": "ticket:OPS_INTEGRITY_P0_BASELINE_ALIGNMENT_v1.0",
+      "approvedAtUtc": "2026-02-13T17:11:43.000Z",
+      "rationale": "Approve moving attestation and origin readiness tokens from target to existing."
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
@@ -35,6 +70,13 @@
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
       "approvedAtUtc": "2026-02-13T00:00:00.000Z",
       "rationale": "Enable artifact-based approval lookup while keeping env override fallback."
+    },
+    {
+      "filePath": "scripts/ops/ops-integrity-p0-state.mjs",
+      "sha256": "0ba44220e77d910ef802a93bca523b14d502f7a1af90f2cbe48d71dcc0cef2f3",
+      "approvedBy": "ticket:OPS_INTEGRITY_P0_BASELINE_ALIGNMENT_v1.0",
+      "approvedAtUtc": "2026-02-13T17:12:34.000Z",
+      "rationale": "Approve aggregated OPS integrity P0 state evaluator that composes existing component state checks."
     },
     {
       "filePath": "test/contracts/governance-approval-state.contract.test.js",

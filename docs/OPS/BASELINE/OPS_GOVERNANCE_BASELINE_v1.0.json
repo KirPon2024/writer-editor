@@ -12,17 +12,12 @@
       "sha256": "b62d5ad9b485435e18c3a807359abf6eb3591401d101e225696edba151e63844"
     },
     "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json": {
-      "sha256": "05f15e2a4d1faea7ee6c5d61f179fe27483c9e08e50ee65fcda27f1c8363a021"
+      "sha256": "8e478e2267036a2e2d4f0d29bbbcbfd6fa753cb0507fbb07bdf5e8e66cd61e56"
     },
     "docs/OPS/TOKENS/TOKEN_DECLARATION.json": {
-      "sha256": "0d7af4cd6499547ea29873039adcf6a8294c13c1677b7d16d9637da175383f3a"
+      "sha256": "c994d2c03252043315a2d5eea2a31c91fdb8c1bea12d5a08c4cf97347320933a"
     }
   },
-  "global_sha256": "91d61f2677093606690a8636dac88401863778652cefee07b47393e318c5c195",
-  "generated_at": "2026-02-13T11:55:44.581Z",
-  "governance_change_approval_registry": {
-    "path": "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
-    "version": "v1.0",
-    "hashAlgorithm": "sha256"
-  }
+  "global_sha256": "12c5696c0a3d4fb8f467ccfed5715e226837a1d1da63d14fe0a359fe93b017a1",
+  "generated_at": "2026-02-13T17:11:31.884Z"
 }

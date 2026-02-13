@@ -13,6 +13,17 @@
       "namespace": "ADAPTERS"
     },
     {
+      "tokenId": "ATTESTATION_SIGNATURE_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/attestation-signature-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_ATTESTATION_SIGNATURE_INVALID",
+      "namespace": "ATTESTATION"
+    },
+    {
       "tokenId": "CAPABILITY_ENFORCED_OK",
       "promotionState": "existing",
       "gateTier": "release",
@@ -132,6 +143,17 @@
       "namespace": "LOSSLESS"
     },
     {
+      "tokenId": "ORIGIN_SMOKE_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/origin-smoke-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_NETWORK_ORIGIN_UNAVAILABLE",
+      "namespace": "ORIGIN"
+    },
+    {
       "tokenId": "PERF_BASELINE_OK",
       "promotionState": "existing",
       "gateTier": "release",
@@ -226,6 +248,17 @@
       "sourceBinding": "truth_table",
       "failSignalCode": "E_TOKEN_SOURCE_CONFLICT",
       "namespace": "TOKEN_SOURCE"
+    },
+    {
+      "tokenId": "VERIFY_ATTESTATION_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/verify-attestation-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_VERIFY_ATTESTATION_INVALID",
+      "namespace": "VERIFY_ATTESTATION"
     },
     {
       "tokenId": "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK",

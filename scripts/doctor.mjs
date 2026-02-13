@@ -137,6 +137,7 @@ const OPS_POST_MERGE_VERIFY_PATH = 'scripts/ops/post-merge-verify.mjs';
 const OPS_REQUIRED_CHECKS_SYNC_PATH = 'scripts/ops/required-checks-sync.mjs';
 const OPS_REQUIRED_CHECKS_CONTRACT_PATH = 'scripts/ops/required-checks.json';
 const OPS_SCOPE_MAP_REGISTRY_PATH = 'scripts/ops/scope-map-registry.json';
+const TOKEN_CATALOG_IMMUTABILITY_STATE_SCRIPT_PATH = 'scripts/ops/token-catalog-immutability-state.mjs';
 const OPS_PROCESS_CEILING_FREEZE_PATH = 'docs/OPS/STANDARDS/PROCESS_CEILING_FREEZE.md';
 const POST_MERGE_CLEANUP_STREAK_STATE_PATH = '/tmp/writer-editor-ops-state/post_merge_cleanup_streak.json';
 
@@ -5716,6 +5717,70 @@ function evaluateXplatContractTokens() {
   };
 }
 
+function evaluateTokenCatalogImmutabilityTokens(effectiveMode = 'TRANSITIONAL') {
+  const scriptRun = spawnSync(
+    process.execPath,
+    [TOKEN_CATALOG_IMMUTABILITY_STATE_SCRIPT_PATH, '--json'],
+    {
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        FORCE_COLOR: '0',
+        NO_COLOR: '1',
+      },
+    },
+  );
+
+  let parsed = null;
+  try {
+    parsed = JSON.parse(String(scriptRun.stdout || '{}'));
+  } catch {
+    parsed = null;
+  }
+
+  const token = Number(parsed && parsed.tokens && parsed.tokens.TOKEN_CATALOG_IMMUTABLE_OK) === 1 ? 1 : 0;
+  const expected = parsed && typeof parsed.expected === 'string' ? parsed.expected : '';
+  const actual = parsed && typeof parsed.actual === 'string' ? parsed.actual : '';
+  const failReason = parsed && typeof parsed.failReason === 'string' && parsed.failReason
+    ? parsed.failReason
+    : scriptRun.status === 0 && token === 1
+      ? ''
+      : 'TOKEN_CATALOG_IMMUTABILITY_STATE_INVALID';
+
+  console.log(`TOKEN_CATALOG_IMMUTABLE_OK=${token}`);
+  console.log(`TOKEN_CATALOG_LOCK_EXPECTED_SHA256=${expected}`);
+  console.log(`TOKEN_CATALOG_LOCK_ACTUAL_SHA256=${actual}`);
+  if (failReason) {
+    console.log(`TOKEN_CATALOG_IMMUTABLE_FAIL_REASON=${failReason}`);
+  }
+
+  if (token === 1) {
+    return {
+      level: 'ok',
+      token,
+      expected,
+      actual,
+      failReason: '',
+    };
+  }
+  if (effectiveMode === 'STRICT') {
+    return {
+      level: 'fail',
+      token,
+      expected,
+      actual,
+      failReason,
+    };
+  }
+  return {
+    level: 'warn',
+    token,
+    expected,
+    actual,
+    failReason,
+  };
+}
+
 function evaluateFreezeRollupTokens() {
   const state = evaluateFreezeRollupsState({
     mode: isDeliveryExecutionMode() ? 'release' : 'dev',
@@ -5924,6 +5989,7 @@ function run() {
   const opsGlobalStandard = evaluateOpsGlobalDeliveryStandardTokens();
   const opsProcessCeiling = evaluateOpsProcessCeilingFreezeTokens(sectorMStatus);
   const xplatContract = evaluateXplatContractTokens();
+  const tokenCatalogImmutability = evaluateTokenCatalogImmutabilityTokens(effectiveMode);
   const freezeRollups = evaluateFreezeRollupTokens();
 
   const indexDiag = computeIdListDiagnostics(inventoryIndexItems.map((it) => it.inventoryId));
@@ -6022,6 +6088,7 @@ function run() {
     || ssotBoundary.level === 'fail'
     || strictLie.level === 'fail'
     || xplatContract.level === 'fail'
+    || tokenCatalogImmutability.level === 'fail'
     || freezeRollups.level === 'fail';
   const hasWarn = coreBoundary.level === 'warn'
     || coreDet.level === 'warn'
@@ -6061,6 +6128,7 @@ function run() {
     || opsSectorMProcessFixes.level === 'warn'
     || opsGlobalStandard.level === 'warn'
     || opsProcessCeiling.level === 'warn'
+    || tokenCatalogImmutability.level === 'warn'
     || m1Contract.level === 'warn'
     || m2Transform.level === 'warn'
     || m3CommandWiring.level === 'warn'

@@ -100,6 +100,35 @@ test('critical claim matrix validator accepts CONDITIONAL namespace tokens', () 
   assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
 });
 
+test('critical claim matrix validator accepts TOKEN_CATALOG namespace tokens', () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
+  const matrixPath = path.join(tmpDir, 'matrix.json');
+  fs.writeFileSync(matrixPath, JSON.stringify({
+    schemaVersion: 1,
+    claims: [
+      {
+        claimId: 'TOKEN_CATALOG_VALID',
+        requiredToken: 'TOKEN_CATALOG_VALID_OK',
+        proofHook: 'node scripts/ops/token-catalog-state.mjs --json',
+        failSignal: 'E_TOKEN_CATALOG_INVALID',
+        blocking: true,
+        sourceBinding: 'ops_script',
+      },
+    ],
+  }, null, 2));
+
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/critical-claim-matrix-state.mjs', '--matrix-path', matrixPath],
+    { encoding: 'utf8' },
+  );
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+
+  assert.equal(result.status, 0, `validator rejected TOKEN_CATALOG namespace:\n${result.stdout}\n${result.stderr}`);
+  const tokens = parseTokenMap(result.stdout);
+  assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
+});
+
 test('critical claim matrix validator rejects unknown gate tiers', () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
   const matrixPath = path.join(tmpDir, 'matrix.json');

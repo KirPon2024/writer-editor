@@ -2,6 +2,7 @@
   "schemaVersion": "v3.12",
   "stageEvidence": {
     "X1": {
+      "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
       "parityPassRatePct": 100,
       "flakyRatePct": 0,
       "maxDocSizeMb": 16,

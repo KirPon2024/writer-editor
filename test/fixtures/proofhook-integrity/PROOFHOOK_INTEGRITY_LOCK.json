@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "closure-sha256-v1",
+  "closurePaths": [
+    "alpha.txt",
+    "beta.txt"
+  ],
+  "closureFileHashes": {
+    "alpha.txt": "a0e148c5e6d6a8fecc12bf68581c9eba02ff2a884da95ca379acc0bdcb6b7e52",
+    "beta.txt": "56c8339c4f4bf0d47462f11b43155e6fe81b13cac3a553822f1c70e0e8001f68"
+  },
+  "closureHash": "d1e1feb172547a38904e64f48da891a84b89e10789eff1edf599ab5de83c8cea"
+}

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DEFAULT_MATRIX_PATH = 'docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json';
+const ALLOWED_GATE_TIERS = new Set(['core', 'release']);
 const ALLOWED_NAMESPACE_PREFIXES = [
   'CORE_SOT_',
   'COMMAND_SURFACE_',
@@ -140,6 +141,7 @@ export function evaluateCriticalClaimMatrixState(input = {}) {
     const requiredToken = String(item.requiredToken || '').trim();
     const failSignal = String(item.failSignal || '').trim();
     const sourceBinding = String(item.sourceBinding || '').trim();
+    const gateTier = String(item.gateTier || '').trim();
     const blocking = item.blocking === true || item.blocking === false;
 
     if (!claimId || ids.has(claimId)) {
@@ -184,6 +186,17 @@ export function evaluateCriticalClaimMatrixState(input = {}) {
         claimsCount: doc.claims.length,
         ok: 0,
         failReason: `CRITICAL_CLAIM_MATRIX_BLOCKING_INVALID_${claimId}`,
+      };
+    }
+
+    if (gateTier && !ALLOWED_GATE_TIERS.has(gateTier)) {
+      return {
+        path: matrixPath,
+        present: 1,
+        schemaVersion: doc.schemaVersion,
+        claimsCount: doc.claims.length,
+        ok: 0,
+        failReason: `CRITICAL_CLAIM_MATRIX_GATE_TIER_INVALID_${claimId}`,
       };
     }
 

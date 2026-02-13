@@ -431,8 +431,8 @@
       "claimId": "LOSSLESS_MAP",
       "requiredToken": "LOSSLESS_MAP_OK",
       "proofHook": "node scripts/ops/lossless-map-state.mjs --json",
-      "failSignal": "E_LOSSLESS_MAP_INCOMPLETE",
-      "failSignalCode": "E_LOSSLESS_MAP_INCOMPLETE",
+      "failSignal": "E_LOSSLESS_MAP_DRIFT",
+      "failSignalCode": "E_LOSSLESS_MAP_DRIFT",
       "blocking": true,
       "gateTier": "release",
       "sourceBinding": "ops_script"

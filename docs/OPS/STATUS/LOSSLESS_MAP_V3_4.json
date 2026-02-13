@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "version": "v3.4",
+  "partASections": [
+    {
+      "sectionId": "PART_A_RUNTIME_ENFORCEMENT",
+      "title": "Runtime enforcement and recovery gates",
+      "tokens": [
+        "ADAPTERS_ENFORCED_OK",
+        "CAPABILITY_ENFORCED_OK",
+        "COMMAND_SURFACE_ENFORCED_OK",
+        "CORE_SOT_EXECUTABLE_OK",
+        "RECOVERY_IO_OK"
+      ],
+      "proofHooks": [
+        "DOCTOR_MODE=delivery node scripts/doctor.mjs"
+      ],
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "sectionId": "PART_A_GOVERNANCE_BINDING",
+      "title": "Governance and declaration bindings",
+      "tokens": [
+        "CRITICAL_CLAIM_MATRIX_OK",
+        "GOVERNANCE_STRICT_OK",
+        "HEAD_STRICT_OK",
+        "TOKEN_DECLARATION_VALID_OK"
+      ],
+      "proofHooks": [
+        "node scripts/ops/critical-claim-matrix-state.mjs",
+        "node scripts/ops/emit-ops-summary.mjs",
+        "node scripts/ops/head-strict-state.mjs --mode release",
+        "node scripts/ops/token-declaration-state.mjs"
+      ],
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "sectionId": "PART_A_RELEASE_ARTIFACTS_AND_PERF",
+      "title": "Release artifacts and performance controls",
+      "tokens": [
+        "PERF_BASELINE_OK",
+        "RELEASE_ARTIFACT_SOURCES_OK",
+        "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK"
+      ],
+      "proofHooks": [
+        "node scripts/ops/macos-signing-readiness-state.mjs --json",
+        "node scripts/ops/perf-state.mjs --json",
+        "node scripts/ops/release-artifact-sources-state.mjs --json"
+      ],
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "sectionId": "PART_A_LOCK_AND_MAP_GATES",
+      "title": "Lock and mapping integrity",
+      "tokens": [
+        "CONFIG_HASH_LOCK_OK",
+        "LOSSLESS_MAP_OK"
+      ],
+      "proofHooks": [
+        "node scripts/ops/config-hash-lock-state.mjs --json",
+        "node scripts/ops/lossless-map-state.mjs --json"
+      ],
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "sectionId": "PART_A_PROOFHOOK_INTEGRITY",
+      "title": "Proofhook closure-hash integrity",
+      "tokens": [
+        "PROOFHOOK_INTEGRITY_OK"
+      ],
+      "proofHooks": [
+        "node scripts/ops/proofhook-integrity-state.mjs --json"
+      ],
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    }
+  ],
+  "annexBindings": [
+    {
+      "token": "ADAPTERS_ENFORCED_OK",
+      "sectionId": "PART_A_RUNTIME_ENFORCEMENT",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "CAPABILITY_ENFORCED_OK",
+      "sectionId": "PART_A_RUNTIME_ENFORCEMENT",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "COMMAND_SURFACE_ENFORCED_OK",
+      "sectionId": "PART_A_RUNTIME_ENFORCEMENT",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "CORE_SOT_EXECUTABLE_OK",
+      "sectionId": "PART_A_RUNTIME_ENFORCEMENT",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "RECOVERY_IO_OK",
+      "sectionId": "PART_A_RUNTIME_ENFORCEMENT",
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "CRITICAL_CLAIM_MATRIX_OK",
+      "sectionId": "PART_A_GOVERNANCE_BINDING",
+      "proofHook": "node scripts/ops/critical-claim-matrix-state.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "GOVERNANCE_STRICT_OK",
+      "sectionId": "PART_A_GOVERNANCE_BINDING",
+      "proofHook": "node scripts/ops/emit-ops-summary.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "HEAD_STRICT_OK",
+      "sectionId": "PART_A_GOVERNANCE_BINDING",
+      "proofHook": "node scripts/ops/head-strict-state.mjs --mode release",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "TOKEN_DECLARATION_VALID_OK",
+      "sectionId": "PART_A_GOVERNANCE_BINDING",
+      "proofHook": "node scripts/ops/token-declaration-state.mjs",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "PERF_BASELINE_OK",
+      "sectionId": "PART_A_RELEASE_ARTIFACTS_AND_PERF",
+      "proofHook": "node scripts/ops/perf-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "RELEASE_ARTIFACT_SOURCES_OK",
+      "sectionId": "PART_A_RELEASE_ARTIFACTS_AND_PERF",
+      "proofHook": "node scripts/ops/release-artifact-sources-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK",
+      "sectionId": "PART_A_RELEASE_ARTIFACTS_AND_PERF",
+      "proofHook": "node scripts/ops/macos-signing-readiness-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "CONFIG_HASH_LOCK_OK",
+      "sectionId": "PART_A_LOCK_AND_MAP_GATES",
+      "proofHook": "node scripts/ops/config-hash-lock-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "LOSSLESS_MAP_OK",
+      "sectionId": "PART_A_LOCK_AND_MAP_GATES",
+      "proofHook": "node scripts/ops/lossless-map-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "PROOFHOOK_INTEGRITY_OK",
+      "sectionId": "PART_A_PROOFHOOK_INTEGRITY",
+      "proofHook": "node scripts/ops/proofhook-integrity-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "version": "v1.0",
+  "approvals": [
+    {
+      "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
+      "sha256": "268fa0f4efc2fcbfbe692385703d2e826e20549e90c938b2661755fbde0560a7",
+      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
+      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
+      "rationale": "Introduce artifact-bound governance approval mechanism metadata in baseline."
+    },
+    {
+      "filePath": "scripts/ops/governance-approval-state.mjs",
+      "sha256": "9ba32456550fb49e120fda2c4ee821dbd25fafab43b0a55c4565d11e23d92209",
+      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
+      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
+      "rationale": "Add machine-bound validation for per-file governance approvals."
+    },
+    {
+      "filePath": "scripts/ops/governance-change-detection.mjs",
+      "sha256": "dba0d9990d14628416d12bc629e1492bb3e82df339c527905b5831f8b6ea4089",
+      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
+      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
+      "rationale": "Enable artifact-based approval lookup while keeping env override fallback."
+    },
+    {
+      "filePath": "test/contracts/governance-approval-state.contract.test.js",
+      "sha256": "c9e3d3fd496e04b7993ac3a85efe5ea935e9157a3327e75c67fd7a6bbdf2c39e",
+      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
+      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
+      "rationale": "Cover approval registry state validation contract."
+    },
+    {
+      "filePath": "test/contracts/governance-change-detection.contract.test.js",
+      "sha256": "ff8f8e3b167058caa898947303cd33890652eef14f054eaa1829873a36bb97a9",
+      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
+      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
+      "rationale": "Cover artifact-based approval and env override compatibility."
+    }
+  ]
+}

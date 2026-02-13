@@ -448,6 +448,16 @@
       "sourceBinding": "ops_script"
     },
     {
+      "claimId": "TOKEN_CATALOG_VALID",
+      "requiredToken": "TOKEN_CATALOG_VALID_OK",
+      "proofHook": "node scripts/ops/token-catalog-state.mjs --json",
+      "failSignal": "E_TOKEN_CATALOG_INVALID",
+      "failSignalCode": "E_TOKEN_CATALOG_INVALID",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "LOSSLESS_MAP",
       "requiredToken": "LOSSLESS_MAP_OK",
       "proofHook": "node scripts/ops/lossless-map-state.mjs --json",

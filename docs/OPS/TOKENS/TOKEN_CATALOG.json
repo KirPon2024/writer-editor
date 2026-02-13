@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "tokens": [
+    {
+      "tokenId": "ADAPTERS_ENFORCED_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_ADAPTERS_NOT_ENFORCED",
+      "namespace": "ADAPTERS"
+    },
+    {
+      "tokenId": "CAPABILITY_ENFORCED_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_CAPABILITY_NOT_ENFORCED",
+      "namespace": "CAPABILITY"
+    },
+    {
+      "tokenId": "COMMAND_SURFACE_ENFORCED_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_COMMAND_SURFACE_NOT_ENFORCED",
+      "namespace": "COMMAND_SURFACE"
+    },
+    {
+      "tokenId": "CONDITIONAL_GATES_BOUND_OK",
+      "promotionState": "target",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/conditional-gates-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_CONDITIONAL_GATE_MISAPPLIED",
+      "namespace": "CONDITIONAL"
+    },
+    {
+      "tokenId": "CONFIG_HASH_LOCK_OK",
+      "promotionState": "target",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/config-hash-lock-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_CONFIG_HASH_CONFLICT",
+      "namespace": "CONFIG"
+    },
+    {
+      "tokenId": "CORE_SOT_EXECUTABLE_OK",
+      "promotionState": "existing",
+      "gateTier": "core",
+      "requiredWhen": null,
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_CORE_SOT_NOT_EXECUTABLE",
+      "namespace": "CORE_SOT"
+    },
+    {
+      "tokenId": "CRITICAL_CLAIM_MATRIX_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/critical-claim-matrix-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_CRITICAL_CLAIM_MATRIX_INVALID",
+      "namespace": "CRITICAL_CLAIM_MATRIX"
+    },
+    {
+      "tokenId": "E2E_CRITICAL_USER_PATH_OK",
+      "promotionState": "target",
+      "gateTier": "conditional",
+      "requiredWhen": "VNEXT_TOUCHED=1",
+      "proofHook": "node scripts/doctor.mjs",
+      "sourceBinding": "contract_test",
+      "failSignalCode": "E_E2E_CRITICAL_USER_PATH_NOT_OK",
+      "namespace": "E2E"
+    },
+    {
+      "tokenId": "FAILSIGNAL_REGISTRY_VALID_OK",
+      "promotionState": "target",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/failsignal-registry-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_FAILSIGNAL_REGISTRY_INVALID",
+      "namespace": "FAILSIGNAL"
+    },
+    {
+      "tokenId": "GOVERNANCE_STRICT_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/emit-ops-summary.mjs",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_summary",
+      "failSignalCode": "E_GOVERNANCE_STRICT_FAIL",
+      "namespace": "GOVERNANCE"
+    },
+    {
+      "tokenId": "HEAD_STRICT_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/head-strict-state.mjs --mode release",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_HEAD_BINDING_INVALID",
+      "namespace": "HEAD_STRICT"
+    },
+    {
+      "tokenId": "LOSSLESS_MAP_OK",
+      "promotionState": "target",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/lossless-map-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_LOSSLESS_MAP_DRIFT",
+      "namespace": "LOSSLESS"
+    },
+    {
+      "tokenId": "PERF_BASELINE_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": "RELEASE_SCOPE_PERF=1",
+      "proofHook": "node scripts/ops/perf-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_PERF_BASELINE_NOT_OK",
+      "namespace": "PERF"
+    },
+    {
+      "tokenId": "PROOFHOOK_INTEGRITY_OK",
+      "promotionState": "target",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/proofhook-integrity-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_PROOFHOOK_TAMPER_DETECTED",
+      "namespace": "PROOFHOOK"
+    },
+    {
+      "tokenId": "RECOVERY_IO_OK",
+      "promotionState": "existing",
+      "gateTier": "core",
+      "requiredWhen": null,
+      "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_RECOVERY_IO_NOT_OK",
+      "namespace": "RECOVERY"
+    },
+    {
+      "tokenId": "RELEASE_ARTIFACT_SOURCES_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/release-artifact-sources-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "truth_table",
+      "failSignalCode": "E_RELEASE_ARTIFACT_SOURCES_FAIL",
+      "namespace": "RELEASE_ARTIFACT_SOURCES"
+    },
+    {
+      "tokenId": "SCR_SHARED_CODE_RATIO_OK",
+      "promotionState": "existing",
+      "gateTier": "conditional",
+      "requiredWhen": "ECONOMIC_CLAIM_SHARED_CODE=1",
+      "proofHook": "node scripts/ops/scr-calc.mjs --json",
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_SHARED_CODE_RATIO_BELOW_MIN",
+      "namespace": "SCR"
+    },
+    {
+      "tokenId": "TOKEN_CATALOG_VALID_OK",
+      "promotionState": "target",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/token-catalog-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_TOKEN_CATALOG_INVALID",
+      "namespace": "TOKEN_CATALOG"
+    },
+    {
+      "tokenId": "TOKEN_DECLARATION_VALID_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/token-declaration-state.mjs",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "doctor",
+      "failSignalCode": "E_TOKEN_DECLARATION_INVALID",
+      "namespace": "TOKEN_DECLARATION"
+    },
+    {
+      "tokenId": "TOKEN_SOURCE_CONFLICT_OK",
+      "promotionState": "target",
+      "gateTier": "core",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/token-source-conflict-state.mjs --json",
+      "sourceBinding": "truth_table",
+      "failSignalCode": "E_TOKEN_SOURCE_CONFLICT",
+      "namespace": "TOKEN_SOURCE"
+    },
+    {
+      "tokenId": "XPLAT_CONTRACT_MACOS_SIGNING_READY_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/macos-signing-readiness-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "truth_table",
+      "failSignalCode": "E_MACOS_SIGNING_READINESS_FAIL",
+      "namespace": "XPLAT_CONTRACT"
+    }
+  ]
+}

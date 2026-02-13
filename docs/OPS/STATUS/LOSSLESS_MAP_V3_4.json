@@ -40,7 +40,7 @@
         "node scripts/ops/critical-claim-matrix-state.mjs",
         "node scripts/ops/emit-ops-summary.mjs",
         "node scripts/ops/failsignal-registry-state.mjs --json",
-        "node scripts/ops/head-strict-state.mjs --mode release",
+        "node scripts/ops/head-strict-state.mjs --json",
         "node scripts/ops/required-set-no-target-state.mjs --json",
         "node scripts/ops/token-catalog-state.mjs --json",
         "node scripts/ops/token-declaration-state.mjs"
@@ -233,7 +233,7 @@
     {
       "token": "HEAD_STRICT_OK",
       "sectionId": "PART_A_GOVERNANCE_BINDING",
-      "proofHook": "node scripts/ops/head-strict-state.mjs --mode release",
+      "proofHook": "node scripts/ops/head-strict-state.mjs --json",
       "registryFiles": [
         "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
         "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",

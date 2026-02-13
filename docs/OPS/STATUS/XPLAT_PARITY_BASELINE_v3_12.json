@@ -5,6 +5,7 @@
   "capturedAtUtc": "2026-02-13T19:15:00Z",
   "concurrencyUnit": "Scene",
   "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+  "x1RuntimeParityRef": "scripts/ops/x1-desktop-parity-state.mjs --json",
   "hardParity": {
     "schemaStable": true,
     "migrationsDeterministic": true,
@@ -16,5 +17,5 @@
     "win": "subset",
     "linux": "subset"
   },
-  "notes": "X1 desktop hard parity baseline snapshot. X2 remains inactive."
+  "notes": "X1 desktop hard parity baseline snapshot with executable runtime parity harness binding. X2 remains inactive."
 }

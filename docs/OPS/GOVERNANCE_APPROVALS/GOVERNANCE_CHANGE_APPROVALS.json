@@ -38,10 +38,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",
-      "sha256": "d01a77f6225894ff12f5aba66e2d08a47cce2df7d208ca3eb94e1032578fd5d5",
-      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:15:00Z",
-      "rationale": "Approve X1 hard parity baseline snapshot SSOT."
+      "sha256": "8a9c2f3413ea6ce1ccb41f0abe6c3bfa8c13020368d3007a5d1ae38d7725bb3d",
+      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:35:00Z",
+      "rationale": "Approve X1 hard parity baseline runtime parity binding."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
@@ -52,10 +52,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "ef5628c1911c15b3b39d95dfde54e9659a2cdfd1197aa38ac5b88da9916c97ce",
-      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:15:00Z",
-      "rationale": "Approve X1 parity metrics linkage in stage metrics SSOT."
+      "sha256": "f4dd017e2a3aa6338dfa5f2eb16ccbb739c476fdcce12b96847b62689b2e4b1b",
+      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:35:00Z",
+      "rationale": "Approve X1 runtime parity thresholds and evidence linkage in stage metrics SSOT."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
@@ -100,6 +100,20 @@
       "rationale": "Approve machine-check validator for X1 hard parity baseline."
     },
     {
+      "filePath": "scripts/ops/x1-desktop-parity-harness.mjs",
+      "sha256": "0bd85370ebb3314a69bcb0ce74120ac3f717a7d4ea2e406bda0acb7c65fa650e",
+      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:35:00Z",
+      "rationale": "Approve executable X1 desktop parity runtime harness."
+    },
+    {
+      "filePath": "scripts/ops/x1-desktop-parity-state.mjs",
+      "sha256": "a009e92d4b07325dfa5cfcb5758701a9d3b525b63231355a44156ae25f841e5e",
+      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:35:00Z",
+      "rationale": "Approve X1 desktop parity state validator bound to runtime harness and metrics thresholds."
+    },
+    {
       "filePath": "scripts/ops/xplat-rollout-plan-state.mjs",
       "sha256": "ddd490df30e3dcf42bce20fcfdc4c88346dbfbcd37c5f5b16a6b5acb5c1fca5f",
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
@@ -140,6 +154,13 @@
       "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
       "approvedAtUtc": "2026-02-13T19:15:00Z",
       "rationale": "Approve contract coverage for X1 parity baseline validator."
+    },
+    {
+      "filePath": "test/contracts/x1-desktop-parity.contract.test.js",
+      "sha256": "fb79fdf81fbd4ab99a494b9518f889ec9714067eb7f9f72e7a87f8fbbf5725be",
+      "approvedBy": "ticket:X1_DESKTOP_RUNTIME_PARITY_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:35:00Z",
+      "rationale": "Approve contract coverage for X1 desktop runtime parity state validator."
     },
     {
       "filePath": "test/contracts/xplat-rollout-plan.contract.test.js",

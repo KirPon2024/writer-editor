@@ -418,6 +418,16 @@
       "sourceBinding": "truth-table"
     },
     {
+      "claimId": "CONDITIONAL_GATES_BOUND",
+      "requiredToken": "CONDITIONAL_GATES_BOUND_OK",
+      "proofHook": "node scripts/ops/conditional-gates-state.mjs --json",
+      "failSignal": "E_CONDITIONAL_GATE_MISAPPLIED",
+      "failSignalCode": "E_CONDITIONAL_GATE_MISAPPLIED",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "CONFIG_HASH_LOCK",
       "requiredToken": "CONFIG_HASH_LOCK_OK",
       "proofHook": "node scripts/ops/config-hash-lock-state.mjs --json",

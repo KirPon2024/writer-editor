@@ -8,7 +8,9 @@ const DEFAULT_REGISTRY_PATH = 'docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json';
 const FAIL_CODE_DUPLICATE = 'E_FAILSIGNAL_DUPLICATE';
 const FAIL_CODE_NEGATIVE = 'E_FAILSIGNAL_NEGATIVE_TEST_MISSING';
 const FAIL_CODE_PRECEDENCE = 'E_FAILSIGNAL_PRECEDENCE_INVALID';
+const FAIL_CODE_REGISTRY = 'E_FAILSIGNAL_REGISTRY_INVALID';
 const ALLOWED_TIERS = new Set(['core', 'release']);
+const NEGATIVE_TEST_REF_PATTERN = /^test\/contracts\/[a-z0-9._/-]+\.test\.js#[a-z0-9][a-z0-9-]*$/u;
 
 function isObjectRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -64,8 +66,9 @@ function issue(priority, index, type, details = {}) {
 
 function classifyIssueType(type) {
   if (type === 'DUPLICATE_CODE') return FAIL_CODE_DUPLICATE;
-  if (type === 'BLOCKING_NEGATIVE_TEST_MISSING') return FAIL_CODE_NEGATIVE;
-  return FAIL_CODE_PRECEDENCE;
+  if (type === 'NEGATIVE_TEST_REF_MISSING' || type === 'NEGATIVE_TEST_REF_INVALID') return FAIL_CODE_NEGATIVE;
+  if (type === 'PRECEDENCE_INVALID') return FAIL_CODE_PRECEDENCE;
+  return FAIL_CODE_REGISTRY;
 }
 
 function validateRegistryShape(parsed) {
@@ -99,6 +102,7 @@ function validateFailSignals(failSignals) {
   const issues = [];
   const codes = new Set();
   const precedence = new Set();
+  const precedenceRows = [];
   const seenOrder = [];
 
   for (let i = 0; i < failSignals.length; i += 1) {
@@ -152,11 +156,33 @@ function validateFailSignals(failSignals) {
           }));
         }
         precedence.add(normalizedPrecedence);
+        precedenceRows.push({
+          index: i,
+          code,
+          precedence: normalizedPrecedence,
+        });
       }
     }
 
-    if (blocking === true && !negativeTestRef) {
-      issues.push(issue(1, i, 'BLOCKING_NEGATIVE_TEST_MISSING', { code }));
+    if (!negativeTestRef) {
+      issues.push(issue(1, i, 'NEGATIVE_TEST_REF_MISSING', { code }));
+    } else if (!NEGATIVE_TEST_REF_PATTERN.test(negativeTestRef)) {
+      issues.push(issue(1, i, 'NEGATIVE_TEST_REF_INVALID', { code, negativeTestRef }));
+    }
+  }
+
+  for (let i = 1; i < precedenceRows.length; i += 1) {
+    const prev = precedenceRows[i - 1];
+    const curr = precedenceRows[i];
+    if (prev.precedence >= curr.precedence) {
+      issues.push(issue(2, curr.index, 'PRECEDENCE_INVALID', {
+        code: curr.code,
+        precedence: curr.precedence,
+        reason: 'PRECEDENCE_NOT_STRICT_ASCENDING',
+        previousCode: prev.code,
+        previousPrecedence: prev.precedence,
+      }));
+      break;
     }
   }
 

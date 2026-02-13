@@ -13,7 +13,7 @@
       "code": "E_FAILSIGNAL_NEGATIVE_TEST_MISSING",
       "blocking": true,
       "tier": "release",
-      "rationale": "Blocking failSignals must be covered by an explicit negative contract test.",
+      "rationale": "Every failSignal must be covered by an explicit negative contract scenario.",
       "precedence": 20,
       "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#missing-negative-test-ref"
     },
@@ -29,9 +29,9 @@
       "code": "E_FAILSIGNAL_REGISTRY_INVALID",
       "blocking": true,
       "tier": "release",
-      "rationale": "Critical claim gate code for failSignal registry validation failures.",
+      "rationale": "FailSignal registry shape and metadata must stay deterministic and machine-verifiable.",
       "precedence": 40,
-      "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#missing-negative-test-ref"
+      "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#schema-invalid"
     }
   ]
 }

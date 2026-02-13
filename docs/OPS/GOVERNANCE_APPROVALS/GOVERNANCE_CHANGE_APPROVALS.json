@@ -9,6 +9,20 @@
       "rationale": "Introduce artifact-bound governance approval mechanism metadata in baseline."
     },
     {
+      "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
+      "sha256": "882e7a336f13b1252f8ad418ebe25d2237a806a60d9995d6ef4bc14233210cc4",
+      "approvedBy": "ticket:GOVERNANCE_APPROVAL_REFRESH_FOR_FAILSIGNAL_REGISTRY_SYNC_v1.0",
+      "approvedAtUtc": "2026-02-13T16:15:04.000Z",
+      "rationale": "Refresh governed failSignal registry hash for negative-ref and semantics hardening."
+    },
+    {
+      "filePath": "scripts/ops/failsignal-registry-state.mjs",
+      "sha256": "9e5317db6f425ff2d35de8c0b840348fe30e54edd7456120a897e25e6b123aed",
+      "approvedBy": "ticket:GOVERNANCE_APPROVAL_REFRESH_FOR_FAILSIGNAL_REGISTRY_SYNC_v1.0",
+      "approvedAtUtc": "2026-02-13T16:15:04.000Z",
+      "rationale": "Refresh governed failSignal validator hash for stricter negative ref and precedence checks."
+    },
+    {
       "filePath": "scripts/ops/governance-approval-state.mjs",
       "sha256": "9ba32456550fb49e120fda2c4ee821dbd25fafab43b0a55c4565d11e23d92209",
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",

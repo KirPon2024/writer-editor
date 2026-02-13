@@ -428,6 +428,16 @@
       "sourceBinding": "ops_script"
     },
     {
+      "claimId": "FAILSIGNAL_REGISTRY_VALID",
+      "requiredToken": "FAILSIGNAL_REGISTRY_VALID_OK",
+      "proofHook": "node scripts/ops/failsignal-registry-state.mjs --json",
+      "failSignal": "E_FAILSIGNAL_REGISTRY_INVALID",
+      "failSignalCode": "E_FAILSIGNAL_REGISTRY_INVALID",
+      "blocking": true,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "LOSSLESS_MAP",
       "requiredToken": "LOSSLESS_MAP_OK",
       "proofHook": "node scripts/ops/lossless-map-state.mjs --json",

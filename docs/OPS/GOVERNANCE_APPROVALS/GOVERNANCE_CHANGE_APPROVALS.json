@@ -10,28 +10,28 @@
     },
     {
       "filePath": "scripts/ops/governance-approval-state.mjs",
-      "sha256": "bfbc862ed3156bfd7dc3f0ebeb9500191a3a3e6219ceafd073dfc8d06c1337a8",
+      "sha256": "9ba32456550fb49e120fda2c4ee821dbd25fafab43b0a55c4565d11e23d92209",
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
       "approvedAtUtc": "2026-02-13T00:00:00.000Z",
       "rationale": "Add machine-bound validation for per-file governance approvals."
     },
     {
       "filePath": "scripts/ops/governance-change-detection.mjs",
-      "sha256": "15920ce9a39dd19740708f7628feb074736ff77f486e3abacc0c482b7e553cba",
+      "sha256": "dba0d9990d14628416d12bc629e1492bb3e82df339c527905b5831f8b6ea4089",
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
       "approvedAtUtc": "2026-02-13T00:00:00.000Z",
       "rationale": "Enable artifact-based approval lookup while keeping env override fallback."
     },
     {
       "filePath": "test/contracts/governance-approval-state.contract.test.js",
-      "sha256": "a78a8498e6286a728b9c29e2adfe58b5202a51dae956564fd4330fcc23de66e1",
+      "sha256": "c9e3d3fd496e04b7993ac3a85efe5ea935e9157a3327e75c67fd7a6bbdf2c39e",
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
       "approvedAtUtc": "2026-02-13T00:00:00.000Z",
       "rationale": "Cover approval registry state validation contract."
     },
     {
       "filePath": "test/contracts/governance-change-detection.contract.test.js",
-      "sha256": "7266549167f393acf92ac529bec0dc17b5545959263cecb8ba6ddccf6cf8383a",
+      "sha256": "ff8f8e3b167058caa898947303cd33890652eef14f054eaa1829873a36bb97a9",
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
       "approvedAtUtc": "2026-02-13T00:00:00.000Z",
       "rationale": "Cover artifact-based approval and env override compatibility."

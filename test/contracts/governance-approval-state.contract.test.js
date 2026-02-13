@@ -7,6 +7,10 @@ const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
 
 const SCRIPT_PATH = path.join(process.cwd(), 'scripts/ops/governance-approval-state.mjs');
+const REPO_APPROVALS_PATH = path.join(
+  process.cwd(),
+  'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
+);
 
 function runState(repoRoot, approvalsPath) {
   return spawnSync(
@@ -36,6 +40,30 @@ test('governance approval state: repository registry is valid', () => {
   const payload = parseJsonStdout(result);
   assert.equal(payload.tokens.GOVERNANCE_APPROVAL_REGISTRY_VALID_OK, 1);
   assert.ok(Number(payload.approvals_count) >= 0);
+});
+
+test('governance approval state: registry sha256 matches raw file bytes for real entry', () => {
+  const parsed = JSON.parse(fs.readFileSync(REPO_APPROVALS_PATH, 'utf8'));
+  assert.ok(Array.isArray(parsed.approvals), 'approvals array must exist');
+  assert.ok(parsed.approvals.length > 0, 'approvals array must be non-empty');
+
+  const entry = parsed.approvals[0];
+  const entryPath = path.join(process.cwd(), String(entry.filePath || ''));
+  const rawBytes = fs.readFileSync(entryPath);
+  const actualSha = crypto.createHash('sha256').update(rawBytes).digest('hex');
+  assert.equal(actualSha, String(entry.sha256 || '').toLowerCase(), 'sha must match raw bytes hash');
+});
+
+test('governance approval state: in-memory tampered sha mismatches raw bytes hash', () => {
+  const parsed = JSON.parse(fs.readFileSync(REPO_APPROVALS_PATH, 'utf8'));
+  assert.ok(Array.isArray(parsed.approvals), 'approvals array must exist');
+  assert.ok(parsed.approvals.length > 0, 'approvals array must be non-empty');
+
+  const entry = parsed.approvals[0];
+  const entryPath = path.join(process.cwd(), String(entry.filePath || ''));
+  const actualSha = sha256File(entryPath);
+  const tamperedSha = String(actualSha).replace(/.$/u, actualSha.endsWith('0') ? '1' : '0');
+  assert.notEqual(tamperedSha, actualSha, 'tampered sha should differ from actual raw bytes hash');
 });
 
 test('governance approval state: hash mismatch fails with canonical reason', () => {

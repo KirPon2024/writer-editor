@@ -14,6 +14,7 @@ const DEFAULT_BASE_REF = 'origin/main';
 const DEFAULT_BASELINE_PATH = 'docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json';
 const BASELINE_APPROVAL_KEY = 'governance_change_approval_registry';
 const DEFAULT_FAIL_REASON = 'GOVERNANCE_CHANGE_APPROVAL_REQUIRED';
+const STRICT_EFFECTIVE_MODE = 'STRICT';
 
 function normalizeRepoRelativePath(value) {
   const normalized = String(value || '').trim().replaceAll('\\', '/');
@@ -242,11 +243,16 @@ function buildState({
 export function evaluateGovernanceChangeDetection(input = {}) {
   const baseRef = String(input.baseRef || process.env.GOVERNANCE_CHANGE_BASE_REF || DEFAULT_BASE_REF).trim();
   const repoRoot = String(input.repoRoot || process.env.GOVERNANCE_CHANGE_REPO_ROOT || process.cwd()).trim();
-  const approvedByEnv = String(process.env.GOVERNANCE_CHANGE_APPROVED || '').trim() === '1';
+  const effectiveMode = String(input.effectiveMode || process.env.EFFECTIVE_MODE || '').trim().toUpperCase();
+  const strictMode = effectiveMode === STRICT_EFFECTIVE_MODE;
+  const envOverrideRequested = String(process.env.GOVERNANCE_CHANGE_APPROVED || '').trim() === '1';
+  const approvedByEnv = envOverrideRequested && !strictMode;
   const approvalsPath = resolveApprovalsPath(
     repoRoot,
     String(input.approvalsPath || process.env.GOVERNANCE_CHANGE_APPROVALS_PATH || '').trim(),
   );
+  const approvalsAbsPath = ensureInsideRoot(repoRoot, approvalsPath);
+  const approvalsFilePresent = Boolean(approvalsAbsPath && fs.existsSync(approvalsAbsPath));
   const approvalExemptPaths = new Set([approvalsPath]);
 
   const changedState = collectChangedFiles(repoRoot, baseRef);
@@ -308,22 +314,6 @@ export function evaluateGovernanceChangeDetection(input = {}) {
     sha256: hashState.fileHashes[filePath],
   }));
 
-  if (approvedByEnv) {
-    return buildState({
-      ok: true,
-      changedGovernanceFiles,
-      missingApprovals: [],
-      baseRef,
-      repoRoot,
-      approvedByEnv,
-      approvalRegistryValid: true,
-      approvalRegistryFailReason: '',
-      approvalsPath,
-      failReason: '',
-      gitError: '',
-    });
-  }
-
   const approvalRegistryState = evaluateGovernanceApprovalState({
     repoRoot,
     approvalsPath,
@@ -343,10 +333,61 @@ export function evaluateGovernanceChangeDetection(input = {}) {
 
   const missingApprovals = changedApprovalsWithHash
     .filter((entry) => !approvedKeys.has(makeApprovalKey(entry.filePath, entry.sha256)));
-  const ok = approvalRegistryValid && missingApprovals.length === 0;
+  const approvalsSatisfied = approvalRegistryValid && missingApprovals.length === 0;
+
+  // In strict mode, only artifact approvals are authoritative.
+  if (strictMode) {
+    return buildState({
+      ok: approvalsSatisfied,
+      changedGovernanceFiles,
+      missingApprovals,
+      baseRef,
+      repoRoot,
+      approvedByEnv,
+      approvalRegistryValid,
+      approvalRegistryFailReason,
+      approvalsPath,
+      failReason: approvalsSatisfied ? '' : DEFAULT_FAIL_REASON,
+      gitError: '',
+    });
+  }
+
+  // In non-strict mode, env override is fallback only when no registry is present.
+  // If registry exists, mismatch/invalid registry remains authoritative and cannot be bypassed.
+  if (approvalsFilePresent) {
+    return buildState({
+      ok: approvalsSatisfied,
+      changedGovernanceFiles,
+      missingApprovals,
+      baseRef,
+      repoRoot,
+      approvedByEnv,
+      approvalRegistryValid,
+      approvalRegistryFailReason,
+      approvalsPath,
+      failReason: approvalsSatisfied ? '' : DEFAULT_FAIL_REASON,
+      gitError: '',
+    });
+  }
+
+  if (approvedByEnv) {
+    return buildState({
+      ok: true,
+      changedGovernanceFiles,
+      missingApprovals: [],
+      baseRef,
+      repoRoot,
+      approvedByEnv,
+      approvalRegistryValid,
+      approvalRegistryFailReason,
+      approvalsPath,
+      failReason: '',
+      gitError: '',
+    });
+  }
 
   return buildState({
-    ok,
+    ok: approvalsSatisfied,
     changedGovernanceFiles,
     missingApprovals,
     baseRef,
@@ -355,7 +396,7 @@ export function evaluateGovernanceChangeDetection(input = {}) {
     approvalRegistryValid,
     approvalRegistryFailReason,
     approvalsPath,
-    failReason: ok ? '' : DEFAULT_FAIL_REASON,
+    failReason: approvalsSatisfied ? '' : DEFAULT_FAIL_REASON,
     gitError: '',
   });
 }

@@ -84,6 +84,7 @@ export function hashRepoFileSha256(repoRoot, relativePath) {
 
   let data;
   try {
+    // Hash must be computed from raw bytes (Buffer), without text normalization.
     data = fs.readFileSync(fileAbsPath);
   } catch {
     return {

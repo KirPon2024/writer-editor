@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "v3.12",
+  "metrics": {
+    "contractPassRatePct": {
+      "type": "percent",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "exportP95Ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "flakyRatePct": {
+      "type": "percent",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "maxDocSizeMb": {
+      "type": "number",
+      "minimum": 0
+    },
+    "openP95Ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "parityPassRatePct": {
+      "type": "percent",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "reopenP95Ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "replayProtectionPass": {
+      "type": "boolean"
+    },
+    "resumeRecoverySmokePass": {
+      "type": "boolean"
+    },
+    "saveP95Ms": {
+      "type": "number",
+      "minimum": 0
+    }
+  }
+}

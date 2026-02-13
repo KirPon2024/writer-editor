@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "v3.12",
+  "flags": [
+    {
+      "flagId": "XPLAT_STAGE_X1_ENABLED",
+      "defaultEnabled": false,
+      "description": "Enables stage-gated X1 parity validation contour."
+    },
+    {
+      "flagId": "XPLAT_STAGE_X2_ENABLED",
+      "defaultEnabled": false,
+      "description": "Enables stage-gated X2 latency and size envelope contour."
+    },
+    {
+      "flagId": "XPLAT_STAGE_X3_ENABLED",
+      "defaultEnabled": false,
+      "description": "Enables stage-gated X3 resilience and recovery contour."
+    },
+    {
+      "flagId": "XPLAT_STAGE_X4_ENABLED",
+      "defaultEnabled": false,
+      "description": "Enables stage-gated X4 release readiness contour."
+    }
+  ]
+}

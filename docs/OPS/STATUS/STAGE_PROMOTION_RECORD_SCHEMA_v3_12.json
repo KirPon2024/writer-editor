@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "v3.12",
+  "recordFields": {
+    "approvedAtUtc": {
+      "type": "iso8601"
+    },
+    "approvedBy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "object"
+    },
+    "fromStageId": {
+      "type": "stageId"
+    },
+    "isActive": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "string",
+      "optional": true
+    },
+    "promotionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "toStageId": {
+      "type": "stageId"
+    }
+  },
+  "requiredMetricsByStage": {
+    "X1": [
+      "parityPassRatePct",
+      "flakyRatePct",
+      "maxDocSizeMb"
+    ],
+    "X2": [
+      "parityPassRatePct",
+      "flakyRatePct",
+      "maxDocSizeMb",
+      "openP95Ms",
+      "saveP95Ms",
+      "reopenP95Ms",
+      "exportP95Ms"
+    ],
+    "X3": [
+      "parityPassRatePct",
+      "flakyRatePct",
+      "maxDocSizeMb",
+      "resumeRecoverySmokePass"
+    ],
+    "X4": [
+      "contractPassRatePct",
+      "flakyRatePct",
+      "replayProtectionPass"
+    ]
+  },
+  "constraints": {
+    "forbidMissingMetrics": true,
+    "forbidNaN": true,
+    "forbidNegative": true,
+    "percentMetricBounds": {
+      "minimum": 0,
+      "maximum": 100
+    },
+    "stageOrder": [
+      "X0",
+      "X1",
+      "X2",
+      "X3",
+      "X4"
+    ]
+  }
+}

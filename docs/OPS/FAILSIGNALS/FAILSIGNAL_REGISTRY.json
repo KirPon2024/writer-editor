@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "failSignals": [
+    {
+      "code": "E_FAILSIGNAL_DUPLICATE",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Duplicate failSignal code in registry breaks deterministic resolver behavior.",
+      "precedence": 10,
+      "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#duplicate-code"
+    },
+    {
+      "code": "E_FAILSIGNAL_NEGATIVE_TEST_MISSING",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Blocking failSignals must be covered by an explicit negative contract test.",
+      "precedence": 20,
+      "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#missing-negative-test-ref"
+    },
+    {
+      "code": "E_FAILSIGNAL_PRECEDENCE_INVALID",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Precedence metadata must remain well-formed and deterministic.",
+      "precedence": 30,
+      "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#precedence-invalid"
+    },
+    {
+      "code": "E_FAILSIGNAL_REGISTRY_INVALID",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Critical claim gate code for failSignal registry validation failures.",
+      "precedence": 40,
+      "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#missing-negative-test-ref"
+    }
+  ]
+}

@@ -49,6 +49,83 @@
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
       "approvedAtUtc": "2026-02-13T00:00:00.000Z",
       "rationale": "Cover artifact-based approval and env override compatibility."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
+      "sha256": "cd4f65402fc34a09e35240f83b9cac8091bc463f4d0bfdabefd1e4fb2cce6982",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve XPLAT rollout plan SSOT with active stage and promotion mode controls."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
+      "sha256": "76e0d7d1cb60ef296db2459000346c8f61a94d0bc3b99c26f5144906b6dab5a1",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve stage scope flag registry used by rollout and activation validators."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+      "sha256": "2e04deb0697864dfc705596fb9a57a05ff4d493ea17e5ce1d38ab5c115bd5420",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve canonical stage metrics registry for promotion evidence validation."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_SCHEMA_v3_12.json",
+      "sha256": "ee2ef5ba631ed43ed767959ba9fbac4dfab7f8b9874642c3306e0588ec139abd",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve stage promotion record schema with stage-bound required metrics."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json",
+      "sha256": "68e4a35d43740331140774cde03b9381958f12f1e84c33a02b2e1621bdb2b6ab",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve inactive stage promotion template record for deterministic baseline."
+    },
+    {
+      "filePath": "scripts/ops/stage-activation-state.mjs",
+      "sha256": "d2e0cd3a39122b90fbeaae07f4ddb2b05077c32addda9cd8b44d98ecb30fb9de",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve machine-checked stage activation evaluator for active stage and promotion mode."
+    },
+    {
+      "filePath": "scripts/ops/stage-promotion-record-state.mjs",
+      "sha256": "2c85da668a27776dba22c16665e07c6038a2f6cf8388f71a45fdab8edb064612",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve promotion record state validator with required metrics constraints."
+    },
+    {
+      "filePath": "scripts/ops/xplat-rollout-plan-state.mjs",
+      "sha256": "ddd490df30e3dcf42bce20fcfdc4c88346dbfbcd37c5f5b16a6b5acb5c1fca5f",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve rollout plan state validator for stage and scope flag integrity."
+    },
+    {
+      "filePath": "test/contracts/stage-activation.contract.test.js",
+      "sha256": "7a73b2fd9a402af86bd2dd9e3a6f4c3051d05b7134b57a3fd04545718eb5f298",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve stage activation contract coverage for positive and negative paths."
+    },
+    {
+      "filePath": "test/contracts/stage-promotion-record.contract.test.js",
+      "sha256": "c35d2017972760dbbc0f1ca650fead09187d4ddc081d134193e9f4444b9c72fc",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve promotion record contract coverage for template and evidence failures."
+    },
+    {
+      "filePath": "test/contracts/xplat-rollout-plan.contract.test.js",
+      "sha256": "0114028028c81cd47a460e6fae964b1a6a93389289f2e327b089f96ff8e92719",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve rollout plan contract coverage for stage and scope flag validation."
     }
   ]
 }

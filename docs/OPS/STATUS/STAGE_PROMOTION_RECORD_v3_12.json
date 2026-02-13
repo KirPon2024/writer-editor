@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "v3.12",
+  "isActive": false,
+  "promotionId": "TEMPLATE",
+  "fromStageId": "X0",
+  "toStageId": "X0",
+  "approvedBy": "TBD",
+  "approvedAtUtc": "1970-01-01T00:00:00Z",
+  "evidence": {},
+  "notes": "Template record. Keep isActive=false until promotion evidence is prepared."
+}

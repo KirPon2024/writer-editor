@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "v3.12",
+  "stages": [
+    "X0",
+    "X1",
+    "X2",
+    "X3",
+    "X4"
+  ],
+  "activeStageId": "X0",
+  "stageToScopeFlag": {},
+  "promotionModeAllowed": false
+}

@@ -1,5 +1,15 @@
 {
   "schemaVersion": "v3.12",
+  "stageEvidence": {
+    "X1": {
+      "parityPassRatePct": 100,
+      "flakyRatePct": 0,
+      "maxDocSizeMb": 16,
+      "baseSha": "c96ed8685f5c0a7453d9710104151b859121a7d0",
+      "capturedAtUtc": "2026-02-13T18:54:26Z",
+      "source": "local strict doctor and npm test"
+    }
+  },
   "metrics": {
     "contractPassRatePct": {
       "type": "percent",

@@ -6,10 +6,16 @@ import { evaluateTokenDeclarationState } from './token-declaration-state.mjs';
 import { evaluateCriticalClaimMatrixState } from './critical-claim-matrix-state.mjs';
 
 const TOKEN_NAME = 'LOSSLESS_MAP_OK';
-const FAIL_CODE = 'E_LOSSLESS_MAP_INCOMPLETE';
+const FAIL_CODE_DRIFT = 'E_LOSSLESS_MAP_DRIFT';
+const FAIL_CODE_MISSING_TOKEN = 'E_LOSSLESS_MAP_MISSING_TOKEN';
+const FAIL_CODE_MISSING_PROOFHOOK = 'E_LOSSLESS_MAP_MISSING_PROOFHOOK';
 const DEFAULT_TOKEN_DECLARATION_PATH = 'docs/OPS/TOKENS/TOKEN_DECLARATION.json';
 const DEFAULT_CLAIMS_PATH = 'docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json';
 const DEFAULT_REQUIRED_SET_PATH = 'docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json';
+const DEFAULT_LOSSLESS_MAP_PATH = 'docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json';
+
+const ALLOWED_LOSSLESS_MAP_VERSION = 'v3.4';
+const PROOF_HOOK_ALLOWED_CMD = new Set(['node']);
 
 function isObjectRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -81,6 +87,297 @@ function sortIssues(issues) {
   });
 }
 
+function normalizeRelativePath(value) {
+  const normalized = String(value || '').trim().replaceAll('\\', '/');
+  if (!normalized || path.isAbsolute(normalized)) return '';
+  if (normalized.split('/').some((segment) => segment.length === 0 || segment === '..')) return '';
+  return normalized;
+}
+
+function pathExistsAsFile(relativePath) {
+  const normalized = normalizeRelativePath(relativePath);
+  if (!normalized) return false;
+  const rootAbs = path.resolve(process.cwd());
+  const fileAbs = path.resolve(rootAbs, normalized);
+  const rel = path.relative(rootAbs, fileAbs);
+  if (rel.startsWith('..') || path.isAbsolute(rel)) return false;
+  try {
+    return fs.existsSync(fileAbs) && fs.statSync(fileAbs).isFile();
+  } catch {
+    return false;
+  }
+}
+
+function parseProofHookScriptPath(proofHook) {
+  const chunks = String(proofHook || '').trim().split(/\s+/u).filter(Boolean);
+  if (chunks.length === 0) return '';
+  let idx = 0;
+  while (idx < chunks.length && /^[A-Z_][A-Z0-9_]*=.*/u.test(chunks[idx])) idx += 1;
+  const cmd = String(chunks[idx] || '').trim();
+  if (!PROOF_HOOK_ALLOWED_CMD.has(cmd)) return '';
+  return normalizeRelativePath(chunks[idx + 1] || '');
+}
+
+function deriveFailureCode(issues) {
+  if (issues.some((item) => String(item.code || '').includes('MISSING_PROOFHOOK'))) {
+    return FAIL_CODE_MISSING_PROOFHOOK;
+  }
+  if (issues.some((item) => String(item.code || '').includes('MISSING_TOKEN'))) {
+    return FAIL_CODE_MISSING_TOKEN;
+  }
+  return FAIL_CODE_DRIFT;
+}
+
+function uniqueSortedValuesFromSet(values) {
+  return [...values].sort((a, b) => a.localeCompare(b));
+}
+
+function collectLosslessMapStatusIssues({
+  mapDoc,
+  mapPath,
+  releaseRequired,
+  claimsByToken,
+}) {
+  const issues = [];
+
+  if (!isObjectRecord(mapDoc)) {
+    issues.push(toIssue('LOSSLESS_MAP_STATUS_UNREADABLE', { path: mapPath }));
+    return { issues, partASectionCount: 0, annexBindingCount: 0 };
+  }
+
+  const schemaVersion = Number(mapDoc.schemaVersion);
+  if (schemaVersion !== 1) {
+    issues.push(toIssue('LOSSLESS_MAP_STATUS_SCHEMA_INVALID', {
+      path: mapPath,
+      actual: schemaVersion,
+      expected: 1,
+    }));
+  }
+
+  const version = String(mapDoc.version || '').trim();
+  if (version !== ALLOWED_LOSSLESS_MAP_VERSION) {
+    issues.push(toIssue('LOSSLESS_MAP_STATUS_VERSION_INVALID', {
+      path: mapPath,
+      actual: version || '<empty>',
+      expected: ALLOWED_LOSSLESS_MAP_VERSION,
+    }));
+  }
+
+  const partASectionsRaw = Array.isArray(mapDoc.partASections) ? mapDoc.partASections : [];
+  const annexBindingsRaw = Array.isArray(mapDoc.annexBindings) ? mapDoc.annexBindings : [];
+  if (partASectionsRaw.length === 0) {
+    issues.push(toIssue('LOSSLESS_MAP_STATUS_PARTA_EMPTY', { path: mapPath }));
+  }
+  if (annexBindingsRaw.length === 0) {
+    issues.push(toIssue('LOSSLESS_MAP_STATUS_ANNEX_EMPTY', { path: mapPath }));
+  }
+
+  const sectionMap = new Map();
+  const partATokens = new Set();
+  for (let index = 0; index < partASectionsRaw.length; index += 1) {
+    const section = partASectionsRaw[index];
+    if (!isObjectRecord(section)) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_SECTION_INVALID', { index }));
+      continue;
+    }
+    const sectionId = String(section.sectionId || '').trim();
+    if (!sectionId) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_SECTION_ID_MISSING', { index }));
+      continue;
+    }
+    if (sectionMap.has(sectionId)) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_SECTION_DUPLICATE', { sectionId }));
+      continue;
+    }
+    const tokens = uniqueSortedStrings(section.tokens);
+    const proofHooks = uniqueSortedStrings(section.proofHooks);
+    const registryFiles = uniqueSortedStrings(section.registryFiles);
+
+    if (tokens.length === 0) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_SECTION_TOKENS_EMPTY', { sectionId }));
+    }
+    if (proofHooks.length === 0) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_SECTION_PROOFHOOKS_EMPTY', { sectionId }));
+    }
+    if (registryFiles.length === 0) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_SECTION_REGISTRY_EMPTY', { sectionId }));
+    }
+
+    for (const token of tokens) partATokens.add(token);
+
+    const proofHookSet = new Set();
+    for (const proofHook of proofHooks) {
+      const scriptPath = parseProofHookScriptPath(proofHook);
+      if (!scriptPath || !pathExistsAsFile(scriptPath)) {
+        issues.push(toIssue('LOSSLESS_MAP_PARTA_MISSING_PROOFHOOK', {
+          sectionId,
+          proofHook,
+          scriptPath: scriptPath || '<invalid>',
+        }));
+      } else {
+        proofHookSet.add(proofHook);
+      }
+    }
+
+    const registrySet = new Set();
+    for (const registryFile of registryFiles) {
+      if (!pathExistsAsFile(registryFile)) {
+        issues.push(toIssue('LOSSLESS_MAP_PARTA_REGISTRY_MISSING', {
+          sectionId,
+          registryFile,
+        }));
+      } else {
+        registrySet.add(registryFile);
+      }
+    }
+
+    sectionMap.set(sectionId, {
+      sectionId,
+      tokens: new Set(tokens),
+      proofHooks: proofHookSet,
+      registryFiles: registrySet,
+    });
+  }
+
+  const releaseSet = new Set(releaseRequired);
+  const bindingsByToken = new Map();
+  const sectionBindings = new Map();
+  const annexTokens = new Set();
+
+  for (let index = 0; index < annexBindingsRaw.length; index += 1) {
+    const binding = annexBindingsRaw[index];
+    if (!isObjectRecord(binding)) {
+      issues.push(toIssue('LOSSLESS_MAP_ANNEX_BINDING_INVALID', { index }));
+      continue;
+    }
+    const token = String(binding.token || '').trim();
+    const sectionId = String(binding.sectionId || '').trim();
+    const proofHook = String(binding.proofHook || '').trim();
+    const registryFiles = uniqueSortedStrings(binding.registryFiles);
+
+    if (!token) {
+      issues.push(toIssue('LOSSLESS_MAP_ANNEX_BINDING_TOKEN_MISSING', { index }));
+      continue;
+    }
+    annexTokens.add(token);
+    if (bindingsByToken.has(token)) {
+      issues.push(toIssue('LOSSLESS_MAP_ANNEX_BINDING_DUPLICATE_TOKEN', { token }));
+      continue;
+    }
+    bindingsByToken.set(token, { sectionId, proofHook, registryFiles });
+
+    if (!sectionId || !sectionMap.has(sectionId)) {
+      issues.push(toIssue('LOSSLESS_MAP_ANNEX_ORPHAN_SECTION', { token, sectionId }));
+    } else {
+      const sectionState = sectionBindings.get(sectionId) || new Set();
+      sectionState.add(token);
+      sectionBindings.set(sectionId, sectionState);
+      const section = sectionMap.get(sectionId);
+      if (!section.tokens.has(token)) {
+        issues.push(toIssue('LOSSLESS_MAP_ANNEX_TOKEN_NOT_IN_SECTION', { token, sectionId }));
+      }
+      if (!section.proofHooks.has(proofHook)) {
+        issues.push(toIssue('LOSSLESS_MAP_ANNEX_PROOFHOOK_NOT_IN_SECTION', {
+          token,
+          sectionId,
+          proofHook,
+        }));
+      }
+      for (const registryFile of registryFiles) {
+        if (!section.registryFiles.has(registryFile)) {
+          issues.push(toIssue('LOSSLESS_MAP_ANNEX_REGISTRY_NOT_IN_SECTION', {
+            token,
+            sectionId,
+            registryFile,
+          }));
+        }
+      }
+    }
+
+    if (!releaseSet.has(token)) {
+      issues.push(toIssue('LOSSLESS_MAP_ANNEX_TOKEN_NOT_RELEASE', { token }));
+    }
+
+    if (registryFiles.length === 0) {
+      issues.push(toIssue('LOSSLESS_MAP_ANNEX_REGISTRY_EMPTY', { token }));
+    }
+    for (const registryFile of registryFiles) {
+      if (!pathExistsAsFile(registryFile)) {
+        issues.push(toIssue('LOSSLESS_MAP_ANNEX_REGISTRY_MISSING', { token, registryFile }));
+      }
+    }
+
+    const scriptPath = parseProofHookScriptPath(proofHook);
+    if (!scriptPath || !pathExistsAsFile(scriptPath)) {
+      issues.push(toIssue('LOSSLESS_MAP_ANNEX_MISSING_PROOFHOOK', {
+        token,
+        proofHook,
+        scriptPath: scriptPath || '<invalid>',
+      }));
+    }
+
+    const claimList = claimsByToken.get(token) || [];
+    if (claimList.length > 0) {
+      const expectedClaim = claimList.find((claim) => claim.blocking === true) || claimList[0];
+      const expectedProofHook = String(expectedClaim.proofHook || '').trim();
+      if (expectedProofHook && expectedProofHook !== proofHook) {
+        issues.push(toIssue('LOSSLESS_MAP_ANNEX_PROOFHOOK_CLAIM_DRIFT', {
+          token,
+          expected: expectedProofHook,
+          actual: proofHook,
+        }));
+      }
+    }
+  }
+
+  for (const token of releaseRequired) {
+    if (!bindingsByToken.has(token)) {
+      issues.push(toIssue('LOSSLESS_MAP_MISSING_TOKEN_RELEASE_BINDING', { token }));
+    }
+    if (!partATokens.has(token)) {
+      issues.push(toIssue('LOSSLESS_MAP_MISSING_TOKEN_PARTA_BINDING', { token }));
+    }
+  }
+
+  for (const token of annexTokens) {
+    if (!releaseSet.has(token)) {
+      issues.push(toIssue('LOSSLESS_MAP_ANNEX_TOKEN_ORPHAN', { token }));
+    }
+  }
+
+  for (const token of partATokens) {
+    if (!releaseSet.has(token)) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_TOKEN_ORPHAN', { token }));
+    }
+    if (!bindingsByToken.has(token)) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_TOKEN_NOT_IN_ANNEX', { token }));
+    }
+  }
+
+  for (const [sectionId, section] of sectionMap.entries()) {
+    const actualTokens = sectionBindings.get(sectionId) || new Set();
+    const expectedTokens = uniqueSortedValuesFromSet(section.tokens);
+    const observedTokens = uniqueSortedValuesFromSet(actualTokens);
+    if (expectedTokens.length !== observedTokens.length
+      || expectedTokens.some((token, index) => token !== observedTokens[index])) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_ANNEX_TOKEN_DRIFT', {
+        sectionId,
+        expectedTokens,
+        observedTokens,
+      }));
+    }
+    if (actualTokens.size === 0) {
+      issues.push(toIssue('LOSSLESS_MAP_PARTA_SECTION_ORPHAN', { sectionId }));
+    }
+  }
+
+  return {
+    issues,
+    partASectionCount: sectionMap.size,
+    annexBindingCount: bindingsByToken.size,
+  };
+}
+
 export function evaluateLosslessMapState(input = {}) {
   const declarationPath = String(
     input.declarationPath || process.env.TOKEN_DECLARATION_PATH || DEFAULT_TOKEN_DECLARATION_PATH,
@@ -91,6 +388,17 @@ export function evaluateLosslessMapState(input = {}) {
   const requiredSetPath = String(
     input.requiredSetPath || process.env.REQUIRED_TOKEN_SET_PATH || DEFAULT_REQUIRED_SET_PATH,
   ).trim();
+  const losslessMapPath = String(
+    input.losslessMapPath || process.env.LOSSLESS_MAP_STATUS_PATH || DEFAULT_LOSSLESS_MAP_PATH,
+  ).trim();
+
+  const defaultProfileInputs = declarationPath === DEFAULT_TOKEN_DECLARATION_PATH
+    && claimsPath === DEFAULT_CLAIMS_PATH
+    && requiredSetPath === DEFAULT_REQUIRED_SET_PATH;
+  const enforceMap = input.enforceMap === true
+    || process.env.LOSSLESS_MAP_ENFORCE === '1'
+    || defaultProfileInputs
+    || Boolean(input.losslessMapPath);
 
   const issues = [];
 
@@ -202,27 +510,51 @@ export function evaluateLosslessMapState(input = {}) {
     }
   }
 
+  let partASectionCount = 0;
+  let annexBindingCount = 0;
+  if (enforceMap) {
+    const mapDoc = readJsonObject(losslessMapPath);
+    const mapState = collectLosslessMapStatusIssues({
+      mapDoc,
+      mapPath: losslessMapPath,
+      releaseRequired,
+      claimsByToken,
+    });
+    partASectionCount = mapState.partASectionCount;
+    annexBindingCount = mapState.annexBindingCount;
+    issues.push(...mapState.issues);
+  }
+
   const sortedIssues = sortIssues(issues);
   const failures = uniqueSortedStrings(sortedIssues.map((item) => item.code));
   const ok = failures.length === 0;
+  const code = ok ? '' : deriveFailureCode(sortedIssues);
 
   return {
     ok,
     tokens: {
       [TOKEN_NAME]: ok ? 1 : 0,
     },
+    code,
     releaseRequired,
     coreRequired,
     releaseBlockingTokens: uniqueSortedStrings(releaseBlockingTokens),
+    losslessMapPath,
+    mapEnforced: enforceMap ? 1 : 0,
+    partASectionCount,
+    annexBindingCount,
     failures,
     issues: sortedIssues,
     failSignal: ok
       ? null
       : {
-        code: FAIL_CODE,
+        code,
         details: {
           failures,
           issues: sortedIssues,
+          losslessMapPath,
+          partASectionCount,
+          annexBindingCount,
         },
       },
   };
@@ -234,6 +566,8 @@ function parseArgs(argv) {
     declarationPath: '',
     claimsPath: '',
     requiredSetPath: '',
+    losslessMapPath: '',
+    enforceMap: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -250,16 +584,27 @@ function parseArgs(argv) {
       out.requiredSetPath = String(argv[i + 1] || '').trim();
       i += 1;
     }
+    if (arg === '--lossless-map-path' && i + 1 < argv.length) {
+      out.losslessMapPath = String(argv[i + 1] || '').trim();
+      i += 1;
+    }
+    if (arg === '--enforce-map') out.enforceMap = true;
   }
   return out;
 }
 
 function printHuman(state) {
   console.log(`${TOKEN_NAME}=${state.tokens[TOKEN_NAME]}`);
+  console.log(`LOSSLESS_MAP_STATUS_PATH=${state.losslessMapPath}`);
+  console.log(`LOSSLESS_MAP_STATUS_ENFORCED=${state.mapEnforced}`);
+  console.log(`LOSSLESS_MAP_STATUS_PARTA_SECTIONS=${state.partASectionCount}`);
+  console.log(`LOSSLESS_MAP_STATUS_ANNEX_BINDINGS=${state.annexBindingCount}`);
   console.log(`LOSSLESS_MAP_RELEASE_BLOCKING_TOKENS=${JSON.stringify(state.releaseBlockingTokens)}`);
   console.log(`LOSSLESS_MAP_FAILURES=${JSON.stringify(state.failures)}`);
+  if (state.code) {
+    console.log(`FAIL_REASON=${state.code}`);
+  }
   if (state.failSignal) {
-    console.log(`FAIL_REASON=${state.failSignal.code}`);
     console.log(`FAIL_DETAILS=${JSON.stringify(state.failSignal.details)}`);
   }
 }
@@ -270,6 +615,8 @@ function main() {
     declarationPath: args.declarationPath || undefined,
     claimsPath: args.claimsPath || undefined,
     requiredSetPath: args.requiredSetPath || undefined,
+    losslessMapPath: args.losslessMapPath || undefined,
+    enforceMap: args.enforceMap,
   });
   if (args.json) {
     process.stdout.write(`${JSON.stringify(state, null, 2)}\n`);

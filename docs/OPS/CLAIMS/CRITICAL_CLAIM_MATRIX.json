@@ -478,6 +478,16 @@
       "sourceBinding": "ops_script"
     },
     {
+      "claimId": "PROOFHOOK_BRIDGE_VALID",
+      "requiredToken": "PROOFHOOK_BRIDGE_VALID_OK",
+      "proofHook": "node scripts/ops/proofhook-bridge-state.mjs --json",
+      "failSignal": "E_PROOFHOOK_BRIDGE_INVALID",
+      "failSignalCode": "E_PROOFHOOK_BRIDGE_INVALID",
+      "blocking": false,
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
+    },
+    {
       "claimId": "TOKEN_SOURCE_CONFLICT_DETECTION",
       "requiredToken": "TOKEN_SOURCE_CONFLICT_OK",
       "proofHook": "node scripts/ops/token-source-conflict-state.mjs --json",

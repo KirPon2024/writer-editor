@@ -31,6 +31,7 @@
         "FAILSIGNAL_REGISTRY_VALID_OK",
         "GOVERNANCE_STRICT_OK",
         "HEAD_STRICT_OK",
+        "REQUIRED_SET_NO_TARGET_OK",
         "TOKEN_CATALOG_VALID_OK",
         "TOKEN_DECLARATION_VALID_OK"
       ],
@@ -40,6 +41,7 @@
         "node scripts/ops/emit-ops-summary.mjs",
         "node scripts/ops/failsignal-registry-state.mjs --json",
         "node scripts/ops/head-strict-state.mjs --mode release",
+        "node scripts/ops/required-set-no-target-state.mjs --json",
         "node scripts/ops/token-catalog-state.mjs --json",
         "node scripts/ops/token-declaration-state.mjs"
       ],
@@ -234,6 +236,17 @@
       "token": "PERF_BASELINE_OK",
       "sectionId": "PART_A_RELEASE_ARTIFACTS_AND_PERF",
       "proofHook": "node scripts/ops/perf-state.mjs --json",
+      "registryFiles": [
+        "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+        "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",
+        "docs/OPS/STATUS/LOSSLESS_MAP_V3_4.json",
+        "docs/OPS/TOKENS/TOKEN_DECLARATION.json"
+      ]
+    },
+    {
+      "token": "REQUIRED_SET_NO_TARGET_OK",
+      "sectionId": "PART_A_GOVERNANCE_BINDING",
+      "proofHook": "node scripts/ops/required-set-no-target-state.mjs --json",
       "registryFiles": [
         "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
         "docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json",

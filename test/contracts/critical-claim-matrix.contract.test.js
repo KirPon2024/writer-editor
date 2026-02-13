@@ -129,6 +129,64 @@ test('critical claim matrix validator accepts TOKEN_CATALOG namespace tokens', (
   assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
 });
 
+test('critical claim matrix validator accepts VERIFY namespace tokens', () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
+  const matrixPath = path.join(tmpDir, 'matrix.json');
+  fs.writeFileSync(matrixPath, JSON.stringify({
+    schemaVersion: 1,
+    claims: [
+      {
+        claimId: 'VERIFY_ORCHESTRATOR_CANON',
+        requiredToken: 'VERIFY_ORCHESTRATOR_CANON_OK',
+        proofHook: 'node scripts/ops/verify-orchestrator-canon-state.mjs --json',
+        failSignal: 'E_VERIFY_ORCHESTRATOR_MISMATCH',
+        blocking: false,
+        sourceBinding: 'ops_script',
+      },
+    ],
+  }, null, 2));
+
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/critical-claim-matrix-state.mjs', '--matrix-path', matrixPath],
+    { encoding: 'utf8' },
+  );
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+
+  assert.equal(result.status, 0, `validator rejected VERIFY namespace:\n${result.stdout}\n${result.stderr}`);
+  const tokens = parseTokenMap(result.stdout);
+  assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
+});
+
+test('critical claim matrix validator accepts LEGACY namespace tokens', () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
+  const matrixPath = path.join(tmpDir, 'matrix.json');
+  fs.writeFileSync(matrixPath, JSON.stringify({
+    schemaVersion: 1,
+    claims: [
+      {
+        claimId: 'LEGACY_VERIFY_SUNSET_GUARD',
+        requiredToken: 'LEGACY_VERIFY_SUNSET_GUARD_OK',
+        proofHook: 'node scripts/ops/legacy-verify-sunset-guard-state.mjs --json',
+        failSignal: 'E_LEGACY_VERIFY_PATH_STILL_PASSING',
+        blocking: false,
+        sourceBinding: 'ops_script',
+      },
+    ],
+  }, null, 2));
+
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/critical-claim-matrix-state.mjs', '--matrix-path', matrixPath],
+    { encoding: 'utf8' },
+  );
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+
+  assert.equal(result.status, 0, `validator rejected LEGACY namespace:\n${result.stdout}\n${result.stderr}`);
+  const tokens = parseTokenMap(result.stdout);
+  assert.equal(tokens.get('CRITICAL_CLAIM_MATRIX_OK'), '1');
+});
+
 test('critical claim matrix validator rejects unknown gate tiers', () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'critical-claim-matrix-'));
   const matrixPath = path.join(tmpDir, 'matrix.json');

@@ -7,7 +7,9 @@
     "X3",
     "X4"
   ],
-  "activeStageId": "X0",
-  "stageToScopeFlag": {},
-  "promotionModeAllowed": false
+  "activeStageId": "X1",
+  "stageToScopeFlag": {
+    "X1": "XPLAT_STAGE_X1_ENABLED"
+  },
+  "promotionModeAllowed": true
 }

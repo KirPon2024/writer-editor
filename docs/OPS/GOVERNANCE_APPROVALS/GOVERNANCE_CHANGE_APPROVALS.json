@@ -16,6 +16,41 @@
       "rationale": "Refresh governed failSignal registry hash for negative-ref and semantics hardening."
     },
     {
+      "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
+      "sha256": "76e0d7d1cb60ef296db2459000346c8f61a94d0bc3b99c26f5144906b6dab5a1",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve stage scope flag registry used by rollout and activation validators."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_SCHEMA_v3_12.json",
+      "sha256": "ee2ef5ba631ed43ed767959ba9fbac4dfab7f8b9874642c3306e0588ec139abd",
+      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
+      "rationale": "Approve stage promotion record schema with stage-bound required metrics."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json",
+      "sha256": "d44526da1e93f1aed67b3ea320e138497301e7f815b29d6960210b0d87131cc7",
+      "approvedBy": "ticket:X1_DESKTOP_PARITY_ACTIVATION_v1.0",
+      "approvedAtUtc": "2026-02-13T18:54:26Z",
+      "rationale": "Approve X1 promotion record activation evidence."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
+      "sha256": "b6865080b9bdd00cd28a1f48a232b8179ac68fc61800c791dfbd96b3d1364b40",
+      "approvedBy": "ticket:X1_DESKTOP_PARITY_ACTIVATION_v1.0",
+      "approvedAtUtc": "2026-02-13T18:54:26Z",
+      "rationale": "Approve X1 active stage rollout plan update."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+      "sha256": "7e672f8a7a2cf3a39f5450f41f13189379f1f5b207565b53ab06af8867841dfa",
+      "approvedBy": "ticket:X1_DESKTOP_PARITY_ACTIVATION_v1.0",
+      "approvedAtUtc": "2026-02-13T18:54:26Z",
+      "rationale": "Approve X1 baseline metrics snapshot values."
+    },
+    {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
       "sha256": "9e5317db6f425ff2d35de8c0b840348fe30e54edd7456120a897e25e6b123aed",
       "approvedBy": "ticket:GOVERNANCE_APPROVAL_REFRESH_FOR_FAILSIGNAL_REGISTRY_SYNC_v1.0",
@@ -37,55 +72,6 @@
       "rationale": "Enable artifact-based approval lookup while keeping env override fallback."
     },
     {
-      "filePath": "test/contracts/governance-approval-state.contract.test.js",
-      "sha256": "c9e3d3fd496e04b7993ac3a85efe5ea935e9157a3327e75c67fd7a6bbdf2c39e",
-      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
-      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
-      "rationale": "Cover approval registry state validation contract."
-    },
-    {
-      "filePath": "test/contracts/governance-change-detection.contract.test.js",
-      "sha256": "ff8f8e3b167058caa898947303cd33890652eef14f054eaa1829873a36bb97a9",
-      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
-      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
-      "rationale": "Cover artifact-based approval and env override compatibility."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
-      "sha256": "cd4f65402fc34a09e35240f83b9cac8091bc463f4d0bfdabefd1e4fb2cce6982",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve XPLAT rollout plan SSOT with active stage and promotion mode controls."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
-      "sha256": "76e0d7d1cb60ef296db2459000346c8f61a94d0bc3b99c26f5144906b6dab5a1",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve stage scope flag registry used by rollout and activation validators."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "2e04deb0697864dfc705596fb9a57a05ff4d493ea17e5ce1d38ab5c115bd5420",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve canonical stage metrics registry for promotion evidence validation."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_SCHEMA_v3_12.json",
-      "sha256": "ee2ef5ba631ed43ed767959ba9fbac4dfab7f8b9874642c3306e0588ec139abd",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve stage promotion record schema with stage-bound required metrics."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json",
-      "sha256": "68e4a35d43740331140774cde03b9381958f12f1e84c33a02b2e1621bdb2b6ab",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve inactive stage promotion template record for deterministic baseline."
-    },
-    {
       "filePath": "scripts/ops/stage-activation-state.mjs",
       "sha256": "d2e0cd3a39122b90fbeaae07f4ddb2b05077c32addda9cd8b44d98ecb30fb9de",
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
@@ -105,6 +91,20 @@
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
       "approvedAtUtc": "2026-02-13T17:34:58.529Z",
       "rationale": "Approve rollout plan state validator for stage and scope flag integrity."
+    },
+    {
+      "filePath": "test/contracts/governance-approval-state.contract.test.js",
+      "sha256": "c9e3d3fd496e04b7993ac3a85efe5ea935e9157a3327e75c67fd7a6bbdf2c39e",
+      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
+      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
+      "rationale": "Cover approval registry state validation contract."
+    },
+    {
+      "filePath": "test/contracts/governance-change-detection.contract.test.js",
+      "sha256": "ff8f8e3b167058caa898947303cd33890652eef14f054eaa1829873a36bb97a9",
+      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
+      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
+      "rationale": "Cover artifact-based approval and env override compatibility."
     },
     {
       "filePath": "test/contracts/stage-activation.contract.test.js",

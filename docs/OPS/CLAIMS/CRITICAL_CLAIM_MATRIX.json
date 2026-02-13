@@ -290,12 +290,13 @@
       "sourceBinding": "truth-table"
     },
     {
-      "claimId": "HEAD_STRICT",
+      "claimId": "HEAD_STRICT_RELEASE",
       "requiredToken": "HEAD_STRICT_OK",
-      "proofHook": "node scripts/ops/head-strict-state.mjs --mode release",
+      "proofHook": "node scripts/ops/head-strict-state.mjs --json",
       "failSignal": "E_HEAD_BINDING_INVALID",
       "blocking": true,
-      "sourceBinding": "doctor"
+      "gateTier": "release",
+      "sourceBinding": "ops_script"
     },
     {
       "claimId": "TOKEN_DECLARATION",

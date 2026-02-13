@@ -3,7 +3,7 @@
   "scope": "OPS_GOVERNANCE_LAYER",
   "files": {
     "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json": {
-      "sha256": "4b399a22480cb5b310ee994efd41db7e58493b54443c836ac8b1b0f3b0c7ce1c"
+      "sha256": "795f420053cb5e617797e128ee9021afb4744094b5d2edaecdf546ef94b7e1f3"
     },
     "docs/OPS/DOCTOR/INVARIANTS.md": {
       "sha256": "e81a034f85becb689ccb0b3b221ba84e98b14571de13f90362dbf61eff77c438"
@@ -18,6 +18,6 @@
       "sha256": "0d7af4cd6499547ea29873039adcf6a8294c13c1677b7d16d9637da175383f3a"
     }
   },
-  "global_sha256": "60081f23e56a1027d80340734cd85589a0e58a38a5dda086677104a6121fd451",
-  "generated_at": "2026-02-13T11:18:36.118Z"
+  "global_sha256": "91d61f2677093606690a8636dac88401863778652cefee07b47393e318c5c195",
+  "generated_at": "2026-02-13T11:55:44.581Z"
 }

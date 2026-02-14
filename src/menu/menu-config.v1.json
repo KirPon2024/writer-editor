@@ -1,0 +1,164 @@
+{
+  "version": "v1",
+  "fonts": [
+    {
+      "id": "font-palatino",
+      "label": "Palatino",
+      "value": "Palatino, 'Palatino Linotype', 'Book Antiqua', serif"
+    },
+    {
+      "id": "font-georgia",
+      "label": "Georgia",
+      "value": "Georgia, serif"
+    },
+    {
+      "id": "font-times-new-roman",
+      "label": "Times New Roman",
+      "value": "'Times New Roman', Times, serif"
+    },
+    {
+      "id": "font-helvetica",
+      "label": "Helvetica",
+      "value": "Helvetica, Arial, sans-serif"
+    },
+    {
+      "id": "font-arial",
+      "label": "Arial",
+      "value": "Arial, sans-serif"
+    },
+    {
+      "id": "font-sf-pro",
+      "label": "SF Pro",
+      "value": "-apple-system, system-ui, sans-serif"
+    },
+    {
+      "id": "font-courier",
+      "label": "Courier",
+      "value": "'Courier New', Courier, monospace"
+    }
+  ],
+  "menus": [
+    {
+      "id": "file",
+      "label": "Файл",
+      "submenu": [
+        {
+          "id": "file-new",
+          "label": "Новый",
+          "accelerator": "CmdOrCtrl+N",
+          "action": "newDocument"
+        },
+        {
+          "id": "file-open",
+          "label": "Открыть",
+          "accelerator": "CmdOrCtrl+O",
+          "action": "openDocument"
+        },
+        {
+          "id": "file-save",
+          "label": "Сохранить",
+          "accelerator": "CmdOrCtrl+S",
+          "action": "saveDocument"
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "id": "file-quit",
+          "label": "Выход",
+          "accelerator": "$platformQuit",
+          "action": "quitApp"
+        }
+      ]
+    },
+    {
+      "id": "edit",
+      "label": "Правка",
+      "submenu": [
+        {
+          "id": "edit-undo",
+          "role": "undo"
+        },
+        {
+          "id": "edit-redo",
+          "role": "redo"
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "id": "edit-cut",
+          "role": "cut"
+        },
+        {
+          "id": "edit-copy",
+          "role": "copy"
+        },
+        {
+          "id": "edit-paste",
+          "role": "paste"
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "id": "edit-select-all",
+          "role": "selectAll"
+        }
+      ]
+    },
+    {
+      "id": "view",
+      "label": "Вид",
+      "submenu": [
+        {
+          "id": "view-font",
+          "label": "Шрифт",
+          "submenuFrom": "fonts"
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "id": "view-font-size",
+          "label": "Размер шрифта",
+          "submenu": [
+            {
+              "id": "view-font-increase",
+              "label": "Увеличить",
+              "action": "setFontSize",
+              "actionArg": "increase"
+            },
+            {
+              "id": "view-font-decrease",
+              "label": "Уменьшить",
+              "action": "setFontSize",
+              "actionArg": "decrease"
+            },
+            {
+              "id": "view-font-reset",
+              "label": "Сбросить",
+              "action": "setFontSize",
+              "actionArg": "reset"
+            }
+          ]
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "id": "view-theme-light",
+          "label": "Светлая тема",
+          "action": "setTheme",
+          "actionArg": "light"
+        },
+        {
+          "id": "view-theme-dark",
+          "label": "Тёмная тема",
+          "action": "setTheme",
+          "actionArg": "dark"
+        }
+      ]
+    }
+  ]
+}

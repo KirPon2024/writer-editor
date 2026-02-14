@@ -2518,107 +2518,213 @@ async function handleFontSizeChange(action) {
   }
 }
 
-function createMenu() {
-  const fonts = [
-    { label: 'Palatino', value: "Palatino, 'Palatino Linotype', 'Book Antiqua', serif" },
-    { label: 'Georgia', value: 'Georgia, serif' },
-    { label: 'Times New Roman', value: "'Times New Roman', Times, serif" },
-    { label: 'Helvetica', value: 'Helvetica, Arial, sans-serif' },
-    { label: 'Arial', value: 'Arial, sans-serif' },
-    { label: 'SF Pro', value: '-apple-system, system-ui, sans-serif' },
-    { label: 'Courier', value: "'Courier New', Courier, monospace" }
-  ];
+const MENU_CONFIG_PATH = path.join(__dirname, 'menu', 'menu-config.v1.json');
+const MENU_FORBIDDEN_CONFIG_KEYS = new Set(['eval', 'require', 'import', 'path']);
+const MENU_ACCELERATOR_TOKENS = Object.freeze({
+  platformQuit: process.platform === 'darwin' ? 'Cmd+Q' : 'Ctrl+Q'
+});
+const ALLOWED_MENU_ROLES = new Set(['undo', 'redo', 'cut', 'copy', 'paste', 'selectAll']);
+const MENU_ROLE_TEMPLATES = Object.freeze({
+  undo: { role: 'undo' },
+  redo: { role: 'redo' },
+  cut: { role: 'cut' },
+  copy: { role: 'copy' },
+  paste: { role: 'paste' },
+  selectAll: { role: 'selectAll' }
+});
+const MENU_ACTION_HANDLERS = Object.freeze({
+  newDocument: async () => {
+    await ensureCleanAction(handleNew);
+  },
+  openDocument: async () => {
+    await ensureCleanAction(handleOpen);
+  },
+  saveDocument: async () => {
+    await handleSave();
+  },
+  quitApp: () => {
+    app.quit();
+  },
+  setFont: (fontFamily) => {
+    handleFontChange(fontFamily);
+  },
+  setFontSize: (actionArg) => {
+    handleFontSizeChange(actionArg);
+  },
+  setTheme: (theme) => {
+    handleThemeChange(theme);
+  }
+});
 
-  const fontMenu = fonts.map(font => ({
-    label: font.label,
-    click: () => handleFontChange(font.value)
-  }));
+function assertMenuConfigNoForbiddenKeys(value, location = 'root') {
+  if (!value || typeof value !== 'object') {
+    return;
+  }
 
-  const template = [
-    {
-      label: 'Файл',
-      submenu: [
-        {
-          label: 'Новый',
-          accelerator: 'CmdOrCtrl+N',
-          click: async () => {
-            await ensureCleanAction(handleNew);
-          }
-        },
-        {
-          label: 'Открыть',
-          accelerator: 'CmdOrCtrl+O',
-          click: async () => {
-            await ensureCleanAction(handleOpen);
-          }
-        },
-        {
-          label: 'Сохранить',
-          accelerator: 'CmdOrCtrl+S',
-          click: async () => {
-            await handleSave();
-          }
-        },
-        { type: 'separator' },
-        {
-          label: 'Выход',
-          accelerator: process.platform === 'darwin' ? 'Cmd+Q' : 'Ctrl+Q',
-          click: () => {
-            app.quit();
-          }
-        }
-      ]
-    },
-    {
-      label: 'Правка',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { type: 'separator' },
-        { role: 'selectAll' }
-      ]
-    },
-    {
-      label: 'Вид',
-      submenu: [
-        {
-          label: 'Шрифт',
-          submenu: fontMenu
-        },
-        { type: 'separator' },
-        {
-          label: 'Размер шрифта',
-          submenu: [
-            {
-              label: 'Увеличить',
-              click: () => handleFontSizeChange('increase')
-            },
-            {
-              label: 'Уменьшить',
-              click: () => handleFontSizeChange('decrease')
-            },
-            {
-              label: 'Сбросить',
-              click: () => handleFontSizeChange('reset')
-            }
-          ]
-        },
-        { type: 'separator' },
-        {
-          label: 'Светлая тема',
-          click: () => handleThemeChange('light')
-        },
-        {
-          label: 'Тёмная тема',
-          click: () => handleThemeChange('dark')
-        }
-      ]
+  if (Array.isArray(value)) {
+    value.forEach((entry, index) => {
+      assertMenuConfigNoForbiddenKeys(entry, `${location}[${index}]`);
+    });
+    return;
+  }
+
+  for (const [key, entry] of Object.entries(value)) {
+    if (MENU_FORBIDDEN_CONFIG_KEYS.has(key)) {
+      throw new Error(`Menu config key "${key}" is forbidden at ${location}`);
     }
-  ];
+    assertMenuConfigNoForbiddenKeys(entry, `${location}.${key}`);
+  }
+}
+
+function resolveMenuAccelerator(value) {
+  if (typeof value !== 'string' || !value.startsWith('$')) {
+    return value;
+  }
+
+  const token = value.slice(1);
+  if (!Object.prototype.hasOwnProperty.call(MENU_ACCELERATOR_TOKENS, token)) {
+    throw new Error(`Unsupported menu accelerator token: ${value}`);
+  }
+  return MENU_ACCELERATOR_TOKENS[token];
+}
+
+function loadMenuConfig() {
+  const raw = fsSync.readFileSync(MENU_CONFIG_PATH, 'utf8');
+  const parsed = JSON.parse(raw);
+
+  assertMenuConfigNoForbiddenKeys(parsed);
+
+  if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.menus)) {
+    throw new Error('Invalid menu config: expected object with menus[]');
+  }
+
+  if (!Array.isArray(parsed.fonts)) {
+    throw new Error('Invalid menu config: expected fonts[]');
+  }
+
+  return parsed;
+}
+
+function buildClickHandler(actionId, actionArg) {
+  const handler = MENU_ACTION_HANDLERS[actionId];
+  if (typeof handler !== 'function') {
+    throw new Error(`Unknown menu action id: ${String(actionId)}`);
+  }
+
+  return () => {
+    try {
+      const result = handler(actionArg);
+      if (result && typeof result.catch === 'function') {
+        result.catch((error) => {
+          logDevError(`menu-action:${actionId}`, error);
+        });
+      }
+    } catch (error) {
+      logDevError(`menu-action:${actionId}`, error);
+    }
+  };
+}
+
+function buildFontSubmenu(config) {
+  return config.fonts.map((font, index) => {
+    if (!font || typeof font !== 'object') {
+      throw new Error(`Invalid font config at fonts[${index}]`);
+    }
+    if (typeof font.label !== 'string' || typeof font.value !== 'string') {
+      throw new Error(`Invalid font config at fonts[${index}]: label/value are required`);
+    }
+
+    return {
+      id: typeof font.id === 'string' ? font.id : `font-${index}`,
+      label: font.label,
+      click: buildClickHandler('setFont', font.value)
+    };
+  });
+}
+
+function buildMenuItemFromConfig(item, config, location) {
+  if (!item || typeof item !== 'object' || Array.isArray(item)) {
+    throw new Error(`Invalid menu item at ${location}`);
+  }
+
+  if (item.type === 'separator') {
+    return { type: 'separator' };
+  }
+
+  if (typeof item.role === 'string') {
+    if (!ALLOWED_MENU_ROLES.has(item.role)) {
+      throw new Error(`Unsupported menu role "${item.role}" at ${location}`);
+    }
+
+    const roleTemplate = MENU_ROLE_TEMPLATES[item.role];
+    const roleItem = {
+      ...roleTemplate
+    };
+
+    if (typeof item.id === 'string') {
+      roleItem.id = item.id;
+    }
+    if (typeof item.enabled === 'boolean') {
+      roleItem.enabled = item.enabled;
+    }
+    if (typeof item.visible === 'boolean') {
+      roleItem.visible = item.visible;
+    }
+
+    return roleItem;
+  }
+
+  if (typeof item.label !== 'string' || item.label.length === 0) {
+    throw new Error(`Menu item label is required at ${location}`);
+  }
+
+  const built = {
+    label: item.label
+  };
+
+  if (typeof item.id === 'string') {
+    built.id = item.id;
+  }
+  if (typeof item.accelerator === 'string') {
+    built.accelerator = resolveMenuAccelerator(item.accelerator);
+  }
+  if (typeof item.enabled === 'boolean') {
+    built.enabled = item.enabled;
+  }
+  if (typeof item.visible === 'boolean') {
+    built.visible = item.visible;
+  }
+
+  if (item.submenuFrom !== undefined) {
+    if (item.submenuFrom !== 'fonts') {
+      throw new Error(`Unknown submenuFrom "${String(item.submenuFrom)}" at ${location}`);
+    }
+    built.submenu = buildFontSubmenu(config);
+  } else if (Array.isArray(item.submenu)) {
+    built.submenu = item.submenu.map((child, index) =>
+      buildMenuItemFromConfig(child, config, `${location}.submenu[${index}]`)
+    );
+  }
+
+  if (item.action !== undefined) {
+    if (typeof item.action !== 'string') {
+      throw new Error(`Menu action must be string at ${location}`);
+    }
+    built.click = buildClickHandler(item.action, item.actionArg);
+  }
+
+  return built;
+}
+
+function buildMenuTemplateFromConfig(config) {
+  return config.menus.map((menuItem, index) =>
+    buildMenuItemFromConfig(menuItem, config, `menus[${index}]`)
+  );
+}
+
+function createMenu() {
+  const config = loadMenuConfig();
+  const template = buildMenuTemplateFromConfig(config);
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);

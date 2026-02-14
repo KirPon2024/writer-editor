@@ -32,6 +32,14 @@
       "rationale": "FailSignal registry shape and metadata must stay deterministic and machine-verifiable.",
       "precedence": 40,
       "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#schema-invalid"
+    },
+    {
+      "code": "E_X3_RECOVERY_SMOKE_FAILED",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "X3 deterministic recovery smoke proofhook must pass before promotion-tier readiness can be considered green.",
+      "precedence": 50,
+      "negativeTestRef": "test/contracts/x3-recovery-smoke.contract.test.js#forced-failure"
     }
   ]
 }

@@ -178,6 +178,19 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "X3_RECOVERY_SMOKE",
+      "requiredToken": "RECOVERY_X3_RECOVERY_SMOKE_OK",
+      "proofHook": "node scripts/ops/x3-recovery-smoke-proofhook.mjs --json",
+      "failSignal": "E_X3_RECOVERY_SMOKE_FAILED",
+      "failSignalCode": "E_X3_RECOVERY_SMOKE_FAILED",
+      "blocking": true,
+      "gateTier": "release",
+      "requiredWhen": "activeStageId==X3",
+      "sourceBinding": "ops_script+contract_test",
+      "positiveContractRef": "test/contracts/x3-recovery-smoke.contract.test.js#positive-path",
+      "negativeContractRef": "test/contracts/x3-recovery-smoke.contract.test.js#forced-failure"
+    },
+    {
       "claimId": "ADAPTERS_DECLARED",
       "requiredToken": "ADAPTERS_DECLARED_OK",
       "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",

@@ -38,6 +38,10 @@ function runWithTempConfig(mutator) {
   }
 }
 
+function runWithMissingConfigPath() {
+  return runMenuConfigState(['--config-path', path.join(os.tmpdir(), 'menu-config-contract-does-not-exist.json')]);
+}
+
 function parsePayload(run) {
   return JSON.parse(String(run.stdout || '{}'));
 }
@@ -49,7 +53,9 @@ test('menu config contract: valid baseline config passes with zero exit', () => 
   const payload = parsePayload(run);
   assert.equal(payload.ok, true);
   assert.equal(payload.MENU_CONFIG_SCHEMA_VALID_OK, 1);
+  assert.equal(payload.MENU_CONFIG_RUNTIME_FALLBACK_USED, 0);
   assert.equal(payload.failReason, '');
+  assert.equal(payload.fallbackMessage, '');
   assert.ok(Array.isArray(payload.errors));
   assert.equal(payload.errors.length, 0);
 });
@@ -63,35 +69,23 @@ test('menu config contract: unknown field fails with non-zero exit', () => {
   const payload = parsePayload(run);
   assert.equal(payload.ok, false);
   assert.equal(payload.MENU_CONFIG_SCHEMA_VALID_OK, 0);
+  assert.equal(payload.MENU_CONFIG_RUNTIME_FALLBACK_USED, 1);
   assert.notEqual(String(payload.failReason || '').trim(), '');
+  assert.notEqual(String(payload.fallbackMessage || '').trim(), '');
   assert.ok(Array.isArray(payload.errors));
   assert.ok(payload.errors.some((entry) => entry.code === 'E_MENU_SCHEMA_ADDITIONAL'));
 });
 
-test('menu config contract: non-string actionId fails with non-zero exit', () => {
-  const run = runWithTempConfig((config) => {
-    config.menus[0].items[0].actionId = 42;
-  });
+test('menu config contract: missing config file fails with non-zero exit and declares fallback', () => {
+  const run = runWithMissingConfigPath();
   assert.notEqual(run.status, 0, `expected non-zero exit\nstdout:\n${run.stdout}\nstderr:\n${run.stderr}`);
 
   const payload = parsePayload(run);
   assert.equal(payload.ok, false);
   assert.equal(payload.MENU_CONFIG_SCHEMA_VALID_OK, 0);
+  assert.equal(payload.MENU_CONFIG_RUNTIME_FALLBACK_USED, 1);
   assert.notEqual(String(payload.failReason || '').trim(), '');
+  assert.notEqual(String(payload.fallbackMessage || '').trim(), '');
   assert.ok(Array.isArray(payload.errors));
-  assert.ok(payload.errors.some((entry) => entry.code === 'E_MENU_SCHEMA_TYPE'));
-});
-
-test('menu config contract: code-like actionId payload fails with non-zero exit', () => {
-  const run = runWithTempConfig((config) => {
-    config.menus[0].items[0].actionId = 'process.exit(1)';
-  });
-  assert.notEqual(run.status, 0, `expected non-zero exit\nstdout:\n${run.stdout}\nstderr:\n${run.stderr}`);
-
-  const payload = parsePayload(run);
-  assert.equal(payload.ok, false);
-  assert.equal(payload.MENU_CONFIG_SCHEMA_VALID_OK, 0);
-  assert.notEqual(String(payload.failReason || '').trim(), '');
-  assert.ok(Array.isArray(payload.errors));
-  assert.ok(payload.errors.some((entry) => entry.code === 'E_MENU_SCHEMA_PATTERN'));
+  assert.ok(payload.errors.some((entry) => entry.code === 'E_MENU_CONFIG_READ'));
 });

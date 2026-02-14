@@ -2708,6 +2708,11 @@ function buildSafeFallbackMenuTemplate() {
   ];
 }
 
+function applySafeFallbackMenu() {
+  const fallbackMenu = Menu.buildFromTemplate(buildSafeFallbackMenuTemplate());
+  Menu.setApplicationMenu(fallbackMenu);
+}
+
 function createMenu() {
   const validatedConfig = loadAndValidateMenuConfig({
     configPath: MENU_CONFIG_PATH
@@ -2718,9 +2723,7 @@ function createMenu() {
       `Menu config validation failed: ${failReason} (${MENU_CONFIG_PATH})`
     );
     logDevError('createMenu', error);
-
-    const fallbackMenu = Menu.buildFromTemplate(buildSafeFallbackMenuTemplate());
-    Menu.setApplicationMenu(fallbackMenu);
+    applySafeFallbackMenu();
 
     if (shouldFailHardOnMenuConfigError()) {
       throw error;
@@ -2728,10 +2731,18 @@ function createMenu() {
     return;
   }
 
-  const template = buildMenuTemplateFromConfig(validatedConfig.config);
+  try {
+    const template = buildMenuTemplateFromConfig(validatedConfig.config);
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+  } catch (error) {
+    logDevError('createMenu', error);
+    applySafeFallbackMenu();
 
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
+    if (shouldFailHardOnMenuConfigError()) {
+      throw error;
+    }
+  }
 }
 
 // Подготовка локальных директорий (Documents/craftsman + autosave) при запуске

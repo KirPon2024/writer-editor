@@ -38,10 +38,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",
-      "sha256": "de854f7eecefb0642b553ac996c3edddc5e523f2652272a4834a3546ef2edf6c",
-      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
-      "approvedAtUtc": "2026-02-13T19:40:00Z",
-      "rationale": "Approve X1 tricky-pack baseline clarification for win reserved names and linux case-collision policies."
+      "sha256": "362d317c4e7435da59798e00144b6c61c492e827edb16d8e37a91dcf369f9865",
+      "approvedBy": "ticket:X1_RUNTIME_PARITY_EVIDENCE_FREEZE_AND_X2_READINESS_GATE_v1.0",
+      "approvedAtUtc": "2026-02-14T03:57:04Z",
+      "rationale": "Bind X1 parity baseline to frozen evidence hashes, align tested platform scope, and declare formal X2 readiness gate without stage activation."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
@@ -52,10 +52,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "c0054ab38287d4aa32a1582808a6bd25e83d19ac7ba3acd46de66ef0f791f502",
-      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
-      "approvedAtUtc": "2026-02-13T19:40:00Z",
-      "rationale": "Approve X1 stage evidence metrics wiring for runtime parity pass, flaky rate, and max doc size verification."
+      "sha256": "670eb32f8f124569d4aa533354ee0c62ea0996b3ee3fe71e47587930f40890b0",
+      "approvedBy": "ticket:X1_RUNTIME_PARITY_EVIDENCE_FREEZE_AND_X2_READINESS_GATE_v1.0",
+      "approvedAtUtc": "2026-02-14T03:57:04Z",
+      "rationale": "Freeze X1 runtime parity evidence hashes for ubuntu/windows artifacts and bind metrics snapshot to evidence files."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",

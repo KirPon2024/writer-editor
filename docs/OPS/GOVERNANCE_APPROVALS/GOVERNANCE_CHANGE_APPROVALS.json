@@ -45,10 +45,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json",
-      "sha256": "da69bd0a13b395b037e81dcfacd6029fa6e84d9ab119f5ed318e3161601e610b",
-      "approvedBy": "ticket:X2_STAGE_STABILITY_BASELINE_FREEZE_v1.0",
-      "approvedAtUtc": "2026-02-14T09:14:53.000Z",
-      "rationale": "Freeze X2 post-promotion stability snapshot binding parity state, readiness gate, and rollout reference to baseline SHA without stage mutation."
+      "sha256": "65864fb81eebb2f2eb100bda3632cf0def5e98d77a4196b45ea882660e562061",
+      "approvedBy": "ticket:X3_STAGE_STABILITY_BASELINE_FREEZE_v1.0",
+      "approvedAtUtc": "2026-02-14T13:10:24.287Z",
+      "rationale": "Freeze X3 stability snapshot in append-only promotion record with rollout/readiness/recovery references and baseline binding."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",

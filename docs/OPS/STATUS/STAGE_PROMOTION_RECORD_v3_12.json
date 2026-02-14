@@ -33,6 +33,16 @@
       "timestampUtc": "2026-02-14T09:14:30Z",
       "machineValidated": true,
       "snapshotType": "stability-freeze"
+    },
+    {
+      "stageId": "X3",
+      "baselineSha": "0a130901b1da809e73d973339e3bc4b1926c3ac0",
+      "rolloutRef": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
+      "readinessGateRef": "scripts/ops/x3-readiness-gate-state.mjs --json",
+      "recoverySmokeRef": "scripts/ops/x3-recovery-smoke-proofhook.mjs --json",
+      "timestampUtc": "2026-02-14T13:10:16Z",
+      "machineValidated": true,
+      "snapshotType": "stability-freeze"
     }
   ],
   "notes": "Formalize X2 web runtime parity promotion record binding to strict parity state proofHook and stage evidence metrics."

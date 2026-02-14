@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "craftsman://theme/theme-config.schema.v1.json",
+  "title": "Craftsman Theme Config v1",
+  "type": "object",
+  "required": [
+    "version",
+    "typography",
+    "spacing",
+    "radius",
+    "colors",
+    "animations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "v1"
+    },
+    "typography": {
+      "$ref": "#/$defs/typography"
+    },
+    "spacing": {
+      "$ref": "#/$defs/spacing"
+    },
+    "radius": {
+      "$ref": "#/$defs/radius"
+    },
+    "colors": {
+      "$ref": "#/$defs/colors"
+    },
+    "animations": {
+      "$ref": "#/$defs/animations"
+    }
+  },
+  "$defs": {
+    "fontFamily": {
+      "type": "string",
+      "minLength": 3
+    },
+    "hexColor": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "typography": {
+      "type": "object",
+      "required": ["fontFamilies", "fontSizes", "fontWeights", "lineHeights"],
+      "additionalProperties": false,
+      "properties": {
+        "fontFamilies": {
+          "type": "object",
+          "required": ["ui", "editor", "mono"],
+          "additionalProperties": false,
+          "properties": {
+            "ui": { "$ref": "#/$defs/fontFamily" },
+            "editor": { "$ref": "#/$defs/fontFamily" },
+            "mono": { "$ref": "#/$defs/fontFamily" }
+          }
+        },
+        "fontSizes": {
+          "type": "object",
+          "required": ["xs", "sm", "md", "lg", "xl"],
+          "additionalProperties": false,
+          "properties": {
+            "xs": { "type": "integer", "minimum": 10, "maximum": 20 },
+            "sm": { "type": "integer", "minimum": 11, "maximum": 24 },
+            "md": { "type": "integer", "minimum": 12, "maximum": 28 },
+            "lg": { "type": "integer", "minimum": 14, "maximum": 36 },
+            "xl": { "type": "integer", "minimum": 16, "maximum": 48 }
+          }
+        },
+        "fontWeights": {
+          "type": "object",
+          "required": ["regular", "medium", "bold"],
+          "additionalProperties": false,
+          "properties": {
+            "regular": { "type": "integer", "minimum": 100, "maximum": 900 },
+            "medium": { "type": "integer", "minimum": 100, "maximum": 900 },
+            "bold": { "type": "integer", "minimum": 100, "maximum": 900 }
+          }
+        },
+        "lineHeights": {
+          "type": "object",
+          "required": ["tight", "normal", "relaxed"],
+          "additionalProperties": false,
+          "properties": {
+            "tight": { "type": "number", "minimum": 1.0, "maximum": 1.6 },
+            "normal": { "type": "number", "minimum": 1.2, "maximum": 1.8 },
+            "relaxed": { "type": "number", "minimum": 1.3, "maximum": 2.0 }
+          }
+        }
+      }
+    },
+    "spacing": {
+      "type": "object",
+      "required": ["unit", "scale"],
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 16
+        },
+        "scale": {
+          "type": "object",
+          "required": ["0", "1", "2", "3", "4", "6", "8", "10"],
+          "additionalProperties": false,
+          "properties": {
+            "0": { "type": "integer", "minimum": 0, "maximum": 64 },
+            "1": { "type": "integer", "minimum": 0, "maximum": 64 },
+            "2": { "type": "integer", "minimum": 0, "maximum": 64 },
+            "3": { "type": "integer", "minimum": 0, "maximum": 64 },
+            "4": { "type": "integer", "minimum": 0, "maximum": 64 },
+            "6": { "type": "integer", "minimum": 0, "maximum": 96 },
+            "8": { "type": "integer", "minimum": 0, "maximum": 128 },
+            "10": { "type": "integer", "minimum": 0, "maximum": 160 }
+          }
+        }
+      }
+    },
+    "radius": {
+      "type": "object",
+      "required": ["none", "sm", "md", "lg", "pill"],
+      "additionalProperties": false,
+      "properties": {
+        "none": { "type": "integer", "minimum": 0, "maximum": 0 },
+        "sm": { "type": "integer", "minimum": 0, "maximum": 12 },
+        "md": { "type": "integer", "minimum": 0, "maximum": 16 },
+        "lg": { "type": "integer", "minimum": 0, "maximum": 24 },
+        "pill": { "type": "integer", "minimum": 99, "maximum": 9999 }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "required": ["surface", "text", "accent", "border"],
+      "additionalProperties": false,
+      "properties": {
+        "surface": {
+          "type": "object",
+          "required": ["canvas", "panel", "elevated"],
+          "additionalProperties": false,
+          "properties": {
+            "canvas": { "$ref": "#/$defs/hexColor" },
+            "panel": { "$ref": "#/$defs/hexColor" },
+            "elevated": { "$ref": "#/$defs/hexColor" }
+          }
+        },
+        "text": {
+          "type": "object",
+          "required": ["primary", "muted", "inverse"],
+          "additionalProperties": false,
+          "properties": {
+            "primary": { "$ref": "#/$defs/hexColor" },
+            "muted": { "$ref": "#/$defs/hexColor" },
+            "inverse": { "$ref": "#/$defs/hexColor" }
+          }
+        },
+        "accent": {
+          "type": "object",
+          "required": ["brand", "brandHover", "danger", "success"],
+          "additionalProperties": false,
+          "properties": {
+            "brand": { "$ref": "#/$defs/hexColor" },
+            "brandHover": { "$ref": "#/$defs/hexColor" },
+            "danger": { "$ref": "#/$defs/hexColor" },
+            "success": { "$ref": "#/$defs/hexColor" }
+          }
+        },
+        "border": {
+          "type": "object",
+          "required": ["subtle", "strong"],
+          "additionalProperties": false,
+          "properties": {
+            "subtle": { "$ref": "#/$defs/hexColor" },
+            "strong": { "$ref": "#/$defs/hexColor" }
+          }
+        }
+      }
+    },
+    "animations": {
+      "type": "object",
+      "required": ["duration", "easing", "reducedMotion"],
+      "additionalProperties": false,
+      "properties": {
+        "duration": {
+          "type": "object",
+          "required": ["fast", "normal", "slow"],
+          "additionalProperties": false,
+          "properties": {
+            "fast": { "type": "integer", "minimum": 0, "maximum": 500 },
+            "normal": { "type": "integer", "minimum": 0, "maximum": 700 },
+            "slow": { "type": "integer", "minimum": 0, "maximum": 1000 }
+          }
+        },
+        "easing": {
+          "type": "object",
+          "required": ["standard", "emphasized"],
+          "additionalProperties": false,
+          "properties": {
+            "standard": {
+              "type": "string",
+              "pattern": "^cubic-bezier\\(.*\\)$"
+            },
+            "emphasized": {
+              "type": "string",
+              "pattern": "^cubic-bezier\\(.*\\)$"
+            }
+          }
+        },
+        "reducedMotion": {
+          "type": "object",
+          "required": ["duration"],
+          "additionalProperties": false,
+          "properties": {
+            "duration": { "type": "integer", "minimum": 0, "maximum": 100 }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "version": "v1",
+  "typography": {
+    "fontFamilies": {
+      "ui": "Alegreya Sans, 'Segoe UI', sans-serif",
+      "editor": "Alegreya, Georgia, serif",
+      "mono": "JetBrains Mono, 'SFMono-Regular', Menlo, monospace"
+    },
+    "fontSizes": {
+      "xs": 12,
+      "sm": 14,
+      "md": 16,
+      "lg": 20,
+      "xl": 24
+    },
+    "fontWeights": {
+      "regular": 400,
+      "medium": 500,
+      "bold": 700
+    },
+    "lineHeights": {
+      "tight": 1.25,
+      "normal": 1.5,
+      "relaxed": 1.7
+    }
+  },
+  "spacing": {
+    "unit": 4,
+    "scale": {
+      "0": 0,
+      "1": 4,
+      "2": 8,
+      "3": 12,
+      "4": 16,
+      "6": 24,
+      "8": 32,
+      "10": 40
+    }
+  },
+  "radius": {
+    "none": 0,
+    "sm": 4,
+    "md": 8,
+    "lg": 12,
+    "pill": 999
+  },
+  "colors": {
+    "surface": {
+      "canvas": "#f7f6f3",
+      "panel": "#ffffff",
+      "elevated": "#f0ede8"
+    },
+    "text": {
+      "primary": "#1d1b19",
+      "muted": "#615b52",
+      "inverse": "#ffffff"
+    },
+    "accent": {
+      "brand": "#2f6fed",
+      "brandHover": "#2557bb",
+      "danger": "#c93434",
+      "success": "#1f8f5f"
+    },
+    "border": {
+      "subtle": "#d8d1c8",
+      "strong": "#b4ab9f"
+    }
+  },
+  "animations": {
+    "duration": {
+      "fast": 120,
+      "normal": 180,
+      "slow": 260
+    },
+    "easing": {
+      "standard": "cubic-bezier(0.2, 0, 0, 1)",
+      "emphasized": "cubic-bezier(0.2, 0.8, 0.2, 1)"
+    },
+    "reducedMotion": {
+      "duration": 0
+    }
+  }
+}

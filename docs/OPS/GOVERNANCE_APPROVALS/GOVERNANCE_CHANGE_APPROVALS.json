@@ -259,6 +259,20 @@
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
       "approvedAtUtc": "2026-02-13T17:34:58.529Z",
       "rationale": "Approve rollout plan contract coverage for stage and scope flag validation."
+    },
+    {
+      "filePath": "scripts/ops/theme-config-state.mjs",
+      "sha256": "e9890756bd4811dfdffbcc9d574b2af68056ee435df7aa0659ac8396ef124be3",
+      "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
+      "approvedAtUtc": "2026-02-14T15:56:24.000Z",
+      "rationale": "Add deterministic theme-config state gate with machine-readable JSON output and strict exit-code contract."
+    },
+    {
+      "filePath": "test/contracts/theme-config.contract.test.js",
+      "sha256": "2c61274be1848614e20737f2924578ffed2a3684a636b743fb2627a9e65684d5",
+      "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
+      "approvedAtUtc": "2026-02-14T15:56:24.000Z",
+      "rationale": "Add positive/negative contract coverage for theme tokens config schema validation, required fields, and numeric ranges."
     }
   ]
 }

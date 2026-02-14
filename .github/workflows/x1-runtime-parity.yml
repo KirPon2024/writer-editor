@@ -1,0 +1,43 @@
+name: x1-runtime-parity
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  x1-runtime-parity:
+    name: x1-runtime-parity (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run X1 desktop parity harness
+        shell: bash
+        run: node scripts/ops/x1-desktop-parity-harness.mjs --json > parity-report.json
+
+      - name: Upload parity report
+        uses: actions/upload-artifact@v4
+        with:
+          name: parity-report-${{ runner.os }}.json
+          path: parity-report.json
+          if-no-files-found: error

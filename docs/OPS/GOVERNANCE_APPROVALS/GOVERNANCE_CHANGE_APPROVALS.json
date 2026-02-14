@@ -31,10 +31,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json",
-      "sha256": "d44526da1e93f1aed67b3ea320e138497301e7f815b29d6960210b0d87131cc7",
-      "approvedBy": "ticket:X1_DESKTOP_PARITY_ACTIVATION_v1.0",
-      "approvedAtUtc": "2026-02-13T18:54:26Z",
-      "rationale": "Approve X1 promotion record activation evidence."
+      "sha256": "c049d3eff884539f17962c9361b5f3799b73a2e13ea0573714a4a67578f7bcd6",
+      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_PROMOTION_RECORD_v1.0",
+      "approvedAtUtc": "2026-02-14T08:52:00.000Z",
+      "rationale": "Approve machine-bound X2 promotion record with strict parity evidence binding and stage promotion metadata."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",

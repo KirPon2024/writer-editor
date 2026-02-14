@@ -40,19 +40,27 @@
   "menus": [
     {
       "id": "file",
-      "label": "Файл",
+      "label": "Документ",
       "items": [
         {
           "id": "file-new",
-          "label": "Новый",
+          "label": "Новый документ",
           "accelerator": "CmdOrCtrl+N",
           "actionId": "newDocument"
         },
         {
           "id": "file-open",
-          "label": "Открыть",
+          "label": "Открыть проект...",
           "accelerator": "CmdOrCtrl+O",
           "actionId": "openDocument"
+        },
+        {
+          "id": "file-open-alt",
+          "label": "Открыть другой проект",
+          "actionId": "openDocument"
+        },
+        {
+          "type": "separator"
         },
         {
           "id": "file-save",
@@ -61,42 +69,71 @@
           "actionId": "saveDocument"
         },
         {
+          "id": "file-save-quick",
+          "label": "Быстрое сохранение",
+          "accelerator": "CmdOrCtrl+Shift+S",
+          "actionId": "saveDocument"
+        },
+        {
           "type": "separator"
         },
         {
-          "id": "file-quit",
-          "label": "Выход",
-          "accelerator": "$platformQuit",
-          "actionId": "quitApp"
+          "id": "file-session",
+          "label": "Сеанс",
+          "items": [
+            {
+              "id": "file-session-save",
+              "label": "Сохранить перед выходом",
+              "actionId": "saveDocument"
+            },
+            {
+              "id": "file-quit",
+              "label": "Закрыть Craftsman",
+              "accelerator": "$platformQuit",
+              "actionId": "quitApp"
+            }
+          ]
         }
       ]
     },
     {
       "id": "edit",
-      "label": "Правка",
+      "label": "Редактирование",
       "items": [
         {
-          "id": "edit-undo",
-          "role": "undo"
-        },
-        {
-          "id": "edit-redo",
-          "role": "redo"
+          "id": "edit-history",
+          "label": "История",
+          "items": [
+            {
+              "id": "edit-undo",
+              "role": "undo"
+            },
+            {
+              "id": "edit-redo",
+              "role": "redo"
+            }
+          ]
         },
         {
           "type": "separator"
         },
         {
-          "id": "edit-cut",
-          "role": "cut"
-        },
-        {
-          "id": "edit-copy",
-          "role": "copy"
-        },
-        {
-          "id": "edit-paste",
-          "role": "paste"
+          "id": "edit-clipboard",
+          "label": "Буфер обмена",
+          "items": [
+            {
+              "id": "edit-cut",
+              "role": "cut"
+            },
+            {
+              "id": "edit-copy",
+              "role": "copy"
+            },
+            {
+              "id": "edit-paste",
+              "role": "paste"
+            }
+          ]
         },
         {
           "type": "separator"
@@ -109,11 +146,11 @@
     },
     {
       "id": "view",
-      "label": "Вид",
+      "label": "Оформление",
       "items": [
         {
           "id": "view-font",
-          "label": "Шрифт",
+          "label": "Шрифт редактора",
           "submenuFrom": "fonts"
         },
         {
@@ -121,23 +158,23 @@
         },
         {
           "id": "view-font-size",
-          "label": "Размер шрифта",
+          "label": "Размер текста",
           "items": [
             {
               "id": "view-font-increase",
-              "label": "Увеличить",
+              "label": "Увеличить текст",
               "actionId": "setFontSize",
               "actionArg": "increase"
             },
             {
               "id": "view-font-decrease",
-              "label": "Уменьшить",
+              "label": "Уменьшить текст",
               "actionId": "setFontSize",
               "actionArg": "decrease"
             },
             {
               "id": "view-font-reset",
-              "label": "Сбросить",
+              "label": "Сбросить размер",
               "actionId": "setFontSize",
               "actionArg": "reset"
             }
@@ -147,13 +184,55 @@
           "type": "separator"
         },
         {
-          "id": "view-theme-light",
+          "id": "view-theme",
+          "label": "Тема приложения",
+          "items": [
+            {
+              "id": "view-theme-light",
+              "label": "Светлая",
+              "actionId": "setTheme",
+              "actionArg": "light"
+            },
+            {
+              "id": "view-theme-dark",
+              "label": "Тёмная",
+              "actionId": "setTheme",
+              "actionArg": "dark"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quick",
+      "label": "Быстрые действия",
+      "items": [
+        {
+          "id": "quick-new",
+          "label": "Новый документ",
+          "actionId": "newDocument"
+        },
+        {
+          "id": "quick-open",
+          "label": "Открыть проект...",
+          "actionId": "openDocument"
+        },
+        {
+          "id": "quick-save",
+          "label": "Сохранить",
+          "actionId": "saveDocument"
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "id": "quick-theme-light",
           "label": "Светлая тема",
           "actionId": "setTheme",
           "actionArg": "light"
         },
         {
-          "id": "view-theme-dark",
+          "id": "quick-theme-dark",
           "label": "Тёмная тема",
           "actionId": "setTheme",
           "actionArg": "dark"

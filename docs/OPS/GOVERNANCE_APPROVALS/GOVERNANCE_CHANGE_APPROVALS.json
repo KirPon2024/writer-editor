@@ -52,10 +52,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "e1d43fa325d5fa960f7e3235170a1a9ea673672c981d524fab6cc83a8d633e89",
-      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-14T10:30:00.000Z",
-      "rationale": "Bind X2 web runtime parity proofHook metadata, source binding, fail signal, closure hash, and required P95 metric contract to stage metrics SSOT."
+      "sha256": "b010eea4c62e126d51a2ebd91f78e7fe5f47c5c7af6dd13c70bb05e947c6faf8",
+      "approvedBy": "ticket:X3_MIN_METRICS_AND_READINESS_GATE_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-14T00:00:00.000Z",
+      "rationale": "Extend stage metrics SSOT with explicit X3 minimal readiness contract requiring resumeRecoverySmokePass."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
@@ -128,6 +128,13 @@
       "rationale": "Approve machine-bound X2 web parity state validator for report schema, active stage binding, required P95 metrics, and fail-signal enforcement."
     },
     {
+      "filePath": "scripts/ops/x3-readiness-gate-state.mjs",
+      "sha256": "d9f08790de62a8c7d89214a89912c1c605ab85313b7afcc6ef0dc6008be55ef7",
+      "approvedBy": "ticket:X3_MIN_METRICS_AND_READINESS_GATE_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-14T00:00:00.000Z",
+      "rationale": "Approve X3 readiness gate validator for minimal metrics contract presence while keeping active stage bound to X2."
+    },
+    {
       "filePath": "scripts/ops/xplat-parity-baseline-state.mjs",
       "sha256": "b810a06f1edfc7d5903000674c5b8183c5ab36d83738cd17e6df4bd1f7e948cb",
       "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
@@ -189,6 +196,13 @@
       "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
       "approvedAtUtc": "2026-02-14T10:30:00.000Z",
       "rationale": "Approve positive, negative, and CLI exit-code contract coverage for X2 web runtime parity state validation."
+    },
+    {
+      "filePath": "test/contracts/x3-readiness-gate.contract.test.js",
+      "sha256": "ce891a0e8ed49246a4e1783651a8c7e4f83ba66fb3aa8daa62db20b327b3f0e0",
+      "approvedBy": "ticket:X3_MIN_METRICS_AND_READINESS_GATE_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-14T00:00:00.000Z",
+      "rationale": "Approve positive and negative contract coverage for X3 readiness gate JSON shape and CLI exit semantics."
     },
     {
       "filePath": "test/contracts/xplat-parity-baseline.contract.test.js",

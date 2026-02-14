@@ -93,13 +93,6 @@
       "rationale": "Approve promotion record state validator with required metrics constraints."
     },
     {
-      "filePath": "scripts/ops/xplat-parity-baseline-state.mjs",
-      "sha256": "b810a06f1edfc7d5903000674c5b8183c5ab36d83738cd17e6df4bd1f7e948cb",
-      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:15:00Z",
-      "rationale": "Approve machine-check validator for X1 hard parity baseline."
-    },
-    {
       "filePath": "scripts/ops/x1-desktop-parity-harness.mjs",
       "sha256": "b71bb674d9de4a289c121ea58e14349dd22d1b9758107dd0a3f824de6539282a",
       "approvedBy": "ticket:GOVERNANCE_REFRESH_AFTER_PR163_v1.0",
@@ -112,6 +105,20 @@
       "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
       "approvedAtUtc": "2026-02-13T19:40:00Z",
       "rationale": "Approve strict X1 runtime parity state evaluation with report schema and hard-pass enforcement."
+    },
+    {
+      "filePath": "scripts/ops/x2-readiness-gate-state.mjs",
+      "sha256": "1dd3aacf52c3690e1d031077107edaca852146697f2a285c9d9feb1beecdae18",
+      "approvedBy": "ticket:NEXT_STEP_X2_RUNTIME_PARITY_ENABLEMENT_PREPARATION_v1.0",
+      "approvedAtUtc": "2026-02-14T04:15:00.000Z",
+      "rationale": "Approve deterministic X2 readiness gate evaluator for frozen X1 parity evidence, governance, strict doctor, and scope drift signals."
+    },
+    {
+      "filePath": "scripts/ops/xplat-parity-baseline-state.mjs",
+      "sha256": "b810a06f1edfc7d5903000674c5b8183c5ab36d83738cd17e6df4bd1f7e948cb",
+      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:15:00Z",
+      "rationale": "Approve machine-check validator for X1 hard parity baseline."
     },
     {
       "filePath": "scripts/ops/xplat-rollout-plan-state.mjs",
@@ -149,18 +156,25 @@
       "rationale": "Approve promotion record contract coverage for template and evidence failures."
     },
     {
-      "filePath": "test/contracts/xplat-parity-baseline.contract.test.js",
-      "sha256": "7f4a5c30736ffb79c0f10572d89637507451ff3b29813beb1710f41cd647555e",
-      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:15:00Z",
-      "rationale": "Approve contract coverage for X1 parity baseline validator."
-    },
-    {
       "filePath": "test/contracts/x1-desktop-parity.contract.test.js",
       "sha256": "6302f3c53074603f9bf140b2cc79b910802dd388fb7e2c56f89d7f96c0c9572b",
       "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
       "approvedAtUtc": "2026-02-13T19:40:00Z",
       "rationale": "Approve contract coverage for X1 behavioral parity report validation and false-green prevention."
+    },
+    {
+      "filePath": "test/contracts/x2-readiness-gate.contract.test.js",
+      "sha256": "6c4bd7c6211846a8f64df24682d366c458114723f9f609c73c598b7d4cd4365f",
+      "approvedBy": "ticket:NEXT_STEP_X2_RUNTIME_PARITY_ENABLEMENT_PREPARATION_v1.0",
+      "approvedAtUtc": "2026-02-14T04:15:00.000Z",
+      "rationale": "Approve contract coverage for X2 readiness gate positive/negative behavior and CLI exit code enforcement."
+    },
+    {
+      "filePath": "test/contracts/xplat-parity-baseline.contract.test.js",
+      "sha256": "7f4a5c30736ffb79c0f10572d89637507451ff3b29813beb1710f41cd647555e",
+      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
+      "approvedAtUtc": "2026-02-13T19:15:00Z",
+      "rationale": "Approve contract coverage for X1 parity baseline validator."
     },
     {
       "filePath": "test/contracts/xplat-rollout-plan.contract.test.js",

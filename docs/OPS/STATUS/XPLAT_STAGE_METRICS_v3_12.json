@@ -30,6 +30,25 @@
           "sha256": "832873b021a008715f75d579223301fc2cb77bbdd4a02715053760ff0a56c931"
         }
       }
+    },
+    "X2": {
+      "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+      "x2WebRuntimeParityRef": "scripts/ops/x2-web-parity-state.mjs --json",
+      "x2WebRuntimeParityHarnessRef": "scripts/ops/x2-web-parity-harness.mjs --json",
+      "proofHook": "node scripts/ops/x2-web-parity-state.mjs --json",
+      "sourceBinding": "ops_script+contract_test",
+      "metricSourceBinding": "harness-report",
+      "failSignalCode": "E_X2_WEB_PARITY_CONTRACT_INVALID",
+      "positiveContractRef": "test/contracts/x2-web-parity.contract.test.js#positive-path",
+      "negativeContractRef": "test/contracts/x2-web-parity.contract.test.js#negative-path",
+      "proofHookClosureSha256": "ad6513d60858455e090ec89feee64b3b9da46d01762ab86809e2c52b2f828a8b",
+      "requiredP95Metrics": [
+        "openP95Ms",
+        "saveP95Ms",
+        "reopenP95Ms",
+        "exportP95Ms"
+      ],
+      "flakyRatePctThreshold": 0
     }
   },
   "metrics": {

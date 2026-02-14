@@ -52,10 +52,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "670eb32f8f124569d4aa533354ee0c62ea0996b3ee3fe71e47587930f40890b0",
-      "approvedBy": "ticket:X1_RUNTIME_PARITY_EVIDENCE_FREEZE_AND_X2_READINESS_GATE_v1.0",
-      "approvedAtUtc": "2026-02-14T03:57:04Z",
-      "rationale": "Freeze X1 runtime parity evidence hashes for ubuntu/windows artifacts and bind metrics snapshot to evidence files."
+      "sha256": "e1d43fa325d5fa960f7e3235170a1a9ea673672c981d524fab6cc83a8d633e89",
+      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-14T10:30:00.000Z",
+      "rationale": "Bind X2 web runtime parity proofHook metadata, source binding, fail signal, closure hash, and required P95 metric contract to stage metrics SSOT."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
@@ -114,6 +114,20 @@
       "rationale": "Approve deterministic X2 readiness gate evaluator for frozen X1 parity evidence, governance, strict doctor, and scope drift signals."
     },
     {
+      "filePath": "scripts/ops/x2-web-parity-harness.mjs",
+      "sha256": "4df5f7a49ea9b96cd6a2ffe89328b39fa564ea8c65bf917e2d4216befe0c94af",
+      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-14T10:30:00.000Z",
+      "rationale": "Approve behavioral X2 web runtime parity harness with hard parity subset checks, P95 metric emission, and explicit passPct exit contract."
+    },
+    {
+      "filePath": "scripts/ops/x2-web-parity-state.mjs",
+      "sha256": "ad6513d60858455e090ec89feee64b3b9da46d01762ab86809e2c52b2f828a8b",
+      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-14T10:30:00.000Z",
+      "rationale": "Approve machine-bound X2 web parity state validator for report schema, active stage binding, required P95 metrics, and fail-signal enforcement."
+    },
+    {
       "filePath": "scripts/ops/xplat-parity-baseline-state.mjs",
       "sha256": "b810a06f1edfc7d5903000674c5b8183c5ab36d83738cd17e6df4bd1f7e948cb",
       "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
@@ -168,6 +182,13 @@
       "approvedBy": "ticket:NEXT_STEP_X2_RUNTIME_PARITY_ENABLEMENT_PREPARATION_v1.0",
       "approvedAtUtc": "2026-02-14T04:15:00.000Z",
       "rationale": "Approve contract coverage for X2 readiness gate positive/negative behavior and CLI exit code enforcement."
+    },
+    {
+      "filePath": "test/contracts/x2-web-parity.contract.test.js",
+      "sha256": "ae25c15bf8a33e7c7a98a4b700a82ae0a9090381feee6f81960df9c49585cb98",
+      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
+      "approvedAtUtc": "2026-02-14T10:30:00.000Z",
+      "rationale": "Approve positive, negative, and CLI exit-code contract coverage for X2 web runtime parity state validation."
     },
     {
       "filePath": "test/contracts/xplat-parity-baseline.contract.test.js",

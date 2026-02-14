@@ -2519,7 +2519,9 @@ async function handleFontSizeChange(action) {
 }
 
 const MENU_CONFIG_PATH = path.join(__dirname, 'menu', 'menu-config.v1.json');
-const MENU_FORBIDDEN_CONFIG_KEYS = new Set(['eval', 'require', 'import', 'path']);
+const {
+  loadAndValidateMenuConfig
+} = require('./menu/menu-config-validator');
 const MENU_ACCELERATOR_TOKENS = Object.freeze({
   platformQuit: process.platform === 'darwin' ? 'Cmd+Q' : 'Ctrl+Q'
 });
@@ -2556,24 +2558,8 @@ const MENU_ACTION_HANDLERS = Object.freeze({
   }
 });
 
-function assertMenuConfigNoForbiddenKeys(value, location = 'root') {
-  if (!value || typeof value !== 'object') {
-    return;
-  }
-
-  if (Array.isArray(value)) {
-    value.forEach((entry, index) => {
-      assertMenuConfigNoForbiddenKeys(entry, `${location}[${index}]`);
-    });
-    return;
-  }
-
-  for (const [key, entry] of Object.entries(value)) {
-    if (MENU_FORBIDDEN_CONFIG_KEYS.has(key)) {
-      throw new Error(`Menu config key "${key}" is forbidden at ${location}`);
-    }
-    assertMenuConfigNoForbiddenKeys(entry, `${location}.${key}`);
-  }
+function shouldFailHardOnMenuConfigError() {
+  return process.env.MENU_CONFIG_CONTRACT_MODE === '1' || process.argv.includes('--menu-config-contract');
 }
 
 function resolveMenuAccelerator(value) {
@@ -2586,23 +2572,6 @@ function resolveMenuAccelerator(value) {
     throw new Error(`Unsupported menu accelerator token: ${value}`);
   }
   return MENU_ACCELERATOR_TOKENS[token];
-}
-
-function loadMenuConfig() {
-  const raw = fsSync.readFileSync(MENU_CONFIG_PATH, 'utf8');
-  const parsed = JSON.parse(raw);
-
-  assertMenuConfigNoForbiddenKeys(parsed);
-
-  if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.menus)) {
-    throw new Error('Invalid menu config: expected object with menus[]');
-  }
-
-  if (!Array.isArray(parsed.fonts)) {
-    throw new Error('Invalid menu config: expected fonts[]');
-  }
-
-  return parsed;
 }
 
 function buildClickHandler(actionId, actionArg) {
@@ -2700,17 +2669,17 @@ function buildMenuItemFromConfig(item, config, location) {
       throw new Error(`Unknown submenuFrom "${String(item.submenuFrom)}" at ${location}`);
     }
     built.submenu = buildFontSubmenu(config);
-  } else if (Array.isArray(item.submenu)) {
-    built.submenu = item.submenu.map((child, index) =>
-      buildMenuItemFromConfig(child, config, `${location}.submenu[${index}]`)
+  } else if (Array.isArray(item.items)) {
+    built.submenu = item.items.map((child, index) =>
+      buildMenuItemFromConfig(child, config, `${location}.items[${index}]`)
     );
   }
 
-  if (item.action !== undefined) {
-    if (typeof item.action !== 'string') {
-      throw new Error(`Menu action must be string at ${location}`);
+  if (item.actionId !== undefined) {
+    if (typeof item.actionId !== 'string') {
+      throw new Error(`Menu actionId must be string at ${location}`);
     }
-    built.click = buildClickHandler(item.action, item.actionArg);
+    built.click = buildClickHandler(item.actionId, item.actionArg);
   }
 
   return built;
@@ -2722,9 +2691,44 @@ function buildMenuTemplateFromConfig(config) {
   );
 }
 
+function buildSafeFallbackMenuTemplate() {
+  return [
+    {
+      id: 'safe-file',
+      label: 'Файл',
+      submenu: [
+        {
+          id: 'safe-quit',
+          label: 'Выход',
+          accelerator: MENU_ACCELERATOR_TOKENS.platformQuit,
+          click: buildClickHandler('quitApp')
+        }
+      ]
+    }
+  ];
+}
+
 function createMenu() {
-  const config = loadMenuConfig();
-  const template = buildMenuTemplateFromConfig(config);
+  const validatedConfig = loadAndValidateMenuConfig({
+    configPath: MENU_CONFIG_PATH
+  });
+  if (!validatedConfig.ok) {
+    const failReason = validatedConfig.failReason || 'Menu config validation failed.';
+    const error = new Error(
+      `Menu config validation failed: ${failReason} (${MENU_CONFIG_PATH})`
+    );
+    logDevError('createMenu', error);
+
+    const fallbackMenu = Menu.buildFromTemplate(buildSafeFallbackMenuTemplate());
+    Menu.setApplicationMenu(fallbackMenu);
+
+    if (shouldFailHardOnMenuConfigError()) {
+      throw error;
+    }
+    return;
+  }
+
+  const template = buildMenuTemplateFromConfig(validatedConfig.config);
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);

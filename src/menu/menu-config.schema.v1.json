@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "craftsman://menu/menu-config.schema.v1.json",
+  "title": "Craftsman Menu Config v1",
+  "type": "object",
+  "required": ["version", "fonts", "menus"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "v1"
+    },
+    "fonts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/font"
+      }
+    },
+    "menus": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/menuNode"
+      }
+    }
+  },
+  "$defs": {
+    "font": {
+      "type": "object",
+      "required": ["label", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "menuNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "const": "separator"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "enum": ["undo", "redo", "cut", "copy", "paste", "selectAll"]
+        },
+        "accelerator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actionId": {
+          "type": "string",
+          "pattern": "^[a-z][a-zA-Z0-9]*$"
+        },
+        "actionArg": {},
+        "enabled": {
+          "type": "boolean"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "enabledWhen": {
+          "type": "string",
+          "enum": ["always"]
+        },
+        "submenuFrom": {
+          "type": "string",
+          "enum": ["fonts"]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/menuNode"
+          }
+        }
+      },
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type"]
+        },
+        {
+          "type": "object",
+          "required": ["role"]
+        },
+        {
+          "type": "object",
+          "required": ["label"]
+        }
+      ]
+    }
+  }
+}

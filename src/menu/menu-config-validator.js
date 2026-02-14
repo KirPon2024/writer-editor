@@ -3,6 +3,7 @@ const path = require('path');
 
 const MENU_CONFIG_PATH = path.join(__dirname, 'menu-config.v1.json');
 const MENU_SCHEMA_PATH = path.join(__dirname, 'menu-config.schema.v1.json');
+const MENU_FALLBACK_MESSAGE = 'Safe fallback menu will be used.';
 
 function makePath(base, segment) {
   if (segment === undefined || segment === null || segment === '') {
@@ -232,9 +233,24 @@ function loadAndValidateMenuConfig(options = {}) {
   };
 }
 
+function toMenuConfigRuntimeState(validationState) {
+  const ok = Boolean(validationState && validationState.ok);
+  const failReason = ok ? '' : String(validationState && validationState.failReason ? validationState.failReason : 'Menu config validation failed.');
+  const errors = Array.isArray(validationState && validationState.errors) ? validationState.errors : [];
+  return {
+    ok,
+    failReason,
+    errors,
+    fallbackUsed: ok ? false : true,
+    fallbackMessage: ok ? '' : MENU_FALLBACK_MESSAGE
+  };
+}
+
 module.exports = {
   MENU_CONFIG_PATH,
   MENU_SCHEMA_PATH,
+  MENU_FALLBACK_MESSAGE,
   loadAndValidateMenuConfig,
+  toMenuConfigRuntimeState,
   validateMenuConfigAgainstSchema
 };

@@ -192,10 +192,10 @@
     },
     {
       "filePath": "test/contracts/menu-config.contract.test.js",
-      "sha256": "be6de58de1e159ea881ab57b4e1bd46c026d8ba8758d9f30d2170bbea334ecde",
-      "approvedBy": "ticket:UI_MENU_SCHEMA_VALIDATION_AND_CONTRACT_TESTS_v1.2_CONTINUE_DIRTY_ALLOWLIST",
-      "approvedAtUtc": "2026-02-14T14:38:42.000Z",
-      "rationale": "Approve menu config schema validator contract coverage and CLI exit behavior for the UI menu data contract."
+      "sha256": "af45b8ece7ad8667f14f3893849e273deeef42791e1d2ae7f9b269047b3b4731",
+      "approvedBy": "ticket:UI_MENU_RUNTIME_VALIDATION_AND_SAFE_FALLBACK_v1.0",
+      "approvedAtUtc": "2026-02-14T15:06:28.000Z",
+      "rationale": "Refresh menu config contract coverage to require runtime-safe fallback signaling when config is invalid or unreadable."
     },
     {
       "filePath": "test/contracts/stage-activation.contract.test.js",

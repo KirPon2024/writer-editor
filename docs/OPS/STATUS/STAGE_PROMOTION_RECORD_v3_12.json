@@ -23,5 +23,17 @@
     "reopenP95Ms": 0.051917,
     "exportP95Ms": 0.480958
   },
+  "stabilitySnapshots": [
+    {
+      "stageId": "X2",
+      "baselineSha": "dfaa0a1f9dcdc8826b1c5c5b1496a0583caf9660",
+      "parityStateRef": "scripts/ops/x2-web-parity-state.mjs --json",
+      "readinessGateRef": "scripts/ops/x2-readiness-gate-state.mjs --json",
+      "rolloutRef": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
+      "timestampUtc": "2026-02-14T09:14:30Z",
+      "machineValidated": true,
+      "snapshotType": "stability-freeze"
+    }
+  ],
   "notes": "Formalize X2 web runtime parity promotion record binding to strict parity state proofHook and stage evidence metrics."
 }

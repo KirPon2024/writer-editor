@@ -31,10 +31,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json",
-      "sha256": "c049d3eff884539f17962c9361b5f3799b73a2e13ea0573714a4a67578f7bcd6",
-      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_PROMOTION_RECORD_v1.0",
-      "approvedAtUtc": "2026-02-14T08:52:00.000Z",
-      "rationale": "Approve machine-bound X2 promotion record with strict parity evidence binding and stage promotion metadata."
+      "sha256": "da69bd0a13b395b037e81dcfacd6029fa6e84d9ab119f5ed318e3161601e610b",
+      "approvedBy": "ticket:X2_STAGE_STABILITY_BASELINE_FREEZE_v1.0",
+      "approvedAtUtc": "2026-02-14T09:14:53.000Z",
+      "rationale": "Freeze X2 post-promotion stability snapshot binding parity state, readiness gate, and rollout reference to baseline SHA without stage mutation."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",

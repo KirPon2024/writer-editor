@@ -53,10 +53,19 @@
     "X3": {
       "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
       "x3ReadinessGateRef": "scripts/ops/x3-readiness-gate-state.mjs --json",
+      "x3RecoverySmokeProofhookRef": "scripts/ops/x3-recovery-smoke-proofhook.mjs --json",
+      "proofHook": "node scripts/ops/x3-recovery-smoke-proofhook.mjs --json",
+      "sourceBinding": "ops_script+contract_test",
+      "metricSourceBinding": "proofhook-runtime",
+      "recoverySmokeTokenId": "X3_RECOVERY_SMOKE_OK",
+      "failSignalCode": "E_X3_RECOVERY_SMOKE_FAILED",
+      "positiveContractRef": "test/contracts/x3-recovery-smoke.contract.test.js#positive-path",
+      "negativeContractRef": "test/contracts/x3-recovery-smoke.contract.test.js#forced-failure",
+      "proofHookClosureSha256": "7f1ed0830be5c670511b90bea9c5b6b37d6061ca4b5399df362adb59e6c7c72c",
       "requiredMinimumMetrics": [
         "resumeRecoverySmokePass"
       ],
-      "source": "x3 minimal readiness contract"
+      "source": "x3 readiness gate + recovery smoke proofhook"
     }
   },
   "metrics": {

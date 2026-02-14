@@ -3,7 +3,7 @@
   "scope": "OPS_GOVERNANCE_LAYER",
   "files": {
     "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json": {
-      "sha256": "795f420053cb5e617797e128ee9021afb4744094b5d2edaecdf546ef94b7e1f3"
+      "sha256": "9f51338c5da6d531d38735853f946ba8fbf1f0577efb38b6f5ff5bcd1d08ac86"
     },
     "docs/OPS/DOCTOR/INVARIANTS.md": {
       "sha256": "e81a034f85becb689ccb0b3b221ba84e98b14571de13f90362dbf61eff77c438"
@@ -12,17 +12,12 @@
       "sha256": "b62d5ad9b485435e18c3a807359abf6eb3591401d101e225696edba151e63844"
     },
     "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json": {
-      "sha256": "05f15e2a4d1faea7ee6c5d61f179fe27483c9e08e50ee65fcda27f1c8363a021"
+      "sha256": "b68daae1f9d88a5bdfbaf6a6a29812437f203aa99ff6d45d41f645589279a901"
     },
     "docs/OPS/TOKENS/TOKEN_DECLARATION.json": {
-      "sha256": "0d7af4cd6499547ea29873039adcf6a8294c13c1677b7d16d9637da175383f3a"
+      "sha256": "b36779c3366cd681508551f146e07a7b7350866f58dd4353a9f7d6e935786259"
     }
   },
-  "global_sha256": "91d61f2677093606690a8636dac88401863778652cefee07b47393e318c5c195",
-  "generated_at": "2026-02-13T11:55:44.581Z",
-  "governance_change_approval_registry": {
-    "path": "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
-    "version": "v1.0",
-    "hashAlgorithm": "sha256"
-  }
+  "global_sha256": "9bbb3c964047aa9fc7aaf4f3c8e5eeecdd59abf2072ce3b3625ce9f1336968db",
+  "generated_at": "2026-02-14T11:54:56.208Z"
 }

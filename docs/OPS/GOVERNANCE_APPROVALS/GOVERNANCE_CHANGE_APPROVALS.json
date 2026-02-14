@@ -3,17 +3,31 @@
   "approvals": [
     {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
-      "sha256": "268fa0f4efc2fcbfbe692385703d2e826e20549e90c938b2661755fbde0560a7",
-      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
-      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
-      "rationale": "Introduce artifact-bound governance approval mechanism metadata in baseline."
+      "sha256": "56837e096c0188f5c81992a553bd9919140d9b43c386dcf1b2ea3782031ad5d1",
+      "approvedBy": "ticket:X3_RECOVERY_STRICT_LOCKS_BASELINE_REMEDIATION_v1.1",
+      "approvedAtUtc": "2026-02-14T11:55:58.000Z",
+      "rationale": "Refresh OPS governance baseline after canonical baseline rewrite to bind current governed file hashes."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
+      "sha256": "be51ccd0dbd0db77ea93c4368147a3d4b0073f55097c5ee40d6b90d01c63a99a",
+      "approvedBy": "ticket:X3_RECOVERY_STRICT_LOCKS_BASELINE_REMEDIATION_v1.1",
+      "approvedAtUtc": "2026-02-14T11:53:31.000Z",
+      "rationale": "Refresh token catalog lock after canonical write-lock update for strict immutability checks."
+    },
+    {
+      "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
+      "sha256": "664f7454d4f7fc6a4b89d5bda4c1f6d2eb1a76fb19d7833ec780ae15e621c582",
+      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
+      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "rationale": "Add machine-bound X3 recovery smoke claim with proofHook, failSignal, and source binding metadata."
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "882e7a336f13b1252f8ad418ebe25d2237a806a60d9995d6ef4bc14233210cc4",
-      "approvedBy": "ticket:GOVERNANCE_APPROVAL_REFRESH_FOR_FAILSIGNAL_REGISTRY_SYNC_v1.0",
-      "approvedAtUtc": "2026-02-13T16:15:04.000Z",
-      "rationale": "Refresh governed failSignal registry hash for negative-ref and semantics hardening."
+      "sha256": "5e07c6ccdbee016add5507421fa106bfcb2de83d9d93e9728c4acafc39bf6f9c",
+      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
+      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "rationale": "Register deterministic X3 recovery smoke failSignal with explicit negative contract reference."
     },
     {
       "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
@@ -52,10 +66,17 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "b010eea4c62e126d51a2ebd91f78e7fe5f47c5c7af6dd13c70bb05e947c6faf8",
-      "approvedBy": "ticket:X3_MIN_METRICS_AND_READINESS_GATE_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-14T00:00:00.000Z",
-      "rationale": "Extend stage metrics SSOT with explicit X3 minimal readiness contract requiring resumeRecoverySmokePass."
+      "sha256": "7954c387695fe4a2fae943dc3d4efa0e972b5c8d9a869b865f1767dd1f317e8c",
+      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
+      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "rationale": "Bind X3 stage evidence to deterministic recovery-smoke proofhook, fail signal, and contract references while keeping X2 active."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
+      "sha256": "ff774b571eaa8d125920177c87a2efa56a5189b14f9f6330954c0892b5bee55b",
+      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
+      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "rationale": "Register X3 recovery smoke target tokens for promotion-ready stage-gated binding."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
@@ -129,10 +150,17 @@
     },
     {
       "filePath": "scripts/ops/x3-readiness-gate-state.mjs",
-      "sha256": "d9f08790de62a8c7d89214a89912c1c605ab85313b7afcc6ef0dc6008be55ef7",
-      "approvedBy": "ticket:X3_MIN_METRICS_AND_READINESS_GATE_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-14T00:00:00.000Z",
-      "rationale": "Approve X3 readiness gate validator for minimal metrics contract presence while keeping active stage bound to X2."
+      "sha256": "673ba4a179573769d7c17b6201afe6ac7063631a1ed330d6ec358311accd5583",
+      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
+      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "rationale": "Extend X3 readiness gate to execute recovery smoke proofhook and bind fail semantics."
+    },
+    {
+      "filePath": "scripts/ops/x3-recovery-smoke-proofhook.mjs",
+      "sha256": "7f1ed0830be5c670511b90bea9c5b6b37d6061ca4b5399df362adb59e6c7c72c",
+      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
+      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "rationale": "Add deterministic, platform-neutral X3 recovery smoke proofhook with strict CLI exit semantics."
     },
     {
       "filePath": "scripts/ops/xplat-parity-baseline-state.mjs",
@@ -203,6 +231,13 @@
       "approvedBy": "ticket:X3_MIN_METRICS_AND_READINESS_GATE_IMPLEMENTATION_v1.0",
       "approvedAtUtc": "2026-02-14T00:00:00.000Z",
       "rationale": "Approve positive and negative contract coverage for X3 readiness gate JSON shape and CLI exit semantics."
+    },
+    {
+      "filePath": "test/contracts/x3-recovery-smoke.contract.test.js",
+      "sha256": "4d3ddb5926f65bab9139bbd73b1299aa02e0e2c56261dbf3e063e10bcfaa1239",
+      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
+      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "rationale": "Add positive/negative contract coverage for X3 recovery smoke proofhook and failSignal propagation."
     },
     {
       "filePath": "test/contracts/xplat-parity-baseline.contract.test.js",

@@ -7,10 +7,11 @@
     "X3",
     "X4"
   ],
-  "activeStageId": "X2",
+  "activeStageId": "X3",
   "stageToScopeFlag": {
     "X1": "XPLAT_STAGE_X1_ENABLED",
-    "X2": "XPLAT_STAGE_X2_ENABLED"
+    "X2": "XPLAT_STAGE_X2_ENABLED",
+    "X3": "XPLAT_STAGE_X3_ENABLED"
   },
   "promotionModeAllowed": true
 }

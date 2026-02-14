@@ -49,6 +49,14 @@
         "exportP95Ms"
       ],
       "flakyRatePctThreshold": 0
+    },
+    "X3": {
+      "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+      "x3ReadinessGateRef": "scripts/ops/x3-readiness-gate-state.mjs --json",
+      "requiredMinimumMetrics": [
+        "resumeRecoverySmokePass"
+      ],
+      "source": "x3 minimal readiness contract"
     }
   },
   "metrics": {

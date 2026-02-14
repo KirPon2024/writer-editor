@@ -41,24 +41,24 @@
     {
       "id": "file",
       "label": "Файл",
-      "submenu": [
+      "items": [
         {
           "id": "file-new",
           "label": "Новый",
           "accelerator": "CmdOrCtrl+N",
-          "action": "newDocument"
+          "actionId": "newDocument"
         },
         {
           "id": "file-open",
           "label": "Открыть",
           "accelerator": "CmdOrCtrl+O",
-          "action": "openDocument"
+          "actionId": "openDocument"
         },
         {
           "id": "file-save",
           "label": "Сохранить",
           "accelerator": "CmdOrCtrl+S",
-          "action": "saveDocument"
+          "actionId": "saveDocument"
         },
         {
           "type": "separator"
@@ -67,14 +67,14 @@
           "id": "file-quit",
           "label": "Выход",
           "accelerator": "$platformQuit",
-          "action": "quitApp"
+          "actionId": "quitApp"
         }
       ]
     },
     {
       "id": "edit",
       "label": "Правка",
-      "submenu": [
+      "items": [
         {
           "id": "edit-undo",
           "role": "undo"
@@ -110,7 +110,7 @@
     {
       "id": "view",
       "label": "Вид",
-      "submenu": [
+      "items": [
         {
           "id": "view-font",
           "label": "Шрифт",
@@ -122,23 +122,23 @@
         {
           "id": "view-font-size",
           "label": "Размер шрифта",
-          "submenu": [
+          "items": [
             {
               "id": "view-font-increase",
               "label": "Увеличить",
-              "action": "setFontSize",
+              "actionId": "setFontSize",
               "actionArg": "increase"
             },
             {
               "id": "view-font-decrease",
               "label": "Уменьшить",
-              "action": "setFontSize",
+              "actionId": "setFontSize",
               "actionArg": "decrease"
             },
             {
               "id": "view-font-reset",
               "label": "Сбросить",
-              "action": "setFontSize",
+              "actionId": "setFontSize",
               "actionArg": "reset"
             }
           ]
@@ -149,13 +149,13 @@
         {
           "id": "view-theme-light",
           "label": "Светлая тема",
-          "action": "setTheme",
+          "actionId": "setTheme",
           "actionArg": "light"
         },
         {
           "id": "view-theme-dark",
           "label": "Тёмная тема",
-          "action": "setTheme",
+          "actionId": "setTheme",
           "actionArg": "dark"
         }
       ]

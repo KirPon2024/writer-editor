@@ -19,7 +19,17 @@
         "win": "pending-run",
         "linux": "pending-run"
       },
-      "source": "x1 behavioral harness + strict doctor + npm test"
+      "source": "x1 behavioral harness + strict doctor + npm test",
+      "x1RuntimeParityEvidence": {
+        "ubuntu": {
+          "file": "docs/OPS/EVIDENCE/X1_RUNTIME_PARITY/parity-report-ubuntu.json",
+          "sha256": "2621a61deb7a25f6e89b8da37c7233613e53395c0bcbf08ec8513fa4b90ef97a"
+        },
+        "windows": {
+          "file": "docs/OPS/EVIDENCE/X1_RUNTIME_PARITY/parity-report-windows.json",
+          "sha256": "832873b021a008715f75d579223301fc2cb77bbdd4a02715053760ff0a56c931"
+        }
+      }
     }
   },
   "metrics": {

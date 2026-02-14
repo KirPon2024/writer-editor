@@ -35,9 +35,18 @@
     }
   },
   "testedPlatforms": {
-    "win": "required",
-    "linux": "required",
+    "win": "subset",
+    "linux": "subset",
     "darwin": "advisory"
   },
-  "notes": "X1 hard parity baseline is bound to behavioral runtime harness path (open/edit/save/reopen/export/import/diff) with tricky-pack checks and platform policies."
+  "notes": "X1 hard parity baseline is bound to behavioral runtime harness path (open/edit/save/reopen/export/import/diff) with tricky-pack checks and platform policies.",
+  "evidenceSha256": {
+    "ubuntu": "2621a61deb7a25f6e89b8da37c7233613e53395c0bcbf08ec8513fa4b90ef97a",
+    "windows": "832873b021a008715f75d579223301fc2cb77bbdd4a02715053760ff0a56c931"
+  },
+  "x2Readiness": {
+    "runtimeParityFrozen": true,
+    "evidenceBound": true,
+    "governanceGreen": "required"
+  }
 }

@@ -45,10 +45,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
-      "sha256": "b6865080b9bdd00cd28a1f48a232b8179ac68fc61800c791dfbd96b3d1364b40",
-      "approvedBy": "ticket:X1_DESKTOP_PARITY_ACTIVATION_v1.0",
-      "approvedAtUtc": "2026-02-13T18:54:26Z",
-      "rationale": "Approve X1 active stage rollout plan update."
+      "sha256": "f55023cf6bb17e6e9f3075855304b24d1ee17cc638845e30a08f01b14c18fab8",
+      "approvedBy": "ticket:X2_STAGE_ACTIVATION_v1.0",
+      "approvedAtUtc": "2026-02-14T06:55:00.000Z",
+      "rationale": "Activate X2 as active stage via canonical rollout plan mapping without promotion or release-tier behavior changes."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",

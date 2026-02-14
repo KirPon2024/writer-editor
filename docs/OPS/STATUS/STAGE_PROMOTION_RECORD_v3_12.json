@@ -1,19 +1,27 @@
 {
   "schemaVersion": "v3.12",
   "isActive": true,
-  "promotionId": "PROMOTE_X0_TO_X1_20260213T185426Z",
-  "fromStageId": "X0",
-  "toStageId": "X1",
-  "stageId": "X1",
-  "baseSha": "c96ed8685f5c0a7453d9710104151b859121a7d0",
+  "promotionId": "PROMOTE_X1_TO_X2_20260214T084958Z",
+  "fromStageId": "X1",
+  "toStageId": "X2",
+  "stageId": "X2",
+  "baseSha": "ee17af2bef7b54ff4f73122c258abd342dd8101d",
   "metricsRef": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+  "metricsBinding": "stageEvidence.X2",
+  "parityStateRef": "scripts/ops/x2-web-parity-state.mjs --json",
   "approvedBy": "user",
-  "approvedAtUtc": "2026-02-13T18:54:26Z",
-  "timestampUtc": "2026-02-13T18:54:26Z",
+  "approvedAtUtc": "2026-02-14T08:49:58Z",
+  "timestampUtc": "2026-02-14T08:49:58Z",
+  "promotionMode": "strict",
+  "machineValidated": true,
   "evidence": {
     "parityPassRatePct": 100,
     "flakyRatePct": 0,
-    "maxDocSizeMb": 16
+    "maxDocSizeMb": 0.000467,
+    "openP95Ms": 0.223834,
+    "saveP95Ms": 7.953166,
+    "reopenP95Ms": 0.051917,
+    "exportP95Ms": 0.480958
   },
-  "notes": "Activate X1_DESKTOP parity stage from BASE_SHA c96ed8685f5c0a7453d9710104151b859121a7d0."
+  "notes": "Formalize X2 web runtime parity promotion record binding to strict parity state proofHook and stage evidence metrics."
 }

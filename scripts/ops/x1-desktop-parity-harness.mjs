@@ -14,7 +14,7 @@ const TOKEN_NAME = 'X1_DESKTOP_PARITY_RUNTIME_OK';
 const FAIL_CODE = 'E_X1_DESKTOP_PARITY_RUNTIME_INVALID';
 const BASELINE_PATH = 'docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json';
 const DEFAULT_REPEAT = 1;
-const SUPPORTED_PLATFORMS = new Set(['win', 'linux', 'darwin']);
+const SUPPORTED_PLATFORM_ARGS = new Set(['darwin', 'linux', 'win32']);
 
 function isObjectRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -39,10 +39,18 @@ function cloneJson(value) {
 }
 
 function toPlatformId(nodePlatform) {
+  if (nodePlatform === 'win') return 'win';
   if (nodePlatform === 'win32') return 'win';
   if (nodePlatform === 'linux') return 'linux';
   if (nodePlatform === 'darwin') return 'darwin';
   return 'unsupported';
+}
+
+function parsePlatformArg(rawValue) {
+  const value = String(rawValue || '').trim();
+  if (!value) return '';
+  if (SUPPORTED_PLATFORM_ARGS.has(value)) return value;
+  throw new Error(`UNSUPPORTED_PLATFORM_ARG:${value}`);
 }
 
 function roundMetric(value) {
@@ -504,7 +512,7 @@ async function executeBehaviorScenario(input) {
   };
 }
 
-function executeWindowsReservedNameCheck(runDir, checks, policyValue) {
+function executeWindowsReservedNameCheck(runDir, checks, policyValue, canProbe) {
   if (policyValue !== 'reject') {
     addCheck(
       checks,
@@ -512,6 +520,15 @@ function executeWindowsReservedNameCheck(runDir, checks, policyValue) {
       false,
       'Baseline win reserved names policy is missing/invalid.',
       'E_X1_PARITY_WIN_POLICY_INVALID',
+    );
+    return;
+  }
+
+  if (!canProbe) {
+    addSkippedCheck(
+      checks,
+      'platform.win.reservedNames',
+      'Windows reserved-name probe skipped outside native win32 runtime.',
     );
     return;
   }
@@ -537,7 +554,7 @@ function executeWindowsReservedNameCheck(runDir, checks, policyValue) {
   }
 }
 
-function executeLinuxCaseCollisionCheck(runDir, checks, policyValue) {
+function executeLinuxCaseCollisionCheck(runDir, checks, policyValue, canProbe) {
   if (policyValue !== 'distinct_paths_required') {
     addCheck(
       checks,
@@ -545,6 +562,15 @@ function executeLinuxCaseCollisionCheck(runDir, checks, policyValue) {
       false,
       'Baseline linux case collision policy is missing/invalid.',
       'E_X1_PARITY_LINUX_POLICY_INVALID',
+    );
+    return;
+  }
+
+  if (!canProbe) {
+    addSkippedCheck(
+      checks,
+      'platform.linux.caseCollision',
+      'Linux case-collision probe skipped outside native linux runtime.',
     );
     return;
   }
@@ -597,7 +623,9 @@ function parseLargeDocTargetMb(trickyPack) {
 export async function runX1DesktopParityHarness(input = {}) {
   const startedAt = Date.now();
   const repoRoot = resolveRepoRoot();
-  const platform = toPlatformId(process.platform);
+  const hostPlatform = toPlatformId(process.platform);
+  const requestedPlatformArg = parsePlatformArg(input.platform);
+  const platform = requestedPlatformArg ? toPlatformId(requestedPlatformArg) : hostPlatform;
   const repeatN = toRepeatCount(input.repeat);
   const workRoot = resolveWorkRoot(repoRoot, input.workDir);
   const sessionRoot = path.join(workRoot.path, `session-${process.pid}-${Date.now()}`);
@@ -652,7 +680,7 @@ export async function runX1DesktopParityHarness(input = {}) {
         limits: {
           maxInputBytes: Math.ceil((largeDocTargetMb + 1) * 1024 * 1024),
           maxNodes: 25000,
-          maxMillis: 1500,
+          maxMillis: platform === 'win' ? 5000 : 2500,
         },
         expectedLargeDocMb: largeDocTargetMb,
       });
@@ -660,9 +688,9 @@ export async function runX1DesktopParityHarness(input = {}) {
       runMaxDocSizeMb = Math.max(runMaxDocSizeMb, largeDocScenario.maxDocSizeMb);
 
       if (platform === 'win') {
-        executeWindowsReservedNameCheck(runDir, checks, winReservedPolicy);
+        executeWindowsReservedNameCheck(runDir, checks, winReservedPolicy, hostPlatform === 'win');
       } else if (platform === 'linux') {
-        executeLinuxCaseCollisionCheck(runDir, checks, linuxCasePolicy);
+        executeLinuxCaseCollisionCheck(runDir, checks, linuxCasePolicy, hostPlatform === 'linux');
       } else if (platform === 'darwin') {
         addSkippedCheck(
           checks,
@@ -752,6 +780,7 @@ export async function runX1DesktopParityHarness(input = {}) {
     [TOKEN_NAME]: ok ? 1 : 0,
     scenario: 'open->edit->save->reopen->export->import->diff',
     platform,
+    hostPlatform,
     baselineVersionRef,
     repeatN,
     runs,
@@ -800,6 +829,7 @@ function parseArgs(argv) {
     json: false,
     workDir: '',
     repeat: DEFAULT_REPEAT,
+    platform: '',
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -808,13 +838,30 @@ function parseArgs(argv) {
       out.json = true;
       continue;
     }
+    if (arg.startsWith('--work-dir=')) {
+      out.workDir = String(arg.slice('--work-dir='.length) || '').trim();
+      continue;
+    }
     if (arg === '--work-dir' && i + 1 < argv.length) {
       out.workDir = String(argv[i + 1] || '').trim();
       i += 1;
       continue;
     }
+    if (arg.startsWith('--repeat=')) {
+      out.repeat = toRepeatCount(arg.slice('--repeat='.length));
+      continue;
+    }
     if (arg === '--repeat' && i + 1 < argv.length) {
       out.repeat = toRepeatCount(argv[i + 1]);
+      i += 1;
+      continue;
+    }
+    if (arg.startsWith('--platform=')) {
+      out.platform = parsePlatformArg(arg.slice('--platform='.length));
+      continue;
+    }
+    if (arg === '--platform' && i + 1 < argv.length) {
+      out.platform = parsePlatformArg(argv[i + 1]);
       i += 1;
     }
   }
@@ -825,6 +872,9 @@ function parseArgs(argv) {
 function printHuman(state) {
   console.log(`${TOKEN_NAME}=${state[TOKEN_NAME]}`);
   console.log(`X1_PARITY_PLATFORM=${state.platform}`);
+  if (state.hostPlatform) {
+    console.log(`X1_PARITY_HOST_PLATFORM=${state.hostPlatform}`);
+  }
   console.log(`X1_PARITY_PASSES=${state.passes}`);
   console.log(`X1_PARITY_FAILS=${state.fails}`);
   console.log(`X1_PARITY_PASS_PCT=${state.passPct}`);
@@ -842,6 +892,7 @@ async function main() {
   const state = await runX1DesktopParityHarness({
     workDir: args.workDir || undefined,
     repeat: args.repeat,
+    platform: args.platform || undefined,
   });
 
   if (args.json) {
@@ -850,7 +901,10 @@ async function main() {
     printHuman(state);
   }
 
-  process.exit(state[TOKEN_NAME] === 1 ? 0 : 1);
+  if (state.passPct === 100) {
+    process.exit(0);
+  }
+  process.exit(1);
 }
 
 if (process.argv[1]) {

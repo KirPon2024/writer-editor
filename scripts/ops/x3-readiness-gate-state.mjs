@@ -7,7 +7,7 @@ import { evaluateX3RecoverySmokeProofhook } from './x3-recovery-smoke-proofhook.
 const TOKEN_NAME = 'X3_READINESS_GATE_OK';
 const RECOVERY_SMOKE_TOKEN = 'X3_RECOVERY_SMOKE_OK';
 const EXPECTED_SCHEMA_VERSION = 'v3.12';
-const REQUIRED_STAGE = 'X2';
+const ALLOWED_STAGES = new Set(['X2', 'X3']);
 const REQUIRED_METRIC = 'resumeRecoverySmokePass';
 const REQUIRED_PROOFHOOK = 'node scripts/ops/x3-recovery-smoke-proofhook.mjs --json';
 const RECOVERY_SMOKE_FAIL_SIGNAL = 'E_X3_RECOVERY_SMOKE_FAILED';
@@ -218,12 +218,12 @@ export function evaluateX3ReadinessGateState(input = {}) {
     pushError(errors, 'E_X3_ROLLOUT_UNREADABLE', 'rollout', 'Unable to read rollout plan.');
   } else {
     activeStageId = String(rolloutDoc.activeStageId || '').trim();
-    if (activeStageId !== REQUIRED_STAGE) {
+    if (!ALLOWED_STAGES.has(activeStageId)) {
       pushError(
         errors,
         'E_X3_ROLLOUT_STAGE_INVALID',
         'rollout.activeStageId',
-        `activeStageId must remain ${REQUIRED_STAGE}. observed=${activeStageId || 'empty'}.`,
+        `activeStageId must be X2 or X3. observed=${activeStageId || 'empty'}.`,
       );
     }
   }

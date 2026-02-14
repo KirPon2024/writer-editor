@@ -150,10 +150,10 @@
     },
     {
       "filePath": "scripts/ops/x3-readiness-gate-state.mjs",
-      "sha256": "673ba4a179573769d7c17b6201afe6ac7063631a1ed330d6ec358311accd5583",
-      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
-      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
-      "rationale": "Extend X3 readiness gate to execute recovery smoke proofhook and bind fail semantics."
+      "sha256": "934e05ec989ff7c3ab40475a93d57744e798cd4fe72fc83f890815f66815b9bf",
+      "approvedBy": "ticket:X3_READINESS_GATE_ALLOW_STAGE_ACTIVATION_v1.0",
+      "approvedAtUtc": "2026-02-14T12:36:34.000Z",
+      "rationale": "Allow X3 readiness gate to validate both X2 and X3 active stage states while preserving failure semantics for any other stage."
     },
     {
       "filePath": "scripts/ops/x3-recovery-smoke-proofhook.mjs",
@@ -227,10 +227,10 @@
     },
     {
       "filePath": "test/contracts/x3-readiness-gate.contract.test.js",
-      "sha256": "ce891a0e8ed49246a4e1783651a8c7e4f83ba66fb3aa8daa62db20b327b3f0e0",
-      "approvedBy": "ticket:X3_MIN_METRICS_AND_READINESS_GATE_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-14T00:00:00.000Z",
-      "rationale": "Approve positive and negative contract coverage for X3 readiness gate JSON shape and CLI exit semantics."
+      "sha256": "1894c1ef135aa4a72d4dd580f3b4f002d93340312f2a8e8e6428e6fbe6869913",
+      "approvedBy": "ticket:X3_READINESS_GATE_ALLOW_STAGE_ACTIVATION_v1.0",
+      "approvedAtUtc": "2026-02-14T12:36:34.000Z",
+      "rationale": "Expand X3 readiness gate contract coverage to assert PASS for X2 and X3 active stages and FAIL for invalid stage with non-zero CLI exit."
     },
     {
       "filePath": "test/contracts/x3-recovery-smoke.contract.test.js",

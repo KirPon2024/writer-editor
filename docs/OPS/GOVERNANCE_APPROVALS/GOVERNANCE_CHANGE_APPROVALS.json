@@ -101,10 +101,10 @@
     },
     {
       "filePath": "scripts/ops/x1-desktop-parity-harness.mjs",
-      "sha256": "0a7807745d8099a22de4d561443f1ae27c4a90f69a46efc82984e8d89f0b006c",
-      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
-      "approvedAtUtc": "2026-02-13T19:40:00Z",
-      "rationale": "Approve behavioral X1 runtime parity harness with tricky-pack and metrics output."
+      "sha256": "b71bb674d9de4a289c121ea58e14349dd22d1b9758107dd0a3f824de6539282a",
+      "approvedBy": "ticket:GOVERNANCE_REFRESH_AFTER_PR163_v1.0",
+      "approvedAtUtc": "2026-02-14T03:24:30Z",
+      "rationale": "Refresh governed approval hash for cross-platform X1 runtime parity harness updates merged via PR #163."
     },
     {
       "filePath": "scripts/ops/x1-desktop-parity-state.mjs",

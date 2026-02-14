@@ -192,10 +192,10 @@
     },
     {
       "filePath": "test/contracts/menu-config.contract.test.js",
-      "sha256": "af45b8ece7ad8667f14f3893849e273deeef42791e1d2ae7f9b269047b3b4731",
-      "approvedBy": "ticket:UI_MENU_RUNTIME_VALIDATION_AND_SAFE_FALLBACK_v1.0",
-      "approvedAtUtc": "2026-02-14T15:06:28.000Z",
-      "rationale": "Refresh menu config contract coverage to require runtime-safe fallback signaling when config is invalid or unreadable."
+      "sha256": "e07ce92016c3a9fe94e3ff3e6ed428f38ce8b1966ce241aeb4aaaf2003ddc460",
+      "approvedBy": "ticket:UI_MENU_V1_EXPAND_COMMANDS_AND_LABELS_v1.0",
+      "approvedAtUtc": "2026-02-14T15:35:23.000Z",
+      "rationale": "Refresh menu config contract for expanded data-driven menu labels/groups while preserving fallback machine-readable failure signaling."
     },
     {
       "filePath": "test/contracts/stage-activation.contract.test.js",

@@ -46,6 +46,26 @@ function parsePayload(run) {
   return JSON.parse(String(run.stdout || '{}'));
 }
 
+test('menu config contract: baseline config contains expanded data-driven groups and labels', () => {
+  const config = readBaselineConfig();
+  const menuById = new Map(config.menus.map((item) => [item.id, item]));
+
+  assert.deepEqual(config.menus.map((item) => item.id), ['file', 'edit', 'view', 'quick']);
+  assert.equal(menuById.get('file').label, 'Документ');
+  assert.ok(menuById.get('file').items.some((item) => item.id === 'file-open-alt'));
+  assert.ok(menuById.get('file').items.some((item) => item.id === 'file-session'));
+
+  assert.equal(menuById.get('edit').label, 'Редактирование');
+  assert.ok(menuById.get('edit').items.some((item) => item.id === 'edit-history'));
+  assert.ok(menuById.get('edit').items.some((item) => item.id === 'edit-clipboard'));
+
+  assert.equal(menuById.get('view').label, 'Оформление');
+  assert.ok(menuById.get('view').items.some((item) => item.id === 'view-theme'));
+
+  assert.equal(menuById.get('quick').label, 'Быстрые действия');
+  assert.ok(menuById.get('quick').items.some((item) => item.id === 'quick-save'));
+});
+
 test('menu config contract: valid baseline config passes with zero exit', () => {
   const run = runMenuConfigState();
   assert.equal(run.status, 0, `expected exit=0\nstdout:\n${run.stdout}\nstderr:\n${run.stderr}`);

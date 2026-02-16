@@ -24,6 +24,17 @@
       "namespace": "CAPABILITY"
     },
     {
+      "tokenId": "COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/command-surface-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_COMMAND_SURFACE_NEGATIVE_MISSING",
+      "namespace": "COMMAND_SURFACE"
+    },
+    {
       "tokenId": "COMMAND_SURFACE_ENFORCED_OK",
       "promotionState": "existing",
       "gateTier": "release",
@@ -32,6 +43,17 @@
       "proofHookClosureSha256": null,
       "sourceBinding": "doctor",
       "failSignalCode": "E_COMMAND_SURFACE_NOT_ENFORCED",
+      "namespace": "COMMAND_SURFACE"
+    },
+    {
+      "tokenId": "COMMAND_SURFACE_SINGLE_ENTRY_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/command-surface-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_COMMAND_SURFACE_BYPASS",
       "namespace": "COMMAND_SURFACE"
     },
     {
@@ -76,6 +98,16 @@
       "sourceBinding": "ops_script",
       "failSignalCode": "E_CRITICAL_CLAIM_MATRIX_INVALID",
       "namespace": "CRITICAL_CLAIM_MATRIX"
+    },
+    {
+      "tokenId": "DEPENDENCY_REMEDIATION_POLICY_OK",
+      "promotionState": "existing",
+      "gateTier": "conditional",
+      "requiredWhen": "GATE_TIER=promotion",
+      "proofHook": "node scripts/ops/dependency-remediation-policy-state.mjs --json",
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_DEP_REMEDIATION_POLICY_INVALID",
+      "namespace": "DEPENDENCY_REMEDIATION"
     },
     {
       "tokenId": "E2E_CRITICAL_USER_PATH_OK",
@@ -130,6 +162,17 @@
       "sourceBinding": "ops_script",
       "failSignalCode": "E_LOSSLESS_MAP_DRIFT",
       "namespace": "LOSSLESS"
+    },
+    {
+      "tokenId": "PATH_BOUNDARY_GUARD_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/path-boundary-guard-state.mjs --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_PATH_BOUNDARY_VIOLATION",
+      "namespace": "PATH_BOUNDARY"
     },
     {
       "tokenId": "PERF_BASELINE_OK",
@@ -240,3 +283,4 @@
     }
   ]
 }
+

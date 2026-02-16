@@ -58,6 +58,38 @@
       "sourceBinding": "doctor"
     },
     {
+      "claimId": "COMMAND_SURFACE_SINGLE_ENTRY",
+      "requiredToken": "COMMAND_SURFACE_SINGLE_ENTRY_OK",
+      "proofHook": "node scripts/ops/command-surface-state.mjs --json",
+      "failSignal": "E_COMMAND_SURFACE_BYPASS",
+      "blocking": true,
+      "sourceBinding": "ops_script+contract_test"
+    },
+    {
+      "claimId": "COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS",
+      "requiredToken": "COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK",
+      "proofHook": "node scripts/ops/command-surface-state.mjs --json",
+      "failSignal": "E_COMMAND_SURFACE_NEGATIVE_MISSING",
+      "blocking": true,
+      "sourceBinding": "ops_script+contract_test"
+    },
+    {
+      "claimId": "PATH_BOUNDARY_GUARD",
+      "requiredToken": "PATH_BOUNDARY_GUARD_OK",
+      "proofHook": "node scripts/ops/path-boundary-guard-state.mjs --json",
+      "failSignal": "E_PATH_BOUNDARY_VIOLATION",
+      "blocking": true,
+      "sourceBinding": "ops_script+contract_test"
+    },
+    {
+      "claimId": "DEPENDENCY_REMEDIATION_POLICY",
+      "requiredToken": "DEPENDENCY_REMEDIATION_POLICY_OK",
+      "proofHook": "node scripts/ops/dependency-remediation-policy-state.mjs --json",
+      "failSignal": "E_DEP_REMEDIATION_POLICY_INVALID",
+      "blocking": false,
+      "sourceBinding": "ops_script+contract_test"
+    },
+    {
       "claimId": "CAPABILITY_ENFORCEMENT",
       "requiredToken": "CAPABILITY_ENFORCED_OK",
       "proofHook": "DOCTOR_MODE=delivery node scripts/doctor.mjs",

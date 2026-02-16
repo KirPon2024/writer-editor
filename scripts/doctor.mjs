@@ -6022,6 +6022,10 @@ function evaluateFreezeRollupTokens() {
     'CORE_SOT_HASH_DETERMINISTIC_OK',
     'CORE_SOT_EXECUTABLE_OK',
     'COMMAND_SURFACE_ENFORCED_OK',
+    'COMMAND_SURFACE_SINGLE_ENTRY_OK',
+    'COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK',
+    'PATH_BOUNDARY_GUARD_OK',
+    'DEPENDENCY_REMEDIATION_POLICY_OK',
     'CAPABILITY_MATRIX_NON_EMPTY_OK',
     'CAPABILITY_BASELINE_MIN_OK',
     'CAPABILITY_COMMAND_BINDING_OK',
@@ -6085,13 +6089,19 @@ function evaluateFreezeRollupTokens() {
     console.log(`HEAD_STRICT_FAIL_REASON=${state.HEAD_STRICT_FAIL_REASON}`);
   }
 
+  const dependencyTierPromotion = String(process.env.GATE_TIER || '').trim().toLowerCase() === 'promotion';
+  const dependencyPolicyGateOk = dependencyTierPromotion ? state.DEPENDENCY_REMEDIATION_POLICY_OK === 1 : true;
   const level = state.HEAD_STRICT_OK === 1
     && state.CRITICAL_CLAIM_MATRIX_OK === 1
     && state.TOKEN_DECLARATION_VALID_OK === 1
     && state.DEBT_TTL_VALID_OK === 1
+    && state.COMMAND_SURFACE_SINGLE_ENTRY_OK === 1
+    && state.COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK === 1
+    && state.PATH_BOUNDARY_GUARD_OK === 1
     && state.WAVE_INPUT_HASH_PRESENT === 1
     && state.STAGE_ACTIVATION_OK === 1
     && state.WAVE_FRESHNESS_OK === 1
+    && dependencyPolicyGateOk
     && freezeModeState.FREEZE_MODE_STRICT_OK === 1
     ? 'ok'
     : 'fail';

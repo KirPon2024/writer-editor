@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "v3.12",
+  "policyId": "DEPENDENCY_REMEDIATION_POLICY_v3_12",
+  "severityClasses": [
+    "critical",
+    "high",
+    "moderate",
+    "low"
+  ],
+  "reachabilityClasses": [
+    "reachable",
+    "nonReachable",
+    "unknown"
+  ],
+  "environmentClasses": [
+    "prod",
+    "dev"
+  ],
+  "actionRules": [
+    {
+      "id": "reachable-critical-high-prod",
+      "when": {
+        "reachability": "reachable",
+        "severityIn": [
+          "critical",
+          "high"
+        ],
+        "environment": "prod"
+      },
+      "action": {
+        "promotion": "block",
+        "release": "advisory",
+        "prCore": "advisory"
+      }
+    },
+    {
+      "id": "non-reachable-exception",
+      "when": {
+        "reachability": "nonReachable"
+      },
+      "action": {
+        "exceptionAllowed": true,
+        "exceptionTtlRequired": true
+      }
+    }
+  ],
+  "exceptionRequiredFields": [
+    "owner",
+    "expiryUtc",
+    "mitigationPlan"
+  ],
+  "auditLinkage": {
+    "artifactsGlob": "docs/AUDIT/*",
+    "required": true
+  },
+  "modeMatrix": {
+    "prCore": "advisory",
+    "release": "advisory",
+    "promotion": "blocking"
+  }
+}
+

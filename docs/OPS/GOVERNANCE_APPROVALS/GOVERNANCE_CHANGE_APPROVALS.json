@@ -3,31 +3,38 @@
   "approvals": [
     {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
-      "sha256": "56837e096c0188f5c81992a553bd9919140d9b43c386dcf1b2ea3782031ad5d1",
-      "approvedBy": "ticket:X3_RECOVERY_STRICT_LOCKS_BASELINE_REMEDIATION_v1.1",
-      "approvedAtUtc": "2026-02-14T11:55:58.000Z",
+      "sha256": "3a7f9093fc247f37fbeee90bce017935f8b24599c90e8b0f37bf139e8ee72820",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
       "rationale": "Refresh OPS governance baseline after canonical baseline rewrite to bind current governed file hashes."
     },
     {
-      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
-      "sha256": "be51ccd0dbd0db77ea93c4368147a3d4b0073f55097c5ee40d6b90d01c63a99a",
-      "approvedBy": "ticket:X3_RECOVERY_STRICT_LOCKS_BASELINE_REMEDIATION_v1.1",
-      "approvedAtUtc": "2026-02-14T11:53:31.000Z",
-      "rationale": "Refresh token catalog lock after canonical write-lock update for strict immutability checks."
-    },
-    {
       "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
-      "sha256": "664f7454d4f7fc6a4b89d5bda4c1f6d2eb1a76fb19d7833ec780ae15e621c582",
-      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
-      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "sha256": "9fc4ecb94627724f2c115bdd20324b76c4e31e5f77e2b318be0cb84a27fd558f",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
       "rationale": "Add machine-bound X3 recovery smoke claim with proofHook, failSignal, and source binding metadata."
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "7397b2b2e2e6de414fef9c463a7061828de190a9cdf6f1629e13a48d595504a1",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "sha256": "c0ad335b406b715f0b0b56efd426fa2bd69a8cd095a6769337948d51aaf25f42",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
       "rationale": "Register wave/stage enforcement failSignals for stale wave reuse and invalid stage activation paths."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/DEPENDENCY_REMEDIATION_POLICY_v3_12.json",
+      "sha256": "30f27f2be832b67ed7c848e45c7f2084749b84674cc15995db6ce52dc2337f9a",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/NODE_SPEC_v3.json",
+      "sha256": "2cc1a05022086c3deeb38c0fd054e2e95fe6a6c961c234bec2aac72a9ea4e6ef",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Approve NODE_SPEC_v3 canonical status artifact introduced with v3.12 canon path migration package."
     },
     {
       "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
@@ -51,6 +58,13 @@
       "rationale": "Freeze X3 stability snapshot in append-only promotion record with rollout/readiness/recovery references and baseline binding."
     },
     {
+      "filePath": "docs/OPS/STATUS/WAVE_FRESHNESS_POLICY_v3_12.json",
+      "sha256": "c744a2f9eb2d4bd521b62223e7aac5f7c4f1cba50ecc32fd856480933a078bd1",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve canonical TTL/reuse policy for WAVE_INPUT_HASH-bound cache freshness checks."
+    },
+    {
       "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",
       "sha256": "362d317c4e7435da59798e00144b6c61c492e827edb16d8e37a91dcf369f9865",
       "approvedBy": "ticket:X1_RUNTIME_PARITY_EVIDENCE_FREEZE_AND_X2_READINESS_GATE_v1.0",
@@ -72,11 +86,88 @@
       "rationale": "Bind X3 stage evidence to deterministic recovery-smoke proofhook, fail signal, and contract references while keeping X2 active."
     },
     {
+      "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v1.0.md",
+      "sha256": "8338a4285fb0d8dca992aa412abc2b16d061ebbac78ba3038fe4bed29ae51f2b",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Approve compatibility redirect stub that preserves path presence while declaring v3.12 as the active canon."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",
+      "sha256": "80aa451090aeefbf9c19f13a3ae9c33e0f131170a62fc6736bb21105a7f05926",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Approve canonical v3.12 LAW payload at dedicated SSOT path to remove split-brain versioning."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
+      "sha256": "15b51e4031fc2941228fd1f329ef896de6f586181806b889299bb5c4e8e563ff",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Refresh token catalog lock after canonical write-lock update for strict immutability checks."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
+      "sha256": "1c7e6ac2aa9bd5a3ddd7164a2b31d596705310ca7c31ed8fd681df6fc439c7fa",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
       "filePath": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
-      "sha256": "ff774b571eaa8d125920177c87a2efa56a5189b14f9f6330954c0892b5bee55b",
-      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
-      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
+      "sha256": "3241b93b7cd7a69d0bd09090f5bdb9d9b0c5f1c737fce91b02d0d0c12f4014b4",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
       "rationale": "Register X3 recovery smoke target tokens for promotion-ready stage-gated binding."
+    },
+    {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "42447108a12320e80bd6c2ce87ded2d7262e5a5199ba16f07c0ee6820e32ee8f",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve strict doctor token wiring for stage-activation and wave-freshness enforcement outputs."
+    },
+    {
+      "filePath": "scripts/ops/command-surface-state.mjs",
+      "sha256": "c2afa229543fea798ca1c147e6dc563adf5e64ebc0a6d1fa3f393a162cb5ea57",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "scripts/ops/compute-wave-input-hash.mjs",
+      "sha256": "71b7fddc05b593e834beeeccc07cd8e16c8001694c522a006df29882e725ac53",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve deterministic WAVE_INPUT_HASH computation over profile, SSOT scope, scripts, and lock fingerprints."
+    },
+    {
+      "filePath": "scripts/ops/critical-claim-matrix-state.mjs",
+      "sha256": "272a39e44c405c4381c162f219ff47586758cf7e5f7baa32658bba6caee45b7f",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "scripts/ops/dependency-remediation-policy-state.mjs",
+      "sha256": "fb271cabdf0f849dbcf0cf13050e04c3821adaecdcb475fed07d36e0504b6e50",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "scripts/ops/emit-ops-summary.mjs",
+      "sha256": "a3ab47a86a2fc0ea43aedde234194364d5bb24197d4db331652b7a438a44f289",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve ops summary emission of wave freshness and stage activation machine tokens."
+    },
+    {
+      "filePath": "scripts/ops/extract-truth-table.mjs",
+      "sha256": "3d77758629a8a63ac362d4e21c956029074cdc215b0349d3df687212ca741a2d",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve truth-table exposure for stage and wave freshness gating tokens."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
@@ -84,6 +175,13 @@
       "approvedBy": "ticket:GOVERNANCE_APPROVAL_REFRESH_FOR_FAILSIGNAL_REGISTRY_SYNC_v1.0",
       "approvedAtUtc": "2026-02-13T16:15:04.000Z",
       "rationale": "Refresh governed failSignal validator hash for stricter negative ref and precedence checks."
+    },
+    {
+      "filePath": "scripts/ops/freeze-rollups-state.mjs",
+      "sha256": "55beef5ab52ad306ff60043c92cde17e21b50f4e598b194f18cb8fc496b17d9b",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve freeze-rollups enforcement wiring for stage activation resolver and wave cache freshness guard."
     },
     {
       "filePath": "scripts/ops/governance-approval-state.mjs",
@@ -100,6 +198,20 @@
       "rationale": "Enable artifact-based approval lookup while keeping env override fallback."
     },
     {
+      "filePath": "scripts/ops/path-boundary-guard-state.mjs",
+      "sha256": "bfcb6c3f6964bce98e5123a2d3dc12481dde9d891a44b388d25d759e6836e477",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "scripts/ops/resolve-active-stage.mjs",
+      "sha256": "917cd56b09753688f8a39b9715c732e5f9d4c7e0b2ae8bfe7caf86d1c0f7d354",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve machine stage-activation resolver including promotion record validation and scopeflag checks."
+    },
+    {
       "filePath": "scripts/ops/stage-activation-state.mjs",
       "sha256": "d2e0cd3a39122b90fbeaae07f4ddb2b05077c32addda9cd8b44d98ecb30fb9de",
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
@@ -112,6 +224,20 @@
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
       "approvedAtUtc": "2026-02-13T17:34:58.529Z",
       "rationale": "Approve promotion record state validator with required metrics constraints."
+    },
+    {
+      "filePath": "scripts/ops/theme-config-state.mjs",
+      "sha256": "e9890756bd4811dfdffbcc9d574b2af68056ee435df7aa0659ac8396ef124be3",
+      "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
+      "approvedAtUtc": "2026-02-14T15:56:24.000Z",
+      "rationale": "Add deterministic theme-config state gate with machine-readable JSON output and strict exit-code contract."
+    },
+    {
+      "filePath": "scripts/ops/wave-cache.mjs",
+      "sha256": "da1f42162a530518a3cb4b4d8eaa4a8924eae0ab7a98d249cdb9f951ed9061bb",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve wave cache TTL/hash enforcement to block stale-green result reuse."
     },
     {
       "filePath": "scripts/ops/x1-desktop-parity-harness.mjs",
@@ -163,6 +289,13 @@
       "rationale": "Add deterministic, platform-neutral X3 recovery smoke proofhook with strict CLI exit semantics."
     },
     {
+      "filePath": "scripts/ops/xplat-contract-state.mjs",
+      "sha256": "7096b4eb85cb500e0c8a1b5ec5eb6fbf219cc708defa41f8131df4f0103525fb",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Remap default machine-binding contract path from v1.0 to canonical v3.12 SSOT."
+    },
+    {
       "filePath": "scripts/ops/xplat-parity-baseline-state.mjs",
       "sha256": "b810a06f1edfc7d5903000674c5b8183c5ab36d83738cd17e6df4bd1f7e948cb",
       "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
@@ -175,6 +308,20 @@
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
       "approvedAtUtc": "2026-02-13T17:34:58.529Z",
       "rationale": "Approve rollout plan state validator for stage and scope flag integrity."
+    },
+    {
+      "filePath": "test/contracts/command-surface-single-entry.contract.test.js",
+      "sha256": "ae1e096dd96f2e0b40b06d257fe19b4ffb168b84ed5c102123950c4254e7591c",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "test/contracts/dependency-remediation-policy.contract.test.js",
+      "sha256": "f1c1f0ea3e0e3d4a3e5cd98f7df5361c8f91c13d97b99b2ec3433eb4dbbf49c7",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
     },
     {
       "filePath": "test/contracts/governance-approval-state.contract.test.js",
@@ -198,6 +345,13 @@
       "rationale": "Refresh menu config contract for expanded data-driven menu labels/groups while preserving fallback machine-readable failure signaling."
     },
     {
+      "filePath": "test/contracts/path-boundary-guard.contract.test.js",
+      "sha256": "e3510fa6ae88e0dc561603fca069d00f95cbf47a8f30edbf9082e993ffb377f4",
+      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
+      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
+      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
       "filePath": "test/contracts/stage-activation.contract.test.js",
       "sha256": "7a73b2fd9a402af86bd2dd9e3a6f4c3051d05b7134b57a3fd04545718eb5f298",
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
@@ -210,6 +364,20 @@
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
       "approvedAtUtc": "2026-02-13T17:34:58.529Z",
       "rationale": "Approve promotion record contract coverage for template and evidence failures."
+    },
+    {
+      "filePath": "test/contracts/theme-config.contract.test.js",
+      "sha256": "2c61274be1848614e20737f2924578ffed2a3684a636b743fb2627a9e65684d5",
+      "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
+      "approvedAtUtc": "2026-02-14T15:56:24.000Z",
+      "rationale": "Add positive/negative contract coverage for theme tokens config schema validation, required fields, and numeric ranges."
+    },
+    {
+      "filePath": "test/contracts/wave-freshness-and-stage-activation.contract.test.js",
+      "sha256": "6767bab25c6b61f3878785bc5c41ba8c922b0eb38ccdb6adc6a5e197a32d1db5",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve positive/negative contract coverage for deterministic hash, TTL stale block, and stage promotion invalid paths."
     },
     {
       "filePath": "test/contracts/x1-desktop-parity.contract.test.js",
@@ -261,116 +429,11 @@
       "rationale": "Approve rollout plan contract coverage for stage and scope flag validation."
     },
     {
-      "filePath": "scripts/ops/theme-config-state.mjs",
-      "sha256": "e9890756bd4811dfdffbcc9d574b2af68056ee435df7aa0659ac8396ef124be3",
-      "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
-      "approvedAtUtc": "2026-02-14T15:56:24.000Z",
-      "rationale": "Add deterministic theme-config state gate with machine-readable JSON output and strict exit-code contract."
-    },
-    {
-      "filePath": "test/contracts/theme-config.contract.test.js",
-      "sha256": "2c61274be1848614e20737f2924578ffed2a3684a636b743fb2627a9e65684d5",
-      "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
-      "approvedAtUtc": "2026-02-14T15:56:24.000Z",
-      "rationale": "Add positive/negative contract coverage for theme tokens config schema validation, required fields, and numeric ranges."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/NODE_SPEC_v3.json",
-      "sha256": "2cc1a05022086c3deeb38c0fd054e2e95fe6a6c961c234bec2aac72a9ea4e6ef",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Approve NODE_SPEC_v3 canonical status artifact introduced with v3.12 canon path migration package."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v1.0.md",
-      "sha256": "8338a4285fb0d8dca992aa412abc2b16d061ebbac78ba3038fe4bed29ae51f2b",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Approve compatibility redirect stub that preserves path presence while declaring v3.12 as the active canon."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",
-      "sha256": "80aa451090aeefbf9c19f13a3ae9c33e0f131170a62fc6736bb21105a7f05926",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Approve canonical v3.12 LAW payload at dedicated SSOT path to remove split-brain versioning."
-    },
-    {
-      "filePath": "scripts/ops/xplat-contract-state.mjs",
-      "sha256": "7096b4eb85cb500e0c8a1b5ec5eb6fbf219cc708defa41f8131df4f0103525fb",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Remap default machine-binding contract path from v1.0 to canonical v3.12 SSOT."
-    },
-    {
       "filePath": "test/contracts/xplat-unified-master-execution.contract.test.js",
       "sha256": "85bbb01e8be18a7b0f682031793ac8e19198d39e0c6cd78fa5c0cf4de294f620",
       "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
       "approvedAtUtc": "2026-02-16T17:40:41Z",
       "rationale": "Remap contract-test binding path and runtime-derived hash checks to canonical v3.12 contract path."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/WAVE_FRESHNESS_POLICY_v3_12.json",
-      "sha256": "c744a2f9eb2d4bd521b62223e7aac5f7c4f1cba50ecc32fd856480933a078bd1",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve canonical TTL/reuse policy for WAVE_INPUT_HASH-bound cache freshness checks."
-    },
-    {
-      "filePath": "scripts/doctor.mjs",
-      "sha256": "34f8107a63ef5c9282e1108033af86772bbd463c14880da58fd5fa1633301b89",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve strict doctor token wiring for stage-activation and wave-freshness enforcement outputs."
-    },
-    {
-      "filePath": "scripts/ops/compute-wave-input-hash.mjs",
-      "sha256": "71b7fddc05b593e834beeeccc07cd8e16c8001694c522a006df29882e725ac53",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve deterministic WAVE_INPUT_HASH computation over profile, SSOT scope, scripts, and lock fingerprints."
-    },
-    {
-      "filePath": "scripts/ops/emit-ops-summary.mjs",
-      "sha256": "a206772d8fbfa5f51ae191a7a773e299b01f6b0427a523d2d5fa60de970e8216",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve ops summary emission of wave freshness and stage activation machine tokens."
-    },
-    {
-      "filePath": "scripts/ops/extract-truth-table.mjs",
-      "sha256": "5053bc6f39012e3b9048dad730f1ffce6b865d8cbd02054e1f75eb86def92392",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve truth-table exposure for stage and wave freshness gating tokens."
-    },
-    {
-      "filePath": "scripts/ops/freeze-rollups-state.mjs",
-      "sha256": "074355a17dc420996a217082c82b1b6fa91b5756d739caa5223c87d1ee6f1c21",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve freeze-rollups enforcement wiring for stage activation resolver and wave cache freshness guard."
-    },
-    {
-      "filePath": "scripts/ops/resolve-active-stage.mjs",
-      "sha256": "917cd56b09753688f8a39b9715c732e5f9d4c7e0b2ae8bfe7caf86d1c0f7d354",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve machine stage-activation resolver including promotion record validation and scopeflag checks."
-    },
-    {
-      "filePath": "scripts/ops/wave-cache.mjs",
-      "sha256": "da1f42162a530518a3cb4b4d8eaa4a8924eae0ab7a98d249cdb9f951ed9061bb",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve wave cache TTL/hash enforcement to block stale-green result reuse."
-    },
-    {
-      "filePath": "test/contracts/wave-freshness-and-stage-activation.contract.test.js",
-      "sha256": "6767bab25c6b61f3878785bc5c41ba8c922b0eb38ccdb6adc6a5e197a32d1db5",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve positive/negative contract coverage for deterministic hash, TTL stale block, and stage promotion invalid paths."
     }
   ]
 }

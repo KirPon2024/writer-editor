@@ -2,6 +2,7 @@ import { initTiptap } from './tiptap/index.js';
 import { createCommandRegistry } from './commands/registry.mjs';
 import { createCommandRunner } from './commands/runCommand.mjs';
 import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands.mjs';
+import { COMMAND_BUS_ROUTE, runCommandThroughBus } from './commands/commandBusGuard.mjs';
 import {
   buildFlowModeKickoffStatus,
   buildFlowModeCoreStatus,
@@ -228,7 +229,9 @@ function mapCommandErrorToUi(error) {
 }
 
 async function dispatchUiCommand(commandId, payload = {}) {
-  const result = await runCommand(commandId, payload);
+  const result = await runCommandThroughBus(runCommand, commandId, payload, {
+    route: COMMAND_BUS_ROUTE,
+  });
   if (!result.ok) {
     const mapped = mapCommandErrorToUi(result.error);
     updateStatusText(mapped.userMessage);

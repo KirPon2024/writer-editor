@@ -9,6 +9,7 @@ const { pathToFileURL } = require('url');
 const fileManager = require('./utils/fileManager');
 const backupManager = require('./utils/backupManager');
 const { hasDirectoryContent, copyDirectoryContents } = require('./utils/fsHelpers');
+const { sanitizePathFields } = require('./core/io/path-boundary');
 
 const launchT0 = performance.now();
 let mainWindow;
@@ -339,6 +340,16 @@ function makeTypedExportError(code, reason, details) {
   return { ok: 0, error };
 }
 
+function buildPathBoundaryDetails(pathBoundaryError) {
+  const source = pathBoundaryError && typeof pathBoundaryError === 'object' ? pathBoundaryError : {};
+  return {
+    failSignal: 'E_PATH_BOUNDARY_VIOLATION',
+    failReason: typeof source.failReason === 'string' ? source.failReason : 'PATH_BOUNDARY_VIOLATION',
+    field: typeof source.field === 'string' ? source.field : '',
+    normalizedPath: typeof source.normalizedPath === 'string' ? source.normalizedPath : '',
+  };
+}
+
 let markdownTransformModulePromise = null;
 function loadMarkdownTransformModule() {
   if (!markdownTransformModulePromise) {
@@ -497,7 +508,7 @@ async function appendMarkdownReliabilityLog(markdownIo, input = {}) {
 
 function normalizeMarkdownImportPayload(payload) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
-  return {
+  const normalized = {
     text: typeof payload.text === 'string'
       ? payload.text
       : (typeof payload.markdown === 'string' ? payload.markdown : ''),
@@ -507,12 +518,20 @@ function normalizeMarkdownImportPayload(payload) {
       ? payload.limits
       : {},
   };
+  const pathGuard = sanitizePathFields(normalized, ['sourcePath'], { mode: 'any' });
+  if (!pathGuard.ok) {
+    return {
+      ...normalized,
+      pathBoundaryError: pathGuard,
+    };
+  }
+  return pathGuard.payload;
 }
 
 function normalizeMarkdownExportPayload(payload) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
   if (!payload.scene || typeof payload.scene !== 'object' || Array.isArray(payload.scene)) return null;
-  return {
+  const normalized = {
     scene: payload.scene,
     outPath: typeof payload.outPath === 'string' ? payload.outPath.trim() : '',
     snapshotLimit: Number.isInteger(payload.snapshotLimit) && payload.snapshotLimit >= 1
@@ -523,6 +542,14 @@ function normalizeMarkdownExportPayload(payload) {
       ? payload.limits
       : {},
   };
+  const pathGuard = sanitizePathFields(normalized, ['outPath'], { mode: 'any' });
+  if (!pathGuard.ok) {
+    return {
+      ...normalized,
+      pathBoundaryError: pathGuard,
+    };
+  }
+  return pathGuard.payload;
 }
 
 function normalizeExportPayload(payload) {
@@ -549,13 +576,21 @@ function normalizeExportPayload(payload) {
     ? payload.options
     : {};
 
-  return {
+  const normalized = {
     requestId,
     outPath,
     outDir,
     bufferSource,
     options,
   };
+  const pathGuard = sanitizePathFields(normalized, ['outPath', 'outDir'], { mode: 'any' });
+  if (!pathGuard.ok) {
+    return {
+      ...normalized,
+      pathBoundaryError: pathGuard,
+    };
+  }
+  return pathGuard.payload;
 }
 
 function normalizeDocxExportPath(filePath) {
@@ -711,6 +746,9 @@ async function handleExportDocxMin(payloadRaw) {
   if (!payload) {
     return makeTypedExportError('E_EXPORT_PAYLOAD_INVALID', 'PAYLOAD_INVALID');
   }
+  if (payload.pathBoundaryError) {
+    return makeTypedExportError('E_PATH_BOUNDARY_VIOLATION', 'PATH_BOUNDARY_VIOLATION', buildPathBoundaryDetails(payload.pathBoundaryError));
+  }
 
   let outPath = '';
   try {
@@ -766,6 +804,14 @@ async function handleImportMarkdownV1(payloadRaw) {
   const payload = normalizeMarkdownImportPayload(payloadRaw);
   if (!payload) {
     return makeTypedMarkdownError(IMPORT_MARKDOWN_V1_CHANNEL, 'E_MD_PAYLOAD_INVALID', 'import_payload_invalid');
+  }
+  if (payload.pathBoundaryError) {
+    return makeTypedMarkdownError(
+      IMPORT_MARKDOWN_V1_CHANNEL,
+      'E_PATH_BOUNDARY_VIOLATION',
+      'path_boundary_violation',
+      buildPathBoundaryDetails(payload.pathBoundaryError),
+    );
   }
 
   let transform;
@@ -851,6 +897,14 @@ async function handleExportMarkdownV1(payloadRaw) {
   const payload = normalizeMarkdownExportPayload(payloadRaw);
   if (!payload) {
     return makeTypedMarkdownError(EXPORT_MARKDOWN_V1_CHANNEL, 'E_MD_PAYLOAD_INVALID', 'export_payload_invalid');
+  }
+  if (payload.pathBoundaryError) {
+    return makeTypedMarkdownError(
+      EXPORT_MARKDOWN_V1_CHANNEL,
+      'E_PATH_BOUNDARY_VIOLATION',
+      'path_boundary_violation',
+      buildPathBoundaryDetails(payload.pathBoundaryError),
+    );
   }
 
   let transform;
@@ -1758,7 +1812,19 @@ ipcMain.handle('ui:open-document', async (_, payload) => {
     return { ok: false, error: 'No active window' };
   }
 
-  const filePath = payload && payload.path;
+  const pathGuard = sanitizePathFields(payload, ['path'], { mode: 'any' });
+  if (!pathGuard.ok || !pathGuard.payload) {
+    return {
+      ok: false,
+      error: 'Path boundary violation',
+      code: 'E_PATH_BOUNDARY_VIOLATION',
+      failSignal: 'E_PATH_BOUNDARY_VIOLATION',
+      failReason: pathGuard.failReason || 'PATH_BOUNDARY_VIOLATION',
+    };
+  }
+
+  const safePayload = pathGuard.payload;
+  const filePath = safePayload.path;
   if (typeof filePath !== 'string' || !filePath.trim()) {
     return { ok: false, error: 'Invalid file path' };
   }
@@ -1798,10 +1864,10 @@ ipcMain.handle('ui:open-document', async (_, payload) => {
     }
   }
 
-  const context = payload && payload.kind ? {
-    title: typeof payload.title === 'string' ? payload.title : getDisplayNameForEntry(path.basename(filePath)),
-    kind: payload.kind,
-    metaEnabled: ROMAN_META_KINDS.has(payload.kind)
+  const context = safePayload && safePayload.kind ? {
+    title: typeof safePayload.title === 'string' ? safePayload.title : getDisplayNameForEntry(path.basename(filePath)),
+    kind: safePayload.kind,
+    metaEnabled: ROMAN_META_KINDS.has(safePayload.kind)
   } : getDocumentContextFromPath(filePath);
 
   currentFilePath = filePath;
@@ -1822,13 +1888,24 @@ ipcMain.handle('ui:open-document', async (_, payload) => {
 });
 
 ipcMain.handle('ui:create-node', async (_, payload) => {
-  if (!payload || typeof payload.parentPath !== 'string' || typeof payload.kind !== 'string') {
+  const pathGuard = sanitizePathFields(payload, ['parentPath'], { mode: 'any' });
+  if (!pathGuard.ok || !pathGuard.payload) {
+    return {
+      ok: false,
+      error: 'Path boundary violation',
+      code: 'E_PATH_BOUNDARY_VIOLATION',
+      failSignal: 'E_PATH_BOUNDARY_VIOLATION',
+      failReason: pathGuard.failReason || 'PATH_BOUNDARY_VIOLATION',
+    };
+  }
+  const safePayload = pathGuard.payload;
+  if (typeof safePayload.parentPath !== 'string' || typeof safePayload.kind !== 'string') {
     return { ok: false, error: 'Invalid payload' };
   }
 
-  const parentPath = payload.parentPath;
-  const kind = payload.kind;
-  const name = typeof payload.name === 'string' ? payload.name : '';
+  const parentPath = safePayload.parentPath;
+  const kind = safePayload.kind;
+  const name = typeof safePayload.name === 'string' ? safePayload.name : '';
   const safeName = sanitizeFilename(name);
   const projectRoot = getProjectRootPath();
 
@@ -1896,12 +1973,23 @@ ipcMain.handle('ui:create-node', async (_, payload) => {
 });
 
 ipcMain.handle('ui:rename-node', async (_, payload) => {
-  if (!payload || typeof payload.path !== 'string' || typeof payload.name !== 'string') {
+  const pathGuard = sanitizePathFields(payload, ['path'], { mode: 'any' });
+  if (!pathGuard.ok || !pathGuard.payload) {
+    return {
+      ok: false,
+      error: 'Path boundary violation',
+      code: 'E_PATH_BOUNDARY_VIOLATION',
+      failSignal: 'E_PATH_BOUNDARY_VIOLATION',
+      failReason: pathGuard.failReason || 'PATH_BOUNDARY_VIOLATION',
+    };
+  }
+  const safePayload = pathGuard.payload;
+  if (typeof safePayload.path !== 'string' || typeof safePayload.name !== 'string') {
     return { ok: false, error: 'Invalid payload' };
   }
 
-  const nodePath = payload.path;
-  const newName = sanitizeFilename(payload.name);
+  const nodePath = safePayload.path;
+  const newName = sanitizeFilename(safePayload.name);
   if (!newName) {
     return { ok: false, error: 'Empty name' };
   }
@@ -1939,11 +2027,22 @@ ipcMain.handle('ui:rename-node', async (_, payload) => {
 });
 
 ipcMain.handle('ui:delete-node', async (_, payload) => {
-  if (!payload || typeof payload.path !== 'string') {
+  const pathGuard = sanitizePathFields(payload, ['path'], { mode: 'any' });
+  if (!pathGuard.ok || !pathGuard.payload) {
+    return {
+      ok: false,
+      error: 'Path boundary violation',
+      code: 'E_PATH_BOUNDARY_VIOLATION',
+      failSignal: 'E_PATH_BOUNDARY_VIOLATION',
+      failReason: pathGuard.failReason || 'PATH_BOUNDARY_VIOLATION',
+    };
+  }
+  const safePayload = pathGuard.payload;
+  if (typeof safePayload.path !== 'string') {
     return { ok: false, error: 'Invalid payload' };
   }
 
-  const nodePath = payload.path;
+  const nodePath = safePayload.path;
   const projectRoot = getProjectRootPath();
   if (!isPathInside(projectRoot, nodePath)) {
     return { ok: false, error: 'Path outside project' };
@@ -1977,12 +2076,23 @@ ipcMain.handle('ui:delete-node', async (_, payload) => {
 });
 
 ipcMain.handle('ui:reorder-node', async (_, payload) => {
-  if (!payload || typeof payload.path !== 'string' || typeof payload.direction !== 'string') {
+  const pathGuard = sanitizePathFields(payload, ['path'], { mode: 'any' });
+  if (!pathGuard.ok || !pathGuard.payload) {
+    return {
+      ok: false,
+      error: 'Path boundary violation',
+      code: 'E_PATH_BOUNDARY_VIOLATION',
+      failSignal: 'E_PATH_BOUNDARY_VIOLATION',
+      failReason: pathGuard.failReason || 'PATH_BOUNDARY_VIOLATION',
+    };
+  }
+  const safePayload = pathGuard.payload;
+  if (typeof safePayload.path !== 'string' || typeof safePayload.direction !== 'string') {
     return { ok: false, error: 'Invalid payload' };
   }
 
-  const nodePath = payload.path;
-  const direction = payload.direction;
+  const nodePath = safePayload.path;
+  const direction = safePayload.direction;
   const projectRoot = getProjectRootPath();
   const romanRoot = getProjectSectionPath('roman');
 

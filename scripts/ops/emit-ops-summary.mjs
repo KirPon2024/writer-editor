@@ -96,6 +96,9 @@ function main() {
     freezeRollups,
     freezeModeEnabled: String(process.env.FREEZE_MODE || '').trim() === '1',
   });
+  const gateTier = String(process.env.GATE_TIER || 'release').trim().toLowerCase() === 'promotion'
+    ? 'promotion'
+    : 'release';
 
   const summary = {
     schemaVersion: 'ops-summary.v1',
@@ -150,6 +153,11 @@ function main() {
     coreSotHashDeterministicOk: freezeRollups.CORE_SOT_HASH_DETERMINISTIC_OK,
     coreSotExecutableOk: freezeRollups.CORE_SOT_EXECUTABLE_OK,
     commandSurfaceEnforcedOk: freezeRollups.COMMAND_SURFACE_ENFORCED_OK,
+    commandSurfaceSingleEntryOk: freezeRollups.COMMAND_SURFACE_SINGLE_ENTRY_OK,
+    commandSurfaceBypassNegativeTestsOk: freezeRollups.COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK,
+    pathBoundaryGuardOk: freezeRollups.PATH_BOUNDARY_GUARD_OK,
+    dependencyRemediationPolicyOk: freezeRollups.DEPENDENCY_REMEDIATION_POLICY_OK,
+    dependencyRemediationPolicyMode: gateTier === 'promotion' ? 'blocking' : 'advisory',
     capabilityMatrixNonEmptyOk: freezeRollups.CAPABILITY_MATRIX_NON_EMPTY_OK,
     capabilityBaselineMinOk: freezeRollups.CAPABILITY_BASELINE_MIN_OK,
     capabilityCommandBindingOk: freezeRollups.CAPABILITY_COMMAND_BINDING_OK,
@@ -266,6 +274,11 @@ function main() {
   console.log(`OPS_SUMMARY_CORE_SOT_HASH_DETERMINISTIC_OK=${summary.coreSotHashDeterministicOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_EXECUTABLE_OK=${summary.coreSotExecutableOk}`);
   console.log(`OPS_SUMMARY_COMMAND_SURFACE_ENFORCED_OK=${summary.commandSurfaceEnforcedOk}`);
+  console.log(`OPS_SUMMARY_COMMAND_SURFACE_SINGLE_ENTRY_OK=${summary.commandSurfaceSingleEntryOk}`);
+  console.log(`OPS_SUMMARY_COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK=${summary.commandSurfaceBypassNegativeTestsOk}`);
+  console.log(`OPS_SUMMARY_PATH_BOUNDARY_GUARD_OK=${summary.pathBoundaryGuardOk}`);
+  console.log(`OPS_SUMMARY_DEPENDENCY_REMEDIATION_POLICY_OK=${summary.dependencyRemediationPolicyOk}`);
+  console.log(`OPS_SUMMARY_DEPENDENCY_REMEDIATION_POLICY_MODE=${summary.dependencyRemediationPolicyMode}`);
   console.log(`OPS_SUMMARY_CAPABILITY_MATRIX_NON_EMPTY_OK=${summary.capabilityMatrixNonEmptyOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_BASELINE_MIN_OK=${summary.capabilityBaselineMinOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_COMMAND_BINDING_OK=${summary.capabilityCommandBindingOk}`);
@@ -361,6 +374,18 @@ function main() {
     console.log('FAIL_REASON=OPS_SUMMARY_DEBT_TTL_NOT_OK');
     process.exit(1);
   }
+  if (summary.commandSurfaceSingleEntryOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_COMMAND_SURFACE_SINGLE_ENTRY_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.commandSurfaceBypassNegativeTestsOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_COMMAND_SURFACE_NEGATIVE_TESTS_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.pathBoundaryGuardOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_PATH_BOUNDARY_GUARD_NOT_OK');
+    process.exit(1);
+  }
   if (summary.stageActivationOk !== 1) {
     console.log('FAIL_REASON=OPS_SUMMARY_STAGE_ACTIVATION_NOT_OK');
     process.exit(1);
@@ -383,6 +408,10 @@ function main() {
   }
   if (String(process.env.FREEZE_MODE || '').trim() === '1' && summary.freezeModeStrictOk !== 1) {
     console.log('FAIL_REASON=OPS_SUMMARY_FREEZE_MODE_STRICT_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.dependencyRemediationPolicyMode === 'blocking' && summary.dependencyRemediationPolicyOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_DEPENDENCY_REMEDIATION_POLICY_NOT_OK');
     process.exit(1);
   }
 

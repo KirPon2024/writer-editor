@@ -2,6 +2,30 @@
   "schemaVersion": 1,
   "failSignals": [
     {
+      "code": "E_COMMAND_SURFACE_BYPASS",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Command execution outside command.bus is a deterministic bypass and must fail in release gates.",
+      "precedence": 1,
+      "negativeTestRef": "test/contracts/command-surface-single-entry.contract.test.js#hotkey-bypass"
+    },
+    {
+      "code": "E_COMMAND_SURFACE_NEGATIVE_MISSING",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Command surface bypass suite is incomplete when any required negative scenario is missing.",
+      "precedence": 2,
+      "negativeTestRef": "test/contracts/command-surface-single-entry.contract.test.js#missing-bypass-scenario"
+    },
+    {
+      "code": "E_DEP_REMEDIATION_POLICY_INVALID",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Dependency remediation policy must be machine-valid to keep promotion gating deterministic.",
+      "precedence": 3,
+      "negativeTestRef": "test/contracts/dependency-remediation-policy.contract.test.js#missing-reachable-critical-high-rule"
+    },
+    {
       "code": "E_FAILSIGNAL_DUPLICATE",
       "blocking": true,
       "tier": "release",
@@ -32,6 +56,14 @@
       "rationale": "FailSignal registry shape and metadata must stay deterministic and machine-verifiable.",
       "precedence": 40,
       "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#schema-invalid"
+    },
+    {
+      "code": "E_PATH_BOUNDARY_VIOLATION",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Path payloads violating centralized boundary rules can bypass filesystem safety and must fail.",
+      "precedence": 45,
+      "negativeTestRef": "test/contracts/path-boundary-guard.contract.test.js#parent-segment-negative"
     },
     {
       "code": "E_SCOPEFLAG_UNKNOWN",

@@ -30,6 +30,9 @@ import { evaluateTokenSourceConflictState } from './token-source-conflict-state.
 import { evaluateResolveActiveStageState } from './resolve-active-stage.mjs';
 import { evaluateComputeWaveInputHashState } from './compute-wave-input-hash.mjs';
 import { evaluateWaveCacheState } from './wave-cache.mjs';
+import { evaluateCommandSurfaceState } from './command-surface-state.mjs';
+import { evaluatePathBoundaryGuardState } from './path-boundary-guard-state.mjs';
+import { evaluateDependencyRemediationPolicyState } from './dependency-remediation-policy-state.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -122,8 +125,16 @@ function evaluateCommandSurface() {
   const mapping = /cmd\.project\./u.test(projectCommandsText) && /export\.docxMin/u.test(projectCommandsText);
   const typedEnvelope = projectCommandsText.includes('code') && projectCommandsText.includes('reason');
   const tests = fileExists('test/unit/sector-u-u1-command-layer.test.js');
+  const state = evaluateCommandSurfaceState();
+  const singleEntryOk = Number(state.COMMAND_SURFACE_SINGLE_ENTRY_OK) === 1 ? 1 : 0;
+  const bypassNegativeTestsOk = Number(state.COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK) === 1 ? 1 : 0;
+  const legacyOk = registry && runner && mapping && typedEnvelope && tests ? 1 : 0;
   return {
-    COMMAND_SURFACE_ENFORCED_OK: registry && runner && mapping && typedEnvelope && tests ? 1 : 0,
+    COMMAND_SURFACE_ENFORCED_OK: legacyOk === 1 && singleEntryOk === 1 && bypassNegativeTestsOk === 1 ? 1 : 0,
+    COMMAND_SURFACE_SINGLE_ENTRY_OK: singleEntryOk,
+    COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK: bypassNegativeTestsOk,
+    COMMAND_SURFACE_FAIL_REASON: String(state.COMMAND_SURFACE_FAIL_REASON || ''),
+    COMMAND_SURFACE_FAIL_SIGNAL: String(state.failSignal || ''),
   };
 }
 
@@ -644,6 +655,10 @@ export function evaluateFreezeRollupsState(input = {}) {
     && Number(waveCacheState.WAVE_FRESHNESS_OK) === 1
     ? 1
     : 0;
+  const pathBoundaryGuard = evaluatePathBoundaryGuardState();
+  const dependencyRemediationPolicy = evaluateDependencyRemediationPolicyState({
+    gateTier: String(process.env.GATE_TIER || (mode === 'release' ? 'release' : 'core')).trim(),
+  });
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -695,6 +710,10 @@ export function evaluateFreezeRollupsState(input = {}) {
     CORE_SOT_HASH_DETERMINISTIC_OK: core.CORE_SOT_HASH_DETERMINISTIC_OK,
     CORE_SOT_EXECUTABLE_OK: core.CORE_SOT_EXECUTABLE_OK,
     COMMAND_SURFACE_ENFORCED_OK: commandSurface.COMMAND_SURFACE_ENFORCED_OK,
+    COMMAND_SURFACE_SINGLE_ENTRY_OK: commandSurface.COMMAND_SURFACE_SINGLE_ENTRY_OK,
+    COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK: commandSurface.COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK,
+    PATH_BOUNDARY_GUARD_OK: Number(pathBoundaryGuard.PATH_BOUNDARY_GUARD_OK) === 1 ? 1 : 0,
+    DEPENDENCY_REMEDIATION_POLICY_OK: Number(dependencyRemediationPolicy.DEPENDENCY_REMEDIATION_POLICY_OK) === 1 ? 1 : 0,
     CAPABILITY_MATRIX_NON_EMPTY_OK: capability.CAPABILITY_MATRIX_NON_EMPTY_OK,
     CAPABILITY_BASELINE_MIN_OK: capability.CAPABILITY_BASELINE_MIN_OK,
     CAPABILITY_COMMAND_BINDING_OK: capability.CAPABILITY_COMMAND_BINDING_OK,
@@ -765,6 +784,8 @@ export function evaluateFreezeRollupsState(input = {}) {
       strategyProgressValid,
       core,
       commandSurface,
+      pathBoundaryGuard,
+      dependencyRemediationPolicy,
       capability,
       recoveryIo,
       perf,
@@ -842,6 +863,10 @@ function printTokens(state) {
     'CORE_SOT_HASH_DETERMINISTIC_OK',
     'CORE_SOT_EXECUTABLE_OK',
     'COMMAND_SURFACE_ENFORCED_OK',
+    'COMMAND_SURFACE_SINGLE_ENTRY_OK',
+    'COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK',
+    'PATH_BOUNDARY_GUARD_OK',
+    'DEPENDENCY_REMEDIATION_POLICY_OK',
     'CAPABILITY_MATRIX_NON_EMPTY_OK',
     'CAPABILITY_BASELINE_MIN_OK',
     'CAPABILITY_COMMAND_BINDING_OK',

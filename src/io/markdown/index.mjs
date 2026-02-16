@@ -6,6 +6,7 @@ import { atomicWriteFile } from './atomicWriteFile.mjs';
 import { createRecoverySnapshot, listRecoverySnapshots } from './snapshotFile.mjs';
 import { asMarkdownIoError, createMarkdownIoError } from './ioErrors.mjs';
 import { appendReliabilityLog, buildReliabilityLogRecord } from './reliabilityLog.mjs';
+import pathBoundary from '../../core/io/path-boundary.js';
 
 const RECOVERY_FALLBACK_CODES = new Set([
   'E_IO_CORRUPT_INPUT',
@@ -86,7 +87,15 @@ function resolveSourcePath(sourcePath) {
   if (typeof sourcePath !== 'string' || sourcePath.trim().length === 0) {
     throw createMarkdownIoError('E_IO_INVALID_PATH', 'invalid_source_path');
   }
-  return path.resolve(sourcePath.trim());
+  const validation = pathBoundary.validatePathBoundary(sourcePath, { mode: 'any' });
+  if (!validation.ok) {
+    throw createMarkdownIoError('E_PATH_BOUNDARY_VIOLATION', 'path_boundary_violation', {
+      failSignal: 'E_PATH_BOUNDARY_VIOLATION',
+      failReason: validation.failReason,
+      sourcePath: String(sourcePath || ''),
+    });
+  }
+  return path.resolve(validation.normalizedPath);
 }
 
 function toMarkdownIoError(error, fallbackCode, fallbackReason, details) {

@@ -24,10 +24,10 @@
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "5e07c6ccdbee016add5507421fa106bfcb2de83d9d93e9728c4acafc39bf6f9c",
-      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
-      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
-      "rationale": "Register deterministic X3 recovery smoke failSignal with explicit negative contract reference."
+      "sha256": "7397b2b2e2e6de414fef9c463a7061828de190a9cdf6f1629e13a48d595504a1",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Register wave/stage enforcement failSignals for stale wave reuse and invalid stage activation paths."
     },
     {
       "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
@@ -59,10 +59,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
-      "sha256": "1f08fd29b267a4be97be3b71eb82eb7bdbfd7f7521f8679445029ce834034f20",
-      "approvedBy": "ticket:X3_STAGE_ACTIVATION_v1.1",
-      "approvedAtUtc": "2026-02-14T12:56:55.000Z",
-      "rationale": "Activate X3 as active stage via canonical rollout plan update with explicit X3 scope flag mapping and no runtime or transport policy mutation."
+      "sha256": "2591d089d63f21dfe05a82a178a325d59ae37168bf2e740dd7f75e45ed753cf9",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve active-stage metadata schema with requiredScopeFlag and stageDefinitions for machine stage resolver."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
@@ -308,6 +308,69 @@
       "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
       "approvedAtUtc": "2026-02-16T17:40:41Z",
       "rationale": "Remap contract-test binding path and runtime-derived hash checks to canonical v3.12 contract path."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/WAVE_FRESHNESS_POLICY_v3_12.json",
+      "sha256": "c744a2f9eb2d4bd521b62223e7aac5f7c4f1cba50ecc32fd856480933a078bd1",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve canonical TTL/reuse policy for WAVE_INPUT_HASH-bound cache freshness checks."
+    },
+    {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "34f8107a63ef5c9282e1108033af86772bbd463c14880da58fd5fa1633301b89",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve strict doctor token wiring for stage-activation and wave-freshness enforcement outputs."
+    },
+    {
+      "filePath": "scripts/ops/compute-wave-input-hash.mjs",
+      "sha256": "71b7fddc05b593e834beeeccc07cd8e16c8001694c522a006df29882e725ac53",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve deterministic WAVE_INPUT_HASH computation over profile, SSOT scope, scripts, and lock fingerprints."
+    },
+    {
+      "filePath": "scripts/ops/emit-ops-summary.mjs",
+      "sha256": "a206772d8fbfa5f51ae191a7a773e299b01f6b0427a523d2d5fa60de970e8216",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve ops summary emission of wave freshness and stage activation machine tokens."
+    },
+    {
+      "filePath": "scripts/ops/extract-truth-table.mjs",
+      "sha256": "5053bc6f39012e3b9048dad730f1ffce6b865d8cbd02054e1f75eb86def92392",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve truth-table exposure for stage and wave freshness gating tokens."
+    },
+    {
+      "filePath": "scripts/ops/freeze-rollups-state.mjs",
+      "sha256": "074355a17dc420996a217082c82b1b6fa91b5756d739caa5223c87d1ee6f1c21",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve freeze-rollups enforcement wiring for stage activation resolver and wave cache freshness guard."
+    },
+    {
+      "filePath": "scripts/ops/resolve-active-stage.mjs",
+      "sha256": "917cd56b09753688f8a39b9715c732e5f9d4c7e0b2ae8bfe7caf86d1c0f7d354",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve machine stage-activation resolver including promotion record validation and scopeflag checks."
+    },
+    {
+      "filePath": "scripts/ops/wave-cache.mjs",
+      "sha256": "da1f42162a530518a3cb4b4d8eaa4a8924eae0ab7a98d249cdb9f951ed9061bb",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve wave cache TTL/hash enforcement to block stale-green result reuse."
+    },
+    {
+      "filePath": "test/contracts/wave-freshness-and-stage-activation.contract.test.js",
+      "sha256": "6767bab25c6b61f3878785bc5c41ba8c922b0eb38ccdb6adc6a5e197a32d1db5",
+      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
+      "approvedAtUtc": "2026-02-16T19:32:59Z",
+      "rationale": "Approve positive/negative contract coverage for deterministic hash, TTL stale block, and stage promotion invalid paths."
     }
   ]
 }

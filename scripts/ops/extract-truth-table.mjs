@@ -75,6 +75,15 @@ function buildTruthTable() {
     DEBT_TTL_VALID_OK: freezeRollups.DEBT_TTL_VALID_OK,
     DEBT_TTL_EXPIRED_COUNT: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
     DRIFT_UNRESOLVED_P0_COUNT: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
+    WAVE_INPUT_HASH_PRESENT: freezeRollups.WAVE_INPUT_HASH_PRESENT,
+    WAVE_TTL_VALID: freezeRollups.WAVE_TTL_VALID,
+    WAVE_RESULT_REUSED: freezeRollups.WAVE_RESULT_REUSED,
+    WAVE_RESULT_STALE: freezeRollups.WAVE_RESULT_STALE,
+    STAGE_ACTIVE: freezeRollups.STAGE_ACTIVE,
+    ACTIVE_STAGE_ID: freezeRollups.ACTIVE_STAGE_ID,
+    RELEVANT_STAGE_GATED_SSOT_COUNT: freezeRollups.RELEVANT_STAGE_GATED_SSOT_COUNT,
+    STAGE_ACTIVATION_OK: freezeRollups.STAGE_ACTIVATION_OK,
+    WAVE_FRESHNESS_OK: freezeRollups.WAVE_FRESHNESS_OK,
     FREEZE_MODE_STRICT_OK: freezeMode.FREEZE_MODE_STRICT_OK,
     FREEZE_READY_OK: freezeRollups.FREEZE_READY_OK,
     CORE_SOT_REDUCER_IMPLEMENTED_OK: freezeRollups.CORE_SOT_REDUCER_IMPLEMENTED_OK,
@@ -203,6 +212,18 @@ function buildTruthTable() {
         pass: freezeRollups.TOKEN_DECLARATION_VALID_OK === 1,
       },
       {
+        id: 'STAGE_ACTIVATION_OK',
+        expected: true,
+        actual: freezeRollups.STAGE_ACTIVATION_OK === 1,
+        pass: freezeRollups.STAGE_ACTIVATION_OK === 1,
+      },
+      {
+        id: 'WAVE_FRESHNESS_OK',
+        expected: true,
+        actual: freezeRollups.WAVE_FRESHNESS_OK === 1,
+        pass: freezeRollups.WAVE_FRESHNESS_OK === 1,
+      },
+      {
         id: 'XPLAT_COST_GUARANTEE_OK',
         expected: true,
         actual: freezeRollups.XPLAT_COST_GUARANTEE_OK === 1,
@@ -254,6 +275,15 @@ function emitMd(table) {
   console.log(`DEBT_TTL_VALID_OK=${table.DEBT_TTL_VALID_OK}`);
   console.log(`DEBT_TTL_EXPIRED_COUNT=${table.DEBT_TTL_EXPIRED_COUNT}`);
   console.log(`DRIFT_UNRESOLVED_P0_COUNT=${table.DRIFT_UNRESOLVED_P0_COUNT}`);
+  console.log(`WAVE_INPUT_HASH_PRESENT=${table.WAVE_INPUT_HASH_PRESENT}`);
+  console.log(`WAVE_TTL_VALID=${table.WAVE_TTL_VALID}`);
+  console.log(`WAVE_RESULT_REUSED=${table.WAVE_RESULT_REUSED}`);
+  console.log(`WAVE_RESULT_STALE=${table.WAVE_RESULT_STALE}`);
+  console.log(`STAGE_ACTIVE=${table.STAGE_ACTIVE}`);
+  console.log(`ACTIVE_STAGE_ID=${table.ACTIVE_STAGE_ID}`);
+  console.log(`RELEVANT_STAGE_GATED_SSOT_COUNT=${table.RELEVANT_STAGE_GATED_SSOT_COUNT}`);
+  console.log(`STAGE_ACTIVATION_OK=${table.STAGE_ACTIVATION_OK}`);
+  console.log(`WAVE_FRESHNESS_OK=${table.WAVE_FRESHNESS_OK}`);
   console.log(`FREEZE_MODE_STRICT_OK=${table.FREEZE_MODE_STRICT_OK}`);
   console.log(`FREEZE_READY_OK=${table.FREEZE_READY_OK}`);
   console.log(`CORE_SOT_REDUCER_IMPLEMENTED_OK=${table.CORE_SOT_REDUCER_IMPLEMENTED_OK}`);

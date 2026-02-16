@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "v3.12",
+  "policyId": "WAVE_FRESHNESS_POLICY_v3_12",
+  "reuseRule": "REUSE_ONLY_IF_WAVE_INPUT_HASH_MATCH_AND_TTL_VALID",
+  "deterministicLocalTtlSec": 21600,
+  "networkSensitiveTtlSec": 900,
+  "ttlClasses": {
+    "deterministicLocal": {
+      "ttlSec": 21600,
+      "description": "Local/pr core wave inputs without mandatory network dependency."
+    },
+    "networkSensitive": {
+      "ttlSec": 900,
+      "description": "Release/promotion checks with time-sensitive external distribution context."
+    }
+  }
+}

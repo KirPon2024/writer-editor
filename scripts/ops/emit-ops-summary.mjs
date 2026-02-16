@@ -132,6 +132,15 @@ function main() {
     debtTtlValidOk: freezeRollups.DEBT_TTL_VALID_OK,
     debtTtlExpiredCount: freezeRollups.DEBT_TTL_EXPIRED_COUNT,
     driftUnresolvedP0Count: freezeRollups.DRIFT_UNRESOLVED_P0_COUNT,
+    waveInputHashPresent: freezeRollups.WAVE_INPUT_HASH_PRESENT,
+    waveTtlValid: freezeRollups.WAVE_TTL_VALID,
+    waveResultReused: freezeRollups.WAVE_RESULT_REUSED,
+    waveResultStale: freezeRollups.WAVE_RESULT_STALE,
+    stageActive: freezeRollups.STAGE_ACTIVE,
+    activeStageId: freezeRollups.ACTIVE_STAGE_ID,
+    relevantStageGatedSsotCount: freezeRollups.RELEVANT_STAGE_GATED_SSOT_COUNT,
+    stageActivationOk: freezeRollups.STAGE_ACTIVATION_OK,
+    waveFreshnessOk: freezeRollups.WAVE_FRESHNESS_OK,
     freezeModeStrictOk: freezeMode.FREEZE_MODE_STRICT_OK,
     freezeReadyOk: freezeRollups.FREEZE_READY_OK,
     coreSotReducerImplementedOk: freezeRollups.CORE_SOT_REDUCER_IMPLEMENTED_OK,
@@ -239,6 +248,15 @@ function main() {
   console.log(`OPS_SUMMARY_DEBT_TTL_VALID_OK=${summary.debtTtlValidOk}`);
   console.log(`OPS_SUMMARY_DEBT_TTL_EXPIRED_COUNT=${summary.debtTtlExpiredCount}`);
   console.log(`OPS_SUMMARY_DRIFT_UNRESOLVED_P0_COUNT=${summary.driftUnresolvedP0Count}`);
+  console.log(`OPS_SUMMARY_WAVE_INPUT_HASH_PRESENT=${summary.waveInputHashPresent}`);
+  console.log(`OPS_SUMMARY_WAVE_TTL_VALID=${summary.waveTtlValid}`);
+  console.log(`OPS_SUMMARY_WAVE_RESULT_REUSED=${summary.waveResultReused}`);
+  console.log(`OPS_SUMMARY_WAVE_RESULT_STALE=${summary.waveResultStale}`);
+  console.log(`OPS_SUMMARY_STAGE_ACTIVE=${summary.stageActive}`);
+  console.log(`OPS_SUMMARY_ACTIVE_STAGE_ID=${summary.activeStageId}`);
+  console.log(`OPS_SUMMARY_RELEVANT_STAGE_GATED_SSOT_COUNT=${summary.relevantStageGatedSsotCount}`);
+  console.log(`OPS_SUMMARY_STAGE_ACTIVATION_OK=${summary.stageActivationOk}`);
+  console.log(`OPS_SUMMARY_WAVE_FRESHNESS_OK=${summary.waveFreshnessOk}`);
   console.log(`OPS_SUMMARY_FREEZE_MODE_STRICT_OK=${summary.freezeModeStrictOk}`);
   console.log(`OPS_SUMMARY_FREEZE_READY_OK=${summary.freezeReadyOk}`);
   console.log(`OPS_SUMMARY_CORE_SOT_REDUCER_IMPLEMENTED_OK=${summary.coreSotReducerImplementedOk}`);
@@ -341,6 +359,14 @@ function main() {
   }
   if (summary.debtTtlValidOk !== 1) {
     console.log('FAIL_REASON=OPS_SUMMARY_DEBT_TTL_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.stageActivationOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_STAGE_ACTIVATION_NOT_OK');
+    process.exit(1);
+  }
+  if (summary.waveFreshnessOk !== 1) {
+    console.log('FAIL_REASON=OPS_SUMMARY_WAVE_FRESHNESS_NOT_OK');
     process.exit(1);
   }
   if (!summary.governanceStrictOk) {

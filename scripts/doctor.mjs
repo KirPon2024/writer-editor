@@ -6001,6 +6001,15 @@ function evaluateFreezeRollupTokens() {
     'DEBT_TTL_VALID_OK',
     'DEBT_TTL_EXPIRED_COUNT',
     'DRIFT_UNRESOLVED_P0_COUNT',
+    'WAVE_INPUT_HASH_PRESENT',
+    'WAVE_TTL_VALID',
+    'WAVE_RESULT_REUSED',
+    'WAVE_RESULT_STALE',
+    'STAGE_ACTIVE',
+    'ACTIVE_STAGE_ID',
+    'RELEVANT_STAGE_GATED_SSOT_COUNT',
+    'STAGE_ACTIVATION_OK',
+    'WAVE_FRESHNESS_OK',
     'FREEZE_MODE_STRICT_OK',
     'FREEZE_READY_OK',
     'GOVERNANCE_STRICT_OK',
@@ -6080,6 +6089,9 @@ function evaluateFreezeRollupTokens() {
     && state.CRITICAL_CLAIM_MATRIX_OK === 1
     && state.TOKEN_DECLARATION_VALID_OK === 1
     && state.DEBT_TTL_VALID_OK === 1
+    && state.WAVE_INPUT_HASH_PRESENT === 1
+    && state.STAGE_ACTIVATION_OK === 1
+    && state.WAVE_FRESHNESS_OK === 1
     && freezeModeState.FREEZE_MODE_STRICT_OK === 1
     ? 'ok'
     : 'fail';

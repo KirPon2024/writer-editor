@@ -34,11 +34,43 @@
       "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#schema-invalid"
     },
     {
+      "code": "E_SCOPEFLAG_UNKNOWN",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Unknown scope flag cannot participate in machine stage activation and must fail deterministically.",
+      "precedence": 50,
+      "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#unknown-scopeflag"
+    },
+    {
+      "code": "E_STAGE_METRICS_MISSING",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Promotion mode requires metrics evidence for the target stage before stage-gated binding can be trusted.",
+      "precedence": 60,
+      "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#stage-metrics-missing-promotion"
+    },
+    {
+      "code": "E_STAGE_PROMOTION_INVALID",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Promotion mode without a valid promotion record or stage-consistent transition is invalid.",
+      "precedence": 70,
+      "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#promotion-without-record"
+    },
+    {
+      "code": "E_WAVE_RESULT_STALE",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Wave result reuse is allowed only for matching hash with valid TTL to prevent stale-green reuse.",
+      "precedence": 80,
+      "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#ttl-stale-reuse"
+    },
+    {
       "code": "E_X3_RECOVERY_SMOKE_FAILED",
       "blocking": true,
       "tier": "release",
       "rationale": "X3 deterministic recovery smoke proofhook must pass before promotion-tier readiness can be considered green.",
-      "precedence": 50,
+      "precedence": 90,
       "negativeTestRef": "test/contracts/x3-recovery-smoke.contract.test.js#forced-failure"
     }
   ]

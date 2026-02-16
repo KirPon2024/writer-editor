@@ -8,10 +8,50 @@
     "X4"
   ],
   "activeStageId": "X3",
+  "stageDefinitions": [
+    {
+      "stageId": "X0",
+      "requiredScopeFlag": null,
+      "stageGatedSsot": []
+    },
+    {
+      "stageId": "X1",
+      "requiredScopeFlag": "XPLAT_STAGE_X1_ENABLED",
+      "stageGatedSsot": [
+        "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json"
+      ]
+    },
+    {
+      "stageId": "X2",
+      "requiredScopeFlag": "XPLAT_STAGE_X2_ENABLED",
+      "stageGatedSsot": [
+        "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+        "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json"
+      ]
+    },
+    {
+      "stageId": "X3",
+      "requiredScopeFlag": "XPLAT_STAGE_X3_ENABLED",
+      "stageGatedSsot": [
+        "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+        "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json"
+      ]
+    },
+    {
+      "stageId": "X4",
+      "requiredScopeFlag": "XPLAT_STAGE_X4_ENABLED",
+      "stageGatedSsot": [
+        "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
+        "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json",
+        "docs/OPS/STATUS/THIRD_PARTY_NOTICES_READINESS.json"
+      ]
+    }
+  ],
   "stageToScopeFlag": {
     "X1": "XPLAT_STAGE_X1_ENABLED",
     "X2": "XPLAT_STAGE_X2_ENABLED",
-    "X3": "XPLAT_STAGE_X3_ENABLED"
+    "X3": "XPLAT_STAGE_X3_ENABLED",
+    "X4": "XPLAT_STAGE_X4_ENABLED"
   },
   "promotionModeAllowed": true
 }

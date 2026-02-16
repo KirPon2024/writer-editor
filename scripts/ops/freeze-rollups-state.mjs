@@ -27,6 +27,9 @@ import { evaluateStrategyProgressValidState } from './strategy-progress-valid-st
 import { evaluateFreezeModeFromRollups } from './freeze-mode-evaluator.mjs';
 import { evaluateFreezeReady } from './freeze-ready-evaluator.mjs';
 import { evaluateTokenSourceConflictState } from './token-source-conflict-state.mjs';
+import { evaluateResolveActiveStageState } from './resolve-active-stage.mjs';
+import { evaluateComputeWaveInputHashState } from './compute-wave-input-hash.mjs';
+import { evaluateWaveCacheState } from './wave-cache.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -553,8 +556,29 @@ function shouldSkipTokenSourceConflictCheck(input) {
   return String(process.env.TOKEN_SOURCE_CONFLICT_SKIP || '').trim() === '1';
 }
 
+function parseScopeFlagsForWave(input) {
+  const sources = [
+    input && Array.isArray(input.scopeFlags) ? input.scopeFlags.join(',') : '',
+    String(process.env.XPLAT_SCOPE_FLAGS || ''),
+    String(process.env.SCOPE_FLAGS || ''),
+    String(process.env.COLLAB_SCOPE_LOCAL || ''),
+  ];
+  const merged = [];
+  for (const source of sources) {
+    for (const token of String(source).split(/[\s,;]+/u)) {
+      const normalized = token.trim();
+      if (!/^[A-Z][A-Z0-9_]+$/u.test(normalized)) continue;
+      merged.push(normalized);
+    }
+  }
+  return [...new Set(merged)].sort((a, b) => a.localeCompare(b));
+}
+
 export function evaluateFreezeRollupsState(input = {}) {
   const mode = String(input.mode || '').toLowerCase() === 'release' ? 'release' : 'dev';
+  const profile = String(input.profile || process.env.WAVE_PROFILE || (mode === 'release' ? 'release' : 'pr')).trim() || 'pr';
+  const gateTier = String(input.gateTier || process.env.WAVE_GATE_TIER || (mode === 'release' ? 'release' : 'core')).trim() || 'core';
+  const scopeFlags = parseScopeFlagsForWave(input);
   const remote = evaluateRemoteBinding();
   const nextSector = evaluateNextSectorState();
   const requiredChecks = evaluateRequiredChecksState({ profile: 'ops' });
@@ -597,6 +621,29 @@ export function evaluateFreezeRollupsState(input = {}) {
       skipped: 1,
     }
     : evaluateTokenSourceConflictState();
+  const stageActivation = evaluateResolveActiveStageState({
+    profile,
+    gateTier,
+    scopeFlags,
+  });
+  const waveInputHashState = evaluateComputeWaveInputHashState({
+    profile,
+    gateTier,
+    scopeFlags,
+    stageState: stageActivation,
+  });
+  const waveCacheState = evaluateWaveCacheState({
+    mode: 'check',
+    waveInputHash: waveInputHashState.WAVE_INPUT_HASH,
+    ttlClass: waveInputHashState.ttlClass,
+    ttlSec: waveInputHashState.ttlSec,
+    reuseRequested: String(process.env.WAVE_REUSE_REQUESTED || '').trim() === '1',
+  });
+  const waveFreshnessOk = Number(waveInputHashState.WAVE_INPUT_HASH_PRESENT) === 1
+    && Number(stageActivation.STAGE_ACTIVATION_OK) === 1
+    && Number(waveCacheState.WAVE_FRESHNESS_OK) === 1
+    ? 1
+    : 0;
   const adapters = evaluateAdaptersBoundary();
   const xplatCostGuaranteeRequires = {
     SCR_SHARED_CODE_RATIO_OK: Number(scr.SCR_SHARED_CODE_RATIO_OK) === 1 ? 1 : 0,
@@ -626,6 +673,15 @@ export function evaluateFreezeRollupsState(input = {}) {
     DEBT_TTL_VALID_OK: debtTtl.DEBT_TTL_VALID_OK,
     DEBT_TTL_EXPIRED_COUNT: debtTtl.DEBT_TTL_EXPIRED_COUNT,
     DRIFT_UNRESOLVED_P0_COUNT: 0,
+    WAVE_INPUT_HASH_PRESENT: Number(waveInputHashState.WAVE_INPUT_HASH_PRESENT) === 1 ? 1 : 0,
+    WAVE_TTL_VALID: Number(waveCacheState.WAVE_TTL_VALID) === 1 ? 1 : 0,
+    WAVE_RESULT_REUSED: Number(waveCacheState.WAVE_RESULT_REUSED) === 1 ? 1 : 0,
+    WAVE_RESULT_STALE: Number(waveCacheState.WAVE_RESULT_STALE) === 1 ? 1 : 0,
+    STAGE_ACTIVE: Number(stageActivation.STAGE_ACTIVE) === 1 ? 1 : 0,
+    ACTIVE_STAGE_ID: String(stageActivation.ACTIVE_STAGE_ID || 'NONE'),
+    RELEVANT_STAGE_GATED_SSOT_COUNT: Number(stageActivation.RELEVANT_STAGE_GATED_SSOT_COUNT) || 0,
+    STAGE_ACTIVATION_OK: Number(stageActivation.STAGE_ACTIVATION_OK) === 1 ? 1 : 0,
+    WAVE_FRESHNESS_OK: waveFreshnessOk,
     GOVERNANCE_STRICT_OK: governanceStrictOk,
     GOVERNANCE_STATE_VALID: Number(governanceStateValid.GOVERNANCE_STATE_VALID) === 1 ? 1 : 0,
     STRATEGY_PROGRESS_VALID: Number(strategyProgressValid.STRATEGY_PROGRESS_VALID) === 1 ? 1 : 0,
@@ -702,6 +758,9 @@ export function evaluateFreezeRollupsState(input = {}) {
       tokenDeclaration,
       scr,
       debtTtl,
+      stageActivation,
+      waveInputHashState,
+      waveCacheState,
       governanceStateValid,
       strategyProgressValid,
       core,
@@ -759,6 +818,15 @@ function printTokens(state) {
     'DEBT_TTL_VALID_OK',
     'DEBT_TTL_EXPIRED_COUNT',
     'DRIFT_UNRESOLVED_P0_COUNT',
+    'WAVE_INPUT_HASH_PRESENT',
+    'WAVE_TTL_VALID',
+    'WAVE_RESULT_REUSED',
+    'WAVE_RESULT_STALE',
+    'STAGE_ACTIVE',
+    'ACTIVE_STAGE_ID',
+    'RELEVANT_STAGE_GATED_SSOT_COUNT',
+    'STAGE_ACTIVATION_OK',
+    'WAVE_FRESHNESS_OK',
     'FREEZE_MODE_STRICT_OK',
     'FREEZE_READY_OK',
     'GOVERNANCE_STRICT_OK',

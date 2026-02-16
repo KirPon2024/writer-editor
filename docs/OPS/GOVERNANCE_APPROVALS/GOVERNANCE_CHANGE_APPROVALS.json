@@ -273,6 +273,41 @@
       "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
       "approvedAtUtc": "2026-02-14T15:56:24.000Z",
       "rationale": "Add positive/negative contract coverage for theme tokens config schema validation, required fields, and numeric ranges."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/NODE_SPEC_v3.json",
+      "sha256": "2cc1a05022086c3deeb38c0fd054e2e95fe6a6c961c234bec2aac72a9ea4e6ef",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Approve NODE_SPEC_v3 canonical status artifact introduced with v3.12 canon path migration package."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v1.0.md",
+      "sha256": "8338a4285fb0d8dca992aa412abc2b16d061ebbac78ba3038fe4bed29ae51f2b",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Approve compatibility redirect stub that preserves path presence while declaring v3.12 as the active canon."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",
+      "sha256": "80aa451090aeefbf9c19f13a3ae9c33e0f131170a62fc6736bb21105a7f05926",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Approve canonical v3.12 LAW payload at dedicated SSOT path to remove split-brain versioning."
+    },
+    {
+      "filePath": "scripts/ops/xplat-contract-state.mjs",
+      "sha256": "7096b4eb85cb500e0c8a1b5ec5eb6fbf219cc708defa41f8131df4f0103525fb",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Remap default machine-binding contract path from v1.0 to canonical v3.12 SSOT."
+    },
+    {
+      "filePath": "test/contracts/xplat-unified-master-execution.contract.test.js",
+      "sha256": "85bbb01e8be18a7b0f682031793ac8e19198d39e0c6cd78fa5c0cf4de294f620",
+      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
+      "approvedAtUtc": "2026-02-16T17:40:41Z",
+      "rationale": "Remap contract-test binding path and runtime-derived hash checks to canonical v3.12 contract path."
     }
   ]
 }

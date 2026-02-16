@@ -6,7 +6,7 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { spawnSync } = require('node:child_process');
 
-const CONTRACT_PATH = path.join(process.cwd(), 'docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v1.0.md');
+const CONTRACT_PATH = path.join(process.cwd(), 'docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md');
 
 function sha256File(filePath) {
   const data = fs.readFileSync(filePath);
@@ -79,7 +79,7 @@ test('xplat contract: deterministic tokens and matching sha256 across emitters',
 test('xplat contract: sha256 is runtime-derived from selected contract path (no hardcoded mismatch)', () => {
   const baseContent = fs.readFileSync(CONTRACT_PATH, 'utf8');
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'xplat-contract-'));
-  const tmpContractPath = path.join(tmpDir, 'XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v1.0.md');
+  const tmpContractPath = path.join(tmpDir, 'XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md');
   fs.writeFileSync(tmpContractPath, `${baseContent}\nXPLAT_DYNAMIC_TEST=1\n`, 'utf8');
   const expectedSha = sha256File(tmpContractPath);
 

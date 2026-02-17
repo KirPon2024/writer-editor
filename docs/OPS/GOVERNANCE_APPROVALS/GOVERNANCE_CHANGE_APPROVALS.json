@@ -3,10 +3,10 @@
   "approvals": [
     {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
-      "sha256": "3a7f9093fc247f37fbeee90bce017935f8b24599c90e8b0f37bf139e8ee72820",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Refresh OPS governance baseline after canonical baseline rewrite to bind current governed file hashes."
+      "sha256": "06d641abbbb2b3fe4cd8462bea196b5e9b52fe7c77cdaf99cc60117c84c15d7e",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
@@ -17,10 +17,10 @@
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "c0ad335b406b715f0b0b56efd426fa2bd69a8cd095a6769337948d51aaf25f42",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Register wave/stage enforcement failSignals for stale wave reuse and invalid stage activation paths."
+      "sha256": "18f6cdeac343fc3e560a8712ec37d629f356fe315ee7c17b2c6e7d8a644c886e",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "docs/OPS/STATUS/DEPENDENCY_REMEDIATION_POLICY_v3_12.json",
@@ -35,6 +35,13 @@
       "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
       "approvedAtUtc": "2026-02-16T17:40:41Z",
       "rationale": "Approve NODE_SPEC_v3 canonical status artifact introduced with v3.12 canon path migration package."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/PRE_UI_OPS_CONTOUR_CLOSE_v1.json",
+      "sha256": "3a88c2056817a520d78eaad4f6a41a84c0d916f9eed92e30c348ee1553874528",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
@@ -101,31 +108,31 @@
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
-      "sha256": "15b51e4031fc2941228fd1f329ef896de6f586181806b889299bb5c4e8e563ff",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Refresh token catalog lock after canonical write-lock update for strict immutability checks."
+      "sha256": "71ff0d60642f9b339999c88b13c59625918c460328138f17dc8b4791f4decde9",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "1c7e6ac2aa9bd5a3ddd7164a2b31d596705310ca7c31ed8fd681df6fc439c7fa",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+      "sha256": "06ffedfcbbf8400060b0d1fab2a3455fb50affd7160ec6c9ffca66108de4f05e",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
-      "sha256": "3241b93b7cd7a69d0bd09090f5bdb9d9b0c5f1c737fce91b02d0d0c12f4014b4",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Register X3 recovery smoke target tokens for promotion-ready stage-gated binding."
+      "sha256": "08bb5eb923ae12f84c86feb957e2fccdb5a2c27692a368b7c22d6e00fb6164e2",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "scripts/doctor.mjs",
-      "sha256": "42447108a12320e80bd6c2ce87ded2d7262e5a5199ba16f07c0ee6820e32ee8f",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve strict doctor token wiring for stage-activation and wave-freshness enforcement outputs."
+      "sha256": "822a583d396be855befccddf9b37d0e65a746775b1eb6798011f34be9ff84043",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "scripts/ops/command-surface-state.mjs",
@@ -157,17 +164,17 @@
     },
     {
       "filePath": "scripts/ops/emit-ops-summary.mjs",
-      "sha256": "a3ab47a86a2fc0ea43aedde234194364d5bb24197d4db331652b7a438a44f289",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve ops summary emission of wave freshness and stage activation machine tokens."
+      "sha256": "c2c125f069092979708db2e2f24797e63d0c3fdd52338bc661951a915c284b32",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "scripts/ops/extract-truth-table.mjs",
-      "sha256": "3d77758629a8a63ac362d4e21c956029074cdc215b0349d3df687212ca741a2d",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve truth-table exposure for stage and wave freshness gating tokens."
+      "sha256": "bb0f33ac21ac863dd3bfae7d236138e22fcba57b98d7baed649d2514bb6889e5",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "scripts/ops/failsignal-registry-state.mjs",
@@ -178,10 +185,10 @@
     },
     {
       "filePath": "scripts/ops/freeze-rollups-state.mjs",
-      "sha256": "55beef5ab52ad306ff60043c92cde17e21b50f4e598b194f18cb8fc496b17d9b",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve freeze-rollups enforcement wiring for stage activation resolver and wave cache freshness guard."
+      "sha256": "d80538bd9cd23335008111146af3192989c1b62d3fadd84748e1bf71f5a29680",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "scripts/ops/governance-approval-state.mjs",
@@ -203,6 +210,13 @@
       "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
       "approvedAtUtc": "2026-02-16T20:38:09.821Z",
       "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "scripts/ops/pre-ui-ops-contour-close-state.mjs",
+      "sha256": "ae5f39ffaf05d911fffcde66bb3292c02b785688b8441a776f092e0beab172da",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "scripts/ops/resolve-active-stage.mjs",
@@ -350,6 +364,13 @@
       "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
       "approvedAtUtc": "2026-02-16T20:38:09.821Z",
       "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "test/contracts/pre-ui-ops-contour-close.contract.test.js",
+      "sha256": "80552f71395b962775101a3ef657ebd78be356911e3fb8aaacc966ddcb3bafef",
+      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
+      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
       "filePath": "test/contracts/stage-activation.contract.test.js",

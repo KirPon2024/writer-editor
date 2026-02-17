@@ -12,12 +12,12 @@
       "sha256": "b62d5ad9b485435e18c3a807359abf6eb3591401d101e225696edba151e63844"
     },
     "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json": {
-      "sha256": "04400f7af5c714c59bb9000e337344d930e3146833baec10c707e0fc376a10b3"
+      "sha256": "f5c3172b64f36b585c6f83b2d96c709e630c4599c91dd9cdac799a22d2f3e693"
     },
     "docs/OPS/TOKENS/TOKEN_DECLARATION.json": {
-      "sha256": "95035ec3c20bd7bd4df12a15393446f29394e52ac16d6a7ed38ddef64dfbb8cd"
+      "sha256": "f178399aaa51eac91d33df53e1c8e84244c743abc70481c79c35cf82b499abde"
     }
   },
-  "global_sha256": "5ca46658c0c99f21e0f810af3998ba0bca6ed154b3a38cfb1d93df01a5e264f3",
-  "generated_at": "2026-02-16T20:37:35.880Z"
+  "global_sha256": "2ca15f83efed94a8cb23ad15e9af862dfd1ee350cf3e69a1ff077532dc560fcb",
+  "generated_at": "2026-02-17T03:40:56.796Z"
 }

@@ -153,6 +153,23 @@ test('pre-ui ops contour close: dirty worktree -> E_PRE_UI_CONTOUR_DIRTY_WORKTRE
   assert.equal(state.failSignal, 'E_PRE_UI_CONTOUR_DIRTY_WORKTREE');
 });
 
+test('pre-ui ops contour close: dirty worktree is allowed when enforcement is disabled', async () => {
+  const { evaluatePreUiOpsContourCloseState } = await loadModule();
+  const state = evaluatePreUiOpsContourCloseState({
+    recordExists: true,
+    recordDoc: createBaseRecord(),
+    currentHeadSha: MATCHED_SHA,
+    currentOriginMainSha: MATCHED_SHA,
+    worktreePorcelain: ' M scripts/ops/freeze-rollups-state.mjs\n',
+    tokenValues: createBaseTokenValues(),
+    enforceWorktreeClean: false,
+  });
+
+  assert.equal(state.PRE_UI_OPS_CONTOUR_RECORD_VALID_OK, 1);
+  assert.equal(state.PRE_UI_OPS_CONTOUR_CLOSED_OK, 1);
+  assert.equal(state.failSignal, '');
+});
+
 // scenario id: required-token-missing-negative
 test('pre-ui ops contour close: missing required token -> E_PRE_UI_CONTOUR_REQUIRED_TOKENS_MISSING', async () => {
   const { evaluatePreUiOpsContourCloseState } = await loadModule();

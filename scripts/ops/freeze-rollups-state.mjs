@@ -128,7 +128,16 @@ function evaluateCommandSurface() {
   const runner = fileExists('src/renderer/commands/runCommand.mjs');
   const projectCommandsPath = 'src/renderer/commands/projectCommands.mjs';
   const projectCommandsText = readText(projectCommandsPath);
-  const mapping = /cmd\.project\./u.test(projectCommandsText) && /export\.docxMin/u.test(projectCommandsText);
+  const commandCatalogPath = 'src/renderer/commands/command-catalog.v1.mjs';
+  const commandCatalogText = readText(commandCatalogPath);
+  const legacyMapping = /cmd\.project\./u.test(projectCommandsText) && /export\.docxMin/u.test(projectCommandsText);
+  const catalogBackedMapping = projectCommandsText.includes('COMMAND_IDS.PROJECT_OPEN')
+    && projectCommandsText.includes('COMMAND_IDS.PROJECT_SAVE')
+    && projectCommandsText.includes('COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN')
+    && commandCatalogText.includes('cmd.project.open')
+    && commandCatalogText.includes('cmd.project.save')
+    && commandCatalogText.includes('cmd.project.export.docxMin');
+  const mapping = legacyMapping || catalogBackedMapping;
   const typedEnvelope = projectCommandsText.includes('code') && projectCommandsText.includes('reason');
   const tests = fileExists('test/unit/sector-u-u1-command-layer.test.js');
   const state = evaluateCommandSurfaceState();
@@ -820,6 +829,7 @@ export function evaluateFreezeRollupsState(input = {}) {
     currentHeadSha: remote.headSha,
     currentOriginMainSha: remote.originMainSha,
     worktreePorcelain: remote.workingTreePorcelain,
+    enforceWorktreeClean: mode === 'release',
     tokenValues: state,
   });
   state.PRE_UI_OPS_CONTOUR_RECORD_VALID_OK = Number(preUiOpsContourClose.PRE_UI_OPS_CONTOUR_RECORD_VALID_OK) === 1 ? 1 : 0;

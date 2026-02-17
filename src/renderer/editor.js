@@ -1,8 +1,13 @@
 import { initTiptap } from './tiptap/index.js';
 import { createCommandRegistry } from './commands/registry.mjs';
 import { createCommandRunner } from './commands/runCommand.mjs';
-import { COMMAND_IDS, registerProjectCommands } from './commands/projectCommands.mjs';
+import {
+  COMMAND_IDS,
+  createLegacyActionBridge,
+  registerProjectCommands,
+} from './commands/projectCommands.mjs';
 import { COMMAND_BUS_ROUTE, runCommandThroughBus } from './commands/commandBusGuard.mjs';
+import { createPaletteDataProvider } from './commands/palette-groups.v1.mjs';
 import {
   buildFlowModeKickoffStatus,
   buildFlowModeCoreStatus,
@@ -153,6 +158,9 @@ const runCommand = createCommandRunner(commandRegistry, {
   },
 });
 registerProjectCommands(commandRegistry, { electronAPI: window.electronAPI });
+const runLegacyAction = createLegacyActionBridge((commandId, payload) => dispatchUiCommand(commandId, payload));
+const commandPaletteDataProvider = createPaletteDataProvider(commandRegistry, { defaultSurface: 'palette' });
+window.__COMMAND_PALETTE_DATA_PROVIDER_V1__ = commandPaletteDataProvider;
 const MARKDOWN_IMPORT_STATUS_MESSAGE = 'Imported Markdown v1';
 const MARKDOWN_EXPORT_STATUS_MESSAGE = 'Exported Markdown v1';
 const MARKDOWN_IMPORT_PROMPT_TITLE = 'Import Markdown v1';
@@ -250,6 +258,10 @@ function resolveSceneFromImportResult(importResult) {
   const scene = value.scene;
   if (!scene || typeof scene !== 'object' || Array.isArray(scene)) return null;
   return scene;
+}
+
+async function dispatchLegacyAction(actionId, options = {}) {
+  return runLegacyAction(actionId, options);
 }
 
 async function runMarkdownImportCommand(markdownText, sourceName) {
@@ -2207,17 +2219,17 @@ if (toolbar) {
         }
         break;
       case 'open':
-        void dispatchUiCommand(COMMAND_IDS.PROJECT_OPEN);
+        void dispatchLegacyAction('open');
         break;
       case 'save':
         if (flowModeState.active) {
           void handleFlowModeSaveUiPath();
         } else {
-          void dispatchUiCommand(COMMAND_IDS.PROJECT_SAVE);
+          void dispatchLegacyAction('save');
         }
         break;
       case 'export-docx-min':
-        void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
+        void dispatchLegacyAction('export-docx-min');
         break;
       case 'import-markdown-v1':
         void handleMarkdownImportUiPath();
@@ -2360,7 +2372,7 @@ document.addEventListener('keydown', (event) => {
   if (!isPlus && !isMinus && !isZero) {
     if ((key === 'E' || key === 'e') && event.shiftKey) {
       event.preventDefault();
-      void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
+      void dispatchLegacyAction('export-docx-min');
       return;
     }
     if ((key === 'I' || key === 'i') && event.shiftKey) {

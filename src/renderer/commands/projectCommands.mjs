@@ -1,12 +1,24 @@
-export const COMMAND_IDS = {
-  PROJECT_OPEN: 'cmd.project.open',
-  PROJECT_SAVE: 'cmd.project.save',
-  PROJECT_EXPORT_DOCX_MIN: 'cmd.project.export.docxMin',
-  PROJECT_IMPORT_MARKDOWN_V1: 'cmd.project.importMarkdownV1',
-  PROJECT_EXPORT_MARKDOWN_V1: 'cmd.project.exportMarkdownV1',
-  PROJECT_FLOW_OPEN_V1: 'cmd.project.flowOpenV1',
-  PROJECT_FLOW_SAVE_V1: 'cmd.project.flowSaveV1',
-};
+import { COMMAND_CATALOG_V1, getCommandCatalogById } from './command-catalog.v1.mjs';
+
+const COMMAND_KEY_TO_ID = Object.freeze(
+  Object.fromEntries(COMMAND_CATALOG_V1.map((entry) => [entry.key, entry.id])),
+);
+
+export const COMMAND_IDS = Object.freeze({
+  PROJECT_OPEN: COMMAND_KEY_TO_ID.PROJECT_OPEN,
+  PROJECT_SAVE: COMMAND_KEY_TO_ID.PROJECT_SAVE,
+  PROJECT_EXPORT_DOCX_MIN: COMMAND_KEY_TO_ID.PROJECT_EXPORT_DOCX_MIN,
+  PROJECT_IMPORT_MARKDOWN_V1: COMMAND_KEY_TO_ID.PROJECT_IMPORT_MARKDOWN_V1,
+  PROJECT_EXPORT_MARKDOWN_V1: COMMAND_KEY_TO_ID.PROJECT_EXPORT_MARKDOWN_V1,
+  PROJECT_FLOW_OPEN_V1: COMMAND_KEY_TO_ID.PROJECT_FLOW_OPEN_V1,
+  PROJECT_FLOW_SAVE_V1: COMMAND_KEY_TO_ID.PROJECT_FLOW_SAVE_V1,
+});
+
+export const LEGACY_ACTION_TO_COMMAND = Object.freeze({
+  open: COMMAND_IDS.PROJECT_OPEN,
+  save: COMMAND_IDS.PROJECT_SAVE,
+  'export-docx-min': COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN,
+});
 
 // Canonical Core command IDs used by CORE_SOT checks.
 export const CORE_COMMAND_CANON = Object.freeze([
@@ -35,10 +47,52 @@ function normalizeSafetyMode(input) {
   return input === 'compat' ? 'compat' : 'strict';
 }
 
+function registerCatalogCommand(registry, commandId, handler) {
+  const meta = getCommandCatalogById(commandId);
+  if (!meta) {
+    throw new Error(`COMMAND_CATALOG_MISSING:${commandId}`);
+  }
+  registry.registerCommand(
+    {
+      id: meta.id,
+      label: meta.label,
+      group: meta.group,
+      surface: [...meta.surface],
+      hotkey: meta.hotkey,
+    },
+    handler,
+  );
+}
+
+export function resolveLegacyActionToCommand(actionId, context = {}) {
+  if (actionId === 'save' && context && context.flowModeActive === true) {
+    return COMMAND_IDS.PROJECT_FLOW_SAVE_V1;
+  }
+  if (typeof actionId !== 'string') return null;
+  return LEGACY_ACTION_TO_COMMAND[actionId] || null;
+}
+
+export function createLegacyActionBridge(executeCommand) {
+  return async function runLegacyAction(actionId, options = {}) {
+    const commandId = resolveLegacyActionToCommand(actionId, options.context || {});
+    if (!commandId) {
+      return { handled: false, commandId: null, result: null };
+    }
+    if (typeof executeCommand !== 'function') {
+      return fail('E_COMMAND_FAILED', commandId, 'COMMAND_EXECUTOR_INVALID');
+    }
+    const payload = options.payload && typeof options.payload === 'object' && !Array.isArray(options.payload)
+      ? options.payload
+      : {};
+    const result = await executeCommand(commandId, payload);
+    return { handled: true, commandId, result };
+  };
+}
+
 export function registerProjectCommands(registry, options = {}) {
   const electronAPI = options.electronAPI || null;
 
-  registry.registerCommand(COMMAND_IDS.PROJECT_OPEN, async () => {
+  registerCatalogCommand(registry, COMMAND_IDS.PROJECT_OPEN, async () => {
     if (!electronAPI || typeof electronAPI.openFile !== 'function') {
       return fail('E_COMMAND_FAILED', COMMAND_IDS.PROJECT_OPEN, 'ELECTRON_API_UNAVAILABLE');
     }
@@ -46,7 +100,7 @@ export function registerProjectCommands(registry, options = {}) {
     return ok({ opened: true });
   });
 
-  registry.registerCommand(COMMAND_IDS.PROJECT_SAVE, async () => {
+  registerCatalogCommand(registry, COMMAND_IDS.PROJECT_SAVE, async () => {
     if (!electronAPI || typeof electronAPI.saveFile !== 'function') {
       return fail('E_COMMAND_FAILED', COMMAND_IDS.PROJECT_SAVE, 'ELECTRON_API_UNAVAILABLE');
     }
@@ -54,7 +108,7 @@ export function registerProjectCommands(registry, options = {}) {
     return ok({ saved: true });
   });
 
-  registry.registerCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN, async (input = {}) => {
+  registerCatalogCommand(registry, COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN, async (input = {}) => {
     if (!electronAPI || typeof electronAPI.exportDocxMin !== 'function') {
       return fail(
         'E_UNWIRED_EXPORT_BACKEND',
@@ -112,7 +166,7 @@ export function registerProjectCommands(registry, options = {}) {
     );
   });
 
-  registry.registerCommand(COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1, async (input = {}) => {
+  registerCatalogCommand(registry, COMMAND_IDS.PROJECT_IMPORT_MARKDOWN_V1, async (input = {}) => {
     if (!electronAPI || typeof electronAPI.importMarkdownV1 !== 'function') {
       return fail(
         'MDV1_INTERNAL_ERROR',
@@ -171,7 +225,7 @@ export function registerProjectCommands(registry, options = {}) {
     );
   });
 
-  registry.registerCommand(COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1, async (input = {}) => {
+  registerCatalogCommand(registry, COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1, async (input = {}) => {
     if (!electronAPI || typeof electronAPI.exportMarkdownV1 !== 'function') {
       return fail(
         'MDV1_INTERNAL_ERROR',
@@ -256,7 +310,7 @@ export function registerProjectCommands(registry, options = {}) {
     );
   });
 
-  registry.registerCommand(COMMAND_IDS.PROJECT_FLOW_OPEN_V1, async () => {
+  registerCatalogCommand(registry, COMMAND_IDS.PROJECT_FLOW_OPEN_V1, async () => {
     if (!electronAPI || typeof electronAPI.openFlowModeV1 !== 'function') {
       return fail(
         'M7_FLOW_INTERNAL_ERROR',
@@ -301,7 +355,7 @@ export function registerProjectCommands(registry, options = {}) {
     );
   });
 
-  registry.registerCommand(COMMAND_IDS.PROJECT_FLOW_SAVE_V1, async (input = {}) => {
+  registerCatalogCommand(registry, COMMAND_IDS.PROJECT_FLOW_SAVE_V1, async (input = {}) => {
     if (!electronAPI || typeof electronAPI.saveFlowModeV1 !== 'function') {
       return fail(
         'M7_FLOW_INTERNAL_ERROR',

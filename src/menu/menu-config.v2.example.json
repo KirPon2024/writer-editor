@@ -1,0 +1,70 @@
+{
+  "version": "v2",
+  "fonts": [
+    {
+      "id": "font-palatino",
+      "label": "Palatino",
+      "value": "Palatino, 'Palatino Linotype', 'Book Antiqua', serif"
+    },
+    {
+      "id": "font-georgia",
+      "label": "Georgia",
+      "value": "Georgia, serif"
+    }
+  ],
+  "menus": [
+    {
+      "id": "file",
+      "label": "Документ",
+      "mode": ["offline"],
+      "profile": ["minimal", "pro", "guru"],
+      "stage": ["X1", "X2", "X3", "X4", "X5"],
+      "enabledWhen": "always",
+      "items": [
+        {
+          "id": "file-open",
+          "label": "Открыть проект...",
+          "accelerator": "CmdOrCtrl+O",
+          "actionId": "openDocument",
+          "mode": ["offline"],
+          "profile": ["minimal", "pro", "guru"],
+          "stage": ["X1", "X2", "X3", "X4", "X5"],
+          "enabledWhen": "always"
+        },
+        {
+          "id": "file-save",
+          "label": "Сохранить",
+          "accelerator": "CmdOrCtrl+S",
+          "actionId": "saveDocument",
+          "mode": ["offline"],
+          "profile": ["minimal", "pro", "guru"],
+          "stage": ["X1", "X2", "X3", "X4", "X5"],
+          "enabledWhen": "hasDocument"
+        },
+        {
+          "id": "file-export-docx",
+          "label": "Экспорт DOCX",
+          "actionId": "exportDocxMin",
+          "mode": ["offline"],
+          "profile": ["pro", "guru"],
+          "stage": ["X1", "X2", "X3", "X4", "X5"],
+          "enabledWhen": "hasDocument"
+        }
+      ]
+    },
+    {
+      "id": "edit",
+      "label": "Редактирование",
+      "items": [
+        {
+          "id": "edit-copy",
+          "role": "copy",
+          "mode": ["offline", "web_subset"],
+          "profile": ["minimal", "pro", "guru"],
+          "stage": ["X1", "X2", "X3", "X4", "X5"],
+          "enabledWhen": "selectionExists"
+        }
+      ]
+    }
+  ]
+}

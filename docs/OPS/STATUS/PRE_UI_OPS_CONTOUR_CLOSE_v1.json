@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "v1",
+  "closedAtUtc": "2026-02-17T03:32:44Z",
+  "closedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
+  "headSha": "8b1068d88a23f1ae1c09712234974a69e27d99d4",
+  "originMainSha": "8b1068d88a23f1ae1c09712234974a69e27d99d4",
+  "prs": [
+    "#182",
+    "#183"
+  ],
+  "evidence": {
+    "strictDoctorOk": 1,
+    "strictOpsSummaryOk": 1,
+    "truthTableHasTokensOk": 1
+  },
+  "requiredTokens": [
+    "WAVE_INPUT_HASH_PRESENT",
+    "WAVE_TTL_VALID",
+    "WAVE_RESULT_STALE==0",
+    "STAGE_ACTIVATION_OK",
+    "WAVE_FRESHNESS_OK",
+    "COMMAND_SURFACE_SINGLE_ENTRY_OK",
+    "COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK",
+    "PATH_BOUNDARY_GUARD_OK",
+    "DEPENDENCY_REMEDIATION_POLICY_OK",
+    "HEAD_STRICT_OK",
+    "REMOTE_BINDING_OK",
+    "GOVERNANCE_STRICT_OK",
+    "DRIFT_UNRESOLVED_P0_COUNT==0"
+  ],
+  "notes": "Closed pre-UI OPS contour from stable post-merge baseline before menu/design phase. Advisory by default."
+}

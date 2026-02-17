@@ -158,6 +158,8 @@ function main() {
     pathBoundaryGuardOk: freezeRollups.PATH_BOUNDARY_GUARD_OK,
     dependencyRemediationPolicyOk: freezeRollups.DEPENDENCY_REMEDIATION_POLICY_OK,
     dependencyRemediationPolicyMode: gateTier === 'promotion' ? 'blocking' : 'advisory',
+    preUiOpsContourRecordValidOk: freezeRollups.PRE_UI_OPS_CONTOUR_RECORD_VALID_OK,
+    preUiOpsContourClosedOk: freezeRollups.PRE_UI_OPS_CONTOUR_CLOSED_OK,
     capabilityMatrixNonEmptyOk: freezeRollups.CAPABILITY_MATRIX_NON_EMPTY_OK,
     capabilityBaselineMinOk: freezeRollups.CAPABILITY_BASELINE_MIN_OK,
     capabilityCommandBindingOk: freezeRollups.CAPABILITY_COMMAND_BINDING_OK,
@@ -279,6 +281,8 @@ function main() {
   console.log(`OPS_SUMMARY_PATH_BOUNDARY_GUARD_OK=${summary.pathBoundaryGuardOk}`);
   console.log(`OPS_SUMMARY_DEPENDENCY_REMEDIATION_POLICY_OK=${summary.dependencyRemediationPolicyOk}`);
   console.log(`OPS_SUMMARY_DEPENDENCY_REMEDIATION_POLICY_MODE=${summary.dependencyRemediationPolicyMode}`);
+  console.log(`OPS_SUMMARY_PRE_UI_OPS_CONTOUR_RECORD_VALID_OK=${summary.preUiOpsContourRecordValidOk}`);
+  console.log(`OPS_SUMMARY_PRE_UI_OPS_CONTOUR_CLOSED_OK=${summary.preUiOpsContourClosedOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_MATRIX_NON_EMPTY_OK=${summary.capabilityMatrixNonEmptyOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_BASELINE_MIN_OK=${summary.capabilityBaselineMinOk}`);
   console.log(`OPS_SUMMARY_CAPABILITY_COMMAND_BINDING_OK=${summary.capabilityCommandBindingOk}`);

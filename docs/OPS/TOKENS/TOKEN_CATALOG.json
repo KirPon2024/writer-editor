@@ -186,6 +186,26 @@
       "namespace": "PERF"
     },
     {
+      "tokenId": "PRE_UI_OPS_CONTOUR_CLOSED_OK",
+      "promotionState": "existing",
+      "gateTier": "conditional",
+      "requiredWhen": "GATE_TIER=promotion",
+      "proofHook": "node scripts/ops/pre-ui-ops-contour-close-state.mjs --json",
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_PRE_UI_CONTOUR_REQUIRED_TOKENS_FAIL",
+      "namespace": "PRE_UI_OPS_CONTOUR"
+    },
+    {
+      "tokenId": "PRE_UI_OPS_CONTOUR_RECORD_VALID_OK",
+      "promotionState": "existing",
+      "gateTier": "conditional",
+      "requiredWhen": "GATE_TIER=promotion",
+      "proofHook": "node scripts/ops/pre-ui-ops-contour-close-state.mjs --json",
+      "sourceBinding": "ops_script",
+      "failSignalCode": "E_PRE_UI_CONTOUR_RECORD_INVALID",
+      "namespace": "PRE_UI_OPS_CONTOUR"
+    },
+    {
       "tokenId": "PROOFHOOK_INTEGRITY_OK",
       "promotionState": "existing",
       "gateTier": "release",
@@ -283,4 +303,3 @@
     }
   ]
 }
-

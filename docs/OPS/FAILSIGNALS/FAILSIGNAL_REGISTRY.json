@@ -66,11 +66,59 @@
       "negativeTestRef": "test/contracts/path-boundary-guard.contract.test.js#parent-segment-negative"
     },
     {
+      "code": "E_PRE_UI_CONTOUR_DIRTY_WORKTREE",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Pre-UI contour close token is advisory by default and should fail when worktree is not clean.",
+      "precedence": 46,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#dirty-worktree-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_HEAD_ORIGIN_MISMATCH",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Pre-UI contour close token is advisory by default and should fail when head/origin pointers diverge.",
+      "precedence": 47,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#head-origin-mismatch-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_RECORD_INVALID",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Contour close record must match schema and required metadata before it can be used as evidence.",
+      "precedence": 48,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#invalid-shape-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_RECORD_MISSING",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Contour close record is missing so closure evidence cannot be established.",
+      "precedence": 49,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#missing-record-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_REQUIRED_TOKENS_FAIL",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Pre-UI contour required token set exists but one or more required checks are red.",
+      "precedence": 50,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#required-token-fail-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_REQUIRED_TOKENS_MISSING",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Pre-UI contour required token declaration references missing token IDs.",
+      "precedence": 51,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#required-token-missing-negative"
+    },
+    {
       "code": "E_SCOPEFLAG_UNKNOWN",
       "blocking": true,
       "tier": "release",
       "rationale": "Unknown scope flag cannot participate in machine stage activation and must fail deterministically.",
-      "precedence": 50,
+      "precedence": 60,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#unknown-scopeflag"
     },
     {
@@ -78,7 +126,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Promotion mode requires metrics evidence for the target stage before stage-gated binding can be trusted.",
-      "precedence": 60,
+      "precedence": 70,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#stage-metrics-missing-promotion"
     },
     {
@@ -86,7 +134,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Promotion mode without a valid promotion record or stage-consistent transition is invalid.",
-      "precedence": 70,
+      "precedence": 80,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#promotion-without-record"
     },
     {
@@ -94,7 +142,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Wave result reuse is allowed only for matching hash with valid TTL to prevent stale-green reuse.",
-      "precedence": 80,
+      "precedence": 90,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#ttl-stale-reuse"
     },
     {
@@ -102,7 +150,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "X3 deterministic recovery smoke proofhook must pass before promotion-tier readiness can be considered green.",
-      "precedence": 90,
+      "precedence": 100,
       "negativeTestRef": "test/contracts/x3-recovery-smoke.contract.test.js#forced-failure"
     }
   ]

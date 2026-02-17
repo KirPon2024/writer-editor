@@ -33,6 +33,7 @@ import { evaluateWaveCacheState } from './wave-cache.mjs';
 import { evaluateCommandSurfaceState } from './command-surface-state.mjs';
 import { evaluatePathBoundaryGuardState } from './path-boundary-guard-state.mjs';
 import { evaluateDependencyRemediationPolicyState } from './dependency-remediation-policy-state.mjs';
+import { evaluatePreUiOpsContourCloseState } from './pre-ui-ops-contour-close-state.mjs';
 
 function runGit(args) {
   return spawnSync('git', args, { encoding: 'utf8' });
@@ -68,8 +69,11 @@ function evaluateRemoteBinding() {
   const headRes = runGit(['rev-parse', 'HEAD']);
   const originRes = runGit(['rev-parse', 'origin/main']);
   const ancestorRes = runGit(['merge-base', '--is-ancestor', 'origin/main', 'HEAD']);
+  const worktreeRes = runGit(['status', '--porcelain', '--untracked-files=all']);
   const headSha = readStdout(headRes);
   const originMainSha = readStdout(originRes);
+  const workingTreePorcelain = readStdout(worktreeRes);
+  const workingTreeClean = worktreeRes.status === 0 && workingTreePorcelain === '' ? 1 : 0;
   const headEqualsOrigin = headRes.status === 0 && originRes.status === 0 && headSha === originMainSha;
   const ancestorOk = ancestorRes.status === 0;
   return {
@@ -78,6 +82,8 @@ function evaluateRemoteBinding() {
     remoteBindingOk: headEqualsOrigin && ancestorOk ? 1 : 0,
     headEqualsOrigin: headEqualsOrigin ? 1 : 0,
     ancestorOk: ancestorOk ? 1 : 0,
+    workingTreeClean,
+    workingTreePorcelain,
   };
 }
 
@@ -810,6 +816,16 @@ export function evaluateFreezeRollupsState(input = {}) {
     },
   };
 
+  const preUiOpsContourClose = evaluatePreUiOpsContourCloseState({
+    currentHeadSha: remote.headSha,
+    currentOriginMainSha: remote.originMainSha,
+    worktreePorcelain: remote.workingTreePorcelain,
+    tokenValues: state,
+  });
+  state.PRE_UI_OPS_CONTOUR_RECORD_VALID_OK = Number(preUiOpsContourClose.PRE_UI_OPS_CONTOUR_RECORD_VALID_OK) === 1 ? 1 : 0;
+  state.PRE_UI_OPS_CONTOUR_CLOSED_OK = Number(preUiOpsContourClose.PRE_UI_OPS_CONTOUR_CLOSED_OK) === 1 ? 1 : 0;
+  state.details.preUiOpsContourClose = preUiOpsContourClose;
+
   const freezeModeState = evaluateFreezeModeFromRollups(state, {
     freezeModeEnabled: String(process.env.FREEZE_MODE || '').trim() === '1',
   });
@@ -867,6 +883,8 @@ function printTokens(state) {
     'COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK',
     'PATH_BOUNDARY_GUARD_OK',
     'DEPENDENCY_REMEDIATION_POLICY_OK',
+    'PRE_UI_OPS_CONTOUR_RECORD_VALID_OK',
+    'PRE_UI_OPS_CONTOUR_CLOSED_OK',
     'CAPABILITY_MATRIX_NON_EMPTY_OK',
     'CAPABILITY_BASELINE_MIN_OK',
     'CAPABILITY_COMMAND_BINDING_OK',

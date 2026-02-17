@@ -25,3 +25,8 @@
 - Docs: добавлена структура для референсов (index + checklist + шаблон заметок): `docs/references/*`.
 - Docs: добавлена база референсов по OSS проектам (`docs/references/ROADMAP.md` + `docs/references/projects/*.md`) и улучшен `brain:refs` (теги разбиваются на части).
 - Process: разделили режимы ChatGPT (ТЗ/план/проверки, без правок в репо) и Codex (правки по ТЗ по умолчанию); коммиты/push вручную пользователем (если не оговорено иначе).
+
+## 2026-02-17
+- UI/Product docs: добавлен `docs/ROADMAP/UI_MENU_SUPERSPEC_v1.md` — полный research-only суперспек меню и интерфейсных поверхностей (menubar, toolbar, sidebar, inspector, overlays, settings) с mode/profile/stage gating.
+- UI/Product docs: добавлен `docs/ROADMAP/UI_COMMAND_SURFACE_v1.json` — машинно-читаемый реестр командного surface (`cmd.*`) и связей с меню/поверхностями/настройками.
+- Источники синхронизированы с каноном и внешними слепками (Typora/Google Docs/XMind/Craft + matrix/voice datasets).

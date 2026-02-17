@@ -1,0 +1,269 @@
+{
+  "version": "ui-command-surface.v1",
+  "researchOnly": true,
+  "implementationBinding": false,
+  "createdAt": "2026-02-17",
+  "canonRefs": [
+    "CANON.md",
+    "docs/corex/COREX.v1.md",
+    "docs/BIBLE.md"
+  ],
+  "modes": ["write", "plan", "review"],
+  "profiles": ["minimal", "pro", "guru"],
+  "stages": ["x0", "x1", "x2", "x3", "x4"],
+  "menus": [
+    {
+      "id": "file",
+      "label": "File",
+      "groups": [
+        {
+          "id": "project",
+          "commands": [
+            { "id": "cmd.file.project.new", "label": "New Project", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.file.project.open", "label": "Open Project", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.file.project.openRecent", "label": "Open Recent", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.file.project.settings", "label": "Project Settings", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" }
+          ]
+        },
+        {
+          "id": "save_and_recovery",
+          "commands": [
+            { "id": "cmd.file.save", "label": "Save", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.file.saveAll", "label": "Save All", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.file.saveSnapshot", "label": "Save Snapshot", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.file.backup.now", "label": "Backup Now", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.file.recovery.restore", "label": "Restore Project", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.file.recovery.report", "label": "Recovery Report", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" }
+          ]
+        },
+        {
+          "id": "import_export",
+          "commands": [
+            { "id": "cmd.file.import.text", "label": "Import TXT/MD", "modes": ["write", "plan"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.file.import.docx", "label": "Import DOCX", "modes": ["write", "plan"], "profiles": ["guru"], "stageMin": "x1" },
+            { "id": "cmd.file.export.docx", "label": "Export DOCX", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.file.export.pdf", "label": "Export PDF", "modes": ["write", "review"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.file.export.epub", "label": "Export EPUB", "modes": ["write"], "profiles": ["guru"], "stageMin": "x1" },
+            { "id": "cmd.file.export.preview", "label": "Export Preview", "modes": ["write", "review"], "profiles": ["pro", "guru"], "stageMin": "x1" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "edit",
+      "label": "Edit",
+      "groups": [
+        {
+          "id": "history",
+          "commands": [
+            { "id": "cmd.edit.undo", "label": "Undo", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.edit.redo", "label": "Redo", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.edit.history.open", "label": "Undo History", "modes": ["write", "review"], "profiles": ["guru"], "stageMin": "x1" }
+          ]
+        },
+        {
+          "id": "clipboard",
+          "commands": [
+            { "id": "cmd.edit.cut", "label": "Cut", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.edit.copy", "label": "Copy", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.edit.paste", "label": "Paste", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.edit.pastePlain", "label": "Paste as Plain Text", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" }
+          ]
+        },
+        {
+          "id": "find",
+          "commands": [
+            { "id": "cmd.edit.find", "label": "Find", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.edit.replace", "label": "Replace", "modes": ["write", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.edit.findProject", "label": "Find in Project", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "groups": [
+        {
+          "id": "layout",
+          "commands": [
+            { "id": "cmd.view.sidebar.toggle", "label": "Toggle Sidebar", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.view.inspector.toggle", "label": "Toggle Inspector", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.view.focus", "label": "Focus Mode", "modes": ["write"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.view.typewriter", "label": "Typewriter Mode", "modes": ["write"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.view.fullscreen", "label": "Fullscreen", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" }
+          ]
+        },
+        {
+          "id": "scale",
+          "commands": [
+            { "id": "cmd.view.zoom.in", "label": "Zoom In", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.view.zoom.out", "label": "Zoom Out", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.view.zoom.reset", "label": "Zoom Reset", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "insert",
+      "label": "Insert",
+      "groups": [
+        {
+          "id": "structural",
+          "commands": [
+            { "id": "cmd.insert.sceneBreak", "label": "Scene Break", "modes": ["write"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.insert.footnote", "label": "Footnote", "modes": ["write", "review"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.insert.link", "label": "Link", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" }
+          ]
+        },
+        {
+          "id": "media",
+          "commands": [
+            { "id": "cmd.insert.image", "label": "Image", "modes": ["write", "plan"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.insert.table", "label": "Table", "modes": ["write", "review"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.insert.card", "label": "Scene Card", "modes": ["plan"], "profiles": ["pro", "guru"], "stageMin": "x1" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "format",
+      "label": "Format",
+      "groups": [
+        {
+          "id": "paragraph_and_inline",
+          "commands": [
+            { "id": "cmd.format.paragraph", "label": "Paragraph", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.format.h1", "label": "Heading 1", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.format.h2", "label": "Heading 2", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.format.bold", "label": "Bold", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.format.italic", "label": "Italic", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.format.clear", "label": "Clear Formatting", "modes": ["write", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plan",
+      "label": "Plan",
+      "groups": [
+        {
+          "id": "entities_and_timeline",
+          "commands": [
+            { "id": "cmd.plan.characters.open", "label": "Characters", "modes": ["plan"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.plan.places.open", "label": "Places", "modes": ["plan"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.plan.timeline.open", "label": "Timeline", "modes": ["plan"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.plan.cards.open", "label": "Scene Cards", "modes": ["plan"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.plan.continuity.run", "label": "Continuity Check", "modes": ["plan", "review"], "profiles": ["guru"], "stageMin": "x1" },
+            { "id": "cmd.plan.mindmap.open", "label": "Mind Map", "modes": ["plan"], "profiles": ["guru"], "stageMin": "x2" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "label": "Review",
+      "groups": [
+        {
+          "id": "comments_and_changes",
+          "commands": [
+            { "id": "cmd.review.comment.add", "label": "Add Comment", "modes": ["review", "write"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.review.comment.resolve", "label": "Resolve Comment", "modes": ["review"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.review.track.toggle", "label": "Track Changes", "modes": ["review"], "profiles": ["guru"], "stageMin": "x2" },
+            { "id": "cmd.review.change.accept", "label": "Accept Change", "modes": ["review"], "profiles": ["guru"], "stageMin": "x2" },
+            { "id": "cmd.review.change.reject", "label": "Reject Change", "modes": ["review"], "profiles": ["guru"], "stageMin": "x2" },
+            { "id": "cmd.review.history.open", "label": "Version History", "modes": ["review"], "profiles": ["pro", "guru"], "stageMin": "x1" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "label": "Tools",
+      "groups": [
+        {
+          "id": "quality_and_ops",
+          "commands": [
+            { "id": "cmd.tools.palette.open", "label": "Command Palette", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.tools.quickOpen", "label": "Quick Open", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.tools.metrics.wordCount", "label": "Word Count", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.tools.language.spellcheck", "label": "Spellcheck", "modes": ["write", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.tools.language.stylecheck", "label": "Style Check", "modes": ["write", "review"], "profiles": ["pro", "guru"], "stageMin": "x1" },
+            { "id": "cmd.tools.diagnostics.open", "label": "Diagnostics", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.tools.recovery.drill", "label": "Recovery Drill", "modes": ["write", "plan", "review"], "profiles": ["guru"], "stageMin": "x1" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "window",
+      "label": "Window",
+      "groups": [
+        {
+          "id": "windows_and_layouts",
+          "commands": [
+            { "id": "cmd.window.new", "label": "New Window", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.window.next", "label": "Next Window", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.window.prev", "label": "Previous Window", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.window.splitView", "label": "Split View", "modes": ["write", "plan", "review"], "profiles": ["guru"], "stageMin": "x1" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "help",
+      "label": "Help",
+      "groups": [
+        {
+          "id": "docs_and_support",
+          "commands": [
+            { "id": "cmd.help.quickStart", "label": "Quick Start", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.help.shortcuts", "label": "Keyboard Shortcuts", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.help.docs", "label": "Documentation", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.help.reportIssue", "label": "Report Issue", "modes": ["write", "plan", "review"], "profiles": ["pro", "guru"], "stageMin": "x0" },
+            { "id": "cmd.help.openLogs", "label": "Open Logs", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0", "requiredForMvp": true },
+            { "id": "cmd.help.about", "label": "About", "modes": ["write", "plan", "review"], "profiles": ["minimal", "pro", "guru"], "stageMin": "x0" }
+          ]
+        }
+      ]
+    }
+  ],
+  "surfaces": {
+    "toolbar": {
+      "primary": [
+        "cmd.file.project.new",
+        "cmd.file.project.open",
+        "cmd.file.save",
+        "cmd.format.paragraph",
+        "cmd.format.bold",
+        "cmd.format.italic",
+        "cmd.format.align.left",
+        "cmd.format.align.center",
+        "cmd.format.align.right",
+        "cmd.view.focus"
+      ],
+      "secondary": [
+        "cmd.tools.metrics.wordCount",
+        "cmd.view.zoom.out",
+        "cmd.view.zoom.reset",
+        "cmd.view.zoom.in",
+        "cmd.tools.quickOpen"
+      ]
+    },
+    "sidebarTabs": ["project", "outline", "entities", "timeline", "search"],
+    "inspectorTabs": ["sceneMeta", "cards", "references", "review", "history"],
+    "overlays": ["commandPalette", "quickOpen", "globalSearch", "diagnostics", "exportWizard", "conflictResolver"]
+  },
+  "settingsSections": [
+    { "id": "general", "keys": ["language", "startupBehavior", "recentLimit"] },
+    { "id": "editor", "keys": ["fontFamily", "fontSize", "lineHeight", "typewriterModeDefault", "focusModeDefault", "pastePolicy"] },
+    { "id": "storage", "keys": ["projectDefaultPath", "autosaveIntervalMs", "snapshotIntervalMin", "snapshotRetentionCount", "backupRetentionCount"] },
+    { "id": "export", "keys": ["docxStyleMapPreset", "pdfPreset", "epubPreset", "exportValidationStrict"] },
+    { "id": "review", "keys": ["showResolvedComments", "defaultCommentVisibility", "changeTrackingDefault"] },
+    { "id": "plan", "keys": ["timelineGranularity", "cardsDensity", "entityTemplatePreset"] },
+    { "id": "interface", "keys": ["theme", "density", "sidebarWidth", "inspectorWidth", "toolbarCompact"] },
+    { "id": "shortcuts", "keys": ["customBindings", "conflictPolicy"] },
+    { "id": "privacySecurity", "keys": ["externalLinksConfirm", "diagnosticsBundleConsent", "clipboardSensitiveWarning"] },
+    { "id": "advanced", "keys": ["performanceMode", "devDiagnostics", "resetUiState", "resetAllPreferences"] }
+  ]
+}

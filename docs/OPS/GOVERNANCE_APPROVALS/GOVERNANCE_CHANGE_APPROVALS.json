@@ -136,10 +136,10 @@
     },
     {
       "filePath": "scripts/ops/command-surface-state.mjs",
-      "sha256": "c2afa229543fea798ca1c147e6dc563adf5e64ebc0a6d1fa3f393a162cb5ea57",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+      "sha256": "5c8d1b9c5cd045bb3c7f9241eff38a2f3b8a482b1f67412f1b150edf84e08da5",
+      "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
+      "approvedAtUtc": "2026-02-17T00:00:00.000Z",
+      "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
     },
     {
       "filePath": "scripts/ops/compute-wave-input-hash.mjs",
@@ -185,10 +185,10 @@
     },
     {
       "filePath": "scripts/ops/freeze-rollups-state.mjs",
-      "sha256": "d80538bd9cd23335008111146af3192989c1b62d3fadd84748e1bf71f5a29680",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
+      "sha256": "5fe31fd17d79762abce4753562caea7f3f59f57b7b33a4eae1a7d3d58fdae1f8",
+      "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
+      "approvedAtUtc": "2026-02-17T00:00:00.000Z",
+      "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
     },
     {
       "filePath": "scripts/ops/governance-approval-state.mjs",
@@ -213,10 +213,10 @@
     },
     {
       "filePath": "scripts/ops/pre-ui-ops-contour-close-state.mjs",
-      "sha256": "ae5f39ffaf05d911fffcde66bb3292c02b785688b8441a776f092e0beab172da",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
+      "sha256": "c1522d6a67d36445a1dd5e75cac46e192fb26ba12ef5341a06869f761b945253",
+      "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
+      "approvedAtUtc": "2026-02-17T00:00:00.000Z",
+      "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
     },
     {
       "filePath": "scripts/ops/resolve-active-stage.mjs",
@@ -367,10 +367,10 @@
     },
     {
       "filePath": "test/contracts/pre-ui-ops-contour-close.contract.test.js",
-      "sha256": "80552f71395b962775101a3ef657ebd78be356911e3fb8aaacc966ddcb3bafef",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
+      "sha256": "7e4be6bff10e1abb3923b0d325990f809d5cb8c8e7edf45acdd5cdd670f6ae0a",
+      "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
+      "approvedAtUtc": "2026-02-17T00:00:00.000Z",
+      "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
     },
     {
       "filePath": "test/contracts/stage-activation.contract.test.js",

@@ -283,6 +283,9 @@ export function evaluatePreUiOpsContourCloseState(input = {}) {
     ? input.worktreePorcelain
     : readStdout(runGit(['status', '--porcelain', '--untracked-files=all']));
   const worktreeClean = String(worktreePorcelain).trim() === '' ? 1 : 0;
+  const enforceWorktreeClean = input.enforceWorktreeClean === undefined
+    ? true
+    : input.enforceWorktreeClean === true;
 
   const recordHeadSha = String(record.headSha || '').trim().toLowerCase();
   const recordOriginMainSha = String(record.originMainSha || '').trim().toLowerCase();
@@ -332,7 +335,7 @@ export function evaluatePreUiOpsContourCloseState(input = {}) {
     violations.push('HEAD_ORIGIN_MISMATCH');
     failSignal = FAIL_HEAD_ORIGIN_MISMATCH;
     failReason = 'HEAD_ORIGIN_MISMATCH';
-  } else if (worktreeClean !== 1) {
+  } else if (enforceWorktreeClean && worktreeClean !== 1) {
     violations.push('WORKTREE_DIRTY');
     failSignal = FAIL_DIRTY_WORKTREE;
     failReason = 'WORKTREE_DIRTY';
@@ -369,6 +372,7 @@ export function evaluatePreUiOpsContourCloseState(input = {}) {
     originMainMatchesRecord,
     headEqualsOriginMain,
     worktreeClean,
+    enforceWorktreeClean: enforceWorktreeClean ? 1 : 0,
     requiredTokenMissing: [...requiredTokenMissing].sort((a, b) => a.localeCompare(b)),
     requiredTokenFailed: [...requiredTokenFailed].sort((a, b) => a.localeCompare(b)),
     requiredTokenChecks: [...requiredTokenChecks].sort((a, b) => a.spec.localeCompare(b.spec)),

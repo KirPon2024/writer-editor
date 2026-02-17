@@ -18,6 +18,7 @@ const REQUIRED_FILES = Object.freeze([
   'src/renderer/commands/commandBusGuard.mjs',
   'src/renderer/editor.js',
 ]);
+const COMMAND_CATALOG_PATH = 'src/renderer/commands/command-catalog.v1.mjs';
 
 const FORBIDDEN_EDITOR_DIRECT_CALLS = Object.freeze([
   'window.electronAPI.openFile(',
@@ -67,15 +68,22 @@ function collectScenarioIds(testFileText) {
   return present.sort((a, b) => a.localeCompare(b));
 }
 
-function evaluateSingleEntryState(editorText, projectCommandsText) {
+function evaluateSingleEntryState(editorText, projectCommandsText, commandCatalogText) {
+  const legacyIdsDeclared = projectCommandsText.includes('cmd.project.open')
+    && projectCommandsText.includes('cmd.project.save')
+    && projectCommandsText.includes('cmd.project.export.docxMin');
+  const catalogBackedIdsDeclared = projectCommandsText.includes('COMMAND_IDS.PROJECT_OPEN')
+    && projectCommandsText.includes('COMMAND_IDS.PROJECT_SAVE')
+    && projectCommandsText.includes('COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN')
+    && commandCatalogText.includes('cmd.project.open')
+    && commandCatalogText.includes('cmd.project.save')
+    && commandCatalogText.includes('cmd.project.export.docxMin');
   const checks = {
     busRouteWired: editorText.includes('runCommandThroughBus(')
       && (editorText.includes(`route: ${JSON.stringify(COMMAND_BUS_ROUTE)}`)
         || editorText.includes('route: COMMAND_BUS_ROUTE')),
     runCommandBypassAbsent: !/\brunCommand\s*\(/u.test(editorText),
-    projectCommandIdsDeclared: projectCommandsText.includes('cmd.project.open')
-      && projectCommandsText.includes('cmd.project.save')
-      && projectCommandsText.includes('cmd.project.export.docxMin'),
+    projectCommandIdsDeclared: legacyIdsDeclared || catalogBackedIdsDeclared,
   };
 
   for (const forbidden of FORBIDDEN_EDITOR_DIRECT_CALLS) {
@@ -96,9 +104,12 @@ export function evaluateCommandSurfaceState(input = {}) {
   const projectCommandsText = typeof input.projectCommandsText === 'string'
     ? input.projectCommandsText
     : readText('src/renderer/commands/projectCommands.mjs');
+  const commandCatalogText = typeof input.commandCatalogText === 'string'
+    ? input.commandCatalogText
+    : readText(COMMAND_CATALOG_PATH);
   const testFileText = typeof input.testFileText === 'string' ? input.testFileText : readText(contractTestPath);
 
-  const singleEntryState = evaluateSingleEntryState(editorText, projectCommandsText);
+  const singleEntryState = evaluateSingleEntryState(editorText, projectCommandsText, commandCatalogText);
   const presentScenarioIds = collectScenarioIds(testFileText);
   const presentScenarioSet = new Set(presentScenarioIds);
   const missingScenarioIds = REQUIRED_BYPASS_SCENARIO_IDS

@@ -3,7 +3,12 @@ const path = require('path');
 
 const MENU_CONFIG_PATH = path.join(__dirname, 'menu-config.v1.json');
 const MENU_SCHEMA_PATH = path.join(__dirname, 'menu-config.schema.v1.json');
+const MENU_SCHEMA_V2_PATH = path.join(__dirname, 'menu-config.schema.v2.json');
 const MENU_FALLBACK_MESSAGE = 'Safe fallback menu will be used.';
+const MENU_DEFAULT_MODE = ['offline'];
+const MENU_DEFAULT_PROFILE = ['minimal', 'pro', 'guru'];
+const MENU_DEFAULT_STAGE = ['X0', 'X1', 'X2', 'X3', 'X4', 'X5'];
+const MENU_DEFAULT_ENABLED_WHEN = 'always';
 
 function makePath(base, segment) {
   if (segment === undefined || segment === null || segment === '') {
@@ -25,6 +30,30 @@ function createError(code, atPath, message) {
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function hasV2Fields(node) {
+  if (!isPlainObject(node)) return false;
+  if (
+    Object.prototype.hasOwnProperty.call(node, 'mode') ||
+    Object.prototype.hasOwnProperty.call(node, 'profile') ||
+    Object.prototype.hasOwnProperty.call(node, 'stage') ||
+    Object.prototype.hasOwnProperty.call(node, 'enabledWhen')
+  ) {
+    return true;
+  }
+  if (!Array.isArray(node.items)) return false;
+  return node.items.some((entry) => hasV2Fields(entry));
+}
+
+function detectMenuConfigVersion(menuConfig) {
+  if (!isPlainObject(menuConfig)) return 'v1';
+  if (menuConfig.version === 'v2') return 'v2';
+  if (menuConfig.version === 'v1') return 'v1';
+  if (Array.isArray(menuConfig.menus) && menuConfig.menus.some((node) => hasV2Fields(node))) {
+    return 'v2';
+  }
+  return 'v1';
 }
 
 function resolveLocalRef(rootSchema, ref) {
@@ -179,9 +208,78 @@ function safeJsonParse(raw, kind) {
   }
 }
 
+function normalizeGateArray(value, fallback) {
+  if (!Array.isArray(value) || value.length === 0) {
+    return fallback.slice();
+  }
+  const unique = [];
+  for (const entry of value) {
+    if (typeof entry !== 'string') continue;
+    if (!unique.includes(entry)) unique.push(entry);
+  }
+  return unique.length > 0 ? unique : fallback.slice();
+}
+
+function normalizeMenuNodeToV2(node) {
+  if (!isPlainObject(node)) return node;
+  const normalized = { ...node };
+  normalized.mode = normalizeGateArray(node.mode, MENU_DEFAULT_MODE);
+  normalized.profile = normalizeGateArray(node.profile, MENU_DEFAULT_PROFILE);
+  normalized.stage = normalizeGateArray(node.stage, MENU_DEFAULT_STAGE);
+  normalized.enabledWhen =
+    typeof node.enabledWhen === 'string' && node.enabledWhen.length > 0
+      ? node.enabledWhen
+      : MENU_DEFAULT_ENABLED_WHEN;
+  if (Array.isArray(node.items)) {
+    normalized.items = node.items.map((entry) => normalizeMenuNodeToV2(entry));
+  }
+  return normalized;
+}
+
+function normalizeMenuConfigToV2(menuConfig) {
+  if (!isPlainObject(menuConfig)) return menuConfig;
+  const normalized = { ...menuConfig };
+  normalized.version = 'v2';
+  normalized.menus = Array.isArray(menuConfig.menus)
+    ? menuConfig.menus.map((entry) => normalizeMenuNodeToV2(entry))
+    : [];
+  return normalized;
+}
+
+function evaluateMenuItemEnabled(node, context = {}) {
+  const normalized = normalizeMenuNodeToV2(node);
+  const mode = typeof context.mode === 'string' ? context.mode : 'offline';
+  const profile = typeof context.profile === 'string' ? context.profile : 'minimal';
+  const stage = typeof context.stage === 'string' ? context.stage : 'X1';
+
+  if (Array.isArray(normalized.mode) && !normalized.mode.includes(mode)) {
+    return { enabled: false, reason: 'E_MENU_GATE_MODE' };
+  }
+  if (Array.isArray(normalized.profile) && !normalized.profile.includes(profile)) {
+    return { enabled: false, reason: 'E_MENU_GATE_PROFILE' };
+  }
+  if (Array.isArray(normalized.stage) && !normalized.stage.includes(stage)) {
+    return { enabled: false, reason: 'E_MENU_GATE_STAGE' };
+  }
+
+  switch (normalized.enabledWhen) {
+    case 'always':
+      return { enabled: true, reason: '' };
+    case 'hasDocument':
+      return context.hasDocument === true
+        ? { enabled: true, reason: '' }
+        : { enabled: false, reason: 'E_MENU_GATE_ENABLED_WHEN_HAS_DOCUMENT' };
+    case 'selectionExists':
+      return context.selectionExists === true
+        ? { enabled: true, reason: '' }
+        : { enabled: false, reason: 'E_MENU_GATE_ENABLED_WHEN_SELECTION_EXISTS' };
+    default:
+      return { enabled: false, reason: 'E_MENU_GATE_ENABLED_WHEN' };
+  }
+}
+
 function loadAndValidateMenuConfig(options = {}) {
   const configPath = options.configPath || MENU_CONFIG_PATH;
-  const schemaPath = options.schemaPath || MENU_SCHEMA_PATH;
 
   let configRaw;
   try {
@@ -194,6 +292,19 @@ function loadAndValidateMenuConfig(options = {}) {
     };
   }
 
+  const configParsed = safeJsonParse(configRaw, 'Menu config');
+  if (!configParsed.ok) {
+    return {
+      ok: false,
+      failReason: configParsed.failReason,
+      errors: [createError('E_MENU_CONFIG_PARSE', '$', configParsed.failReason)]
+    };
+  }
+
+  const configVersion = detectMenuConfigVersion(configParsed.value);
+  const schemaPath =
+    options.schemaPath || (configVersion === 'v2' ? MENU_SCHEMA_V2_PATH : MENU_SCHEMA_PATH);
+
   let schemaRaw;
   try {
     schemaRaw = fsSync.readFileSync(schemaPath, 'utf8');
@@ -202,15 +313,6 @@ function loadAndValidateMenuConfig(options = {}) {
       ok: false,
       failReason: `Cannot read menu schema: ${error.message}`,
       errors: [createError('E_MENU_SCHEMA_READ', '$', String(error.message))]
-    };
-  }
-
-  const configParsed = safeJsonParse(configRaw, 'Menu config');
-  if (!configParsed.ok) {
-    return {
-      ok: false,
-      failReason: configParsed.failReason,
-      errors: [createError('E_MENU_CONFIG_PARSE', '$', configParsed.failReason)]
     };
   }
 
@@ -224,9 +326,12 @@ function loadAndValidateMenuConfig(options = {}) {
   }
 
   const validation = validateMenuConfigAgainstSchema(configParsed.value, schemaParsed.value);
+  const normalizedConfig = validation.ok ? normalizeMenuConfigToV2(configParsed.value) : null;
   return {
     ok: validation.ok,
+    version: configVersion,
     config: configParsed.value,
+    normalizedConfig,
     schema: schemaParsed.value,
     errors: validation.errors,
     failReason: validation.ok ? '' : validation.errors[0].message
@@ -249,8 +354,12 @@ function toMenuConfigRuntimeState(validationState) {
 module.exports = {
   MENU_CONFIG_PATH,
   MENU_SCHEMA_PATH,
+  MENU_SCHEMA_V2_PATH,
   MENU_FALLBACK_MESSAGE,
+  detectMenuConfigVersion,
+  evaluateMenuItemEnabled,
   loadAndValidateMenuConfig,
+  normalizeMenuConfigToV2,
   toMenuConfigRuntimeState,
   validateMenuConfigAgainstSchema
 };

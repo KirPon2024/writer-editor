@@ -129,10 +129,10 @@
     },
     {
       "filePath": "scripts/doctor.mjs",
-      "sha256": "822a583d396be855befccddf9b37d0e65a746775b1eb6798011f34be9ff84043",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
+      "sha256": "1e89995b1c8876bb3850404442b8ffdbac12af6e5ef18e9611f07c17116c0799",
+      "approvedBy": "ticket:OPS-DOCTOR-U1-CATALOG-AWARE-02",
+      "approvedAtUtc": "2026-02-17T15:20:00.000Z",
+      "rationale": "Sync governance approval with catalog-aware U1 doctor checks to keep strict wave green."
     },
     {
       "filePath": "scripts/ops/command-surface-state.mjs",

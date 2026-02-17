@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { listCommandCatalog } from '../src/renderer/commands/command-catalog.v1.mjs';
 import { evaluateXplatContractState } from './ops/xplat-contract-state.mjs';
 import { evaluateRequiredChecksState } from './ops/required-checks-state.mjs';
 import { evaluateFreezeRollupsState } from './ops/freeze-rollups-state.mjs';
@@ -44,7 +45,18 @@ const SECOND_ENTRYPOINT_PATH = process.env.SECOND_ENTRYPOINT_PATH || DEFAULT_SEC
 const U1_COMMAND_REGISTRY_PATH = 'src/renderer/commands/registry.mjs';
 const U1_COMMAND_RUNNER_PATH = 'src/renderer/commands/runCommand.mjs';
 const U1_COMMAND_PROJECT_PATH = 'src/renderer/commands/projectCommands.mjs';
+const U1_COMMAND_CATALOG_PATH = 'src/renderer/commands/command-catalog.v1.mjs';
 const U1_COMMAND_LAYER_TEST_PATH = 'test/unit/sector-u-u1-command-layer.test.js';
+const U1_REQUIRED_OPEN_SAVE_IDS = Object.freeze([
+  'cmd.project.open',
+  'cmd.project.save',
+]);
+const U1_REQUIRED_EXPORT_ID = 'cmd.project.export.docxMin';
+const U1_REQUIRED_SURFACES = Object.freeze({
+  'cmd.project.open': Object.freeze(['palette']),
+  'cmd.project.save': Object.freeze(['palette']),
+  'cmd.project.export.docxMin': Object.freeze(['palette']),
+});
 const U2_RULE_ID = 'U2-RULE-001';
 const U2_GUARD_SCRIPT_PATH = 'scripts/guards/sector-u-ui-no-platform-direct.mjs';
 const U2_GUARD_TEST_PATH = 'test/unit/sector-u-u2-ui-no-platform-direct.test.js';
@@ -4676,6 +4688,56 @@ function evaluateSectorUFastDurationTokens(sectorUStatus) {
   return result;
 }
 
+function evaluateU1CatalogBindings() {
+  const fallback = {
+    ok: false,
+    missingIds: [...U1_REQUIRED_OPEN_SAVE_IDS, U1_REQUIRED_EXPORT_ID],
+    surfaceMismatchIds: [],
+  };
+  if (!fs.existsSync(U1_COMMAND_CATALOG_PATH)) return fallback;
+
+  let entries;
+  try {
+    entries = listCommandCatalog();
+  } catch {
+    return fallback;
+  }
+  if (!Array.isArray(entries)) return fallback;
+
+  const byId = new Map();
+  for (const entry of entries) {
+    if (!entry || typeof entry.id !== 'string') continue;
+    byId.set(entry.id, entry);
+  }
+
+  const requiredIds = [...U1_REQUIRED_OPEN_SAVE_IDS, U1_REQUIRED_EXPORT_ID];
+  const missingIds = [];
+  const surfaceMismatchIds = [];
+
+  for (const commandId of requiredIds) {
+    const entry = byId.get(commandId);
+    if (!entry) {
+      missingIds.push(commandId);
+      continue;
+    }
+
+    const expectedSurfaces = Array.isArray(U1_REQUIRED_SURFACES[commandId]) ? U1_REQUIRED_SURFACES[commandId] : [];
+    const surfaces = Array.isArray(entry.surface)
+      ? entry.surface.filter((surface) => typeof surface === 'string' && surface.trim().length > 0)
+      : [];
+    const hasExpectedSurfaces = expectedSurfaces.every((surface) => surfaces.includes(surface));
+    if (!hasExpectedSurfaces) {
+      surfaceMismatchIds.push(commandId);
+    }
+  }
+
+  return {
+    ok: missingIds.length === 0 && surfaceMismatchIds.length === 0,
+    missingIds,
+    surfaceMismatchIds,
+  };
+}
+
 function evaluateU1CommandLayerTokens(sectorUStatus) {
   const result = {
     registryExists: 0,
@@ -4683,6 +4745,9 @@ function evaluateU1CommandLayerTokens(sectorUStatus) {
     exportExists: 0,
     testsOk: 0,
     proofOk: 0,
+    source: 'legacy',
+    missingIds: [],
+    surfaceMismatchIds: [],
     level: 'ok',
   };
 
@@ -4694,11 +4759,31 @@ function evaluateU1CommandLayerTokens(sectorUStatus) {
   if (filesExist) {
     try {
       const text = fs.readFileSync(U1_COMMAND_PROJECT_PATH, 'utf8');
-      result.openSaveExist = text.includes('cmd.project.open') && text.includes('cmd.project.save') ? 1 : 0;
-      result.exportExists = text.includes('cmd.project.export.docxMin') ? 1 : 0;
+      const catalogAvailable = fs.existsSync(U1_COMMAND_CATALOG_PATH);
+      if (catalogAvailable) {
+        const catalogState = evaluateU1CatalogBindings();
+        result.source = 'catalog';
+        result.missingIds = catalogState.missingIds;
+        result.surfaceMismatchIds = catalogState.surfaceMismatchIds;
+
+        const openSaveMissing = catalogState.missingIds.some((commandId) => U1_REQUIRED_OPEN_SAVE_IDS.includes(commandId));
+        const openSaveSurfaceMismatch = catalogState.surfaceMismatchIds.some((commandId) => U1_REQUIRED_OPEN_SAVE_IDS.includes(commandId));
+        result.openSaveExist = openSaveMissing || openSaveSurfaceMismatch ? 0 : 1;
+
+        const exportMissing = catalogState.missingIds.includes(U1_REQUIRED_EXPORT_ID);
+        const exportSurfaceMismatch = catalogState.surfaceMismatchIds.includes(U1_REQUIRED_EXPORT_ID);
+        result.exportExists = exportMissing || exportSurfaceMismatch ? 0 : 1;
+      } else {
+        result.source = 'legacy';
+        result.openSaveExist = text.includes('cmd.project.open') && text.includes('cmd.project.save') ? 1 : 0;
+        result.exportExists = text.includes('cmd.project.export.docxMin') ? 1 : 0;
+      }
     } catch {
       result.openSaveExist = 0;
       result.exportExists = 0;
+      result.source = 'legacy';
+      result.missingIds = [];
+      result.surfaceMismatchIds = [];
     }
   }
 
@@ -4733,6 +4818,9 @@ function evaluateU1CommandLayerTokens(sectorUStatus) {
   console.log(`U1_COMMAND_EXPORT_DOCXMIN_EXISTS=${result.exportExists}`);
   console.log(`U1_COMMANDS_TESTS_OK=${result.testsOk}`);
   console.log(`U1_COMMANDS_PROOF_OK=${result.proofOk}`);
+  console.log(`U1_COMMAND_SOURCE=${result.source}`);
+  console.log(`U1_COMMAND_CATALOG_MISSING_IDS=${JSON.stringify(result.missingIds)}`);
+  console.log(`U1_COMMAND_CATALOG_SURFACE_MISMATCH_IDS=${JSON.stringify(result.surfaceMismatchIds)}`);
   return result;
 }
 

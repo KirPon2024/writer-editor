@@ -318,10 +318,10 @@
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "3bb9855519607d9baf9951812788eff4a70f4f6aa828b6f4c4ee894fbfc1b8ca",
-      "approvedBy": "ticket:TZ-RUNNER-PR-MERGE-01",
-      "approvedAtUtc": "2026-02-18T21:04:20.000Z",
-      "rationale": "Add PR merge/resume capability to codex-run single-entry runner (steps 3-10, anti-swap, scope-proof)."
+      "sha256": "89dd469785d71457bdda6c6f4d861e184e9e3caee46fbcf6f8e878d2f68e56f9",
+      "approvedBy": "ticket:TZ-RUNNER-STABILIZATION-02",
+      "approvedAtUtc": "2026-02-18T21:22:24.000Z",
+      "rationale": "Stabilize runner network classification, deterministic retry/resume snapshot lifecycle, and non-interactive gh orchestration."
     }
   ]
 }

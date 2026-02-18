@@ -7,9 +7,13 @@ import process from 'node:process';
 import { spawnSync } from 'node:child_process';
 
 const ALLOWED_MODES = new Set(['dev', 'pr', 'release', 'promotion']);
-const RUNNER_VERSION = 'v0.3.0-pr-merge-resume';
+const RUNNER_VERSION = 'v0.4.0-runner-stabilization-02';
 const DEFAULT_PR_RESUME_STEP = 5;
 const SNAPSHOT_ROOT = path.join('docs', 'OPS', 'CACHE', 'codex-run');
+const RETRY_DELAY_MS = 2000;
+const GH_TIMEOUT_MS = 30000;
+const CHECKS_WAIT_TIMEOUT_MS = 10 * 60 * 1000;
+const CHECKS_WAIT_POLL_MS = 20 * 1000;
 
 class RunnerStepFailure extends Error {
   constructor(failureClass, reason, detail, options = {}) {
@@ -110,6 +114,12 @@ function commandToString(command, args) {
   return chunks.join(' ');
 }
 
+function sleepMs(durationMs) {
+  const ms = Math.max(0, Number(durationMs) || 0);
+  if (ms === 0) return;
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
 function emitStepEvent(payload) {
   process.stdout.write(`${JSON.stringify(payload)}\n`);
 }
@@ -140,7 +150,7 @@ function classifyFailureText(detailText) {
     || text.includes('is not mergeable')
     || text.includes('branch protection')
   ) {
-    return { failureClass: 'HUMAN_REQUIRED', reason: 'BRANCH_PROTECTION_BLOCK' };
+    return { failureClass: 'HUMAN_REQUIRED', reason: 'BRANCH_PROTECTION_WAIT' };
   }
 
   if (
@@ -156,8 +166,12 @@ function classifyFailureText(detailText) {
     || text.includes('http 503')
     || text.includes('http 504')
     || text.includes('econn')
+    || text.includes('enotfound')
+    || text.includes('etimedout')
+    || text.includes('socket hang up')
+    || text.includes('api.github.com')
   ) {
-    return { failureClass: 'RETRYABLE_FAIL', reason: 'NETWORK_OR_RATE_LIMIT' };
+    return { failureClass: 'RETRYABLE_FAIL', reason: 'NETWORK_UNSTABLE' };
   }
 
   return { failureClass: 'BLOCK_FAIL', reason: 'RUNNER_STEP_FAILED' };
@@ -182,7 +196,7 @@ function runCommand(command, args = [], options = {}) {
     requireSuccess = false,
   } = options;
 
-  const attemptsAllowed = retryable ? 2 : 1;
+  const attemptsAllowed = retryable ? 3 : 1;
   let last = null;
 
   for (let attempt = 1; attempt <= attemptsAllowed; attempt += 1) {
@@ -191,15 +205,19 @@ function runCommand(command, args = [], options = {}) {
       env: {
         ...env,
         GIT_TERMINAL_PROMPT: '0',
+        GH_PROMPT_DISABLED: '1',
+        GH_NO_UPDATE_NOTIFIER: '1',
         NO_COLOR: '1',
         FORCE_COLOR: '0',
       },
+      timeout: command === 'gh' ? GH_TIMEOUT_MS : undefined,
       encoding: 'utf8',
     });
 
     const stdout = String(result.stdout || '');
     const stderr = String(result.stderr || '');
-    const combined = `${stdout}\n${stderr}`.trim();
+    const errorText = String(result.error?.message || '');
+    const combined = `${stdout}\n${stderr}\n${errorText}`.trim();
 
     if (result.status === 0) {
       return {
@@ -228,12 +246,13 @@ function runCommand(command, args = [], options = {}) {
 
     const canRetry = classified.failureClass === 'RETRYABLE_FAIL' && attempt < attemptsAllowed;
     if (!canRetry) break;
+    sleepMs(RETRY_DELAY_MS);
   }
 
   if (requireSuccess && last) {
     throw new RunnerStepFailure(
-      last.classification.failureClass === 'RETRYABLE_FAIL' ? 'BLOCK_FAIL' : last.classification.failureClass,
-      last.classification.failureClass === 'RETRYABLE_FAIL' ? 'RETRYABLE_EXHAUSTED' : last.classification.reason,
+      last.classification.failureClass,
+      last.classification.reason,
       `${commandToString(command, args)} failed`,
       { evidenceTail: last.evidenceTail },
     );
@@ -254,6 +273,10 @@ function runCommand(command, args = [], options = {}) {
 
 function runStep(ctx, { stepId, command = 'internal', handler }) {
   const startedAt = nowMs();
+  if (ctx.state) {
+    ctx.state.stepId = stepId;
+    writeSnapshot(ctx.snapshotPath, ctx.state);
+  }
   try {
     const result = handler();
     emitStepEvent({
@@ -428,10 +451,15 @@ function toStepFailureFromCommand(commandFailure, detail, options = {}) {
 
   if (commandFailure.classification.failureClass === 'RETRYABLE_FAIL') {
     return new RunnerStepFailure(
-      'BLOCK_FAIL',
-      'RETRYABLE_EXHAUSTED',
+      'HUMAN_REQUIRED',
+      'NETWORK_UNSTABLE',
       detail,
-      { evidenceTail: commandFailure.evidenceTail },
+      {
+        evidenceTail: commandFailure.evidenceTail,
+        resumeFromStep: Number.isInteger(options.resumeFromStep) ? options.resumeFromStep : null,
+        handoffReason: options.handoffReason || 'NETWORK_UNSTABLE',
+        clickList: Array.isArray(options.clickList) ? options.clickList : [],
+      },
     );
   }
 
@@ -464,7 +492,29 @@ function stepRestoreOrInitState(ctx) {
 
   const branch = gitCurrentBranch();
   const headSha = gitRevParse('HEAD');
-  const baseSha = gitRevParse('origin/main');
+  const originMainSha = gitRevParse('origin/main');
+  const baseSha = existing?.baseSha || originMainSha;
+
+  if (existing && existing.baseSha && existing.baseSha !== originMainSha) {
+    throw new RunnerStepFailure(
+      'HUMAN_REQUIRED',
+      'BASE_CHANGED',
+      `origin/main moved from ${existing.baseSha} to ${originMainSha}`,
+      { resumeFromStep: existing.resumeFromStep || DEFAULT_PR_RESUME_STEP, evidenceTail: [existing.baseSha, originMainSha] },
+    );
+  }
+
+  if (existing?.branch) {
+    const branchProbe = runCommand('git', ['rev-parse', '--verify', existing.branch], { retryable: false });
+    if (!branchProbe.ok) {
+      throw new RunnerStepFailure(
+        'HUMAN_REQUIRED',
+        'BRANCH_MISSING',
+        `resume branch missing: ${existing.branch}`,
+        { resumeFromStep: existing.resumeFromStep || DEFAULT_PR_RESUME_STEP, evidenceTail: branchProbe.evidenceTail },
+      );
+    }
+  }
 
   const state = {
     ticketId: ctx.ticketId,
@@ -474,6 +524,9 @@ function stepRestoreOrInitState(ctx) {
     branch,
     prNumber: existing?.prNumber ?? null,
     prUrl: existing?.prUrl ?? '',
+    stepId: existing?.stepId || 'restore_or_init_state',
+    requiredChecksState: existing?.requiredChecksState || 'unknown',
+    antiSwapVerified: Boolean(existing?.antiSwapVerified),
     resumeFromStep: existing?.resumeFromStep ?? DEFAULT_PR_RESUME_STEP,
     lastCompletedStep: Number.isInteger(existing?.lastCompletedStep) ? existing.lastCompletedStep : 2,
     createdAtUtc: existing?.createdAtUtc || nowUtcIso(),
@@ -518,13 +571,18 @@ function stepPrDiscovery(ctx) {
       { retryable: true },
     );
     if (!lookup.ok) {
-      throw toStepFailureFromCommand(lookup, `Unable to read PR #${prNumber}`, {
-        blockReason: 'PR_DISCOVERY_FAILED',
-      });
+      throw toStepFailureFromCommand(lookup, `Unable to read PR #${prNumber}`, { resumeFromStep: 4, blockReason: 'PR_DISCOVERY_FAILED' });
     }
     const parsed = parseGhJson(lookup, 'PR_DISCOVERY_JSON_PARSE_FAILED');
     prNumber = Number(parsed.number);
     prUrl = String(parsed.url || '');
+    const prState = String(parsed.state || '').toUpperCase();
+    if (prState !== 'OPEN') {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'PR_NOT_OPEN', `PR #${prNumber} is not open`, {
+        resumeFromStep: 4,
+        evidenceTail: [prState],
+      });
+    }
   } else {
     const byBranch = runCommand(
       'gh',
@@ -550,9 +608,7 @@ function stepPrDiscovery(ctx) {
       }
 
       if (!noPrFound) {
-        throw toStepFailureFromCommand(byBranch, `Failed to discover PR for branch ${ctx.state.branch}`, {
-          blockReason: 'PR_DISCOVERY_FAILED',
-        });
+        throw toStepFailureFromCommand(byBranch, `Failed to discover PR for branch ${ctx.state.branch}`, { resumeFromStep: 4, blockReason: 'PR_DISCOVERY_FAILED' });
       }
 
       const bodyPath = createPrBodyTempFile(ctx.ticketId, ctx.state.branch);
@@ -574,9 +630,7 @@ function stepPrDiscovery(ctx) {
           { retryable: true },
         );
         if (!createResult.ok) {
-          throw toStepFailureFromCommand(createResult, `Failed to create PR for branch ${ctx.state.branch}`, {
-            blockReason: 'PR_CREATE_FAILED',
-          });
+          throw toStepFailureFromCommand(createResult, `Failed to create PR for branch ${ctx.state.branch}`, { resumeFromStep: 4, blockReason: 'PR_CREATE_FAILED' });
         }
 
         const url = tailLines(createResult.stdout, 3).find((line) => line.includes('/pull/')) || '';
@@ -588,9 +642,7 @@ function stepPrDiscovery(ctx) {
           { retryable: true },
         );
         if (!viewCreated.ok) {
-          throw toStepFailureFromCommand(viewCreated, `Failed to read created PR for ${ctx.state.branch}`, {
-            blockReason: 'PR_DISCOVERY_FAILED',
-          });
+          throw toStepFailureFromCommand(viewCreated, `Failed to read created PR for ${ctx.state.branch}`, { resumeFromStep: 4, blockReason: 'PR_DISCOVERY_FAILED' });
         }
 
         const parsedCreated = parseGhJson(viewCreated, 'PR_DISCOVERY_JSON_PARSE_FAILED');
@@ -618,58 +670,63 @@ function stepRequiredChecksWait(ctx, stepId = 'required_checks_wait') {
     throw new RunnerStepFailure('BLOCK_FAIL', 'PR_NUMBER_MISSING', 'PR number is required');
   }
 
-  const checks = runCommand(
-    'gh',
-    ['pr', 'checks', String(ctx.state.prNumber), '--watch', '--fail-fast'],
-    { retryable: true },
-  );
-
-  if (checks.ok) {
-    return { summary: `${stepId}: checks passed` };
-  }
-
-  const combined = `${checks.stdout}\n${checks.stderr}`.toLowerCase();
-  if (combined.includes('no checks reported')) {
-    return { summary: `${stepId}: no checks reported, continuing to mergeability evaluation` };
-  }
-
-  if (checks.classification.failureClass === 'HUMAN_REQUIRED') {
-    throw new RunnerStepFailure(
-      'HUMAN_REQUIRED',
-      checks.classification.reason,
-      `${stepId}: manual action required for PR checks`,
-      {
-        evidenceTail: checks.evidenceTail,
-        resumeFromStep: 5,
-        handoffReason: checks.classification.reason,
-        clickList: branchProtectionClickList(ctx.state.prUrl, 5),
-      },
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < CHECKS_WAIT_TIMEOUT_MS) {
+    const view = runCommand(
+      'gh',
+      ['pr', 'view', String(ctx.state.prNumber), '--json', 'number,url,state,statusCheckRollup,mergeStateStatus'],
+      { retryable: true },
     );
+
+    if (!view.ok) {
+      throw toStepFailureFromCommand(view, `${stepId}: cannot read PR checks state`, { resumeFromStep: 5, blockReason: 'REQUIRED_CHECKS_QUERY_FAILED' });
+    }
+
+    const parsed = parseGhJson(view, 'REQUIRED_CHECKS_JSON_PARSE_FAILED');
+    const rollup = Array.isArray(parsed.statusCheckRollup) ? parsed.statusCheckRollup : [];
+    const mergeStateStatus = String(parsed.mergeStateStatus || '').toUpperCase();
+    let pending = false;
+
+    for (const item of rollup) {
+      const status = String(item?.status || item?.state || '').toUpperCase();
+      const conclusion = String(item?.conclusion || item?.state || '').toUpperCase();
+      if (['FAILURE', 'ERROR', 'TIMED_OUT', 'CANCELLED', 'ACTION_REQUIRED', 'STARTUP_FAILURE'].includes(conclusion)) {
+        throw new RunnerStepFailure('BLOCK_FAIL', 'REQUIRED_CHECKS_FAILED', `${stepId}: required checks failed`, {
+          evidenceTail: tailLines(JSON.stringify(item)),
+        });
+      }
+      if (
+        ['PENDING', 'IN_PROGRESS', 'QUEUED', 'WAITING', 'REQUESTED', 'EXPECTED'].includes(status)
+        || ['PENDING', 'IN_PROGRESS', 'EXPECTED'].includes(conclusion)
+      ) {
+        pending = true;
+      }
+    }
+
+    if (!pending && !['PENDING', 'BLOCKED', 'BEHIND'].includes(mergeStateStatus)) {
+      ctx.state.requiredChecksState = 'pass';
+      return { summary: `${stepId}: checks passed` };
+    }
+
+    ctx.state.requiredChecksState = 'pending';
+    writeSnapshot(ctx.snapshotPath, ctx.state);
+    sleepMs(CHECKS_WAIT_POLL_MS);
   }
 
-  if (checks.classification.failureClass === 'RETRYABLE_FAIL') {
-    throw new RunnerStepFailure(
-      'BLOCK_FAIL',
-      'RETRYABLE_EXHAUSTED',
-      `${stepId}: retryable failure exhausted`,
-      { evidenceTail: checks.evidenceTail },
-    );
-  }
-
-  throw new RunnerStepFailure(
-    'BLOCK_FAIL',
-    'REQUIRED_CHECKS_FAILED',
-    `${stepId}: required checks failed`,
-    { evidenceTail: checks.evidenceTail },
-  );
+  throw new RunnerStepFailure('HUMAN_REQUIRED', 'REQUIRED_CHECK_TIMEOUT', `${stepId}: checks wait timed out`, {
+    resumeFromStep: 5,
+    handoffReason: 'REQUIRED_CHECK_TIMEOUT',
+    clickList: branchProtectionClickList(ctx.state.prUrl, 5),
+  });
 }
 
 function stepAntiSwapVerify(ctx) {
   const fetched = runCommand('git', ['fetch', 'origin'], { retryable: true });
   if (!fetched.ok) {
     if (fetched.classification.failureClass === 'RETRYABLE_FAIL') {
-      throw new RunnerStepFailure('BLOCK_FAIL', 'RETRYABLE_EXHAUSTED', 'anti-swap fetch retry exhausted', {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'anti-swap fetch retry exhausted', {
         evidenceTail: fetched.evidenceTail,
+        resumeFromStep: 6,
       });
     }
     throw new RunnerStepFailure(
@@ -682,6 +739,8 @@ function stepAntiSwapVerify(ctx) {
 
   const ancestor = runCommand('git', ['merge-base', '--is-ancestor', 'origin/main', 'HEAD'], { retryable: false });
   if (ancestor.ok) {
+    ctx.state.antiSwapVerified = true;
+    writeSnapshot(ctx.snapshotPath, ctx.state);
     return { summary: 'anti-swap verified', rebasePerformed: false };
   }
 
@@ -699,6 +758,7 @@ function stepAntiSwapVerify(ctx) {
   }
 
   ctx.state.headSha = gitRevParse('HEAD');
+  ctx.state.antiSwapVerified = true;
   writeSnapshot(ctx.snapshotPath, ctx.state);
 
   return { summary: 'anti-swap rebase applied', rebasePerformed: true };
@@ -734,8 +794,9 @@ function stepPrMerge(ctx) {
   }
 
   if (merge.classification.failureClass === 'RETRYABLE_FAIL') {
-    throw new RunnerStepFailure('BLOCK_FAIL', 'RETRYABLE_EXHAUSTED', 'merge retry exhausted', {
+    throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'merge retry exhausted', {
       evidenceTail: merge.evidenceTail,
+      resumeFromStep: 7,
     });
   }
 
@@ -751,12 +812,10 @@ function stepPostMergeVerify(ctx) {
     { retryable: true },
   );
   if (!view.ok) {
-    throw new RunnerStepFailure(
-      view.classification.failureClass === 'RETRYABLE_FAIL' ? 'BLOCK_FAIL' : view.classification.failureClass,
-      view.classification.failureClass === 'RETRYABLE_FAIL' ? 'RETRYABLE_EXHAUSTED' : view.classification.reason,
-      'Unable to read post-merge PR state',
-      { evidenceTail: view.evidenceTail, resumeFromStep: 8 },
-    );
+    throw toStepFailureFromCommand(view, 'Unable to read post-merge PR state', {
+      resumeFromStep: 8,
+      blockReason: 'POST_MERGE_VIEW_FAILED',
+    });
   }
 
   const parsed = parseGhJson(view, 'POST_MERGE_VIEW_PARSE_FAILED');
@@ -795,9 +854,15 @@ function stepPostMergeRunnerChecks(ctx) {
 
   const pullMain = runCommand('git', ['pull', '--ff-only', 'origin', 'main'], { retryable: true });
   if (!pullMain.ok) {
+    if (pullMain.classification.failureClass === 'RETRYABLE_FAIL') {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'git pull retry exhausted', {
+        evidenceTail: pullMain.evidenceTail,
+        resumeFromStep: 9,
+      });
+    }
     throw new RunnerStepFailure(
-      pullMain.classification.failureClass === 'RETRYABLE_FAIL' ? 'BLOCK_FAIL' : pullMain.classification.failureClass,
-      pullMain.classification.failureClass === 'RETRYABLE_FAIL' ? 'RETRYABLE_EXHAUSTED' : 'POST_MERGE_MAIN_PULL_FAILED',
+      pullMain.classification.failureClass,
+      'POST_MERGE_MAIN_PULL_FAILED',
       'git pull --ff-only origin main failed',
       { evidenceTail: pullMain.evidenceTail },
     );
@@ -842,6 +907,22 @@ function stepPostMergeRunnerChecks(ctx) {
 }
 
 function stepScopeProof(ctx) {
+  const staged = runCommand('git', ['diff', '--cached', '--name-only'], { retryable: false });
+  if (!staged.ok) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'SCOPE_PROOF_FAILED', 'git diff --cached failed', {
+      evidenceTail: staged.evidenceTail,
+    });
+  }
+  const stagedFiles = String(staged.stdout || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+  if (stagedFiles.some((filePath) => filePath.startsWith('docs/OPS/CACHE/'))) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'CACHE_SCOPE_LEAK', 'cache artifacts are staged', {
+      evidenceTail: stagedFiles,
+    });
+  }
+
   const status = runCommand('git', ['status', '--porcelain', '--untracked-files=all'], { retryable: false });
   if (!status.ok) {
     throw new RunnerStepFailure('BLOCK_FAIL', 'SCOPE_PROOF_FAILED', 'git status failed', {
@@ -944,15 +1025,10 @@ function main() {
     ctx.exitCode = ctx.stopRequired ? 1 : 0;
 
     if (ctx.state) {
-      const shouldPersistResumeSnapshot = Number.isInteger(ctx.resumeFromStep);
-      if (ctx.humanActionRequired || shouldPersistResumeSnapshot) {
-        if (ctx.resumeFromStep !== null) {
-          ctx.state.resumeFromStep = ctx.resumeFromStep;
-        }
-        writeSnapshot(ctx.snapshotPath, ctx.state);
-      } else {
-        removeSnapshot(ctx.snapshotPath);
+      if (ctx.resumeFromStep !== null) {
+        ctx.state.resumeFromStep = ctx.resumeFromStep;
       }
+      writeSnapshot(ctx.snapshotPath, ctx.state);
     }
   };
 
@@ -965,7 +1041,11 @@ function main() {
     ctx.handoffReason = '';
     ctx.clickList = [];
     ctx.exitCode = 0;
-    removeSnapshot(ctx.snapshotPath);
+    if (ctx.state?.mergeCommitSha) {
+      removeSnapshot(ctx.snapshotPath);
+    } else if (ctx.state) {
+      writeSnapshot(ctx.snapshotPath, ctx.state);
+    }
   };
 
   let step = runStep(ctx, {
@@ -1006,7 +1086,7 @@ function main() {
         contract: {
           version: RUNNER_VERSION,
           singleEntry: true,
-          retryPolicy: 'single_retry_for_retryable_failures',
+          retryPolicy: 'max_2_retries_for_retryable_failures',
           inputHash: inputHash(ticketId, mode, args),
           platform: `${os.platform()}/${os.arch()}`,
           supportsPrMergeResume: true,
@@ -1075,7 +1155,7 @@ function main() {
     if (startStep <= 5) {
       step = runStep(ctx, {
         stepId: 'required_checks_wait',
-        command: `gh pr checks ${ctx.state.prNumber} --watch --fail-fast`,
+        command: `gh pr view ${ctx.state.prNumber} --json statusCheckRollup`,
         handler: () => stepRequiredChecksWait(ctx),
       });
       if (!step.ok) {
@@ -1104,7 +1184,7 @@ function main() {
       if (step.result?.rebasePerformed) {
         const checksAfterRebase = runStep(ctx, {
           stepId: 'required_checks_wait_after_rebase',
-          command: `gh pr checks ${ctx.state.prNumber} --watch --fail-fast`,
+          command: `gh pr view ${ctx.state.prNumber} --json statusCheckRollup`,
           handler: () => stepRequiredChecksWait(ctx, 'required_checks_wait_after_rebase'),
         });
         if (!checksAfterRebase.ok) {

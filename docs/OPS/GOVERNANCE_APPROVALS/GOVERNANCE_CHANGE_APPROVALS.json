@@ -114,13 +114,6 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "094f222fe2ef81e8032f72284fd2379038b31303e6007b0d8495b71a00663754",
-      "approvedBy": "ticket:TZ-24E-P1-RELEASE-CANDIDATE-LOCK-REFRESH-014",
-      "approvedAtUtc": "2026-02-18T16:49:30.000Z",
-      "rationale": "Refresh release candidate lock to align token catalog and failsignal hashes with current SSOT baseline commit."
-    },
-    {
       "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",
       "sha256": "e6fc2cb960d55139fb959a3bc31dd2ba0d8016b2eace2064b1cb2775fa62c71c",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
@@ -233,13 +226,6 @@
       "rationale": "Approve SSOT bootstrap for P1 debt queue registry (docs/OPS-only)."
     },
     {
-      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "f8213fcb64925812a35738612e85ce3616264a5680ad13f671280f3093ef77a6",
-      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
-      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
-      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
-    },
-    {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
       "sha256": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
       "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
@@ -315,6 +301,83 @@
       "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-A",
       "approvedAtUtc": "2026-02-18T17:06:00.000Z",
       "rationale": "Register dependency risk SSOT with reachable high-severity triage and governance tracking for Ticket A."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
+      "sha256": "a1e68fe2434ad43c0ff1f9256854a88392650990efb65a550f12e59387fc40b0",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:34:25.000Z",
+      "rationale": "Ticket B drift sync + lock refresh required to keep strict governance and promotion contours green without semantic expansion."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
+      "sha256": "4da80211740b40d15df42f82678df9ccd8b2a51b919ed2967309e5f6aedd8bb5",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:34:25.000Z",
+      "rationale": "Ticket B drift sync + lock refresh required to keep strict governance and promotion contours green without semantic expansion."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
+      "sha256": "43c6b9affe95e74a86599ec457b24c6f733658140f1f6df87abe1e22aaf8f160",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:34:25.000Z",
+      "rationale": "Ticket B drift sync + lock refresh required to keep strict governance and promotion contours green without semantic expansion."
+    },
+    {
+      "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
+      "sha256": "336960760061630d316af7f60da7128771a4fd21c34f503cd13ad0a55efed689",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:34:25.000Z",
+      "rationale": "Ticket B drift sync + lock refresh required to keep strict governance and promotion contours green without semantic expansion."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
+      "sha256": "34a125e0b84ed7be8009e2fb568a07ff27fe7a6e9136adff55e24d76b10cfd8e",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:34:25.000Z",
+      "rationale": "Ticket B drift sync + lock refresh required to keep strict governance and promotion contours green without semantic expansion."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-d6502c1c8e4b-592e3737/failsignal-registry-snapshot.json",
+      "sha256": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:40:02.000Z",
+      "rationale": "Approve promotion evidence side-effects for rc-d6502c1c8e4b-592e3737 generated during mandatory promotion check."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-d6502c1c8e4b-592e3737/heavy-lane-summary.json",
+      "sha256": "a8c45d263025428d8855795fde614584499bd9475f0cdd50298d6dc0457312d9",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:40:02.000Z",
+      "rationale": "Approve promotion evidence side-effects for rc-d6502c1c8e4b-592e3737 generated during mandatory promotion check."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-d6502c1c8e4b-592e3737/menuArtifactHash.txt",
+      "sha256": "1f16de2ada63b00b057894eddb2687d109ffbf16a734160eefc6e0c7116c512c",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:40:02.000Z",
+      "rationale": "Approve promotion evidence side-effects for rc-d6502c1c8e4b-592e3737 generated during mandatory promotion check."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-d6502c1c8e4b-592e3737/perfBaseline.json",
+      "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:40:02.000Z",
+      "rationale": "Approve promotion evidence side-effects for rc-d6502c1c8e4b-592e3737 generated during mandatory promotion check."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-d6502c1c8e4b-592e3737/promotion-summary.json",
+      "sha256": "e9320d8cf905d3cba266d135ef1b8e8917958251525db9737b85b30de73abcc7",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:40:02.000Z",
+      "rationale": "Approve promotion evidence side-effects for rc-d6502c1c8e4b-592e3737 generated during mandatory promotion check."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-d6502c1c8e4b-592e3737/token-required-set.json",
+      "sha256": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-B",
+      "approvedAtUtc": "2026-02-18T18:40:02.000Z",
+      "rationale": "Approve promotion evidence side-effects for rc-d6502c1c8e4b-592e3737 generated during mandatory promotion check."
     }
   ]
 }

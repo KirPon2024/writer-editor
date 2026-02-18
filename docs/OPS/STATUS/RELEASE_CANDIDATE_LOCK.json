@@ -1,12 +1,12 @@
 {
-  "rcId": "rc-bad1149ed99b-592e3737",
-  "baseCommitSha": "bad1149ed99bdf161e90581ad5895ea229ea078e",
+  "rcId": "rc-d6502c1c8e4b-592e3737",
+  "baseCommitSha": "d6502c1c8e4b437b0df9b267afc78a1cbab4053e",
   "menuArtifactHash": "592e373743e1c7561aa2d1b96f0ab9f1bb83f6cb4724b66b8806479fd080b29e",
   "menuSnapshotHash": "af9f17862173a0315c3ae2a958298add764ca2bdfc1f86f27054b9cdbb8d8e21",
   "perfBaselineHash": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
-  "tokenCatalogHash": "f8213fcb64925812a35738612e85ce3616264a5680ad13f671280f3093ef77a6",
+  "tokenCatalogHash": "a1e68fe2434ad43c0ff1f9256854a88392650990efb65a550f12e59387fc40b0",
   "failsignalRegistryHash": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
   "requiredTokenSetHash": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
-  "createdAt": "2026-02-18T16:47:47.094Z",
+  "createdAt": "2026-02-18T18:34:12.643Z",
   "createdByMode": "promotion"
 }

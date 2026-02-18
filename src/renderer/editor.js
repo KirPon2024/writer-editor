@@ -3,7 +3,7 @@ import { createCommandRegistry } from './commands/registry.mjs';
 import { createCommandRunner } from './commands/runCommand.mjs';
 import {
   COMMAND_IDS,
-  createLegacyActionBridge,
+  EXTRA_COMMAND_IDS,
   registerProjectCommands,
 } from './commands/projectCommands.mjs';
 import { COMMAND_BUS_ROUTE, runCommandThroughBus } from './commands/commandBusGuard.mjs';
@@ -100,6 +100,11 @@ let currentMeta = {
 let expandedNodesByTab = new Map();
 let autoSaveTimerId = null;
 const AUTO_SAVE_DELAY = 600;
+const HOTPATH_RENDER_DEBOUNCE_MS = 32;
+const HOTPATH_FULL_RENDER_MIN_INTERVAL_MS = 280;
+const HOTPATH_PAGINATION_IDLE_DELAY_MS = 220;
+const HOTPATH_PAGINATION_IDLE_TIMEOUT_MS = 750;
+const PAGINATION_MEASURE_BATCH_SIZE = 12;
 const UI_ERROR_MAP_SCHEMA_VERSION = 'ui-error-map.v1';
 const UI_ERROR_FALLBACK_MESSAGE = 'Операция не выполнена';
 const UI_ERROR_FALLBACK_SEVERITY = 'ERROR';
@@ -158,7 +163,6 @@ const runCommand = createCommandRunner(commandRegistry, {
   },
 });
 registerProjectCommands(commandRegistry, { electronAPI: window.electronAPI });
-const runLegacyAction = createLegacyActionBridge((commandId, payload) => dispatchUiCommand(commandId, payload));
 const commandPaletteDataProvider = createPaletteDataProvider(commandRegistry, { defaultSurface: 'palette' });
 window.__COMMAND_PALETTE_DATA_PROVIDER_V1__ = commandPaletteDataProvider;
 const MARKDOWN_IMPORT_STATUS_MESSAGE = 'Imported Markdown v1';
@@ -258,10 +262,6 @@ function resolveSceneFromImportResult(importResult) {
   const scene = value.scene;
   if (!scene || typeof scene !== 'object' || Array.isArray(scene)) return null;
   return scene;
-}
-
-async function dispatchLegacyAction(actionId, options = {}) {
-  return runLegacyAction(actionId, options);
 }
 
 async function runMarkdownImportCommand(markdownText, sourceName) {
@@ -427,9 +427,43 @@ function getPlainText() {
   return plainTextBuffer;
 }
 
-function setPlainText(text = '') {
+let deferredRenderTimerId = null;
+let deferredPaginationTimerId = null;
+let deferredRenderIncludePagination = false;
+let deferredRenderPreserveSelection = true;
+let incrementalInputDomSyncScheduled = false;
+let lastFullRenderAtMs = 0;
+
+function nowMs() {
+  if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+    return performance.now();
+  }
+  return Date.now();
+}
+
+function cancelDeferredRenderWork() {
+  if (deferredRenderTimerId) {
+    window.clearTimeout(deferredRenderTimerId);
+    deferredRenderTimerId = null;
+  }
+  if (deferredPaginationTimerId) {
+    window.clearTimeout(deferredPaginationTimerId);
+    deferredPaginationTimerId = null;
+  }
+  deferredRenderIncludePagination = false;
+  deferredRenderPreserveSelection = true;
+}
+
+function setPlainText(text = '', options = {}) {
   plainTextBuffer = text;
-  renderStyledView(text);
+  const includePagination = options.includePagination !== false;
+  const preserveSelection = options.preserveSelection !== false;
+  if (options.deferRender === true) {
+    scheduleDeferredHotpathRender({ includePagination, preserveSelection });
+    return;
+  }
+  cancelDeferredRenderWork();
+  renderStyledView(text, { includePagination, preserveSelection });
 }
 
 function parseIndentedValue(lines, startIndex) {
@@ -673,13 +707,31 @@ function selectAllEditor() {
   setSelectionRange(0, length);
 }
 
-function renderStyledView(text = '') {
+function renderNodesWithoutPagination(nodes) {
   if (!editor) return;
-  const { start, end } = getSelectionOffsets();
+  editor.innerHTML = '';
+  const page = createPageElement(true, 0);
+  const content = page.querySelector('.editor-page__content');
+  const fragment = document.createDocumentFragment();
+  nodes.forEach((node) => {
+    fragment.appendChild(node);
+  });
+  content.appendChild(fragment);
+  editor.appendChild(page);
+}
+
+function renderStyledView(text = '', options = {}) {
+  if (!editor) return;
+  const includePagination = options.includePagination !== false;
+  const preserveSelection = options.preserveSelection !== false;
+  const { start, end } = preserveSelection ? getSelectionOffsets() : { start: 0, end: 0 };
   if (!text) {
     editor.innerHTML = '';
     createEmptyPage();
-    setSelectionRange(0, 0);
+    if (preserveSelection) {
+      setSelectionRange(0, 0);
+    }
+    lastFullRenderAtMs = nowMs();
     return;
   }
 
@@ -720,9 +772,16 @@ function renderStyledView(text = '') {
     }
   });
 
-  editor.innerHTML = '';
-  paginateNodes(nodes);
-  setSelectionRange(start, end);
+  if (includePagination) {
+    editor.innerHTML = '';
+    paginateNodes(nodes);
+  } else {
+    renderNodesWithoutPagination(nodes);
+  }
+  if (preserveSelection) {
+    setSelectionRange(start, end);
+  }
+  lastFullRenderAtMs = nowMs();
 }
 
 function createPageElement(isFirstPage = false, pageIndex = 0) {
@@ -753,24 +812,58 @@ function paginateNodes(nodes) {
     return;
   }
 
+  const isOverflowing = (contentEl) => {
+    const limit = contentEl.clientHeight;
+    return limit > 0 && contentEl.scrollHeight > limit;
+  };
+
+  const moveTailOverflow = (contentEl) => {
+    const overflow = [];
+    while (contentEl.childNodes.length > 1 && isOverflowing(contentEl)) {
+      const tailNode = contentEl.lastChild;
+      if (!tailNode) break;
+      overflow.unshift(tailNode);
+      contentEl.removeChild(tailNode);
+    }
+    return overflow;
+  };
+
   let pageIndexCounter = 0;
   let currentPage = createPageElement(true, pageIndexCounter++);
   editor.appendChild(currentPage);
   let currentContent = currentPage.querySelector('.editor-page__content');
+  let pendingMeasureCount = 0;
 
-  const appendNode = (node) => {
-    currentContent.appendChild(node);
-    const limit = currentContent.clientHeight;
-    if (limit > 0 && currentContent.scrollHeight > limit) {
-      currentContent.removeChild(node);
+  const flushOverflowIfNeeded = () => {
+    if (pendingMeasureCount === 0) {
+      return;
+    }
+    pendingMeasureCount = 0;
+    if (!isOverflowing(currentContent)) {
+      return;
+    }
+    let overflowNodes = moveTailOverflow(currentContent);
+    while (overflowNodes.length > 0) {
       currentPage = createPageElement(false, pageIndexCounter++);
       editor.appendChild(currentPage);
       currentContent = currentPage.querySelector('.editor-page__content');
-      currentContent.appendChild(node);
+      const fragment = document.createDocumentFragment();
+      overflowNodes.forEach((node) => {
+        fragment.appendChild(node);
+      });
+      currentContent.appendChild(fragment);
+      overflowNodes = moveTailOverflow(currentContent);
     }
   };
 
-  nodes.forEach(appendNode);
+  nodes.forEach((node, index) => {
+    currentContent.appendChild(node);
+    pendingMeasureCount += 1;
+    const mustMeasure = pendingMeasureCount >= PAGINATION_MEASURE_BATCH_SIZE || index === nodes.length - 1;
+    if (mustMeasure) {
+      flushOverflowIfNeeded();
+    }
+  });
 }
 
 let layoutRefreshScheduled = false;
@@ -781,8 +874,77 @@ function scheduleLayoutRefresh() {
   layoutRefreshScheduled = true;
   window.requestAnimationFrame(() => {
     layoutRefreshScheduled = false;
-    renderStyledView(getPlainText());
+    renderStyledView(getPlainText(), { includePagination: true });
   });
+}
+
+function scheduleDeferredHotpathRender(options = {}) {
+  const includePagination = options.includePagination === true;
+  const preserveSelection = options.preserveSelection !== false;
+  deferredRenderIncludePagination = deferredRenderIncludePagination || includePagination;
+  deferredRenderPreserveSelection = deferredRenderPreserveSelection && preserveSelection;
+  if (deferredRenderTimerId) {
+    window.clearTimeout(deferredRenderTimerId);
+    deferredRenderTimerId = null;
+  }
+  const elapsedSinceFullRender = nowMs() - lastFullRenderAtMs;
+  const throttledDelay = Math.max(0, HOTPATH_FULL_RENDER_MIN_INTERVAL_MS - elapsedSinceFullRender);
+  const nextDelay = Math.max(HOTPATH_RENDER_DEBOUNCE_MS, throttledDelay);
+  deferredRenderTimerId = window.setTimeout(() => {
+    deferredRenderTimerId = null;
+    const nextIncludePagination = deferredRenderIncludePagination;
+    const nextPreserveSelection = deferredRenderPreserveSelection;
+    deferredRenderIncludePagination = false;
+    deferredRenderPreserveSelection = true;
+    renderStyledView(getPlainText(), {
+      includePagination: nextIncludePagination,
+      preserveSelection: nextPreserveSelection,
+    });
+  }, nextDelay);
+}
+
+function scheduleDeferredPaginationRefresh() {
+  if (deferredPaginationTimerId) {
+    window.clearTimeout(deferredPaginationTimerId);
+    deferredPaginationTimerId = null;
+  }
+  deferredPaginationTimerId = window.setTimeout(() => {
+    deferredPaginationTimerId = null;
+    const runPaginationPass = () => {
+      scheduleDeferredHotpathRender({ includePagination: true, preserveSelection: true });
+    };
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(runPaginationPass, { timeout: HOTPATH_PAGINATION_IDLE_TIMEOUT_MS });
+      return;
+    }
+    runPaginationPass();
+  }, HOTPATH_PAGINATION_IDLE_DELAY_MS);
+}
+
+function normalizeActiveTextNodeWhitespace() {
+  const selection = window.getSelection();
+  const activeNode = selection && selection.anchorNode;
+  if (!activeNode || !editor.contains(activeNode) || activeNode.nodeType !== Node.TEXT_NODE) {
+    return;
+  }
+  if (activeNode.textContent && activeNode.textContent.includes('\u00a0')) {
+    activeNode.textContent = activeNode.textContent.replace(/\u00a0/g, ' ');
+  }
+}
+
+function scheduleIncrementalInputDomSync() {
+  if (incrementalInputDomSyncScheduled) {
+    return;
+  }
+  incrementalInputDomSyncScheduled = true;
+  window.requestAnimationFrame(() => {
+    incrementalInputDomSyncScheduled = false;
+    normalizeActiveTextNodeWhitespace();
+  });
+}
+
+function syncPlainTextBufferFromEditorDom() {
+  plainTextBuffer = (editor.textContent || '').replace(/\u00a0/g, ' ');
 }
 
 let lastPointerDownPageIndex = -1;
@@ -2203,13 +2365,13 @@ if (toolbar) {
 
     switch (action) {
       case 'save-as':
-        window.electronAPI?.saveAs();
+        void dispatchUiCommand(EXTRA_COMMAND_IDS.PROJECT_SAVE_AS);
         break;
       case 'search':
         handleFind();
         break;
       case 'new':
-        window.electronAPI?.newFile();
+        void dispatchUiCommand(EXTRA_COMMAND_IDS.PROJECT_NEW);
         break;
       case 'clear':
         if (editor) {
@@ -2219,17 +2381,17 @@ if (toolbar) {
         }
         break;
       case 'open':
-        void dispatchLegacyAction('open');
+        void dispatchUiCommand(COMMAND_IDS.PROJECT_OPEN);
         break;
       case 'save':
         if (flowModeState.active) {
           void handleFlowModeSaveUiPath();
         } else {
-          void dispatchLegacyAction('save');
+          void dispatchUiCommand(COMMAND_IDS.PROJECT_SAVE);
         }
         break;
       case 'export-docx-min':
-        void dispatchLegacyAction('export-docx-min');
+        void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
         break;
       case 'import-markdown-v1':
         void handleMarkdownImportUiPath();
@@ -2372,7 +2534,7 @@ document.addEventListener('keydown', (event) => {
   if (!isPlus && !isMinus && !isZero) {
     if ((key === 'E' || key === 'e') && event.shiftKey) {
       event.preventDefault();
-      void dispatchLegacyAction('export-docx-min');
+      void dispatchUiCommand(COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN);
       return;
     }
     if ((key === 'I' || key === 'i') && event.shiftKey) {
@@ -2475,8 +2637,10 @@ editor.addEventListener('beforeinput', () => {
 });
 
 editor.addEventListener('input', () => {
-  const updated = (editor.textContent || '').replace(/\u00a0/g, ' ');
-  setPlainText(updated);
+  scheduleIncrementalInputDomSync();
+  syncPlainTextBufferFromEditorDom();
+  scheduleDeferredHotpathRender({ includePagination: false, preserveSelection: true });
+  scheduleDeferredPaginationRefresh();
   markAsModified();
   updateWordCount();
 });

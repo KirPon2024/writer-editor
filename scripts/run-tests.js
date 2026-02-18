@@ -1,6 +1,101 @@
 const { spawnSync } = require('node:child_process');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
+
+const FAST_LANE_CONTRACT_TESTS = Object.freeze([
+  'test/contracts/menu-config-backcompat.contract.test.js',
+  'test/contracts/codex-no-repo-prompts.contract.test.js',
+  'test/contracts/command-surface-bus-only.contract.test.js',
+  'test/contracts/transition-exit-failsignal-token-wiring.contract.test.js',
+]);
+
+const FAST_LANE_FORBIDDEN_SEGMENTS = Object.freeze([
+  'scripts/ops/run-wave.mjs',
+  'scripts/guards/ops-current-wave-stop.mjs',
+  'ops:current-wave',
+  'ops_synth_negative.test.js',
+  'OPS_SYNTH_OVERRIDE_',
+]);
+
+const CHECK_MODE_RELEASE = 'release';
+const CHECK_MODE_PROMOTION = 'promotion';
+
+function parseBooleanish(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (!normalized) return false;
+  return normalized === '1'
+    || normalized === 'true'
+    || normalized === 'yes'
+    || normalized === 'on';
+}
+
+function normalizeCheckMode(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (normalized === CHECK_MODE_PROMOTION) return CHECK_MODE_PROMOTION;
+  if (normalized === CHECK_MODE_RELEASE) return CHECK_MODE_RELEASE;
+  return '';
+}
+
+function parseCli(rawArgs) {
+  const out = {
+    dryRun: false,
+    modeArg: '',
+    explicitTests: [],
+    checkMode: CHECK_MODE_RELEASE,
+    error: '',
+  };
+
+  const tokens = [];
+  let checkModeArg = '';
+  for (let i = 0; i < rawArgs.length; i += 1) {
+    const arg = String(rawArgs[i] || '').trim();
+    if (!arg) continue;
+    if (arg === '--dry-run') {
+      out.dryRun = true;
+      continue;
+    }
+    if (arg.startsWith('--mode=')) {
+      checkModeArg = arg.slice('--mode='.length);
+      continue;
+    }
+    if (arg === '--mode') {
+      if (i + 1 >= rawArgs.length) {
+        out.error = 'Missing value for --mode (expected release|promotion).';
+        return out;
+      }
+      checkModeArg = String(rawArgs[i + 1] || '').trim();
+      i += 1;
+      continue;
+    }
+    if (arg === '--promotionMode' && i + 1 < rawArgs.length) {
+      checkModeArg = parseBooleanish(rawArgs[i + 1]) ? CHECK_MODE_PROMOTION : CHECK_MODE_RELEASE;
+      i += 1;
+      continue;
+    }
+    if (arg.startsWith('--promotionMode=')) {
+      checkModeArg = parseBooleanish(arg.slice('--promotionMode='.length))
+        ? CHECK_MODE_PROMOTION
+        : CHECK_MODE_RELEASE;
+      continue;
+    }
+    tokens.push(arg);
+  }
+
+  out.modeArg = tokens[0] || '';
+  out.explicitTests = tokens.filter((arg) => arg.endsWith('.test.js'));
+
+  if (checkModeArg) {
+    const normalizedMode = normalizeCheckMode(checkModeArg);
+    if (!normalizedMode) {
+      out.error = `Invalid --mode value "${checkModeArg}" (expected release|promotion).`;
+      return out;
+    }
+    out.checkMode = normalizedMode;
+  }
+
+  return out;
+}
 
 function runOpsSynthNegativeTests(rootDir) {
   const tmpTestPath = path.join('/tmp', 'ops_synth_negative.test.js');
@@ -209,10 +304,244 @@ function listTestFiles(dir, out = []) {
   return out;
 }
 
+function buildFastLanePlan(rootDir) {
+  const fastTestsAbs = FAST_LANE_CONTRACT_TESTS
+    .map((item) => path.resolve(rootDir, item))
+    .sort();
+
+  const doctorArgs = ['scripts/doctor.mjs', '--strict'];
+  const testArgs = ['--test', ...fastTestsAbs];
+  const doctorCommand = [process.execPath, ...doctorArgs].join(' ');
+  const testCommand = [process.execPath, ...testArgs].join(' ');
+  const commands = [doctorCommand, testCommand];
+  const forbiddenHits = [];
+
+  for (const command of commands) {
+    for (const forbidden of FAST_LANE_FORBIDDEN_SEGMENTS) {
+      if (command.includes(forbidden)) forbiddenHits.push({ command, forbidden });
+    }
+  }
+
+  return {
+    mode: 'fast',
+    doctorRunCount: 1,
+    testFiles: FAST_LANE_CONTRACT_TESTS.slice(),
+    doctorCommand,
+    testCommand,
+    forbiddenHits,
+  };
+}
+
+function runFastLane(rootDir, dryRun) {
+  const plan = buildFastLanePlan(rootDir);
+  if (dryRun) {
+    process.stdout.write(`${JSON.stringify(plan, null, 2)}\n`);
+    return 0;
+  }
+
+  if (plan.forbiddenHits.length > 0) {
+    console.error(`DEV_FAST_LANE_FORBIDDEN_SEGMENT=${JSON.stringify(plan.forbiddenHits)}`);
+    return 1;
+  }
+
+  const env = {
+    ...process.env,
+    DEV_FAST_LANE: '1',
+    CHECKS_BASELINE_VERSION: 'v1.3',
+    EFFECTIVE_MODE: 'STRICT',
+  };
+
+  const doctor = spawnSync(process.execPath, ['scripts/doctor.mjs', '--strict'], {
+    cwd: rootDir,
+    stdio: 'inherit',
+    env,
+  });
+  const doctorExit = doctor.status ?? 1;
+  if (doctorExit !== 0) return doctorExit;
+
+  const fastTestsAbs = plan.testFiles
+    .map((item) => path.resolve(rootDir, item))
+    .sort();
+  const tests = spawnSync(process.execPath, ['--test', ...fastTestsAbs], {
+    cwd: rootDir,
+    stdio: 'inherit',
+    env,
+  });
+  return tests.status ?? 1;
+}
+
+function runPerfBaselineGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+  const result = spawnSync(
+    npmCmd,
+    ['run', '-s', 'perf:baseline:check', '--', `--mode=${checkMode}`],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runCommandNamespaceGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/check-command-namespace.mjs', `--mode=${checkMode}`],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runCommandNamespaceStaticGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/check-command-namespace-static.mjs', `--mode=${checkMode}`],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runEnabledWhenDslGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/ops/check-enabledwhen-dsl.mjs', `--mode=${checkMode}`],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runMenuConfigNormalizationGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const outPath = path.join(os.tmpdir(), `menu-config.normalized.${process.pid}.json`);
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/menu-config-normalize.mjs',
+      '--in',
+      'src/menu/menu-config.v2.example.json',
+      '--context',
+      'test/fixtures/menu/context.default.json',
+      '--out',
+      outPath,
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runMenuOverlayStackGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/check-menu-overlay-stack.mjs',
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runMenuSnapshotGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/menu-config-normalize.mjs',
+      '--snapshot-check',
+      '--snapshot-id=menu-default-desktop-minimal',
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runMenuArtifactExportGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/menu-config-normalize.mjs',
+      '--export-artifact',
+      '--out',
+      'docs/OPS/ARTIFACTS/menu/menu.normalized.json',
+      '--snapshot-id',
+      'menu-default-desktop-minimal',
+      '--lock-artifact',
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runMenuArtifactLockGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/check-menu-artifact-lock.mjs',
+      '--snapshot-id=menu-default-desktop-minimal',
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runMenuRuntimeEquivalentGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/menu-config-normalize.mjs',
+      '--runtime-equivalent-check',
+      '--context',
+      'test/fixtures/menu/context.default.json',
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runReleaseCandidateGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/release-candidate.mjs',
+      '--verify',
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
 const rootDir = path.resolve(__dirname, '..');
-const args = process.argv.slice(2);
-const explicitTests = args.filter((arg) => arg.endsWith('.test.js'));
-const mode = args[0] === 'electron' ? 'electron' : 'unit';
+const cli = parseCli(process.argv.slice(2));
+if (cli.error) {
+  console.error(cli.error);
+  process.exitCode = 1;
+  return;
+}
+
+const checkMode = cli.checkMode === CHECK_MODE_PROMOTION ? CHECK_MODE_PROMOTION : CHECK_MODE_RELEASE;
+const isPromotionMode = checkMode === CHECK_MODE_PROMOTION;
+const dryRun = cli.dryRun;
+const modeArg = cli.modeArg;
+
+if (modeArg === 'fast') {
+  process.exitCode = runFastLane(rootDir, dryRun);
+  return;
+}
+
+const explicitTests = cli.explicitTests;
+const mode = modeArg === 'electron' ? 'electron' : 'unit';
 const testDir = path.join(rootDir, 'test', mode);
 const testFiles = explicitTests.length > 0
   ? explicitTests.map((item) => path.resolve(rootDir, item)).sort()
@@ -234,5 +563,62 @@ if (testFiles.length === 0) {
 
   const result = spawnSync(process.execPath, ['--test', ...testFiles], { cwd: rootDir, stdio: 'inherit' });
   exitCode = result.status ?? 1;
+  if (exitCode === 0 && explicitTests.length === 0) {
+    const perfExit = runPerfBaselineGuard(rootDir, isPromotionMode);
+    if (perfExit !== 0) {
+      process.exitCode = perfExit;
+      return;
+    }
+    const namespaceExit = runCommandNamespaceGuard(rootDir, isPromotionMode);
+    if (namespaceExit !== 0) {
+      process.exitCode = namespaceExit;
+      return;
+    }
+    const namespaceStaticExit = runCommandNamespaceStaticGuard(rootDir, isPromotionMode);
+    if (namespaceStaticExit !== 0) {
+      process.exitCode = namespaceStaticExit;
+      return;
+    }
+    const enabledWhenExit = runEnabledWhenDslGuard(rootDir, isPromotionMode);
+    if (enabledWhenExit !== 0) {
+      process.exitCode = enabledWhenExit;
+      return;
+    }
+    const menuNormalizationExit = runMenuConfigNormalizationGuard(rootDir, isPromotionMode);
+    if (menuNormalizationExit !== 0) {
+      process.exitCode = menuNormalizationExit;
+      return;
+    }
+    const menuOverlayStackExit = runMenuOverlayStackGuard(rootDir, isPromotionMode);
+    if (menuOverlayStackExit !== 0) {
+      process.exitCode = menuOverlayStackExit;
+      return;
+    }
+    const menuSnapshotExit = runMenuSnapshotGuard(rootDir, isPromotionMode);
+    if (menuSnapshotExit !== 0) {
+      process.exitCode = menuSnapshotExit;
+      return;
+    }
+    const menuArtifactExportExit = runMenuArtifactExportGuard(rootDir, isPromotionMode);
+    if (menuArtifactExportExit !== 0) {
+      process.exitCode = menuArtifactExportExit;
+      return;
+    }
+    const menuArtifactLockExit = runMenuArtifactLockGuard(rootDir, isPromotionMode);
+    if (menuArtifactLockExit !== 0) {
+      process.exitCode = menuArtifactLockExit;
+      return;
+    }
+    const menuRuntimeEquivalentExit = runMenuRuntimeEquivalentGuard(rootDir, isPromotionMode);
+    if (menuRuntimeEquivalentExit !== 0) {
+      process.exitCode = menuRuntimeEquivalentExit;
+      return;
+    }
+    const releaseCandidateExit = runReleaseCandidateGuard(rootDir, isPromotionMode);
+    if (releaseCandidateExit !== 0) {
+      process.exitCode = releaseCandidateExit;
+      return;
+    }
+  }
   process.exitCode = exitCode;
 }

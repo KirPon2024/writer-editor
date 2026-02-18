@@ -380,6 +380,13 @@
       "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "b5ae0f5220480505f02e11a6b8a663c79b0b7eaea160b31be7f21728a2a75229",
+      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
+      "approvedAtUtc": "2026-02-18T00:00:00Z",
+      "rationale": "Scope-map sync required to keep sector-m allowlist and runner artifact checks green after commit-series materialization."
+    },
+    {
       "filePath": "scripts/ops/stage-activation-state.mjs",
       "sha256": "d2e0cd3a39122b90fbeaae07f4ddb2b05077c32addda9cd8b44d98ecb30fb9de",
       "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",

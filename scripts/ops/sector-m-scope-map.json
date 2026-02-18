@@ -218,7 +218,9 @@
       "test/unit/sector-m-m9-core.test.js",
       "test/unit/sector-m-m9-next.test.js"
     ],
-    "DONE": []
+    "DONE": [
+      ".github/workflows/ops-vector-close.yml"
+    ]
   },
   "allowPrefixByPhase": {
     "M0": [

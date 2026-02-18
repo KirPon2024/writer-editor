@@ -266,6 +266,13 @@
       "approvedBy": "ticket:TZ-24E-P1-CI-OPS-INJECTION-HARDENING-DISCOVERY-004",
       "approvedAtUtc": "2026-02-18T12:26:34.000Z",
       "rationale": "Approve minimal CI/OPS injection hardening in x2 readiness gate command execution path."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "e89406ca200e614f5d736764f52e494d476c7da48a317a9127bb8f6c27bbe8bc",
+      "approvedBy": "ticket:TZ-24E-P1-CI-OPS-INJECTION-HARDENING-DISCOVERY-004",
+      "approvedAtUtc": "2026-02-18T12:31:58.000Z",
+      "rationale": "Approve minimal scope-map alignment required to keep sector-m allowlist guard green after CI workflow hardening change."
     }
   ]
 }

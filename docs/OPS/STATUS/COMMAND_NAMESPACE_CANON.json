@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "canonicalPrefix": "cmd.project.",
+  "deprecatedPrefixes": [
+    "cmd.file."
+  ],
+  "aliasPolicy": {
+    "allowDeprecatedInConfigsUntil": "2026-12-31",
+    "resolutionRule": "deprecated->canonical via aliasMap",
+    "noNewDeprecatedCommandIds": true
+  },
+  "aliasMap": {
+    "cmd.file.new": "cmd.project.new",
+    "cmd.file.open": "cmd.project.open",
+    "cmd.file.save": "cmd.project.save",
+    "cmd.file.saveAs": "cmd.project.saveAs",
+    "cmd.file.close": "cmd.project.close",
+    "cmd.file.export.docxMin": "cmd.project.export.docxMin",
+    "cmd.file.importMarkdownV1": "cmd.project.importMarkdownV1",
+    "cmd.file.exportMarkdownV1": "cmd.project.exportMarkdownV1",
+    "cmd.file.flowOpenV1": "cmd.project.flowOpenV1",
+    "cmd.file.flowSaveV1": "cmd.project.flowSaveV1"
+  }
+}

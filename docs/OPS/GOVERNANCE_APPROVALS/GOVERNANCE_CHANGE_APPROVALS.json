@@ -23,6 +23,48 @@
       "rationale": "Add machine-bound X3 recovery smoke claim with proofHook, failSignal, and source binding metadata."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/failsignal-registry-snapshot.json",
+      "sha256": "9af1b22b87f604601b38114621995a44ae5e15c3ea9a299197c61e863a5e6448",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/heavy-lane-summary.json",
+      "sha256": "229e5f5828ec497107e792cc6948a9c1b625a841aecb58beed2ef4e1c2cdcff3",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/menuArtifactHash.txt",
+      "sha256": "1f16de2ada63b00b057894eddb2687d109ffbf16a734160eefc6e0c7116c512c",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/perfBaseline.json",
+      "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/promotion-summary.json",
+      "sha256": "531118661ff84dda7634f104ba8043efadedfc209e491175701181fce2a4f5b1",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/token-required-set.json",
+      "sha256": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-29ee345a82e7-592e3737/failsignal-registry-snapshot.json",
       "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
       "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
@@ -157,10 +199,10 @@
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+      "sha256": "9af1b22b87f604601b38114621995a44ae5e15c3ea9a299197c61e863a5e6448",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
     },
     {
       "filePath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
@@ -210,6 +252,20 @@
       "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
       "approvedAtUtc": "2026-02-17T21:30:12.652Z",
       "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/EXECUTION_SEQUENCE_CANON_v1.json",
+      "sha256": "f6e38847245f424081f8d0755183dbbb86e440c655f0fa8f2e6286dc25005c07",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/LAW_PATH_CANON.json",
+      "sha256": "266baf66c65cb64d3d0d25a0a6f343862d0a7993ff93a5200331cfa632e22a53",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
     },
     {
       "filePath": "docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json",
@@ -269,10 +325,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "946e5f0f60eaf8d56045456eb49c72102d9b36a858880d26bed83e221012ca51",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+      "sha256": "2fcfb31ad5900bc4ba3acfa3a9c1ec9cdf32fb3fa89a5abe2eed92d785d08b25",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
     },
     {
       "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
@@ -332,10 +388,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",
-      "sha256": "d56c36a4a375881d2d8d46a11fa205e8109dcd7a1ee3adee0188614d8fb1207b",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+      "sha256": "c6a715c242dd33d985fbbf37d353227529f4cdf0b08f3a6fe63a0f108df32770",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
@@ -346,10 +402,10 @@
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "8acbdc2c371385b03445d435d7d91b245f8c82897d17b73faa0d2c04da8c6167",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+      "sha256": "439005e6f1134552220b18220cebe748dfa0da979acb14d3f445373d088b4366",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
@@ -399,6 +455,20 @@
       "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
       "approvedAtUtc": "2026-02-17T21:30:12.652Z",
       "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "scripts/ops/check-execution-sequence.mjs",
+      "sha256": "789ad4e33b5bc38b79ab1adfcf46ccdda56ff767f7e431760e653da5e5c20f78",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
+      "filePath": "scripts/ops/check-law-path-canon.mjs",
+      "sha256": "ee5474e6d1ee2df9cc3c05b75dffd33dc3bf30defbb74d81543c809f850a523c",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
     },
     {
       "filePath": "scripts/ops/check-menu-artifact-lock.mjs",
@@ -633,10 +703,10 @@
     },
     {
       "filePath": "scripts/run-tests.js",
-      "sha256": "7fc8ea9c8edffb71035093e76329b3ebc98b16db364b0970d83578a5b5c7e0b2",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+      "sha256": "d6116a2e51ab0ddd31d14d7dcdd8ed297759b98d7d251b8eb8208f347ab892f8",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T06:55:49.650Z",
+      "rationale": "Refresh approval after heavy-lane LAW path canon guard wiring and mode-plumbed sequence checks."
     },
     {
       "filePath": "test/contracts/canon-status-active.contract.test.js",
@@ -723,6 +793,13 @@
       "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
+      "filePath": "test/contracts/execution-sequence-lock.contract.test.js",
+      "sha256": "482a05cb49294cdffe7eaa60d5fe34ac207490d10bf02da7f33f0e0a6db30af9",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+    },
+    {
       "filePath": "test/contracts/governance-approval-state.contract.test.js",
       "sha256": "c9e3d3fd496e04b7993ac3a85efe5ea935e9157a3327e75c67fd7a6bbdf2c39e",
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
@@ -735,6 +812,13 @@
       "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
       "approvedAtUtc": "2026-02-13T00:00:00.000Z",
       "rationale": "Cover artifact-based approval and env override compatibility."
+    },
+    {
+      "filePath": "test/contracts/law-path-canon-no-fallback.contract.test.js",
+      "sha256": "82ec583fd78493f300da24d495fef624f8b3e70d344a7e12970c8aee47a3e78c",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
     },
     {
       "filePath": "test/contracts/menu-artifact-export-and-runtime-verify.contract.test.js",
@@ -871,10 +955,10 @@
     },
     {
       "filePath": "test/contracts/transition-exit-failsignal-token-wiring.contract.test.js",
-      "sha256": "24d4d7a5eea53347c2e68794ed4e25d716fd073119d7fe225ea02ec1147d9736",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+      "sha256": "86c5fe79b7f7fbbaa7fa74c334d3fc61ec8a824e42589a9a77c22974ae8cceeb",
+      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
+      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
+      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
     },
     {
       "filePath": "test/contracts/wave-freshness-and-stage-activation.contract.test.js",

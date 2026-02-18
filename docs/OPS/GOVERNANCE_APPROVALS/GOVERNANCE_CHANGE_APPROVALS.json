@@ -2,6 +2,13 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
+      "sha256": "592e373743e1c7561aa2d1b96f0ab9f1bb83f6cb4724b66b8806479fd080b29e",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
       "sha256": "06d641abbbb2b3fe4cd8462bea196b5e9b52fe7c77cdaf99cc60117c84c15d7e",
       "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
@@ -17,10 +24,45 @@
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "18f6cdeac343fc3e560a8712ec37d629f356fe315ee7c17b2c6e7d8a644c886e",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
+      "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
+      "sha256": "9e7a9682bae7fe1d396c46f789afb2f0dc0241bd85e58a3ff84cbbb7c29ca781",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/PERF/PERF_LITE_BASELINE.json",
+      "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
+      "sha256": "70427b8eb5c795026c9dfdc4efefbe55fc2111aa76a22aa994c93d3f6701727e",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json",
+      "sha256": "c86910318c65ce8af947833e0da6a56d6d825a42de56922c619cdead2f86a60b",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json",
+      "sha256": "0f0a99532d176d558748a4df2792f8ca57ade7e72afcfa1d1a1aba2580b2b1be",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "docs/OPS/STATUS/DEPENDENCY_REMEDIATION_POLICY_v3_12.json",
@@ -30,11 +72,60 @@
       "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
     },
     {
+      "filePath": "docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json",
+      "sha256": "4ea57c88c0737cd7de789c6824f30aef202600736ee157e353089cf1e823f48d",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json",
+      "sha256": "47f50a2c8bdc00cd1cf7af47b2b18dde817b332086f52cb44ab2179f86320e68",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json",
+      "sha256": "302330ce61b5e05e2f2c8b7d1ede119319b9628b1947a9be7b1c27cb20f64d32",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json",
+      "sha256": "b9c158941f10072bd571bcbe9230b761c9ef2d5edb5f7e6ce2836389ee903ca3",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/MENU_RUNTIME_CONTEXT_CANON_v1.json",
+      "sha256": "5b1ae9c80f2048d4028760ab48ce7e71f54ee5bb94bb81739a95c840f06dbf14",
+      "approvedBy": "ticket:TZ-19-MENU-RUNTIME-ARTIFACT-FIRST-AND-EQUIVALENCE",
+      "approvedAtUtc": "2026-02-17T21:53:29.694Z",
+      "rationale": "Approve runtime artifact-first menu consumption, context-bound overlay enforcement, runtime-equivalence check, and governance-bound registry/contract updates for TZ-19."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json",
+      "sha256": "c545dcf8ebe2f6bb2fd3ccff92d0f4375a547d4e4605db377928935ac93a7161",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
       "filePath": "docs/OPS/STATUS/NODE_SPEC_v3.json",
       "sha256": "2cc1a05022086c3deeb38c0fd054e2e95fe6a6c961c234bec2aac72a9ea4e6ef",
       "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
       "approvedAtUtc": "2026-02-16T17:40:41Z",
       "rationale": "Approve NODE_SPEC_v3 canonical status artifact introduced with v3.12 canon path migration package."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json",
+      "sha256": "412b383da042a35d0fb2f643c4155f3ac88784e2d9d414f6c8259df87a451898",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "docs/OPS/STATUS/PRE_UI_OPS_CONTOUR_CLOSE_v1.json",
@@ -101,10 +192,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",
-      "sha256": "80aa451090aeefbf9c19f13a3ae9c33e0f131170a62fc6736bb21105a7f05926",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Approve canonical v3.12 LAW payload at dedicated SSOT path to remove split-brain versioning."
+      "sha256": "d56c36a4a375881d2d8d46a11fa205e8109dcd7a1ee3adee0188614d8fb1207b",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
@@ -115,10 +206,10 @@
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "06ffedfcbbf8400060b0d1fab2a3455fb50affd7160ec6c9ffca66108de4f05e",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
+      "sha256": "8acbdc2c371385b03445d435d7d91b245f8c82897d17b73faa0d2c04da8c6167",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
@@ -128,11 +219,60 @@
       "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
     },
     {
+      "filePath": "package.json",
+      "sha256": "6001a0a1a29ce5eb96101a49dfaf626014f09e93546372231dbaa27aa9207ace",
+      "approvedBy": "ticket:TZ-20-PROMOTION-HEAVY-LANE-ENTRYPOINT",
+      "approvedAtUtc": "2026-02-18T04:34:46.749Z",
+      "rationale": "Add real promotion heavy-lane entrypoint with strict mode plumbing and anti-regress wiring contract (no dev:fast tax)."
+    },
+    {
       "filePath": "scripts/doctor.mjs",
       "sha256": "1e89995b1c8876bb3850404442b8ffdbac12af6e5ef18e9611f07c17116c0799",
       "approvedBy": "ticket:OPS-DOCTOR-U1-CATALOG-AWARE-02",
       "approvedAtUtc": "2026-02-17T15:20:00.000Z",
       "rationale": "Sync governance approval with catalog-aware U1 doctor checks to keep strict wave green."
+    },
+    {
+      "filePath": "scripts/ops/bootstrap-noninteractive.mjs",
+      "sha256": "30535e3b4bd8d6552c1a93ee285a410baca2f960cd6288bfa87a930c3f20a3c8",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "scripts/ops/check-command-namespace-static.mjs",
+      "sha256": "4becc39fef2370736d66c1772edad1d6bdec527632eb81e827f5abc74bc2e349",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "scripts/ops/check-command-namespace.mjs",
+      "sha256": "2a8d619aca2c1193250672262d3a3b2a1a0b995a47eade64a14e930b2afbe4f7",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "scripts/ops/check-enabledwhen-dsl.mjs",
+      "sha256": "d5a7325a4f23e57e5831727664146930525f40288ff972c956b6ca0c346ce541",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "scripts/ops/check-menu-artifact-lock.mjs",
+      "sha256": "525ff05233b62171345cb1f69330b1fdef6f2c03fb45600b017525085078e9c0",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "scripts/ops/check-menu-overlay-stack.mjs",
+      "sha256": "2d56cac2ef7129a4f4371c897f785cb884537cdb13b410f50f6bbfc177ff2625",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "scripts/ops/command-surface-state.mjs",
@@ -205,6 +345,13 @@
       "rationale": "Enable artifact-based approval lookup while keeping env override fallback."
     },
     {
+      "filePath": "scripts/ops/menu-config-normalize.mjs",
+      "sha256": "48a523015e9424aa4f7cdbeeb780b36d458d1e276255764b97ffc4e7569338ff",
+      "approvedBy": "ticket:TZ-19-MENU-RUNTIME-ARTIFACT-FIRST-AND-EQUIVALENCE",
+      "approvedAtUtc": "2026-02-17T21:53:29.694Z",
+      "rationale": "Approve runtime artifact-first menu consumption, context-bound overlay enforcement, runtime-equivalence check, and governance-bound registry/contract updates for TZ-19."
+    },
+    {
       "filePath": "scripts/ops/path-boundary-guard-state.mjs",
       "sha256": "bfcb6c3f6964bce98e5123a2d3dc12481dde9d891a44b388d25d759e6836e477",
       "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
@@ -224,6 +371,13 @@
       "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
       "approvedAtUtc": "2026-02-16T19:32:59Z",
       "rationale": "Approve machine stage-activation resolver including promotion record validation and scopeflag checks."
+    },
+    {
+      "filePath": "scripts/ops/run-wave.mjs",
+      "sha256": "9212a9e34e5310fae5175fb0079e136a99aaf0914e63c36b761fb006df59bc48",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "scripts/ops/stage-activation-state.mjs",
@@ -324,6 +478,55 @@
       "rationale": "Approve rollout plan state validator for stage and scope flag integrity."
     },
     {
+      "filePath": "scripts/run-tests.js",
+      "sha256": "7fc8ea9c8edffb71035093e76329b3ebc98b16db364b0970d83578a5b5c7e0b2",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "test/contracts/canon-status-active.contract.test.js",
+      "sha256": "691268d1f4922ac627ed9ae3ab2b405902a84f4a5909a38f3bceb1d862408616",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/codex-no-repo-prompts.contract.test.js",
+      "sha256": "07a235de114dc1fea7d9bece07296246adf15eca736de40935cd05b747ce6428",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/command-namespace-canon-and-alias-bridge.contract.test.js",
+      "sha256": "72cb25b438c367d5d63cc902d5e87f5535399a3a2c460bcb5da8d3d361d78f60",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/command-namespace-static-no-legacy-prefix.contract.test.js",
+      "sha256": "707e54cdf99340a4c23cc260b80c4e2f4b0c27e163ba4ba40f0f58143fabad88",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/command-namespace-sunset-promotion.contract.test.js",
+      "sha256": "9f78633e86f218223662c18c77497d647726e3faf4c00e31bd39ef1dad6f1f2d",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/command-surface-bus-only.contract.test.js",
+      "sha256": "964eebedb94684983ea62e88a3f73993c54e36c095239a4d9363a09eb597cf27",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
       "filePath": "test/contracts/command-surface-single-entry.contract.test.js",
       "sha256": "ae1e096dd96f2e0b40b06d257fe19b4ffb168b84ed5c102123950c4254e7591c",
       "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
@@ -331,11 +534,39 @@
       "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
     },
     {
+      "filePath": "test/contracts/command-visibility-matrix.contract.test.js",
+      "sha256": "d90c2c0e6a18c85ca9f6ea981f34acf5da63d9299ae739da5c71c896bf5346b1",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
       "filePath": "test/contracts/dependency-remediation-policy.contract.test.js",
       "sha256": "f1c1f0ea3e0e3d4a3e5cd98f7df5361c8f91c13d97b99b2ec3433eb4dbbf49c7",
       "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
       "approvedAtUtc": "2026-02-16T20:38:09.821Z",
       "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
+    },
+    {
+      "filePath": "test/contracts/dev-fast-lane.contract.test.js",
+      "sha256": "19d7b32ebae5915d16048b5a9858818d2afc93402381394c9a60f52e18ce9daa",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/editor-hotpath-no-full-rerender-per-input.contract.test.js",
+      "sha256": "6908f79b5733119264ba5856a10c22fab9e5510c35bdc5457e6ef020e19909fa",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/enabledwhen-dsl-canon.contract.test.js",
+      "sha256": "c6ef4955508d334be8bccd459ba259b6da1611d97ac365248dcde50dc2cf7299",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "test/contracts/governance-approval-state.contract.test.js",
@@ -352,11 +583,60 @@
       "rationale": "Cover artifact-based approval and env override compatibility."
     },
     {
+      "filePath": "test/contracts/menu-artifact-export-and-runtime-verify.contract.test.js",
+      "sha256": "0deb9bfa30cd17b40b192aea1b049f04deec128640a55e160c0e411c127173fa",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/menu-config-backcompat.contract.test.js",
+      "sha256": "f28417dfc3a9d30ec5aa2c88573a4c83523af277624c5e91cd46ca1a8d1aaaf0",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/menu-config-normalization.contract.test.js",
+      "sha256": "0f143f20477f3e8d7934f0e80e4a2e1d834b1309c68df76f25dae39efd56efd2",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/menu-config-v2.contract.test.js",
+      "sha256": "55e193fd744da3430d52b4b2ef73062ca95d86383c0dac49c5034402bf7dcb73",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
       "filePath": "test/contracts/menu-config.contract.test.js",
       "sha256": "e07ce92016c3a9fe94e3ff3e6ed428f38ce8b1966ce241aeb4aaaf2003ddc460",
       "approvedBy": "ticket:UI_MENU_V1_EXPAND_COMMANDS_AND_LABELS_v1.0",
       "approvedAtUtc": "2026-02-14T15:35:23.000Z",
       "rationale": "Refresh menu config contract for expanded data-driven menu labels/groups while preserving fallback machine-readable failure signaling."
+    },
+    {
+      "filePath": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js",
+      "sha256": "edcb8b282f68d922435a234656f6d04eda92241538dd2c04f21dae53b128aa8f",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/menu-runtime-artifact-first-and-equivalence.contract.test.js",
+      "sha256": "b3c9cb3abfcce08915c0ed31d6060101229b0f62f4355de8eb1025a138bcc3ab",
+      "approvedBy": "ticket:TZ-19-MENU-RUNTIME-ARTIFACT-FIRST-AND-EQUIVALENCE",
+      "approvedAtUtc": "2026-02-17T21:53:29.694Z",
+      "rationale": "Approve runtime artifact-first menu consumption, context-bound overlay enforcement, runtime-equivalence check, and governance-bound registry/contract updates for TZ-19."
+    },
+    {
+      "filePath": "test/contracts/menu-snapshot-freeze-promotion.contract.test.js",
+      "sha256": "3a0a7588691475064d9c9c481608e83987a1e4f8986e201a7f861990a21cdb1f",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "test/contracts/path-boundary-guard.contract.test.js",
@@ -366,11 +646,46 @@
       "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
     },
     {
+      "filePath": "test/contracts/perf-baseline-snapshot-and-delta-guard.contract.test.js",
+      "sha256": "563acc40a3f2316e61451177d5db9119953001ea8cd8add7337ef58693fe91d0",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/perf-ci-promotion-mode.contract.test.js",
+      "sha256": "0251967921129b7fadc1e6ef459bfd269fe558ceafc1b951b82d7f342bd14762",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
+      "filePath": "test/contracts/perf-lite-entrypoint-and-fixture.contract.test.js",
+      "sha256": "9b1ab780e8dcff05dbd451745a090ad738bb8b3b8ddbe09315d5fbbf55758b47",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+    },
+    {
       "filePath": "test/contracts/pre-ui-ops-contour-close.contract.test.js",
       "sha256": "7e4be6bff10e1abb3923b0d325990f809d5cb8c8e7edf45acdd5cdd670f6ae0a",
       "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
       "approvedAtUtc": "2026-02-17T00:00:00.000Z",
       "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
+    },
+    {
+      "filePath": "test/contracts/promotion-heavy-lane-entrypoint.contract.test.js",
+      "sha256": "189bb8ae661e3ab5c968e4cbd9c2c5de0ee3ad75d0f88269ff6cdce0400bee12",
+      "approvedBy": "ticket:TZ-20-PROMOTION-HEAVY-LANE-ENTRYPOINT",
+      "approvedAtUtc": "2026-02-18T04:34:46.749Z",
+      "rationale": "Add real promotion heavy-lane entrypoint with strict mode plumbing and anti-regress wiring contract (no dev:fast tax)."
+    },
+    {
+      "filePath": "test/contracts/ssot-anchor-reality.contract.test.js",
+      "sha256": "fe7f6aab5376d159f94bb8f52d2805e187b4530206819e24fc1518c9f32385cb",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "test/contracts/stage-activation.contract.test.js",
@@ -392,6 +707,13 @@
       "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
       "approvedAtUtc": "2026-02-14T15:56:24.000Z",
       "rationale": "Add positive/negative contract coverage for theme tokens config schema validation, required fields, and numeric ranges."
+    },
+    {
+      "filePath": "test/contracts/transition-exit-failsignal-token-wiring.contract.test.js",
+      "sha256": "24d4d7a5eea53347c2e68794ed4e25d716fd073119d7fe225ea02ec1147d9736",
+      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
+      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
+      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
     },
     {
       "filePath": "test/contracts/wave-freshness-and-stage-activation.contract.test.js",
@@ -455,6 +777,76 @@
       "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
       "approvedAtUtc": "2026-02-16T17:40:41Z",
       "rationale": "Remap contract-test binding path and runtime-derived hash checks to canonical v3.12 contract path."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
+      "sha256": "2f3fa6d5bc276934e9a8f2565ffe2ed98f589e1ecde138d5f93fee417eec53bb",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "scripts/ops/release-candidate.mjs",
+      "sha256": "bab687b413155d6ae72b4a193bd6737714dccfb309a3e03d50dbd6d6e27fec84",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js",
+      "sha256": "8d65247256c8ae56df3dc715b9a152b93d27d834b6a24b757211e365150fd36c",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/promotion-summary.json",
+      "sha256": "f22fa27ca709e522185d0dd82f7f368d81c9e8d70617dc649145109e7e0cc7d9",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/menuArtifactHash.txt",
+      "sha256": "1f16de2ada63b00b057894eddb2687d109ffbf16a734160eefc6e0c7116c512c",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/perfBaseline.json",
+      "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/doctor-strict.log",
+      "sha256": "cb00fc5c523e951441ffdded8808fa3b7483ec28e84fac1b04b78a558bd80756",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/heavy-lane-summary.json",
+      "sha256": "ef51aed12bdc66ce82fde4c34b0abc97bed204e19fe789865c0eb92330ad17c6",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/token-required-set.json",
+      "sha256": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/failsignal-registry-snapshot.json",
+      "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
+      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
+      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
+      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
     }
   ]
 }

@@ -14,5 +14,18 @@
   ],
   "mergeMethod": "merge_only",
   "requiredRollup": "SUCCESS",
-  "baseBranch": "main"
+  "baseBranch": "main",
+  "autoMergeAllowedIf": {
+    "humanActionRequired": false
+  },
+  "handoff": {
+    "contractRef": "AUTOMATION_HANDOFF_MINIMAL_CLICKS",
+    "enforceResumeFromStep": true,
+    "onHumanActionRequired": {
+      "createPrAutomatically": true,
+      "runChecksAutomatically": true,
+      "blockMergeUntilClickConfirmation": true,
+      "autoResumeFromStep": true
+    }
+  }
 }

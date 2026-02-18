@@ -245,6 +245,20 @@
       "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
       "approvedAtUtc": "2026-02-18T12:00:49.000Z",
       "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
+    },
+    {
+      "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
+      "sha256": "bb83b0b459c87fd67532c660023c1c1615480efa95a174569e02e917590d4173",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOMATION-HANDOFF-MINIMAL-CLICKS-003",
+      "approvedAtUtc": "2026-02-18T12:11:50.000Z",
+      "rationale": "Approve OPS-only automation handoff policy/profile update for HUMAN_ACTION_REQUIRED minimal-click resume contract."
+    },
+    {
+      "filePath": "docs/OPERATIONS/STATUS/SAFE_AUTOMERGE_OPS_ONLY_PROFILE.json",
+      "sha256": "188abb1742aca73813cc3458ae4b7bb069e95a3d40ec0026577b56dca882f112",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOMATION-HANDOFF-MINIMAL-CLICKS-003",
+      "approvedAtUtc": "2026-02-18T12:11:50.000Z",
+      "rationale": "Approve OPS-only automation handoff policy/profile update for HUMAN_ACTION_REQUIRED minimal-click resume contract."
     }
   ]
 }

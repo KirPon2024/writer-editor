@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "v1",
+  "baseline": {
+    "lawDocPath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+    "canonStatusPath": "docs/OPS/STATUS/CANON_STATUS.json",
+    "lawPathCanonPath": "docs/OPS/STATUS/LAW_PATH_CANON.json",
+    "baselineMainSha": "1bc83c952776a69d0881011ba786040cec55f2e0",
+    "createdAt": "2026-02-18T11:48:20Z",
+    "updatedAt": "2026-02-18T11:48:20Z"
+  },
+  "items": [
+    {
+      "id": "P1-SEC-DEPS-REACHABILITY",
+      "title": "Dependency security remediation (reachability-driven)",
+      "status": "OPEN",
+      "priority": "P1",
+      "risk": "SECURITY",
+      "owner": "TBD",
+      "exitCriteria": [
+        "All reachable vulnerabilities in the active dependency graph are either remediated or documented with risk acceptance approved in governance.",
+        "A repeatable remediation plan with owners, due dates, and closure evidence is recorded and linked from this queue item."
+      ],
+      "evidence": [
+        "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "checks": [
+        "npm audit --omit=dev --json",
+        "npm run oss:policy",
+        "node scripts/doctor.mjs --strict"
+      ],
+      "notes": []
+    },
+    {
+      "id": "P1-CI-OPS-INJECTION-HARDENING",
+      "title": "CI/OPS injection hardening",
+      "status": "OPEN",
+      "priority": "P1",
+      "risk": "OPS",
+      "owner": "TBD",
+      "exitCriteria": [
+        "Command invocation boundaries in CI/OPS scripts are hardened against untrusted input and validated by passing contract checks.",
+        "All high-risk shell/script entry points have explicit guardrails documented with reproducible verification commands."
+      ],
+      "evidence": [
+        "docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+      ],
+      "checks": [
+        "node scripts/doctor.mjs --strict",
+        "npm run dev:fast",
+        "node scripts/ops/governance-change-detection.mjs --json"
+      ],
+      "notes": []
+    },
+    {
+      "id": "P1-PATH-BOUNDARY-GUARD",
+      "title": "Centralized path-boundary guard for IPC/file operations",
+      "status": "OPEN",
+      "priority": "P1",
+      "risk": "INTEGRITY",
+      "owner": "TBD",
+      "exitCriteria": [
+        "All IPC and file-operation path validations are routed through one centralized guard with deny-by-default behavior.",
+        "Path traversal and outside-root access attempts are covered by automated tests and fail closed."
+      ],
+      "evidence": [
+        "docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+      ],
+      "checks": [
+        "node scripts/doctor.mjs --strict",
+        "npm run dev:fast"
+      ],
+      "notes": []
+    }
+  ]
+}

@@ -238,6 +238,13 @@
       "approvedBy": "@k.ponomarev.pro",
       "approvedAtUtc": "2026-02-18T00:00:00.000Z",
       "rationale": "Approve strict-governance change for TZ-24D2 contract wiring update."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
+      "sha256": "380ed1b1d0b4933a230b3b9ea81266fd8d7679f08c34866e6ff6591ce2e5c099",
+      "approvedBy": "ticket:TZ-24E-P1-DEBT-QUEUE-SSOT-BOOTSTRAP-001",
+      "approvedAtUtc": "2026-02-18T11:48:40.000Z",
+      "rationale": "Approve SSOT bootstrap for P1 debt queue registry (docs/OPS-only)."
     }
   ]
 }

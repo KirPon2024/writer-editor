@@ -6258,7 +6258,10 @@ function run() {
   const debtPath = 'docs/OPS/DEBT_REGISTRY.json';
   const debtRegistry = parseDebtRegistry(debtPath);
 
-  const requestedMode = process.env.EFFECTIVE_MODE === 'STRICT' ? 'STRICT' : 'TRANSITIONAL';
+  const cliArgs = new Set(process.argv.slice(2).map((arg) => String(arg || '').trim()));
+  const requestedMode = cliArgs.has('--strict') || process.env.EFFECTIVE_MODE === 'STRICT'
+    ? 'STRICT'
+    : 'TRANSITIONAL';
   const effectiveMode = isDeliveryExecutionMode() ? 'STRICT' : requestedMode;
   const ssotBoundary = checkSsotBoundaryGuard(effectiveMode);
 

@@ -393,8 +393,8 @@
       "sourceBinding": "contract_test",
       "failSignalCode": "E_PROMPT_LAYER_POLICY_INVALID",
       "namespace": "PROMPT_LAYER",
-      "positiveContractRef": "test/contracts/codex-no-repo-prompts.contract.test.js#repository-scan-enforces-single-source-runner-marker",
-      "negativeContractRef": "test/contracts/codex-no-repo-prompts.contract.test.js#reject-runner-marker-in-bootstrap"
+      "positiveContractRef": "test/contracts/prompt-layer-single-source.contract.test.js#prompt-layer-single-source-repo-scan-has-no-repo-marker-and-single-runner-marker-in-run-wave-only",
+      "negativeContractRef": "test/contracts/prompt-layer-single-source.contract.test.js#promotion-layer-emission-outside-run-wave-is-rejected"
     },
     {
       "tokenId": "PROOFHOOK_INTEGRITY_OK",
@@ -483,13 +483,13 @@
       "promotionState": "existing",
       "gateTier": "release",
       "requiredWhen": null,
-      "proofHook": "node --test test/contracts/menu-config-backcompat.contract.test.js",
+      "proofHook": "node --test test/contracts/stage-axis-lock.contract.test.js",
       "proofHookClosureSha256": null,
       "sourceBinding": "contract_test",
       "failSignalCode": "E_STAGE_AXIS_DRIFT",
       "namespace": "STAGE_AXIS",
-      "positiveContractRef": "test/contracts/menu-config-backcompat.contract.test.js#v1-config-remains-valid-with-default-validator-path",
-      "negativeContractRef": "test/contracts/menu-config-backcompat.contract.test.js#should-reject-stage-x5-in-runtime-menu-config"
+      "positiveContractRef": "test/contracts/stage-axis-lock.contract.test.js#stage-axis-lock-x5-is-absent-in-runtime-schema-validator-defaults-example-and-required-set-logic",
+      "negativeContractRef": "test/contracts/stage-axis-lock.contract.test.js#stage-x5-is-rejected-by-runtime-validator"
     },
     {
       "tokenId": "TOKEN_CATALOG_VALID_OK",

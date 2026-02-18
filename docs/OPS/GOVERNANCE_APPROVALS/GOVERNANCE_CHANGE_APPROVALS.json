@@ -2,1026 +2,242 @@
   "version": "v1.0",
   "approvals": [
     {
-      "filePath": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
-      "sha256": "592e373743e1c7561aa2d1b96f0ab9f1bb83f6cb4724b66b8806479fd080b29e",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
-      "sha256": "06d641abbbb2b3fe4cd8462bea196b5e9b52fe7c77cdaf99cc60117c84c15d7e",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
-    },
-    {
-      "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
-      "sha256": "9fc4ecb94627724f2c115bdd20324b76c4e31e5f77e2b318be0cb84a27fd558f",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Add machine-bound X3 recovery smoke claim with proofHook, failSignal, and source binding metadata."
-    },
-    {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/failsignal-registry-snapshot.json",
       "sha256": "9af1b22b87f604601b38114621995a44ae5e15c3ea9a299197c61e863a5e6448",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/heavy-lane-summary.json",
       "sha256": "229e5f5828ec497107e792cc6948a9c1b625a841aecb58beed2ef4e1c2cdcff3",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/menuArtifactHash.txt",
       "sha256": "1f16de2ada63b00b057894eddb2687d109ffbf16a734160eefc6e0c7116c512c",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/perfBaseline.json",
       "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/promotion-summary.json",
       "sha256": "531118661ff84dda7634f104ba8043efadedfc209e491175701181fce2a4f5b1",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/token-required-set.json",
       "sha256": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-29ee345a82e7-592e3737/failsignal-registry-snapshot.json",
-      "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:20:00Z",
-      "rationale": "Refresh governance approvals for RC lock rollover to commit-series head and its promotion evidence pack."
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-1d2b02762ed2-592e3737/failsignal-registry-snapshot.json",
+      "sha256": "e288f855be5b05f27471cc0e0c6dad1b52250af997906fea9141d1333d28ef20",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-29ee345a82e7-592e3737/heavy-lane-summary.json",
-      "sha256": "9c6e7d3af436e0b5805be99b203a3a0ce9dcb8420ab8caa030148b3c6245c23d",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:20:00Z",
-      "rationale": "Refresh governance approvals for RC lock rollover to commit-series head and its promotion evidence pack."
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-1d2b02762ed2-592e3737/heavy-lane-summary.json",
+      "sha256": "c5dfa6f8035bce41ac7b1fa49a69b8ea6fc06e63d4aa2002aacab9b0d2744238",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-29ee345a82e7-592e3737/menuArtifactHash.txt",
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-1d2b02762ed2-592e3737/menuArtifactHash.txt",
       "sha256": "1f16de2ada63b00b057894eddb2687d109ffbf16a734160eefc6e0c7116c512c",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:20:00Z",
-      "rationale": "Refresh governance approvals for RC lock rollover to commit-series head and its promotion evidence pack."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-29ee345a82e7-592e3737/perfBaseline.json",
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-1d2b02762ed2-592e3737/perfBaseline.json",
       "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:20:00Z",
-      "rationale": "Refresh governance approvals for RC lock rollover to commit-series head and its promotion evidence pack."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-29ee345a82e7-592e3737/promotion-summary.json",
-      "sha256": "7983d501381bd2bbc487f7975aa07ed539e8e74f193cc8670289115a52679622",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:20:00Z",
-      "rationale": "Refresh governance approvals for RC lock rollover to commit-series head and its promotion evidence pack."
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-1d2b02762ed2-592e3737/promotion-summary.json",
+      "sha256": "cbcb42c7c1fe59b4438c6fc8410cdc7e64830fab06b8f5c3422d4d5542469670",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-29ee345a82e7-592e3737/token-required-set.json",
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-1d2b02762ed2-592e3737/token-required-set.json",
       "sha256": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:20:00Z",
-      "rationale": "Refresh governance approvals for RC lock rollover to commit-series head and its promotion evidence pack."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/doctor-strict.log",
       "sha256": "cb00fc5c523e951441ffdded8808fa3b7483ec28e84fac1b04b78a558bd80756",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/failsignal-registry-snapshot.json",
-      "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/heavy-lane-summary.json",
-      "sha256": "ef51aed12bdc66ce82fde4c34b0abc97bed204e19fe789865c0eb92330ad17c6",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/menuArtifactHash.txt",
-      "sha256": "1f16de2ada63b00b057894eddb2687d109ffbf16a734160eefc6e0c7116c512c",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/perfBaseline.json",
-      "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/promotion-summary.json",
-      "sha256": "f22fa27ca709e522185d0dd82f7f368d81c9e8d70617dc649145109e7e0cc7d9",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-5d740faaacf5-592e3737/token-required-set.json",
-      "sha256": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/failsignal-registry-snapshot.json",
-      "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:30:00Z",
-      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/heavy-lane-summary.json",
-      "sha256": "6bcc0b5a13fc5d5c95f216e1c48c9b0725cbf1f1e7220dc9331202ec83279713",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:30:00Z",
-      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/menuArtifactHash.txt",
-      "sha256": "1f16de2ada63b00b057894eddb2687d109ffbf16a734160eefc6e0c7116c512c",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:30:00Z",
-      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/perfBaseline.json",
-      "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:30:00Z",
-      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/promotion-summary.json",
-      "sha256": "d810953bdbc5ac3dbadad50b654cff56f8a131fadcaad6b192f42aed1cbe191e",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:30:00Z",
-      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/token-required-set.json",
-      "sha256": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T05:30:00Z",
-      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "9af1b22b87f604601b38114621995a44ae5e15c3ea9a299197c61e863a5e6448",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
-    },
-    {
-      "filePath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
-      "sha256": "9e7a9682bae7fe1d396c46f789afb2f0dc0241bd85e58a3ff84cbbb7c29ca781",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/PERF/PERF_LITE_BASELINE.json",
-      "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+      "sha256": "e288f855be5b05f27471cc0e0c6dad1b52250af997906fea9141d1333d28ef20",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
-      "sha256": "70427b8eb5c795026c9dfdc4efefbe55fc2111aa76a22aa994c93d3f6701727e",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json",
-      "sha256": "c86910318c65ce8af947833e0da6a56d6d825a42de56922c619cdead2f86a60b",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json",
-      "sha256": "0f0a99532d176d558748a4df2792f8ca57ade7e72afcfa1d1a1aba2580b2b1be",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/DEPENDENCY_REMEDIATION_POLICY_v3_12.json",
-      "sha256": "30f27f2be832b67ed7c848e45c7f2084749b84674cc15995db6ce52dc2337f9a",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json",
-      "sha256": "4ea57c88c0737cd7de789c6824f30aef202600736ee157e353089cf1e823f48d",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+      "sha256": "30e4d5321947f954b15f21321ab3a446ad9a1cbc916ff352b543f66935fbb23a",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/STATUS/EXECUTION_SEQUENCE_CANON_v1.json",
       "sha256": "f6e38847245f424081f8d0755183dbbb86e440c655f0fa8f2e6286dc25005c07",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/STATUS/LAW_PATH_CANON.json",
-      "sha256": "266baf66c65cb64d3d0d25a0a6f343862d0a7993ff93a5200331cfa632e22a53",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json",
-      "sha256": "47f50a2c8bdc00cd1cf7af47b2b18dde817b332086f52cb44ab2179f86320e68",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json",
-      "sha256": "302330ce61b5e05e2f2c8b7d1ede119319b9628b1947a9be7b1c27cb20f64d32",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json",
-      "sha256": "b9c158941f10072bd571bcbe9230b761c9ef2d5edb5f7e6ce2836389ee903ca3",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/MENU_RUNTIME_CONTEXT_CANON_v1.json",
-      "sha256": "5b1ae9c80f2048d4028760ab48ce7e71f54ee5bb94bb81739a95c840f06dbf14",
-      "approvedBy": "ticket:TZ-19-MENU-RUNTIME-ARTIFACT-FIRST-AND-EQUIVALENCE",
-      "approvedAtUtc": "2026-02-17T21:53:29.694Z",
-      "rationale": "Approve runtime artifact-first menu consumption, context-bound overlay enforcement, runtime-equivalence check, and governance-bound registry/contract updates for TZ-19."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json",
-      "sha256": "c545dcf8ebe2f6bb2fd3ccff92d0f4375a547d4e4605db377928935ac93a7161",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/NODE_SPEC_v3.json",
-      "sha256": "2cc1a05022086c3deeb38c0fd054e2e95fe6a6c961c234bec2aac72a9ea4e6ef",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Approve NODE_SPEC_v3 canonical status artifact introduced with v3.12 canon path migration package."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json",
-      "sha256": "412b383da042a35d0fb2f643c4155f3ac88784e2d9d414f6c8259df87a451898",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/PRE_UI_OPS_CONTOUR_CLOSE_v1.json",
-      "sha256": "3a88c2056817a520d78eaad4f6a41a84c0d916f9eed92e30c348ee1553874528",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
+      "sha256": "3f3051cf0ab94e591c737f444ffdb80aa59f7a7d4df45b3a0472909842b0a08c",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "2fcfb31ad5900bc4ba3acfa3a9c1ec9cdf32fb3fa89a5abe2eed92d785d08b25",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json",
-      "sha256": "76e0d7d1cb60ef296db2459000346c8f61a94d0bc3b99c26f5144906b6dab5a1",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve stage scope flag registry used by rollout and activation validators."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_SCHEMA_v3_12.json",
-      "sha256": "ee2ef5ba631ed43ed767959ba9fbac4dfab7f8b9874642c3306e0588ec139abd",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve stage promotion record schema with stage-bound required metrics."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json",
-      "sha256": "65864fb81eebb2f2eb100bda3632cf0def5e98d77a4196b45ea882660e562061",
-      "approvedBy": "ticket:X3_STAGE_STABILITY_BASELINE_FREEZE_v1.0",
-      "approvedAtUtc": "2026-02-14T13:10:24.287Z",
-      "rationale": "Freeze X3 stability snapshot in append-only promotion record with rollout/readiness/recovery references and baseline binding."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/WAVE_FRESHNESS_POLICY_v3_12.json",
-      "sha256": "c744a2f9eb2d4bd521b62223e7aac5f7c4f1cba50ecc32fd856480933a078bd1",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve canonical TTL/reuse policy for WAVE_INPUT_HASH-bound cache freshness checks."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json",
-      "sha256": "362d317c4e7435da59798e00144b6c61c492e827edb16d8e37a91dcf369f9865",
-      "approvedBy": "ticket:X1_RUNTIME_PARITY_EVIDENCE_FREEZE_AND_X2_READINESS_GATE_v1.0",
-      "approvedAtUtc": "2026-02-14T03:57:04Z",
-      "rationale": "Bind X1 parity baseline to frozen evidence hashes, align tested platform scope, and declare formal X2 readiness gate without stage activation."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json",
-      "sha256": "2591d089d63f21dfe05a82a178a325d59ae37168bf2e740dd7f75e45ed753cf9",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve active-stage metadata schema with requiredScopeFlag and stageDefinitions for machine stage resolver."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json",
-      "sha256": "7954c387695fe4a2fae943dc3d4efa0e972b5c8d9a869b865f1767dd1f317e8c",
-      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
-      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
-      "rationale": "Bind X3 stage evidence to deterministic recovery-smoke proofhook, fail signal, and contract references while keeping X2 active."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v1.0.md",
-      "sha256": "8338a4285fb0d8dca992aa412abc2b16d061ebbac78ba3038fe4bed29ae51f2b",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Approve compatibility redirect stub that preserves path presence while declaring v3.12 as the active canon."
+      "sha256": "4c07564f0ffd11965af557a9a6247b88ab4b0c2744236120b9d87a17450af489",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",
-      "sha256": "c6a715c242dd33d985fbbf37d353227529f4cdf0b08f3a6fe63a0f108df32770",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "sha256": "e6fc2cb960d55139fb959a3bc31dd2ba0d8016b2eace2064b1cb2775fa62c71c",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG_LOCK.json",
-      "sha256": "71ff0d60642f9b339999c88b13c59625918c460328138f17dc8b4791f4decde9",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
+      "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+      "sha256": "17cadb80e064210aa414786183f3f504e7a8098273c57138e111fc340344e9b6",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "439005e6f1134552220b18220cebe748dfa0da979acb14d3f445373d088b4366",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
-    },
-    {
-      "filePath": "docs/OPS/TOKENS/TOKEN_DECLARATION.json",
-      "sha256": "08bb5eb923ae12f84c86feb957e2fccdb5a2c27692a368b7c22d6e00fb6164e2",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
-    },
-    {
-      "filePath": "package.json",
-      "sha256": "6001a0a1a29ce5eb96101a49dfaf626014f09e93546372231dbaa27aa9207ace",
-      "approvedBy": "ticket:TZ-20-PROMOTION-HEAVY-LANE-ENTRYPOINT",
-      "approvedAtUtc": "2026-02-18T04:34:46.749Z",
-      "rationale": "Add real promotion heavy-lane entrypoint with strict mode plumbing and anti-regress wiring contract (no dev:fast tax)."
-    },
-    {
-      "filePath": "scripts/doctor.mjs",
-      "sha256": "1e89995b1c8876bb3850404442b8ffdbac12af6e5ef18e9611f07c17116c0799",
-      "approvedBy": "ticket:OPS-DOCTOR-U1-CATALOG-AWARE-02",
-      "approvedAtUtc": "2026-02-17T15:20:00.000Z",
-      "rationale": "Sync governance approval with catalog-aware U1 doctor checks to keep strict wave green."
-    },
-    {
-      "filePath": "scripts/ops/bootstrap-noninteractive.mjs",
-      "sha256": "30535e3b4bd8d6552c1a93ee285a410baca2f960cd6288bfa87a930c3f20a3c8",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "scripts/ops/check-command-namespace-static.mjs",
-      "sha256": "4becc39fef2370736d66c1772edad1d6bdec527632eb81e827f5abc74bc2e349",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "scripts/ops/check-command-namespace.mjs",
-      "sha256": "2a8d619aca2c1193250672262d3a3b2a1a0b995a47eade64a14e930b2afbe4f7",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "scripts/ops/check-enabledwhen-dsl.mjs",
-      "sha256": "d5a7325a4f23e57e5831727664146930525f40288ff972c956b6ca0c346ce541",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+      "sha256": "a9fd6631d94cae0432e0d3984ef9fe381fc3b0e4de652803c577c0c13bd9b775",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "scripts/ops/check-execution-sequence.mjs",
       "sha256": "789ad4e33b5bc38b79ab1adfcf46ccdda56ff767f7e431760e653da5e5c20f78",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+    },
+    {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "8a9435a7a14746aad462035230a2188711cb2277da44cf56a81a9ce3389539c6",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "scripts/ops/check-law-path-canon.mjs",
       "sha256": "ee5474e6d1ee2df9cc3c05b75dffd33dc3bf30defbb74d81543c809f850a523c",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
-    },
-    {
-      "filePath": "scripts/ops/check-menu-artifact-lock.mjs",
-      "sha256": "525ff05233b62171345cb1f69330b1fdef6f2c03fb45600b017525085078e9c0",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "scripts/ops/check-menu-overlay-stack.mjs",
-      "sha256": "2d56cac2ef7129a4f4371c897f785cb884537cdb13b410f50f6bbfc177ff2625",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "scripts/ops/command-surface-state.mjs",
-      "sha256": "5c8d1b9c5cd045bb3c7f9241eff38a2f3b8a482b1f67412f1b150edf84e08da5",
-      "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
-      "approvedAtUtc": "2026-02-17T00:00:00.000Z",
-      "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "scripts/ops/compute-wave-input-hash.mjs",
-      "sha256": "71b7fddc05b593e834beeeccc07cd8e16c8001694c522a006df29882e725ac53",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve deterministic WAVE_INPUT_HASH computation over profile, SSOT scope, scripts, and lock fingerprints."
-    },
-    {
-      "filePath": "scripts/ops/critical-claim-matrix-state.mjs",
-      "sha256": "272a39e44c405c4381c162f219ff47586758cf7e5f7baa32658bba6caee45b7f",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
-    },
-    {
-      "filePath": "scripts/ops/dependency-remediation-policy-state.mjs",
-      "sha256": "fb271cabdf0f849dbcf0cf13050e04c3821adaecdcb475fed07d36e0504b6e50",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
-    },
-    {
-      "filePath": "scripts/ops/emit-ops-summary.mjs",
-      "sha256": "c2c125f069092979708db2e2f24797e63d0c3fdd52338bc661951a915c284b32",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
-    },
-    {
-      "filePath": "scripts/ops/extract-truth-table.mjs",
-      "sha256": "bb0f33ac21ac863dd3bfae7d236138e22fcba57b98d7baed649d2514bb6889e5",
-      "approvedBy": "ticket:TZ_CLOSE_PRE_UI_OPS_CONTOUR_v1",
-      "approvedAtUtc": "2026-02-17T03:43:14.109Z",
-      "rationale": "Close pre-UI OPS contour: bind close record/token/contract wiring and refreshed governance baseline locks in strict mode."
-    },
-    {
-      "filePath": "scripts/ops/failsignal-registry-state.mjs",
-      "sha256": "9e5317db6f425ff2d35de8c0b840348fe30e54edd7456120a897e25e6b123aed",
-      "approvedBy": "ticket:GOVERNANCE_APPROVAL_REFRESH_FOR_FAILSIGNAL_REGISTRY_SYNC_v1.0",
-      "approvedAtUtc": "2026-02-13T16:15:04.000Z",
-      "rationale": "Refresh governed failSignal validator hash for stricter negative ref and precedence checks."
-    },
-    {
-      "filePath": "scripts/ops/freeze-rollups-state.mjs",
-      "sha256": "5fe31fd17d79762abce4753562caea7f3f59f57b7b33a4eae1a7d3d58fdae1f8",
-      "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
-      "approvedAtUtc": "2026-02-17T00:00:00.000Z",
-      "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
-    },
-    {
-      "filePath": "scripts/ops/governance-approval-state.mjs",
-      "sha256": "9ba32456550fb49e120fda2c4ee821dbd25fafab43b0a55c4565d11e23d92209",
-      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
-      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
-      "rationale": "Add machine-bound validation for per-file governance approvals."
-    },
-    {
-      "filePath": "scripts/ops/governance-change-detection.mjs",
-      "sha256": "dba0d9990d14628416d12bc629e1492bb3e82df339c527905b5831f8b6ea4089",
-      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
-      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
-      "rationale": "Enable artifact-based approval lookup while keeping env override fallback."
-    },
-    {
-      "filePath": "scripts/ops/menu-config-normalize.mjs",
-      "sha256": "48a523015e9424aa4f7cdbeeb780b36d458d1e276255764b97ffc4e7569338ff",
-      "approvedBy": "ticket:TZ-19-MENU-RUNTIME-ARTIFACT-FIRST-AND-EQUIVALENCE",
-      "approvedAtUtc": "2026-02-17T21:53:29.694Z",
-      "rationale": "Approve runtime artifact-first menu consumption, context-bound overlay enforcement, runtime-equivalence check, and governance-bound registry/contract updates for TZ-19."
-    },
-    {
-      "filePath": "scripts/ops/path-boundary-guard-state.mjs",
-      "sha256": "bfcb6c3f6964bce98e5123a2d3dc12481dde9d891a44b388d25d759e6836e477",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
-    },
-    {
-      "filePath": "scripts/ops/pre-ui-ops-contour-close-state.mjs",
-      "sha256": "c1522d6a67d36445a1dd5e75cac46e192fb26ba12ef5341a06869f761b945253",
-      "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
-      "approvedAtUtc": "2026-02-17T00:00:00.000Z",
-      "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
-    },
-    {
-      "filePath": "scripts/ops/release-candidate.mjs",
-      "sha256": "5df511507de6506fb8712659e0bc5c905eb52df35a6dedd94be4782b34e61fdc",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "scripts/ops/resolve-active-stage.mjs",
-      "sha256": "917cd56b09753688f8a39b9715c732e5f9d4c7e0b2ae8bfe7caf86d1c0f7d354",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve machine stage-activation resolver including promotion record validation and scopeflag checks."
-    },
-    {
-      "filePath": "scripts/ops/run-wave.mjs",
-      "sha256": "9212a9e34e5310fae5175fb0079e136a99aaf0914e63c36b761fb006df59bc48",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "b5ae0f5220480505f02e11a6b8a663c79b0b7eaea160b31be7f21728a2a75229",
-      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
-      "approvedAtUtc": "2026-02-18T00:00:00Z",
-      "rationale": "Scope-map sync required to keep sector-m allowlist and runner artifact checks green after commit-series materialization."
-    },
-    {
-      "filePath": "scripts/ops/stage-activation-state.mjs",
-      "sha256": "d2e0cd3a39122b90fbeaae07f4ddb2b05077c32addda9cd8b44d98ecb30fb9de",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve machine-checked stage activation evaluator for active stage and promotion mode."
-    },
-    {
-      "filePath": "scripts/ops/stage-promotion-record-state.mjs",
-      "sha256": "2c85da668a27776dba22c16665e07c6038a2f6cf8388f71a45fdab8edb064612",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve promotion record state validator with required metrics constraints."
-    },
-    {
-      "filePath": "scripts/ops/theme-config-state.mjs",
-      "sha256": "e9890756bd4811dfdffbcc9d574b2af68056ee435df7aa0659ac8396ef124be3",
-      "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
-      "approvedAtUtc": "2026-02-14T15:56:24.000Z",
-      "rationale": "Add deterministic theme-config state gate with machine-readable JSON output and strict exit-code contract."
-    },
-    {
-      "filePath": "scripts/ops/wave-cache.mjs",
-      "sha256": "da1f42162a530518a3cb4b4d8eaa4a8924eae0ab7a98d249cdb9f951ed9061bb",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve wave cache TTL/hash enforcement to block stale-green result reuse."
-    },
-    {
-      "filePath": "scripts/ops/x1-desktop-parity-harness.mjs",
-      "sha256": "b71bb674d9de4a289c121ea58e14349dd22d1b9758107dd0a3f824de6539282a",
-      "approvedBy": "ticket:GOVERNANCE_REFRESH_AFTER_PR163_v1.0",
-      "approvedAtUtc": "2026-02-14T03:24:30Z",
-      "rationale": "Refresh governed approval hash for cross-platform X1 runtime parity harness updates merged via PR #163."
-    },
-    {
-      "filePath": "scripts/ops/x1-desktop-parity-state.mjs",
-      "sha256": "cd6637962b25fb90618070cc61ef6fa2375b354e0731d67afd90b3b8bb9d1e6f",
-      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
-      "approvedAtUtc": "2026-02-13T19:40:00Z",
-      "rationale": "Approve strict X1 runtime parity state evaluation with report schema and hard-pass enforcement."
-    },
-    {
-      "filePath": "scripts/ops/x2-readiness-gate-state.mjs",
-      "sha256": "1dd3aacf52c3690e1d031077107edaca852146697f2a285c9d9feb1beecdae18",
-      "approvedBy": "ticket:NEXT_STEP_X2_RUNTIME_PARITY_ENABLEMENT_PREPARATION_v1.0",
-      "approvedAtUtc": "2026-02-14T04:15:00.000Z",
-      "rationale": "Approve deterministic X2 readiness gate evaluator for frozen X1 parity evidence, governance, strict doctor, and scope drift signals."
-    },
-    {
-      "filePath": "scripts/ops/x2-web-parity-harness.mjs",
-      "sha256": "4df5f7a49ea9b96cd6a2ffe89328b39fa564ea8c65bf917e2d4216befe0c94af",
-      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-14T10:30:00.000Z",
-      "rationale": "Approve behavioral X2 web runtime parity harness with hard parity subset checks, P95 metric emission, and explicit passPct exit contract."
-    },
-    {
-      "filePath": "scripts/ops/x2-web-parity-state.mjs",
-      "sha256": "ad6513d60858455e090ec89feee64b3b9da46d01762ab86809e2c52b2f828a8b",
-      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-14T10:30:00.000Z",
-      "rationale": "Approve machine-bound X2 web parity state validator for report schema, active stage binding, required P95 metrics, and fail-signal enforcement."
-    },
-    {
-      "filePath": "scripts/ops/x3-readiness-gate-state.mjs",
-      "sha256": "934e05ec989ff7c3ab40475a93d57744e798cd4fe72fc83f890815f66815b9bf",
-      "approvedBy": "ticket:X3_READINESS_GATE_ALLOW_STAGE_ACTIVATION_v1.0",
-      "approvedAtUtc": "2026-02-14T12:36:34.000Z",
-      "rationale": "Allow X3 readiness gate to validate both X2 and X3 active stage states while preserving failure semantics for any other stage."
-    },
-    {
-      "filePath": "scripts/ops/x3-recovery-smoke-proofhook.mjs",
-      "sha256": "7f1ed0830be5c670511b90bea9c5b6b37d6061ca4b5399df362adb59e6c7c72c",
-      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
-      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
-      "rationale": "Add deterministic, platform-neutral X3 recovery smoke proofhook with strict CLI exit semantics."
+      "sha256": "870426af05260b2be9d202a9546e1b6df473b9cee8ef5dd05a609ec85b3106b3",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "scripts/ops/xplat-contract-state.mjs",
-      "sha256": "7096b4eb85cb500e0c8a1b5ec5eb6fbf219cc708defa41f8131df4f0103525fb",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Remap default machine-binding contract path from v1.0 to canonical v3.12 SSOT."
-    },
-    {
-      "filePath": "scripts/ops/xplat-parity-baseline-state.mjs",
-      "sha256": "b810a06f1edfc7d5903000674c5b8183c5ab36d83738cd17e6df4bd1f7e948cb",
-      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:15:00Z",
-      "rationale": "Approve machine-check validator for X1 hard parity baseline."
-    },
-    {
-      "filePath": "scripts/ops/xplat-rollout-plan-state.mjs",
-      "sha256": "ddd490df30e3dcf42bce20fcfdc4c88346dbfbcd37c5f5b16a6b5acb5c1fca5f",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve rollout plan state validator for stage and scope flag integrity."
-    },
-    {
-      "filePath": "scripts/run-tests.js",
-      "sha256": "d6116a2e51ab0ddd31d14d7dcdd8ed297759b98d7d251b8eb8208f347ab892f8",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T06:55:49.650Z",
-      "rationale": "Refresh approval after heavy-lane LAW path canon guard wiring and mode-plumbed sequence checks."
-    },
-    {
-      "filePath": "test/contracts/canon-status-active.contract.test.js",
-      "sha256": "691268d1f4922ac627ed9ae3ab2b405902a84f4a5909a38f3bceb1d862408616",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/codex-no-repo-prompts.contract.test.js",
-      "sha256": "07a235de114dc1fea7d9bece07296246adf15eca736de40935cd05b747ce6428",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/command-namespace-canon-and-alias-bridge.contract.test.js",
-      "sha256": "72cb25b438c367d5d63cc902d5e87f5535399a3a2c460bcb5da8d3d361d78f60",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/command-namespace-static-no-legacy-prefix.contract.test.js",
-      "sha256": "707e54cdf99340a4c23cc260b80c4e2f4b0c27e163ba4ba40f0f58143fabad88",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/command-namespace-sunset-promotion.contract.test.js",
-      "sha256": "9f78633e86f218223662c18c77497d647726e3faf4c00e31bd39ef1dad6f1f2d",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/command-surface-bus-only.contract.test.js",
-      "sha256": "964eebedb94684983ea62e88a3f73993c54e36c095239a4d9363a09eb597cf27",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/command-surface-single-entry.contract.test.js",
-      "sha256": "ae1e096dd96f2e0b40b06d257fe19b4ffb168b84ed5c102123950c4254e7591c",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
-    },
-    {
-      "filePath": "test/contracts/command-visibility-matrix.contract.test.js",
-      "sha256": "d90c2c0e6a18c85ca9f6ea981f34acf5da63d9299ae739da5c71c896bf5346b1",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/dependency-remediation-policy.contract.test.js",
-      "sha256": "f1c1f0ea3e0e3d4a3e5cd98f7df5361c8f91c13d97b99b2ec3433eb4dbbf49c7",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
-    },
-    {
-      "filePath": "test/contracts/dev-fast-lane.contract.test.js",
-      "sha256": "19d7b32ebae5915d16048b5a9858818d2afc93402381394c9a60f52e18ce9daa",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/editor-hotpath-no-full-rerender-per-input.contract.test.js",
-      "sha256": "6908f79b5733119264ba5856a10c22fab9e5510c35bdc5457e6ef020e19909fa",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/enabledwhen-dsl-canon.contract.test.js",
-      "sha256": "c6ef4955508d334be8bccd459ba259b6da1611d97ac365248dcde50dc2cf7299",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+      "sha256": "5547c522341d45c49de4a4dba82880398c9ad5dc58f9e2eeff91c6fb8a0835b2",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "test/contracts/execution-sequence-lock.contract.test.js",
       "sha256": "482a05cb49294cdffe7eaa60d5fe34ac207490d10bf02da7f33f0e0a6db30af9",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "test/contracts/governance-approval-state.contract.test.js",
-      "sha256": "c9e3d3fd496e04b7993ac3a85efe5ea935e9157a3327e75c67fd7a6bbdf2c39e",
-      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
-      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
-      "rationale": "Cover approval registry state validation contract."
+      "filePath": "test/contracts/lane-separation.contract.test.js",
+      "sha256": "c4fe6bdfa16b546d2ac015a3b258d53bcef672f6722e5d35cc2c47dc128b10f4",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "test/contracts/governance-change-detection.contract.test.js",
-      "sha256": "ff8f8e3b167058caa898947303cd33890652eef14f054eaa1829873a36bb97a9",
-      "approvedBy": "ticket:GOVERNANCE_CHANGE_APPROVAL_MECHANISM_INTRODUCTION_v1.0",
-      "approvedAtUtc": "2026-02-13T00:00:00.000Z",
-      "rationale": "Cover artifact-based approval and env override compatibility."
+      "filePath": "test/contracts/law-path-canon-exists.contract.test.js",
+      "sha256": "2582644cdfdcbc38287859dab024abefc008816646b7402c49bee699d5464ad1",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "test/contracts/law-path-canon-no-fallback.contract.test.js",
       "sha256": "82ec583fd78493f300da24d495fef624f8b3e70d344a7e12970c8aee47a3e78c",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "test/contracts/menu-artifact-export-and-runtime-verify.contract.test.js",
-      "sha256": "0deb9bfa30cd17b40b192aea1b049f04deec128640a55e160c0e411c127173fa",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+      "filePath": "test/contracts/prompt-layer-single-source.contract.test.js",
+      "sha256": "dee05454ba47b6844d815e95e6c3a04c68ae729c61dddbd6796f2dc3f9f95329",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "test/contracts/menu-config-backcompat.contract.test.js",
-      "sha256": "f28417dfc3a9d30ec5aa2c88573a4c83523af277624c5e91cd46ca1a8d1aaaf0",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
+      "filePath": "test/contracts/stage-axis-lock.contract.test.js",
+      "sha256": "30b5b1b224362f6eafb7e92e9a5b91748ef4e8ead38e0cddee36c86d679aac1e",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "test/contracts/menu-config-normalization.contract.test.js",
-      "sha256": "0f143f20477f3e8d7934f0e80e4a2e1d834b1309c68df76f25dae39efd56efd2",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/menu-config-v2.contract.test.js",
-      "sha256": "55e193fd744da3430d52b4b2ef73062ca95d86383c0dac49c5034402bf7dcb73",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/menu-config.contract.test.js",
-      "sha256": "e07ce92016c3a9fe94e3ff3e6ed428f38ce8b1966ce241aeb4aaaf2003ddc460",
-      "approvedBy": "ticket:UI_MENU_V1_EXPAND_COMMANDS_AND_LABELS_v1.0",
-      "approvedAtUtc": "2026-02-14T15:35:23.000Z",
-      "rationale": "Refresh menu config contract for expanded data-driven menu labels/groups while preserving fallback machine-readable failure signaling."
-    },
-    {
-      "filePath": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js",
-      "sha256": "edcb8b282f68d922435a234656f6d04eda92241538dd2c04f21dae53b128aa8f",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/menu-runtime-artifact-first-and-equivalence.contract.test.js",
-      "sha256": "b3c9cb3abfcce08915c0ed31d6060101229b0f62f4355de8eb1025a138bcc3ab",
-      "approvedBy": "ticket:TZ-19-MENU-RUNTIME-ARTIFACT-FIRST-AND-EQUIVALENCE",
-      "approvedAtUtc": "2026-02-17T21:53:29.694Z",
-      "rationale": "Approve runtime artifact-first menu consumption, context-bound overlay enforcement, runtime-equivalence check, and governance-bound registry/contract updates for TZ-19."
-    },
-    {
-      "filePath": "test/contracts/menu-snapshot-freeze-promotion.contract.test.js",
-      "sha256": "3a0a7588691475064d9c9c481608e83987a1e4f8986e201a7f861990a21cdb1f",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/path-boundary-guard.contract.test.js",
-      "sha256": "e3510fa6ae88e0dc561603fca069d00f95cbf47a8f30edbf9082e993ffb377f4",
-      "approvedBy": "ticket:TZ_PRE_UI_HARDENING_PACK_v3_12",
-      "approvedAtUtc": "2026-02-16T20:38:09.821Z",
-      "rationale": "Approve pre-UI hardening governed changes for OPS/SSOT/guards/tests machine-bound enforcement."
-    },
-    {
-      "filePath": "test/contracts/perf-baseline-snapshot-and-delta-guard.contract.test.js",
-      "sha256": "563acc40a3f2316e61451177d5db9119953001ea8cd8add7337ef58693fe91d0",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/perf-ci-promotion-mode.contract.test.js",
-      "sha256": "0251967921129b7fadc1e6ef459bfd269fe558ceafc1b951b82d7f342bd14762",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/perf-lite-entrypoint-and-fixture.contract.test.js",
-      "sha256": "9b1ab780e8dcff05dbd451745a090ad738bb8b3b8ddbe09315d5fbbf55758b47",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/pre-ui-ops-contour-close.contract.test.js",
-      "sha256": "7e4be6bff10e1abb3923b0d325990f809d5cb8c8e7edf45acdd5cdd670f6ae0a",
-      "approvedBy": "ticket:OPS-POSTMERGE-STRICT-UNBLOCK-03",
-      "approvedAtUtc": "2026-02-17T00:00:00.000Z",
-      "rationale": "post-merge strict unblock (governance approvals for OPS fixes)"
-    },
-    {
-      "filePath": "test/contracts/promotion-heavy-lane-entrypoint.contract.test.js",
-      "sha256": "189bb8ae661e3ab5c968e4cbd9c2c5de0ee3ad75d0f88269ff6cdce0400bee12",
-      "approvedBy": "ticket:TZ-20-PROMOTION-HEAVY-LANE-ENTRYPOINT",
-      "approvedAtUtc": "2026-02-18T04:34:46.749Z",
-      "rationale": "Add real promotion heavy-lane entrypoint with strict mode plumbing and anti-regress wiring contract (no dev:fast tax)."
-    },
-    {
-      "filePath": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js",
-      "sha256": "8d65247256c8ae56df3dc715b9a152b93d27d834b6a24b757211e365150fd36c",
-      "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
-      "approvedAtUtc": "2026-02-18T04:50:54.934Z",
-      "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
-    },
-    {
-      "filePath": "test/contracts/ssot-anchor-reality.contract.test.js",
-      "sha256": "fe7f6aab5376d159f94bb8f52d2805e187b4530206819e24fc1518c9f32385cb",
-      "approvedBy": "ticket:TZ-18-MENU-OVERLAY-STACK-PLUGIN-OVERLAYS",
-      "approvedAtUtc": "2026-02-17T21:30:12.652Z",
-      "rationale": "Refresh governance approvals for menu overlay stack canon, plugin data-only policy, and synchronized governed artifacts/scripts/contracts in this branch."
-    },
-    {
-      "filePath": "test/contracts/stage-activation.contract.test.js",
-      "sha256": "7a73b2fd9a402af86bd2dd9e3a6f4c3051d05b7134b57a3fd04545718eb5f298",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve stage activation contract coverage for positive and negative paths."
-    },
-    {
-      "filePath": "test/contracts/stage-promotion-record.contract.test.js",
-      "sha256": "c35d2017972760dbbc0f1ca650fead09187d4ddc081d134193e9f4444b9c72fc",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve promotion record contract coverage for template and evidence failures."
-    },
-    {
-      "filePath": "test/contracts/theme-config.contract.test.js",
-      "sha256": "2c61274be1848614e20737f2924578ffed2a3684a636b743fb2627a9e65684d5",
-      "approvedBy": "ticket:UI_DESIGN_THEME_TOKENS_FOUNDATION_v1.0",
-      "approvedAtUtc": "2026-02-14T15:56:24.000Z",
-      "rationale": "Add positive/negative contract coverage for theme tokens config schema validation, required fields, and numeric ranges."
+      "filePath": "test/contracts/transition-exit-active-canon.contract.test.js",
+      "sha256": "0662ad186cba9b56d9bbb6dd7ce9c620fc90e8e3bbdff129de748cb0f1514a35",
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
       "filePath": "test/contracts/transition-exit-failsignal-token-wiring.contract.test.js",
       "sha256": "86c5fe79b7f7fbbaa7fa74c334d3fc61ec8a824e42589a9a77c22974ae8cceeb",
-      "approvedBy": "ticket:TZ-23-LAW_PATH_SSOT_LOCK",
-      "approvedAtUtc": "2026-02-18T07:00:15.089Z",
-      "rationale": "Sync governance approvals after RC lock refresh and LAW path SSOT lock governed updates."
-    },
-    {
-      "filePath": "test/contracts/wave-freshness-and-stage-activation.contract.test.js",
-      "sha256": "6767bab25c6b61f3878785bc5c41ba8c922b0eb38ccdb6adc6a5e197a32d1db5",
-      "approvedBy": "ticket:TZ_OPS_P0_STAGE_WAVE_GUARD_v3_12",
-      "approvedAtUtc": "2026-02-16T19:32:59Z",
-      "rationale": "Approve positive/negative contract coverage for deterministic hash, TTL stale block, and stage promotion invalid paths."
-    },
-    {
-      "filePath": "test/contracts/x1-desktop-parity.contract.test.js",
-      "sha256": "6302f3c53074603f9bf140b2cc79b910802dd388fb7e2c56f89d7f96c0c9572b",
-      "approvedBy": "ticket:NEXT_STEP_X1_RUNTIME_PARITY_HARNESS_HARDENING_AND_WIN_LINUX_RUN_v1.0",
-      "approvedAtUtc": "2026-02-13T19:40:00Z",
-      "rationale": "Approve contract coverage for X1 behavioral parity report validation and false-green prevention."
-    },
-    {
-      "filePath": "test/contracts/x2-readiness-gate.contract.test.js",
-      "sha256": "6c4bd7c6211846a8f64df24682d366c458114723f9f609c73c598b7d4cd4365f",
-      "approvedBy": "ticket:NEXT_STEP_X2_RUNTIME_PARITY_ENABLEMENT_PREPARATION_v1.0",
-      "approvedAtUtc": "2026-02-14T04:15:00.000Z",
-      "rationale": "Approve contract coverage for X2 readiness gate positive/negative behavior and CLI exit code enforcement."
-    },
-    {
-      "filePath": "test/contracts/x2-web-parity.contract.test.js",
-      "sha256": "ae25c15bf8a33e7c7a98a4b700a82ae0a9090381feee6f81960df9c49585cb98",
-      "approvedBy": "ticket:X2_WEB_RUNTIME_PARITY_CONTRACT_IMPLEMENTATION_v1.0",
-      "approvedAtUtc": "2026-02-14T10:30:00.000Z",
-      "rationale": "Approve positive, negative, and CLI exit-code contract coverage for X2 web runtime parity state validation."
-    },
-    {
-      "filePath": "test/contracts/x3-readiness-gate.contract.test.js",
-      "sha256": "1894c1ef135aa4a72d4dd580f3b4f002d93340312f2a8e8e6428e6fbe6869913",
-      "approvedBy": "ticket:X3_READINESS_GATE_ALLOW_STAGE_ACTIVATION_v1.0",
-      "approvedAtUtc": "2026-02-14T12:36:34.000Z",
-      "rationale": "Expand X3 readiness gate contract coverage to assert PASS for X2 and X3 active stages and FAIL for invalid stage with non-zero CLI exit."
-    },
-    {
-      "filePath": "test/contracts/x3-recovery-smoke.contract.test.js",
-      "sha256": "4d3ddb5926f65bab9139bbd73b1299aa02e0e2c56261dbf3e063e10bcfaa1239",
-      "approvedBy": "ticket:X3_RECOVERY_SMOKE_PROOFHOOK_AND_CI_BINDING_v1.0",
-      "approvedAtUtc": "2026-02-14T11:15:33.637Z",
-      "rationale": "Add positive/negative contract coverage for X3 recovery smoke proofhook and failSignal propagation."
-    },
-    {
-      "filePath": "test/contracts/xplat-parity-baseline.contract.test.js",
-      "sha256": "7f4a5c30736ffb79c0f10572d89637507451ff3b29813beb1710f41cd647555e",
-      "approvedBy": "ticket:X1_PARITY_HARD_BASELINE_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T19:15:00Z",
-      "rationale": "Approve contract coverage for X1 parity baseline validator."
-    },
-    {
-      "filePath": "test/contracts/xplat-rollout-plan.contract.test.js",
-      "sha256": "0114028028c81cd47a460e6fae964b1a6a93389289f2e327b089f96ff8e92719",
-      "approvedBy": "ticket:STAGE_SYSTEM_FORMALIZATION_v1.0",
-      "approvedAtUtc": "2026-02-13T17:34:58.529Z",
-      "rationale": "Approve rollout plan contract coverage for stage and scope flag validation."
-    },
-    {
-      "filePath": "test/contracts/xplat-unified-master-execution.contract.test.js",
-      "sha256": "85bbb01e8be18a7b0f682031793ac8e19198d39e0c6cd78fa5c0cf4de294f620",
-      "approvedBy": "ticket:XPLAT_CANONICAL_PATH_MIGRATION_v3.12",
-      "approvedAtUtc": "2026-02-16T17:40:41Z",
-      "rationale": "Remap contract-test binding path and runtime-derived hash checks to canonical v3.12 contract path."
+      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
+      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
+      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     }
   ]
 }

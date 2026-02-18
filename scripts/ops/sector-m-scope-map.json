@@ -120,12 +120,18 @@
       "scripts/sector-m-run.mjs",
       "scripts/doctor.mjs",
       "scripts/contracts/check-codex-prompt-mode.mjs",
+      "scripts/run-tests.js",
+      "scripts/guards/ops-current-wave-stop.mjs",
+      "scripts/perf/perf-lite.mjs",
+      "scripts/perf/perf-baseline.mjs",
       "package.json",
       "test/unit/sector-m-status-schema.test.js",
       "test/unit/sector-m-doctor-tokens.test.js",
       "test/unit/sector-m-runner-artifact.test.js",
       "test/unit/sector-m-no-scope-leak.test.js",
-      "test/fixtures/sector-m/expected-result.json"
+      "test/fixtures/sector-m/expected-result.json",
+      "test/fixtures/menu/context.default.json",
+      "test/fixtures/perf/long-scene.txt"
     ],
     "M1": [
       "docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md",

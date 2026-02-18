@@ -37,13 +37,45 @@ function classifyExternalReason(detail) {
   };
 }
 
-function stop(failReason, oneTouch, statusCode = 1) {
-  printToken('STATUS', 'STOP_REQUIRED');
+function stopOutcome(failReason, oneTouch, statusCode = 1) {
+  return {
+    status: 'STOP_REQUIRED',
+    failReason,
+    oneTouch: oneTouch || 'NONE',
+    promptDetection: 'NOT_DETECTED',
+    exitCode: statusCode,
+  };
+}
+
+function passOutcome() {
+  return {
+    status: 'PASS',
+    failReason: 'null',
+    oneTouch: 'NONE',
+    promptDetection: 'NOT_DETECTED',
+    exitCode: 0,
+  };
+}
+
+function emitAndExit(outcome) {
+  const status = typeof outcome.status === 'string' ? outcome.status : 'STOP_REQUIRED';
+  const failReason = typeof outcome.failReason === 'string' ? outcome.failReason : 'UNKNOWN_FAILURE';
+  const oneTouch = typeof outcome.oneTouch === 'string' && outcome.oneTouch.length > 0
+    ? outcome.oneTouch
+    : 'NONE';
+  const promptDetection = typeof outcome.promptDetection === 'string' && outcome.promptDetection.length > 0
+    ? outcome.promptDetection
+    : 'NOT_DETECTED';
+  const exitCode = Number.isInteger(outcome.exitCode)
+    ? outcome.exitCode
+    : (status === 'PASS' ? 0 : 1);
+
+  printToken('STATUS', status);
   printToken('FAIL_REASON', failReason);
-  printToken('ONE_TOUCH_NEXT_ACTION', oneTouch || 'NONE');
-  printToken('PROMPT_DETECTION', 'NOT_DETECTED');
-  printToken('PROMPT_LAYER', 'RUNNER_UI');
-  process.exit(statusCode);
+  printToken('ONE_TOUCH_NEXT_ACTION', oneTouch);
+  printToken('PROMPT_DETECTION', promptDetection);
+  console.log('PROMPT_LAYER=RUNNER_UI');
+  process.exit(exitCode);
 }
 
 function runStep(step, env) {
@@ -65,7 +97,7 @@ function runStep(step, env) {
 function main() {
   const bootstrap = applyNonInteractiveEnv(process.env);
   if (!bootstrap.ok) {
-    stop('NON_INTERACTIVE_BOOTSTRAP_FAILED', 'node scripts/ops/bootstrap-noninteractive.mjs');
+    emitAndExit(stopOutcome('NON_INTERACTIVE_BOOTSTRAP_FAILED', 'node scripts/ops/bootstrap-noninteractive.mjs'));
   }
 
   const baseEnv = {
@@ -80,7 +112,7 @@ function main() {
     baseEnv,
   );
   if (!bootstrapStep.ok) {
-    stop('BOOTSTRAP_STEP_FAILED', 'node scripts/ops/bootstrap-noninteractive.mjs');
+    emitAndExit(stopOutcome('BOOTSTRAP_STEP_FAILED', 'node scripts/ops/bootstrap-noninteractive.mjs'));
   }
 
   const preflight = [
@@ -95,14 +127,14 @@ function main() {
     if (!result.ok) {
       if (step.id === 'PREFLIGHT_FETCH') {
         const reason = classifyExternalReason(result.detail);
-        stop(reason.failReason, reason.oneTouch);
+        emitAndExit(stopOutcome(reason.failReason, reason.oneTouch));
       }
-      stop(`${step.id}_FAILED`, `git ${step.args.join(' ')}`);
+      emitAndExit(stopOutcome(`${step.id}_FAILED`, `git ${step.args.join(' ')}`));
     }
     if (step.id === 'PREFLIGHT_STATUS') {
       const out = String(result.result.stdout || '').trim();
       if (out.length > 0) {
-        stop('DIRTY_WORKTREE', 'git status --porcelain --untracked-files=all');
+        emitAndExit(stopOutcome('DIRTY_WORKTREE', 'git status --porcelain --untracked-files=all'));
       }
     }
   }
@@ -122,21 +154,17 @@ function main() {
     const stepEnv = step.env ? { ...baseEnv, ...step.env } : baseEnv;
     const result = runStep(step, stepEnv);
     if (!result.ok) {
-      stop(`${step.id}_FAILED`, `${step.cmd} ${step.args.join(' ')}`);
+      emitAndExit(stopOutcome(`${step.id}_FAILED`, `${step.cmd} ${step.args.join(' ')}`));
     }
     if (step.id === 'DOCTOR_DELIVERY') {
       const stdout = String(result.result.stdout || '');
       if (stdout.includes('DOCTOR_WARN')) {
-        stop('DOCTOR_WARN_PRESENT', `${step.cmd} ${step.args.join(' ')}`);
+        emitAndExit(stopOutcome('DOCTOR_WARN_PRESENT', `${step.cmd} ${step.args.join(' ')}`));
       }
     }
   }
 
-  printToken('STATUS', 'PASS');
-  printToken('FAIL_REASON', 'null');
-  printToken('ONE_TOUCH_NEXT_ACTION', 'NONE');
-  printToken('PROMPT_DETECTION', 'NOT_DETECTED');
-  printToken('PROMPT_LAYER', 'RUNNER_UI');
+  emitAndExit(passOutcome());
 }
 
 main();

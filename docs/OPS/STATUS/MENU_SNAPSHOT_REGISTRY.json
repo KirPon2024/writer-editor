@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "snapshots": [
+    {
+      "id": "menu-default-desktop-minimal",
+      "normalizedHashSha256": "af9f17862173a0315c3ae2a958298add764ca2bdfc1f86f27054b9cdbb8d8e21",
+      "contextHashSha256": "0b9f41c629bef3558dc79abcbc0afcffdad95ff97ccb70bfb3d1ebf8ad9b9290",
+      "createdAt": "2026-02-17T20:49:41.790Z",
+      "createdFromCommit": "5d740faaacf5eae5291414f469919430f16bcdf3"
+    }
+  ]
+}

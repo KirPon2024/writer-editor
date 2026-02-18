@@ -1,0 +1,12 @@
+{
+  "platform": "mac",
+  "mode": "offline",
+  "profile": "minimal",
+  "stage": "X1",
+  "scopeFlags": {},
+  "flags": {},
+  "hasDocument": true,
+  "selectionExists": false,
+  "flowModeActive": false,
+  "promotionMode": false
+}

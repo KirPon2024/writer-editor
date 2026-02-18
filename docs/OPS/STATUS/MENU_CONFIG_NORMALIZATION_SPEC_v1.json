@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "normalizedShapeVersion": "v1",
+  "determinism": {
+    "mergeOrder": [
+      "base",
+      "platform",
+      "profile",
+      "workspace",
+      "user",
+      "plugin"
+    ],
+    "stableKeyOrder": true,
+    "stableArrayOrder": true
+  },
+  "normalizedItemRequiredFields": [
+    "id",
+    "canonicalCmdId",
+    "enabledWhenAst",
+    "visibilityPolicy",
+    "disabledReasonCode",
+    "origin",
+    "sourceRefs"
+  ],
+  "visibilityPolicyValues": [
+    "visible_enabled",
+    "visible_disabled",
+    "hidden"
+  ],
+  "originValues": [
+    "base",
+    "platform",
+    "profile",
+    "workspace",
+    "user",
+    "plugin"
+  ],
+  "rules": {
+    "forbidActionIdInNormalizedOutput": true,
+    "forbidNonCanonicalCommandIdsInNormalizedOutput": true,
+    "enabledWhenAstOnly": true
+  }
+}

@@ -284,8 +284,11 @@ function resolveHeadSha(repoRoot) {
   return /^[0-9a-f]{40}$/u.test(sha) ? sha : '';
 }
 
-function resolveParentHeadSha(repoRoot) {
-  const result = spawnSync('git', ['rev-parse', 'HEAD^'], {
+function isAncestorCommit(repoRoot, ancestorSha, descendantSha) {
+  const ancestor = normalizeString(ancestorSha);
+  const descendant = normalizeString(descendantSha);
+  if (!/^[0-9a-f]{40}$/u.test(ancestor) || !/^[0-9a-f]{40}$/u.test(descendant)) return false;
+  const result = spawnSync('git', ['merge-base', '--is-ancestor', ancestor, descendant], {
     cwd: repoRoot,
     encoding: 'utf8',
     env: {
@@ -293,9 +296,7 @@ function resolveParentHeadSha(repoRoot) {
       GIT_OPTIONAL_LOCKS: '0',
     },
   });
-  if (result.status !== 0) return '';
-  const sha = normalizeString(result.stdout);
-  return /^[0-9a-f]{40}$/u.test(sha) ? sha : '';
+  return result.status === 0;
 }
 
 function buildRcId(baseCommitSha, menuArtifactHash) {
@@ -606,11 +607,9 @@ function runVerify({ mode, repoRoot, lockPath }) {
     }
 
     const headSha = resolveHeadSha(repoRoot);
-    const parentHeadSha = headSha ? resolveParentHeadSha(repoRoot) : '';
     const lockBaseSha = normalizeString(lockDoc.baseCommitSha);
-    const baseShaMatchesHead = Boolean(headSha && lockBaseSha && headSha === lockBaseSha);
-    const baseShaMatchesParent = Boolean(parentHeadSha && lockBaseSha && parentHeadSha === lockBaseSha);
-    if (headSha && lockBaseSha && !baseShaMatchesHead && !baseShaMatchesParent) {
+    const baseShaMatchesHeadLineage = Boolean(headSha && lockBaseSha && isAncestorCommit(repoRoot, lockBaseSha, headSha));
+    if (headSha && lockBaseSha && !baseShaMatchesHeadLineage) {
       mismatches.push({
         code: 'BASE_COMMIT_SHA_MISMATCH',
         field: 'baseCommitSha',

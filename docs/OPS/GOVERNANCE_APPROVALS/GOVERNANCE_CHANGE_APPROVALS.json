@@ -507,7 +507,7 @@
     },
     {
       "filePath": "scripts/ops/release-candidate.mjs",
-      "sha256": "5dc99f97c094c56d1bf1fda2ba33ffd75388e20c23aea7b114530bd82bc8cf50",
+      "sha256": "5df511507de6506fb8712659e0bc5c905eb52df35a6dedd94be4782b34e61fdc",
       "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
       "approvedAtUtc": "2026-02-18T04:50:54.934Z",
       "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."

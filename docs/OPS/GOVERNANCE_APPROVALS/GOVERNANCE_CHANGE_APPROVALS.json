@@ -234,10 +234,10 @@
     },
     {
       "filePath": "test/contracts/transition-exit-failsignal-token-wiring.contract.test.js",
-      "sha256": "86c5fe79b7f7fbbaa7fa74c334d3fc61ec8a824e42589a9a77c22974ae8cceeb",
-      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
-      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
-      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+      "sha256": "7ddaa4d4d63d67b5fe9b0efe61dc0db5a31507763d1e151734d1b32c396f7c6a",
+      "approvedBy": "@k.ponomarev.pro",
+      "approvedAtUtc": "2026-02-18T00:00:00.000Z",
+      "rationale": "Approve strict-governance change for TZ-24D2 contract wiring update."
     }
   ]
 }

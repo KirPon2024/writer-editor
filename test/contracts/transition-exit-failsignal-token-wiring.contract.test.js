@@ -38,13 +38,13 @@ test('transition-exit G0.2: required failSignals are registered with determinist
   assert.ok(stageAxis, 'E_STAGE_AXIS_DRIFT must be registered');
   assert.equal(stageAxis.blocking, true);
   assert.equal(stageAxis.tier, 'release');
-  assert.match(String(stageAxis.negativeTestRef || ''), /^test\/contracts\/menu-config-backcompat\.contract\.test\.js#/u);
+  assert.match(String(stageAxis.negativeTestRef || ''), /^test\/contracts\/stage-axis-lock\.contract\.test\.js#/u);
 
   const promptLayer = byCode.get('E_PROMPT_LAYER_POLICY_INVALID');
   assert.ok(promptLayer, 'E_PROMPT_LAYER_POLICY_INVALID must be registered');
   assert.equal(promptLayer.blocking, true);
   assert.equal(promptLayer.tier, 'release');
-  assert.match(String(promptLayer.negativeTestRef || ''), /^test\/contracts\/codex-no-repo-prompts\.contract\.test\.js#/u);
+  assert.match(String(promptLayer.negativeTestRef || ''), /^test\/contracts\/prompt-layer-single-source\.contract\.test\.js#/u);
 
   const commandSurface = byCode.get('E_COMMAND_SURFACE_BYPASS');
   assert.ok(commandSurface, 'E_COMMAND_SURFACE_BYPASS must stay registered');
@@ -72,7 +72,7 @@ test('transition-exit token wiring: stage/prompt/bus tokens are present with sou
   assert.ok(stageAxisToken, 'STAGE_AXIS_LOCK_ENFORCED_OK must exist in token catalog');
   assert.equal(stageAxisToken.failSignalCode, 'E_STAGE_AXIS_DRIFT');
   assert.equal(stageAxisToken.sourceBinding, 'contract_test');
-  assert.match(String(stageAxisToken.proofHook || ''), /^node --test test\/contracts\/menu-config-backcompat\.contract\.test\.js$/u);
+  assert.match(String(stageAxisToken.proofHook || ''), /^node --test test\/contracts\/stage-axis-lock\.contract\.test\.js$/u);
   assert.ok(Object.prototype.hasOwnProperty.call(stageAxisToken, 'proofHookClosureSha256'));
 
   const promptLayerToken = byToken.get('PROMPT_LAYER_SINGLE_SOURCE_OK');

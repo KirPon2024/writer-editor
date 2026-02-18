@@ -315,6 +315,13 @@
       "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-A",
       "approvedAtUtc": "2026-02-18T17:06:00.000Z",
       "rationale": "Register dependency risk SSOT with reachable high-severity triage and governance tracking for Ticket A."
+    },
+    {
+      "filePath": "scripts/ops/codex-run.mjs",
+      "sha256": "8bd0e255b9dce06b695feeef9b0e47a536b899c8d188c499810229651d4917ce",
+      "approvedBy": "ticket:TZ-RUNNER-BOOTSTRAP-01",
+      "approvedAtUtc": "2026-02-18T20:36:42.000Z",
+      "rationale": "Bootstrap single-entry runner for zero-popup automation canon (v3.x)."
     }
   ]
 }

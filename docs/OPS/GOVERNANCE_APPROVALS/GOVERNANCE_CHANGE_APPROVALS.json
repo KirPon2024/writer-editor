@@ -318,10 +318,10 @@
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "8bd0e255b9dce06b695feeef9b0e47a536b899c8d188c499810229651d4917ce",
-      "approvedBy": "ticket:TZ-RUNNER-BOOTSTRAP-01",
-      "approvedAtUtc": "2026-02-18T20:36:42.000Z",
-      "rationale": "Bootstrap single-entry runner for zero-popup automation canon (v3.x)."
+      "sha256": "3bb9855519607d9baf9951812788eff4a70f4f6aa828b6f4c4ee894fbfc1b8ca",
+      "approvedBy": "ticket:TZ-RUNNER-PR-MERGE-01",
+      "approvedAtUtc": "2026-02-18T21:04:20.000Z",
+      "rationale": "Add PR merge/resume capability to codex-run single-entry runner (steps 3-10, anti-swap, scope-proof)."
     }
   ]
 }

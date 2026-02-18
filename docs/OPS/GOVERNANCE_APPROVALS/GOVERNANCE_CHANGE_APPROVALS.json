@@ -114,6 +114,48 @@
       "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/failsignal-registry-snapshot.json",
+      "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
+      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
+      "approvedAtUtc": "2026-02-18T05:30:00Z",
+      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/heavy-lane-summary.json",
+      "sha256": "6bcc0b5a13fc5d5c95f216e1c48c9b0725cbf1f1e7220dc9331202ec83279713",
+      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
+      "approvedAtUtc": "2026-02-18T05:30:00Z",
+      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/menuArtifactHash.txt",
+      "sha256": "1f16de2ada63b00b057894eddb2687d109ffbf16a734160eefc6e0c7116c512c",
+      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
+      "approvedAtUtc": "2026-02-18T05:30:00Z",
+      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/perfBaseline.json",
+      "sha256": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
+      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
+      "approvedAtUtc": "2026-02-18T05:30:00Z",
+      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/promotion-summary.json",
+      "sha256": "d810953bdbc5ac3dbadad50b654cff56f8a131fadcaad6b192f42aed1cbe191e",
+      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
+      "approvedAtUtc": "2026-02-18T05:30:00Z",
+      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-e4034970c9b3-592e3737/token-required-set.json",
+      "sha256": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
+      "approvedBy": "ticket:TZ-22-COMMIT-SERIES-STAGING-TAGGING-MERGE",
+      "approvedAtUtc": "2026-02-18T05:30:00Z",
+      "rationale": "Refresh governance approvals for latest committed RC promotion evidence pack."
+    },
+    {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
       "sha256": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
       "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
@@ -227,7 +269,7 @@
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "515a4786949c5909a8f1e55dbc63e444a09666a01ef03bf6160009f623935fee",
+      "sha256": "946e5f0f60eaf8d56045456eb49c72102d9b36a858880d26bed83e221012ca51",
       "approvedBy": "ticket:TZ-21-RELEASE-CANDIDATE-LOCK-AND-PROMOTION-EVIDENCE-PACK",
       "approvedAtUtc": "2026-02-18T04:50:54.934Z",
       "rationale": "Introduce formal release-candidate lock, promotion evidence pack generation, promotion-mode RC drift gate, and anti-regress contract wiring."

@@ -39,6 +39,163 @@
     "markerRegex": "(permission|allowlist|approve|apply\\s+changes)",
     "exitCodeOnPrompt": 97
   },
+  "AUTOMATION_HANDOFF_MINIMAL_CLICKS": {
+    "handoffId": "AUTOMATION_HANDOFF_MINIMAL_CLICKS",
+    "principle": "auto-everything-until-clicks",
+    "stopOnlyOnHandoffStep": true,
+    "classificationRules": [
+      {
+        "id": "GITHUB_UI_APPROVAL_OR_CONFIRMATION",
+        "detectIfAny": [
+          "protected file approval required",
+          "required reviewer approval pending",
+          "manual merge confirmation required in GitHub UI"
+        ],
+        "classifyAs": "HUMAN_ACTION_REQUIRED"
+      },
+      {
+        "id": "OS_PROMPT_OR_KEYCHAIN",
+        "detectIfAny": [
+          "system prompt requires user confirmation",
+          "keychain unlock prompt requires user confirmation",
+          "security dialog requires manual approval"
+        ],
+        "classifyAs": "HUMAN_ACTION_REQUIRED"
+      },
+      {
+        "id": "RUNNER_OR_APP_PERMISSION_CONFIRMATION",
+        "detectIfAny": [
+          "GitHub App permission confirmation required",
+          "runner security approval required"
+        ],
+        "classifyAs": "HUMAN_ACTION_REQUIRED"
+      },
+      {
+        "id": "REPO_POLICY_UI_MERGE_GATE",
+        "detectIfAny": [
+          "repository policy requires merge via UI interaction"
+        ],
+        "classifyAs": "HUMAN_ACTION_REQUIRED"
+      }
+    ],
+    "handoffPayloadSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "humanActionRequired",
+        "handoffReason",
+        "clickList",
+        "resumeFromStep",
+        "artifacts"
+      ],
+      "properties": {
+        "humanActionRequired": {
+          "type": "boolean"
+        },
+        "handoffReason": {
+          "type": "string"
+        },
+        "clickList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "surface",
+              "action",
+              "target",
+              "expectedResult",
+              "resumeFromStep"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "surface": {
+                "type": "string",
+                "enum": [
+                  "github_ui",
+                  "os_prompt",
+                  "keychain",
+                  "other"
+                ]
+              },
+              "action": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
+              },
+              "expectedResult": {
+                "type": "string"
+              },
+              "resumeFromStep": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "resumeFromStep": {
+          "type": "string"
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "requiredFields": {
+      "humanActionRequired": "boolean",
+      "handoffReason": "string",
+      "clickList[]": "array<clickStep>",
+      "resumeFromStep": "string",
+      "artifacts[]": "array<string>"
+    },
+    "examples": [
+      {
+        "name": "governance-approval-in-github-ui",
+        "humanActionRequired": true,
+        "handoffReason": "protected docs/OPS path requires manual approval in GitHub UI",
+        "clickList": [
+          {
+            "id": "clk-001",
+            "surface": "github_ui",
+            "action": "Approve required review",
+            "target": "https://github.com/<org>/<repo>/pull/<id>/files",
+            "expectedResult": "Required reviewer approval turns green",
+            "resumeFromStep": "STEP_12_MERGE"
+          }
+        ],
+        "resumeFromStep": "STEP_12_MERGE",
+        "artifacts": [
+          "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+        ]
+      },
+      {
+        "name": "keychain-or-system-prompt-unlock",
+        "humanActionRequired": true,
+        "handoffReason": "OS security/keychain prompt blocks non-interactive signing/auth step",
+        "clickList": [
+          {
+            "id": "clk-101",
+            "surface": "keychain",
+            "action": "Confirm keychain unlock",
+            "target": "macOS keychain prompt",
+            "expectedResult": "Credential access granted for automation continuation",
+            "resumeFromStep": "STEP_12_MERGE"
+          }
+        ],
+        "resumeFromStep": "STEP_12_MERGE",
+        "artifacts": [
+          "os_prompt://security",
+          "keychain://login"
+        ]
+      }
+    ]
+  },
   "runnerProfileRef": "docs/OPERATIONS/STATUS/CODEX_RUNNER_PROFILE.md",
   "failReasonRegistryRef": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json#/failReasons",
   "evidence": {

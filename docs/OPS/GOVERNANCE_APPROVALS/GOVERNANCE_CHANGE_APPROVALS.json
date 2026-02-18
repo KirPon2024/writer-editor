@@ -308,6 +308,13 @@
       "approvedBy": "ticket:TZ-24E-P1-PATH-BOUNDARY-GUARD-IPC-IO-012",
       "approvedAtUtc": "2026-02-18T15:22:29.000Z",
       "rationale": "Approve contract negatives for symlink traversal and unicode path normalization equivalence."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/DEPENDENCY_RISK_REGISTER.json",
+      "sha256": "c5b98ca8c434c45bf1f042a21e025bfd7ed75df1e5025aa5d2e0976294978d1b",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-A",
+      "approvedAtUtc": "2026-02-18T17:06:00.000Z",
+      "rationale": "Register dependency risk SSOT with reachable high-severity triage and governance tracking for Ticket A."
     }
   ]
 }

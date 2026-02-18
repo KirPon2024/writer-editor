@@ -315,6 +315,13 @@
       "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-A",
       "approvedAtUtc": "2026-02-18T17:06:00.000Z",
       "rationale": "Register dependency risk SSOT with reachable high-severity triage and governance tracking for Ticket A."
+    },
+    {
+      "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
+      "sha256": "933355075f83f0909a859769f01751021ee5f35f79c77085cbf28aa2ed0db771",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-01",
+      "approvedAtUtc": "2026-02-18T21:29:44.000Z",
+      "rationale": "Enable bounded 3×MAIN_TZ auto-cycle canon (experimental). No product semantics."
     }
   ]
 }

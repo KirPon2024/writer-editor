@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "v1",
+  "createdAtUtc": "2026-02-18T21:29:37.022Z",
+  "owner": "GPT+CODEX",
+  "status": "EXPERIMENTAL_CANON",
+  "singleEntry": {
+    "commandPrefix": "node scripts/ops/codex-run.mjs"
+  },
+  "batchPolicy": {
+    "maxMainTZPerBatch": 3,
+    "maxPatchPerMainTZ": 2,
+    "maxControlledAllowlistExpansionsPerUnit": 1,
+    "maxIterationsWithoutForwardDiff": 3
+  },
+  "failurePolicy": {
+    "retryable": {
+      "retries": 2,
+      "afterExhaustion": "HUMAN_REQUIRED",
+      "reason": "NETWORK_UNSTABLE"
+    },
+    "humanRequiredNotCountAsPatch": true
+  },
+  "resumePolicy": {
+    "snapshotPath": "docs/OPS/CACHE/codex-run/<ticket>.resume.json",
+    "persistOn": [
+      "RETRYABLE_FAIL",
+      "HUMAN_REQUIRED"
+    ],
+    "deleteOn": [
+      "MERGE_SUCCESS"
+    ]
+  },
+  "cachePolicy": {
+    "cacheRoot": "docs/OPS/CACHE/",
+    "rule": "EPHEMERAL_ONLY",
+    "stagedCacheIsBlockFail": true
+  },
+  "prPolicy": {
+    "prBodyMode": "--body-file only",
+    "requiredChecksWait": {
+      "pollSeconds": 20,
+      "timeoutSeconds": 600,
+      "onTimeout": "HUMAN_REQUIRED"
+    },
+    "branchProtection": "HUMAN_REQUIRED until satisfied"
+  },
+  "antiSwapPolicy": {
+    "alwaysBlockingForMerge": true
+  }
+}

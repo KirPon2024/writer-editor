@@ -38,7 +38,7 @@ export function createCommandRunner(registry, options = {}) {
     throw new Error('COMMAND_REGISTRY_INVALID');
   }
 
-  return async function runCommand(id, input = {}) {
+  return async function executeCommand(id, input = {}) {
     if (typeof id !== 'string' || id.trim().length === 0) {
       return fail('E_COMMAND_NOT_FOUND', String(id || ''), 'COMMAND_ID_INVALID');
     }

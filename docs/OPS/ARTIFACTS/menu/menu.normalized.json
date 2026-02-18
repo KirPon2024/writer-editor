@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "snapshotId": "menu-default-desktop-minimal",
+  "normalizedHashSha256": "af9f17862173a0315c3ae2a958298add764ca2bdfc1f86f27054b9cdbb8d8e21",
+  "generatedAt": "2026-02-17T21:08:57.280Z",
+  "generatedFromCommit": "5d740faaacf5eae5291414f469919430f16bcdf3",
+  "context": {
+    "contextHashSha256": "0b9f41c629bef3558dc79abcbc0afcffdad95ff97ccb70bfb3d1ebf8ad9b9290",
+    "contextRef": "test/fixtures/menu/context.default.json"
+  },
+  "sourceRefs": [
+    "src/menu/menu-config.v2.example.json"
+  ],
+  "commands": [
+    "cmd.project.export.docxMin",
+    "cmd.project.open",
+    "cmd.project.save"
+  ],
+  "menus": [
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "edit",
+      "items": [
+        {
+          "canonicalCmdId": null,
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "selectionExists",
+            "op": "flag"
+          },
+          "id": "edit-copy",
+          "mode": [
+            "offline",
+            "web_subset"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "role": "copy",
+          "sourceRefs": [
+            "/Volumes/Work/Драфт писательской программы/writer-editor/src/menu/menu-config.v2.example.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Редактирование",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "/Volumes/Work/Драфт писательской программы/writer-editor/src/menu/menu-config.v2.example.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": {
+        "args": [],
+        "op": "all"
+      },
+      "id": "file",
+      "items": [
+        {
+          "canonicalCmdId": "cmd.project.export.docxMin",
+          "disabledReasonCode": "PROFILE_GATED",
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-docx",
+          "label": "Экспорт DOCX",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "/Volumes/Work/Драфт писательской программы/writer-editor/src/menu/menu-config.v2.example.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_disabled"
+        },
+        {
+          "accelerator": "CmdOrCtrl+O",
+          "canonicalCmdId": "cmd.project.open",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "file-open",
+          "label": "Открыть проект...",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "/Volumes/Work/Драфт писательской программы/writer-editor/src/menu/menu-config.v2.example.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "accelerator": "CmdOrCtrl+S",
+          "canonicalCmdId": "cmd.project.save",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-save",
+          "label": "Сохранить",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "/Volumes/Work/Драфт писательской программы/writer-editor/src/menu/menu-config.v2.example.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Документ",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "/Volumes/Work/Драфт писательской программы/writer-editor/src/menu/menu-config.v2.example.json"
+      ],
+      "stage": [
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    }
+  ]
+}

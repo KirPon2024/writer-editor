@@ -1,11 +1,12 @@
 # XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12
 ## CANONICAL FINAL — LOSSLESS / DUAL-LAYER / PROCESS-LEAN / RUNTIME-SAFE / XPLAT-COLLAB-SECURE / AUTOMATION-NON-FRAGILE
 
-STATUS: ACTIVE CANON
+STATUS: ACTIVE_CANON
 MODE: PRODUCT_ARCHITECTURE + DELIVERY
 PRINCIPLE: ONLY WHAT DRIVES IRREVERSIBLE PROGRESS
 RULE: NO FALSE-GREEN / NO STALE-GREEN / NO PROCESS-DRIFT / NO PLATFORM-LOSS
 MARKERS: SSOT-only / no runtime wiring / PASS criteria / BLOCKED criteria / sha256
+TRANSITION_EXIT: CLOSED (stage_axis_lock, prompt_layer_single_source, command_surface_bus_only, failsignal_token_wiring, dev_fast_lane)
 
 ---
 
@@ -33,7 +34,7 @@ MARKERS: SSOT-only / no runtime wiring / PASS criteria / BLOCKED criteria / sha2
 → `PERFORMANCE_HARDENING`
 → `COLLAB_TRANSPORT`
 
-Fail: `E_STAGE_ORDER_DRIFT` (mode: PR/Core=ADVISORY, Release/Promotion=BLOCK)
+Fail candidate: `E_SEQUENCE_ORDER_DRIFT` (UNREGISTERED -> non-blocking in PR/Release/Promotion until registry binding)
 
 #### A1.1) OPS_INTEGRITY_P0 (DEFINITION, BINDING)
 `OPS_INTEGRITY_P0 = { TOKEN_CATALOG_VALID_OK, FAILSIGNAL_REGISTRY_VALID_OK, PROOFHOOK_INTEGRITY_OK, CONFIG_HASH_LOCK_OK, REQUIRED_SET_NO_TARGET_OK, TOKEN_SOURCE_CONFLICT_OK }`
@@ -92,11 +93,14 @@ Fail:
 - `E_REQUIRED_TOKEN_SET_DRIFT` (BLOCK)
 
 #### A4.1) PROMPT-LAYER POLICY (BINDING, NON-FRAGILE)
-- `PROMPT_LAYER=RUNNER_UI` допускается **один раз** и только для `node scripts/ops/run-wave.mjs`.
+- `PROMPT_LAYER=RUNNER_UI` допускается **ровно один раз за запуск** и только в выводе `node scripts/ops/run-wave.mjs`.
+- Скрипты bootstrap/assist не печатают `PROMPT_LAYER=RUNNER_UI`; допускаются только нейтральные bootstrap-токены без `PROMPT_LAYER`.
 - Любой `PROMPT_LAYER=REPO` = нарушение.
+- Любой повторный `PROMPT_LAYER=RUNNER_UI` вне `run-wave` = нарушение.
 
 Fail: `E_PROMPT_LAYER_POLICY_INVALID`
 Mode: PR/Core=ADVISORY, Release/Promotion=BLOCK
+Registry: failSignal registered + contract-bound.
 
 ### A5) SINGLE-RUN WAVE + FRESHNESS (BINDING: ANTI PROCESS-TAX + ANTI STALE-GREEN)
 - Heavy checks исполняются **1 раз** на wave.
@@ -267,7 +271,7 @@ Network до X4 запрещён:
 | Execution profile invalid | BLOCK | BLOCK | BLOCK |
 | Required drift/target-in-required | BLOCK | BLOCK | BLOCK |
 | Prompt-layer policy invalid | ADVISORY | BLOCK | BLOCK |
-| Stage order drift | ADVISORY | BLOCK | BLOCK |
+| Sequence order drift (candidate-only, unregistered) | ADVISORY | ADVISORY | ADVISORY |
 | Runtime wiring before stage | ADVISORY | BLOCK | BLOCK |
 | Stage metrics missing | ADVISORY | ADVISORY | BLOCK |
 | Execution item unowned | ADVISORY | ADVISORY | BLOCK |
@@ -299,24 +303,19 @@ BLOCK если:
 - `docs/OPS/TOKENS/TOKEN_DECLARATION.json`
 - `docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json`
 - `docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json`
-- `docs/OPS/STATUS/LOSSLESS_MAP_V3_12.json`
 - `docs/OPS/STATUS/SCOPEFLAGS_REGISTRY_v3_12.json`
-- `docs/OPS/STATUS/XPLAT_ARCH_DECISIONS_v3_12.json`
-- `docs/OPS/STATUS/XPLAT_CAPABILITY_MATRIX_v3_12.json`
-- `docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json`
-- `docs/OPS/STATUS/COLLAB_LOCAL_CONTRACT_v3_12.json`
-- `docs/OPS/STATUS/PROMPT_LAYER_POLICY_v3_12.json`
-- `docs/OPS/STATUS/ATTESTATION_TRUST_LOCK_v3_12.json`
+- `docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json`
+- `docs/OPS/LOCKS/CONFIG_HASH_LOCK.json`
+- `docs/OPS/PROOFHOOKS/PROOFHOOK_INTEGRITY_LOCK.json`
+- `docs/OPS/EXECUTION/EXECUTION_PROFILE.schema.json`
+- `docs/OPS/EXECUTION/REQUIRED_TOKEN_SET.json`
 
 ### B2) STAGE_GATED
-- `docs/OPS/STATUS/XPLAT_ADAPTER_MATRIX_v3_12.json`
 - `docs/OPS/STATUS/XPLAT_ROLLOUT_PLAN_v3_12.json`
-- `docs/OPS/STATUS/XPLAT_PROFILE_BINDINGS_v3_12.json`
 - `docs/OPS/STATUS/XPLAT_STAGE_METRICS_v3_12.json`
-- `docs/OPS/STATUS/PLATFORM_PARITY_HARNESS_v3_12.json`
-- `docs/OPS/STATUS/COLLAB_READINESS_v3_12.json`
-- `docs/OPS/STATUS/COLLAB_COMMENTS_HISTORY_v3_12.json`
-- `docs/OPS/STATUS/COLLAB_TRANSPORT_POLICY_v3_12.json`
+- `docs/OPS/STATUS/XPLAT_PARITY_BASELINE_v3_12.json`
+- `docs/OPS/STATUS/STAGE_PROMOTION_RECORD_v3_12.json`
+- `docs/OPS/STATUS/THIRD_PARTY_NOTICES_READINESS.json`
 
 Rule: неактивная стадия не может требовать свои STAGE_GATED SSOT как blocking.
 
@@ -359,17 +358,13 @@ Promotion-mode фиксируется отдельным promotion record (SSOT/
 
 ## PART C — IMPLEMENTATION PROGRAM (LEAN)
 
-### P0 (СЕЙЧАС)
-1. Добавить PROMPT-LAYER policy + failSignal и режимность.
-2. Зафиксировать `OPS_INTEGRITY_P0` как явный набор (A1.1).
-3. Ввести stage activation rule (A10) + binding (B7).
-4. Ввести `WAVE_INPUT_HASH + TTL` (A5/B6).
-5. Включить blocking token law enforcement (A7/B4).
-6. Упростить X3/X4 метрики до lean minimum (A11).
-7. Зафиксировать offline chain-of-trust для attestation/signature (A6 + `ATTESTATION_TRUST_LOCK`).
-8. Зафиксировать: architecture decisions, capability matrix, parity baseline, collab local contract (B1 anchors).
-9. Утвердить failsignal mode matrix (A16) включая `E_REMOTE_UNAVAILABLE`.
-10. Синхронизировать token catalog + claims + failSignals (OPS_INTEGRITY_P0 closure).
+### P0 (CLOSED FOR ACTIVE_CANON)
+1. Stage-axis lock (`X0..X4`) зафиксирован и проверяется контрактно.
+2. Prompt-layer single-source (`RUNNER_UI` только в `run-wave`) закрыт и проверяется контрактно.
+3. Command surface unification (bus-only, bypass-negative pack) закрыта и проверяется контрактно.
+4. FailSignal registration + token wiring для P0 drift-сигналов закрыты.
+5. `DEV_FAST_LANE` реализован как исполняемый path без auto-upgrade в heavy lane.
+6. Governance/strict контуры подтверждают закрытие без раздувания release required-set.
 
 ### P1
 1. Активировать `XPLAT_PROFILE_BINDINGS` при первом реальном scope-driven required.
@@ -735,7 +730,7 @@ Storage/profile parity subset.
 |X2|Extension foundation|data-only plugins + presets|средняя|
 |X3|Platform expansion|web/mobile subsets|средняя/высокая|
 |X4|Secure collab transport|replay/conflict/security|высокая|
-|X5|Advanced ecosystem|executable plugins + opt-in cloud AI|высокая|
+|A+ (Appendix)|Advanced ecosystem roadmap|executable plugins + opt-in cloud AI (research-only, не stage-binding)|высокая|
 
 ### 17.1 Entry/Exit критерии
 
@@ -1102,7 +1097,7 @@ status: DRAFT_FOR_ITERATION
 |0|Режим документа/полнота|A0, A4, A17, B0|Execution profile validity|E_EXECUTION_PROFILE_INVALID, E_SCOPEFLAG_UNKNOWN, E_REQUIRED_TOKEN_SET_DRIFT|BLK/BLK/BLK|BOUND|
 |1|Продукт (offline-first)|A0, A2, A11, A14|CORE_SOT_EXECUTABLE_OK, E2E_CRITICAL_USER_PATH_OK, local-only transport до X4|E_COLLAB_TRANSPORT_FORBIDDEN_IN_MVP|ADV/BLK/BLK|SEMI|
 |2|Канон-связка v3.12|A0, A2, A10, A11, A14|Stage activation + scope discipline|E_STAGE_PROMOTION_INVALID, E_COLLAB_TRANSPORT_FORBIDDEN_IN_MVP|ADV/BLK/BLK|BOUND|
-|3|Архитектурная иерархия|A1, A2, A8|Locked order + runtime wiring guard|E_STAGE_ORDER_DRIFT, E_RUNTIME_WIRING_BEFORE_STAGE, E_CORE_CHANGE_DOD_MISSING|ADV/BLK/BLK|BOUND|
+|3|Архитектурная иерархия|A1, A2, A8|Locked order + runtime wiring guard|E_RUNTIME_WIRING_BEFORE_STAGE, E_CORE_CHANGE_DOD_MISSING|ADV/BLK/BLK|BOUND|
 |4|Модель системы (модули)|A2, A3, A6.1, A7, A12, A13, A14|Core safety set (RECOVERY_IO_OK, MIGRATIONS_*, NORMALIZATION_XPLAT_OK)|E_CORE_CHANGE_DOD_MISSING, E_BLOCKING_TOKEN_UNBOUND|ADV/BLK/BLK|BOUND|
 |5|Модель данных|A2, A3, A6.1, A9, A13, A14|Migration/recovery/roundtrip invariants|E_CORE_CHANGE_DOD_MISSING|ADV/BLK/BLK|BOUND|
 |6|Полный интерфейс|A2, A3(Tier C), A9|No core-leak from UI|E_CORE_CHANGE_DOD_MISSING|ADV/BLK/BLK|SEMI|
@@ -1117,7 +1112,7 @@ status: DRAFT_FOR_ITERATION
 |14|Безопасность/приватность|A6.2, A7, A15, A16|Integrity + proofhook + config lock + no bypass|E_DIRECT_PROTECTED_BRANCH_PUSH, E_MERGE_BYPASS_ATTEMPT, integrity class failSignals|BLK/BLK/BLK|BOUND|
 |15|AI roadmap|A0, A8, A11, A14|Late-stage cloud, no early runtime cloud wiring|E_RUNTIME_WIRING_BEFORE_STAGE|ADV/BLK/BLK|SEMI|
 |16|Платформы/сторы|A9, A11, A12|Stage metrics + hard parity + platform DoD|E_STAGE_METRICS_MISSING, E_STAGE_PROMOTION_INVALID|ADV/ADV/BLK|BOUND|
-|17|Этапы внедрения|A1, A10, A11|Locked order + stage activation + evidence|E_STAGE_ORDER_DRIFT, E_STAGE_PROMOTION_INVALID, E_STAGE_METRICS_MISSING|ADV/BLK/BLK|BOUND|
+|17|Этапы внедрения|A1, A10, A11|Locked order + stage activation + evidence|E_SEQUENCE_ORDER_DRIFT (candidate-only), E_STAGE_PROMOTION_INVALID, E_STAGE_METRICS_MISSING|ADV/BLK/BLK|BOUND|
 |18|Quality system|A5, A6, A7, A17, B4|80/20 blocking + anti-false-green + freshness|E_WAVE_RESULT_STALE, E_BLOCKING_TOKEN_UNBOUND|ADV/BLK/BLK|BOUND|
 |19|Anti-bloat|A5, A6|Process-lean + minimal blocking discipline|E_WAVE_RESULT_STALE (косвенно)|ADV/ADV/ADV|SEMI|
 |20|Pain-to-Strength|A0|Product intent layer|n/a|ADV/ADV/ADV|GAP|
@@ -1134,7 +1129,7 @@ status: DRAFT_FOR_ITERATION
 |24|Normative Tags|A7, B4|Blocking token law completeness|E_BLOCKING_TOKEN_UNBOUND|ADV/BLK/BLK|BOUND|
 |25|Invariant Map|A6.1, A7, B4|Invariant -> machine-check linkage|E_BLOCKING_TOKEN_UNBOUND|ADV/BLK/BLK|BOUND|
 |26|Mode Matrix|A16, A17|Canonical mode enforcement|fail by mapped class|as defined in A16|BOUND|
-|27|Command Surface|A2, A7, A8|PROPOSED: COMMAND_SURFACE_VNEXT_BYPASS_TESTED_OK|PROPOSED: E_COMMAND_SURFACE_BYPASS|ADV/BLK/BLK|GAP|
+|27|Command Surface|A2, A7, A8|COMMAND_SURFACE_BUS_ONLY_OK + COMMAND_SURFACE_SINGLE_ENTRY_OK + COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK|E_COMMAND_SURFACE_BYPASS|ADV/BLK/BLK|BOUND|
 |28|Gate Packs|A6, A16, B0, B4|FAST/RELEASE/AUDIT packs (mapped to canon)|inherited from pack gates|pack-dependent|SEMI|
 |29|False Green Register|A5, A7, B4|Negative tests + proof binding required|E_BLOCKING_TOKEN_UNBOUND, E_WAVE_RESULT_STALE|ADV/BLK/BLK|BOUND|
 |30|Cross-Platform Matrix|A9, A11, A12|Parity baseline + platform DoD + stage metrics|E_STAGE_METRICS_MISSING, E_STAGE_PROMOTION_INVALID|ADV/ADV/BLK|BOUND|
@@ -1152,13 +1147,11 @@ status: DRAFT_FOR_ITERATION
 
 1. MAP-12B Minimal Book Plugin Track
    Статус: GAP до формализации machine-check набора.
-2. MAP-27 Command Surface
-   Статус: GAP до канонизации bypass-negative tests и failSignal.
-3. MAP-34 Process-Tax Budget
+2. MAP-34 Process-Tax Budget
    Статус: SEMI пока нет отдельного machine-check бюджета процесса.
-4. MAP-37 Drift Control
+3. MAP-37 Drift Control
    Статус: GAP до ввода BINDING_INDEX_SYNC_OK.
-5. Vision-only секции (MAP-20, MAP-22)
+4. Vision-only секции (MAP-20, MAP-22)
    Статус: ADVISORY по определению, блокировать нельзя.
 
 ---
@@ -1440,7 +1433,8 @@ E2E_CRITICAL_USER_PATH_OK ограничивается детерминиров�
    - direct IPC bypass,
    - context/button bypass,
    - plugin overlay bypass.
-3. До полной machine-binding канонизации сохраняется статус из BRIDGE (GAP/SEMI), без ложного blocking.
+3. Machine-binding закрыт: `E_COMMAND_SURFACE_BYPASS` зарегистрирован, bypass-negative контуры и sourceBinding подтверждены.
+4. Токен `COMMAND_SURFACE_BUS_ONLY_OK` tokenized и проверяем, но не включается в release required-set автоматически.
 
 ---
 
@@ -1534,5 +1528,95 @@ E2E_CRITICAL_USER_PATH_OK ограничивается детерминиров�
 3. Candidate: E2E_CRITICAL_PATH_SCOPE_VALID_OK -> фиксированный лимит critical-path.
 4. Все кандидаты из очереди имеют статус ADVISORY и не входят в OPS_INTEGRITY_P0/A6, пока не добавлены в PART I/B отдельной канонической правкой.
 5. До включения токена: SSOT anchor drift = advisory в PR; blocking в release/promotion только после явного включения в OPS_INTEGRITY_P0.
+
+---
+
+### V17) PROMPT_LAYER SINGLE-SOURCE ENFORCEMENT
+
+1. `PROMPT_LAYER=RUNNER_UI` эмитится только `run-wave` и только один раз за запуск.
+2. Bootstrap/assist скрипты не эмитят `PROMPT_LAYER`; они используют отдельные bootstrap-токены.
+3. Контракты проверяют одновременно:
+   - отсутствие `PROMPT_LAYER=REPO`,
+   - single-source + one-shot для `RUNNER_UI`.
+4. `E_PROMPT_LAYER_POLICY_INVALID` зарегистрирован и привязан к контрактным negative-путям.
+
+---
+
+### V18) STAGE AXIS LOCK (X0..X4) + X5 HANDLING
+
+1. Binding stage-axis фиксируется как `X0..X4` (строго).
+2. Любой `X5` допустим только в research/appendix контуре и не участвует в runtime schema/validator/defaults/tests.
+3. Добавление стадии beyond `X4` допускается только отдельной канонической правкой PART I/B.
+4. `E_STAGE_AXIS_DRIFT` зарегистрирован и привязан к runtime menu-contract negative proof.
+
+---
+
+### V19) EXECUTION SURFACE UNIFICATION (NO-SPLIT PATH)
+
+1. Любой UI source (`menu`, `toolbar`, `hotkey`, `palette`, `context`, `inspector`) исполняет команды только по цепочке:
+   `dispatch(cmdId,payload) -> command.bus -> runCommand`.
+2. Direct execute через IPC/UI-handler для командных действий запрещён.
+3. Legacy `actionId` допускается только как alias-bridge `actionId -> cmd.*`, после чего исполнение идёт через bus.
+4. Цель миграции: к `UI-MENU-04` direct legacy execute paths в UI = 0.
+5. Tokenization уже доступна через `COMMAND_SURFACE_BUS_ONLY_OK`, но без автоматического расширения release required-set.
+6. `E_COMMAND_SURFACE_BYPASS` зарегистрирован и привязан к bypass-negative контрактам.
+
+---
+
+### V20) DELIVERY LANES (ANTI-PROCESS-TAX, QUALITY-PRESERVING)
+
+1. `DEV_FAST_LANE`:
+   - canonical local entrypoint: `npm run dev:fast`,
+   - один проход doctor,
+   - targeted tests,
+   - без повторных heavy synth loops на каждый локальный цикл,
+   - без auto-upgrade в `ops-current-wave`/wave-heavy контур даже при наличии guard scripts.
+2. `CI_HEAVY_LANE`:
+   - полный governance/wave/doctor/full-suite контур.
+3. Выбор lane определяется execution profile; смешивание требований lane запрещено.
+4. `DEV_FAST_LANE` не выпускает release/promotion attestations.
+
+---
+
+### V21) GOVERNANCE APPROVAL FLOW (ANTI-MICROTICKET LOOP)
+
+1. Для изменений в governance-bound scope (`test/contracts/**`, `scripts/ops/**`, `doctor/ops state`) approvals-артефакт обновляется в том же PR.
+2. Approvals-файл считается default companion artifact для ops/contract execution tickets.
+3. Approval-only micro-ticket допускается только как аварийный rollback-исключительный случай.
+4. Это правило уменьшает process-friction и не ослабляет strict release checks.
+
+---
+
+### V22) HOT-PATH REMEDIATION PRIORITY (P2, NON-BLOCKING UNTIL TOKENIZED)
+
+1. Pattern `full rerender per keystroke` классифицируется как P2 perf-debt.
+2. Направление исправления: incremental update path; избегать полного `innerHTML reset + full pagination` на каждый input.
+3. Autosave/backup сохраняются orchestrated и change-driven.
+4. До tokenization в PART I/B этот пункт остаётся advisory.
+
+---
+
+### V23) RUN-WAVE SAFETY EXECUTION CONTEXT
+
+1. `run-wave` предназначен для CI/disposable execution context.
+2. Локальный запуск на dirty tree должен завершаться STOP до destructive git preflight.
+3. Destructive preflight шаги в локальном контуре допустимы только при явном opt-in.
+
+---
+
+### V24) DOCX BASELINE SCOPE CLARIFICATION
+
+1. `DOCX baseline` остаётся release-blocking по A6.1 + V6 до отдельной канонической ревизии.
+2. `X2` может расширять export modes (`PDF/MD bundle`) как stage-gated, но они не заменяют DOCX baseline в release-контуре.
+3. Любая попытка сделать DOCX optional для release требует отдельного изменения PART I/B.
+
+---
+
+### V25) ACTIVE_CANON UPGRADE RECORD
+
+1. `ACTIVE_CANON` подтверждён при закрытии P0 pack: stage-axis lock, prompt-layer single-source, bus-only command surface, failSignal/token wiring, dev fast lane.
+2. `E_STAGE_AXIS_DRIFT`, `E_PROMPT_LAYER_POLICY_INVALID`, `E_COMMAND_SURFACE_BYPASS` считаются зарегистрированными machine-bound failSignals.
+3. `E_SEQUENCE_ORDER_DRIFT` остаётся candidate-only и не имеет blocking-эффекта до регистрации в failSignal registry.
+4. SSOT anchor reality контролируется отдельным быстрым контрактом без wave/heavy execution.
 
 ## END PART V — INTEGRATED CORRECTIONS AND CLARIFICATIONS PACK (ADDITIVE, NO-LOSS)

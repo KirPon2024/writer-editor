@@ -44,6 +44,157 @@
         }
       }
     },
+    "enabledWhenNode": {
+      "oneOf": [
+        { "$ref": "#/$defs/enabledWhenAll" },
+        { "$ref": "#/$defs/enabledWhenAny" },
+        { "$ref": "#/$defs/enabledWhenNot" },
+        { "$ref": "#/$defs/enabledWhenEq" },
+        { "$ref": "#/$defs/enabledWhenNeq" },
+        { "$ref": "#/$defs/enabledWhenIn" },
+        { "$ref": "#/$defs/enabledWhenFlag" },
+        { "$ref": "#/$defs/enabledWhenModeIs" },
+        { "$ref": "#/$defs/enabledWhenProfileIs" },
+        { "$ref": "#/$defs/enabledWhenPlatformIs" },
+        { "$ref": "#/$defs/enabledWhenStageGte" }
+      ]
+    },
+    "enabledWhenAll": {
+      "type": "object",
+      "required": ["op", "args"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "all" },
+        "args": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/enabledWhenNode" }
+        }
+      }
+    },
+    "enabledWhenAny": {
+      "type": "object",
+      "required": ["op", "args"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "any" },
+        "args": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/enabledWhenNode" }
+        }
+      }
+    },
+    "enabledWhenNot": {
+      "type": "object",
+      "required": ["op", "arg"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "not" },
+        "arg": { "$ref": "#/$defs/enabledWhenNode" }
+      }
+    },
+    "enabledWhenEq": {
+      "type": "object",
+      "required": ["op", "left", "right"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "eq" },
+        "left": {
+          "type": "string",
+          "enum": ["mode", "profile", "platform", "stage", "hasDocument", "selectionExists", "flowModeActive"]
+        },
+        "right": {}
+      }
+    },
+    "enabledWhenNeq": {
+      "type": "object",
+      "required": ["op", "left", "right"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "neq" },
+        "left": {
+          "type": "string",
+          "enum": ["mode", "profile", "platform", "stage", "hasDocument", "selectionExists", "flowModeActive"]
+        },
+        "right": {}
+      }
+    },
+    "enabledWhenIn": {
+      "type": "object",
+      "required": ["op", "left", "right"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "in" },
+        "left": {
+          "type": "string",
+          "enum": ["mode", "profile", "platform", "stage", "hasDocument", "selectionExists", "flowModeActive"]
+        },
+        "right": {
+          "type": "array",
+          "minItems": 1,
+          "items": {}
+        }
+      }
+    },
+    "enabledWhenFlag": {
+      "type": "object",
+      "required": ["op", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "flag" },
+        "name": {
+          "type": "string",
+          "enum": ["mode", "profile", "platform", "stage", "hasDocument", "selectionExists", "flowModeActive"]
+        }
+      }
+    },
+    "enabledWhenModeIs": {
+      "type": "object",
+      "required": ["op", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "modeIs" },
+        "value": {
+          "type": "string",
+          "enum": ["Write", "Plan", "Review"]
+        }
+      }
+    },
+    "enabledWhenProfileIs": {
+      "type": "object",
+      "required": ["op", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "profileIs" },
+        "value": {
+          "type": "string",
+          "enum": ["Minimal", "Pro", "Guru"]
+        }
+      }
+    },
+    "enabledWhenPlatformIs": {
+      "type": "object",
+      "required": ["op", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "platformIs" },
+        "value": {
+          "type": "string",
+          "enum": ["mac", "win", "linux", "web", "android", "ios"]
+        }
+      }
+    },
+    "enabledWhenStageGte": {
+      "type": "object",
+      "required": ["op", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "op": { "const": "stageGte" },
+        "value": {
+          "type": "string",
+          "enum": ["X0", "X1", "X2", "X3", "X4"]
+        }
+      }
+    },
     "menuNode": {
       "type": "object",
       "additionalProperties": false,
@@ -83,8 +234,7 @@
           "type": "boolean"
         },
         "enabledWhen": {
-          "type": "string",
-          "enum": ["always", "hasDocument", "selectionExists"]
+          "$ref": "#/$defs/enabledWhenNode"
         },
         "mode": {
           "type": "array",
@@ -110,7 +260,7 @@
           "uniqueItems": true,
           "items": {
             "type": "string",
-            "enum": ["X0", "X1", "X2", "X3", "X4", "X5"]
+            "enum": ["X0", "X1", "X2", "X3", "X4"]
           }
         },
         "submenuFrom": {

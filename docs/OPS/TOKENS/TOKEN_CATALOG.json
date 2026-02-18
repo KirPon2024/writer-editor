@@ -24,6 +24,47 @@
       "namespace": "CAPABILITY"
     },
     {
+      "tokenId": "COMMAND_NAMESPACE_CANON_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/command-namespace-canon-and-alias-bridge.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "sourceBindingRef": "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json + src/renderer/commands/commandNamespaceCanon.mjs + src/menu/menu-config-validator.js",
+      "failSignalCode": "E_COMMAND_NAMESPACE_DRIFT",
+      "namespace": "COMMAND_NAMESPACE",
+      "positiveContractRef": "test/contracts/command-namespace-canon-and-alias-bridge.contract.test.js#resolver-maps-deprecated-ids-through-bus-route",
+      "negativeContractRef": "test/contracts/command-namespace-canon-and-alias-bridge.contract.test.js#deprecated-id-without-alias-is-rejected"
+    },
+    {
+      "tokenId": "COMMAND_NAMESPACE_STATIC_CLEAN_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/command-namespace-static-no-legacy-prefix.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "sourceBindingRef": "scripts/ops/check-command-namespace-static.mjs + src/renderer/commands/commandNamespaceCanon.mjs",
+      "failSignalCode": "E_COMMAND_NAMESPACE_UNKNOWN",
+      "namespace": "COMMAND_NAMESPACE",
+      "positiveContractRef": "test/contracts/command-namespace-static-no-legacy-prefix.contract.test.js#static-check-script-exists-and-runs",
+      "negativeContractRef": "test/contracts/command-namespace-static-no-legacy-prefix.contract.test.js#promotion-blocks-unknown-namespace"
+    },
+    {
+      "tokenId": "COMMAND_SURFACE_BUS_ONLY_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/command-surface-bus-only.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "failSignalCode": "E_COMMAND_SURFACE_BYPASS",
+      "namespace": "COMMAND_SURFACE",
+      "positiveContractRef": "test/contracts/command-surface-bus-only.contract.test.js#repository-enforces-single-bus-execution-path",
+      "negativeContractRef": "test/contracts/command-surface-bus-only.contract.test.js#direct-ipc-command-bypass-channel-is-rejected"
+    },
+    {
       "tokenId": "COMMAND_SURFACE_BYPASS_NEGATIVE_TESTS_OK",
       "promotionState": "existing",
       "gateTier": "release",
@@ -55,6 +96,18 @@
       "sourceBinding": "ops_script",
       "failSignalCode": "E_COMMAND_SURFACE_BYPASS",
       "namespace": "COMMAND_SURFACE"
+    },
+    {
+      "tokenId": "COMMAND_VISIBILITY_MATRIX_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/command-visibility-matrix.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "sourceBindingRef": "docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json + src/menu/menu-config-validator.js",
+      "failSignalCode": "E_COMMAND_VISIBILITY_MATRIX_DRIFT",
+      "namespace": "COMMAND"
     },
     {
       "tokenId": "CONDITIONAL_GATES_BOUND_OK",
@@ -120,6 +173,18 @@
       "namespace": "E2E"
     },
     {
+      "tokenId": "ENABLEDWHEN_DSL_CANON_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/enabledwhen-dsl-canon.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "sourceBindingRef": "docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json + src/menu/enabledwhen-eval.js + src/menu/menu-config-validator.js",
+      "failSignalCode": "E_ENABLEDWHEN_DSL_INVALID",
+      "namespace": "ENABLEDWHEN"
+    },
+    {
       "tokenId": "FAILSIGNAL_REGISTRY_VALID_OK",
       "promotionState": "existing",
       "gateTier": "release",
@@ -164,6 +229,76 @@
       "namespace": "LOSSLESS"
     },
     {
+      "tokenId": "MENU_ARTIFACT_LOCK_MATCH_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/menu-config-normalize.mjs --export-artifact --out docs/OPS/ARTIFACTS/menu/menu.normalized.json --snapshot-id menu-default-desktop-minimal --lock-artifact",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "sourceBindingRef": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json + scripts/ops/menu-config-normalize.mjs + scripts/ops/check-menu-artifact-lock.mjs",
+      "failSignalCode": "E_MENU_ARTIFACT_TAMPER_OR_DRIFT",
+      "namespace": "MENU",
+      "positiveContractRef": "test/contracts/menu-artifact-export-and-runtime-verify.contract.test.js#export-creates-artifact-and-lock-updates-via-cli",
+      "negativeContractRef": "test/contracts/menu-artifact-export-and-runtime-verify.contract.test.js#tamper-artifact-release-warns-and-promotion-fails"
+    },
+    {
+      "tokenId": "MENU_CONFIG_NORMALIZED_DETERMINISTIC_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/menu-config-normalization.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "sourceBindingRef": "docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json + src/menu/menu-config-normalizer.js + scripts/ops/menu-config-normalize.mjs",
+      "failSignalCode": "E_MENU_NORMALIZATION_DRIFT",
+      "namespace": "MENU",
+      "positiveContractRef": "test/contracts/menu-config-normalization.contract.test.js#menu-normalization-is-deterministic-for-identical-inputs",
+      "negativeContractRef": "test/contracts/menu-config-normalization.contract.test.js#negative-string-enabledwhen-is-rejected"
+    },
+    {
+      "tokenId": "MENU_OVERLAY_STACK_CANON_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "sourceBindingRef": "docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json + src/menu/menu-config-normalizer.js + scripts/ops/check-menu-overlay-stack.mjs",
+      "failSignalCode": "E_MENU_OVERLAY_STACK_DRIFT",
+      "namespace": "MENU",
+      "positiveContractRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#stack-order-and-determinism-are-canonical",
+      "negativeContractRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#mode-semantics-release-warn-and-promotion-fail-on-violations"
+    },
+    {
+      "tokenId": "MENU_RUNTIME_EQUIVALENT_TO_ARTIFACT_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/menu-config-normalize.mjs --runtime-equivalent-check --context test/fixtures/menu/context.default.json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "sourceBindingRef": "src/main.js + src/menu/menu-runtime-context.js + scripts/ops/menu-config-normalize.mjs",
+      "failSignalCode": "E_MENU_RUNTIME_ARTIFACT_DIVERGENCE",
+      "namespace": "MENU",
+      "positiveContractRef": "test/contracts/menu-runtime-artifact-first-and-equivalence.contract.test.js#runtime-menu-path-is-artifact-first-and-context-validator-rejects-invalid-input",
+      "negativeContractRef": "test/contracts/menu-runtime-artifact-first-and-equivalence.contract.test.js#runtime-equivalent-check-release-warns-and-promotion-fails-on-mismatch"
+    },
+    {
+      "tokenId": "MENU_SNAPSHOT_MATCH_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/menu-config-normalize.mjs --snapshot-check --snapshot-id=menu-default-desktop-minimal",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "sourceBindingRef": "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json + scripts/ops/menu-config-normalize.mjs",
+      "failSignalCode": "E_MENU_SNAPSHOT_MISMATCH",
+      "namespace": "MENU",
+      "positiveContractRef": "test/contracts/menu-snapshot-freeze-promotion.contract.test.js#snapshot-create-updates-registry-and-check-passes-for-frozen-hash",
+      "negativeContractRef": "test/contracts/menu-snapshot-freeze-promotion.contract.test.js#snapshot-check-release-warns-and-promotion-fails-on-mismatch"
+    },
+    {
       "tokenId": "PATH_BOUNDARY_GUARD_OK",
       "promotionState": "existing",
       "gateTier": "release",
@@ -186,6 +321,34 @@
       "namespace": "PERF"
     },
     {
+      "tokenId": "PERF_BASELINE_WITHIN_DELTA_OK",
+      "promotionState": "existing",
+      "gateTier": "conditional",
+      "requiredWhen": "GATE_TIER=promotion",
+      "proofHook": "npm run perf:baseline:check",
+      "proofHookClosureSha256": "b0f913bd7928b7cf71d3bd521c2200cc6a93db53c0cfa680a31de19297204273",
+      "sourceBinding": "ops_script",
+      "sourceBindingRef": "scripts/perf/perf-baseline.mjs",
+      "failSignalCode": "E_PERF_BASELINE_REGRESSION",
+      "namespace": "PERF",
+      "positiveContractRef": "test/contracts/perf-ci-promotion-mode.contract.test.js#release-mode-regression-breach-advisory",
+      "negativeContractRef": "test/contracts/perf-ci-promotion-mode.contract.test.js#promotion-mode-regression-breach"
+    },
+    {
+      "tokenId": "PLUGIN_MENU_OVERLAY_DATA_ONLY_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "sourceBindingRef": "docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json + src/menu/plugin-overlays-loader.js + scripts/ops/check-menu-overlay-stack.mjs",
+      "failSignalCode": "E_PLUGIN_MENU_OVERLAY_POLICY_VIOLATION",
+      "namespace": "MENU",
+      "positiveContractRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#plugin-data-only-policy-negative-pack",
+      "negativeContractRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#mode-semantics-release-warn-and-promotion-fail-on-violations"
+    },
+    {
       "tokenId": "PRE_UI_OPS_CONTOUR_CLOSED_OK",
       "promotionState": "existing",
       "gateTier": "conditional",
@@ -204,6 +367,19 @@
       "sourceBinding": "ops_script",
       "failSignalCode": "E_PRE_UI_CONTOUR_RECORD_INVALID",
       "namespace": "PRE_UI_OPS_CONTOUR"
+    },
+    {
+      "tokenId": "PROMPT_LAYER_SINGLE_SOURCE_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/contracts/check-codex-prompt-mode.mjs",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "failSignalCode": "E_PROMPT_LAYER_POLICY_INVALID",
+      "namespace": "PROMPT_LAYER",
+      "positiveContractRef": "test/contracts/codex-no-repo-prompts.contract.test.js#repository-scan-enforces-single-source-runner-marker",
+      "negativeContractRef": "test/contracts/codex-no-repo-prompts.contract.test.js#reject-runner-marker-in-bootstrap"
     },
     {
       "tokenId": "PROOFHOOK_INTEGRITY_OK",
@@ -238,6 +414,20 @@
       "namespace": "RELEASE_ARTIFACT_SOURCES"
     },
     {
+      "tokenId": "RELEASE_CANDIDATE_LOCK_MATCH_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node scripts/ops/release-candidate.mjs --verify --mode=promotion --json",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "ops_script",
+      "sourceBindingRef": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json + scripts/ops/release-candidate.mjs",
+      "failSignalCode": "E_RELEASE_CANDIDATE_DRIFT",
+      "namespace": "RELEASE_CANDIDATE",
+      "positiveContractRef": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js#release-candidate-lock-and-cli-exist",
+      "negativeContractRef": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js#promotion-mode-mismatch-fails-while-release-mode-mismatch-warns"
+    },
+    {
       "tokenId": "REQUIRED_SET_NO_TARGET_OK",
       "promotionState": "target",
       "gateTier": "release",
@@ -257,6 +447,19 @@
       "sourceBinding": "doctor",
       "failSignalCode": "E_SHARED_CODE_RATIO_BELOW_MIN",
       "namespace": "SCR"
+    },
+    {
+      "tokenId": "STAGE_AXIS_LOCK_ENFORCED_OK",
+      "promotionState": "existing",
+      "gateTier": "release",
+      "requiredWhen": null,
+      "proofHook": "node --test test/contracts/menu-config-backcompat.contract.test.js",
+      "proofHookClosureSha256": null,
+      "sourceBinding": "contract_test",
+      "failSignalCode": "E_STAGE_AXIS_DRIFT",
+      "namespace": "STAGE_AXIS",
+      "positiveContractRef": "test/contracts/menu-config-backcompat.contract.test.js#v1-config-remains-valid-with-default-validator-path",
+      "negativeContractRef": "test/contracts/menu-config-backcompat.contract.test.js#should-reject-stage-x5-in-runtime-menu-config"
     },
     {
       "tokenId": "TOKEN_CATALOG_VALID_OK",

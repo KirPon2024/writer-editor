@@ -1682,16 +1682,50 @@ ipcMain.on('editor:text-response', (_, payload) => {
   pending.resolve(typeof payload.text === 'string' ? payload.text : '');
 });
 
+async function executeFileCommand(intentRaw) {
+  const intent = typeof intentRaw === 'string' ? intentRaw : '';
+  try {
+    if (intent === 'new') {
+      await ensureCleanAction(handleNew);
+      return { ok: true, intent };
+    }
+    if (intent === 'open') {
+      await ensureCleanAction(handleOpen);
+      return { ok: true, intent };
+    }
+    if (intent === 'save') {
+      const saved = await handleSave();
+      return saved ? { ok: true, intent } : { ok: false, reason: 'FILE_SAVE_FAILED', intent };
+    }
+    if (intent === 'saveAs') {
+      const savedAs = await handleSaveAs();
+      return savedAs ? { ok: true, intent } : { ok: false, reason: 'FILE_SAVE_AS_FAILED', intent };
+    }
+    return { ok: false, reason: 'FILE_COMMAND_INTENT_UNSUPPORTED', intent };
+  } catch (error) {
+    logDevError(`file-command:${intent || 'unknown'}`, error);
+    return {
+      ok: false,
+      reason: 'FILE_COMMAND_UNHANDLED_EXCEPTION',
+      intent,
+      error: {
+        message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+      },
+    };
+  }
+}
+
 ipcMain.handle('file:save', async () => {
-  return { ok: false, reason: "not-implemented" };
+  return executeFileCommand('save');
 });
 
 ipcMain.handle('file:save-as', async () => {
-  return { ok: false, reason: "not-implemented" };
+  return executeFileCommand('saveAs');
 });
 
-ipcMain.handle('file:open', async () => {
-  return { ok: false, reason: "not-implemented" };
+ipcMain.handle('file:open', async (_, payload) => {
+  const intent = payload && typeof payload === 'object' && payload.intent === 'new' ? 'new' : 'open';
+  return executeFileCommand(intent);
 });
 
 ipcMain.handle(EXPORT_DOCX_MIN_CHANNEL, async (_, payload) => {
@@ -1720,22 +1754,6 @@ ipcMain.handle('ui:request-autosave', async () => {
 
 ipcMain.on('dirty-changed', (_, state) => {
   isDirty = state;
-});
-
-ipcMain.on('ui:new', () => {
-  ensureCleanAction(handleNew).catch(() => {});
-});
-
-ipcMain.on('ui:open', () => {
-  ensureCleanAction(handleOpen).catch(() => {});
-});
-
-ipcMain.on('ui:save', () => {
-  handleSave().catch(() => {});
-});
-
-ipcMain.on('ui:save-as', () => {
-  handleSaveAs().catch(() => {});
 });
 
 ipcMain.on('ui:set-theme', (_, theme) => {
@@ -2628,13 +2646,30 @@ async function handleFontSizeChange(action) {
   }
 }
 
-const MENU_CONFIG_PATH = path.join(__dirname, 'menu', 'menu-config.v1.json');
 const {
-  loadAndValidateMenuConfig
-} = require('./menu/menu-config-validator');
+  resolveMenuCommandId,
+} = require('./menu/command-namespace-canon.js');
+const {
+  DEFAULT_ARTIFACT_PATH: DEFAULT_MENU_ARTIFACT_PATH,
+  evaluateMenuArtifactLockState,
+  resolveModeFromInput: resolveMenuArtifactModeFromInput,
+  RESULT_FAIL: MENU_ARTIFACT_RESULT_FAIL,
+} = require('./menu/menu-artifact-lock.js');
+const {
+  normalizeMenuConfigPipeline,
+} = require('./menu/menu-config-normalizer.js');
+const {
+  validateMenuContext,
+  toMenuRuntimeNormalizerContext,
+} = require('./menu/menu-runtime-context.js');
+const {
+  FAIL_SIGNAL_MENU_RUNTIME_ARTIFACT_DIVERGENCE,
+  evaluateRuntimeMenuSourcePolicy,
+} = require('./menu/menu-runtime-source-policy.js');
 const MENU_ACCELERATOR_TOKENS = Object.freeze({
   platformQuit: process.platform === 'darwin' ? 'Cmd+Q' : 'Ctrl+Q'
 });
+const COMMAND_BUS_ROUTE = 'command.bus';
 const ALLOWED_MENU_ROLES = new Set(['undo', 'redo', 'cut', 'copy', 'paste', 'selectAll']);
 const MENU_ROLE_TEMPLATES = Object.freeze({
   undo: { role: 'undo' },
@@ -2644,32 +2679,328 @@ const MENU_ROLE_TEMPLATES = Object.freeze({
   paste: { role: 'paste' },
   selectAll: { role: 'selectAll' }
 });
-const MENU_ACTION_HANDLERS = Object.freeze({
-  newDocument: async () => {
+const MENU_RUNTIME_OVERLAYS_ENV_PATH = 'MENU_RUNTIME_OVERLAYS_PATH';
+const MENU_RUNTIME_OVERLAYS_ENV_JSON = 'MENU_RUNTIME_OVERLAYS_JSON';
+const MENU_RUNTIME_CONTEXT_ENV_PATH = 'MENU_RUNTIME_CONTEXT_PATH';
+const MENU_RUNTIME_CONTEXT_ENV_JSON = 'MENU_RUNTIME_CONTEXT_JSON';
+const MENU_RUNTIME_ARTIFACT_ENV_PATH = 'MENU_RUNTIME_ARTIFACT_PATH';
+const MENU_RUNTIME_RAW_CONFIG_ENV_PATH = 'MENU_RUNTIME_RAW_CONFIG_PATH';
+const MENU_RUNTIME_LEGACY_RAW_CONFIG_ENV_PATH = 'MENU_CONFIG_PATH';
+const MENU_ACTION_ALIAS_TO_COMMAND = Object.freeze({
+  newDocument: 'cmd.project.new',
+  openDocument: 'cmd.project.open',
+  saveDocument: 'cmd.project.save',
+  exportDocxMin: 'cmd.project.export.docxMin',
+  quitApp: 'cmd.app.quit',
+  setFont: 'cmd.ui.font.set',
+  setFontSize: 'cmd.ui.fontSize.set',
+  setTheme: 'cmd.ui.theme.set',
+});
+const MENU_COMMAND_HANDLERS = Object.freeze({
+  'cmd.project.new': async () => {
     await ensureCleanAction(handleNew);
+    return { ok: true };
   },
-  openDocument: async () => {
+  'cmd.project.open': async () => {
     await ensureCleanAction(handleOpen);
+    return { ok: true };
   },
-  saveDocument: async () => {
-    await handleSave();
+  'cmd.project.save': async () => {
+    const saved = await handleSave();
+    return { ok: saved === true };
   },
-  quitApp: () => {
+  'cmd.project.export.docxMin': async (payload = {}) => {
+    const response = await handleExportDocxMin({
+      requestId: 'menu-export-docx-min',
+      outPath: typeof payload.outPath === 'string' ? payload.outPath : '',
+      outDir: typeof payload.outDir === 'string' ? payload.outDir : '',
+      bufferSource: typeof payload.bufferSource === 'string' ? payload.bufferSource : '',
+      options: payload.options && typeof payload.options === 'object' && !Array.isArray(payload.options)
+        ? payload.options
+        : {},
+    });
+    return { ok: Boolean(response && response.ok === 1) };
+  },
+  'cmd.app.quit': () => {
     app.quit();
+    return { ok: true };
   },
-  setFont: (fontFamily) => {
+  'cmd.ui.font.set': (payload = {}) => {
+    const fontFamily = typeof payload.fontFamily === 'string'
+      ? payload.fontFamily
+      : (typeof payload.actionArg === 'string' ? payload.actionArg : '');
+    if (!fontFamily) return { ok: false };
     handleFontChange(fontFamily);
+    return { ok: true };
   },
-  setFontSize: (actionArg) => {
-    handleFontSizeChange(actionArg);
+  'cmd.ui.fontSize.set': (payload = {}) => {
+    const action = typeof payload.action === 'string'
+      ? payload.action
+      : (typeof payload.actionArg === 'string' ? payload.actionArg : '');
+    if (!action) return { ok: false };
+    handleFontSizeChange(action);
+    return { ok: true };
   },
-  setTheme: (theme) => {
+  'cmd.ui.theme.set': (payload = {}) => {
+    const theme = typeof payload.theme === 'string'
+      ? payload.theme
+      : (typeof payload.actionArg === 'string' ? payload.actionArg : '');
+    if (!theme) return { ok: false };
     handleThemeChange(theme);
-  }
+    return { ok: true };
+  },
 });
 
 function shouldFailHardOnMenuConfigError() {
   return process.env.MENU_CONFIG_CONTRACT_MODE === '1' || process.argv.includes('--menu-config-contract');
+}
+
+function resolveRuntimeMenuArtifactMode() {
+  const promotionArg = process.argv.find((arg) => String(arg || '').startsWith('--promotionMode='));
+  if (promotionArg) {
+    const value = String(promotionArg.split('=').slice(1).join('=') || '').trim().toLowerCase();
+    if (value === '1' || value === 'true' || value === 'yes' || value === 'on') {
+      return 'promotion';
+    }
+  }
+  return resolveMenuArtifactModeFromInput('');
+}
+
+function verifyMenuArtifactLockAtRuntime() {
+  const mode = resolveRuntimeMenuArtifactMode();
+  const state = evaluateMenuArtifactLockState({
+    mode,
+    expectedSnapshotId: 'menu-default-desktop-minimal',
+  });
+
+  if (state.result === MENU_ARTIFACT_RESULT_FAIL) {
+    const error = new Error(`Menu artifact verification failed (${state.failSignalCode || 'E_MENU_ARTIFACT_TAMPER_OR_DRIFT'})`);
+    error.failSignalCode = state.failSignalCode || 'E_MENU_ARTIFACT_TAMPER_OR_DRIFT';
+    error.details = state;
+    throw error;
+  }
+
+  if (state.mismatch === true) {
+    const issues = Array.isArray(state.issues) ? state.issues.map((row) => row.code).join(',') : '';
+    console.warn(`[menu-artifact] advisory mismatch in ${mode}: ${issues}`);
+  }
+}
+
+function normalizeRuntimeString(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function isRuntimeRecord(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function createRuntimeMenuPolicyError(message, details = {}, mode = 'release') {
+  const error = new Error(message);
+  error.code = 'MENU_RUNTIME_POLICY_VIOLATION';
+  error.failSignalCode = FAIL_SIGNAL_MENU_RUNTIME_ARTIFACT_DIVERGENCE;
+  error.details = details;
+  error.menuRuntimeBlocking = mode === 'promotion';
+  return error;
+}
+
+function emitRuntimeMenuAdvisory(message, details = {}) {
+  let detailsText = '';
+  try {
+    detailsText = Object.keys(details).length > 0 ? ` ${JSON.stringify(details)}` : '';
+  } catch {
+    detailsText = '';
+  }
+  console.warn(
+    `[menu-runtime] advisory ${FAIL_SIGNAL_MENU_RUNTIME_ARTIFACT_DIVERGENCE}: ${message}${detailsText}`,
+  );
+}
+
+function parseRuntimeJsonInput(pathEnvKey, jsonEnvKey, label) {
+  const inlineJson = normalizeRuntimeString(process.env[jsonEnvKey]);
+  if (inlineJson) {
+    try {
+      return JSON.parse(inlineJson);
+    } catch (error) {
+      throw new Error(`Invalid ${label} JSON in ${jsonEnvKey}: ${error.message}`);
+    }
+  }
+
+  const payloadPathRaw = normalizeRuntimeString(process.env[pathEnvKey]);
+  if (!payloadPathRaw) return null;
+  const payloadPath = path.resolve(payloadPathRaw);
+  let rawText = '';
+  try {
+    rawText = fsSync.readFileSync(payloadPath, 'utf8');
+  } catch (error) {
+    throw new Error(`Cannot read ${label} payload from ${payloadPath}: ${error.message}`);
+  }
+
+  try {
+    return JSON.parse(rawText);
+  } catch (error) {
+    throw new Error(`Invalid ${label} JSON in ${payloadPath}: ${error.message}`);
+  }
+}
+
+function normalizeRuntimeOverlayPayload(payload) {
+  if (payload === null || payload === undefined) return [];
+  if (Array.isArray(payload)) return payload;
+  if (isRuntimeRecord(payload) && Array.isArray(payload.overlays)) {
+    return payload.overlays;
+  }
+  throw new Error('Runtime overlays payload must be an array or an object with overlays[].');
+}
+
+function normalizeRuntimeContextPayload(payload) {
+  if (payload === null || payload === undefined) return {};
+  if (isRuntimeRecord(payload) && isRuntimeRecord(payload.context)) {
+    return payload.context;
+  }
+  if (isRuntimeRecord(payload)) return payload;
+  throw new Error('Runtime context payload must be an object.');
+}
+
+function resolveRuntimeMenuArtifactPath() {
+  const explicitPath = normalizeRuntimeString(process.env[MENU_RUNTIME_ARTIFACT_ENV_PATH]);
+  if (!explicitPath) return DEFAULT_MENU_ARTIFACT_PATH;
+  return path.resolve(explicitPath);
+}
+
+function resolveRawConfigMixAttempt() {
+  const explicit = normalizeRuntimeString(process.env[MENU_RUNTIME_RAW_CONFIG_ENV_PATH]);
+  if (explicit) return explicit;
+  return normalizeRuntimeString(process.env[MENU_RUNTIME_LEGACY_RAW_CONFIG_ENV_PATH]);
+}
+
+function readMenuArtifactDocument(artifactPath) {
+  let parsed;
+  try {
+    parsed = JSON.parse(fsSync.readFileSync(artifactPath, 'utf8'));
+  } catch (error) {
+    throw new Error(`Cannot read runtime menu artifact (${artifactPath}): ${error.message}`);
+  }
+
+  if (!isRuntimeRecord(parsed)) {
+    throw new Error(`Runtime menu artifact must be an object: ${artifactPath}`);
+  }
+  if (!Array.isArray(parsed.menus)) {
+    throw new Error(`Runtime menu artifact must contain menus[]: ${artifactPath}`);
+  }
+  return parsed;
+}
+
+function resolveRuntimeMenuBuildConfig(mode) {
+  const artifactPath = resolveRuntimeMenuArtifactPath();
+  const artifactDoc = readMenuArtifactDocument(artifactPath);
+  const sourcePolicy = evaluateRuntimeMenuSourcePolicy({
+    mode,
+    usesArtifact: true,
+    usesRawConfig: Boolean(resolveRawConfigMixAttempt()),
+  });
+
+  if (!sourcePolicy.ok) {
+    throw createRuntimeMenuPolicyError(
+      'Runtime menu source policy failed.',
+      {
+        reason: sourcePolicy.reason,
+        result: sourcePolicy.result,
+      },
+      mode,
+    );
+  }
+
+  if (sourcePolicy.result === 'WARN') {
+    emitRuntimeMenuAdvisory('Runtime menu source mix rejected; fallback to artifact-only.', {
+      reason: sourcePolicy.reason,
+    });
+  }
+
+  const artifactOnlyConfig = {
+    fonts: Array.isArray(artifactDoc.fonts) ? artifactDoc.fonts : [],
+    menus: artifactDoc.menus,
+  };
+  if (sourcePolicy.fallbackToArtifactOnly) {
+    return artifactOnlyConfig;
+  }
+
+  let overlayPayload;
+  let contextPayload;
+  try {
+    overlayPayload = parseRuntimeJsonInput(
+      MENU_RUNTIME_OVERLAYS_ENV_PATH,
+      MENU_RUNTIME_OVERLAYS_ENV_JSON,
+      'runtime overlays',
+    );
+    contextPayload = parseRuntimeJsonInput(
+      MENU_RUNTIME_CONTEXT_ENV_PATH,
+      MENU_RUNTIME_CONTEXT_ENV_JSON,
+      'runtime context',
+    );
+  } catch (error) {
+    if (mode === 'promotion') {
+      throw createRuntimeMenuPolicyError(error.message, { reason: 'RUNTIME_MENU_INPUT_PARSE_FAILED' }, mode);
+    }
+    emitRuntimeMenuAdvisory(error.message, { reason: 'RUNTIME_MENU_INPUT_PARSE_FAILED' });
+    return artifactOnlyConfig;
+  }
+
+  let overlays;
+  let contextInput = {};
+  try {
+    overlays = normalizeRuntimeOverlayPayload(overlayPayload);
+    contextInput = normalizeRuntimeContextPayload(contextPayload);
+  } catch (error) {
+    if (mode === 'promotion') {
+      throw createRuntimeMenuPolicyError(error.message, { reason: 'RUNTIME_MENU_INPUT_INVALID' }, mode);
+    }
+    emitRuntimeMenuAdvisory(error.message, { reason: 'RUNTIME_MENU_INPUT_INVALID' });
+    return artifactOnlyConfig;
+  }
+  if (overlays.length === 0) {
+    return artifactOnlyConfig;
+  }
+
+  const contextState = validateMenuContext(contextInput, { mode });
+  if (!contextState.ok) {
+    const details = {
+      reason: 'RUNTIME_MENU_CONTEXT_INVALID',
+      contextErrors: contextState.errors,
+    };
+    if (mode === 'promotion') {
+      throw createRuntimeMenuPolicyError('Runtime menu context validation failed.', details, mode);
+    }
+    emitRuntimeMenuAdvisory('Runtime menu context validation failed; fallback to artifact-only.', details);
+    return artifactOnlyConfig;
+  }
+
+  const normalizerState = normalizeMenuConfigPipeline({
+    baseConfig: {
+      version: 'v2',
+      menus: artifactDoc.menus,
+      fonts: Array.isArray(artifactDoc.fonts) ? artifactDoc.fonts : [],
+    },
+    overlays,
+    context: toMenuRuntimeNormalizerContext(contextState.normalizedCtx),
+    mode,
+    baseSourceRef: artifactPath,
+  });
+
+  if (!normalizerState.ok || !normalizerState.normalizedConfig) {
+    const details = {
+      reason: 'RUNTIME_MENU_NORMALIZATION_FAILED',
+      diagnostics: normalizerState.diagnostics,
+    };
+    if (mode === 'promotion') {
+      throw createRuntimeMenuPolicyError('Runtime overlay normalization failed.', details, mode);
+    }
+    emitRuntimeMenuAdvisory('Runtime overlay normalization failed; fallback to artifact-only.', details);
+    return artifactOnlyConfig;
+  }
+
+  return {
+    fonts: Array.isArray(artifactDoc.fonts) ? artifactDoc.fonts : [],
+    menus: normalizerState.normalizedConfig.menus,
+  };
 }
 
 function resolveMenuAccelerator(value) {
@@ -2684,22 +3015,53 @@ function resolveMenuAccelerator(value) {
   return MENU_ACCELERATOR_TOKENS[token];
 }
 
-function buildClickHandler(actionId, actionArg) {
-  const handler = MENU_ACTION_HANDLERS[actionId];
-  if (typeof handler !== 'function') {
+function resolveMenuActionToCommand(actionId) {
+  if (typeof actionId !== 'string' || actionId.length === 0) {
+    throw new Error(`Invalid menu action id: ${String(actionId)}`);
+  }
+  const commandId = MENU_ACTION_ALIAS_TO_COMMAND[actionId];
+  if (typeof commandId !== 'string' || commandId.length === 0) {
     throw new Error(`Unknown menu action id: ${String(actionId)}`);
   }
+  const resolved = resolveMenuCommandId(commandId, { enforceSunset: false });
+  if (!resolved.ok) {
+    throw new Error(`Menu action namespace resolution failed: ${resolved.reason || 'COMMAND_NAMESPACE_RESOLUTION_FAILED'}`);
+  }
+  return resolved.commandId;
+}
 
+function dispatchMenuCommand(commandId, payload = {}, options = {}) {
+  const route = typeof options.route === 'string' && options.route.length > 0
+    ? options.route
+    : COMMAND_BUS_ROUTE;
+  if (route !== COMMAND_BUS_ROUTE) {
+    throw new Error(`Unsupported menu command route: ${route}`);
+  }
+
+  const resolved = resolveMenuCommandId(commandId, { enforceSunset: false });
+  if (!resolved.ok) {
+    throw new Error(`Unknown menu command namespace: ${String(commandId)}`);
+  }
+
+  const handler = MENU_COMMAND_HANDLERS[resolved.commandId];
+  if (typeof handler !== 'function') {
+    throw new Error(`Unknown menu command id: ${String(resolved.commandId)}`);
+  }
+
+  return handler(payload);
+}
+
+function buildCommandClickHandler(commandId, payload = {}) {
   return () => {
     try {
-      const result = handler(actionArg);
+      const result = dispatchMenuCommand(commandId, payload, { route: COMMAND_BUS_ROUTE });
       if (result && typeof result.catch === 'function') {
         result.catch((error) => {
-          logDevError(`menu-action:${actionId}`, error);
+          logDevError(`menu-command:${commandId}`, error);
         });
       }
     } catch (error) {
-      logDevError(`menu-action:${actionId}`, error);
+      logDevError(`menu-command:${commandId}`, error);
     }
   };
 }
@@ -2716,7 +3078,7 @@ function buildFontSubmenu(config) {
     return {
       id: typeof font.id === 'string' ? font.id : `font-${index}`,
       label: font.label,
-      click: buildClickHandler('setFont', font.value)
+      click: buildCommandClickHandler('cmd.ui.font.set', { fontFamily: font.value })
     };
   });
 }
@@ -2749,6 +3111,15 @@ function buildMenuItemFromConfig(item, config, location) {
     if (typeof item.visible === 'boolean') {
       roleItem.visible = item.visible;
     }
+    if (item.visibilityPolicy === 'hidden') {
+      roleItem.visible = false;
+    } else if (item.visibilityPolicy === 'visible_disabled') {
+      roleItem.visible = true;
+      roleItem.enabled = false;
+    } else if (item.visibilityPolicy === 'visible_enabled') {
+      roleItem.visible = true;
+      roleItem.enabled = true;
+    }
 
     return roleItem;
   }
@@ -2773,6 +3144,15 @@ function buildMenuItemFromConfig(item, config, location) {
   if (typeof item.visible === 'boolean') {
     built.visible = item.visible;
   }
+  if (item.visibilityPolicy === 'hidden') {
+    built.visible = false;
+  } else if (item.visibilityPolicy === 'visible_disabled') {
+    built.visible = true;
+    built.enabled = false;
+  } else if (item.visibilityPolicy === 'visible_enabled') {
+    built.visible = true;
+    built.enabled = true;
+  }
 
   if (item.submenuFrom !== undefined) {
     if (item.submenuFrom !== 'fonts') {
@@ -2785,11 +3165,34 @@ function buildMenuItemFromConfig(item, config, location) {
     );
   }
 
-  if (item.actionId !== undefined) {
+  const hasCanonicalCmdId = typeof item.canonicalCmdId === 'string' && item.canonicalCmdId.length > 0;
+  const hasCommandField = item.command !== undefined || hasCanonicalCmdId;
+  if (hasCommandField && item.actionId !== undefined) {
+    throw new Error(`Menu item cannot declare both command and actionId at ${location}`);
+  }
+
+  if (hasCommandField) {
+    if (item.command !== undefined && typeof item.command !== 'string') {
+      throw new Error(`Menu command must be string at ${location}`);
+    }
+    const sourceCommandId = hasCanonicalCmdId
+      ? item.canonicalCmdId
+      : item.command;
+    const resolved = resolveMenuCommandId(sourceCommandId, { enforceSunset: false });
+    if (!resolved.ok) {
+      throw new Error(`Menu command namespace validation failed at ${location}`);
+    }
+    built.click = buildCommandClickHandler(resolved.commandId, {
+      actionArg: item.actionArg
+    });
+  } else if (item.actionId !== undefined) {
     if (typeof item.actionId !== 'string') {
       throw new Error(`Menu actionId must be string at ${location}`);
     }
-    built.click = buildClickHandler(item.actionId, item.actionArg);
+    const commandId = resolveMenuActionToCommand(item.actionId);
+    built.click = buildCommandClickHandler(commandId, {
+      actionArg: item.actionArg
+    });
   }
 
   return built;
@@ -2811,7 +3214,7 @@ function buildSafeFallbackMenuTemplate() {
           id: 'safe-quit',
           label: 'Выход',
           accelerator: MENU_ACCELERATOR_TOKENS.platformQuit,
-          click: buildClickHandler('quitApp')
+          click: buildCommandClickHandler('cmd.app.quit')
         }
       ]
     }
@@ -2824,31 +3227,19 @@ function applySafeFallbackMenu() {
 }
 
 function createMenu() {
-  const validatedConfig = loadAndValidateMenuConfig({
-    configPath: MENU_CONFIG_PATH
-  });
-  if (!validatedConfig.ok) {
-    const failReason = validatedConfig.failReason || 'Menu config validation failed.';
-    const error = new Error(
-      `Menu config validation failed: ${failReason} (${MENU_CONFIG_PATH})`
-    );
-    logDevError('createMenu', error);
-    applySafeFallbackMenu();
-
-    if (shouldFailHardOnMenuConfigError()) {
-      throw error;
-    }
-    return;
-  }
-
+  const mode = resolveRuntimeMenuArtifactMode();
   try {
-    const template = buildMenuTemplateFromConfig(validatedConfig.config);
+    const runtimeConfig = resolveRuntimeMenuBuildConfig(mode);
+    const template = buildMenuTemplateFromConfig(runtimeConfig);
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
   } catch (error) {
     logDevError('createMenu', error);
     applySafeFallbackMenu();
 
+    if (error && error.menuRuntimeBlocking === true) {
+      throw error;
+    }
     if (shouldFailHardOnMenuConfigError()) {
       throw error;
     }
@@ -2880,7 +3271,20 @@ app.whenReady().then(async () => {
   await windowStatePromise;
   logPerfStage('window-state-loaded');
   createWindow();
-  createMenu();
+  try {
+    verifyMenuArtifactLockAtRuntime();
+  } catch (error) {
+    logDevError('verifyMenuArtifactLockAtRuntime', error);
+    app.exit(1);
+    return;
+  }
+  try {
+    createMenu();
+  } catch (error) {
+    logDevError('createMenu', error);
+    app.exit(1);
+    return;
+  }
   logPerfStage('window-visible');
 
   // Запуск автосохранения каждые 15 секунд

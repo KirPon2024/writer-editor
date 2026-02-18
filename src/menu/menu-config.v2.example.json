@@ -18,8 +18,11 @@
       "label": "Документ",
       "mode": ["offline"],
       "profile": ["minimal", "pro", "guru"],
-      "stage": ["X1", "X2", "X3", "X4", "X5"],
-      "enabledWhen": "always",
+      "stage": ["X1", "X2", "X3", "X4"],
+      "enabledWhen": {
+        "op": "all",
+        "args": []
+      },
       "items": [
         {
           "id": "file-open",
@@ -28,8 +31,11 @@
           "actionId": "openDocument",
           "mode": ["offline"],
           "profile": ["minimal", "pro", "guru"],
-          "stage": ["X1", "X2", "X3", "X4", "X5"],
-          "enabledWhen": "always"
+          "stage": ["X1", "X2", "X3", "X4"],
+          "enabledWhen": {
+            "op": "all",
+            "args": []
+          }
         },
         {
           "id": "file-save",
@@ -38,8 +44,11 @@
           "actionId": "saveDocument",
           "mode": ["offline"],
           "profile": ["minimal", "pro", "guru"],
-          "stage": ["X1", "X2", "X3", "X4", "X5"],
-          "enabledWhen": "hasDocument"
+          "stage": ["X1", "X2", "X3", "X4"],
+          "enabledWhen": {
+            "op": "flag",
+            "name": "hasDocument"
+          }
         },
         {
           "id": "file-export-docx",
@@ -47,8 +56,11 @@
           "actionId": "exportDocxMin",
           "mode": ["offline"],
           "profile": ["pro", "guru"],
-          "stage": ["X1", "X2", "X3", "X4", "X5"],
-          "enabledWhen": "hasDocument"
+          "stage": ["X1", "X2", "X3", "X4"],
+          "enabledWhen": {
+            "op": "flag",
+            "name": "hasDocument"
+          }
         }
       ]
     },
@@ -61,8 +73,11 @@
           "role": "copy",
           "mode": ["offline", "web_subset"],
           "profile": ["minimal", "pro", "guru"],
-          "stage": ["X1", "X2", "X3", "X4", "X5"],
-          "enabledWhen": "selectionExists"
+          "stage": ["X1", "X2", "X3", "X4"],
+          "enabledWhen": {
+            "op": "flag",
+            "name": "selectionExists"
+          }
         }
       ]
     }

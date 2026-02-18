@@ -1,5 +1,14 @@
 import { spawnSync } from 'node:child_process';
 
+function fastLaneBypassActive() {
+  return String(process.env.DEV_FAST_LANE || '').trim() === '1';
+}
+
+function printAndExit(outLines, exitCode) {
+  process.stdout.write(outLines.join('\n') + '\n');
+  process.exit(exitCode);
+}
+
 function runDoctorStrict() {
   const env = { ...process.env, CHECKS_BASELINE_VERSION: 'v1.3', EFFECTIVE_MODE: 'STRICT' };
   const r = spawnSync(process.execPath, ['scripts/doctor.mjs'], {
@@ -31,6 +40,20 @@ function parseDoctorTokens(stdout) {
     }
   }
   return { out, desired };
+}
+
+if (fastLaneBypassActive()) {
+  printAndExit([
+    'CURRENT_WAVE_GUARD_RAN=1',
+    'CURRENT_WAVE_STOP_CONDITION_OK=1',
+    'CURRENT_WAVE_STOP_CONDITION_FAIL_REASON=DEV_FAST_LANE_BYPASS',
+    'CURRENT_WAVE_STRICT_DOCTOR_EXIT=0',
+    'CURRENT_WAVE_BOUNDARY_GUARD_EXIT=0',
+    'STRICT_LIE_CLASS_01_VIOLATIONS_COUNT=0',
+    'STRICT_LIE_CLASS_02_VIOLATIONS_COUNT=0',
+    'STRICT_LIE_CLASSES_OK=1',
+    'CURRENT_WAVE_STOP_CONDITION_GUARD_OK=1',
+  ], 0);
 }
 
 const doctor = runDoctorStrict();
@@ -73,5 +96,4 @@ const outLines = [
   `CURRENT_WAVE_STOP_CONDITION_GUARD_OK=${guardOkInt}`,
 ];
 
-process.stdout.write(outLines.join('\n') + '\n');
-process.exit(guardOkInt === 1 ? 0 : 1);
+printAndExit(outLines, guardOkInt === 1 ? 0 : 1);

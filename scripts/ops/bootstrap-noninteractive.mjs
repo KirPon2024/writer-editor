@@ -44,10 +44,9 @@ function main() {
   printToken('NON_INTERACTIVE_GIT_TERMINAL_PROMPT', bootstrap.gitTerminalPrompt);
   printToken('NON_INTERACTIVE_GIT_ASKPASS', bootstrap.gitAskPass);
   printToken('NON_INTERACTIVE_CI', bootstrap.ci);
-  printToken('PROMPT_LAYER_ALLOWED', 'RUNNER_UI_ONCE');
-  printToken('PROMPT_LAYER_REPO_ALLOWED', 0);
+  printToken('BOOTSTRAP_MODE', 'NONINTERACTIVE');
+  printToken('BOOTSTRAP_RUNNER', 1);
   printToken('PROMPT_DETECTION', 'NOT_DETECTED');
-  printToken('PROMPT_LAYER', 'RUNNER_UI');
 }
 
 const selfPath = fileURLToPath(import.meta.url);

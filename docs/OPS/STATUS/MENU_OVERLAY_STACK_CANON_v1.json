@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "stackOrder": [
+    "base",
+    "platform",
+    "profile",
+    "workspace",
+    "user",
+    "plugin"
+  ],
+  "mergeRules": {
+    "insert": "allowlist",
+    "hide": "allowlist",
+    "reorder": "allowlist",
+    "replace": "forbidden"
+  },
+  "conflictPolicy": {
+    "stableResolutionOrder": "stackOrder",
+    "deterministicTieBreak": "lexicographic"
+  }
+}

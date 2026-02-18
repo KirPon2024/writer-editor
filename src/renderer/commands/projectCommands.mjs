@@ -14,10 +14,20 @@ export const COMMAND_IDS = Object.freeze({
   PROJECT_FLOW_SAVE_V1: COMMAND_KEY_TO_ID.PROJECT_FLOW_SAVE_V1,
 });
 
+export const EXTRA_COMMAND_IDS = Object.freeze({
+  PROJECT_NEW: 'cmd.project.new',
+  PROJECT_SAVE_AS: 'cmd.project.saveAs',
+});
+
 export const LEGACY_ACTION_TO_COMMAND = Object.freeze({
+  new: EXTRA_COMMAND_IDS.PROJECT_NEW,
   open: COMMAND_IDS.PROJECT_OPEN,
+  openDocument: COMMAND_IDS.PROJECT_OPEN,
   save: COMMAND_IDS.PROJECT_SAVE,
+  saveDocument: COMMAND_IDS.PROJECT_SAVE,
+  'save-as': EXTRA_COMMAND_IDS.PROJECT_SAVE_AS,
   'export-docx-min': COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN,
+  exportDocxMin: COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN,
 });
 
 // Canonical Core command IDs used by CORE_SOT checks.
@@ -73,7 +83,7 @@ export function resolveLegacyActionToCommand(actionId, context = {}) {
 }
 
 export function createLegacyActionBridge(executeCommand) {
-  return async function runLegacyAction(actionId, options = {}) {
+  return async function executeLegacyAction(actionId, options = {}) {
     const commandId = resolveLegacyActionToCommand(actionId, options.context || {});
     if (!commandId) {
       return { handled: false, commandId: null, result: null };
@@ -92,21 +102,159 @@ export function createLegacyActionBridge(executeCommand) {
 export function registerProjectCommands(registry, options = {}) {
   const electronAPI = options.electronAPI || null;
 
+  registry.registerCommand(
+    {
+      id: EXTRA_COMMAND_IDS.PROJECT_NEW,
+      label: 'New Project',
+      group: 'file',
+      surface: ['toolbar', 'menu'],
+      hotkey: '',
+    },
+    async () => {
+      const hasFileOpen = electronAPI && typeof electronAPI.fileOpen === 'function';
+      const hasNewFile = electronAPI && typeof electronAPI.newFile === 'function';
+      if (!hasFileOpen && !hasNewFile) {
+        return fail('E_COMMAND_FAILED', EXTRA_COMMAND_IDS.PROJECT_NEW, 'ELECTRON_API_UNAVAILABLE');
+      }
+
+      let response;
+      try {
+        if (hasFileOpen) {
+          response = await electronAPI.fileOpen({ intent: 'new' });
+        } else {
+          electronAPI.newFile();
+          response = { ok: true };
+        }
+      } catch (error) {
+        return fail(
+          'E_COMMAND_FAILED',
+          EXTRA_COMMAND_IDS.PROJECT_NEW,
+          'FILE_NEW_IPC_FAILED',
+          { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+        );
+      }
+
+      if (response && (response.ok === 1 || response.ok === true)) {
+        return ok({ created: true });
+      }
+      return fail(
+        'E_COMMAND_FAILED',
+        EXTRA_COMMAND_IDS.PROJECT_NEW,
+        response && typeof response.reason === 'string' ? response.reason : 'FILE_NEW_FAILED',
+      );
+    },
+  );
+
   registerCatalogCommand(registry, COMMAND_IDS.PROJECT_OPEN, async () => {
-    if (!electronAPI || typeof electronAPI.openFile !== 'function') {
+    const hasFileOpen = electronAPI && typeof electronAPI.fileOpen === 'function';
+    const hasOpenFile = electronAPI && typeof electronAPI.openFile === 'function';
+    if (!hasFileOpen && !hasOpenFile) {
       return fail('E_COMMAND_FAILED', COMMAND_IDS.PROJECT_OPEN, 'ELECTRON_API_UNAVAILABLE');
     }
-    electronAPI.openFile();
-    return ok({ opened: true });
+
+    let response;
+    try {
+      if (hasFileOpen) {
+        response = await electronAPI.fileOpen({ intent: 'open' });
+      } else {
+        electronAPI.openFile();
+        response = { ok: true };
+      }
+    } catch (error) {
+      return fail(
+        'E_COMMAND_FAILED',
+        COMMAND_IDS.PROJECT_OPEN,
+        'FILE_OPEN_IPC_FAILED',
+        { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+      );
+    }
+
+    if (response && (response.ok === 1 || response.ok === true)) {
+      return ok({ opened: true });
+    }
+    return fail(
+      'E_COMMAND_FAILED',
+      COMMAND_IDS.PROJECT_OPEN,
+      response && typeof response.reason === 'string' ? response.reason : 'FILE_OPEN_FAILED',
+    );
   });
 
   registerCatalogCommand(registry, COMMAND_IDS.PROJECT_SAVE, async () => {
-    if (!electronAPI || typeof electronAPI.saveFile !== 'function') {
+    const hasFileSave = electronAPI && typeof electronAPI.fileSave === 'function';
+    const hasSaveFile = electronAPI && typeof electronAPI.saveFile === 'function';
+    if (!hasFileSave && !hasSaveFile) {
       return fail('E_COMMAND_FAILED', COMMAND_IDS.PROJECT_SAVE, 'ELECTRON_API_UNAVAILABLE');
     }
-    electronAPI.saveFile();
-    return ok({ saved: true });
+
+    let response;
+    try {
+      if (hasFileSave) {
+        response = await electronAPI.fileSave({ intent: 'save' });
+      } else {
+        electronAPI.saveFile();
+        response = { ok: true };
+      }
+    } catch (error) {
+      return fail(
+        'E_COMMAND_FAILED',
+        COMMAND_IDS.PROJECT_SAVE,
+        'FILE_SAVE_IPC_FAILED',
+        { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+      );
+    }
+
+    if (response && (response.ok === 1 || response.ok === true)) {
+      return ok({ saved: true });
+    }
+    return fail(
+      'E_COMMAND_FAILED',
+      COMMAND_IDS.PROJECT_SAVE,
+      response && typeof response.reason === 'string' ? response.reason : 'FILE_SAVE_FAILED',
+    );
   });
+
+  registry.registerCommand(
+    {
+      id: EXTRA_COMMAND_IDS.PROJECT_SAVE_AS,
+      label: 'Save Project As',
+      group: 'file',
+      surface: ['toolbar', 'menu'],
+      hotkey: '',
+    },
+    async () => {
+      const hasFileSaveAs = electronAPI && typeof electronAPI.fileSaveAs === 'function';
+      const hasSaveAs = electronAPI && typeof electronAPI.saveAs === 'function';
+      if (!hasFileSaveAs && !hasSaveAs) {
+        return fail('E_COMMAND_FAILED', EXTRA_COMMAND_IDS.PROJECT_SAVE_AS, 'ELECTRON_API_UNAVAILABLE');
+      }
+
+      let response;
+      try {
+        if (hasFileSaveAs) {
+          response = await electronAPI.fileSaveAs({ intent: 'saveAs' });
+        } else {
+          electronAPI.saveAs();
+          response = { ok: true };
+        }
+      } catch (error) {
+        return fail(
+          'E_COMMAND_FAILED',
+          EXTRA_COMMAND_IDS.PROJECT_SAVE_AS,
+          'FILE_SAVE_AS_IPC_FAILED',
+          { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+        );
+      }
+
+      if (response && (response.ok === 1 || response.ok === true)) {
+        return ok({ savedAs: true });
+      }
+      return fail(
+        'E_COMMAND_FAILED',
+        EXTRA_COMMAND_IDS.PROJECT_SAVE_AS,
+        response && typeof response.reason === 'string' ? response.reason : 'FILE_SAVE_AS_FAILED',
+      );
+    },
+  );
 
   registerCatalogCommand(registry, COMMAND_IDS.PROJECT_EXPORT_DOCX_MIN, async (input = {}) => {
     if (!electronAPI || typeof electronAPI.exportDocxMin !== 'function') {

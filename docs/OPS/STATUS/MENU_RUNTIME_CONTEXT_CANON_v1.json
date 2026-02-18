@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "allowedKeys": [
+    "platform",
+    "profileId",
+    "workspaceId",
+    "userPresetId",
+    "scopeFlags",
+    "promotionMode"
+  ],
+  "platformEnum": [
+    "mac",
+    "win",
+    "linux"
+  ],
+  "profileEnum": [
+    "minimal",
+    "pro",
+    "guru"
+  ],
+  "defaults": {
+    "platform": "mac",
+    "profileId": "minimal",
+    "workspaceId": "",
+    "userPresetId": "",
+    "scopeFlags": {},
+    "promotionMode": false
+  },
+  "contextHashInputs": [
+    "platform",
+    "profileId",
+    "workspaceId",
+    "userPresetId",
+    "scopeFlags",
+    "promotionMode"
+  ]
+}

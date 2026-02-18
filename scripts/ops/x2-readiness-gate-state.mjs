@@ -72,12 +72,33 @@ function pushIssue(issues, code, message) {
   });
 }
 
+function parseStrictDoctorCmd(value) {
+  const normalized = String(value || '').trim();
+  if (!normalized) return null;
+  if (/[\r\n]/u.test(normalized)) return null;
+  if (/[|&;<>()$`]/u.test(normalized)) return null;
+
+  const parts = normalized.split(/\s+/u).filter((part) => part.length > 0);
+  if (parts.length === 0) return null;
+  return {
+    cmd: parts[0],
+    args: parts.slice(1),
+  };
+}
+
 function runStrictDoctorStrict(repoRoot, strictDoctorCmd = '') {
   if (strictDoctorCmd) {
-    const result = spawnSync(strictDoctorCmd, {
+    const parsed = parseStrictDoctorCmd(strictDoctorCmd);
+    if (!parsed) {
+      return {
+        ok: false,
+        status: 1,
+      };
+    }
+
+    const result = spawnSync(parsed.cmd, parsed.args, {
       cwd: repoRoot,
       encoding: 'utf8',
-      shell: true,
       env: {
         ...process.env,
         FORCE_COLOR: '0',

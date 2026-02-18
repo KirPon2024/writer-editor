@@ -259,6 +259,13 @@
       "approvedBy": "ticket:TZ-24E-P1-AUTOMATION-HANDOFF-MINIMAL-CLICKS-003",
       "approvedAtUtc": "2026-02-18T12:11:50.000Z",
       "rationale": "Approve OPS-only automation handoff policy/profile update for HUMAN_ACTION_REQUIRED minimal-click resume contract."
+    },
+    {
+      "filePath": "scripts/ops/x2-readiness-gate-state.mjs",
+      "sha256": "28279b8bf99c56cd4184a3ad96109c67014f14aca184898f052823b6c66ba1e8",
+      "approvedBy": "ticket:TZ-24E-P1-CI-OPS-INJECTION-HARDENING-DISCOVERY-004",
+      "approvedAtUtc": "2026-02-18T12:26:34.000Z",
+      "rationale": "Approve minimal CI/OPS injection hardening in x2 readiness gate command execution path."
     }
   ]
 }

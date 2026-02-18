@@ -93,13 +93,6 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "e288f855be5b05f27471cc0e0c6dad1b52250af997906fea9141d1333d28ef20",
-      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
-      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
-      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
-    },
-    {
       "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
       "sha256": "30e4d5321947f954b15f21321ab3a446ad9a1cbc916ff352b543f66935fbb23a",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
@@ -137,13 +130,6 @@
     {
       "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
       "sha256": "17cadb80e064210aa414786183f3f504e7a8098273c57138e111fc340344e9b6",
-      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
-      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
-      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
-    },
-    {
-      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "a9fd6631d94cae0432e0d3984ef9fe381fc3b0e4de652803c577c0c13bd9b775",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."

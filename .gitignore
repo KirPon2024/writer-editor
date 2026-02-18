@@ -11,3 +11,5 @@ artifacts/sector-u-run/**
 
 # M1: allow pinning renderer bundle checksum
 !dist/renderer/editor.bundle.sha256
+# codex-run ephemeral resume snapshots
+docs/OPS/CACHE/codex-run/

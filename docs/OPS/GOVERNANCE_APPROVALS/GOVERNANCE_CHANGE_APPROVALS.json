@@ -315,6 +315,13 @@
       "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-A",
       "approvedAtUtc": "2026-02-18T17:06:00.000Z",
       "rationale": "Register dependency risk SSOT with reachable high-severity triage and governance tracking for Ticket A."
+    },
+    {
+      "filePath": "scripts/ops/codex-run.mjs",
+      "sha256": "3bb9855519607d9baf9951812788eff4a70f4f6aa828b6f4c4ee894fbfc1b8ca",
+      "approvedBy": "ticket:TZ-RUNNER-PR-MERGE-01",
+      "approvedAtUtc": "2026-02-18T21:04:20.000Z",
+      "rationale": "Add PR merge/resume capability to codex-run single-entry runner (steps 3-10, anti-swap, scope-proof)."
     }
   ]
 }

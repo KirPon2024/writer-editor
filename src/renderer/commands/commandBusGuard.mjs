@@ -1,3 +1,5 @@
+import { resolveCommandId } from './commandNamespaceCanon.mjs';
+
 export const COMMAND_BUS_ROUTE = 'command.bus';
 
 export const REQUIRED_BYPASS_SCENARIO_IDS = Object.freeze([
@@ -72,6 +74,23 @@ export async function runCommandThroughBus(runCommand, commandId, payload = {}, 
   if (!routeState.ok) {
     return makeBypassError(commandId, routeState.route, routeState.scenarioId);
   }
-  return runCommand(commandId, payload);
+  const resolved = resolveCommandId(commandId, {
+    mode: options.mode,
+    today: options.today,
+    promotionMode: options.promotionMode,
+  });
+  if (!resolved.ok) {
+    return {
+      ok: false,
+      error: {
+        code: resolved.code || 'E_COMMAND_NAMESPACE_UNKNOWN',
+        op: typeof commandId === 'string' && commandId.length > 0 ? commandId : String(commandId || ''),
+        reason: resolved.reason || 'COMMAND_NAMESPACE_RESOLUTION_FAILED',
+        details: resolved.details && typeof resolved.details === 'object' && !Array.isArray(resolved.details)
+          ? { ...resolved.details }
+          : undefined,
+      },
+    };
+  }
+  return runCommand(resolved.commandId, payload);
 }
-

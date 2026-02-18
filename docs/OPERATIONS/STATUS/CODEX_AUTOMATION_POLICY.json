@@ -76,6 +76,15 @@
           "repository policy requires merge via UI interaction"
         ],
         "classifyAs": "HUMAN_ACTION_REQUIRED"
+      },
+      {
+        "id": "WORKFLOW_SCOPE_MISSING_ON_PUSH",
+        "detectIfAny": [
+          "refusing to allow a personal access token to create or update workflow",
+          "without 'workflow' scope",
+          "PUSH_BLOCKED_MISSING_WORKFLOW_SCOPE"
+        ],
+        "classifyAs": "HUMAN_ACTION_REQUIRED"
       }
     ],
     "handoffPayloadSchema": {
@@ -196,6 +205,15 @@
       }
     ]
   },
+  "autofixHooks": {
+    "githubWorkflowScopePush": {
+      "id": "GITHUB_WORKFLOW_SCOPE_PUSH_AUTOFIX",
+      "triggerFailReason": "PUSH_BLOCKED_MISSING_WORKFLOW_SCOPE",
+      "scriptPath": "scripts/ops/github-credential-autofix.mjs",
+      "entryCommand": "node scripts/ops/github-credential-autofix.mjs --json --resume-from-step STEP_08_PUSH",
+      "maxAutoRemediationAttempts": 3
+    }
+  },
   "runnerProfileRef": "docs/OPERATIONS/STATUS/CODEX_RUNNER_PROFILE.md",
   "failReasonRegistryRef": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json#/failReasons",
   "evidence": {
@@ -213,6 +231,7 @@
     "ALLOWLIST_BREACH",
     "PROMPT_NOT_ELIMINATED",
     "DANGEROUS_OP_BLOCKED",
-    "EVIDENCE_MISSING"
+    "EVIDENCE_MISSING",
+    "PUSH_BLOCKED_MISSING_WORKFLOW_SCOPE"
   ]
 }

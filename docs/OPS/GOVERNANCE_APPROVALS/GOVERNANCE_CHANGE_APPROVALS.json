@@ -322,6 +322,13 @@
       "approvedBy": "ticket:TZ-AUTOCYCLE-01",
       "approvedAtUtc": "2026-02-18T21:29:44.000Z",
       "rationale": "Enable bounded 3×MAIN_TZ auto-cycle canon (experimental). No product semantics."
+    },
+    {
+      "filePath": "scripts/ops/codex-run.mjs",
+      "sha256": "89dd469785d71457bdda6c6f4d861e184e9e3caee46fbcf6f8e878d2f68e56f9",
+      "approvedBy": "ticket:TZ-RUNNER-MAIN-RESTORE-01",
+      "approvedAtUtc": "2026-02-18T21:39:42.000Z",
+      "rationale": "Restore canonical single-entry runner on main; unblock AUTOCYCLE execution."
     }
   ]
 }

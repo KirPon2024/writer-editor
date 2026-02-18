@@ -53,16 +53,15 @@ test('transition-exit G0.2: required failSignals are registered with determinist
   assert.match(String(commandSurface.negativeTestRef || ''), /^test\/contracts\/command-surface-bus-only\.contract\.test\.js#/u);
 });
 
-test('transition-exit G0.2: sequence-order drift is not registered as blocking failSignal', () => {
+test('transition-exit G0.2: sequence-order drift is machine-bound with release/promotion blocking', () => {
   const registry = readJson(FAILSIGNAL_REGISTRY_PATH);
   const byCode = indexBy(registry.failSignals || [], 'code');
   const sequenceOrder = byCode.get('E_SEQUENCE_ORDER_DRIFT');
-  if (!sequenceOrder) {
-    assert.ok(true);
-    return;
-  }
-
-  assert.equal(sequenceOrder.blocking, false);
+  assert.ok(sequenceOrder, 'E_SEQUENCE_ORDER_DRIFT must be registered');
+  assert.ok(sequenceOrder.modeMatrix && typeof sequenceOrder.modeMatrix === 'object');
+  assert.equal(sequenceOrder.modeMatrix.prCore, 'advisory');
+  assert.equal(sequenceOrder.modeMatrix.release, 'blocking');
+  assert.equal(sequenceOrder.modeMatrix.promotion, 'blocking');
 });
 
 test('transition-exit token wiring: stage/prompt/bus tokens are present with sourceBinding and failSignal binding', () => {

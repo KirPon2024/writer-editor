@@ -82,7 +82,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Duplicate failSignal code in registry breaks deterministic resolver behavior.",
-      "precedence": 10,
+      "precedence": 8,
       "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#duplicate-code"
     },
     {
@@ -90,7 +90,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Every failSignal must be covered by an explicit negative contract scenario.",
-      "precedence": 20,
+      "precedence": 9,
       "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#missing-negative-test-ref"
     },
     {
@@ -98,7 +98,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Precedence metadata must remain well-formed and deterministic.",
-      "precedence": 30,
+      "precedence": 10,
       "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#precedence-invalid"
     },
     {
@@ -106,8 +106,21 @@
       "blocking": true,
       "tier": "release",
       "rationale": "FailSignal registry shape and metadata must stay deterministic and machine-verifiable.",
-      "precedence": 40,
+      "precedence": 11,
       "negativeTestRef": "test/contracts/failsignal-registry.contract.test.js#schema-invalid"
+    },
+    {
+      "code": "E_LAW_PATH_DRIFT",
+      "blocking": false,
+      "tier": "release",
+      "modeMatrix": {
+        "prCore": "advisory",
+        "release": "advisory",
+        "promotion": "blocking"
+      },
+      "rationale": "LAW path canon drift is advisory in PR/release and promotion-blocking to keep all LAW-bound checks pinned to a single SSOT path without alternate routing.",
+      "precedence": 12,
+      "negativeTestRef": "test/contracts/law-path-canon-no-fallback.contract.test.js#promotion-mode-broken-law-path-fails-while-release-warns"
     },
     {
       "code": "E_MENU_ARTIFACT_TAMPER_OR_DRIFT",
@@ -119,7 +132,7 @@
         "promotion": "blocking"
       },
       "rationale": "Menu artifact hash/lock mismatch is advisory in PR/release but promotion-blocking to prevent shipping tampered or drifted menu artifacts.",
-      "precedence": 41,
+      "precedence": 13,
       "negativeTestRef": "test/contracts/menu-artifact-export-and-runtime-verify.contract.test.js#tamper-artifact-release-warns-and-promotion-fails"
     },
     {
@@ -132,21 +145,8 @@
         "promotion": "blocking"
       },
       "rationale": "Menu normalization is advisory in PR/release but promotion-blocking when deterministic canonical output cannot be produced.",
-      "precedence": 42,
+      "precedence": 14,
       "negativeTestRef": "test/contracts/menu-config-normalization.contract.test.js#negative-string-enabledwhen-is-rejected"
-    },
-    {
-      "code": "E_MENU_SNAPSHOT_MISMATCH",
-      "blocking": false,
-      "tier": "release",
-      "modeMatrix": {
-        "prCore": "advisory",
-        "release": "advisory",
-        "promotion": "blocking"
-      },
-      "rationale": "Menu snapshot mismatch is advisory in PR/release but promotion-blocking to keep shipped menu evidence tied to a frozen deterministic snapshot.",
-      "precedence": 43,
-      "negativeTestRef": "test/contracts/menu-snapshot-freeze-promotion.contract.test.js#snapshot-check-release-warns-and-promotion-fails-on-mismatch"
     },
     {
       "code": "E_MENU_OVERLAY_STACK_DRIFT",
@@ -158,15 +158,41 @@
         "promotion": "blocking"
       },
       "rationale": "Overlay stack ordering and merge determinism remain advisory in PR/release but promotion-blocking to prevent menu drift across overlay layers.",
-      "precedence": 44,
+      "precedence": 15,
       "negativeTestRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#mode-semantics-release-warn-and-promotion-fail-on-violations"
+    },
+    {
+      "code": "E_MENU_RUNTIME_ARTIFACT_DIVERGENCE",
+      "blocking": false,
+      "tier": "release",
+      "modeMatrix": {
+        "prCore": "advisory",
+        "release": "advisory",
+        "promotion": "blocking"
+      },
+      "rationale": "Runtime menu must consume normalized artifact deterministically; runtime/ops divergence remains advisory in PR/release and blocks promotion.",
+      "precedence": 16,
+      "negativeTestRef": "test/contracts/menu-runtime-artifact-first-and-equivalence.contract.test.js#runtime-equivalent-check-release-warns-and-promotion-fails-on-mismatch"
+    },
+    {
+      "code": "E_MENU_SNAPSHOT_MISMATCH",
+      "blocking": false,
+      "tier": "release",
+      "modeMatrix": {
+        "prCore": "advisory",
+        "release": "advisory",
+        "promotion": "blocking"
+      },
+      "rationale": "Menu snapshot mismatch is advisory in PR/release but promotion-blocking to keep shipped menu evidence tied to a frozen deterministic snapshot.",
+      "precedence": 17,
+      "negativeTestRef": "test/contracts/menu-snapshot-freeze-promotion.contract.test.js#snapshot-check-release-warns-and-promotion-fails-on-mismatch"
     },
     {
       "code": "E_PATH_BOUNDARY_VIOLATION",
       "blocking": true,
       "tier": "release",
       "rationale": "Path payloads violating centralized boundary rules can bypass filesystem safety and must fail.",
-      "precedence": 45,
+      "precedence": 18,
       "negativeTestRef": "test/contracts/path-boundary-guard.contract.test.js#parent-segment-negative"
     },
     {
@@ -179,69 +205,8 @@
         "promotion": "blocking"
       },
       "rationale": "Perf baseline delta breach is advisory for release but must block promotion to prevent stale performance regressions.",
-      "precedence": 46,
+      "precedence": 19,
       "negativeTestRef": "test/contracts/perf-ci-promotion-mode.contract.test.js#promotion-mode-regression-breach"
-    },
-    {
-      "code": "E_PRE_UI_CONTOUR_DIRTY_WORKTREE",
-      "blocking": false,
-      "tier": "release",
-      "rationale": "Pre-UI contour close token is advisory by default and should fail when worktree is not clean.",
-      "precedence": 47,
-      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#dirty-worktree-negative"
-    },
-    {
-      "code": "E_PRE_UI_CONTOUR_HEAD_ORIGIN_MISMATCH",
-      "blocking": false,
-      "tier": "release",
-      "rationale": "Pre-UI contour close token is advisory by default and should fail when head/origin pointers diverge.",
-      "precedence": 48,
-      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#head-origin-mismatch-negative"
-    },
-    {
-      "code": "E_PRE_UI_CONTOUR_RECORD_INVALID",
-      "blocking": false,
-      "tier": "release",
-      "rationale": "Contour close record must match schema and required metadata before it can be used as evidence.",
-      "precedence": 49,
-      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#invalid-shape-negative"
-    },
-    {
-      "code": "E_PRE_UI_CONTOUR_RECORD_MISSING",
-      "blocking": false,
-      "tier": "release",
-      "rationale": "Contour close record is missing so closure evidence cannot be established.",
-      "precedence": 50,
-      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#missing-record-negative"
-    },
-    {
-      "code": "E_PRE_UI_CONTOUR_REQUIRED_TOKENS_FAIL",
-      "blocking": false,
-      "tier": "release",
-      "rationale": "Pre-UI contour required token set exists but one or more required checks are red.",
-      "precedence": 51,
-      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#required-token-fail-negative"
-    },
-    {
-      "code": "E_PRE_UI_CONTOUR_REQUIRED_TOKENS_MISSING",
-      "blocking": false,
-      "tier": "release",
-      "rationale": "Pre-UI contour required token declaration references missing token IDs.",
-      "precedence": 52,
-      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#required-token-missing-negative"
-    },
-    {
-      "code": "E_RELEASE_CANDIDATE_DRIFT",
-      "blocking": false,
-      "tier": "release",
-      "modeMatrix": {
-        "prCore": "advisory",
-        "release": "advisory",
-        "promotion": "blocking"
-      },
-      "rationale": "Release-candidate lock drift is advisory for PR/release checks and promotion-blocking for canonical release cuts.",
-      "precedence": 53,
-      "negativeTestRef": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js#promotion-mode-mismatch-fails-while-release-mode-mismatch-warns"
     },
     {
       "code": "E_PLUGIN_MENU_OVERLAY_POLICY_VIOLATION",
@@ -253,11 +218,67 @@
         "promotion": "blocking"
       },
       "rationale": "Plugin menu overlays are data-only by policy; executable or non-canonical overlay payloads are advisory in release and promotion-blocking.",
-      "precedence": 54,
+      "precedence": 20,
       "negativeTestRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#plugin-data-only-policy-negative-pack"
     },
     {
-      "code": "E_MENU_RUNTIME_ARTIFACT_DIVERGENCE",
+      "code": "E_PRE_UI_CONTOUR_DIRTY_WORKTREE",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Pre-UI contour close token is advisory by default and should fail when worktree is not clean.",
+      "precedence": 21,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#dirty-worktree-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_HEAD_ORIGIN_MISMATCH",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Pre-UI contour close token is advisory by default and should fail when head/origin pointers diverge.",
+      "precedence": 22,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#head-origin-mismatch-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_RECORD_INVALID",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Contour close record must match schema and required metadata before it can be used as evidence.",
+      "precedence": 23,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#invalid-shape-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_RECORD_MISSING",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Contour close record is missing so closure evidence cannot be established.",
+      "precedence": 24,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#missing-record-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_REQUIRED_TOKENS_FAIL",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Pre-UI contour required token set exists but one or more required checks are red.",
+      "precedence": 25,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#required-token-fail-negative"
+    },
+    {
+      "code": "E_PRE_UI_CONTOUR_REQUIRED_TOKENS_MISSING",
+      "blocking": false,
+      "tier": "release",
+      "rationale": "Pre-UI contour required token declaration references missing token IDs.",
+      "precedence": 26,
+      "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#required-token-missing-negative"
+    },
+    {
+      "code": "E_PROMPT_LAYER_POLICY_INVALID",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Prompt-layer marker policy must remain single-source and forbid repo-layer emission to prevent false-green execution provenance.",
+      "precedence": 27,
+      "negativeTestRef": "test/contracts/codex-no-repo-prompts.contract.test.js#prompt-layer-outside-run-wave"
+    },
+    {
+      "code": "E_RELEASE_CANDIDATE_DRIFT",
       "blocking": false,
       "tier": "release",
       "modeMatrix": {
@@ -265,32 +286,37 @@
         "release": "advisory",
         "promotion": "blocking"
       },
-      "rationale": "Runtime menu must consume normalized artifact deterministically; runtime/ops divergence remains advisory in PR/release and blocks promotion.",
-      "precedence": 55,
-      "negativeTestRef": "test/contracts/menu-runtime-artifact-first-and-equivalence.contract.test.js#runtime-equivalent-check-release-warns-and-promotion-fails-on-mismatch"
-    },
-    {
-      "code": "E_PROMPT_LAYER_POLICY_INVALID",
-      "blocking": true,
-      "tier": "release",
-      "rationale": "Prompt-layer marker policy must remain single-source and forbid repo-layer emission to prevent false-green execution provenance.",
-      "precedence": 56,
-      "negativeTestRef": "test/contracts/codex-no-repo-prompts.contract.test.js#prompt-layer-outside-run-wave"
+      "rationale": "Release-candidate lock drift is advisory for PR/release checks and promotion-blocking for canonical release cuts.",
+      "precedence": 28,
+      "negativeTestRef": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js#promotion-mode-mismatch-fails-while-release-mode-mismatch-warns"
     },
     {
       "code": "E_SCOPEFLAG_UNKNOWN",
       "blocking": true,
       "tier": "release",
       "rationale": "Unknown scope flag cannot participate in machine stage activation and must fail deterministically.",
-      "precedence": 61,
+      "precedence": 29,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#unknown-scopeflag"
+    },
+    {
+      "code": "E_SEQUENCE_ORDER_DRIFT",
+      "blocking": false,
+      "tier": "release",
+      "modeMatrix": {
+        "prCore": "advisory",
+        "release": "blocking",
+        "promotion": "blocking"
+      },
+      "rationale": "Execution sequence order drift is advisory in PR and blocking for release/promotion to keep LAW A1 machine-bound against canonical SSOT.",
+      "precedence": 30,
+      "negativeTestRef": "test/contracts/execution-sequence-lock.contract.test.js#promotion-mode-drift-fails-while-release-mode-warns"
     },
     {
       "code": "E_STAGE_AXIS_DRIFT",
       "blocking": true,
       "tier": "release",
       "rationale": "Runtime stage axis is locked to X0..X4; any X5+ acceptance in schema, validator, defaults, or contract path is drift.",
-      "precedence": 66,
+      "precedence": 31,
       "negativeTestRef": "test/contracts/menu-config-backcompat.contract.test.js#reject-stage-x5-runtime"
     },
     {
@@ -298,7 +324,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Promotion mode requires metrics evidence for the target stage before stage-gated binding can be trusted.",
-      "precedence": 71,
+      "precedence": 32,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#stage-metrics-missing-promotion"
     },
     {
@@ -306,7 +332,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Promotion mode without a valid promotion record or stage-consistent transition is invalid.",
-      "precedence": 81,
+      "precedence": 33,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#promotion-without-record"
     },
     {
@@ -314,7 +340,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Wave result reuse is allowed only for matching hash with valid TTL to prevent stale-green reuse.",
-      "precedence": 91,
+      "precedence": 34,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#ttl-stale-reuse"
     },
     {
@@ -322,7 +348,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "X3 deterministic recovery smoke proofhook must pass before promotion-tier readiness can be considered green.",
-      "precedence": 101,
+      "precedence": 35,
       "negativeTestRef": "test/contracts/x3-recovery-smoke.contract.test.js#forced-failure"
     }
   ]

@@ -30,11 +30,11 @@ TRANSITION_EXIT: CLOSED (stage_axis_lock, prompt_layer_single_source, command_su
 → `XPLAT_ARCHITECTURE_CONTRACT`
 → `XPLAT_ADAPTERS`
 → `COLLAB_LOCAL_FIRST`
-→ `DERIVED/PRODUCT_EXPANSION`
+→ `DERIVED_PRODUCT_EXPANSION`
 → `PERFORMANCE_HARDENING`
 → `COLLAB_TRANSPORT`
 
-Fail candidate: `E_SEQUENCE_ORDER_DRIFT` (UNREGISTERED -> non-blocking in PR/Release/Promotion until registry binding)
+Fail signal: `E_SEQUENCE_ORDER_DRIFT` (PR/Core advisory; Release/Promotion blocking via registry binding)
 
 #### A1.1) OPS_INTEGRITY_P0 (DEFINITION, BINDING)
 `OPS_INTEGRITY_P0 = { TOKEN_CATALOG_VALID_OK, FAILSIGNAL_REGISTRY_VALID_OK, PROOFHOOK_INTEGRITY_OK, CONFIG_HASH_LOCK_OK, REQUIRED_SET_NO_TARGET_OK, TOKEN_SOURCE_CONFLICT_OK }`
@@ -271,7 +271,7 @@ Network до X4 запрещён:
 | Execution profile invalid | BLOCK | BLOCK | BLOCK |
 | Required drift/target-in-required | BLOCK | BLOCK | BLOCK |
 | Prompt-layer policy invalid | ADVISORY | BLOCK | BLOCK |
-| Sequence order drift (candidate-only, unregistered) | ADVISORY | ADVISORY | ADVISORY |
+| Sequence order drift (machine-bound) | ADVISORY | BLOCK | BLOCK |
 | Runtime wiring before stage | ADVISORY | BLOCK | BLOCK |
 | Stage metrics missing | ADVISORY | ADVISORY | BLOCK |
 | Execution item unowned | ADVISORY | ADVISORY | BLOCK |
@@ -1112,7 +1112,7 @@ status: DRAFT_FOR_ITERATION
 |14|Безопасность/приватность|A6.2, A7, A15, A16|Integrity + proofhook + config lock + no bypass|E_DIRECT_PROTECTED_BRANCH_PUSH, E_MERGE_BYPASS_ATTEMPT, integrity class failSignals|BLK/BLK/BLK|BOUND|
 |15|AI roadmap|A0, A8, A11, A14|Late-stage cloud, no early runtime cloud wiring|E_RUNTIME_WIRING_BEFORE_STAGE|ADV/BLK/BLK|SEMI|
 |16|Платформы/сторы|A9, A11, A12|Stage metrics + hard parity + platform DoD|E_STAGE_METRICS_MISSING, E_STAGE_PROMOTION_INVALID|ADV/ADV/BLK|BOUND|
-|17|Этапы внедрения|A1, A10, A11|Locked order + stage activation + evidence|E_SEQUENCE_ORDER_DRIFT (candidate-only), E_STAGE_PROMOTION_INVALID, E_STAGE_METRICS_MISSING|ADV/BLK/BLK|BOUND|
+|17|Этапы внедрения|A1, A10, A11|Locked order + stage activation + evidence|E_SEQUENCE_ORDER_DRIFT, E_STAGE_PROMOTION_INVALID, E_STAGE_METRICS_MISSING|ADV/BLK/BLK|BOUND|
 |18|Quality system|A5, A6, A7, A17, B4|80/20 blocking + anti-false-green + freshness|E_WAVE_RESULT_STALE, E_BLOCKING_TOKEN_UNBOUND|ADV/BLK/BLK|BOUND|
 |19|Anti-bloat|A5, A6|Process-lean + minimal blocking discipline|E_WAVE_RESULT_STALE (косвенно)|ADV/ADV/ADV|SEMI|
 |20|Pain-to-Strength|A0|Product intent layer|n/a|ADV/ADV/ADV|GAP|
@@ -1616,7 +1616,7 @@ E2E_CRITICAL_USER_PATH_OK ограничивается детерминиров�
 
 1. `ACTIVE_CANON` подтверждён при закрытии P0 pack: stage-axis lock, prompt-layer single-source, bus-only command surface, failSignal/token wiring, dev fast lane.
 2. `E_STAGE_AXIS_DRIFT`, `E_PROMPT_LAYER_POLICY_INVALID`, `E_COMMAND_SURFACE_BYPASS` считаются зарегистрированными machine-bound failSignals.
-3. `E_SEQUENCE_ORDER_DRIFT` остаётся candidate-only и не имеет blocking-эффекта до регистрации в failSignal registry.
+3. `E_SEQUENCE_ORDER_DRIFT` зарегистрирован как machine-bound failSignal с PR advisory и Release/Promotion blocking-семантикой.
 4. SSOT anchor reality контролируется отдельным быстрым контрактом без wave/heavy execution.
 
 ## END PART V — INTEGRATED CORRECTIONS AND CLARIFICATIONS PACK (ADDITIVE, NO-LOSS)

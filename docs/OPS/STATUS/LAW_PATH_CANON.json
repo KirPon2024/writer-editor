@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "lawDocPath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+  "lawDocId": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT",
+  "status": "ACTIVE_CANON",
+  "notes": "Single source of truth for LAW path. No fallbacks allowed in heavy/promotion."
+}

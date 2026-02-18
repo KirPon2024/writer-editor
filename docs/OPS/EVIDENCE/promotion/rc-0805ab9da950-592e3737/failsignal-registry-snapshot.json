@@ -273,15 +273,9 @@
       "code": "E_PROMPT_LAYER_POLICY_INVALID",
       "blocking": true,
       "tier": "release",
-      "modeMatrix": {
-        "prCore": "advisory",
-        "release": "blocking",
-        "promotion": "blocking"
-      },
-      "sourceBinding": "scripts/ops/run-wave.mjs + scripts/contracts/check-codex-prompt-mode.mjs",
       "rationale": "Prompt-layer marker policy must remain single-source and forbid repo-layer emission to prevent false-green execution provenance.",
       "precedence": 27,
-      "negativeTestRef": "test/contracts/prompt-layer-single-source.contract.test.js#promotion-layer-emission-outside-run-wave-is-rejected"
+      "negativeTestRef": "test/contracts/codex-no-repo-prompts.contract.test.js#prompt-layer-outside-run-wave"
     },
     {
       "code": "E_RELEASE_CANDIDATE_DRIFT",
@@ -321,15 +315,9 @@
       "code": "E_STAGE_AXIS_DRIFT",
       "blocking": true,
       "tier": "release",
-      "modeMatrix": {
-        "prCore": "advisory",
-        "release": "blocking",
-        "promotion": "blocking"
-      },
-      "sourceBinding": "src/menu/menu-config.schema.v2.json + src/menu/menu-config-validator.js + src/menu/menu-config.v2.example.json",
       "rationale": "Runtime stage axis is locked to X0..X4; any X5+ acceptance in schema, validator, defaults, or contract path is drift.",
       "precedence": 31,
-      "negativeTestRef": "test/contracts/stage-axis-lock.contract.test.js#stage-x5-is-rejected-by-runtime-validator"
+      "negativeTestRef": "test/contracts/menu-config-backcompat.contract.test.js#reject-stage-x5-runtime"
     },
     {
       "code": "E_STAGE_METRICS_MISSING",

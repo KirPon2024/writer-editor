@@ -508,6 +508,32 @@ function runMenuRuntimeEquivalentGuard(rootDir, isPromotionMode) {
   return result.status ?? 1;
 }
 
+function runLawPathCanonGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/check-law-path-canon.mjs',
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
+function runExecutionSequenceGuard(rootDir, isPromotionMode) {
+  const checkMode = isPromotionMode ? 'promotion' : 'release';
+  const result = spawnSync(
+    process.execPath,
+    [
+      'scripts/ops/check-execution-sequence.mjs',
+      `--mode=${checkMode}`,
+    ],
+    { cwd: rootDir, stdio: 'inherit' },
+  );
+  return result.status ?? 1;
+}
+
 function runReleaseCandidateGuard(rootDir, isPromotionMode) {
   const checkMode = isPromotionMode ? 'promotion' : 'release';
   const result = spawnSync(
@@ -612,6 +638,16 @@ if (testFiles.length === 0) {
     const menuRuntimeEquivalentExit = runMenuRuntimeEquivalentGuard(rootDir, isPromotionMode);
     if (menuRuntimeEquivalentExit !== 0) {
       process.exitCode = menuRuntimeEquivalentExit;
+      return;
+    }
+    const lawPathCanonExit = runLawPathCanonGuard(rootDir, isPromotionMode);
+    if (lawPathCanonExit !== 0) {
+      process.exitCode = lawPathCanonExit;
+      return;
+    }
+    const executionSequenceExit = runExecutionSequenceGuard(rootDir, isPromotionMode);
+    if (executionSequenceExit !== 0) {
+      process.exitCode = executionSequenceExit;
       return;
     }
     const releaseCandidateExit = runReleaseCandidateGuard(rootDir, isPromotionMode);

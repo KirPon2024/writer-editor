@@ -20,7 +20,7 @@
     "perf:baseline:update": "node scripts/perf/perf-baseline.mjs update",
     "perf:baseline:check": "node scripts/perf/perf-baseline.mjs check",
     "test": "npm run -s test:ops && node scripts/run-tests.js",
-    "promotion:check": "node scripts/run-tests.js --mode=promotion",
+    "promotion:check": "npm run -s test:ops && node scripts/run-tests.js --mode=promotion",
     "test:electron": "node scripts/run-tests.js electron",
     "sector:u:run": "node scripts/sector-u-run.mjs",
     "oss:policy": "node scripts/check-no-paid-tiptap.mjs",

@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 
-export const DEFAULT_XPLAT_CONTRACT_PATH = 'docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md';
+export const DEFAULT_XPLAT_CONTRACT_PATH = 'docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md';
 
 const REQUIRED_MARKERS = [
   'SSOT-only',

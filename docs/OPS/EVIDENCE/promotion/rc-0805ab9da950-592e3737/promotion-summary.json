@@ -1,0 +1,20 @@
+{
+  "baseCommitSha": "0805ab9da9508ebb9dcf6196ec634341cab2d73b",
+  "createdAt": "2026-02-18T05:49:23.061Z",
+  "createdByMode": "promotion",
+  "hashes": {
+    "failsignalRegistryHash": "9af1b22b87f604601b38114621995a44ae5e15c3ea9a299197c61e863a5e6448",
+    "menuArtifactHash": "592e373743e1c7561aa2d1b96f0ab9f1bb83f6cb4724b66b8806479fd080b29e",
+    "menuSnapshotHash": "af9f17862173a0315c3ae2a958298add764ca2bdfc1f86f27054b9cdbb8d8e21",
+    "perfBaselineHash": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
+    "requiredTokenSetHash": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
+    "tokenCatalogHash": "439005e6f1134552220b18220cebe748dfa0da979acb14d3f445373d088b4366"
+  },
+  "mode": "promotion",
+  "rcId": "rc-0805ab9da950-592e3737",
+  "releaseCandidateLockMatch": true,
+  "releaseCandidateLockPath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
+  "releaseCandidateLockSha256": "2fcfb31ad5900bc4ba3acfa3a9c1ec9cdf32fb3fa89a5abe2eed92d785d08b25",
+  "schemaVersion": 1,
+  "toolVersion": "release-candidate.v1"
+}

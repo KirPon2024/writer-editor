@@ -1,12 +1,12 @@
 {
-  "rcId": "rc-e4034970c9b3-592e3737",
-  "baseCommitSha": "e4034970c9b33ad79f5f60bef5e1a2a647377bcc",
+  "rcId": "rc-1d2b02762ed2-592e3737",
+  "baseCommitSha": "1d2b02762ed25101abd202c5d60cf08445c28502",
   "menuArtifactHash": "592e373743e1c7561aa2d1b96f0ab9f1bb83f6cb4724b66b8806479fd080b29e",
   "menuSnapshotHash": "af9f17862173a0315c3ae2a958298add764ca2bdfc1f86f27054b9cdbb8d8e21",
   "perfBaselineHash": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
-  "tokenCatalogHash": "8acbdc2c371385b03445d435d7d91b245f8c82897d17b73faa0d2c04da8c6167",
-  "failsignalRegistryHash": "fd0c5b6a4bda9ce09afa89afd29a366af0b785e401a1dea14f26589afcee4e2f",
+  "tokenCatalogHash": "a9fd6631d94cae0432e0d3984ef9fe381fc3b0e4de652803c577c0c13bd9b775",
+  "failsignalRegistryHash": "e288f855be5b05f27471cc0e0c6dad1b52250af997906fea9141d1333d28ef20",
   "requiredTokenSetHash": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
-  "createdAt": "2026-02-18T05:20:11.853Z",
-  "createdByMode": "release"
+  "createdAt": "2026-02-18T07:37:47.395Z",
+  "createdByMode": "promotion"
 }

@@ -294,6 +294,20 @@
       "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
       "approvedAtUtc": "2026-02-18T14:59:18.000Z",
       "rationale": "Approve profile contract update binding push-step autofix hook metadata."
+    },
+    {
+      "filePath": "scripts/ops/path-boundary-guard-state.mjs",
+      "sha256": "95838483e8f47c1fa76ca7c806fd993d029a128604f51bed5871cf5c5432e485",
+      "approvedBy": "ticket:TZ-24E-P1-PATH-BOUNDARY-GUARD-IPC-IO-012",
+      "approvedAtUtc": "2026-02-18T15:22:29.000Z",
+      "rationale": "Approve path-boundary guard wiring state checks and expanded bypass scenario coverage."
+    },
+    {
+      "filePath": "test/contracts/path-boundary-guard.contract.test.js",
+      "sha256": "36fdb675d716090e09bc09ca13832fd84525378924adcb7754bd53639dc4641c",
+      "approvedBy": "ticket:TZ-24E-P1-PATH-BOUNDARY-GUARD-IPC-IO-012",
+      "approvedAtUtc": "2026-02-18T15:22:29.000Z",
+      "rationale": "Approve contract negatives for symlink traversal and unicode path normalization equivalence."
     }
   ]
 }

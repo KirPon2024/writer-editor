@@ -1,11 +1,15 @@
 const path = require('node:path');
+const fs = require('node:fs');
 
 const FAIL_SIGNAL = 'E_PATH_BOUNDARY_VIOLATION';
 const WINDOWS_DRIVE_ABS_RE = /^[a-zA-Z]:\//u;
 const CONTROL_CHAR_RE = /[\u0000-\u001f\u007f]/u;
 
 function normalizeSlashes(value) {
-  return String(value || '').replaceAll('\\', '/').trim();
+  return String(value || '')
+    .normalize('NFC')
+    .replaceAll('\\', '/')
+    .trim();
 }
 
 function hasDangerousPrefix(value) {
@@ -48,6 +52,59 @@ function isAbsolutePath(normalizedPath) {
   return path.posix.isAbsolute(normalizedPath) || WINDOWS_DRIVE_ABS_RE.test(normalizedPath);
 }
 
+function isPathInsideResolved(parentPath, childPath) {
+  const relative = path.relative(parentPath, childPath);
+  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+}
+
+function resolveRealpathOrResolved(targetPath) {
+  try {
+    if (typeof fs.realpathSync.native === 'function') {
+      return fs.realpathSync.native(targetPath);
+    }
+    return fs.realpathSync(targetPath);
+  } catch {
+    return path.resolve(targetPath);
+  }
+}
+
+function resolveExistingProbePath(targetPath) {
+  let probe = path.resolve(targetPath);
+  while (!fs.existsSync(probe)) {
+    const parent = path.dirname(probe);
+    if (parent === probe) break;
+    probe = parent;
+  }
+  return probe;
+}
+
+function resolvePathAgainstRoot(normalizedPath, rootPath) {
+  if (isAbsolutePath(normalizedPath)) {
+    return path.resolve(normalizedPath);
+  }
+  return path.resolve(rootPath, normalizedPath);
+}
+
+function isPathInsideBoundary(parentPath, childPath, options = {}) {
+  if (typeof parentPath !== 'string' || !parentPath.trim()) return false;
+  if (typeof childPath !== 'string' || !childPath.trim()) return false;
+
+  const resolvedParent = path.resolve(parentPath);
+  const resolvedChild = path.resolve(childPath);
+  if (!isPathInsideResolved(resolvedParent, resolvedChild)) {
+    return false;
+  }
+
+  if (options.resolveSymlinks !== true) {
+    return true;
+  }
+
+  const parentReal = resolveRealpathOrResolved(resolvedParent);
+  const childProbe = resolveExistingProbePath(resolvedChild);
+  const childReal = resolveRealpathOrResolved(childProbe);
+  return isPathInsideResolved(parentReal, childReal);
+}
+
 function normalizeSafePath(value) {
   const normalized = path.posix.normalize(value);
   if (!normalized || normalized === '.' || normalized === '/') return '';
@@ -75,6 +132,34 @@ function validatePathBoundary(inputPath, options = {}) {
   }
 
   return pass(inputPath, normalizedPath);
+}
+
+function validatePathWithinRoot(inputPath, rootPath, options = {}) {
+  if (typeof rootPath !== 'string' || !rootPath.trim()) {
+    return fail('ROOT_PATH_INVALID', inputPath);
+  }
+
+  const boundaryState = validatePathBoundary(inputPath, options);
+  if (!boundaryState.ok) {
+    return boundaryState;
+  }
+
+  const resolvedRootPath = path.resolve(rootPath);
+  const resolvedPath = resolvePathAgainstRoot(boundaryState.normalizedPath, resolvedRootPath);
+
+  if (!isPathInsideBoundary(resolvedRootPath, resolvedPath, { resolveSymlinks: false })) {
+    return fail('PATH_OUTSIDE_ROOT', inputPath, boundaryState.normalizedPath);
+  }
+  if (options.resolveSymlinks !== false
+    && !isPathInsideBoundary(resolvedRootPath, resolvedPath, { resolveSymlinks: true })) {
+    return fail('PATH_SYMLINK_OUTSIDE_ROOT', inputPath, boundaryState.normalizedPath);
+  }
+
+  return {
+    ...pass(inputPath, boundaryState.normalizedPath),
+    resolvedPath,
+    resolvedRootPath,
+  };
 }
 
 function sanitizePathFields(payload, pathFieldNames, options = {}) {
@@ -118,9 +203,52 @@ function sanitizePathFields(payload, pathFieldNames, options = {}) {
   };
 }
 
+function sanitizePathFieldsWithinRoot(payload, pathFieldNames, rootPath, options = {}) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return {
+      ok: false,
+      failSignal: FAIL_SIGNAL,
+      failReason: 'PAYLOAD_INVALID',
+      payload: null,
+      field: '',
+    };
+  }
+
+  const fieldNames = Array.isArray(pathFieldNames) ? pathFieldNames : [];
+  const nextPayload = { ...payload };
+  for (const fieldName of fieldNames) {
+    if (!Object.prototype.hasOwnProperty.call(nextPayload, fieldName)) continue;
+    const fieldValue = nextPayload[fieldName];
+    if (typeof fieldValue !== 'string' || !fieldValue.trim()) continue;
+    const state = validatePathWithinRoot(fieldValue, rootPath, options);
+    if (!state.ok) {
+      return {
+        ok: false,
+        failSignal: FAIL_SIGNAL,
+        failReason: state.failReason,
+        payload: null,
+        field: fieldName,
+        normalizedPath: state.normalizedPath,
+      };
+    }
+    nextPayload[fieldName] = state.resolvedPath;
+  }
+
+  return {
+    ok: true,
+    failSignal: '',
+    failReason: '',
+    payload: nextPayload,
+    field: '',
+    normalizedPath: '',
+  };
+}
+
 module.exports = {
   FAIL_SIGNAL,
+  isPathInsideBoundary,
   sanitizePathFields,
+  sanitizePathFieldsWithinRoot,
+  validatePathWithinRoot,
   validatePathBoundary,
 };
-

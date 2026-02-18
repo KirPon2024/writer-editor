@@ -9,7 +9,11 @@ const { pathToFileURL } = require('url');
 const fileManager = require('./utils/fileManager');
 const backupManager = require('./utils/backupManager');
 const { hasDirectoryContent, copyDirectoryContents } = require('./utils/fsHelpers');
-const { sanitizePathFields } = require('./core/io/path-boundary');
+const {
+  isPathInsideBoundary,
+  sanitizePathFields,
+  sanitizePathFieldsWithinRoot,
+} = require('./core/io/path-boundary');
 
 const launchT0 = performance.now();
 let mainWindow;
@@ -1158,9 +1162,7 @@ function formatPrefixedName(baseName, index) {
 }
 
 function isPathInside(parentPath, childPath) {
-  const parent = path.resolve(parentPath);
-  const child = path.resolve(childPath);
-  return child === parent || child.startsWith(`${parent}${path.sep}`);
+  return isPathInsideBoundary(parentPath, childPath, { resolveSymlinks: false });
 }
 
 // Проверка существования файла
@@ -1830,7 +1832,11 @@ ipcMain.handle('ui:open-document', async (_, payload) => {
     return { ok: false, error: 'No active window' };
   }
 
-  const pathGuard = sanitizePathFields(payload, ['path'], { mode: 'any' });
+  const projectRoot = getProjectRootPath();
+  const pathGuard = sanitizePathFieldsWithinRoot(payload, ['path'], projectRoot, {
+    mode: 'any',
+    resolveSymlinks: true,
+  });
   if (!pathGuard.ok || !pathGuard.payload) {
     return {
       ok: false,
@@ -1845,11 +1851,6 @@ ipcMain.handle('ui:open-document', async (_, payload) => {
   const filePath = safePayload.path;
   if (typeof filePath !== 'string' || !filePath.trim()) {
     return { ok: false, error: 'Invalid file path' };
-  }
-
-  const projectRoot = getProjectRootPath();
-  if (!isPathInside(projectRoot, filePath)) {
-    return { ok: false, error: 'Path outside project' };
   }
 
   const canProceed = await confirmDiscardChanges();
@@ -1906,7 +1907,11 @@ ipcMain.handle('ui:open-document', async (_, payload) => {
 });
 
 ipcMain.handle('ui:create-node', async (_, payload) => {
-  const pathGuard = sanitizePathFields(payload, ['parentPath'], { mode: 'any' });
+  const projectRoot = getProjectRootPath();
+  const pathGuard = sanitizePathFieldsWithinRoot(payload, ['parentPath'], projectRoot, {
+    mode: 'any',
+    resolveSymlinks: true,
+  });
   if (!pathGuard.ok || !pathGuard.payload) {
     return {
       ok: false,
@@ -1925,11 +1930,6 @@ ipcMain.handle('ui:create-node', async (_, payload) => {
   const kind = safePayload.kind;
   const name = typeof safePayload.name === 'string' ? safePayload.name : '';
   const safeName = sanitizeFilename(name);
-  const projectRoot = getProjectRootPath();
-
-  if (!isPathInside(projectRoot, parentPath)) {
-    return { ok: false, error: 'Path outside project' };
-  }
 
   const createWithPrefix = async (baseName, isFile) => {
     const entries = await readDirectoryEntries(parentPath);
@@ -1991,7 +1991,11 @@ ipcMain.handle('ui:create-node', async (_, payload) => {
 });
 
 ipcMain.handle('ui:rename-node', async (_, payload) => {
-  const pathGuard = sanitizePathFields(payload, ['path'], { mode: 'any' });
+  const projectRoot = getProjectRootPath();
+  const pathGuard = sanitizePathFieldsWithinRoot(payload, ['path'], projectRoot, {
+    mode: 'any',
+    resolveSymlinks: true,
+  });
   if (!pathGuard.ok || !pathGuard.payload) {
     return {
       ok: false,
@@ -2010,11 +2014,6 @@ ipcMain.handle('ui:rename-node', async (_, payload) => {
   const newName = sanitizeFilename(safePayload.name);
   if (!newName) {
     return { ok: false, error: 'Empty name' };
-  }
-
-  const projectRoot = getProjectRootPath();
-  if (!isPathInside(projectRoot, nodePath)) {
-    return { ok: false, error: 'Path outside project' };
   }
 
   const baseName = path.basename(nodePath);
@@ -2045,7 +2044,11 @@ ipcMain.handle('ui:rename-node', async (_, payload) => {
 });
 
 ipcMain.handle('ui:delete-node', async (_, payload) => {
-  const pathGuard = sanitizePathFields(payload, ['path'], { mode: 'any' });
+  const projectRoot = getProjectRootPath();
+  const pathGuard = sanitizePathFieldsWithinRoot(payload, ['path'], projectRoot, {
+    mode: 'any',
+    resolveSymlinks: true,
+  });
   if (!pathGuard.ok || !pathGuard.payload) {
     return {
       ok: false,
@@ -2061,10 +2064,6 @@ ipcMain.handle('ui:delete-node', async (_, payload) => {
   }
 
   const nodePath = safePayload.path;
-  const projectRoot = getProjectRootPath();
-  if (!isPathInside(projectRoot, nodePath)) {
-    return { ok: false, error: 'Path outside project' };
-  }
 
   const trashPath = getProjectSectionPath('trash');
   await fs.mkdir(trashPath, { recursive: true });
@@ -2094,7 +2093,11 @@ ipcMain.handle('ui:delete-node', async (_, payload) => {
 });
 
 ipcMain.handle('ui:reorder-node', async (_, payload) => {
-  const pathGuard = sanitizePathFields(payload, ['path'], { mode: 'any' });
+  const projectRoot = getProjectRootPath();
+  const pathGuard = sanitizePathFieldsWithinRoot(payload, ['path'], projectRoot, {
+    mode: 'any',
+    resolveSymlinks: true,
+  });
   if (!pathGuard.ok || !pathGuard.payload) {
     return {
       ok: false,
@@ -2111,12 +2114,7 @@ ipcMain.handle('ui:reorder-node', async (_, payload) => {
 
   const nodePath = safePayload.path;
   const direction = safePayload.direction;
-  const projectRoot = getProjectRootPath();
   const romanRoot = getProjectSectionPath('roman');
-
-  if (!isPathInside(projectRoot, nodePath)) {
-    return { ok: false, error: 'Path outside project' };
-  }
 
   if (!isPathInside(romanRoot, nodePath)) {
     return { ok: false, error: 'Reorder only supported in roman' };

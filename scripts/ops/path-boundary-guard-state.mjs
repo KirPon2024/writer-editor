@@ -16,13 +16,24 @@ const REQUIRED_FILES = Object.freeze([
 
 const REQUIRED_MAIN_MARKERS = Object.freeze([
   "require('./core/io/path-boundary')",
+  'sanitizePathFieldsWithinRoot(',
   'sanitizePathFields(',
+  'isPathInsideBoundary(',
   'E_PATH_BOUNDARY_VIOLATION',
   "ipcMain.handle('ui:open-document'",
   "ipcMain.handle('ui:create-node'",
   "ipcMain.handle('ui:rename-node'",
   "ipcMain.handle('ui:delete-node'",
   "ipcMain.handle('ui:reorder-node'",
+]);
+
+const REQUIRED_GUARD_MARKERS = Object.freeze([
+  'function validatePathBoundary(',
+  'function isPathInsideBoundary(',
+  'function validatePathWithinRoot(',
+  'function sanitizePathFieldsWithinRoot(',
+  '.normalize(\'NFC\')',
+  'PATH_SYMLINK_OUTSIDE_ROOT',
 ]);
 
 const REQUIRED_MARKDOWN_MARKERS = Object.freeze([
@@ -38,6 +49,8 @@ const REQUIRED_TEST_SCENARIOS = Object.freeze([
   'unc-path-negative',
   'file-scheme-negative',
   'nul-byte-negative',
+  'symlink-traversal-negative',
+  'unicode-normalization-equivalent',
 ]);
 
 function isObjectRecord(value) {
@@ -74,24 +87,29 @@ export function evaluatePathBoundaryGuardState(input = {}) {
   const contractTestPath = String(input.contractTestPath || DEFAULT_CONTRACT_TEST_PATH).trim();
   const missingFiles = REQUIRED_FILES.filter((filePath) => !fs.existsSync(filePath)).sort((a, b) => a.localeCompare(b));
   const mainText = typeof input.mainText === 'string' ? input.mainText : readText('src/main.js');
+  const guardText = typeof input.guardText === 'string' ? input.guardText : readText('src/core/io/path-boundary.js');
   const markdownText = typeof input.markdownText === 'string'
     ? input.markdownText
     : readText('src/io/markdown/index.mjs');
   const testText = typeof input.testText === 'string' ? input.testText : readText(contractTestPath);
 
   const missingMainMarkers = collectMissingMarkers(mainText, REQUIRED_MAIN_MARKERS);
+  const missingGuardMarkers = collectMissingMarkers(guardText, REQUIRED_GUARD_MARKERS);
   const missingMarkdownMarkers = collectMissingMarkers(markdownText, REQUIRED_MARKDOWN_MARKERS);
   const missingTestScenarios = collectMissingMarkers(testText, REQUIRED_TEST_SCENARIOS);
 
   const ok = missingFiles.length === 0
     && missingMainMarkers.length === 0
+    && missingGuardMarkers.length === 0
     && missingMarkdownMarkers.length === 0
     && missingTestScenarios.length === 0;
 
   let failReason = '';
   if (!ok) {
     if (missingFiles.length > 0) failReason = 'PATH_BOUNDARY_FILES_MISSING';
-    else if (missingMainMarkers.length > 0 || missingMarkdownMarkers.length > 0) failReason = 'PATH_BOUNDARY_GUARD_NOT_WIRED';
+    else if (missingMainMarkers.length > 0 || missingGuardMarkers.length > 0 || missingMarkdownMarkers.length > 0) {
+      failReason = 'PATH_BOUNDARY_GUARD_NOT_WIRED';
+    }
     else failReason = 'PATH_BOUNDARY_NEGATIVE_TESTS_MISSING';
   }
 
@@ -103,6 +121,7 @@ export function evaluatePathBoundaryGuardState(input = {}) {
     contractTestPath,
     missingFiles,
     missingMainMarkers,
+    missingGuardMarkers,
     missingMarkdownMarkers,
     missingTestScenarios,
     requiredTestScenarios: [...REQUIRED_TEST_SCENARIOS],
@@ -132,6 +151,7 @@ function printHuman(state) {
   console.log(`PATH_BOUNDARY_CONTRACT_TEST_PATH=${state.contractTestPath}`);
   console.log(`PATH_BOUNDARY_MISSING_FILES=${JSON.stringify(state.missingFiles)}`);
   console.log(`PATH_BOUNDARY_MISSING_MAIN_MARKERS=${JSON.stringify(state.missingMainMarkers)}`);
+  console.log(`PATH_BOUNDARY_MISSING_GUARD_MARKERS=${JSON.stringify(state.missingGuardMarkers)}`);
   console.log(`PATH_BOUNDARY_MISSING_MARKDOWN_MARKERS=${JSON.stringify(state.missingMarkdownMarkers)}`);
   console.log(`PATH_BOUNDARY_MISSING_TEST_SCENARIOS=${JSON.stringify(state.missingTestScenarios)}`);
 }
@@ -153,4 +173,3 @@ const selfPath = fileURLToPath(import.meta.url);
 if (process.argv[1] && path.resolve(process.argv[1]) === selfPath) {
   main();
 }
-

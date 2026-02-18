@@ -93,13 +93,6 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "e288f855be5b05f27471cc0e0c6dad1b52250af997906fea9141d1333d28ef20",
-      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
-      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
-      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
-    },
-    {
       "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
       "sha256": "30e4d5321947f954b15f21321ab3a446ad9a1cbc916ff352b543f66935fbb23a",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
@@ -137,13 +130,6 @@
     {
       "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
       "sha256": "17cadb80e064210aa414786183f3f504e7a8098273c57138e111fc340344e9b6",
-      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
-      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
-      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
-    },
-    {
-      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "a9fd6631d94cae0432e0d3984ef9fe381fc3b0e4de652803c577c0c13bd9b775",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
@@ -245,6 +231,20 @@
       "approvedBy": "ticket:TZ-24E-P1-DEBT-QUEUE-SSOT-BOOTSTRAP-001",
       "approvedAtUtc": "2026-02-18T11:48:40.000Z",
       "rationale": "Approve SSOT bootstrap for P1 debt queue registry (docs/OPS-only)."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
+      "sha256": "f8213fcb64925812a35738612e85ce3616264a5680ad13f671280f3093ef77a6",
+      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
+      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
+      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
+    },
+    {
+      "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
+      "sha256": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
+      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
+      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
+      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
     }
   ]
 }

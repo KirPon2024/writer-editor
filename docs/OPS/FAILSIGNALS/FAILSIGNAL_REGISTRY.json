@@ -2,6 +2,14 @@
   "schemaVersion": 1,
   "failSignals": [
     {
+      "code": "E_ATTESTATION_SIGNATURE_INVALID",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Attestation signature mismatch indicates attestation evidence tamper and must block release gates.",
+      "negativeTestRef": "test/contracts/attestation-signature.contract.test.js#tampered-signature-fails-with-canonical-code",
+      "precedence": 0
+    },
+    {
       "code": "E_COMMAND_NAMESPACE_DRIFT",
       "blocking": false,
       "tier": "release",
@@ -188,11 +196,19 @@
       "negativeTestRef": "test/contracts/menu-snapshot-freeze-promotion.contract.test.js#snapshot-check-release-warns-and-promotion-fails-on-mismatch"
     },
     {
+      "code": "E_NETWORK_ORIGIN_UNAVAILABLE",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Origin availability smoke failure means origin binding cannot be verified and must block release gates.",
+      "negativeTestRef": "test/contracts/origin-smoke.contract.test.js#unavailable-origin-fails-with-canonical-code",
+      "precedence": 18
+    },
+    {
       "code": "E_PATH_BOUNDARY_VIOLATION",
       "blocking": true,
       "tier": "release",
       "rationale": "Path payloads violating centralized boundary rules can bypass filesystem safety and must fail.",
-      "precedence": 18,
+      "precedence": 19,
       "negativeTestRef": "test/contracts/path-boundary-guard.contract.test.js#parent-segment-negative"
     },
     {
@@ -205,7 +221,7 @@
         "promotion": "blocking"
       },
       "rationale": "Perf baseline delta breach is advisory for release but must block promotion to prevent stale performance regressions.",
-      "precedence": 19,
+      "precedence": 20,
       "negativeTestRef": "test/contracts/perf-ci-promotion-mode.contract.test.js#promotion-mode-regression-breach"
     },
     {
@@ -218,7 +234,7 @@
         "promotion": "blocking"
       },
       "rationale": "Plugin menu overlays are data-only by policy; executable or non-canonical overlay payloads are advisory in release and promotion-blocking.",
-      "precedence": 20,
+      "precedence": 21,
       "negativeTestRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#plugin-data-only-policy-negative-pack"
     },
     {
@@ -226,7 +242,7 @@
       "blocking": false,
       "tier": "release",
       "rationale": "Pre-UI contour close token is advisory by default and should fail when worktree is not clean.",
-      "precedence": 21,
+      "precedence": 22,
       "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#dirty-worktree-negative"
     },
     {
@@ -234,7 +250,7 @@
       "blocking": false,
       "tier": "release",
       "rationale": "Pre-UI contour close token is advisory by default and should fail when head/origin pointers diverge.",
-      "precedence": 22,
+      "precedence": 23,
       "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#head-origin-mismatch-negative"
     },
     {
@@ -242,7 +258,7 @@
       "blocking": false,
       "tier": "release",
       "rationale": "Contour close record must match schema and required metadata before it can be used as evidence.",
-      "precedence": 23,
+      "precedence": 24,
       "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#invalid-shape-negative"
     },
     {
@@ -250,7 +266,7 @@
       "blocking": false,
       "tier": "release",
       "rationale": "Contour close record is missing so closure evidence cannot be established.",
-      "precedence": 24,
+      "precedence": 25,
       "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#missing-record-negative"
     },
     {
@@ -258,7 +274,7 @@
       "blocking": false,
       "tier": "release",
       "rationale": "Pre-UI contour required token set exists but one or more required checks are red.",
-      "precedence": 25,
+      "precedence": 26,
       "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#required-token-fail-negative"
     },
     {
@@ -266,7 +282,7 @@
       "blocking": false,
       "tier": "release",
       "rationale": "Pre-UI contour required token declaration references missing token IDs.",
-      "precedence": 26,
+      "precedence": 27,
       "negativeTestRef": "test/contracts/pre-ui-ops-contour-close.contract.test.js#required-token-missing-negative"
     },
     {
@@ -280,7 +296,7 @@
       },
       "sourceBinding": "scripts/ops/run-wave.mjs + scripts/contracts/check-codex-prompt-mode.mjs",
       "rationale": "Prompt-layer marker policy must remain single-source and forbid repo-layer emission to prevent false-green execution provenance.",
-      "precedence": 27,
+      "precedence": 28,
       "negativeTestRef": "test/contracts/prompt-layer-single-source.contract.test.js#promotion-layer-emission-outside-run-wave-is-rejected"
     },
     {
@@ -293,7 +309,7 @@
         "promotion": "blocking"
       },
       "rationale": "Release-candidate lock drift is advisory for PR/release checks and promotion-blocking for canonical release cuts.",
-      "precedence": 28,
+      "precedence": 29,
       "negativeTestRef": "test/contracts/release-candidate-lock-and-promotion-evidence.contract.test.js#promotion-mode-mismatch-fails-while-release-mode-mismatch-warns"
     },
     {
@@ -301,7 +317,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Unknown scope flag cannot participate in machine stage activation and must fail deterministically.",
-      "precedence": 29,
+      "precedence": 30,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#unknown-scopeflag"
     },
     {
@@ -314,7 +330,7 @@
         "promotion": "blocking"
       },
       "rationale": "Execution sequence order drift is advisory in PR and blocking for release/promotion to keep LAW A1 machine-bound against canonical SSOT.",
-      "precedence": 30,
+      "precedence": 31,
       "negativeTestRef": "test/contracts/execution-sequence-lock.contract.test.js#promotion-mode-drift-fails-while-release-mode-warns"
     },
     {
@@ -328,7 +344,7 @@
       },
       "sourceBinding": "src/menu/menu-config.schema.v2.json + src/menu/menu-config-validator.js + src/menu/menu-config.v2.example.json",
       "rationale": "Runtime stage axis is locked to X0..X4; any X5+ acceptance in schema, validator, defaults, or contract path is drift.",
-      "precedence": 31,
+      "precedence": 32,
       "negativeTestRef": "test/contracts/stage-axis-lock.contract.test.js#stage-x5-is-rejected-by-runtime-validator"
     },
     {
@@ -336,7 +352,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Promotion mode requires metrics evidence for the target stage before stage-gated binding can be trusted.",
-      "precedence": 32,
+      "precedence": 33,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#stage-metrics-missing-promotion"
     },
     {
@@ -344,15 +360,23 @@
       "blocking": true,
       "tier": "release",
       "rationale": "Promotion mode without a valid promotion record or stage-consistent transition is invalid.",
-      "precedence": 33,
+      "precedence": 34,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#promotion-without-record"
+    },
+    {
+      "code": "E_VERIFY_ATTESTATION_INVALID",
+      "blocking": true,
+      "tier": "release",
+      "rationale": "Post-merge attestation verification state is invalid and must block release gates.",
+      "negativeTestRef": "test/contracts/verify-attestation.contract.test.js#malformed-attestation-fails-with-canonical-code",
+      "precedence": 35
     },
     {
       "code": "E_WAVE_RESULT_STALE",
       "blocking": true,
       "tier": "release",
       "rationale": "Wave result reuse is allowed only for matching hash with valid TTL to prevent stale-green reuse.",
-      "precedence": 34,
+      "precedence": 36,
       "negativeTestRef": "test/contracts/wave-freshness-and-stage-activation.contract.test.js#ttl-stale-reuse"
     },
     {
@@ -360,7 +384,7 @@
       "blocking": true,
       "tier": "release",
       "rationale": "X3 deterministic recovery smoke proofhook must pass before promotion-tier readiness can be considered green.",
-      "precedence": 35,
+      "precedence": 37,
       "negativeTestRef": "test/contracts/x3-recovery-smoke.contract.test.js#forced-failure"
     }
   ]

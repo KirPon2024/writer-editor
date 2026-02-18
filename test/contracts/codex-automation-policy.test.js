@@ -18,4 +18,24 @@ test('codex automation policy v1.4 bootstrap schema is present and valid', () =>
   assert.equal(Number.isInteger(doc.promptDetection.exitCodeOnPrompt), true);
   assert.equal(typeof doc.promptDetection.markerRegex, 'string');
   assert.equal(doc.promptDetection.markerRegex.length > 0, true);
+
+  assert.equal(typeof doc.AUTOMATION_HANDOFF_MINIMAL_CLICKS, 'object');
+  assert.equal(Array.isArray(doc.AUTOMATION_HANDOFF_MINIMAL_CLICKS.classificationRules), true);
+  assert.equal(
+    doc.AUTOMATION_HANDOFF_MINIMAL_CLICKS.classificationRules.some(
+      (entry) => entry && entry.id === 'WORKFLOW_SCOPE_MISSING_ON_PUSH',
+    ),
+    true,
+  );
+
+  assert.equal(typeof doc.autofixHooks, 'object');
+  assert.equal(typeof doc.autofixHooks.githubWorkflowScopePush, 'object');
+  assert.equal(
+    doc.autofixHooks.githubWorkflowScopePush.entryCommand,
+    'node scripts/ops/github-credential-autofix.mjs --json --resume-from-step STEP_08_PUSH',
+  );
+  assert.equal(
+    doc.failReasons.includes('PUSH_BLOCKED_MISSING_WORKFLOW_SCOPE'),
+    true,
+  );
 });

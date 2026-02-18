@@ -54,6 +54,13 @@ test('ops-only profile SoT has required schema and lock values', () => {
     'docs/OPERATIONS/**',
     'scripts/guards/**',
   ]);
+  assert.equal(typeof profile.pushStep, 'object');
+  assert.equal(
+    profile.pushStep.entryCommand,
+    'node scripts/ops/github-credential-autofix.mjs --json --resume-from-step STEP_08_PUSH',
+  );
+  assert.equal(profile.pushStep.triggerFailReason, 'PUSH_BLOCKED_MISSING_WORKFLOW_SCOPE');
+  assert.equal(profile.pushStep.maxAutoRemediationAttempts, 3);
 });
 
 test('eligibility passes for SoT allowlist paths only', async () => {

@@ -55,6 +55,16 @@ Expected:
 - Все checks `PASS`.
 - `PROMPT_DETECTION=NOT_DETECTED`.
 
+## PUSH (AUTOFIX ENTRYPOINT)
+- Вместо прямого `git push -u origin HEAD` использовать:
+  - `node scripts/ops/github-credential-autofix.mjs --json --resume-from-step STEP_08_PUSH`
+
+Policy:
+- Если push блокируется из-за missing `workflow` scope, скрипт обязан:
+  - выполнить auto-remediation `REM-1..REM-3` без утечки секретов;
+  - при неуспехе выдать единый `HUMAN_ACTION_REQUIRED` handoff с `HANDOFF_ID=AUTOMATION_HANDOFF_MINIMAL_CLICKS`;
+  - продолжать строго с `resumeFromStep` после handoff.
+
 ## PR CREATE (CLI)
 - `gh pr create --repo KirPon2024/writer-editor --base main --head <BRANCH> --title "<TITLE>" --body "<FACTS_ONLY_BODY>"`
 

@@ -248,17 +248,17 @@
     },
     {
       "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
-      "sha256": "bb83b0b459c87fd67532c660023c1c1615480efa95a174569e02e917590d4173",
-      "approvedBy": "ticket:TZ-24E-P1-AUTOMATION-HANDOFF-MINIMAL-CLICKS-003",
-      "approvedAtUtc": "2026-02-18T12:11:50.000Z",
-      "rationale": "Approve OPS-only automation handoff policy/profile update for HUMAN_ACTION_REQUIRED minimal-click resume contract."
+      "sha256": "1dc7e339d5951e5dbf538f54349d7c63b46443dd8766bf70418985726cdb93df",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve policy wiring for workflow-scope push autofix and minimal-click handoff resume path."
     },
     {
       "filePath": "docs/OPERATIONS/STATUS/SAFE_AUTOMERGE_OPS_ONLY_PROFILE.json",
-      "sha256": "188abb1742aca73813cc3458ae4b7bb069e95a3d40ec0026577b56dca882f112",
-      "approvedBy": "ticket:TZ-24E-P1-AUTOMATION-HANDOFF-MINIMAL-CLICKS-003",
-      "approvedAtUtc": "2026-02-18T12:11:50.000Z",
-      "rationale": "Approve OPS-only automation handoff policy/profile update for HUMAN_ACTION_REQUIRED minimal-click resume contract."
+      "sha256": "50e0040ae9f27b922406d0cfd6610383bc3b1237f8c93c6782624e1ea41dfbcd",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve safe-automerge profile push-step hook metadata for workflow-scope autofix."
     },
     {
       "filePath": "scripts/ops/x2-readiness-gate-state.mjs",
@@ -266,6 +266,34 @@
       "approvedBy": "ticket:TZ-24E-P1-CI-OPS-INJECTION-HARDENING-DISCOVERY-004",
       "approvedAtUtc": "2026-02-18T12:26:34.000Z",
       "rationale": "Approve minimal CI/OPS injection hardening in x2 readiness gate command execution path."
+    },
+    {
+      "filePath": "scripts/ops/github-credential-autofix.mjs",
+      "sha256": "96d4bbd26a9335bd34108d97618f569cbbd136c8f4c2d803ad09a3f710c24c2d",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve OPS automation autofix script for workflow-scope push remediation and handoff boundary."
+    },
+    {
+      "filePath": "test/contracts/codex-automation-policy.test.js",
+      "sha256": "4edc232a871942bd3f8754b229ab953634e3d604adf344bd9f05f1d104f65fb3",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve contract update for workflow-scope push autofix policy wiring."
+    },
+    {
+      "filePath": "test/contracts/github-credential-autofix.contract.test.js",
+      "sha256": "b38b2c3c773e8d578f6a165de267e4200d9a2495446e7ea1e0a679a1dae284a9",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve new contract coverage for workflow-scope push autofix detect/remediation/handoff behavior."
+    },
+    {
+      "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
+      "sha256": "bc6c83361298c49f195644f18960de0628839b458e1ff2854932cd454e7fef16",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve profile contract update binding push-step autofix hook metadata."
     }
   ]
 }

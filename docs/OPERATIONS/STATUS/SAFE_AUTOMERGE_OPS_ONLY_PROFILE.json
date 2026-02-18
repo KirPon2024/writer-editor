@@ -27,5 +27,10 @@
       "blockMergeUntilClickConfirmation": true,
       "autoResumeFromStep": true
     }
+  },
+  "pushStep": {
+    "entryCommand": "node scripts/ops/github-credential-autofix.mjs --json --resume-from-step STEP_08_PUSH",
+    "triggerFailReason": "PUSH_BLOCKED_MISSING_WORKFLOW_SCOPE",
+    "maxAutoRemediationAttempts": 3
   }
 }

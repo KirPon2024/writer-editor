@@ -1,12 +1,12 @@
 {
-  "rcId": "rc-1d2b02762ed2-592e3737",
-  "baseCommitSha": "1d2b02762ed25101abd202c5d60cf08445c28502",
+  "rcId": "rc-5293595018d0-592e3737",
+  "baseCommitSha": "5293595018d009aa65500c73ffd2b1b5d61453b5",
   "menuArtifactHash": "592e373743e1c7561aa2d1b96f0ab9f1bb83f6cb4724b66b8806479fd080b29e",
   "menuSnapshotHash": "af9f17862173a0315c3ae2a958298add764ca2bdfc1f86f27054b9cdbb8d8e21",
   "perfBaselineHash": "85769939469ef0e202812a7ae850706603534d29af34c87019c4c91b8796c018",
-  "tokenCatalogHash": "a9fd6631d94cae0432e0d3984ef9fe381fc3b0e4de652803c577c0c13bd9b775",
-  "failsignalRegistryHash": "e288f855be5b05f27471cc0e0c6dad1b52250af997906fea9141d1333d28ef20",
+  "tokenCatalogHash": "f8213fcb64925812a35738612e85ce3616264a5680ad13f671280f3093ef77a6",
+  "failsignalRegistryHash": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
   "requiredTokenSetHash": "4f896b50aab5d536f49b7ee2586c70778b4f4466e7a21015bcdd4683d2b2afc9",
-  "createdAt": "2026-02-18T07:37:47.395Z",
+  "createdAt": "2026-02-18T15:46:16.082Z",
   "createdByMode": "promotion"
 }

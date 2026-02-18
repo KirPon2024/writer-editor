@@ -115,10 +115,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "4c07564f0ffd11965af557a9a6247b88ab4b0c2744236120b9d87a17450af489",
-      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
-      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
-      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+      "sha256": "d8ef6c2bcd42c3b4cb7a4b039c9ec2bf56ca0dcd7bac962eddebbfc4c903db25",
+      "approvedBy": "ticket:TZ-24E-P1-RELEASE-CANDIDATE-LOCK-REFRESH-014",
+      "approvedAtUtc": "2026-02-18T15:46:43.000Z",
+      "rationale": "Refresh release candidate lock to align token catalog and failsignal hashes with current SSOT."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",

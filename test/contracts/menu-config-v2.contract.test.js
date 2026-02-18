@@ -58,7 +58,12 @@ test('menu-config v2 contract: gating truth table returns deterministic enabled/
       stage: 'X1',
       hasDocument: false
     }),
-    { enabled: false, reason: 'E_MENU_GATE_ENABLED_WHEN_HAS_DOCUMENT' }
+    {
+      enabled: false,
+      visible: true,
+      reason: 'E_MENU_GATE_ENABLED_WHEN_FALSE',
+      reasonCode: 'ENABLEDWHEN_FALSE'
+    }
   );
 
   assert.deepEqual(
@@ -68,7 +73,7 @@ test('menu-config v2 contract: gating truth table returns deterministic enabled/
       stage: 'X1',
       hasDocument: true
     }),
-    { enabled: true, reason: '' }
+    { enabled: true, visible: true, reason: '' }
   );
 
   assert.deepEqual(
@@ -78,6 +83,6 @@ test('menu-config v2 contract: gating truth table returns deterministic enabled/
       stage: 'X1',
       hasDocument: true
     }),
-    { enabled: false, reason: 'E_MENU_GATE_MODE' }
+    { enabled: false, visible: true, reason: 'E_MENU_GATE_MODE' }
   );
 });

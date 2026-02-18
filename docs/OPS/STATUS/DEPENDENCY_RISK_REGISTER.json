@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "v1",
+  "generatedAt": "2026-02-18T17:05:00Z",
+  "lockfile": "package-lock.json",
+  "sourceAuditPath": "docs/AUDIT/audit-findings.json",
+  "items": [
+    {
+      "package": "app-builder-lib",
+      "severity": "high",
+      "reachable": true,
+      "status": "OPEN",
+      "owner": "TBD",
+      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
+      "reviewAfter": "2026-03-20",
+      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+    },
+    {
+      "package": "dmg-builder",
+      "severity": "high",
+      "reachable": true,
+      "status": "OPEN",
+      "owner": "TBD",
+      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
+      "reviewAfter": "2026-03-20",
+      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+    },
+    {
+      "package": "electron-builder",
+      "severity": "high",
+      "reachable": true,
+      "status": "OPEN",
+      "owner": "TBD",
+      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
+      "reviewAfter": "2026-03-20",
+      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+    },
+    {
+      "package": "electron-builder-squirrel-windows",
+      "severity": "high",
+      "reachable": true,
+      "status": "OPEN",
+      "owner": "TBD",
+      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
+      "reviewAfter": "2026-03-20",
+      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+    },
+    {
+      "package": "tar",
+      "severity": "high",
+      "reachable": true,
+      "status": "OPEN",
+      "owner": "TBD",
+      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
+      "reviewAfter": "2026-03-20",
+      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+    }
+  ],
+  "nonReachableExceptions": []
+}

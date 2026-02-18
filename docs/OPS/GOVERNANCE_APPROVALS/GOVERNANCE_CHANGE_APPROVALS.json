@@ -245,6 +245,20 @@
       "approvedBy": "ticket:TZ-24E-P1-DEBT-QUEUE-SSOT-BOOTSTRAP-001",
       "approvedAtUtc": "2026-02-18T11:48:40.000Z",
       "rationale": "Approve SSOT bootstrap for P1 debt queue registry (docs/OPS-only)."
+    },
+    {
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
+      "sha256": "f8213fcb64925812a35738612e85ce3616264a5680ad13f671280f3093ef77a6",
+      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
+      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
+      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
+    },
+    {
+      "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
+      "sha256": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
+      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
+      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
+      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
     }
   ]
 }

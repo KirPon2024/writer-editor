@@ -115,10 +115,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "d8ef6c2bcd42c3b4cb7a4b039c9ec2bf56ca0dcd7bac962eddebbfc4c903db25",
+      "sha256": "094f222fe2ef81e8032f72284fd2379038b31303e6007b0d8495b71a00663754",
       "approvedBy": "ticket:TZ-24E-P1-RELEASE-CANDIDATE-LOCK-REFRESH-014",
-      "approvedAtUtc": "2026-02-18T15:46:43.000Z",
-      "rationale": "Refresh release candidate lock to align token catalog and failsignal hashes with current SSOT."
+      "approvedAtUtc": "2026-02-18T16:49:30.000Z",
+      "rationale": "Refresh release candidate lock to align token catalog and failsignal hashes with current SSOT baseline commit."
     },
     {
       "filePath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.12.md",

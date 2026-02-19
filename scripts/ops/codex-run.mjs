@@ -18,6 +18,31 @@ const DEFAULT_ALLOWLIST = Object.freeze([
   'scripts/ops/codex-run.mjs',
   'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
 ]);
+const AUTOCYCLE_CANON_PATH = path.join('docs', 'OPS', 'EXECUTION', 'AUTOCYCLE_CANON_v1.json');
+const AUTOCYCLE_DEFAULT_POLICY = Object.freeze({
+  maxMainTzPerBatch: 3,
+  maxPatchPerMain: 2,
+  maxIterationsTotal: 3,
+  patchConstraints: {
+    maxFiles: 5,
+    maxLines: 150,
+  },
+});
+const AUTOCYCLE_HARD_BLOCK_REASONS = new Set([
+  'CACHE_SCOPE_LEAK',
+  'SCOPE_PROOF_DIRTY',
+  'SCOPE_PROOF_FAILED',
+  'GOVERNANCE_VIOLATION',
+  'SECURITY_BREACH',
+  'REBASE_CONFLICT',
+  'REBASE_FAILED',
+  'PR_FLOW_INVARIANT_BROKEN',
+  'RUNNER_ENTRYPOINT_MISSING',
+  'INVALID_PATCH_FILE',
+  'PATCH_CONSTRAINTS_EXCEEDED',
+  'PATCH_FILE_MISMATCH',
+  'AUTOCYCLE_CANON_INVALID',
+]);
 
 class RunnerStepFailure extends Error {
   constructor(failureClass, reason, detail, options = {}) {
@@ -36,7 +61,7 @@ function usage() {
   process.stdout.write(
     [
       'Usage:',
-      '  node scripts/ops/codex-run.mjs --ticket <TICKET_ID> --mode <dev|pr|release|promotion> [--pr <NUMBER>] [--resume-from-step <N>]',
+      '  node scripts/ops/codex-run.mjs --ticket <TICKET_ID> --mode <dev|pr|release|promotion> [--pr <NUMBER>] [--resume-from-step <N>] [--autocycle] [--patch-file <PATH>]',
       '  node scripts/ops/codex-run.mjs --help',
     ].join('\n') + '\n',
   );
@@ -49,6 +74,8 @@ function parseArgs(argv) {
     mode: '',
     prNumber: null,
     resumeFromStep: null,
+    autocycle: false,
+    patchFile: '',
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -79,6 +106,15 @@ function parseArgs(argv) {
       const raw = String(argv[i + 1] || '').trim();
       const parsed = Number.parseInt(raw, 10);
       out.resumeFromStep = Number.isInteger(parsed) ? parsed : null;
+      i += 1;
+      continue;
+    }
+    if (arg === '--autocycle') {
+      out.autocycle = true;
+      continue;
+    }
+    if (arg === '--patch-file' && i + 1 < argv.length) {
+      out.patchFile = String(argv[i + 1] || '').trim();
       i += 1;
       continue;
     }
@@ -282,6 +318,11 @@ function runStep(ctx, { stepId, command = 'internal', handler }) {
     ctx.state.currentStep = stepId;
     writeSnapshot(ctx.snapshotPath, ctx.state);
   }
+  if (ctx.autocycleState) {
+    ctx.autocycleState.currentStep = stepId;
+    ctx.autocycleState.updatedAtUtc = nowUtcIso();
+    writeJsonFile(ctx.autocycleSnapshotPath, ctx.autocycleState);
+  }
   try {
     const result = handler();
     emitStepEvent({
@@ -326,6 +367,8 @@ function inputHash(ticketId, mode, args) {
     mode,
     prNumber: args.prNumber || null,
     resumeFromStep: args.resumeFromStep,
+    autocycle: Boolean(args.autocycle),
+    patchFile: args.patchFile || '',
     node: process.version,
     platform: {
       os: process.platform,
@@ -351,6 +394,184 @@ function inferTier(mode) {
   if (mode === 'promotion') return 'CORE';
   if (mode === 'release') return 'RUNTIME_FEATURE';
   return 'DOCS_ONLY';
+}
+
+function hashString(value) {
+  return crypto.createHash('sha256').update(String(value || '')).digest('hex');
+}
+
+function allowlistHash(allowlist) {
+  return hashString(JSON.stringify(Array.isArray(allowlist) ? [...allowlist].sort() : []));
+}
+
+function autocycleSnapshotPathForTicket(ticketId) {
+  return path.resolve(process.cwd(), SNAPSHOT_ROOT, `${sanitizeTicketId(ticketId)}.autocycle.json`);
+}
+
+function readJsonFileSafe(filePath) {
+  if (!filePath || !fs.existsSync(filePath)) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return parsed && typeof parsed === 'object' ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeJsonFile(filePath, payload) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+}
+
+function readAutocyclePolicy() {
+  const resolved = path.resolve(process.cwd(), AUTOCYCLE_CANON_PATH);
+  const parsed = readJsonFileSafe(resolved);
+  const batch = parsed?.batchPolicy || {};
+  const patch = parsed?.patchConstraints || {};
+  const maxMainTzPerBatch = Number.parseInt(batch.maxMainTZPerBatch ?? batch.maxMainTzPerBatch, 10);
+  const maxPatchPerMain = Number.parseInt(batch.maxPatchPerMainTZ ?? batch.maxPatchPerMain, 10);
+  const maxIterationsTotal = Number.parseInt(batch.maxIterationsTotal ?? batch.maxIterationsWithoutForwardDiff, 10);
+  const maxFiles = Number.parseInt(patch.maxFiles, 10);
+  const maxLines = Number.parseInt(patch.maxLines, 10);
+
+  return {
+    path: resolved,
+    maxMainTzPerBatch: Number.isInteger(maxMainTzPerBatch) && maxMainTzPerBatch > 0 ? maxMainTzPerBatch : AUTOCYCLE_DEFAULT_POLICY.maxMainTzPerBatch,
+    maxPatchPerMain: Number.isInteger(maxPatchPerMain) && maxPatchPerMain >= 0 ? maxPatchPerMain : AUTOCYCLE_DEFAULT_POLICY.maxPatchPerMain,
+    maxIterationsTotal: Number.isInteger(maxIterationsTotal) && maxIterationsTotal > 0 ? maxIterationsTotal : AUTOCYCLE_DEFAULT_POLICY.maxIterationsTotal,
+    patchConstraints: {
+      maxFiles: Number.isInteger(maxFiles) && maxFiles > 0 ? maxFiles : AUTOCYCLE_DEFAULT_POLICY.patchConstraints.maxFiles,
+      maxLines: Number.isInteger(maxLines) && maxLines > 0 ? maxLines : AUTOCYCLE_DEFAULT_POLICY.patchConstraints.maxLines,
+    },
+  };
+}
+
+function readAutocycleSnapshot(snapshotPath) {
+  return readJsonFileSafe(snapshotPath);
+}
+
+function computeForwardProgressFingerprint(ctx, failureClass, reason) {
+  const diff = runCommand('git', ['diff', '--name-status', '-M', '-C'], { retryable: false });
+  const diffPayload = diff.ok ? String(diff.stdout || '').trim() : `DIFF_ERROR:${reason}`;
+  const payload = JSON.stringify({
+    diffHash: hashString(diffPayload),
+    allowlistHash: allowlistHash(ctx.allowlist),
+    failureClass: failureClass || 'PASS',
+    reason: reason || 'PASS',
+  });
+  return hashString(payload);
+}
+
+function validatePatchPayload(patchPayload, ctx) {
+  if (!patchPayload || typeof patchPayload !== 'object') {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_PATCH_FILE', 'Patch payload must be a JSON object');
+  }
+
+  const patchTicketId = String(patchPayload.patchTicketId || '').trim();
+  const mainTicketId = String(patchPayload.mainTicketId || '').trim();
+  const instructions = String(patchPayload.instructions || '').trim();
+  const allowedFiles = Array.isArray(patchPayload.allowedFiles) ? patchPayload.allowedFiles.map((p) => String(p || '').trim()).filter(Boolean) : [];
+  const maxFiles = Number.parseInt(patchPayload.maxFiles, 10);
+  const maxLines = Number.parseInt(patchPayload.maxLines, 10);
+
+  if (!patchTicketId || !mainTicketId || !instructions) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_PATCH_FILE', 'patchTicketId, mainTicketId, and instructions are required');
+  }
+  if (mainTicketId !== ctx.ticketId) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PATCH_FILE_MISMATCH', `patch mainTicketId ${mainTicketId} does not match ticket ${ctx.ticketId}`);
+  }
+  if (!Array.isArray(allowedFiles) || allowedFiles.length === 0) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_PATCH_FILE', 'allowedFiles must be a non-empty array');
+  }
+
+  for (const filePath of allowedFiles) {
+    if (!ctx.allowlist.includes(filePath)) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'PATCH_CONSTRAINTS_EXCEEDED', `patch file outside allowlist: ${filePath}`);
+    }
+  }
+
+  const policy = ctx.autocyclePolicy;
+  if (!Number.isInteger(maxFiles) || maxFiles > policy.patchConstraints.maxFiles) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PATCH_CONSTRAINTS_EXCEEDED', `maxFiles exceeds policy limit ${policy.patchConstraints.maxFiles}`);
+  }
+  if (!Number.isInteger(maxLines) || maxLines > policy.patchConstraints.maxLines) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PATCH_CONSTRAINTS_EXCEEDED', `maxLines exceeds policy limit ${policy.patchConstraints.maxLines}`);
+  }
+
+  return {
+    patchTicketId,
+    mainTicketId,
+    instructions,
+    allowedFiles,
+    maxFiles,
+    maxLines,
+  };
+}
+
+function initAutocycleContext(ctx) {
+  const policy = readAutocyclePolicy();
+  ctx.autocyclePolicy = policy;
+  ctx.autocycleSnapshotPath = autocycleSnapshotPathForTicket(ctx.ticketId);
+  const existing = readAutocycleSnapshot(ctx.autocycleSnapshotPath);
+  const patchPayload = ctx.args.patchFile
+    ? validatePatchPayload(readJsonFileSafe(path.resolve(process.cwd(), ctx.args.patchFile)), ctx)
+    : null;
+
+  const state = {
+    batchTicketId: ctx.ticketId,
+    baseSha: ctx.baseSha,
+    inputHash: ctx.inputHash,
+    mode: ctx.mode,
+    tier: ctx.tier,
+    allowlist: ctx.allowlist,
+    currentMainIndex: existing?.currentMainIndex || 1,
+    currentPatchIndex: existing?.currentPatchIndex || 0,
+    iterationCount: Number.isInteger(existing?.iterationCount) ? existing.iterationCount : 0,
+    lastFailSummary: existing?.lastFailSummary || null,
+    forwardProgressFingerprint: existing?.forwardProgressFingerprint || '',
+    currentStep: existing?.currentStep || 'autocycle_init',
+    patchTicketId: existing?.patchTicketId || '',
+    updatedAtUtc: nowUtcIso(),
+  };
+
+  if (state.currentMainIndex > policy.maxMainTzPerBatch) {
+    throw new RunnerStepFailure(
+      'HUMAN_REQUIRED',
+      'MAIN_TZ_LIMIT_REACHED',
+      `main ticket index ${state.currentMainIndex} exceeds max ${policy.maxMainTzPerBatch}`,
+      { resumeFromStep: ctx.args.resumeFromStep ?? DEFAULT_PR_RESUME_STEP },
+    );
+  }
+
+  if (patchPayload) {
+    const samePatch = state.patchTicketId && state.patchTicketId === patchPayload.patchTicketId;
+    if (!samePatch) {
+      state.currentPatchIndex += 1;
+      state.patchTicketId = patchPayload.patchTicketId;
+    }
+    if (state.currentPatchIndex > policy.maxPatchPerMain) {
+      throw new RunnerStepFailure(
+        'HUMAN_REQUIRED',
+        'PATCH_LIMIT_REACHED',
+        `patch index ${state.currentPatchIndex} exceeds max ${policy.maxPatchPerMain}`,
+        { resumeFromStep: ctx.args.resumeFromStep ?? DEFAULT_PR_RESUME_STEP },
+      );
+    }
+  }
+
+  state.iterationCount += 1;
+  if (state.iterationCount > policy.maxIterationsTotal) {
+    throw new RunnerStepFailure(
+      'HUMAN_REQUIRED',
+      'STAGNATION_ESCALATE_GPT',
+      `iteration limit reached (${policy.maxIterationsTotal})`,
+      { resumeFromStep: ctx.args.resumeFromStep ?? DEFAULT_PR_RESUME_STEP },
+    );
+  }
+
+  ctx.autocycleState = state;
+  ctx.autocyclePatch = patchPayload;
+  writeJsonFile(ctx.autocycleSnapshotPath, state);
 }
 
 function ensureToolAvailable(name) {
@@ -920,7 +1141,17 @@ function stepScopeProof(ctx) {
   return { summary: 'scope-proof clean' };
 }
 
+function changedFilesExact() {
+  const diff = runCommand('git', ['diff', '--name-only'], { retryable: false });
+  if (!diff.ok) return [];
+  return String(diff.stdout || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+}
+
 function emitFinalSummary(ctx) {
+  const changedFiles = changedFilesExact();
   emitStepEvent({
     traceId: ctx.traceId,
     ticketId: ctx.ticketId,
@@ -940,6 +1171,10 @@ function emitFinalSummary(ctx) {
     prNumber: ctx.state?.prNumber || null,
     prUrl: ctx.state?.prUrl || '',
     mergeCommitSha: ctx.state?.mergeCommitSha || '',
+    changedFilesExact: changedFiles,
+    autocycleEnabled: Boolean(ctx.autocycleEnabled),
+    autocycleSnapshotPath: ctx.autocycleSnapshotPath || '',
+    autocycleState: ctx.autocycleState || null,
   });
 }
 
@@ -967,6 +1202,12 @@ function main() {
     inputHash: runnerInputHash,
     tier,
     allowlist,
+    autocycleEnabled: Boolean(args.autocycle),
+    autocyclePolicy: null,
+    autocycleState: null,
+    autocyclePatch: null,
+    autocycleSnapshotPath: '',
+    baseSha: '',
     args,
     snapshotPath,
     startedAt: nowMs(),
@@ -982,15 +1223,32 @@ function main() {
   };
 
   const finalizeFailure = (failure) => {
-    ctx.failureClass = failure.failureClass;
-    ctx.reason = failure.reason;
-    ctx.humanActionRequired = failure.failureClass === 'HUMAN_REQUIRED' ? 1 : 0;
-    ctx.stopRequired = failure.failureClass === 'HUMAN_REQUIRED' ? 0 : 1;
-    ctx.resumeFromStep = Number.isInteger(failure.resumeFromStep)
-      ? failure.resumeFromStep
+    let mappedFailure = failure;
+    if (
+      ctx.autocycleEnabled
+      && failure.failureClass === 'BLOCK_FAIL'
+      && !AUTOCYCLE_HARD_BLOCK_REASONS.has(failure.reason)
+    ) {
+      mappedFailure = new RunnerStepFailure(
+        'HUMAN_REQUIRED',
+        'BLOCK_FAIL_NEEDS_GPT_PATCH',
+        failure.detail,
+        {
+          evidenceTail: failure.evidenceTail,
+          resumeFromStep: failure.resumeFromStep ?? ctx.state?.resumeFromStep ?? DEFAULT_PR_RESUME_STEP,
+        },
+      );
+    }
+
+    ctx.failureClass = mappedFailure.failureClass;
+    ctx.reason = mappedFailure.reason;
+    ctx.humanActionRequired = mappedFailure.failureClass === 'HUMAN_REQUIRED' ? 1 : 0;
+    ctx.stopRequired = mappedFailure.failureClass === 'HUMAN_REQUIRED' ? 0 : 1;
+    ctx.resumeFromStep = Number.isInteger(mappedFailure.resumeFromStep)
+      ? mappedFailure.resumeFromStep
       : (ctx.state?.resumeFromStep || null);
-    ctx.handoffReason = failure.handoffReason || failure.reason;
-    ctx.clickList = Array.isArray(failure.clickList) ? failure.clickList : [];
+    ctx.handoffReason = mappedFailure.handoffReason || mappedFailure.reason;
+    ctx.clickList = Array.isArray(mappedFailure.clickList) ? mappedFailure.clickList : [];
     ctx.exitCode = ctx.stopRequired ? 1 : 0;
 
     if (ctx.state) {
@@ -998,6 +1256,35 @@ function main() {
         ctx.state.resumeFromStep = ctx.resumeFromStep;
       }
       writeSnapshot(ctx.snapshotPath, ctx.state);
+    }
+
+    if (ctx.autocycleEnabled && ctx.autocycleState) {
+      const fingerprint = computeForwardProgressFingerprint(ctx, ctx.failureClass, ctx.reason);
+      const previousFingerprint = String(ctx.autocycleState.forwardProgressFingerprint || '');
+      const prevFail = ctx.autocycleState.lastFailSummary || null;
+
+      const repeated = previousFingerprint && previousFingerprint === fingerprint
+        && prevFail
+        && prevFail.failureClass === ctx.failureClass
+        && prevFail.reason === ctx.reason;
+
+      if (repeated) {
+        ctx.failureClass = 'HUMAN_REQUIRED';
+        ctx.reason = 'STAGNATION_ESCALATE_GPT';
+        ctx.humanActionRequired = 1;
+        ctx.stopRequired = 0;
+        ctx.exitCode = 0;
+      }
+
+      ctx.autocycleState.lastFailSummary = {
+        failureClass: ctx.failureClass,
+        reason: ctx.reason,
+        resumeFromStep: ctx.resumeFromStep,
+        atUtc: nowUtcIso(),
+      };
+      ctx.autocycleState.forwardProgressFingerprint = computeForwardProgressFingerprint(ctx, ctx.failureClass, ctx.reason);
+      ctx.autocycleState.updatedAtUtc = nowUtcIso();
+      writeJsonFile(ctx.autocycleSnapshotPath, ctx.autocycleState);
     }
   };
 
@@ -1015,6 +1302,9 @@ function main() {
     } else if (ctx.state) {
       writeSnapshot(ctx.snapshotPath, ctx.state);
     }
+    if (ctx.autocycleEnabled && ctx.autocycleSnapshotPath) {
+      removeSnapshot(ctx.autocycleSnapshotPath);
+    }
   };
 
   let step = runStep(ctx, {
@@ -1030,10 +1320,17 @@ function main() {
       if (args.resumeFromStep !== null && (!Number.isInteger(args.resumeFromStep) || args.resumeFromStep < 0 || args.resumeFromStep > 10)) {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_RESUME_STEP', 'resume-from-step must be an integer in [0,10]');
       }
+      if (args.patchFile && !args.autocycle) {
+        throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_PATCH_FILE', '--patch-file requires --autocycle');
+      }
       ensureToolAvailable('node');
       if (runPrFlow) {
         ensureToolAvailable('git');
         ensureToolAvailable('gh');
+      }
+      if (ctx.autocycleEnabled) {
+        ctx.baseSha = gitRevParse('origin/main');
+        initAutocycleContext(ctx);
       }
       return { summary: 'arguments and tools validated' };
     },
@@ -1059,6 +1356,9 @@ function main() {
           inputHash: ctx.inputHash,
           tier: ctx.tier,
           allowlist: ctx.allowlist,
+          autocycleEnabled: ctx.autocycleEnabled,
+          autocyclePolicy: ctx.autocyclePolicy,
+          patchPayload: ctx.autocyclePatch,
           platform: `${os.platform()}/${os.arch()}`,
           supportsPrMergeResume: true,
           runPrFlow,

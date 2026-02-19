@@ -9,8 +9,13 @@
   "batchPolicy": {
     "maxMainTZPerBatch": 3,
     "maxPatchPerMainTZ": 2,
+    "maxIterationsTotal": 3,
     "maxControlledAllowlistExpansionsPerUnit": 1,
     "maxIterationsWithoutForwardDiff": 3
+  },
+  "patchConstraints": {
+    "maxFiles": 5,
+    "maxLines": 150
   },
   "failurePolicy": {
     "retryable": {

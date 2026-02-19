@@ -213,10 +213,10 @@
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "3490a53e31bc3a438811b7d876a634477193a38fe879c0cf8f4681f5913c6546",
-      "approvedBy": "ticket:TZ-SECTOR-01-D-RUNNER-PLAN-STAGING-FIX-01",
-      "approvedAtUtc": "2026-02-19T09:30:17.930Z",
-      "rationale": "Allow deterministic local-pipeline staging of ticket plan artifacts with policy-constrained force add."
+      "sha256": "5f2736ba8053f911dc48dad773456bee3ed2ee042c3eb93e38001726e700b38f",
+      "approvedBy": "ticket:TZ-RUNNER-NO-POPUP-SINGLE-ENTRY-01",
+      "approvedAtUtc": "2026-02-19T10:34:03.117Z",
+      "rationale": "Enforce non-interactive runner auth/network preflight with session cache to prevent popup-style prompts in PR flow."
     },
     {
       "filePath": "scripts/ops/compute-wave-input-hash.mjs",

@@ -325,10 +325,10 @@
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "a8a758600616e1e1ce9e02f27a9dfdc6de391869dd5c356f111ee6e1284c2c9e",
-      "approvedBy": "ticket:PATCH_TZ-PRODUCT-AUTOCYCLE-PR-CREATE-PUSH-01",
-      "approvedAtUtc": "2026-02-19T04:53:30.000Z",
-      "rationale": "Add branch push step before pr_create to satisfy GitHub headRef requirements."
+      "sha256": "842b8881d7cf52fdd26e153674467599509f1f82d2be03bebdf54706ed801102",
+      "approvedBy": "ticket:TZ-MICROSTEPS-CANON-01-PR+MERGE-FIX",
+      "approvedAtUtc": "2026-02-19T08:38:15.000Z",
+      "rationale": "Enable PR auto-create in pr_discovery, push branch before PR create, and optional --automerge with strict anti-swap and non-interactive failure routing."
     }
   ]
 }

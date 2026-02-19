@@ -329,6 +329,20 @@
       "approvedBy": "ticket:PATCH_TZ-PRODUCT-AUTOCYCLE-PR-CREATE-PUSH-01",
       "approvedAtUtc": "2026-02-19T04:53:30.000Z",
       "rationale": "Add branch push step before pr_create to satisfy GitHub headRef requirements."
+    },
+    {
+      "filePath": "docs/OPS/EXECUTION/MICROSTEPS_CANON_v1.md",
+      "sha256": "ba6c5154258a203c974206ae73187e065f5ec70b4ea7c959754a03ed7f7590db",
+      "approvedBy": "ticket:TZ-MICROSTEPS-CANON-01",
+      "approvedAtUtc": "2026-02-19T06:09:42.000Z",
+      "rationale": "Establish MICROSTEPS canon as the default daily execution workflow and archive autocycle as non-default."
+    },
+    {
+      "filePath": "docs/OPS/README.md",
+      "sha256": "d7dc1510b1c4a4dc13e03dfee86aff627bb18e648d7995dc3266ba93efffdd93",
+      "approvedBy": "ticket:TZ-MICROSTEPS-CANON-01",
+      "approvedAtUtc": "2026-02-19T06:09:42.000Z",
+      "rationale": "Point OPS daily execution to MICROSTEPS canon and mark autocycle specs as archived, non-default."
     }
   ]
 }

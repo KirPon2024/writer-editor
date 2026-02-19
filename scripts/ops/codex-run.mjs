@@ -16,6 +16,8 @@ const GH_TIMEOUT_MS = 30000;
 const CHECKS_WAIT_TIMEOUT_MS = 10 * 60 * 1000;
 const CHECKS_WAIT_POLL_MS = 20 * 1000;
 const CACHE_ROOT_PREFIX = 'docs/OPS/CACHE/';
+const RUNNER_SESSION_CACHE_PATH = path.join(CACHE_ROOT_PREFIX, 'runner-session.json');
+const RUNNER_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 const TICKET_PLAN_ROOT = path.join('docs', 'OPS', 'EXECUTION', 'TICKETS');
 const DEFAULT_ALLOWLIST = Object.freeze([
   'scripts/ops/codex-run.mjs',
@@ -261,6 +263,207 @@ function tailLines(text, max = 12) {
   return lines.slice(lines.length - max);
 }
 
+function safeReadJsonFile(filePath) {
+  if (!filePath || !fs.existsSync(filePath)) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return parsed && typeof parsed === 'object' ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function runnerSessionCacheAbsPath() {
+  return path.resolve(process.cwd(), RUNNER_SESSION_CACHE_PATH);
+}
+
+function readRunnerSessionCache() {
+  const parsed = safeReadJsonFile(runnerSessionCacheAbsPath());
+  if (!parsed) return null;
+  return {
+    ghAuthValidatedAt: String(parsed.ghAuthValidatedAt || ''),
+    gitAccessValidatedAt: String(parsed.gitAccessValidatedAt || ''),
+    lastNetworkProbeAt: String(parsed.lastNetworkProbeAt || ''),
+    sessionId: String(parsed.sessionId || ''),
+    expiresAtUtc: String(parsed.expiresAtUtc || ''),
+  };
+}
+
+function isRunnerSessionCacheValid(cachePayload) {
+  if (!cachePayload || typeof cachePayload !== 'object') return false;
+  const expiresMs = Date.parse(String(cachePayload.expiresAtUtc || ''));
+  if (!Number.isFinite(expiresMs)) return false;
+  if (expiresMs <= Date.now()) return false;
+  return (
+    String(cachePayload.ghAuthValidatedAt || '').length > 0
+    && String(cachePayload.gitAccessValidatedAt || '').length > 0
+    && String(cachePayload.lastNetworkProbeAt || '').length > 0
+    && String(cachePayload.sessionId || '').length > 0
+  );
+}
+
+function writeRunnerSessionCache(payload) {
+  const cacheFile = runnerSessionCacheAbsPath();
+  fs.mkdirSync(path.dirname(cacheFile), { recursive: true });
+  fs.writeFileSync(cacheFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+}
+
+function isNetworkErrorText(textValue) {
+  const text = String(textValue || '').toLowerCase();
+  return (
+    text.includes('network')
+    || text.includes('timed out')
+    || text.includes('timeout')
+    || text.includes('could not resolve host')
+    || text.includes('temporary failure')
+    || text.includes('connection reset')
+    || text.includes('socket hang up')
+    || text.includes('enotfound')
+    || text.includes('eai_again')
+    || text.includes('etimedout')
+    || text.includes('econn')
+    || text.includes('api.github.com')
+    || text.includes('lookup ')
+    || text.includes('no such host')
+  );
+}
+
+function isGhAuthFailureText(textValue) {
+  const text = String(textValue || '').toLowerCase();
+  return (
+    text.includes('not logged in')
+    || text.includes('not logged into')
+    || text.includes('gh auth login')
+    || text.includes('authentication failed')
+    || text.includes('requires authentication')
+    || text.includes('token is expired')
+    || text.includes('token has expired')
+    || text.includes('token expired')
+    || text.includes('token revoked')
+    || text.includes('invalid token')
+    || text.includes('bad credentials')
+    || text.includes('http 401')
+    || text.includes('http 403')
+  );
+}
+
+function flattenGhHostsPayload(hostsPayload) {
+  if (!hostsPayload || typeof hostsPayload !== 'object') return [];
+  const entries = [];
+  for (const value of Object.values(hostsPayload)) {
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (item && typeof item === 'object') entries.push(item);
+      }
+    } else if (value && typeof value === 'object') {
+      entries.push(value);
+    }
+  }
+  return entries;
+}
+
+function ensureRunnerAuthAndNetworkPreflightOrThrow(ctx) {
+  const cached = readRunnerSessionCache();
+  if (isRunnerSessionCacheValid(cached)) {
+    ctx.runnerSessionPreflight = {
+      cacheHit: true,
+      sessionId: cached.sessionId,
+      expiresAtUtc: cached.expiresAtUtc,
+      ghAuthValidatedAt: cached.ghAuthValidatedAt,
+      gitAccessValidatedAt: cached.gitAccessValidatedAt,
+      lastNetworkProbeAt: cached.lastNetworkProbeAt,
+    };
+    return { summary: `auth/network preflight cache hit (session ${cached.sessionId})` };
+  }
+
+  const ghStatus = runCommand('gh', ['auth', 'status', '--json', 'hosts'], { retryable: false });
+  if (!ghStatus.ok) {
+    if (ghStatus.classification.failureClass === 'RETRYABLE_FAIL') {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'gh auth status probe failed', {
+        evidenceTail: ghStatus.evidenceTail,
+        handoffReason: 'NETWORK_UNSTABLE',
+      });
+    }
+    throw new RunnerStepFailure('HUMAN_REQUIRED', 'GH_AUTH_REQUIRED', 'gh auth status probe failed', {
+      evidenceTail: ghStatus.evidenceTail,
+      handoffReason: 'GH_AUTH_REQUIRED',
+    });
+  }
+
+  const ghParsed = parseGhJson(ghStatus, 'GH_AUTH_STATUS_JSON_PARSE_FAILED');
+  const hostEntries = flattenGhHostsPayload(ghParsed.hosts);
+  const activeEntries = hostEntries.filter((entry) => Boolean(entry?.active));
+  const entries = activeEntries.length > 0 ? activeEntries : hostEntries;
+
+  let hasOkAuth = false;
+  let hasNetworkFailure = false;
+  let hasAuthFailure = false;
+
+  for (const entry of entries) {
+    const state = String(entry?.state || '').toLowerCase();
+    const errorText = String(entry?.error || '');
+    if (state === 'ok' || state === 'success' || state === 'logged_in' || state === 'active') {
+      hasOkAuth = true;
+      continue;
+    }
+    if (isNetworkErrorText(errorText) || isNetworkErrorText(state)) {
+      hasNetworkFailure = true;
+    }
+    if (isGhAuthFailureText(errorText) || isGhAuthFailureText(state)) {
+      hasAuthFailure = true;
+    }
+  }
+
+  if (!hasOkAuth) {
+    if (hasNetworkFailure) {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'gh auth status returned network error', {
+        evidenceTail: tailLines(ghStatus.stdout || ''),
+        handoffReason: 'NETWORK_UNSTABLE',
+      });
+    }
+    const evidenceTail = tailLines(`${ghStatus.stdout || ''}\n${ghStatus.stderr || ''}`) || [];
+    throw new RunnerStepFailure('HUMAN_REQUIRED', 'GH_AUTH_REQUIRED', 'gh auth is not valid for non-interactive runner flow', {
+      evidenceTail,
+      handoffReason: 'GH_AUTH_REQUIRED',
+    });
+  }
+
+  const gitAccessProbe = runCommand('git', ['ls-remote', '--heads', 'origin'], { retryable: false });
+  if (!gitAccessProbe.ok) {
+    const combined = `${gitAccessProbe.stdout || ''}\n${gitAccessProbe.stderr || ''}\n${(gitAccessProbe.evidenceTail || []).join('\n')}`;
+    if (isNetworkErrorText(combined) || gitAccessProbe.classification.failureClass === 'RETRYABLE_FAIL') {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'git remote access probe failed', {
+        evidenceTail: gitAccessProbe.evidenceTail,
+        handoffReason: 'NETWORK_UNSTABLE',
+      });
+    }
+    if (isGitAuthFailureText(combined) || isGhAuthFailureText(combined)) {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'GH_AUTH_REQUIRED', 'git remote access requires valid credentials', {
+        evidenceTail: gitAccessProbe.evidenceTail,
+        handoffReason: 'GH_AUTH_REQUIRED',
+      });
+    }
+    throw new RunnerStepFailure('BLOCK_FAIL', 'RUNNER_STEP_FAILED', 'git remote access probe failed', {
+      evidenceTail: gitAccessProbe.evidenceTail,
+    });
+  }
+
+  const nowIso = nowUtcIso();
+  const sessionPayload = {
+    ghAuthValidatedAt: nowIso,
+    gitAccessValidatedAt: nowIso,
+    lastNetworkProbeAt: nowIso,
+    sessionId: crypto.randomUUID(),
+    expiresAtUtc: new Date(Date.now() + RUNNER_SESSION_TTL_MS).toISOString(),
+  };
+  writeRunnerSessionCache(sessionPayload);
+  ctx.runnerSessionPreflight = {
+    cacheHit: false,
+    ...sessionPayload,
+  };
+  return { summary: `auth/network preflight validated (session ${sessionPayload.sessionId})` };
+}
+
 function commandToString(command, args) {
   const chunks = [String(command || '').trim(), ...(args || []).map((item) => String(item || '').trim())]
     .filter((chunk) => chunk.length > 0);
@@ -390,8 +593,15 @@ function classifyFailureText(detailText) {
     || text.includes('failed to prompt')
     || text.includes('prompt disabled')
     || text.includes('terminal prompts disabled')
+    || text.includes('open this url')
+    || text.includes('open a browser')
+    || text.includes('one-time code')
+    || text.includes('password for')
+    || text.includes('username for')
+    || text.includes('passphrase for')
+    || text.includes('press enter to open')
   ) {
-    return { failureClass: 'HUMAN_REQUIRED', reason: 'UI_PERMISSION' };
+    return { failureClass: 'HUMAN_REQUIRED', reason: 'INTERACTIVE_PROMPT_BLOCKED' };
   }
 
   if (
@@ -401,9 +611,19 @@ function classifyFailureText(detailText) {
   }
 
   if (
-    text.includes('authentication failed')
-    || text.includes('gh auth login')
+    text.includes('gh auth login')
     || text.includes('not logged into github')
+    || text.includes('token expired')
+    || text.includes('token has expired')
+    || text.includes('token revoked')
+    || text.includes('invalid token')
+    || text.includes('bad credentials')
+  ) {
+    return { failureClass: 'HUMAN_REQUIRED', reason: 'GH_AUTH_REQUIRED' };
+  }
+
+  if (
+    text.includes('authentication failed')
     || text.includes('could not read username')
     || text.includes('requires authentication')
     || text.includes('http 401')
@@ -493,12 +713,16 @@ function runCommand(command, args = [], options = {}) {
       env: {
         ...env,
         GIT_TERMINAL_PROMPT: '0',
+        GCM_INTERACTIVE: 'Never',
         GH_PROMPT_DISABLED: '1',
         GH_NO_UPDATE_NOTIFIER: '1',
+        GH_BROWSER: 'none',
+        CI: '1',
         NO_COLOR: '1',
         FORCE_COLOR: '0',
       },
       shell: false,
+      stdio: 'pipe',
       timeout: command === 'gh' ? GH_TIMEOUT_MS : undefined,
       encoding: 'utf8',
     });
@@ -1886,7 +2110,7 @@ function stepPrDiscovery(ctx, resumeFromStep = 4) {
 
   const lookup = runCommand(
     'gh',
-    ['pr', 'view', String(prNumber), '--json', 'number,url,state,mergeable,baseRefName,headRefName,mergeStateStatus'],
+    ['pr', 'view', String(prNumber), '--json', 'number,url,state,mergeable,baseRefName,headRefName,mergeStateStatus,isDraft,statusCheckRollup'],
     { retryable: true },
   );
   if (!lookup.ok) {
@@ -1916,6 +2140,7 @@ function stepPrDiscovery(ctx, resumeFromStep = 4) {
 
   ctx.state.prNumber = prNumber;
   ctx.state.prUrl = prUrl;
+  ctx.state.prViewCache = parsed;
   writeSnapshot(ctx.snapshotPath, ctx.state);
 
   return { summary: `resolved PR #${prNumber}` };
@@ -1927,18 +2152,24 @@ function stepRequiredChecksWait(ctx, stepId = 'required_checks_wait', resumeFrom
   }
 
   const startedAt = Date.now();
+  let consumedCachedPrView = false;
   while (Date.now() - startedAt < CHECKS_WAIT_TIMEOUT_MS) {
-    const view = runCommand(
-      'gh',
-      ['pr', 'view', String(ctx.state.prNumber), '--json', 'number,url,state,isDraft,statusCheckRollup,mergeStateStatus'],
-      { retryable: true },
-    );
-
-    if (!view.ok) {
-      throw toStepFailureFromCommand(view, `${stepId}: cannot read PR checks state`, { resumeFromStep, blockReason: 'REQUIRED_CHECKS_QUERY_FAILED' });
+    let parsed = null;
+    if (!consumedCachedPrView && ctx.state?.prViewCache && Number(ctx.state.prViewCache?.number) === Number(ctx.state.prNumber)) {
+      parsed = ctx.state.prViewCache;
+      consumedCachedPrView = true;
+    } else {
+      const view = runCommand(
+        'gh',
+        ['pr', 'view', String(ctx.state.prNumber), '--json', 'number,url,state,isDraft,statusCheckRollup,mergeStateStatus'],
+        { retryable: true },
+      );
+      if (!view.ok) {
+        throw toStepFailureFromCommand(view, `${stepId}: cannot read PR checks state`, { resumeFromStep, blockReason: 'REQUIRED_CHECKS_QUERY_FAILED' });
+      }
+      parsed = parseGhJson(view, 'REQUIRED_CHECKS_JSON_PARSE_FAILED');
+      ctx.state.prViewCache = parsed;
     }
-
-    const parsed = parseGhJson(view, 'REQUIRED_CHECKS_JSON_PARSE_FAILED');
     const rollup = Array.isArray(parsed.statusCheckRollup) ? parsed.statusCheckRollup : [];
     const mergeStateStatus = String(parsed.mergeStateStatus || '').toUpperCase();
     const isDraft = Boolean(parsed.isDraft);
@@ -1978,22 +2209,31 @@ function stepRequiredChecksWait(ctx, stepId = 'required_checks_wait', resumeFrom
 }
 
 function stepAntiSwapVerify(ctx, resumeFromStep = 6) {
-  const fetched = runCommand('git', ['fetch', 'origin'], { retryable: true });
-  if (!fetched.ok) {
-    if (fetched.classification.failureClass === 'RETRYABLE_FAIL') {
-      const retryableReason = retryableReasonFromClassification(fetched.classification);
-      throw new RunnerStepFailure('HUMAN_REQUIRED', retryableReason, 'anti-swap fetch retry exhausted', {
-        evidenceTail: fetched.evidenceTail,
-        resumeFromStep,
-        handoffReason: retryableReason,
-      });
+  const existingNetworkProbe = (ctx.state && typeof ctx.state.networkProbe === 'object' && ctx.state.networkProbe)
+    ? ctx.state.networkProbe
+    : {};
+  if (!existingNetworkProbe.originFetchValidatedAtUtc) {
+    const fetched = runCommand('git', ['fetch', 'origin'], { retryable: true });
+    if (!fetched.ok) {
+      if (fetched.classification.failureClass === 'RETRYABLE_FAIL') {
+        const retryableReason = retryableReasonFromClassification(fetched.classification);
+        throw new RunnerStepFailure('HUMAN_REQUIRED', retryableReason, 'anti-swap fetch retry exhausted', {
+          evidenceTail: fetched.evidenceTail,
+          resumeFromStep,
+          handoffReason: retryableReason,
+        });
+      }
+      throw new RunnerStepFailure(
+        fetched.classification.failureClass,
+        fetched.classification.reason,
+        'anti-swap fetch failed',
+        { evidenceTail: fetched.evidenceTail },
+      );
     }
-    throw new RunnerStepFailure(
-      fetched.classification.failureClass,
-      fetched.classification.reason,
-      'anti-swap fetch failed',
-      { evidenceTail: fetched.evidenceTail },
-    );
+    ctx.state.networkProbe = {
+      ...existingNetworkProbe,
+      originFetchValidatedAtUtc: nowUtcIso(),
+    };
   }
 
   const ancestor = runCommand('git', ['merge-base', '--is-ancestor', 'origin/main', 'HEAD'], { retryable: false });
@@ -2256,6 +2496,7 @@ function emitFinalSummary(ctx) {
     worktreeStatusPorcelainClean: Boolean(ctx.state?.worktreeStatusPorcelainClean),
     changedFilesExact: changedFiles,
     cacheReuse: Boolean(ctx.cacheReuse),
+    runnerSessionPreflight: ctx.runnerSessionPreflight || null,
     autocycleEnabled: Boolean(ctx.autocycleEnabled),
     autocycleSnapshotPath: ctx.autocycleSnapshotPath || '',
     autocycleState: ctx.autocycleState || null,
@@ -2312,6 +2553,7 @@ function main() {
     cacheReuse: false,
     envHashMismatch: false,
     cachedRunResult: null,
+    runnerSessionPreflight: null,
     baseSha: '',
     startConditions: {
       baseSha: '',
@@ -2516,6 +2758,9 @@ function main() {
         ctx.originMainShaBefore = originMainSha;
       }
       assertCacheInvariantOrThrow();
+      if (runPrFlow) {
+        ensureRunnerAuthAndNetworkPreflightOrThrow(ctx);
+      }
       if (ctx.autocycleEnabled) {
         ctx.baseSha = gitRevParse('origin/main');
         initAutocycleContext(ctx);

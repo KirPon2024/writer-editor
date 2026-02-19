@@ -335,6 +335,25 @@ function classifyFailureText(detailText) {
   return { failureClass: 'BLOCK_FAIL', reason: 'RUNNER_STEP_FAILED' };
 }
 
+function isGitAuthFailureText(detailText) {
+  const text = String(detailText || '').toLowerCase();
+  return (
+    text.includes('authentication failed')
+    || text.includes('gh auth login')
+    || text.includes('not logged into github')
+    || text.includes('could not read username')
+    || text.includes('requires authentication')
+    || text.includes('http 401')
+    || text.includes('http 403')
+    || text.includes('permission denied')
+    || text.includes('access denied')
+    || text.includes('write access to repository not granted')
+    || text.includes('repository not found')
+    || text.includes('not permitted')
+    || text.includes('remote: permission')
+  );
+}
+
 function normalizeFailure(error) {
   if (error instanceof RunnerStepFailure) {
     return error;
@@ -1352,10 +1371,76 @@ function parsePrUrlAndNumber(outputText) {
   return { prNumber: Number.parseInt(match[1], 10), prUrl: match[0] };
 }
 
+function stepBranchPush(ctx) {
+  if (ctx.args.noCreatePr) {
+    ctx.state.branchPushStatus = 'skipped';
+    writeSnapshot(ctx.snapshotPath, ctx.state);
+    return { summary: 'branch_push skipped (--no-create-pr)' };
+  }
+
+  const currentBranch = gitCurrentBranch();
+  if (!currentBranch || currentBranch === 'HEAD') {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_BRANCH_STATE', 'detached HEAD is not allowed for branch_push', {
+      evidenceTail: [currentBranch || 'HEAD'],
+    });
+  }
+  if (currentBranch === 'main') {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_BRANCH_STATE', 'refusing to push main in local pipeline', {
+      evidenceTail: [currentBranch],
+    });
+  }
+  if (!currentBranch.startsWith('codex/')) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_BRANCH_STATE', 'branch_push requires codex/* branch name', {
+      evidenceTail: [currentBranch],
+    });
+  }
+
+  const branchName = String(ctx.state?.branchName || ctx.state?.branch || '').trim() || currentBranch;
+  if (branchName !== currentBranch) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_BRANCH_STATE', 'branch state drift before push', {
+      evidenceTail: [branchName, currentBranch],
+    });
+  }
+
+  const push = runCommand('git', ['push', '-u', 'origin', 'HEAD'], { retryable: true });
+  if (!push.ok) {
+    if (push.classification.failureClass === 'RETRYABLE_FAIL') {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'git push retry exhausted', {
+        evidenceTail: push.evidenceTail,
+        resumeFromStep: 9,
+        handoffReason: 'NETWORK_UNSTABLE',
+      });
+    }
+
+    const combined = `${push.stdout || ''}\n${push.stderr || ''}\n${(push.evidenceTail || []).join('\n')}`;
+    if (push.classification.failureClass === 'HUMAN_REQUIRED' || isGitAuthFailureText(combined)) {
+      throw new RunnerStepFailure('HUMAN_REQUIRED', 'GIT_AUTH_REQUIRED', 'git push requires authentication or repository write permission', {
+        evidenceTail: push.evidenceTail,
+        resumeFromStep: 9,
+        handoffReason: 'GIT_AUTH_REQUIRED',
+      });
+    }
+
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_BRANCH_STATE', 'git push failed for branch state reasons', {
+      evidenceTail: push.evidenceTail,
+    });
+  }
+
+  ctx.state.branch = branchName;
+  ctx.state.branchName = branchName;
+  ctx.state.branchPushStatus = 'executed';
+  writeSnapshot(ctx.snapshotPath, ctx.state);
+  return { summary: `branch pushed (${branchName})` };
+}
+
 function stepPrCreate(ctx) {
   if (ctx.args.noCreatePr) {
+    if (!ctx.state.branchPushStatus) {
+      ctx.state.branchPushStatus = 'skipped';
+      writeSnapshot(ctx.snapshotPath, ctx.state);
+    }
     throw new RunnerStepFailure('HUMAN_REQUIRED', 'PR_CREATE_SKIPPED', '--no-create-pr set: stopping before PR create', {
-      resumeFromStep: 9,
+      resumeFromStep: 10,
       handoffReason: 'PR_CREATE_SKIPPED',
     });
   }
@@ -1389,7 +1474,7 @@ function stepPrCreate(ctx) {
 
   if (!createResult.ok) {
     throw toStepFailureFromCommand(createResult, 'Unable to create PR', {
-      resumeFromStep: 9,
+      resumeFromStep: 10,
       blockReason: 'PR_CREATE_FAILED',
     });
   }
@@ -1772,6 +1857,7 @@ function emitFinalSummary(ctx) {
     prNumber: ctx.state?.prNumber || null,
     prUrl: ctx.state?.prUrl || '',
     mergeCommitSha: ctx.state?.mergeCommitSha || '',
+    branchPushStatus: ctx.state?.branchPushStatus || '',
     changedFilesExact: changedFiles,
     cacheReuse: Boolean(ctx.cacheReuse),
     autocycleEnabled: Boolean(ctx.autocycleEnabled),
@@ -1981,8 +2067,8 @@ function main() {
       if (!mode || !ALLOWED_MODES.has(mode)) {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_MODE', 'mode is invalid');
       }
-      if (args.resumeFromStep !== null && (!Number.isInteger(args.resumeFromStep) || args.resumeFromStep < 0 || args.resumeFromStep > 16)) {
-        throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_RESUME_STEP', 'resume-from-step must be an integer in [0,16]');
+      if (args.resumeFromStep !== null && (!Number.isInteger(args.resumeFromStep) || args.resumeFromStep < 0 || args.resumeFromStep > 17)) {
+        throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_RESUME_STEP', 'resume-from-step must be an integer in [0,17]');
       }
       if (args.patchFile && !args.autocycle) {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_PATCH_FILE', '--patch-file requires --autocycle');
@@ -2211,6 +2297,20 @@ function main() {
       }
       if (startStep <= 9) {
         step = runStep(ctx, {
+          stepId: 'branch_push',
+          command: 'git push -u origin HEAD',
+          handler: () => stepBranchPush(ctx),
+        });
+        if (!step.ok) {
+          finalizeFailure(step.error);
+          emitFinalSummary(ctx);
+          process.exit(ctx.exitCode);
+        }
+        ctx.state.lastCompletedStep = 9;
+        writeSnapshot(ctx.snapshotPath, ctx.state);
+      }
+      if (startStep <= 10) {
+        step = runStep(ctx, {
           stepId: 'pr_create',
           command: 'gh pr create --body-file <temp>',
           handler: () => stepPrCreate(ctx),
@@ -2220,13 +2320,13 @@ function main() {
           emitFinalSummary(ctx);
           process.exit(ctx.exitCode);
         }
-        ctx.state.lastCompletedStep = 9;
-        ctx.state.resumeFromStep = 10;
+        ctx.state.lastCompletedStep = 10;
+        ctx.state.resumeFromStep = 11;
         writeSnapshot(ctx.snapshotPath, ctx.state);
       }
     }
 
-    const lifecycleOffset = ctx.localPipelineMode ? 6 : 0;
+    const lifecycleOffset = ctx.localPipelineMode ? 7 : 0;
     const prDiscoveryStep = 4 + lifecycleOffset;
     const requiredChecksStep = 5 + lifecycleOffset;
     const antiSwapStep = 6 + lifecycleOffset;

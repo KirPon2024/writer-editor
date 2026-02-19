@@ -14,6 +14,10 @@ const RETRY_DELAY_MS = 2000;
 const GH_TIMEOUT_MS = 30000;
 const CHECKS_WAIT_TIMEOUT_MS = 10 * 60 * 1000;
 const CHECKS_WAIT_POLL_MS = 20 * 1000;
+const DEFAULT_ALLOWLIST = Object.freeze([
+  'scripts/ops/codex-run.mjs',
+  'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
+]);
 
 class RunnerStepFailure extends Error {
   constructor(failureClass, reason, detail, options = {}) {
@@ -150,7 +154,7 @@ function classifyFailureText(detailText) {
     || text.includes('is not mergeable')
     || text.includes('branch protection')
   ) {
-    return { failureClass: 'HUMAN_REQUIRED', reason: 'BRANCH_PROTECTION_WAIT' };
+    return { failureClass: 'HUMAN_REQUIRED', reason: 'BRANCH_PROTECTION_BLOCK' };
   }
 
   if (
@@ -275,6 +279,7 @@ function runStep(ctx, { stepId, command = 'internal', handler }) {
   const startedAt = nowMs();
   if (ctx.state) {
     ctx.state.stepId = stepId;
+    ctx.state.currentStep = stepId;
     writeSnapshot(ctx.snapshotPath, ctx.state);
   }
   try {
@@ -330,6 +335,22 @@ function inputHash(ticketId, mode, args) {
     },
   });
   return crypto.createHash('sha256').update(payload).digest('hex');
+}
+
+function parseAllowlist() {
+  const raw = String(process.env.CODEX_ALLOWLIST_PATHS_EXACT || '').trim();
+  if (!raw) return [...DEFAULT_ALLOWLIST];
+  return raw
+    .split(',')
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0);
+}
+
+function inferTier(mode) {
+  if (mode === 'pr') return 'RUNTIME_LIGHT';
+  if (mode === 'promotion') return 'CORE';
+  if (mode === 'release') return 'RUNTIME_FEATURE';
+  return 'DOCS_ONLY';
 }
 
 function ensureToolAvailable(name) {
@@ -516,12 +537,16 @@ function stepRestoreOrInitState(ctx) {
   const state = {
     ticketId: ctx.ticketId,
     mode: ctx.mode,
+    inputHash: ctx.inputHash,
+    tier: ctx.tier,
+    allowlist: ctx.allowlist,
     baseSha,
     headSha,
     branch,
     prNumber: existing?.prNumber ?? null,
     prUrl: existing?.prUrl ?? '',
-    stepId: existing?.stepId || 'restore_or_init_state',
+    currentStep: existing?.currentStep || existing?.stepId || 'restore_or_init_state',
+    stepId: existing?.stepId || existing?.currentStep || 'restore_or_init_state',
     requiredChecksState: existing?.requiredChecksState || 'unknown',
     antiSwapVerified: Boolean(existing?.antiSwapVerified),
     resumeFromStep: existing?.resumeFromStep ?? DEFAULT_PR_RESUME_STEP,
@@ -931,11 +956,17 @@ function main() {
   const snapshotPath = snapshotPathForTicket(ticketId);
   const snapshotExists = fs.existsSync(snapshotPath);
   const runPrFlow = shouldRunPrFlow(args, snapshotExists);
+  const runnerInputHash = inputHash(ticketId, mode, args);
+  const tier = inferTier(mode);
+  const allowlist = parseAllowlist();
 
   const ctx = {
     traceId,
     ticketId,
     mode,
+    inputHash: runnerInputHash,
+    tier,
+    allowlist,
     args,
     snapshotPath,
     startedAt: nowMs(),
@@ -1025,7 +1056,9 @@ function main() {
           version: RUNNER_VERSION,
           singleEntry: true,
           retryPolicy: 'max_2_retries_for_retryable_failures',
-          inputHash: inputHash(ticketId, mode, args),
+          inputHash: ctx.inputHash,
+          tier: ctx.tier,
+          allowlist: ctx.allowlist,
           platform: `${os.platform()}/${os.arch()}`,
           supportsPrMergeResume: true,
           runPrFlow,

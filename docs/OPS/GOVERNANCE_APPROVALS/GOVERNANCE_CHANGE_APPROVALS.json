@@ -325,10 +325,10 @@
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "9c6096df059b494b2f450a76c906674378ca68847990347ee3ff00fa5313cbf5",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-02-P0",
-      "approvedAtUtc": "2026-02-19T02:09:15.000Z",
-      "rationale": "Prevent readiness-only false-green in mode=pr; enforce PR-flow invariant; correct classification for missing PR context and network instability."
+      "sha256": "05d333763f6298d871b903a96dd17742c87fcc34edfefba043a62cf6f0230087",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-03",
+      "approvedAtUtc": "2026-02-19T02:31:14.000Z",
+      "rationale": "Stabilize default PR-flow execution in codex runner; keep HUMAN_REQUIRED semantics for missing PR context and network/protection while preserving deterministic resume snapshot contract."
     }
   ]
 }

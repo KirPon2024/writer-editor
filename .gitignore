@@ -8,6 +8,9 @@ dist/**
 artifacts/contour-c-run/**
 artifacts/sector-w-run/**
 artifacts/sector-u-run/**
+# AUTOCYCLE: cache is EPHEMERAL
+docs/OPS/CACHE/
+docs/OPS/CACHE/**
 docs/OPS/CACHE/codex-run/
 
 # M1: allow pinning renderer bundle checksum

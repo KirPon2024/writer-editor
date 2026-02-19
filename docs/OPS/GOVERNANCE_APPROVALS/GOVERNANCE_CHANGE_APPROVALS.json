@@ -325,10 +325,10 @@
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "d1e502d8f9f9c00f8fa37a01063e81604e7cf269fb2c7904fab85fff79c84633",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
-      "approvedAtUtc": "2026-02-19T04:15:41.000Z",
-      "rationale": "Enable local product autocycle pipeline: plan discovery/freeze/apply/gates/branch+commit/pr_create with deterministic resume and canonical failure routing."
+      "sha256": "a8a758600616e1e1ce9e02f27a9dfdc6de391869dd5c356f111ee6e1284c2c9e",
+      "approvedBy": "ticket:PATCH_TZ-PRODUCT-AUTOCYCLE-PR-CREATE-PUSH-01",
+      "approvedAtUtc": "2026-02-19T04:53:30.000Z",
+      "rationale": "Add branch push step before pr_create to satisfy GitHub headRef requirements."
     }
   ]
 }

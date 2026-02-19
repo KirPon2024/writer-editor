@@ -121,6 +121,13 @@
       "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
     },
     {
+      "filePath": "docs/OPS/SECURITY/NPM_AUDIT_HIGH_CLOSURE_SECTOR01_D.json",
+      "sha256": "33b17548ed8f333518bc1a44d0fbb4466735a76003380bc118900a93e7bbfcbc",
+      "approvedBy": "ticket:TZ-SECTOR-01-D-HIGH-CLOSURE-SSOT-01",
+      "approvedAtUtc": "2026-02-19T10:10:25.806Z",
+      "rationale": "Record high-severity npm audit closure SSOT for Sector-01 Ticket D using reachability classification and exception metadata."
+    },
+    {
       "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
       "sha256": "30e4d5321947f954b15f21321ab3a446ad9a1cbc916ff352b543f66935fbb23a",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",

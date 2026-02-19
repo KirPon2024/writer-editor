@@ -402,7 +402,7 @@ function ensureRunnerAuthAndNetworkPreflightOrThrow(ctx) {
   for (const entry of entries) {
     const state = String(entry?.state || '').toLowerCase();
     const errorText = String(entry?.error || '');
-    if (state === 'ok' || state === 'logged_in' || state === 'active') {
+    if (state === 'ok' || state === 'success' || state === 'logged_in' || state === 'active') {
       hasOkAuth = true;
       continue;
     }

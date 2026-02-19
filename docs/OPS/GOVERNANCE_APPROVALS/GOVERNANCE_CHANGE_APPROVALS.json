@@ -318,17 +318,17 @@
     },
     {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
-      "sha256": "933355075f83f0909a859769f01751021ee5f35f79c77085cbf28aa2ed0db771",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-01",
-      "approvedAtUtc": "2026-02-18T21:29:44.000Z",
-      "rationale": "Enable bounded 3×MAIN_TZ auto-cycle canon (experimental). No product semantics."
+      "sha256": "cb022999e9e4181f80e35d7a09fcdd80410420f2bad38d7703ed5e90293021e0",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-04",
+      "approvedAtUtc": "2026-02-19T02:53:20.000Z",
+      "rationale": "Extend autocycle canon with maxIterationsTotal and patchConstraints for bounded runner validation."
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "05d333763f6298d871b903a96dd17742c87fcc34edfefba043a62cf6f0230087",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-03",
-      "approvedAtUtc": "2026-02-19T02:31:14.000Z",
-      "rationale": "Stabilize default PR-flow execution in codex runner; keep HUMAN_REQUIRED semantics for missing PR context and network/protection while preserving deterministic resume snapshot contract."
+      "sha256": "ca559db418f492892a30c3d85c7b86ffb1507ae84e6b5ac6790adb3003b170b6",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-04",
+      "approvedAtUtc": "2026-02-19T02:53:20.000Z",
+      "rationale": "Add bounded autocycle state machine to runner; enforce MAIN_TZ + PATCH_TZ limits, deterministic resume, and stagnation escalation."
     }
   ]
 }

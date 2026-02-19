@@ -67,6 +67,8 @@ const LOCKFILE_CANDIDATES = Object.freeze([
   'yarn.lock',
   'bun.lockb',
 ]);
+const SAFE_TICKET_ID_RE = /^[A-Za-z0-9._:+-]{3,180}$/;
+const SAFE_BRANCH_RE = /^(?!\/)(?!.*\/\/)(?!.*\.\.)(?!.*@\{)(?!.*\\)(?!.*\s)[A-Za-z0-9._/-]{1,255}$/;
 
 class RunnerStepFailure extends Error {
   constructor(failureClass, reason, detail, options = {}) {
@@ -183,6 +185,72 @@ function ticketBranchName(ticketId) {
   return `codex/${sanitizeTicketId(ticketId).toLowerCase()}`;
 }
 
+function hasNullByte(value) {
+  return String(value || '').includes('\0');
+}
+
+function isSafeRepoRelativePath(rawPath) {
+  const normalized = String(rawPath || '').trim().replace(/\\/g, '/');
+  if (!normalized) return false;
+  if (hasNullByte(normalized)) return false;
+  if (path.isAbsolute(normalized)) return false;
+  if (normalized.split('/').includes('..')) return false;
+  const resolved = path.resolve(process.cwd(), normalized);
+  const relative = path.relative(process.cwd(), resolved).replace(/\\/g, '/');
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) return false;
+  return true;
+}
+
+function assertTicketIdFormatOrThrow(ticketId) {
+  const value = String(ticketId || '').trim();
+  if (!value) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'MISSING_TICKET', 'ticket is required');
+  }
+  if (hasNullByte(value)) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'UNSAFE_INPUT', 'ticket contains unsafe null byte', {
+      evidenceTail: [value],
+    });
+  }
+  if (!SAFE_TICKET_ID_RE.test(value)) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_INPUT_FORMAT', `invalid ticket format: ${value}`);
+  }
+}
+
+function assertSafeBranchNameOrThrow(branchName, options = {}) {
+  const branch = String(branchName || '').trim();
+  const reason = String(options.reason || 'INVALID_INPUT_FORMAT');
+  const label = String(options.label || 'branch');
+  if (!branch) {
+    throw new RunnerStepFailure('BLOCK_FAIL', reason, `${label} is empty`);
+  }
+  if (hasNullByte(branch)) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'UNSAFE_INPUT', `${label} contains unsafe null byte`, {
+      evidenceTail: [branch],
+    });
+  }
+  if (!SAFE_BRANCH_RE.test(branch)) {
+    throw new RunnerStepFailure('BLOCK_FAIL', reason, `${label} has invalid format`, {
+      evidenceTail: [branch],
+    });
+  }
+  return branch;
+}
+
+function assertRepoRelativeInputPathOrThrow(inputPath, label) {
+  const raw = String(inputPath || '').trim();
+  if (!raw) return;
+  if (hasNullByte(raw)) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'UNSAFE_INPUT', `${label} contains unsafe null byte`, {
+      evidenceTail: [raw],
+    });
+  }
+  if (!isSafeRepoRelativePath(raw)) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_INPUT_FORMAT', `${label} must be repo-relative without ".."`, {
+      evidenceTail: [raw],
+    });
+  }
+}
+
 function tailLines(text, max = 12) {
   const lines = String(text || '')
     .split('\n')
@@ -287,6 +355,26 @@ function emitStepEvent(payload) {
   process.stdout.write(`${JSON.stringify(payload)}\n`);
 }
 
+function isGitLockFailureText(detailText) {
+  const text = String(detailText || '').toLowerCase();
+  return (
+    text.includes('another git process seems to be running')
+    || text.includes('.git/index.lock')
+    || text.includes('index.lock')
+    || text.includes('fetch_head.lock')
+    || text.includes('cannot lock ref')
+    || text.includes('unable to create') && text.includes('.git/fetch_head')
+    || text.includes('unable to create') && text.includes('.git/index')
+    || text.includes('failed to lock')
+  );
+}
+
+function retryableReasonFromClassification(classification) {
+  return String(classification?.reason || '') === 'GIT_LOCK_DETECTED'
+    ? 'GIT_LOCK_DETECTED'
+    : 'NETWORK_UNSTABLE';
+}
+
 function classifyFailureText(detailText) {
   const text = String(detailText || '').toLowerCase();
 
@@ -306,6 +394,12 @@ function classifyFailureText(detailText) {
   }
 
   if (
+    isGitLockFailureText(text)
+  ) {
+    return { failureClass: 'RETRYABLE_FAIL', reason: 'GIT_LOCK_DETECTED' };
+  }
+
+  if (
     text.includes('authentication failed')
     || text.includes('gh auth login')
     || text.includes('not logged into github')
@@ -314,7 +408,7 @@ function classifyFailureText(detailText) {
     || text.includes('http 401')
     || text.includes('http 403')
   ) {
-    return { failureClass: 'HUMAN_REQUIRED', reason: 'GH_AUTH_REQUIRED' };
+    return { failureClass: 'HUMAN_REQUIRED', reason: 'GIT_AUTH_REQUIRED' };
   }
 
   if (
@@ -389,7 +483,7 @@ function runCommand(command, args = [], options = {}) {
     requireSuccess = false,
   } = options;
 
-  const attemptsAllowed = retryable ? 3 : 1;
+  let attemptsAllowed = retryable ? 3 : 1;
   let last = null;
 
   for (let attempt = 1; attempt <= attemptsAllowed; attempt += 1) {
@@ -403,6 +497,7 @@ function runCommand(command, args = [], options = {}) {
         NO_COLOR: '1',
         FORCE_COLOR: '0',
       },
+      shell: false,
       timeout: command === 'gh' ? GH_TIMEOUT_MS : undefined,
       encoding: 'utf8',
     });
@@ -425,6 +520,9 @@ function runCommand(command, args = [], options = {}) {
     }
 
     const classified = classifyFailureText(combined);
+    if (classified.reason === 'GIT_LOCK_DETECTED') {
+      attemptsAllowed = Math.min(attemptsAllowed, 2);
+    }
     last = {
       ok: false,
       status: Number.isInteger(result.status) ? result.status : 1,
@@ -443,11 +541,15 @@ function runCommand(command, args = [], options = {}) {
   }
 
   if (requireSuccess && last) {
+    const failureReason = retryableReasonFromClassification(last.classification);
+    const failureClass = last.classification.failureClass === 'RETRYABLE_FAIL'
+      ? 'HUMAN_REQUIRED'
+      : last.classification.failureClass;
     throw new RunnerStepFailure(
-      last.classification.failureClass,
-      last.classification.reason,
+      failureClass,
+      failureClass === 'HUMAN_REQUIRED' ? failureReason : last.classification.reason,
       `${commandToString(command, args)} failed`,
-      { evidenceTail: last.evidenceTail },
+      { evidenceTail: last.evidenceTail, handoffReason: failureReason },
     );
   }
 
@@ -525,7 +627,10 @@ function isLocalAutocyclePipeline(args) {
 }
 
 function resolvePlanPath(ticketId, explicitPlanPath) {
-  if (explicitPlanPath) return path.resolve(process.cwd(), explicitPlanPath);
+  if (explicitPlanPath && isSafeRepoRelativePath(explicitPlanPath)) {
+    return path.resolve(process.cwd(), explicitPlanPath);
+  }
+  if (explicitPlanPath) return '';
   return path.resolve(process.cwd(), TICKET_PLAN_ROOT, `${sanitizeTicketId(ticketId)}.plan.json`);
 }
 
@@ -565,12 +670,14 @@ function computeChangedFilesContentDigest(allowlist) {
   const sorted = Array.isArray(allowlist) ? [...allowlist].sort() : [];
   const lines = [];
   for (const relativePath of sorted) {
-    const resolved = path.resolve(process.cwd(), relativePath);
+    const safeRelativePath = normalizeRepoRelativePath(relativePath);
+    if (!safeRelativePath) continue;
+    const resolved = path.resolve(process.cwd(), safeRelativePath);
     if (!fs.existsSync(resolved)) continue;
     const stat = fs.statSync(resolved);
     if (!stat.isFile()) continue;
     const fileDigest = sha256Buffer(fs.readFileSync(resolved));
-    lines.push(`${relativePath}\n${fileDigest}\n`);
+    lines.push(`${safeRelativePath}\n${fileDigest}\n`);
   }
   return sha256String(lines.join(''));
 }
@@ -637,11 +744,31 @@ function parseAllowlist() {
 function normalizeRepoRelativePath(candidatePath) {
   const raw = String(candidatePath || '').trim().replace(/\\/g, '/');
   if (!raw) return '';
-  if (path.isAbsolute(raw)) return '';
+  if (!isSafeRepoRelativePath(raw)) return '';
   const resolved = path.resolve(process.cwd(), raw);
   const relative = path.relative(process.cwd(), resolved).replace(/\\/g, '/');
   if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) return '';
   return relative;
+}
+
+function validateAllowlistOrThrow(allowlist) {
+  const input = Array.isArray(allowlist) ? allowlist : [];
+  const normalized = [];
+  for (const entry of input) {
+    const raw = String(entry || '').trim();
+    if (!raw) continue;
+    const safe = normalizeRepoRelativePath(raw);
+    if (!safe) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'UNSAFE_INPUT', `allowlist path is unsafe: ${raw}`, {
+        evidenceTail: [raw],
+      });
+    }
+    if (safe.startsWith(CACHE_ROOT_PREFIX)) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'CACHE_SCOPE_LEAK', `allowlist may not include cache path: ${safe}`);
+    }
+    normalized.push(safe);
+  }
+  return [...new Set(normalized)];
 }
 
 function validatePlanPayload(ctx, payload) {
@@ -695,6 +822,9 @@ function validatePlanPayload(ctx, payload) {
 
 function loadPlanOrThrow(ctx) {
   const resolvedPlanPath = resolvePlanPath(ctx.ticketId, ctx.args.planPath || '');
+  if (!resolvedPlanPath) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_INPUT_FORMAT', 'plan path must be repo-relative without ".."');
+  }
   ctx.planPath = resolvedPlanPath;
   if (!fs.existsSync(resolvedPlanPath)) {
     throw new RunnerStepFailure(
@@ -713,6 +843,28 @@ function loadPlanOrThrow(ctx) {
     });
   }
   return validatePlanPayload(ctx, parsed);
+}
+
+function validateExplicitPlanPathOrThrow(ctx) {
+  const explicitPlanPath = String(ctx.args?.planPath || '').trim();
+  if (!explicitPlanPath) return;
+  const resolvedPlanPath = resolvePlanPath(ctx.ticketId, explicitPlanPath);
+  if (!resolvedPlanPath) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_INPUT_FORMAT', 'plan path must be repo-relative without ".."');
+  }
+  if (!fs.existsSync(resolvedPlanPath)) {
+    throw new RunnerStepFailure('HUMAN_REQUIRED', 'PLAN_MISSING', `plan file missing: ${resolvedPlanPath}`, {
+      resumeFromStep: 4,
+      evidenceTail: [resolvedPlanPath],
+    });
+  }
+  try {
+    JSON.parse(fs.readFileSync(resolvedPlanPath, 'utf8'));
+  } catch (error) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', `unable to parse plan JSON: ${resolvedPlanPath}`, {
+      evidenceTail: tailLines(error?.message || String(error || 'json parse failed')),
+    });
+  }
 }
 
 function inferTier(mode) {
@@ -1061,7 +1213,7 @@ function createPrBodyTempFile(ticketId, branch, options = {}) {
 }
 
 function ensureRemoteBranchBeforePrCreateOrThrow(branchName, resumeFromStep = null) {
-  const safeBranch = String(branchName || '').trim();
+  const safeBranch = assertSafeBranchNameOrThrow(branchName, { reason: 'INVALID_BRANCH_STATE', label: 'PR create branch' });
   if (!safeBranch || safeBranch === 'HEAD' || safeBranch === 'main') {
     throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_BRANCH_STATE', 'invalid branch for PR create', {
       evidenceTail: [safeBranch || 'missing-branch'],
@@ -1072,10 +1224,11 @@ function ensureRemoteBranchBeforePrCreateOrThrow(branchName, resumeFromStep = nu
   if (push.ok) return;
 
   if (push.classification.failureClass === 'RETRYABLE_FAIL') {
-    throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', `Unable to push ${safeBranch} before PR create`, {
+    const retryableReason = retryableReasonFromClassification(push.classification);
+    throw new RunnerStepFailure('HUMAN_REQUIRED', retryableReason, `Unable to push ${safeBranch} before PR create`, {
       evidenceTail: push.evidenceTail,
       resumeFromStep,
-      handoffReason: 'NETWORK_UNSTABLE',
+      handoffReason: retryableReason,
     });
   }
 
@@ -1183,14 +1336,15 @@ function toStepFailureFromCommand(commandFailure, detail, options = {}) {
   }
 
   if (commandFailure.classification.failureClass === 'RETRYABLE_FAIL') {
+    const retryableReason = retryableReasonFromClassification(commandFailure.classification);
     return new RunnerStepFailure(
       'HUMAN_REQUIRED',
-      'NETWORK_UNSTABLE',
+      retryableReason,
       detail,
       {
         evidenceTail: commandFailure.evidenceTail,
         resumeFromStep: Number.isInteger(options.resumeFromStep) ? options.resumeFromStep : null,
-        handoffReason: options.handoffReason || 'NETWORK_UNSTABLE',
+        handoffReason: options.handoffReason || retryableReason,
         clickList: Array.isArray(options.clickList) ? options.clickList : [],
       },
     );
@@ -1221,7 +1375,7 @@ function stepRestoreOrInitState(ctx) {
     );
   }
 
-  const branch = gitCurrentBranch();
+  const branch = assertSafeBranchNameOrThrow(gitCurrentBranch(), { reason: 'INVALID_BRANCH_STATE', label: 'current branch' });
   const headSha = gitRevParse('HEAD');
   const originMainSha = gitRevParse('origin/main');
   const baseSha = existing?.baseSha || originMainSha;
@@ -1236,12 +1390,13 @@ function stepRestoreOrInitState(ctx) {
   }
 
   if (existing?.branch) {
-    const branchProbe = runCommand('git', ['rev-parse', '--verify', existing.branch], { retryable: false });
+    const existingBranch = assertSafeBranchNameOrThrow(existing.branch, { reason: 'INVALID_BRANCH_STATE', label: 'resume branch' });
+    const branchProbe = runCommand('git', ['rev-parse', '--verify', existingBranch], { retryable: false });
     if (!branchProbe.ok) {
       throw new RunnerStepFailure(
         'HUMAN_REQUIRED',
         'BRANCH_MISSING',
-        `resume branch missing: ${existing.branch}`,
+        `resume branch missing: ${existingBranch}`,
         { resumeFromStep: existing.resumeFromStep || defaultResumeStep, evidenceTail: branchProbe.evidenceTail },
       );
     }
@@ -1393,9 +1548,11 @@ function runGateOrThrow(command, args, reasonCode, resumeFromStep) {
   const gate = runCommand(command, args, { retryable: true });
   if (gate.ok) return gate;
   if (gate.classification.failureClass === 'RETRYABLE_FAIL') {
-    throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', `${reasonCode} failed after retries`, {
+    const retryableReason = retryableReasonFromClassification(gate.classification);
+    throw new RunnerStepFailure('HUMAN_REQUIRED', retryableReason, `${reasonCode} failed after retries`, {
       evidenceTail: gate.evidenceTail,
       resumeFromStep,
+      handoffReason: retryableReason,
     });
   }
   throw new RunnerStepFailure('BLOCK_FAIL', 'GATE_PACK_FAILED', `${reasonCode} failed`, {
@@ -1417,28 +1574,29 @@ function stepGatePackRun(ctx) {
 }
 
 function ensureBranchCheckedOut(branchName) {
+  const safeBranchName = assertSafeBranchNameOrThrow(branchName, { reason: 'INVALID_BRANCH_STATE', label: 'target branch' });
   const currentBranch = gitCurrentBranch();
-  if (currentBranch === branchName) return;
-  const exists = runCommand('git', ['rev-parse', '--verify', branchName], { retryable: false });
+  if (currentBranch === safeBranchName) return;
+  const exists = runCommand('git', ['rev-parse', '--verify', safeBranchName], { retryable: false });
   if (exists.ok) {
-    const checkout = runCommand('git', ['checkout', branchName], { retryable: false });
+    const checkout = runCommand('git', ['checkout', safeBranchName], { retryable: false });
     if (!checkout.ok) {
-      throw new RunnerStepFailure('BLOCK_FAIL', 'BRANCH_CHECKOUT_FAILED', `failed to checkout branch ${branchName}`, {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'BRANCH_CHECKOUT_FAILED', `failed to checkout branch ${safeBranchName}`, {
         evidenceTail: checkout.evidenceTail,
       });
     }
     return;
   }
-  const create = runCommand('git', ['checkout', '-b', branchName], { retryable: false });
+  const create = runCommand('git', ['checkout', '-b', safeBranchName], { retryable: false });
   if (!create.ok) {
-    throw new RunnerStepFailure('BLOCK_FAIL', 'BRANCH_CREATE_FAILED', `failed to create branch ${branchName}`, {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'BRANCH_CREATE_FAILED', `failed to create branch ${safeBranchName}`, {
       evidenceTail: create.evidenceTail,
     });
   }
 }
 
 function stepCreateBranchCommit(ctx) {
-  let branchName = ticketBranchName(ctx.ticketId);
+  let branchName = assertSafeBranchNameOrThrow(ticketBranchName(ctx.ticketId), { reason: 'INVALID_BRANCH_STATE', label: 'ticket branch' });
   try {
     ensureBranchCheckedOut(branchName);
   } catch (error) {
@@ -1448,7 +1606,7 @@ function stepCreateBranchCommit(ctx) {
       normalized.reason === 'BRANCH_CREATE_FAILED'
       && (evidenceLower.includes('operation not permitted') || evidenceLower.includes('permission denied'))
     ) {
-      branchName = gitCurrentBranch();
+      branchName = assertSafeBranchNameOrThrow(gitCurrentBranch(), { reason: 'INVALID_BRANCH_STATE', label: 'fallback branch' });
     } else {
       throw normalized;
     }
@@ -1509,7 +1667,7 @@ function stepBranchPush(ctx) {
     return { summary: 'branch_push skipped (--no-create-pr)' };
   }
 
-  const currentBranch = gitCurrentBranch();
+  const currentBranch = assertSafeBranchNameOrThrow(gitCurrentBranch(), { reason: 'INVALID_BRANCH_STATE', label: 'current branch' });
   if (!currentBranch || currentBranch === 'HEAD') {
     throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_BRANCH_STATE', 'detached HEAD is not allowed for branch_push', {
       evidenceTail: [currentBranch || 'HEAD'],
@@ -1526,7 +1684,10 @@ function stepBranchPush(ctx) {
     });
   }
 
-  const branchName = String(ctx.state?.branchName || ctx.state?.branch || '').trim() || currentBranch;
+  const branchName = assertSafeBranchNameOrThrow(String(ctx.state?.branchName || ctx.state?.branch || '').trim() || currentBranch, {
+    reason: 'INVALID_BRANCH_STATE',
+    label: 'branch_push branch',
+  });
   if (branchName !== currentBranch) {
     throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_BRANCH_STATE', 'branch state drift before push', {
       evidenceTail: [branchName, currentBranch],
@@ -1536,10 +1697,11 @@ function stepBranchPush(ctx) {
   const push = runCommand('git', ['push', '-u', 'origin', 'HEAD'], { retryable: true });
   if (!push.ok) {
     if (push.classification.failureClass === 'RETRYABLE_FAIL') {
-      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'git push retry exhausted', {
+      const retryableReason = retryableReasonFromClassification(push.classification);
+      throw new RunnerStepFailure('HUMAN_REQUIRED', retryableReason, 'git push retry exhausted', {
         evidenceTail: push.evidenceTail,
         resumeFromStep: 9,
-        handoffReason: 'NETWORK_UNSTABLE',
+        handoffReason: retryableReason,
       });
     }
 
@@ -1575,7 +1737,10 @@ function stepPrCreate(ctx) {
       handoffReason: 'PR_CREATE_SKIPPED',
     });
   }
-  const branchName = String(ctx.state?.branchName || ctx.state?.branch || '').trim();
+  const branchName = assertSafeBranchNameOrThrow(String(ctx.state?.branchName || ctx.state?.branch || '').trim(), {
+    reason: 'INVALID_BRANCH_STATE',
+    label: 'pr_create branch',
+  });
   if (!branchName) {
     throw new RunnerStepFailure('BLOCK_FAIL', 'PR_CREATE_FAILED', 'branch name missing before PR create');
   }
@@ -1600,7 +1765,8 @@ function stepPrDiscovery(ctx, resumeFromStep = 4) {
 
   let prNumber = ctx.state.prNumber;
   let prUrl = ctx.state.prUrl;
-  const branchName = String(ctx.state.branch || '').trim();
+  const branchNameRaw = String(ctx.state.branch || '').trim();
+  const branchName = branchNameRaw ? assertSafeBranchNameOrThrow(branchNameRaw, { reason: 'INVALID_BRANCH_STATE', label: 'state branch' }) : '';
 
   if (prNumber === null) {
     if (!branchName || branchName === 'main') {
@@ -1747,9 +1913,11 @@ function stepAntiSwapVerify(ctx, resumeFromStep = 6) {
   const fetched = runCommand('git', ['fetch', 'origin'], { retryable: true });
   if (!fetched.ok) {
     if (fetched.classification.failureClass === 'RETRYABLE_FAIL') {
-      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'anti-swap fetch retry exhausted', {
+      const retryableReason = retryableReasonFromClassification(fetched.classification);
+      throw new RunnerStepFailure('HUMAN_REQUIRED', retryableReason, 'anti-swap fetch retry exhausted', {
         evidenceTail: fetched.evidenceTail,
         resumeFromStep,
+        handoffReason: retryableReason,
       });
     }
     throw new RunnerStepFailure(
@@ -1821,9 +1989,11 @@ function stepPrMerge(ctx, resumeFromStep = 7) {
   }
 
   if (merge.classification.failureClass === 'RETRYABLE_FAIL') {
-    throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'merge retry exhausted', {
+    const retryableReason = retryableReasonFromClassification(merge.classification);
+    throw new RunnerStepFailure('HUMAN_REQUIRED', retryableReason, 'merge retry exhausted', {
       evidenceTail: merge.evidenceTail,
       resumeFromStep,
+      handoffReason: retryableReason,
     });
   }
 
@@ -1882,9 +2052,11 @@ function stepPostMergeRunnerChecks(ctx, resumeFromStep = 9) {
   const pullMain = runCommand('git', ['pull', '--ff-only', 'origin', 'main'], { retryable: true });
   if (!pullMain.ok) {
     if (pullMain.classification.failureClass === 'RETRYABLE_FAIL') {
-      throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'git pull retry exhausted', {
+      const retryableReason = retryableReasonFromClassification(pullMain.classification);
+      throw new RunnerStepFailure('HUMAN_REQUIRED', retryableReason, 'git pull retry exhausted', {
         evidenceTail: pullMain.evidenceTail,
         resumeFromStep,
+        handoffReason: retryableReason,
       });
     }
     throw new RunnerStepFailure(
@@ -2223,15 +2395,19 @@ function main() {
     stepId: 'validate_env',
     command: 'internal',
     handler: () => {
-      if (!ticketId) {
-        throw new RunnerStepFailure('BLOCK_FAIL', 'MISSING_TICKET', 'ticket is required');
-      }
+      assertTicketIdFormatOrThrow(ticketId);
       if (!mode || !ALLOWED_MODES.has(mode)) {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_MODE', 'mode is invalid');
+      }
+      if (args.prNumber !== null && (!Number.isInteger(args.prNumber) || args.prNumber <= 0)) {
+        throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_INPUT_FORMAT', '--pr must be positive integer');
       }
       if (args.resumeFromStep !== null && (!Number.isInteger(args.resumeFromStep) || args.resumeFromStep < 0 || args.resumeFromStep > 17)) {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_RESUME_STEP', 'resume-from-step must be an integer in [0,17]');
       }
+      assertRepoRelativeInputPathOrThrow(args.planPath, '--plan');
+      assertRepoRelativeInputPathOrThrow(args.patchFile, '--patch-file');
+      validateExplicitPlanPathOrThrow(ctx);
       if (args.patchFile && !args.autocycle) {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_PATCH_FILE', '--patch-file requires --autocycle');
       }
@@ -2241,12 +2417,13 @@ function main() {
       if (args.automerge && mode !== 'pr') {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_AUTOMERGE', '--automerge requires --mode pr');
       }
+      ctx.allowlist = validateAllowlistOrThrow(ctx.allowlist);
       ensureToolAvailable('node');
       if (runPrFlow) {
         ensureToolAvailable('git');
         ensureToolAvailable('gh');
         const originMainSha = gitRevParse('origin/main');
-        const currentBranch = gitCurrentBranch();
+        const currentBranch = assertSafeBranchNameOrThrow(gitCurrentBranch(), { reason: 'INVALID_BRANCH_STATE', label: 'current branch' });
         const startStatus = runCommand('git', ['status', '--porcelain', '--untracked-files=all'], { retryable: false });
         if (!startStatus.ok) {
           throw new RunnerStepFailure('BLOCK_FAIL', 'SCOPE_PROOF_FAILED', 'unable to inspect start worktree status', {

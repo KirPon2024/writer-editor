@@ -16,6 +16,7 @@ const GH_TIMEOUT_MS = 30000;
 const CHECKS_WAIT_TIMEOUT_MS = 10 * 60 * 1000;
 const CHECKS_WAIT_POLL_MS = 20 * 1000;
 const CACHE_ROOT_PREFIX = 'docs/OPS/CACHE/';
+const TICKET_PLAN_ROOT = path.join('docs', 'OPS', 'EXECUTION', 'TICKETS');
 const DEFAULT_ALLOWLIST = Object.freeze([
   'scripts/ops/codex-run.mjs',
   'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
@@ -49,6 +50,8 @@ const AUTOCYCLE_HARD_BLOCK_REASONS = new Set([
   'PATCH_CONSTRAINTS_EXCEEDED',
   'PATCH_FILE_MISMATCH',
   'AUTOCYCLE_CANON_INVALID',
+  'PLAN_INVALID',
+  'GATE_PACK_FAILED',
 ]);
 const AUTOCYCLE_STAGNATION_NETWORK_REASONS = new Set([
   'NETWORK_UNSTABLE',
@@ -56,6 +59,7 @@ const AUTOCYCLE_STAGNATION_NETWORK_REASONS = new Set([
 const AUTOCYCLE_STAGNATION_CONTEXT_REASONS = new Set([
   'PR_CONTEXT_MISSING',
   'BRANCH_PROTECTION_BLOCK',
+  'PR_CREATE_SKIPPED',
 ]);
 const LOCKFILE_CANDIDATES = Object.freeze([
   'package-lock.json',
@@ -81,7 +85,7 @@ function usage() {
   process.stdout.write(
     [
       'Usage:',
-      '  node scripts/ops/codex-run.mjs --ticket <TICKET_ID> --mode <dev|pr|release|promotion> [--pr <NUMBER>] [--resume-from-step <N>] [--autocycle] [--patch-file <PATH>]',
+      '  node scripts/ops/codex-run.mjs --ticket <TICKET_ID> --mode <dev|pr|release|promotion> [--pr <NUMBER>] [--resume-from-step <N>] [--autocycle] [--patch-file <PATH>] [--plan <PATH>] [--no-create-pr]',
       '  node scripts/ops/codex-run.mjs --help',
     ].join('\n') + '\n',
   );
@@ -96,6 +100,8 @@ function parseArgs(argv) {
     resumeFromStep: null,
     autocycle: false,
     patchFile: '',
+    planPath: '',
+    noCreatePr: false,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -138,6 +144,15 @@ function parseArgs(argv) {
       i += 1;
       continue;
     }
+    if (arg === '--plan' && i + 1 < argv.length) {
+      out.planPath = String(argv[i + 1] || '').trim();
+      i += 1;
+      continue;
+    }
+    if (arg === '--no-create-pr') {
+      out.noCreatePr = true;
+      continue;
+    }
   }
 
   return out;
@@ -159,6 +174,10 @@ function sanitizeTicketId(ticketId) {
     || 'ticket';
 }
 
+function ticketBranchName(ticketId) {
+  return `codex/${sanitizeTicketId(ticketId).toLowerCase()}`;
+}
+
 function tailLines(text, max = 12) {
   const lines = String(text || '')
     .split('\n')
@@ -172,6 +191,17 @@ function commandToString(command, args) {
   const chunks = [String(command || '').trim(), ...(args || []).map((item) => String(item || '').trim())]
     .filter((chunk) => chunk.length > 0);
   return chunks.join(' ');
+}
+
+function stableJsonStringify(value) {
+  if (Array.isArray(value)) {
+    return `[${value.map((item) => stableJsonStringify(item)).join(',')}]`;
+  }
+  if (value && typeof value === 'object') {
+    const keys = Object.keys(value).sort();
+    return `{${keys.map((key) => `${JSON.stringify(key)}:${stableJsonStringify(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
 }
 
 function sha256Buffer(buffer) {
@@ -455,6 +485,37 @@ function safeGitRevParse(ref) {
   return String(result.stdout || '').trim();
 }
 
+function isLocalAutocyclePipeline(args) {
+  return Boolean(args?.autocycle && args?.mode === 'pr' && args?.prNumber === null);
+}
+
+function resolvePlanPath(ticketId, explicitPlanPath) {
+  if (explicitPlanPath) return path.resolve(process.cwd(), explicitPlanPath);
+  return path.resolve(process.cwd(), TICKET_PLAN_ROOT, `${sanitizeTicketId(ticketId)}.plan.json`);
+}
+
+function readPlanForHash(planPath) {
+  if (!planPath || !fs.existsSync(planPath)) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(planPath, 'utf8'));
+    if (!parsed || typeof parsed !== 'object') return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function derivePlanAllowlist(planPayload) {
+  if (!planPayload || typeof planPayload !== 'object') return [];
+  const changes = Array.isArray(planPayload.changes) ? planPayload.changes : [];
+  return [...new Set(changes.map((entry) => String(entry?.path || '').trim()).filter(Boolean))].sort();
+}
+
+function planDigest(planPayload) {
+  if (!planPayload) return 'none';
+  return sha256String(stableJsonStringify(planPayload));
+}
+
 function detectLockfileHash() {
   for (const candidate of LOCKFILE_CANDIDATES) {
     const resolved = path.resolve(process.cwd(), candidate);
@@ -486,12 +547,14 @@ function resolveRunnerVersionSource() {
   return sha256Buffer(fs.readFileSync(selfPath));
 }
 
-function buildHashState({ mode, tier, allowlist }) {
+function buildHashState({ mode, tier, allowlist, planPath = '', planPayload = null }) {
   const baseSha = safeGitRevParse('origin/main');
   const allowHash = allowlistHash(allowlist);
   const { lockfilePath, lockfileHash } = detectLockfileHash();
   const changedFilesContentDigest = computeChangedFilesContentDigest(allowlist);
   const runnerVersionSource = resolveRunnerVersionSource();
+  const normalizedPlanPath = planPath ? path.relative(process.cwd(), planPath) : '';
+  const computedPlanDigest = planDigest(planPayload);
   const determinismPayload = JSON.stringify({
     hashSchemaVersion: HASH_SCHEMA_VERSION_DEFAULT,
     baseSha,
@@ -500,7 +563,10 @@ function buildHashState({ mode, tier, allowlist }) {
     allowlistHash: allowHash,
     lockfilePath,
     lockfileHash,
+    nodeVersion: process.version,
     changedFilesContentDigest,
+    planPath: normalizedPlanPath || 'none',
+    planDigest: computedPlanDigest,
     runnerVersion: runnerVersionSource,
   });
   const envPayload = JSON.stringify({
@@ -516,6 +582,8 @@ function buildHashState({ mode, tier, allowlist }) {
     lockfilePath,
     lockfileHash,
     changedFilesContentDigest,
+    planPath: normalizedPlanPath,
+    planDigest: computedPlanDigest,
     runnerVersionSource,
     determinismHash: sha256String(determinismPayload),
     envHash: sha256String(envPayload),
@@ -529,6 +597,87 @@ function parseAllowlist() {
     .split(',')
     .map((item) => item.trim())
     .filter((item) => item.length > 0);
+}
+
+function normalizeRepoRelativePath(candidatePath) {
+  const raw = String(candidatePath || '').trim().replace(/\\/g, '/');
+  if (!raw) return '';
+  if (path.isAbsolute(raw)) return '';
+  const resolved = path.resolve(process.cwd(), raw);
+  const relative = path.relative(process.cwd(), resolved).replace(/\\/g, '/');
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) return '';
+  return relative;
+}
+
+function validatePlanPayload(ctx, payload) {
+  if (!payload || typeof payload !== 'object') {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', 'plan payload must be a JSON object');
+  }
+  const schemaVersion = String(payload.schemaVersion || '').trim();
+  const ticketId = String(payload.ticketId || '').trim();
+  if (schemaVersion !== 'v1') {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', `unsupported plan schemaVersion: ${schemaVersion || 'missing'}`);
+  }
+  if (ticketId && ticketId !== ctx.ticketId) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', `plan ticketId mismatch: ${ticketId} != ${ctx.ticketId}`);
+  }
+  const changes = Array.isArray(payload.changes) ? payload.changes : null;
+  if (!changes) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', 'plan changes must be an array');
+  }
+
+  const normalizedChanges = changes.map((entry, index) => {
+    const rawPath = String(entry?.path || '').trim();
+    const normalizedPath = normalizeRepoRelativePath(rawPath);
+    const operation = String(entry?.operation || '').trim().toLowerCase();
+    if (!normalizedPath) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', `invalid path at changes[${index}]`);
+    }
+    if (!['edit', 'create', 'delete'].includes(operation)) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', `invalid operation at changes[${index}]: ${operation || 'missing'}`);
+    }
+    if (normalizedPath.startsWith(CACHE_ROOT_PREFIX)) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'CACHE_SCOPE_LEAK', `plan may not mutate cache path: ${normalizedPath}`);
+    }
+    if (operation !== 'delete' && typeof entry?.content !== 'string') {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', `content must be string for changes[${index}]`);
+    }
+    return {
+      path: normalizedPath,
+      operation,
+      content: operation === 'delete' ? '' : String(entry.content),
+    };
+  });
+
+  return {
+    schemaVersion: 'v1',
+    ticketId: ticketId || ctx.ticketId,
+    tier: String(payload.tier || '').trim() || 'RUNTIME_FEATURE',
+    changes: normalizedChanges,
+    doneCriteria: Array.isArray(payload.doneCriteria) ? payload.doneCriteria.map((item) => String(item || '').trim()).filter(Boolean) : [],
+  };
+}
+
+function loadPlanOrThrow(ctx) {
+  const resolvedPlanPath = resolvePlanPath(ctx.ticketId, ctx.args.planPath || '');
+  ctx.planPath = resolvedPlanPath;
+  if (!fs.existsSync(resolvedPlanPath)) {
+    throw new RunnerStepFailure(
+      'HUMAN_REQUIRED',
+      'PLAN_MISSING',
+      `plan file missing: ${resolvedPlanPath}`,
+      { resumeFromStep: 4, evidenceTail: [resolvedPlanPath] },
+    );
+  }
+  let parsed = null;
+  try {
+    parsed = JSON.parse(fs.readFileSync(resolvedPlanPath, 'utf8'));
+  } catch (error) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', `unable to parse plan JSON: ${resolvedPlanPath}`, {
+      evidenceTail: tailLines(error?.message || String(error || 'json parse failed')),
+    });
+  }
+  return validatePlanPayload(ctx, parsed);
 }
 
 function inferTier(mode) {
@@ -708,6 +857,9 @@ function initAutocycleContext(ctx) {
     mode: ctx.mode,
     tier: ctx.tier,
     allowlist: ctx.allowlist,
+    planPath: ctx.planPath || '',
+    planDigest: ctx.planDigest || 'none',
+    localPipelineMode: Boolean(ctx.localPipelineMode),
     currentMainIndex: existing?.currentMainIndex || 1,
     currentPatchIndex: existing?.currentPatchIndex || 0,
     iterationCount: Number.isInteger(existing?.iterationCount) ? existing.iterationCount : 0,
@@ -725,12 +877,12 @@ function initAutocycleContext(ctx) {
   };
 
   if (state.currentMainIndex > policy.maxMainTzPerBatch) {
-    throw new RunnerStepFailure(
-      'HUMAN_REQUIRED',
-      'MAIN_TZ_LIMIT_REACHED',
-      `main ticket index ${state.currentMainIndex} exceeds max ${policy.maxMainTzPerBatch}`,
-      { resumeFromStep: ctx.args.resumeFromStep ?? DEFAULT_PR_RESUME_STEP },
-    );
+      throw new RunnerStepFailure(
+        'HUMAN_REQUIRED',
+        'MAIN_TZ_LIMIT_REACHED',
+        `main ticket index ${state.currentMainIndex} exceeds max ${policy.maxMainTzPerBatch}`,
+        { resumeFromStep: ctx.args.resumeFromStep ?? (ctx.localPipelineMode ? 4 : DEFAULT_PR_RESUME_STEP) },
+      );
   }
 
   if (patchPayload) {
@@ -744,7 +896,7 @@ function initAutocycleContext(ctx) {
         'HUMAN_REQUIRED',
         'PATCH_LIMIT_REACHED',
         `patch index ${state.currentPatchIndex} exceeds max ${policy.maxPatchPerMain}`,
-        { resumeFromStep: ctx.args.resumeFromStep ?? DEFAULT_PR_RESUME_STEP },
+        { resumeFromStep: ctx.args.resumeFromStep ?? (ctx.localPipelineMode ? 4 : DEFAULT_PR_RESUME_STEP) },
       );
     }
   }
@@ -909,6 +1061,7 @@ function shouldRunPrFlow(args, snapshotExists) {
 
 function stepRestoreOrInitState(ctx) {
   const existing = readSnapshot(ctx.snapshotPath);
+  const defaultResumeStep = ctx.localPipelineMode ? 4 : DEFAULT_PR_RESUME_STEP;
   if (ctx.args.resumeFromStep !== null && !existing) {
     throw new RunnerStepFailure(
       'BLOCK_FAIL',
@@ -925,10 +1078,10 @@ function stepRestoreOrInitState(ctx) {
 
   if (existing && existing.baseSha && existing.baseSha !== originMainSha) {
     throw new RunnerStepFailure(
-      'HUMAN_REQUIRED',
-      'BASE_CHANGED',
-      `origin/main moved from ${existing.baseSha} to ${originMainSha}`,
-      { resumeFromStep: existing.resumeFromStep || DEFAULT_PR_RESUME_STEP, evidenceTail: [existing.baseSha, originMainSha] },
+        'HUMAN_REQUIRED',
+        'BASE_CHANGED',
+        `origin/main moved from ${existing.baseSha} to ${originMainSha}`,
+      { resumeFromStep: existing.resumeFromStep || defaultResumeStep, evidenceTail: [existing.baseSha, originMainSha] },
     );
   }
 
@@ -939,7 +1092,7 @@ function stepRestoreOrInitState(ctx) {
         'HUMAN_REQUIRED',
         'BRANCH_MISSING',
         `resume branch missing: ${existing.branch}`,
-        { resumeFromStep: existing.resumeFromStep || DEFAULT_PR_RESUME_STEP, evidenceTail: branchProbe.evidenceTail },
+        { resumeFromStep: existing.resumeFromStep || defaultResumeStep, evidenceTail: branchProbe.evidenceTail },
       );
     }
   }
@@ -953,16 +1106,20 @@ function stepRestoreOrInitState(ctx) {
     hashSchemaVersion: ctx.hashSchemaVersion,
     tier: ctx.tier,
     allowlist: ctx.allowlist,
+    planPath: existing?.planPath || ctx.planPath || '',
+    planDigest: existing?.planDigest || ctx.planDigest || 'none',
+    localPipelineMode: Boolean(existing?.localPipelineMode ?? ctx.localPipelineMode),
     baseSha,
     headSha,
     branch,
+    branchName: existing?.branchName || '',
     prNumber: existing?.prNumber ?? null,
     prUrl: existing?.prUrl ?? '',
     currentStep: existing?.currentStep || existing?.stepId || 'restore_or_init_state',
     stepId: existing?.stepId || existing?.currentStep || 'restore_or_init_state',
     requiredChecksState: existing?.requiredChecksState || 'unknown',
     antiSwapVerified: Boolean(existing?.antiSwapVerified),
-    resumeFromStep: existing?.resumeFromStep ?? DEFAULT_PR_RESUME_STEP,
+    resumeFromStep: existing?.resumeFromStep ?? defaultResumeStep,
     lastCompletedStep: Number.isInteger(existing?.lastCompletedStep) ? existing.lastCompletedStep : 2,
     createdAtUtc: existing?.createdAtUtc || nowUtcIso(),
   };
@@ -1016,7 +1173,9 @@ function applyCachedDeterminismOutcome(ctx) {
   const failureClass = String(cached.failureClass || 'HUMAN_REQUIRED');
   const reason = String(cached.reason || 'RUNNER_STEP_FAILED');
   const detail = String(cached.detail || `reused cached ${failureClass}/${reason}`);
-  const resumeFromStep = Number.isInteger(cached.resumeFromStep) ? cached.resumeFromStep : DEFAULT_PR_RESUME_STEP;
+  const resumeFromStep = Number.isInteger(cached.resumeFromStep)
+    ? cached.resumeFromStep
+    : (ctx.localPipelineMode ? 4 : DEFAULT_PR_RESUME_STEP);
   const clickList = Array.isArray(cached.clickList) ? cached.clickList : [];
   const handoffReason = cached.handoffReason ? String(cached.handoffReason) : '';
   const evidenceTail = Array.isArray(cached.evidenceTail) ? cached.evidenceTail : [];
@@ -1032,7 +1191,223 @@ function applyCachedDeterminismOutcome(ctx) {
   };
 }
 
-function stepPrDiscovery(ctx) {
+function stepLocalDiscovery(ctx) {
+  const plan = loadPlanOrThrow(ctx);
+  ctx.localPlan = plan;
+  ctx.state.planPath = ctx.planPath;
+  ctx.state.planDigest = planDigest(plan);
+  writeSnapshot(ctx.snapshotPath, ctx.state);
+  return { summary: `plan loaded (${plan.changes.length} changes)` };
+}
+
+function stepLocalFreeze(ctx) {
+  if (!ctx.localPlan) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', 'local plan is not loaded');
+  }
+  const frozenAllowlist = [...new Set(ctx.localPlan.changes.map((item) => item.path))].sort();
+  ctx.allowlist = frozenAllowlist;
+  ctx.state.allowlist = frozenAllowlist;
+  ctx.state.frozenAllowlistHash = allowlistHash(frozenAllowlist);
+  writeSnapshot(ctx.snapshotPath, ctx.state);
+  return { summary: `allowlist frozen (${frozenAllowlist.length} paths)` };
+}
+
+function stepApplyPlan(ctx) {
+  if (!ctx.localPlan) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PLAN_INVALID', 'local plan is not loaded');
+  }
+  const applied = [];
+  for (const change of ctx.localPlan.changes) {
+    if (!ctx.allowlist.includes(change.path)) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'SCOPE_DRIFT', `plan path outside frozen allowlist: ${change.path}`);
+    }
+    const absolutePath = path.resolve(process.cwd(), change.path);
+    if (change.operation === 'delete') {
+      if (fs.existsSync(absolutePath)) {
+        fs.rmSync(absolutePath, { force: true });
+      }
+      applied.push(change.path);
+      continue;
+    }
+    fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
+    fs.writeFileSync(absolutePath, change.content, 'utf8');
+    applied.push(change.path);
+  }
+  assertCacheInvariantOrThrow();
+  ctx.state.appliedPlanPaths = applied;
+  writeSnapshot(ctx.snapshotPath, ctx.state);
+  return { summary: `plan applied (${applied.length} paths)` };
+}
+
+function runGateOrThrow(command, args, reasonCode, resumeFromStep) {
+  const gate = runCommand(command, args, { retryable: true });
+  if (gate.ok) return gate;
+  if (gate.classification.failureClass === 'RETRYABLE_FAIL') {
+    throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', `${reasonCode} failed after retries`, {
+      evidenceTail: gate.evidenceTail,
+      resumeFromStep,
+    });
+  }
+  throw new RunnerStepFailure('BLOCK_FAIL', 'GATE_PACK_FAILED', `${reasonCode} failed`, {
+    evidenceTail: gate.evidenceTail,
+  });
+}
+
+function stepGatePackRun(ctx) {
+  const governance = runGateOrThrow('node', ['scripts/ops/governance-change-detection.mjs', '--json'], 'GOVERNANCE_CHANGE_DETECTION', 7);
+  const doctor = runGateOrThrow('node', ['scripts/doctor.mjs', '--strict'], 'DOCTOR_STRICT', 7);
+  const devFast = runGateOrThrow('npm', ['run', 'dev:fast'], 'DEV_FAST', 7);
+  ctx.state.gates = {
+    governanceChangeDetectionExitCode: governance.status,
+    doctorStrictExitCode: doctor.status,
+    devFastExitCode: devFast.status,
+  };
+  writeSnapshot(ctx.snapshotPath, ctx.state);
+  return { summary: 'gate pack passed' };
+}
+
+function ensureBranchCheckedOut(branchName) {
+  const currentBranch = gitCurrentBranch();
+  if (currentBranch === branchName) return;
+  const exists = runCommand('git', ['rev-parse', '--verify', branchName], { retryable: false });
+  if (exists.ok) {
+    const checkout = runCommand('git', ['checkout', branchName], { retryable: false });
+    if (!checkout.ok) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'BRANCH_CHECKOUT_FAILED', `failed to checkout branch ${branchName}`, {
+        evidenceTail: checkout.evidenceTail,
+      });
+    }
+    return;
+  }
+  const create = runCommand('git', ['checkout', '-b', branchName], { retryable: false });
+  if (!create.ok) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'BRANCH_CREATE_FAILED', `failed to create branch ${branchName}`, {
+      evidenceTail: create.evidenceTail,
+    });
+  }
+}
+
+function stepCreateBranchCommit(ctx) {
+  let branchName = ticketBranchName(ctx.ticketId);
+  try {
+    ensureBranchCheckedOut(branchName);
+  } catch (error) {
+    const normalized = normalizeFailure(error);
+    const evidenceLower = `${String(normalized.detail || '')}\n${Array.isArray(normalized.evidenceTail) ? normalized.evidenceTail.join('\n') : ''}`.toLowerCase();
+    if (
+      normalized.reason === 'BRANCH_CREATE_FAILED'
+      && (evidenceLower.includes('operation not permitted') || evidenceLower.includes('permission denied'))
+    ) {
+      branchName = gitCurrentBranch();
+    } else {
+      throw normalized;
+    }
+  }
+  ctx.state.branch = branchName;
+  ctx.state.branchName = branchName;
+
+  const stagePaths = Array.isArray(ctx.allowlist) ? ctx.allowlist : [];
+  if (stagePaths.length > 0) {
+    const add = runCommand('git', ['add', '--', ...stagePaths], { retryable: false });
+    if (!add.ok) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'CREATE_BRANCH_COMMIT_FAILED', 'failed to stage planned paths', {
+        evidenceTail: add.evidenceTail,
+      });
+    }
+  }
+
+  const staged = runCommand('git', ['diff', '--cached', '--name-only'], { retryable: false });
+  if (!staged.ok) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'CREATE_BRANCH_COMMIT_FAILED', 'failed to inspect staged diff', {
+      evidenceTail: staged.evidenceTail,
+    });
+  }
+  const stagedPaths = String(staged.stdout || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (stagedPaths.length > 0) {
+    const commit = runCommand('git', ['commit', '-m', `chore(autocycle): apply plan for ${ctx.ticketId}`], { retryable: false });
+    if (!commit.ok) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'CREATE_BRANCH_COMMIT_FAILED', 'git commit failed for plan changes', {
+        evidenceTail: commit.evidenceTail,
+      });
+    }
+  }
+
+  ctx.state.headSha = gitRevParse('HEAD');
+  writeSnapshot(ctx.snapshotPath, ctx.state);
+  return {
+    summary: stagedPaths.length > 0
+      ? `branch prepared with commit (${branchName})`
+      : `branch prepared without file delta (${branchName})`,
+  };
+}
+
+function parsePrUrlAndNumber(outputText) {
+  const lines = tailLines(outputText, 20);
+  const match = lines.join('\n').match(/https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/pull\/(\d+)/);
+  if (!match) return { prNumber: null, prUrl: '' };
+  return { prNumber: Number.parseInt(match[1], 10), prUrl: match[0] };
+}
+
+function stepPrCreate(ctx) {
+  if (ctx.args.noCreatePr) {
+    throw new RunnerStepFailure('HUMAN_REQUIRED', 'PR_CREATE_SKIPPED', '--no-create-pr set: stopping before PR create', {
+      resumeFromStep: 9,
+      handoffReason: 'PR_CREATE_SKIPPED',
+    });
+  }
+  const branchName = String(ctx.state?.branchName || ctx.state?.branch || '').trim();
+  if (!branchName) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PR_CREATE_FAILED', 'branch name missing before PR create');
+  }
+
+  const tempBody = createPrBodyTempFile(ctx.ticketId, branchName);
+  let createResult = null;
+  try {
+    createResult = runCommand(
+      'gh',
+      [
+        'pr',
+        'create',
+        '--base',
+        'main',
+        '--head',
+        branchName,
+        '--title',
+        `chore(autocycle): ${ctx.ticketId}`,
+        '--body-file',
+        tempBody,
+      ],
+      { retryable: true },
+    );
+  } finally {
+    if (fs.existsSync(tempBody)) fs.unlinkSync(tempBody);
+  }
+
+  if (!createResult.ok) {
+    throw toStepFailureFromCommand(createResult, 'Unable to create PR', {
+      resumeFromStep: 9,
+      blockReason: 'PR_CREATE_FAILED',
+    });
+  }
+
+  const parsed = parsePrUrlAndNumber(String(createResult.stdout || ''));
+  if (!Number.isInteger(parsed.prNumber) || parsed.prNumber <= 0) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'PR_CREATE_FAILED', 'unable to parse created PR number', {
+      evidenceTail: tailLines(createResult.stdout || ''),
+    });
+  }
+
+  ctx.state.prNumber = parsed.prNumber;
+  ctx.state.prUrl = parsed.prUrl;
+  writeSnapshot(ctx.snapshotPath, ctx.state);
+  return { summary: `created PR #${parsed.prNumber}` };
+}
+
+function stepPrDiscovery(ctx, resumeFromStep = 4) {
   if (!ctx.state) {
     throw new RunnerStepFailure('BLOCK_FAIL', 'STATE_NOT_INITIALIZED', 'Runner state is not initialized');
   }
@@ -1046,7 +1421,7 @@ function stepPrDiscovery(ctx) {
       'PR_CONTEXT_MISSING',
       `PR context missing: provide --pr for branch ${ctx.state.branch || 'unknown'}`,
       {
-        resumeFromStep: 4,
+        resumeFromStep,
         evidenceTail: [ctx.state.branch || 'unknown-branch'],
       },
     );
@@ -1058,7 +1433,7 @@ function stepPrDiscovery(ctx) {
     { retryable: true },
   );
   if (!lookup.ok) {
-    throw toStepFailureFromCommand(lookup, `Unable to read PR #${prNumber}`, { resumeFromStep: 4, blockReason: 'PR_DISCOVERY_FAILED' });
+    throw toStepFailureFromCommand(lookup, `Unable to read PR #${prNumber}`, { resumeFromStep, blockReason: 'PR_DISCOVERY_FAILED' });
   }
   const parsed = parseGhJson(lookup, 'PR_DISCOVERY_JSON_PARSE_FAILED');
   prNumber = Number(parsed.number);
@@ -1066,7 +1441,7 @@ function stepPrDiscovery(ctx) {
   const prState = String(parsed.state || '').toUpperCase();
   if (prState !== 'OPEN') {
     throw new RunnerStepFailure('HUMAN_REQUIRED', 'PR_NOT_OPEN', `PR #${prNumber} is not open`, {
-      resumeFromStep: 4,
+      resumeFromStep,
       evidenceTail: [prState],
     });
   }
@@ -1082,7 +1457,7 @@ function stepPrDiscovery(ctx) {
   return { summary: `resolved PR #${prNumber}` };
 }
 
-function stepRequiredChecksWait(ctx, stepId = 'required_checks_wait') {
+function stepRequiredChecksWait(ctx, stepId = 'required_checks_wait', resumeFromStep = 5) {
   if (!ctx.state?.prNumber) {
     throw new RunnerStepFailure('BLOCK_FAIL', 'PR_NUMBER_MISSING', 'PR number is required');
   }
@@ -1096,7 +1471,7 @@ function stepRequiredChecksWait(ctx, stepId = 'required_checks_wait') {
     );
 
     if (!view.ok) {
-      throw toStepFailureFromCommand(view, `${stepId}: cannot read PR checks state`, { resumeFromStep: 5, blockReason: 'REQUIRED_CHECKS_QUERY_FAILED' });
+      throw toStepFailureFromCommand(view, `${stepId}: cannot read PR checks state`, { resumeFromStep, blockReason: 'REQUIRED_CHECKS_QUERY_FAILED' });
     }
 
     const parsed = parseGhJson(view, 'REQUIRED_CHECKS_JSON_PARSE_FAILED');
@@ -1131,19 +1506,19 @@ function stepRequiredChecksWait(ctx, stepId = 'required_checks_wait') {
   }
 
   throw new RunnerStepFailure('HUMAN_REQUIRED', 'REQUIRED_CHECK_TIMEOUT', `${stepId}: checks wait timed out`, {
-    resumeFromStep: 5,
+    resumeFromStep,
     handoffReason: 'REQUIRED_CHECK_TIMEOUT',
-    clickList: branchProtectionClickList(ctx.state.prUrl, 5),
+    clickList: branchProtectionClickList(ctx.state.prUrl, resumeFromStep),
   });
 }
 
-function stepAntiSwapVerify(ctx) {
+function stepAntiSwapVerify(ctx, resumeFromStep = 6) {
   const fetched = runCommand('git', ['fetch', 'origin'], { retryable: true });
   if (!fetched.ok) {
     if (fetched.classification.failureClass === 'RETRYABLE_FAIL') {
       throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'anti-swap fetch retry exhausted', {
         evidenceTail: fetched.evidenceTail,
-        resumeFromStep: 6,
+        resumeFromStep,
       });
     }
     throw new RunnerStepFailure(
@@ -1181,7 +1556,7 @@ function stepAntiSwapVerify(ctx) {
   return { summary: 'anti-swap rebase applied', rebasePerformed: true };
 }
 
-function stepPrMerge(ctx) {
+function stepPrMerge(ctx, resumeFromStep = 7) {
   if (!ctx.state?.prNumber) {
     throw new RunnerStepFailure('BLOCK_FAIL', 'PR_NUMBER_MISSING', 'PR number is required');
   }
@@ -1203,9 +1578,9 @@ function stepPrMerge(ctx) {
       'manual branch protection action required',
       {
         evidenceTail: merge.evidenceTail,
-        resumeFromStep: 7,
+        resumeFromStep,
         handoffReason: merge.classification.reason,
-        clickList: branchProtectionClickList(ctx.state.prUrl, 7),
+        clickList: branchProtectionClickList(ctx.state.prUrl, resumeFromStep),
       },
     );
   }
@@ -1213,7 +1588,7 @@ function stepPrMerge(ctx) {
   if (merge.classification.failureClass === 'RETRYABLE_FAIL') {
     throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'merge retry exhausted', {
       evidenceTail: merge.evidenceTail,
-      resumeFromStep: 7,
+      resumeFromStep,
     });
   }
 
@@ -1222,7 +1597,7 @@ function stepPrMerge(ctx) {
   });
 }
 
-function stepPostMergeVerify(ctx) {
+function stepPostMergeVerify(ctx, resumeFromStep = 8) {
   const view = runCommand(
     'gh',
     ['pr', 'view', String(ctx.state.prNumber), '--json', 'state,mergedAt,mergeCommit,url,number'],
@@ -1230,7 +1605,7 @@ function stepPostMergeVerify(ctx) {
   );
   if (!view.ok) {
     throw toStepFailureFromCommand(view, 'Unable to read post-merge PR state', {
-      resumeFromStep: 8,
+      resumeFromStep,
       blockReason: 'POST_MERGE_VIEW_FAILED',
     });
   }
@@ -1245,9 +1620,9 @@ function stepPostMergeVerify(ctx) {
       throw new RunnerStepFailure('BLOCK_FAIL', 'PR_CLOSED_UNMERGED', 'PR closed without merge');
     }
     throw new RunnerStepFailure('HUMAN_REQUIRED', 'MERGE_PENDING', 'PR is not merged yet', {
-      resumeFromStep: 8,
+      resumeFromStep,
       handoffReason: 'MERGE_PENDING',
-      clickList: branchProtectionClickList(ctx.state.prUrl, 8),
+      clickList: branchProtectionClickList(ctx.state.prUrl, resumeFromStep),
     });
   }
 
@@ -1261,7 +1636,7 @@ function stepPostMergeVerify(ctx) {
   };
 }
 
-function stepPostMergeRunnerChecks(ctx) {
+function stepPostMergeRunnerChecks(ctx, resumeFromStep = 9) {
   const checkoutMain = runCommand('git', ['checkout', 'main'], { retryable: false });
   if (!checkoutMain.ok) {
     throw new RunnerStepFailure('BLOCK_FAIL', 'POST_MERGE_MAIN_CHECKOUT_FAILED', 'git checkout main failed', {
@@ -1274,7 +1649,7 @@ function stepPostMergeRunnerChecks(ctx) {
     if (pullMain.classification.failureClass === 'RETRYABLE_FAIL') {
       throw new RunnerStepFailure('HUMAN_REQUIRED', 'NETWORK_UNSTABLE', 'git pull retry exhausted', {
         evidenceTail: pullMain.evidenceTail,
-        resumeFromStep: 9,
+        resumeFromStep,
       });
     }
     throw new RunnerStepFailure(
@@ -1378,6 +1753,10 @@ function emitFinalSummary(ctx) {
     hashSchemaVersion: ctx.hashSchemaVersion,
     determinismHash: ctx.determinismHash,
     envHash: ctx.envHash,
+    planPath: ctx.planPath || '',
+    planDigest: ctx.planDigest || 'none',
+    tier: ctx.tier,
+    allowlist: ctx.allowlist,
     stepId: 'final_summary',
     command: 'internal',
     exitCode: ctx.exitCode,
@@ -1414,9 +1793,16 @@ function main() {
   const snapshotPath = snapshotPathForTicket(ticketId);
   const snapshotExists = fs.existsSync(snapshotPath);
   const runPrFlow = shouldRunPrFlow(args, snapshotExists);
-  const tier = inferTier(mode);
-  const allowlist = parseAllowlist();
-  const hashState = buildHashState({ mode, tier, allowlist });
+  const localPipelineMode = isLocalAutocyclePipeline(args);
+  const resolvedPlanPath = localPipelineMode ? resolvePlanPath(ticketId, args.planPath || '') : '';
+  const planForHash = localPipelineMode ? readPlanForHash(resolvedPlanPath) : null;
+  const tier = localPipelineMode && typeof planForHash?.tier === 'string' && String(planForHash.tier).trim()
+    ? String(planForHash.tier).trim().toUpperCase()
+    : inferTier(mode);
+  const allowlist = localPipelineMode && planForHash
+    ? derivePlanAllowlist(planForHash)
+    : parseAllowlist();
+  const hashState = buildHashState({ mode, tier, allowlist, planPath: resolvedPlanPath, planPayload: planForHash });
 
   const ctx = {
     traceId,
@@ -1430,8 +1816,12 @@ function main() {
     lockfileHash: hashState.lockfileHash,
     changedFilesContentDigest: hashState.changedFilesContentDigest,
     runnerVersionSource: hashState.runnerVersionSource,
+    planPath: hashState.planPath,
+    planDigest: hashState.planDigest,
     tier,
     allowlist,
+    localPipelineMode,
+    localPlan: null,
     autocycleEnabled: Boolean(args.autocycle),
     autocyclePolicy: null,
     autocycleState: null,
@@ -1468,7 +1858,7 @@ function main() {
         failure.detail,
         {
           evidenceTail: failure.evidenceTail,
-          resumeFromStep: failure.resumeFromStep ?? ctx.state?.resumeFromStep ?? DEFAULT_PR_RESUME_STEP,
+          resumeFromStep: failure.resumeFromStep ?? ctx.state?.resumeFromStep ?? (ctx.localPipelineMode ? 4 : DEFAULT_PR_RESUME_STEP),
         },
       );
     }
@@ -1591,11 +1981,14 @@ function main() {
       if (!mode || !ALLOWED_MODES.has(mode)) {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_MODE', 'mode is invalid');
       }
-      if (args.resumeFromStep !== null && (!Number.isInteger(args.resumeFromStep) || args.resumeFromStep < 0 || args.resumeFromStep > 10)) {
-        throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_RESUME_STEP', 'resume-from-step must be an integer in [0,10]');
+      if (args.resumeFromStep !== null && (!Number.isInteger(args.resumeFromStep) || args.resumeFromStep < 0 || args.resumeFromStep > 16)) {
+        throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_RESUME_STEP', 'resume-from-step must be an integer in [0,16]');
       }
       if (args.patchFile && !args.autocycle) {
         throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_PATCH_FILE', '--patch-file requires --autocycle');
+      }
+      if (args.noCreatePr && mode !== 'pr') {
+        throw new RunnerStepFailure('BLOCK_FAIL', 'INVALID_NO_CREATE_PR', '--no-create-pr requires --mode pr');
       }
       ensureToolAvailable('node');
       if (runPrFlow) {
@@ -1635,16 +2028,20 @@ function main() {
           lockfilePath: ctx.lockfilePath,
           lockfileHash: ctx.lockfileHash,
           changedFilesContentDigest: ctx.changedFilesContentDigest,
+          planPath: ctx.planPath,
+          planDigest: ctx.planDigest,
           runnerVersionSource: ctx.runnerVersionSource,
           cacheReuse: Boolean(ctx.cacheReuse),
           tier: ctx.tier,
           allowlist: ctx.allowlist,
+          localPipelineMode: ctx.localPipelineMode,
           autocycleEnabled: ctx.autocycleEnabled,
           autocyclePolicy: ctx.autocyclePolicy,
           patchPayload: ctx.autocyclePatch,
           platform: `${os.platform()}/${os.arch()}`,
           supportsPrMergeResume: true,
           runPrFlow,
+          noCreatePr: Boolean(args.noCreatePr),
         },
       });
       return { summary: 'contract emitted' };
@@ -1733,114 +2130,218 @@ function main() {
       process.exit(ctx.exitCode);
     }
 
-    step = runStep(ctx, {
-      stepId: 'pr_discovery',
-      command: 'gh pr view|create',
-      handler: () => stepPrDiscovery(ctx),
-    });
-    if (!step.ok) {
-      finalizeFailure(step.error);
-      emitFinalSummary(ctx);
-      process.exit(ctx.exitCode);
-    }
-    ctx.state.lastCompletedStep = 4;
-    writeSnapshot(ctx.snapshotPath, ctx.state);
-
     const startStep = Number.isInteger(ctx.args.resumeFromStep)
       ? ctx.args.resumeFromStep
-      : (Number.isInteger(ctx.state.resumeFromStep) ? ctx.state.resumeFromStep : DEFAULT_PR_RESUME_STEP);
-
-    if (startStep <= 5) {
-      step = runStep(ctx, {
-        stepId: 'required_checks_wait',
-        command: `gh pr view ${ctx.state.prNumber} --json statusCheckRollup`,
-        handler: () => stepRequiredChecksWait(ctx),
-      });
-      if (!step.ok) {
-        finalizeFailure(step.error);
-        emitFinalSummary(ctx);
-        process.exit(ctx.exitCode);
-      }
-      ctx.state.lastCompletedStep = 5;
-      writeSnapshot(ctx.snapshotPath, ctx.state);
-    }
-
-    if (startStep <= 6) {
-      step = runStep(ctx, {
-        stepId: 'anti_swap_verify',
-        command: 'git fetch origin && git merge-base --is-ancestor origin/main HEAD',
-        handler: () => stepAntiSwapVerify(ctx),
-      });
-      if (!step.ok) {
-        finalizeFailure(step.error);
-        emitFinalSummary(ctx);
-        process.exit(ctx.exitCode);
-      }
-      ctx.state.lastCompletedStep = 6;
-      writeSnapshot(ctx.snapshotPath, ctx.state);
-
-      if (step.result?.rebasePerformed) {
-        const checksAfterRebase = runStep(ctx, {
-          stepId: 'required_checks_wait_after_rebase',
-          command: `gh pr view ${ctx.state.prNumber} --json statusCheckRollup`,
-          handler: () => stepRequiredChecksWait(ctx, 'required_checks_wait_after_rebase'),
+      : (Number.isInteger(ctx.state.resumeFromStep) ? ctx.state.resumeFromStep : (ctx.localPipelineMode ? 4 : DEFAULT_PR_RESUME_STEP));
+    if (ctx.localPipelineMode) {
+      if (startStep <= 4) {
+        step = runStep(ctx, {
+          stepId: 'local_discovery',
+          command: 'internal',
+          handler: () => stepLocalDiscovery(ctx),
         });
-        if (!checksAfterRebase.ok) {
-          finalizeFailure(checksAfterRebase.error);
+        if (!step.ok) {
+          finalizeFailure(step.error);
+          emitFinalSummary(ctx);
+          process.exit(ctx.exitCode);
+        }
+        ctx.state.lastCompletedStep = 4;
+        writeSnapshot(ctx.snapshotPath, ctx.state);
+      }
+      if (startStep <= 5) {
+        step = runStep(ctx, {
+          stepId: 'local_freeze',
+          command: 'internal',
+          handler: () => stepLocalFreeze(ctx),
+        });
+        if (!step.ok) {
+          finalizeFailure(step.error);
+          emitFinalSummary(ctx);
+          process.exit(ctx.exitCode);
+        }
+        ctx.state.lastCompletedStep = 5;
+        writeSnapshot(ctx.snapshotPath, ctx.state);
+      }
+      if (startStep <= 6) {
+        step = runStep(ctx, {
+          stepId: 'apply_plan',
+          command: 'internal',
+          handler: () => stepApplyPlan(ctx),
+        });
+        if (!step.ok) {
+          finalizeFailure(step.error);
           emitFinalSummary(ctx);
           process.exit(ctx.exitCode);
         }
         ctx.state.lastCompletedStep = 6;
         writeSnapshot(ctx.snapshotPath, ctx.state);
       }
+      if (startStep <= 7) {
+        step = runStep(ctx, {
+          stepId: 'gate_pack_run',
+          command: 'node scripts/ops/governance-change-detection.mjs --json && node scripts/doctor.mjs --strict && npm run dev:fast',
+          handler: () => stepGatePackRun(ctx),
+        });
+        if (!step.ok) {
+          finalizeFailure(step.error);
+          emitFinalSummary(ctx);
+          process.exit(ctx.exitCode);
+        }
+        ctx.state.lastCompletedStep = 7;
+        writeSnapshot(ctx.snapshotPath, ctx.state);
+      }
+      if (startStep <= 8) {
+        step = runStep(ctx, {
+          stepId: 'create_branch_commit',
+          command: 'git checkout -b <ticket-branch> && git add -- <allowlist> && git commit',
+          handler: () => {
+            if (ctx.args.noCreatePr) {
+              return { summary: 'create_branch_commit skipped (--no-create-pr)' };
+            }
+            return stepCreateBranchCommit(ctx);
+          },
+        });
+        if (!step.ok) {
+          finalizeFailure(step.error);
+          emitFinalSummary(ctx);
+          process.exit(ctx.exitCode);
+        }
+        ctx.state.lastCompletedStep = 8;
+        writeSnapshot(ctx.snapshotPath, ctx.state);
+      }
+      if (startStep <= 9) {
+        step = runStep(ctx, {
+          stepId: 'pr_create',
+          command: 'gh pr create --body-file <temp>',
+          handler: () => stepPrCreate(ctx),
+        });
+        if (!step.ok) {
+          finalizeFailure(step.error);
+          emitFinalSummary(ctx);
+          process.exit(ctx.exitCode);
+        }
+        ctx.state.lastCompletedStep = 9;
+        ctx.state.resumeFromStep = 10;
+        writeSnapshot(ctx.snapshotPath, ctx.state);
+      }
     }
 
-    if (startStep <= 7) {
+    const lifecycleOffset = ctx.localPipelineMode ? 6 : 0;
+    const prDiscoveryStep = 4 + lifecycleOffset;
+    const requiredChecksStep = 5 + lifecycleOffset;
+    const antiSwapStep = 6 + lifecycleOffset;
+    const mergeStep = 7 + lifecycleOffset;
+    const postMergeStep = 8 + lifecycleOffset;
+    const postMergeChecksStep = 9 + lifecycleOffset;
+    const scopeProofStep = 10 + lifecycleOffset;
+    const lifecycleStart = Math.max(startStep, prDiscoveryStep);
+
+    if (lifecycleStart <= prDiscoveryStep) {
+      step = runStep(ctx, {
+        stepId: 'pr_discovery',
+        command: 'gh pr view|create',
+        handler: () => stepPrDiscovery(ctx, prDiscoveryStep),
+      });
+      if (!step.ok) {
+        finalizeFailure(step.error);
+        emitFinalSummary(ctx);
+        process.exit(ctx.exitCode);
+      }
+      ctx.state.lastCompletedStep = prDiscoveryStep;
+      writeSnapshot(ctx.snapshotPath, ctx.state);
+    }
+
+    if (lifecycleStart <= requiredChecksStep) {
+      step = runStep(ctx, {
+        stepId: 'required_checks_wait',
+        command: `gh pr view ${ctx.state.prNumber} --json statusCheckRollup`,
+        handler: () => stepRequiredChecksWait(ctx, 'required_checks_wait', requiredChecksStep),
+      });
+      if (!step.ok) {
+        finalizeFailure(step.error);
+        emitFinalSummary(ctx);
+        process.exit(ctx.exitCode);
+      }
+      ctx.state.lastCompletedStep = requiredChecksStep;
+      writeSnapshot(ctx.snapshotPath, ctx.state);
+    }
+
+    if (lifecycleStart <= antiSwapStep) {
+      step = runStep(ctx, {
+        stepId: 'anti_swap_verify',
+        command: 'git fetch origin && git merge-base --is-ancestor origin/main HEAD',
+        handler: () => stepAntiSwapVerify(ctx, antiSwapStep),
+      });
+      if (!step.ok) {
+        finalizeFailure(step.error);
+        emitFinalSummary(ctx);
+        process.exit(ctx.exitCode);
+      }
+      ctx.state.lastCompletedStep = antiSwapStep;
+      writeSnapshot(ctx.snapshotPath, ctx.state);
+
+      if (step.result?.rebasePerformed) {
+        const checksAfterRebase = runStep(ctx, {
+          stepId: 'required_checks_wait_after_rebase',
+          command: `gh pr view ${ctx.state.prNumber} --json statusCheckRollup`,
+          handler: () => stepRequiredChecksWait(ctx, 'required_checks_wait_after_rebase', requiredChecksStep),
+        });
+        if (!checksAfterRebase.ok) {
+          finalizeFailure(checksAfterRebase.error);
+          emitFinalSummary(ctx);
+          process.exit(ctx.exitCode);
+        }
+        ctx.state.lastCompletedStep = antiSwapStep;
+        writeSnapshot(ctx.snapshotPath, ctx.state);
+      }
+    }
+
+    if (lifecycleStart <= mergeStep) {
       step = runStep(ctx, {
         stepId: 'pr_merge',
         command: `gh pr merge ${ctx.state.prNumber} --merge --delete-branch=false`,
-        handler: () => stepPrMerge(ctx),
+        handler: () => stepPrMerge(ctx, mergeStep),
       });
       if (!step.ok) {
         finalizeFailure(step.error);
         emitFinalSummary(ctx);
         process.exit(ctx.exitCode);
       }
-      ctx.state.lastCompletedStep = 7;
+      ctx.state.lastCompletedStep = mergeStep;
       writeSnapshot(ctx.snapshotPath, ctx.state);
     }
 
-    if (startStep <= 8) {
+    if (lifecycleStart <= postMergeStep) {
       step = runStep(ctx, {
         stepId: 'post_merge_verify',
         command: `gh pr view ${ctx.state.prNumber} --json state,mergedAt,mergeCommit,url,number`,
-        handler: () => stepPostMergeVerify(ctx),
+        handler: () => stepPostMergeVerify(ctx, postMergeStep),
       });
       if (!step.ok) {
         finalizeFailure(step.error);
         emitFinalSummary(ctx);
         process.exit(ctx.exitCode);
       }
-      ctx.state.lastCompletedStep = 8;
+      ctx.state.lastCompletedStep = postMergeStep;
       writeSnapshot(ctx.snapshotPath, ctx.state);
     }
 
-    if (startStep <= 9) {
+    if (lifecycleStart <= postMergeChecksStep) {
       step = runStep(ctx, {
         stepId: 'post_merge_runner_checks',
         command: 'git checkout main && git pull --ff-only origin main && node codex-run --help/smoke',
-        handler: () => stepPostMergeRunnerChecks(ctx),
+        handler: () => stepPostMergeRunnerChecks(ctx, postMergeChecksStep),
       });
       if (!step.ok) {
         finalizeFailure(step.error);
         emitFinalSummary(ctx);
         process.exit(ctx.exitCode);
       }
-      ctx.state.lastCompletedStep = 9;
+      ctx.state.lastCompletedStep = postMergeChecksStep;
       writeSnapshot(ctx.snapshotPath, ctx.state);
     }
 
-    if (startStep <= 10) {
+    if (lifecycleStart <= scopeProofStep) {
       step = runStep(ctx, {
         stepId: 'scope_proof',
         command: 'git status --porcelain --untracked-files=all',
@@ -1851,7 +2352,7 @@ function main() {
         emitFinalSummary(ctx);
         process.exit(ctx.exitCode);
       }
-      ctx.state.lastCompletedStep = 10;
+      ctx.state.lastCompletedStep = scopeProofStep;
       writeSnapshot(ctx.snapshotPath, ctx.state);
     }
   }

@@ -318,17 +318,17 @@
     },
     {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
-      "sha256": "3342c448efe75182cdde106af8479f5c9f417cff74cbbce5cb416baca9302e1f",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-07",
-      "approvedAtUtc": "2026-02-19T03:43:28.000Z",
-      "rationale": "Declare hash schema v2 with determinism/env split and reuse policy semantics."
+      "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
+      "approvedAtUtc": "2026-02-19T04:10:47.000Z",
+      "rationale": "Add local product pipeline inputs (plan digest + node version) to autocycle determinism canon."
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "82588f3e74f8910d663c8b01eb267b143204d5eb5a028cebeeac9d16122ab08d",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-07",
-      "approvedAtUtc": "2026-02-19T03:43:28.000Z",
-      "rationale": "Harden determinism hashing: split determinismHash/envHash and enforce content-aware reuse semantics."
+      "sha256": "d1e502d8f9f9c00f8fa37a01063e81604e7cf269fb2c7904fab85fff79c84633",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
+      "approvedAtUtc": "2026-02-19T04:15:41.000Z",
+      "rationale": "Enable local product autocycle pipeline: plan discovery/freeze/apply/gates/branch+commit/pr_create with deterministic resume and canonical failure routing."
     }
   ]
 }

@@ -41,9 +41,21 @@
     ]
   },
   "cachePolicy": {
+    "cachePaths": [
+      "docs/OPS/CACHE/**"
+    ],
+    "mustBeIgnored": true,
+    "stagingForbidden": true,
+    "blockFailReason": "CACHE_SCOPE_LEAK",
     "cacheRoot": "docs/OPS/CACHE/",
     "rule": "EPHEMERAL_ONLY",
     "stagedCacheIsBlockFail": true
+  },
+  "artifactPolicy": {
+    "allowedCommittedArtifactsPrefixes": [
+      "docs/OPS/EXECUTION/",
+      "docs/OPS/GOVERNANCE_APPROVALS/"
+    ]
   },
   "prPolicy": {
     "prBodyMode": "--body-file only",

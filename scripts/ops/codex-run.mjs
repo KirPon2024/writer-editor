@@ -14,6 +14,7 @@ const RETRY_DELAY_MS = 2000;
 const GH_TIMEOUT_MS = 30000;
 const CHECKS_WAIT_TIMEOUT_MS = 10 * 60 * 1000;
 const CHECKS_WAIT_POLL_MS = 20 * 1000;
+const CACHE_ROOT_PREFIX = 'docs/OPS/CACHE/';
 const DEFAULT_ALLOWLIST = Object.freeze([
   'scripts/ops/codex-run.mjs',
   'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
@@ -170,6 +171,66 @@ function sleepMs(durationMs) {
   const ms = Math.max(0, Number(durationMs) || 0);
   if (ms === 0) return;
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+function parsePorcelainPaths(output) {
+  const rows = String(output || '')
+    .split('\n')
+    .map((line) => line.trimEnd())
+    .filter((line) => line.length >= 3);
+  const paths = [];
+  for (const line of rows) {
+    const payload = line.slice(3).trim();
+    if (!payload) continue;
+    const renameParts = payload.split(' -> ').map((part) => part.trim()).filter(Boolean);
+    if (renameParts.length > 1) {
+      paths.push(...renameParts);
+    } else {
+      paths.push(payload);
+    }
+  }
+  return paths;
+}
+
+function assertCacheInvariantOrThrow() {
+  const tracked = runCommand('git', ['ls-files', '--', CACHE_ROOT_PREFIX], { retryable: false });
+  if (!tracked.ok) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'SCOPE_PROOF_FAILED', 'git ls-files cache probe failed', {
+      evidenceTail: tracked.evidenceTail,
+    });
+  }
+  const trackedPaths = String(tracked.stdout || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+  if (trackedPaths.length > 0) {
+    throw new RunnerStepFailure(
+      'BLOCK_FAIL',
+      'CACHE_SCOPE_LEAK',
+      'cache paths are tracked; unstage/remove tracked cache and restore ignore policy',
+      { evidenceTail: trackedPaths },
+    );
+  }
+
+  const status = runCommand('git', ['status', '--porcelain', '--untracked-files=all'], { retryable: false });
+  if (!status.ok) {
+    throw new RunnerStepFailure('BLOCK_FAIL', 'SCOPE_PROOF_FAILED', 'git status cache probe failed', {
+      evidenceTail: status.evidenceTail,
+    });
+  }
+  const cacheStatusRows = String(status.stdout || '')
+    .split('\n')
+    .map((line) => line.trimEnd())
+    .filter((line) => line.length >= 3)
+    .filter((line) => parsePorcelainPaths(line).some((p) => p.startsWith(CACHE_ROOT_PREFIX)));
+  if (cacheStatusRows.length > 0) {
+    throw new RunnerStepFailure(
+      'BLOCK_FAIL',
+      'CACHE_SCOPE_LEAK',
+      'cache paths are staged/modified/unignored; unstage/remove cache and keep docs/OPS/CACHE/** ignored',
+      { evidenceTail: cacheStatusRows },
+    );
+  }
 }
 
 function emitStepEvent(payload) {
@@ -1131,21 +1192,7 @@ function stepPostMergeRunnerChecks(ctx) {
 }
 
 function stepScopeProof(ctx) {
-  const staged = runCommand('git', ['diff', '--cached', '--name-only'], { retryable: false });
-  if (!staged.ok) {
-    throw new RunnerStepFailure('BLOCK_FAIL', 'SCOPE_PROOF_FAILED', 'git diff --cached failed', {
-      evidenceTail: staged.evidenceTail,
-    });
-  }
-  const stagedFiles = String(staged.stdout || '')
-    .split('\n')
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0);
-  if (stagedFiles.some((filePath) => filePath.startsWith('docs/OPS/CACHE/'))) {
-    throw new RunnerStepFailure('BLOCK_FAIL', 'CACHE_SCOPE_LEAK', 'cache artifacts are staged', {
-      evidenceTail: stagedFiles,
-    });
-  }
+  assertCacheInvariantOrThrow();
 
   const status = runCommand('git', ['status', '--porcelain', '--untracked-files=all'], { retryable: false });
   if (!status.ok) {
@@ -1396,6 +1443,7 @@ function main() {
         ensureToolAvailable('git');
         ensureToolAvailable('gh');
       }
+      assertCacheInvariantOrThrow();
       if (ctx.autocycleEnabled) {
         ctx.baseSha = gitRevParse('origin/main');
         initAutocycleContext(ctx);

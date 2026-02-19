@@ -1,0 +1,363 @@
+{
+  "meta": {
+    "baseSha": "35c989fbdd0f8c4c820cc90d7de816ef1b882cf6",
+    "originMainShaAtCapture": "35c989fbdd0f8c4c820cc90d7de816ef1b882cf6",
+    "capturedAtUtc": "2026-02-19T10:10:25.800Z",
+    "auditRuns": [
+      {
+        "runId": "run1",
+        "source": "npm audit --json (online)",
+        "totals": {
+          "info": 0,
+          "low": 0,
+          "moderate": 4,
+          "high": 19,
+          "critical": 0,
+          "total": 23
+        },
+        "enotfound": false
+      },
+      {
+        "runId": "run2",
+        "source": "npm audit --json (online)",
+        "totals": {
+          "info": 0,
+          "low": 0,
+          "moderate": 4,
+          "high": 19,
+          "critical": 0,
+          "total": 23
+        },
+        "enotfound": false
+      }
+    ]
+  },
+  "highFindings": [
+    {
+      "key": "@electron/asar:title-d6494c702174",
+      "moduleName": "@electron/asar",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=glob, minimatch"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "@electron/rebuild:title-43206e88a10c",
+      "moduleName": "@electron/rebuild",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=node-gyp"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "@electron/universal:title-96823d5ce5c5",
+      "moduleName": "@electron/universal",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=@electron/asar, dir-compare, minimatch"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "app-builder-lib:title-d544b860665a",
+      "moduleName": "app-builder-lib",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=@develar/schema-utils, @electron/asar, @electron/rebuild, @electron/universal"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "cacache:title-7f0fc43849f0",
+      "moduleName": "cacache",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=glob"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "dir-compare:title-4d47eb83b4a0",
+      "moduleName": "dir-compare",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=minimatch"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "dmg-builder:title-393bf638a89a",
+      "moduleName": "dmg-builder",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=app-builder-lib, dmg-license"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "ejs:title-73a8abf06dc5",
+      "moduleName": "ejs",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=jake"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "electron-builder:title-0652af788e93",
+      "moduleName": "electron-builder",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=app-builder-lib, dmg-builder"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "electron-builder-squirrel-windows:title-afe2b5bceab9",
+      "moduleName": "electron-builder-squirrel-windows",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=app-builder-lib, electron-winstaller"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "electron-winstaller:title-ac5d42ecc509",
+      "moduleName": "electron-winstaller",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=@electron/asar, temp"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "filelist:title-3adcee9d2ef4",
+      "moduleName": "filelist",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=minimatch"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "glob:title-4e902e28222e",
+      "moduleName": "glob",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=minimatch"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "jake:title-5e90583067f3",
+      "moduleName": "jake",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=filelist"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "make-fetch-happen:title-4d5a6b0e2624",
+      "moduleName": "make-fetch-happen",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=cacache"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "minimatch:GHSA-3ppc-4f35-3m26",
+      "moduleName": "minimatch",
+      "advisoryIds": {
+        "npmAdvisoryId": "1113296",
+        "ghsa": "GHSA-3ppc-4f35-3m26"
+      },
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=minimatch"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "node-gyp:title-fe7cc2ed7073",
+      "moduleName": "node-gyp",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=make-fetch-happen"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "rimraf:title-2038d5949627",
+      "moduleName": "rimraf",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=glob"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    },
+    {
+      "key": "temp:title-499c49df16f0",
+      "moduleName": "temp",
+      "advisoryIds": {},
+      "severity": "high",
+      "reachable": false,
+      "evidence": {
+        "nonReachableReason": "Dev/build-time chain only (electron-builder packaging toolchain); not imported or executed in runtime app process. via=rimraf"
+      },
+      "closure": {
+        "status": "CLOSED_WITH_EXCEPTIONS",
+        "owner": "OPS_CANON",
+        "expiryUtc": "2026-06-30T00:00:00.000Z",
+        "justification": "High finding is confined to dev/build/packaging dependency chain and is not loaded by application runtime paths in shipped desktop app.",
+        "monitoringNote": "Re-run online npm audit at each dependency-remediation cycle or earlier on dependency graph changes; reopen as OPEN_FIX_REQUIRED if runtime reachability changes."
+      }
+    }
+  ]
+}

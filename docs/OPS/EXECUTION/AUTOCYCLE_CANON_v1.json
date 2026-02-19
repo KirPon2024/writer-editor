@@ -17,6 +17,11 @@
     "maxFiles": 5,
     "maxLines": 150
   },
+  "stagnationPolicy": {
+    "defaultRepeats": 2,
+    "networkRepeats": 3,
+    "contextRepeats": 3
+  },
   "failurePolicy": {
     "retryable": {
       "retries": 2,

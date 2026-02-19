@@ -8,6 +8,7 @@ import { spawnSync } from 'node:child_process';
 
 const ALLOWED_MODES = new Set(['dev', 'pr', 'release', 'promotion']);
 const RUNNER_VERSION = 'v0.4.0-runner-stabilization-02';
+const HASH_SCHEMA_VERSION_DEFAULT = 'v2';
 const DEFAULT_PR_RESUME_STEP = 5;
 const SNAPSHOT_ROOT = path.join('docs', 'OPS', 'CACHE', 'codex-run');
 const RETRY_DELAY_MS = 2000;
@@ -55,6 +56,12 @@ const AUTOCYCLE_STAGNATION_NETWORK_REASONS = new Set([
 const AUTOCYCLE_STAGNATION_CONTEXT_REASONS = new Set([
   'PR_CONTEXT_MISSING',
   'BRANCH_PROTECTION_BLOCK',
+]);
+const LOCKFILE_CANDIDATES = Object.freeze([
+  'package-lock.json',
+  'pnpm-lock.yaml',
+  'yarn.lock',
+  'bun.lockb',
 ]);
 
 class RunnerStepFailure extends Error {
@@ -165,6 +172,14 @@ function commandToString(command, args) {
   const chunks = [String(command || '').trim(), ...(args || []).map((item) => String(item || '').trim())]
     .filter((chunk) => chunk.length > 0);
   return chunks.join(' ');
+}
+
+function sha256Buffer(buffer) {
+  return crypto.createHash('sha256').update(buffer).digest('hex');
+}
+
+function sha256String(value) {
+  return crypto.createHash('sha256').update(String(value || '')).digest('hex');
 }
 
 function sleepMs(durationMs) {
@@ -434,23 +449,77 @@ function runStep(ctx, { stepId, command = 'internal', handler }) {
   }
 }
 
-function inputHash(ticketId, mode, args) {
-  const payload = JSON.stringify({
-    ticketId,
+function safeGitRevParse(ref) {
+  const result = runCommand('git', ['rev-parse', ref], { retryable: false });
+  if (!result?.ok) return '';
+  return String(result.stdout || '').trim();
+}
+
+function detectLockfileHash() {
+  for (const candidate of LOCKFILE_CANDIDATES) {
+    const resolved = path.resolve(process.cwd(), candidate);
+    if (!fs.existsSync(resolved)) continue;
+    const digest = sha256Buffer(fs.readFileSync(resolved));
+    return { lockfilePath: candidate, lockfileHash: digest };
+  }
+  return { lockfilePath: 'none', lockfileHash: 'none' };
+}
+
+function computeChangedFilesContentDigest(allowlist) {
+  const sorted = Array.isArray(allowlist) ? [...allowlist].sort() : [];
+  const lines = [];
+  for (const relativePath of sorted) {
+    const resolved = path.resolve(process.cwd(), relativePath);
+    if (!fs.existsSync(resolved)) continue;
+    const stat = fs.statSync(resolved);
+    if (!stat.isFile()) continue;
+    const fileDigest = sha256Buffer(fs.readFileSync(resolved));
+    lines.push(`${relativePath}\n${fileDigest}\n`);
+  }
+  return sha256String(lines.join(''));
+}
+
+function resolveRunnerVersionSource() {
+  if (String(RUNNER_VERSION || '').trim()) return String(RUNNER_VERSION).trim();
+  const selfPath = path.resolve(process.cwd(), 'scripts/ops/codex-run.mjs');
+  if (!fs.existsSync(selfPath)) return 'runner-missing';
+  return sha256Buffer(fs.readFileSync(selfPath));
+}
+
+function buildHashState({ mode, tier, allowlist }) {
+  const baseSha = safeGitRevParse('origin/main');
+  const allowHash = allowlistHash(allowlist);
+  const { lockfilePath, lockfileHash } = detectLockfileHash();
+  const changedFilesContentDigest = computeChangedFilesContentDigest(allowlist);
+  const runnerVersionSource = resolveRunnerVersionSource();
+  const determinismPayload = JSON.stringify({
+    hashSchemaVersion: HASH_SCHEMA_VERSION_DEFAULT,
+    baseSha,
     mode,
-    prNumber: args.prNumber || null,
-    resumeFromStep: args.resumeFromStep,
-    autocycle: Boolean(args.autocycle),
-    patchFile: args.patchFile || '',
-    node: process.version,
-    platform: {
-      os: process.platform,
-      arch: process.arch,
-      locale: Intl.DateTimeFormat().resolvedOptions().locale,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown',
-    },
+    tier,
+    allowlistHash: allowHash,
+    lockfilePath,
+    lockfileHash,
+    changedFilesContentDigest,
+    runnerVersion: runnerVersionSource,
   });
-  return crypto.createHash('sha256').update(payload).digest('hex');
+  const envPayload = JSON.stringify({
+    os: process.platform,
+    arch: process.arch,
+    nodeVersion: process.version,
+    locale: Intl.DateTimeFormat().resolvedOptions().locale || 'unknown',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown',
+  });
+  return {
+    hashSchemaVersion: HASH_SCHEMA_VERSION_DEFAULT,
+    baseSha,
+    lockfilePath,
+    lockfileHash,
+    changedFilesContentDigest,
+    runnerVersionSource,
+    determinismHash: sha256String(determinismPayload),
+    envHash: sha256String(envPayload),
+  };
 }
 
 function parseAllowlist() {
@@ -470,7 +539,7 @@ function inferTier(mode) {
 }
 
 function hashString(value) {
-  return crypto.createHash('sha256').update(String(value || '')).digest('hex');
+  return sha256String(value);
 }
 
 function allowlistHash(allowlist) {
@@ -499,6 +568,9 @@ function writeJsonFile(filePath, payload) {
 function readAutocyclePolicy() {
   const resolved = path.resolve(process.cwd(), AUTOCYCLE_CANON_PATH);
   const parsed = readJsonFileSafe(resolved);
+  const hashSchemaVersion = String(parsed?.hashSchemaVersion || HASH_SCHEMA_VERSION_DEFAULT);
+  const determinismHashInputs = Array.isArray(parsed?.determinismHashInputs) ? parsed.determinismHashInputs : [];
+  const envHashInputs = Array.isArray(parsed?.envHashInputs) ? parsed.envHashInputs : [];
   const batch = parsed?.batchPolicy || {};
   const patch = parsed?.patchConstraints || {};
   const stagnation = parsed?.stagnationPolicy || {};
@@ -513,6 +585,9 @@ function readAutocyclePolicy() {
 
   return {
     path: resolved,
+    hashSchemaVersion,
+    determinismHashInputs,
+    envHashInputs,
     maxMainTzPerBatch: Number.isInteger(maxMainTzPerBatch) && maxMainTzPerBatch > 0 ? maxMainTzPerBatch : AUTOCYCLE_DEFAULT_POLICY.maxMainTzPerBatch,
     maxPatchPerMain: Number.isInteger(maxPatchPerMain) && maxPatchPerMain >= 0 ? maxPatchPerMain : AUTOCYCLE_DEFAULT_POLICY.maxPatchPerMain,
     maxIterationsTotal: Number.isInteger(maxIterationsTotal) && maxIterationsTotal > 0 ? maxIterationsTotal : AUTOCYCLE_DEFAULT_POLICY.maxIterationsTotal,
@@ -627,6 +702,9 @@ function initAutocycleContext(ctx) {
     batchTicketId: ctx.ticketId,
     baseSha: ctx.baseSha,
     inputHash: ctx.inputHash,
+    determinismHash: ctx.determinismHash,
+    envHash: ctx.envHash,
+    hashSchemaVersion: ctx.hashSchemaVersion,
     mode: ctx.mode,
     tier: ctx.tier,
     allowlist: ctx.allowlist,
@@ -640,6 +718,9 @@ function initAutocycleContext(ctx) {
     lastOriginMainShaSeen: existing?.lastOriginMainShaSeen || '',
     currentStep: existing?.currentStep || 'autocycle_init',
     patchTicketId: existing?.patchTicketId || '',
+    cacheReuse: false,
+    envHashMismatch: false,
+    cachedRunResult: existing?.cachedRunResult || null,
     updatedAtUtc: nowUtcIso(),
   };
 
@@ -669,9 +750,16 @@ function initAutocycleContext(ctx) {
   }
 
   state.iterationCount += 1;
+  const existingDeterminismHash = String(existing?.determinismHash || existing?.inputHash || '');
+  const existingEnvHash = String(existing?.envHash || '');
+  state.cacheReuse = Boolean(existingDeterminismHash && existingDeterminismHash === ctx.determinismHash);
+  state.envHashMismatch = Boolean(state.cacheReuse && existingEnvHash && existingEnvHash !== ctx.envHash);
 
   ctx.autocycleState = state;
   ctx.autocyclePatch = patchPayload;
+  ctx.cacheReuse = state.cacheReuse;
+  ctx.envHashMismatch = state.envHashMismatch;
+  ctx.cachedRunResult = state.cacheReuse ? state.cachedRunResult : null;
   writeJsonFile(ctx.autocycleSnapshotPath, state);
 }
 
@@ -860,6 +948,9 @@ function stepRestoreOrInitState(ctx) {
     ticketId: ctx.ticketId,
     mode: ctx.mode,
     inputHash: ctx.inputHash,
+    determinismHash: ctx.determinismHash,
+    envHash: ctx.envHash,
+    hashSchemaVersion: ctx.hashSchemaVersion,
     tier: ctx.tier,
     allowlist: ctx.allowlist,
     baseSha,
@@ -897,6 +988,47 @@ function stepRestoreOrInitState(ctx) {
 
   return {
     summary: `state initialized at step ${state.resumeFromStep} (${ctx.snapshotPath})`,
+  };
+}
+
+function applyCachedDeterminismOutcome(ctx) {
+  if (!ctx.autocycleEnabled || !ctx.cacheReuse || !ctx.cachedRunResult || ctx.args.resumeFromStep !== null) {
+    return null;
+  }
+  const cached = ctx.cachedRunResult;
+  emitStepEvent({
+    traceId: ctx.traceId,
+    ticketId: ctx.ticketId,
+    mode: ctx.mode,
+    stepId: 'cache_reuse',
+    command: 'internal',
+    exitCode: 0,
+    durationMs: 0,
+    summary: `cacheReuse=true for determinismHash ${ctx.determinismHash}`,
+    failureClass: null,
+    reason: '',
+  });
+
+  if (!cached.failureClass || cached.reason === 'PASS') {
+    return { kind: 'pass' };
+  }
+
+  const failureClass = String(cached.failureClass || 'HUMAN_REQUIRED');
+  const reason = String(cached.reason || 'RUNNER_STEP_FAILED');
+  const detail = String(cached.detail || `reused cached ${failureClass}/${reason}`);
+  const resumeFromStep = Number.isInteger(cached.resumeFromStep) ? cached.resumeFromStep : DEFAULT_PR_RESUME_STEP;
+  const clickList = Array.isArray(cached.clickList) ? cached.clickList : [];
+  const handoffReason = cached.handoffReason ? String(cached.handoffReason) : '';
+  const evidenceTail = Array.isArray(cached.evidenceTail) ? cached.evidenceTail : [];
+
+  return {
+    kind: 'failure',
+    error: new RunnerStepFailure(failureClass, reason, detail, {
+      resumeFromStep,
+      clickList,
+      handoffReason,
+      evidenceTail,
+    }),
   };
 }
 
@@ -1243,6 +1375,9 @@ function emitFinalSummary(ctx) {
     traceId: ctx.traceId,
     ticketId: ctx.ticketId,
     mode: ctx.mode,
+    hashSchemaVersion: ctx.hashSchemaVersion,
+    determinismHash: ctx.determinismHash,
+    envHash: ctx.envHash,
     stepId: 'final_summary',
     command: 'internal',
     exitCode: ctx.exitCode,
@@ -1259,6 +1394,7 @@ function emitFinalSummary(ctx) {
     prUrl: ctx.state?.prUrl || '',
     mergeCommitSha: ctx.state?.mergeCommitSha || '',
     changedFilesExact: changedFiles,
+    cacheReuse: Boolean(ctx.cacheReuse),
     autocycleEnabled: Boolean(ctx.autocycleEnabled),
     autocycleSnapshotPath: ctx.autocycleSnapshotPath || '',
     autocycleState: ctx.autocycleState || null,
@@ -1278,15 +1414,22 @@ function main() {
   const snapshotPath = snapshotPathForTicket(ticketId);
   const snapshotExists = fs.existsSync(snapshotPath);
   const runPrFlow = shouldRunPrFlow(args, snapshotExists);
-  const runnerInputHash = inputHash(ticketId, mode, args);
   const tier = inferTier(mode);
   const allowlist = parseAllowlist();
+  const hashState = buildHashState({ mode, tier, allowlist });
 
   const ctx = {
     traceId,
     ticketId,
     mode,
-    inputHash: runnerInputHash,
+    inputHash: hashState.determinismHash,
+    determinismHash: hashState.determinismHash,
+    envHash: hashState.envHash,
+    hashSchemaVersion: hashState.hashSchemaVersion,
+    lockfilePath: hashState.lockfilePath,
+    lockfileHash: hashState.lockfileHash,
+    changedFilesContentDigest: hashState.changedFilesContentDigest,
+    runnerVersionSource: hashState.runnerVersionSource,
     tier,
     allowlist,
     autocycleEnabled: Boolean(args.autocycle),
@@ -1294,6 +1437,9 @@ function main() {
     autocycleState: null,
     autocyclePatch: null,
     autocycleSnapshotPath: '',
+    cacheReuse: false,
+    envHashMismatch: false,
+    cachedRunResult: null,
     baseSha: '',
     args,
     snapshotPath,
@@ -1398,6 +1544,19 @@ function main() {
       ctx.autocycleState.lastReason = ctx.reason;
       ctx.autocycleState.repeatCountForReason = repeatCountForReason;
       ctx.autocycleState.lastOriginMainShaSeen = originMainSha;
+      ctx.autocycleState.determinismHash = ctx.determinismHash;
+      ctx.autocycleState.envHash = ctx.envHash;
+      ctx.autocycleState.hashSchemaVersion = ctx.hashSchemaVersion;
+      ctx.autocycleState.cacheReuse = Boolean(ctx.cacheReuse);
+      ctx.autocycleState.cachedRunResult = {
+        failureClass: ctx.failureClass,
+        reason: ctx.reason,
+        detail: mappedFailure.detail,
+        resumeFromStep: ctx.resumeFromStep,
+        handoffReason: ctx.handoffReason,
+        clickList: ctx.clickList,
+        evidenceTail: mappedFailure.evidenceTail,
+      };
       ctx.autocycleState.updatedAtUtc = nowUtcIso();
       writeJsonFile(ctx.autocycleSnapshotPath, ctx.autocycleState);
     }
@@ -1467,9 +1626,17 @@ function main() {
         mode,
         contract: {
           version: RUNNER_VERSION,
+          hashSchemaVersion: ctx.hashSchemaVersion,
           singleEntry: true,
           retryPolicy: 'max_2_retries_for_retryable_failures',
           inputHash: ctx.inputHash,
+          determinismHash: ctx.determinismHash,
+          envHash: ctx.envHash,
+          lockfilePath: ctx.lockfilePath,
+          lockfileHash: ctx.lockfileHash,
+          changedFilesContentDigest: ctx.changedFilesContentDigest,
+          runnerVersionSource: ctx.runnerVersionSource,
+          cacheReuse: Boolean(ctx.cacheReuse),
           tier: ctx.tier,
           allowlist: ctx.allowlist,
           autocycleEnabled: ctx.autocycleEnabled,
@@ -1525,8 +1692,46 @@ function main() {
       emitFinalSummary(ctx);
       process.exit(ctx.exitCode);
     }
+    if (ctx.envHashMismatch) {
+      emitStepEvent({
+        traceId,
+        ticketId,
+        mode,
+        stepId: 'env_hash_warning',
+        command: 'internal',
+        exitCode: 0,
+        durationMs: 0,
+        summary: 'envHash mismatch detected; reuse kept by determinismHash policy',
+        failureClass: null,
+        reason: '',
+      });
+    }
     ctx.state.lastCompletedStep = 3;
     writeSnapshot(ctx.snapshotPath, ctx.state);
+
+    const reused = applyCachedDeterminismOutcome(ctx);
+    if (reused?.kind === 'pass') {
+      finalizePass();
+      emitStepEvent({
+        traceId,
+        ticketId,
+        mode,
+        stepId: 'complete',
+        command: 'internal',
+        exitCode: 0,
+        durationMs: 0,
+        summary: 'runner completed (cache reuse)',
+        failureClass: null,
+        reason: '',
+      });
+      emitFinalSummary(ctx);
+      process.exit(0);
+    }
+    if (reused?.kind === 'failure') {
+      finalizeFailure(reused.error);
+      emitFinalSummary(ctx);
+      process.exit(ctx.exitCode);
+    }
 
     step = runStep(ctx, {
       stepId: 'pr_discovery',

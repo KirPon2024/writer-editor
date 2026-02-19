@@ -325,10 +325,10 @@
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "842b8881d7cf52fdd26e153674467599509f1f82d2be03bebdf54706ed801102",
-      "approvedBy": "ticket:TZ-MICROSTEPS-CANON-01-PR+MERGE-FIX",
-      "approvedAtUtc": "2026-02-19T08:38:15.000Z",
-      "rationale": "Enable PR auto-create in pr_discovery, push branch before PR create, and optional --automerge with strict anti-swap and non-interactive failure routing."
+      "sha256": "e23d39d7ae068211c8513faddeb95f4477647b8e5c201d1a50ee40ec95faf19e",
+      "approvedBy": "ticket:TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING",
+      "approvedAtUtc": "2026-02-19T09:16:00.000Z",
+      "rationale": "Harden runner command input validation, lock-aware retry routing, and non-shell execution invariants for CI/OPS flows."
     }
   ]
 }

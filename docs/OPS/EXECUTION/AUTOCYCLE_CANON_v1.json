@@ -1,10 +1,31 @@
 {
   "schemaVersion": "v1",
+  "hashSchemaVersion": "v2",
   "createdAtUtc": "2026-02-18T21:29:37.022Z",
   "owner": "GPT+CODEX",
   "status": "EXPERIMENTAL_CANON",
   "singleEntry": {
     "commandPrefix": "node scripts/ops/codex-run.mjs"
+  },
+  "determinismHashInputs": [
+    "BASE_SHA",
+    "MODE",
+    "TIER",
+    "ALLOWLIST_HASH",
+    "LOCKFILE_HASH",
+    "CHANGED_FILES_CONTENT_DIGEST",
+    "RUNNER_VERSION"
+  ],
+  "envHashInputs": [
+    "os",
+    "arch",
+    "nodeVersion",
+    "locale",
+    "timezone"
+  ],
+  "hashReusePolicy": {
+    "reuseAllowedWhen": "determinismHash_exact_match",
+    "envHashMismatch": "warn_only"
   },
   "batchPolicy": {
     "maxMainTZPerBatch": 3,

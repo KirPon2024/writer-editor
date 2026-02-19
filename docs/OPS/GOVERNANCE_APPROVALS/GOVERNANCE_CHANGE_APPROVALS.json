@@ -318,17 +318,17 @@
     },
     {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
-      "sha256": "de1f18309542ba0f23d118e826ce65829db8423f403631a01e4ff1d36d0e9028",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-06",
-      "approvedAtUtc": "2026-02-19T03:31:40.000Z",
-      "rationale": "Declare canonical cache/artifact policy to prevent governance churn from EPHEMERAL cache/evidence paths."
+      "sha256": "3342c448efe75182cdde106af8479f5c9f417cff74cbbce5cb416baca9302e1f",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-07",
+      "approvedAtUtc": "2026-02-19T03:43:28.000Z",
+      "rationale": "Declare hash schema v2 with determinism/env split and reuse policy semantics."
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "567653db00a08cde644fcb76eedeff90f35071c1bc796c701f9058bd2b162193",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-06",
-      "approvedAtUtc": "2026-02-19T03:31:40.000Z",
-      "rationale": "Enforce cache/evidence hygiene invariants: cache paths cannot be tracked/staged/modified inside runner flow."
+      "sha256": "82588f3e74f8910d663c8b01eb267b143204d5eb5a028cebeeac9d16122ab08d",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-07",
+      "approvedAtUtc": "2026-02-19T03:43:28.000Z",
+      "rationale": "Harden determinism hashing: split determinismHash/envHash and enforce content-aware reuse semantics."
     }
   ]
 }

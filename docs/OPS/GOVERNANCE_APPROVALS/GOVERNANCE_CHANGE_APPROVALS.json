@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
+      "sha256": "1dc7e339d5951e5dbf538f54349d7c63b46443dd8766bf70418985726cdb93df",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve policy wiring for workflow-scope push autofix and minimal-click handoff resume path."
+    },
+    {
+      "filePath": "docs/OPERATIONS/STATUS/SAFE_AUTOMERGE_OPS_ONLY_PROFILE.json",
+      "sha256": "50e0040ae9f27b922406d0cfd6610383bc3b1237f8c93c6782624e1ea41dfbcd",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve safe-automerge profile push-step hook metadata for workflow-scope autofix."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-0805ab9da950-592e3737/failsignal-registry-snapshot.json",
       "sha256": "9af1b22b87f604601b38114621995a44ae5e15c3ea9a299197c61e863a5e6448",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
@@ -93,11 +107,32 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
+      "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
+      "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
+      "approvedAtUtc": "2026-02-19T04:10:47.000Z",
+      "rationale": "Add local product pipeline inputs (plan digest + node version) to autocycle determinism canon."
+    },
+    {
+      "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
+      "sha256": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
+      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
+      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
+      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
+    },
+    {
       "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
       "sha256": "30e4d5321947f954b15f21321ab3a446ad9a1cbc916ff352b543f66935fbb23a",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/DEPENDENCY_RISK_REGISTER.json",
+      "sha256": "c5b98ca8c434c45bf1f042a21e025bfd7ed75df1e5025aa5d2e0976294978d1b",
+      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-A",
+      "approvedAtUtc": "2026-02-18T17:06:00.000Z",
+      "rationale": "Register dependency risk SSOT with reachable high-severity triage and governance tracking for Ticket A."
     },
     {
       "filePath": "docs/OPS/STATUS/EXECUTION_SEQUENCE_CANON_v1.json",
@@ -112,6 +147,13 @@
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
+      "sha256": "380ed1b1d0b4933a230b3b9ea81266fd8d7679f08c34866e6ff6591ce2e5c099",
+      "approvedBy": "ticket:TZ-24E-P1-DEBT-QUEUE-SSOT-BOOTSTRAP-001",
+      "approvedAtUtc": "2026-02-18T11:48:40.000Z",
+      "rationale": "Approve SSOT bootstrap for P1 debt queue registry (docs/OPS-only)."
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
@@ -135,15 +177,22 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "scripts/ops/check-execution-sequence.mjs",
-      "sha256": "789ad4e33b5bc38b79ab1adfcf46ccdda56ff767f7e431760e653da5e5c20f78",
+      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
+      "sha256": "f8213fcb64925812a35738612e85ce3616264a5680ad13f671280f3093ef77a6",
+      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
+      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
+      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
+    },
+    {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "8a9435a7a14746aad462035230a2188711cb2277da44cf56a81a9ce3389539c6",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
-      "filePath": "scripts/doctor.mjs",
-      "sha256": "8a9435a7a14746aad462035230a2188711cb2277da44cf56a81a9ce3389539c6",
+      "filePath": "scripts/ops/check-execution-sequence.mjs",
+      "sha256": "789ad4e33b5bc38b79ab1adfcf46ccdda56ff767f7e431760e653da5e5c20f78",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
@@ -156,11 +205,39 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
+      "filePath": "scripts/ops/codex-run.mjs",
+      "sha256": "3490a53e31bc3a438811b7d876a634477193a38fe879c0cf8f4681f5913c6546",
+      "approvedBy": "ticket:TZ-SECTOR-01-D-RUNNER-PLAN-STAGING-FIX-01",
+      "approvedAtUtc": "2026-02-19T09:30:17.930Z",
+      "rationale": "Allow deterministic local-pipeline staging of ticket plan artifacts with policy-constrained force add."
+    },
+    {
       "filePath": "scripts/ops/compute-wave-input-hash.mjs",
       "sha256": "870426af05260b2be9d202a9546e1b6df473b9cee8ef5dd05a609ec85b3106b3",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+    },
+    {
+      "filePath": "scripts/ops/github-credential-autofix.mjs",
+      "sha256": "96d4bbd26a9335bd34108d97618f569cbbd136c8f4c2d803ad09a3f710c24c2d",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve OPS automation autofix script for workflow-scope push remediation and handoff boundary."
+    },
+    {
+      "filePath": "scripts/ops/path-boundary-guard-state.mjs",
+      "sha256": "95838483e8f47c1fa76ca7c806fd993d029a128604f51bed5871cf5c5432e485",
+      "approvedBy": "ticket:TZ-24E-P1-PATH-BOUNDARY-GUARD-IPC-IO-012",
+      "approvedAtUtc": "2026-02-18T15:22:29.000Z",
+      "rationale": "Approve path-boundary guard wiring state checks and expanded bypass scenario coverage."
+    },
+    {
+      "filePath": "scripts/ops/x2-readiness-gate-state.mjs",
+      "sha256": "28279b8bf99c56cd4184a3ad96109c67014f14aca184898f052823b6c66ba1e8",
+      "approvedBy": "ticket:TZ-24E-P1-CI-OPS-INJECTION-HARDENING-DISCOVERY-004",
+      "approvedAtUtc": "2026-02-18T12:26:34.000Z",
+      "rationale": "Approve minimal CI/OPS injection hardening in x2 readiness gate command execution path."
     },
     {
       "filePath": "scripts/ops/xplat-contract-state.mjs",
@@ -170,11 +247,25 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
+      "filePath": "test/contracts/codex-automation-policy.test.js",
+      "sha256": "4edc232a871942bd3f8754b229ab953634e3d604adf344bd9f05f1d104f65fb3",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve contract update for workflow-scope push autofix policy wiring."
+    },
+    {
       "filePath": "test/contracts/execution-sequence-lock.contract.test.js",
       "sha256": "482a05cb49294cdffe7eaa60d5fe34ac207490d10bf02da7f33f0e0a6db30af9",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+    },
+    {
+      "filePath": "test/contracts/github-credential-autofix.contract.test.js",
+      "sha256": "b38b2c3c773e8d578f6a165de267e4200d9a2495446e7ea1e0a679a1dae284a9",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve new contract coverage for workflow-scope push autofix detect/remediation/handoff behavior."
     },
     {
       "filePath": "test/contracts/lane-separation.contract.test.js",
@@ -198,11 +289,25 @@
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
     },
     {
+      "filePath": "test/contracts/path-boundary-guard.contract.test.js",
+      "sha256": "36fdb675d716090e09bc09ca13832fd84525378924adcb7754bd53639dc4641c",
+      "approvedBy": "ticket:TZ-24E-P1-PATH-BOUNDARY-GUARD-IPC-IO-012",
+      "approvedAtUtc": "2026-02-18T15:22:29.000Z",
+      "rationale": "Approve contract negatives for symlink traversal and unicode path normalization equivalence."
+    },
+    {
       "filePath": "test/contracts/prompt-layer-single-source.contract.test.js",
       "sha256": "dee05454ba47b6844d815e95e6c3a04c68ae729c61dddbd6796f2dc3f9f95329",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+    },
+    {
+      "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
+      "sha256": "bc6c83361298c49f195644f18960de0628839b458e1ff2854932cd454e7fef16",
+      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
+      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
+      "rationale": "Approve profile contract update binding push-step autofix hook metadata."
     },
     {
       "filePath": "test/contracts/stage-axis-lock.contract.test.js",
@@ -224,111 +329,6 @@
       "approvedBy": "@k.ponomarev.pro",
       "approvedAtUtc": "2026-02-18T00:00:00.000Z",
       "rationale": "Approve strict-governance change for TZ-24D2 contract wiring update."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
-      "sha256": "380ed1b1d0b4933a230b3b9ea81266fd8d7679f08c34866e6ff6591ce2e5c099",
-      "approvedBy": "ticket:TZ-24E-P1-DEBT-QUEUE-SSOT-BOOTSTRAP-001",
-      "approvedAtUtc": "2026-02-18T11:48:40.000Z",
-      "rationale": "Approve SSOT bootstrap for P1 debt queue registry (docs/OPS-only)."
-    },
-    {
-      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "f8213fcb64925812a35738612e85ce3616264a5680ad13f671280f3093ef77a6",
-      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
-      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
-      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
-    },
-    {
-      "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
-      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
-      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
-      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
-    },
-    {
-      "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
-      "sha256": "1dc7e339d5951e5dbf538f54349d7c63b46443dd8766bf70418985726cdb93df",
-      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
-      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
-      "rationale": "Approve policy wiring for workflow-scope push autofix and minimal-click handoff resume path."
-    },
-    {
-      "filePath": "docs/OPERATIONS/STATUS/SAFE_AUTOMERGE_OPS_ONLY_PROFILE.json",
-      "sha256": "50e0040ae9f27b922406d0cfd6610383bc3b1237f8c93c6782624e1ea41dfbcd",
-      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
-      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
-      "rationale": "Approve safe-automerge profile push-step hook metadata for workflow-scope autofix."
-    },
-    {
-      "filePath": "scripts/ops/x2-readiness-gate-state.mjs",
-      "sha256": "28279b8bf99c56cd4184a3ad96109c67014f14aca184898f052823b6c66ba1e8",
-      "approvedBy": "ticket:TZ-24E-P1-CI-OPS-INJECTION-HARDENING-DISCOVERY-004",
-      "approvedAtUtc": "2026-02-18T12:26:34.000Z",
-      "rationale": "Approve minimal CI/OPS injection hardening in x2 readiness gate command execution path."
-    },
-    {
-      "filePath": "scripts/ops/github-credential-autofix.mjs",
-      "sha256": "96d4bbd26a9335bd34108d97618f569cbbd136c8f4c2d803ad09a3f710c24c2d",
-      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
-      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
-      "rationale": "Approve OPS automation autofix script for workflow-scope push remediation and handoff boundary."
-    },
-    {
-      "filePath": "test/contracts/codex-automation-policy.test.js",
-      "sha256": "4edc232a871942bd3f8754b229ab953634e3d604adf344bd9f05f1d104f65fb3",
-      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
-      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
-      "rationale": "Approve contract update for workflow-scope push autofix policy wiring."
-    },
-    {
-      "filePath": "test/contracts/github-credential-autofix.contract.test.js",
-      "sha256": "b38b2c3c773e8d578f6a165de267e4200d9a2495446e7ea1e0a679a1dae284a9",
-      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
-      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
-      "rationale": "Approve new contract coverage for workflow-scope push autofix detect/remediation/handoff behavior."
-    },
-    {
-      "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
-      "sha256": "bc6c83361298c49f195644f18960de0628839b458e1ff2854932cd454e7fef16",
-      "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
-      "approvedAtUtc": "2026-02-18T14:59:18.000Z",
-      "rationale": "Approve profile contract update binding push-step autofix hook metadata."
-    },
-    {
-      "filePath": "scripts/ops/path-boundary-guard-state.mjs",
-      "sha256": "95838483e8f47c1fa76ca7c806fd993d029a128604f51bed5871cf5c5432e485",
-      "approvedBy": "ticket:TZ-24E-P1-PATH-BOUNDARY-GUARD-IPC-IO-012",
-      "approvedAtUtc": "2026-02-18T15:22:29.000Z",
-      "rationale": "Approve path-boundary guard wiring state checks and expanded bypass scenario coverage."
-    },
-    {
-      "filePath": "test/contracts/path-boundary-guard.contract.test.js",
-      "sha256": "36fdb675d716090e09bc09ca13832fd84525378924adcb7754bd53639dc4641c",
-      "approvedBy": "ticket:TZ-24E-P1-PATH-BOUNDARY-GUARD-IPC-IO-012",
-      "approvedAtUtc": "2026-02-18T15:22:29.000Z",
-      "rationale": "Approve contract negatives for symlink traversal and unicode path normalization equivalence."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/DEPENDENCY_RISK_REGISTER.json",
-      "sha256": "c5b98ca8c434c45bf1f042a21e025bfd7ed75df1e5025aa5d2e0976294978d1b",
-      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-A",
-      "approvedAtUtc": "2026-02-18T17:06:00.000Z",
-      "rationale": "Register dependency risk SSOT with reachable high-severity triage and governance tracking for Ticket A."
-    },
-    {
-      "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
-      "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
-      "approvedAtUtc": "2026-02-19T04:10:47.000Z",
-      "rationale": "Add local product pipeline inputs (plan digest + node version) to autocycle determinism canon."
-    },
-    {
-      "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "e23d39d7ae068211c8513faddeb95f4477647b8e5c201d1a50ee40ec95faf19e",
-      "approvedBy": "ticket:TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING",
-      "approvedAtUtc": "2026-02-19T09:16:00.000Z",
-      "rationale": "Harden runner command input validation, lock-aware retry routing, and non-shell execution invariants for CI/OPS flows."
     }
   ]
 }

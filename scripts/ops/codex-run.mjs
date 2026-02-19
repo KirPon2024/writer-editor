@@ -27,6 +27,11 @@ const AUTOCYCLE_DEFAULT_POLICY = Object.freeze({
     maxFiles: 5,
     maxLines: 150,
   },
+  stagnationPolicy: {
+    defaultRepeats: 2,
+    networkRepeats: 3,
+    contextRepeats: 3,
+  },
 });
 const AUTOCYCLE_HARD_BLOCK_REASONS = new Set([
   'CACHE_SCOPE_LEAK',
@@ -42,6 +47,13 @@ const AUTOCYCLE_HARD_BLOCK_REASONS = new Set([
   'PATCH_CONSTRAINTS_EXCEEDED',
   'PATCH_FILE_MISMATCH',
   'AUTOCYCLE_CANON_INVALID',
+]);
+const AUTOCYCLE_STAGNATION_NETWORK_REASONS = new Set([
+  'NETWORK_UNSTABLE',
+]);
+const AUTOCYCLE_STAGNATION_CONTEXT_REASONS = new Set([
+  'PR_CONTEXT_MISSING',
+  'BRANCH_PROTECTION_BLOCK',
 ]);
 
 class RunnerStepFailure extends Error {
@@ -428,11 +440,15 @@ function readAutocyclePolicy() {
   const parsed = readJsonFileSafe(resolved);
   const batch = parsed?.batchPolicy || {};
   const patch = parsed?.patchConstraints || {};
+  const stagnation = parsed?.stagnationPolicy || {};
   const maxMainTzPerBatch = Number.parseInt(batch.maxMainTZPerBatch ?? batch.maxMainTzPerBatch, 10);
   const maxPatchPerMain = Number.parseInt(batch.maxPatchPerMainTZ ?? batch.maxPatchPerMain, 10);
   const maxIterationsTotal = Number.parseInt(batch.maxIterationsTotal ?? batch.maxIterationsWithoutForwardDiff, 10);
   const maxFiles = Number.parseInt(patch.maxFiles, 10);
   const maxLines = Number.parseInt(patch.maxLines, 10);
+  const defaultRepeats = Number.parseInt(stagnation.defaultRepeats, 10);
+  const networkRepeats = Number.parseInt(stagnation.networkRepeats, 10);
+  const contextRepeats = Number.parseInt(stagnation.contextRepeats, 10);
 
   return {
     path: resolved,
@@ -443,6 +459,11 @@ function readAutocyclePolicy() {
       maxFiles: Number.isInteger(maxFiles) && maxFiles > 0 ? maxFiles : AUTOCYCLE_DEFAULT_POLICY.patchConstraints.maxFiles,
       maxLines: Number.isInteger(maxLines) && maxLines > 0 ? maxLines : AUTOCYCLE_DEFAULT_POLICY.patchConstraints.maxLines,
     },
+    stagnationPolicy: {
+      defaultRepeats: Number.isInteger(defaultRepeats) && defaultRepeats >= 1 ? defaultRepeats : AUTOCYCLE_DEFAULT_POLICY.stagnationPolicy.defaultRepeats,
+      networkRepeats: Number.isInteger(networkRepeats) && networkRepeats >= 1 ? networkRepeats : AUTOCYCLE_DEFAULT_POLICY.stagnationPolicy.networkRepeats,
+      contextRepeats: Number.isInteger(contextRepeats) && contextRepeats >= 1 ? contextRepeats : AUTOCYCLE_DEFAULT_POLICY.stagnationPolicy.contextRepeats,
+    },
   };
 }
 
@@ -450,16 +471,40 @@ function readAutocycleSnapshot(snapshotPath) {
   return readJsonFileSafe(snapshotPath);
 }
 
-function computeForwardProgressFingerprint(ctx, failureClass, reason) {
+function readOriginMainShaSafe() {
+  const sha = runCommand('git', ['rev-parse', 'origin/main'], { retryable: false });
+  if (!sha.ok) return '';
+  return String(sha.stdout || '').trim();
+}
+
+function computeForwardProgressFingerprint(ctx, failureClass, reason, options = {}) {
   const diff = runCommand('git', ['diff', '--name-status', '-M', '-C'], { retryable: false });
   const diffPayload = diff.ok ? String(diff.stdout || '').trim() : `DIFF_ERROR:${reason}`;
+  const prNumber = Number.isInteger(options.prNumber)
+    ? options.prNumber
+    : (ctx.state?.prNumber ?? ctx.args?.prNumber ?? null);
+  const originMainSha = String(options.originMainSha || '').trim();
   const payload = JSON.stringify({
     diffHash: hashString(diffPayload),
     allowlistHash: allowlistHash(ctx.allowlist),
     failureClass: failureClass || 'PASS',
     reason: reason || 'PASS',
+    prNumber: Number.isInteger(prNumber) ? prNumber : null,
+    originMainSha,
   });
   return hashString(payload);
+}
+
+function resolveStagnationRepeatLimit(policy, failureClass, reason) {
+  if (failureClass !== 'HUMAN_REQUIRED') return 0;
+  if (reason === 'BLOCK_FAIL_NEEDS_GPT_PATCH') return Number.MAX_SAFE_INTEGER;
+  if (AUTOCYCLE_STAGNATION_NETWORK_REASONS.has(reason)) {
+    return policy.stagnationPolicy.networkRepeats;
+  }
+  if (AUTOCYCLE_STAGNATION_CONTEXT_REASONS.has(reason)) {
+    return policy.stagnationPolicy.contextRepeats;
+  }
+  return policy.stagnationPolicy.defaultRepeats;
 }
 
 function validatePatchPayload(patchPayload, ctx) {
@@ -529,6 +574,9 @@ function initAutocycleContext(ctx) {
     iterationCount: Number.isInteger(existing?.iterationCount) ? existing.iterationCount : 0,
     lastFailSummary: existing?.lastFailSummary || null,
     forwardProgressFingerprint: existing?.forwardProgressFingerprint || '',
+    lastReason: existing?.lastReason || '',
+    repeatCountForReason: Number.isInteger(existing?.repeatCountForReason) ? existing.repeatCountForReason : 0,
+    lastOriginMainShaSeen: existing?.lastOriginMainShaSeen || '',
     currentStep: existing?.currentStep || 'autocycle_init',
     patchTicketId: existing?.patchTicketId || '',
     updatedAtUtc: nowUtcIso(),
@@ -560,14 +608,6 @@ function initAutocycleContext(ctx) {
   }
 
   state.iterationCount += 1;
-  if (state.iterationCount > policy.maxIterationsTotal) {
-    throw new RunnerStepFailure(
-      'HUMAN_REQUIRED',
-      'STAGNATION_ESCALATE_GPT',
-      `iteration limit reached (${policy.maxIterationsTotal})`,
-      { resumeFromStep: ctx.args.resumeFromStep ?? DEFAULT_PR_RESUME_STEP },
-    );
-  }
 
   ctx.autocycleState = state;
   ctx.autocyclePatch = patchPayload;
@@ -1259,16 +1299,36 @@ function main() {
     }
 
     if (ctx.autocycleEnabled && ctx.autocycleState) {
-      const fingerprint = computeForwardProgressFingerprint(ctx, ctx.failureClass, ctx.reason);
+      const originMainSha = readOriginMainShaSafe();
+      const fingerprint = computeForwardProgressFingerprint(
+        ctx,
+        ctx.failureClass,
+        ctx.reason,
+        { originMainSha, prNumber: ctx.state?.prNumber ?? ctx.args?.prNumber ?? null },
+      );
       const previousFingerprint = String(ctx.autocycleState.forwardProgressFingerprint || '');
       const prevFail = ctx.autocycleState.lastFailSummary || null;
+      const previousRepeatCount = Number.isInteger(ctx.autocycleState.repeatCountForReason)
+        ? ctx.autocycleState.repeatCountForReason
+        : 0;
 
       const repeated = previousFingerprint && previousFingerprint === fingerprint
         && prevFail
         && prevFail.failureClass === ctx.failureClass
         && prevFail.reason === ctx.reason;
 
-      if (repeated) {
+      const repeatCountForReason = repeated ? previousRepeatCount + 1 : 0;
+      const repeatLimit = resolveStagnationRepeatLimit(ctx.autocyclePolicy, ctx.failureClass, ctx.reason);
+      const iterationExhausted = ctx.autocycleState.iterationCount > ctx.autocyclePolicy.maxIterationsTotal;
+
+      if (
+        iterationExhausted
+        || (
+          ctx.failureClass === 'HUMAN_REQUIRED'
+          && ctx.reason !== 'BLOCK_FAIL_NEEDS_GPT_PATCH'
+          && repeatCountForReason >= repeatLimit
+        )
+      ) {
         ctx.failureClass = 'HUMAN_REQUIRED';
         ctx.reason = 'STAGNATION_ESCALATE_GPT';
         ctx.humanActionRequired = 1;
@@ -1282,7 +1342,15 @@ function main() {
         resumeFromStep: ctx.resumeFromStep,
         atUtc: nowUtcIso(),
       };
-      ctx.autocycleState.forwardProgressFingerprint = computeForwardProgressFingerprint(ctx, ctx.failureClass, ctx.reason);
+      ctx.autocycleState.forwardProgressFingerprint = computeForwardProgressFingerprint(
+        ctx,
+        ctx.failureClass,
+        ctx.reason,
+        { originMainSha, prNumber: ctx.state?.prNumber ?? ctx.args?.prNumber ?? null },
+      );
+      ctx.autocycleState.lastReason = ctx.reason;
+      ctx.autocycleState.repeatCountForReason = repeatCountForReason;
+      ctx.autocycleState.lastOriginMainShaSeen = originMainSha;
       ctx.autocycleState.updatedAtUtc = nowUtcIso();
       writeJsonFile(ctx.autocycleSnapshotPath, ctx.autocycleState);
     }

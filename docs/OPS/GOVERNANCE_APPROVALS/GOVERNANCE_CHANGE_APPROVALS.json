@@ -318,17 +318,17 @@
     },
     {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
-      "sha256": "cb022999e9e4181f80e35d7a09fcdd80410420f2bad38d7703ed5e90293021e0",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-04",
-      "approvedAtUtc": "2026-02-19T02:53:20.000Z",
-      "rationale": "Extend autocycle canon with maxIterationsTotal and patchConstraints for bounded runner validation."
+      "sha256": "2fbe5054c42087e6d2b4e30d64686207b0d63658702c61f6fc3b92cb9fc160b6",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-05",
+      "approvedAtUtc": "2026-02-19T03:22:06.000Z",
+      "rationale": "Declare reason-aware stagnation policy defaults for bounded autocycle repeat windows."
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "ca559db418f492892a30c3d85c7b86ffb1507ae84e6b5ac6790adb3003b170b6",
-      "approvedBy": "ticket:TZ-AUTOCYCLE-04",
-      "approvedAtUtc": "2026-02-19T02:53:20.000Z",
-      "rationale": "Add bounded autocycle state machine to runner; enforce MAIN_TZ + PATCH_TZ limits, deterministic resume, and stagnation escalation."
+      "sha256": "43fd9ce8d30a73c5366e905a3cf0bdc10738b1a614ce7ad2e0b07a3da1e8757e",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-05",
+      "approvedAtUtc": "2026-02-19T03:22:06.000Z",
+      "rationale": "Tune autocycle stagnation policy to be reason-aware for network/context loops while preserving bounded escalation."
     }
   ]
 }

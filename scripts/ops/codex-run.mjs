@@ -69,6 +69,7 @@ const LOCKFILE_CANDIDATES = Object.freeze([
 ]);
 const SAFE_TICKET_ID_RE = /^[A-Za-z0-9._:+-]{3,180}$/;
 const SAFE_BRANCH_RE = /^(?!\/)(?!.*\/\/)(?!.*\.\.)(?!.*@\{)(?!.*\\)(?!.*\s)[A-Za-z0-9._/-]{1,255}$/;
+const LOCAL_PIPELINE_PLAN_PATH_RE = /^docs\/OPS\/EXECUTION\/TICKETS\/[^/]+\.plan\.json$/;
 
 class RunnerStepFailure extends Error {
   constructor(failureClass, reason, detail, options = {}) {
@@ -751,6 +752,50 @@ function normalizeRepoRelativePath(candidatePath) {
   return relative;
 }
 
+function toRepoRelativePath(candidatePath) {
+  const raw = String(candidatePath || '').trim();
+  if (!raw) return '';
+  const slashNormalized = raw.replace(/\\/g, '/');
+  if (isSafeRepoRelativePath(slashNormalized)) {
+    return normalizeRepoRelativePath(slashNormalized);
+  }
+  const relative = path.relative(process.cwd(), slashNormalized).replace(/\\/g, '/');
+  return normalizeRepoRelativePath(relative);
+}
+
+function shouldForceAddPlan(planPath, stagePathSet) {
+  const normalizedPlanPath = normalizeRepoRelativePath(planPath);
+  if (!normalizedPlanPath) {
+    return { planPath: '', forceAdd: false };
+  }
+
+  const underTicketPlans = LOCAL_PIPELINE_PLAN_PATH_RE.test(normalizedPlanPath);
+  const inAllowlist = stagePathSet.has(normalizedPlanPath);
+  if (!underTicketPlans || !inAllowlist) {
+    throw new RunnerStepFailure(
+      'BLOCK_FAIL',
+      'PLAN_PATH_IGNORED_NOT_ALLOWED',
+      'plan path is outside staging policy; place it under docs/OPS/EXECUTION/TICKETS/*.plan.json and include it in allowlist/local pipeline scope',
+      { evidenceTail: [normalizedPlanPath] },
+    );
+  }
+
+  const ignoredProbe = runCommand('git', ['check-ignore', '-q', '--', normalizedPlanPath], { retryable: false });
+  if (ignoredProbe.ok) {
+    return { planPath: normalizedPlanPath, forceAdd: true };
+  }
+  if (ignoredProbe.status === 1) {
+    return { planPath: normalizedPlanPath, forceAdd: false };
+  }
+
+  throw new RunnerStepFailure(
+    'BLOCK_FAIL',
+    'CREATE_BRANCH_COMMIT_FAILED',
+    'failed to determine plan ignore state before staging',
+    { evidenceTail: ignoredProbe.evidenceTail },
+  );
+}
+
 function validateAllowlistOrThrow(allowlist) {
   const input = Array.isArray(allowlist) ? allowlist : [];
   const normalized = [];
@@ -1423,6 +1468,7 @@ function stepRestoreOrInitState(ctx) {
     currentStep: existing?.currentStep || existing?.stepId || 'restore_or_init_state',
     stepId: existing?.stepId || existing?.currentStep || 'restore_or_init_state',
     requiredChecksState: existing?.requiredChecksState || 'unknown',
+    planStagingUsedForceAdd: Boolean(existing?.planStagingUsedForceAdd),
     antiSwapVerified: Boolean(existing?.antiSwapVerified),
     resumeFromStep: existing?.resumeFromStep ?? defaultResumeStep,
     lastCompletedStep: Number.isInteger(existing?.lastCompletedStep) ? existing.lastCompletedStep : 2,
@@ -1614,15 +1660,37 @@ function stepCreateBranchCommit(ctx) {
   ctx.state.branch = branchName;
   ctx.state.branchName = branchName;
 
-  const stagePaths = Array.isArray(ctx.allowlist) ? ctx.allowlist : [];
-  if (stagePaths.length > 0) {
-    const add = runCommand('git', ['add', '--', ...stagePaths], { retryable: false });
+  const stagePathSet = new Set(Array.isArray(ctx.allowlist) ? ctx.allowlist : []);
+  const planPath = toRepoRelativePath(ctx.planPath || ctx.args?.planPath || '');
+  const shouldStagePlan = Boolean(planPath && stagePathSet.has(planPath));
+  const stagePaths = [...stagePathSet];
+  const stagePathsWithoutPlan = shouldStagePlan
+    ? stagePaths.filter((entry) => entry !== planPath)
+    : stagePaths;
+
+  if (stagePathsWithoutPlan.length > 0) {
+    const add = runCommand('git', ['add', '--', ...stagePathsWithoutPlan], { retryable: false });
     if (!add.ok) {
       throw new RunnerStepFailure('BLOCK_FAIL', 'CREATE_BRANCH_COMMIT_FAILED', 'failed to stage planned paths', {
         evidenceTail: add.evidenceTail,
       });
     }
   }
+
+  let planStagingUsedForceAdd = false;
+  if (shouldStagePlan) {
+    const planStaging = shouldForceAddPlan(planPath, stagePathSet);
+    const addPlan = planStaging.forceAdd
+      ? runCommand('git', ['add', '-f', '--', planStaging.planPath], { retryable: false })
+      : runCommand('git', ['add', '--', planStaging.planPath], { retryable: false });
+    if (!addPlan.ok) {
+      throw new RunnerStepFailure('BLOCK_FAIL', 'CREATE_BRANCH_COMMIT_FAILED', 'failed to stage plan path', {
+        evidenceTail: addPlan.evidenceTail,
+      });
+    }
+    planStagingUsedForceAdd = planStaging.forceAdd;
+  }
+  ctx.state.planStagingUsedForceAdd = planStagingUsedForceAdd;
 
   const staged = runCommand('git', ['diff', '--cached', '--name-only'], { retryable: false });
   if (!staged.ok) {
@@ -2177,6 +2245,7 @@ function emitFinalSummary(ctx) {
     ORIGIN_MAIN_SHA_AFTER: ctx.originMainShaAfter || ctx.state?.originMainShaAfter || '',
     prNumber: ctx.state?.prNumber || null,
     prUrl: ctx.state?.prUrl || '',
+    planStagingUsedForceAdd: Boolean(ctx.state?.planStagingUsedForceAdd),
     PR_NUMBER: ctx.state?.prNumber || null,
     PR_URL: ctx.state?.prUrl || '',
     mergeCommitSha: ctx.state?.mergeCommitSha || '',

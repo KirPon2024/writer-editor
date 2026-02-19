@@ -473,10 +473,7 @@ function toStepFailureFromCommand(commandFailure, detail, options = {}) {
 
 function shouldRunPrFlow(args, snapshotExists) {
   if (args.mode !== 'pr') return false;
-  if (args.prNumber !== null) return true;
-  if (args.resumeFromStep !== null) return true;
-  if (snapshotExists) return true;
-  return process.env.CODEX_RUN_FORCE_PR_FLOW === '1';
+  return true;
 }
 
 function stepRestoreOrInitState(ctx) {
@@ -564,94 +561,35 @@ function stepPrDiscovery(ctx) {
   let prNumber = ctx.state.prNumber;
   let prUrl = ctx.state.prUrl;
 
-  if (prNumber !== null) {
-    const lookup = runCommand(
-      'gh',
-      ['pr', 'view', String(prNumber), '--json', 'number,url,state,mergeable,baseRefName,headRefName,mergeStateStatus'],
-      { retryable: true },
-    );
-    if (!lookup.ok) {
-      throw toStepFailureFromCommand(lookup, `Unable to read PR #${prNumber}`, { resumeFromStep: 4, blockReason: 'PR_DISCOVERY_FAILED' });
-    }
-    const parsed = parseGhJson(lookup, 'PR_DISCOVERY_JSON_PARSE_FAILED');
-    prNumber = Number(parsed.number);
-    prUrl = String(parsed.url || '');
-    const prState = String(parsed.state || '').toUpperCase();
-    if (prState !== 'OPEN') {
-      throw new RunnerStepFailure('HUMAN_REQUIRED', 'PR_NOT_OPEN', `PR #${prNumber} is not open`, {
+  if (prNumber === null) {
+    throw new RunnerStepFailure(
+      'HUMAN_REQUIRED',
+      'PR_CONTEXT_MISSING',
+      `PR context missing: provide --pr for branch ${ctx.state.branch || 'unknown'}`,
+      {
         resumeFromStep: 4,
-        evidenceTail: [prState],
-      });
-    }
-  } else {
-    const byBranch = runCommand(
-      'gh',
-      ['pr', 'view', ctx.state.branch, '--json', 'number,url,state,mergeable,baseRefName,headRefName,mergeStateStatus'],
-      { retryable: true },
+        evidenceTail: [ctx.state.branch || 'unknown-branch'],
+      },
     );
+  }
 
-    if (byBranch.ok) {
-      const parsed = parseGhJson(byBranch, 'PR_DISCOVERY_JSON_PARSE_FAILED');
-      prNumber = Number(parsed.number);
-      prUrl = String(parsed.url || '');
-    } else {
-      const errorText = `${byBranch.stdout}\n${byBranch.stderr}`.toLowerCase();
-      const noPrFound = errorText.includes('no pull requests found');
-
-      if (noPrFound && ctx.state.resumeFromStep >= DEFAULT_PR_RESUME_STEP) {
-        throw new RunnerStepFailure(
-          'BLOCK_FAIL',
-          'PR_NOT_FOUND_FOR_RESUME',
-          `No PR found for branch ${ctx.state.branch}`,
-          { evidenceTail: byBranch.evidenceTail, resumeFromStep: ctx.state.resumeFromStep },
-        );
-      }
-
-      if (!noPrFound) {
-        throw toStepFailureFromCommand(byBranch, `Failed to discover PR for branch ${ctx.state.branch}`, { resumeFromStep: 4, blockReason: 'PR_DISCOVERY_FAILED' });
-      }
-
-      const bodyPath = createPrBodyTempFile(ctx.ticketId, ctx.state.branch);
-      try {
-        const createResult = runCommand(
-          'gh',
-          [
-            'pr',
-            'create',
-            '--base',
-            'main',
-            '--head',
-            ctx.state.branch,
-            '--title',
-            `chore(ops): ${ctx.ticketId}`,
-            '--body-file',
-            bodyPath,
-          ],
-          { retryable: true },
-        );
-        if (!createResult.ok) {
-          throw toStepFailureFromCommand(createResult, `Failed to create PR for branch ${ctx.state.branch}`, { resumeFromStep: 4, blockReason: 'PR_CREATE_FAILED' });
-        }
-
-        const url = tailLines(createResult.stdout, 3).find((line) => line.includes('/pull/')) || '';
-        prUrl = String(url).trim();
-
-        const viewCreated = runCommand(
-          'gh',
-          ['pr', 'view', ctx.state.branch, '--json', 'number,url,state,mergeable,baseRefName,headRefName,mergeStateStatus'],
-          { retryable: true },
-        );
-        if (!viewCreated.ok) {
-          throw toStepFailureFromCommand(viewCreated, `Failed to read created PR for ${ctx.state.branch}`, { resumeFromStep: 4, blockReason: 'PR_DISCOVERY_FAILED' });
-        }
-
-        const parsedCreated = parseGhJson(viewCreated, 'PR_DISCOVERY_JSON_PARSE_FAILED');
-        prNumber = Number(parsedCreated.number);
-        prUrl = String(parsedCreated.url || prUrl || '');
-      } finally {
-        if (fs.existsSync(bodyPath)) fs.unlinkSync(bodyPath);
-      }
-    }
+  const lookup = runCommand(
+    'gh',
+    ['pr', 'view', String(prNumber), '--json', 'number,url,state,mergeable,baseRefName,headRefName,mergeStateStatus'],
+    { retryable: true },
+  );
+  if (!lookup.ok) {
+    throw toStepFailureFromCommand(lookup, `Unable to read PR #${prNumber}`, { resumeFromStep: 4, blockReason: 'PR_DISCOVERY_FAILED' });
+  }
+  const parsed = parseGhJson(lookup, 'PR_DISCOVERY_JSON_PARSE_FAILED');
+  prNumber = Number(parsed.number);
+  prUrl = String(parsed.url || '');
+  const prState = String(parsed.state || '').toUpperCase();
+  if (prState !== 'OPEN') {
+    throw new RunnerStepFailure('HUMAN_REQUIRED', 'PR_NOT_OPEN', `PR #${prNumber} is not open`, {
+      resumeFromStep: 4,
+      evidenceTail: [prState],
+    });
   }
 
   if (!Number.isInteger(prNumber) || prNumber <= 0) {
@@ -1117,6 +1055,12 @@ function main() {
   });
   if (!step.ok) {
     finalizeFailure(step.error);
+    emitFinalSummary(ctx);
+    process.exit(ctx.exitCode);
+  }
+
+  if (mode === 'pr' && !runPrFlow) {
+    finalizeFailure(new RunnerStepFailure('BLOCK_FAIL', 'PR_FLOW_INVARIANT_BROKEN', 'mode=pr must execute PR flow'));
     emitFinalSummary(ctx);
     process.exit(ctx.exitCode);
   }

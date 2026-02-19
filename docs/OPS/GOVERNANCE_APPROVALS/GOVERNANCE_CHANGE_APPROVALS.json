@@ -325,10 +325,10 @@
     },
     {
       "filePath": "scripts/ops/codex-run.mjs",
-      "sha256": "89dd469785d71457bdda6c6f4d861e184e9e3caee46fbcf6f8e878d2f68e56f9",
-      "approvedBy": "ticket:TZ-RUNNER-MAIN-RESTORE-01",
-      "approvedAtUtc": "2026-02-18T21:39:42.000Z",
-      "rationale": "Restore canonical single-entry runner on main; unblock AUTOCYCLE execution."
+      "sha256": "9c6096df059b494b2f450a76c906674378ca68847990347ee3ff00fa5313cbf5",
+      "approvedBy": "ticket:TZ-AUTOCYCLE-02-P0",
+      "approvedAtUtc": "2026-02-19T02:09:15.000Z",
+      "rationale": "Prevent readiness-only false-green in mode=pr; enforce PR-flow invariant; correct classification for missing PR context and network instability."
     }
   ]
 }

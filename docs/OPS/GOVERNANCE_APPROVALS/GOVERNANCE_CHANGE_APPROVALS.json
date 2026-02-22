@@ -157,10 +157,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
-      "sha256": "380ed1b1d0b4933a230b3b9ea81266fd8d7679f08c34866e6ff6591ce2e5c099",
-      "approvedBy": "ticket:TZ-24E-P1-DEBT-QUEUE-SSOT-BOOTSTRAP-001",
-      "approvedAtUtc": "2026-02-18T11:48:40.000Z",
-      "rationale": "Approve SSOT bootstrap for P1 debt queue registry (docs/OPS-only)."
+      "sha256": "9c4854d59bf1216da72eb7241bd8f77fa303256c83188232db56a114293e6557",
+      "approvedBy": "ticket:TZ-SECTOR-01-A-P1-DEBT-QUEUE-SSOT-BOOTSTRAP-001",
+      "approvedAtUtc": "2026-02-22T10:46:44.000Z",
+      "rationale": "Sector 01 Ticket A: P1 debt queue owner bootstrap + exception closure metadata"
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",

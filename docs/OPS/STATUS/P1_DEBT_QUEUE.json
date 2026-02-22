@@ -15,7 +15,7 @@
       "status": "OPEN",
       "priority": "P1",
       "risk": "SECURITY",
-      "owner": "TBD",
+      "owner": "HO",
       "exitCriteria": [
         "All reachable vulnerabilities in the active dependency graph are either remediated or documented with risk acceptance approved in governance.",
         "A repeatable remediation plan with owners, due dates, and closure evidence is recorded and linked from this queue item."
@@ -29,7 +29,10 @@
         "npm run oss:policy",
         "node scripts/doctor.mjs --strict"
       ],
-      "notes": []
+      "notes": [
+        "ownerAssigned=HO",
+        "closurePlannedByTicket=TZ-SECTOR-01-D-DEPENDENCY-REMEDIATION-001"
+      ]
     },
     {
       "id": "P1-CI-OPS-INJECTION-HARDENING",
@@ -37,7 +40,7 @@
       "status": "OPEN",
       "priority": "P1",
       "risk": "OPS",
-      "owner": "TBD",
+      "owner": "HO",
       "exitCriteria": [
         "Command invocation boundaries in CI/OPS scripts are hardened against untrusted input and validated by passing contract checks.",
         "All high-risk shell/script entry points have explicit guardrails documented with reproducible verification commands."
@@ -50,15 +53,18 @@
         "npm run dev:fast",
         "node scripts/ops/governance-change-detection.mjs --json"
       ],
-      "notes": []
+      "notes": [
+        "ownerAssigned=HO",
+        "closurePlannedByTicket=TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING-001"
+      ]
     },
     {
       "id": "P1-PATH-BOUNDARY-GUARD",
       "title": "Centralized path-boundary guard for IPC/file operations",
-      "status": "OPEN",
+      "status": "CLOSED_WITH_EXCEPTIONS",
       "priority": "P1",
       "risk": "INTEGRITY",
-      "owner": "TBD",
+      "owner": "HO",
       "exitCriteria": [
         "All IPC and file-operation path validations are routed through one centralized guard with deny-by-default behavior.",
         "Path traversal and outside-root access attempts are covered by automated tests and fail closed."
@@ -70,7 +76,12 @@
         "node scripts/doctor.mjs --strict",
         "npm run dev:fast"
       ],
-      "notes": []
+      "notes": [
+        "ownerAssigned=HO",
+        "expiryUtc=2026-06-30T00:00:00.000Z",
+        "justification=Out of scope for SECTOR_01 A-to-D; accepted temporarily to prevent Sector DONE deadlock.",
+        "monitoringNote=Reopen as OPEN in next sector if still applicable; do not let expiry lapse."
+      ]
     }
   ]
 }

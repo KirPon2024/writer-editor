@@ -115,7 +115,7 @@
     },
     {
       "filePath": "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json",
-      "sha256": "dd361bec88f00ee04b470be8bd5b1bd971eedb77ef08aa8923c85e1f6d679905",
+      "sha256": "a99e7c59e9295cb79b40e1a33c0d31edbfceaf16be026083096268870322ea17",
       "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
       "approvedAtUtc": "2026-02-18T12:00:49.000Z",
       "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
@@ -129,7 +129,7 @@
     },
     {
       "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
-      "sha256": "30e4d5321947f954b15f21321ab3a446ad9a1cbc916ff352b543f66935fbb23a",
+      "sha256": "940cf8723fca98898debba1351d0932edc3c1289faadd8c8eef18db4a5fd1b79",
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
@@ -336,6 +336,27 @@
       "approvedBy": "@k.ponomarev.pro",
       "approvedAtUtc": "2026-02-18T00:00:00.000Z",
       "rationale": "Approve strict-governance change for TZ-24D2 contract wiring update."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/NEXT_SECTOR.json",
+      "sha256": "83180f3b463a665ef767bf45bb5375ae7361b093324783e1ae0306d8973ab706",
+      "approvedBy": "ticket:TZ-SECTOR-01-00-PHASE0-PATCH1-GOV-STRATEGY",
+      "approvedAtUtc": "2026-02-21T16:26:04.652Z",
+      "rationale": "Sector 01 Phase0 bootstrap approvals (next-sector + sector status + failsignal + debt TTL contract)"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/SECTOR_01.json",
+      "sha256": "83295e14d0afcd6a67e1a22726c72dff5cf2d308fe8b52c53e30bd28d1a78f2d",
+      "approvedBy": "ticket:TZ-SECTOR-01-00-PHASE0-PATCH1-GOV-STRATEGY",
+      "approvedAtUtc": "2026-02-21T16:26:04.652Z",
+      "rationale": "Sector 01 Phase0 bootstrap approvals (next-sector + sector status + failsignal + debt TTL contract)"
+    },
+    {
+      "filePath": "test/contracts/debt-ttl-expired.contract.test.js",
+      "sha256": "f5306a288c4707203f474eed6f0aee68a128438090b322cbe95fceb4304a4409",
+      "approvedBy": "ticket:TZ-SECTOR-01-00-PHASE0-PATCH1-GOV-STRATEGY",
+      "approvedAtUtc": "2026-02-21T16:26:04.652Z",
+      "rationale": "Sector 01 Phase0 bootstrap approvals (next-sector + sector status + failsignal + debt TTL contract)"
     }
   ]
 }

@@ -5,6 +5,11 @@
   "status": "ACTIVE_CANON",
   "upgradeDate": "2026-02-17T18:39:34Z",
   "upgradeCommitSha": "5d740faaacf5eae5291414f469919430f16bcdf3",
+  "freeze": {
+    "freezeActive": false,
+    "scope": null,
+    "activatedAtUtc": null
+  },
   "p0PackClosed": [
     "stage_axis_lock",
     "prompt_layer_single_source",

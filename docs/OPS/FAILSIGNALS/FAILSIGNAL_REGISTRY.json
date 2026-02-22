@@ -65,6 +65,18 @@
       "negativeTestRef": "test/contracts/command-visibility-matrix.contract.test.js#missing-visibility-matrix-ssot"
     },
     {
+      "code": "E_DEBT_TTL_EXPIRED",
+      "blocking": false,
+      "tier": "release",
+      "modeMatrix": {
+        "prCore": "advisory",
+        "release": "blocking",
+        "promotion": "blocking"
+      },
+      "rationale": "Debt TTL expiration maps to canonical DEBT_TTL_EXPIRED semantics and remains advisory in prCore while blocking in release/promotion.",
+      "negativeTestRef": "test/contracts/debt-ttl-expired.contract.test.js#expired-active-debt-detected"
+    },
+    {
       "code": "E_DEP_REMEDIATION_POLICY_INVALID",
       "blocking": true,
       "tier": "release",

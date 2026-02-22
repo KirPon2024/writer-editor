@@ -157,10 +157,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
-      "sha256": "9c4854d59bf1216da72eb7241bd8f77fa303256c83188232db56a114293e6557",
-      "approvedBy": "ticket:TZ-SECTOR-01-A-P1-DEBT-QUEUE-SSOT-BOOTSTRAP-001",
-      "approvedAtUtc": "2026-02-22T10:46:44.000Z",
-      "rationale": "Sector 01 Ticket A: P1 debt queue owner bootstrap + exception closure metadata"
+      "sha256": "6eed182fb2ca8d7977e5b087813f96802e35bc1137b46f1f0d83a1302c4e6309",
+      "approvedBy": "ticket:TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING-001",
+      "approvedAtUtc": "2026-02-22T15:49:11.088Z",
+      "rationale": "Sector 01 Ticket C: CI/OPS injection hardening (remove shell interpolation) + contract proof + close P1 item"
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
@@ -364,6 +364,20 @@
       "approvedBy": "ticket:TZ-SECTOR-01-B-REQUIREDSET-CATALOG-DRIFT-FIX-001",
       "approvedAtUtc": "2026-02-22T11:11:58.000Z",
       "rationale": "Sector 01 Ticket B: token catalog + token declaration validator drift fix (no required set change)"
+    },
+    {
+      "filePath": "scripts/ops/network-gate.mjs",
+      "sha256": "4ae4b37ad9a2c976a7c1e056be9bb31791b9ea5b51943c8b6fb989af360fb3ed",
+      "approvedBy": "ticket:TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING-001",
+      "approvedAtUtc": "2026-02-22T15:49:11.088Z",
+      "rationale": "Sector 01 Ticket C: CI/OPS injection hardening (remove shell interpolation) + contract proof + close P1 item"
+    },
+    {
+      "filePath": "test/contracts/ci-ops-injection-hardening.contract.test.js",
+      "sha256": "f803c738040579021f10d7a58050161b6b452c1291848e980865a9368658d239",
+      "approvedBy": "ticket:TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING-001",
+      "approvedAtUtc": "2026-02-22T15:49:11.088Z",
+      "rationale": "Sector 01 Ticket C: CI/OPS injection hardening (remove shell interpolation) + contract proof + close P1 item"
     }
   ]
 }

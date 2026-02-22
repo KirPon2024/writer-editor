@@ -3,6 +3,8 @@ import { spawnSync } from 'node:child_process';
 import { URL } from 'node:url';
 import https from 'node:https';
 import dns from 'node:dns/promises';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const REMOTE_HEADS = 'refs/heads/main';
 const DEFAULT_TIMEOUT_MS = 5000;
@@ -40,9 +42,76 @@ function run(cmd, args, timeoutMs) {
   return spawnSync(cmd, args, { encoding: 'utf8', timeout: timeoutMs });
 }
 
-function commandExists(cmd, timeoutMs) {
-  const probe = run('sh', ['-lc', `command -v ${cmd}`], timeoutMs);
-  return probe.status === 0;
+function parsePathExtList(raw) {
+  const source = String(raw || '').trim();
+  const defaults = ['.EXE', '.CMD', '.BAT', '.COM'];
+  if (!source) return defaults;
+  const parsed = source
+    .split(';')
+    .map((entry) => String(entry || '').trim())
+    .filter((entry) => entry.length > 0)
+    .map((entry) => (entry.startsWith('.') ? entry : `.${entry}`))
+    .map((entry) => entry.toUpperCase());
+  return parsed.length > 0 ? parsed : defaults;
+}
+
+function isSafeCommandName(cmd) {
+  const name = String(cmd || '').trim();
+  if (!name) return false;
+  if (name.includes('..')) return false;
+  if (name.includes('/') || name.includes('\\')) return false;
+  if (/\s/u.test(name)) return false;
+  return true;
+}
+
+function canExecutePosix(filePath) {
+  try {
+    fs.accessSync(filePath, fs.constants.X_OK);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function commandExists(cmd) {
+  if (!isSafeCommandName(cmd)) return false;
+
+  const pathValue = String(process.env.PATH || '');
+  const pathEntries = pathValue.split(path.delimiter).filter((entry) => entry.length > 0);
+  if (pathEntries.length === 0) return false;
+
+  if (process.platform === 'win32') {
+    const extList = parsePathExtList(process.env.PATHEXT);
+    const hasKnownExt = extList.some((ext) => cmd.toUpperCase().endsWith(ext));
+    const candidates = hasKnownExt ? [cmd] : extList.map((ext) => `${cmd}${ext}`);
+
+    for (const dirPath of pathEntries) {
+      for (const candidate of candidates) {
+        const fullPath = path.join(dirPath, candidate);
+        if (!fs.existsSync(fullPath)) continue;
+        try {
+          if (fs.statSync(fullPath).isFile()) return true;
+        } catch {
+          continue;
+        }
+      }
+    }
+    return false;
+  }
+
+  for (const dirPath of pathEntries) {
+    const fullPath = path.join(dirPath, cmd);
+    if (!fs.existsSync(fullPath)) continue;
+    let stat = null;
+    try {
+      stat = fs.statSync(fullPath);
+    } catch {
+      continue;
+    }
+    if (!stat.isFile()) continue;
+    if (canExecutePosix(fullPath)) return true;
+  }
+  return false;
 }
 
 function redactOriginUrl(raw) {

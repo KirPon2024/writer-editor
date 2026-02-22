@@ -381,7 +381,7 @@
       "sourceBinding": "contract_test",
       "sourceBindingRef": "docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json + src/menu/plugin-overlays-loader.js + scripts/ops/check-menu-overlay-stack.mjs",
       "failSignalCode": "E_PLUGIN_MENU_OVERLAY_POLICY_VIOLATION",
-      "namespace": "MENU",
+      "namespace": "PLUGIN_MENU_OVERLAY",
       "positiveContractRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#plugin-data-only-policy-negative-pack",
       "negativeContractRef": "test/contracts/menu-overlay-stack-and-plugin-overlays.contract.test.js#mode-semantics-release-warn-and-promotion-fail-on-violations"
     },

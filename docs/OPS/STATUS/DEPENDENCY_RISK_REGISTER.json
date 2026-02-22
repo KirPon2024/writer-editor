@@ -1,58 +1,58 @@
 {
   "schemaVersion": "v1",
-  "generatedAt": "2026-02-18T17:05:00Z",
+  "generatedAt": "2026-02-22T20:55:48.135Z",
   "lockfile": "package-lock.json",
   "sourceAuditPath": "docs/AUDIT/audit-findings.json",
   "items": [
     {
       "package": "app-builder-lib",
       "severity": "high",
-      "reachable": true,
-      "status": "OPEN",
-      "owner": "TBD",
-      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
-      "reviewAfter": "2026-03-20",
-      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+      "reachable": false,
+      "status": "CLOSED_WITH_EXCEPTIONS",
+      "owner": "HO",
+      "justification": "Non-reachable runtime (dev/build packaging toolchain only); closed with exceptions per Sector01 Ticket D; re-audit on dependency graph changes.",
+      "reviewAfter": "2026-06-30",
+      "monitoring": "See NPM_AUDIT_HIGH_CLOSURE_SECTOR01_D.json; reopen if runtime reachability changes."
     },
     {
       "package": "dmg-builder",
       "severity": "high",
-      "reachable": true,
-      "status": "OPEN",
-      "owner": "TBD",
-      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
-      "reviewAfter": "2026-03-20",
-      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+      "reachable": false,
+      "status": "CLOSED_WITH_EXCEPTIONS",
+      "owner": "HO",
+      "justification": "Non-reachable runtime (dev/build packaging toolchain only); closed with exceptions per Sector01 Ticket D; re-audit on dependency graph changes.",
+      "reviewAfter": "2026-06-30",
+      "monitoring": "See NPM_AUDIT_HIGH_CLOSURE_SECTOR01_D.json; reopen if runtime reachability changes."
     },
     {
       "package": "electron-builder",
       "severity": "high",
-      "reachable": true,
-      "status": "OPEN",
-      "owner": "TBD",
-      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
-      "reviewAfter": "2026-03-20",
-      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+      "reachable": false,
+      "status": "CLOSED_WITH_EXCEPTIONS",
+      "owner": "HO",
+      "justification": "Non-reachable runtime (dev/build packaging toolchain only); closed with exceptions per Sector01 Ticket D; re-audit on dependency graph changes.",
+      "reviewAfter": "2026-06-30",
+      "monitoring": "See NPM_AUDIT_HIGH_CLOSURE_SECTOR01_D.json; reopen if runtime reachability changes."
     },
     {
       "package": "electron-builder-squirrel-windows",
       "severity": "high",
-      "reachable": true,
-      "status": "OPEN",
-      "owner": "TBD",
-      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
-      "reviewAfter": "2026-03-20",
-      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+      "reachable": false,
+      "status": "CLOSED_WITH_EXCEPTIONS",
+      "owner": "HO",
+      "justification": "Non-reachable runtime (dev/build packaging toolchain only); closed with exceptions per Sector01 Ticket D; re-audit on dependency graph changes.",
+      "reviewAfter": "2026-06-30",
+      "monitoring": "See NPM_AUDIT_HIGH_CLOSURE_SECTOR01_D.json; reopen if runtime reachability changes."
     },
     {
       "package": "tar",
       "severity": "high",
-      "reachable": true,
-      "status": "OPEN",
-      "owner": "TBD",
-      "justification": "Reachable in release-pipeline toolchain; audit finding SCA-0001 marks decision FIX_NOW.",
-      "reviewAfter": "2026-03-20",
-      "monitoring": "Track under P1-SEC-DEPS-REACHABILITY in docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+      "reachable": false,
+      "status": "CLOSED_WITH_EXCEPTIONS",
+      "owner": "HO",
+      "justification": "Non-reachable runtime (dev/build packaging toolchain only); closed with exceptions per Sector01 Ticket D; re-audit on dependency graph changes.",
+      "reviewAfter": "2026-06-30",
+      "monitoring": "See NPM_AUDIT_HIGH_CLOSURE_SECTOR01_D.json; reopen if runtime reachability changes."
     }
   ],
   "nonReachableExceptions": []

@@ -185,10 +185,10 @@
     },
     {
       "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "f8213fcb64925812a35738612e85ce3616264a5680ad13f671280f3093ef77a6",
-      "approvedBy": "ticket:TZ-24E-P1-REQUIRED-SET-CATALOG-SYNC-002",
-      "approvedAtUtc": "2026-02-18T12:00:49.000Z",
-      "rationale": "Non-semantic governance sync: align required-set token coverage with token catalog and failSignal registry."
+      "sha256": "7d25a8d5798d83229ff8a82fb396b2e4f37b0f314c3739ec0f63ac99a170b2d6",
+      "approvedBy": "ticket:TZ-SECTOR-01-B-REQUIREDSET-CATALOG-DRIFT-FIX-001",
+      "approvedAtUtc": "2026-02-22T11:11:58.000Z",
+      "rationale": "Sector 01 Ticket B: token catalog + token declaration validator drift fix (no required set change)"
     },
     {
       "filePath": "scripts/doctor.mjs",
@@ -357,6 +357,13 @@
       "approvedBy": "ticket:TZ-SECTOR-01-00-PHASE0-PATCH1-GOV-STRATEGY",
       "approvedAtUtc": "2026-02-21T16:26:04.652Z",
       "rationale": "Sector 01 Phase0 bootstrap approvals (next-sector + sector status + failsignal + debt TTL contract)"
+    },
+    {
+      "filePath": "scripts/ops/token-declaration-state.mjs",
+      "sha256": "e81d4cd979c23ab692fe57075465a00dce32ef574bb55ba27d6bdee3d8c0a521",
+      "approvedBy": "ticket:TZ-SECTOR-01-B-REQUIREDSET-CATALOG-DRIFT-FIX-001",
+      "approvedAtUtc": "2026-02-22T11:11:58.000Z",
+      "rationale": "Sector 01 Ticket B: token catalog + token declaration validator drift fix (no required set change)"
     }
   ]
 }

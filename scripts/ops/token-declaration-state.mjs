@@ -54,6 +54,14 @@ function collectAuthoritativeTokens() {
     ...process.env,
     TOKEN_DECLARATION_SKIP_EMISSION_CHECK: '1',
   };
+  const additionalTokenProbes = [
+    'scripts/ops/conditional-gates-state.mjs',
+    'scripts/ops/config-hash-lock-state.mjs',
+    'scripts/ops/failsignal-registry-state.mjs',
+    'scripts/ops/lossless-map-state.mjs',
+    'scripts/ops/proofhook-integrity-state.mjs',
+    'scripts/ops/token-catalog-state.mjs',
+  ];
 
   const truth = spawnSync(process.execPath, ['scripts/ops/extract-truth-table.mjs', '--json'], {
     encoding: 'utf8',
@@ -71,7 +79,7 @@ function collectAuthoritativeTokens() {
     }
   }
 
-  const doctor = spawnSync(process.execPath, ['scripts/doctor.mjs'], {
+  const doctor = spawnSync(process.execPath, ['scripts/doctor.mjs', '--strict'], {
     encoding: 'utf8',
     env: {
       ...env,
@@ -80,7 +88,18 @@ function collectAuthoritativeTokens() {
   });
   const doctorTokens = new Set(parseTokenMap(doctor.stdout).keys());
 
-  const all = new Set([...truthTokens, ...doctorTokens]);
+  const probeTokens = new Set();
+  for (const scriptPath of additionalTokenProbes) {
+    const probe = spawnSync(process.execPath, [scriptPath], {
+      encoding: 'utf8',
+      env,
+    });
+    for (const key of parseTokenMap(probe.stdout).keys()) {
+      probeTokens.add(key);
+    }
+  }
+
+  const all = new Set([...truthTokens, ...doctorTokens, ...probeTokens]);
   return {
     truthStatus: truth.status,
     doctorStatus: doctor.status,

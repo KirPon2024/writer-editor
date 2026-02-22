@@ -22,7 +22,9 @@
       ],
       "evidence": [
         "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
-        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+        "docs/OPS/STATUS/DEPENDENCY_RISK_REGISTER.json",
+        "docs/OPS/SECURITY/NPM_AUDIT_HIGH_CLOSURE_SECTOR01_D.json"
       ],
       "checks": [
         "npm audit --omit=dev --json",
@@ -31,7 +33,10 @@
       ],
       "notes": [
         "ownerAssigned=HO",
-        "closurePlannedByTicket=TZ-SECTOR-01-D-DEPENDENCY-REMEDIATION-001"
+        "closurePlannedByTicket=TZ-SECTOR-01-D-DEPENDENCY-REMEDIATION-001",
+        "closedByTicket=TZ-SECTOR-01-D-DEPENDENCY-REMEDIATION-001",
+        "closedAtUtc=2026-02-22T20:55:48.135Z",
+        "closure=nonReachable-exceptions-documented"
       ]
     },
     {

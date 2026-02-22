@@ -136,10 +136,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/DEPENDENCY_RISK_REGISTER.json",
-      "sha256": "c5b98ca8c434c45bf1f042a21e025bfd7ed75df1e5025aa5d2e0976294978d1b",
-      "approvedBy": "ticket:TZ-SECTOR-01-A+B-LOOP-A",
-      "approvedAtUtc": "2026-02-18T17:06:00.000Z",
-      "rationale": "Register dependency risk SSOT with reachable high-severity triage and governance tracking for Ticket A."
+      "sha256": "cce6b94baa3b202edae84a10095ae49dc91fa2810e802912cf155519fab7d847",
+      "approvedBy": "ticket:TZ-SECTOR-01-D-DEPENDENCY-REMEDIATION-001",
+      "approvedAtUtc": "2026-02-22T20:56:11.158Z",
+      "rationale": "Sector 01 Ticket D: dependency remediation closeout (risk register exceptions + close P1 item)"
     },
     {
       "filePath": "docs/OPS/STATUS/EXECUTION_SEQUENCE_CANON_v1.json",
@@ -157,10 +157,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
-      "sha256": "6eed182fb2ca8d7977e5b087813f96802e35bc1137b46f1f0d83a1302c4e6309",
-      "approvedBy": "ticket:TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING-001",
-      "approvedAtUtc": "2026-02-22T15:49:11.088Z",
-      "rationale": "Sector 01 Ticket C: CI/OPS injection hardening (remove shell interpolation) + contract proof + close P1 item"
+      "sha256": "496f6553ab3920bf5f14ddfe1193462a68f404b546134712446cba7abfa0ce8a",
+      "approvedBy": "ticket:TZ-SECTOR-01-D-DEPENDENCY-REMEDIATION-001",
+      "approvedAtUtc": "2026-02-22T20:56:11.158Z",
+      "rationale": "Sector 01 Ticket D: dependency remediation closeout (risk register exceptions + close P1 item)"
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",

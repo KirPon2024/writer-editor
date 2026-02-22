@@ -1,0 +1,10 @@
+{
+  "id": "SECTOR 01",
+  "status": "ACTIVE",
+  "tickets": {
+    "A": "PENDING",
+    "B": "PENDING",
+    "C": "PENDING",
+    "D": "PENDING"
+  }
+}

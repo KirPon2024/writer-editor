@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -15,7 +15,7 @@ const fail = (code, details) => {
   process.exit(1);
 };
 
-const run = (cmd) => execSync(cmd, { encoding: "utf8" });
+const run = (cmd, args) => spawnSync(cmd, args, { encoding: "utf8" });
 
 const stripEnd = (text) => text.replace(/[\s﻿ ]+$/g, "");
 
@@ -23,7 +23,14 @@ const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 let statusOut = "";
 try {
-  statusOut = run("git status --porcelain --untracked-files=all");
+  const result = run("git", ["status", "--porcelain", "--untracked-files=all"]);
+  if (result.status === 0) {
+    statusOut = String(result.stdout || "");
+  } else {
+    const out = String(result.stdout || "");
+    const errText = String(result.stderr || "");
+    statusOut = out + (out && errText ? "\n" : "") + errText;
+  }
 } catch (err) {
   const out = err && err.stdout ? String(err.stdout) : "";
   const errText = err && err.stderr ? String(err.stderr) : "";
@@ -38,7 +45,13 @@ if (statusClean !== "") {
 }
 
 try {
-  run("node scripts/ops-gate.mjs");
+  const result = run(process.execPath, ["scripts/ops-gate.mjs"]);
+  if (result.status !== 0) {
+    const out = String(result.stdout || "");
+    const errText = String(result.stderr || "");
+    const details = out + (out && errText ? "\n" : "") + errText;
+    fail("OPS_GATE_FAILED", details || "ops-gate failed");
+  }
 } catch (err) {
   const out = err && err.stdout ? String(err.stdout) : "";
   const errText = err && err.stderr ? String(err.stderr) : "";

@@ -12,7 +12,7 @@
     {
       "id": "P1-SEC-DEPS-REACHABILITY",
       "title": "Dependency security remediation (reachability-driven)",
-      "status": "OPEN",
+      "status": "CLOSED",
       "priority": "P1",
       "risk": "SECURITY",
       "owner": "HO",
@@ -46,7 +46,10 @@
         "All high-risk shell/script entry points have explicit guardrails documented with reproducible verification commands."
       ],
       "evidence": [
-        "docs/OPS/STATUS/P1_DEBT_QUEUE.json"
+        "docs/OPS/STATUS/P1_DEBT_QUEUE.json",
+        "scripts/ops/network-gate.mjs",
+        "scripts/smoke-a4.mjs",
+        "test/contracts/ci-ops-injection-hardening.contract.test.js"
       ],
       "checks": [
         "node scripts/doctor.mjs --strict",
@@ -55,7 +58,10 @@
       ],
       "notes": [
         "ownerAssigned=HO",
-        "closurePlannedByTicket=TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING-001"
+        "closurePlannedByTicket=TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING-001",
+        "closedByTicket=TZ-SECTOR-01-C-CI-OPS-INJECTION-HARDENING-001",
+        "closedAtUtc=2026-02-22T15:48:36.000Z",
+        "hardening=no-shell-interpolation;no-execSync-string"
       ]
     },
     {

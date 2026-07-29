@@ -9,3 +9,11 @@ export {
 } from './mindMapGraphTypes.mjs';
 export { deriveMindMapGraph, MINDMAP_GRAPH_VIEW_ID } from './deriveMindMapGraph.mjs';
 export { deriveManualMapGraph, MANUAL_MAP_GRAPH_VIEW_ID } from './deriveManualMapGraph.mjs';
+export {
+  MANUAL_MAP_INTERACTION_SCHEMA_VERSION,
+  MANUAL_MAP_VIEW_INTENT,
+  MANUAL_MAP_VIEW_STATE_SCHEMA_VERSION,
+  buildManualMapInteractionModel,
+  normalizeManualMapViewState,
+  reduceManualMapViewIntent,
+} from './manualMapInteraction.mjs';

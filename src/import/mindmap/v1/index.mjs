@@ -1,4 +1,11 @@
 export {
+  LEGACY_MINDMAP_ROUNDTRIP_EVIDENCE_SCHEMA_VERSION,
+  LEGACY_MINDMAP_SUNSET_EVIDENCE_SCHEMA_VERSION,
+  buildLegacyMindMapRoundtripEvidence,
+  buildLegacyMindMapSunsetEvidence,
+} from './legacyMindMapRoundtripSunsetEvidence.mjs';
+
+export {
   LEGACY_MINDMAP_COMMAND_APPLY_SCHEMA_VERSION,
   LEGACY_MINDMAP_REOPEN_VALIDATION_SCHEMA_VERSION,
   applyLegacyMindMapShadowMigrationViaCommandKernel,

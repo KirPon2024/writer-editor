@@ -4119,28 +4119,28 @@
     },
     {
       "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
-      "sha256": "1635471e2f7ac88089e31a5caf68f7cb1de9c91e802fb6c39e0aecaab4e13b0f",
+      "sha256": "02e92cfb3e861c1689b5d6407a1cfb1f0be7c04b40f80bccb95a12ee9da62371",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
       "approvedAtUtc": "2026-07-29T17:18:00.000Z",
       "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
-      "sha256": "3781ccbbaded5ed8b01aa01733b0364dc66a578a53529f30b6d6cfc5d343ddb9",
+      "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
       "approvedAtUtc": "2026-07-29T17:45:00.000Z",
       "rationale": "Approve bounded W5 V6 local release-hardening status that binds existing ops, package, archive, migration, performance, release-candidate, and Word evidence claim proof hooks while explicitly keeping external Word certification resumable and DONE blocked; no Word PASS, release DONE, dependency, UI, Design OS, product capability, import/export behavior, writer authority, or package publication claim is introduced."
     },
     {
       "filePath": "scripts/ops/rtk-w5-release-hardening-certification.mjs",
-      "sha256": "99b90364bdda3c49bf67d0e73b8d78553bc55adb2c3f95e116b9356c565cf25e",
+      "sha256": "d8ca2d5ddeecf412db9dfc588b027237bf2c188f7c8b3b32478d2b314f40e27e",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
       "approvedAtUtc": "2026-07-29T17:45:00.000Z",
       "rationale": "Approve bounded W5 V6 verifier for machine-readable local hardening status, proof-hook presence, broad-claim rejection, false Word PASS rejection, and false DONE rejection; it performs no product writes, adds no dependency, grants no Word support, and does not change runtime, UI, Design OS, DOCX Minimal, or writer authority."
     },
     {
       "filePath": "test/contracts/rtk-w5-release-hardening-certification.contract.test.js",
-      "sha256": "61f48c89188bd3f3ae7300aff7361051941d1f0c3e33b6f5443bb93019e64d4c",
+      "sha256": "f7bdc153dffe0a93301bcd9543b2d7338e8d0e7f608f497de3b8bdb3fcadaada",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
       "approvedAtUtc": "2026-07-29T17:45:00.000Z",
       "rationale": "Approve bounded W5 V6 contract coverage proving local release-hardening proof hooks are bound while external Word certification remains resumable, false Word PASS and false DONE mutations fail, and broad Word or release claims remain forbidden; no dependency, UI, runtime, import/export behavior, package publication, or product capability is introduced."
@@ -4354,6 +4354,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_AND_REOPEN_VALIDATION",
       "approvedAtUtc": "2026-07-29T20:29:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02C C02 contract: proves legacy shadow command plans apply only through Command Kernel capability revalidation, web capability denial stops without fallback mutation, non-manual-map command types are rejected before executor call, reopen validation fails closed on graph divergence, import barrel exports, and no filesystem, network, Electron, renderer storage, direct reducer import, UI command dispatch, or hot-path event listener bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_SUNSET_EVIDENCE_RECEIPT.json",
+      "sha256": "8c9457b9c5f6486f80c18019a0243b9bf9f2f0131731fe779e13a8bf71231fc1",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_AND_SUNSET_EVIDENCE",
+      "approvedAtUtc": "2026-07-29T20:40:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02C C03 legacy migration roundtrip and sunset evidence receipt: adds manualMap.legacyTxtRoundtripEvidence.v1 and manualMap.legacyTxtSunsetEvidence.v1 as pure evidence builders over preview, Command Kernel apply receipt, reopen validation, and manual map JSON export payload, proves export graph roundtrip, original legacy source preservation by hash, unsafe legacy entrypoint rejection, no active legacy truth store, no active legacy write path, no storage adapter, no UI surface, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02c-c03-legacy-migration-roundtrip-sunset-evidence.contract.test.js",
+      "sha256": "c893548cefce31053c5588c56c9203759410fb73e7562d6d13886432ae18ca86",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_AND_SUNSET_EVIDENCE",
+      "approvedAtUtc": "2026-07-29T20:40:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02C C03 contract: proves completed legacy TXT migration can roundtrip through manual map JSON export after Command Kernel apply and reopen validation, export graph drift fails closed, active legacy write entrypoints fail sunset evidence, import barrel exports, and no filesystem, network, Electron, renderer storage, direct reducer import, UI command dispatch, or hot-path event listener bypass is introduced."
     }
   ]
 }

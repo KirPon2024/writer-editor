@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "revision-bridge.g0b-normative-schema.v2",
+  "stageId": "G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+  "returnModes": ["TRACKED", "CLEAN", "MIXED"],
+  "reasonCodes": [
+    "G0B_LOCAL_CONTRACTS_OK",
+    "G0B_NO_TEXT_CANDIDATE",
+    "G0B_EXACT_TEXT_CANDIDATE",
+    "G0B_DUPLICATE_TEXT_CANDIDATE",
+    "G0B_STRUCTURAL_PARAGRAPH_MARK",
+    "G0B_STRUCTURAL_MOVE_REVISION",
+    "G0B_STRUCTURAL_SPLIT_MERGE",
+    "G0B_COMMENT_LANE_CONSERVED",
+    "G0B_CROSS_ROUND_LOCATOR_BLOCKED",
+    "G0B_ANCHOR_HMAC_VALID",
+    "G0B_ANCHOR_HMAC_TAMPERED",
+    "G0B_CORPUS_DIGEST_FROZEN",
+    "G0B_CORPUS_DIGEST_MISMATCH",
+    "G0B_PARSER_EXISTING_TOKENIZER_ACCEPTED",
+    "G0B_PARSER_DEPENDENCY_OWNER_DECISION_REQUIRED",
+    "DEFERRED_EXTERNAL_WORD_EVIDENCE"
+  ],
+  "invariants": {
+    "zeroFalseExact": true,
+    "noEditProducesZeroTextCandidates": true,
+    "paragraphMarkSplitMergeManualOnly": true,
+    "moveRevisionsManualOnly": true,
+    "commentsLaneIndependentFromManuscriptAuthority": true,
+    "crossRoundLocatorNeverBinds": true,
+    "sameKeyAnalysisDigestDeterministic": true,
+    "newRuntimeDependenciesRequireOwnerDecision": true
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "revision-bridge.g0b-word-settings-capsule.v1",
+  "stageId": "G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+  "requiredFields": [
+    "wordBuild",
+    "trackChangesMode",
+    "returnMode",
+    "autocorrectLocale",
+    "smartQuotes",
+    "commentDisplayMode",
+    "moveRevisionPolicy"
+  ],
+  "moveRevisionPolicy": "ALWAYS_STRUCTURAL_BLOCKED_D1",
+  "externalWordEvidencePolicy": {
+    "localUnavailableStatus": "DEFERRED_EXTERNAL_WORD_EVIDENCE",
+    "falsePassForbidden": true,
+    "blocksFinalDone": true,
+    "allowsW1ThroughW4BehindReleaseFlag": true
+  }
+}

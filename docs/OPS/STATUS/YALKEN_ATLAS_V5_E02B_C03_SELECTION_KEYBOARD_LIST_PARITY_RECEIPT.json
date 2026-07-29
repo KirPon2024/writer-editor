@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02B_C03_SELECTION_KEYBOARD_LIST_PARITY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02B_C03_SELECTION_KEYBOARD_AND_LIST_PARITY",
+  "programStage": "E02B_STAGE_02B_LARGE_MAP_INTERACTION",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T19:57:29Z",
+  "baseSha": "cee33d4d4989aec949092bae47162dd2a1e6ac96",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a pure derived list and keyboard parity contract over manual map graph and transient ViewState/ListState. It creates no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.selectionKeyboardListParity.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "derived.manualMap.graph.v1",
+        "transient manualMap.viewState.v1 input",
+        "transient manualMap.listState.v1 input"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "No command is introduced. Keyboard activation emits the same transient selection intents as graph/list selection and relies on the existing ViewState reducer."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "listParitySchema": "manualMap.listParity.v1",
+    "listStateSchema": "manualMap.listState.v1",
+    "keyboardIntentSchema": "manualMap.keyboardIntent.v1",
+    "sourceSchema": "derived.manualMap.graph.v1",
+    "rowReachability": "valid graph nodes and valid graph edges only",
+    "semanticRows": true,
+    "keyboardNavigation": [
+      "ArrowDown",
+      "ArrowUp",
+      "Home",
+      "End"
+    ],
+    "keyboardActivation": [
+      "Enter",
+      "Space"
+    ],
+    "keyboardClear": "Escape",
+    "pointerSelectionParity": true,
+    "listStateProjectTruthMutation": false,
+    "deterministicListParityHash": true,
+    "deterministicKeyboardIntentHash": true
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/derived/mindmap/manualMapListKeyboardParity.mjs && node --check src/derived/mindmap/index.mjs && node --check src/derived/index.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02b-c03-selection-keyboard-list-parity.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --check src/derived/mindmap/manualMapListKeyboardParity.mjs && node --check src/derived/mindmap/index.mjs && node --check src/derived/index.mjs && node --test test/contracts/yalken-atlas-v5-e02b-c03-selection-keyboard-list-parity.contract.test.js test/contracts/yalken-atlas-v5-e02b-c02-viewport-virtualization-lod-planner.contract.test.js test/contracts/yalken-atlas-v5-e02b-c01-graph-interaction-viewstate-boundary.contract.test.js",
+      "status": "PASS_14_TESTS_14_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "negativeChecks": [
+    "corrupt edges are not exposed as reachable list rows",
+    "keyboard navigation changes only transient listState",
+    "keyboard activation emits the same selection intent semantics as pointer/list selection",
+    "Escape clears selection through the existing ViewState reducer while preserving focus",
+    "list parity modules have no filesystem, network, Electron, Worker, timers, renderer storage, UI command dispatch, or hot-path event listener bypass"
+  ],
+  "nextContour": "E02B_C04_WORKER_LAYOUT_AND_10K_RESOURCE_BUDGET_PROOF"
+}

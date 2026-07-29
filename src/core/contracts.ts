@@ -26,9 +26,32 @@ export type CoreSceneState = {
   text: string
 }
 
+export type AtlasAliasState = {
+  id: string
+  value: string
+  scope: "project" | "scene"
+  sceneId: string
+  createdByCommandSeq: number
+}
+
+export type AtlasEntityState = {
+  id: string
+  name: string
+  entityKind: string
+  aliases: Record<string, AtlasAliasState>
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
+export type AtlasAuthorDataState = {
+  schemaVersion: "atlas.author.v1"
+  entities: Record<string, AtlasEntityState>
+}
+
 export type CoreProjectState = {
   id: string
   title: string
+  atlas?: AtlasAuthorDataState
   scenes: Record<string, CoreSceneState>
 }
 
@@ -48,6 +71,14 @@ export type CoreCommand =
   | {
       type: "project.applyTextEdit"
       payload: { projectId: string; sceneId: string; text: string }
+    }
+  | {
+      type: "atlas.entity.create"
+      payload: { projectId: string; entityId: string; name: string; entityKind?: string }
+    }
+  | {
+      type: "atlas.alias.add"
+      payload: { projectId: string; entityId: string; aliasId: string; value: string; scope?: "project" | "scene"; sceneId?: string }
     }
   | {
       type: string

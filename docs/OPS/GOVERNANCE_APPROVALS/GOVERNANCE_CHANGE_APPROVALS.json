@@ -3909,10 +3909,10 @@
     },
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "2c3887f8e6b8fb11d1e88348d011dfe3d973182728e4d68579a1ccc35ea9324a",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
-      "approvedAtUtc": "2026-07-29T18:10:00.000Z",
-      "rationale": "Approve bounded W4 V6 capability matrix synchronization for the read-only cancel-operation review command across node, web, and mobile-wrapper capability truth; no writer authority, dependency, network, shell mode, toolbar redesign, project-format change, storage widening, import/export change, or entitlement expansion is introduced."
+      "sha256": "fe434a11cfa913d99b8659b8d0e356d280a7cd2f07874e5842eb364b3095e0fa",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C01_ATLAS_AUTHOR_DATA_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T18:25:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C01 author-data command boundary change: adds deterministic local atlas.entity.create and atlas.alias.add Core reducer commands, binds them to Command Kernel capability policy and docs capability matrix, proves save/reopen author data persistence and negative capability/storage bypass checks, preserves no UI surface, no network, no cloud, no paid service, no new dependency, no private storage adapter, and no release readiness widening."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S42_FACTUAL_CAPABILITY_STATUS.json",
@@ -3923,10 +3923,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "87d6ebb187fd25f5679bb8d69b03c3292758f4d4440d9545f4e32263d0a18e7c",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
-      "approvedAtUtc": "2026-07-29T18:10:00.000Z",
-      "rationale": "Approve bounded W4 V6 review UI accessibility command binding: add a read-only cancel-operation review command routed through the existing CommandRegistry and capability policy while preserving main-owned writer authority, offline scope, no new dependency, no toolbar redesign, no new shell mode, no parallel command kernel, no network, and no project-format change."
+      "sha256": "26f382a920270836aedfa7be2df4981cd08d6a982e228da471e273e3d183a80a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C01_ATLAS_AUTHOR_DATA_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T18:25:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C01 author-data command boundary change: adds deterministic local atlas.entity.create and atlas.alias.add Core reducer commands, binds them to Command Kernel capability policy and docs capability matrix, proves save/reopen author data persistence and negative capability/storage bypass checks, preserves no UI surface, no network, no cloud, no paid service, no new dependency, no private storage adapter, and no release readiness widening."
     },
     {
       "filePath": "scripts/ops/phase03-safe-reset-last-stable-artifact-state.mjs",
@@ -4158,6 +4158,20 @@
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
       "approvedAtUtc": "2026-07-29T17:43:00.000Z",
       "rationale": "Approve bounded Stage 00 binding and calibration receipt plus contract test for Yalken Atlas V5 autonomous execution. This records project binding, current reality, gate mapping, dependency decision, Stage 01 contour queue, and target-only separation while preserving no product runtime implementation, no new dependency, no second registry, no UI change, no release readiness claim, and no bypass of active canon."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E01_C01_ATLAS_AUTHOR_DATA_COMMAND_BOUNDARY_RECEIPT.json",
+      "sha256": "3d52c67ce83929be594e2ca95040c0b968104565a863297ddd19dd039710112e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C01_ATLAS_AUTHOR_DATA_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T18:31:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C01 author-data command boundary change: adds deterministic local atlas.entity.create and atlas.alias.add Core reducer commands, binds them to Command Kernel capability policy and docs capability matrix, proves save/reopen author data persistence and negative capability/storage bypass checks, preserves no UI surface, no network, no cloud, no paid service, no new dependency, no private storage adapter, and no release readiness widening. Receipt updated with completed local validation: design-os doctrine, perf lite, focused contracts, full non-ops test runner, and test:ops pass; renderer build attempt remains documented as local toolchain unavailable without adding dependencies."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e01-c01-author-data-command-boundary.contract.test.js",
+      "sha256": "963a1fa3cbe8d68b6f8e898fd4264a8fbe1abbdad7eeb7dd860e258e0243437b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C01_ATLAS_AUTHOR_DATA_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T18:25:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C01 author-data command boundary change: adds deterministic local atlas.entity.create and atlas.alias.add Core reducer commands, binds them to Command Kernel capability policy and docs capability matrix, proves save/reopen author data persistence and negative capability/storage bypass checks, preserves no UI surface, no network, no cloud, no paid service, no new dependency, no private storage adapter, and no release readiness widening."
     }
   ]
 }

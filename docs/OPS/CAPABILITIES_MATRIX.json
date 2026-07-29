@@ -80,6 +80,8 @@
       "capabilities": {
         "cap.core.project.create": true,
         "cap.core.project.applyTextEdit": true,
+        "cap.atlas.entity.create": true,
+        "cap.atlas.alias.add": true,
         "cap.project.new": true,
         "cap.project.lifecycle.create": true,
         "cap.project.lifecycle.open": true,
@@ -186,6 +188,8 @@
       "capabilities": {
         "cap.core.project.create": true,
         "cap.core.project.applyTextEdit": true,
+        "cap.atlas.entity.create": false,
+        "cap.atlas.alias.add": false,
         "cap.project.new": false,
         "cap.project.lifecycle.create": false,
         "cap.project.lifecycle.open": false,
@@ -356,6 +360,8 @@
       "capabilities": {
         "cap.core.project.create": true,
         "cap.core.project.applyTextEdit": true,
+        "cap.atlas.entity.create": false,
+        "cap.atlas.alias.add": false,
         "cap.project.new": false,
         "cap.project.lifecycle.create": false,
         "cap.project.lifecycle.open": false,

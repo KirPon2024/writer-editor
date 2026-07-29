@@ -3,6 +3,8 @@ import { resolveCommandEntitlement } from './localCapabilityProvider.mjs';
 export const CAPABILITY_BINDING = Object.freeze({
   'project.create': 'cap.core.project.create',
   'project.applyTextEdit': 'cap.core.project.applyTextEdit',
+  'atlas.entity.create': 'cap.atlas.entity.create',
+  'atlas.alias.add': 'cap.atlas.alias.add',
   'cmd.project.new': 'cap.project.new',
   'cmd.project.lifecycle.create': 'cap.project.lifecycle.create',
   'cmd.project.lifecycle.open': 'cap.project.lifecycle.open',
@@ -109,6 +111,8 @@ export const CAPABILITY_MATRIX = Object.freeze({
   node: Object.freeze({
     'cap.core.project.create': true,
     'cap.core.project.applyTextEdit': true,
+    'cap.atlas.entity.create': true,
+    'cap.atlas.alias.add': true,
     'cap.project.new': true,
     'cap.project.lifecycle.create': true,
     'cap.project.lifecycle.open': true,
@@ -210,6 +214,8 @@ export const CAPABILITY_MATRIX = Object.freeze({
   web: Object.freeze({
     'cap.core.project.create': true,
     'cap.core.project.applyTextEdit': true,
+    'cap.atlas.entity.create': false,
+    'cap.atlas.alias.add': false,
     'cap.project.new': false,
     'cap.project.lifecycle.create': false,
     'cap.project.lifecycle.open': false,
@@ -311,6 +317,8 @@ export const CAPABILITY_MATRIX = Object.freeze({
   'mobile-wrapper': Object.freeze({
     'cap.core.project.create': true,
     'cap.core.project.applyTextEdit': true,
+    'cap.atlas.entity.create': false,
+    'cap.atlas.alias.add': false,
     'cap.project.new': false,
     'cap.project.lifecycle.create': false,
     'cap.project.lifecycle.open': false,
@@ -424,7 +432,7 @@ function normalizePlatformId(value) {
 }
 
 function isDomainCommandId(commandId) {
-  return commandId.startsWith('project.') || commandId.startsWith('cmd.project.');
+  return commandId.startsWith('project.') || commandId.startsWith('atlas.') || commandId.startsWith('cmd.project.');
 }
 
 const TIPTAP_RICH_COMMAND_IDS = new Set([

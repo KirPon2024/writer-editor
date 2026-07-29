@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E01_C05_SCHEDULER_WORKER_STALE_RESULT_DISCARD_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E01_C05_SCHEDULER_WORKER_STALE_RESULT_DISCARD",
+  "programStage": "STAGE_01",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T18:53:12Z",
+  "baseSha": "3dc9f2686fe8aa8200f9d7d96329e1dc8243c445",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a product-derived scheduler and worker-result acceptance boundary only; no product UI composition, layout, palette, typography, or new Design OS surface changes.",
+  "featureIntegrationManifest": {
+    "featureId": "atlas.schedulerWorkerStaleDiscard.v1",
+    "productPlane": {
+      "owner": "Derived Views plus future WorkerExecutionPort boundary",
+      "readPath": [
+        "coreState.data.projects",
+        "project.atlas.entities",
+        "project.atlas.decisions",
+        "project.scenes"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "No command is introduced. Scheduler jobs carry capabilitySnapshot into pure derived worker input."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "schedulerSchema": "derived.atlas.generationScheduler.v1",
+    "workerResultSchema": "derived.atlas.generationWorkerResult.v1",
+    "workerAdapterKind": "local-pure-derived-worker",
+    "queuePolicy": "latest-generation-per-project-with-maxQueueSize",
+    "staleDiscardGuards": [
+      "requestId",
+      "projectId",
+      "sourceRevision",
+      "generation",
+      "currentCoreStateHash"
+    ],
+    "publication": "derived-manifest-pointer-only",
+    "persistentDerivedTruth": false
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/derived/atlas/scheduleAtlasGeneration.mjs && node --check src/derived/atlas/atlasMentionTypes.mjs && node --check src/derived/atlas/index.mjs && node --check src/derived/index.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js test/contracts/yalken-atlas-v5-e01-c04-confirmation-rebuild-recovery.contract.test.js test/contracts/yalken-atlas-v5-e01-c03-current-scene-dossier-surface.contract.test.js test/contracts/yalken-atlas-v5-e01-c02-exact-mention-anchors.contract.test.js test/contracts/yalken-atlas-v5-e01-c01-author-data-command-boundary.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": {
+        "tests": 795,
+        "pass": 731,
+        "fail": 0,
+        "skipped": 64,
+        "durationMs": 82743.710666
+      }
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "negativeChecks": [
+    "old worker result is discarded after current core source revision changes",
+    "worker result with mismatched requestId or generation is discarded",
+    "scheduler coalesces repeated jobs to the latest generation per project",
+    "accepted worker result publishes only a derived manifest pointer",
+    "worker input carries no filesystem, network, writer, project mutation, or persistent derived truth authority",
+    "scheduler module has no filesystem, network, Electron, timer, localStorage, sessionStorage, or indexedDB use"
+  ],
+  "stage01NextContour": "E02A_COMPILE_DURABLE_MANUAL_MAP_CONTOURS"
+}

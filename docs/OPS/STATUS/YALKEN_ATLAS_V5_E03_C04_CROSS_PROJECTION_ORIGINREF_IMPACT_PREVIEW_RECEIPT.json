@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW",
+  "programStage": "E03_STAGE_03_PLOT_IDEA_MEANING_CONTOURS",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T22:34:00Z",
+  "baseSha": "ea0b5a2b1948b469ada13999909ae6218a520f84",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a pure derived cross-projection impact preview and common graph packet; it adds no product UI surface, visual composition, DOM insertion, typography, palette, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "crossProjectionOriginRefImpactPreview",
+    "productPlane": {
+      "truthOwner": "Existing Product Core project data only",
+      "truthSchemasRead": [
+        "project.core",
+        "derived.plot.projection.v1",
+        "idea.author.v1",
+        "derived.idea.projection.v1",
+        "meaning.author.v1",
+        "derived.meaning.projection.v1"
+      ],
+      "writeAuthority": "none",
+      "commandsAdded": [],
+      "readAuthority": "deriveCrossProjectionImpactPreview over coreState and existing derived projections",
+      "portsAdded": [],
+      "adaptersAdded": [],
+      "projectTruthMutation": false,
+      "storageMutation": false
+    },
+    "interfacePlane": {
+      "surfacesAdded": [],
+      "surfaceManifestAdded": false,
+      "typedSlotsAdded": [],
+      "domMutation": false,
+      "designOsMutation": false
+    },
+    "authorityChecks": {
+      "commandKernelBypass": false,
+      "privateCommandBus": false,
+      "directStorageAccess": false,
+      "secondTruthStore": false,
+      "networkAccess": false,
+      "dependencyAdded": false
+    }
+  },
+  "runtimeEvidence": {
+    "crossProjectionOriginRefSchemaVersion": "crossProjection.originRef.v1",
+    "crossProjectionGraphPacketSchemaVersion": "crossProjection.canvasGraphPacket.v1",
+    "crossProjectionImpactPreviewSchemaVersion": "derived.crossProjection.impactPreview.v1",
+    "staleGuard": "expectedCoreStateHash is required and must equal the actual coreState hash",
+    "sourceProjections": [
+      "plot",
+      "idea",
+      "meaning"
+    ],
+    "noSecondTruthStoreProof": "preview contains normalized refs, graph packet, and impact items derived from source projections only; it adds no Product Core state, command, storage adapter, or renderer mutation path"
+  },
+  "changedBasenames": [
+    "crossProjectionTypes.mjs",
+    "deriveCrossProjectionImpactPreview.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e03-c04-cross-projection-originref-impact-preview.contract.test.js",
+    "YALKEN_ATLAS_V5_E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --check src/derived/projections/crossProjectionTypes.mjs && node --check src/derived/projections/deriveCrossProjectionImpactPreview.mjs && node --check src/derived/projections/index.mjs && node --check src/derived/index.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e03-c04-cross-projection-originref-impact-preview.contract.test.js",
+      "status": "PASS_3_TESTS_3_PASS_0_FAIL"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e03-c01-plot-projection-originref-sequence-layout.contract.test.js test/contracts/yalken-atlas-v5-e03-c02-idea-projection-author-truth-occurrence-evidence.contract.test.js test/contracts/yalken-atlas-v5-e03-c03-meaning-projection-explicit-promotion-boundary.contract.test.js test/contracts/yalken-atlas-v5-e03-c04-cross-projection-originref-impact-preview.contract.test.js",
+      "status": "PASS_20_TESTS_20_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_EXISTING_HIGH_MODERATE_ADVISORIES_NO_CRITICAL"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "nextContour": "E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS"
+}

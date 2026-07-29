@@ -77,6 +77,27 @@ Machine-bound blocking law определяется не этим докумен
 - никаких paywall-зависимостей,
 - никаких executable plugins в `v1`.
 
+## 5.1 Feature Integration Interpretation
+
+Методическая детализация этой границы находится в
+`docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`. Доктрина подчинена
+active canon и этому документу; она не открывает новый release scope.
+
+Обязательная интерпретация для новых фич и процессов:
+
+1. Product Core владеет product truth, доменной семантикой, recovery и
+   каноническими операциями.
+2. Command Kernel владеет command meaning, availability, capability policy и
+   единственным разрешённым маршрутом продуктовых мутаций.
+3. Design OS владеет вычисляемой формой: surfaces, slots, layout, profiles,
+   visibility, projection и platform fallback.
+4. Каждая фича имеет отдельные product-plane и interface-plane контракты.
+5. Product ports и Design OS ports нельзя смешивать или называть неоднозначно.
+6. UI, worker и feature pack не получают прямой write-доступ к Core, storage,
+   IPC или platform APIs.
+7. Project persistence и shell-state persistence остаются разными authority.
+8. Target architecture нельзя выдавать за live runtime без machine evidence.
+
 ## 6. Process Invariants
 
 1. Один bounded contour — один осмысленный vertical slice.

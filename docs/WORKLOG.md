@@ -3,6 +3,12 @@
 Короткая хронология изменений и решений. Это не полный лог чата, а сжатые записи “что сделали / зачем / что дальше”.
 Если в переписке были важные продуктовые/UX‑решения (даже без кода) — фиксируйте их здесь короткими пунктами.
 
+## 2026-07-29
+- Зафиксирована единая доктрина интеграции фич: Product Core владеет данными и смыслом, Command Kernel — действиями и availability, Design OS — вычисляемой формой интерфейса.
+- Каждая новая фича получает два независимых подключения: product plane через Commands, Events, Queries, product ports и adapters; interface plane через Design OS ports, surface manifests, typed slots и projection adapters.
+- Активные агентские входы, process docs и task templates ссылаются на `YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`; frozen COREX v1 и frozen legacy CANON не переписывались.
+- Добавлен focused machine-check с negative cases на потерю authority marker, ссылочного входа и package-script binding; runtime, UI, project format и release scope не изменялись.
+
 ## 2026-07-19
 - S42 factual docs and Capability Matrix sync opened as a docs-only contour after `S41_VISUAL_RECOVERY_NEGATIVE_HARDENING` merged at remote main `b4d2ab806490a0aad488ba247ec5f6e8bf3f8c95`.
 - Added `YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S42_FACTUAL_CAPABILITY_STATUS.json` as the factual LIVE/PARTIAL/PLANNED/BLOCKED status layer for the merged S00-S41 next-stage runtime.

@@ -76,6 +76,49 @@ BOUNDARY_RULE_01: TOUCHING_CANNOT_CHANGE_ESCALATES_OUT_OF_PURE_DESIGN_OS
 BOUNDARY_RULE_02: DESIGN_OS_MAY_PRESENT_COMMANDS_BUT_MUST_NOT_REDEFINE_MEANING
 ```
 
+### 3.1 Интеграция новых фич и процессов
+
+Полная методика находится в
+`docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md` и обязательна для
+новых feature, process, worker, import, export, analysis и surface contours.
+
+Фича не «входит целиком в Design OS». Она имеет два независимых подключения:
+
+```text
+PRODUCT_PLANE: DOMAIN COMMANDS EVENTS QUERIES PRODUCT_PORTS ADAPTERS
+INTERFACE_PLANE: HOST_CONTRIBUTION DESIGN_OS_PORTS SURFACE_MANIFEST TYPED_SLOTS PROJECTION_ADAPTER
+```
+
+Product plane определяет смысл и эффекты. Interface plane определяет форму и
+присутствие в оболочке. Design OS является solver формы, но не владельцем
+product truth.
+
+```text
+FEATURE_RULE_01: ALL_MUTATIONS_USE_CANONICAL_COMMAND_AUTHORITY
+FEATURE_RULE_02: ALL_EXTERNAL_EFFECTS_USE_PRODUCT_PORTS_AND_ADAPTERS
+FEATURE_RULE_03: UI_READS_IMMUTABLE_PRODUCT_PROJECTIONS
+FEATURE_RULE_04: NEW_UI_ENTERS_ONLY_THROUGH_SURFACE_MANIFEST_AND_TYPED_SLOT
+FEATURE_RULE_05: PROJECT_PERSISTENCE_NEVER_MERGES_WITH_SHELL_PERSISTENCE
+FEATURE_RULE_06: FEATURE_PACK_MUST_NOT_CREATE_PRIVATE_CORE_BUS_OR_STORAGE_WRITER
+FEATURE_RULE_07: MISSING_PLATFORM_SURFACE_REQUIRES_EXPLICIT_FALLBACK
+FEATURE_RULE_08: TARGET_MODEL_IS_NOT_LIVE_WITHOUT_MACHINE_EVIDENCE
+```
+
+Для новой фичи до UI-кода обязательны:
+
+- `FEATURE_INTEGRATION_MANIFEST_V1`;
+- authority map;
+- command write path;
+- projection read path;
+- product ports and adapters;
+- surface manifests and slots;
+- fallback and accessibility;
+- recovery and negative bypass checks;
+- hot-path performance boundary.
+
+Если подходящего surface или slot нет, это отдельный architecture contour. Это
+не разрешение вставить функцию в случайный DOM или создать mini Design OS.
+
 ## 4. Схема сущностей
 
 В репо нельзя смешивать пять разных классов вещей:

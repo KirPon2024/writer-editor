@@ -9,6 +9,14 @@
 - Product map: `docs/BIBLE.md`
 - Process rules: `docs/PROCESS.md`
 - Quick re-entry: `docs/HANDOFF.md`
+- Feature integration doctrine: `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`
+
+## Feature Integration Doctrine Reality
+- Доктрина фиксирует методику для будущих feature contours и не меняет текущий runtime или release scope.
+- Product Core, Command Kernel и Design OS остаются разными authority.
+- Новая фича обязана разделять product-plane effects и interface-plane projection.
+- Текущий общий Core port layer остаётся частичным каркасом; полный MIK, Host Pack и Surface Protocol не считаются live без machine evidence.
+- Existing runtime не переписывается big-bang способом; правило применяется к новому contour и к реально затронутым legacy boundaries.
 
 ## Stable Product Reality
 - Продукт: `Yalken Writer`

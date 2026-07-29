@@ -4,5 +4,7 @@ export type CoreEventType = string;
 export const CORE_COMMANDS = [
   'project.create',
   'project.applyTextEdit',
+  'atlas.entity.create',
+  'atlas.alias.add',
 ] as const;
 export const CORE_EVENTS = [] as const;

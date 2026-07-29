@@ -11,6 +11,14 @@
       "capabilityId": "cap.core.project.applyTextEdit"
     },
     {
+      "commandId": "atlas.entity.create",
+      "capabilityId": "cap.atlas.entity.create"
+    },
+    {
+      "commandId": "atlas.alias.add",
+      "capabilityId": "cap.atlas.alias.add"
+    },
+    {
       "commandId": "cmd.project.new",
       "capabilityId": "cap.project.new"
     },

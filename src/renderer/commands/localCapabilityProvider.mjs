@@ -25,6 +25,8 @@ const FREE_PRO_COMPLEXITY_COMMAND_IDS = Object.freeze([
 const FREE_ALWAYS_AVAILABLE_COMMAND_IDS = Object.freeze([
   'project.create',
   'project.applyTextEdit',
+  'atlas.entity.create',
+  'atlas.alias.add',
   'cmd.project.new',
   'cmd.project.open',
   'cmd.project.save',

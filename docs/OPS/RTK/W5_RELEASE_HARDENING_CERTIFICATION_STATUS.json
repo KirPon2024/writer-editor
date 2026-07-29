@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "yalken.rtk.w5.release-hardening-certification.v1",
+  "stageId": "W5_RELEASE_HARDENING_AND_CERTIFICATION",
+  "planContractSha256": "499d621a618f20ce85fb945c9dd5fb10074dea9b8e164b12681e95cab5364b46",
+  "candidateBaseSha": "3c4e791b9ee41e8c3d586f18f62a9430c336e9bf",
+  "overallStatus": "LOCAL_HARDENING_READY_EXTERNAL_WORD_RESUMABLE",
+  "externalWordCertification": {
+    "status": "RESUMABLE_EXTERNAL_WORD_CERTIFICATION",
+    "acceptedWordEvidence": false,
+    "falsePassForbidden": true,
+    "blocksDone": true,
+    "requiredEvidence": [
+      "exact Microsoft Word build",
+      "Windows Word roundtrip corpus with at least 30 seeded runs",
+      "Word Settings Capsule digest",
+      "editor-native readback digest",
+      "OOXML validation digest",
+      "supported corpus digest",
+      "broader Word threshold histogram",
+      "independent Word oracle agreement"
+    ],
+    "localAvailabilityObservation": {
+      "microsoftWordAppOnThisMac": "ABSENT_AT_W5_PREFLIGHT",
+      "libreOfficeOrSoffice": "NOT_ACCEPTED_AS_WORD_ORACLE",
+      "windowsWordLab": "NOT_AVAILABLE_IN_THIS_LOCAL_RUN"
+    },
+    "nonPassReason": "The local environment cannot provide the required independent Microsoft Word Windows oracle chain; local W5 work may proceed, but DONE and WORD_PROFILE_EVIDENCE remain blocked."
+  },
+  "doneGate": {
+    "doneAllowed": false,
+    "blockers": [
+      "WORD_PROFILE_EVIDENCE_REQUIRED",
+      "EXTERNAL_WORD_ORACLE_UNAVAILABLE"
+    ],
+    "resumableAfterExternalEvidence": true
+  },
+  "localReleaseHardening": {
+    "status": "BOUND_TO_EXISTING_PROOF_HOOKS",
+    "proofHooks": [
+      {
+        "id": "ops-current-wave",
+        "path": "scripts/guards/ops-current-wave-stop.mjs",
+        "command": "npm run -s test:ops",
+        "purpose": "ops stop condition and strict lie-class guard"
+      },
+      {
+        "id": "oss-policy",
+        "path": "scripts/check-no-paid-tiptap.mjs",
+        "command": "npm run -s oss:policy",
+        "purpose": "dependency and OSS policy"
+      },
+      {
+        "id": "package-boundary",
+        "path": "scripts/check-packaged-renderer-bundle.mjs",
+        "command": "node --test test/contracts/revision-bridge-docx-package-boundary.contract.test.js",
+        "purpose": "package excludes governance, test, and ops material from runtime bundle"
+      },
+      {
+        "id": "archive-export",
+        "path": "src/export/archive/projectArchiveExportHandler.js",
+        "command": "node scripts/run-tests.js test/unit/project-archive-export-handler.test.js test/unit/sector-m-s32-full-archive-export.test.js test/unit/sector-m-s33-full-archive-import.test.js",
+        "purpose": "streaming archive export/import and restore integrity"
+      },
+      {
+        "id": "migration-hardening",
+        "path": "test/contracts/migration-completeness-verifier.contract.test.js",
+        "command": "node scripts/run-tests.js test/contracts/migration-completeness-verifier.contract.test.js",
+        "purpose": "migration chain completeness, backward compatibility, and drift verifier"
+      },
+      {
+        "id": "performance-profile",
+        "path": "scripts/perf/perf-lite.mjs",
+        "command": "npm run -s perf:lite -- check",
+        "purpose": "hot-path regression guard"
+      },
+      {
+        "id": "release-candidate-lock",
+        "path": "scripts/ops/release-candidate.mjs",
+        "command": "node scripts/ops/release-candidate.mjs --verify --mode=release",
+        "purpose": "release candidate provenance and drift classification"
+      },
+      {
+        "id": "word-evidence-claim-gate",
+        "path": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
+        "command": "node --test test/contracts/revision-bridge-word-evidence-check.contract.test.js test/contracts/review-bridge-word-evidence-claim-binding.contract.test.js",
+        "purpose": "Word evidence claim binding remains narrow and cannot become broad Word support"
+      }
+    ],
+    "deferredRuntimeHooks": [
+      {
+        "id": "electron-migration-hardening",
+        "path": "test/electron/migrationHardening.test.js",
+        "status": "DEFERRED_RUNTIME_DEPENDENCY_UNAVAILABLE",
+        "reason": "Electron runtime is not installed in this post-storage-cleanup local worktree; no install, build, test download, or false PASS is claimed in this W5 local run."
+      }
+    ]
+  },
+  "nonClaims": [
+    "No Word support is claimed.",
+    "No Word import is claimed.",
+    "No Word roundtrip is claimed.",
+    "No Word layout parity is claimed.",
+    "No full DOCX fidelity is claimed.",
+    "No release DONE is claimed.",
+    "No user-facing release readiness is claimed.",
+    "No package publication is claimed.",
+    "No new dependency is introduced.",
+    "No Design OS change is introduced."
+  ]
+}

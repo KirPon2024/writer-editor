@@ -262,10 +262,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "9ab36901fb2415e0b872a064368b88006df0cf70770c07adc4ccd9f07ebda701",
-      "approvedBy": "ticket:REVIEW_BRIDGE_RELEASE_CLAIM_DOSSIER_BINDING_001",
-      "approvedAtUtc": "2026-07-02T00:00:00.000Z",
-      "rationale": "Approve bounded Word evidence contract allowlist sync for the release claim dossier binding contour; no Word runtime code, import, apply, export, storage, dependency, UI, release readiness, Word parity, full Word support, user-facing release, full fidelity, layout parity, or format support claim is introduced."
+      "sha256": "8f2c38d15e1e51675ffa7961e9dea626bc7f1e80deeeeafc17afc6d7cb1a1ca9",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
+      "approvedAtUtc": "2026-07-29T17:48:00.000Z",
+      "rationale": "Approve bounded W5 V6 Word evidence contract allowlist sync so the existing dirty-tree guard can run alongside W5 local hardening status, verifier, package-boundary guard, and governance approval files while preserving false Word PASS rejection, no Word support, no Word import, no roundtrip, no layout parity, no release DONE, no dependency, no runtime, no UI, no storage, and no writer authority change."
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",
@@ -3727,10 +3727,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-package-boundary.contract.test.js",
-      "sha256": "f05d33978099dd5e07c9f2adf0d8513e3d901865ce0c01aea97353228bf58fc2",
-      "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
-      "approvedAtUtc": "2026-07-12T23:00:00.000Z",
-      "rationale": "Approve the honest relationship-part diagnostic rename at the metadata boundary without changing package budgets or parser authority."
+      "sha256": "6acf29145997cef13162f9a40ed234674e0a669ab10f111919a3a1c089ae81fd",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
+      "approvedAtUtc": "2026-07-29T17:48:00.000Z",
+      "rationale": "Approve bounded W5 V6 DOCX package-boundary contract allowlist sync so the existing dirty-tree guard can run alongside W5 local hardening status, verifier, Word evidence guard, and governance approval files while preserving package budget semantics, parser authority limits, no release DONE, no dependency, no runtime behavior change, no UI change, no DOCX Minimal behavior change, and no writer authority change."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-part-policy.contract.test.js",
@@ -3902,10 +3902,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "b324aafd40bd8c966ee4a9e438bf607a7cc626d1d7cb4dab4ec6af61138e9083",
-      "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S43_FINAL_RC_LOCK_REBIND",
-      "approvedAtUtc": "2026-07-19T08:27:00.000Z",
-      "rationale": "Approve final S43 release candidate lock rebind to the verified remote main head after the Sector U full runner delivery; no runtime, menu, storage, recovery, dependency, network, cloud, UI design, entitlement, project-format behavior, or capability claim is introduced."
+      "sha256": "2cc83ec5214de9183b72712f56eefaf897c63132cecf3a15dcc816d8740461cd",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
+      "approvedAtUtc": "2026-07-29T17:50:00.000Z",
+      "rationale": "Approve bounded W5 V6 release candidate lock refresh to the verified W4-merged remote main menu/provenance hashes so release-mode verification returns PASS; this introduces no Word PASS, release DONE, dependency, runtime behavior, UI change, Design OS change, entitlement, storage format change, writer authority, or package publication claim."
     },
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
@@ -4123,6 +4123,27 @@
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
       "approvedAtUtc": "2026-07-29T17:18:00.000Z",
       "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+    },
+    {
+      "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
+      "sha256": "3781ccbbaded5ed8b01aa01733b0364dc66a578a53529f30b6d6cfc5d343ddb9",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
+      "approvedAtUtc": "2026-07-29T17:45:00.000Z",
+      "rationale": "Approve bounded W5 V6 local release-hardening status that binds existing ops, package, archive, migration, performance, release-candidate, and Word evidence claim proof hooks while explicitly keeping external Word certification resumable and DONE blocked; no Word PASS, release DONE, dependency, UI, Design OS, product capability, import/export behavior, writer authority, or package publication claim is introduced."
+    },
+    {
+      "filePath": "scripts/ops/rtk-w5-release-hardening-certification.mjs",
+      "sha256": "99b90364bdda3c49bf67d0e73b8d78553bc55adb2c3f95e116b9356c565cf25e",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
+      "approvedAtUtc": "2026-07-29T17:45:00.000Z",
+      "rationale": "Approve bounded W5 V6 verifier for machine-readable local hardening status, proof-hook presence, broad-claim rejection, false Word PASS rejection, and false DONE rejection; it performs no product writes, adds no dependency, grants no Word support, and does not change runtime, UI, Design OS, DOCX Minimal, or writer authority."
+    },
+    {
+      "filePath": "test/contracts/rtk-w5-release-hardening-certification.contract.test.js",
+      "sha256": "61f48c89188bd3f3ae7300aff7361051941d1f0c3e33b6f5443bb93019e64d4c",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
+      "approvedAtUtc": "2026-07-29T17:45:00.000Z",
+      "rationale": "Approve bounded W5 V6 contract coverage proving local release-hardening proof hooks are bound while external Word certification remains resumable, false Word PASS and false DONE mutations fail, and broad Word or release claims remain forbidden; no dependency, UI, runtime, import/export behavior, package publication, or product capability is introduced."
     }
   ]
 }

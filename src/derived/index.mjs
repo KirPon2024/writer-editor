@@ -17,3 +17,12 @@ export {
   deriveHistory,
   HISTORY_VIEW_ID,
 } from './commentsHistory/index.mjs';
+export {
+  ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION,
+  ATLAS_MENTION_INDEX_SCHEMA_VERSION,
+  ATLAS_MENTION_INDEX_VIEW_ID,
+  canonicalizeAtlasMentionIndex,
+  deriveAtlasMentionIndex,
+  sortAtlasMentions,
+  sortAtlasSceneShards,
+} from './atlas/index.mjs';

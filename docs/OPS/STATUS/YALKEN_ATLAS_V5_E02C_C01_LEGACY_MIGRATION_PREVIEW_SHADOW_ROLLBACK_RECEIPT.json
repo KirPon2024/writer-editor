@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02C_C01_LEGACY_MIGRATION_PREVIEW_SHADOW_ROLLBACK_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02C_C01_LEGACY_MIGRATION_INVENTORY_PREVIEW_SHADOW_ROLLBACK",
+  "programStage": "E02C_STAGE_02C_LEGACY_MIGRATION",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T20:17:04Z",
+  "baseSha": "9c4521c2a1b3bf35cd091663550adc01aa13d24b",
+  "compiledE02CQueue": [
+    "E02C_C01_LEGACY_MIGRATION_INVENTORY_PREVIEW_SHADOW_ROLLBACK",
+    "E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_AND_REOPEN_VALIDATION",
+    "E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_AND_SUNSET_EVIDENCE"
+  ],
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds pure import preview and shadow migration contracts over passed TXT content. It creates no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.legacyTxtMigrationPreviewShadowRollback.v1",
+    "productPlane": {
+      "owner": "Import Preview",
+      "readPath": [
+        "passed legacy TXT content",
+        "existing manual map ids input"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "Preview emits a command plan only. Applying the command plan is deferred to a later contour and requires canonical Command Kernel execution."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "inventorySchema": "manualMap.legacyTxtInventory.v1",
+    "previewSchema": "manualMap.legacyTxtMigrationPreview.v1",
+    "shadowSchema": "manualMap.legacyTxtShadowMigration.v1",
+    "rollbackSchema": "manualMap.legacyTxtRollback.v1",
+    "pathlessInventory": true,
+    "previewOnly": true,
+    "shadowOnly": true,
+    "rollbackMode": "discard-shadow-only",
+    "projectTruthMutation": false,
+    "applyRequiresCommandKernel": true
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/import/mindmap/v1/legacyMindMapTxtMigration.mjs && node --check src/import/mindmap/v1/index.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02c-c01-legacy-migration-preview-shadow-rollback.contract.test.js",
+      "status": "PASS_5_TESTS_5_PASS_0_FAIL"
+    },
+    {
+      "command": "node --check src/import/mindmap/v1/legacyMindMapTxtMigration.mjs && node --check src/import/mindmap/v1/index.mjs && node --test test/contracts/yalken-atlas-v5-e02c-c01-legacy-migration-preview-shadow-rollback.contract.test.js test/contracts/yalken-atlas-v5-e02b-c04-layout-resource-budget-proof.contract.test.js test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js",
+      "status": "PASS_15_TESTS_15_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "negativeChecks": [
+    "inventory strips source content and exposes no path authority",
+    "preview builds a command plan but does not execute it",
+    "target map collisions fail closed before shadow migration",
+    "rollback discards shadow state only and performs no project truth mutation",
+    "legacy migration modules have no filesystem, network, Electron, renderer storage, UI command dispatch, or hot-path event listener bypass"
+  ],
+  "nextContour": "E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_AND_REOPEN_VALIDATION"
+}

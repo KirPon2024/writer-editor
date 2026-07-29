@@ -4298,6 +4298,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C02_VIEWPORT_VIRTUALIZATION_AND_LOD_PLANNER",
       "approvedAtUtc": "2026-07-29T19:44:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02B C02 contract: proves 10k-node viewport planning stays within explicit budgets, LOD switches low-zoom nodes to dots while selected nodes remain readable, pinned offscreen edges do not invent endpoint nodes, derived barrels export the planner, and no filesystem, network, Electron, Worker, timers, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02B_C03_SELECTION_KEYBOARD_LIST_PARITY_RECEIPT.json",
+      "sha256": "447e6135e536e4c23ba8ea6b8e4686a3bf5a6bcc435eee8257bdf3f7d255dcf9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C03_SELECTION_KEYBOARD_AND_LIST_PARITY",
+      "approvedAtUtc": "2026-07-29T19:57:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02B C03 selection keyboard and list parity receipt: adds manualMap.listParity.v1, manualMap.listState.v1, and manualMap.keyboardIntent.v1 as pure derived contracts over derived.manualMap.graph.v1 and transient ViewState/ListState, proves list reachability, semantic rows, keyboard navigation, Enter/Space activation, Escape clear, pointer selection parity, no project truth mutation, no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02b-c03-selection-keyboard-list-parity.contract.test.js",
+      "sha256": "88c8e8df1674656a2c0fea6fd1aca222d73b67f520cdfdc41f4be7ad07c5fb8e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C03_SELECTION_KEYBOARD_AND_LIST_PARITY",
+      "approvedAtUtc": "2026-07-29T19:57:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02B C03 contract: proves deterministic list rows for reachable graph nodes and edges, corrupt-edge exclusion, keyboard navigation as transient listState only, keyboard activation parity with pointer selection intents, Escape clear through the existing ViewState reducer, derived barrel exports, and no filesystem, network, Electron, Worker, timers, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
     }
   ]
 }

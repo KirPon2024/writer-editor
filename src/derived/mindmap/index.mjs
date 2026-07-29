@@ -17,3 +17,7 @@ export {
   normalizeManualMapViewState,
   reduceManualMapViewIntent,
 } from './manualMapInteraction.mjs';
+export {
+  MANUAL_MAP_VIEWPORT_PLAN_SCHEMA_VERSION,
+  buildManualMapViewportPlan,
+} from './manualMapViewportPlanner.mjs';

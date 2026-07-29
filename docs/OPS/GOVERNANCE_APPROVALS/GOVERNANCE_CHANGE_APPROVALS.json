@@ -4284,6 +4284,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C01_GRAPH_INTERACTION_CONTRACT_AND_VIEWSTATE_BOUNDARY",
       "approvedAtUtc": "2026-07-29T19:36:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02B C01 contract: proves graph interaction model keeps ViewState outside manual map truth, view intents are deterministic bounded and graph-validated, derived barrels export the contract, and no filesystem, network, Electron, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02B_C02_VIEWPORT_VIRTUALIZATION_LOD_PLANNER_RECEIPT.json",
+      "sha256": "187301bf8d8813ddd55fb2fb9fe4553e60778bc1931721f5bdeabab91249c2e6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C02_VIEWPORT_VIRTUALIZATION_AND_LOD_PLANNER",
+      "approvedAtUtc": "2026-07-29T19:44:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02B C02 viewport virtualization and LOD planner receipt: adds manualMap.viewportPlan.v1 as a pure bounded render planner over derived.manualMap.graph.v1 and transient ViewState, proves 10k-node fixture virtualization, node and edge budgets, dot and label LOD, pinned selection preservation, no project truth mutation, no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02b-c02-viewport-virtualization-lod-planner.contract.test.js",
+      "sha256": "cb95d336304e810ec1294a7ecce86f90e444295773144a5c8195f3a9e9b17a7d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C02_VIEWPORT_VIRTUALIZATION_AND_LOD_PLANNER",
+      "approvedAtUtc": "2026-07-29T19:44:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02B C02 contract: proves 10k-node viewport planning stays within explicit budgets, LOD switches low-zoom nodes to dots while selected nodes remain readable, pinned offscreen edges do not invent endpoint nodes, derived barrels export the planner, and no filesystem, network, Electron, Worker, timers, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
     }
   ]
 }

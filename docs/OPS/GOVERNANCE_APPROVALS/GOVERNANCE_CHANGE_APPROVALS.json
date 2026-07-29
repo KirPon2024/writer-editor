@@ -4256,6 +4256,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C02_MANUAL_MAP_DERIVED_GRAPH_PROJECTION",
       "approvedAtUtc": "2026-07-29T19:12:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02A C02 contract: proves manual map graph projection is read-only and deterministic, invalidation changes when manual map truth changes, missing maps and disabled capability fail closed, corrupt edges do not invent missing nodes, and no filesystem, network, Electron, renderer storage, UI command dispatch, or input hot-path bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02A_C03_MANUAL_MAP_DURABLE_RECOVERY_EXPORT_FIXTURE_RECEIPT.json",
+      "sha256": "26596593bfa402e3ce9b00d48aff9d6081b7dff026363ff4fdc00660ef666004",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C03_MANUAL_MAP_DURABLE_RECOVERY_AND_EXPORT_FIXTURE",
+      "approvedAtUtc": "2026-07-29T19:24:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02A C03 manual map durable recovery and export fixture receipt: adds manualMap.export.json.v1 as a pure deterministic JSON fixture from derived.manualMap.graph.v1 with human-readable recovery summary, graph hash, loss report, no project truth mutation, no user-facing export command claim, no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02a-c03-manual-map-durable-recovery-export-fixture.contract.test.js",
+      "sha256": "c91e0d9d921cfcc498bf88af1b9850e9604720b14d172b2d934b811cd6236db5",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C03_MANUAL_MAP_DURABLE_RECOVERY_AND_EXPORT_FIXTURE",
+      "approvedAtUtc": "2026-07-29T19:24:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02A C03 contract: proves manual map JSON fixture is deterministic and recovery-readable, preserves node positions, targets, edge labels and kinds, reports malformed graph loss explicitly, keeps the source graph immutable, does not claim a user-facing export command, and introduces no filesystem, network, Electron, renderer storage, or private write bypass."
     }
   ]
 }

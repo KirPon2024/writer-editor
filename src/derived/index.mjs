@@ -19,9 +19,13 @@ export {
 } from './commentsHistory/index.mjs';
 export {
   ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION,
+  ATLAS_CURRENT_SCENE_DOSSIER_SCHEMA_VERSION,
+  ATLAS_CURRENT_SCENE_DOSSIER_VIEW_ID,
+  ATLAS_CURRENT_SCENE_SURFACE_MANIFEST_VERSION,
   ATLAS_MENTION_INDEX_SCHEMA_VERSION,
   ATLAS_MENTION_INDEX_VIEW_ID,
   canonicalizeAtlasMentionIndex,
+  deriveAtlasCurrentSceneDossier,
   deriveAtlasMentionIndex,
   sortAtlasMentions,
   sortAtlasSceneShards,

@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_DOSSIER_SURFACE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_AND_DOSSIER_SURFACE",
+  "programStage": "STAGE_01",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T18:19:34Z",
+  "baseSha": "c74528dac7d698147a1e583ba6ff86699abf7c35",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour adds a product UI surface in the existing right rail. The route used Design OS change guidance, the design tool matrix, brain refs, UI Craft, and one bounded Lazyweb quick search for comparable desktop dossier/reference panels. A full Lazyweb hosted report was skipped because the contour is an implementation-bound repo-canon surface, not an optimize/improve screenshot deliverable.",
+  "designEvidence": {
+    "brainRefsCommand": "npm run brain:refs -- \"current scene atlas dossier surface\"",
+    "brainRefsUsed": [
+      "native-fluency-typographic-sharpness.md"
+    ],
+    "lazywebMode": "quick_search",
+    "lazywebQuery": "writing app dossier panel",
+    "lazywebPlatform": "desktop",
+    "lazywebCoverage": "moderate",
+    "appliedDirection": "Document-first center stays untouched; the right rail hosts a dense neutral read-only dossier with exact evidence rows and local text focus."
+  },
+  "featureIntegrationManifest": {
+    "featureId": "atlas.currentSceneDossier.v1",
+    "productPlane": {
+      "owner": "Product Core plus Derived Views",
+      "readPath": [
+        "coreState.data.projects",
+        "project.atlas.entities",
+        "project.scenes[currentScene]"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "dispatch": "NOT_APPLICABLE",
+      "capabilityRevalidation": "The derived mention index capability can fail closed; the renderer receives an unavailable read model rather than command authority."
+    },
+    "interfacePlane": {
+      "newSurface": true,
+      "surfaceManifest": "surface.atlas.currentSceneDossier.v1",
+      "host": "rightRail",
+      "typedSlot": "rightRail.context.atlas",
+      "providerId": "query.atlasCurrentScene",
+      "directDomMutation": false,
+      "productMutation": false,
+      "storageAuthority": false
+    }
+  },
+  "implementedProjection": {
+    "viewId": "derived.atlas.currentSceneDossier.v1",
+    "schemaVersion": "derived.atlas.currentSceneDossier.v1",
+    "providerId": "query.atlasCurrentScene",
+    "surfaceId": "surface.atlas.currentSceneDossier",
+    "focusIntent": "localTextSelection",
+    "stalePrimitive": "deriveView invalidationKey combines Core state, params, and capability snapshot."
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/main.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --input-type=module --check < src/renderer/editor.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c03-current-scene-dossier-surface.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c02-exact-mention-anchors.contract.test.js test/contracts/yalken-atlas-v5-e01-c01-author-data-command-boundary.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "result": "795 tests, 731 pass, 64 skipped, 0 fail"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s build:renderer",
+      "status": "PASS_AFTER_NPM_CI_EXISTING_LOCKFILE_DEPS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "negativeChecks": [
+    "surface manifest has productMutation false and storageAuthority false",
+    "renderer dispatches no Atlas current-scene command",
+    "evidence row click only sets local text selection for the current scene",
+    "main query resolves project-tree node identity and sanitizes file path under project root",
+    "derived atlas modules have no filesystem, network, Electron, localStorage, sessionStorage, or indexedDB use"
+  ],
+  "stage01NextContour": "E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY"
+}

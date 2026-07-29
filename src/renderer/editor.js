@@ -249,9 +249,11 @@ const rightTabButtons = Array.from(document.querySelectorAll('[data-right-tab]')
 const rightInspectorPanel = document.querySelector('[data-right-panel-inspector]');
 const rightCommentsPanel = document.querySelector('[data-right-panel-comments]');
 const rightHistoryPanel = document.querySelector('[data-right-panel-history]');
+const rightAtlasPanel = document.querySelector('[data-right-panel-atlas]');
 const rightInspectorTabButton = document.querySelector('[data-right-tab="inspector"]');
 const sceneHistoryHost = document.querySelector('[data-scene-history-host]');
 const reviewSurfaceHost = document.querySelector('[data-review-surface-host]');
+const atlasCurrentSceneHost = document.querySelector('[data-atlas-current-scene-host]');
 const inspectorCommentsAction = document.querySelector('[data-inspector-comments-action]');
 const inspectorFocusStatus = document.querySelector('[data-inspector-focus-status]');
 const inspectorMarginsValue = document.querySelector('[data-inspector-margins]');
@@ -600,6 +602,16 @@ let sceneHistoryState = {
   restoreReceiptId: '',
   restoreState: 'idle',
 };
+let atlasCurrentSceneState = {
+  state: 'empty',
+  projectId: '',
+  sceneId: '',
+  sceneTitle: '',
+  summary: { entityCount: 0, mentionCount: 0 },
+  entities: [],
+  mentions: [],
+  unavailableReason: '',
+};
 let plainTextBuffer = '';
 const activeTab = 'roman';
 let currentDocumentId = null;
@@ -717,10 +729,12 @@ const REVIEW_SURFACE_RECEIPT_SCHEMA = 'revision-bridge.exact-text-min-safe-write
 const REVIEW_SURFACE_QUERY_ID = 'query.reviewSurface';
 const METADATA_INSPECTOR_QUERY_ID = 'query.metadataInspector';
 const SCENE_HISTORY_QUERY_ID = 'query.sceneHistory';
+const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const RIGHT_RAIL_SURFACE_PROVIDERS = Object.freeze({
   inspector: METADATA_INSPECTOR_QUERY_ID,
   comments: REVIEW_SURFACE_QUERY_ID,
   history: SCENE_HISTORY_QUERY_ID,
+  atlas: ATLAS_CURRENT_SCENE_QUERY_ID,
 });
 const METADATA_UPDATE_COMMAND_ID = 'cmd.project.metadata.update';
 const REVIEW_SURFACE_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.importLocalPacket';
@@ -6477,6 +6491,7 @@ async function invokeWorkspaceQueryBridge(queryId, payload = {}) {
     && queryId !== NOTES_WORKSPACE_QUERY_ID
     && queryId !== PROJECT_SEARCH_QUERY_ID
     && queryId !== SCENE_HISTORY_QUERY_ID
+    && queryId !== ATLAS_CURRENT_SCENE_QUERY_ID
   ) {
     return null;
   }
@@ -8553,6 +8568,9 @@ async function openDocumentNode(node) {
     refreshMetadataInspector();
     if (currentRightTab === 'history') {
       refreshSceneHistory('');
+    }
+    if (currentRightTab === 'atlas') {
+      refreshAtlasCurrentScene();
     }
     return true;
   } catch {
@@ -10965,6 +10983,7 @@ function ensureCommandsOpenerInRightInspectorSurface() {
 }
 
 function normalizeRightTab(tab) {
+  if (tab === 'atlas') return 'atlas';
   if (tab === 'history') return 'history';
   if (tab === 'comments') return 'comments';
   return 'inspector';
@@ -11008,8 +11027,15 @@ function syncRightRailCompositionState(tab) {
     rightHistoryPanel.hidden = tab !== 'history';
     rightHistoryPanel.dataset.rightSurfaceProvider = RIGHT_RAIL_SURFACE_PROVIDERS.history;
   }
+  if (rightAtlasPanel instanceof HTMLElement) {
+    rightAtlasPanel.hidden = tab !== 'atlas';
+    rightAtlasPanel.dataset.rightSurfaceProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
+  }
   if (reviewSurfaceHost instanceof HTMLElement) {
     reviewSurfaceHost.dataset.reviewSurfaceProvider = RIGHT_RAIL_SURFACE_PROVIDERS.comments;
+  }
+  if (atlasCurrentSceneHost instanceof HTMLElement) {
+    atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
   }
 }
 
@@ -11022,6 +11048,8 @@ function applyRightTab(tab) {
     refreshMetadataInspector();
   } else if (tab === 'history') {
     refreshSceneHistory();
+  } else if (tab === 'atlas') {
+    refreshAtlasCurrentScene();
   }
   syncInspectorStateSurface();
   syncToolbarShellState();
@@ -11159,6 +11187,161 @@ async function refreshSceneHistory(selectedSnapshotId = sceneHistoryState.select
   if (sequence !== sceneHistoryState.sequence) return;
   sceneHistoryState = normalizeSceneHistoryReadModel(result, sequence);
   renderSceneHistoryState();
+}
+
+function normalizeAtlasCurrentSceneDossier(result = {}) {
+  const source = result && typeof result === 'object' && !Array.isArray(result)
+    ? result
+    : {};
+  const summary = source.summary && typeof source.summary === 'object' && !Array.isArray(source.summary)
+    ? source.summary
+    : {};
+  return {
+    schemaVersion: typeof source.schemaVersion === 'string' ? source.schemaVersion : 'derived.atlas.currentSceneDossier.v1',
+    state: typeof source.state === 'string' ? source.state : 'empty',
+    unavailableReason: typeof source.unavailableReason === 'string' ? source.unavailableReason : '',
+    projectId: typeof source.projectId === 'string' ? source.projectId : '',
+    sceneId: typeof source.sceneId === 'string' ? source.sceneId : '',
+    sceneTitle: typeof source.sceneTitle === 'string' ? source.sceneTitle : '',
+    summary: {
+      entityCount: Number.isInteger(summary.entityCount) ? Math.max(0, summary.entityCount) : 0,
+      mentionCount: Number.isInteger(summary.mentionCount) ? Math.max(0, summary.mentionCount) : 0,
+      sceneTextHash: typeof summary.sceneTextHash === 'string' ? summary.sceneTextHash : '',
+      indexHash: typeof summary.indexHash === 'string' ? summary.indexHash : '',
+      invalidationKey: typeof summary.invalidationKey === 'string' ? summary.invalidationKey : '',
+    },
+    entities: Array.isArray(source.entities) ? source.entities.filter(reviewSurfaceIsPlainObject) : [],
+    mentions: Array.isArray(source.mentions) ? source.mentions.filter(reviewSurfaceIsPlainObject) : [],
+  };
+}
+
+function appendAtlasText(parent, className, text) {
+  const element = document.createElement('span');
+  element.className = className;
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
+}
+
+function renderAtlasCurrentSceneState() {
+  if (!(atlasCurrentSceneHost instanceof HTMLElement)) return;
+  const state = normalizeAtlasCurrentSceneDossier(atlasCurrentSceneState);
+  atlasCurrentSceneHost.innerHTML = '';
+  atlasCurrentSceneHost.dataset.atlasCurrentSceneStatus = state.state;
+  atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = ATLAS_CURRENT_SCENE_QUERY_ID;
+
+  const header = document.createElement('section');
+  header.className = 'right-rail-surface right-rail-surface--atlas-header';
+  const label = document.createElement('div');
+  label.className = 'right-rail-section__label';
+  label.textContent = 'Atlas';
+  const title = document.createElement('div');
+  title.className = 'right-rail-atlas-title';
+  title.textContent = state.sceneTitle || currentDocumentTitle || 'Текущая сцена';
+  const metrics = document.createElement('div');
+  metrics.className = 'right-rail-atlas-metrics';
+  appendAtlasText(metrics, 'right-rail-atlas-metric', `${state.summary.entityCount} сущн.`);
+  appendAtlasText(metrics, 'right-rail-atlas-metric', `${state.summary.mentionCount} упом.`);
+  header.append(label, title, metrics);
+  atlasCurrentSceneHost.appendChild(header);
+
+  if (state.state === 'unavailable') {
+    const unavailable = document.createElement('div');
+    unavailable.className = 'right-rail-atlas-state right-rail-atlas-state--blocked';
+    unavailable.textContent = state.unavailableReason || 'Atlas dossier недоступен. Текст сцены не изменён.';
+    atlasCurrentSceneHost.appendChild(unavailable);
+    return;
+  }
+
+  if (state.state === 'loading') {
+    const loading = document.createElement('div');
+    loading.className = 'right-rail-atlas-state';
+    loading.textContent = 'Atlas dossier обновляется.';
+    atlasCurrentSceneHost.appendChild(loading);
+    return;
+  }
+
+  if (state.summary.mentionCount < 1) {
+    const empty = document.createElement('div');
+    empty.className = 'right-rail-atlas-state';
+    empty.textContent = state.sceneId
+      ? 'Точных упоминаний для текущей сцены пока нет.'
+      : 'Откройте сцену, чтобы увидеть Atlas dossier.';
+    atlasCurrentSceneHost.appendChild(empty);
+    return;
+  }
+
+  const list = document.createElement('div');
+  list.className = 'right-rail-atlas-entity-list';
+  for (const entity of state.entities) {
+    const entitySection = document.createElement('section');
+    entitySection.className = 'right-rail-atlas-entity';
+    const entityHead = document.createElement('div');
+    entityHead.className = 'right-rail-atlas-entity__head';
+    appendAtlasText(entityHead, 'right-rail-atlas-entity__name', entity.name || entity.entityId || 'Entity');
+    appendAtlasText(entityHead, 'right-rail-atlas-entity__count', `${entity.mentionCount || 0}`);
+    entitySection.appendChild(entityHead);
+
+    const mentions = Array.isArray(entity.mentions) ? entity.mentions : [];
+    for (const mention of mentions) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'right-rail-atlas-mention';
+      button.dataset.atlasMentionId = mention.mentionId || '';
+      const quote = document.createElement('span');
+      quote.className = 'right-rail-atlas-mention__quote';
+      quote.textContent = mention.context?.quote || mention.matchedText || '';
+      const context = document.createElement('span');
+      context.className = 'right-rail-atlas-mention__context';
+      context.textContent = [mention.context?.before || '', mention.context?.after || '']
+        .filter(Boolean)
+        .join(' ');
+      const offset = document.createElement('span');
+      offset.className = 'right-rail-atlas-mention__offset';
+      offset.textContent = `${Number(mention.startOffset) || 0}-${Number(mention.endOffset) || 0}`;
+      button.append(quote, context, offset);
+      entitySection.appendChild(button);
+    }
+    list.appendChild(entitySection);
+  }
+  atlasCurrentSceneHost.appendChild(list);
+}
+
+async function refreshAtlasCurrentScene() {
+  if (currentRightTab !== 'atlas') return;
+  atlasCurrentSceneState = {
+    ...atlasCurrentSceneState,
+    state: currentDocumentId ? 'loading' : 'empty',
+    sceneId: currentDocumentId || '',
+    sceneTitle: currentDocumentTitle || '',
+  };
+  renderAtlasCurrentSceneState();
+  const result = await invokeWorkspaceQueryBridge(ATLAS_CURRENT_SCENE_QUERY_ID, {
+    projectId: currentProjectId,
+    nodeId: currentDocumentId || '',
+  });
+  const nextState = result && result.ok !== false && result.atlasCurrentScene
+    ? result.atlasCurrentScene
+    : { state: 'unavailable', unavailableReason: 'ATLAS_QUERY_FAILED' };
+  atlasCurrentSceneState = normalizeAtlasCurrentSceneDossier(nextState);
+  renderAtlasCurrentSceneState();
+}
+
+function focusAtlasMention(mentionId = '') {
+  const mention = atlasCurrentSceneState.mentions.find((item) => item.mentionId === mentionId);
+  if (!mention || mention.sceneId !== currentDocumentId) {
+    updateStatusText('Упоминание Atlas недоступно для текущей сцены');
+    return;
+  }
+  const start = Number(mention.startOffset);
+  const end = Number(mention.endOffset);
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) {
+    updateStatusText('Atlas anchor устарел');
+    return;
+  }
+  focusEditorSurface('atlas');
+  setSelectionRange(start, end);
+  updateStatusText('Atlas evidence открыт в тексте');
 }
 
 async function createSceneHistoryCheckpoint() {
@@ -14785,7 +14968,7 @@ if (rightTabsHost) {
       void dispatchUiCommand(EXTRA_COMMAND_IDS.REVIEW_OPEN_COMMENTS);
       return;
     }
-    if (tab === 'inspector' || tab === 'history') {
+    if (tab === 'inspector' || tab === 'history' || tab === 'atlas') {
       applyRightTab(tab);
     }
   };
@@ -14825,6 +15008,14 @@ if (rightTabsHost) {
     activateRightRailTabButton(buttons[nextIndex]);
   });
 }
+
+atlasCurrentSceneHost?.addEventListener('click', (event) => {
+  const button = event.target instanceof Element
+    ? event.target.closest('[data-atlas-mention-id]')
+    : null;
+  if (!(button instanceof HTMLElement)) return;
+  focusAtlasMention(button.dataset.atlasMentionId || '');
+});
 
 sceneHistoryHost?.addEventListener('click', (event) => {
   const checkpointButton = event.target instanceof Element
@@ -15286,6 +15477,9 @@ if (window.electronAPI) {
     refreshMetadataInspector();
     if (currentRightTab === 'history') {
       refreshSceneHistory('');
+    }
+    if (currentRightTab === 'atlas') {
+      refreshAtlasCurrentScene();
     }
     applyPendingProjectSearchJump(currentDocumentId || '');
   });

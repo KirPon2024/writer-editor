@@ -332,10 +332,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "74c40c34ccda43510b8a4d75eaba4ae0b2117843a5142dc9dff11aa9b08c3255",
-      "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
-      "approvedAtUtc": "2026-07-12T23:20:00.000Z",
-      "rationale": "Approve nine exact Phase 06 DONE-scope paths for active docs, the DOCX minimal builder, and five deterministic golden fixtures; no wildcard, prefix, M8 or M9 scope widening, runtime authority, dependency, network, or broad fidelity claim is introduced."
+      "sha256": "29f36c6b66cfcc843451ff6e892ff794e4eb7d3da9e4dad55045e5e79f8a2a3f",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
+      "approvedAtUtc": "2026-07-29T15:42:00.000Z",
+      "rationale": "Approve bounded W1 Sector M scope-map synchronization required by the owner-approved RTK V6 contract; it admits only exact W1 no-write RTK files already present in the frozen ActionEnvelope and adds no wildcard, prefix, runtime authority, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -4042,17 +4042,17 @@
     },
 {
         "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
-        "sha256": "7b1c62fb1e6768218e72e8f70586776949c89410b02093cb435e8c56e38b7536",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
-        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
-        "rationale": "Approve bounded G0B dependency-free local contract helpers required by the owner-approved RTK V6 contract; they are offline analysis helpers with Node built-ins only and add no product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+        "sha256": "87b2a989a7ceff00cb16627f24d2d3a583664be2ef33998d0b0dfbbea0fd6691",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
+        "approvedAtUtc": "2026-07-29T15:40:00.000Z",
+        "rationale": "Approve bounded W1 extension of the dependency-free transport contract helpers required by the owner-approved RTK V6 contract; it adds no-write feature flag, export intent, private manifest boundary, returned-artifact analysis and durability diagnostics while preserving no product apply, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
     },
 {
         "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
-        "sha256": "dec6ad9b32784512762e17e387ccf114360db4cc0892c5f5ae2313aaac10adbe",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
-        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
-        "rationale": "Approve bounded G0B dependency-free local oracle required by the owner-approved RTK V6 contract; it aggregates local contract evidence and explicit external Word deferral without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+        "sha256": "d3219763534f47f6d2dd95322ec0f5310adbb0095b325c214a0747703de5d4f2",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
+        "approvedAtUtc": "2026-07-29T15:40:00.000Z",
+        "rationale": "Approve bounded W1 extension of the dependency-free local oracle required by the owner-approved RTK V6 contract; it aggregates no-write export intent, neutral artifact boundary, returned-artifact analysis and explicit diagnostic-only durability state without adding product apply, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
     },
 {
         "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
@@ -4060,6 +4060,13 @@
         "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
         "approvedAtUtc": "2026-07-29T15:04:32.000Z",
         "rationale": "Approve bounded G0B feasibility contract tests required by the owner-approved RTK V6 contract; they verify zero false exact, structural blocking, comments conservation, HMAC tamper, corpus freeze, parser bake-off and external Word deferral without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    },
+{
+        "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+        "sha256": "5fb20429774495f91df333b3f61f620d75dbc6470b024456accb06bee40920ca",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
+        "approvedAtUtc": "2026-07-29T15:40:00.000Z",
+        "rationale": "Approve bounded W1 no-write vertical slice contract tests required by the owner-approved RTK V6 contract; they verify read-only feature flag behavior, main-authority export intent, private manifest boundary, zero-change returned artifact analysis, atomic round store behavior, no-write reconciliation index and diagnostic-only durability claims without adding apply authority, writer mutation, dependency, network, cloud, storage-format migration, export support claim, or UI capability."
     }
   ]
 }

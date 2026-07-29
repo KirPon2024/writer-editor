@@ -9583,7 +9583,7 @@ function exactTextApplyPlanNoDiskFindMatchOffsets(text, quote) {
     const found = text.indexOf(quote, cursor);
     if (found === -1) break;
     offsets.push(found);
-    cursor = found + quote.length;
+    cursor = found + 1;
   }
   return offsets;
 }

@@ -41,6 +41,8 @@ const RENDERER_EDITOR_PATH = 'src/renderer/editor.js';
 const RENDERER_EDITOR_BUNDLE_PATH = 'src/renderer/editor.bundle.js';
 const CONTROLLED_MULTI_STATUS_PACKET_PATH =
   'docs/OPS/STATUS/REVIEW_BRIDGE_CONTROLLED_MULTI_EXACT_APPLY_001_R2_STATUS_V1.json';
+const G0C_TEST_PATH = 'test/contracts/rtk-g0c-exact-safety.contract.test.js';
+const G0C_RECEIPT_PATH = 'docs/OPS/RTK/G0C_EXISTING_EXACT_SAFETY_RECEIPT.json';
 const ALLOWLIST = [
   MODULE_PATH,
   JOURNAL_MODULE_PATH,
@@ -70,6 +72,8 @@ const ALLOWLIST = [
   RENDERER_EDITOR_PATH,
   RENDERER_EDITOR_BUNDLE_PATH,
   CONTROLLED_MULTI_STATUS_PACKET_PATH,
+  G0C_TEST_PATH,
+  G0C_RECEIPT_PATH,
 ];
 const TOLERATED_NEIGHBOR_REVIEW_BRIDGE_TEST_PATHS = Object.freeze([
   'test/contracts/review-bridge-first-useful-release-gate.contract.test.js',

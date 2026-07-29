@@ -3369,20 +3369,6 @@
       "rationale": "EDITORIAL_STRESS_ARTIFACT_REBIND_001 approves bounded governance approval registry SHA rebind to current repo file bytes discovered while closing the editorial sheet 10000 stress artifact tail; no runtime UI storage export dependency production cross-platform above-10000 readiness or release claim is introduced."
     },
     {
-      "filePath": "test/contracts/revision-bridge-exact-text-apply-plan-no-disk.contract.test.js",
-      "sha256": "274b5b6e59593f35c9eb800a87f7c8981ef78f665e674a50950fdea583398c76",
-      "approvedBy": "ticket:REVIEW_BRIDGE_FIRST_USEFUL_RELEASE_TRUTH_REPAIR_001",
-      "approvedAtUtc": "2026-07-04T00:00:00.000Z",
-      "rationale": "Approve bounded allowlist-tolerance update for adjacent Review Bridge truth-repair proofs and docs so the exact-text planner contract stays strict on unexpected drift while not false-reding on the named neighboring contour; no planner semantics, apply ops, storage, receipt, recovery, readiness, or scope widening is introduced."
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-exact-text-min-safe-write.contract.test.js",
-      "sha256": "b7de42bbb2ad0aec81eaf763c15d1fe46c7238517de09b19a6cc6bc5ab818ebd",
-      "approvedBy": "ticket:REVIEW_BRIDGE_APPLY_CRASH_RECONCILIATION_001",
-      "approvedAtUtc": "2026-07-12T19:09:34.000Z",
-      "rationale": "Approve bounded exact safe-write crash-reconciliation coverage for atomic per-operation journal transitions, operationId-bound receipts, truthful ambiguous outcomes after rename, immediate reconciliation after normal receipt completion, same-scene batch parity, verified recovery snapshots, no-double-apply behavior, and the named Phase 02 artifact allowlist; no cross-scene transaction, structural apply, DOCX apply, dependency, cloud, or release-readiness claim is introduced."
-    },
-    {
       "filePath": "test/contracts/revision-bridge-inline-range-anchor-contract.contract.test.js",
       "sha256": "33a12cc509245f915ffcb65659392424672bdec8f585b0aeee5c3e49a30b86b9",
       "approvedBy": "ticket:EDITORIAL_STRESS_ARTIFACT_REBIND_001",
@@ -3997,6 +3983,34 @@
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0A_ASSURANCE_REPAIR",
       "approvedAtUtc": "2026-07-29T12:07:12.000Z",
       "rationale": "Approve bounded G0A assurance contract tests required by the owner-approved RTK V6 contract; they verify fail-closed registry behavior and introduce no product runtime wiring, dependency, network, cloud, storage, export, or UI capability."
+    },
+    {
+      "filePath": "docs/OPS/RTK/G0C_EXISTING_EXACT_SAFETY_RECEIPT.json",
+      "sha256": "1ebd4b5b51a677db54c84751aec953a72c71bb305615c9b951b8f88f79f1f50f",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
+      "approvedAtUtc": "2026-07-29T13:02:36.000Z",
+      "rationale": "Approve bounded G0C exact-safety receipt required by the owner-approved RTK V6 contract; it records local verification evidence only and introduces no runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-exact-text-apply-plan-no-disk.contract.test.js",
+      "sha256": "90f1390e0480b33d3b64fab789c63443e007a4537d7569e5feecc1f41f48a4f7",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
+      "approvedAtUtc": "2026-07-29T13:02:36.000Z",
+      "rationale": "Approve bounded G0C exact planner contract allowlist sync required by the owner-approved RTK V6 contract; it admits focused exact-safety regression evidence without adding runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-exact-text-min-safe-write.contract.test.js",
+      "sha256": "7a90db8e2becd24c5aaea4d685bc67806a0c666256f41ba68c00cec1eb7e0325",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
+      "approvedAtUtc": "2026-07-29T13:02:36.000Z",
+      "rationale": "Approve bounded G0C exact safe-writer contract allowlist sync required by the owner-approved RTK V6 contract; it admits focused exact-safety regression evidence without adding runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
+    },
+    {
+      "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
+      "sha256": "8a0b250eee1c72300bbd2d68846b92c89f79b949b25bfda5b6dec6e47587916c",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
+      "approvedAtUtc": "2026-07-29T13:02:36.000Z",
+      "rationale": "Approve bounded G0C exact-safety regression contract required by the owner-approved RTK V6 contract; it proves overlapping occurrence counting, immutable-baseline batch ranges, duplicate id and overlap blocking, permutation-stable disjoint output, no chained authority, stable typed reasons, and zero writes for negative cases without adding runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     }
   ]
 }

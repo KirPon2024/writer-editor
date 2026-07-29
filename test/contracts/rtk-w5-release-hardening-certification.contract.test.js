@@ -32,22 +32,26 @@ async function loadVerifier() {
   return import(pathToFileURL(SCRIPT_PATH).href);
 }
 
-test('RTK W5 status keeps external Word certification resumable and blocks DONE', () => {
+test('RTK W5 status binds accepted active macOS Word evidence and requires F00 before DONE', () => {
   const status = readJson(STATUS_PATH);
 
   assert.equal(status.schemaVersion, 'yalken.rtk.w5.release-hardening-certification.v1');
   assert.equal(status.stageId, 'W5_RELEASE_HARDENING_AND_CERTIFICATION');
-  assert.equal(status.overallStatus, 'LOCAL_HARDENING_READY_EXTERNAL_WORD_RESUMABLE');
-  assert.equal(status.externalWordCertification.status, 'RESUMABLE_EXTERNAL_WORD_CERTIFICATION');
-  assert.equal(status.externalWordCertification.acceptedWordEvidence, false);
+  assert.equal(status.overallStatus, 'ACTIVE_PLATFORM_WORD_MAC_CERTIFIED_F00_READY');
+  assert.equal(status.externalWordCertification.status, 'WORD_MAC_CERTIFICATION_PASS');
+  assert.equal(status.externalWordCertification.activePlatform, 'macos');
+  assert.equal(status.externalWordCertification.acceptedWordEvidence, true);
   assert.equal(status.externalWordCertification.falsePassForbidden, true);
-  assert.equal(status.externalWordCertification.blocksDone, true);
+  assert.equal(status.externalWordCertification.blocksDone, false);
   assert.equal(status.doneGate.doneAllowed, false);
-  assert.equal(status.doneGate.blockers.includes('WORD_PROFILE_EVIDENCE_REQUIRED'), true);
-  assert.equal(status.doneGate.resumableAfterExternalEvidence, true);
+  assert.equal(status.doneGate.f00Allowed, true);
+  assert.equal(status.doneGate.blockers.includes('WORD_PROFILE_EVIDENCE_REQUIRED'), false);
+  assert.equal(status.doneGate.remainingBeforeDone.includes('F00_FINAL_AUDIT_REQUIRED'), true);
+  assert.equal(status.doneGate.resumableAfterExternalEvidence, false);
+  assert.equal(status.activePlatformRebind.immutableContractChanged, false);
 });
 
-test('RTK W5 verifier passes the canonical local status and exposes machine tokens', () => {
+test('RTK W5 verifier passes the canonical active-platform status and exposes machine tokens', () => {
   const output = execFileSync(process.execPath, [SCRIPT_PATH, '--json'], {
     cwd: REPO_ROOT,
     encoding: 'utf8',
@@ -57,8 +61,10 @@ test('RTK W5 verifier passes the canonical local status and exposes machine toke
   assert.equal(result.ok, true);
   assert.equal(result.result, 'PASS');
   assert.equal(result.tokens.W5_LOCAL_HARDENING_STATUS_OK, 1);
-  assert.equal(result.tokens.W5_EXTERNAL_WORD_CERTIFICATION_RESUMABLE, 1);
+  assert.equal(result.tokens.W5_EXTERNAL_WORD_CERTIFICATION_RESUMABLE, 0);
   assert.equal(result.tokens.W5_DONE_BLOCKED_BY_EXTERNAL_WORD_EVIDENCE, 1);
+  assert.equal(result.tokens.W5_ACTIVE_PLATFORM_WORD_MAC_CERTIFIED, 1);
+  assert.equal(result.tokens.W5_F00_READY, 1);
   assert.deepEqual(result.issues, []);
 });
 
@@ -87,7 +93,7 @@ test('RTK W5 local proof hooks bind release hardening without adding Word PASS',
   }
 });
 
-test('RTK W5 verifier rejects false Word PASS and false DONE mutations', async () => {
+test('RTK W5 verifier rejects false Word PASS false DONE and immutable-contract mutation', async () => {
   const { evaluateW5ReleaseHardeningStatus } = await loadVerifier();
   const status = readJson(STATUS_PATH);
 
@@ -97,18 +103,53 @@ test('RTK W5 verifier rejects false Word PASS and false DONE mutations', async (
   const wordResult = evaluateW5ReleaseHardeningStatus({ repoRoot: REPO_ROOT, status: falseWordPass });
   assert.equal(wordResult.ok, false);
   assert.equal(
-    wordResult.issues.some((issue) => issue.code === 'EXTERNAL_WORD_FALSE_PASS_FORBIDDEN'),
+    wordResult.issues.some((issue) => issue.code === 'WORD_MAC_STATUS_INVALID'),
+    true,
+  );
+  assert.equal(
+    wordResult.issues.some((issue) => issue.code === 'WORD_MAC_GATES_INVALID'),
     true,
   );
 
   const falseDone = clone(status);
   falseDone.doneGate.doneAllowed = true;
+  delete falseDone.doneGate.f00Allowed;
   const doneResult = evaluateW5ReleaseHardeningStatus({ repoRoot: REPO_ROOT, status: falseDone });
   assert.equal(doneResult.ok, false);
   assert.equal(
-    doneResult.issues.some((issue) => issue.code === 'DONE_FALSE_PASS_FORBIDDEN'),
+    doneResult.issues.some((issue) => issue.code === 'WORD_MAC_DONE_GATE_INVALID'),
     true,
   );
+
+  const immutableMutation = clone(status);
+  immutableMutation.activePlatformRebind.immutableContractChanged = true;
+  const rebindResult = evaluateW5ReleaseHardeningStatus({ repoRoot: REPO_ROOT, status: immutableMutation });
+  assert.equal(rebindResult.ok, false);
+  assert.equal(
+    rebindResult.issues.some((issue) => issue.code === 'WORD_MAC_REBIND_MUTATES_IMMUTABLE_CONTRACT'),
+    true,
+  );
+});
+
+test('RTK W5 committed Mac Word evidence covers 40 rounds comments and writer-scale text', () => {
+  const status = readJson(STATUS_PATH);
+  const wordStatus = readJson(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_MAC_CERTIFICATION_STATUS.json'));
+  const evidence = readJson(path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_MAC_ROUNDTRIP_EVIDENCE_MANIFEST.json'));
+
+  assert.equal(wordStatus.result, 'PASS');
+  assert.equal(wordStatus.totals.rounds, 40);
+  assert.equal(wordStatus.totals.falseExact, 0);
+  assert.equal(wordStatus.totals.silentApply, 0);
+  assert.equal(wordStatus.totals.replayFailures, 0);
+  assert.equal(wordStatus.totals.commentCases, 5);
+  assert.equal(evidence.matrixCoverage.requiredCovered, true);
+  assert.equal(evidence.rounds.filter((round) => round.matrixTags.includes('large-text')).length, 5);
+  assert.ok(evidence.rounds.some((round) => round.matrixTags.includes('comment-large-document') && round.commentCount === 3));
+  assert.ok(evidence.rounds.some((round) => round.matrixTags.includes('large-text') && round.sourceWordsApprox > 3000));
+  assert.equal(evidence.rounds.filter((round) => round.classification === 'EXACT').every((round) => round.applyResult.status === 'applied'), true);
+  assert.equal(status.externalWordCertification.wordProfileDigest, wordStatus.wordProfileDigest);
+  assert.equal(status.externalWordCertification.corpusDigest, wordStatus.corpusDigest);
+  assert.equal(status.externalWordCertification.evidenceManifestDigest, wordStatus.evidenceManifestDigest);
 });
 
 test('RTK W5 status does not make broad Word or release claims', () => {

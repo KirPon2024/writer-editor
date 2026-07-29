@@ -578,6 +578,8 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     const changeId = normalizeString(item?.changeId);
     const matchKind = normalizeString(item?.match?.kind);
     const expectedText = rawString(item?.match?.quote);
+    const replacementTextProvided = Object.prototype.hasOwnProperty.call(item || {}, 'replacementText')
+      && typeof item.replacementText === 'string';
     const replacementText = rawString(item?.replacementText);
 
     if (!changeId) {
@@ -603,7 +605,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
         { changeId },
       ));
     }
-    if (!replacementText) {
+    if (!replacementTextProvided) {
       return block(buildReason(
         'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_REPLACEMENT_REQUIRED',
         'reviewItems.replacementText',

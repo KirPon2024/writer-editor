@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "yalken.rtk.word-mac-settings-capsule.v1",
+  "activePlatform": "macos",
+  "wordApplicationPath": "/Applications/Microsoft Word.app",
+  "wordVersion": "16.42",
+  "wordBuild": "16.42.20101102",
+  "wordArchitecture": "/Applications/Microsoft Word.app/Contents/MacOS/Microsoft Word: Mach-O 64-bit executable x86_64",
+  "macosVersion": "26.5.2",
+  "macosBuild": "25F84",
+  "locale": "ru_FI",
+  "uiLanguage": "(\n    \"ru-FI\"\n)",
+  "proofingLanguage": "PROFILED_AS_SYSTEM_DEFAULT_RU_FI_WITH_SYNTHETIC_RU_EN_CORPUS",
+  "syntheticAuthorName": "Yalken Synthetic Word Lab",
+  "syntheticAuthorInitials": "YWL",
+  "trackChangesMode": "true",
+  "markupView": {
+    "showRevisions": "true",
+    "showRevisionsAndComments": "missing value",
+    "showInsertionsAndDeletions": "missing value",
+    "showComments": "missing value"
+  },
+  "compatibilityMode": "DOCX_FORMAT_DOCUMENT_WORD_16_42_OPEN_SAVE_REOPEN",
+  "saveFormat": "format document",
+  "autoCorrectState": {
+    "replaceSelection": "true",
+    "smartQuotes": "true",
+    "replaceSymbols": "true",
+    "applyBulletedLists": "true",
+    "applyNumberedLists": "true"
+  },
+  "trackedFormattingState": {
+    "keepTrackOfFormatting": "true",
+    "warnBeforeSavingPrintingSendingMarkup": "false"
+  },
+  "commentsProfile": {
+    "classicComments": "SUPPORTED",
+    "modernReplies": "MODERN_COMMENT_REPLY_UNSUPPORTED_BY_WORD_PROFILE",
+    "resolvedStatus": "COMMENT_RESOLVE_UNSUPPORTED_BY_WORD_PROFILE"
+  },
+  "macros": {
+    "automationSecurity": "msoAutomationSecurityLow",
+    "labDocumentsContainMacros": false,
+    "macroExecutionAttempted": false
+  },
+  "localFilePathPolicy": "T7_SECURE_LOCAL_ONLY_SYNTHETIC_DOCX",
+  "networkIndependentYalkenSide": true,
+  "preflightDocxSha256": "d907765cfc555ba2e364fc05c2d7d7133798c281c767ef0ea9991512d08dc9d7",
+  "profileDigest": "sha256:389db0305e9956bcbc6b58146a571caefbcab1158b5a328e9b7f633b3b5f5cfa"
+}

@@ -117,6 +117,42 @@ test('W3 exact apply writes once and request replay calls zero writers', async (
   assert.equal(fs.readFileSync(project.scenePath, 'utf8'), 'Alpha delta gamma.');
 });
 
+test('W3 exact deletion uses empty replacementText only when explicit and guarded', async () => {
+  const rtk = await loadModule('src/io/revisionBridge/reviewTransportExactApply.mjs');
+  const project = tmpProject();
+  const input = envelopeInput(project, [textChange({
+    changeId: 'delete-beta',
+    quote: 'beta ',
+    replacementText: '',
+  })]);
+
+  const first = await rtk.applyReviewTransportExactApply(input);
+  assert.equal(first.status, 'applied');
+  assert.equal(first.applied, true);
+  assert.equal(first.writerCalled, true);
+  assert.equal(fs.readFileSync(project.scenePath, 'utf8'), 'Alpha gamma.');
+
+  const replay = await rtk.applyReviewTransportExactApply(input);
+  assert.equal(replay.status, 'replay');
+  assert.equal(replay.reason, 'RTK_ALREADY_APPLIED');
+  assert.equal(replay.writerCalled, false);
+});
+
+test('W3 missing replacementText is still blocked and cannot imply deletion', async () => {
+  const rtk = await loadModule('src/io/revisionBridge/reviewTransportExactApply.mjs');
+  const project = tmpProject();
+  const missingReplacement = textChange({ changeId: 'missing-replacement', quote: 'beta' });
+  delete missingReplacement.replacementText;
+
+  const result = await rtk.applyReviewTransportExactApply(
+    envelopeInput(project, [missingReplacement]),
+  );
+
+  assert.equal(result.status, 'blocked');
+  assert.equal(result.reason, 'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_REPLACEMENT_REQUIRED');
+  assert.equal(fs.readFileSync(project.scenePath, 'utf8'), project.sceneText);
+});
+
 test('W3 same-round semantic equivalent effect writes zero despite a different request artifact', async () => {
   const rtk = await loadModule('src/io/revisionBridge/reviewTransportExactApply.mjs');
   const project = tmpProject();
@@ -266,4 +302,3 @@ test('W3 RTK apply modules keep parser renderer UI and AI outside writer authori
     assert.equal(/src\/renderer|renderer\/|from ['"].*parser|from ['"].*ai|electron|ipcRenderer/u.test(text), false, relativePath);
   }
 });
-

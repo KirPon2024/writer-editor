@@ -1,0 +1,2052 @@
+{
+  "schemaVersion": "yalken.rtk.word-mac-roundtrip-evidence-manifest.v1",
+  "activePlatform": "macos",
+  "planContractSha256": "499d621a618f20ce85fb945c9dd5fb10074dea9b8e164b12681e95cab5364b46",
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current"
+  },
+  "wordProfileDigest": "sha256:389db0305e9956bcbc6b58146a571caefbcab1158b5a328e9b7f633b3b5f5cfa",
+  "corpusDigest": "sha256:2b47991f142415d6930a86734efadebe7e220089a3f412410a0e089e59f0f601",
+  "preflight": {
+    "status": "PASS",
+    "docxPath": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/preflight/word-mac-create-edit-save-reopen.docx",
+    "docxSha256": "d907765cfc555ba2e364fc05c2d7d7133798c281c767ef0ea9991512d08dc9d7",
+    "bytes": 11820,
+    "readbackSha256": "fda2131ba1438f81439ba70a4fec10e2b55bb985f804255f304b5e8e87009d2a"
+  },
+  "totals": {
+    "rounds": 40,
+    "exact": 18,
+    "manual": 9,
+    "blocked": 13,
+    "commentCases": 5,
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "manuscriptMutationsDuringAnalysisOrPreview": 0,
+    "deterministicFailures": 0,
+    "replayFailures": 0,
+    "zipFailures": 0,
+    "productNetworkRequests": 0
+  },
+  "matrixCoverage": {
+    "tags": [
+      "accept-all",
+      "accept-one",
+      "apostrophe",
+      "autocorrect-induced-mutation",
+      "bidi-controls",
+      "bold",
+      "cjk",
+      "classic-comment",
+      "clean-edit",
+      "combining-marks",
+      "comment-delete",
+      "comment-large-document",
+      "comment-paragraph",
+      "comment-range",
+      "comment-resolved-or-deleted",
+      "comment-word",
+      "comments-with-clean",
+      "comments-with-tracked",
+      "copy-paste",
+      "dash",
+      "delete-line-boundary",
+      "delete-paragraph-mark",
+      "delete-sentence",
+      "delete-word",
+      "duplicate-identical-passages",
+      "emoji",
+      "english-punctuation",
+      "formatting-only",
+      "heading",
+      "insert-beginning",
+      "insert-end",
+      "insert-middle",
+      "italic",
+      "large-text",
+      "list",
+      "merge-paragraphs",
+      "mixed-tracked-clean",
+      "move-paragraph-attempt",
+      "move-revision",
+      "multiple-comments",
+      "multiple-edits-one-paragraph",
+      "multiple-paragraphs",
+      "nbsp",
+      "new-empty-line",
+      "paragraph-mark-revision",
+      "quotes",
+      "reject-all",
+      "reject-one",
+      "repeat-editorial-round",
+      "replace-text",
+      "rtl",
+      "russian",
+      "save",
+      "save-as",
+      "scene-boundary-near-end",
+      "scene-boundary-near-start",
+      "soft-hyphen",
+      "split-paragraph",
+      "structural-cross-scene-move",
+      "surrogate-pairs",
+      "track-changes-off",
+      "track-changes-on",
+      "underline",
+      "variation-selector",
+      "writer-scale",
+      "yo",
+      "zero-width-space",
+      "zwj",
+      "zwnj"
+    ],
+    "requiredCovered": true
+  },
+  "negativeCases": [
+    {
+      "id": "negative-stale-baseline",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_BLOCKED_STALE_REVISION",
+      "proof": "W3 stale revision guard covered by exact apply verifier during certification acceptance."
+    },
+    {
+      "id": "negative-repeated-import",
+      "classification": "ALREADY_ANALYZED_OR_ALREADY_APPLIED",
+      "reasonCode": "RTK_ALREADY_APPLIED",
+      "proof": "Each exact round invokes second apply with same envelope and requires replay status."
+    },
+    {
+      "id": "negative-tampered-foreign-docx",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMAND_ENVELOPE_TAMPERED_OR_FOREIGN_DOCX",
+      "proof": "Foreign or tampered returned artifact is not accepted as exact Word evidence without matching hashes."
+    }
+  ],
+  "rounds": [
+    {
+      "seedId": "wm-001",
+      "title": "tracked insert at paragraph start",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "7732b2adb532eeec7e09cd780a83bbe3e42256b38771064ccc043649fd686351",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "481e0ce61be0d4e2ac57dcb351d6c175bf9ff6016fef7c36194ff319c20bc9b7",
+      "returnedBytes": 12479,
+      "wordNativeActions": [
+        "insert"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "d7bc3df2aff6cd048b0a0332c3c5f6ffb9db11c947c01f09c49d6dcf99c0d350",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "2f4fe9e5a469b5ff44741a5822702bb33c1036bc276e2085fdf6519263c6651d",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "insert-beginning",
+        "track-changes-on",
+        "save-as"
+      ],
+      "analysisDigest": "sha256:d1ef6848225ae5cf46839f0542e70859e047ced6275770238648c479330d96d1",
+      "supportedSemanticDigest": "sha256:7fe9a548c7ebdcd92a364810ecf3fa6aa7ff5152048f5178d4ee34c8b0b81214",
+      "deterministicAnalysis": "fd5b67a11d4469c0b947d08ed5d82f1567c8d9dda153f76db085384955440f8d",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "8407632bd6c81d66f3fdd2824087826977d64d5e97beca1e18a6b9640cb69ae9"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-001-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-001-returned.docx"
+      },
+      "expectedModelTextSha256": "8407632bd6c81d66f3fdd2824087826977d64d5e97beca1e18a6b9640cb69ae9"
+    },
+    {
+      "seedId": "wm-002",
+      "title": "tracked insert at middle",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "b42c4bc8706138dee007f0ea700a70766633c28f6e2df0e2c008d43b0ee4a86c",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "e71710bec896e2f58676f499ffffc2472e06c050dda1bb029b79348eeae89ba1",
+      "returnedBytes": 12479,
+      "wordNativeActions": [
+        "insert"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "10043036cdd195750012a373d9cb01d7ed3ce64bfaa652a69d7e261d93e41297",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "906490bda271e07e03f0caad52cf71ec550f5ff1da89d6a06b330e8078b22556",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "insert-middle",
+        "track-changes-on"
+      ],
+      "analysisDigest": "sha256:2e23a4509ffab96e22557e5777a300fc0f683a8e13216e61c51c85ce2325b489",
+      "supportedSemanticDigest": "sha256:5fe803220eeddfd0712fcb79f6c55eb1d524371011a9b663df98403d16c6fb17",
+      "deterministicAnalysis": "170635ec589f8188b51996ea1ecf5eda4fe0c050424ac5cbc1dd4112f83d4209",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "153547da4230a5bc57cafa02864ee6d7184c36c8c45c38711f00e2c50a007a2d"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-002-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-002-returned.docx"
+      },
+      "expectedModelTextSha256": "153547da4230a5bc57cafa02864ee6d7184c36c8c45c38711f00e2c50a007a2d"
+    },
+    {
+      "seedId": "wm-003",
+      "title": "tracked insert at end",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "93dab18a0733f030692f9b75ca8b35aef61ddf8e032974a97998bc4405f381ff",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "113487e1c946fabc301f7c9c176999f0595f82473f5bfb9f28f31c937d00fa1a",
+      "returnedBytes": 12474,
+      "wordNativeActions": [
+        "insert"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "a7c7d86ca3127da10b5fcef96031ac80f2bd646b92d0b574272dc9ae6f9440f3",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "ceb5de57c73f63af96a3ddbfc74da76ae70a5c283a5b7f8538a5fb078d5f0644",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "insert-end",
+        "scene-boundary-near-end"
+      ],
+      "analysisDigest": "sha256:813dcf409c986b1822554358e5e8a76b86dde7e5602520f3242af8d097049a57",
+      "supportedSemanticDigest": "sha256:a09fb82d07922183aa63ee737d96ebb516ba60ac61b210ac7a7fa2f21e582c7f",
+      "deterministicAnalysis": "a2b9fab82f7f59b67a2e6405a8b4b0ff7d030cd83c666dfc6a9b790d77542b26",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "aeda84a92299969179c5e729d9f67a26b9fde36a32e4bf162a9ea1e0691e24bb"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-003-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-003-returned.docx"
+      },
+      "expectedModelTextSha256": "aeda84a92299969179c5e729d9f67a26b9fde36a32e4bf162a9ea1e0691e24bb"
+    },
+    {
+      "seedId": "wm-004",
+      "title": "tracked delete word",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "8ed21255ae585821673d835c869cd191a9d1bbee9a08263306305ca144117173",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "dc0ea8b27ab4455f328774a6bfc08e82f7115b2f32e3b2a6e378d8aa743846ce",
+      "returnedBytes": 12673,
+      "wordNativeActions": [
+        "delete"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "075540c469366d7729323268569542f6d580688676dc2a579663d2bfe36762ce",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "5d7af03944bdbc6601df00280399d201739b726dc1f1de004fffdacca08cbb35",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "delete-word",
+        "track-changes-on"
+      ],
+      "analysisDigest": "sha256:85bb9e10a0f73413e64a2860fd89235f4b5ed5392790b3a8153a0c938f0aba80",
+      "supportedSemanticDigest": "sha256:0f9c3c3f1dc991d4514dc805ff8ba30484e7198f99ab93a2ba3e7a5d226fe282",
+      "deterministicAnalysis": "5100f729ca7083f3a6658f53d7b528489a99dd6ec733a1bb187f348a45329671",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "083b4651384d27b3432209c14af374d2f92183b2b60a77cd1e13f0cf12844387"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-004-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-004-returned.docx"
+      },
+      "expectedModelTextSha256": "083b4651384d27b3432209c14af374d2f92183b2b60a77cd1e13f0cf12844387"
+    },
+    {
+      "seedId": "wm-005",
+      "title": "tracked delete sentence",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "e6727285b36f40703a09b5b84c262eb4f9c46f87fe846b53c21fd3a484fd4992",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "5bcd76e6aa155e99616ca2b2c6ec207680e8d23114f20e34791d4b09f28edd39",
+      "returnedBytes": 12660,
+      "wordNativeActions": [
+        "delete"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "f86c8a67f3c9e8a51b7e949897979a73aa842d0b41faf0a1cdcce50c8899999a",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "3428dd9373ab30d211c8c6acc17ead4e134dc986093a5f548b8a8867847a0ac4",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "delete-sentence"
+      ],
+      "analysisDigest": "sha256:6a3e91fddd0b9a609dc91c3cfaf91e1e96896c54662f2cd88a2465c8a48eb1cc",
+      "supportedSemanticDigest": "sha256:ee19b55a2d984e12a7c7ef65844b0ad4ede3e6e5f354fc357223aac894ff64cb",
+      "deterministicAnalysis": "4202f0cd5c55a14203fd2c2a09c6dfd8dbea97d1e86af15fb8ecf8fa35c13d5d",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "3bf3f65499804407239d464701adef34cc4e918701bd972685eff05d7b0f29a9"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-005-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-005-returned.docx"
+      },
+      "expectedModelTextSha256": "3bf3f65499804407239d464701adef34cc4e918701bd972685eff05d7b0f29a9"
+    },
+    {
+      "seedId": "wm-006",
+      "title": "tracked delete across paragraph boundary",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "3eb24df7c940e14ca029f02328de888a695e7a1404b3bd8a0f6e536faf8736f3",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "3a7f91f124267c560ac11b1c3bb317c45cc2eacf5d52ad6e46bb1d50e9800338",
+      "returnedBytes": 12668,
+      "wordNativeActions": [
+        "delete"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "c6f1534ebd16535b11bc6700e953120516498444d093ea9808c3781835590474",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "ae7afd999004ab63865d141343ef47c432d5501107a33dacb043471e3294f98a",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED",
+      "matrixTags": [
+        "delete-line-boundary",
+        "paragraph-mark-revision"
+      ],
+      "analysisDigest": "sha256:97178110c00f75b8164f34823a2753098b00e4884a168c3ebb3c8ca12152efa3",
+      "supportedSemanticDigest": "sha256:f9af340b6f77b3ab39b26b1aee7250332fdc8e62cf077665de673f31f3e61db7",
+      "deterministicAnalysis": "08ff3c862f7a3d6763d8d2de0206776f46971e8d24e861a5976d42c5bf115e44",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-006-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-006-returned.docx"
+      },
+      "expectedModelTextSha256": "8f2dbd4eac74e367372f5127b7f1c859c6b718b2ed7e6fe02851d4c9156750e5"
+    },
+    {
+      "seedId": "wm-007",
+      "title": "tracked replacement text",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "4819e0abd82c76ae882cbedf1096f6e0cc4812f7506c3f9e8265089d03873727",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "b2316844dfae288dcdcf6fd5784666d2c190bdfb27f4acbecae729ad64666f03",
+      "returnedBytes": 12690,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "a2f68ae4dbe4e6b1ca9b82f9aa2481f2cedb371561682c9ed0b3600875f784d2",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "82378ecd690b2790ef492c9f210c08976fe322d3a2ee48ea327d403da5817f45",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "replace-text"
+      ],
+      "analysisDigest": "sha256:496132a51c2442d23e963e154918a394c2bd019a9c5c0846a3b65d9fd779eba5",
+      "supportedSemanticDigest": "sha256:660497006d5289d27073a4cdeb52d311113b33383665bbf5b9439c9a9559cbf1",
+      "deterministicAnalysis": "2244200c625ef5edce4af5b4fc25c7ac237205d7b62d76d053dcd63f2912e6ff",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "83d7ac671f157cd061472efcc672dbe043c9b9bef9afdfe996b1ffc78e440003"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-007-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-007-returned.docx"
+      },
+      "expectedModelTextSha256": "83d7ac671f157cd061472efcc672dbe043c9b9bef9afdfe996b1ffc78e440003"
+    },
+    {
+      "seedId": "wm-008",
+      "title": "multiple tracked edits in one paragraph",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "38f4a3d04a62c99e965464cb2d3cded65463df3d4b486348cf7d15b1722209b6",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "71dae13c9ea835631a805a155953f58bbddc0a35b800b89ad0d6a11135245d40",
+      "returnedBytes": 12719,
+      "wordNativeActions": [
+        "replace",
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "eb0b933c90ab747d15d4cfd8fde8cff9e208d8f92c04e69f76493f9f27978058",
+      "revisionCount": 4,
+      "commentCount": 0,
+      "revisionSummarySha256": "5ce1b7dfd3779420ac9f2863f42a6d44d6440b4acb16037f2d66a7c337cb54bf",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "multiple-edits-one-paragraph"
+      ],
+      "analysisDigest": "sha256:c9a0231d37d066f9eff75acae172802625aa7098bf19b02c77f9c8e4d3bba1da",
+      "supportedSemanticDigest": "sha256:c32e238a67a63c3879263731bc89ba49026a506113110be9f7615e4e3669fb1c",
+      "deterministicAnalysis": "e9619d54cd36135c0ad0b179a545db7b6ee14e8e7f76c0fa196da1f157508f3a",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "ede723b9c25e0b70f1a1a5168d769d5e91311defaff4cd29bb85f5d4ec3608d2"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-008-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-008-returned.docx"
+      },
+      "expectedModelTextSha256": "ede723b9c25e0b70f1a1a5168d769d5e91311defaff4cd29bb85f5d4ec3608d2"
+    },
+    {
+      "seedId": "wm-009",
+      "title": "multiple tracked edits across paragraphs",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "3d6a0d3d5d46e11d99ff22a9dea902b226251444567c0aac5bd687f5f5335698",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "5dfbc15b9f063894703cfaadf83486e2c6a2d8178f7a87349b5ccad4eb12938d",
+      "returnedBytes": 12720,
+      "wordNativeActions": [
+        "replace",
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "eb21f51719b3813c0150ea2a1d1f1407844c9ba723afa27f63aac53ed4b6c4e2",
+      "revisionCount": 4,
+      "commentCount": 0,
+      "revisionSummarySha256": "1e05bff1b58b5cf8866349efd1a37f7a0166e70801d68940a92e3cad04e3f3c2",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "multiple-paragraphs"
+      ],
+      "analysisDigest": "sha256:7401234c5b8fa1b497ac9e9717d740c94a2b0b217ffdd741b01926d7cfdab581",
+      "supportedSemanticDigest": "sha256:07b87314aee370e9446f827312578117e8f8924288044b6a810e444e7d8d12b1",
+      "deterministicAnalysis": "80d9600bcc224b77767eb6f83f2a4bf117cd9d042346646635500a6fe9c98609",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "07111efaa809614c95adc869779c452105b15ccf503eed9a49a9ddc45d080613"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-009-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-009-returned.docx"
+      },
+      "expectedModelTextSha256": "07111efaa809614c95adc869779c452105b15ccf503eed9a49a9ddc45d080613"
+    },
+    {
+      "seedId": "wm-010",
+      "title": "split paragraph with tracked return",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "edfbc624696d8c60fb21f11e03f0a604dde0fdaa7d8e6bab8e0e851dada94a8c",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "85ef801f1dfd9f1f926b30da7090a44f986c9e60774358767c1ffc22775dc534",
+      "returnedBytes": 12522,
+      "wordNativeActions": [
+        "insert"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "f23a7eb208a7a3e59d5b75f039dddc35fa64a6a5512954c218a3741152ff61d0",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "2efe3fd8f8363c14cfb8afd6e85161d2afee17e7d5ddd4dac07af4aa2ee92d0a",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_STRUCTURAL_SPLIT_MERGE",
+      "matrixTags": [
+        "split-paragraph",
+        "paragraph-mark-revision"
+      ],
+      "analysisDigest": "sha256:d61deecdda98f76de408b664f36d6650b30aacfebefcc7bfb0445f1921b6b91d",
+      "supportedSemanticDigest": "sha256:564ff4b6c23d0310714749f7dbe319e082a2cc7bce296929843c3dd549e24b96",
+      "deterministicAnalysis": "96a4b8972c8017cc50aaeb1f65370d8c7c4f93f4d770ed272bf8ed2fcead5510",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-010-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-010-returned.docx"
+      },
+      "expectedModelTextSha256": "805c52c9508d53e249942ea1d3e05e4cc717b4d21090d17e4b9171489633fd4e"
+    },
+    {
+      "seedId": "wm-011",
+      "title": "merge paragraphs by deleting paragraph mark",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "eb406144391e7f26c22d919339bcacb0843a5068515962b7da1780bf125da51b",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "f7f3bd2c2faeb15a89a24f31e9821b6b037a3849aa4c3fad1f02ad64c3acfa8c",
+      "returnedBytes": 12673,
+      "wordNativeActions": [
+        "delete"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "2a870ec6d7781e069c204d6b05e116631f0e7b7fb838f5a7e3eea542fe2bb160",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "33da74014f82659310b0b1136fae8c0d82cbabfb182d4f9e5e267d62d9eb4c92",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED",
+      "matrixTags": [
+        "merge-paragraphs",
+        "delete-paragraph-mark"
+      ],
+      "analysisDigest": "sha256:cc523c28e2e1384d67f39c1a6edd59dd2fc57eaa854444937e4c7addf8cc8473",
+      "supportedSemanticDigest": "sha256:8ce351741d313bc816745f30f836af8fe72df8d84ec92dc6853bb05d99c0dc6f",
+      "deterministicAnalysis": "bb3a8d7c4743447a8cf275bb8e70f2c977a43773e0dba9e63d89802c4038566d",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-011-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-011-returned.docx"
+      },
+      "expectedModelTextSha256": "0bfc9cf561a7b0877d928e609013422811095974d9481aae61e9a8d01868fbd9"
+    },
+    {
+      "seedId": "wm-012",
+      "title": "new empty line",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "cb564b6cc6d68cda2a8a7694421bc614c04d37769917bf98923d60f0e13c2894",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "4ddcbc4564eeff74b5c5efbd3e957bfc59fcc87dc119ee37037d357a2f8ee6ea",
+      "returnedBytes": 12495,
+      "wordNativeActions": [
+        "insert"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "281581ebc51183b0fe160bfd11297ad756eb1a30d70c4087a75a5a25d3693d97",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "03a42c12a2a91e6b60595f28ed07f22df6e46934c343d864879a0c62e805a1e3",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED",
+      "matrixTags": [
+        "new-empty-line",
+        "paragraph-mark-revision"
+      ],
+      "analysisDigest": "sha256:fdf357a73acb02b2cf664683baa7b3e43837f7a96cc15c933db41c83f6e0c103",
+      "supportedSemanticDigest": "sha256:f530587a8b6ee5d4e26288d5715c25506abf9cbedf8f7bf2c5995d005206ddbf",
+      "deterministicAnalysis": "3f0db11f4a6481a8f25e46ccd3ee10ae6448519a1af87c1c9e956885e8edc367",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-012-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-012-returned.docx"
+      },
+      "expectedModelTextSha256": "0e4d9bdd747ae5aeb046ee363d5aefc9694e31b4d2cc487e079518c66e5bb4f5"
+    },
+    {
+      "seedId": "wm-013",
+      "title": "copy paste inside Word",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "1a5cc0e2445e2906ff4de452597a3ded51f43d3c1f5137060f6928c7cd084b74",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "a3bf9ce019969094f641261fd9c14c203673baa5668451cf4a8715a1871f8030",
+      "returnedBytes": 12475,
+      "wordNativeActions": [
+        "copyPaste"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "732a1a993c71c718e8379a81bbb9f5c48c1868bdb702f9efcebdc86c2bbe7a5b",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "a4754ca27f3071ce2ed03d282067813bd937392efd8dac900abb529f37a5de24",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_COPY_PASTE_RETURN",
+      "matrixTags": [
+        "copy-paste"
+      ],
+      "analysisDigest": "sha256:639b5da3b6e4682978b337f59f8d153f4cec96ee8b5dd3fc7c39c73cead316e7",
+      "supportedSemanticDigest": "sha256:36be9380bcb2b5eb21756adc9e55ba4a2e1c189aa739a1cd7ed3e0c997f08691",
+      "deterministicAnalysis": "e6ed495033a42f1d71d3c7a89e351ab219c7d20ed442f311ec9c5f03d448566e",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-013-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-013-returned.docx"
+      },
+      "expectedModelTextSha256": "f37d32afbef3ae30c8136eb0da902c90c685bcc44edd9c48d8ea34e4c95c5435"
+    },
+    {
+      "seedId": "wm-014",
+      "title": "paragraph move attempt with cut paste",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "ee9b838a29e68e5759568c492af2446d6c79ecdbc4c8597029afc3014141d1b0",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "199c08a934bf7e71a04f3589ec9980eda5d85a3576e52f6a8cf36065989e07a8",
+      "returnedBytes": 12743,
+      "wordNativeActions": [
+        "cutPaste"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "a22a5b78843c87ee64433909cec19fc9f2b59e176f7b3503203181d566f8d04b",
+      "revisionCount": 3,
+      "commentCount": 0,
+      "revisionSummarySha256": "05cb71820a059c31c54e002e2de69d62b2124a77a3beb0feca11b3f845609368",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_BLOCKED_MOVE_REVISION",
+      "matrixTags": [
+        "move-paragraph-attempt",
+        "move-revision"
+      ],
+      "analysisDigest": "sha256:75a7ac8da390ccdb3898fd5131f1134cabd7a3b4580bbb76b0ad74ac60165587",
+      "supportedSemanticDigest": "sha256:308f59fb264a67a20af1134114785610b51ed884a6766e9182d61305091d92cb",
+      "deterministicAnalysis": "b1dc463ca4e49d88d752079d83ae1052f3f99f4c1a1b2eb2346b50710a872bec",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-014-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-014-returned.docx"
+      },
+      "expectedModelTextSha256": "db143fee80c9b4934a2dbddea0710f751ba770e2c251bfeccd4b993a483ce084"
+    },
+    {
+      "seedId": "wm-015",
+      "title": "track changes off clean edit",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "155717a32874bf60cf4fbe612b2ef030a17ea12c8c888531d75df401c09b9536",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "38edd287384854ee3b6d058f771c4cffbfcfe67b87767f778f1d3608f15e8959",
+      "returnedBytes": 11674,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "22b8fa46c8403d51cd5111c1f098c18ba0b892f429a4c987e38d34856190db8a",
+      "revisionCount": 0,
+      "commentCount": 0,
+      "revisionSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "CLEAN",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_CLEAN_RETURN",
+      "matrixTags": [
+        "track-changes-off",
+        "clean-edit"
+      ],
+      "analysisDigest": "sha256:2d9c8d050612b76cade1b58b1ff9ffa2d1dbddaed8dc601785d351c68b211e32",
+      "supportedSemanticDigest": "sha256:32e2392a8107813e3df443ca12078a69a1a77adfcd33a71b276e891aeced8fac",
+      "deterministicAnalysis": "1b1a009c98ea8debde4d23540f165ecdfa45ed3dfb65f1c67dfbe9bb67a3f233",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-015-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-015-returned.docx"
+      },
+      "expectedModelTextSha256": "85faf88bfc9887b6879b0036d79702fb5ed4fccf4c4f1fcb3446231c938b8ca2"
+    },
+    {
+      "seedId": "wm-016",
+      "title": "mixed tracked and clean edits",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "48294c47173a4a05671a9e4fa62736bfc7ba2e5de2a284d349d13b156ac93d14",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "39f690c6e3edfa919a644bf7ec9f0924e37094418473c530f9f64bcb2f790d98",
+      "returnedBytes": 12690,
+      "wordNativeActions": [
+        "replace",
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "3d2b98d425f0b505a3c02e2fc2ef9eac0a232a14207a0b3ad455912751acac72",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "bc3441ddca27f68bb147bc2eb6c50d63fec45608bf12866f6bb98dd92eeed67d",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "MIXED",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_MIXED_RETURN",
+      "matrixTags": [
+        "mixed-tracked-clean"
+      ],
+      "analysisDigest": "sha256:92d9da50a6ec2032c9290bec94aae692db7d1a298bc92206c56c121812a94ac7",
+      "supportedSemanticDigest": "sha256:355d7bb2bad4049e698efb9504ffc65ad4ba1d588d2db2f24413ce6e3784ae2b",
+      "deterministicAnalysis": "198c44077d7e4058c89a846b82e186c97c7fe750ab3dd2ce2cb13c65c42b590c",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-016-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-016-returned.docx"
+      },
+      "expectedModelTextSha256": "fe953e02ca355278a31919e94322744f589f78075230387c47c7750ca9d7a7a8"
+    },
+    {
+      "seedId": "wm-017",
+      "title": "accept one reject one",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "ffc6e0770d449c38435a6101ae0d7789491e8a656fe59d07f27200a1b03a7b3b",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "2b2bb8e321cf0512d9b97c83236704174a0d73250b2fdf526b70036224adad41",
+      "returnedBytes": 12706,
+      "wordNativeActions": [
+        "replace",
+        "replace",
+        "acceptFirstRejectNext"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "7120e6a06103720f55279ff5e3813d732a76bd12da24e0ee0c6ee2b8240b839b",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "89f1da12bd256bde8ff721f6742b112954bb4522734600805365124d07688eec",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_ACCEPT_REJECT_RETURN",
+      "matrixTags": [
+        "accept-one",
+        "reject-one"
+      ],
+      "analysisDigest": "sha256:1d8d22d49f6206b3f04b46e690bc239fad4743f60bcfa2b8deea8ab0cf2cdce6",
+      "supportedSemanticDigest": "sha256:9442044f7ed78ffde7d21602d02fd7de5b997568977088ba975bfe76a693c5df",
+      "deterministicAnalysis": "3989656f77c851d3657ea4971d4a3d5480c9d784638c7a03d8c6e07f0202b9ee",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-017-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-017-returned.docx"
+      },
+      "expectedModelTextSha256": "dccc40661e3c326a02e97e2fbf2374f503b5a4843abefc66298dee724a5dfe11"
+    },
+    {
+      "seedId": "wm-018",
+      "title": "accept all revisions",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "2fad07b9ba96ee1dcf33ca314d0d7d3cf18326a57387b7fa22c789fbdf77e9f0",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "e74ab42197d41db037f400b67d74b72f686625c9499c3e9ef10e7852642680b6",
+      "returnedBytes": 11870,
+      "wordNativeActions": [
+        "replace",
+        "acceptAll"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "a8a3b51997c30a4fcf07eaf74c5965f5706f9c640653af3c30ef108da7fc5d67",
+      "revisionCount": 0,
+      "commentCount": 0,
+      "revisionSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "CLEAN",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_ACCEPTED_ALL_RETURN",
+      "matrixTags": [
+        "accept-all"
+      ],
+      "analysisDigest": "sha256:d1b4c335a532a5620e8a0d62be42204195b68d58b031078babfacf96e19d9f04",
+      "supportedSemanticDigest": "sha256:8485164bb461b6aed5c0f0e0f65ee884c3605135f44473df53b72b519077e860",
+      "deterministicAnalysis": "6a7f4e8448c80735827045d3ff10b2bdb759655e85f7795df97ed463a47b7f67",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-018-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-018-returned.docx"
+      },
+      "expectedModelTextSha256": "ed7e90df4d9bd21ea042dd4abe25cc2b537d07769655ef9662ca66079217d103"
+    },
+    {
+      "seedId": "wm-019",
+      "title": "reject all revisions",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "37023f6ce74ac2b2cb85db71bf1b1ff0beb936cad402cf0a69a3bf53c8b33a60",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "12458cf99f004b224c65cb45b87a28aa9b9ba0179cc38aa3398a9f6b02b1a31b",
+      "returnedBytes": 11877,
+      "wordNativeActions": [
+        "replace",
+        "rejectAll"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "00313fb8a0f8f8bcd1e0a9221882185f2a1e275f5340bfb5e1cad5159182ab75",
+      "revisionCount": 0,
+      "commentCount": 0,
+      "revisionSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "CLEAN",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_REJECTED_ALL_RETURN",
+      "matrixTags": [
+        "reject-all"
+      ],
+      "analysisDigest": "sha256:b6155321268287a482b21c342116c506eb89f82be909f10987241e7ce15a2824",
+      "supportedSemanticDigest": "sha256:72cfef873a458d81c02cfe4501c792822ad458d291095761896cc0f526346f3f",
+      "deterministicAnalysis": "e213f28bd51ff252db41fea4e1c9d6026649e4d87e183e12733c8cf59740ff62",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-019-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-019-returned.docx"
+      },
+      "expectedModelTextSha256": "0fb34f72d6935616ef8e40c92db3802083d375c9739f63335ee28dc7bf66aabe"
+    },
+    {
+      "seedId": "wm-020",
+      "title": "second editorial round exact",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "4655023c21b8b565cbcd3f555e610a8f4a7b489c24589c7d57aef948b6a9aac9",
+      "sourceBytes": 1672,
+      "sourceChars": 181,
+      "sourceWordsApprox": 28,
+      "returnedSha256": "64572690c5ae9295539eab382e982af6c0382a48369c210a5396f2529e680dd8",
+      "returnedBytes": 12712,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "5e6a35e3c28c014423391940d94d8f6e23f518392b66dc433fa4e4d41773512d",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "902778406b5fb343d2d1f21ac9566e896ae32b7971e6ce464b8849a418a12d87",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "repeat-editorial-round"
+      ],
+      "analysisDigest": "sha256:938791ce074c21dcd32aa95945ece20d3678184650e625ce44da5b3da97b9f4f",
+      "supportedSemanticDigest": "sha256:d0729d89dcf68ecb074115fe504279e5559a0183a6cd0904cbeef5bc539be5e8",
+      "deterministicAnalysis": "4372e4575dab04830e38c608d544ac381d644234e7f3a161d59e422b81f729e6",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "161d09b0899bb87849e2027c790be9342f54bc54c3f9ad4a1710f4c10e50635b"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-020-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-020-returned.docx"
+      },
+      "expectedModelTextSha256": "161d09b0899bb87849e2027c790be9342f54bc54c3f9ad4a1710f4c10e50635b"
+    },
+    {
+      "seedId": "wm-021",
+      "title": "plain Save path exact",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "37c9de3a7c8283dfc5ba4a25e5b30165909b4140fc99b88959f8663a16122d39",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "82a359c1fee24b4bc61c4dc7456d664970e0c4322887f227c0b239524b8e16de",
+      "returnedBytes": 12693,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "save",
+      "closeReopen": "PASS",
+      "readbackSha256": "4e5423d8fe16a621667580bc2049297b8e983906d0689a02adf2f3a740ebd4ec",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "709d9125015580d569ef1d02bde45803a5ea981bd96684f82f23fba2b1d679ab",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "save"
+      ],
+      "analysisDigest": "sha256:e784218b0f7e134282e794d837f66a26fa68c34ed5ceb96288b7ee52244d1313",
+      "supportedSemanticDigest": "sha256:44cdde4839d2eb88bbf6c8f92b9f71f3d6f0448a2d0388af8b75527e443c5b4a",
+      "deterministicAnalysis": "48ff5fc3065cec81611324c7c58266b11b3c20dd14c45ff369b82dd703a18c0c",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "30aae7ab2a9f9bd56550070219b5e2e9e4b229fbaf4e6cfb8dc1d61fc80a4db8"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-021-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-021-returned.docx"
+      },
+      "expectedModelTextSha256": "30aae7ab2a9f9bd56550070219b5e2e9e4b229fbaf4e6cfb8dc1d61fc80a4db8"
+    },
+    {
+      "seedId": "wm-022",
+      "title": "comment on word",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "c7f9902e712ed3236bd86d33f64962c1afd06b226d85749d323d39f496ee6e63",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "a6f0ede2d97eb2c2e96511664a9b58353af183bc900d929859b17457ce99435a",
+      "returnedBytes": 15741,
+      "wordNativeActions": [
+        "comment"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "04d94f5e32099fa51e1ab198a00063c1098a55a13f61aeaa9bca57a548ae45cf",
+      "revisionCount": 0,
+      "commentCount": 1,
+      "revisionSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentSummarySha256": "f29999e748b50dbb28192add4aba27d0e49360ca01702eda7f877043ef98db6a",
+      "commentResult": "PRESERVED_WORD_NATIVE_CLASSIC_COMMENT",
+      "sourceMode": "CLEAN",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMENT_ANCHORED",
+      "matrixTags": [
+        "comment-word",
+        "classic-comment"
+      ],
+      "analysisDigest": "sha256:a3be48e6b8ec3ace0d83bf5838b50aa02636ee919f61424f8ba24f33803ac146",
+      "supportedSemanticDigest": "sha256:20c233fed3aab00f99216929ed789bdb29a497875340c3437770353db47b4eda",
+      "deterministicAnalysis": "e9887d7fe94080ccb33edc03b3c6756e31c9050734cb11176003d603bb031249",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-022-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-022-returned.docx"
+      },
+      "expectedModelTextSha256": "d20c9b53c3e6d6e7fee86df1758316caa62b9fcfe4c8faa91b96a7106342ee85"
+    },
+    {
+      "seedId": "wm-023",
+      "title": "comment on range beside tracked edit",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "1f64fd0eabc0f7b89b4c3481f924460a99019bab8ae2f09731e27d498fcaa458",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "a7879d94973113fe4e920d9f14b52bb25ea13d9687f3224f7e32534fffa25a17",
+      "returnedBytes": 15871,
+      "wordNativeActions": [
+        "comment",
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "3e295c38772a10b09093373562940bf4e4943342d2950779ca7d3008780ae559",
+      "revisionCount": 2,
+      "commentCount": 1,
+      "revisionSummarySha256": "1368ac09250eb4327a68e84d43fd192a08396c5b130c1018b1157b8c90a5cac4",
+      "commentSummarySha256": "f7eaec33ea938a65c6c8f389c56e9f4cb3afaa2e36e83753e164205af44e4b07",
+      "commentResult": "PRESERVED_WORD_NATIVE_CLASSIC_COMMENT",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE_WITH_COMMENT_LANE",
+      "matrixTags": [
+        "comment-range",
+        "comments-with-tracked"
+      ],
+      "analysisDigest": "sha256:05f817481100c139512c3ccf38e0fe1ca5a60342e76d78dac57d47b601094198",
+      "supportedSemanticDigest": "sha256:9768eddbef3e7a9bb014a6edb8f5369c485da2501aa1a2a1c81d9c1078b038bd",
+      "deterministicAnalysis": "734af63833d6ae4f2eec47bcfe3dd9b309c8d063a0dd9584e83ee1f65269acc1",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "2de53d0232a6d4f2c191d3e02fc18c3927a14247222adee4cdd4837b5358de87"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-023-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-023-returned.docx"
+      },
+      "expectedModelTextSha256": "2de53d0232a6d4f2c191d3e02fc18c3927a14247222adee4cdd4837b5358de87"
+    },
+    {
+      "seedId": "wm-024",
+      "title": "comment on paragraph with clean edit",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "a7afb9d3dbe5ebfce9880d7a86077690e8745081cc62b2e1e8fb292f4e99ef6a",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "256683b1924714522669a1756da0383d24a22af7038fbea7a0d44680f09b9ea6",
+      "returnedBytes": 15752,
+      "wordNativeActions": [
+        "comment",
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "45da38903313cfae295ffe5700d391ecfdfd647ca5d141d07c36e3e5ee4ee552",
+      "revisionCount": 0,
+      "commentCount": 1,
+      "revisionSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentSummarySha256": "01a025c715d9d71473751f026ebbe911917e58659468396ac183740175a9d2fc",
+      "commentResult": "PRESERVED_WORD_NATIVE_CLASSIC_COMMENT",
+      "sourceMode": "CLEAN",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_CLEAN_RETURN_WITH_COMMENT_LANE",
+      "matrixTags": [
+        "comment-paragraph",
+        "comments-with-clean"
+      ],
+      "analysisDigest": "sha256:41e963244b5a2ea8f6d2c66fce2c1f7661ccca1e317c6b0fb1fc9a1107143f1f",
+      "supportedSemanticDigest": "sha256:046fd795833359e78f3b38fbc6911a51490841ad7dd481a4718ce77a3be01118",
+      "deterministicAnalysis": "e14f2560cc3f69a77af9a99c5740cb2210eec8b4e6ed7d3a4c9b49ea94d68d03",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-024-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-024-returned.docx"
+      },
+      "expectedModelTextSha256": "19ea07855c1b6819d653c7c9b3978a1730bdf733dab5c667c35273d9262d4efc"
+    },
+    {
+      "seedId": "wm-025",
+      "title": "multiple comments",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "63dc773db6a3d82919a587a741a7ceb360551f5f259afb3ae6bef171b4bb1526",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "50b49739d2534e49d658283f4cef64fd44c3b38ba0a4971a43d36556a216814c",
+      "returnedBytes": 15806,
+      "wordNativeActions": [
+        "comment",
+        "comment"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "68d8dc319583ef6dbc71f3fac4707f5574b90e692788d2dbd773a1b80d3ade8d",
+      "revisionCount": 0,
+      "commentCount": 2,
+      "revisionSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentSummarySha256": "f66420ae64bda27ac0eb8adea9df5821f766da2802757dd7f436790a81b81791",
+      "commentResult": "PRESERVED_WORD_NATIVE_CLASSIC_COMMENT",
+      "sourceMode": "CLEAN",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMENT_ANCHORED",
+      "matrixTags": [
+        "multiple-comments"
+      ],
+      "analysisDigest": "sha256:b367c217a5cbaec30ca9c24347738152376a757cad5a1e4cb852e3c307ff6a84",
+      "supportedSemanticDigest": "sha256:5e423169de447fa60d30d9b634b7f6ad01bf1845cacaec94927071337a563bb3",
+      "deterministicAnalysis": "c3c8b5ffbf6abfa2a94c1810f037ca6db304c4c0c01d1cdc5596dc9dc66dc2c1",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-025-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-025-returned.docx"
+      },
+      "expectedModelTextSha256": "f3d7ad51c02964e6fc9f7f3b4efc74be9450267105e9492dfacd7c02e511a1f9"
+    },
+    {
+      "seedId": "wm-026",
+      "title": "formatting only change",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "2c110a5f748b8525e404fb40d968a7d6e23fe93afd52791f17c2fa02c9ebc7cd",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "e4a2cc6f5419d8a7924f70e3915d0f1fad10e13062ff29c712b55e6c3aa2994f",
+      "returnedBytes": 12713,
+      "wordNativeActions": [
+        "format"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "58886018a6ce6e55c599d8d306a426fe810dfe9ca1cf06afa552faf8188ae1ab",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "743dcac622f20653ddee860074e5f1c4ac19e73eb358407a988570c6c2b2bbf3",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "CLEAN",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_FORMATTING_ONLY_UNSUPPORTED_BLOCKED",
+      "matrixTags": [
+        "formatting-only",
+        "bold",
+        "italic",
+        "underline"
+      ],
+      "analysisDigest": "sha256:ace716c8734160ef2fd4d214899def7834ae61a4ede3357b6364f70f139062cf",
+      "supportedSemanticDigest": "sha256:11c27e1a690cc1596de92351f9663bcc61dcdd56ade86a11f53927d6c32b0d7e",
+      "deterministicAnalysis": "b6d265f0e6d280e2e9f3be149001149814ba7bbc31af7f9f804a86beb9448e20",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-026-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-026-returned.docx"
+      },
+      "expectedModelTextSha256": "ca7a9ac58df35e6a113fd5f8eaba4e0e3162ff74d24ae3c6148c3912bf6f506f"
+    },
+    {
+      "seedId": "wm-027",
+      "title": "list and heading formatting",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "f64fbd19c22c08c6d79aa86940a7d8c7287b77d6848262be9bc172048521e5b7",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "d3fc03b77f5aa192e8fd52371454a50aa4b8b24496b3813f75f8334406820984",
+      "returnedBytes": 13778,
+      "wordNativeActions": [
+        "heading",
+        "bullet"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "bdd02d587e3ef213a4acd5bbd72f806b0e06f19edf554e081c31a2d6fb77198b",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "d39a816f1b1392dfd92a3c0ab0b7102a7551625b406dad554061162fcefb6943",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_FORMATTING_ONLY_UNSUPPORTED_BLOCKED",
+      "matrixTags": [
+        "list",
+        "heading"
+      ],
+      "analysisDigest": "sha256:9fc907f1454f69545d5f5e0c3bb1b1710011db11b2b257d0644fd84efe951687",
+      "supportedSemanticDigest": "sha256:57cf38b6e922c0ade7e4a71ed60ae6409fc4f3621db064e02d99d81bf941e932",
+      "deterministicAnalysis": "48550f9d882c216fa00c75fed70568f371f63b70d14cb5e684a5d59630d3cba4",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-027-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-027-returned.docx"
+      },
+      "expectedModelTextSha256": "e61240147ea524bcb3a59ed8c5136d4a8a419d2bbc5266adbcc1b69f9142ceeb"
+    },
+    {
+      "seedId": "wm-028",
+      "title": "duplicate identical passage ambiguity",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "ec4499aefd749da4c9da6ff6ae48d4a7c4f8d1b8e702b8765cb3d4aba2746eba",
+      "sourceBytes": 1555,
+      "sourceChars": 64,
+      "sourceWordsApprox": 8,
+      "returnedSha256": "bb123911060605a80d246ed87ce2038d8379d3f67a4637620ff24b01dc6f59f1",
+      "returnedBytes": 12630,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "876cbfcea432e94e7afa3656196bc1ea50a4d4817237bf56da7a8933bcd0bbb8",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "adf1bd1924949b4f4fb8e14217f693a1f29dc8689c9bf37619f40bcc442c07e3",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_BLOCKED_DUPLICATE_LOCATOR",
+      "matrixTags": [
+        "duplicate-identical-passages"
+      ],
+      "analysisDigest": "sha256:5f74b131ae774385f847fc2b2203091ad8c1689730b65561847b9e9668a7021c",
+      "supportedSemanticDigest": "sha256:91b707815ec1d41fa7c6dbf3d6fbde86d9aaf1fdf36c7531bc0d4a33dfb57d2c",
+      "deterministicAnalysis": "b1cadb08f3e5c69f6741e41e1d822b51030319df358dc369f8b5229a6c9d6601",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-028-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-028-returned.docx"
+      },
+      "expectedModelTextSha256": "cf358d6a07dcc0a1af318f04e7b0e1c5c6ef2e8ec9c15ff13610cd38a205b51e"
+    },
+    {
+      "seedId": "wm-029",
+      "title": "edit near scene boundary start",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "abfdfad4a281d69d5585540567e284f934ff73bde8d62a5acbb4cb52b0104656",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "b0df48e160fe0320a7a1fce48b41fb2f99f2737deb62696054b570b68a1d0f35",
+      "returnedBytes": 12687,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "46f6234245959ff897fc05dca3e3e191fe7f5e8162bb37c549b655645bcf1e1d",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "b1366c40c776f81905421b9b12e711963b8097238c1f9cca629383e4be302c92",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "scene-boundary-near-start"
+      ],
+      "analysisDigest": "sha256:6998848cad8cc76a6edd6136659e052f75fd124ea1e63d4eb2f253538f74c149",
+      "supportedSemanticDigest": "sha256:2f843d526517bede8126bddd5bfe3411df576fc14a749dd76c4fce45e3a6654c",
+      "deterministicAnalysis": "bdd9924d740c2d01c7480429163480f044bdbda975e3d59c0e7d90b1c2639491",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "75dbf0dcf76dc5a672ec46ed4717fa288720febb51d3eb07856e73c0cdb314a5"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-029-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-029-returned.docx"
+      },
+      "expectedModelTextSha256": "75dbf0dcf76dc5a672ec46ed4717fa288720febb51d3eb07856e73c0cdb314a5"
+    },
+    {
+      "seedId": "wm-030",
+      "title": "structural cross-scene move attempt",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "f81b0fdb08d1de80e4dcb56a130657991eab13b56a46f46078b6d7e84bd093a6",
+      "sourceBytes": 1571,
+      "sourceChars": 80,
+      "sourceWordsApprox": 13,
+      "returnedSha256": "f3f0dc05cee6cf501174ce84a1130929a91b277eeaa2d8e01e71b48c6de03bbc",
+      "returnedBytes": 12731,
+      "wordNativeActions": [
+        "cutPaste"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "2adb0cd0dd6cedfb4261d3911d6e93959ce3f54285f5485bc6025b7381491d1a",
+      "revisionCount": 3,
+      "commentCount": 0,
+      "revisionSummarySha256": "1397595d6cd8bc17b3e7be3f087b1d3ae2a1438a67c6f38188f8eb08fdd26fdf",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_BLOCKED_CROSS_SCENE_MOVE",
+      "matrixTags": [
+        "structural-cross-scene-move"
+      ],
+      "analysisDigest": "sha256:bad7fec5b83ee739bb0ce73645b10a7fa027e055de5120d40468f10cb93bbd5d",
+      "supportedSemanticDigest": "sha256:77989f3b32ab4caaba3cca26f751d48f9da3b9ec5f773fefbeb4caa52d6477b3",
+      "deterministicAnalysis": "9af9518be2804328ef6b0d703e77118799e605f302479f3252ab6b9329377b45",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-030-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-030-returned.docx"
+      },
+      "expectedModelTextSha256": "a4450c4ecac5e6f3eb241901ace5bf3d1caed1e9cf819f4f207cc19a5b3c16db"
+    },
+    {
+      "seedId": "wm-031",
+      "title": "Russian punctuation exact",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "44b255a2f262fbf88d7f7163516f73d62562d1ff79ab0b04485fe307ca2f34f0",
+      "sourceBytes": 1611,
+      "sourceChars": 70,
+      "sourceWordsApprox": 11,
+      "returnedSha256": "36007fcb33cfb68f2a025b84a07565a8d48013ed8422a967ab0a4515d2799105",
+      "returnedBytes": 12732,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "c34f262982bec73fffe1f3a2da02ca65009b16cf26b358b93bafe661124bae21",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "f6bc710de4b5fee02add98f95accad4be3224c5f848912806741227d0a1660c7",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "russian",
+        "yo",
+        "quotes",
+        "dash",
+        "nbsp"
+      ],
+      "analysisDigest": "sha256:1aebb8a50e7494a29e8791b45a5fbf1842e5d51eab5f1db764a9faf344483c12",
+      "supportedSemanticDigest": "sha256:7645a23e728738a10eaad4e17e84d63b2457b0733810a86dd5875a462a7c9339",
+      "deterministicAnalysis": "09ef9a07a5ad45f31453ee2b93fd38e5dc832e0da1a8c98430a743c8fb6caff9",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "4f9f34c64492feb7dffe696d4729a4075a2ddfb2f24efa28a801488e96493b65"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-031-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-031-returned.docx"
+      },
+      "expectedModelTextSha256": "4f9f34c64492feb7dffe696d4729a4075a2ddfb2f24efa28a801488e96493b65"
+    },
+    {
+      "seedId": "wm-032",
+      "title": "English punctuation apostrophe exact",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "6c742bad4bb19463d59b2112b959e46844f0e71f9fa2df283370aaf4b9aa8674",
+      "sourceBytes": 1565,
+      "sourceChars": 69,
+      "sourceWordsApprox": 10,
+      "returnedSha256": "693cc940eec69f1467c04a8fefc2f279df1e60e6683b82ae5d98b5a06654e1cc",
+      "returnedBytes": 12650,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "589bec39a328245f1f681b94460829ea820ef1519e7192d21ffe4c5f21e897ca",
+      "revisionCount": 3,
+      "commentCount": 0,
+      "revisionSummarySha256": "2bb462bd852aa54ce1a3b6dfb14baf5e4198b94b5907be091b71f9225fbcd60b",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "english-punctuation",
+        "apostrophe"
+      ],
+      "analysisDigest": "sha256:ddb50b0e171248a02f5525a79efcb79ee663b27119cae5bfdd45bf23f98f7dfc",
+      "supportedSemanticDigest": "sha256:111f201d1bacb6c46cf4c9883b8182210d284ac6991a7abf49e31bd4932e89b3",
+      "deterministicAnalysis": "c73d1f9fb1adadbb8062c311e4571e4d6ffa14a2110fdb3d464aef9dff5d9604",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "c8bbdf8e45cf6c022177208e0dcfa54ab71f9e3be253f5537afd4e0e72bf3e64"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-032-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-032-returned.docx"
+      },
+      "expectedModelTextSha256": "c8bbdf8e45cf6c022177208e0dcfa54ab71f9e3be253f5537afd4e0e72bf3e64"
+    },
+    {
+      "seedId": "wm-033",
+      "title": "combining marks and emoji exact",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "afaab8ee1cb5e648c0f67246ce539f3ecdd6bcfff3431e6611e838c5fe869e01",
+      "sourceBytes": 1596,
+      "sourceChars": 87,
+      "sourceWordsApprox": 14,
+      "returnedSha256": "061879e606e693738b36dd7aa5da408763ed05df13fd346b96da82a43fe34cad",
+      "returnedBytes": 12733,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "041f520abb8fdbb3d297ca069e20289208c94654ab28349b30ec803f574e73ba",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "a776cc7b40b28f4ebdf7b2140d3af0e28c19c7a1666d87acdb71039e733806ad",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "combining-marks",
+        "emoji",
+        "surrogate-pairs",
+        "variation-selector",
+        "zwj",
+        "zwnj",
+        "zero-width-space",
+        "soft-hyphen"
+      ],
+      "analysisDigest": "sha256:6b0c4e2e3c809b21082693d5d6d5802c8bcac1ffce573d881ed0fd0260aec82f",
+      "supportedSemanticDigest": "sha256:a7098ed027f0214cf1a21042655b8520ea5886a08b8325e2a70efcdd4e00da02",
+      "deterministicAnalysis": "1bfa9c839c32c0655ace873618fa4cf4a9cf4c6a9d4bc19fb909fc6fc6e9bfb1",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "28daaf35ec3c3016d95721cd8291a96dcb3ca0d4154a920eb0d5257b3800c50d"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-033-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-033-returned.docx"
+      },
+      "expectedModelTextSha256": "28daaf35ec3c3016d95721cd8291a96dcb3ca0d4154a920eb0d5257b3800c50d"
+    },
+    {
+      "seedId": "wm-034",
+      "title": "RTL CJK and autocorrect surface",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "ca6b28bf09c597b47775d6244876c532265aef93c6c63e2f5adb8463b0f334bc",
+      "sourceBytes": 1576,
+      "sourceChars": 77,
+      "sourceWordsApprox": 13,
+      "returnedSha256": "77b6d2eb5a2836144f612acf7cab6a4d7f2b60b56fa90fb115821669ca348dd8",
+      "returnedBytes": 12692,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "revisionCount": 1,
+      "commentCount": 0,
+      "revisionSummarySha256": "2a5bdaa2f02af00facb98e52060b17c9da51094e5da44ae03d67c17a7b023a3b",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_UNICODE_BIDI_AUTOCORRECT_REVIEW",
+      "matrixTags": [
+        "bidi-controls",
+        "rtl",
+        "cjk",
+        "autocorrect-induced-mutation"
+      ],
+      "analysisDigest": "sha256:441e5cbf19b4d76e6f23b63fe09de7f8d2faa8707b05336fa7c59df405ae755a",
+      "supportedSemanticDigest": "sha256:05676af9d032f4b5390456422a935254ee7216d2eb7c927355bb874ee7231c6a",
+      "deterministicAnalysis": "bd4f1350b851fb46a27040bbe6de7a30347ee57030b7bad82aafbf903a1f1056",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-034-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-034-returned.docx"
+      },
+      "expectedModelTextSha256": "91d0063736652f9fe728bfd978f39fdaedc6d64002ce514f4ed4e9b25b290511"
+    },
+    {
+      "seedId": "wm-035",
+      "title": "large writer text tracked edit near opening",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "46dc10529953f7a25a2c75c470f315e02ea0a41debf8d55eaaf05eedf2ff1b53",
+      "sourceBytes": 49390,
+      "sourceChars": 47899,
+      "sourceWordsApprox": 6618,
+      "returnedSha256": "20632667f768afd17109d9704ee11254efc9ee58b27873382e8cc3c9e39187cb",
+      "returnedBytes": 14658,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "e33beffd2594f49d51cd924eae5c4d506f78731771660c224a836b6b2278040c",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "a4f302ca0445578e774ea8f482646cf94ea9eb0fc70607ba0aa2797f563077a6",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "insert-beginning",
+        "track-changes-on"
+      ],
+      "analysisDigest": "sha256:f09fb92ef4afac92b43a347162055678c2c15f107ed91c7ef53e60542bb7bc41",
+      "supportedSemanticDigest": "sha256:b8694f302787417892899e01d477afd0fb00d58ccd15a02fb8dbdfb57d6207e9",
+      "deterministicAnalysis": "85da884bf1af86bbce8b2c1c41e6bbe6a8db13bfe8a3bef040fa6b576385c736",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "2061991299b661f7adcf24f5bfda6e1d2178ef1cca47cd7cc6346a894c98c1e6"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-035-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-035-returned.docx"
+      },
+      "expectedModelTextSha256": "2061991299b661f7adcf24f5bfda6e1d2178ef1cca47cd7cc6346a894c98c1e6"
+    },
+    {
+      "seedId": "wm-036",
+      "title": "large writer text tracked edit near midpoint",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "e4c84f692c93bc338f2047752cf17ef0a8c2c75ec678a273fb2e721f31e3ea9e",
+      "sourceBytes": 58070,
+      "sourceChars": 56579,
+      "sourceWordsApprox": 7818,
+      "returnedSha256": "a2a04bc48b4753d1ddbe32347dd1bf7ca93d98740dbfdccd66f944003a719e3f",
+      "returnedBytes": 14802,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "d1fc880ff1100ff2e264048ee37fd3bb0fe4271b1f0c3015a1a10b603a370ffe",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "cc9cc5fbf6abd5ff0b03b024ad49b082addbf8536dfa6cf8e3f4db7c17715f85",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "multiple-paragraphs"
+      ],
+      "analysisDigest": "sha256:e12c0346a8dd4a8f2a0b3f203d33909cef729e81fc9ba3f4600fb51b6434f253",
+      "supportedSemanticDigest": "sha256:2f529480e45e70278a65503f09d337c6ea52fe6e27d902904a461d11cde2bcd9",
+      "deterministicAnalysis": "89f4a530f2118fc2c9c5694dc0e4cf5888beda4d065e7666ee939c18c50e3bd7",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "3e217ebc40c4edea5c090475ed0ea1cbac455c0cf1a2bff66ba63c308d0e586b"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-036-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-036-returned.docx"
+      },
+      "expectedModelTextSha256": "3e217ebc40c4edea5c090475ed0ea1cbac455c0cf1a2bff66ba63c308d0e586b"
+    },
+    {
+      "seedId": "wm-037",
+      "title": "large writer text comment opening midpoint closing",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "124716deb487de005dde3d7dff082f0057a5f6a65ca0b447b6653fe0397adc0a",
+      "sourceBytes": 53730,
+      "sourceChars": 52239,
+      "sourceWordsApprox": 7218,
+      "returnedSha256": "48e7d16b8ca13d0ade9cef54f96b07e4b37cd973fa5fb1fa4e7f3f1f87c7d7f0",
+      "returnedBytes": 18317,
+      "wordNativeActions": [
+        "comment",
+        "comment",
+        "comment"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "73ee66b113d348257e2fcf3be8a51d3bb625309758890e12ac35228932e1c2bd",
+      "revisionCount": 0,
+      "commentCount": 3,
+      "revisionSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentSummarySha256": "26f1788b7e2bcebad0fb2672599b113aeb6b3cf4dae5442817dcc40071f0fd0e",
+      "commentResult": "PRESERVED_WORD_NATIVE_CLASSIC_COMMENT",
+      "sourceMode": "CLEAN",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMENT_ANCHORED",
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "comment-word",
+        "multiple-comments",
+        "comment-large-document"
+      ],
+      "analysisDigest": "sha256:05196d6f6e80245b195f2e4dd10e5cc52c2ed355ad0c512efbac99877e5ea25a",
+      "supportedSemanticDigest": "sha256:bae76bc98cb31cdcd1ea6691db8cc5b85cf9ebe10d12baf9effdf327735eea1b",
+      "deterministicAnalysis": "9cb7d494ceeded4624386136faf3cabe4ebf4882977df5027b87ef01721bba01",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-037-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-037-returned.docx"
+      },
+      "expectedModelTextSha256": "82b5c30bb1c0aff7895a69b8640f499c4f2f513182233c5fd92ebc15091df993"
+    },
+    {
+      "seedId": "wm-038",
+      "title": "large writer text mixed clean tracked",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "3c08e7bf1d3619fdab848ae9ac869feaecada5083bd3b59a72b0a4f7eb991ab6",
+      "sourceBytes": 66750,
+      "sourceChars": 65259,
+      "sourceWordsApprox": 9018,
+      "returnedSha256": "b9a10c4b9eaa356fb6fd02cf3b84ebd8114de52afa3d8e1cc4b76e15da305f6b",
+      "returnedBytes": 15075,
+      "wordNativeActions": [
+        "replace",
+        "replace"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "a84ccee7455f34fd83d6a99dfacde44bb29bbff30b10d61a73bb06d54a0689ff",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "8fc3d69f17b6d11c33ebc7136e5061b29c385fae88eddf75235724eede54df24",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "MIXED",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_MIXED_RETURN",
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "mixed-tracked-clean",
+        "track-changes-off",
+        "track-changes-on"
+      ],
+      "analysisDigest": "sha256:1c665fa24923db477551a03675387a11b74d9ca241bb0dd842c6bdaf9591e747",
+      "supportedSemanticDigest": "sha256:5931f36f2dbd22916741e3a5bda1733d9bd54c8bb9bd760e37c80594fd8ea9bd",
+      "deterministicAnalysis": "a25047a6caa380cac0d269b617e8e6dd60d6876097f98a6a71514aa4cfc41df4",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-038-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-038-returned.docx"
+      },
+      "expectedModelTextSha256": "770a7b245dd3721df6238cbf58140613859f09ff15e5fdc929c2b557b6f83f5d"
+    },
+    {
+      "seedId": "wm-039",
+      "title": "large writer text save path end edit",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "99228096139c8d911af70444246c9422a2c6ac1ce90372552c1467756e9d3d58",
+      "sourceBytes": 71090,
+      "sourceChars": 69599,
+      "sourceWordsApprox": 9618,
+      "returnedSha256": "51761dad2e6a2431b0d679174c68a0d5af3e5ddfda48e49c258e9e6c0dfb98b8",
+      "returnedBytes": 15209,
+      "wordNativeActions": [
+        "replace"
+      ],
+      "saveMode": "save",
+      "closeReopen": "PASS",
+      "readbackSha256": "746d610d846ed783a233dd0d064159a6c30e68e8664c8c0fe87e3c487e5e6171",
+      "revisionCount": 2,
+      "commentCount": 0,
+      "revisionSummarySha256": "bc79947ad889b7245f9de780ca2ae4f6ca56583c9a474fff312e332024eea37a",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "TRACKED",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "save",
+        "scene-boundary-near-end"
+      ],
+      "analysisDigest": "sha256:73e8dfedf03f3d0c07270f5079419ca333fb9f53ecd9828e14530cc5a0de0a21",
+      "supportedSemanticDigest": "sha256:0c103235fff3c8e53f6255c32b58a5db645f38876b94d9e76d123a543a111a5f",
+      "deterministicAnalysis": "7124ad805e59d17db42dd06b56e1bffd58bdb946c0ee85c0c093aee722744983",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "EXACT_PREVIEW_READY",
+      "applyResult": {
+        "attempted": true,
+        "status": "applied",
+        "replayStatus": "replay",
+        "replayReason": "RTK_ALREADY_APPLIED",
+        "writerCalled": true,
+        "sceneSha256After": "dd900a648e2c80d97bc55d45ff418e9eada30d36d16a1ad0c7feeffb731ea4b1"
+      },
+      "nonApplyProof": "",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-039-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-039-returned.docx"
+      },
+      "expectedModelTextSha256": "dd900a648e2c80d97bc55d45ff418e9eada30d36d16a1ad0c7feeffb731ea4b1"
+    },
+    {
+      "seedId": "wm-040",
+      "title": "Word-native comment delete outcome",
+      "sourceExportKind": "YALKEN_DOCX_MIN_EXPORT",
+      "sourceSha256": "a03354b17a216835a9773c60e001456e73e7d2bd682f76814e3db42bde94959a",
+      "sourceBytes": 1642,
+      "sourceChars": 151,
+      "sourceWordsApprox": 24,
+      "returnedSha256": "78c801a8aed8951a2100b6137fabe90ff737616a848273d72bc1f6170cedd99b",
+      "returnedBytes": 12014,
+      "wordNativeActions": [
+        "comment",
+        "deleteAllComments"
+      ],
+      "saveMode": "saveAs",
+      "closeReopen": "PASS",
+      "readbackSha256": "24ad15364e894b6db25de5c174a89b98b627f063cbd268d445852aa61ea1c59b",
+      "revisionCount": 0,
+      "commentCount": 0,
+      "revisionSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentSummarySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "commentResult": "NO_COMMENT_IN_ROUND",
+      "sourceMode": "CLEAN",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMENT_RESOLVED",
+      "matrixTags": [
+        "comment-delete",
+        "classic-comment",
+        "comment-resolved-or-deleted"
+      ],
+      "analysisDigest": "sha256:0f382d3b728254efdcf89eaabf5525915a3984822e487ceaf8c127248704a2d1",
+      "supportedSemanticDigest": "sha256:88aa6534d7a097ffbe7899243c1a456958c5f5fd68325efd760d8b24877485e7",
+      "deterministicAnalysis": "03da5d04dd9eb92449c6da8a361489b054e507ba49b3d657c5a172b6a4012e7a",
+      "deterministicRepeatedAnalysis": true,
+      "previewResult": "NON_EXACT_PREVIEW_NO_APPLY",
+      "applyResult": {
+        "attempted": false,
+        "status": "not-attempted",
+        "proof": "NON_EXACT_OR_MANUAL_CLASSIFICATION"
+      },
+      "nonApplyProof": "SCENE_BYTES_UNCHANGED_NO_WRITER_AUTHORITY",
+      "packageZipOk": true,
+      "paths": {
+        "sourceDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/source-docx/wm-040-source.docx",
+        "returnedDocx": "/Volumes/T7-Secure/storage/yalken/word-lab/certification/current/returned-docx/wm-040-returned.docx"
+      },
+      "expectedModelTextSha256": "c030fc8bb642d45fe324f9080917acff6f6505b2ab4e65c920535b63569484f8"
+    }
+  ]
+}

@@ -4382,6 +4382,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
       "approvedAtUtc": "2026-07-29T20:55:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02D C01 contract: proves attachments, portals, and templates persist without scene text mutation, derived graph and JSON export include pathless portability metadata, invalid writes fail closed without mutation, Command Kernel capability revalidation admits node and denies web, and no filesystem, network, Electron, renderer storage, UI command dispatch, or private storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT_RECEIPT.json",
+      "sha256": "1dbc1e88967ec26d675e1dd52f2b0128a9dc04eb3c64b6b2c534716354d031d8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT",
+      "approvedAtUtc": "2026-07-29T21:13:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02D C02 receipt: adds manualMap.jsonRepeatImportPlan.v1 and manualMap.jsonRepeatImportReceipt.v1 as pure local import adapter evidence over manualMap.export.json.v1, requires injected Command Kernel execution for all project truth writes, proves duplicate target preflight, pathless attachment-source requirements, private path/content payload rejection, reopen graph hash validation, repeat export lossless validation, no UI surface, no network, no cloud, no paid service, no dependency, no new storage adapter, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02d-c02-manual-map-json-repeat-import.contract.test.js",
+      "sha256": "a4d8ed128d3ec9a3d6eb305536787987b62ae051bb7ed354da06d16825bbfc56",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT",
+      "approvedAtUtc": "2026-07-29T21:13:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02D C02 contract: proves manual map JSON import repeats through Command Kernel and re-export stays lossless, duplicate target maps fail before executor call, private path or content payloads are rejected before mutation, import barrel exports the contract, and no filesystem, network, Electron, renderer storage, UI command dispatch, or private storage bypass is introduced."
     }
   ]
 }

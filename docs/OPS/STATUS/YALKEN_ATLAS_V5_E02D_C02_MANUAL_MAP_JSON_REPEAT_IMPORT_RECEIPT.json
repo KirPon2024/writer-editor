@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT",
+  "programStage": "E02D_STAGE_02D_PORTABILITY_AND_TEMPLATES",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T21:12:31Z",
+  "baseSha": "28da9aafc472ad5de0b6fa1386a3303ca0c4d80e",
+  "compiledE02DQueue": [
+    "E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
+    "E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT",
+    "E02D_C03_MANUAL_MAP_MARKDOWN_PORTABILITY_BRIDGE",
+    "E02D_C04_MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE"
+  ],
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a product-core import adapter and contract only. It creates no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.jsonRepeatImport.v1",
+    "productPlane": {
+      "owner": "Product import adapter over Product Core",
+      "writePath": [
+        "manualMap.create through injected Command Kernel executor",
+        "manualMap.node.add through injected Command Kernel executor",
+        "manualMap.edge.add through injected Command Kernel executor",
+        "manualMap.attachment.add through injected Command Kernel executor",
+        "manualMap.portal.add through injected Command Kernel executor",
+        "manualMap.template.apply through injected Command Kernel executor"
+      ],
+      "readPath": [
+        "manualMap.export.json.v1 payload",
+        "derived.manualMap.graph.v1 reopen validation",
+        "manualMap.export.json.v1 repeat export validation"
+      ],
+      "storageAdapter": "none",
+      "newStorageAdapter": false,
+      "projectTruthMutation": true
+    },
+    "commandPlane": {
+      "newCommands": [],
+      "capabilityRevalidation": "All project truth writes are delegated to existing manualMap.* commands through an injected Command Kernel executor; the import adapter has no direct reducer or renderer command authority."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "jsonPayloadSchema": "manualMap.export.json.v1",
+    "repeatImportPlanSchema": "manualMap.jsonRepeatImportPlan.v1",
+    "repeatImportReceiptSchema": "manualMap.jsonRepeatImportReceipt.v1",
+    "commandKernelExecutorRequired": true,
+    "duplicateTargetMapFailsBeforeExecution": true,
+    "pathlessAttachmentSourcesRequired": true,
+    "privatePathOrContentPayloadRejected": true,
+    "reopenGraphHashValidated": true,
+    "repeatExportLosslessHashValidated": true,
+    "externalPortalPlaceholders": "missing external portal target maps and nodes are recreated as local reversible references only",
+    "sceneTextMutation": false,
+    "secondTruthStore": false
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/import/mindmap/v1/manualMapJsonRepeatImport.mjs && node --check src/import/mindmap/v1/index.mjs && node --test test/contracts/yalken-atlas-v5-e02d-c02-manual-map-json-repeat-import.contract.test.js test/contracts/yalken-atlas-v5-e02d-c01-manual-map-portability-attachments-portals-templates.contract.test.js test/contracts/yalken-atlas-v5-e02a-c03-manual-map-durable-recovery-export-fixture.contract.test.js test/contracts/yalken-atlas-v5-e02c-c03-legacy-migration-roundtrip-sunset-evidence.contract.test.js",
+      "status": "PASS_18_TESTS_18_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "negativeChecks": [
+    "duplicate target map fails before command executor call",
+    "invalid schema and malformed JSON fail closed before command executor call",
+    "attachment sources containing path, URL, content, data, bytes, or base64 are rejected before mutation",
+    "template node and edge ownership duplicates are rejected before mutation",
+    "all project truth writes go through an injected Command Kernel executor",
+    "manual map JSON import module adds no filesystem, network, Electron, renderer storage, direct UI dispatch, or new storage adapter"
+  ],
+  "nextContour": "E02D_C03_MANUAL_MAP_MARKDOWN_PORTABILITY_BRIDGE"
+}

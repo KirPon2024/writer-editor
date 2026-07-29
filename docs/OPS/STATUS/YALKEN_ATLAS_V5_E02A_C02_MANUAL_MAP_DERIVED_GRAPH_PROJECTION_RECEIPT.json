@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02A_C02_MANUAL_MAP_DERIVED_GRAPH_PROJECTION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02A_C02_MANUAL_MAP_DERIVED_GRAPH_PROJECTION",
+  "programStage": "E02A_STAGE_02A_DURABLE_MANUAL_MAP",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T19:12:29Z",
+  "baseSha": "547d9d2f75241c7769cc7d6cde58d0c2330b83b5",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a read-only derived graph projection from existing durable manual map truth; it creates no product UI surface, layout, visual state, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.derivedGraphProjection.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "coreState.data.projects",
+        "project.manualMaps.maps[mapId].nodes",
+        "project.manualMaps.maps[mapId].edges"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "No command is introduced. Projection uses capabilitySnapshot manualMap.view and fails closed when disabled."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "manualMapGraphSchema": "derived.manualMap.graph.v1",
+    "viewId": "derived.manualMap.graph.v1",
+    "sourceTruth": "project.manualMaps",
+    "projectionOnly": true,
+    "deterministicGraphHash": true,
+    "invalidationKey": true,
+    "corruptEdgePolicy": "ignore-edge-with-missing-endpoint-without-inventing-node"
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/derived/mindmap/deriveManualMapGraph.mjs && node --check src/derived/mindmap/mindMapGraphTypes.mjs && node --check src/derived/mindmap/index.mjs && node --check src/derived/index.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02a-c02-manual-map-derived-graph-projection.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02a-c02-manual-map-derived-graph-projection.contract.test.js test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js test/contracts/mindmap-derived-deterministic.contract.test.js test/contracts/mindmap-derived-invalidation.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": {
+        "tests": 795,
+        "pass": 731,
+        "fail": 0,
+        "skipped": 64,
+        "durationMs": 68979.925333
+      }
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "negativeChecks": [
+    "missing manual map fails closed",
+    "disabled manualMap.view capability fails closed",
+    "corrupt edges do not invent missing nodes",
+    "projection does not mutate core state",
+    "projection module has no filesystem, network, Electron, renderer storage, UI command dispatch, or input hot-path hooks"
+  ],
+  "nextContour": "E02A_C03_MANUAL_MAP_DURABLE_RECOVERY_AND_EXPORT_FIXTURE"
+}

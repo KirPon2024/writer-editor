@@ -6,8 +6,28 @@ export const REVISION_BRIDGE_G0B_WORD_SETTINGS_CAPSULE_SCHEMA =
   'revision-bridge.g0b-word-settings-capsule.v1';
 export const REVISION_BRIDGE_G0B_SUPPORTED_CORPUS_SCHEMA =
   'revision-bridge.g0b-supported-corpus.v1';
+export const REVISION_BRIDGE_W1_NO_WRITE_ANALYSIS_SCHEMA =
+  'revision-bridge.w1-no-write-analysis.v1';
+export const REVISION_BRIDGE_W1_TRANSPORT_ARTIFACT_SCHEMA =
+  'revision-bridge.w1-transport-artifact.v1';
+export const REVISION_BRIDGE_W1_PRIVATE_MANIFEST_SCHEMA =
+  'revision-bridge.w1-private-manifest.v1';
+export const REVISION_BRIDGE_W1_FEATURE_FLAG = 'reviewTransportKernel.noWriteRoundV1';
 
 export const REVISION_BRIDGE_G0B_RETURN_MODES = Object.freeze(['TRACKED', 'CLEAN', 'MIXED']);
+export const REVISION_BRIDGE_W1_LIFECYCLE_STATES = Object.freeze([
+  'DRAFT_EXPORT_INTENT',
+  'OPEN_FOR_RETURN',
+  'RETURN_ADMITTED',
+  'RETURN_ANALYZED',
+  'CLOSED',
+  'RECOVERY',
+  'QUARANTINED',
+]);
+export const REVISION_BRIDGE_W1_TERMINAL_LIFECYCLE_STATES = Object.freeze([
+  'RETURN_ANALYZED',
+  'QUARANTINED',
+]);
 export const REVISION_BRIDGE_G0B_REASON_CODES = Object.freeze([
   'G0B_LOCAL_CONTRACTS_OK',
   'G0B_NO_TEXT_CANDIDATE',
@@ -25,6 +45,19 @@ export const REVISION_BRIDGE_G0B_REASON_CODES = Object.freeze([
   'G0B_PARSER_EXISTING_TOKENIZER_ACCEPTED',
   'G0B_PARSER_DEPENDENCY_OWNER_DECISION_REQUIRED',
   'DEFERRED_EXTERNAL_WORD_EVIDENCE',
+]);
+export const REVISION_BRIDGE_W1_REASON_CODES = Object.freeze([
+  'W1_NO_WRITE_ANALYSIS_READY',
+  'W1_FEATURE_FLAG_READ_ONLY',
+  'W1_EXPORT_INTENT_MAIN_AUTHORITY_REQUIRED',
+  'W1_ROUND_OPEN_FOR_RETURN',
+  'W1_ROUND_NOT_OPEN_FOR_RETURN',
+  'W1_COLD_ARCHIVE_BLOCKED_FOR_OPEN_ROUND',
+  'W1_COLD_ARCHIVE_BLOCKED_FOR_RECOVERY_ROUND',
+  'W1_PRIVATE_MANIFEST_BOUNDARY_OK',
+  'W1_PRIVATE_KEY_NOT_EXPORTED',
+  'W1_FILENAME_HINT_NON_AUTHORITY',
+  'W1_DIRECTORY_SYNC_UNSUPPORTED_DIAGNOSTIC_ONLY',
 ]);
 
 function isPlainObject(value) {
@@ -286,5 +319,206 @@ export function analyzeG0BTransportContract(input = {}) {
       exactOperationCount: operations.length,
       manualReasonCount: reasons.filter((reason) => reason.code !== 'G0B_EXACT_TEXT_CANDIDATE').length,
     },
+  };
+}
+
+function normalizeLifecycleState(value, fallback = 'DRAFT_EXPORT_INTENT') {
+  return REVISION_BRIDGE_W1_LIFECYCLE_STATES.includes(value) ? value : fallback;
+}
+
+function assertMainAuthorityToken(token) {
+  return isPlainObject(token)
+    && token.kind === 'main-process-export-authority'
+    && typeof token.requestId === 'string'
+    && token.requestId.trim()
+    && token.canWriteManuscript !== true;
+}
+
+function redactExternalTransport(value) {
+  if (Array.isArray(value)) return value.map((item) => redactExternalTransport(item));
+  if (!isPlainObject(value)) return value;
+  const redacted = {};
+  for (const [key, item] of Object.entries(value)) {
+    if (/secret|privateKey|hmacKey|token/iu.test(key)) continue;
+    redacted[key] = redactExternalTransport(item);
+  }
+  return redacted;
+}
+
+export function resolveW1NoWriteFeatureFlag(flags = {}) {
+  const enabled = flags[REVISION_BRIDGE_W1_FEATURE_FLAG] === true;
+  return {
+    schemaVersion: 'revision-bridge.w1-feature-flag.v1',
+    flag: REVISION_BRIDGE_W1_FEATURE_FLAG,
+    enabled,
+    mutationSurfaceEnabled: false,
+    canApply: false,
+    canWriteManuscript: false,
+    code: 'W1_FEATURE_FLAG_READ_ONLY',
+  };
+}
+
+export function buildW1ExportIntent(input = {}) {
+  const authorityToken = input.authorityToken;
+  const ok = assertMainAuthorityToken(authorityToken);
+  const roundId = rawString(input.roundId);
+  if (!ok) {
+    return {
+      ok: false,
+      schemaVersion: 'revision-bridge.w1-export-intent.v1',
+      code: 'W1_EXPORT_INTENT_MAIN_AUTHORITY_REQUIRED',
+      canWriteManuscript: false,
+      reasons: [buildReason(
+        'W1_EXPORT_INTENT_MAIN_AUTHORITY_REQUIRED',
+        'authorityToken',
+        'W1 export intent requires main-process authority and never carries writer authority.',
+      )],
+    };
+  }
+  return {
+    ok: true,
+    schemaVersion: 'revision-bridge.w1-export-intent.v1',
+    roundId,
+    requestId: rawString(authorityToken.requestId),
+    lifecycleState: 'OPEN_FOR_RETURN',
+    canWriteManuscript: false,
+    canApply: false,
+    code: 'W1_ROUND_OPEN_FOR_RETURN',
+    filenameHint: createW1HumanFilenameHint(input),
+  };
+}
+
+export function createW1HumanFilenameHint(input = {}) {
+  const title = rawString(input.title).replace(/[^a-z0-9а-яё._ -]+/giu, '').trim()
+    || 'review-round';
+  const roundId = rawString(input.roundId).replace(/[^a-z0-9_-]+/giu, '').slice(0, 48)
+    || 'round';
+  return {
+    schemaVersion: 'revision-bridge.w1-filename-hint.v1',
+    value: `${title}-${roundId}.docx`,
+    participatesInAuthority: false,
+    code: 'W1_FILENAME_HINT_NON_AUTHORITY',
+  };
+}
+
+export function buildW1NeutralTransportArtifact(input = {}) {
+  const roundId = rawString(input.roundId);
+  const publicTransport = redactExternalTransport(input.transport || {});
+  const publicManifest = {
+    schemaVersion: REVISION_BRIDGE_W1_TRANSPORT_ARTIFACT_SCHEMA,
+    roundId,
+    lifecycleState: normalizeLifecycleState(input.lifecycleState, 'OPEN_FOR_RETURN'),
+    returnMode: REVISION_BRIDGE_G0B_RETURN_MODES.includes(input.returnMode) ? input.returnMode : 'TRACKED',
+    transport: publicTransport,
+    filenameHint: createW1HumanFilenameHint(input),
+    canWriteManuscript: false,
+    canApply: false,
+  };
+  const privateManifest = {
+    schemaVersion: REVISION_BRIDGE_W1_PRIVATE_MANIFEST_SCHEMA,
+    roundId,
+    lifecycleState: publicManifest.lifecycleState,
+    privateKeyRef: rawString(input.privateKeyRef),
+    sourceProjectDigest: rawString(input.sourceProjectDigest),
+    externalArtifactDigest: createSupportedCorpusDigest(publicManifest),
+  };
+  return {
+    ok: true,
+    schemaVersion: 'revision-bridge.w1-neutral-transport-bundle.v1',
+    code: 'W1_PRIVATE_MANIFEST_BOUNDARY_OK',
+    publicManifest,
+    privateManifest,
+    reasons: [
+      buildReason(
+        'W1_PRIVATE_MANIFEST_BOUNDARY_OK',
+        'publicManifest',
+        'Private manifest identity is stored separately from the external transport artifact.',
+      ),
+      buildReason(
+        'W1_PRIVATE_KEY_NOT_EXPORTED',
+        'publicManifest',
+        'Secret and private-key fields are removed from the external artifact.',
+      ),
+    ],
+  };
+}
+
+export function analyzeW1ReturnedArtifact(input = {}) {
+  const lifecycleState = normalizeLifecycleState(input.lifecycleState || input.publicManifest?.lifecycleState);
+  if (lifecycleState !== 'OPEN_FOR_RETURN') {
+    return {
+      ok: false,
+      schemaVersion: REVISION_BRIDGE_W1_NO_WRITE_ANALYSIS_SCHEMA,
+      status: 'blocked',
+      code: 'W1_ROUND_NOT_OPEN_FOR_RETURN',
+      canWriteManuscript: false,
+      canApply: false,
+      exactOperations: [],
+      reasons: [buildReason(
+        'W1_ROUND_NOT_OPEN_FOR_RETURN',
+        'lifecycleState',
+        'Only OPEN_FOR_RETURN rounds can admit a returned artifact for no-write analysis.',
+        { lifecycleState },
+      )],
+    };
+  }
+  const transport = analyzeG0BTransportContract(input.transport || input.publicManifest?.transport || {});
+  return {
+    ok: true,
+    schemaVersion: REVISION_BRIDGE_W1_NO_WRITE_ANALYSIS_SCHEMA,
+    status: 'analyzed-no-write',
+    code: 'W1_NO_WRITE_ANALYSIS_READY',
+    lifecycleState: 'RETURN_ANALYZED',
+    canWriteManuscript: false,
+    canApply: false,
+    roundId: rawString(input.roundId || input.publicManifest?.roundId),
+    exactOperations: cloneJsonSafe(transport.exactOperations),
+    commentsLane: cloneJsonSafe(transport.commentsLane),
+    reasons: [
+      buildReason(
+        'W1_NO_WRITE_ANALYSIS_READY',
+        'transport',
+        'Returned artifact was analyzed through the normative no-write oracle boundary.',
+      ),
+      ...cloneJsonSafe(transport.reasons),
+    ],
+    transport,
+  };
+}
+
+export function evaluateW1ColdArchiveEligibility(roundManifest = {}) {
+  const lifecycleState = normalizeLifecycleState(roundManifest.lifecycleState);
+  if (lifecycleState === 'OPEN_FOR_RETURN') {
+    return {
+      ok: false,
+      code: 'W1_COLD_ARCHIVE_BLOCKED_FOR_OPEN_ROUND',
+      lifecycleState,
+    };
+  }
+  if (lifecycleState === 'RECOVERY') {
+    return {
+      ok: false,
+      code: 'W1_COLD_ARCHIVE_BLOCKED_FOR_RECOVERY_ROUND',
+      lifecycleState,
+    };
+  }
+  return {
+    ok: REVISION_BRIDGE_W1_TERMINAL_LIFECYCLE_STATES.includes(lifecycleState),
+    code: REVISION_BRIDGE_W1_TERMINAL_LIFECYCLE_STATES.includes(lifecycleState)
+      ? 'W1_NO_WRITE_ANALYSIS_READY'
+      : 'W1_ROUND_NOT_OPEN_FOR_RETURN',
+    lifecycleState,
+  };
+}
+
+export function probeW1DirectorySyncCapability(capabilities = {}) {
+  const supported = capabilities.directoryFsync === true;
+  return {
+    schemaVersion: 'revision-bridge.w1-directory-sync-capability.v1',
+    supported,
+    durabilityClaim: supported ? 'DIRECTORY_SYNC_SUPPORTED' : 'DIAGNOSTIC_ONLY_UNSUPPORTED',
+    code: supported
+      ? 'W1_NO_WRITE_ANALYSIS_READY'
+      : 'W1_DIRECTORY_SYNC_UNSUPPORTED_DIAGNOSTIC_ONLY',
   };
 }

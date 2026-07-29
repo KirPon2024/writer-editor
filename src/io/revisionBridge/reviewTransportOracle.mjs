@@ -1,16 +1,28 @@
 import {
   analyzeG0BTransportContract,
+  analyzeW1ReturnedArtifact,
+  buildW1ExportIntent,
+  buildW1NeutralTransportArtifact,
   compareParserCandidates,
   createSupportedCorpusDigest,
+  evaluateW1ColdArchiveEligibility,
   freezeSupportedCorpus,
+  probeW1DirectorySyncCapability,
+  resolveW1NoWriteFeatureFlag,
   verifyG0BAnchor,
 } from './reviewTransportContracts.mjs';
 
 export {
   analyzeG0BTransportContract,
+  analyzeW1ReturnedArtifact,
+  buildW1ExportIntent,
+  buildW1NeutralTransportArtifact,
   compareParserCandidates,
   createSupportedCorpusDigest,
+  evaluateW1ColdArchiveEligibility,
   freezeSupportedCorpus,
+  probeW1DirectorySyncCapability,
+  resolveW1NoWriteFeatureFlag,
   verifyG0BAnchor,
 };
 
@@ -34,5 +46,30 @@ export function runG0BLocalOracle(input = {}) {
     corpusDigest,
     corpusFreeze,
     parserDecision,
+  };
+}
+
+export function runW1NoWriteOracle(input = {}) {
+  const featureFlag = resolveW1NoWriteFeatureFlag(input.flags);
+  const exportIntent = buildW1ExportIntent(input.exportIntent);
+  const bundle = buildW1NeutralTransportArtifact(input.artifact);
+  const returnedAnalysis = analyzeW1ReturnedArtifact({
+    roundId: input.artifact?.roundId,
+    lifecycleState: bundle.publicManifest.lifecycleState,
+    publicManifest: bundle.publicManifest,
+    transport: input.returnedTransport || input.artifact?.transport,
+  });
+  const directorySync = probeW1DirectorySyncCapability(input.directorySyncCapabilities);
+
+  return {
+    schemaVersion: 'revision-bridge.w1-no-write-oracle.v1',
+    status: featureFlag.enabled && exportIntent.ok && returnedAnalysis.ok ? 'PASS' : 'BLOCKED',
+    canWriteManuscript: false,
+    canApply: false,
+    featureFlag,
+    exportIntent,
+    bundle,
+    returnedAnalysis,
+    directorySync,
   };
 }

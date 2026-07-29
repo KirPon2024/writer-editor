@@ -2568,13 +2568,23 @@ export function buildDocxReviewPreflightReportFromZipBytes(input) {
 
   const gate = inspectDocxHostileFileGateFromZipBytes(bytes);
   if (DOCX_REVIEW_PREFLIGHT_HARD_GATE_CODES.has(gate.code)) {
+    const unsafeDeclaration = gate.code === DOCX_HOSTILE_FILE_GATE_REASON_CODES.XML_DTD_DECLARATION_PRESENT
+      || gate.code === DOCX_HOSTILE_FILE_GATE_REASON_CODES.XML_ENTITY_DECLARATION_PRESENT;
     return docxReviewPreflightResult({
       ok: false,
       status: 'blocked',
-      code: DOCX_REVIEW_PREFLIGHT_CODES.BLOCKED,
-      reason: gate.code,
+      code: unsafeDeclaration
+        ? DOCX_REVIEW_PREFLIGHT_CODES.UNSAFE_DECLARATION_PRESENT
+        : DOCX_REVIEW_PREFLIGHT_CODES.BLOCKED,
+      reason: unsafeDeclaration
+        ? 'DOCX_REVIEW_PREFLIGHT_UNSAFE_XML_DECLARATION'
+        : gate.code,
       decision: 'blocked',
-      diagnostics: docxIntakePreflightTaggedDiagnostics('gate', gate.diagnostics),
+      diagnostics: unsafeDeclaration
+        ? [docxReviewPreflightDiagnostic(DOCX_REVIEW_PREFLIGHT_CODES.UNSAFE_DECLARATION_PRESENT, {
+          sourceCode: 'DOCX_REVIEW_PREFLIGHT_UNSAFE_XML_DECLARATION',
+        })]
+        : docxIntakePreflightTaggedDiagnostics('gate', gate.diagnostics),
       evidence: docxIntakePreflightTaggedEvidence('gate', gate.evidence),
       preflightSummary,
     });

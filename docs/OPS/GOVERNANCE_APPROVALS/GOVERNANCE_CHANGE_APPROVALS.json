@@ -4431,6 +4431,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C00_PLOT_IDEA_MEANING_CONTOUR_COMPILATION",
       "approvedAtUtc": "2026-07-29T21:39:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E03 C00 contour compilation receipt: records runtime facts from merged HEAD and compiles the Stage 03 Plot, Idea, and Meaning execution queue into five bounded contours while preserving V5 as the sole executable plan, no product runtime mutation, no UI surface, no storage adapter, no dependency, no network, no cloud, no paid service, and no release readiness widening."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C01_PLOT_PROJECTION_ORIGINREF_SEQUENCE_LAYOUT_RECEIPT.json",
+      "sha256": "5ef4afd462588baab0d8bc41b630c6bb1ac3e112f36f96190bedc563fb5d691e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C01_PLOT_PROJECTION_ORIGINREF_SEQUENCE_LAYOUT",
+      "approvedAtUtc": "2026-07-29T21:50:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C01 plot projection receipt: adds derived.plot.projection.v1 as a pure read-only projection over Product Core scenes and Atlas author decisions, with plot.originRef.v1 offsets and hashes, deterministic sequence layout, confirmed Atlas mention promotion only from AUTHOR_CONFIRMED decisions, algorithmic observations kept as occurrence evidence only, no project truth mutation, no storage adapter, no UI surface, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e03-c01-plot-projection-originref-sequence-layout.contract.test.js",
+      "sha256": "f08eb2d597ec96166eb005de027d197125a702cc9113db8ffa6d3ca182d8d91e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C01_PLOT_PROJECTION_ORIGINREF_SEQUENCE_LAYOUT",
+      "approvedAtUtc": "2026-07-29T21:50:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C01 contract: proves deterministic plot projection origin refs and left-to-right sequence layout, confirmed Atlas mentions become atlasMention nodes only after author confirmation, unconfirmed algorithmic Atlas observations stay occurrence evidence and never become plot truth nodes, missing identity and disabled capability fail closed, root derived barrel exports the projection, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
     }
   ]
 }

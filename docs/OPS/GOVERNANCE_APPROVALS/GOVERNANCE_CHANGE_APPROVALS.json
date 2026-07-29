@@ -4445,6 +4445,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C01_PLOT_PROJECTION_ORIGINREF_SEQUENCE_LAYOUT",
       "approvedAtUtc": "2026-07-29T21:50:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E03 C01 contract: proves deterministic plot projection origin refs and left-to-right sequence layout, confirmed Atlas mentions become atlasMention nodes only after author confirmation, unconfirmed algorithmic Atlas observations stay occurrence evidence and never become plot truth nodes, missing identity and disabled capability fail closed, root derived barrel exports the projection, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C02_IDEA_PROJECTION_AUTHOR_TRUTH_OCCURRENCE_EVIDENCE_RECEIPT.json",
+      "sha256": "c1f67ce0dcf5f5d35c012b1ce881548bc6586207db9326109c1e1e56c4d9e5d3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C02_IDEA_PROJECTION_AUTHOR_TRUTH_AND_OCCURRENCE_EVIDENCE",
+      "approvedAtUtc": "2026-07-29T21:59:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C02 idea projection receipt: adds idea.author.v1 Product Core author truth and derived.idea.projection.v1 read model through Command Kernel commands idea.create and idea.originLink.add, validates explicit origin refs by scene, range, and current source hash, proves text occurrences alone never create idea truth or occurrence evidence, preserves no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e03-c02-idea-projection-author-truth-occurrence-evidence.contract.test.js",
+      "sha256": "b2787aa03b0019fa9036b0c9567573b33756791438164dab9d2cd20b0c7ae8cf",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C02_IDEA_PROJECTION_AUTHOR_TRUTH_AND_OCCURRENCE_EVIDENCE",
+      "approvedAtUtc": "2026-07-29T21:59:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C02 contract: proves idea commands persist author truth and explicit origin refs without changing scene text, reducers fail closed without mutation for invalid payloads and stale hashes, projection is deterministic and derives occurrence evidence only from explicit origin links, text occurrences alone do not create idea truth, Command Kernel denies web and admits node free, unbound idea commands fail enforcement, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
     }
   ]
 }

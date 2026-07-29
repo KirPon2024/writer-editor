@@ -6,6 +6,8 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_ENTITY_CREATE: 'atlas.entity.create',
   ATLAS_ALIAS_ADD: 'atlas.alias.add',
   ATLAS_MENTION_CONFIRM: 'atlas.mention.confirm',
+  IDEA_CREATE: 'idea.create',
+  IDEA_ORIGIN_LINK_ADD: 'idea.originLink.add',
   MANUAL_MAP_CREATE: 'manualMap.create',
   MANUAL_MAP_NODE_ADD: 'manualMap.node.add',
   MANUAL_MAP_EDGE_ADD: 'manualMap.edge.add',
@@ -16,6 +18,8 @@ export const CORE_COMMAND_IDS = Object.freeze({
 
 const ATLAS_AUTHOR_SCHEMA_VERSION = 'atlas.author.v1';
 const MANUAL_MAP_AUTHOR_SCHEMA_VERSION = 'manualMap.author.v1';
+const IDEA_AUTHOR_SCHEMA_VERSION = 'idea.author.v1';
+const IDEA_ORIGIN_REF_SCHEMA_VERSION = 'idea.originRef.v1';
 
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
@@ -74,6 +78,32 @@ function normalizeAtlasAuthorData(input) {
 function ensureAtlasAuthorData(project) {
   const current = normalizeAtlasAuthorData(project && project.atlas);
   project.atlas = current;
+  return current;
+}
+
+function createEmptyIdeaAuthorData() {
+  return {
+    schemaVersion: IDEA_AUTHOR_SCHEMA_VERSION,
+    ideas: {},
+    originLinks: {},
+  };
+}
+
+function normalizeIdeaAuthorData(input) {
+  if (!isPlainObject(input) || input.schemaVersion !== IDEA_AUTHOR_SCHEMA_VERSION || !isPlainObject(input.ideas)) {
+    return createEmptyIdeaAuthorData();
+  }
+
+  return {
+    schemaVersion: IDEA_AUTHOR_SCHEMA_VERSION,
+    ideas: cloneJson(input.ideas),
+    originLinks: isPlainObject(input.originLinks) ? cloneJson(input.originLinks) : {},
+  };
+}
+
+function ensureIdeaAuthorData(project) {
+  const current = normalizeIdeaAuthorData(project && project.ideas);
+  project.ideas = current;
   return current;
 }
 
@@ -161,6 +191,7 @@ function applyCreateProject(state, payload) {
     id: projectId,
     title,
     atlas: createEmptyAtlasAuthorData(),
+    ideas: createEmptyIdeaAuthorData(),
     manualMaps: createEmptyManualMapData(),
     scenes: {
       [sceneId]: {
@@ -846,6 +877,141 @@ function applyAtlasMentionConfirm(state, payload) {
   return ok(next);
 }
 
+function applyIdeaCreate(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const ideaId = trimString(payload?.ideaId);
+  const title = trimString(payload?.title);
+  const summary = typeof payload?.summary === 'string' ? payload.summary.trim() : '';
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'idea.create', 'PROJECT_ID_REQUIRED');
+  }
+  if (!ideaId) {
+    return fail(state, 'E_IDEA_ID_REQUIRED', 'idea.create', 'IDEA_ID_REQUIRED', { projectId });
+  }
+  if (!title) {
+    return fail(state, 'E_IDEA_TITLE_REQUIRED', 'idea.create', 'IDEA_TITLE_REQUIRED', { projectId, ideaId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'idea.create', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const ideas = normalizeIdeaAuthorData(project.ideas);
+  if (ideas.ideas[ideaId]) {
+    return fail(state, 'E_IDEA_ALREADY_EXISTS', 'idea.create', 'IDEA_ALREADY_EXISTS', { projectId, ideaId });
+  }
+
+  const next = cloneJson(state);
+  const nextIdeas = ensureIdeaAuthorData(next.data.projects[projectId]);
+  nextIdeas.ideas[ideaId] = {
+    id: ideaId,
+    title,
+    summary,
+    originLinkIds: [],
+    createdByCommandSeq: next.data.lastCommandId + 1,
+    updatedByCommandSeq: next.data.lastCommandId + 1,
+  };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function normalizeIdeaOriginRef(value) {
+  if (!isPlainObject(value)) return null;
+  const sceneId = trimString(value.sceneId);
+  const kind = trimString(value.kind) || 'sceneTextRange';
+  const sourceHash = trimString(value.sourceHash);
+  const startOffset = Number(value.startOffset);
+  const endOffset = Number(value.endOffset);
+  if (!sceneId || !sourceHash || !Number.isInteger(startOffset) || !Number.isInteger(endOffset) || endOffset <= startOffset) {
+    return null;
+  }
+  return {
+    schemaVersion: trimString(value.schemaVersion) || IDEA_ORIGIN_REF_SCHEMA_VERSION,
+    kind,
+    sceneId,
+    startOffset,
+    endOffset,
+    sourceHash,
+    targetId: trimString(value.targetId),
+  };
+}
+
+function applyIdeaOriginLinkAdd(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const ideaId = trimString(payload?.ideaId);
+  const originRef = normalizeIdeaOriginRef(payload?.originRef);
+  const linkId = trimString(payload?.linkId) || `idea-origin-link:${hashCanonicalValue({
+    projectId,
+    ideaId,
+    originRef,
+  })}`;
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'idea.originLink.add', 'PROJECT_ID_REQUIRED');
+  }
+  if (!ideaId) {
+    return fail(state, 'E_IDEA_ID_REQUIRED', 'idea.originLink.add', 'IDEA_ID_REQUIRED', { projectId });
+  }
+  if (!originRef) {
+    return fail(state, 'E_IDEA_ORIGIN_REF_REQUIRED', 'idea.originLink.add', 'ORIGIN_REF_REQUIRED', { projectId, ideaId });
+  }
+  if (!linkId) {
+    return fail(state, 'E_IDEA_ORIGIN_LINK_ID_REQUIRED', 'idea.originLink.add', 'ORIGIN_LINK_ID_REQUIRED', { projectId, ideaId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'idea.originLink.add', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const ideas = normalizeIdeaAuthorData(project.ideas);
+  const idea = ideas.ideas[ideaId];
+  if (!idea) {
+    return fail(state, 'E_IDEA_NOT_FOUND', 'idea.originLink.add', 'IDEA_NOT_FOUND', { projectId, ideaId });
+  }
+  const scene = project.scenes && project.scenes[originRef.sceneId];
+  if (!scene) {
+    return fail(state, 'E_CORE_SCENE_NOT_FOUND', 'idea.originLink.add', 'SCENE_NOT_FOUND', { projectId, sceneId: originRef.sceneId });
+  }
+  const sceneText = typeof scene.text === 'string' ? scene.text : '';
+  if (originRef.endOffset > sceneText.length) {
+    return fail(state, 'E_IDEA_ORIGIN_REF_RANGE_OUT_OF_BOUNDS', 'idea.originLink.add', 'ORIGIN_REF_RANGE_OUT_OF_BOUNDS', {
+      projectId,
+      ideaId,
+      sceneId: originRef.sceneId,
+      textLength: sceneText.length,
+    });
+  }
+  const sceneTextHash = hashCanonicalValue(sceneText);
+  if (originRef.sourceHash !== sceneTextHash) {
+    return fail(state, 'E_IDEA_ORIGIN_REF_SOURCE_HASH_MISMATCH', 'idea.originLink.add', 'ORIGIN_REF_SOURCE_HASH_MISMATCH', {
+      projectId,
+      ideaId,
+      sceneId: originRef.sceneId,
+      expectedHash: sceneTextHash,
+      receivedHash: originRef.sourceHash,
+    });
+  }
+  if (ideas.originLinks[linkId]) {
+    return fail(state, 'E_IDEA_ORIGIN_LINK_ALREADY_EXISTS', 'idea.originLink.add', 'ORIGIN_LINK_ALREADY_EXISTS', { projectId, ideaId, linkId });
+  }
+
+  const next = cloneJson(state);
+  const nextIdeas = ensureIdeaAuthorData(next.data.projects[projectId]);
+  const nextIdea = nextIdeas.ideas[ideaId];
+  if (!Array.isArray(nextIdea.originLinkIds)) nextIdea.originLinkIds = [];
+  nextIdeas.originLinks[linkId] = {
+    id: linkId,
+    ideaId,
+    originRef,
+    createdByCommandSeq: next.data.lastCommandId + 1,
+  };
+  nextIdea.originLinkIds.push(linkId);
+  nextIdea.updatedByCommandSeq = next.data.lastCommandId + 1;
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
 function applyTextEdit(state, payload) {
   const projectId = typeof payload?.projectId === 'string' ? payload.projectId.trim() : '';
   const sceneId = typeof payload?.sceneId === 'string' ? payload.sceneId.trim() : '';
@@ -895,6 +1061,12 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_MENTION_CONFIRM) {
     return applyAtlasMentionConfirm(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.IDEA_CREATE) {
+    return applyIdeaCreate(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.IDEA_ORIGIN_LINK_ADD) {
+    return applyIdeaOriginLinkAdd(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_CREATE) {
     return applyManualMapCreate(state, command.payload || {});

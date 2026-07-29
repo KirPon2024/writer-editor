@@ -43,9 +43,35 @@ export type AtlasEntityState = {
   updatedByCommandSeq: number
 }
 
+export type AtlasEvidenceAnchorState = {
+  schemaVersion: string
+  anchorId: string
+  projectId: string
+  sceneId: string
+  entityId: string
+  startOffset: number
+  endOffset: number
+  quote: string
+  quoteHash: string
+  sceneTextHash: string
+}
+
+export type AtlasDecisionState = {
+  id: string
+  decisionKind: "mention.confirm"
+  trustState: "AUTHOR_CONFIRMED"
+  projectId: string
+  sceneId: string
+  entityId: string
+  mentionId: string
+  evidenceAnchor: AtlasEvidenceAnchorState
+  createdByCommandSeq: number
+}
+
 export type AtlasAuthorDataState = {
   schemaVersion: "atlas.author.v1"
   entities: Record<string, AtlasEntityState>
+  decisions?: Record<string, AtlasDecisionState>
 }
 
 export type CoreProjectState = {
@@ -79,6 +105,10 @@ export type CoreCommand =
   | {
       type: "atlas.alias.add"
       payload: { projectId: string; entityId: string; aliasId: string; value: string; scope?: "project" | "scene"; sceneId?: string }
+    }
+  | {
+      type: "atlas.mention.confirm"
+      payload: { projectId: string; sceneId: string; entityId: string; mentionId: string; evidenceAnchor: AtlasEvidenceAnchorState; decisionId?: string }
     }
   | {
       type: string

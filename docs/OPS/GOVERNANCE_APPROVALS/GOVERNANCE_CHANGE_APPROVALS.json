@@ -4011,6 +4011,55 @@
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
       "approvedAtUtc": "2026-07-29T13:02:36.000Z",
       "rationale": "Approve bounded G0C exact-safety regression contract required by the owner-approved RTK V6 contract; it proves overlapping occurrence counting, immutable-baseline batch ranges, duplicate id and overlap blocking, permutation-stable disjoint output, no chained authority, stable typed reasons, and zero writes for negative cases without adding runtime wiring, dependency, network, cloud, storage, export, or UI capability."
+    },
+{
+        "filePath": "docs/OPS/RTK/G0B_FEASIBILITY_RECEIPT.json",
+        "sha256": "46eb95b323c7d8d9d4d8f3ef17d15b57918092b3fb531879e06fafc59587dde0",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+        "rationale": "Approve bounded G0B feasibility receipt required by the owner-approved RTK V6 contract; it records local contract evidence and explicit DEFERRED_EXTERNAL_WORD_EVIDENCE without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    },
+{
+        "filePath": "docs/OPS/RTK/G0B_NORMATIVE_SCHEMA_V2.json",
+        "sha256": "b72470191feb2cf645b27e76e85d8d56cafb325468b7e88ef6de5e27ecc4ba73",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+        "rationale": "Approve bounded G0B normative schema V2 required by the owner-approved RTK V6 contract; it declares local reason codes and invariants only and introduces no product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    },
+{
+        "filePath": "docs/OPS/RTK/G0B_SUPPORTED_CORPUS_V1.json",
+        "sha256": "d9225a96254a8e118a866dc4585fea9f895957bd4148b4f6f28c52776b453f59",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+        "rationale": "Approve bounded G0B supported corpus required by the owner-approved RTK V6 contract; it freezes local microfixtures for zero false exact and parser analysis without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    },
+{
+        "filePath": "docs/OPS/RTK/G0B_WORD_SETTINGS_CAPSULE_CONTRACT_V1.json",
+        "sha256": "0ad5bf117eecaa3e683d95b42c065e4c43aa65dfbdf1f88ee8fcf0b68f514904",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+        "rationale": "Approve bounded G0B Word Settings Capsule contract required by the owner-approved RTK V6 contract; it records deferred external evidence policy and move-revision blocking without claiming Word PASS or adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    },
+{
+        "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
+        "sha256": "7b1c62fb1e6768218e72e8f70586776949c89410b02093cb435e8c56e38b7536",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+        "rationale": "Approve bounded G0B dependency-free local contract helpers required by the owner-approved RTK V6 contract; they are offline analysis helpers with Node built-ins only and add no product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    },
+{
+        "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
+        "sha256": "dec6ad9b32784512762e17e387ccf114360db4cc0892c5f5ae2313aaac10adbe",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+        "rationale": "Approve bounded G0B dependency-free local oracle required by the owner-approved RTK V6 contract; it aggregates local contract evidence and explicit external Word deferral without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    },
+{
+        "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
+        "sha256": "4e563bda03436a9efcb9786d86dde70ce769ad0e11284daebd9755cea9d55646",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+        "rationale": "Approve bounded G0B feasibility contract tests required by the owner-approved RTK V6 contract; they verify zero false exact, structural blocking, comments conservation, HMAC tamper, corpus freeze, parser bake-off and external Word deferral without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
     }
   ]
 }

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "G0B_FEASIBILITY_RECEIPT",
+  "missionId": "YALKEN_RTK_D1_END_TO_END",
+  "stageId": "G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+  "candidateBaseSha": "e95dd2158bf704d4890d2a883c342e1c322eb6f2",
+  "status": "PASS_LOCAL_READY_FOR_PR",
+  "local_contract_status": "PASS",
+  "external_word_status": "DEFERRED_EXTERNAL_WORD_EVIDENCE",
+  "dependency_decision_status": "NO_NEW_RUNTIME_DEPENDENCY",
+  "producer": "dependency-free G0B local contracts and oracle",
+  "delivery": {
+    "commit": null,
+    "push": null,
+    "pr": null,
+    "merge": null
+  },
+  "localAssertions": [
+    "zero false exact remains veto",
+    "no-edit evidence gives zero text candidates",
+    "paragraph marks, split, merge and move revisions are structural/manual-only",
+    "TRACKED, CLEAN and MIXED preserve comments in an independent lane",
+    "cross-round locators never bind",
+    "HMAC anchors detect tamper",
+    "supported corpus digest is deterministic and frozen",
+    "existing tokenizer is selected before any parser dependency"
+  ],
+  "externalAssertions": [
+    "Exact Word build, carrier survival, editor-native readback and broader Word threshold are deferred without false PASS"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "revision-bridge.g0b-supported-corpus.v1",
+  "stageId": "G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+  "digestAlgorithm": "stable-json-sha256",
+  "fixtures": [
+    {
+      "fixtureId": "no-edit-zero-candidate",
+      "text": "Alpha beta.",
+      "change": { "kind": "noEdit" },
+      "expectedReason": "G0B_NO_TEXT_CANDIDATE"
+    },
+    {
+      "fixtureId": "duplicate-token-zero-exact",
+      "text": "aa aa",
+      "change": { "kind": "textExact", "oldText": "aa", "newText": "bb" },
+      "expectedReason": "G0B_DUPLICATE_TEXT_CANDIDATE"
+    },
+    {
+      "fixtureId": "paragraph-mark-manual",
+      "text": "First paragraph\nSecond paragraph",
+      "change": { "kind": "paragraphMark" },
+      "expectedReason": "G0B_STRUCTURAL_PARAGRAPH_MARK"
+    },
+    {
+      "fixtureId": "move-revision-manual",
+      "text": "Move this sentence.",
+      "change": { "kind": "move" },
+      "expectedReason": "G0B_STRUCTURAL_MOVE_REVISION"
+    },
+    {
+      "fixtureId": "unicode-without-normalization-authority",
+      "text": "Cafe\\u0301 and caf\\u00e9 are not authority-equivalent.",
+      "change": { "kind": "textExact", "oldText": "caf\\u00e9", "newText": "coffee" },
+      "expectedReason": "G0B_EXACT_TEXT_CANDIDATE"
+    },
+    {
+      "fixtureId": "ru-autocorrect-edge",
+      "text": "\\u0415\\u043b\\u043a\\u0430 \\u0438 \\u0451\\u043b\\u043a\\u0430 stay distinct.",
+      "change": { "kind": "textExact", "oldText": "\\u0451\\u043b\\u043a\\u0430", "newText": "\\u0434\\u0435\\u0440\\u0435\\u0432\\u043e" },
+      "expectedReason": "G0B_EXACT_TEXT_CANDIDATE"
+    }
+  ]
+}

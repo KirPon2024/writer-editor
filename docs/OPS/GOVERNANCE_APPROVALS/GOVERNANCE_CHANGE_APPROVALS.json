@@ -332,10 +332,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "29f36c6b66cfcc843451ff6e892ff794e4eb7d3da9e4dad55045e5e79f8a2a3f",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
-      "approvedAtUtc": "2026-07-29T15:42:00.000Z",
-      "rationale": "Approve bounded W1 Sector M scope-map synchronization required by the owner-approved RTK V6 contract; it admits only exact W1 no-write RTK files already present in the frozen ActionEnvelope and adds no wildcard, prefix, runtime authority, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
+      "sha256": "bb74b5d489a08afbe2311ba72706506e2f6d17e0d32995cfaf78fd0cad0f6921",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W2_BOUNDED_PARSER_AND_REVIEW_IR",
+      "approvedAtUtc": "2026-07-29T16:03:00.000Z",
+      "rationale": "Approve bounded W2 Sector M scope-map synchronization required by the owner-approved RTK V6 contract; it admits only exact W2 parser and Review IR files already present in the frozen ActionEnvelope and adds no wildcard, prefix, runtime authority, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -4049,10 +4049,10 @@
     },
 {
         "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
-        "sha256": "d3219763534f47f6d2dd95322ec0f5310adbb0095b325c214a0747703de5d4f2",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
-        "approvedAtUtc": "2026-07-29T15:40:00.000Z",
-        "rationale": "Approve bounded W1 extension of the dependency-free local oracle required by the owner-approved RTK V6 contract; it aggregates no-write export intent, neutral artifact boundary, returned-artifact analysis and explicit diagnostic-only durability state without adding product apply, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
+        "sha256": "95aeca142266290a0165e5a7a31fdb752b8890e7435d876a59e9913197bc32fc",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W2_BOUNDED_PARSER_AND_REVIEW_IR",
+        "approvedAtUtc": "2026-07-29T16:03:00.000Z",
+        "rationale": "Approve bounded W2 extension of the dependency-free local oracle required by the owner-approved RTK V6 contract; it exposes deterministic Review IR analysis without adding product apply, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
     },
 {
         "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
@@ -4067,6 +4067,13 @@
         "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
         "approvedAtUtc": "2026-07-29T15:40:00.000Z",
         "rationale": "Approve bounded W1 no-write vertical slice contract tests required by the owner-approved RTK V6 contract; they verify read-only feature flag behavior, main-authority export intent, private manifest boundary, zero-change returned artifact analysis, atomic round store behavior, no-write reconciliation index and diagnostic-only durability claims without adding apply authority, writer mutation, dependency, network, cloud, storage-format migration, export support claim, or UI capability."
+    },
+{
+        "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
+        "sha256": "1ee23a254c1f1bcb45ac0b9e6b1fc134ab490b96cf89a02b5b2e8c49065d2cc6",
+        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W2_BOUNDED_PARSER_AND_REVIEW_IR",
+        "approvedAtUtc": "2026-07-29T16:03:00.000Z",
+        "rationale": "Approve bounded W2 Review IR contract tests required by the owner-approved RTK V6 contract; they verify worker authority denial, hostile package gates, deterministic parser digests, CLEAN and MIXED comment conservation, structural paragraph and move blocking, immutable analysis branch persistence and no write or apply authority without adding runtime dependencies, network, cloud, UI, storage migration, export support claim, or Word PASS evidence."
     }
   ]
 }

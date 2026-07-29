@@ -230,6 +230,7 @@
       "src/export/mindmap/v1/serializeMindMapV1.mjs",
       "src/io/revisionBridge/index.mjs",
       "src/io/revisionBridge/reviewTransportContracts.mjs",
+      "src/io/revisionBridge/reviewTransportIr.mjs",
       "src/io/revisionBridge/reviewTransportOracle.mjs",
       "src/io/revisionBridge/reviewTransportRoundStore.mjs",
       "src/renderer/editor.bundle.js",
@@ -239,6 +240,7 @@
       "test/fixtures/revision-bridge/v1/markdown-content-v1.md",
       "test/fixtures/revision-bridge/v1/review-packet-v1.json",
       "test/fixtures/revision-bridge/v1/txt-content-v1.txt",
+      "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
       "test/unit/docx-import-preview-ui-flow.test.js",
       "test/unit/docx-import-product-flow-command.test.js",
       "test/unit/markdown-import-product-parity-ui-flow.test.js"

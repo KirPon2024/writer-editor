@@ -11,6 +11,8 @@ export const REVISION_BRIDGE_W1_ROUND_STORE_SCHEMA = 'revision-bridge.w1-round-s
 export const REVISION_BRIDGE_W1_ROUND_MANIFEST_SCHEMA = 'revision-bridge.w1-round-manifest.v1';
 export const REVISION_BRIDGE_W1_RECONCILIATION_INDEX_SCHEMA =
   'revision-bridge.w1-reconciliation-index.v1';
+export const REVISION_BRIDGE_W2_ANALYSIS_BRANCH_SCHEMA =
+  'revision-bridge.w2-analysis-branch.v1';
 
 const ROUND_ID_PATTERN = /^[a-z0-9][a-z0-9_-]{0,95}$/iu;
 
@@ -232,4 +234,118 @@ export function recordW1ExternalCopyFailure(roundManifest = {}, reason = {}) {
     canApply: false,
     reason: cloneJsonSafe(reason),
   };
+}
+
+function assertAnalysisKey(value) {
+  const key = rawString(value).trim();
+  if (!ROUND_ID_PATTERN.test(key)) {
+    throw storeError('E_W2_ANALYSIS_KEY_INVALID', 'analysis key is invalid', { key });
+  }
+  return key;
+}
+
+function normalizeW2AnalysisRecord(input = {}) {
+  const roundId = assertRoundId(input.roundId);
+  const cacheKey = rawString(input.cacheKey);
+  const analysisDigest = rawString(input.analysisDigest);
+  const parserProfileDigest = rawString(input.parserProfileDigest);
+  if (!cacheKey || !analysisDigest || !parserProfileDigest) {
+    throw storeError('E_W2_ANALYSIS_DIGEST_REQUIRED', 'analysis digests are required');
+  }
+  const record = {
+    schemaVersion: REVISION_BRIDGE_W2_ANALYSIS_BRANCH_SCHEMA,
+    roundId,
+    cacheKey,
+    analysisDigest,
+    parserProfileDigest,
+    supportedSemanticDigest: rawString(input.supportedSemanticDigest),
+    reviewIr: isPlainObject(input.reviewIr) ? cloneJsonSafe(input.reviewIr) : {},
+    redactedPackageRewriteReport: isPlainObject(input.redactedPackageRewriteReport)
+      ? cloneJsonSafe(input.redactedPackageRewriteReport)
+      : null,
+    canWriteManuscript: false,
+    canApply: false,
+  };
+  return {
+    ...record,
+    recordChecksum: sha256Json(record),
+  };
+}
+
+export async function commitW2AnalysisBranch(storeRootRaw, input = {}) {
+  const storeRoot = await resolveSafeStoreRoot(storeRootRaw);
+  const record = normalizeW2AnalysisRecord(input);
+  const analysisKey = assertAnalysisKey(
+    input.analysisKey || `${record.cacheKey.replace(/^sha256:/u, '').slice(0, 24)}`,
+  );
+  const branchId = `profile-${record.parserProfileDigest.replace(/^sha256:/u, '').slice(0, 24)}`;
+  const branchRoot = assertPathInside(
+    storeRoot,
+    path.join(storeRoot, record.roundId, 'analysis', analysisKey),
+    'analysisKeyPath',
+  );
+  const branchPath = assertPathInside(branchRoot, path.join(branchRoot, branchId), 'branchPath');
+  const recordPath = path.join(branchPath, 'analysis.json');
+  const tempPath = assertPathInside(
+    storeRoot,
+    path.join(storeRoot, `.tmp-w2-${record.roundId}-${analysisKey}-${process.pid}-${Date.now()}`),
+    'tempPath',
+  );
+
+  if (await pathExists(recordPath)) {
+    const existing = JSON.parse(await fs.readFile(recordPath, 'utf8'));
+    return {
+      ok: true,
+      schemaVersion: REVISION_BRIDGE_W2_ANALYSIS_BRANCH_SCHEMA,
+      status: existing.analysisDigest === record.analysisDigest ? 'reused' : 'blocked',
+      code: existing.analysisDigest === record.analysisDigest
+        ? 'W2_ANALYSIS_BRANCH_REUSED'
+        : 'E_W2_ANALYSIS_BRANCH_DIGEST_MISMATCH',
+      roundId: record.roundId,
+      analysisKey,
+      branchId,
+      branchPath,
+      recordPath,
+      record: existing,
+      canWriteManuscript: false,
+      canApply: false,
+    };
+  }
+
+  try {
+    await fs.mkdir(tempPath, { recursive: false });
+    await fs.writeFile(path.join(tempPath, 'analysis.json'), `${JSON.stringify(record, null, 2)}\n`, {
+      encoding: 'utf8',
+      flag: 'wx',
+    });
+    await fs.mkdir(branchRoot, { recursive: true });
+    await fs.rename(tempPath, branchPath);
+    return {
+      ok: true,
+      schemaVersion: REVISION_BRIDGE_W2_ANALYSIS_BRANCH_SCHEMA,
+      status: 'committed',
+      code: 'W2_ANALYSIS_BRANCH_COMMITTED',
+      roundId: record.roundId,
+      analysisKey,
+      branchId,
+      branchPath,
+      recordPath,
+      record,
+      canWriteManuscript: false,
+      canApply: false,
+    };
+  } catch (error) {
+    if (await pathExists(tempPath)) await removeIfExists(tempPath);
+    return {
+      ok: false,
+      schemaVersion: REVISION_BRIDGE_W2_ANALYSIS_BRANCH_SCHEMA,
+      status: 'failed',
+      code: 'E_W2_ANALYSIS_BRANCH_COMMIT_FAILED',
+      roundId: record.roundId,
+      analysisKey,
+      errorCode: rawString(error?.code),
+      canWriteManuscript: false,
+      canApply: false,
+    };
+  }
 }

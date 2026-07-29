@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E03_C00_PLOT_IDEA_MEANING_CONTOUR_COMPILATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E03_C00_PLOT_IDEA_MEANING_CONTOUR_COMPILATION",
+  "programStage": "E03_STAGE_03_PLOT_IDEA_MEANING_CONTOURS",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T21:39:02Z",
+  "baseSha": "0577a3f223d5df2cc9da3f854fa4870f3b0df53a",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour compiles the Stage 03 execution queue and adds no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "atlasAuthorTruthExists": true,
+    "atlasAuthorTruthSchema": "atlas.author.v1",
+    "atlasEntityAliasCommandsExist": true,
+    "atlasMentionConfirmationCommandExists": true,
+    "atlasMentionIndexExists": true,
+    "atlasCurrentSceneDossierExists": true,
+    "manualMapAuthorTruthExists": true,
+    "manualMapDerivedGraphExists": true,
+    "plotProjectionRuntimeExists": false,
+    "ideaProjectionRuntimeExists": false,
+    "meaningProjectionRuntimeExists": false
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E03_C01_PLOT_PROJECTION_ORIGINREF_SEQUENCE_LAYOUT",
+      "userOutcome": "Author can view a deterministic plot projection over scenes, headings, confirmed Atlas mentions, and origin refs without copying manuscript data.",
+      "scopeIn": [
+        "derived plot projection schema",
+        "scene and heading origin refs",
+        "sequence layout",
+        "read-only occurrence evidence summary",
+        "capability fail-closed behavior"
+      ],
+      "scopeOut": [
+        "idea truth",
+        "meaning truth",
+        "UI DOM surface",
+        "structural write-back commands"
+      ],
+      "expectedWriteSet": [
+        "src/derived/plot",
+        "src/derived/index barrel if present",
+        "test/contracts/yalken-atlas-v5-e03-c01-plot-projection-originref-sequence-layout.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C01_PLOT_PROJECTION_ORIGINREF_SEQUENCE_LAYOUT_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E03_C02_IDEA_PROJECTION_AUTHOR_TRUTH_AND_OCCURRENCE_EVIDENCE",
+      "userOutcome": "Author can create durable idea objects through commands and see idea occurrence evidence as a projection rather than automatic domain truth.",
+      "scopeIn": [
+        "idea author truth schema",
+        "idea create and origin-link commands",
+        "idea projection derived read model",
+        "occurrence evidence from explicit origin refs",
+        "Command Kernel capability revalidation"
+      ],
+      "scopeOut": [
+        "meaning creation",
+        "automatic idea mining",
+        "UI DOM surface",
+        "storage adapter"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/core/registry.ts",
+        "src/renderer/commands/capabilityPolicy.mjs",
+        "src/renderer/commands/localCapabilityProvider.mjs",
+        "src/derived/idea",
+        "test/contracts/yalken-atlas-v5-e03-c02-idea-projection-author-truth-occurrence-evidence.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C02_IDEA_PROJECTION_AUTHOR_TRUTH_OCCURRENCE_EVIDENCE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY",
+      "userOutcome": "Meaning objects exist only after explicit author promotion and never appear as automatic inferred truth.",
+      "scopeIn": [
+        "meaning author truth schema",
+        "explicit meaning promotion command",
+        "meaning projection derived read model",
+        "negative auto-creation proof",
+        "rollback-safe command failure behavior"
+      ],
+      "scopeOut": [
+        "automatic meaning generation",
+        "cloud or model calls",
+        "UI DOM surface",
+        "new dependency"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/core/registry.ts",
+        "src/renderer/commands/capabilityPolicy.mjs",
+        "src/renderer/commands/localCapabilityProvider.mjs",
+        "src/derived/meaning",
+        "test/contracts/yalken-atlas-v5-e03-c03-meaning-projection-explicit-promotion-boundary.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW",
+      "userOutcome": "Author can inspect how a plot, idea, or meaning object relates across projections before committing any structural write.",
+      "scopeIn": [
+        "shared projection origin ref model",
+        "impact preview read model",
+        "common canvas graph packet",
+        "no second truth store proof",
+        "stale revision fail-closed behavior"
+      ],
+      "scopeOut": [
+        "write-back execution",
+        "UI DOM surface",
+        "worker scheduling",
+        "external services"
+      ],
+      "expectedWriteSet": [
+        "src/derived/projections",
+        "test/contracts/yalken-atlas-v5-e03-c04-cross-projection-originref-impact-preview.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS",
+      "userOutcome": "Each Stage 03 projection exposes a bounded inspector manifest and deterministic empty/unavailable fallbacks without taking write authority.",
+      "scopeIn": [
+        "plot projection inspector manifest",
+        "idea projection inspector manifest",
+        "meaning projection inspector manifest",
+        "fallback states",
+        "read-only provider contract"
+      ],
+      "scopeOut": [
+        "new visual design system",
+        "DOM insertion",
+        "private command bus",
+        "storage adapter"
+      ],
+      "expectedWriteSet": [
+        "src/derived/projections",
+        "test/contracts/yalken-atlas-v5-e03-c05-projection-inspector-fallback-manifests.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    }
+  ],
+  "stageAcceptanceBinding": {
+    "singleObjectReflectsAcrossProjections": "deferred to E03_C04 after Plot, Idea, and Meaning projection primitives exist",
+    "temporaryViewIsNotDomainTruth": "enforced in every E03 projection contour",
+    "structuralMoveReversible": "deferred until write-back commands after read-only projection foundation",
+    "meaningNeverAutoCreated": "first enforced in E03_C03"
+  },
+  "checks": [
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E03_C01_PLOT_PROJECTION_ORIGINREF_SEQUENCE_LAYOUT"
+}

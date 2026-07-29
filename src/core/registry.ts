@@ -6,5 +6,6 @@ export const CORE_COMMANDS = [
   'project.applyTextEdit',
   'atlas.entity.create',
   'atlas.alias.add',
+  'atlas.mention.confirm',
 ] as const;
 export const CORE_EVENTS = [] as const;

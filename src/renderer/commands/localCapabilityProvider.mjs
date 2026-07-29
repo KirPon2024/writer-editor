@@ -27,6 +27,7 @@ const FREE_ALWAYS_AVAILABLE_COMMAND_IDS = Object.freeze([
   'project.applyTextEdit',
   'atlas.entity.create',
   'atlas.alias.add',
+  'atlas.mention.confirm',
   'cmd.project.new',
   'cmd.project.open',
   'cmd.project.save',

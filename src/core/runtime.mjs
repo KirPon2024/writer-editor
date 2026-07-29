@@ -5,6 +5,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
   PROJECT_APPLY_TEXT_EDIT: 'project.applyTextEdit',
   ATLAS_ENTITY_CREATE: 'atlas.entity.create',
   ATLAS_ALIAS_ADD: 'atlas.alias.add',
+  ATLAS_MENTION_CONFIRM: 'atlas.mention.confirm',
 });
 
 const ATLAS_AUTHOR_SCHEMA_VERSION = 'atlas.author.v1';
@@ -47,6 +48,7 @@ function createEmptyAtlasAuthorData() {
   return {
     schemaVersion: ATLAS_AUTHOR_SCHEMA_VERSION,
     entities: {},
+    decisions: {},
   };
 }
 
@@ -58,6 +60,7 @@ function normalizeAtlasAuthorData(input) {
   return {
     schemaVersion: ATLAS_AUTHOR_SCHEMA_VERSION,
     entities: cloneJson(input.entities),
+    decisions: isPlainObject(input.decisions) ? cloneJson(input.decisions) : {},
   };
 }
 
@@ -250,6 +253,106 @@ function applyAtlasAliasAdd(state, payload) {
   return ok(next);
 }
 
+function normalizeEvidenceAnchor(value) {
+  if (!isPlainObject(value)) return null;
+  const anchorId = trimString(value.anchorId);
+  const quote = typeof value.quote === 'string' ? value.quote : '';
+  const quoteHash = trimString(value.quoteHash);
+  const sceneTextHash = trimString(value.sceneTextHash);
+  const startOffset = Number(value.startOffset);
+  const endOffset = Number(value.endOffset);
+  if (!anchorId || !quoteHash || !sceneTextHash || !Number.isInteger(startOffset) || !Number.isInteger(endOffset) || endOffset < startOffset) {
+    return null;
+  }
+  return {
+    schemaVersion: trimString(value.schemaVersion) || 'atlas.evidenceAnchor.v1',
+    anchorId,
+    projectId: trimString(value.projectId),
+    sceneId: trimString(value.sceneId),
+    entityId: trimString(value.entityId),
+    startOffset,
+    endOffset,
+    quote,
+    quoteHash,
+    sceneTextHash,
+  };
+}
+
+function applyAtlasMentionConfirm(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const sceneId = trimString(payload?.sceneId);
+  const entityId = trimString(payload?.entityId);
+  const mentionId = trimString(payload?.mentionId);
+  const evidenceAnchor = normalizeEvidenceAnchor(payload?.evidenceAnchor);
+  const decisionId = trimString(payload?.decisionId) || `atlas-decision:${hashCanonicalValue({
+    projectId,
+    sceneId,
+    entityId,
+    mentionId,
+    anchorId: evidenceAnchor?.anchorId || '',
+    trustState: 'AUTHOR_CONFIRMED',
+  })}`;
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'atlas.mention.confirm', 'PROJECT_ID_REQUIRED');
+  }
+  if (!sceneId) {
+    return fail(state, 'E_CORE_SCENE_ID_REQUIRED', 'atlas.mention.confirm', 'SCENE_ID_REQUIRED', { projectId });
+  }
+  if (!entityId) {
+    return fail(state, 'E_ATLAS_ENTITY_ID_REQUIRED', 'atlas.mention.confirm', 'ENTITY_ID_REQUIRED', { projectId, sceneId });
+  }
+  if (!mentionId) {
+    return fail(state, 'E_ATLAS_MENTION_ID_REQUIRED', 'atlas.mention.confirm', 'MENTION_ID_REQUIRED', { projectId, sceneId, entityId });
+  }
+  if (!evidenceAnchor) {
+    return fail(state, 'E_ATLAS_EVIDENCE_ANCHOR_REQUIRED', 'atlas.mention.confirm', 'EVIDENCE_ANCHOR_REQUIRED', { projectId, sceneId, entityId, mentionId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'atlas.mention.confirm', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  if (!project.scenes || !project.scenes[sceneId]) {
+    return fail(state, 'E_CORE_SCENE_NOT_FOUND', 'atlas.mention.confirm', 'SCENE_NOT_FOUND', { projectId, sceneId });
+  }
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  if (!atlas.entities[entityId]) {
+    return fail(state, 'E_ATLAS_ENTITY_NOT_FOUND', 'atlas.mention.confirm', 'ENTITY_NOT_FOUND', { projectId, entityId });
+  }
+  if (evidenceAnchor.sceneId && evidenceAnchor.sceneId !== sceneId) {
+    return fail(state, 'E_ATLAS_EVIDENCE_SCENE_MISMATCH', 'atlas.mention.confirm', 'EVIDENCE_SCENE_MISMATCH', { sceneId, evidenceSceneId: evidenceAnchor.sceneId });
+  }
+  if (evidenceAnchor.entityId && evidenceAnchor.entityId !== entityId) {
+    return fail(state, 'E_ATLAS_EVIDENCE_ENTITY_MISMATCH', 'atlas.mention.confirm', 'EVIDENCE_ENTITY_MISMATCH', { entityId, evidenceEntityId: evidenceAnchor.entityId });
+  }
+  if (atlas.decisions && atlas.decisions[decisionId]) {
+    return fail(state, 'E_ATLAS_DECISION_ALREADY_EXISTS', 'atlas.mention.confirm', 'DECISION_ALREADY_EXISTS', { projectId, decisionId });
+  }
+
+  const next = cloneJson(state);
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  if (!isPlainObject(nextAtlas.decisions)) nextAtlas.decisions = {};
+  nextAtlas.decisions[decisionId] = {
+    id: decisionId,
+    decisionKind: 'mention.confirm',
+    trustState: 'AUTHOR_CONFIRMED',
+    projectId,
+    sceneId,
+    entityId,
+    mentionId,
+    evidenceAnchor,
+    createdByCommandSeq: next.data.lastCommandId + 1,
+  };
+  const nextEntity = nextAtlas.entities[entityId];
+  if (isPlainObject(nextEntity)) {
+    nextEntity.updatedByCommandSeq = next.data.lastCommandId + 1;
+  }
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
 function applyTextEdit(state, payload) {
   const projectId = typeof payload?.projectId === 'string' ? payload.projectId.trim() : '';
   const sceneId = typeof payload?.sceneId === 'string' ? payload.sceneId.trim() : '';
@@ -296,6 +399,9 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_ALIAS_ADD) {
     return applyAtlasAliasAdd(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_MENTION_CONFIRM) {
+    return applyAtlasMentionConfirm(state, command.payload || {});
   }
 
   return fail(state, 'E_CORE_COMMAND_NOT_FOUND', type || 'unknown', 'COMMAND_NOT_FOUND', { type });

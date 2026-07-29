@@ -3,6 +3,7 @@ import { deriveAtlasMentionIndex } from './deriveAtlasMentionIndex.mjs';
 import {
   ATLAS_CURRENT_SCENE_DOSSIER_SCHEMA_VERSION,
   ATLAS_CURRENT_SCENE_SURFACE_MANIFEST_VERSION,
+  ATLAS_TRUST_STATES,
   sortAtlasMentions,
 } from './atlasMentionTypes.mjs';
 
@@ -73,6 +74,28 @@ function listAliases(entity) {
     });
 }
 
+function listDecisions(project) {
+  const decisions = isPlainObject(project?.atlas?.decisions) ? project.atlas.decisions : {};
+  return Object.keys(decisions)
+    .sort()
+    .map((decisionId) => {
+      const decision = isPlainObject(decisions[decisionId]) ? decisions[decisionId] : {};
+      return { decisionId, ...decision };
+    });
+}
+
+function buildDecisionLookup(project) {
+  const byMentionId = new Map();
+  const byAnchorId = new Map();
+  for (const decision of listDecisions(project)) {
+    if (decision.decisionKind !== 'mention.confirm' || decision.trustState !== ATLAS_TRUST_STATES.AUTHOR_CONFIRMED) continue;
+    if (plainString(decision.mentionId)) byMentionId.set(plainString(decision.mentionId), decision);
+    const anchorId = isPlainObject(decision.evidenceAnchor) ? plainString(decision.evidenceAnchor.anchorId) : '';
+    if (anchorId) byAnchorId.set(anchorId, decision);
+  }
+  return { byMentionId, byAnchorId };
+}
+
 function buildContext(text, startOffset, endOffset) {
   const beforeStart = Math.max(0, startOffset - CONTEXT_CHARS);
   const afterEnd = Math.min(text.length, endOffset + CONTEXT_CHARS);
@@ -85,9 +108,13 @@ function buildContext(text, startOffset, endOffset) {
   };
 }
 
-function normalizeMentionForDossier(mention, sceneText) {
+function normalizeMentionForDossier(mention, sceneText, decisionLookup) {
   const startOffset = Number.isFinite(Number(mention.startOffset)) ? Number(mention.startOffset) : 0;
   const endOffset = Number.isFinite(Number(mention.endOffset)) ? Number(mention.endOffset) : startOffset;
+  const anchorId = isPlainObject(mention.evidenceAnchor) ? plainString(mention.evidenceAnchor.anchorId) : '';
+  const decision = decisionLookup.byMentionId.get(plainString(mention.mentionId))
+    || (anchorId ? decisionLookup.byAnchorId.get(anchorId) : null)
+    || null;
   return {
     mentionId: plainString(mention.mentionId),
     sceneId: plainString(mention.sceneId),
@@ -98,6 +125,8 @@ function normalizeMentionForDossier(mention, sceneText) {
     matchedText: plainString(mention.matchedText),
     startOffset,
     endOffset,
+    trustState: decision ? ATLAS_TRUST_STATES.AUTHOR_CONFIRMED : ATLAS_TRUST_STATES.ALGORITHMIC_OBSERVATION,
+    decisionId: decision ? plainString(decision.id || decision.decisionId) : '',
     context: buildContext(sceneText, startOffset, endOffset),
     evidenceAnchor: isPlainObject(mention.evidenceAnchor) ? mention.evidenceAnchor : null,
     focusIntent: {
@@ -125,6 +154,7 @@ function groupByEntity(project, mentions) {
         entityKind: plainString(entity.entityKind) || 'entity',
         aliases: listAliases(entity),
         mentionCount: entityMentions.length,
+        confirmedMentionCount: entityMentions.filter((mention) => mention.trustState === ATLAS_TRUST_STATES.AUTHOR_CONFIRMED).length,
         mentions: entityMentions,
       };
     });
@@ -150,9 +180,10 @@ function buildDossierFromIndex({ coreState, projectId, sceneId, sceneTitle, inde
     );
   }
   const sceneText = plainString(scene.text);
+  const decisionLookup = buildDecisionLookup(project);
   const mentions = sortAtlasMentions(indexResult.value.mentions)
     .filter((mention) => mention.sceneId === sceneId)
-    .map((mention) => normalizeMentionForDossier(mention, sceneText));
+    .map((mention) => normalizeMentionForDossier(mention, sceneText, decisionLookup));
   const sceneShard = (Array.isArray(indexResult.value.sceneShards) ? indexResult.value.sceneShards : [])
     .find((shard) => shard.sceneId === sceneId) || null;
   const entities = groupByEntity(project, mentions);
@@ -169,6 +200,7 @@ function buildDossierFromIndex({ coreState, projectId, sceneId, sceneTitle, inde
     summary: {
       entityCount: entities.length,
       mentionCount: mentions.length,
+      confirmedMentionCount: mentions.filter((mention) => mention.trustState === ATLAS_TRUST_STATES.AUTHOR_CONFIRMED).length,
       sceneTextHash,
       indexHash: indexResult.value.meta?.indexHash || '',
       invalidationKey: indexResult.meta?.invalidationKey || '',
@@ -190,6 +222,7 @@ function unavailable(projectId, sceneId, sceneTitle, reason, error = null) {
     summary: {
       entityCount: 0,
       mentionCount: 0,
+      confirmedMentionCount: 0,
       sceneTextHash: '',
       indexHash: '',
       invalidationKey: '',

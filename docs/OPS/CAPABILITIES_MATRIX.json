@@ -178,7 +178,8 @@
         "cap.project.flow.saveV1": true,
         "cap.ui.theme.set": true,
         "cap.ui.font.set": true,
-        "cap.ui.fontSize.set": true
+        "cap.ui.fontSize.set": true,
+        "cap.atlas.mention.confirm": true
       },
       "disabledCommands": [],
       "degradedFeatures": []
@@ -286,7 +287,8 @@
         "cap.project.flow.saveV1": false,
         "cap.ui.theme.set": false,
         "cap.ui.font.set": false,
-        "cap.ui.fontSize.set": false
+        "cap.ui.fontSize.set": false,
+        "cap.atlas.mention.confirm": false
       },
       "disabledCommands": [
         "cmd.project.document.open",
@@ -458,7 +460,8 @@
         "cap.project.flow.saveV1": false,
         "cap.ui.theme.set": false,
         "cap.ui.font.set": false,
-        "cap.ui.fontSize.set": false
+        "cap.ui.fontSize.set": false,
+        "cap.atlas.mention.confirm": false
       },
       "disabledCommands": [
         "cmd.project.document.open",

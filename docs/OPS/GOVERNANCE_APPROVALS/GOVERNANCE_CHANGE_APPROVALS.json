@@ -3909,10 +3909,10 @@
     },
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "fe434a11cfa913d99b8659b8d0e356d280a7cd2f07874e5842eb364b3095e0fa",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C01_ATLAS_AUTHOR_DATA_COMMAND_BOUNDARY",
-      "approvedAtUtc": "2026-07-29T18:25:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E01 C01 author-data command boundary change: adds deterministic local atlas.entity.create and atlas.alias.add Core reducer commands, binds them to Command Kernel capability policy and docs capability matrix, proves save/reopen author data persistence and negative capability/storage bypass checks, preserves no UI surface, no network, no cloud, no paid service, no new dependency, no private storage adapter, and no release readiness widening."
+      "sha256": "77d0f6ace6dd1d66d8ef8c2fe3d72dc14ee69380e3ff95d0f84caf755bdde6bd",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T18:38:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C04 capability matrix update: adds cap.atlas.mention.confirm enabled only for node desktop and disabled for web and mobile-wrapper, preserving local-only command authority, no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S42_FACTUAL_CAPABILITY_STATUS.json",
@@ -3923,10 +3923,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "26f382a920270836aedfa7be2df4981cd08d6a982e228da471e273e3d183a80a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C01_ATLAS_AUTHOR_DATA_COMMAND_BOUNDARY",
-      "approvedAtUtc": "2026-07-29T18:25:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E01 C01 author-data command boundary change: adds deterministic local atlas.entity.create and atlas.alias.add Core reducer commands, binds them to Command Kernel capability policy and docs capability matrix, proves save/reopen author data persistence and negative capability/storage bypass checks, preserves no UI surface, no network, no cloud, no paid service, no new dependency, no private storage adapter, and no release readiness widening."
+      "sha256": "d5125a7dbf7c07e399f61769d3f8705825b949c42345a15b9864ba05e0d7bd73",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T18:38:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C04 command capability binding update: binds atlas.mention.confirm to cap.atlas.mention.confirm so Command Kernel capability revalidation admits node desktop and denies web/mobile-wrapper while preserving no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
     },
     {
       "filePath": "scripts/ops/phase03-safe-reset-last-stable-artifact-state.mjs",
@@ -4200,6 +4200,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_AND_DOSSIER_SURFACE",
       "approvedAtUtc": "2026-07-29T18:21:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E01 C03 current-scene dossier contract: proves read-only surface manifest authority, current-scene filtering, evidence anchor focus intents, empty and unavailable fallback states, query bridge wiring, main path-boundary sanitation, and negative filesystem, network, Electron, storage, and command-dispatch bypass checks while preserving no mutation, dependency, network, cloud, paid service, or release readiness widening."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_REBUILD_RECOVERY_RECEIPT.json",
+      "sha256": "d601366c35cdfa7eac99d619bfee5d079adf09bd760e61414850c82ee9d9c6c5",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T18:38:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C04 confirmation and rebuild recovery receipt: adds atlas.mention.confirm author decision truth, AUTHOR_CONFIRMED trust projection, deterministic derived Atlas generation manifest, rebuild-from-core-state recovery, cache deletion safety proof, stale sourceRevision publish rejection, and negative command/storage/network bypass checks while preserving no manuscript mutation, no UI surface, no new storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e01-c04-confirmation-rebuild-recovery.contract.test.js",
+      "sha256": "8a3b0adde7fc441c50901653e56aeace7990c18b177b20297f43238b72b6f25e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T18:38:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C04 contract: proves confirmation command persistence without scene text mutation, malformed and mismatched evidence fail closed, Command Kernel capability revalidation admits node and denies web, dossier trust states preserve algorithmic observations, generation rebuild is deterministic and recovery-safe after cache deletion, stale publish is rejected, and no filesystem, network, Electron, or renderer storage bypass is introduced."
     }
   ]
 }

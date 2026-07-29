@@ -19,6 +19,10 @@
       "capabilityId": "cap.atlas.alias.add"
     },
     {
+      "commandId": "atlas.mention.confirm",
+      "capabilityId": "cap.atlas.mention.confirm"
+    },
+    {
       "commandId": "cmd.project.new",
       "capabilityId": "cap.project.new"
     },

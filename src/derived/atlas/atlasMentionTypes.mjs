@@ -2,6 +2,11 @@ export const ATLAS_MENTION_INDEX_SCHEMA_VERSION = 'derived.atlas.mentionIndex.v1
 export const ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION = 'atlas.evidenceAnchor.v1';
 export const ATLAS_CURRENT_SCENE_DOSSIER_SCHEMA_VERSION = 'derived.atlas.currentSceneDossier.v1';
 export const ATLAS_CURRENT_SCENE_SURFACE_MANIFEST_VERSION = 'surface.atlas.currentSceneDossier.v1';
+export const ATLAS_GENERATION_MANIFEST_SCHEMA_VERSION = 'derived.atlas.generationManifest.v1';
+export const ATLAS_TRUST_STATES = Object.freeze({
+  ALGORITHMIC_OBSERVATION: 'ALGORITHMIC_OBSERVATION',
+  AUTHOR_CONFIRMED: 'AUTHOR_CONFIRMED',
+});
 
 function compareText(a, b) {
   return String(a).localeCompare(String(b), 'en', { sensitivity: 'variant' });

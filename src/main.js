@@ -7598,6 +7598,7 @@ function getAtlasAuthorDataForProjection(manifest = {}) {
     return {
       schemaVersion: 'atlas.author.v1',
       entities: {},
+      decisions: {},
     };
   }
   return JSON.parse(JSON.stringify(atlas));

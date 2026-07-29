@@ -4487,6 +4487,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW",
       "approvedAtUtc": "2026-07-29T22:34:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E03 C04 contract: proves deterministic cross-projection shared origin ref impact packet across plot, idea, and meaning projections, includes common canvas graph packet and idea-to-meaning relation preview, fails closed on missing project id, missing expected core hash, stale core hash, and disabled capability, root derived barrel exports the preview, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS_RECEIPT.json",
+      "sha256": "c198a31a5dae23427a5e80609e957aaaa40a48620a2841ac40cf686d5789aac6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS",
+      "approvedAtUtc": "2026-07-29T22:55:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C05 projection inspector receipt: adds projection.inspector.manifest.v1, projection.inspector.fallback.v1, and derived.projection.inspectorProvider.v1 as pure read-only contracts over plot, idea, and meaning projections, maps source projection errors into deterministic unavailable fallbacks, proves empty states without write authority, preserves no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e03-c05-projection-inspector-fallback-manifests.contract.test.js",
+      "sha256": "5505c1ef42b2d3b441c86b2ee71c15e1e82025cdd5945a85468941ebd7c44403",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS",
+      "approvedAtUtc": "2026-07-29T22:55:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C05 contract: proves plot, idea, and meaning inspector manifests are deterministic, bounded, read-only, and expose no allowed actions, provider states are deterministic ready, empty, and unavailable fallbacks, source projection capability failures map to unavailable without mutating truth, root derived barrel exports the provider, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
     }
   ]
 }

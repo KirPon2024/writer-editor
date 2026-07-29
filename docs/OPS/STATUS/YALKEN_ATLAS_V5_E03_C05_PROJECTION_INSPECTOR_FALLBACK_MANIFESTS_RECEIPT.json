@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS",
+  "programStage": "E03_STAGE_03_PLOT_IDEA_MEANING_CONTOURS",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T22:55:00Z",
+  "baseSha": "f29b0be43de60b2b425395f1c55f477a5b59f677",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds read-only inspector manifests and fallback/provider contracts for existing projections; it adds no product UI surface, visual composition, DOM insertion, typography, palette, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "projectionInspectorFallbackManifests",
+    "productPlane": {
+      "truthOwner": "Existing Product Core project data through derived plot, idea, and meaning projections",
+      "truthSchemasRead": [
+        "derived.plot.projection.v1",
+        "derived.idea.projection.v1",
+        "derived.meaning.projection.v1"
+      ],
+      "writeAuthority": "none",
+      "commandsAdded": [],
+      "readAuthority": "deriveProjectionInspectorProvider over coreState and existing derived projections",
+      "portsAdded": [],
+      "adaptersAdded": [],
+      "projectTruthMutation": false,
+      "storageMutation": false
+    },
+    "interfacePlane": {
+      "surfacesAdded": [],
+      "surfaceManifestAdded": false,
+      "typedSlotsAdded": [],
+      "domMutation": false,
+      "designOsMutation": false
+    },
+    "authorityChecks": {
+      "commandKernelBypass": false,
+      "privateCommandBus": false,
+      "directStorageAccess": false,
+      "secondTruthStore": false,
+      "networkAccess": false,
+      "dependencyAdded": false
+    }
+  },
+  "runtimeEvidence": {
+    "projectionInspectorManifestSchemaVersion": "projection.inspector.manifest.v1",
+    "projectionInspectorFallbackSchemaVersion": "projection.inspector.fallback.v1",
+    "projectionInspectorProviderSchemaVersion": "derived.projection.inspectorProvider.v1",
+    "manifests": [
+      "plot.projection.inspector",
+      "idea.projection.inspector",
+      "meaning.projection.inspector"
+    ],
+    "fallbackStates": [
+      "ready",
+      "empty",
+      "unavailable"
+    ],
+    "readOnlyProviderProof": "provider exposes manifests and projectionStates only, maps source projection errors to unavailable fallback, exposes no allowedActions, and adds no command, storage adapter, renderer mutation, or Product Core state"
+  },
+  "changedBasenames": [
+    "projectionInspectorTypes.mjs",
+    "projectionInspectorManifests.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e03-c05-projection-inspector-fallback-manifests.contract.test.js",
+    "YALKEN_ATLAS_V5_E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --check src/derived/projections/projectionInspectorTypes.mjs && node --check src/derived/projections/projectionInspectorManifests.mjs && node --check src/derived/projections/index.mjs && node --check src/derived/index.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e03-c05-projection-inspector-fallback-manifests.contract.test.js",
+      "status": "PASS_5_TESTS_5_PASS_0_FAIL"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e03-c01-plot-projection-originref-sequence-layout.contract.test.js test/contracts/yalken-atlas-v5-e03-c02-idea-projection-author-truth-occurrence-evidence.contract.test.js test/contracts/yalken-atlas-v5-e03-c03-meaning-projection-explicit-promotion-boundary.contract.test.js test/contracts/yalken-atlas-v5-e03-c04-cross-projection-originref-impact-preview.contract.test.js test/contracts/yalken-atlas-v5-e03-c05-projection-inspector-fallback-manifests.contract.test.js",
+      "status": "PASS_25_TESTS_25_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_EXISTING_HIGH_MODERATE_ADVISORIES_NO_CRITICAL"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "nextContour": "E04_STAGE_04_ATLAS_MINDMAP_INTEROP_CONTOURS"
+}

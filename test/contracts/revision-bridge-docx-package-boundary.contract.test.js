@@ -7,7 +7,22 @@ const { pathToFileURL } = require('node:url');
 
 const MODULE_PATH = 'src/io/revisionBridge/index.mjs';
 const TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
-const ALLOWLIST = [MODULE_PATH, TEST_PATH];
+const GOVERNANCE_APPROVALS_PATH = 'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json';
+const RELEASE_CANDIDATE_LOCK_PATH = 'docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json';
+const W5_STATUS_PATH = 'docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json';
+const W5_VERIFIER_PATH = 'scripts/ops/rtk-w5-release-hardening-certification.mjs';
+const W5_TEST_PATH = 'test/contracts/rtk-w5-release-hardening-certification.contract.test.js';
+const WORD_EVIDENCE_TEST_PATH = 'test/contracts/revision-bridge-word-evidence-check.contract.test.js';
+const ALLOWLIST = [
+  MODULE_PATH,
+  TEST_PATH,
+  GOVERNANCE_APPROVALS_PATH,
+  RELEASE_CANDIDATE_LOCK_PATH,
+  W5_STATUS_PATH,
+  W5_VERIFIER_PATH,
+  W5_TEST_PATH,
+  WORD_EVIDENCE_TEST_PATH,
+];
 
 async function loadBridge() {
   return import(pathToFileURL(path.join(process.cwd(), MODULE_PATH)).href);

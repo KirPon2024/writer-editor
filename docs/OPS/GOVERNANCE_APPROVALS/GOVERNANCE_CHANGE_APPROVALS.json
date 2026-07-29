@@ -332,10 +332,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "52a3b0d6b1f6781316a9f36342d42635c0bd90f9ca882af34ef2c7ce1c3128a1",
-      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
-      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
-      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+      "sha256": "4117d4f754b3d96b47918359bcb7a8917135bac78c9f6cacecc3bc3fb6997038",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -4056,31 +4056,31 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "f8e92f6317f17926ae538f6c5de6735df75fb0cc54b86bf8724251114d717518",
-      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
-      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
-      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+      "sha256": "fc3b5976fd2fe76869eea81548de2168828bf613fe5dc889e1541f41e912ee4b",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "75dd520cde33f627fe405b6aa039284f837da174e7fa123f4cf83980480f9b81",
-      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
-      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
-      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+      "sha256": "be9d3c528e2cdb3cce3a656a6b2efe18dcc65e1c051574e858236a077004e687",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "df92bafd8282eb879c9305b8c290abbf8090c64d9747750700e2b37d4b8025ee",
-      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
-      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
-      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+      "sha256": "16db2910007a50fc850c190b69f42aec27b6ed73b88ffdb909731a4724a8f449",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
-      "sha256": "0c18f4d0570e65ea70bfd6453a269f866bef1d65cc9b7dd6aeaa010d4b5e4c2c",
-      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
-      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
-      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+      "sha256": "1103e7628626b73708e4f3abb7afdd67ee57461feb3711aae7697b8871cceed2",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportIr.mjs",
@@ -4095,6 +4095,34 @@
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
       "approvedAtUtc": "2026-07-29T16:30:29.812Z",
       "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
+      "sha256": "4db3dc0fd4b7ccdcd1c07af2be1e2daa1ad119c4543dde241957bb5d53e38a89",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportApplyStore.mjs",
+      "sha256": "a6990a498d5e5e8578172d42586a0ddd539a4277de00e947a5b95be5cd43cbd4",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
+      "sha256": "c2030b6a7254333fe7bdc1b1b10207eb28671992f15e65c64f024d4f77cf0aa9",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+    },
+    {
+      "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
+      "sha256": "1635471e2f7ac88089e31a5caf68f7cb1de9c91e802fb6c39e0aecaab4e13b0f",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
+      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
+      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     }
   ]
 }

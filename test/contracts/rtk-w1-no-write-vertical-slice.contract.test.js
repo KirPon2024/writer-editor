@@ -13,6 +13,10 @@ const ROUND_STORE_PATH = 'src/io/revisionBridge/reviewTransportRoundStore.mjs';
 const TEST_PATH = 'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js';
 const G0B_TEST_PATH = 'test/contracts/rtk-g0b-feasibility.contract.test.js';
 const W2_TEST_PATH = 'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js';
+const W3_APPLY_CORE_PATH = 'src/io/revisionBridge/reviewTransportApplyCore.mjs';
+const W3_APPLY_STORE_PATH = 'src/io/revisionBridge/reviewTransportApplyStore.mjs';
+const W3_EXACT_APPLY_PATH = 'src/io/revisionBridge/reviewTransportExactApply.mjs';
+const W3_TEST_PATH = 'test/contracts/rtk-w3-exact-apply-replay.contract.test.js';
 const DOCX_PREFLIGHT_RUNTIME_REPAIR_PATH = 'src/io/revisionBridge/index.mjs';
 const ALLOWLIST = [
   CONTRACTS_PATH,
@@ -23,6 +27,10 @@ const ALLOWLIST = [
   G0B_TEST_PATH,
   TEST_PATH,
   W2_TEST_PATH,
+  W3_APPLY_CORE_PATH,
+  W3_APPLY_STORE_PATH,
+  W3_EXACT_APPLY_PATH,
+  W3_TEST_PATH,
   DOCX_PREFLIGHT_RUNTIME_REPAIR_PATH,
   'scripts/ops/sector-m-scope-map.json',
   'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',

@@ -12,6 +12,12 @@ export const RTK_ANALYSIS_BRANCH_V2_SCHEMA = 'yalken.rtk.analysis-branch.v2';
 export const RTK_TRANSPORT_ARTIFACT_V2_SCHEMA = 'yalken.rtk.transport-artifact.v2';
 export const RTK_PRIVATE_MANIFEST_V2_SCHEMA = 'yalken.rtk.private-manifest.v2';
 export const RTK_NO_WRITE_ANALYSIS_V2_SCHEMA = 'yalken.rtk.returned-review-analysis.v2';
+export const RTK_EXACT_APPLY_COMMAND_ENVELOPE_V2_SCHEMA =
+  'yalken.rtk.exact-apply-command-envelope.v2';
+export const RTK_EXACT_APPLY_OUTCOME_V2_SCHEMA =
+  'yalken.rtk.exact-apply-outcome.v2';
+export const RTK_EXACT_APPLY_RECOVERY_RESOLUTION_V2_SCHEMA =
+  'yalken.rtk.exact-apply-recovery-resolution.v2';
 export const RTK_FEATURE_FLAG = 'reviewTransportKernel.returnedReviewAnalysisV2';
 
 export const RTK_LIFECYCLE_STATES = Object.freeze([
@@ -63,6 +69,9 @@ export const RTK_REASON_CODES = Object.freeze([
   'RTK_PARSER_CONSERVATION_FAILED',
   'RTK_WRITE_PRECONDITION_FAILED',
   'RTK_WRITE_RECOVERED',
+  'RTK_COMMAND_ENVELOPE_BOUND',
+  'RTK_COMMAND_ENVELOPE_TAMPERED',
+  'RTK_COMMAND_AUTHORITY_BLOCKED',
   'RTK_WORKER_CAPABILITY_READY',
   'RTK_WORKER_AUTHORITY_BLOCKED',
   'RTK_PRIVATE_MANIFEST_BOUNDARY_OK',

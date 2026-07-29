@@ -1,4 +1,5 @@
 export const MINDMAP_GRAPH_SCHEMA_VERSION = 'derived.mindmap.graph.v1';
+export const MANUAL_MAP_GRAPH_SCHEMA_VERSION = 'derived.manualMap.graph.v1';
 
 export const MINDMAP_NODE_KIND = Object.freeze({
   PROJECT: 'project',

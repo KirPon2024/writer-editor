@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE",
+  "programStage": "E04_STAGE_04_DETERMINISTIC_ATLAS_CONTOURS",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-30T00:05:00Z",
+  "baseSha": "b07147d7d83dc9cf201c8d8da7fb77d2aba122ae",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds Atlas product command boundaries and deterministic readback only; it adds no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "implementedScope": [
+    "explicit atlas.entity.merge command with reversible operation ledger",
+    "explicit atlas.entity.splitRestore command with stale post-merge guard",
+    "explicit atlas.observation.reassign command with evidence staleness guard",
+    "derived mention index readback for merged source terms",
+    "derived observation aggregate readback for reassigned observations",
+    "Command Kernel capability revalidation for merge split restore and reassign",
+    "zero false automatic merge proof"
+  ],
+  "authority": {
+    "productTruthMutation": "explicit Atlas core commands only",
+    "commandAuthority": "Command Kernel capability revalidation",
+    "designAuthority": "none",
+    "storageMutation": false,
+    "networkMutation": false,
+    "externalServiceMutation": false,
+    "automaticMerge": false,
+    "reversibleMergeLedger": true
+  },
+  "runtimeFacts": {
+    "mergeCommandId": "atlas.entity.merge",
+    "splitRestoreCommandId": "atlas.entity.splitRestore",
+    "reassignCommandId": "atlas.observation.reassign",
+    "mergeCapabilityId": "cap.atlas.entity.merge",
+    "splitRestoreCapabilityId": "cap.atlas.entity.splitRestore",
+    "reassignCapabilityId": "cap.atlas.observation.reassign",
+    "nodeCapabilities": true,
+    "webCapabilities": false,
+    "mobileCapabilities": false,
+    "entityOperationsLedger": "atlas.author.v1.entityOperations",
+    "reassignmentLedger": "atlas.author.v1.reassignments",
+    "splitRestoreRequiresUnstalePostMergeSnapshot": true,
+    "reassignRequiresCurrentEvidenceAnchor": true,
+    "sourceEntityDeletedByMerge": false,
+    "projectTruthMutationWithoutCommand": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "uiMutation": false
+  },
+  "changedFiles": [
+    "src/core/runtime.mjs",
+    "src/core/registry.ts",
+    "src/core/contracts.ts",
+    "src/renderer/commands/capabilityPolicy.mjs",
+    "src/renderer/commands/localCapabilityProvider.mjs",
+    "src/derived/atlas/deriveAtlasMentionIndex.mjs",
+    "src/derived/atlas/deriveAtlasObservationAggregate.mjs",
+    "test/contracts/yalken-atlas-v5-e04-c04-atlas-entity-merge-split-reassign-restore.contract.test.js",
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c04-atlas-entity-merge-split-reassign-restore.contract.test.js",
+      "status": "PASS",
+      "summary": "6 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c03-atlas-cooccurrence-first-last-absence-intervals.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c02-atlas-alias-scope-suppression-boundary.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c01-atlas-observation-candidate-aggregate-model.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "governance_change_approved=1 missing_approvals=0"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "3 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX"
+}

@@ -84,17 +84,23 @@ function normalizeCandidate({ mention, languagePolicy }) {
   };
 }
 
-function normalizeObservation(candidate, suppressionLookup) {
+function normalizeObservation(candidate, suppressionLookup, reassignmentLookup) {
   const observationId = `atlas-observation:${hashCanonicalValue({
     candidateId: candidate.candidateId,
     evidenceAnchorId: candidate.evidenceAnchorId,
     entityId: candidate.entityId,
     sceneId: candidate.sceneId,
   })}`;
+  const reassignment = reassignmentLookup.byObservationId.get(observationId)
+    || reassignmentLookup.byMentionId.get(candidate.mentionId)
+    || reassignmentLookup.byEvidenceAnchorId.get(candidate.evidenceAnchorId)
+    || null;
   const suppression = suppressionLookup.byObservationId.get(observationId)
     || suppressionLookup.byMentionId.get(candidate.mentionId)
     || suppressionLookup.byEvidenceAnchorId.get(candidate.evidenceAnchorId)
     || null;
+  const originalEntityId = candidate.entityId;
+  const entityId = reassignment ? reassignment.targetEntityId : originalEntityId;
   return {
     schemaVersion: ATLAS_OBSERVATION_SCHEMA_VERSION,
     observationId,
@@ -104,7 +110,8 @@ function normalizeObservation(candidate, suppressionLookup) {
     analyzerId: candidate.analyzerId,
     projectId: candidate.projectId,
     sceneId: candidate.sceneId,
-    entityId: candidate.entityId,
+    entityId,
+    originalEntityId,
     termId: candidate.termId,
     termKind: candidate.termKind,
     aliasId: candidate.aliasId,
@@ -117,6 +124,11 @@ function normalizeObservation(candidate, suppressionLookup) {
     suppressionState: suppression ? 'SUPPRESSED' : 'ACTIVE',
     suppressionId: suppression ? suppression.id : '',
     suppressionReason: suppression ? suppression.reason : '',
+    reassignmentState: reassignment ? 'REASSIGNED' : 'ORIGINAL',
+    reassignmentId: reassignment ? reassignment.id : '',
+    reassignmentReason: reassignment ? reassignment.reason : '',
+    sourceEntityId: reassignment ? reassignment.sourceEntityId : originalEntityId,
+    targetEntityId: reassignment ? reassignment.targetEntityId : entityId,
   };
 }
 
@@ -191,6 +203,42 @@ function buildSuppressionLookup(project) {
   return { suppressions: normalized, byObservationId, byMentionId, byEvidenceAnchorId };
 }
 
+function normalizeReassignment(value) {
+  if (!isPlainObject(value)) return null;
+  const id = plainString(value.id);
+  const evidenceAnchor = isPlainObject(value.evidenceAnchor) ? value.evidenceAnchor : null;
+  if (!id || value.operationKind !== 'observation.reassign' || !evidenceAnchor) return null;
+  return {
+    id,
+    projectId: plainString(value.projectId),
+    sceneId: plainString(value.sceneId),
+    sourceEntityId: plainString(value.sourceEntityId),
+    targetEntityId: plainString(value.targetEntityId),
+    observationId: plainString(value.observationId),
+    mentionId: plainString(value.mentionId),
+    reason: plainString(value.reason),
+    evidenceAnchor,
+    evidenceAnchorId: evidenceAnchorId(evidenceAnchor),
+  };
+}
+
+function buildReassignmentLookup(project) {
+  const reassignments = isPlainObject(project?.atlas?.reassignments) ? project.atlas.reassignments : {};
+  const normalized = Object.keys(reassignments)
+    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }))
+    .map((reassignmentId) => normalizeReassignment(reassignments[reassignmentId]))
+    .filter(Boolean);
+  const byObservationId = new Map();
+  const byMentionId = new Map();
+  const byEvidenceAnchorId = new Map();
+  for (const reassignment of normalized) {
+    if (reassignment.observationId) byObservationId.set(reassignment.observationId, reassignment);
+    if (reassignment.mentionId) byMentionId.set(reassignment.mentionId, reassignment);
+    if (reassignment.evidenceAnchorId) byEvidenceAnchorId.set(reassignment.evidenceAnchorId, reassignment);
+  }
+  return { reassignments: normalized, byObservationId, byMentionId, byEvidenceAnchorId };
+}
+
 function buildAggregate({ coreState, projectId, indexResult, languageCode, meta }) {
   const project = getProject(coreState, projectId);
   if (!project) {
@@ -203,9 +251,10 @@ function buildAggregate({ coreState, projectId, indexResult, languageCode, meta 
   }
   const languagePolicy = normalizeAtlasObservationLanguagePolicy(languageCode || project.languageCode || project.language || 'und');
   const suppressionLookup = buildSuppressionLookup(project);
+  const reassignmentLookup = buildReassignmentLookup(project);
   const candidates = sortAtlasObservationCandidates((Array.isArray(indexResult.value.mentions) ? indexResult.value.mentions : [])
     .map((mention) => normalizeCandidate({ mention, languagePolicy })));
-  const observations = sortAtlasObservations(candidates.map((candidate) => normalizeObservation(candidate, suppressionLookup)));
+  const observations = sortAtlasObservations(candidates.map((candidate) => normalizeObservation(candidate, suppressionLookup, reassignmentLookup)));
   assertObservationEvidence(observations);
   const entities = aggregateEntities(project, observations);
   const sceneIds = uniqueSorted(observations.map((observation) => observation.sceneId));
@@ -218,6 +267,7 @@ function buildAggregate({ coreState, projectId, indexResult, languageCode, meta 
     evidenceAnchorIds,
     languagePolicy,
     suppressions: suppressionLookup.suppressions,
+    reassignments: reassignmentLookup.reassignments,
   });
 
   return {
@@ -248,6 +298,7 @@ function buildAggregate({ coreState, projectId, indexResult, languageCode, meta 
       observationCount: observations.length,
       activeObservationCount: observations.filter((observation) => observation.suppressionState !== 'SUPPRESSED').length,
       suppressedObservationCount: observations.filter((observation) => observation.suppressionState === 'SUPPRESSED').length,
+      reassignedObservationCount: observations.filter((observation) => observation.reassignmentState === 'REASSIGNED').length,
       entityCount: entities.length,
       sceneCount: sceneIds.length,
       evidenceAnchorCount: evidenceAnchorIds.length,

@@ -4473,6 +4473,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY",
       "approvedAtUtc": "2026-07-29T22:07:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E03 C03 contract: proves meaning.promote persists explicit author promotion without changing scene text, supports explicit scene origin refs without copying quote text, reducers fail closed without mutation for invalid source and stale hash inputs, projection is deterministic and contains only explicit promotion evidence, text and idea objects alone never create meaning truth, Command Kernel denies web and admits node free, unbound meaning commands fail enforcement, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW_RECEIPT.json",
+      "sha256": "da4ecdf840c2053dad06b255ef6a4537dc4c008f4e58f78f148524f0fec81022",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW",
+      "approvedAtUtc": "2026-07-29T22:34:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C04 cross projection receipt: adds derived.crossProjection.impactPreview.v1 as a pure read-only preview over plot, idea, and meaning projections, normalizes crossProjection.originRef.v1 refs into a common canvas graph packet, requires expectedCoreStateHash stale-guard matching, proves no second truth store, preserves no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e03-c04-cross-projection-originref-impact-preview.contract.test.js",
+      "sha256": "6c99c92122a805853a02dcc4b6f97b5b5651bf2e2b2d2788bbe3398676f071e3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW",
+      "approvedAtUtc": "2026-07-29T22:34:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C04 contract: proves deterministic cross-projection shared origin ref impact packet across plot, idea, and meaning projections, includes common canvas graph packet and idea-to-meaning relation preview, fails closed on missing project id, missing expected core hash, stale core hash, and disabled capability, root derived barrel exports the preview, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
     }
   ]
 }

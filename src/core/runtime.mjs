@@ -8,6 +8,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_MENTION_CONFIRM: 'atlas.mention.confirm',
   IDEA_CREATE: 'idea.create',
   IDEA_ORIGIN_LINK_ADD: 'idea.originLink.add',
+  MEANING_PROMOTE: 'meaning.promote',
   MANUAL_MAP_CREATE: 'manualMap.create',
   MANUAL_MAP_NODE_ADD: 'manualMap.node.add',
   MANUAL_MAP_EDGE_ADD: 'manualMap.edge.add',
@@ -20,6 +21,7 @@ const ATLAS_AUTHOR_SCHEMA_VERSION = 'atlas.author.v1';
 const MANUAL_MAP_AUTHOR_SCHEMA_VERSION = 'manualMap.author.v1';
 const IDEA_AUTHOR_SCHEMA_VERSION = 'idea.author.v1';
 const IDEA_ORIGIN_REF_SCHEMA_VERSION = 'idea.originRef.v1';
+const MEANING_AUTHOR_SCHEMA_VERSION = 'meaning.author.v1';
 
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
@@ -104,6 +106,30 @@ function normalizeIdeaAuthorData(input) {
 function ensureIdeaAuthorData(project) {
   const current = normalizeIdeaAuthorData(project && project.ideas);
   project.ideas = current;
+  return current;
+}
+
+function createEmptyMeaningAuthorData() {
+  return {
+    schemaVersion: MEANING_AUTHOR_SCHEMA_VERSION,
+    meanings: {},
+  };
+}
+
+function normalizeMeaningAuthorData(input) {
+  if (!isPlainObject(input) || input.schemaVersion !== MEANING_AUTHOR_SCHEMA_VERSION || !isPlainObject(input.meanings)) {
+    return createEmptyMeaningAuthorData();
+  }
+
+  return {
+    schemaVersion: MEANING_AUTHOR_SCHEMA_VERSION,
+    meanings: cloneJson(input.meanings),
+  };
+}
+
+function ensureMeaningAuthorData(project) {
+  const current = normalizeMeaningAuthorData(project && project.meanings);
+  project.meanings = current;
   return current;
 }
 
@@ -192,6 +218,7 @@ function applyCreateProject(state, payload) {
     title,
     atlas: createEmptyAtlasAuthorData(),
     ideas: createEmptyIdeaAuthorData(),
+    meanings: createEmptyMeaningAuthorData(),
     manualMaps: createEmptyManualMapData(),
     scenes: {
       [sceneId]: {
@@ -1012,6 +1039,113 @@ function applyIdeaOriginLinkAdd(state, payload) {
   return ok(next);
 }
 
+function normalizeMeaningPromotionSource(value) {
+  if (!isPlainObject(value)) return null;
+  const kind = trimString(value.kind);
+  if (kind === 'idea') {
+    const ideaId = trimString(value.ideaId || value.sourceId);
+    if (!ideaId) return null;
+    return { kind, ideaId };
+  }
+  if (kind === 'sceneOriginRef') {
+    const originRef = normalizeIdeaOriginRef(value.originRef);
+    if (!originRef) return null;
+    return { kind, originRef };
+  }
+  return null;
+}
+
+function validateMeaningPromotionSource(state, projectId, source) {
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'meaning.promote', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  if (source.kind === 'idea') {
+    const ideas = normalizeIdeaAuthorData(project.ideas);
+    if (!ideas.ideas[source.ideaId]) {
+      return fail(state, 'E_MEANING_SOURCE_IDEA_NOT_FOUND', 'meaning.promote', 'SOURCE_IDEA_NOT_FOUND', {
+        projectId,
+        ideaId: source.ideaId,
+      });
+    }
+    return null;
+  }
+
+  const originRef = source.originRef;
+  const scene = project.scenes && project.scenes[originRef.sceneId];
+  if (!scene) {
+    return fail(state, 'E_CORE_SCENE_NOT_FOUND', 'meaning.promote', 'SCENE_NOT_FOUND', {
+      projectId,
+      sceneId: originRef.sceneId,
+    });
+  }
+  const sceneText = typeof scene.text === 'string' ? scene.text : '';
+  if (originRef.endOffset > sceneText.length) {
+    return fail(state, 'E_MEANING_ORIGIN_REF_RANGE_OUT_OF_BOUNDS', 'meaning.promote', 'ORIGIN_REF_RANGE_OUT_OF_BOUNDS', {
+      projectId,
+      sceneId: originRef.sceneId,
+      textLength: sceneText.length,
+    });
+  }
+  const sceneTextHash = hashCanonicalValue(sceneText);
+  if (originRef.sourceHash !== sceneTextHash) {
+    return fail(state, 'E_MEANING_ORIGIN_REF_SOURCE_HASH_MISMATCH', 'meaning.promote', 'ORIGIN_REF_SOURCE_HASH_MISMATCH', {
+      projectId,
+      sceneId: originRef.sceneId,
+      expectedHash: sceneTextHash,
+      receivedHash: originRef.sourceHash,
+    });
+  }
+  return null;
+}
+
+function applyMeaningPromote(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const meaningId = trimString(payload?.meaningId);
+  const title = trimString(payload?.title);
+  const interpretation = typeof payload?.interpretation === 'string' ? payload.interpretation.trim() : '';
+  const source = normalizeMeaningPromotionSource(payload?.source);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'meaning.promote', 'PROJECT_ID_REQUIRED');
+  }
+  if (!meaningId) {
+    return fail(state, 'E_MEANING_ID_REQUIRED', 'meaning.promote', 'MEANING_ID_REQUIRED', { projectId });
+  }
+  if (!title) {
+    return fail(state, 'E_MEANING_TITLE_REQUIRED', 'meaning.promote', 'MEANING_TITLE_REQUIRED', { projectId, meaningId });
+  }
+  if (!interpretation) {
+    return fail(state, 'E_MEANING_INTERPRETATION_REQUIRED', 'meaning.promote', 'MEANING_INTERPRETATION_REQUIRED', { projectId, meaningId });
+  }
+  if (!source) {
+    return fail(state, 'E_MEANING_PROMOTION_SOURCE_REQUIRED', 'meaning.promote', 'PROMOTION_SOURCE_REQUIRED', { projectId, meaningId });
+  }
+
+  const sourceFailure = validateMeaningPromotionSource(state, projectId, source);
+  if (sourceFailure) return sourceFailure;
+
+  const project = state.data.projects[projectId];
+  const meanings = normalizeMeaningAuthorData(project.meanings);
+  if (meanings.meanings[meaningId]) {
+    return fail(state, 'E_MEANING_ALREADY_EXISTS', 'meaning.promote', 'MEANING_ALREADY_EXISTS', { projectId, meaningId });
+  }
+
+  const next = cloneJson(state);
+  const nextMeanings = ensureMeaningAuthorData(next.data.projects[projectId]);
+  nextMeanings.meanings[meaningId] = {
+    id: meaningId,
+    title,
+    interpretation,
+    source,
+    promotionKind: 'explicitAuthorPromotion',
+    createdByCommandSeq: next.data.lastCommandId + 1,
+    updatedByCommandSeq: next.data.lastCommandId + 1,
+  };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
 function applyTextEdit(state, payload) {
   const projectId = typeof payload?.projectId === 'string' ? payload.projectId.trim() : '';
   const sceneId = typeof payload?.sceneId === 'string' ? payload.sceneId.trim() : '';
@@ -1067,6 +1201,9 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.IDEA_ORIGIN_LINK_ADD) {
     return applyIdeaOriginLinkAdd(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MEANING_PROMOTE) {
+    return applyMeaningPromote(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_CREATE) {
     return applyManualMapCreate(state, command.payload || {});

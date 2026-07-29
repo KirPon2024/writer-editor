@@ -9,6 +9,7 @@ export const CORE_COMMANDS = [
   'atlas.mention.confirm',
   'idea.create',
   'idea.originLink.add',
+  'meaning.promote',
   'manualMap.create',
   'manualMap.node.add',
   'manualMap.edge.add',

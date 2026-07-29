@@ -4459,6 +4459,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C02_IDEA_PROJECTION_AUTHOR_TRUTH_AND_OCCURRENCE_EVIDENCE",
       "approvedAtUtc": "2026-07-29T21:59:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E03 C02 contract: proves idea commands persist author truth and explicit origin refs without changing scene text, reducers fail closed without mutation for invalid payloads and stale hashes, projection is deterministic and derives occurrence evidence only from explicit origin links, text occurrences alone do not create idea truth, Command Kernel denies web and admits node free, unbound idea commands fail enforcement, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY_RECEIPT.json",
+      "sha256": "e06e34b1121fee3b25b930abb2b79ff725381f81230b2ac114f6b1c016a32723",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T22:07:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C03 meaning projection receipt: adds meaning.author.v1 Product Core author truth and derived.meaning.projection.v1 read model through Command Kernel command meaning.promote, validates explicit promotion source by existing idea or scene origin ref range and current source hash, proves text and idea objects alone never create meaning truth, preserves no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e03-c03-meaning-projection-explicit-promotion-boundary.contract.test.js",
+      "sha256": "c26da1a22124f04c5abdcde788baeedccedcd52afce5ddd5e89f68ac483d4bcc",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T22:07:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E03 C03 contract: proves meaning.promote persists explicit author promotion without changing scene text, supports explicit scene origin refs without copying quote text, reducers fail closed without mutation for invalid source and stale hash inputs, projection is deterministic and contains only explicit promotion evidence, text and idea objects alone never create meaning truth, Command Kernel denies web and admits node free, unbound meaning commands fail enforcement, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
     }
   ]
 }

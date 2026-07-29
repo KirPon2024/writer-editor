@@ -90,3 +90,10 @@ export {
   sortIdeaItems,
   sortIdeaOriginLinks,
 } from './idea/index.mjs';
+export {
+  MEANING_AUTHOR_SCHEMA_VERSION,
+  MEANING_PROJECTION_SCHEMA_VERSION,
+  MEANING_PROJECTION_VIEW_ID,
+  deriveMeaningProjection,
+  sortMeaningItems,
+} from './meaning/index.mjs';

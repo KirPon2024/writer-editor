@@ -30,6 +30,7 @@ const FREE_ALWAYS_AVAILABLE_COMMAND_IDS = Object.freeze([
   'atlas.mention.confirm',
   'idea.create',
   'idea.originLink.add',
+  'meaning.promote',
   'manualMap.create',
   'manualMap.node.add',
   'manualMap.edge.add',

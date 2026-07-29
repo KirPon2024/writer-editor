@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02B_C04_LAYOUT_RESOURCE_BUDGET_PROOF_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02B_C04_WORKER_LAYOUT_AND_10K_RESOURCE_BUDGET_PROOF",
+  "programStage": "E02B_STAGE_02B_LARGE_MAP_INTERACTION",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T20:08:18Z",
+  "baseSha": "39b3aa63914567acee1a684d6cd989f9741dd923",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a pure derived local layout job/result/resource-budget contract. It creates no product UI surface, visual composition, layout palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.layoutResourceBudgetProof.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "derived.manualMap.graph.v1",
+        "transient manualMap.viewState.v1 input",
+        "manualMap.viewportPlan.v1"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "No command is introduced. Layout jobs are pure derived local work envelopes and acceptance publishes only hash pointers."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "layoutJobSchema": "manualMap.layoutJob.v1",
+    "layoutResultSchema": "manualMap.layoutResult.v1",
+    "resourceBudgetProofSchema": "manualMap.resourceBudgetProof.v1",
+    "sourceSchema": "derived.manualMap.graph.v1",
+    "adapterKind": "local-pure-derived-worker",
+    "webWorkerApiUsed": false,
+    "staleResultDiscard": true,
+    "queueCoalescing": true,
+    "tenThousandNodeBudgetProof": true,
+    "renderAllNodes": false,
+    "persistentDerivedTruth": false
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/derived/mindmap/manualMapLayoutScheduler.mjs && node --check src/derived/mindmap/index.mjs && node --check src/derived/index.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02b-c04-layout-resource-budget-proof.contract.test.js test/contracts/yalken-atlas-v5-e02b-c03-selection-keyboard-list-parity.contract.test.js test/contracts/yalken-atlas-v5-e02b-c02-viewport-virtualization-lod-planner.contract.test.js",
+      "status": "PASS_16_TESTS_16_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "negativeChecks": [
+    "layout jobs carry source revision and request identity",
+    "stale layout results fail closed on graph revision changes",
+    "identity mismatches fail closed before publish",
+    "10k-node fixture produces a bounded viewport plan and does not render all nodes or edges",
+    "accepted layout result publishes only hash pointers and never persistent derived truth",
+    "layout scheduler modules have no filesystem, network, Electron, Web Worker API, timers, renderer storage, UI command dispatch, or hot-path event listener bypass"
+  ],
+  "nextContour": "E02C_LEGACY_MIGRATION_INVENTORY_PREVIEW_SHADOW_ROLLBACK"
+}

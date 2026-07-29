@@ -4312,6 +4312,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C03_SELECTION_KEYBOARD_AND_LIST_PARITY",
       "approvedAtUtc": "2026-07-29T19:57:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02B C03 contract: proves deterministic list rows for reachable graph nodes and edges, corrupt-edge exclusion, keyboard navigation as transient listState only, keyboard activation parity with pointer selection intents, Escape clear through the existing ViewState reducer, derived barrel exports, and no filesystem, network, Electron, Worker, timers, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02B_C04_LAYOUT_RESOURCE_BUDGET_PROOF_RECEIPT.json",
+      "sha256": "d94d4f210d27e159e4aa0e4e16920be91ffdd1eed464dbcf5428721dba53ed07",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C04_WORKER_LAYOUT_AND_10K_RESOURCE_BUDGET_PROOF",
+      "approvedAtUtc": "2026-07-29T20:08:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02B C04 layout resource budget proof receipt: adds manualMap.layoutJob.v1, manualMap.layoutResult.v1, and manualMap.resourceBudgetProof.v1 as pure local derived work envelopes over derived.manualMap.graph.v1 and manualMap.viewportPlan.v1, proves stale result discard, bounded queue coalescing, 10k-node resource budget, no render-all, no project truth mutation, no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02b-c04-layout-resource-budget-proof.contract.test.js",
+      "sha256": "16b114e1611df8607308457fb9a18ad3e9e80651f94a241750d2394f3eb97fb0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C04_WORKER_LAYOUT_AND_10K_RESOURCE_BUDGET_PROOF",
+      "approvedAtUtc": "2026-07-29T20:08:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02B C04 contract: proves layout jobs carry source revision and no write authority, 10k execution stays within explicit viewport budgets without render-all, stale graph revision and request identity mismatches fail closed, queue coalesces to latest generation per map, derived barrels export the contract, and no filesystem, network, Electron, Web Worker API, timers, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
     }
   ]
 }

@@ -7,6 +7,7 @@ export const LOCAL_ENTITLEMENT_TIERS = Object.freeze({
 
 const FREE_READ_ONLY_COMMAND_IDS = Object.freeze([
   'cmd.project.review.openComments',
+  'cmd.project.review.cancelOperation',
 ]);
 
 const FREE_PRO_COMPLEXITY_COMMAND_IDS = Object.freeze([

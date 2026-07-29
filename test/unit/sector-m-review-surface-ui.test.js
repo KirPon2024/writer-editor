@@ -24,6 +24,7 @@ this.__reviewSurfaceExports = {
   REVIEW_SURFACE_EXACT_TEXT_APPLY_COMMAND_ID,
   REVIEW_SURFACE_EXACT_TEXT_APPLY_BATCH_COMMAND_ID,
   REVIEW_SURFACE_RELOAD_RECONCILED_SCENE_COMMAND_ID,
+  REVIEW_SURFACE_CANCEL_OPERATION_COMMAND_ID,
   reviewSurfaceBuildExactTextApplyPayload,
   reviewSurfaceBuildExactTextApplyBatchPayload,
   reviewSurfaceNormalizeState,
@@ -54,7 +55,9 @@ function loadReviewSurfaceClickHarness(bridgeResult) {
 let reviewSurfaceExactTextApplyTransientState = null;
 let renderCount = 0;
 const bridgeCalls = [];
+const dispatchCalls = [];
 const stateCalls = [];
+const statusCalls = [];
 
 class FakeElement extends Element {
   closest() {
@@ -83,9 +86,13 @@ const fakeReloadButton = new FakeButton(
   { operationId: 'op_reconcile_1' },
   '[data-review-reload-reconciled-scene]',
 );
+const fakeCancelButton = new FakeButton(
+  { operationId: 'review-operation-1' },
+  '[data-review-cancel-operation]',
+);
 const reviewSurfaceHost = new FakeHTMLElement();
 reviewSurfaceHost.contains = (node) => (
-  node === fakeButton || node === fakeBatchButton || node === fakeReloadButton
+  node === fakeButton || node === fakeBatchButton || node === fakeReloadButton || node === fakeCancelButton
 );
 reviewSurfaceHost.addEventListener = () => {};
 
@@ -104,6 +111,13 @@ async function invokePreloadUiCommandBridge(commandId, payload) {
   bridgeCalls.push({ commandId, payload });
   return __bridgeResult;
 }
+async function dispatchUiCommand(commandId, payload) {
+  dispatchCalls.push({ commandId, payload });
+  return handleReviewCancelOperation(payload);
+}
+function updateStatusText(text) {
+  statusCalls.push(text);
+}
 
 ${source.slice(runtimeStart, runtimeEnd)}
 
@@ -111,13 +125,17 @@ this.__reviewSurfaceClickHarness = {
   fakeButton,
   fakeBatchButton,
   fakeReloadButton,
+  fakeCancelButton,
   bridgeCalls,
+  dispatchCalls,
   stateCalls,
+  statusCalls,
   getTransientState: () => reviewSurfaceExactTextApplyTransientState,
   getRenderCount: () => renderCount,
   click: () => handleReviewSurfaceExactTextApplyClick({ target: fakeButton }),
   clickBatch: () => handleReviewSurfaceExactTextApplyClick({ target: fakeBatchButton }),
   clickReload: () => handleReviewSurfaceExactTextApplyClick({ target: fakeReloadButton }),
+  clickCancel: () => handleReviewSurfaceExactTextApplyClick({ target: fakeCancelButton }),
 };
 `;
   const sandbox = {
@@ -292,6 +310,67 @@ function createValidReviewSurfaceReceipt(schemaVersion) {
       recoveryAction: 'OPEN_SNAPSHOT_OR_ABORT',
     },
   };
+}
+
+function createW4ReviewSurfaceState() {
+  const state = createReadyExactOnlyReviewSurfaceState();
+  state.sourceMode = 'MIXED';
+  state.lifecycleState = 'RETURN_ANALYZED';
+  state.returnArtifactSha256 = 'a'.repeat(64);
+  state.manifestDigest = 'b'.repeat(64);
+  state.parserProfileDigest = 'sha256:' + 'c'.repeat(64);
+  state.analysisDigest = 'sha256:' + 'd'.repeat(64);
+  state.commentSurvivalPreview = {
+    totalThreads: 1,
+    totalPlacements: 1,
+    preservedThreads: [
+      {
+        threadId: 'thread-w4-1',
+        author: 'Reviewer',
+        createdAt: '2026-07-29T10:00:00.000Z',
+        messages: [
+          { body: 'Comment body stays independent.', author: 'Reviewer', createdAt: '2026-07-29T10:00:00.000Z' },
+          { body: 'Reply stays ordered.', author: 'Editor', createdAt: '2026-07-29T10:02:00.000Z' },
+        ],
+      },
+    ],
+    placementResults: [
+      {
+        placementId: 'placement-w4-1',
+        threadId: 'thread-w4-1',
+        status: 'orphan',
+        evaluation: {
+          reasonCodes: ['RTK_COMMENT_ORPHAN'],
+        },
+      },
+    ],
+    diagnostics: [],
+  };
+  state.packageRewriteReport = {
+    schemaVersion: 'yalken.rtk.package-rewrite-report.v2',
+    reportId: 'e'.repeat(64),
+    canWriteManuscript: false,
+    canApply: false,
+    changedBlocks: [
+      {
+        blockId: 'block-1',
+        originalText: 'Original private paragraph that must only appear as a bounded redacted excerpt.',
+        finalText: 'Final private paragraph that must only appear as a bounded redacted excerpt.',
+        originalDigest: 'sha256:' + 'f'.repeat(64),
+        finalDigest: 'sha256:' + '1'.repeat(64),
+      },
+    ],
+    unchangedBlocks: [],
+  };
+  state.reviewProgress = {
+    active: true,
+    state: 'running',
+    label: 'Applying exact candidate',
+    operationId: 'review-operation-1',
+    percent: 64,
+    cancellable: true,
+  };
+  return state;
 }
 
 function createCanonicalAdapterPayload() {
@@ -662,6 +741,56 @@ test('review surface ui: non-single exact preview renders controlled batch actio
   );
 });
 
+test('review surface ui: W4 lanes expose source mode lifecycle full identities and bounded display diff', () => {
+  const helpers = loadReviewSurfaceHelpers();
+  const state = createW4ReviewSurfaceState();
+  const viewModel = helpers.buildReviewSurfaceViewModel(state);
+  const markup = helpers.renderReviewSurfaceMarkup(viewModel);
+
+  assert.equal(viewModel.sourceMode, 'MIXED');
+  assert.equal(viewModel.lifecycleState, 'RETURN_ANALYZED');
+  assert.equal(viewModel.identity.returnArtifactSha256, 'a'.repeat(64));
+  assert.equal(viewModel.identity.manifestDigest, 'b'.repeat(64));
+  assert.equal(viewModel.identity.parserProfileDigest, 'sha256:' + 'c'.repeat(64));
+  assert.equal(viewModel.identity.analysisDigest, 'sha256:' + 'd'.repeat(64));
+  assert.equal(viewModel.lanes.map((lane) => lane.laneId).join(','), 'exact,manual,comments');
+  assert.equal(viewModel.lanes.find((lane) => lane.laneId === 'manual').state, 'manual');
+  assert.equal(viewModel.lanes.find((lane) => lane.laneId === 'comments').count, 1);
+  assert.equal(viewModel.exactTextPreview.ops[0].displayDiff.some((token) => token.kind === 'removed'), true);
+  assert.equal(viewModel.exactTextPreview.ops[0].displayDiff.some((token) => token.kind === 'added'), true);
+  assert.ok(markup.includes('MIXED: правки и drift'));
+  assert.ok(markup.includes('RETURN_ANALYZED'));
+  assert.ok(markup.includes('a'.repeat(64)));
+  assert.ok(markup.includes('sha256:' + 'd'.repeat(64)));
+  assert.ok(markup.includes('data-review-display-diff="bounded"'));
+  assert.equal(markup.includes('data-project-id'), false);
+  assert.equal(markup.includes('data-scene-path'), false);
+  assert.equal(markup.includes('data-apply-ops'), false);
+});
+
+test('review surface ui: W4 comment lane and redacted report stay separate from text apply authority', () => {
+  const helpers = loadReviewSurfaceHelpers();
+  const viewModel = helpers.buildReviewSurfaceViewModel(createW4ReviewSurfaceState());
+  const markup = helpers.renderReviewSurfaceMarkup(viewModel);
+
+  assert.equal(viewModel.commentLane.length, 1);
+  assert.equal(viewModel.commentLane[0].threadId, 'thread-w4-1');
+  assert.equal(viewModel.commentLane[0].body, 'Comment body stays independent.');
+  assert.equal(viewModel.commentLane[0].replies, 1);
+  assert.equal(viewModel.commentLane[0].outcome, 'ORPHAN');
+  assert.equal(viewModel.commentLane[0].reasonCodes.includes('RTK_COMMENT_ORPHAN'), true);
+  assert.equal(viewModel.packageRewriteReport.reportId, 'e'.repeat(64));
+  assert.equal(viewModel.packageRewriteReport.changedBlocks[0].originalDigest, 'sha256:' + 'f'.repeat(64));
+  assert.equal(viewModel.packageRewriteReport.changedBlocks[0].originalExcerpt.length <= 80, true);
+  assert.equal(viewModel.packageRewriteReport.canWriteManuscript, false);
+  assert.equal(viewModel.packageRewriteReport.canApply, false);
+  assert.ok(markup.includes('Comment body stays independent.'));
+  assert.ok(markup.includes('RTK_COMMENT_ORPHAN'));
+  assert.ok(markup.includes('Package Rewrite Report'));
+  assert.ok(markup.includes('redacted'));
+  assert.equal(markup.includes('data-review-apply-exact-change="'), false);
+});
+
 test('review surface ui: exact apply requires a named change id before enabling action', () => {
   const helpers = loadReviewSurfaceHelpers();
   const state = createReadyExactOnlyReviewSurfaceState();
@@ -938,6 +1067,30 @@ test('review surface ui: reconciliation reload sends only requestId and operatio
   assert.equal(harness.bridgeCalls[0].payload.operationId, 'op_reconcile_1');
   assert.equal(harness.stateCalls.length, 1);
   assert.equal(harness.getTransientState(), null);
+});
+
+test('review surface ui: cancel operation is command-routed and carries only opaque operation id', async () => {
+  const helpers = loadReviewSurfaceHelpers();
+  const harness = loadReviewSurfaceClickHarness({
+    ok: true,
+    value: {
+      ok: true,
+    },
+  });
+
+  await harness.clickCancel();
+
+  assert.equal(helpers.REVIEW_SURFACE_CANCEL_OPERATION_COMMAND_ID, 'cmd.project.review.cancelOperation');
+  assert.equal(harness.bridgeCalls.length, 1);
+  assert.equal(harness.dispatchCalls.length, 0);
+  assert.equal(harness.bridgeCalls[0].commandId, 'cmd.project.review.cancelOperation');
+  assert.equal(
+    JSON.stringify(Object.keys(harness.bridgeCalls[0].payload).sort()),
+    JSON.stringify(['operationId']),
+  );
+  assert.equal(harness.bridgeCalls[0].payload.operationId, 'review-operation-1');
+  assert.equal(harness.getTransientState(), null);
+  assert.equal(harness.statusCalls.includes('Review operation cancelled'), true);
 });
 
 test('review surface ui: applied-without-receipt response remains ambiguous instead of failed', async () => {

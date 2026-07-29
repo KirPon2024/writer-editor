@@ -91,6 +91,7 @@ test('S37 local capability provider: Pro complexity commands are unavailable in 
   const freeReviewApplyBatch = provider.resolveCommandEntitlement('cmd.project.review.applyExactTextChangesBatch', { entitlementTier: 'free' });
   const proReview = provider.resolveCommandEntitlement('cmd.project.review.switchMode', { entitlementTier: 'pro' });
   const freeComments = provider.resolveCommandEntitlement('cmd.project.review.openComments', { entitlementTier: 'free' });
+  const freeCancel = provider.resolveCommandEntitlement('cmd.project.review.cancelOperation', { entitlementTier: 'free' });
 
   assert.equal(freeReview.available, false);
   assert.equal(freeReview.visible, false);
@@ -106,6 +107,9 @@ test('S37 local capability provider: Pro complexity commands are unavailable in 
   assert.equal(freeComments.available, true);
   assert.equal(freeComments.access, 'read_only');
   assert.equal(freeComments.reason, 'PRO_DATA_READ_ONLY_IN_FREE');
+  assert.equal(freeCancel.available, true);
+  assert.equal(freeCancel.access, 'read_only');
+  assert.equal(freeCancel.reason, 'PRO_DATA_READ_ONLY_IN_FREE');
 });
 
 test('S37 local capability provider: Free fails closed for unclassified commands', async () => {

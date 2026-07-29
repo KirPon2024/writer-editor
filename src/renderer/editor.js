@@ -728,7 +728,10 @@ const REVIEW_SURFACE_CLEAR_SESSION_COMMAND_ID = 'cmd.project.review.clearSession
 const REVIEW_SURFACE_EXACT_TEXT_APPLY_COMMAND_ID = 'cmd.project.review.applyExactTextChange';
 const REVIEW_SURFACE_EXACT_TEXT_APPLY_BATCH_COMMAND_ID = 'cmd.project.review.applyExactTextChangesBatch';
 const REVIEW_SURFACE_RELOAD_RECONCILED_SCENE_COMMAND_ID = 'cmd.project.review.reloadReconciledScene';
+const REVIEW_SURFACE_CANCEL_OPERATION_COMMAND_ID = 'cmd.project.review.cancelOperation';
 const REVIEW_SURFACE_EXACT_APPLY_BATCH_MAX_CHANGE_IDS = 10;
+const REVIEW_SURFACE_DISPLAY_DIFF_MAX_TOKENS = 24;
+const REVIEW_SURFACE_REPORT_EXCERPT_MAX_CHARS = 80;
 const REVIEW_SURFACE_EXACT_APPLY_TRANSIENT_STATES = Object.freeze([
   'ready',
   'applying',
@@ -736,6 +739,16 @@ const REVIEW_SURFACE_EXACT_APPLY_TRANSIENT_STATES = Object.freeze([
   'ambiguous',
   'blocked',
   'failed',
+]);
+const REVIEW_SURFACE_SOURCE_MODES = Object.freeze(['TRACKED', 'CLEAN', 'MIXED']);
+const REVIEW_SURFACE_LIFECYCLE_STATES = Object.freeze([
+  'DRAFT_EXPORT_INTENT',
+  'OPEN_FOR_RETURN',
+  'RETURN_ADMITTED',
+  'RETURN_ANALYZED',
+  'TERMINAL',
+  'RECOVERY_REQUIRED',
+  'QUARANTINED',
 ]);
 const REVIEW_SURFACE_EXACT_APPLY_BLOCKED_REASON = 'REVIEW_SURFACE_SINGLE_EXACT_CHANGE_REQUIRED';
 const REVIEW_SURFACE_EXACT_APPLY_CHANGE_ID_REQUIRED_REASON = 'REVIEW_SURFACE_EXACT_CHANGE_ID_REQUIRED';
@@ -783,6 +796,41 @@ function reviewSurfacePresentStatus(value) {
     default:
       return status;
   }
+}
+
+function reviewSurfaceNormalizeSourceMode(value) {
+  const mode = reviewSurfaceText(value).toUpperCase();
+  return REVIEW_SURFACE_SOURCE_MODES.includes(mode) ? mode : '';
+}
+
+function reviewSurfacePresentSourceMode(value) {
+  const mode = reviewSurfaceNormalizeSourceMode(value);
+  switch (mode) {
+    case 'TRACKED':
+      return 'TRACKED: правки Word';
+    case 'CLEAN':
+      return 'CLEAN: чистая версия';
+    case 'MIXED':
+      return 'MIXED: правки и drift';
+    default:
+      return 'не определен';
+  }
+}
+
+function reviewSurfaceNormalizeLifecycleState(value) {
+  const state = reviewSurfaceText(value).toUpperCase();
+  return REVIEW_SURFACE_LIFECYCLE_STATES.includes(state) ? state : '';
+}
+
+function reviewSurfacePresentLifecycleState(value) {
+  return reviewSurfaceNormalizeLifecycleState(value) || reviewSurfaceText(value) || 'ожидание';
+}
+
+function reviewSurfaceShortDigest(value) {
+  const text = reviewSurfaceText(value);
+  return /^[a-f0-9]{64}$/u.test(text) || /^sha256:[a-f0-9]{64}$/u.test(text)
+    ? text
+    : reviewSurfaceText(text);
 }
 
 function reviewSurfaceIsIsoUtcTimestamp(value) {
@@ -1151,6 +1199,57 @@ function reviewSurfaceNormalizeExactTextApplyReconciliation(rawState) {
   return { items, errors };
 }
 
+function reviewSurfaceNormalizePackageRewriteReport(rawReport) {
+  if (!reviewSurfaceIsPlainObject(rawReport)) return null;
+  const changedBlocks = reviewSurfaceArray(rawReport.changedBlocks)
+    .filter((block) => reviewSurfaceIsPlainObject(block))
+    .slice(0, 12)
+    .map((block, index) => ({
+      blockId: reviewSurfaceText(block.blockId) || `changed-${index}`,
+      originalDigest: reviewSurfaceShortDigest(block.originalDigest),
+      finalDigest: reviewSurfaceShortDigest(block.finalDigest),
+      originalExcerpt: reviewSurfaceText(block.originalText || block.originalExcerpt).slice(0, REVIEW_SURFACE_REPORT_EXCERPT_MAX_CHARS),
+      finalExcerpt: reviewSurfaceText(block.finalText || block.finalExcerpt).slice(0, REVIEW_SURFACE_REPORT_EXCERPT_MAX_CHARS),
+    }));
+  const unchangedBlocks = reviewSurfaceArray(rawReport.unchangedBlocks)
+    .filter((block) => reviewSurfaceIsPlainObject(block))
+    .slice(0, 12)
+    .map((block, index) => ({
+      blockId: reviewSurfaceText(block.blockId) || `unchanged-${index}`,
+      textDigest: reviewSurfaceShortDigest(block.textDigest),
+      excerpt: reviewSurfaceText(block.excerpt || block.text).slice(0, REVIEW_SURFACE_REPORT_EXCERPT_MAX_CHARS),
+    }));
+  if (changedBlocks.length === 0 && unchangedBlocks.length === 0 && !reviewSurfaceText(rawReport.reportId)) return null;
+  return {
+    schemaVersion: reviewSurfaceText(rawReport.schemaVersion),
+    reportId: reviewSurfaceShortDigest(rawReport.reportId),
+    canWriteManuscript: rawReport.canWriteManuscript === true,
+    canApply: rawReport.canApply === true,
+    changedBlocks,
+    unchangedBlocks,
+  };
+}
+
+function reviewSurfaceNormalizeProgress(rawProgress, transient = null) {
+  const source = reviewSurfaceIsPlainObject(rawProgress) ? rawProgress : {};
+  const transientState = reviewSurfaceText(transient?.state);
+  const active = source.active === true || transientState === 'applying';
+  const cancelled = source.cancelled === true || source.state === 'cancelled';
+  const percent = Number.isFinite(source.percent)
+    ? Math.max(0, Math.min(100, Math.round(source.percent)))
+    : (active ? 40 : 0);
+  const cancellable = source.cancellable === true || active;
+  return {
+    active,
+    cancelled,
+    state: reviewSurfaceText(source.state) || (cancelled ? 'cancelled' : (active ? 'running' : 'idle')),
+    label: reviewSurfaceText(source.label) || (active ? 'Review operation in progress' : 'No active review operation'),
+    operationId: reviewSurfaceText(source.operationId || transient?.requestId),
+    percent,
+    cancellable,
+  };
+}
+
 function reviewSurfaceNormalizeState(input = {}) {
   const source = reviewSurfaceResolveIncomingPayload(input);
   const revisionSession = reviewSurfaceCanonicalSession(source);
@@ -1201,6 +1300,24 @@ function reviewSurfaceNormalizeState(input = {}) {
     ? 'error'
     : (hasReviewData ? 'ready' : 'empty');
   const exactTextApply = reviewSurfaceNormalizeExactTextApplyState(source.exactTextApply);
+  const sourceMode = reviewSurfaceNormalizeSourceMode(
+    source.sourceMode
+    || source.reviewIr?.sourceMode
+    || source.returnedReviewAnalysis?.sourceMode
+    || source.analysis?.sourceMode
+    || revisionSession?.sourceMode,
+  );
+  const lifecycleState = reviewSurfaceNormalizeLifecycleState(
+    source.lifecycleState
+    || source.roundLifecycleState
+    || source.publicManifest?.lifecycleState
+    || source.reviewRoundManifest?.lifecycleState
+    || revisionSession?.lifecycleState,
+  );
+  const packageRewriteReport = reviewSurfaceNormalizePackageRewriteReport(
+    source.packageRewriteReport || source.redactedPackageRewriteReport || source.rewriteReport,
+  );
+  const reviewProgress = reviewSurfaceNormalizeProgress(source.reviewProgress || source.progress, exactTextApply);
 
   return {
     status,
@@ -1215,6 +1332,14 @@ function reviewSurfaceNormalizeState(input = {}) {
     exactTextApplyReconciliation,
     error,
     exactTextApply,
+    sourceMode,
+    lifecycleState,
+    returnArtifactSha256: reviewSurfaceShortDigest(source.returnArtifactSha256 || source.returnArtifactHash || source.returnedArtifactSha256),
+    manifestDigest: reviewSurfaceShortDigest(source.manifestDigest || source.publicManifest?.manifestDigest),
+    parserProfileDigest: reviewSurfaceShortDigest(source.parserProfileDigest || source.parserProfile?.parserProfileDigest),
+    analysisDigest: reviewSurfaceShortDigest(source.analysisDigest || source.returnedReviewAnalysis?.analysisDigest),
+    packageRewriteReport,
+    reviewProgress,
   };
 }
 
@@ -1361,6 +1486,110 @@ function reviewSurfaceBuildUnsupportedObservations(state) {
   }));
 }
 
+function reviewSurfaceTokenizeDisplayText(value) {
+  return reviewSurfaceText(value).split(/(\s+)/u).filter((token) => token.length > 0);
+}
+
+function reviewSurfaceBuildBoundedDisplayDiff(expectedText, replacementText) {
+  const beforeTokens = reviewSurfaceTokenizeDisplayText(expectedText).filter((token) => token.trim());
+  const afterTokens = reviewSurfaceTokenizeDisplayText(replacementText).filter((token) => token.trim());
+  const beforeSample = beforeTokens.slice(0, REVIEW_SURFACE_DISPLAY_DIFF_MAX_TOKENS);
+  const afterSample = afterTokens.slice(0, REVIEW_SURFACE_DISPLAY_DIFF_MAX_TOKENS);
+  const truncated = beforeTokens.length > beforeSample.length || afterTokens.length > afterSample.length;
+  return [
+    ...beforeSample.map((token) => ({ kind: 'removed', text: token })),
+    ...afterSample.map((token) => ({ kind: 'added', text: token })),
+    ...(truncated ? [{ kind: 'context', text: '...' }] : []),
+  ];
+}
+
+function reviewSurfaceBuildLanes(state, exactTextPreview) {
+  const structuralPreview = reviewSurfaceIsPlainObject(state.structuralManualReviewPreview) ? state.structuralManualReviewPreview : {};
+  const commentPreview = reviewSurfaceIsPlainObject(state.commentSurvivalPreview) ? state.commentSurvivalPreview : {};
+  const exactOps = reviewSurfaceArray(exactTextPreview.ops);
+  const manualItems = [
+    ...reviewSurfaceArray(structuralPreview.items),
+    ...reviewSurfaceArray(structuralPreview.unsupportedObservations),
+  ];
+  const commentThreads = reviewSurfaceArray(commentPreview.preservedThreads);
+  const commentPlacements = reviewSurfaceArray(commentPreview.placementResults);
+  return [
+    {
+      laneId: 'exact',
+      label: 'Exact',
+      state: exactTextPreview.state === 'ready' && exactOps.some((op) => op.applyState === 'ready') ? 'ready' : exactTextPreview.state,
+      count: exactOps.length,
+      detail: exactOps.length > 0 ? 'Bounded exact text candidates' : 'No exact text candidates',
+    },
+    {
+      laneId: 'manual',
+      label: 'Manual',
+      state: manualItems.length > 0 || state.sourceMode === 'CLEAN' || state.sourceMode === 'MIXED' ? 'manual' : 'empty',
+      count: manualItems.length,
+      detail: state.sourceMode ? reviewSurfacePresentSourceMode(state.sourceMode) : 'No manual-only items',
+    },
+    {
+      laneId: 'comments',
+      label: 'Comments',
+      state: commentThreads.length > 0 || commentPlacements.length > 0 ? 'comments' : 'empty',
+      count: Math.max(commentThreads.length, commentPlacements.length),
+      detail: commentThreads.length > 0 ? 'Independent comment lane' : 'No comment threads',
+    },
+  ];
+}
+
+function reviewSurfaceBuildCommentLane(state) {
+  const commentPreview = reviewSurfaceIsPlainObject(state.commentSurvivalPreview) ? state.commentSurvivalPreview : {};
+  const placementsByThread = new Map();
+  for (const placement of reviewSurfaceArray(commentPreview.placementResults)) {
+    const threadId = reviewSurfaceText(placement?.threadId);
+    if (!threadId) continue;
+    placementsByThread.set(threadId, placement);
+  }
+  return reviewSurfaceArray(commentPreview.preservedThreads).map((thread, index) => {
+    const threadId = reviewSurfaceText(thread?.threadId) || `thread-${index}`;
+    const messages = reviewSurfaceArray(thread?.messages);
+    const placement = placementsByThread.get(threadId);
+    const status = reviewSurfaceText(placement?.status);
+    const reasonCodes = reviewSurfaceArray(
+      placement?.evaluation?.reasonCodes || placement?.evaluation?.confidenceEvaluation?.reasonCodes,
+    ).map((reasonCode) => reviewSurfaceText(reasonCode)).filter(Boolean);
+    return {
+      threadId,
+      author: reviewSurfaceText(thread?.author || messages[0]?.author) || 'unknown author',
+      createdAt: reviewSurfaceText(thread?.createdAt || messages[0]?.createdAt),
+      body: reviewSurfaceText(messages[0]?.body || thread?.body),
+      replies: Math.max(0, messages.length - 1),
+      resolved: thread?.resolved === true || status === 'resolved',
+      outcome: reviewSurfaceText(placement?.outcome || status || 'ORPHAN').toUpperCase(),
+      reasonCodes,
+    };
+  });
+}
+
+function reviewSurfaceBuildTerminalSummary(state) {
+  const batch = state.exactTextBatchApplyResult;
+  if (reviewSurfaceIsPlainObject(batch?.totals)) {
+    return {
+      status: reviewSurfaceText(batch.status) || 'batch',
+      detail: `${batch.totals.applied || 0} applied, ${batch.totals.blocked || 0} blocked, ${batch.totals.failed || 0} failed`,
+      reason: reviewSurfaceText(batch.reason),
+    };
+  }
+  if (state.receipt) {
+    return {
+      status: state.receipt.writeStatus,
+      detail: `${state.receipt.changeId} / ${state.receipt.bytesWritten} bytes`,
+      reason: state.receipt.reason,
+    };
+  }
+  return {
+    status: 'pending',
+    detail: 'No terminal apply summary',
+    reason: '',
+  };
+}
+
 function reviewSurfaceBuildExactTextPreview(state) {
   const exactPreview = reviewSurfaceIsPlainObject(state.exactTextPlanPreview) ? state.exactTextPlanPreview : {};
   const structuralPreview = reviewSurfaceIsPlainObject(state.structuralManualReviewPreview) ? state.structuralManualReviewPreview : {};
@@ -1445,6 +1674,7 @@ function reviewSurfaceBuildExactTextPreview(state) {
       to: Number.isFinite(op?.to) ? op.to : null,
       expectedText: reviewSurfaceText(op?.expectedText),
       replacementText: reviewSurfaceText(op?.replacementText),
+      displayDiff: reviewSurfaceBuildBoundedDisplayDiff(op?.expectedText, op?.replacementText),
       applyState,
       applyLabel: applyState === 'ready' ? 'Применить' : reviewSurfacePresentExactApplyState(applyState),
       applyDisabled: applyState !== 'ready',
@@ -1478,6 +1708,7 @@ function reviewSurfaceBuildExactTextPreview(state) {
 
 function buildReviewSurfaceViewModel(input = {}) {
   const state = reviewSurfaceNormalizeState(input);
+  const exactTextPreview = reviewSurfaceBuildExactTextPreview(state);
   return {
     status: state.status,
     error: state.error,
@@ -1486,7 +1717,20 @@ function buildReviewSurfaceViewModel(input = {}) {
     manualOnlyReasons: reviewSurfaceBuildManualOnlyReasons(state),
     orphanComments: reviewSurfaceBuildOrphanComments(state),
     unsupportedObservations: reviewSurfaceBuildUnsupportedObservations(state),
-    exactTextPreview: reviewSurfaceBuildExactTextPreview(state),
+    exactTextPreview,
+    lanes: reviewSurfaceBuildLanes(state, exactTextPreview),
+    commentLane: reviewSurfaceBuildCommentLane(state),
+    sourceMode: state.sourceMode,
+    lifecycleState: state.lifecycleState,
+    identity: {
+      returnArtifactSha256: state.returnArtifactSha256,
+      manifestDigest: state.manifestDigest,
+      parserProfileDigest: state.parserProfileDigest,
+      analysisDigest: state.analysisDigest,
+    },
+    packageRewriteReport: state.packageRewriteReport,
+    reviewProgress: state.reviewProgress,
+    terminalSummary: reviewSurfaceBuildTerminalSummary(state),
     receipt: state.receipt,
     reconciliation: state.exactTextApplyReconciliation,
   };
@@ -1506,6 +1750,18 @@ function reviewSurfaceRenderList(items, renderItem, emptyLabel) {
     return `<div class="tree__empty">${reviewSurfaceEscapeHtml(emptyLabel)}</div>`;
   }
   return `<div class="right-rail-review-list">${items.map((item, index) => renderItem(item, index)).join('')}</div>`;
+}
+
+function reviewSurfaceRenderDisplayDiff(tokens) {
+  const items = reviewSurfaceArray(tokens);
+  if (items.length === 0) return '';
+  return `
+    <div class="right-rail-review-diff" data-review-display-diff="bounded">
+      ${items.map((token) => `
+        <span class="right-rail-review-diff-token right-rail-review-diff-token--${reviewSurfaceEscapeHtml(token.kind)}">${reviewSurfaceEscapeHtml(token.text)}</span>
+      `).join('')}
+    </div>
+  `;
 }
 
 function renderReviewSurfaceMarkup(viewModel) {
@@ -1587,6 +1843,8 @@ function renderReviewSurfaceMarkup(viewModel) {
     ['Проект', summary.projectId || 'локальный'],
     ['Сессия', summary.sessionId || 'не загружена'],
     ['Основа', summary.baselineHash || 'ожидание'],
+    ['Source mode', reviewSurfacePresentSourceMode(viewModel.sourceMode)],
+    ['Lifecycle', reviewSurfacePresentLifecycleState(viewModel.lifecycleState)],
     ['Статус', reviewSurfacePresentStatus(summary.sessionStatus) || (viewModel.status === 'empty' ? 'пусто' : 'только вручную')],
     ['Текст', String(summary.textChangeCount)],
     ['Структура', String(summary.structuralChangeCount)],
@@ -1595,6 +1853,25 @@ function renderReviewSurfaceMarkup(viewModel) {
     ['Диагностика', String(summary.diagnosticCount)],
     ['Решения', String(summary.decisionCount)],
   ]);
+  const identityRows = reviewSurfaceRenderKeyValueRows([
+    ['Return artifact', viewModel.identity.returnArtifactSha256],
+    ['Manifest', viewModel.identity.manifestDigest],
+    ['Parser profile', viewModel.identity.parserProfileDigest],
+    ['Analysis', viewModel.identity.analysisDigest],
+  ]);
+  const lanesMarkup = `
+    <div class="right-rail-review-lanes" role="list" aria-label="Review lanes">
+      ${reviewSurfaceArray(viewModel.lanes).map((lane) => `
+        <div class="right-rail-review-lane right-rail-review-lane--${reviewSurfaceEscapeHtml(lane.state)}" role="listitem">
+          <div class="right-rail-review-lane-head">
+            <span>${reviewSurfaceEscapeHtml(lane.label)}</span>
+            <span class="right-rail-review-lane-count">${reviewSurfaceEscapeHtml(String(lane.count))}</span>
+          </div>
+          <div class="right-rail-review-lane-detail">${reviewSurfaceEscapeHtml(lane.detail)}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
   const reviewItemsMarkup = reviewSurfaceRenderList(viewModel.reviewItems, (item) => `
     <article class="right-rail-review-item right-rail-review-item--${reviewSurfaceEscapeHtml(item.tone)}">
       <div class="right-rail-review-item-head">
@@ -1623,6 +1900,21 @@ function renderReviewSurfaceMarkup(viewModel) {
       <div class="right-rail-review-item-meta">${item.reasonCodes.map((value) => `<span>${reviewSurfaceEscapeHtml(value)}</span>`).join('')}</div>
     </article>
   `, 'Нет потерянных или непривязанных комментариев.');
+  const commentLaneMarkup = reviewSurfaceRenderList(viewModel.commentLane, (item) => `
+    <article class="right-rail-review-item right-rail-review-item--comments">
+      <div class="right-rail-review-item-head">
+        <div class="right-rail-review-item-title">${reviewSurfaceEscapeHtml(item.threadId)}</div>
+        <span class="right-rail-review-pill right-rail-review-pill--${item.resolved ? 'readonly' : 'comments'}">${reviewSurfaceEscapeHtml(item.outcome)}</span>
+      </div>
+      <p class="right-rail-review-item-body">${reviewSurfaceEscapeHtml(item.body)}</p>
+      <div class="right-rail-review-item-meta">
+        <span>${reviewSurfaceEscapeHtml(item.author)}</span>
+        <span>${reviewSurfaceEscapeHtml(item.createdAt || 'no timestamp')}</span>
+        <span>${reviewSurfaceEscapeHtml(`${item.replies} replies`)}</span>
+      </div>
+      ${item.reasonCodes.length > 0 ? `<div class="right-rail-review-code">${item.reasonCodes.map((value) => reviewSurfaceEscapeHtml(value)).join(' ')}</div>` : ''}
+    </article>
+  `, 'Нет комментариев в независимой lane.');
   const unsupportedMarkup = reviewSurfaceRenderList(viewModel.unsupportedObservations, (item) => `
     <article class="right-rail-review-item right-rail-review-item--readonly">
       <div class="right-rail-review-item-head">
@@ -1656,6 +1948,7 @@ function renderReviewSurfaceMarkup(viewModel) {
             <span class="right-rail-review-pill right-rail-review-pill--${reviewSurfaceEscapeHtml(op.applyState)}">${reviewSurfaceEscapeHtml(op.applyLabel)}</span>
           </div>
           <p class="right-rail-review-item-body">"${reviewSurfaceEscapeHtml(op.expectedText)}" -> "${reviewSurfaceEscapeHtml(op.replacementText)}"</p>
+          ${reviewSurfaceRenderDisplayDiff(op.displayDiff)}
           <div class="right-rail-review-item-meta">
             <span>${reviewSurfaceEscapeHtml(op.sceneId || 'сцена')}</span>
             <span>${reviewSurfaceEscapeHtml(`${op.from ?? '—'}:${op.to ?? '—'}`)}</span>
@@ -1701,6 +1994,54 @@ function renderReviewSurfaceMarkup(viewModel) {
       </div>
     `
     : '<div class="tree__empty">Нет отчета о записи.</div>';
+  const rewriteReport = viewModel.packageRewriteReport;
+  const reportMarkup = rewriteReport
+    ? `
+      <div class="right-rail-review-state ${rewriteReport.canWriteManuscript || rewriteReport.canApply ? 'right-rail-review-state--blocked' : 'right-rail-review-state--info'}">
+        <strong>Package Rewrite Report</strong>
+        <p>${reviewSurfaceEscapeHtml(rewriteReport.reportId || 'redacted report')}</p>
+      </div>
+      ${reviewSurfaceRenderList(rewriteReport.changedBlocks, (block) => `
+        <article class="right-rail-review-item right-rail-review-item--manual">
+          <div class="right-rail-review-item-head">
+            <div class="right-rail-review-item-title">${reviewSurfaceEscapeHtml(block.blockId)}</div>
+            <span class="right-rail-review-pill right-rail-review-pill--manual">redacted</span>
+          </div>
+          <div class="right-rail-review-code">${reviewSurfaceEscapeHtml(block.originalDigest)} -> ${reviewSurfaceEscapeHtml(block.finalDigest)}</div>
+          <p class="right-rail-review-item-body">${reviewSurfaceEscapeHtml(block.originalExcerpt)} -> ${reviewSurfaceEscapeHtml(block.finalExcerpt)}</p>
+        </article>
+      `, 'Нет измененных блоков report.')}
+    `
+    : '<div class="tree__empty">Нет Package Rewrite Report.</div>';
+  const progress = viewModel.reviewProgress;
+  const progressMarkup = `
+    <div class="right-rail-review-progress" data-review-progress-state="${reviewSurfaceEscapeHtml(progress.state)}">
+      <div class="right-rail-review-progress-head">
+        <span>${reviewSurfaceEscapeHtml(progress.label)}</span>
+        <span>${reviewSurfaceEscapeHtml(`${progress.percent}%`)}</span>
+      </div>
+      <div class="right-rail-review-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${reviewSurfaceEscapeHtml(String(progress.percent))}">
+        <span style="width: ${reviewSurfaceEscapeHtml(String(progress.percent))}%"></span>
+      </div>
+      ${progress.cancellable
+        ? `
+          <button
+            type="button"
+            class="right-rail-review-apply-button right-rail-review-apply-button--secondary"
+            data-review-cancel-operation
+            data-operation-id="${reviewSurfaceEscapeHtml(progress.operationId)}"
+          >Cancel</button>
+        `
+        : ''}
+    </div>
+  `;
+  const terminalMarkup = `
+    <div class="right-rail-review-state right-rail-review-state--info">
+      <strong>${reviewSurfaceEscapeHtml(reviewSurfacePresentStatus(viewModel.terminalSummary.status) || viewModel.terminalSummary.status)}</strong>
+      <p>${reviewSurfaceEscapeHtml(viewModel.terminalSummary.detail)}</p>
+      ${viewModel.terminalSummary.reason ? `<div class="right-rail-review-code">${reviewSurfaceEscapeHtml(viewModel.terminalSummary.reason)}</div>` : ''}
+    </div>
+  `;
 
   return `
     ${errorMarkup}
@@ -1717,12 +2058,24 @@ function renderReviewSurfaceMarkup(viewModel) {
       <div class="right-rail-form-grid">${summaryRows}</div>
     </section>
     <section class="right-rail-surface">
+      <div class="right-rail-section__label">Lanes</div>
+      ${lanesMarkup}
+    </section>
+    <section class="right-rail-surface">
+      <div class="right-rail-section__label">Identity</div>
+      <div class="right-rail-form-grid">${identityRows}</div>
+    </section>
+    <section class="right-rail-surface">
       <div class="right-rail-section__label">Элементы проверки</div>
       ${reviewItemsMarkup}
     </section>
     <section class="right-rail-surface">
       <div class="right-rail-section__label">Почему только вручную</div>
       ${manualOnlyMarkup}
+    </section>
+    <section class="right-rail-surface">
+      <div class="right-rail-section__label">Comment lane</div>
+      ${commentLaneMarkup}
     </section>
     <section class="right-rail-surface">
       <div class="right-rail-section__label">Потерянные комментарии</div>
@@ -1735,6 +2088,18 @@ function renderReviewSurfaceMarkup(viewModel) {
     <section class="right-rail-surface">
       <div class="right-rail-section__label">Точный текстовый шаг</div>
       ${exactPreviewMarkup}
+    </section>
+    <section class="right-rail-surface">
+      <div class="right-rail-section__label">Rewrite report</div>
+      ${reportMarkup}
+    </section>
+    <section class="right-rail-surface">
+      <div class="right-rail-section__label">Progress</div>
+      ${progressMarkup}
+    </section>
+    <section class="right-rail-surface">
+      <div class="right-rail-section__label">Apply summary</div>
+      ${terminalMarkup}
     </section>
     <section class="right-rail-surface">
       <div class="right-rail-section__label">Отчет записи</div>
@@ -5961,6 +6326,7 @@ registerProjectCommands(commandRegistry, {
     reviewImportLocalPacket: () => handleReviewImportLocalPacket(),
     reviewOpenComments: () => handleReviewOpenComments(),
     reviewClearSession: () => handleReviewClearSession(),
+    reviewCancelOperation: (payload = {}) => handleReviewCancelOperation(payload),
     planFlowSave: () => handlePlanFlowSave(),
     reviewExportMarkdown: () => handleReviewExportMarkdown(),
     openSelectedScenesTxtExport: () => openSelectedScenesTxtExportFlow(),
@@ -10934,9 +11300,61 @@ function reviewSurfaceCreateExactTextApplyBatchRequestId(changeIds) {
   return `review-exact-batch-apply-${suffix}-${Date.now()}`;
 }
 
+async function handleReviewCancelOperation(payload = {}) {
+  const operationId = reviewSurfaceText(payload.operationId || reviewSurfaceState?.reviewProgress?.operationId);
+  reviewSurfaceExactTextApplyTransientState = null;
+  reviewSurfaceState = {
+    ...reviewSurfaceNormalizeState(reviewSurfaceState),
+    reviewProgress: {
+      active: false,
+      cancelled: true,
+      state: 'cancelled',
+      label: 'Review operation cancelled locally',
+      operationId,
+      percent: 0,
+      cancellable: false,
+    },
+  };
+  renderReviewSurface();
+  updateStatusText('Review operation cancelled');
+  return {
+    performed: true,
+    action: 'reviewCancelOperation',
+    reason: null,
+    operationId,
+  };
+}
+
 async function handleReviewSurfaceExactTextApplyClick(event) {
   const target = event?.target;
   if (!(target instanceof Element) || !(reviewSurfaceHost instanceof HTMLElement)) return;
+  const cancelButton = target.closest('[data-review-cancel-operation]');
+  if (cancelButton instanceof HTMLButtonElement && reviewSurfaceHost.contains(cancelButton)) {
+    if (cancelButton.disabled) return;
+    cancelButton.disabled = true;
+    let bridgeResult = null;
+    try {
+      bridgeResult = await invokePreloadUiCommandBridge(REVIEW_SURFACE_CANCEL_OPERATION_COMMAND_ID, {
+        operationId: reviewSurfaceText(cancelButton.dataset.operationId),
+      });
+    } catch (error) {
+      updateStatusText(error && typeof error.message === 'string'
+        ? error.message
+        : 'Review operation cancel failed');
+      cancelButton.disabled = false;
+      return;
+    }
+    const commandResult = reviewSurfaceUnwrapCommandResult(bridgeResult);
+    if (bridgeResult?.ok === true && commandResult?.ok === true) {
+      await handleReviewCancelOperation({
+        operationId: reviewSurfaceText(commandResult.operationId || cancelButton.dataset.operationId),
+      });
+      return;
+    }
+    updateStatusText(reviewSurfaceText(commandResult?.reason || bridgeResult?.reason) || 'Review operation cancel failed');
+    cancelButton.disabled = false;
+    return;
+  }
   const reloadButton = target.closest('[data-review-reload-reconciled-scene]');
   if (reloadButton instanceof HTMLButtonElement && reviewSurfaceHost.contains(reloadButton)) {
     if (reloadButton.disabled) return;
@@ -15060,6 +15478,7 @@ if (window.electronAPI) {
       reviewImportLocalPacket: () => handleReviewImportLocalPacket(),
       reviewOpenComments: () => handleReviewOpenComments(),
       reviewClearSession: () => handleReviewClearSession(),
+      reviewCancelOperation: (payload = {}) => handleReviewCancelOperation(payload),
       switchMode: (mode) => applyMode(mode),
     });
   } else if (typeof window.electronAPI.onRuntimeCommand === 'function') {

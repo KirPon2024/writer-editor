@@ -112,6 +112,7 @@ export const EXTRA_COMMAND_IDS = Object.freeze({
   REVIEW_OPEN_DOCX_REVIEW_PREVIEW_SESSION: 'cmd.project.review.openDocxReviewPreviewSession',
   REVIEW_OPEN_COMMENTS: 'cmd.project.review.openComments',
   REVIEW_CLEAR_SESSION: 'cmd.project.review.clearSession',
+  REVIEW_CANCEL_OPERATION: 'cmd.project.review.cancelOperation',
   PLAN_FLOW_SAVE: 'cmd.project.plan.flowSave',
   REVIEW_EXPORT_MARKDOWN: 'cmd.project.review.exportMarkdown',
   PROJECT_DOCX_PREVIEW_LOCAL_FILE: 'cmd.project.docx.previewLocalFile',
@@ -2416,6 +2417,17 @@ export function registerProjectCommands(registry, options = {}) {
       hotkey: '',
     },
     async (input = {}) => runUiAction(uiActions, 'reviewClearSession', EXTRA_COMMAND_IDS.REVIEW_CLEAR_SESSION, input),
+  );
+
+  registry.registerCommand(
+    {
+      id: EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION,
+      label: 'Cancel Review Operation',
+      group: 'review',
+      surface: ['menu', 'palette'],
+      hotkey: '',
+    },
+    async (input = {}) => runUiAction(uiActions, 'reviewCancelOperation', EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION, input),
   );
 
   registry.registerCommand(

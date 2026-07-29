@@ -3762,10 +3762,10 @@
     },
     {
       "filePath": "test/contracts/menu-config-v2.contract.test.js",
-      "sha256": "ce706e1dd193462b5e6f36739cdcfa77eb0a25a823c98da2901129d43e1e18bc",
-      "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_REVIEW_V1_GATE_C_001",
-      "approvedAtUtc": "2026-07-12T23:44:36.000Z",
-      "rationale": "Approve the menu contract assertion for the bounded manual-only DOCX Review label."
+      "sha256": "0f20448e23e96e8f2e24932241c769a076e8d29489844b9417f5f960e321805a",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-29T18:10:00.000Z",
+      "rationale": "Approve bounded W4 V6 menu contract coverage for the cancel-operation review command in the existing Review menu; the test preserves existing menu schema validation and command routing evidence without changing toolbar geometry, Design OS, shell modes, dependencies, network behavior, writer authority, or product storage."
     },
     {
       "filePath": "test/contracts/review-bridge-docx-diagnostic-evidence-surface.contract.test.js",
@@ -3881,24 +3881,24 @@
     },
     {
       "filePath": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
-      "sha256": "a3154dceeb3e6c04d2b72f2932d78e42e83925620ad84bb28b257816f238cdd9",
-      "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S33_FULL_ARCHIVE_IMPORT",
-      "approvedAtUtc": "2026-07-19T04:55:00.000Z",
-      "rationale": "Approve S33 full project archive import menu artifact refresh: add the complete project archive import lane while preserving offline menu semantics and normalized artifact integrity."
+      "sha256": "6407c7588e9b0648538b39af52f626de043cc5b9e8d5481304497fb30000d9e3",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-29T18:20:00.000Z",
+      "rationale": "Approve bounded W4 V6 normalized menu artifact refresh for the cancel-operation review command in the existing Review menu; this preserves offline menu semantics, normalized artifact integrity, toolbar geometry, Design OS, shell modes, dependency policy, writer authority, and project-format behavior."
     },
     {
       "filePath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
-      "sha256": "da998f29da35ec49eecdf39101cf7cfc4fdffe8b6cf50727046a0db83fadca8d",
-      "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S33_FULL_ARCHIVE_IMPORT",
-      "approvedAtUtc": "2026-07-19T04:55:00.000Z",
-      "rationale": "Approve S33 menu artifact lock refresh after the full project archive import lane became part of the minimal desktop menu."
+      "sha256": "6ab55ca17aa1e18db02f1054a701f4bb27d45e3440986027a7f604872e7a9193",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-29T18:20:00.000Z",
+      "rationale": "Approve bounded W4 V6 menu artifact lock refresh after the existing Review menu gained the read-only cancel-operation command; the lock remains tied to the normalized artifact bytes and introduces no UI redesign, network, dependency, shell mode, writer authority, or project-format change."
     },
     {
       "filePath": "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json",
-      "sha256": "30dbfd4ff4f44513c36b3993586adf0dfc9d4382d626a33cfa95d2b8042b3f73",
-      "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S33_FULL_ARCHIVE_IMPORT",
-      "approvedAtUtc": "2026-07-19T04:55:00.000Z",
-      "rationale": "Approve S33 menu snapshot registry refresh for the new full project archive import menu item."
+      "sha256": "6a7c0958ac763a053974d2ed47cbc26b4c5ad74de4d846553047c102622e2d05",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-29T18:20:00.000Z",
+      "rationale": "Approve bounded W4 V6 menu snapshot registry refresh for the existing Review menu cancel-operation command while preserving the canonical menu snapshot mechanism, offline runtime contract, Design OS, toolbar geometry, dependency policy, and writer authority boundaries."
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
@@ -3909,10 +3909,10 @@
     },
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "9721f4fc0aabcc802e2a29cd85eaf1c570b0a6718d7ae8ff8d9bb86177493759",
-      "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S42_FACTUAL_DOCS_CAPABILITY_MATRIX",
-      "approvedAtUtc": "2026-07-19T10:58:00.000Z",
-      "rationale": "Approve bounded S42 factual capability status sync. The change adds docs-only LIVE, PARTIAL, PLANNED, and BLOCKED status evidence for already merged S00-S41 runtime behavior while preserving the existing platform capability rows, command semantics, storage, recovery, import/export behavior, dependencies, network policy, toolbar baseline, sidebar design, and project format."
+      "sha256": "2c3887f8e6b8fb11d1e88348d011dfe3d973182728e4d68579a1ccc35ea9324a",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-29T18:10:00.000Z",
+      "rationale": "Approve bounded W4 V6 capability matrix synchronization for the read-only cancel-operation review command across node, web, and mobile-wrapper capability truth; no writer authority, dependency, network, shell mode, toolbar redesign, project-format change, storage widening, import/export change, or entitlement expansion is introduced."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S42_FACTUAL_CAPABILITY_STATUS.json",
@@ -3923,10 +3923,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "ca58c1e9f921dd26c0795c6d10e4e13164804fb7ed17599b0386cca01b53eda6",
-      "approvedBy": "ticket:S36_COMMAND_MENU_KEYMAP_AUDIT",
-      "approvedAtUtc": "2026-07-19T00:00:00.000Z",
-      "rationale": "Approve bounded S36 command menu keymap audit capability truth synchronization. The change documents already existing public menu, palette, lifecycle, import, export, and main-owned menu commands in runtime and OPS capability declarations while preserving offline-first scope, no new command semantics, no new dependency, no licensing implementation, no network or cloud behavior, and no toolbar redesign."
+      "sha256": "87d6ebb187fd25f5679bb8d69b03c3292758f4d4440d9545f4e32263d0a18e7c",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-29T18:10:00.000Z",
+      "rationale": "Approve bounded W4 V6 review UI accessibility command binding: add a read-only cancel-operation review command routed through the existing CommandRegistry and capability policy while preserving main-owned writer authority, offline scope, no new dependency, no toolbar redesign, no new shell mode, no parallel command kernel, no network, and no project-format change."
     },
     {
       "filePath": "scripts/ops/phase03-safe-reset-last-stable-artifact-state.mjs",

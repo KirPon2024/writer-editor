@@ -4340,6 +4340,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02C_C01_LEGACY_MIGRATION_INVENTORY_PREVIEW_SHADOW_ROLLBACK",
       "approvedAtUtc": "2026-07-29T20:17:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02C C01 contract: proves pathless legacy TXT inventory, deterministic preview graph and command plan without mutation, collision fail-closed behavior, discard-shadow-only rollback, import barrel exports, and no filesystem, network, Electron, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_REOPEN_VALIDATION_RECEIPT.json",
+      "sha256": "809a4dabf055240561df86f9931da50d12decd95f50438aec0d24355db216298",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_AND_REOPEN_VALIDATION",
+      "approvedAtUtc": "2026-07-29T20:29:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02C C02 legacy migration command apply and reopen validation receipt: adds manualMap.legacyTxtCommandApply.v1 and manualMap.legacyTxtReopenValidation.v1 as pure contracts requiring an injected Command Kernel executor, proves allowed manual-map command sequencing, capability-denial stop, read-only reopen graph validation, no direct core reducer import, no storage adapter, no UI surface, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02c-c02-legacy-migration-command-apply-reopen-validation.contract.test.js",
+      "sha256": "3c09ae6897efaea11a187ac60aed7e7945422cb4ae83733fc051d42e1cdeb4e5",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_AND_REOPEN_VALIDATION",
+      "approvedAtUtc": "2026-07-29T20:29:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02C C02 contract: proves legacy shadow command plans apply only through Command Kernel capability revalidation, web capability denial stops without fallback mutation, non-manual-map command types are rejected before executor call, reopen validation fails closed on graph divergence, import barrel exports, and no filesystem, network, Electron, renderer storage, direct reducer import, UI command dispatch, or hot-path event listener bypass is introduced."
     }
   ]
 }

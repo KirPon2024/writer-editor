@@ -6,22 +6,34 @@ const { execFileSync } = require('node:child_process');
 const { pathToFileURL } = require('node:url');
 
 const CONTRACTS_PATH = 'src/io/revisionBridge/reviewTransportContracts.mjs';
+const CORE_PATH = 'src/io/revisionBridge/reviewTransportCore.mjs';
+const IR_PATH = 'src/io/revisionBridge/reviewTransportIr.mjs';
 const ORACLE_PATH = 'src/io/revisionBridge/reviewTransportOracle.mjs';
+const ROUND_STORE_PATH = 'src/io/revisionBridge/reviewTransportRoundStore.mjs';
 const TEST_PATH = 'test/contracts/rtk-g0b-feasibility.contract.test.js';
+const W1_TEST_PATH = 'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js';
+const W2_TEST_PATH = 'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js';
 const SCHEMA_PATH = 'docs/OPS/RTK/G0B_NORMATIVE_SCHEMA_V2.json';
 const CORPUS_PATH = 'docs/OPS/RTK/G0B_SUPPORTED_CORPUS_V1.json';
 const WORD_SETTINGS_PATH = 'docs/OPS/RTK/G0B_WORD_SETTINGS_CAPSULE_CONTRACT_V1.json';
 const RECEIPT_PATH = 'docs/OPS/RTK/G0B_FEASIBILITY_RECEIPT.json';
 const GOVERNANCE_APPROVALS_PATH = 'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json';
+const SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
 const ALLOWLIST = [
   CONTRACTS_PATH,
+  CORE_PATH,
+  IR_PATH,
   ORACLE_PATH,
+  ROUND_STORE_PATH,
   TEST_PATH,
+  W1_TEST_PATH,
+  W2_TEST_PATH,
   SCHEMA_PATH,
   CORPUS_PATH,
   WORD_SETTINGS_PATH,
   RECEIPT_PATH,
   GOVERNANCE_APPROVALS_PATH,
+  SCOPE_MAP_PATH,
 ];
 
 async function loadContracts() {
@@ -206,10 +218,13 @@ test('G0B parser bake-off selects dependency-free tokenizer before new dependenc
   const contracts = await loadContracts();
   const accepted = contracts.compareParserCandidates([
     {
-      id: 'existing-tokenizer',
+      id: 'bounded-scanner-no-regex-v2',
       correctness: 'pass',
       boundedAuditability: true,
       generalXmlPlatform: false,
+      regexXmlParser: false,
+      namespaceAware: true,
+      chunkBoundaryInvariant: true,
       requiresDependency: false,
     },
     {
@@ -221,10 +236,13 @@ test('G0B parser bake-off selects dependency-free tokenizer before new dependenc
   ]);
   const blocked = contracts.compareParserCandidates([
     {
-      id: 'existing-tokenizer',
+      id: 'bounded-scanner-no-regex-v2',
       correctness: 'fail',
       boundedAuditability: true,
       generalXmlPlatform: false,
+      regexXmlParser: false,
+      namespaceAware: true,
+      chunkBoundaryInvariant: true,
       requiresDependency: false,
     },
     {
@@ -236,7 +254,7 @@ test('G0B parser bake-off selects dependency-free tokenizer before new dependenc
   ]);
 
   assert.equal(accepted.ok, true);
-  assert.equal(accepted.selected, 'existing-tokenizer');
+  assert.equal(accepted.selected, 'bounded-scanner-no-regex-v2');
   assert.equal(accepted.ownerDecisionRequired, false);
   assert.equal(blocked.ok, false);
   assert.equal(blocked.code, 'G0B_PARSER_DEPENDENCY_OWNER_DECISION_REQUIRED');
@@ -254,10 +272,13 @@ test('G0B oracle and receipt separate local PASS from deferred external Word evi
     expectedCorpusDigest: digest,
     parserCandidates: [
       {
-        id: 'existing-tokenizer',
+        id: 'bounded-scanner-no-regex-v2',
         correctness: 'pass',
         boundedAuditability: true,
         generalXmlPlatform: false,
+        regexXmlParser: false,
+        namespaceAware: true,
+        chunkBoundaryInvariant: true,
         requiresDependency: false,
       },
     ],

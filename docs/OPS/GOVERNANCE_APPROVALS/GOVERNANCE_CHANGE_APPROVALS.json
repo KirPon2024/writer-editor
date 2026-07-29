@@ -332,10 +332,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "bb74b5d489a08afbe2311ba72706506e2f6d17e0d32995cfaf78fd0cad0f6921",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W2_BOUNDED_PARSER_AND_REVIEW_IR",
-      "approvedAtUtc": "2026-07-29T16:03:00.000Z",
-      "rationale": "Approve bounded W2 Sector M scope-map synchronization required by the owner-approved RTK V6 contract; it admits only exact W2 parser and Review IR files already present in the frozen ActionEnvelope and adds no wildcard, prefix, runtime authority, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
+      "sha256": "52a3b0d6b1f6781316a9f36342d42635c0bd90f9ca882af34ef2c7ce1c3128a1",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -4012,68 +4012,89 @@
       "approvedAtUtc": "2026-07-29T13:02:36.000Z",
       "rationale": "Approve bounded G0C exact-safety regression contract required by the owner-approved RTK V6 contract; it proves overlapping occurrence counting, immutable-baseline batch ranges, duplicate id and overlap blocking, permutation-stable disjoint output, no chained authority, stable typed reasons, and zero writes for negative cases without adding runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     },
-{
-        "filePath": "docs/OPS/RTK/G0B_FEASIBILITY_RECEIPT.json",
-        "sha256": "46eb95b323c7d8d9d4d8f3ef17d15b57918092b3fb531879e06fafc59587dde0",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
-        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
-        "rationale": "Approve bounded G0B feasibility receipt required by the owner-approved RTK V6 contract; it records local contract evidence and explicit DEFERRED_EXTERNAL_WORD_EVIDENCE without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    {
+      "filePath": "docs/OPS/RTK/G0B_FEASIBILITY_RECEIPT.json",
+      "sha256": "46eb95b323c7d8d9d4d8f3ef17d15b57918092b3fb531879e06fafc59587dde0",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+      "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+      "rationale": "Approve bounded G0B feasibility receipt required by the owner-approved RTK V6 contract; it records local contract evidence and explicit DEFERRED_EXTERNAL_WORD_EVIDENCE without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
     },
-{
-        "filePath": "docs/OPS/RTK/G0B_NORMATIVE_SCHEMA_V2.json",
-        "sha256": "b72470191feb2cf645b27e76e85d8d56cafb325468b7e88ef6de5e27ecc4ba73",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
-        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
-        "rationale": "Approve bounded G0B normative schema V2 required by the owner-approved RTK V6 contract; it declares local reason codes and invariants only and introduces no product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    {
+      "filePath": "docs/OPS/RTK/G0B_NORMATIVE_SCHEMA_V2.json",
+      "sha256": "b72470191feb2cf645b27e76e85d8d56cafb325468b7e88ef6de5e27ecc4ba73",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+      "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+      "rationale": "Approve bounded G0B normative schema V2 required by the owner-approved RTK V6 contract; it declares local reason codes and invariants only and introduces no product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
     },
-{
-        "filePath": "docs/OPS/RTK/G0B_SUPPORTED_CORPUS_V1.json",
-        "sha256": "d9225a96254a8e118a866dc4585fea9f895957bd4148b4f6f28c52776b453f59",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
-        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
-        "rationale": "Approve bounded G0B supported corpus required by the owner-approved RTK V6 contract; it freezes local microfixtures for zero false exact and parser analysis without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    {
+      "filePath": "docs/OPS/RTK/G0B_SUPPORTED_CORPUS_V1.json",
+      "sha256": "d9225a96254a8e118a866dc4585fea9f895957bd4148b4f6f28c52776b453f59",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+      "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+      "rationale": "Approve bounded G0B supported corpus required by the owner-approved RTK V6 contract; it freezes local microfixtures for zero false exact and parser analysis without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
     },
-{
-        "filePath": "docs/OPS/RTK/G0B_WORD_SETTINGS_CAPSULE_CONTRACT_V1.json",
-        "sha256": "0ad5bf117eecaa3e683d95b42c065e4c43aa65dfbdf1f88ee8fcf0b68f514904",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
-        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
-        "rationale": "Approve bounded G0B Word Settings Capsule contract required by the owner-approved RTK V6 contract; it records deferred external evidence policy and move-revision blocking without claiming Word PASS or adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    {
+      "filePath": "docs/OPS/RTK/G0B_WORD_SETTINGS_CAPSULE_CONTRACT_V1.json",
+      "sha256": "0ad5bf117eecaa3e683d95b42c065e4c43aa65dfbdf1f88ee8fcf0b68f514904",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
+      "approvedAtUtc": "2026-07-29T15:04:32.000Z",
+      "rationale": "Approve bounded G0B Word Settings Capsule contract required by the owner-approved RTK V6 contract; it records deferred external evidence policy and move-revision blocking without claiming Word PASS or adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
     },
-{
-        "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
-        "sha256": "87b2a989a7ceff00cb16627f24d2d3a583664be2ef33998d0b0dfbbea0fd6691",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
-        "approvedAtUtc": "2026-07-29T15:40:00.000Z",
-        "rationale": "Approve bounded W1 extension of the dependency-free transport contract helpers required by the owner-approved RTK V6 contract; it adds no-write feature flag, export intent, private manifest boundary, returned-artifact analysis and durability diagnostics while preserving no product apply, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
+      "sha256": "ae56b094ea2769313a93c792a4a9f24cceeb1e6256ef4cf4a0525617b9e6e5e8",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     },
-{
-        "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
-        "sha256": "95aeca142266290a0165e5a7a31fdb752b8890e7435d876a59e9913197bc32fc",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W2_BOUNDED_PARSER_AND_REVIEW_IR",
-        "approvedAtUtc": "2026-07-29T16:03:00.000Z",
-        "rationale": "Approve bounded W2 extension of the dependency-free local oracle required by the owner-approved RTK V6 contract; it exposes deterministic Review IR analysis without adding product apply, writer mutation, dependency, network, cloud, storage migration, export support claim, or UI capability."
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
+      "sha256": "84a6b7fc882b323e2b6d4125a34b794f0d57bc281b5b80e882e1a87f883e9232",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     },
-{
-        "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-        "sha256": "4e563bda03436a9efcb9786d86dde70ce769ad0e11284daebd9755cea9d55646",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0B_FEASIBILITY_AND_NORMATIVE_CONTRACTS",
-        "approvedAtUtc": "2026-07-29T15:04:32.000Z",
-        "rationale": "Approve bounded G0B feasibility contract tests required by the owner-approved RTK V6 contract; they verify zero false exact, structural blocking, comments conservation, HMAC tamper, corpus freeze, parser bake-off and external Word deferral without adding product apply, writer mutation, dependency, network, cloud, storage, export, or UI capability."
+    {
+      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
+      "sha256": "f8e92f6317f17926ae538f6c5de6735df75fb0cc54b86bf8724251114d717518",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     },
-{
-        "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-        "sha256": "5fb20429774495f91df333b3f61f620d75dbc6470b024456accb06bee40920ca",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W1_NO_WRITE_VERTICAL_SLICE",
-        "approvedAtUtc": "2026-07-29T15:40:00.000Z",
-        "rationale": "Approve bounded W1 no-write vertical slice contract tests required by the owner-approved RTK V6 contract; they verify read-only feature flag behavior, main-authority export intent, private manifest boundary, zero-change returned artifact analysis, atomic round store behavior, no-write reconciliation index and diagnostic-only durability claims without adding apply authority, writer mutation, dependency, network, cloud, storage-format migration, export support claim, or UI capability."
+    {
+      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+      "sha256": "75dd520cde33f627fe405b6aa039284f837da174e7fa123f4cf83980480f9b81",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     },
-{
-        "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-        "sha256": "1ee23a254c1f1bcb45ac0b9e6b1fc134ab490b96cf89a02b5b2e8c49065d2cc6",
-        "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W2_BOUNDED_PARSER_AND_REVIEW_IR",
-        "approvedAtUtc": "2026-07-29T16:03:00.000Z",
-        "rationale": "Approve bounded W2 Review IR contract tests required by the owner-approved RTK V6 contract; they verify worker authority denial, hostile package gates, deterministic parser digests, CLEAN and MIXED comment conservation, structural paragraph and move blocking, immutable analysis branch persistence and no write or apply authority without adding runtime dependencies, network, cloud, UI, storage migration, export support claim, or Word PASS evidence."
+    {
+      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
+      "sha256": "df92bafd8282eb879c9305b8c290abbf8090c64d9747750700e2b37d4b8025ee",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
+      "sha256": "0c18f4d0570e65ea70bfd6453a269f866bef1d65cc9b7dd6aeaa010d4b5e4c2c",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportIr.mjs",
+      "sha256": "75168437ca40e2b08e4d6d6a3272ca343b0dd0072f6d24a231f894591bea5dd7",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
+      "sha256": "79560b97da9231f5c3e3fc257f07adc644fd7bb69b81ff92661688aa66194871",
+      "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
+      "approvedAtUtc": "2026-07-29T16:30:29.812Z",
+      "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     }
   ]
 }

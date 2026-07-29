@@ -1,6 +1,18 @@
 {
   "schemaVersion": "sector-m-scope-map.v1",
-  "phaseOrder": ["M0", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "DONE"],
+  "phaseOrder": [
+    "M0",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "M9",
+    "DONE"
+  ],
   "opsCarveoutAllow": [
     "docs/OPS/STATUS/CANON_WORKTREE_POLICY.md",
     "docs/OPS/STATUS/MACOS_SIGNING_READINESS.json",
@@ -243,7 +255,10 @@
       "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
       "test/unit/docx-import-preview-ui-flow.test.js",
       "test/unit/docx-import-product-flow-command.test.js",
-      "test/unit/markdown-import-product-parity-ui-flow.test.js"
+      "test/unit/markdown-import-product-parity-ui-flow.test.js",
+      "src/io/revisionBridge/reviewTransportCore.mjs",
+      "test/contracts/rtk-g0b-feasibility.contract.test.js",
+      "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

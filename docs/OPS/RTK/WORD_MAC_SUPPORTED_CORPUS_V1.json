@@ -1,0 +1,637 @@
+{
+  "schemaVersion": "yalken.rtk.word-mac-supported-corpus.v1",
+  "activePlatform": "macos",
+  "wordProfileDigest": "sha256:389db0305e9956bcbc6b58146a571caefbcab1158b5a328e9b7f633b3b5f5cfa",
+  "frozenBeforeFirstRound": true,
+  "seedCount": 40,
+  "seeds": [
+    {
+      "id": "wm-001",
+      "title": "tracked insert at paragraph start",
+      "sourceTextSha256": "6e676bf97de84326df9ddbff8edb327cdc5912b4281f11772716ab41c46978eb",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "insert"
+      ],
+      "matrixTags": [
+        "insert-beginning",
+        "track-changes-on",
+        "save-as"
+      ]
+    },
+    {
+      "id": "wm-002",
+      "title": "tracked insert at middle",
+      "sourceTextSha256": "52fb0d9dc4340ecdc70b5e7cfe4d97ac83d6f576fbdd009052fba651ce375f69",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "insert"
+      ],
+      "matrixTags": [
+        "insert-middle",
+        "track-changes-on"
+      ]
+    },
+    {
+      "id": "wm-003",
+      "title": "tracked insert at end",
+      "sourceTextSha256": "1957193d17c8e0d8a81d6b4c9df47f8f633a190089eb9a44d6cd9dd7c8f4b490",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "insert"
+      ],
+      "matrixTags": [
+        "insert-end",
+        "scene-boundary-near-end"
+      ]
+    },
+    {
+      "id": "wm-004",
+      "title": "tracked delete word",
+      "sourceTextSha256": "3cae1705c7ce6f0eeaf34a2ac81516a2dd32a0b8b8546619c62817ff14e29077",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "delete"
+      ],
+      "matrixTags": [
+        "delete-word",
+        "track-changes-on"
+      ]
+    },
+    {
+      "id": "wm-005",
+      "title": "tracked delete sentence",
+      "sourceTextSha256": "8b5a69b9211482d026270441c40ebb169bee9d2d63ecd9ecd376a76243a7954b",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "delete"
+      ],
+      "matrixTags": [
+        "delete-sentence"
+      ]
+    },
+    {
+      "id": "wm-006",
+      "title": "tracked delete across paragraph boundary",
+      "sourceTextSha256": "428c83f9d9c5103ddd5dc6b1f391f1a194c2815ff382d5bddcc575741d97c6d0",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED",
+      "saveMode": "saveAs",
+      "actions": [
+        "delete"
+      ],
+      "matrixTags": [
+        "delete-line-boundary",
+        "paragraph-mark-revision"
+      ]
+    },
+    {
+      "id": "wm-007",
+      "title": "tracked replacement text",
+      "sourceTextSha256": "a76ebda5c8918870b51c7e2003d827502c1b8a9243299608f51ff109fb3c34b3",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "replace-text"
+      ]
+    },
+    {
+      "id": "wm-008",
+      "title": "multiple tracked edits in one paragraph",
+      "sourceTextSha256": "06373ffbfcf45fbe48ed92635c0602a768684091b0cfc8f3a679e3259e8aeee4",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace",
+        "replace"
+      ],
+      "matrixTags": [
+        "multiple-edits-one-paragraph"
+      ]
+    },
+    {
+      "id": "wm-009",
+      "title": "multiple tracked edits across paragraphs",
+      "sourceTextSha256": "5f95ffd719772e4d77d153d16cb0a88cb6ca2c5c768851c6fe1a72040e01e071",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace",
+        "replace"
+      ],
+      "matrixTags": [
+        "multiple-paragraphs"
+      ]
+    },
+    {
+      "id": "wm-010",
+      "title": "split paragraph with tracked return",
+      "sourceTextSha256": "d79a547ed6ebcb0fb5eb67f407fd4652dc4a2e4ead2e172c8cd3577daf9ae9aa",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_STRUCTURAL_SPLIT_MERGE",
+      "saveMode": "saveAs",
+      "actions": [
+        "insert"
+      ],
+      "matrixTags": [
+        "split-paragraph",
+        "paragraph-mark-revision"
+      ]
+    },
+    {
+      "id": "wm-011",
+      "title": "merge paragraphs by deleting paragraph mark",
+      "sourceTextSha256": "0b0ef435668d6af966d1d828ecab7ad0ae2693d526da6980fe8c24432c599ce5",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED",
+      "saveMode": "saveAs",
+      "actions": [
+        "delete"
+      ],
+      "matrixTags": [
+        "merge-paragraphs",
+        "delete-paragraph-mark"
+      ]
+    },
+    {
+      "id": "wm-012",
+      "title": "new empty line",
+      "sourceTextSha256": "8c37efc831f4579315f42f8ac91cdfdb88e3311d18200e6eea2d3f8c330e3b76",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED",
+      "saveMode": "saveAs",
+      "actions": [
+        "insert"
+      ],
+      "matrixTags": [
+        "new-empty-line",
+        "paragraph-mark-revision"
+      ]
+    },
+    {
+      "id": "wm-013",
+      "title": "copy paste inside Word",
+      "sourceTextSha256": "253103df45542790990451a80f3cef27a92411f4bb4bfaa08668d87a1c9c197b",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_COPY_PASTE_RETURN",
+      "saveMode": "saveAs",
+      "actions": [
+        "copyPaste"
+      ],
+      "matrixTags": [
+        "copy-paste"
+      ]
+    },
+    {
+      "id": "wm-014",
+      "title": "paragraph move attempt with cut paste",
+      "sourceTextSha256": "bf8e99dce8daf3e1c61a40e0000f69a3d275fa5d7fb73408b9f97dee3ca6445f",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_BLOCKED_MOVE_REVISION",
+      "saveMode": "saveAs",
+      "actions": [
+        "cutPaste"
+      ],
+      "matrixTags": [
+        "move-paragraph-attempt",
+        "move-revision"
+      ]
+    },
+    {
+      "id": "wm-015",
+      "title": "track changes off clean edit",
+      "sourceTextSha256": "506e0d3346c978cfb0b7629f6b6174c0f822ceca579c60bac44606986a331478",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_CLEAN_RETURN",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "track-changes-off",
+        "clean-edit"
+      ]
+    },
+    {
+      "id": "wm-016",
+      "title": "mixed tracked and clean edits",
+      "sourceTextSha256": "3267f3a4eeb8fdc077f5b8a87449f535af57def9ab2503b20f36eb1f12666125",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_MIXED_RETURN",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace",
+        "replace"
+      ],
+      "matrixTags": [
+        "mixed-tracked-clean"
+      ]
+    },
+    {
+      "id": "wm-017",
+      "title": "accept one reject one",
+      "sourceTextSha256": "e391ee3d12bf01eae8984158833a2124e442a21d5b4e5d9610831816245c9b0d",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_ACCEPT_REJECT_RETURN",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace",
+        "replace",
+        "acceptFirstRejectNext"
+      ],
+      "matrixTags": [
+        "accept-one",
+        "reject-one"
+      ]
+    },
+    {
+      "id": "wm-018",
+      "title": "accept all revisions",
+      "sourceTextSha256": "6f6a3a43764c896006480eb28eabaab29a2ed1c74dba327c783392ee0931ba99",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_ACCEPTED_ALL_RETURN",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace",
+        "acceptAll"
+      ],
+      "matrixTags": [
+        "accept-all"
+      ]
+    },
+    {
+      "id": "wm-019",
+      "title": "reject all revisions",
+      "sourceTextSha256": "0a86785ab9d74f633b708d4516dedcc7387aec103c9ae88717535f91a77d61e6",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_REJECTED_ALL_RETURN",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace",
+        "rejectAll"
+      ],
+      "matrixTags": [
+        "reject-all"
+      ]
+    },
+    {
+      "id": "wm-020",
+      "title": "second editorial round exact",
+      "sourceTextSha256": "f6bdb391e8fc7b3f3de5e09383be3fca7df16c21b179da7979d077cabf9f4b0e",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "repeat-editorial-round"
+      ]
+    },
+    {
+      "id": "wm-021",
+      "title": "plain Save path exact",
+      "sourceTextSha256": "00c8a19704fbb4dbc69dd6d341e3e48dcff542d22e3c48570177a434db47187e",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "save",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "save"
+      ]
+    },
+    {
+      "id": "wm-022",
+      "title": "comment on word",
+      "sourceTextSha256": "d20c9b53c3e6d6e7fee86df1758316caa62b9fcfe4c8faa91b96a7106342ee85",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMENT_ANCHORED",
+      "saveMode": "saveAs",
+      "actions": [
+        "comment"
+      ],
+      "matrixTags": [
+        "comment-word",
+        "classic-comment"
+      ]
+    },
+    {
+      "id": "wm-023",
+      "title": "comment on range beside tracked edit",
+      "sourceTextSha256": "d620d976302aa66d878b4a2fff112375673e6f6ec6ed96949828a57b8d743cbb",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE_WITH_COMMENT_LANE",
+      "saveMode": "saveAs",
+      "actions": [
+        "comment",
+        "replace"
+      ],
+      "matrixTags": [
+        "comment-range",
+        "comments-with-tracked"
+      ]
+    },
+    {
+      "id": "wm-024",
+      "title": "comment on paragraph with clean edit",
+      "sourceTextSha256": "c6b4948b890992453cb778ad4e55d6cd8dbac67194aeb782022f55af0e6ce8dd",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_CLEAN_RETURN_WITH_COMMENT_LANE",
+      "saveMode": "saveAs",
+      "actions": [
+        "comment",
+        "replace"
+      ],
+      "matrixTags": [
+        "comment-paragraph",
+        "comments-with-clean"
+      ]
+    },
+    {
+      "id": "wm-025",
+      "title": "multiple comments",
+      "sourceTextSha256": "f3d7ad51c02964e6fc9f7f3b4efc74be9450267105e9492dfacd7c02e511a1f9",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMENT_ANCHORED",
+      "saveMode": "saveAs",
+      "actions": [
+        "comment",
+        "comment"
+      ],
+      "matrixTags": [
+        "multiple-comments"
+      ]
+    },
+    {
+      "id": "wm-026",
+      "title": "formatting only change",
+      "sourceTextSha256": "ca7a9ac58df35e6a113fd5f8eaba4e0e3162ff74d24ae3c6148c3912bf6f506f",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_FORMATTING_ONLY_UNSUPPORTED_BLOCKED",
+      "saveMode": "saveAs",
+      "actions": [
+        "format"
+      ],
+      "matrixTags": [
+        "formatting-only",
+        "bold",
+        "italic",
+        "underline"
+      ]
+    },
+    {
+      "id": "wm-027",
+      "title": "list and heading formatting",
+      "sourceTextSha256": "e61240147ea524bcb3a59ed8c5136d4a8a419d2bbc5266adbcc1b69f9142ceeb",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_FORMATTING_ONLY_UNSUPPORTED_BLOCKED",
+      "saveMode": "saveAs",
+      "actions": [
+        "heading",
+        "bullet"
+      ],
+      "matrixTags": [
+        "list",
+        "heading"
+      ]
+    },
+    {
+      "id": "wm-028",
+      "title": "duplicate identical passage ambiguity",
+      "sourceTextSha256": "caa340b60d96071dc7e2c1dec41b9a926465d4ca7805b82196c737ab1ad94558",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_BLOCKED_DUPLICATE_LOCATOR",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "duplicate-identical-passages"
+      ]
+    },
+    {
+      "id": "wm-029",
+      "title": "edit near scene boundary start",
+      "sourceTextSha256": "c86f8606bc186cd87e4f396b5daebe802f14491e26066732ed1a1d4ee7e517b3",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "scene-boundary-near-start"
+      ]
+    },
+    {
+      "id": "wm-030",
+      "title": "structural cross-scene move attempt",
+      "sourceTextSha256": "c747b104fa3f2b81a59eedb994f0446466b432cb092c550c6a11148b87d0030f",
+      "classification": "STRUCTURAL",
+      "reasonCode": "RTK_BLOCKED_CROSS_SCENE_MOVE",
+      "saveMode": "saveAs",
+      "actions": [
+        "cutPaste"
+      ],
+      "matrixTags": [
+        "structural-cross-scene-move"
+      ]
+    },
+    {
+      "id": "wm-031",
+      "title": "Russian punctuation exact",
+      "sourceTextSha256": "699c4d747be49972df46b52a36c83b04e5ecab1d051a8031f16d68878a65c592",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "russian",
+        "yo",
+        "quotes",
+        "dash",
+        "nbsp"
+      ]
+    },
+    {
+      "id": "wm-032",
+      "title": "English punctuation apostrophe exact",
+      "sourceTextSha256": "a34674901945cb4366dccdfca6b37e6e86ef8fb09c32779a1548b3e373d0c2bf",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "english-punctuation",
+        "apostrophe"
+      ]
+    },
+    {
+      "id": "wm-033",
+      "title": "combining marks and emoji exact",
+      "sourceTextSha256": "13a6c35eec185be9acc9883f404e15838269a5b2a9a5dba8027a22fb6774de31",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "combining-marks",
+        "emoji",
+        "surrogate-pairs",
+        "variation-selector",
+        "zwj",
+        "zwnj",
+        "zero-width-space",
+        "soft-hyphen"
+      ]
+    },
+    {
+      "id": "wm-034",
+      "title": "RTL CJK and autocorrect surface",
+      "sourceTextSha256": "3b3042e61366eb1dbca9767754c78b5986003615b44041bc0b6a7d4cd3b26e68",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_UNICODE_BIDI_AUTOCORRECT_REVIEW",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "bidi-controls",
+        "rtl",
+        "cjk",
+        "autocorrect-induced-mutation"
+      ]
+    },
+    {
+      "id": "wm-035",
+      "title": "large writer text tracked edit near opening",
+      "sourceTextSha256": "701058decf2f6ff4383704612f37fb2e3cf2c7aebbd2413a84922c3265598bb6",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "insert-beginning",
+        "track-changes-on"
+      ]
+    },
+    {
+      "id": "wm-036",
+      "title": "large writer text tracked edit near midpoint",
+      "sourceTextSha256": "c594c2f57263fd67ebe92ce82ae207cd96cf6391e310c1491ea09d8bfc320b3c",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "multiple-paragraphs"
+      ]
+    },
+    {
+      "id": "wm-037",
+      "title": "large writer text comment opening midpoint closing",
+      "sourceTextSha256": "82b5c30bb1c0aff7895a69b8640f499c4f2f513182233c5fd92ebc15091df993",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMENT_ANCHORED",
+      "saveMode": "saveAs",
+      "actions": [
+        "comment",
+        "comment",
+        "comment"
+      ],
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "comment-word",
+        "multiple-comments",
+        "comment-large-document"
+      ]
+    },
+    {
+      "id": "wm-038",
+      "title": "large writer text mixed clean tracked",
+      "sourceTextSha256": "ffa2579294e89f1ca06cf503634e00c360cfe2d9e50b7d6474d05b1ef09de48b",
+      "classification": "MANUAL",
+      "reasonCode": "RTK_MANUAL_MIXED_RETURN",
+      "saveMode": "saveAs",
+      "actions": [
+        "replace",
+        "replace"
+      ],
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "mixed-tracked-clean",
+        "track-changes-off",
+        "track-changes-on"
+      ]
+    },
+    {
+      "id": "wm-039",
+      "title": "large writer text save path end edit",
+      "sourceTextSha256": "053c8f50100809c7723f6fa244a8eef81379a25600fb38374e675ca8b90c7950",
+      "classification": "EXACT",
+      "reasonCode": "RTK_EXACT_APPLICABLE",
+      "saveMode": "save",
+      "actions": [
+        "replace"
+      ],
+      "matrixTags": [
+        "large-text",
+        "writer-scale",
+        "save",
+        "scene-boundary-near-end"
+      ]
+    },
+    {
+      "id": "wm-040",
+      "title": "Word-native comment delete outcome",
+      "sourceTextSha256": "c030fc8bb642d45fe324f9080917acff6f6505b2ab4e65c920535b63569484f8",
+      "classification": "BLOCKED",
+      "reasonCode": "RTK_COMMENT_RESOLVED",
+      "saveMode": "saveAs",
+      "actions": [
+        "comment",
+        "deleteAllComments"
+      ],
+      "matrixTags": [
+        "comment-delete",
+        "classic-comment",
+        "comment-resolved-or-deleted"
+      ]
+    }
+  ],
+  "corpusDigest": "sha256:2b47991f142415d6930a86734efadebe7e220089a3f412410a0e089e59f0f601"
+}

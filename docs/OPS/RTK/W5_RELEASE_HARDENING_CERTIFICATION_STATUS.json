@@ -3,36 +3,44 @@
   "stageId": "W5_RELEASE_HARDENING_AND_CERTIFICATION",
   "planContractSha256": "499d621a618f20ce85fb945c9dd5fb10074dea9b8e164b12681e95cab5364b46",
   "candidateBaseSha": "3c4e791b9ee41e8c3d586f18f62a9430c336e9bf",
-  "overallStatus": "LOCAL_HARDENING_READY_EXTERNAL_WORD_RESUMABLE",
+  "overallStatus": "ACTIVE_PLATFORM_WORD_MAC_CERTIFIED_F00_READY",
   "externalWordCertification": {
-    "status": "RESUMABLE_EXTERNAL_WORD_CERTIFICATION",
-    "acceptedWordEvidence": false,
+    "status": "WORD_MAC_CERTIFICATION_PASS",
+    "activePlatform": "macos",
+    "acceptedWordEvidence": true,
     "falsePassForbidden": true,
-    "blocksDone": true,
+    "blocksDone": false,
+    "wordProfileDigest": "sha256:389db0305e9956bcbc6b58146a571caefbcab1158b5a328e9b7f633b3b5f5cfa",
+    "corpusDigest": "sha256:2b47991f142415d6930a86734efadebe7e220089a3f412410a0e089e59f0f601",
+    "evidenceManifestDigest": "sha256:618d2067ec272b1877fa965d2b732821aedfa353c4721b5b0b9c996a1464a610",
     "requiredEvidence": [
-      "exact Microsoft Word build",
-      "Windows Word roundtrip corpus with at least 30 seeded runs",
+      "Microsoft Word for Mac version and build",
+      "Mac create edit save close reopen preflight",
       "Word Settings Capsule digest",
-      "editor-native readback digest",
-      "OOXML validation digest",
-      "supported corpus digest",
-      "broader Word threshold histogram",
-      "independent Word oracle agreement"
+      "at least 30 seeded real Word for Mac round trips",
+      "editor-native Word readback digest per round",
+      "OOXML package extraction and zip validation per round",
+      "Yalken W2 analysis digest per round",
+      "Yalken exact apply or non-apply proof per round",
+      "comment lane preservation evidence",
+      "replay idempotence proof"
     ],
     "localAvailabilityObservation": {
-      "microsoftWordAppOnThisMac": "ABSENT_AT_W5_PREFLIGHT",
-      "libreOfficeOrSoffice": "NOT_ACCEPTED_AS_WORD_ORACLE",
-      "windowsWordLab": "NOT_AVAILABLE_IN_THIS_LOCAL_RUN"
+      "microsoftWordAppOnThisMac": "PRESENT_AND_ACTIVATED",
+      "microsoftWordForMacVersion": "16.42",
+      "microsoftWordForMacBuild": "16.42.20101102",
+      "windowsWordLab": "FUTURE_PLATFORM_ADVISORY_NOT_CURRENT_MACOS_BLOCKER"
     },
-    "nonPassReason": "The local environment cannot provide the required independent Microsoft Word Windows oracle chain; local W5 work may proceed, but DONE and WORD_PROFILE_EVIDENCE remain blocked."
+    "nonPassReason": ""
   },
   "doneGate": {
     "doneAllowed": false,
-    "blockers": [
-      "WORD_PROFILE_EVIDENCE_REQUIRED",
-      "EXTERNAL_WORD_ORACLE_UNAVAILABLE"
+    "f00Allowed": true,
+    "blockers": [],
+    "remainingBeforeDone": [
+      "F00_FINAL_AUDIT_REQUIRED"
     ],
-    "resumableAfterExternalEvidence": true
+    "resumableAfterExternalEvidence": false
   },
   "localReleaseHardening": {
     "status": "BOUND_TO_EXISTING_PROOF_HOOKS",
@@ -96,15 +104,20 @@
     ]
   },
   "nonClaims": [
-    "No Word support is claimed.",
-    "No Word import is claimed.",
-    "No Word roundtrip is claimed.",
+    "No Windows Word current-channel release certification is claimed for current macOS F00.",
     "No Word layout parity is claimed.",
     "No full DOCX fidelity is claimed.",
-    "No release DONE is claimed.",
-    "No user-facing release readiness is claimed.",
     "No package publication is claimed.",
     "No new dependency is introduced.",
     "No Design OS change is introduced."
-  ]
+  ],
+  "activePlatformRebind": {
+    "decision": "OWNER_APPROVED_MACOS_WORD_FOR_MAC_RELEASE_BLOCKING_ORACLE",
+    "activePlatform": "macos",
+    "activeWordOracle": "Microsoft Word for Mac 16.42",
+    "futurePlatformAdvisory": "Windows Word corpus preserved as FUTURE_PLATFORM_ADVISORY and does not block current macOS F00.",
+    "immutableContractChanged": false
+  },
+  "wordMacCertificationStatusPath": "docs/OPS/RTK/WORD_MAC_CERTIFICATION_STATUS.json",
+  "wordMacEvidenceManifestPath": "docs/OPS/RTK/WORD_MAC_ROUNDTRIP_EVIDENCE_MANIFEST.json"
 }

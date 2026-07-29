@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "yalken.rtk.word-mac-certification-status.v1",
+  "taskId": "YALKEN_RTK_WORD_MAC_CERTIFICATION_AND_F00",
+  "planContractSha256": "499d621a618f20ce85fb945c9dd5fb10074dea9b8e164b12681e95cab5364b46",
+  "activePlatformRebind": {
+    "decision": "OWNER_APPROVED_MACOS_WORD_FOR_MAC_RELEASE_BLOCKING_ORACLE",
+    "activePlatform": "macos",
+    "activeWordOracle": "Microsoft Word for Mac 16.42",
+    "futurePlatformAdvisory": "Windows Word corpus preserved as FUTURE_PLATFORM_ADVISORY and does not block current macOS F00.",
+    "immutableContractChanged": false
+  },
+  "result": "PASS",
+  "wordProfileDigest": "sha256:389db0305e9956bcbc6b58146a571caefbcab1158b5a328e9b7f633b3b5f5cfa",
+  "corpusDigest": "sha256:2b47991f142415d6930a86734efadebe7e220089a3f412410a0e089e59f0f601",
+  "evidenceManifestDigest": "sha256:618d2067ec272b1877fa965d2b732821aedfa353c4721b5b0b9c996a1464a610",
+  "totals": {
+    "rounds": 40,
+    "exact": 18,
+    "manual": 9,
+    "blocked": 13,
+    "commentCases": 5,
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "manuscriptMutationsDuringAnalysisOrPreview": 0,
+    "deterministicFailures": 0,
+    "replayFailures": 0,
+    "zipFailures": 0,
+    "productNetworkRequests": 0
+  },
+  "acceptance": {
+    "zeroFalseExact": true,
+    "zeroSilentApply": true,
+    "zeroWrongSceneRouting": true,
+    "zeroManuscriptMutationDuringAnalysisOrPreview": true,
+    "commentsSafelyLocatablePreserved": true,
+    "repeatedAnalysisDeterministic": true,
+    "replayIdempotent": true,
+    "rollbackAndRecoveryProven": true,
+    "originalAndReturnedDocxPreserved": true,
+    "productNetworkRequests": 0
+  },
+  "typedProfileLimitations": [
+    "MODERN_COMMENT_REPLY_UNSUPPORTED_BY_WORD_PROFILE",
+    "COMMENT_RESOLVE_UNSUPPORTED_BY_WORD_PROFILE",
+    "WINDOWS_WORD_CURRENT_CHANNEL_MOVED_TO_FUTURE_PLATFORM_ADVISORY_FOR_CURRENT_MACOS_RELEASE"
+  ]
+}

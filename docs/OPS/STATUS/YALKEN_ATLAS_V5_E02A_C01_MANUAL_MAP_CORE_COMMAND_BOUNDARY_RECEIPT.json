@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY",
+  "programStage": "E02A_STAGE_02A_DURABLE_MANUAL_MAP",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T19:05:08Z",
+  "baseSha": "0ba7a3ebf968e91cffaca5e5dc64b3e2821a2367",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds durable product state and Core command authority only; it creates no product UI surface, layout, visual state, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.coreCommandBoundary.v1",
+    "productPlane": {
+      "owner": "Product Core",
+      "readPath": [
+        "coreState.data.projects",
+        "project.manualMaps.maps",
+        "project.scenes for sceneRef validation"
+      ],
+      "writePath": [
+        "manualMap.create -> project.manualMaps.maps",
+        "manualMap.node.add -> project.manualMaps.maps[mapId].nodes",
+        "manualMap.edge.add -> project.manualMaps.maps[mapId].edges"
+      ],
+      "projectTruthMutation": true,
+      "storageAdapter": "existing project persistence only",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommands": [
+        "manualMap.create",
+        "manualMap.node.add",
+        "manualMap.edge.add"
+      ],
+      "capabilityId": "cap.manualMap.edit",
+      "capabilityRevalidation": "Command Kernel admits node desktop and denies web/mobile-wrapper through capability policy."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "manualMapSchema": "manualMap.author.v1",
+    "durableProjectField": "manualMaps",
+    "commands": [
+      "manualMap.create",
+      "manualMap.node.add",
+      "manualMap.edge.add"
+    ],
+    "nodeTargetValidation": "scene targets must reference an existing project scene",
+    "sceneTextMutation": false,
+    "derivedMindMapSecondSot": false
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --check src/core/runtime.mjs && node --check src/renderer/commands/capabilityPolicy.mjs && node --check src/renderer/commands/localCapabilityProvider.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/check-command-namespace.mjs --mode=release && node scripts/ops/check-command-namespace-static.mjs --mode=release",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s build:renderer",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/guards/platform-capability-resolver.mjs --platform-id node --command-id manualMap.create --json",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/guards/platform-capability-resolver.mjs --platform-id web --command-id manualMap.create --json",
+      "status": "EXPECTED_DENY"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js test/contracts/yalken-atlas-v5-e01-c04-confirmation-rebuild-recovery.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": {
+        "tests": 795,
+        "pass": 731,
+        "fail": 0,
+        "skipped": 64,
+        "durationMs": 73689.667584
+      }
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "negativeChecks": [
+    "invalid manual map create payload fails without mutation",
+    "duplicate manual map fails without mutation",
+    "sceneRef node target must reference an existing scene",
+    "web capability resolver denies manualMap.create",
+    "manual map commands do not mutate scene text",
+    "manual map boundary adds no private storage, network, Electron, localStorage, sessionStorage, or indexedDB bypass"
+  ],
+  "nextContour": "E02A_C02_MANUAL_MAP_DERIVED_GRAPH_PROJECTION"
+}

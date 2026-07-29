@@ -74,10 +74,44 @@ export type AtlasAuthorDataState = {
   decisions?: Record<string, AtlasDecisionState>
 }
 
+export type ManualMapNodeState = {
+  id: string
+  label: string
+  nodeKind: string
+  position: { x: number; y: number }
+  target: { kind: string; id: string }
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
+export type ManualMapEdgeState = {
+  id: string
+  fromNodeId: string
+  toNodeId: string
+  edgeKind: string
+  label: string
+  createdByCommandSeq: number
+}
+
+export type ManualMapState = {
+  id: string
+  title: string
+  nodes: Record<string, ManualMapNodeState>
+  edges: Record<string, ManualMapEdgeState>
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
+export type ManualMapAuthorDataState = {
+  schemaVersion: "manualMap.author.v1"
+  maps: Record<string, ManualMapState>
+}
+
 export type CoreProjectState = {
   id: string
   title: string
   atlas?: AtlasAuthorDataState
+  manualMaps?: ManualMapAuthorDataState
   scenes: Record<string, CoreSceneState>
 }
 
@@ -109,6 +143,18 @@ export type CoreCommand =
   | {
       type: "atlas.mention.confirm"
       payload: { projectId: string; sceneId: string; entityId: string; mentionId: string; evidenceAnchor: AtlasEvidenceAnchorState; decisionId?: string }
+    }
+  | {
+      type: "manualMap.create"
+      payload: { projectId: string; mapId: string; title?: string }
+    }
+  | {
+      type: "manualMap.node.add"
+      payload: { projectId: string; mapId: string; nodeId: string; label: string; nodeKind?: string; position?: { x?: number; y?: number }; targetKind?: string; targetId?: string }
+    }
+  | {
+      type: "manualMap.edge.add"
+      payload: { projectId: string; mapId: string; edgeId: string; fromNodeId: string; toNodeId: string; edgeKind?: string; label?: string }
     }
   | {
       type: string

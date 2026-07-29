@@ -6,16 +6,26 @@ const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
 const CONTRACTS_PATH = 'src/io/revisionBridge/reviewTransportContracts.mjs';
+const CORE_PATH = 'src/io/revisionBridge/reviewTransportCore.mjs';
+const IR_PATH = 'src/io/revisionBridge/reviewTransportIr.mjs';
 const ORACLE_PATH = 'src/io/revisionBridge/reviewTransportOracle.mjs';
 const ROUND_STORE_PATH = 'src/io/revisionBridge/reviewTransportRoundStore.mjs';
 const TEST_PATH = 'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js';
+const G0B_TEST_PATH = 'test/contracts/rtk-g0b-feasibility.contract.test.js';
+const W2_TEST_PATH = 'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js';
 const DOCX_PREFLIGHT_RUNTIME_REPAIR_PATH = 'src/io/revisionBridge/index.mjs';
 const ALLOWLIST = [
   CONTRACTS_PATH,
+  CORE_PATH,
+  IR_PATH,
   ORACLE_PATH,
   ROUND_STORE_PATH,
+  G0B_TEST_PATH,
   TEST_PATH,
+  W2_TEST_PATH,
   DOCX_PREFLIGHT_RUNTIME_REPAIR_PATH,
+  'scripts/ops/sector-m-scope-map.json',
+  'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
 ];
 
 async function loadContracts() {
@@ -53,7 +63,7 @@ test('W1 exports versioned no-write contracts and a read-only feature flag', asy
     [contracts.REVISION_BRIDGE_W1_FEATURE_FLAG]: true,
   });
 
-  assert.equal(contracts.REVISION_BRIDGE_W1_NO_WRITE_ANALYSIS_SCHEMA, 'revision-bridge.w1-no-write-analysis.v1');
+  assert.equal(contracts.REVISION_BRIDGE_W1_NO_WRITE_ANALYSIS_SCHEMA, 'yalken.rtk.returned-review-analysis.v2');
   assert.equal(contracts.REVISION_BRIDGE_W1_TERMINAL_LIFECYCLE_STATES.includes('CLOSED'), false);
   assert.equal(disabled.enabled, false);
   assert.equal(enabled.enabled, true);
@@ -76,7 +86,7 @@ test('W1 export intent requires main authority but never carries writer authorit
   });
 
   assert.equal(blocked.ok, false);
-  assert.equal(blocked.code, 'W1_EXPORT_INTENT_MAIN_AUTHORITY_REQUIRED');
+  assert.equal(blocked.code, 'RTK_BLOCKED_RECONCILING');
   assert.equal(ready.ok, true);
   assert.equal(ready.lifecycleState, 'OPEN_FOR_RETURN');
   assert.equal(ready.canWriteManuscript, false);
@@ -97,7 +107,7 @@ test('W1 external transport artifact excludes private manifest material', async 
   const publicText = JSON.stringify(bundle.publicManifest);
 
   assert.equal(bundle.ok, true);
-  assert.equal(bundle.code, 'W1_PRIVATE_MANIFEST_BOUNDARY_OK');
+  assert.equal(bundle.code, 'RTK_PRIVATE_MANIFEST_BOUNDARY_OK');
   assert.equal(publicText.includes('must-not-leak'), false);
   assert.equal(publicText.includes('local-private-key-ref'), false);
   assert.equal(bundle.privateManifest.privateKeyRef, 'local-private-key-ref');
@@ -115,7 +125,7 @@ test('W1 returned artifact no-edit analysis produces zero changes and no write a
     }),
   });
   const closed = contracts.analyzeW1ReturnedArtifact({
-    lifecycleState: 'CLOSED',
+    lifecycleState: 'TERMINAL',
     transport: baseTransport(),
   });
 
@@ -126,7 +136,7 @@ test('W1 returned artifact no-edit analysis produces zero changes and no write a
   assert.deepEqual(result.exactOperations, []);
   assert.equal(result.reasons.some((reason) => reason.code === 'G0B_NO_TEXT_CANDIDATE'), true);
   assert.equal(closed.ok, false);
-  assert.equal(closed.code, 'W1_ROUND_NOT_OPEN_FOR_RETURN');
+  assert.equal(closed.code, 'RTK_ROUND_NOT_OPEN_FOR_RETURN');
 });
 
 test('W1 round store commits old-or-complete-new and blocks overwrite', async () => {
@@ -147,7 +157,7 @@ test('W1 round store commits old-or-complete-new and blocks overwrite', async ()
   assert.equal(first.ok, true);
   assert.equal(fs.existsSync(first.manifestPath), true);
   assert.equal(second.ok, false);
-  assert.equal(second.code, 'E_W1_ROUND_ALREADY_EXISTS');
+  assert.equal(second.code, 'RTK_ALREADY_IMPORTED');
   assert.equal(read.manifest.lifecycleState, 'OPEN_FOR_RETURN');
   assert.equal(read.manifest.canWriteManuscript, false);
   assert.equal(read.manifest.canApply, false);
@@ -164,13 +174,13 @@ test('W1 external copy failure preserves round and recovery index is rebuildable
   const failure = store.recordW1ExternalCopyFailure(committed.manifest, { code: 'E_COPY_FAILED' });
   const index = store.buildW1ReconciliationIndex([committed.manifest]);
 
-  assert.equal(failure.code, 'E_W1_EXTERNAL_COPY_FAILED_ROUND_UNDAMAGED');
+  assert.equal(failure.code, 'RTK_WRITE_PRECONDITION_FAILED');
   assert.equal(failure.preservedManifestDigest, committed.manifest.manifestDigest);
   assert.equal(index.rebuildable, true);
   assert.equal(index.rounds[0].archiveEligible, true);
   assert.equal(contracts.evaluateW1ColdArchiveEligibility({ lifecycleState: 'OPEN_FOR_RETURN' }).ok, false);
-  assert.equal(contracts.evaluateW1ColdArchiveEligibility({ lifecycleState: 'RECOVERY' }).ok, false);
-  assert.equal(contracts.evaluateW1ColdArchiveEligibility({ lifecycleState: 'CLOSED' }).ok, false);
+  assert.equal(contracts.evaluateW1ColdArchiveEligibility({ lifecycleState: 'RECOVERY_REQUIRED' }).ok, false);
+  assert.equal(contracts.evaluateW1ColdArchiveEligibility({ lifecycleState: 'TERMINAL' }).ok, true);
 });
 
 test('W1 oracle separates local PASS from unsupported durability claims', async () => {

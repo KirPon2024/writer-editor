@@ -1,0 +1,725 @@
+export const RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA =
+  'yalken.rtk.returned-review-analysis.v2';
+export const RTK_REVIEW_IR_V2_SCHEMA = 'yalken.rtk.review-ir.v2';
+export const RTK_WORKER_CAPABILITY_V1_SCHEMA = 'yalken.rtk.worker-capability.v1';
+export const RTK_PACKAGE_REWRITE_REPORT_V2_SCHEMA =
+  'yalken.rtk.package-rewrite-report.v2';
+export const RTK_ROUND_MANIFEST_V2_SCHEMA = 'yalken.rtk.review-round-manifest.v2';
+export const RTK_ROUND_STORE_V2_SCHEMA = 'yalken.rtk.review-round-store.v2';
+export const RTK_RECONCILIATION_INDEX_V2_SCHEMA =
+  'yalken.rtk.reconciliation-index.v2';
+export const RTK_ANALYSIS_BRANCH_V2_SCHEMA = 'yalken.rtk.analysis-branch.v2';
+export const RTK_TRANSPORT_ARTIFACT_V2_SCHEMA = 'yalken.rtk.transport-artifact.v2';
+export const RTK_PRIVATE_MANIFEST_V2_SCHEMA = 'yalken.rtk.private-manifest.v2';
+export const RTK_NO_WRITE_ANALYSIS_V2_SCHEMA = 'yalken.rtk.returned-review-analysis.v2';
+export const RTK_FEATURE_FLAG = 'reviewTransportKernel.returnedReviewAnalysisV2';
+
+export const RTK_LIFECYCLE_STATES = Object.freeze([
+  'DRAFT_EXPORT_INTENT',
+  'OPEN_FOR_RETURN',
+  'RETURN_ADMITTED',
+  'RETURN_ANALYZED',
+  'TERMINAL',
+  'RECOVERY_REQUIRED',
+  'QUARANTINED',
+]);
+export const RTK_TERMINAL_LIFECYCLE_STATES = Object.freeze(['RETURN_ANALYZED', 'TERMINAL', 'QUARANTINED']);
+export const RTK_RETURN_MODES = Object.freeze(['TRACKED', 'CLEAN', 'MIXED']);
+export const RTK_COMMENT_OUTCOMES = Object.freeze(['ANCHORED', 'ORPHAN', 'RESOLVED', 'UNSUPPORTED_BLOCKED']);
+export const RTK_REASON_CODES = Object.freeze([
+  'RTK_EXACT_APPLICABLE',
+  'RTK_MANUAL_DEGRADED_LOCATOR',
+  'RTK_BLOCKED_STRUCTURAL',
+  'RTK_BLOCKED_MOVE_REVISION',
+  'RTK_BLOCKED_AMBIGUOUS_TEXT',
+  'RTK_BLOCKED_DUPLICATE_TOKEN',
+  'RTK_BLOCKED_TOKEN_CONTRADICTION',
+  'RTK_BLOCKED_CROSS_ROUND_LOCATOR',
+  'RTK_BLOCKED_STALE_REVISION',
+  'RTK_BLOCKED_STALE_BYTES',
+  'RTK_BLOCKED_RECONCILING',
+  'RTK_ALREADY_IMPORTED',
+  'RTK_ALREADY_ANALYZED',
+  'RTK_ALREADY_APPLIED',
+  'RTK_MANUAL_CLEAN_RETURN',
+  'RTK_MANUAL_MIXED_RETURN',
+  'RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED',
+  'RTK_STRUCTURAL_PARAGRAPH_MARK_DELETED',
+  'RTK_BLOCKED_MOVE_REVISION',
+  'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
+  'RTK_ZIP_REGION_OVERLAP',
+  'RTK_ZIP_FAKE_EOCD',
+  'RTK_ZIP_CRC_MISMATCH',
+  'RTK_XML_MALFORMED_BLOCKED',
+  'RTK_RECOVERY_REQUIRED',
+  'RTK_COMMENT_ANCHORED',
+  'RTK_COMMENT_ORPHAN',
+  'RTK_COMMENT_RESOLVED',
+  'RTK_COMMENT_UNSUPPORTED',
+  'RTK_BUDGET_EXCEEDED',
+  'RTK_HOSTILE_PACKAGE_BLOCKED',
+  'RTK_DURABILITY_DIR_SYNC_UNAVAILABLE',
+  'RTK_PARSER_TIMEOUT',
+  'RTK_PARSER_CONSERVATION_FAILED',
+  'RTK_WRITE_PRECONDITION_FAILED',
+  'RTK_WRITE_RECOVERED',
+  'RTK_WORKER_CAPABILITY_READY',
+  'RTK_WORKER_AUTHORITY_BLOCKED',
+  'RTK_PRIVATE_MANIFEST_BOUNDARY_OK',
+  'RTK_PRIVATE_KEY_NOT_EXPORTED',
+  'RTK_FILENAME_HINT_NON_AUTHORITY',
+  'RTK_ROUND_OPEN_FOR_RETURN',
+  'RTK_ROUND_NOT_OPEN_FOR_RETURN',
+  'RTK_NO_WRITE_ANALYSIS_READY',
+]);
+
+export const RTK_V6_BUDGETS = Object.freeze({
+  maxDocxBytes: 50 * 1024 * 1024,
+  maxZipEntries: 512,
+  maxInflatedPartBytes: 10 * 1024 * 1024,
+  maxTotalInflatedBytes: 50 * 1024 * 1024,
+  maxCompressionRatio: 200,
+  maxXmlDepth: 64,
+  maxAttributes: 128,
+  maxAttributeBytes: 8 * 1024,
+  maxBlocks: 5000,
+  maxRevisions: 5000,
+  maxComments: 2000,
+  maxCandidates: 200,
+  maxWorkerOutputBytes: 16 * 1024 * 1024,
+  softTimeoutMs: 15_000,
+  hardTimeoutMs: 30_000,
+  memoryTargetBytes: 256 * 1024 * 1024,
+});
+
+const ADMITTED_PARTS = Object.freeze([
+  'word/document.xml',
+  'word/comments.xml',
+  'word/commentsExtended.xml',
+  'word/people.xml',
+]);
+
+function isPlainObject(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function rawString(value) {
+  return typeof value === 'string' ? value : '';
+}
+
+function cloneJsonSafe(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+export function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
+  if (isPlainObject(value)) {
+    return `{${Object.keys(value).sort().map((key) => (
+      `${JSON.stringify(key)}:${stableJson(value[key])}`
+    )).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function createFallbackCryptoPort() {
+  return {
+    sha256Text(value) {
+      let hash = 0x811c9dc5;
+      const text = rawString(value);
+      for (let index = 0; index < text.length; index += 1) {
+        hash ^= text.charCodeAt(index);
+        hash = Math.imul(hash, 0x01000193) >>> 0;
+      }
+      return `${hash.toString(16).padStart(8, '0')}`.repeat(8).slice(0, 64);
+    },
+    sha256Json(value) {
+      return `sha256:${this.sha256Text(stableJson(value))}`;
+    },
+    byteLength(value) {
+      return [...rawString(value)].reduce((total, char) => total + (char.codePointAt(0) > 0x7f ? 2 : 1), 0);
+    },
+    crc32(value) {
+      let crc = 0;
+      const text = rawString(value);
+      for (let index = 0; index < text.length; index += 1) crc = (crc + text.charCodeAt(index)) >>> 0;
+      return crc;
+    },
+  };
+}
+
+function resolveCryptoPort(port) {
+  const fallback = createFallbackCryptoPort();
+  return {
+    sha256Text: typeof port?.sha256Text === 'function' ? port.sha256Text.bind(port) : fallback.sha256Text.bind(fallback),
+    sha256Json: typeof port?.sha256Json === 'function' ? port.sha256Json.bind(port) : fallback.sha256Json.bind(fallback),
+    byteLength: typeof port?.byteLength === 'function' ? port.byteLength.bind(port) : fallback.byteLength.bind(fallback),
+    crc32: typeof port?.crc32 === 'function' ? port.crc32.bind(port) : fallback.crc32.bind(fallback),
+  };
+}
+
+function reason(code, field, message, details = {}) {
+  return { code, field, message, ...details };
+}
+
+function localName(name) {
+  const text = rawString(name).trim();
+  const parts = text.split(':');
+  return rawString(parts[parts.length - 1]).replaceAll('/', '').trim();
+}
+
+function decodeEntities(text) {
+  return rawString(text)
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&amp;', '&')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&apos;', "'");
+}
+
+function readName(text, cursor) {
+  let index = cursor;
+  while (index < text.length) {
+    const code = text.charCodeAt(index);
+    const ok = (code >= 65 && code <= 90)
+      || (code >= 97 && code <= 122)
+      || (code >= 48 && code <= 57)
+      || text[index] === '_' || text[index] === '-' || text[index] === '.' || text[index] === ':';
+    if (!ok) break;
+    index += 1;
+  }
+  return { value: text.slice(cursor, index), next: index };
+}
+
+function parseAttributes(attrText, budgets, cryptoPort) {
+  const attrs = {};
+  const diagnostics = [];
+  let cursor = 0;
+  while (cursor < attrText.length) {
+    while (cursor < attrText.length && attrText[cursor].trim() === '') cursor += 1;
+    if (cursor >= attrText.length || attrText[cursor] === '/') break;
+    const name = readName(attrText, cursor);
+    if (!name.value) break;
+    cursor = name.next;
+    while (cursor < attrText.length && attrText[cursor].trim() === '') cursor += 1;
+    if (attrText[cursor] !== '=') break;
+    cursor += 1;
+    while (cursor < attrText.length && attrText[cursor].trim() === '') cursor += 1;
+    const quote = attrText[cursor];
+    if (quote !== '"' && quote !== "'") break;
+    cursor += 1;
+    const start = cursor;
+    while (cursor < attrText.length && attrText[cursor] !== quote) cursor += 1;
+    const value = decodeEntities(attrText.slice(start, cursor));
+    cursor += 1;
+    if (Object.keys(attrs).length >= budgets.maxAttributes) {
+      diagnostics.push(reason('RTK_BUDGET_EXCEEDED', 'xml.attributes', 'XML attribute budget exceeded.'));
+      continue;
+    }
+    if (cryptoPort.byteLength(value) > budgets.maxAttributeBytes) {
+      diagnostics.push(reason('RTK_BUDGET_EXCEEDED', `xml.attributes.${localName(name.value)}`, 'XML attribute byte budget exceeded.'));
+      continue;
+    }
+    attrs[localName(name.value)] = value;
+  }
+  return {
+    attrs: Object.fromEntries(Object.keys(attrs).sort().map((key) => [key, attrs[key]])),
+    diagnostics,
+  };
+}
+
+function scanXml(xml, budgets, cryptoPort) {
+  const text = rawString(xml);
+  const tokens = [];
+  const diagnostics = [];
+  const stack = [];
+  let cursor = 0;
+  while (cursor < text.length) {
+    const open = text.indexOf('<', cursor);
+    if (open === -1) break;
+    const close = text.indexOf('>', open + 1);
+    if (close === -1) {
+      diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', 'xml', 'XML tag is not closed.'));
+      break;
+    }
+    const raw = text.slice(open + 1, close).trim();
+    cursor = close + 1;
+    if (!raw || raw.startsWith('!') || raw.startsWith('?')) continue;
+    const closing = raw.startsWith('/');
+    const selfClosing = raw.endsWith('/');
+    const nameStart = closing ? 1 : 0;
+    const parsedName = readName(raw, nameStart);
+    const name = localName(parsedName.value);
+    const parsedAttrs = closing ? { attrs: {}, diagnostics: [] } : parseAttributes(raw.slice(parsedName.next), budgets, cryptoPort);
+    diagnostics.push(...parsedAttrs.diagnostics);
+    const token = {
+      name,
+      closing,
+      selfClosing,
+      attrs: parsedAttrs.attrs,
+      openStart: open,
+      openEnd: close + 1,
+      closeStart: close,
+      closeEnd: close + 1,
+      depth: stack.length,
+    };
+    if (closing) {
+      const last = stack.pop();
+      if (!last || last.name !== name) {
+        diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', `xml.${name}`, 'XML close tag does not match open tag.'));
+      } else {
+        last.closeStart = open;
+        last.closeEnd = close + 1;
+        tokens.push(last);
+      }
+      continue;
+    }
+    if (stack.length + 1 > budgets.maxXmlDepth) {
+      diagnostics.push(reason('RTK_BUDGET_EXCEEDED', 'xml.depth', 'XML depth budget exceeded.'));
+    }
+    if (selfClosing) {
+      tokens.push(token);
+    } else {
+      stack.push(token);
+    }
+  }
+  if (stack.length > 0) {
+    diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', 'xml', 'XML has unclosed elements.'));
+  }
+  return { tokens, diagnostics };
+}
+
+function elementBody(xml, token) {
+  if (token.selfClosing) return '';
+  return rawString(xml).slice(token.openEnd, token.closeStart);
+}
+
+function stripTags(xml) {
+  const text = rawString(xml);
+  let output = '';
+  let cursor = 0;
+  while (cursor < text.length) {
+    const open = text.indexOf('<', cursor);
+    if (open === -1) {
+      output += text.slice(cursor);
+      break;
+    }
+    output += text.slice(cursor, open);
+    const close = text.indexOf('>', open + 1);
+    if (close === -1) break;
+    const tagText = text.slice(open + 1, close).trim();
+    if (localName(readName(tagText, tagText.startsWith('/') ? 1 : 0).value) === 'tab') output += '\t';
+    cursor = close + 1;
+  }
+  return decodeEntities(output);
+}
+
+function canonicalizeScannedXml(xml, budgets, cryptoPort) {
+  const scanned = scanXml(xml, budgets, cryptoPort);
+  return scanned.tokens
+    .map((token) => `${token.name}:${stableJson(token.attrs)}:${stripTags(elementBody(xml, token)).trim()}`)
+    .sort()
+    .join('|');
+}
+
+function normalizeBudgets(input = {}) {
+  return {
+    ...RTK_V6_BUDGETS,
+    ...Object.fromEntries(Object.entries(input).filter(([, value]) => Number.isSafeInteger(value) && value > 0)),
+  };
+}
+
+function normalizeParts(parts = {}, budgets, cryptoPort) {
+  const admittedParts = {};
+  const rejectedParts = [];
+  const reasons = [];
+  let totalBytes = 0;
+  const entries = parts instanceof Map ? Object.fromEntries(parts.entries()) : (isPlainObject(parts) ? parts : {});
+  for (const [nameRaw, value] of Object.entries(entries)) {
+    const name = rawString(nameRaw).replaceAll('\\', '/');
+    const text = rawString(value);
+    const bytes = cryptoPort.byteLength(text);
+    totalBytes += bytes;
+    if (!ADMITTED_PARTS.includes(name)) {
+      rejectedParts.push(name);
+      continue;
+    }
+    if (bytes > budgets.maxInflatedPartBytes) {
+      reasons.push(reason('RTK_BUDGET_EXCEEDED', `parts.${name}`, 'Inflated part exceeds V6 budget.', {
+        actual: bytes,
+        limit: budgets.maxInflatedPartBytes,
+      }));
+      continue;
+    }
+    admittedParts[name] = text;
+  }
+  if (totalBytes > budgets.maxTotalInflatedBytes) {
+    reasons.push(reason('RTK_BUDGET_EXCEEDED', 'parts', 'Total inflated package bytes exceed V6 budget.', {
+      actual: totalBytes,
+      limit: budgets.maxTotalInflatedBytes,
+    }));
+  }
+  return { admittedParts, rejectedParts, reasons, totalBytes };
+}
+
+function rangesOverlap(left, right) {
+  return Number.isFinite(left.start) && Number.isFinite(left.end)
+    && Number.isFinite(right.start) && Number.isFinite(right.end)
+    && Math.max(left.start, right.start) < Math.min(left.end, right.end);
+}
+
+function evaluatePackageIntegrity(inventory = {}, admittedParts = {}, cryptoPort) {
+  const reasons = [];
+  const entries = Array.isArray(inventory.entries) ? inventory.entries.filter(isPlainObject) : [];
+  const ranges = [];
+  if (entries.length > RTK_V6_BUDGETS.maxZipEntries) {
+    reasons.push(reason('RTK_BUDGET_EXCEEDED', 'zip.entries', 'ZIP entry count exceeds V6 budget.'));
+  }
+  if (Number(inventory.fakeEocdCount || 0) > 0 || Number(inventory.eocdCount || 1) > 1) {
+    reasons.push(reason('RTK_ZIP_FAKE_EOCD', 'zip.eocd', 'Fake or duplicate EOCD marker is blocked.'));
+  }
+  for (const entry of entries) {
+    const name = rawString(entry.name);
+    const centralCrc = Number.isSafeInteger(entry.centralCrc32) ? entry.centralCrc32 : entry.crc32;
+    const localCrc = Number.isSafeInteger(entry.localCrc32) ? entry.localCrc32 : centralCrc;
+    if (Number.isSafeInteger(centralCrc) && Number.isSafeInteger(localCrc) && centralCrc !== localCrc) {
+      reasons.push(reason('RTK_ZIP_LOCAL_CENTRAL_MISMATCH', `zip.${name}.crc32`, 'ZIP local and central metadata disagree.', { partName: name }));
+    }
+    if (Object.hasOwn(admittedParts, name) && Number.isSafeInteger(centralCrc)) {
+      const actual = cryptoPort.crc32(admittedParts[name]);
+      if (actual !== centralCrc) {
+        reasons.push(reason('RTK_ZIP_CRC_MISMATCH', `zip.${name}.crc32`, 'Admitted part CRC does not match package metadata.', {
+          partName: name,
+          expected: centralCrc,
+          actual,
+        }));
+      }
+    }
+    const start = Number(entry.dataStart ?? entry.start);
+    const end = Number(entry.dataEnd ?? entry.end);
+    for (const previous of ranges) {
+      if (rangesOverlap({ start, end }, previous)) {
+        reasons.push(reason('RTK_ZIP_REGION_OVERLAP', `zip.${name}.range`, 'ZIP entry byte ranges overlap.', {
+          partName: name,
+          overlaps: previous.name,
+        }));
+      }
+    }
+    ranges.push({ name, start, end });
+  }
+  return reasons;
+}
+
+function classifySourceMode(documentXml, input, scannedDocument) {
+  const hasRevisions = scannedDocument.tokens.some((token) => (
+    ['ins', 'del', 'moveFrom', 'moveTo', 'pPrChange'].includes(token.name)
+  ));
+  const hasUntrackedDrift = input.untrackedDrift === true
+    || (
+      rawString(input.baselineFinalText)
+      && rawString(input.finalText || stripTags(documentXml)) !== rawString(input.baselineFinalText)
+    );
+  if (hasRevisions && hasUntrackedDrift) return 'MIXED';
+  if (hasRevisions) return 'TRACKED';
+  return 'CLEAN';
+}
+
+function parseTrackedChanges(documentXml, scannedDocument, budgets, cryptoPort) {
+  const changes = [];
+  const diagnostics = [];
+  let index = 0;
+  for (const token of scannedDocument.tokens) {
+    if (!['ins', 'del', 'moveFrom', 'moveTo'].includes(token.name)) continue;
+    const text = stripTags(elementBody(documentXml, token));
+    if (changes.length >= budgets.maxRevisions || cryptoPort.byteLength(text) > budgets.maxWorkerOutputBytes) {
+      diagnostics.push(reason('RTK_BUDGET_EXCEEDED', `textChanges.${index}`, 'Revision budget exceeded.'));
+      break;
+    }
+    const structural = token.name === 'moveFrom' || token.name === 'moveTo';
+    const code = structural ? 'RTK_BLOCKED_MOVE_REVISION' : 'RTK_EXACT_APPLICABLE';
+    changes.push({
+      candidateId: `rtk-candidate-${cryptoPort.sha256Text(stableJson({ kind: token.name, attrs: token.attrs, text }))}`,
+      kind: token.name,
+      candidateDisposition: structural ? 'BLOCKED' : 'MANUAL',
+      classification: structural ? 'STRUCTURAL_BLOCKED' : 'TEXT_MANUAL',
+      originalParagraph: token.name === 'del' || token.name === 'moveFrom' ? text : '',
+      finalParagraph: token.name === 'ins' || token.name === 'moveTo' ? text : '',
+      revisionIds: [rawString(token.attrs.id)].filter(Boolean),
+      textDigest: cryptoPort.sha256Json({ kind: token.name, text }),
+      textExcerpt: text.slice(0, 96),
+      attributes: token.attrs,
+      reasonCode: code,
+    });
+    if (structural) {
+      diagnostics.push(reason('RTK_BLOCKED_MOVE_REVISION', `textChanges.${index}.kind`, 'Move revisions are structural and blocked.', { kind: token.name }));
+    }
+    index += 1;
+  }
+  for (const token of scannedDocument.tokens) {
+    if (token.name === 'pPrChange') {
+      diagnostics.push(reason(
+        'RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED',
+        'document.paragraphMarks',
+        'Paragraph mark revisions are structural and always blocked.',
+      ));
+    }
+  }
+  return { changes, diagnostics };
+}
+
+function commentReferenceIds(scannedDocument) {
+  return new Set(scannedDocument.tokens
+    .filter((token) => token.name === 'commentReference' || token.name === 'commentRangeStart')
+    .map((token) => rawString(token.attrs.id))
+    .filter(Boolean));
+}
+
+function parseComments(commentsXml, commentsExtendedXml, scannedDocument, budgets, cryptoPort) {
+  const commentsScan = scanXml(commentsXml, budgets, cryptoPort);
+  const commentsExScan = scanXml(commentsExtendedXml, budgets, cryptoPort);
+  const reasons = [...commentsScan.diagnostics, ...commentsExScan.diagnostics];
+  const anchors = commentReferenceIds(scannedDocument);
+  const metadataByParaId = new Map();
+  for (const token of commentsExScan.tokens.filter((item) => item.name === 'commentEx')) {
+    const key = rawString(token.attrs.paraId || token.attrs.id);
+    if (!key) continue;
+    metadataByParaId.set(key, {
+      resolved: rawString(token.attrs.done).toLowerCase() === 'true' || rawString(token.attrs.done) === '1',
+      attributes: token.attrs,
+    });
+  }
+
+  const seen = new Set();
+  const commentThreads = [];
+  let ordinal = 0;
+  for (const token of commentsScan.tokens.filter((item) => item.name === 'comment')) {
+    const rawId = rawString(token.attrs.id || `${ordinal}`);
+    const paraId = rawString(token.attrs.paraId || rawId);
+    const body = stripTags(elementBody(commentsXml, token)).trim();
+    const duplicate = seen.has(rawId);
+    seen.add(rawId);
+    const meta = metadataByParaId.get(paraId)
+      || metadataByParaId.get(rawId)
+      || (metadataByParaId.size === 1 ? [...metadataByParaId.values()][0] : {});
+    const anchored = anchors.has(rawId);
+    const status = duplicate
+      ? 'UNSUPPORTED_BLOCKED'
+      : (meta.resolved ? 'RESOLVED' : (anchored ? 'ANCHORED' : 'ORPHAN'));
+    const code = status === 'RESOLVED'
+      ? 'RTK_COMMENT_RESOLVED'
+      : (status === 'ANCHORED' ? 'RTK_COMMENT_ANCHORED' : (status === 'ORPHAN' ? 'RTK_COMMENT_ORPHAN' : 'RTK_COMMENT_UNSUPPORTED'));
+    commentThreads.push({
+      threadId: `rtk-comment-${rawId}`,
+      parentThreadId: rawString(token.attrs.parentId),
+      rawId,
+      items: [{
+        itemId: `rtk-comment-item-${rawId}-0`,
+        ordinal,
+        body,
+        bodyDigest: cryptoPort.sha256Json({ rawId, body }),
+        bodyExcerpt: body.slice(0, 160),
+      }],
+      bodyExcerpt: body.slice(0, 160),
+      status,
+      placement: {
+        outcome: status,
+        anchored,
+        selectorStack: {
+          exactQuote: '',
+          prefix: '',
+          suffix: '',
+          utf16Position: null,
+        },
+      },
+      reasonCodes: [code],
+      attributes: token.attrs,
+      modernMetadata: meta.attributes ? { ...meta.attributes, done: meta.resolved === true } : {},
+    });
+    reasons.push(reason(code, `comments.${rawId}`, 'Comment lane outcome is conserved independently from text lane.', {
+      threadId: `rtk-comment-${rawId}`,
+    }));
+    ordinal += 1;
+  }
+  if (commentThreads.length > budgets.maxComments) {
+    reasons.push(reason('RTK_BUDGET_EXCEEDED', 'comments', 'Comment count exceeds V6 budget.'));
+  }
+  return { commentThreads, reasons };
+}
+
+export function buildWorkerCapabilityAdapterV1(capabilities = {}) {
+  const blocked = capabilities.pathAuthority === true
+    || capabilities.writerAuthority === true
+    || capabilities.networkAuthority === true;
+  const reasons = [];
+  if (blocked) {
+    reasons.push(reason('RTK_WORKER_AUTHORITY_BLOCKED', 'worker.authority', 'Worker cannot receive path, writer, or network authority.'));
+  }
+  return {
+    ok: !blocked,
+    schemaVersion: RTK_WORKER_CAPABILITY_V1_SCHEMA,
+    adapterKind: 'desktop-process-worker',
+    canReceivePaths: false,
+    canWriteManuscript: false,
+    canApply: false,
+    networkAccess: false,
+    timeoutMs: Number.isSafeInteger(capabilities.timeoutMs) ? capabilities.timeoutMs : RTK_V6_BUDGETS.hardTimeoutMs,
+    cancellation: 'kill-restart',
+    code: blocked ? 'RTK_WORKER_AUTHORITY_BLOCKED' : 'RTK_WORKER_CAPABILITY_READY',
+    reasons,
+  };
+}
+
+export function buildReviewIRV2(input = {}, ports = {}) {
+  const cryptoPort = resolveCryptoPort(ports.cryptoPort);
+  const budgets = normalizeBudgets(input.budgets);
+  const worker = buildWorkerCapabilityAdapterV1(input.workerCapabilities);
+  const normalizedParts = normalizeParts(input.parts, budgets, cryptoPort);
+  const reasons = [...worker.reasons, ...normalizedParts.reasons];
+  reasons.push(...evaluatePackageIntegrity(input.zipInventory, normalizedParts.admittedParts, cryptoPort));
+  const documentXml = rawString(normalizedParts.admittedParts['word/document.xml']);
+  const commentsXml = rawString(normalizedParts.admittedParts['word/comments.xml']);
+  const commentsExtendedXml = rawString(normalizedParts.admittedParts['word/commentsExtended.xml']);
+  const scannedDocument = scanXml(documentXml, budgets, cryptoPort);
+  reasons.push(...scannedDocument.diagnostics);
+  const blockingCodes = new Set([
+    'RTK_BUDGET_EXCEEDED',
+    'RTK_ZIP_CRC_MISMATCH',
+    'RTK_ZIP_LOCAL_CENTRAL_MISMATCH',
+    'RTK_ZIP_REGION_OVERLAP',
+    'RTK_ZIP_FAKE_EOCD',
+    'RTK_XML_MALFORMED_BLOCKED',
+    'RTK_WORKER_AUTHORITY_BLOCKED',
+  ]);
+  if (reasons.some((item) => blockingCodes.has(item.code))) {
+    return {
+      ok: false,
+      schemaVersion: RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA,
+      status: 'blocked',
+      code: reasons.find((item) => blockingCodes.has(item.code))?.code || 'RTK_HOSTILE_PACKAGE_BLOCKED',
+      canWriteManuscript: false,
+      canApply: false,
+      reasons,
+    };
+  }
+
+  const sourceMode = classifySourceMode(documentXml, input, scannedDocument);
+  if (sourceMode === 'CLEAN') reasons.push(reason('RTK_MANUAL_CLEAN_RETURN', 'sourceMode', 'CLEAN return is visible manual analysis.'));
+  if (sourceMode === 'MIXED') reasons.push(reason('RTK_MANUAL_MIXED_RETURN', 'sourceMode', 'MIXED return is visible manual analysis.'));
+  const tracked = parseTrackedChanges(documentXml, scannedDocument, budgets, cryptoPort);
+  const comments = parseComments(commentsXml, commentsExtendedXml, scannedDocument, budgets, cryptoPort);
+  reasons.push(...tracked.diagnostics, ...comments.reasons);
+
+  const semanticProjection = {
+    canonicalDocument: canonicalizeScannedXml(documentXml, budgets, cryptoPort),
+    canonicalComments: canonicalizeScannedXml(commentsXml, budgets, cryptoPort),
+    sourceMode,
+    textChanges: tracked.changes.map((change) => ({
+      kind: change.kind,
+      candidateDisposition: change.candidateDisposition,
+      textDigest: change.textDigest,
+      attributes: change.attributes,
+      reasonCode: change.reasonCode,
+    })),
+    commentThreads: comments.commentThreads.map((thread) => ({
+      rawId: thread.rawId,
+      parentThreadId: thread.parentThreadId,
+      status: thread.status,
+      itemDigests: thread.items.map((item) => item.bodyDigest),
+    })),
+  };
+  const parserProfile = {
+    schemaVersion: 'yalken.rtk.parser-profile.v2',
+    implementationId: 'bounded-scanner-no-regex-v2',
+    parserBuild: rawString(input.parserBuild || 'local'),
+    contractVersion: 'ReviewIRV2',
+    budgets,
+    admittedParts: Object.keys(normalizedParts.admittedParts).sort(),
+    semanticFeatureFlags: ['comments-body-first', 'source-mode-v6', 'mce-typed-loss'],
+  };
+  const supportedSemanticDigest = cryptoPort.sha256Json(semanticProjection);
+  const parserProfileDigest = cryptoPort.sha256Json(parserProfile);
+  const analysisDigest = cryptoPort.sha256Json({
+    schemaVersion: RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA,
+    supportedSemanticDigest,
+    parserProfileDigest,
+    sourceMode,
+  });
+  const cacheKey = cryptoPort.sha256Json({
+    artifactHash: rawString(input.returnedArtifactSha256 || input.sourceArtifactSha256),
+    parserProfileDigest,
+    canonicalizerVersion: 'ReviewIRV2',
+    manifestDigest: rawString(input.manifestDigest),
+  });
+  const reviewIr = {
+    schemaVersion: RTK_REVIEW_IR_V2_SCHEMA,
+    sourceMode,
+    textChanges: tracked.changes,
+    changes: tracked.changes,
+    structuralChanges: tracked.changes
+      .filter((change) => change.classification === 'STRUCTURAL_BLOCKED')
+      .map((change) => ({
+        changeId: change.candidateId,
+        kind: change.kind,
+        affectedBlocks: [],
+        reasonCodes: [change.reasonCode],
+      })),
+    commentThreads: comments.commentThreads,
+    comments: comments.commentThreads,
+    modernCommentMetadata: comments.commentThreads
+      .map((thread) => thread.modernMetadata)
+      .filter((metadata) => Object.keys(metadata).length > 0),
+    diagnostics: reasons,
+    conservation: {
+      commentBodiesIndependentFromPlacement: true,
+      commentLaneIndependentFromTextLane: true,
+      fullTextStoredOnlyForChangedBlocks: true,
+      unchangedBlocksStoredAsSpansHashesAndExcerpts: true,
+    },
+  };
+  return {
+    ok: true,
+    schemaVersion: RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA,
+    status: 'review-ir-ready',
+    code: 'RTK_EXACT_APPLICABLE',
+    canWriteManuscript: false,
+    canApply: false,
+    sourceMode,
+    worker,
+    rejectedParts: normalizedParts.rejectedParts,
+    reviewIr,
+    supportedSemanticDigest,
+    parserProfileDigest,
+    analysisDigest,
+    cacheKey,
+    parserProfile,
+    packageRewriteReport: null,
+    reasons: [reason('RTK_EXACT_APPLICABLE', 'reviewIr', 'Bounded deterministic ReviewIRV2 was produced without write authority.'), ...reasons],
+  };
+}
+
+export function buildRedactedPackageRewriteReportV2(input = {}, ports = {}) {
+  const cryptoPort = resolveCryptoPort(ports.cryptoPort);
+  const changedBlocks = Array.isArray(input.changedBlocks) ? input.changedBlocks.filter(isPlainObject) : [];
+  const unchangedBlocks = Array.isArray(input.unchangedBlocks) ? input.unchangedBlocks.filter(isPlainObject) : [];
+  return {
+    schemaVersion: RTK_PACKAGE_REWRITE_REPORT_V2_SCHEMA,
+    reportId: rawString(input.reportId) || cryptoPort.sha256Json({ changedBlocks, unchangedBlocks }).replace('sha256:', ''),
+    canWriteManuscript: false,
+    canApply: false,
+    changedBlocks: changedBlocks.map((block, index) => ({
+      blockId: rawString(block.blockId) || `changed-${index}`,
+      originalText: rawString(block.originalText).slice(0, RTK_V6_BUDGETS.maxWorkerOutputBytes),
+      finalText: rawString(block.finalText).slice(0, RTK_V6_BUDGETS.maxWorkerOutputBytes),
+      originalDigest: cryptoPort.sha256Json(rawString(block.originalText)),
+      finalDigest: cryptoPort.sha256Json(rawString(block.finalText)),
+    })),
+    unchangedBlocks: unchangedBlocks.map((block, index) => {
+      const text = rawString(block.text);
+      return {
+        blockId: rawString(block.blockId) || `unchanged-${index}`,
+        span: Array.isArray(block.span) ? block.span.slice(0, 2) : [0, text.length],
+        textDigest: cryptoPort.sha256Json(text),
+        excerpt: text.slice(0, 80),
+      };
+    }),
+  };
+}

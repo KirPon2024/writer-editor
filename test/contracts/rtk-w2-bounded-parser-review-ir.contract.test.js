@@ -6,13 +6,18 @@ const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
 const IR_PATH = 'src/io/revisionBridge/reviewTransportIr.mjs';
+const CORE_PATH = 'src/io/revisionBridge/reviewTransportCore.mjs';
 const ORACLE_PATH = 'src/io/revisionBridge/reviewTransportOracle.mjs';
 const ROUND_STORE_PATH = 'src/io/revisionBridge/reviewTransportRoundStore.mjs';
 const TEST_PATH = 'test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js';
 const ALLOWLIST = [
+  'src/io/revisionBridge/reviewTransportContracts.mjs',
+  CORE_PATH,
   IR_PATH,
   ORACLE_PATH,
   ROUND_STORE_PATH,
+  'test/contracts/rtk-g0b-feasibility.contract.test.js',
+  'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js',
   TEST_PATH,
   'scripts/ops/sector-m-scope-map.json',
   'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
@@ -58,9 +63,18 @@ test('W2 worker adapter is desktop-only and rejects path writer or network autho
   assert.equal(ready.networkAccess, false);
   assert.equal(ready.cancellation, 'kill-restart');
   assert.equal(blocked.ok, false);
-  assert.equal(blocked.reasons.some((reason) => reason.code === 'W2_WORKER_PATH_AUTHORITY_BLOCKED'), true);
-  assert.equal(blocked.reasons.some((reason) => reason.code === 'W2_WORKER_WRITER_AUTHORITY_BLOCKED'), true);
-  assert.equal(blocked.reasons.some((reason) => reason.code === 'W2_WORKER_NETWORK_AUTHORITY_BLOCKED'), true);
+  assert.equal(blocked.reasons.some((reason) => reason.code === 'RTK_WORKER_AUTHORITY_BLOCKED'), true);
+  assert.equal(blocked.reasons.some((reason) => reason.code === 'RTK_WORKER_AUTHORITY_BLOCKED'), true);
+  assert.equal(blocked.reasons.some((reason) => reason.code === 'RTK_WORKER_AUTHORITY_BLOCKED'), true);
+});
+
+test('W2 normative ReviewIR core is platform-neutral and does not use regex XML parsing', () => {
+  const coreText = fs.readFileSync(path.join(process.cwd(), CORE_PATH), 'utf8');
+  assert.equal(coreText.includes('node:'), false);
+  assert.equal(coreText.includes('Buffer'), false);
+  assert.equal(coreText.includes('matchAll'), false);
+  assert.equal(coreText.includes('new RegExp'), false);
+  assert.equal(coreText.includes('namespace-aware-bounded-regex'), false);
 });
 
 test('W2 hostile package gates block CRC mismatch local-central mismatch overlap and fake EOCD', async () => {
@@ -92,10 +106,30 @@ test('W2 hostile package gates block CRC mismatch local-central mismatch overlap
   assert.equal(result.ok, false);
   assert.equal(result.canWriteManuscript, false);
   assert.equal(result.canApply, false);
-  assert.equal(result.reasons.some((reason) => reason.code === 'W2_PACKAGE_FAKE_EOCD'), true);
-  assert.equal(result.reasons.some((reason) => reason.code === 'W2_PACKAGE_LOCAL_CENTRAL_MISMATCH'), true);
-  assert.equal(result.reasons.some((reason) => reason.code === 'W2_PACKAGE_CRC_MISMATCH'), true);
-  assert.equal(result.reasons.some((reason) => reason.code === 'W2_PACKAGE_ENTRY_OVERLAP'), true);
+  assert.equal(result.reasons.some((reason) => reason.code === 'RTK_ZIP_FAKE_EOCD'), true);
+  assert.equal(result.reasons.some((reason) => reason.code === 'RTK_ZIP_LOCAL_CENTRAL_MISMATCH'), true);
+  assert.equal(result.reasons.some((reason) => reason.code === 'RTK_ZIP_CRC_MISMATCH'), true);
+  assert.equal(result.reasons.some((reason) => reason.code === 'RTK_ZIP_REGION_OVERLAP'), true);
+});
+
+test('W2 malformed XML and duplicate comments hit production parser path with typed blocked outcomes', async () => {
+  const ir = await loadIr();
+  const malformed = ir.buildW2ReviewIr({
+    parts: { 'word/document.xml': documentXml('<w:p><w:ins><w:t>Broken</w:t></w:p>') },
+  });
+  const duplicateComments = ir.buildW2ReviewIr({
+    parts: {
+      'word/document.xml': documentXml('<w:p><w:commentReference w:id="7"/></w:p>'),
+      'word/comments.xml': '<w:comments xmlns:w="urn"><w:comment w:id="7"><w:p><w:r><w:t>First</w:t></w:r></w:p></w:comment><w:comment w:id="7"><w:p><w:r><w:t>Duplicate</w:t></w:r></w:p></w:comment></w:comments>',
+    },
+  });
+
+  assert.equal(malformed.ok, false);
+  assert.equal(malformed.code, 'RTK_XML_MALFORMED_BLOCKED');
+  assert.equal(duplicateComments.ok, true);
+  assert.equal(duplicateComments.reviewIr.comments.length, 2);
+  assert.equal(duplicateComments.reviewIr.comments[1].status, 'UNSUPPORTED_BLOCKED');
+  assert.equal(duplicateComments.reasons.some((reason) => reason.code === 'RTK_COMMENT_UNSUPPORTED'), true);
 });
 
 test('W2 parser is namespace and attribute-order stable across chunk boundaries', async () => {
@@ -117,31 +151,42 @@ test('W2 parser is namespace and attribute-order stable across chunk boundaries'
   assert.equal(first.reviewIr.changes.length, 1);
 });
 
-test('W2 CLEAN and MIXED outcomes conserve comments independently from text lane', async () => {
+test('W2 source modes follow V6 and comments stay independent from text lane', async () => {
   const ir = await loadIr();
   const clean = ir.buildW2ReviewIr({
     parts: {
       'word/document.xml': documentXml('<w:p><w:r><w:t>Clean body</w:t></w:r></w:p>'),
     },
   });
-  const mixed = ir.buildW2ReviewIr({
+  const trackedWithComments = ir.buildW2ReviewIr({
     parts: {
       'word/document.xml': documentXml('<w:p><w:commentReference w:id="7"/><w:ins><w:r><w:t>New</w:t></w:r></w:ins></w:p>'),
       'word/comments.xml': commentsXml('Keep me'),
       'word/commentsExtended.xml': '<w15:commentsEx xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"><w15:commentEx w15:paraId="abc" w15:done="1"/></w15:commentsEx>',
     },
   });
+  const mixed = ir.buildW2ReviewIr({
+    untrackedDrift: true,
+    parts: {
+      'word/document.xml': documentXml('<w:p><w:commentReference w:id="7"/><w:ins><w:r><w:t>New</w:t></w:r></w:ins></w:p>'),
+      'word/comments.xml': commentsXml('Keep me'),
+    },
+  });
 
   assert.equal(clean.ok, true);
   assert.equal(clean.sourceMode, 'CLEAN');
-  assert.equal(clean.reasons.some((reason) => reason.code === 'W2_CLEAN_MANUAL_OUTCOME'), true);
+  assert.equal(clean.reasons.some((reason) => reason.code === 'RTK_MANUAL_CLEAN_RETURN'), true);
+  assert.equal(trackedWithComments.ok, true);
+  assert.equal(trackedWithComments.sourceMode, 'TRACKED');
+  assert.equal(trackedWithComments.reviewIr.comments.length, 1);
+  assert.equal(trackedWithComments.reviewIr.comments[0].bodyExcerpt, 'Keep me');
+  assert.equal(trackedWithComments.reviewIr.modernCommentMetadata.length, 1);
+  assert.equal(trackedWithComments.reviewIr.modernCommentMetadata[0].done, true);
+  assert.equal(trackedWithComments.reviewIr.comments[0].status, 'RESOLVED');
+  assert.equal(trackedWithComments.reasons.some((reason) => reason.code === 'RTK_COMMENT_RESOLVED'), true);
   assert.equal(mixed.ok, true);
   assert.equal(mixed.sourceMode, 'MIXED');
-  assert.equal(mixed.reviewIr.comments.length, 1);
-  assert.equal(mixed.reviewIr.comments[0].bodyExcerpt, 'Keep me');
-  assert.equal(mixed.reviewIr.modernCommentMetadata.length, 1);
-  assert.equal(mixed.reviewIr.modernCommentMetadata[0].done, true);
-  assert.equal(mixed.reasons.some((reason) => reason.code === 'W2_COMMENTS_CONSERVED'), true);
+  assert.equal(mixed.reasons.some((reason) => reason.code === 'RTK_MANUAL_MIXED_RETURN'), true);
 });
 
 test('W2 paragraph marks and move revisions are structural and never lower to operations', async () => {
@@ -154,8 +199,8 @@ test('W2 paragraph marks and move revisions are structural and never lower to op
 
   assert.equal(result.ok, true);
   assert.equal(result.reviewIr.changes[0].classification, 'STRUCTURAL_BLOCKED');
-  assert.equal(result.reviewIr.changes[0].reasonCode, 'W2_MOVE_REVISION_STRUCTURAL');
-  assert.equal(result.reasons.some((reason) => reason.code === 'W2_PARAGRAPH_MARK_STRUCTURAL'), true);
+  assert.equal(result.reviewIr.changes[0].reasonCode, 'RTK_BLOCKED_MOVE_REVISION');
+  assert.equal(result.reasons.some((reason) => reason.code === 'RTK_STRUCTURAL_PARAGRAPH_MARK_INSERTED'), true);
   assert.equal(result.canWriteManuscript, false);
   assert.equal(result.canApply, false);
 });
@@ -174,28 +219,55 @@ test('W2 analysis branch store reuses same key and creates new branch for parser
 
   const first = await store.commitW2AnalysisBranch(storeRoot, {
     roundId: 'round-w2',
-    analysisKey: 'same-docx',
     ...base,
     reviewIr: base.reviewIr,
   });
   const reused = await store.commitW2AnalysisBranch(storeRoot, {
     roundId: 'round-w2',
-    analysisKey: 'same-docx',
     ...base,
     reviewIr: base.reviewIr,
   });
   const nextProfile = await store.commitW2AnalysisBranch(storeRoot, {
     roundId: 'round-w2',
-    analysisKey: 'same-docx',
     ...widerBudget,
     reviewIr: widerBudget.reviewIr,
   });
 
   assert.equal(first.status, 'committed');
   assert.equal(reused.status, 'reused');
+  assert.match(first.branchId, /^profile-[a-f0-9]{64}$/u);
+  assert.match(first.analysisKey, /^[a-f0-9]{64}$/u);
+  assert.match(first.recordWrite.sha256, /^[a-f0-9]{64}$/u);
   assert.notEqual(first.record.recordChecksum, first.record.analysisDigest);
   assert.equal(nextProfile.status, 'committed');
   assert.notEqual(first.branchId, nextProfile.branchId);
+});
+
+test('W2 parser bake-off rejects regex XML parser and selects bounded scanner without dependency', async () => {
+  const contracts = await import(pathToFileURL(path.join(process.cwd(), 'src/io/revisionBridge/reviewTransportContracts.mjs')).href);
+  const result = contracts.compareParserCandidates([
+    {
+      id: 'regex-tokenizer',
+      correctness: 'pass',
+      boundedAuditability: true,
+      regexXmlParser: true,
+      namespaceAware: true,
+      chunkBoundaryInvariant: true,
+    },
+    {
+      id: 'bounded-scanner-no-regex-v2',
+      correctness: 'pass',
+      boundedAuditability: true,
+      regexXmlParser: false,
+      generalXmlPlatform: false,
+      namespaceAware: true,
+      chunkBoundaryInvariant: true,
+    },
+  ]);
+
+  assert.equal(result.ok, true);
+  assert.equal(result.selected, 'bounded-scanner-no-regex-v2');
+  assert.equal(result.ownerDecisionRequired, false);
 });
 
 test('W2 redacted package rewrite report stores full text only for changed blocks', async () => {

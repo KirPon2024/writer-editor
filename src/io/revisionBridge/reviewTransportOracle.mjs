@@ -76,7 +76,7 @@ export function runW1NoWriteOracle(input = {}) {
   const directorySync = probeW1DirectorySyncCapability(input.directorySyncCapabilities);
 
   return {
-    schemaVersion: 'revision-bridge.w1-no-write-oracle.v1',
+    schemaVersion: 'yalken.rtk.no-write-oracle.v2',
     status: featureFlag.enabled && exportIntent.ok && returnedAnalysis.ok ? 'PASS' : 'BLOCKED',
     canWriteManuscript: false,
     canApply: false,
@@ -91,7 +91,7 @@ export function runW1NoWriteOracle(input = {}) {
 export function runW2ReviewIrOracle(input = {}) {
   const reviewIr = buildW2ReviewIr(input);
   return {
-    schemaVersion: 'revision-bridge.w2-review-ir-oracle.v1',
+    schemaVersion: 'yalken.rtk.review-ir-oracle.v2',
     status: reviewIr.ok ? 'PASS' : 'BLOCKED',
     canWriteManuscript: false,
     canApply: false,

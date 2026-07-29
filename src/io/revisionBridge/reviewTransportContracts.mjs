@@ -1,5 +1,15 @@
 import crypto from 'node:crypto';
 
+import {
+  RTK_FEATURE_FLAG,
+  RTK_LIFECYCLE_STATES,
+  RTK_NO_WRITE_ANALYSIS_V2_SCHEMA,
+  RTK_PRIVATE_MANIFEST_V2_SCHEMA,
+  RTK_REASON_CODES,
+  RTK_TERMINAL_LIFECYCLE_STATES,
+  RTK_TRANSPORT_ARTIFACT_V2_SCHEMA,
+} from './reviewTransportCore.mjs';
+
 export const REVISION_BRIDGE_G0B_TRANSPORT_CONTRACT_SCHEMA =
   'revision-bridge.g0b-transport-contract.v1';
 export const REVISION_BRIDGE_G0B_WORD_SETTINGS_CAPSULE_SCHEMA =
@@ -7,27 +17,16 @@ export const REVISION_BRIDGE_G0B_WORD_SETTINGS_CAPSULE_SCHEMA =
 export const REVISION_BRIDGE_G0B_SUPPORTED_CORPUS_SCHEMA =
   'revision-bridge.g0b-supported-corpus.v1';
 export const REVISION_BRIDGE_W1_NO_WRITE_ANALYSIS_SCHEMA =
-  'revision-bridge.w1-no-write-analysis.v1';
+  RTK_NO_WRITE_ANALYSIS_V2_SCHEMA;
 export const REVISION_BRIDGE_W1_TRANSPORT_ARTIFACT_SCHEMA =
-  'revision-bridge.w1-transport-artifact.v1';
+  RTK_TRANSPORT_ARTIFACT_V2_SCHEMA;
 export const REVISION_BRIDGE_W1_PRIVATE_MANIFEST_SCHEMA =
-  'revision-bridge.w1-private-manifest.v1';
-export const REVISION_BRIDGE_W1_FEATURE_FLAG = 'reviewTransportKernel.noWriteRoundV1';
+  RTK_PRIVATE_MANIFEST_V2_SCHEMA;
+export const REVISION_BRIDGE_W1_FEATURE_FLAG = RTK_FEATURE_FLAG;
 
 export const REVISION_BRIDGE_G0B_RETURN_MODES = Object.freeze(['TRACKED', 'CLEAN', 'MIXED']);
-export const REVISION_BRIDGE_W1_LIFECYCLE_STATES = Object.freeze([
-  'DRAFT_EXPORT_INTENT',
-  'OPEN_FOR_RETURN',
-  'RETURN_ADMITTED',
-  'RETURN_ANALYZED',
-  'CLOSED',
-  'RECOVERY',
-  'QUARANTINED',
-]);
-export const REVISION_BRIDGE_W1_TERMINAL_LIFECYCLE_STATES = Object.freeze([
-  'RETURN_ANALYZED',
-  'QUARANTINED',
-]);
+export const REVISION_BRIDGE_W1_LIFECYCLE_STATES = RTK_LIFECYCLE_STATES;
+export const REVISION_BRIDGE_W1_TERMINAL_LIFECYCLE_STATES = RTK_TERMINAL_LIFECYCLE_STATES;
 export const REVISION_BRIDGE_G0B_REASON_CODES = Object.freeze([
   'G0B_LOCAL_CONTRACTS_OK',
   'G0B_NO_TEXT_CANDIDATE',
@@ -46,19 +45,7 @@ export const REVISION_BRIDGE_G0B_REASON_CODES = Object.freeze([
   'G0B_PARSER_DEPENDENCY_OWNER_DECISION_REQUIRED',
   'DEFERRED_EXTERNAL_WORD_EVIDENCE',
 ]);
-export const REVISION_BRIDGE_W1_REASON_CODES = Object.freeze([
-  'W1_NO_WRITE_ANALYSIS_READY',
-  'W1_FEATURE_FLAG_READ_ONLY',
-  'W1_EXPORT_INTENT_MAIN_AUTHORITY_REQUIRED',
-  'W1_ROUND_OPEN_FOR_RETURN',
-  'W1_ROUND_NOT_OPEN_FOR_RETURN',
-  'W1_COLD_ARCHIVE_BLOCKED_FOR_OPEN_ROUND',
-  'W1_COLD_ARCHIVE_BLOCKED_FOR_RECOVERY_ROUND',
-  'W1_PRIVATE_MANIFEST_BOUNDARY_OK',
-  'W1_PRIVATE_KEY_NOT_EXPORTED',
-  'W1_FILENAME_HINT_NON_AUTHORITY',
-  'W1_DIRECTORY_SYNC_UNSUPPORTED_DIAGNOSTIC_ONLY',
-]);
+export const REVISION_BRIDGE_W1_REASON_CODES = RTK_REASON_CODES;
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -179,15 +166,18 @@ export function freezeSupportedCorpus(corpus, expectedDigest) {
 
 export function compareParserCandidates(candidates, options = {}) {
   const list = Array.isArray(candidates) ? candidates.filter(isPlainObject) : [];
-  const existing = list.find((candidate) => candidate.id === 'existing-tokenizer');
+  const existing = list.find((candidate) => candidate.id === 'bounded-scanner-no-regex-v2');
   const safeExisting = existing
     && existing.correctness === 'pass'
     && existing.boundedAuditability === true
-    && existing.generalXmlPlatform !== true;
+    && existing.generalXmlPlatform !== true
+    && existing.regexXmlParser !== true
+    && existing.namespaceAware === true
+    && existing.chunkBoundaryInvariant === true;
   if (safeExisting) {
     return {
       ok: true,
-      selected: 'existing-tokenizer',
+      selected: 'bounded-scanner-no-regex-v2',
       code: 'G0B_PARSER_EXISTING_TOKENIZER_ACCEPTED',
       ownerDecisionRequired: false,
       candidates: cloneJsonSafe(list),
@@ -348,13 +338,13 @@ function redactExternalTransport(value) {
 export function resolveW1NoWriteFeatureFlag(flags = {}) {
   const enabled = flags[REVISION_BRIDGE_W1_FEATURE_FLAG] === true;
   return {
-    schemaVersion: 'revision-bridge.w1-feature-flag.v1',
+    schemaVersion: 'yalken.rtk.feature-flag.v2',
     flag: REVISION_BRIDGE_W1_FEATURE_FLAG,
     enabled,
     mutationSurfaceEnabled: false,
     canApply: false,
     canWriteManuscript: false,
-    code: 'W1_FEATURE_FLAG_READ_ONLY',
+    code: 'RTK_NO_WRITE_ANALYSIS_READY',
   };
 }
 
@@ -365,11 +355,11 @@ export function buildW1ExportIntent(input = {}) {
   if (!ok) {
     return {
       ok: false,
-      schemaVersion: 'revision-bridge.w1-export-intent.v1',
-      code: 'W1_EXPORT_INTENT_MAIN_AUTHORITY_REQUIRED',
+      schemaVersion: 'yalken.rtk.export-intent.v2',
+      code: 'RTK_BLOCKED_RECONCILING',
       canWriteManuscript: false,
       reasons: [buildReason(
-        'W1_EXPORT_INTENT_MAIN_AUTHORITY_REQUIRED',
+        'RTK_BLOCKED_RECONCILING',
         'authorityToken',
         'W1 export intent requires main-process authority and never carries writer authority.',
       )],
@@ -377,13 +367,13 @@ export function buildW1ExportIntent(input = {}) {
   }
   return {
     ok: true,
-    schemaVersion: 'revision-bridge.w1-export-intent.v1',
+    schemaVersion: 'yalken.rtk.export-intent.v2',
     roundId,
     requestId: rawString(authorityToken.requestId),
     lifecycleState: 'OPEN_FOR_RETURN',
     canWriteManuscript: false,
     canApply: false,
-    code: 'W1_ROUND_OPEN_FOR_RETURN',
+    code: 'RTK_ROUND_OPEN_FOR_RETURN',
     filenameHint: createW1HumanFilenameHint(input),
   };
 }
@@ -394,10 +384,10 @@ export function createW1HumanFilenameHint(input = {}) {
   const roundId = rawString(input.roundId).replace(/[^a-z0-9_-]+/giu, '').slice(0, 48)
     || 'round';
   return {
-    schemaVersion: 'revision-bridge.w1-filename-hint.v1',
+    schemaVersion: 'yalken.rtk.filename-hint.v2',
     value: `${title}-${roundId}.docx`,
     participatesInAuthority: false,
-    code: 'W1_FILENAME_HINT_NON_AUTHORITY',
+    code: 'RTK_FILENAME_HINT_NON_AUTHORITY',
   };
 }
 
@@ -424,18 +414,18 @@ export function buildW1NeutralTransportArtifact(input = {}) {
   };
   return {
     ok: true,
-    schemaVersion: 'revision-bridge.w1-neutral-transport-bundle.v1',
-    code: 'W1_PRIVATE_MANIFEST_BOUNDARY_OK',
+    schemaVersion: 'yalken.rtk.neutral-transport-bundle.v2',
+    code: 'RTK_PRIVATE_MANIFEST_BOUNDARY_OK',
     publicManifest,
     privateManifest,
     reasons: [
       buildReason(
-        'W1_PRIVATE_MANIFEST_BOUNDARY_OK',
+        'RTK_PRIVATE_MANIFEST_BOUNDARY_OK',
         'publicManifest',
         'Private manifest identity is stored separately from the external transport artifact.',
       ),
       buildReason(
-        'W1_PRIVATE_KEY_NOT_EXPORTED',
+        'RTK_PRIVATE_KEY_NOT_EXPORTED',
         'publicManifest',
         'Secret and private-key fields are removed from the external artifact.',
       ),
@@ -450,12 +440,12 @@ export function analyzeW1ReturnedArtifact(input = {}) {
       ok: false,
       schemaVersion: REVISION_BRIDGE_W1_NO_WRITE_ANALYSIS_SCHEMA,
       status: 'blocked',
-      code: 'W1_ROUND_NOT_OPEN_FOR_RETURN',
+      code: 'RTK_ROUND_NOT_OPEN_FOR_RETURN',
       canWriteManuscript: false,
       canApply: false,
       exactOperations: [],
       reasons: [buildReason(
-        'W1_ROUND_NOT_OPEN_FOR_RETURN',
+        'RTK_ROUND_NOT_OPEN_FOR_RETURN',
         'lifecycleState',
         'Only OPEN_FOR_RETURN rounds can admit a returned artifact for no-write analysis.',
         { lifecycleState },
@@ -467,7 +457,7 @@ export function analyzeW1ReturnedArtifact(input = {}) {
     ok: true,
     schemaVersion: REVISION_BRIDGE_W1_NO_WRITE_ANALYSIS_SCHEMA,
     status: 'analyzed-no-write',
-    code: 'W1_NO_WRITE_ANALYSIS_READY',
+    code: 'RTK_NO_WRITE_ANALYSIS_READY',
     lifecycleState: 'RETURN_ANALYZED',
     canWriteManuscript: false,
     canApply: false,
@@ -476,7 +466,7 @@ export function analyzeW1ReturnedArtifact(input = {}) {
     commentsLane: cloneJsonSafe(transport.commentsLane),
     reasons: [
       buildReason(
-        'W1_NO_WRITE_ANALYSIS_READY',
+        'RTK_NO_WRITE_ANALYSIS_READY',
         'transport',
         'Returned artifact was analyzed through the normative no-write oracle boundary.',
       ),
@@ -491,22 +481,22 @@ export function evaluateW1ColdArchiveEligibility(roundManifest = {}) {
   if (lifecycleState === 'OPEN_FOR_RETURN') {
     return {
       ok: false,
-      code: 'W1_COLD_ARCHIVE_BLOCKED_FOR_OPEN_ROUND',
+      code: 'RTK_ROUND_NOT_OPEN_FOR_RETURN',
       lifecycleState,
     };
   }
-  if (lifecycleState === 'RECOVERY') {
+  if (lifecycleState === 'RECOVERY_REQUIRED') {
     return {
       ok: false,
-      code: 'W1_COLD_ARCHIVE_BLOCKED_FOR_RECOVERY_ROUND',
+      code: 'RTK_RECOVERY_REQUIRED',
       lifecycleState,
     };
   }
   return {
     ok: REVISION_BRIDGE_W1_TERMINAL_LIFECYCLE_STATES.includes(lifecycleState),
     code: REVISION_BRIDGE_W1_TERMINAL_LIFECYCLE_STATES.includes(lifecycleState)
-      ? 'W1_NO_WRITE_ANALYSIS_READY'
-      : 'W1_ROUND_NOT_OPEN_FOR_RETURN',
+      ? 'RTK_NO_WRITE_ANALYSIS_READY'
+      : 'RTK_ROUND_NOT_OPEN_FOR_RETURN',
     lifecycleState,
   };
 }
@@ -514,11 +504,11 @@ export function evaluateW1ColdArchiveEligibility(roundManifest = {}) {
 export function probeW1DirectorySyncCapability(capabilities = {}) {
   const supported = capabilities.directoryFsync === true;
   return {
-    schemaVersion: 'revision-bridge.w1-directory-sync-capability.v1',
+    schemaVersion: 'yalken.rtk.directory-sync-capability.v2',
     supported,
     durabilityClaim: supported ? 'DIRECTORY_SYNC_SUPPORTED' : 'DIAGNOSTIC_ONLY_UNSUPPORTED',
     code: supported
-      ? 'W1_NO_WRITE_ANALYSIS_READY'
-      : 'W1_DIRECTORY_SYNC_UNSUPPORTED_DIAGNOSTIC_ONLY',
+      ? 'RTK_NO_WRITE_ANALYSIS_READY'
+      : 'RTK_DURABILITY_DIR_SYNC_UNAVAILABLE',
   };
 }

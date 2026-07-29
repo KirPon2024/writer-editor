@@ -1,4 +1,11 @@
 export {
+  MANUAL_MAP_JSON_REPEAT_IMPORT_PLAN_SCHEMA_VERSION,
+  MANUAL_MAP_JSON_REPEAT_IMPORT_RECEIPT_SCHEMA_VERSION,
+  applyManualMapJsonRepeatImportViaCommandKernel,
+  buildManualMapJsonRepeatImportPlan,
+} from './manualMapJsonRepeatImport.mjs';
+
+export {
   LEGACY_MINDMAP_ROUNDTRIP_EVIDENCE_SCHEMA_VERSION,
   LEGACY_MINDMAP_SUNSET_EVIDENCE_SCHEMA_VERSION,
   buildLegacyMindMapRoundtripEvidence,

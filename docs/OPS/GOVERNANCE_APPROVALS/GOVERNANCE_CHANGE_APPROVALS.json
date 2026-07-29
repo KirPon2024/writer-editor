@@ -4501,6 +4501,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E03_C05_PROJECTION_INSPECTOR_FALLBACK_MANIFESTS",
       "approvedAtUtc": "2026-07-29T22:55:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E03 C05 contract: proves plot, idea, and meaning inspector manifests are deterministic, bounded, read-only, and expose no allowed actions, provider states are deterministic ready, empty, and unavailable fallbacks, source projection capability failures map to unavailable without mutating truth, root derived barrel exports the provider, and no filesystem, network, Electron, renderer storage, UI command dispatch, hot-path event listener, or private storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C00_DETERMINISTIC_ATLAS_CONTOUR_COMPILATION_RECEIPT.json",
+      "sha256": "0ae944d84b264f924700c4f6028d9589b7e373ac8b5d498bf8d4637d81d515e1",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C00_DETERMINISTIC_ATLAS_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-29T23:09:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E04 C00 compilation receipt: records current deterministic Atlas runtime facts and compiles a linear Stage 04 queue for observation candidate aggregates, alias scope and suppression, co-occurrence first-last absence intervals, explicit merge split reassign restore, evidence reattachment review inbox, and local graph cluster layout budget proof; this contour adds no runtime code, UI surface, storage adapter, network, cloud, paid service, dependency, or release readiness widening."
     }
   ]
 }

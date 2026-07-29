@@ -139,11 +139,31 @@ export type IdeaAuthorDataState = {
   originLinks: Record<string, IdeaOriginLinkState>
 }
 
+export type MeaningPromotionSourceState =
+  | { kind: "idea"; ideaId: string }
+  | { kind: "sceneOriginRef"; originRef: IdeaOriginRefState }
+
+export type MeaningState = {
+  id: string
+  title: string
+  interpretation: string
+  source: MeaningPromotionSourceState
+  promotionKind: "explicitAuthorPromotion"
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
+export type MeaningAuthorDataState = {
+  schemaVersion: "meaning.author.v1"
+  meanings: Record<string, MeaningState>
+}
+
 export type CoreProjectState = {
   id: string
   title: string
   atlas?: AtlasAuthorDataState
   ideas?: IdeaAuthorDataState
+  meanings?: MeaningAuthorDataState
   manualMaps?: ManualMapAuthorDataState
   scenes: Record<string, CoreSceneState>
 }
@@ -184,6 +204,10 @@ export type CoreCommand =
   | {
       type: "idea.originLink.add"
       payload: { projectId: string; ideaId: string; linkId?: string; originRef: IdeaOriginRefState }
+    }
+  | {
+      type: "meaning.promote"
+      payload: { projectId: string; meaningId: string; title: string; interpretation: string; source: MeaningPromotionSourceState }
     }
   | {
       type: "manualMap.create"

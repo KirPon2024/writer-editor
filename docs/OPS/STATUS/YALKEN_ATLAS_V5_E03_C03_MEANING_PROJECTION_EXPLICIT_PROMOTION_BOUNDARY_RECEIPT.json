@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY",
+  "programStage": "E03_STAGE_03_PLOT_IDEA_MEANING_CONTOURS",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T22:07:00Z",
+  "baseSha": "6edc211c5903538efe65fc601eb6e14fc9a13e32",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds Product Core meaning author truth, Command Kernel capability binding, and a pure derived meaning projection; it adds no product UI surface, visual composition, DOM insertion, typography, palette, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "meaningProjectionExplicitPromotionBoundary",
+    "productPlane": {
+      "truthOwner": "Product Core project meanings",
+      "truthSchema": "meaning.author.v1",
+      "writeAuthority": "Command Kernel only",
+      "commandsAdded": [
+        "meaning.promote"
+      ],
+      "readAuthority": "deriveMeaningProjection over coreState",
+      "portsAdded": [],
+      "adaptersAdded": [],
+      "projectTruthMutation": true,
+      "storageMutation": false
+    },
+    "interfacePlane": {
+      "surfacesAdded": [],
+      "surfaceManifestAdded": false,
+      "typedSlotsAdded": [],
+      "domMutation": false,
+      "designOsMutation": false
+    },
+    "authorityChecks": {
+      "commandKernelBypass": false,
+      "privateCommandBus": false,
+      "directStorageAccess": false,
+      "networkAccess": false,
+      "dependencyAdded": false
+    }
+  },
+  "runtimeEvidence": {
+    "meaningAuthorSchemaVersion": "meaning.author.v1",
+    "meaningProjectionSchemaVersion": "derived.meaning.projection.v1",
+    "promotionPolicy": "meaning truth is created only by explicit meaning.promote",
+    "automaticInferencePolicy": "text and idea objects alone never create meaning truth",
+    "sourceValidation": "source idea must exist or scene origin ref must match scene range and current source hash",
+    "capabilityId": "cap.meaning.edit",
+    "projectionCapabilityId": "meaning.projection"
+  },
+  "changedBasenames": [
+    "runtime.mjs",
+    "registry.ts",
+    "contracts.ts",
+    "capabilityPolicy.mjs",
+    "localCapabilityProvider.mjs",
+    "deriveMeaningProjection.mjs",
+    "meaningProjectionTypes.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e03-c03-meaning-projection-explicit-promotion-boundary.contract.test.js",
+    "YALKEN_ATLAS_V5_E03_C03_MEANING_PROJECTION_EXPLICIT_PROMOTION_BOUNDARY_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --check src/core/runtime.mjs && node --check src/derived/meaning/deriveMeaningProjection.mjs && node --check src/derived/meaning/meaningProjectionTypes.mjs && node --check src/derived/meaning/index.mjs && node --check src/derived/index.mjs && node --check src/renderer/commands/capabilityPolicy.mjs && node --check src/renderer/commands/localCapabilityProvider.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e03-c03-meaning-projection-explicit-promotion-boundary.contract.test.js",
+      "status": "PASS_7_TESTS_7_PASS_0_FAIL"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e03-c02-idea-projection-author-truth-occurrence-evidence.contract.test.js",
+      "status": "PASS_6_TESTS_6_PASS_0_FAIL"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c01-author-data-command-boundary.contract.test.js",
+      "status": "PASS_4_TESTS_4_PASS_0_FAIL"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js",
+      "status": "PASS_4_TESTS_4_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_EXISTING_HIGH_MODERATE_ADVISORIES_NO_CRITICAL"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "nextContour": "E03_C04_CROSS_PROJECTION_ORIGINREF_IMPACT_PREVIEW"
+}

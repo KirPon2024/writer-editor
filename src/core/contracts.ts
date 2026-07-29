@@ -107,10 +107,43 @@ export type ManualMapAuthorDataState = {
   maps: Record<string, ManualMapState>
 }
 
+export type IdeaOriginRefState = {
+  schemaVersion: "idea.originRef.v1"
+  kind: string
+  sceneId: string
+  startOffset: number
+  endOffset: number
+  sourceHash: string
+  targetId: string
+}
+
+export type IdeaOriginLinkState = {
+  id: string
+  ideaId: string
+  originRef: IdeaOriginRefState
+  createdByCommandSeq: number
+}
+
+export type IdeaState = {
+  id: string
+  title: string
+  summary: string
+  originLinkIds: string[]
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
+export type IdeaAuthorDataState = {
+  schemaVersion: "idea.author.v1"
+  ideas: Record<string, IdeaState>
+  originLinks: Record<string, IdeaOriginLinkState>
+}
+
 export type CoreProjectState = {
   id: string
   title: string
   atlas?: AtlasAuthorDataState
+  ideas?: IdeaAuthorDataState
   manualMaps?: ManualMapAuthorDataState
   scenes: Record<string, CoreSceneState>
 }
@@ -143,6 +176,14 @@ export type CoreCommand =
   | {
       type: "atlas.mention.confirm"
       payload: { projectId: string; sceneId: string; entityId: string; mentionId: string; evidenceAnchor: AtlasEvidenceAnchorState; decisionId?: string }
+    }
+  | {
+      type: "idea.create"
+      payload: { projectId: string; ideaId: string; title: string; summary?: string }
+    }
+  | {
+      type: "idea.originLink.add"
+      payload: { projectId: string; ideaId: string; linkId?: string; originRef: IdeaOriginRefState }
     }
   | {
       type: "manualMap.create"

@@ -6,6 +6,8 @@ export const CAPABILITY_BINDING = Object.freeze({
   'atlas.entity.create': 'cap.atlas.entity.create',
   'atlas.alias.add': 'cap.atlas.alias.add',
   'atlas.mention.confirm': 'cap.atlas.mention.confirm',
+  'idea.create': 'cap.idea.edit',
+  'idea.originLink.add': 'cap.idea.edit',
   'manualMap.create': 'cap.manualMap.edit',
   'manualMap.node.add': 'cap.manualMap.edit',
   'manualMap.edge.add': 'cap.manualMap.edit',
@@ -121,6 +123,7 @@ export const CAPABILITY_MATRIX = Object.freeze({
     'cap.atlas.entity.create': true,
     'cap.atlas.alias.add': true,
     'cap.atlas.mention.confirm': true,
+    'cap.idea.edit': true,
     'cap.manualMap.edit': true,
     'cap.project.new': true,
     'cap.project.lifecycle.create': true,
@@ -226,6 +229,7 @@ export const CAPABILITY_MATRIX = Object.freeze({
     'cap.atlas.entity.create': false,
     'cap.atlas.alias.add': false,
     'cap.atlas.mention.confirm': false,
+    'cap.idea.edit': false,
     'cap.manualMap.edit': false,
     'cap.project.new': false,
     'cap.project.lifecycle.create': false,
@@ -331,6 +335,7 @@ export const CAPABILITY_MATRIX = Object.freeze({
     'cap.atlas.entity.create': false,
     'cap.atlas.alias.add': false,
     'cap.atlas.mention.confirm': false,
+    'cap.idea.edit': false,
     'cap.manualMap.edit': false,
     'cap.project.new': false,
     'cap.project.lifecycle.create': false,
@@ -445,7 +450,10 @@ function normalizePlatformId(value) {
 }
 
 function isDomainCommandId(commandId) {
-  return commandId.startsWith('project.') || commandId.startsWith('atlas.') || commandId.startsWith('cmd.project.');
+  return commandId.startsWith('project.')
+    || commandId.startsWith('atlas.')
+    || commandId.startsWith('idea.')
+    || commandId.startsWith('cmd.project.');
 }
 
 const TIPTAP_RICH_COMMAND_IDS = new Set([

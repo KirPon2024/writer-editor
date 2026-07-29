@@ -81,3 +81,12 @@ export {
   sortPlotNodes,
   sortPlotOriginRefs,
 } from './plot/index.mjs';
+export {
+  IDEA_AUTHOR_SCHEMA_VERSION,
+  IDEA_ORIGIN_REF_SCHEMA_VERSION,
+  IDEA_PROJECTION_SCHEMA_VERSION,
+  IDEA_PROJECTION_VIEW_ID,
+  deriveIdeaProjection,
+  sortIdeaItems,
+  sortIdeaOriginLinks,
+} from './idea/index.mjs';

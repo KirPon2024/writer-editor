@@ -3,6 +3,8 @@ export {
   ATLAS_CURRENT_SCENE_DOSSIER_SCHEMA_VERSION,
   ATLAS_CURRENT_SCENE_SURFACE_MANIFEST_VERSION,
   ATLAS_GENERATION_MANIFEST_SCHEMA_VERSION,
+  ATLAS_GENERATION_SCHEDULER_SCHEMA_VERSION,
+  ATLAS_GENERATION_WORKER_RESULT_SCHEMA_VERSION,
   ATLAS_MENTION_INDEX_SCHEMA_VERSION,
   ATLAS_TRUST_STATES,
   canonicalizeAtlasMentionIndex,
@@ -17,3 +19,9 @@ export {
   deriveAtlasGenerationManifest,
   recoverAtlasGenerationFromManifest,
 } from './rebuildAtlasGeneration.mjs';
+export {
+  acceptAtlasGenerationWorkerResult,
+  coalesceAtlasGenerationJobs,
+  createAtlasGenerationJob,
+  runAtlasGenerationWorkerJob,
+} from './scheduleAtlasGeneration.mjs';

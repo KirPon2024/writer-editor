@@ -4214,6 +4214,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY",
       "approvedAtUtc": "2026-07-29T18:38:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E01 C04 contract: proves confirmation command persistence without scene text mutation, malformed and mismatched evidence fail closed, Command Kernel capability revalidation admits node and denies web, dossier trust states preserve algorithmic observations, generation rebuild is deterministic and recovery-safe after cache deletion, stale publish is rejected, and no filesystem, network, Electron, or renderer storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E01_C05_SCHEDULER_WORKER_STALE_RESULT_DISCARD_RECEIPT.json",
+      "sha256": "9ad4d45525cc6459c63ea58fdcb7583d31f1e8676f0c2a224aad85b63b4a0b47",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C05_SCHEDULER_WORKER_STALE_RESULT_DISCARD",
+      "approvedAtUtc": "2026-07-29T18:53:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C05 scheduler worker stale-result discard receipt: adds a pure local Atlas generation scheduler job schema, local derived worker-result schema, latest-generation queue coalescing, requestId projectId sourceRevision generation currentCoreStateHash acceptance guards, and derived-manifest-pointer publication while preserving no project truth mutation, no UI surface, no new storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js",
+      "sha256": "1c78174d82099c7a96720339bd5c8e6d6646cb5ec2df763b5074edaac1ea395b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C05_SCHEDULER_WORKER_STALE_RESULT_DISCARD",
+      "approvedAtUtc": "2026-07-29T18:53:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C05 contract: proves scheduler jobs carry source revision identity and no worker write authority, queues coalesce to the latest generation, stale worker results are discarded after source revision changes, request identity mismatches fail closed, fresh results publish only a derived manifest pointer, and no filesystem, network, Electron, timer, or renderer storage bypass is introduced."
     }
   ]
 }

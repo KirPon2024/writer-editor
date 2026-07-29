@@ -708,6 +708,17 @@
               aria-pressed="false"
               tabindex="-1"
             >История</button>
+            <button
+              type="button"
+              id="right-tab-atlas"
+              class="toolbar__button toolbar__button--wide x101-tab-button"
+              data-right-tab="atlas"
+              role="tab"
+              aria-controls="right-panel-atlas"
+              aria-selected="false"
+              aria-pressed="false"
+              tabindex="-1"
+            >Atlas</button>
           </div>
         </div>
         <div
@@ -954,6 +965,21 @@
             class="right-rail-shell right-rail-shell--history"
             data-scene-history-host
             data-scene-history-provider="query.sceneHistory"
+          ></div>
+        </div>
+        <div
+          id="right-panel-atlas"
+          class="sidebar__tree"
+          data-right-panel-atlas
+          data-right-surface-provider="query.atlasCurrentScene"
+          role="tabpanel"
+          aria-labelledby="right-tab-atlas"
+          hidden
+        >
+          <div
+            class="right-rail-shell right-rail-shell--atlas"
+            data-atlas-current-scene-host
+            data-atlas-current-scene-provider="query.atlasCurrentScene"
           ></div>
         </div>
         <div class="sidebar__resize-handle sidebar__resize-handle--right" data-right-sidebar-resizer aria-hidden="true"></div>

@@ -1,5 +1,7 @@
 export const ATLAS_MENTION_INDEX_SCHEMA_VERSION = 'derived.atlas.mentionIndex.v1';
 export const ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION = 'atlas.evidenceAnchor.v1';
+export const ATLAS_CURRENT_SCENE_DOSSIER_SCHEMA_VERSION = 'derived.atlas.currentSceneDossier.v1';
+export const ATLAS_CURRENT_SCENE_SURFACE_MANIFEST_VERSION = 'surface.atlas.currentSceneDossier.v1';
 
 function compareText(a, b) {
   return String(a).localeCompare(String(b), 'en', { sensitivity: 'variant' });

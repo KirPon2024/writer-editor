@@ -4186,6 +4186,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C02_EXACT_MENTION_ANALYZER_AND_EVIDENCE_ANCHORS",
       "approvedAtUtc": "2026-07-29T18:13:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E01 C02 exact mention analyzer and evidence anchor change: adds deterministic derived atlas mention index, exact literal case-sensitive Unicode-boundary matching, stable evidence anchors, stale generation detection by invalidation key, and negative capability/storage/network bypass checks while preserving no project truth write, no UI surface, no storage adapter, no dependency, no network, no paid service, and no release readiness widening."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_DOSSIER_SURFACE_RECEIPT.json",
+      "sha256": "5c00e9df29f58e2adf5263e9a8052af39c0a7600df966d0d0236c4127e993a30",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_AND_DOSSIER_SURFACE",
+      "approvedAtUtc": "2026-07-29T18:21:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C03 current-scene Atlas projection and dossier surface change: adds a read-only derived current-scene dossier, query.atlasCurrentScene main bridge, rightRail.context.atlas surface manifest, and Atlas right-rail UI tab with local text-selection focus intents while preserving no project truth write, no command dispatch authority, no storage adapter, no network, no paid service, no new dependency, no private renderer storage, and no release readiness widening. Receipt records Design OS route, Lazyweb quick-search evidence, local syntax checks, focused contracts, renderer build after existing lockfile dependency install, critical audit gate, doctrine, perf lite, OSS policy, and governance detection."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e01-c03-current-scene-dossier-surface.contract.test.js",
+      "sha256": "0375b787ab796a56596300d5c0a884c5c7d8edfeaefdb447a3e54d83650382b4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_AND_DOSSIER_SURFACE",
+      "approvedAtUtc": "2026-07-29T18:21:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C03 current-scene dossier contract: proves read-only surface manifest authority, current-scene filtering, evidence anchor focus intents, empty and unavailable fallback states, query bridge wiring, main path-boundary sanitation, and negative filesystem, network, Electron, storage, and command-dispatch bypass checks while preserving no mutation, dependency, network, cloud, paid service, or release readiness widening."
     }
   ]
 }

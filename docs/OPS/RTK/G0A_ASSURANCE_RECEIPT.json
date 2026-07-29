@@ -44,6 +44,16 @@
       "skip": 64
     }
   ],
+  "ciRepairs": [
+    {
+      "check": "oss-policy",
+      "failure": "npm audit reported GHSA-v245-v573-v5vm for transitive linkify-it <=5.0.1",
+      "repair": "pin existing transitive linkify-it to patched 5.0.2 through package overrides and lockfile metadata",
+      "newDependencyNames": 0,
+      "localProof": "npm ls --package-lock-only resolves markdown-it -> linkify-it@5.0.2 overridden",
+      "source": "GitHub Advisory GHSA-v245-v573-v5vm"
+    }
+  ],
   "requiredCi": [
     "oss-policy"
   ],

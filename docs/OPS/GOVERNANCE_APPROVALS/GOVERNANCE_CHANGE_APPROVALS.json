@@ -3979,7 +3979,7 @@
     },
     {
       "filePath": "docs/OPS/RTK/G0A_ASSURANCE_RECEIPT.json",
-      "sha256": "5d40e048b9d47e5898aa6a6385530e1c5f4c83c4dc65209b4784d0cb9da47ba6",
+      "sha256": "bbbd613049078f542f5c0a509b46f8ef6c6578e1bbd5afaa0c725d5aef2c32da",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0A_ASSURANCE_REPAIR",
       "approvedAtUtc": "2026-07-29T12:07:12.000Z",
       "rationale": "Approve bounded G0A assurance receipt required by the owner-approved RTK V6 contract; it records local verification evidence only and introduces no runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."

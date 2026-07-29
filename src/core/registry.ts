@@ -10,5 +10,8 @@ export const CORE_COMMANDS = [
   'manualMap.create',
   'manualMap.node.add',
   'manualMap.edge.add',
+  'manualMap.attachment.add',
+  'manualMap.portal.add',
+  'manualMap.template.apply',
 ] as const;
 export const CORE_EVENTS = [] as const;

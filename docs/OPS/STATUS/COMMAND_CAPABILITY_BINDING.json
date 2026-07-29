@@ -35,6 +35,18 @@
       "capabilityId": "cap.manualMap.edit"
     },
     {
+      "commandId": "manualMap.attachment.add",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.portal.add",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.template.apply",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
       "commandId": "cmd.project.new",
       "capabilityId": "cap.project.new"
     },

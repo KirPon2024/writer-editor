@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02D_C01_MANUAL_MAP_PORTABILITY_ATTACHMENTS_PORTALS_TEMPLATES_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
+  "programStage": "E02D_STAGE_02D_PORTABILITY_AND_TEMPLATES",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T20:54:48Z",
+  "baseSha": "f371ae98076e19cba9cc750deddf496466e8a9a0",
+  "compiledE02DQueue": [
+    "E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
+    "E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT",
+    "E02D_C03_MANUAL_MAP_MARKDOWN_PORTABILITY_BRIDGE",
+    "E02D_C04_MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE"
+  ],
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour extends product-core manual map portability contracts only. It creates no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.portabilityCore.v1",
+    "productPlane": {
+      "owner": "Product Core",
+      "writePath": [
+        "manualMap.attachment.add through Command Kernel",
+        "manualMap.portal.add through Command Kernel",
+        "manualMap.template.apply through Command Kernel"
+      ],
+      "readPath": [
+        "derived.manualMap.graph.v1",
+        "manualMap.export.json.v1"
+      ],
+      "storageAdapter": "existing project manifest JSON only",
+      "newStorageAdapter": false,
+      "projectTruthMutation": true
+    },
+    "commandPlane": {
+      "newCommands": [
+        "manualMap.attachment.add",
+        "manualMap.portal.add",
+        "manualMap.template.apply"
+      ],
+      "capabilityRevalidation": "All new command ids bind to cap.manualMap.edit and are admitted only by Command Kernel capability checks."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "attachmentMetadataPathless": true,
+    "attachmentStoredContent": false,
+    "portalTargetReferencesOnly": true,
+    "templateApplyCreatesCanonicalNodesAndEdges": true,
+    "templateSceneTargetsValidated": true,
+    "derivedProjectionIncludesPortabilityMetadata": true,
+    "jsonExportIncludesPortabilityMetadata": true,
+    "sceneTextMutation": false,
+    "secondTruthStore": false
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/core/runtime.mjs && node --check src/derived/mindmap/deriveManualMapGraph.mjs && node --check src/export/mindmap/v1/serializeManualMapV1.mjs && node --test test/contracts/yalken-atlas-v5-e02d-c01-manual-map-portability-attachments-portals-templates.contract.test.js test/contracts/yalken-atlas-v5-e02a-c03-manual-map-durable-recovery-export-fixture.contract.test.js test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js test/contracts/capability-command-coverage.contract.test.js",
+      "status": "PASS_15_TESTS_15_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "negativeChecks": [
+    "attachment add fails closed without source hash and never stores binary content",
+    "portal add fails closed for missing target maps and unknown target nodes",
+    "template apply fails closed for duplicate nodes, invalid edges, and missing scene targets",
+    "web Command Kernel capability denies all portability writes without fallback mutation",
+    "portability core modules add no filesystem, network, Electron, renderer storage, direct UI dispatch, or new storage adapter"
+  ],
+  "nextContour": "E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT"
+}

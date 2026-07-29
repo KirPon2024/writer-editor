@@ -3923,10 +3923,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "b7d196616d8d1a9047f5fb76b0fd22fa2dad8983eab6739e958b0721ec2b29a7",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY",
-      "approvedAtUtc": "2026-07-29T19:05:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E02A C01 command capability binding update: binds manualMap.create, manualMap.node.add, and manualMap.edge.add to cap.manualMap.edit so Command Kernel capability revalidation admits node desktop and denies web/mobile-wrapper while preserving no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
+      "sha256": "b3fd125715901f93350fb39998b6b75c1d448f07762679b9940b77c4e8a44fc1",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
+      "approvedAtUtc": "2026-07-29T20:55:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02D C01 command capability binding update: binds manualMap.create, manualMap.node.add, manualMap.edge.add, manualMap.attachment.add, manualMap.portal.add, and manualMap.template.apply to cap.manualMap.edit so Command Kernel capability revalidation admits node desktop and denies web/mobile-wrapper while preserving no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
     },
     {
       "filePath": "scripts/ops/phase03-safe-reset-last-stable-artifact-state.mjs",
@@ -4368,6 +4368,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_AND_SUNSET_EVIDENCE",
       "approvedAtUtc": "2026-07-29T20:40:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02C C03 contract: proves completed legacy TXT migration can roundtrip through manual map JSON export after Command Kernel apply and reopen validation, export graph drift fails closed, active legacy write entrypoints fail sunset evidence, import barrel exports, and no filesystem, network, Electron, renderer storage, direct reducer import, UI command dispatch, or hot-path event listener bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02D_C01_MANUAL_MAP_PORTABILITY_ATTACHMENTS_PORTALS_TEMPLATES_RECEIPT.json",
+      "sha256": "dae55850cf0f385e7eef163afd8b19121102d2aaba6b4e89efc2916c9545375f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
+      "approvedAtUtc": "2026-07-29T20:55:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02D C01 portability receipt: adds manual map attachment metadata, portal references, and template apply as Product Core truth through Command Kernel only; proves pathless attachment source hashes, no stored binary content, reference-only portals, template-created canonical nodes and edges, derived graph and JSON export metadata, no UI surface, no network, no cloud, no paid service, no dependency, no new storage adapter, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02d-c01-manual-map-portability-attachments-portals-templates.contract.test.js",
+      "sha256": "ce8fc2798047f266280a1ca52390bb43224b89cd3873b2a3fa01ad1840373bd7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
+      "approvedAtUtc": "2026-07-29T20:55:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02D C01 contract: proves attachments, portals, and templates persist without scene text mutation, derived graph and JSON export include pathless portability metadata, invalid writes fail closed without mutation, Command Kernel capability revalidation admits node and denies web, and no filesystem, network, Electron, renderer storage, UI command dispatch, or private storage bypass is introduced."
     }
   ]
 }

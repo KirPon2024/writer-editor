@@ -16,6 +16,14 @@ export const MANUAL_MAP_EXPORT_LOSS_REASON_CODES = Object.freeze({
   INVALID_EDGE_SHAPE_DROPPED: 'MMANV1_INVALID_EDGE_SHAPE_DROPPED',
   EDGE_ENDPOINT_MISSING_DROPPED: 'MMANV1_EDGE_ENDPOINT_MISSING_DROPPED',
   EDGE_ENDPOINT_UNKNOWN_DROPPED: 'MMANV1_EDGE_ENDPOINT_UNKNOWN_DROPPED',
+  INVALID_ATTACHMENT_SHAPE_DROPPED: 'MMANV1_INVALID_ATTACHMENT_SHAPE_DROPPED',
+  ATTACHMENT_NODE_UNKNOWN_DROPPED: 'MMANV1_ATTACHMENT_NODE_UNKNOWN_DROPPED',
+  ATTACHMENT_SOURCE_HASH_MISSING_DROPPED: 'MMANV1_ATTACHMENT_SOURCE_HASH_MISSING_DROPPED',
+  INVALID_PORTAL_SHAPE_DROPPED: 'MMANV1_INVALID_PORTAL_SHAPE_DROPPED',
+  PORTAL_SOURCE_NODE_UNKNOWN_DROPPED: 'MMANV1_PORTAL_SOURCE_NODE_UNKNOWN_DROPPED',
+  PORTAL_TARGET_MAP_MISSING_DROPPED: 'MMANV1_PORTAL_TARGET_MAP_MISSING_DROPPED',
+  INVALID_TEMPLATE_SHAPE_DROPPED: 'MMANV1_INVALID_TEMPLATE_SHAPE_DROPPED',
+  TEMPLATE_NODE_REFERENCES_EMPTY_DROPPED: 'MMANV1_TEMPLATE_NODE_REFERENCES_EMPTY_DROPPED',
 });
 
 function normalizeText(value) {
@@ -148,6 +156,151 @@ function normalizeEdge(rawEdge, index, validNodeIds, report) {
   };
 }
 
+function normalizePositiveInteger(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 0;
+  return Math.max(0, Math.floor(number));
+}
+
+function normalizeAttachment(rawAttachment, index, validNodeIds, report) {
+  const path = `attachment:${index + 1}`;
+  if (!rawAttachment || typeof rawAttachment !== 'object' || Array.isArray(rawAttachment)) {
+    appendLoss(report, {
+      kind: 'EXPORT_DROP',
+      reasonCode: MANUAL_MAP_EXPORT_LOSS_REASON_CODES.INVALID_ATTACHMENT_SHAPE_DROPPED,
+      path,
+      note: 'Invalid manual map attachment shape dropped.',
+      evidence: String(rawAttachment),
+    });
+    return null;
+  }
+  const nodeId = normalizeText(rawAttachment.nodeId);
+  if (!nodeId || !validNodeIds.has(nodeId)) {
+    appendLoss(report, {
+      kind: 'EXPORT_DROP',
+      reasonCode: MANUAL_MAP_EXPORT_LOSS_REASON_CODES.ATTACHMENT_NODE_UNKNOWN_DROPPED,
+      path,
+      note: 'Manual map attachment references an unknown node and was dropped.',
+      evidence: nodeId,
+    });
+    return null;
+  }
+  const source = rawAttachment.source && typeof rawAttachment.source === 'object' && !Array.isArray(rawAttachment.source)
+    ? rawAttachment.source
+    : {};
+  const sourceHash = normalizeText(source.sourceHash);
+  if (!sourceHash) {
+    appendLoss(report, {
+      kind: 'EXPORT_DROP',
+      reasonCode: MANUAL_MAP_EXPORT_LOSS_REASON_CODES.ATTACHMENT_SOURCE_HASH_MISSING_DROPPED,
+      path,
+      note: 'Manual map attachment source hash is required for pathless recovery.',
+      evidence: normalizeText(rawAttachment.id),
+    });
+    return null;
+  }
+  const id = normalizeText(rawAttachment.id) || `attachment:${index + 1}`;
+  return {
+    id,
+    nodeId,
+    label: normalizeText(rawAttachment.label) || id,
+    kind: normalizeText(rawAttachment.kind) || normalizeText(rawAttachment.attachmentKind) || 'reference',
+    source: {
+      name: normalizeText(source.name),
+      mediaType: normalizeText(source.mediaType),
+      sourceHash,
+      byteLength: normalizePositiveInteger(source.byteLength),
+    },
+    storedContent: rawAttachment.storedContent === true,
+  };
+}
+
+function normalizePortal(rawPortal, index, validNodeIds, report) {
+  const path = `portal:${index + 1}`;
+  if (!rawPortal || typeof rawPortal !== 'object' || Array.isArray(rawPortal)) {
+    appendLoss(report, {
+      kind: 'EXPORT_DROP',
+      reasonCode: MANUAL_MAP_EXPORT_LOSS_REASON_CODES.INVALID_PORTAL_SHAPE_DROPPED,
+      path,
+      note: 'Invalid manual map portal shape dropped.',
+      evidence: String(rawPortal),
+    });
+    return null;
+  }
+  const fromNodeId = normalizeText(rawPortal.fromNodeId);
+  if (!fromNodeId || !validNodeIds.has(fromNodeId)) {
+    appendLoss(report, {
+      kind: 'EXPORT_DROP',
+      reasonCode: MANUAL_MAP_EXPORT_LOSS_REASON_CODES.PORTAL_SOURCE_NODE_UNKNOWN_DROPPED,
+      path,
+      note: 'Manual map portal source node is missing or unknown.',
+      evidence: fromNodeId,
+    });
+    return null;
+  }
+  const target = rawPortal.target && typeof rawPortal.target === 'object' && !Array.isArray(rawPortal.target)
+    ? rawPortal.target
+    : {};
+  const targetMapId = normalizeText(target.mapId);
+  if (!targetMapId) {
+    appendLoss(report, {
+      kind: 'EXPORT_DROP',
+      reasonCode: MANUAL_MAP_EXPORT_LOSS_REASON_CODES.PORTAL_TARGET_MAP_MISSING_DROPPED,
+      path,
+      note: 'Manual map portal target map id is required.',
+      evidence: normalizeText(rawPortal.id),
+    });
+    return null;
+  }
+  const id = normalizeText(rawPortal.id) || `portal:${index + 1}`;
+  return {
+    id,
+    fromNodeId,
+    target: {
+      mapId: targetMapId,
+      nodeId: normalizeText(target.nodeId),
+    },
+    label: normalizeText(rawPortal.label) || 'Portal',
+  };
+}
+
+function normalizeTemplate(rawTemplate, index, validNodeIds, validEdgeIds, report) {
+  const path = `template:${index + 1}`;
+  if (!rawTemplate || typeof rawTemplate !== 'object' || Array.isArray(rawTemplate)) {
+    appendLoss(report, {
+      kind: 'EXPORT_DROP',
+      reasonCode: MANUAL_MAP_EXPORT_LOSS_REASON_CODES.INVALID_TEMPLATE_SHAPE_DROPPED,
+      path,
+      note: 'Invalid manual map template shape dropped.',
+      evidence: String(rawTemplate),
+    });
+    return null;
+  }
+  const appliedNodeIds = Array.isArray(rawTemplate.appliedNodeIds)
+    ? rawTemplate.appliedNodeIds.map(normalizeText).filter((nodeId) => validNodeIds.has(nodeId)).sort()
+    : [];
+  if (appliedNodeIds.length === 0) {
+    appendLoss(report, {
+      kind: 'EXPORT_DROP',
+      reasonCode: MANUAL_MAP_EXPORT_LOSS_REASON_CODES.TEMPLATE_NODE_REFERENCES_EMPTY_DROPPED,
+      path,
+      note: 'Manual map template has no valid applied node references.',
+      evidence: normalizeText(rawTemplate.id),
+    });
+    return null;
+  }
+  const id = normalizeText(rawTemplate.id) || `template:${index + 1}`;
+  return {
+    id,
+    templateId: normalizeText(rawTemplate.templateId),
+    name: normalizeText(rawTemplate.name) || 'Manual map template',
+    appliedNodeIds,
+    appliedEdgeIds: Array.isArray(rawTemplate.appliedEdgeIds)
+      ? rawTemplate.appliedEdgeIds.map(normalizeText).filter((edgeId) => validEdgeIds.has(edgeId)).sort()
+      : [],
+  };
+}
+
 function normalizeGraph(graph, report) {
   if (!graph || typeof graph !== 'object' || Array.isArray(graph)) {
     appendLoss(report, {
@@ -164,6 +317,9 @@ function normalizeGraph(graph, report) {
       sourceSchemaVersion: MANUAL_MAP_EXPORT_SOURCE_SCHEMA_VERSION,
       nodes: [],
       edges: [],
+      attachments: [],
+      portals: [],
+      templates: [],
     };
   }
 
@@ -182,9 +338,34 @@ function normalizeGraph(graph, report) {
     const edge = normalizeEdge(rawEdges[index], index, validNodeIds, report);
     if (edge) edges.push(edge);
   }
+  const validEdgeIds = new Set(edges.map((edge) => edge.id));
+
+  const attachments = [];
+  const rawAttachments = Array.isArray(graph.attachments) ? graph.attachments : [];
+  for (let index = 0; index < rawAttachments.length; index += 1) {
+    const attachment = normalizeAttachment(rawAttachments[index], index, validNodeIds, report);
+    if (attachment) attachments.push(attachment);
+  }
+
+  const portals = [];
+  const rawPortals = Array.isArray(graph.portals) ? graph.portals : [];
+  for (let index = 0; index < rawPortals.length; index += 1) {
+    const portal = normalizePortal(rawPortals[index], index, validNodeIds, report);
+    if (portal) portals.push(portal);
+  }
+
+  const templates = [];
+  const rawTemplates = Array.isArray(graph.templates) ? graph.templates : [];
+  for (let index = 0; index < rawTemplates.length; index += 1) {
+    const template = normalizeTemplate(rawTemplates[index], index, validNodeIds, validEdgeIds, report);
+    if (template) templates.push(template);
+  }
 
   nodes.sort((a, b) => a.id.localeCompare(b.id, 'en', { sensitivity: 'variant' }));
   edges.sort((a, b) => a.id.localeCompare(b.id, 'en', { sensitivity: 'variant' }));
+  attachments.sort((a, b) => a.id.localeCompare(b.id, 'en', { sensitivity: 'variant' }));
+  portals.sort((a, b) => a.id.localeCompare(b.id, 'en', { sensitivity: 'variant' }));
+  templates.sort((a, b) => a.id.localeCompare(b.id, 'en', { sensitivity: 'variant' }));
   return {
     projectId: normalizeText(graph.projectId),
     mapId: normalizeText(graph.mapId),
@@ -192,6 +373,9 @@ function normalizeGraph(graph, report) {
     sourceSchemaVersion: normalizeText(graph.schemaVersion) || MANUAL_MAP_EXPORT_SOURCE_SCHEMA_VERSION,
     nodes,
     edges,
+    attachments,
+    portals,
+    templates,
   };
 }
 
@@ -207,15 +391,22 @@ export function serializeManualMapExportJsonV1WithLossReport(graph) {
     title: normalized.title,
     nodes: normalized.nodes,
     edges: normalized.edges,
+    attachments: normalized.attachments,
+    portals: normalized.portals,
+    templates: normalized.templates,
     recovery: {
       humanReadable: true,
       summary: `${normalized.title || normalized.mapId || 'Untitled manual map'}: ${normalized.nodes.length} nodes, ${normalized.edges.length} edges`,
+      portabilitySummary: `${normalized.attachments.length} attachments, ${normalized.portals.length} portals, ${normalized.templates.length} templates`,
       graphHash: hashCanonicalValue({
         projectId: normalized.projectId,
         mapId: normalized.mapId,
         title: normalized.title,
         nodes: normalized.nodes,
         edges: normalized.edges,
+        attachments: normalized.attachments,
+        portals: normalized.portals,
+        templates: normalized.templates,
       }),
     },
   };

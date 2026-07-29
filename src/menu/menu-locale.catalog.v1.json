@@ -237,6 +237,11 @@
       "ru": "Очистить review session",
       "en": "Clear Review Session"
     },
+    "menu.review.cancelOperation": {
+      "base": "Cancel Review Operation",
+      "ru": "Отменить операцию ревью",
+      "en": "Cancel Review Operation"
+    },
     "menu.review.recovery": {
       "base": "Recovery",
       "ru": "Восстановление",

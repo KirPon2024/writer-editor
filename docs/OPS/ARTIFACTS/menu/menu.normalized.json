@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "snapshotId": "menu-default-desktop-minimal",
-  "normalizedHashSha256": "8a3b073eadd7832c6a898af38e140e36319ee2133db04dc66bb4caae66a5d3ea",
-  "generatedAt": "2026-07-19T04:54:44.418Z",
-  "generatedFromCommit": "1a25728cfa13bbdc08a87dba4a68e89b1f8387ac",
+  "normalizedHashSha256": "be734ebdba6fd509b9102689a7faff3b51f00a8a845323c34129fb4a783a6917",
+  "generatedAt": "2026-07-29T17:27:18.243Z",
+  "generatedFromCommit": "6a442aabf630f07a0ba35d3654e777c4f067bc24",
   "context": {
     "contextHashSha256": "0b9f41c629bef3558dc79abcbc0afcffdad95ff97ccb70bfb3d1ebf8ad9b9290",
     "contextRef": "test/fixtures/menu/context.default.json"
@@ -129,6 +129,11 @@
         "base": "Review",
         "en": "Review",
         "ru": "Ревью"
+      },
+      "menu.review.cancelOperation": {
+        "base": "Cancel Review Operation",
+        "en": "Cancel Review Operation",
+        "ru": "Отменить операцию ревью"
       },
       "menu.review.clearSession": {
         "base": "Clear Review Session",
@@ -308,6 +313,7 @@
     "cmd.project.insert.addCard",
     "cmd.project.open",
     "cmd.project.plan.switchMode",
+    "cmd.project.review.cancelOperation",
     "cmd.project.review.clearSession",
     "cmd.project.review.exportLocalPacket",
     "cmd.project.review.importLocalPacket",
@@ -1685,6 +1691,37 @@
           "id": "review-clear-session",
           "label": "Clear Review Session",
           "labelKey": "menu.review.clearSession",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.cancelOperation",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-cancel-operation",
+          "label": "Cancel Review Operation",
+          "labelKey": "menu.review.cancelOperation",
           "mode": [
             "offline"
           ],

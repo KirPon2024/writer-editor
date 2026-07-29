@@ -67,6 +67,12 @@ test('menu-config v2 contract: review menu exposes local packet import export an
     labelKey: 'menu.review.clearSession',
     command: 'cmd.project.review.clearSession',
   });
+  assert.deepEqual(items.get('review-cancel-operation'), {
+    id: 'review-cancel-operation',
+    label: 'Cancel Review Operation',
+    labelKey: 'menu.review.cancelOperation',
+    command: 'cmd.project.review.cancelOperation',
+  });
 });
 
 test('menu-config v2 contract: invalid stage value fails schema enum validation', () => {

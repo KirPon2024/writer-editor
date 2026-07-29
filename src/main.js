@@ -19298,6 +19298,7 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.project.review.applyExactTextChange',
   'cmd.project.review.applyExactTextChangesBatch',
   'cmd.project.review.reloadReconciledScene',
+  'cmd.project.review.cancelOperation',
   'cmd.project.review.inspectDocxIntakeGate',
   'cmd.project.review.inspectDocxReviewPreflight',
   'cmd.project.review.activateDocxReviewPreviewSession',
@@ -19684,6 +19685,14 @@ const MENU_COMMAND_HANDLERS = Object.freeze({
   },
   'cmd.project.review.reloadReconciledScene': async (payload = {}) => {
     return handleReviewExactTextReloadReconciledSceneCommandSurface(payload);
+  },
+  'cmd.project.review.cancelOperation': async (payload = {}) => {
+    const operationId = typeof payload?.operationId === 'string' ? payload.operationId : '';
+    return {
+      ok: true,
+      cancelled: true,
+      operationId,
+    };
   },
   'cmd.project.review.inspectDocxIntakeGate': async (payload = {}) => {
     return handleDocxIntakeGateCommandSurface(payload);

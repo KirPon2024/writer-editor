@@ -113,14 +113,18 @@ test('command kernel shell action adoption: review local packet import clear and
   assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_IMPORT_LOCAL_PACKET, 'cmd.project.review.importLocalPacket')
   assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_EXPORT_LOCAL_PACKET, 'cmd.project.review.exportLocalPacket')
   assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_CLEAR_SESSION, 'cmd.project.review.clearSession')
+  assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION, 'cmd.project.review.cancelOperation')
   assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_IMPORT_LOCAL_PACKET,'))
   assert.ok(source.includes("'reviewImportLocalPacket', EXTRA_COMMAND_IDS.REVIEW_IMPORT_LOCAL_PACKET"))
   assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_EXPORT_LOCAL_PACKET,'))
   assert.ok(source.includes('runReviewExportLocalPacketBridge(electronAPI, input)'))
   assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_CLEAR_SESSION,'))
   assert.ok(source.includes("'reviewClearSession', EXTRA_COMMAND_IDS.REVIEW_CLEAR_SESSION"))
+  assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION,'))
+  assert.ok(source.includes("'reviewCancelOperation', EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION"))
   assert.ok(editorSource.includes('reviewImportLocalPacket: () => handleReviewImportLocalPacket(),'))
   assert.ok(editorSource.includes('reviewClearSession: () => handleReviewClearSession(),'))
+  assert.ok(editorSource.includes('reviewCancelOperation: (payload = {}) => handleReviewCancelOperation(payload),'))
 
   for (const [commandId, capabilityId] of expected.entries()) {
     assert.equal(capabilityPolicy.CAPABILITY_BINDING[commandId], capabilityId)
@@ -129,6 +133,17 @@ test('command kernel shell action adoption: review local packet import clear and
     assert.equal(capabilityPolicy.CAPABILITY_MATRIX.web[capabilityId], false)
     assert.equal(capabilityPolicy.CAPABILITY_MATRIX['mobile-wrapper'][capabilityId], false)
   }
+  assert.equal(
+    capabilityPolicy.CAPABILITY_BINDING[projectCommands.EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION],
+    'cap.project.review.cancelOperation',
+  )
+  assert.equal(
+    bindingMap.get(projectCommands.EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION),
+    'cap.project.review.cancelOperation',
+  )
+  assert.equal(capabilityPolicy.CAPABILITY_MATRIX.node['cap.project.review.cancelOperation'], true)
+  assert.equal(capabilityPolicy.CAPABILITY_MATRIX.web['cap.project.review.cancelOperation'], true)
+  assert.equal(capabilityPolicy.CAPABILITY_MATRIX['mobile-wrapper']['cap.project.review.cancelOperation'], true)
 })
 
 test('command kernel shell action adoption: out-of-scope surfaces remain unchanged by intent', () => {

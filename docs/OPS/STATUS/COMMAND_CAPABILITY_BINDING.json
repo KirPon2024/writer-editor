@@ -327,6 +327,10 @@
       "capabilityId": "cap.project.review.clearSession"
     },
     {
+      "commandId": "cmd.project.review.cancelOperation",
+      "capabilityId": "cap.project.review.cancelOperation"
+    },
+    {
       "commandId": "cmd.project.plan.flowSave",
       "capabilityId": "cap.project.plan.flowSave"
     },

@@ -403,6 +403,12 @@
           "command": "cmd.project.review.clearSession"
         },
         {
+          "id": "review-cancel-operation",
+          "label": "Cancel Review Operation",
+          "labelKey": "menu.review.cancelOperation",
+          "command": "cmd.project.review.cancelOperation"
+        },
+        {
           "id": "review-recovery",
           "label": "Recovery",
           "labelKey": "menu.review.recovery",

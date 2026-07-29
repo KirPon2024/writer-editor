@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E04_C00_DETERMINISTIC_ATLAS_CONTOUR_COMPILATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E04_C00_DETERMINISTIC_ATLAS_CONTOUR_COMPILATION",
+  "programStage": "E04_STAGE_04_DETERMINISTIC_ATLAS_CONTOURS",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T23:09:00Z",
+  "baseSha": "7a40e778fb6b1503c158f18e66ff709bdfe621d2",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour compiles the Stage 04 execution queue and adds no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "atlasAuthorTruthExists": true,
+    "atlasAuthorTruthSchema": "atlas.author.v1",
+    "atlasEntityAliasCommandsExist": true,
+    "atlasMentionIndexExists": true,
+    "atlasMentionConfirmationCommandExists": true,
+    "atlasGenerationSchedulerExists": true,
+    "atlasGenerationManifestExists": true,
+    "stage03PlotProjectionExists": true,
+    "stage03IdeaProjectionExists": true,
+    "stage03MeaningProjectionExists": true,
+    "stage03CrossProjectionImpactPreviewExists": true,
+    "stage03ProjectionInspectorProviderExists": true,
+    "deterministicObservationAggregateModelExists": false,
+    "aliasScopeSuppressionRuntimeExists": false,
+    "cooccurrenceFirstLastAbsenceModelExists": false,
+    "mergeSplitReassignRestoreRuntimeExists": false,
+    "evidenceReattachmentReviewInboxExists": false,
+    "atlasLocalGraphClusterLayoutBudgetProofExists": false
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E04_C01_ATLAS_OBSERVATION_CANDIDATE_AGGREGATE_MODEL",
+      "userOutcome": "Author can inspect deterministic Atlas candidates, observations, and aggregate summaries with evidence attached to every observation before accepting domain changes.",
+      "scopeIn": [
+        "BASIC analyzer contract",
+        "candidate and observation schemas",
+        "aggregate read model",
+        "evidence-required invariant",
+        "unsupported language exact-only policy"
+      ],
+      "scopeOut": [
+        "entity merge",
+        "suppression commands",
+        "UI DOM surface",
+        "cloud or model calls"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/derived/index barrel if present",
+        "test/contracts/yalken-atlas-v5-e04-c01-atlas-observation-candidate-aggregate-model.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C01_ATLAS_OBSERVATION_CANDIDATE_AGGREGATE_MODEL_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E04_C02_ATLAS_ALIAS_SCOPE_AND_SUPPRESSION_BOUNDARY",
+      "userOutcome": "Author can scope aliases and suppress unwanted observations through explicit commands without deleting manuscript evidence or creating hidden filters.",
+      "scopeIn": [
+        "alias scope author truth",
+        "suppression author truth",
+        "Command Kernel capability revalidation",
+        "projection readback",
+        "negative bypass checks"
+      ],
+      "scopeOut": [
+        "automatic alias expansion",
+        "entity merge",
+        "UI DOM surface",
+        "storage adapter"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/core/registry.ts",
+        "src/core/contracts.ts",
+        "src/renderer/commands/capabilityPolicy.mjs",
+        "src/renderer/commands/localCapabilityProvider.mjs",
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e04-c02-atlas-alias-scope-suppression-boundary.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C02_ATLAS_ALIAS_SCOPE_SUPPRESSION_BOUNDARY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E04_C03_ATLAS_COOCCURRENCE_FIRST_LAST_ABSENCE_INTERVALS",
+      "userOutcome": "Author can see co-occurrence, first and last appearances, and absence intervals as deterministic read models rather than stored truth.",
+      "scopeIn": [
+        "co-occurrence read model",
+        "first appearance summary",
+        "last appearance summary",
+        "absence interval model",
+        "incremental versus full rebuild parity proof"
+      ],
+      "scopeOut": [
+        "merge or split commands",
+        "review inbox",
+        "UI DOM surface",
+        "worker scheduling"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e04-c03-atlas-cooccurrence-first-last-absence-intervals.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C03_ATLAS_COOCCURRENCE_FIRST_LAST_ABSENCE_INTERVALS_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE",
+      "userOutcome": "Author can merge, split, and reassign Atlas entities explicitly, with split-restore proof and zero false automatic merge.",
+      "scopeIn": [
+        "explicit merge command",
+        "explicit split restore command",
+        "explicit observation reassign command",
+        "reversible operation ledger",
+        "fail-closed stale evidence behavior"
+      ],
+      "scopeOut": [
+        "automatic merge",
+        "visual graph layout",
+        "cloud or model calls",
+        "private command bus"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/core/registry.ts",
+        "src/core/contracts.ts",
+        "src/renderer/commands/capabilityPolicy.mjs",
+        "src/renderer/commands/localCapabilityProvider.mjs",
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e04-c04-atlas-entity-merge-split-reassign-restore.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX",
+      "userOutcome": "Author can review stale or moved Atlas evidence in a deterministic inbox and reattach it explicitly without silent truth mutation.",
+      "scopeIn": [
+        "evidence reattachment candidate model",
+        "review inbox read model",
+        "explicit reattachment command",
+        "stale hash fail-closed behavior",
+        "no-loss evidence ledger"
+      ],
+      "scopeOut": [
+        "matrix or heatmap UX",
+        "automatic reattachment",
+        "DOM insertion",
+        "external services"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/core/registry.ts",
+        "src/renderer/commands/capabilityPolicy.mjs",
+        "src/renderer/commands/localCapabilityProvider.mjs",
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e04-c05-atlas-evidence-reattachment-review-inbox.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E04_C06_ATLAS_LOCAL_GRAPH_CLUSTER_LAYOUT_BUDGET_PROOF",
+      "userOutcome": "Author can inspect a deterministic local Atlas graph and cluster layout only within a proven resource budget.",
+      "scopeIn": [
+        "local graph packet",
+        "cluster layout planner",
+        "budget proof fixture",
+        "large-project guardrails",
+        "deterministic empty and unavailable fallbacks"
+      ],
+      "scopeOut": [
+        "new visual design system",
+        "full Atlas UX surfaces",
+        "worker scheduling",
+        "network or paid services"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e04-c06-atlas-local-graph-cluster-layout-budget-proof.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C06_ATLAS_LOCAL_GRAPH_CLUSTER_LAYOUT_BUDGET_PROOF_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    }
+  ],
+  "stageAcceptanceBinding": {
+    "zeroFalseAutomaticMerge": "deferred to E04_C04 and scoped to explicit merge/split/reassign command proof",
+    "deterministicSupportedOutputs": "introduced in E04_C01 and extended through E04_C03 and E04_C06",
+    "everyObservationHasEvidence": "introduced in E04_C01 and preserved by suppression, reassign, and reattachment contours",
+    "unsupportedLanguageExactOnly": "introduced in E04_C01 BASIC analyzer contract",
+    "mergeHasSplitRestore": "deferred to E04_C04",
+    "fullRebuildMatchesIncrementalBuild": "first proven in E04_C03 after observation aggregates exist"
+  },
+  "checks": [
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "governance_change_approved=1 missing_approvals=0"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "3 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E04_C01_ATLAS_OBSERVATION_CANDIDATE_AGGREGATE_MODEL"
+}

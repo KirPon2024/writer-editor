@@ -6,6 +6,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_ENTITY_CREATE: 'atlas.entity.create',
   ATLAS_ALIAS_ADD: 'atlas.alias.add',
   ATLAS_MENTION_CONFIRM: 'atlas.mention.confirm',
+  ATLAS_OBSERVATION_SUPPRESS: 'atlas.observation.suppress',
   IDEA_CREATE: 'idea.create',
   IDEA_ORIGIN_LINK_ADD: 'idea.originLink.add',
   MEANING_PROMOTE: 'meaning.promote',
@@ -62,6 +63,7 @@ function createEmptyAtlasAuthorData() {
     schemaVersion: ATLAS_AUTHOR_SCHEMA_VERSION,
     entities: {},
     decisions: {},
+    suppressions: {},
   };
 }
 
@@ -74,6 +76,7 @@ function normalizeAtlasAuthorData(input) {
     schemaVersion: ATLAS_AUTHOR_SCHEMA_VERSION,
     entities: cloneJson(input.entities),
     decisions: isPlainObject(input.decisions) ? cloneJson(input.decisions) : {},
+    suppressions: isPlainObject(input.suppressions) ? cloneJson(input.suppressions) : {},
   };
 }
 
@@ -904,6 +907,84 @@ function applyAtlasMentionConfirm(state, payload) {
   return ok(next);
 }
 
+function applyAtlasObservationSuppress(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const sceneId = trimString(payload?.sceneId);
+  const entityId = trimString(payload?.entityId);
+  const observationId = trimString(payload?.observationId);
+  const mentionId = trimString(payload?.mentionId);
+  const reason = trimString(payload?.reason);
+  const evidenceAnchor = normalizeEvidenceAnchor(payload?.evidenceAnchor);
+  const suppressionId = trimString(payload?.suppressionId) || `atlas-suppression:${hashCanonicalValue({
+    projectId,
+    sceneId,
+    entityId,
+    observationId,
+    mentionId,
+    anchorId: evidenceAnchor?.anchorId || '',
+  })}`;
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'atlas.observation.suppress', 'PROJECT_ID_REQUIRED');
+  }
+  if (!sceneId) {
+    return fail(state, 'E_CORE_SCENE_ID_REQUIRED', 'atlas.observation.suppress', 'SCENE_ID_REQUIRED', { projectId });
+  }
+  if (!entityId) {
+    return fail(state, 'E_ATLAS_ENTITY_ID_REQUIRED', 'atlas.observation.suppress', 'ENTITY_ID_REQUIRED', { projectId, sceneId });
+  }
+  if (!observationId && !mentionId) {
+    return fail(state, 'E_ATLAS_OBSERVATION_ID_REQUIRED', 'atlas.observation.suppress', 'OBSERVATION_ID_REQUIRED', { projectId, sceneId, entityId });
+  }
+  if (!evidenceAnchor) {
+    return fail(state, 'E_ATLAS_EVIDENCE_ANCHOR_REQUIRED', 'atlas.observation.suppress', 'EVIDENCE_ANCHOR_REQUIRED', { projectId, sceneId, entityId, observationId, mentionId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'atlas.observation.suppress', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  if (!project.scenes || !project.scenes[sceneId]) {
+    return fail(state, 'E_CORE_SCENE_NOT_FOUND', 'atlas.observation.suppress', 'SCENE_NOT_FOUND', { projectId, sceneId });
+  }
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  if (!atlas.entities[entityId]) {
+    return fail(state, 'E_ATLAS_ENTITY_NOT_FOUND', 'atlas.observation.suppress', 'ENTITY_NOT_FOUND', { projectId, entityId });
+  }
+  if (evidenceAnchor.sceneId && evidenceAnchor.sceneId !== sceneId) {
+    return fail(state, 'E_ATLAS_EVIDENCE_SCENE_MISMATCH', 'atlas.observation.suppress', 'EVIDENCE_SCENE_MISMATCH', { sceneId, evidenceSceneId: evidenceAnchor.sceneId });
+  }
+  if (evidenceAnchor.entityId && evidenceAnchor.entityId !== entityId) {
+    return fail(state, 'E_ATLAS_EVIDENCE_ENTITY_MISMATCH', 'atlas.observation.suppress', 'EVIDENCE_ENTITY_MISMATCH', { entityId, evidenceEntityId: evidenceAnchor.entityId });
+  }
+  if (atlas.suppressions && atlas.suppressions[suppressionId]) {
+    return fail(state, 'E_ATLAS_SUPPRESSION_ALREADY_EXISTS', 'atlas.observation.suppress', 'SUPPRESSION_ALREADY_EXISTS', { projectId, suppressionId });
+  }
+
+  const next = cloneJson(state);
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  if (!isPlainObject(nextAtlas.suppressions)) nextAtlas.suppressions = {};
+  nextAtlas.suppressions[suppressionId] = {
+    id: suppressionId,
+    suppressionKind: 'observation.suppress',
+    projectId,
+    sceneId,
+    entityId,
+    observationId,
+    mentionId,
+    reason,
+    evidenceAnchor,
+    createdByCommandSeq: next.data.lastCommandId + 1,
+  };
+  const nextEntity = nextAtlas.entities[entityId];
+  if (isPlainObject(nextEntity)) {
+    nextEntity.updatedByCommandSeq = next.data.lastCommandId + 1;
+  }
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
 function applyIdeaCreate(state, payload) {
   const projectId = trimString(payload?.projectId);
   const ideaId = trimString(payload?.ideaId);
@@ -1195,6 +1276,9 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_MENTION_CONFIRM) {
     return applyAtlasMentionConfirm(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_OBSERVATION_SUPPRESS) {
+    return applyAtlasObservationSuppress(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.IDEA_CREATE) {
     return applyIdeaCreate(state, command.payload || {});

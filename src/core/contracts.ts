@@ -68,10 +68,24 @@ export type AtlasDecisionState = {
   createdByCommandSeq: number
 }
 
+export type AtlasSuppressionState = {
+  id: string
+  suppressionKind: "observation.suppress"
+  projectId: string
+  sceneId: string
+  entityId: string
+  observationId: string
+  mentionId: string
+  reason: string
+  evidenceAnchor: AtlasEvidenceAnchorState
+  createdByCommandSeq: number
+}
+
 export type AtlasAuthorDataState = {
   schemaVersion: "atlas.author.v1"
   entities: Record<string, AtlasEntityState>
   decisions?: Record<string, AtlasDecisionState>
+  suppressions?: Record<string, AtlasSuppressionState>
 }
 
 export type ManualMapNodeState = {
@@ -196,6 +210,10 @@ export type CoreCommand =
   | {
       type: "atlas.mention.confirm"
       payload: { projectId: string; sceneId: string; entityId: string; mentionId: string; evidenceAnchor: AtlasEvidenceAnchorState; decisionId?: string }
+    }
+  | {
+      type: "atlas.observation.suppress"
+      payload: { projectId: string; sceneId: string; entityId: string; observationId?: string; mentionId?: string; evidenceAnchor: AtlasEvidenceAnchorState; suppressionId?: string; reason?: string }
     }
   | {
       type: "idea.create"

@@ -67,6 +67,7 @@ function normalizeCandidate({ mention, languagePolicy }) {
     candidateId,
     candidateKind: 'exactMention',
     analyzerId: ATLAS_OBSERVATION_ANALYZER_ID,
+    mentionId: plainString(mention.mentionId),
     projectId: plainString(mention.projectId),
     sceneId: plainString(mention.sceneId),
     entityId: plainString(mention.entityId),
@@ -83,17 +84,22 @@ function normalizeCandidate({ mention, languagePolicy }) {
   };
 }
 
-function normalizeObservation(candidate) {
+function normalizeObservation(candidate, suppressionLookup) {
   const observationId = `atlas-observation:${hashCanonicalValue({
     candidateId: candidate.candidateId,
     evidenceAnchorId: candidate.evidenceAnchorId,
     entityId: candidate.entityId,
     sceneId: candidate.sceneId,
   })}`;
+  const suppression = suppressionLookup.byObservationId.get(observationId)
+    || suppressionLookup.byMentionId.get(candidate.mentionId)
+    || suppressionLookup.byEvidenceAnchorId.get(candidate.evidenceAnchorId)
+    || null;
   return {
     schemaVersion: ATLAS_OBSERVATION_SCHEMA_VERSION,
     observationId,
     candidateId: candidate.candidateId,
+    mentionId: candidate.mentionId,
     observationKind: 'entityMention',
     analyzerId: candidate.analyzerId,
     projectId: candidate.projectId,
@@ -108,6 +114,9 @@ function normalizeObservation(candidate) {
     evidenceAnchor: candidate.evidenceAnchor,
     evidenceAnchorId: candidate.evidenceAnchorId,
     evidenceRequired: true,
+    suppressionState: suppression ? 'SUPPRESSED' : 'ACTIVE',
+    suppressionId: suppression ? suppression.id : '',
+    suppressionReason: suppression ? suppression.reason : '',
   };
 }
 
@@ -139,10 +148,47 @@ function aggregateEntities(project, observations) {
       entityKind: plainString(entity.entityKind) || 'entity',
       candidateCount: entityObservations.length,
       observationCount: entityObservations.length,
+      activeObservationCount: entityObservations.filter((observation) => observation.suppressionState !== 'SUPPRESSED').length,
+      suppressedObservationCount: entityObservations.filter((observation) => observation.suppressionState === 'SUPPRESSED').length,
       sceneIds: uniqueSorted(entityObservations.map((observation) => observation.sceneId)),
       evidenceAnchorIds: uniqueSorted(entityObservations.map((observation) => observation.evidenceAnchorId)),
     };
   }));
+}
+
+function normalizeSuppression(value) {
+  if (!isPlainObject(value)) return null;
+  const id = plainString(value.id);
+  const evidenceAnchor = isPlainObject(value.evidenceAnchor) ? value.evidenceAnchor : null;
+  if (!id || value.suppressionKind !== 'observation.suppress' || !evidenceAnchor) return null;
+  return {
+    id,
+    projectId: plainString(value.projectId),
+    sceneId: plainString(value.sceneId),
+    entityId: plainString(value.entityId),
+    observationId: plainString(value.observationId),
+    mentionId: plainString(value.mentionId),
+    reason: plainString(value.reason),
+    evidenceAnchor,
+    evidenceAnchorId: evidenceAnchorId(evidenceAnchor),
+  };
+}
+
+function buildSuppressionLookup(project) {
+  const suppressions = isPlainObject(project?.atlas?.suppressions) ? project.atlas.suppressions : {};
+  const normalized = Object.keys(suppressions)
+    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'variant' }))
+    .map((suppressionId) => normalizeSuppression(suppressions[suppressionId]))
+    .filter(Boolean);
+  const byObservationId = new Map();
+  const byMentionId = new Map();
+  const byEvidenceAnchorId = new Map();
+  for (const suppression of normalized) {
+    if (suppression.observationId) byObservationId.set(suppression.observationId, suppression);
+    if (suppression.mentionId) byMentionId.set(suppression.mentionId, suppression);
+    if (suppression.evidenceAnchorId) byEvidenceAnchorId.set(suppression.evidenceAnchorId, suppression);
+  }
+  return { suppressions: normalized, byObservationId, byMentionId, byEvidenceAnchorId };
 }
 
 function buildAggregate({ coreState, projectId, indexResult, languageCode, meta }) {
@@ -156,9 +202,10 @@ function buildAggregate({ coreState, projectId, indexResult, languageCode, meta 
     );
   }
   const languagePolicy = normalizeAtlasObservationLanguagePolicy(languageCode || project.languageCode || project.language || 'und');
+  const suppressionLookup = buildSuppressionLookup(project);
   const candidates = sortAtlasObservationCandidates((Array.isArray(indexResult.value.mentions) ? indexResult.value.mentions : [])
     .map((mention) => normalizeCandidate({ mention, languagePolicy })));
-  const observations = sortAtlasObservations(candidates.map((candidate) => normalizeObservation(candidate)));
+  const observations = sortAtlasObservations(candidates.map((candidate) => normalizeObservation(candidate, suppressionLookup)));
   assertObservationEvidence(observations);
   const entities = aggregateEntities(project, observations);
   const sceneIds = uniqueSorted(observations.map((observation) => observation.sceneId));
@@ -170,6 +217,7 @@ function buildAggregate({ coreState, projectId, indexResult, languageCode, meta 
     sceneIds,
     evidenceAnchorIds,
     languagePolicy,
+    suppressions: suppressionLookup.suppressions,
   });
 
   return {
@@ -198,10 +246,13 @@ function buildAggregate({ coreState, projectId, indexResult, languageCode, meta 
     summary: {
       candidateCount: candidates.length,
       observationCount: observations.length,
+      activeObservationCount: observations.filter((observation) => observation.suppressionState !== 'SUPPRESSED').length,
+      suppressedObservationCount: observations.filter((observation) => observation.suppressionState === 'SUPPRESSED').length,
       entityCount: entities.length,
       sceneCount: sceneIds.length,
       evidenceAnchorCount: evidenceAnchorIds.length,
       everyObservationHasEvidence: observations.every((observation) => Boolean(observation.evidenceAnchor && observation.evidenceAnchorId)),
+      hiddenFilterApplied: false,
       indexHash: indexResult.value.meta?.indexHash || '',
       aggregateHash,
       invalidationKey: meta.invalidationKey,

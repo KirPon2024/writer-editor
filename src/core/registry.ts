@@ -7,6 +7,7 @@ export const CORE_COMMANDS = [
   'atlas.entity.create',
   'atlas.alias.add',
   'atlas.mention.confirm',
+  'atlas.observation.suppress',
   'idea.create',
   'idea.originLink.add',
   'meaning.promote',

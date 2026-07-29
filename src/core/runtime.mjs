@@ -6,9 +6,13 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_ENTITY_CREATE: 'atlas.entity.create',
   ATLAS_ALIAS_ADD: 'atlas.alias.add',
   ATLAS_MENTION_CONFIRM: 'atlas.mention.confirm',
+  MANUAL_MAP_CREATE: 'manualMap.create',
+  MANUAL_MAP_NODE_ADD: 'manualMap.node.add',
+  MANUAL_MAP_EDGE_ADD: 'manualMap.edge.add',
 });
 
 const ATLAS_AUTHOR_SCHEMA_VERSION = 'atlas.author.v1';
+const MANUAL_MAP_AUTHOR_SCHEMA_VERSION = 'manualMap.author.v1';
 
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
@@ -67,6 +71,29 @@ function normalizeAtlasAuthorData(input) {
 function ensureAtlasAuthorData(project) {
   const current = normalizeAtlasAuthorData(project && project.atlas);
   project.atlas = current;
+  return current;
+}
+
+function createEmptyManualMapData() {
+  return {
+    schemaVersion: MANUAL_MAP_AUTHOR_SCHEMA_VERSION,
+    maps: {},
+  };
+}
+
+function normalizeManualMapData(input) {
+  if (!isPlainObject(input) || input.schemaVersion !== MANUAL_MAP_AUTHOR_SCHEMA_VERSION || !isPlainObject(input.maps)) {
+    return createEmptyManualMapData();
+  }
+  return {
+    schemaVersion: MANUAL_MAP_AUTHOR_SCHEMA_VERSION,
+    maps: cloneJson(input.maps),
+  };
+}
+
+function ensureManualMapData(project) {
+  const current = normalizeManualMapData(project && project.manualMaps);
+  project.manualMaps = current;
   return current;
 }
 
@@ -131,6 +158,7 @@ function applyCreateProject(state, payload) {
     id: projectId,
     title,
     atlas: createEmptyAtlasAuthorData(),
+    manualMaps: createEmptyManualMapData(),
     scenes: {
       [sceneId]: {
         id: sceneId,
@@ -138,6 +166,180 @@ function applyCreateProject(state, payload) {
       },
     },
   };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function normalizePosition(value) {
+  const position = isPlainObject(value) ? value : {};
+  const x = Number(position.x);
+  const y = Number(position.y);
+  return {
+    x: Number.isFinite(x) ? x : 0,
+    y: Number.isFinite(y) ? y : 0,
+  };
+}
+
+function applyManualMapCreate(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const title = trimString(payload?.title) || 'Untitled map';
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.create', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.create', 'MAP_ID_REQUIRED', { projectId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.create', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  if (manualMaps.maps[mapId]) {
+    return fail(state, 'E_MANUAL_MAP_ALREADY_EXISTS', 'manualMap.create', 'MAP_ALREADY_EXISTS', { projectId, mapId });
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  nextManualMaps.maps[mapId] = {
+    id: mapId,
+    title,
+    nodes: {},
+    edges: {},
+    createdByCommandSeq: next.data.lastCommandId + 1,
+    updatedByCommandSeq: next.data.lastCommandId + 1,
+  };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function applyManualMapNodeAdd(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const nodeId = trimString(payload?.nodeId);
+  const label = trimString(payload?.label);
+  const nodeKind = trimString(payload?.nodeKind) || 'note';
+  const targetKind = trimString(payload?.targetKind);
+  const targetId = trimString(payload?.targetId);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.node.add', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.node.add', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!nodeId) {
+    return fail(state, 'E_MANUAL_MAP_NODE_ID_REQUIRED', 'manualMap.node.add', 'NODE_ID_REQUIRED', { projectId, mapId });
+  }
+  if (!label) {
+    return fail(state, 'E_MANUAL_MAP_NODE_LABEL_REQUIRED', 'manualMap.node.add', 'NODE_LABEL_REQUIRED', { projectId, mapId, nodeId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.node.add', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.node.add', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const nodes = isPlainObject(map.nodes) ? map.nodes : {};
+  if (nodes[nodeId]) {
+    return fail(state, 'E_MANUAL_MAP_NODE_ALREADY_EXISTS', 'manualMap.node.add', 'NODE_ALREADY_EXISTS', { projectId, mapId, nodeId });
+  }
+  if (targetKind === 'scene' && (!targetId || !isPlainObject(project.scenes) || !project.scenes[targetId])) {
+    return fail(state, 'E_MANUAL_MAP_NODE_TARGET_SCENE_NOT_FOUND', 'manualMap.node.add', 'TARGET_SCENE_NOT_FOUND', { projectId, mapId, nodeId, targetId });
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  if (!isPlainObject(nextMap.nodes)) nextMap.nodes = {};
+  nextMap.nodes[nodeId] = {
+    id: nodeId,
+    label,
+    nodeKind,
+    position: normalizePosition(payload?.position),
+    target: {
+      kind: targetKind,
+      id: targetId,
+    },
+    createdByCommandSeq: next.data.lastCommandId + 1,
+    updatedByCommandSeq: next.data.lastCommandId + 1,
+  };
+  nextMap.updatedByCommandSeq = next.data.lastCommandId + 1;
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function applyManualMapEdgeAdd(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const edgeId = trimString(payload?.edgeId);
+  const fromNodeId = trimString(payload?.fromNodeId);
+  const toNodeId = trimString(payload?.toNodeId);
+  const label = trimString(payload?.label);
+  const edgeKind = trimString(payload?.edgeKind) || 'link';
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.edge.add', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.edge.add', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!edgeId) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_ID_REQUIRED', 'manualMap.edge.add', 'EDGE_ID_REQUIRED', { projectId, mapId });
+  }
+  if (!fromNodeId || !toNodeId || fromNodeId === toNodeId) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_ENDPOINTS_INVALID', 'manualMap.edge.add', 'EDGE_ENDPOINTS_INVALID', {
+      projectId,
+      mapId,
+      edgeId,
+      fromNodeId,
+      toNodeId,
+    });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.edge.add', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.edge.add', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const nodes = isPlainObject(map.nodes) ? map.nodes : {};
+  if (!nodes[fromNodeId] || !nodes[toNodeId]) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_ENDPOINT_NOT_FOUND', 'manualMap.edge.add', 'EDGE_ENDPOINT_NOT_FOUND', {
+      projectId,
+      mapId,
+      edgeId,
+      fromNodeId,
+      toNodeId,
+    });
+  }
+  const edges = isPlainObject(map.edges) ? map.edges : {};
+  if (edges[edgeId]) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_ALREADY_EXISTS', 'manualMap.edge.add', 'EDGE_ALREADY_EXISTS', { projectId, mapId, edgeId });
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  if (!isPlainObject(nextMap.edges)) nextMap.edges = {};
+  nextMap.edges[edgeId] = {
+    id: edgeId,
+    fromNodeId,
+    toNodeId,
+    edgeKind,
+    label,
+    createdByCommandSeq: next.data.lastCommandId + 1,
+  };
+  nextMap.updatedByCommandSeq = next.data.lastCommandId + 1;
   next.data.lastCommandId += 1;
   return ok(next);
 }
@@ -402,6 +604,15 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_MENTION_CONFIRM) {
     return applyAtlasMentionConfirm(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_CREATE) {
+    return applyManualMapCreate(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_NODE_ADD) {
+    return applyManualMapNodeAdd(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_EDGE_ADD) {
+    return applyManualMapEdgeAdd(state, command.payload || {});
   }
 
   return fail(state, 'E_CORE_COMMAND_NOT_FOUND', type || 'unknown', 'COMMAND_NOT_FOUND', { type });

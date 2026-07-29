@@ -3909,10 +3909,10 @@
     },
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "77d0f6ace6dd1d66d8ef8c2fe3d72dc14ee69380e3ff95d0f84caf755bdde6bd",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY",
-      "approvedAtUtc": "2026-07-29T18:38:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E01 C04 capability matrix update: adds cap.atlas.mention.confirm enabled only for node desktop and disabled for web and mobile-wrapper, preserving local-only command authority, no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
+      "sha256": "cecade3292668b7c3226ad33a5b8cf87f37d63dfa525b716fbafc2782a330d82",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T19:05:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02A C01 capability matrix update: adds cap.manualMap.edit enabled only for node desktop and disabled for web and mobile-wrapper, preserving local-only manual map command authority, no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S42_FACTUAL_CAPABILITY_STATUS.json",
@@ -3923,10 +3923,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "d5125a7dbf7c07e399f61769d3f8705825b949c42345a15b9864ba05e0d7bd73",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY",
-      "approvedAtUtc": "2026-07-29T18:38:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E01 C04 command capability binding update: binds atlas.mention.confirm to cap.atlas.mention.confirm so Command Kernel capability revalidation admits node desktop and denies web/mobile-wrapper while preserving no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
+      "sha256": "b7d196616d8d1a9047f5fb76b0fd22fa2dad8983eab6739e958b0721ec2b29a7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T19:05:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02A C01 command capability binding update: binds manualMap.create, manualMap.node.add, and manualMap.edge.add to cap.manualMap.edit so Command Kernel capability revalidation admits node desktop and denies web/mobile-wrapper while preserving no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
     },
     {
       "filePath": "scripts/ops/phase03-safe-reset-last-stable-artifact-state.mjs",
@@ -4228,6 +4228,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C05_SCHEDULER_WORKER_STALE_RESULT_DISCARD",
       "approvedAtUtc": "2026-07-29T18:53:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E01 C05 contract: proves scheduler jobs carry source revision identity and no worker write authority, queues coalesce to the latest generation, stale worker results are discarded after source revision changes, request identity mismatches fail closed, fresh results publish only a derived manifest pointer, and no filesystem, network, Electron, timer, or renderer storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY_RECEIPT.json",
+      "sha256": "73b323e0112321ab5340e823ccd7b52dca7e6f060706a1a8ed33eba99ae77aa7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T19:05:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02A C01 manual map core command boundary receipt: adds durable manualMap.author.v1 project truth, manualMap.create, manualMap.node.add, and manualMap.edge.add commands, node scene target validation, node-only capability admission, web/mobile-wrapper denial, existing project persistence only, no UI surface, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js",
+      "sha256": "e8f4794ece5e1bcaf74218050875e111405522448b2b299db8dfd05bb6707b89",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T19:05:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02A C01 contract: proves manual maps, nodes, and edges survive JSON save and reopen without scene text mutation, invalid payloads and duplicate maps fail closed, sceneRef targets require existing scenes, Command Kernel capability revalidation admits node and denies web, and no private storage, network, Electron, or renderer storage bypass is introduced."
     }
   ]
 }

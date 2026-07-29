@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_SUNSET_EVIDENCE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_AND_SUNSET_EVIDENCE",
+  "programStage": "E02C_STAGE_02C_LEGACY_MIGRATION",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T20:39:14Z",
+  "baseSha": "00594312919dc35fd0f27727b26f4db15653a822",
+  "compiledE02CQueue": [
+    "E02C_C01_LEGACY_MIGRATION_INVENTORY_PREVIEW_SHADOW_ROLLBACK",
+    "E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_AND_REOPEN_VALIDATION",
+    "E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_AND_SUNSET_EVIDENCE"
+  ],
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds pure roundtrip and sunset evidence builders. It creates no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.legacyTxtRoundtripSunsetEvidence.v1",
+    "productPlane": {
+      "owner": "Import Evidence",
+      "readPath": [
+        "legacy TXT migration preview",
+        "Command Kernel apply receipt",
+        "reopen validation receipt",
+        "manual map JSON export payload"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "Roundtrip evidence consumes prior Command Kernel apply receipts and does not execute commands or mutate product truth."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "roundtripEvidenceSchema": "manualMap.legacyTxtRoundtripEvidence.v1",
+    "sunsetEvidenceSchema": "manualMap.legacyTxtSunsetEvidence.v1",
+    "exportRoundtripCompared": true,
+    "originalLegacySourcePreservedByHash": true,
+    "activeLegacyTruthStore": false,
+    "activeLegacyWritePath": false,
+    "unsafeLegacyEntrypointsFailClosed": true,
+    "nextMutationPath": "manualMap.* commands through Command Kernel"
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/import/mindmap/v1/legacyMindMapRoundtripSunsetEvidence.mjs && node --check src/import/mindmap/v1/index.mjs && node --test test/contracts/yalken-atlas-v5-e02c-c03-legacy-migration-roundtrip-sunset-evidence.contract.test.js",
+      "status": "PASS_4_TESTS_4_PASS_0_FAIL"
+    },
+    {
+      "command": "node --check src/import/mindmap/v1/legacyMindMapRoundtripSunsetEvidence.mjs && node --check src/import/mindmap/v1/index.mjs && node --test test/contracts/yalken-atlas-v5-e02c-c03-legacy-migration-roundtrip-sunset-evidence.contract.test.js test/contracts/yalken-atlas-v5-e02c-c02-legacy-migration-command-apply-reopen-validation.contract.test.js test/contracts/yalken-atlas-v5-e02c-c01-legacy-migration-preview-shadow-rollback.contract.test.js test/contracts/yalken-atlas-v5-e02a-c03-manual-map-durable-recovery-export-fixture.contract.test.js test/contracts/yalken-atlas-v5-e02a-c02-manual-map-derived-graph-projection.contract.test.js",
+      "status": "PASS_24_TESTS_24_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "negativeChecks": [
+    "roundtrip evidence fails closed when exported manual map graph diverges from preview graph",
+    "sunset evidence rejects active legacy write entrypoints",
+    "legacy original is represented by pathless source hash and metadata, not copied content",
+    "evidence builders execute no commands and mutate no project truth",
+    "legacy roundtrip and sunset evidence modules have no filesystem, network, Electron, renderer storage, direct reducer import, UI command dispatch, or hot-path event listener bypass"
+  ],
+  "nextContour": "E02D_STAGE_02D_PORTABILITY_AND_TEMPLATES_CONTOUR_COMPILER"
+}

@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "registryId": "YALKEN_RTK_G0A_ASSURANCE_REGISTRY_V1",
+  "missionId": "YALKEN_RTK_D1_END_TO_END",
+  "stageId": "G0A_ASSURANCE_REPAIR",
+  "profile": "pr",
+  "generatedProjection": true,
+  "runtimeWiring": false,
+  "blockingFamilies": [
+    "DATA_SAFETY",
+    "EXACT_AUTHORITY",
+    "REGISTRY_POLICY",
+    "OFFLINE_SECURITY",
+    "OSS_DEPENDENCY"
+  ],
+  "ruleset": {
+    "requiredStatusCheck": "oss-policy",
+    "branchRulesetName": "protect-main",
+    "directPushFailSignal": "E_DIRECT_PROTECTED_BRANCH_PUSH",
+    "mergeBypassFailSignal": "E_MERGE_BYPASS_ATTEMPT"
+  },
+  "assertions": [
+    {
+      "assertionId": "RTK_G0A_REGISTRY_FAIL_CLOSED_OK",
+      "assertionKind": "REGISTRY_POLICY",
+      "blocking": true,
+      "producerCommand": "node scripts/ops/rtk-g0a-assurance.mjs --json",
+      "producerToken": "RTK_G0A_ASSURANCE_OK",
+      "sourceBindings": [
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "scripts/ops/rtk-g0a-assurance.mjs"
+        },
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "docs/OPS/RTK/G0A_ASSURANCE_REGISTRY.json"
+        }
+      ],
+      "positiveTestIds": [
+        "test/contracts/rtk-g0a-assurance.contract.test.js#baseline-registry-passes"
+      ],
+      "negativeTestIds": [
+        "test/contracts/rtk-g0a-assurance.contract.test.js#missing-registry-fails-closed",
+        "test/contracts/rtk-g0a-assurance.contract.test.js#cwd-fallback-is-not-accepted"
+      ],
+      "negativeExpectedFailSignal": "E_BLOCKING_TOKEN_UNBOUND",
+      "applicabilityPredicate": "always",
+      "dispositionByMode": {
+        "pr": "blocking",
+        "release": "blocking",
+        "promotion": "blocking"
+      },
+      "ownerCategory": "governance",
+      "changeTriggers": [
+        "docs/OPS/RTK/**",
+        "scripts/ops/rtk-g0a-assurance.mjs",
+        "test/contracts/rtk-g0a-assurance.contract.test.js"
+      ],
+      "rollbackProcedure": "Revert the G0A stage commit and remove the plan-owned branch/worktree before merge."
+    },
+    {
+      "assertionId": "RTK_G0A_PRODUCT_E2E_ORACLE_BOUND_OK",
+      "assertionKind": "DATA_SAFETY",
+      "blocking": true,
+      "producerCommand": "node scripts/run-tests.js electron",
+      "producerToken": "RTK_G0A_PRODUCT_E2E_ORACLE_BOUND_OK",
+      "sourceBindings": [
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "scripts/ops/electron-runtime-harness.mjs"
+        },
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "scripts/run-tests.js"
+        }
+      ],
+      "positiveTestIds": [
+        "test/contracts/e2e-critical-user-path.contract.test.js"
+      ],
+      "negativeTestIds": [
+        "test/contracts/rtk-g0a-assurance.contract.test.js#fixture-only-blocking-source-binding-is-rejected"
+      ],
+      "negativeExpectedFailSignal": "E_BLOCKING_TOKEN_UNBOUND",
+      "applicabilityPredicate": "always",
+      "dispositionByMode": {
+        "pr": "blocking",
+        "release": "blocking",
+        "promotion": "blocking"
+      },
+      "ownerCategory": "data-safety",
+      "changeTriggers": [
+        "scripts/ops/electron-runtime-harness.mjs",
+        "scripts/run-tests.js",
+        "test/contracts/e2e-critical-user-path.contract.test.js"
+      ],
+      "rollbackProcedure": "Revert the G0A registry projection if the product oracle binding is invalid."
+    },
+    {
+      "assertionId": "RTK_G0A_MIGRATION_KILLPOINT_BOUND_OK",
+      "assertionKind": "DATA_SAFETY",
+      "blocking": true,
+      "producerCommand": "node --test test/contracts/migration-completeness-verifier.contract.test.js",
+      "producerToken": "RTK_G0A_MIGRATION_KILLPOINT_BOUND_OK",
+      "sourceBindings": [
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "scripts/ops/migration-completeness-verifier-state.mjs"
+        },
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "test/contracts/migration-completeness-verifier.contract.test.js"
+        }
+      ],
+      "positiveTestIds": [
+        "test/contracts/migration-completeness-verifier.contract.test.js"
+      ],
+      "negativeTestIds": [
+        "test/contracts/rtk-g0a-assurance.contract.test.js#missing-negative-test-id-is-rejected"
+      ],
+      "negativeExpectedFailSignal": "E_BLOCKING_TOKEN_UNBOUND",
+      "applicabilityPredicate": "always",
+      "dispositionByMode": {
+        "pr": "blocking",
+        "release": "blocking",
+        "promotion": "blocking"
+      },
+      "ownerCategory": "data-safety",
+      "changeTriggers": [
+        "scripts/ops/migration-completeness-verifier-state.mjs",
+        "test/contracts/migration-completeness-verifier.contract.test.js"
+      ],
+      "rollbackProcedure": "Revert the G0A registry projection if migration binding is invalid."
+    },
+    {
+      "assertionId": "RTK_G0A_COMMAND_AUTHORITY_BOUND_OK",
+      "assertionKind": "EXACT_AUTHORITY",
+      "blocking": true,
+      "producerCommand": "node scripts/ops/command-surface-state.mjs --json",
+      "producerToken": "COMMAND_SURFACE_ENFORCED_OK",
+      "sourceBindings": [
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "scripts/ops/command-surface-state.mjs"
+        },
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "src/renderer/commands/commandBusGuard.mjs"
+        }
+      ],
+      "positiveTestIds": [
+        "test/contracts/command-surface-single-entry.contract.test.js"
+      ],
+      "negativeTestIds": [
+        "test/contracts/command-surface-single-entry.contract.test.js"
+      ],
+      "negativeExpectedFailSignal": "E_COMMAND_SURFACE_BYPASS",
+      "applicabilityPredicate": "always",
+      "dispositionByMode": {
+        "pr": "blocking",
+        "release": "blocking",
+        "promotion": "blocking"
+      },
+      "ownerCategory": "exact-authority",
+      "changeTriggers": [
+        "scripts/ops/command-surface-state.mjs",
+        "src/renderer/commands/**",
+        "test/contracts/command-surface-single-entry.contract.test.js"
+      ],
+      "rollbackProcedure": "Revert the G0A registry projection if command authority binding is invalid."
+    },
+    {
+      "assertionId": "RTK_G0A_OFFLINE_SECURITY_BOUND_OK",
+      "assertionKind": "OFFLINE_SECURITY",
+      "blocking": true,
+      "producerCommand": "node --test test/contracts/b3c06-no-network-writing-path.contract.test.js test/contracts/b3c07-security-runtime-boundary.contract.test.js",
+      "producerToken": "RTK_G0A_OFFLINE_SECURITY_BOUND_OK",
+      "sourceBindings": [
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "scripts/ops/b3c06-no-network-writing-path-state.mjs"
+        },
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "scripts/ops/b3c07-security-runtime-boundary-state.mjs"
+        }
+      ],
+      "positiveTestIds": [
+        "test/contracts/b3c06-no-network-writing-path.contract.test.js",
+        "test/contracts/b3c07-security-runtime-boundary.contract.test.js"
+      ],
+      "negativeTestIds": [
+        "test/contracts/rtk-g0a-assurance.contract.test.js#missing-producer-command-is-rejected"
+      ],
+      "negativeExpectedFailSignal": "E_RUNTIME_WIRING_BEFORE_STAGE",
+      "applicabilityPredicate": "always",
+      "dispositionByMode": {
+        "pr": "blocking",
+        "release": "blocking",
+        "promotion": "blocking"
+      },
+      "ownerCategory": "offline-security",
+      "changeTriggers": [
+        "scripts/ops/b3c06-no-network-writing-path-state.mjs",
+        "scripts/ops/b3c07-security-runtime-boundary-state.mjs",
+        "test/contracts/b3c06-no-network-writing-path.contract.test.js",
+        "test/contracts/b3c07-security-runtime-boundary.contract.test.js"
+      ],
+      "rollbackProcedure": "Revert the G0A registry projection if offline security binding is invalid."
+    },
+    {
+      "assertionId": "RTK_G0A_OSS_DEPENDENCY_BOUND_OK",
+      "assertionKind": "OSS_DEPENDENCY",
+      "blocking": true,
+      "producerCommand": "npm run -s oss:policy",
+      "producerToken": "RTK_G0A_OSS_DEPENDENCY_BOUND_OK",
+      "sourceBindings": [
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "scripts/check-no-paid-tiptap.mjs"
+        },
+        {
+          "kind": "PRODUCTION_MODULE",
+          "ref": "package-lock.json"
+        }
+      ],
+      "positiveTestIds": [
+        "test/contracts/rtk-g0a-assurance.contract.test.js#baseline-registry-passes"
+      ],
+      "negativeTestIds": [
+        "test/contracts/rtk-g0a-assurance.contract.test.js#blocking-family-expansion-is-rejected"
+      ],
+      "negativeExpectedFailSignal": "E_BLOCKING_TOKEN_UNBOUND",
+      "applicabilityPredicate": "always",
+      "dispositionByMode": {
+        "pr": "blocking",
+        "release": "blocking",
+        "promotion": "blocking"
+      },
+      "ownerCategory": "oss-dependency",
+      "changeTriggers": [
+        "package.json",
+        "package-lock.json",
+        "scripts/check-no-paid-tiptap.mjs"
+      ],
+      "rollbackProcedure": "Revert dependency changes; G0A itself adds no runtime dependency."
+    }
+  ]
+}

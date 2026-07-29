@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "G0A_GOVERNANCE_RECEIPT",
+  "missionId": "YALKEN_RTK_D1_END_TO_END",
+  "stageId": "G0A_ASSURANCE_REPAIR",
+  "candidateBaseSha": "f777b03880cb0428d6949a06ffabe81dfcfa762a",
+  "status": "PASS_LOCAL_READY_FOR_PR",
+  "registry": "docs/OPS/RTK/G0A_ASSURANCE_REGISTRY.json",
+  "registryDigest": "4ab99410cd2a58e49332811e37328da88ecb23db3e27c82227619418d3b44e93",
+  "producer": "scripts/ops/rtk-g0a-assurance.mjs --json",
+  "contractTests": [
+    "test/contracts/rtk-g0a-assurance.contract.test.js"
+  ],
+  "focusedChecks": [
+    {
+      "command": "node --test test/contracts/rtk-g0a-assurance.contract.test.js",
+      "status": "PASS",
+      "tests": 8,
+      "pass": 8,
+      "fail": 0
+    },
+    {
+      "command": "node scripts/ops/rtk-g0a-assurance.mjs --json",
+      "status": "PASS",
+      "assertions": 6,
+      "token": "RTK_G0A_ASSURANCE_OK"
+    }
+  ],
+  "affectedChecks": [
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "npm test",
+      "status": "PASS",
+      "tests": 785,
+      "pass": 721,
+      "fail": 0,
+      "skip": 64
+    }
+  ],
+  "ciRepairs": [
+    {
+      "check": "oss-policy",
+      "failure": "npm audit reported GHSA-v245-v573-v5vm for transitive linkify-it <=5.0.1",
+      "repair": "pin existing transitive linkify-it to patched 5.0.2 through package overrides and lockfile metadata",
+      "newDependencyNames": 0,
+      "localProof": "npm ls --package-lock-only resolves markdown-it -> linkify-it@5.0.2 overridden",
+      "source": "GitHub Advisory GHSA-v245-v573-v5vm"
+    }
+  ],
+  "requiredCi": [
+    "oss-policy"
+  ],
+  "delivery": {
+    "commit": null,
+    "push": null,
+    "pr": null,
+    "merge": null
+  },
+  "notes": [
+    "G0A is a generated governance projection only; runtimeWiring remains false.",
+    "Required CI and branch ruleset blocking are verified through the PR delivery chain."
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02B_C01_GRAPH_INTERACTION_VIEWSTATE_BOUNDARY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02B_C01_GRAPH_INTERACTION_CONTRACT_AND_VIEWSTATE_BOUNDARY",
+  "programStage": "E02B_STAGE_02B_LARGE_MAP_INTERACTION",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T19:36:24Z",
+  "baseSha": "5c4db7f1d52fa7f77e00b048c0c444b9078612c5",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a pure interaction and transient ViewState contract for existing manual map graphs; it creates no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "compiledE02BQueue": [
+    "E02B_C01_GRAPH_INTERACTION_CONTRACT_AND_VIEWSTATE_BOUNDARY",
+    "E02B_C02_VIEWPORT_VIRTUALIZATION_AND_LOD_PLANNER",
+    "E02B_C03_SELECTION_KEYBOARD_AND_LIST_PARITY",
+    "E02B_C04_WORKER_LAYOUT_AND_10K_RESOURCE_BUDGET_PROOF"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.graphInteractionViewState.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "derived.manualMap.graph.v1",
+        "transient manualMap.viewState.v1 input"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "No command is introduced. View intents are pure reducers over transient shell state and graph-validated ids."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "interactionSchema": "manualMap.interaction.v1",
+    "viewStateSchema": "manualMap.viewState.v1",
+    "sourceSchema": "derived.manualMap.graph.v1",
+    "viewIntents": [
+      "manualMap.view.pan",
+      "manualMap.view.zoom",
+      "manualMap.selection.node",
+      "manualMap.selection.edge",
+      "manualMap.focus.node",
+      "manualMap.selection.clear"
+    ],
+    "viewStateStoredInProjectTruth": false,
+    "deterministicInteractionHash": true,
+    "graphValidatedSelection": true
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/derived/mindmap/manualMapInteraction.mjs && node --check src/derived/mindmap/index.mjs && node --check src/derived/index.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02b-c01-graph-interaction-viewstate-boundary.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e02a-c03-manual-map-durable-recovery-export-fixture.contract.test.js test/contracts/yalken-atlas-v5-e02a-c02-manual-map-derived-graph-projection.contract.test.js test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": {
+        "tests": 795,
+        "pass": 731,
+        "fail": 0,
+        "skipped": 64,
+        "durationMs": 114576.347417
+      }
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "negativeChecks": [
+    "viewState remains transient and outside project.manualMaps truth",
+    "unknown node and edge ids are ignored instead of selected",
+    "pan and zoom are bounded and deterministic",
+    "unknown intents leave normalized state unchanged",
+    "interaction modules have no filesystem, network, Electron, renderer storage, UI command dispatch, or hot-path event listener bypass"
+  ],
+  "nextContour": "E02B_C02_VIEWPORT_VIRTUALIZATION_AND_LOD_PLANNER"
+}

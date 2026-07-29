@@ -4270,6 +4270,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C03_MANUAL_MAP_DURABLE_RECOVERY_AND_EXPORT_FIXTURE",
       "approvedAtUtc": "2026-07-29T19:24:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02A C03 contract: proves manual map JSON fixture is deterministic and recovery-readable, preserves node positions, targets, edge labels and kinds, reports malformed graph loss explicitly, keeps the source graph immutable, does not claim a user-facing export command, and introduces no filesystem, network, Electron, renderer storage, or private write bypass."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02B_C01_GRAPH_INTERACTION_VIEWSTATE_BOUNDARY_RECEIPT.json",
+      "sha256": "35b92fa00e415b2fa9ff40c1068d49d2edd64b70e156d996a4c2a7d24e48d0b0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C01_GRAPH_INTERACTION_CONTRACT_AND_VIEWSTATE_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T19:36:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02B C01 graph interaction and ViewState receipt: compiles E02B queue, adds manualMap.interaction.v1 and manualMap.viewState.v1 as pure derived interaction contracts over derived.manualMap.graph.v1, proves transient selection focus pan and zoom stay outside project truth, and preserves no UI surface, no project truth mutation, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02b-c01-graph-interaction-viewstate-boundary.contract.test.js",
+      "sha256": "daf3904087a367a1ac2d0c0d1ee4c1863420fa41d243d1892f4789f6b1dabade",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C01_GRAPH_INTERACTION_CONTRACT_AND_VIEWSTATE_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T19:36:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02B C01 contract: proves graph interaction model keeps ViewState outside manual map truth, view intents are deterministic bounded and graph-validated, derived barrels export the contract, and no filesystem, network, Electron, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
     }
   ]
 }

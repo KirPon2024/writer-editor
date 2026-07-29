@@ -63,6 +63,8 @@ function collectEntityTerms(atlas) {
         termKind: 'alias',
         value: aliasValue,
         aliasId,
+        scope: alias.scope === 'scene' ? 'scene' : 'project',
+        sceneId: normalizeString(alias.sceneId),
       });
     }
   }
@@ -98,6 +100,7 @@ function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset
 
 function collectTermMentions({ projectId, sceneId, sceneText, term }) {
   const out = [];
+  if (term.scope === 'scene' && term.sceneId !== sceneId) return out;
   let cursor = 0;
   while (cursor <= sceneText.length) {
     const found = sceneText.indexOf(term.value, cursor);

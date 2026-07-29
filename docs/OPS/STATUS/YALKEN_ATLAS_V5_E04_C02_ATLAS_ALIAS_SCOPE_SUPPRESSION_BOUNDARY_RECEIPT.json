@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E04_C02_ATLAS_ALIAS_SCOPE_SUPPRESSION_BOUNDARY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E04_C02_ATLAS_ALIAS_SCOPE_AND_SUPPRESSION_BOUNDARY",
+  "programStage": "E04_STAGE_04_DETERMINISTIC_ATLAS_CONTOURS",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T23:59:00Z",
+  "baseSha": "5541f577cfbe7a0a9737e5ff82ad6cb161a3b202",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour modifies Atlas product and derived data boundaries only; it adds no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "implementedScope": [
+    "scene-scoped alias matching in the exact mention analyzer",
+    "suppression author truth ledger in atlas.author.v1",
+    "atlas.observation.suppress core command",
+    "Command Kernel capability revalidation for suppression",
+    "suppression readback in the observation aggregate projection",
+    "negative evidence and bypass checks"
+  ],
+  "authority": {
+    "productTruthMutation": "explicit atlas.observation.suppress command only",
+    "commandAuthority": "Command Kernel capability revalidation",
+    "designAuthority": "none",
+    "storageMutation": false,
+    "networkMutation": false,
+    "externalServiceMutation": false,
+    "hiddenFiltering": false
+  },
+  "runtimeFacts": {
+    "aliasScopeAuthorTruthExists": true,
+    "sceneScopedAliasesAppliedByMentionIndex": true,
+    "suppressionAuthorTruthExists": true,
+    "suppressionCommandId": "atlas.observation.suppress",
+    "suppressionCapabilityId": "cap.atlas.observation.suppress",
+    "nodeSuppressionCapability": true,
+    "webSuppressionCapability": false,
+    "mobileSuppressionCapability": false,
+    "aggregateReadbackMarksSuppressedObservations": true,
+    "suppressedObservationsKeepEvidence": true,
+    "hiddenFilterApplied": false,
+    "projectTruthMutationWithoutCommand": false,
+    "storageMutation": false,
+    "networkMutation": false
+  },
+  "changedFiles": [
+    "src/core/runtime.mjs",
+    "src/core/contracts.ts",
+    "src/core/registry.ts",
+    "src/renderer/commands/capabilityPolicy.mjs",
+    "src/renderer/commands/localCapabilityProvider.mjs",
+    "src/derived/atlas/deriveAtlasMentionIndex.mjs",
+    "src/derived/atlas/deriveAtlasObservationAggregate.mjs",
+    "test/contracts/yalken-atlas-v5-e04-c02-atlas-alias-scope-suppression-boundary.contract.test.js",
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C02_ATLAS_ALIAS_SCOPE_SUPPRESSION_BOUNDARY_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c02-atlas-alias-scope-suppression-boundary.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c01-atlas-observation-candidate-aggregate-model.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "governance_change_approved=1 missing_approvals=0"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "3 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E04_C03_ATLAS_COOCCURRENCE_FIRST_LAST_ABSENCE_INTERVALS"
+}

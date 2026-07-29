@@ -4522,6 +4522,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C01_ATLAS_OBSERVATION_CANDIDATE_AGGREGATE_MODEL",
       "approvedAtUtc": "2026-07-29T23:41:00.000Z",
       "rationale": "Approve E04 C01 contract test coverage for the deterministic Atlas observation aggregate: proves BASIC candidate and observation outputs, evidence-required invariants, unsupported-language exact-only behavior, deterministic invalidation, capability fail-closed behavior, and side-effect guard coverage for the derived Atlas layer."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C02_ATLAS_ALIAS_SCOPE_SUPPRESSION_BOUNDARY_RECEIPT.json",
+      "sha256": "550e39b523d368783b86c15c08c0f7250f6cc860f5873515ff2a85ff93a2b6fd",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C02_ATLAS_ALIAS_SCOPE_AND_SUPPRESSION_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T23:59:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E04 C02 receipt: records scene-scoped alias enforcement, explicit Atlas observation suppression author truth, Command Kernel capability binding, aggregate readback without hidden filtering, and side-effect-free local execution with no UI, storage, network, dependency, or external-service expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e04-c02-atlas-alias-scope-suppression-boundary.contract.test.js",
+      "sha256": "82897526556dd4afe4691a9799db4245ab9247137189f7a5bcf2fcb96dea8daf",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C02_ATLAS_ALIAS_SCOPE_AND_SUPPRESSION_BOUNDARY",
+      "approvedAtUtc": "2026-07-29T23:59:00.000Z",
+      "rationale": "Approve E04 C02 contract test coverage for scene-scoped aliases and explicit suppression: proves project aliases stay global, scene aliases stay bounded, suppression persists as author truth, projections mark suppressed observations while preserving evidence, invalid evidence fails closed, capability revalidation denies web and admits node free, and no storage, network, UI, or bypass route is introduced."
     }
   ]
 }

@@ -4410,6 +4410,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C03_MANUAL_MAP_MARKDOWN_PORTABILITY_BRIDGE",
       "approvedAtUtc": "2026-07-29T21:20:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E02D C03 contract: proves Markdown portability packets parse and import through the JSON repeat adapter and Command Kernel, tampered payload hashes and duplicate fences fail closed, private path or content payloads are rejected before executor call, import barrel exports the bridge, and no filesystem, network, Electron, renderer storage, UI command dispatch, or private storage bypass is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02D_C04_MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE_RECEIPT.json",
+      "sha256": "b7f30c0bb8243012a6a3ab37e96ecd529c0eba957ec69b310a8e29c7eda4f005",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C04_MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE",
+      "approvedAtUtc": "2026-07-29T21:31:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02D C04 receipt: adds manualMap.imagePdfExportEvidence.v1 as a pure deterministic evidence builder over derived.manualMap.graph.v1, producing pathless SVG image evidence and an HTML print packet for a future local print-to-PDF port while preserving no binary PDF generation, no project truth mutation, no storage adapter, no UI surface, no network, no cloud, no paid service, no dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02d-c04-manual-map-image-pdf-export-evidence.contract.test.js",
+      "sha256": "3ee2148744ae1ef8d9ff5cfcbf4ea757bc52ee31834b7830769fce4aaf94499d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C04_MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE",
+      "approvedAtUtc": "2026-07-29T21:31:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E02D C04 contract: proves manual map image/PDF evidence is deterministic and pathless, private path or content fields fail closed before evidence generation, invalid graph identity and empty-node inputs fail closed, export barrel exposes the builder, and no filesystem, network, Electron, renderer storage, UI command dispatch, or private storage bypass is introduced."
     }
   ]
 }

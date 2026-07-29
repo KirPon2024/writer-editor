@@ -17,6 +17,11 @@ export {
 } from './serializeManualMapV1.mjs';
 
 export {
+  MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE_SCHEMA_VERSION,
+  buildManualMapImagePdfExportEvidence,
+} from './manualMapImagePdfExportEvidence.mjs';
+
+export {
   appendLoss,
   createLossReport,
   finalizeLossReport,

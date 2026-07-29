@@ -1,4 +1,11 @@
 import {
+  buildW2ReviewIr,
+  buildW2WorkerCapabilityAdapter,
+  buildW2RedactedPackageRewriteReport,
+  w2Crc32,
+} from './reviewTransportIr.mjs';
+
+import {
   analyzeG0BTransportContract,
   analyzeW1ReturnedArtifact,
   buildW1ExportIntent,
@@ -24,6 +31,13 @@ export {
   probeW1DirectorySyncCapability,
   resolveW1NoWriteFeatureFlag,
   verifyG0BAnchor,
+};
+
+export {
+  buildW2ReviewIr,
+  buildW2RedactedPackageRewriteReport,
+  buildW2WorkerCapabilityAdapter,
+  w2Crc32,
 };
 
 export function runG0BLocalOracle(input = {}) {
@@ -71,5 +85,16 @@ export function runW1NoWriteOracle(input = {}) {
     bundle,
     returnedAnalysis,
     directorySync,
+  };
+}
+
+export function runW2ReviewIrOracle(input = {}) {
+  const reviewIr = buildW2ReviewIr(input);
+  return {
+    schemaVersion: 'revision-bridge.w2-review-ir-oracle.v1',
+    status: reviewIr.ok ? 'PASS' : 'BLOCKED',
+    canWriteManuscript: false,
+    canApply: false,
+    reviewIr,
   };
 }

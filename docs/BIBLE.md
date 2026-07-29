@@ -89,6 +89,23 @@ ROLE: PRODUCT_SCOPE_AND_TARGET_ARCHITECTURE
 - commit-point persistence
 - safe degradation
 
+### Feature integration law
+
+Подробный рабочий контракт:
+`docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`.
+
+- Product Core владеет данными и доменным смыслом.
+- Command Kernel владеет действиями, availability и routing.
+- Design OS владеет формой surfaces, slots, layout и platform projection.
+- Любая фича подключает product plane и interface plane раздельно.
+- Product mutation идёт только через canonical command authority.
+- Внешний эффект идёт только через product port и adapter.
+- UI получает immutable projection и не вычисляет semantic truth.
+- Новая поверхность описывается manifest и входит через typed slot.
+- Project state, derived state, shell state и transient state не смешиваются.
+- Встроенный feature pack не создаёт частный Core, bus, storage writer или
+  executable plugin runtime.
+
 ## 5. Writer V1 Delivery Order
 
 1. primary editor closure

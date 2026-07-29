@@ -14,6 +14,20 @@ STATUS:
 
 ## CONTRACT / SHAPES
 
+Если задача добавляет feature, process, worker, import, export, analysis или UI
+surface, приложить contract block по
+`docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`:
+
+- `FEATURE_INTEGRATION_MANIFEST_V1`
+- product authority
+- canonical Commands and Events
+- product ports and adapters
+- immutable projections
+- Design OS surfaces and typed slots
+- state classes and fallbacks
+- recovery and negative bypass checks
+- current reality boundary
+
 ## IMPLEMENTATION_STEPS
 
 ## CHECKS

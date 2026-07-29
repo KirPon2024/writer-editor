@@ -20,6 +20,29 @@
 - Минимизировать зависимости и сложные фреймворки без прямого запроса
 - Не закладывать архитектуру “на будущее” вне канона
 
+## Обязательная доктрина интеграции фич
+- Перед добавлением новой функции, процесса, worker, импорта, экспорта, анализа,
+  панели, карты или другого обвеса прочитать
+  `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`.
+- У каждой фичи два разных подключения: product plane отвечает за данные,
+  Commands, Events, Queries, product ports и adapters; interface plane отвечает
+  за Host contribution, surfaces, typed slots и проекцию через Design OS.
+- Product Core владеет данными и смыслом; Command Kernel владеет действиями и
+  availability; Design OS владеет только вычисляемой формой интерфейса.
+- UI, surface, menu, toolbar, worker и feature pack не могут напрямую менять
+  project truth, обращаться к storage или создавать частный command bus.
+- Любая продуктовая мутация проходит через canonical command authority. Любой
+  внешний эффект проходит через product port и adapter.
+- Project persistence и shell-state persistence всегда раздельны. Safe reset
+  оболочки не имеет права менять рукопись.
+- Новая UI-зона требует `SURFACE_MANIFEST_V1` и типизированного slot. Вставка в
+  случайный DOM запрещена.
+- Целевая модель не считается текущим runtime без machine evidence. Текущий
+  общий Core port layer остаётся частичным каркасом.
+- Для feature-contour в ТЗ обязательны `FEATURE_INTEGRATION_MANIFEST_V1`,
+  authority map, write path, read path, ports, fallbacks, recovery и negative
+  bypass checks. Отсутствие этих данных означает STOP до уточнения контракта.
+
 ## Обязательные ограничения (MVP vNext)
 - Desktop‑first, offline‑first: **никаких сетевых запросов**, аккаунтов, авторизации, облаков и синхронизации.
 - Данные хранятся локально и не “запираются”:
@@ -79,6 +102,9 @@ CI:
 ## CODEX_CHECKLIST (обязателен в каждой задаче)
 - Stage корректен
 - Активные правила соблюдены
+- Для новой фичи или процесса доктрина интеграции применена, оба plane описаны
+- Product authority, Command authority и Design authority не смешаны
+- Прямых UI, worker или feature-pack обходов Command Kernel и ports нет
 - `DESIGN_TOOL_ROUTER` выставлен корректно; дизайн-инструменты не запускались вне интерфейсного контура
 - UI не изменён (если это не отдельная UI‑задача)
 - Новых зависимостей нет (если явно не разрешено)

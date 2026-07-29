@@ -20,6 +20,12 @@ COREX:
 
 ## Текущая версия
 - Каноническая версия: `docs/corex/COREX.v1.md`
+- Методическая детализация интеграции фич без изменения frozen COREX:
+  `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`
+
+Доктрина подчинена COREX и active canon. Она разъясняет две плоскости
+подключения фичи: product contracts для смысла и эффектов, Design OS contracts
+для surfaces, slots и вычисляемой формы интерфейса.
 
 ## Правило изменения (жёстко)
 - Любые правки COREX — только через выпуск новой версии: `COREX.v2.md`, `COREX.v3.md`, ...

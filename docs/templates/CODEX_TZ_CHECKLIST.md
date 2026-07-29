@@ -4,6 +4,13 @@
 
 - [ ] **Один запрос = одно действие** (одна цель, без “заодно”)
 - [ ] **Маршрутизатор дизайна**: указан `APPLIED` или `NOT_APPLICABLE`; при `NOT_APPLICABLE` дизайн-инструменты не запускались
+- [ ] **Feature doctrine**: для новой фичи или процесса прочитан `YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`
+- [ ] **Два plane**: product plane и interface plane описаны раздельно
+- [ ] **Authority map**: Product Core, Command Kernel и Design OS не смешаны
+- [ ] **Manifest**: приложен `FEATURE_INTEGRATION_MANIFEST_V1`; для новой UI-зоны также `SURFACE_MANIFEST_V1`
+- [ ] **No bypass**: UI, worker и feature pack не пишут напрямую в Core, storage, IPC или platform API
+- [ ] **State split**: project, derived, shell и transient state разделены
+- [ ] **Fallback и recovery**: определены degraded path, rollback и negative checks
 - [ ] **Минимальность дизайн-инструментов**: при `APPLIED` назван один визуальный вопрос и выбран только необходимый набор по матрице
 - [ ] **Файлы**: перечислены явно; всё остальное запрещено
 - [ ] **Diff budget**: ограничение масштаба (строки/блоки/файлы), запрет на форматирование/рефакторинг

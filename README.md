@@ -17,6 +17,17 @@ Yalken развивается как desktop-first и offline-first writer tool 
 - Factual context: `docs/CONTEXT.md`
 - Process: `docs/PROCESS.md`
 - Handoff: `docs/HANDOFF.md`
+- Feature integration: `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`
+
+## Архитектура интеграции
+
+- Product Core владеет данными и доменным смыслом.
+- Command Kernel владеет действиями и availability.
+- Design OS владеет вычисляемой формой интерфейса.
+- Новая фича подключает product plane и interface plane раздельно.
+- Мутации идут через canonical Commands, внешние эффекты — через product ports
+  и adapters, интерфейс — через surface manifests и typed slots.
+- UI, workers и feature packs не получают прямой доступ к project storage.
 
 ## Writer V1
 

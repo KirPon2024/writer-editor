@@ -29,6 +29,34 @@
 - `NOT_REQUIRED_BY_TASK_POLICY_RULE` допускается только когда это прямо зафиксировано в самом task policy.
 - Для write-задач итоговый отчёт обязан содержать: `TASK_ID`, `HEAD_SHA_BEFORE`, `HEAD_SHA_AFTER`, `COMMIT_SHA`, `CHANGED_BASENAMES`, `STAGED_SCOPE_MATCH`, `COMMIT_OUTCOME`, `PUSH_RESULT`, `PR_RESULT`, `MERGE_RESULT`, `NEXT_STEP`.
 
+## Обязательный feature integration preflight
+
+Перед ТЗ и реализацией любой новой фичи, процесса, worker, import, export,
+analysis или UI surface прочитать
+`docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`.
+
+До первого write агент обязан зафиксировать:
+
+1. `PRODUCT_AUTHORITY`: какие данные канонические и кто ими владеет.
+2. `COMMAND_AUTHORITY`: какие Commands являются единственным write path.
+3. `PRODUCT_PORTS`: какие внешние эффекты требуют adapters.
+4. `READ_PROJECTIONS`: какие immutable projections получает UI.
+5. `DESIGN_OS_CONTRIBUTION`: какие surfaces, slots и representations нужны.
+6. `STATE_CLASSES`: project, derived, shell и transient state.
+7. `FALLBACKS`: поведение при отсутствующей capability или platform surface.
+8. `RECOVERY_AND_NEGATIVE_CHECKS`: восстановление и доказательство отсутствия
+   прямого обхода.
+9. `HOT_PATH_BOUNDARY`: что запрещено выполнять на каждый ввод символа.
+10. `CURRENT_REALITY`: что уже live, а что остаётся target only.
+
+Новая фича должна иметь `FEATURE_INTEGRATION_MANIFEST_V1`; новая визуальная
+зона — `SURFACE_MANIFEST_V1`. Если эти сведения нельзя определить из канона и
+репозитория, агент задаёт только high-impact вопросы и не начинает реализацию.
+
+Feature integration preflight не требует отдельного PR на каждый слой. Один
+bounded vertical contour может затрагивать несколько слоёв, если сохраняет один
+пользовательский результат, один rollback и сфокусированные проверки.
+
 ### ROLE CONTRACT (Orchestrator Mode)
 
 Если в текущем рабочем режиме `Codex` действует как оркестратор, применяется следующий обязательный контракт исполнения:

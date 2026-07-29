@@ -25,6 +25,7 @@
     "test:electron": "node scripts/run-tests.js electron",
     "sector:u:run": "node scripts/sector-u-run.mjs",
     "oss:policy": "node scripts/check-no-paid-tiptap.mjs",
+    "design-os:doctrine": "node scripts/check-design-os-integration-doctrine.mjs",
     "agent:policy": "node scripts/validate-agent-cost-policy.mjs",
     "agent:repo-map": "node scripts/build-agent-repo-map.mjs",
     "agent:packet": "node scripts/build-stage-task-packet.mjs",

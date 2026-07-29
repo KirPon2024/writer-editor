@@ -12,6 +12,24 @@
 - Diff budget: (ограничение масштаба правок; запрет на рефакторинг/форматирование без запроса)
 - Не ломать: save/open, бэкапы, темы, focus-mode, wrap, word count, `Cmd/Ctrl+C/V/X/A`, `Cmd/Ctrl+Z`/redo
 
+## Feature integration boundary
+
+Если изменение добавляет новую функцию или процесс, применить
+`docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md` и зафиксировать:
+
+- Product authority и authoritative state;
+- canonical Commands и Events;
+- product ports и adapters;
+- immutable read projections;
+- Design OS surfaces, typed slots и fallbacks;
+- раздельные project, derived, shell и transient state;
+- recovery и negative bypass checks;
+- typing hot-path boundary.
+
+Editor surface не получает новую product authority. Если фича требует
+`FEATURE_INTEGRATION_MANIFEST_V1` или `SURFACE_MANIFEST_V1`, они создаются до
+изменения renderer.
+
 ## Референсы (скрины/видео/описание)
 - Скрин/видео: …
 - Как должно работать: …

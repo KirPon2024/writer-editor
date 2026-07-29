@@ -7,6 +7,7 @@ _Generated: 2026-07-12_
 - Active canonical execution document: `docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md`
 - Repo canon: `CANON.md`
 - Design OS change guide: `docs/YALKEN_DESIGN_OS_CHANGE_GUIDE_V2_2.md`
+- Feature integration doctrine: `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`
 - COREX: `docs/corex/COREX.v1.md`
 - Product map: `docs/BIBLE.md`
 - Factual context: `docs/CONTEXT.md`
@@ -16,11 +17,22 @@ _Generated: 2026-07-12_
 ## Reading Order
 1. `docs/OPS/STATUS/CANON_STATUS.json` and the active canonical execution document it resolves to
 2. `CANON.md`
-3. `docs/corex/COREX.v1.md`
-4. `docs/BIBLE.md`
-5. `docs/CONTEXT.md`
-6. `docs/HANDOFF.md`
-7. `docs/PROCESS.md`
+3. `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md` для любой новой фичи или процесса
+4. `docs/corex/COREX.v1.md`
+5. `docs/BIBLE.md`
+6. `docs/CONTEXT.md`
+7. `docs/HANDOFF.md`
+8. `docs/PROCESS.md`
+
+## Feature Integration Re-entry
+- Product Core владеет данными и смыслом.
+- Command Kernel владеет actions, availability и routing.
+- Design OS владеет только вычисляемой формой интерфейса.
+- Каждая новая фича имеет отдельные product-plane и interface-plane contracts.
+- UI, worker и feature pack не могут обходить canonical Commands, product ports
+  или adapters.
+- Current Core ports являются частичным каркасом; полную target pipeline нельзя
+  считать live без отдельного machine evidence.
 
 ## Snapshot
 - Snapshot class: current-mainline factual snapshot, not a permanent local machine invariant

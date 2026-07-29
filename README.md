@@ -10,8 +10,8 @@ Yalken развивается как desktop-first и offline-first writer tool 
 - минимальную хрупкость интерфейса и процесса.
 
 ## Канон
-- Верхний repo canon: `CANON.md`
 - Active execution canon: `docs/OPS/STATUS/CANON_STATUS.json`
+- Верхний repo canon: `CANON.md`
 - COREX: `docs/corex/COREX.v1.md`
 - Product map: `docs/BIBLE.md`
 - Factual context: `docs/CONTEXT.md`
@@ -28,6 +28,12 @@ Yalken развивается как desktop-first и offline-first writer tool 
 - Мутации идут через canonical Commands, внешние эффекты — через product ports
   и adapters, интерфейс — через surface manifests и typed slots.
 - UI, workers и feature packs не получают прямой доступ к project storage.
+- Несохранённый текст является authoring working state с no-loss duty и не
+  принадлежит shell-state.
+- Видимость команды вычисляет Design OS, но capability при dispatch всегда
+  повторно проверяет Command Kernel.
+- Manifests сначала фиксируются в ТЗ; они не создают speculative runtime
+  registry или feature pack автоматически.
 
 ## Writer V1
 

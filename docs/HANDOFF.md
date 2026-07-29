@@ -1,6 +1,6 @@
 # HANDOFF (Yalken Writer)
 
-_Generated: 2026-07-12_
+_Updated: 2026-07-29_
 
 ## Start Here
 - Active execution canon resolver: `docs/OPS/STATUS/CANON_STATUS.json`
@@ -17,12 +17,13 @@ _Generated: 2026-07-12_
 ## Reading Order
 1. `docs/OPS/STATUS/CANON_STATUS.json` and the active canonical execution document it resolves to
 2. `CANON.md`
-3. `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md` для любой новой фичи или процесса
-4. `docs/corex/COREX.v1.md`
-5. `docs/BIBLE.md`
+3. `docs/corex/COREX.v1.md`
+4. `docs/BIBLE.md`
+5. `README.md`
 6. `docs/CONTEXT.md`
-7. `docs/HANDOFF.md`
-8. `docs/PROCESS.md`
+7. `docs/PROCESS.md`
+8. `docs/HANDOFF.md`
+9. `docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md` для любой новой фичи или процесса
 
 ## Feature Integration Re-entry
 - Product Core владеет данными и смыслом.
@@ -33,6 +34,12 @@ _Generated: 2026-07-12_
   или adapters.
 - Current Core ports являются частичным каркасом; полную target pipeline нельзя
   считать live без отдельного machine evidence.
+- Unsaved editor content является authoring working state с no-loss duty, а не
+  shell или discardable transient state.
+- Design OS читает command catalog и вычисляет форму; canonical dispatch и
+  capability revalidation остаются в Command Kernel.
+- Integration manifests сначала живут в ТЗ и evidence mapping; они не требуют
+  speculative runtime registry или feature pack.
 
 ## Snapshot
 - Snapshot class: current-mainline factual snapshot, not a permanent local machine invariant

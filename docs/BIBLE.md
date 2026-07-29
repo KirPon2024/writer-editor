@@ -8,6 +8,9 @@ ROLE: PRODUCT_SCOPE_AND_TARGET_ARCHITECTURE
 - этот документ не является самостоятельным machine-bound law source,
 - этот документ задаёт product map, north star и устойчивые MVP-инварианты.
 
+Порядок разрешения истины начинается с `CANON_STATUS.json` и указанного им
+active execution canon, затем применяются `CANON.md`, COREX и этот product map.
+
 ## 1. Product Definition
 
 `Yalken Writer v1` — calm local-first writer tool для письма и редактуры текста.
@@ -102,7 +105,13 @@ ROLE: PRODUCT_SCOPE_AND_TARGET_ARCHITECTURE
 - Внешний эффект идёт только через product port и adapter.
 - UI получает immutable projection и не вычисляет semantic truth.
 - Новая поверхность описывается manifest и входит через typed slot.
-- Project state, derived state, shell state и transient state не смешиваются.
+- Project, authoring working, derived, shell и transient state не смешиваются.
+- Несохранённый текст является authoring working state с no-loss duty и не
+  смешивается с shell или discardable transient state.
+- Command catalog читается Design OS, но dispatch и capability enforcement
+  остаются в Command Kernel.
+- Manifests сначала фиксируют контракт ТЗ и не требуют создавать runtime
+  registry или feature pack, которого ещё нет в доказанной архитектуре.
 - Встроенный feature pack не создаёт частный Core, bus, storage writer или
   executable plugin runtime.
 

@@ -20,6 +20,31 @@ export const REQUIRED_REFERENCE_PATHS = Object.freeze([
   'docs/templates/EDITOR_CORE_TZ.md',
   'docs/templates/FEATURE_TZ.md',
   'docs/templates/hard-tz.md',
+  'docs/tasks/README.md',
+  'src/contracts/README.md',
+  'src/core/README.md',
+]);
+
+export const REQUIRED_CANON_ORDER = Object.freeze({
+  'agents.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
+  'README.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
+  'docs/AGENT_START_PROMPT.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.md', 'BIBLE.md'],
+  'docs/CONTEXT.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
+  'docs/HANDOFF.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
+  'docs/PROCESS.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.v1.md', 'BIBLE.md'],
+  'docs/corex/COREX.md': ['CANON_STATUS.json', 'CANON.md', 'COREX.vN.md', 'BIBLE.md'],
+  'docs/templates/EDITOR_CORE_TZ.md': ['CANON_STATUS.json', 'CANON.md', 'COREX', 'BIBLE.md'],
+  'docs/templates/FEATURE_TZ.md': ['CANON_STATUS.json', 'CANON.md', 'COREX', 'BIBLE.md'],
+  'docs/templates/hard-tz.md': ['CANON_STATUS.json', 'CANON.md', 'COREX', 'BIBLE'],
+  'docs/tasks/README.md': ['CANON_STATUS.json', 'CANON.md', 'COREX', 'BIBLE'],
+});
+
+export const REQUIRED_OUTPUT_POLICY_PATHS = Object.freeze([
+  'docs/AGENT_START_PROMPT.md',
+  'docs/templates/CODEX_TZ_CHECKLIST.md',
+  'docs/templates/EDITOR_CORE_TZ.md',
+  'docs/templates/FEATURE_TZ.md',
+  'docs/templates/hard-tz.md',
 ]);
 
 export const REQUIRED_DOCTRINE_MARKERS = Object.freeze([
@@ -35,9 +60,26 @@ export const REQUIRED_DOCTRINE_MARKERS = Object.freeze([
   'PERSISTENCE_LAW: PROJECT_PERSISTENCE_AND_SHELL_PERSISTENCE_NEVER_SHARE_AUTHORITY',
   'HOT_PATH_LAW: TYPING_NEVER_RUNS_FULL_ANALYSIS_LAYOUT_OR_PERSISTENCE',
   'CURRENT_REALITY_LAW: TARGET_ARCHITECTURE_MUST_NOT_BE_REPORTED_AS_LIVE_RUNTIME',
+  'PORT_DIRECTION_LAW: CATALOG_AND_PROJECTION_ARE_READ_ONLY_DISPATCH_IS_INTENT_ONLY',
+  'CAPABILITY_LAW: VISIBILITY_NEVER_ENFORCES_CAPABILITY_COMMAND_KERNEL_REVALIDATES_ON_DISPATCH',
+  'MANIFEST_MATERIALIZATION_LAW: CONTRACT_FIRST_NO_SPECULATIVE_RUNTIME_REGISTRY',
+  'AUTHORING_STATE_LAW: UNSAVED_TEXT_IS_NOT_SHELL_STATE_AND_UI_RESET_MUST_NOT_DROP_IT',
+  'IDENTITY_LAW: ASYNC_RESULTS_BIND_TO_PROJECT_ENTITY_REVISION_AND_GENERATION',
+  'LEGACY_TOUCH_LAW: TOUCHED_LEGACY_SEAMS_MUST_NOT_WIDEN_BYPASS_OR_AUTHORITY_LEAK',
+  'EXTERNAL_INPUT_LAW: EXTERNAL_BYTES_AND_PAYLOADS_ARE_UNTRUSTED_UNTIL_VALIDATED_NORMALIZED_AND_BOUNDED',
   'FEATURE_INTEGRATION_MANIFEST_V1',
   'SURFACE_MANIFEST_V1',
 ]);
+
+function tokensAreOrdered(text, tokens) {
+  let cursor = -1;
+  for (const token of tokens) {
+    const index = text.indexOf(token, cursor + 1);
+    if (index === -1 || index <= cursor) return false;
+    cursor = index;
+  }
+  return true;
+}
 
 export function evaluateDoctrineTextMap(textByPath, packageJson) {
   const errors = [];
@@ -61,6 +103,23 @@ export function evaluateDoctrineTextMap(textByPath, packageJson) {
     }
     if (!text.includes(DOCTRINE_REF)) {
       errors.push({ code: 'E_DOCTRINE_REFERENCE_MISSING', path: relativePath });
+    }
+  }
+
+  for (const [relativePath, tokens] of Object.entries(REQUIRED_CANON_ORDER)) {
+    const text = String(textByPath[relativePath] || '');
+    if (!tokensAreOrdered(text, tokens)) {
+      errors.push({ code: 'E_CANON_SOURCE_ORDER_INVALID', path: relativePath, tokens });
+    }
+  }
+
+  for (const relativePath of REQUIRED_OUTPUT_POLICY_PATHS) {
+    const text = String(textByPath[relativePath] || '');
+    if (!text.includes('CHANGED_BASENAMES')) {
+      errors.push({ code: 'E_OUTPUT_POLICY_BASENAMES_MISSING', path: relativePath });
+    }
+    if (text.includes('список + ссылки `path:line`')) {
+      errors.push({ code: 'E_OUTPUT_POLICY_PATH_LINE_CONFLICT', path: relativePath });
     }
   }
 

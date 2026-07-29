@@ -1,17 +1,25 @@
 # Agent Instructions (Craftsman vNext)
 
-Этот файл определяет правила работы агента с проектом `craftsman`.
+Этот файл определяет правила работы агента с продуктом `Yalken`. Имя
+`craftsman` сохраняется в части package и legacy-путей до отдельного rename и
+не означает другой продукт.
 
 ## Приоритет источников (“что является истиной”)
-1) `CANON.md` — верхний канон решений/изменений (свободная интерпретация запрещена).
-2) `docs/corex/COREX.v1.md` — философия, целевая архитектура, долгий горизонт (указатель: `docs/corex/COREX.md`; будущие версии: `COREX.vN.md`).
-3) `docs/BIBLE.md` — канон проекта и дорожная карта.
-4) `README.md` — короткое описание и ссылки.
-5) `docs/CONTEXT.md` — текущее состояние, инварианты, ближайшие шаги.
-6) `docs/PROCESS.md` — как работаем (ChatGPT → Codex, diff‑budget, проверки).
-7) `docs/HANDOFF.md` — последний срез для быстрого входа.
+1) `docs/OPS/STATUS/CANON_STATUS.json` и указанный им active execution canon.
+2) `CANON.md` — верхний repo canon решений и change control.
+3) `docs/corex/COREX.v1.md` — философия, целевая архитектура, долгий горизонт (указатель: `docs/corex/COREX.md`; будущие версии: `COREX.vN.md`).
+4) `docs/BIBLE.md` — product map и roadmap.
+5) `README.md` — короткое описание и ссылки.
+6) `docs/CONTEXT.md` — фактическое текущее состояние и инварианты.
+7) `docs/PROCESS.md` — как работаем (ChatGPT → Codex, diff‑budget, проверки).
+8) `docs/HANDOFF.md` — последний срез для быстрого входа.
 
-Если `CANON.md`/COREX/`docs/BIBLE.md` не дают точного ответа — задать 1–3 уточняющих вопроса (только high‑impact) и остановиться до ответа.
+Нельзя заменять шаг 1 запомненным именем active canonical document: сначала
+прочитать resolver, затем именно тот документ, на который он указывает.
+
+Если active execution canon, `CANON.md`, COREX и `docs/BIBLE.md` после сверки с
+репозиторием не дают точного ответа — задать 1–3 уточняющих вопроса только по
+high-impact неоднозначности и остановиться до ответа.
 
 ## Общие принципы
 - Проект — инди без бюджета
@@ -35,8 +43,15 @@
   внешний эффект проходит через product port и adapter.
 - Project persistence и shell-state persistence всегда раздельны. Safe reset
   оболочки не имеет права менять рукопись.
+- Несохранённый editor buffer является `AUTHORING_WORKING_STATE` с no-loss
+  duty, а не discardable transient UI-state; shell reset не может его терять.
+- Command catalog для Design OS read-only, dispatch intent-only, а Command
+  Kernel повторно проверяет capability независимо от видимости UI.
 - Новая UI-зона требует `SURFACE_MANIFEST_V1` и типизированного slot. Вставка в
   случайный DOM запрещена.
+- Manifest сначала является контрактным блоком ТЗ. Он не разрешает создавать
+  speculative registry, новый feature pack или runtime infrastructure без
+  отдельного принятого architecture contour.
 - Целевая модель не считается текущим runtime без machine evidence. Текущий
   общий Core port layer остаётся частичным каркасом.
 - Для feature-contour в ТЗ обязательны `FEATURE_INTEGRATION_MANIFEST_V1`,
@@ -105,6 +120,9 @@ CI:
 - Для новой фичи или процесса доктрина интеграции применена, оба plane описаны
 - Product authority, Command authority и Design authority не смешаны
 - Прямых UI, worker или feature-pack обходов Command Kernel и ports нет
+- Unsaved authoring state имеет no-loss route и не смешан с shell/transient state
+- Capability повторно проверяется Command Kernel; UI visibility не является enforcement
+- Async projections привязаны к project, entity, revision и generation
 - `DESIGN_TOOL_ROUTER` выставлен корректно; дизайн-инструменты не запускались вне интерфейсного контура
 - UI не изменён (если это не отдельная UI‑задача)
 - Новых зависимостей нет (если явно не разрешено)
@@ -113,6 +131,7 @@ CI:
 - Recovery создаётся/обновляется (если трогали хранение)
 - Тесты проходят (или явно сказано, что не запускалось)
 - Diff‑budget соблюдён
+- `npm run design-os:doctrine` проходит, если менялись doctrine или связанные entrypoints/templates
 
 ## GIT_DELIVERY_ENFORCEMENT (обязателен для всех агентов)
 - Любая `write`‑задача обязана иметь явную delivery policy: `COMMIT_REQUIRED`, `PUSH_REQUIRED`, `PR_REQUIRED`, `MERGE_REQUIRED`.

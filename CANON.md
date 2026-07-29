@@ -97,6 +97,14 @@ active canon и этому документу; она не открывает н
    IPC или platform APIs.
 7. Project persistence и shell-state persistence остаются разными authority.
 8. Target architecture нельзя выдавать за live runtime без machine evidence.
+9. Несохранённый текст является product-plane authoring working state с
+   no-loss duty; Design OS reset не может считать его disposable UI-state.
+10. UI visibility не обеспечивает capability: Command Kernel повторно
+    проверяет availability и capability при dispatch.
+11. Feature и surface manifests сначала являются контрактами ТЗ и не создают
+    runtime registry, feature pack или plugin system автоматически.
+12. Async derived results публикуются только при совпадении project, entity,
+    source revision и generation.
 
 ## 6. Process Invariants
 

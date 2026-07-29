@@ -41,6 +41,11 @@ export type AtlasEntityState = {
   aliases: Record<string, AtlasAliasState>
   createdByCommandSeq: number
   updatedByCommandSeq: number
+  mergeState?: "ACTIVE" | "MERGED"
+  mergedIntoEntityId?: string
+  mergeOperationId?: string
+  mergedByCommandSeq?: number
+  mergedSourceEntityIds?: string[]
 }
 
 export type AtlasEvidenceAnchorState = {
@@ -81,11 +86,43 @@ export type AtlasSuppressionState = {
   createdByCommandSeq: number
 }
 
+export type AtlasEntityMergeOperationState = {
+  id: string
+  operationKind: "entity.merge"
+  projectId: string
+  sourceEntityId: string
+  targetEntityId: string
+  reason: string
+  beforeSourceEntity: AtlasEntityState
+  beforeTargetEntity: AtlasEntityState
+  afterSourceEntity: AtlasEntityState
+  afterTargetEntity: AtlasEntityState
+  createdByCommandSeq: number
+  restoredByCommandSeq: number
+  restoreOperationId: string
+}
+
+export type AtlasObservationReassignmentState = {
+  id: string
+  operationKind: "observation.reassign"
+  projectId: string
+  sceneId: string
+  sourceEntityId: string
+  targetEntityId: string
+  observationId: string
+  mentionId: string
+  reason: string
+  evidenceAnchor: AtlasEvidenceAnchorState
+  createdByCommandSeq: number
+}
+
 export type AtlasAuthorDataState = {
   schemaVersion: "atlas.author.v1"
   entities: Record<string, AtlasEntityState>
   decisions?: Record<string, AtlasDecisionState>
   suppressions?: Record<string, AtlasSuppressionState>
+  entityOperations?: Record<string, AtlasEntityMergeOperationState>
+  reassignments?: Record<string, AtlasObservationReassignmentState>
 }
 
 export type ManualMapNodeState = {
@@ -214,6 +251,18 @@ export type CoreCommand =
   | {
       type: "atlas.observation.suppress"
       payload: { projectId: string; sceneId: string; entityId: string; observationId?: string; mentionId?: string; evidenceAnchor: AtlasEvidenceAnchorState; suppressionId?: string; reason?: string }
+    }
+  | {
+      type: "atlas.entity.merge"
+      payload: { projectId: string; sourceEntityId: string; targetEntityId: string; operationId?: string; reason?: string; expectedSourceEntityHash?: string; expectedTargetEntityHash?: string }
+    }
+  | {
+      type: "atlas.entity.splitRestore"
+      payload: { projectId: string; operationId: string; restoreOperationId?: string }
+    }
+  | {
+      type: "atlas.observation.reassign"
+      payload: { projectId: string; sceneId: string; sourceEntityId: string; targetEntityId: string; observationId?: string; mentionId?: string; evidenceAnchor: AtlasEvidenceAnchorState; reassignmentId?: string; reason?: string; expectedSourceEntityHash?: string; expectedTargetEntityHash?: string }
     }
   | {
       type: "idea.create"

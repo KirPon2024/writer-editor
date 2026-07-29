@@ -4550,6 +4550,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C03_ATLAS_COOCCURRENCE_FIRST_LAST_ABSENCE_INTERVALS",
       "approvedAtUtc": "2026-07-30T04:15:00.000Z",
       "rationale": "Approve E04 C03 contract test coverage for deterministic Atlas temporal continuity: proves co-occurrence, first appearance, last appearance, and absence interval outputs, verifies suppressed observations remain upstream but are excluded from active temporal relations, proves full rebuild and incremental assembly hash parity, fails closed for missing input and disabled capability, and adds no storage, network, UI, platform, or private bypass route."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE_RECEIPT.json",
+      "sha256": "ac61a0f21fe9d3f3f92026791d428b09dcb8c44ab3fa4c1a2e64c67cd0f7d48a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE",
+      "approvedAtUtc": "2026-07-30T00:05:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E04 C04 receipt: records explicit Atlas entity merge, split restore, and observation reassign commands, reversible operation and reassignment ledgers, Command Kernel capability binding, stale evidence and stale operation fail-closed guards, zero false automatic merge proof, and side-effect-free local execution with no UI, storage, network, dependency, or external-service expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e04-c04-atlas-entity-merge-split-reassign-restore.contract.test.js",
+      "sha256": "d7b30957ea701028c8b5d85ac1962d8e0cb2c89516447c4072c2040dd3d5ec4b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE",
+      "approvedAtUtc": "2026-07-30T00:05:00.000Z",
+      "rationale": "Approve E04 C04 contract test coverage for explicit Atlas merge split and reassign: proves merge rewires derived mentions without deleting source truth, split restore reverses only an unstale explicit merge operation, observation reassign changes one active observation without mutating text, stale evidence and stale entity hashes fail closed without mutation, Command Kernel denies web and admits node free, and no storage, network, UI, or bypass route is introduced."
     }
   ]
 }

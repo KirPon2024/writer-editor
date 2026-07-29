@@ -43,10 +43,16 @@ function collectEntityTerms(atlas) {
   const terms = [];
   for (const entityId of Object.keys(entities).sort()) {
     const entity = isPlainObject(entities[entityId]) ? entities[entityId] : {};
+    const effectiveEntityId = entity.mergeState === 'MERGED'
+      && normalizeString(entity.mergedIntoEntityId)
+      && isPlainObject(entities[normalizeString(entity.mergedIntoEntityId)])
+      ? normalizeString(entity.mergedIntoEntityId)
+      : entityId;
     const entityName = normalizeString(entity.name);
     if (entityName) {
       terms.push({
-        entityId,
+        entityId: effectiveEntityId,
+        sourceEntityId: entityId,
         termId: `entity-name:${entityId}`,
         termKind: 'entityName',
         value: entityName,
@@ -58,7 +64,8 @@ function collectEntityTerms(atlas) {
       const aliasValue = normalizeString(alias.value);
       if (!aliasValue) continue;
       terms.push({
-        entityId,
+        entityId: effectiveEntityId,
+        sourceEntityId: entityId,
         termId: `alias:${aliasId}`,
         termKind: 'alias',
         value: aliasValue,

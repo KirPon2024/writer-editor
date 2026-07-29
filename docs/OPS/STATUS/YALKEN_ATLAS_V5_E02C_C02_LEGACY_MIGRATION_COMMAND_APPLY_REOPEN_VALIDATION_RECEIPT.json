@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_REOPEN_VALIDATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_AND_REOPEN_VALIDATION",
+  "programStage": "E02C_STAGE_02C_LEGACY_MIGRATION",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T20:28:50Z",
+  "baseSha": "b30201b2e129a620fbfddff5743b57700c78662c",
+  "compiledE02CQueue": [
+    "E02C_C01_LEGACY_MIGRATION_INVENTORY_PREVIEW_SHADOW_ROLLBACK",
+    "E02C_C02_LEGACY_MIGRATION_COMMAND_APPLY_AND_REOPEN_VALIDATION",
+    "E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_AND_SUNSET_EVIDENCE"
+  ],
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds pure command application and reopen validation contracts. It creates no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.legacyTxtCommandApplyReopenValidation.v1",
+    "productPlane": {
+      "owner": "Import Apply",
+      "readPath": [
+        "legacy TXT migration shadow command plan",
+        "Command Kernel execution receipts",
+        "reopened core state snapshot"
+      ],
+      "writePath": [
+        "manual map author truth through injected Command Kernel executor only"
+      ],
+      "projectTruthMutation": true,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "Every legacy migration command is executed by an injected Command Kernel executor. The helper does not import or call core reducers directly and has no fallback mutation path."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "applySchema": "manualMap.legacyTxtCommandApply.v1",
+    "reopenValidationSchema": "manualMap.legacyTxtReopenValidation.v1",
+    "allowedCommandTypes": [
+      "manualMap.create",
+      "manualMap.node.add",
+      "manualMap.edge.add"
+    ],
+    "commandExecutorRequired": true,
+    "directCoreReducerImport": false,
+    "storageMutation": false,
+    "reopenValidationReadOnly": true,
+    "capabilityDenialStopsApply": true,
+    "graphMismatchFailsClosed": true
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/import/mindmap/v1/legacyMindMapCommandApply.mjs && node --check src/import/mindmap/v1/index.mjs && node --test test/contracts/yalken-atlas-v5-e02c-c02-legacy-migration-command-apply-reopen-validation.contract.test.js",
+      "status": "PASS_5_TESTS_5_PASS_0_FAIL"
+    },
+    {
+      "command": "node --check src/import/mindmap/v1/legacyMindMapCommandApply.mjs && node --check src/import/mindmap/v1/index.mjs && node --test test/contracts/yalken-atlas-v5-e02c-c02-legacy-migration-command-apply-reopen-validation.contract.test.js test/contracts/yalken-atlas-v5-e02c-c01-legacy-migration-preview-shadow-rollback.contract.test.js test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js test/contracts/yalken-atlas-v5-e02a-c02-manual-map-derived-graph-projection.contract.test.js",
+      "status": "PASS_19_TESTS_19_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "negativeChecks": [
+    "apply requires an injected Command Kernel executor and fails without it",
+    "only manualMap.create, manualMap.node.add, and manualMap.edge.add are accepted from the shadow command plan",
+    "capability denial from the Command Kernel stops apply without fallback mutation",
+    "reopen validation derives graph state read-only and fails closed on persisted divergence",
+    "legacy command apply modules have no filesystem, network, Electron, renderer storage, direct core reducer import, UI command dispatch, or hot-path event listener bypass"
+  ],
+  "nextContour": "E02C_C03_LEGACY_MIGRATION_ROUNDTRIP_AND_SUNSET_EVIDENCE"
+}

@@ -157,6 +157,18 @@ export type CoreCommand =
       payload: { projectId: string; mapId: string; edgeId: string; fromNodeId: string; toNodeId: string; edgeKind?: string; label?: string }
     }
   | {
+      type: "manualMap.attachment.add"
+      payload: { projectId: string; mapId: string; nodeId: string; attachmentId: string; label: string; attachmentKind?: string; source: { name?: string; mediaType?: string; sourceHash: string; byteLength?: number } }
+    }
+  | {
+      type: "manualMap.portal.add"
+      payload: { projectId: string; mapId: string; portalId: string; fromNodeId: string; targetMapId: string; targetNodeId?: string; label?: string }
+    }
+  | {
+      type: "manualMap.template.apply"
+      payload: { projectId: string; mapId: string; templateInstanceId: string; templateId: string; templateName?: string; nodes: Array<{ nodeId: string; label: string; nodeKind?: string; position?: { x?: number; y?: number }; targetKind?: string; targetId?: string }>; edges?: Array<{ edgeId: string; fromNodeId: string; toNodeId: string; edgeKind?: string; label?: string }> }
+    }
+  | {
       type: string
       payload?: Record<string, unknown>
     };

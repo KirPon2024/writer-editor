@@ -72,6 +72,58 @@ function normalizeManualEdge(edge, edgeId, validNodeIds) {
   };
 }
 
+function normalizeManualAttachment(attachment, attachmentId, validNodeIds) {
+  const nodeId = normalizeString(attachment.nodeId);
+  if (!nodeId || !validNodeIds.has(nodeId)) return null;
+  const source = isPlainObject(attachment.source) ? attachment.source : {};
+  return {
+    id: normalizeString(attachment.id) || attachmentId,
+    nodeId,
+    label: normalizeString(attachment.label) || attachmentId,
+    kind: normalizeString(attachment.attachmentKind) || 'reference',
+    source: {
+      name: normalizeString(source.name),
+      mediaType: normalizeString(source.mediaType),
+      sourceHash: normalizeString(source.sourceHash),
+      byteLength: Math.max(0, Math.floor(normalizeNumber(source.byteLength))),
+    },
+    storedContent: attachment.storedContent === true,
+  };
+}
+
+function normalizeManualPortal(portal, portalId, validNodeIds) {
+  const fromNodeId = normalizeString(portal.fromNodeId);
+  const target = isPlainObject(portal.target) ? portal.target : {};
+  const targetMapId = normalizeString(target.mapId);
+  if (!fromNodeId || !validNodeIds.has(fromNodeId) || !targetMapId) return null;
+  return {
+    id: normalizeString(portal.id) || portalId,
+    fromNodeId,
+    target: {
+      mapId: targetMapId,
+      nodeId: normalizeString(target.nodeId),
+    },
+    label: normalizeString(portal.label) || 'Portal',
+  };
+}
+
+function normalizeManualTemplate(template, templateId, validNodeIds, validEdgeIds) {
+  const appliedNodeIds = Array.isArray(template.appliedNodeIds)
+    ? template.appliedNodeIds.map(normalizeString).filter((nodeId) => validNodeIds.has(nodeId)).sort()
+    : [];
+  const appliedEdgeIds = Array.isArray(template.appliedEdgeIds)
+    ? template.appliedEdgeIds.map(normalizeString).filter((edgeId) => validEdgeIds.has(edgeId)).sort()
+    : [];
+  if (appliedNodeIds.length === 0) return null;
+  return {
+    id: normalizeString(template.id) || templateId,
+    templateId: normalizeString(template.templateId),
+    name: normalizeString(template.name) || 'Manual map template',
+    appliedNodeIds,
+    appliedEdgeIds,
+  };
+}
+
 function buildManualMapGraph(coreState, projectId, mapId) {
   const project = getProject(coreState, projectId);
   if (!project) {
@@ -101,6 +153,25 @@ function buildManualMapGraph(coreState, projectId, mapId) {
     .sort()
     .map((edgeId) => normalizeManualEdge(isPlainObject(rawEdges[edgeId]) ? rawEdges[edgeId] : {}, edgeId, validNodeIds))
     .filter(Boolean);
+  const validEdgeIds = new Set(edges.map((edge) => edge.id));
+  const rawAttachments = isPlainObject(map.attachments) ? map.attachments : {};
+  const attachments = Object.keys(rawAttachments)
+    .sort()
+    .map((attachmentId) => normalizeManualAttachment(isPlainObject(rawAttachments[attachmentId]) ? rawAttachments[attachmentId] : {}, attachmentId, validNodeIds))
+    .filter(Boolean)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const rawPortals = isPlainObject(map.portals) ? map.portals : {};
+  const portals = Object.keys(rawPortals)
+    .sort()
+    .map((portalId) => normalizeManualPortal(isPlainObject(rawPortals[portalId]) ? rawPortals[portalId] : {}, portalId, validNodeIds))
+    .filter(Boolean)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const rawTemplates = isPlainObject(map.templates) ? map.templates : {};
+  const templates = Object.keys(rawTemplates)
+    .sort()
+    .map((templateId) => normalizeManualTemplate(isPlainObject(rawTemplates[templateId]) ? rawTemplates[templateId] : {}, templateId, validNodeIds, validEdgeIds))
+    .filter(Boolean)
+    .sort((a, b) => a.id.localeCompare(b.id));
   return {
     schemaVersion: MANUAL_MAP_GRAPH_SCHEMA_VERSION,
     projectId,
@@ -108,6 +179,9 @@ function buildManualMapGraph(coreState, projectId, mapId) {
     title: normalizeString(map.title) || mapId,
     nodes: sortMindMapNodes(nodes),
     edges: sortMindMapEdges(edges),
+    attachments,
+    portals,
+    templates,
   };
 }
 
@@ -160,6 +234,9 @@ export function deriveManualMapGraph(input = {}) {
         title: graph.title,
         nodes: graph.nodes,
         edges: graph.edges,
+        attachments: graph.attachments,
+        portals: graph.portals,
+        templates: graph.templates,
       });
       return {
         ...graph,

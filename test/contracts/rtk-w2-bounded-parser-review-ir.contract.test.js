@@ -16,9 +16,13 @@ const ALLOWLIST = [
   IR_PATH,
   ORACLE_PATH,
   ROUND_STORE_PATH,
+  'src/io/revisionBridge/reviewTransportApplyCore.mjs',
+  'src/io/revisionBridge/reviewTransportApplyStore.mjs',
+  'src/io/revisionBridge/reviewTransportExactApply.mjs',
   'test/contracts/rtk-g0b-feasibility.contract.test.js',
   'test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js',
   TEST_PATH,
+  'test/contracts/rtk-w3-exact-apply-replay.contract.test.js',
   'scripts/ops/sector-m-scope-map.json',
   'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
 ];

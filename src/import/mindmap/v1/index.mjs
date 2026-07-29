@@ -1,4 +1,13 @@
 export {
+  MANUAL_MAP_MARKDOWN_PORTABILITY_BRIDGE_RECEIPT_SCHEMA_VERSION,
+  MANUAL_MAP_MARKDOWN_PORTABILITY_BRIDGE_SCHEMA_VERSION,
+  applyManualMapMarkdownPortabilityBridgeViaCommandKernel,
+  buildManualMapMarkdownPortabilityBridge,
+  buildManualMapMarkdownPortabilityImportPlan,
+  parseManualMapMarkdownPortabilityBridge,
+} from './manualMapMarkdownPortabilityBridge.mjs';
+
+export {
   MANUAL_MAP_JSON_REPEAT_IMPORT_PLAN_SCHEMA_VERSION,
   MANUAL_MAP_JSON_REPEAT_IMPORT_RECEIPT_SCHEMA_VERSION,
   applyManualMapJsonRepeatImportViaCommandKernel,

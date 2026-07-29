@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E02D_C04_MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E02D_C04_MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE",
+  "programStage": "E02D_STAGE_02D_PORTABILITY_AND_TEMPLATES",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T21:31:15Z",
+  "baseSha": "70cf388c2496ef2d4ecd3ef4373872a633b613e3",
+  "compiledE02DQueue": [
+    "E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
+    "E02D_C02_MANUAL_MAP_JSON_REPEAT_IMPORT",
+    "E02D_C03_MANUAL_MAP_MARKDOWN_PORTABILITY_BRIDGE",
+    "E02D_C04_MANUAL_MAP_IMAGE_PDF_EXPORT_EVIDENCE"
+  ],
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a pure deterministic export-evidence builder for existing derived manual-map graph data. It creates no product UI surface, visual composition contract, layout system, palette, typography, or Design OS contribution.",
+  "featureIntegrationManifest": {
+    "featureId": "manualMap.imagePdfExportEvidence.v1",
+    "productPlane": {
+      "owner": "Product export evidence adapter over derived.manualMap.graph.v1",
+      "writePath": [
+        "No project truth write is performed",
+        "No filesystem write is performed",
+        "Future file materialization is explicitly delegated to a local-print-to-pdf-port adapter outside this evidence builder"
+      ],
+      "readPath": [
+        "derived.manualMap.graph.v1",
+        "manualMap.imagePdfExportEvidence.v1 SVG image packet",
+        "manualMap.imagePdfExportEvidence.v1 HTML print packet"
+      ],
+      "storageAdapter": "none",
+      "newStorageAdapter": false,
+      "projectTruthMutation": false
+    },
+    "commandPlane": {
+      "newCommands": [],
+      "capabilityRevalidation": "Not applicable in this contour because the builder is a read-only export evidence adapter and does not dispatch or admit commands."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "evidenceSchema": "manualMap.imagePdfExportEvidence.v1",
+    "sourceGraphSchema": "derived.manualMap.graph.v1",
+    "imageFormat": "svg",
+    "imageHashDeclared": true,
+    "pdfFormat": "pdf",
+    "pdfBinaryGenerated": false,
+    "pdfSourceFormat": "html-print-packet",
+    "pdfAdapterRequired": "local-print-to-pdf-port",
+    "evidenceHashDeclared": true,
+    "privatePathOrContentInputRejected": true,
+    "invalidGraphFailsClosed": true,
+    "sceneTextMutation": false,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "secondTruthStore": false
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --check src/export/mindmap/v1/manualMapImagePdfExportEvidence.mjs && node --check src/export/mindmap/v1/index.mjs && node --test test/contracts/yalken-atlas-v5-e02d-c04-manual-map-image-pdf-export-evidence.contract.test.js test/contracts/yalken-atlas-v5-e02d-c03-manual-map-markdown-portability-bridge.contract.test.js test/contracts/yalken-atlas-v5-e02d-c02-manual-map-json-repeat-import.contract.test.js test/contracts/yalken-atlas-v5-e02d-c01-manual-map-portability-attachments-portals-templates.contract.test.js",
+      "status": "PASS_17_TESTS_17_PASS_0_FAIL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm audit --audit-level=critical",
+      "status": "PASS_WITH_EXISTING_HIGH_AND_MODERATE_LOCKFILE_ADVISORIES"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS_795_TESTS_731_PASS_0_FAIL_64_SKIPPED"
+    }
+  ],
+  "negativeChecks": [
+    "private path fields in input graph attachments are rejected before image or PDF evidence generation",
+    "private content fields in input graph attachments are rejected before image or PDF evidence generation",
+    "missing identity and empty-node graph inputs fail closed",
+    "manual map image/PDF evidence module adds no filesystem, network, Electron, renderer storage, direct UI dispatch, or new storage adapter"
+  ],
+  "nextContour": "E03_C01_PLOT_IDEA_MEANING_CONTOUR_COMPILATION"
+}

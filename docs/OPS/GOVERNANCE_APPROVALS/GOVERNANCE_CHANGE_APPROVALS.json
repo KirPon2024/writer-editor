@@ -4144,6 +4144,20 @@
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
       "approvedAtUtc": "2026-07-29T17:45:00.000Z",
       "rationale": "Approve bounded W5 V6 contract coverage proving local release-hardening proof hooks are bound while external Word certification remains resumable, false Word PASS and false DONE mutations fail, and broad Word or release claims remain forbidden; no dependency, UI, runtime, import/export behavior, package publication, or product capability is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
+      "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
+      "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+      "approvedAtUtc": "2026-07-29T17:43:00.000Z",
+      "rationale": "Approve bounded Stage 00 binding and calibration receipt plus contract test for Yalken Atlas V5 autonomous execution. This records project binding, current reality, gate mapping, dependency decision, Stage 01 contour queue, and target-only separation while preserving no product runtime implementation, no new dependency, no second registry, no UI change, no release readiness claim, and no bypass of active canon."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",
+      "sha256": "792deeab574395469beb7d435468970480be0a9a6cd1a435d1fcb9c0f3472197",
+      "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+      "approvedAtUtc": "2026-07-29T17:43:00.000Z",
+      "rationale": "Approve bounded Stage 00 binding and calibration receipt plus contract test for Yalken Atlas V5 autonomous execution. This records project binding, current reality, gate mapping, dependency decision, Stage 01 contour queue, and target-only separation while preserving no product runtime implementation, no new dependency, no second registry, no UI change, no release readiness claim, and no bypass of active canon."
     }
   ]
 }

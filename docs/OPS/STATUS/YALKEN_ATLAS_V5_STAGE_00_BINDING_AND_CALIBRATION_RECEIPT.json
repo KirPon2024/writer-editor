@@ -1,0 +1,564 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "STAGE_00_BINDING_AND_CALIBRATION",
+  "programStage": "STAGE_00",
+  "status": "STAGE_00_READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T17:39:35Z",
+  "designToolRouter": "NOT_APPLICABLE",
+  "immutableContract": {
+    "source": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5.md",
+    "boundSha256": "4f0a9daf49541abf26f314c0a3d0720e4639ba4d765e87753a6465b34048d217",
+    "observedSha256": "4f0a9daf49541abf26f314c0a3d0720e4639ba4d765e87753a6465b34048d217",
+    "match": true
+  },
+  "projectAndMutationOwnerBinding": {
+    "projectFingerprintSha256": "4db243ce03ab31b5178d711630d218bb2d5b1dac64909b81b652d3e2df566a2e",
+    "mutationOwner": "YALKEN_WRITER_REPOSITORY_ONLY",
+    "remote": "https://github.com/KirPonomarev/writer-editor.git",
+    "defaultBranch": "main",
+    "bindingBaseSha": "3c4e791b9ee41e8c3d586f18f62a9430c336e9bf",
+    "expectedTargetHead": "3c4e791b9ee41e8c3d586f18f62a9430c336e9bf",
+    "activeCanonPath": "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+    "activeCanonVersion": "v3.13a-final",
+    "activeCanonStatus": "ACTIVE_CANON",
+    "worktreeStrategy": "AGENT_MANAGED_T7_LINKED_WORKTREE",
+    "activeWorktree": "atlas-v5-e00",
+    "activeBranch": "codex/yalken-atlas-v5-e00",
+    "canonicalCheckoutTouched": false,
+    "t7Secure": {
+      "mounted": true,
+      "writable": true,
+      "volumeUuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+      "fileVault": "YES"
+    }
+  },
+  "currentRealityMap": {
+    "liveRuntime": [
+      "desktop_first_electron_shell",
+      "tiptap_oss_editor_surface",
+      "canonical_project_scene_export_ir",
+      "docx_markdown_txt_pdf_export_paths",
+      "atomic_write_and_recovery_electron_tests",
+      "partial_ports_dialog_filesystem_platform_info",
+      "command_capability_policy_artifacts",
+      "design_os_doctrine_and_partial_shell_runtime",
+      "derived_mindmap_export_serializer_v1"
+    ],
+    "notLiveRuntime": [
+      "automatic_atlas_domain",
+      "atlas_entity_alias_decision_store",
+      "atlas_exact_mention_analyzer",
+      "atlas_current_scene_surface",
+      "entity_dossier_surface",
+      "graph_workbench_runtime",
+      "manual_map_author_data_runtime",
+      "language_basic_or_deep_analyzers",
+      "atlas_gate_claims_as_blocking_release_tokens"
+    ],
+    "baselineChecks": [
+      {
+        "command": "npm run -s oss:policy",
+        "status": "PASS"
+      },
+      {
+        "command": "npm run -s design-os:doctrine",
+        "status": "PASS"
+      },
+      {
+        "command": "npm run -s test:ops",
+        "status": "PASS"
+      },
+      {
+        "command": "npm run -s perf:lite",
+        "status": "PASS"
+      }
+    ],
+    "designToolRouterReason": "Stage 00 is control-plane binding and does not create or visibly change a product UI screen."
+  },
+  "activeSeamMap": {
+    "productPlane": [
+      {
+        "seam": "Project scenes and CompileIR",
+        "status": "LIVE",
+        "refs": [
+          "src/export/compile-ir.js"
+        ]
+      },
+      {
+        "seam": "Atomic write and recovery tests",
+        "status": "LIVE",
+        "refs": [
+          "test/electron/atomicWrite.test.js",
+          "test/electron/backupManager.test.js",
+          "test/electron/migrationHardening.test.js"
+        ]
+      },
+      {
+        "seam": "Mindmap export serializer",
+        "status": "DERIVED_EXPORT_ONLY",
+        "refs": [
+          "src/export/mindmap/v1/serializeMindMapV1.mjs"
+        ]
+      },
+      {
+        "seam": "Product ports",
+        "status": "PARTIAL",
+        "refs": [
+          "src/ports/DialogPort.mjs",
+          "src/ports/FileSystemPort.mjs",
+          "src/ports/PlatformInfoPort.mjs"
+        ]
+      }
+    ],
+    "commandPlane": [
+      {
+        "seam": "Capability and command status artifacts",
+        "status": "PARTIAL_LIVE",
+        "refs": [
+          "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
+          "docs/OPS/STATUS/COMMAND_ID_STANDARD_V1.json",
+          "scripts/guards/platform-capability-resolver.mjs"
+        ]
+      }
+    ],
+    "interfacePlane": [
+      {
+        "seam": "Design OS doctrine and partial shell ports",
+        "status": "PARTIAL_LIVE",
+        "refs": [
+          "docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md",
+          "docs/YALKEN_DESIGN_OS_CHANGE_GUIDE_V2_2.md"
+        ]
+      }
+    ],
+    "gateInfrastructure": [
+      {
+        "seam": "Token catalog",
+        "status": "LIVE_EXISTING_REGISTRY",
+        "refs": [
+          "docs/OPS/TOKENS/TOKEN_CATALOG.json"
+        ]
+      },
+      {
+        "seam": "Failsignal registry",
+        "status": "LIVE_EXISTING_REGISTRY",
+        "refs": [
+          "docs/OPS/FAILSIGNALS/FAILSIGNAL_REGISTRY.json"
+        ]
+      },
+      {
+        "seam": "Critical claim matrix",
+        "status": "LIVE_EXISTING_REGISTRY",
+        "refs": [
+          "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json"
+        ]
+      }
+    ]
+  },
+  "dependencyDecisionRegistry": {
+    "newDependenciesAdded": [],
+    "stage00Decision": "NO_NEW_DEPENDENCY",
+    "knownReferenceCandidates": [
+      {
+        "name": "markmap",
+        "license": "MIT",
+        "source": "docs/references/projects/markmap.md",
+        "decision": "REFERENCE_ONLY_FOR_STAGE_02_RENDERER_RESEARCH"
+      }
+    ],
+    "stage01DependencyPolicy": "Use existing Node and Electron runtime only; exact Atlas slice starts with deterministic local algorithms and no paid, cloud, model download, or UI framework dependency."
+  },
+  "performanceBaseline": {
+    "hardwareProfile": "LOCAL_T7_SECURE_MACOS_DEV_WORKTREE",
+    "measurementCommand": "npm run -s perf:lite",
+    "status": "PASS",
+    "fixturePath": "test/fixtures/perf/long-scene.txt",
+    "fixtureBytes": 373392,
+    "runs": 9,
+    "metrics": {
+      "openP95Ms": 3.366,
+      "typeBurstP95Ms": 0.961,
+      "saveP95Ms": 1.405,
+      "reopenP95Ms": 3.515,
+      "longTaskCount": 0
+    },
+    "stage00BudgetInterpretation": "Current numbers bind only the existing baseline and Stage 01 hot-path guard; V5 large corpus budgets remain future-stage targets until generated and measured."
+  },
+  "corpusPackV1": {
+    "existingFixtures": [
+      {
+        "id": "MVP_LONG_SCENE",
+        "path": "test/fixtures/perf/long-scene.txt",
+        "bytes": 373392,
+        "usedBy": [
+          "perf:lite"
+        ]
+      },
+      {
+        "id": "MINDMAP_EXPORT_FIXTURES",
+        "path": "test/fixtures",
+        "usedBy": [
+          "mindmap_export_serializer_contracts_when_compiled"
+        ]
+      }
+    ],
+    "stage01FixturesToCreate": [
+      "single_scene_exact_alias_mentions_unicode",
+      "stale_generation_rejection",
+      "cache_delete_rebuild",
+      "reopen_author_decision_persistence"
+    ],
+    "futureV5ScaleTargets": [
+      "100k_words",
+      "500k_words",
+      "2m_words",
+      "10k_manual_map_nodes",
+      "unicode_edge_offsets",
+      "mixed_language_exact_only"
+    ]
+  },
+  "graphRendererDecisionRecord": {
+    "decision": "DEFER_RENDERER_SELECTION",
+    "stage01RendererNeed": "NOT_REQUIRED_FOR_EXACT_ATLAS_SLICE",
+    "stage02DecisionGate": "BENCHMARK_DOM_SVG_CANVAS_OR_HYBRID_BEFORE_GRAPH_WORKBENCH_RUNTIME",
+    "constraints": [
+      "no_ui_framework_dependency",
+      "no_heavy_layout_in_typing_hot_path",
+      "list_table_matrix_parity_required",
+      "renderer_adapter_not_product_truth"
+    ]
+  },
+  "languageCapabilityMatrix": {
+    "global": {
+      "claimStatus": "TARGET_FOR_STAGE_01_EXACT_ALIAS_ANALYZER",
+      "currentRuntime": "NO_ATLAS_ANALYZER_LIVE",
+      "stage01Allowed": [
+        "unicode_preserving_exact_string_matching",
+        "manual_aliases",
+        "evidence_anchors"
+      ]
+    },
+    "basic": {
+      "claimStatus": "TARGET_ONLY_FUTURE_STAGE",
+      "currentRuntime": "NOT_LIVE"
+    },
+    "deep": {
+      "claimStatus": "TARGET_ONLY_FUTURE_STAGE",
+      "currentRuntime": "NOT_LIVE",
+      "decisionGate": "LANGUAGE_ENGINE_DECISION_BEFORE_ANY_DEEP_CLAIM"
+    },
+    "unsupportedLanguagePolicy": "exact_only_no_english_fallback"
+  },
+  "gateModeAdapterMap": {
+    "PLAN_PR": {
+      "existingRoute": "npm run -s test:ops plus focused node --test suites",
+      "status": "AVAILABLE"
+    },
+    "PLAN_RELEASE": {
+      "existingRoute": "npm test and promotion:check where stage risk requires",
+      "status": "AVAILABLE_WITH_TEST_ECONOMY"
+    },
+    "PLAN_PROMOTION": {
+      "existingRoute": "npm run -s promotion:check",
+      "status": "AVAILABLE"
+    },
+    "PLAN_NIGHTLY": {
+      "existingRoute": "future scheduled heavy corpus suites",
+      "status": "TARGET_ONLY"
+    },
+    "secondRegistryCreated": false
+  },
+  "atlasGateFamilyMap": [
+    {
+      "family": "AUTHOR_DATA_DURABILITY_OK",
+      "existingBindings": [
+        "RECOVERY_IO_OK",
+        "MIGRATIONS_ATOMICITY_OK",
+        "test/electron/atomicWrite.test.js"
+      ],
+      "stage01Need": "author entity alias persistence and reopen"
+    },
+    {
+      "family": "PACKAGED_CRITICAL_JOURNEY_OK",
+      "existingBindings": [
+        "E2E_CRITICAL_USER_PATH_OK",
+        "scripts/run-tests.js"
+      ],
+      "stage01Need": "exact Atlas packaged journey after runtime slice"
+    },
+    {
+      "family": "CANONICAL_MUTATION_BOUNDARY_OK",
+      "existingBindings": [
+        "COMMAND_CAPABILITY_BINDING.json",
+        "platform-capability-resolver.mjs",
+        "command-surface-bus-only contract family"
+      ],
+      "stage01Need": "Atlas author decisions mutate only through command authority"
+    },
+    {
+      "family": "DERIVED_ISOLATION_AND_PUBLICATION_OK",
+      "existingBindings": [
+        "derived mindmap export seams",
+        "future Atlas derived tests"
+      ],
+      "stage01Need": "exact mentions are derived, stale guarded, and rebuildable"
+    },
+    {
+      "family": "NARRATIVE_EVIDENCE_AND_LANGUAGE_TRUTH_OK",
+      "existingBindings": [
+        "compile-ir scene identity",
+        "future evidence anchor fixtures"
+      ],
+      "stage01Need": "mentions point to exact scene text and unsupported languages remain exact-only"
+    },
+    {
+      "family": "INTERACTION_BUDGET_OK",
+      "existingBindings": [
+        "perf:lite",
+        "B3C09_PERFORMANCE_BASELINE_BINDING_STATUS_V1.json"
+      ],
+      "stage01Need": "no exact analyzer work in typing hot path"
+    },
+    {
+      "family": "OFFLINE_SECURITY_AND_ACTIVE_PLATFORM_OK",
+      "existingBindings": [
+        "oss:policy",
+        "B3C06_NO_NETWORK_WRITING_PATH_STATUS_V1.json",
+        "B3C07_SECURITY_RUNTIME_BOUNDARY_STATUS_V1.json"
+      ],
+      "stage01Need": "offline local deterministic analyzer only"
+    }
+  ],
+  "featureIntegrationManifestStage01": {
+    "featureId": "atlas.exact.v1",
+    "featureVersion": "0.1.0-stage01",
+    "domainOwner": "Product Core",
+    "authoritativeData": [
+      "Entity",
+      "Alias",
+      "AuthorDecision"
+    ],
+    "derivedData": [
+      "ExactMention",
+      "EvidenceAnchor",
+      "SceneMentionShard",
+      "AtlasProjection"
+    ],
+    "commandIds": [
+      "atlas.entity.create",
+      "atlas.entity.rename",
+      "atlas.alias.add",
+      "atlas.candidate.confirm",
+      "atlas.candidate.reject"
+    ],
+    "eventTypes": [
+      "EntityCreated",
+      "AliasChanged",
+      "DecisionCommitted",
+      "ProjectionInvalidated",
+      "DerivedGenerationPublished",
+      "DerivedGenerationRejectedAsStale"
+    ],
+    "queryIds": [
+      "GetCurrentSceneAtlas",
+      "GetEntityDossier",
+      "GetEvidenceLedger",
+      "GetDerivedDiagnostics"
+    ],
+    "productProjectionIds": [
+      "atlas.currentScene.v1",
+      "atlas.entityDossier.v1"
+    ],
+    "capabilityIds": [
+      "atlas.exact.global",
+      "atlas.authorDecision.local"
+    ],
+    "authorityMap": {
+      "productTruth": "Product Core owns entities, aliases, decisions, persistence, recovery.",
+      "commandTruth": "Command Kernel owns command IDs, payload validation, capability revalidation, and dispatch.",
+      "designTruth": "Design OS owns only future surface form and placement."
+    },
+    "identityKeys": [
+      "projectId",
+      "sceneId",
+      "sourceRevision",
+      "derivedGenerationId",
+      "entityId",
+      "evidenceAnchorId"
+    ],
+    "revisionPolicy": "Derived publications require matching projectId, sceneId, sourceRevision, and derivedGenerationId.",
+    "writePath": "Surface or test intent -> Command Kernel -> validated Atlas domain use case -> atomic project mutation -> domain event -> projection invalidation.",
+    "readPath": "Project scenes and Atlas author data -> exact analyzer and projection builder -> immutable projection -> future Design OS surface.",
+    "requiredProductPorts": [
+      "ProjectPersistencePort when crossing storage boundary",
+      "AnalysisExecutionPort when exact analysis leaves synchronous domain module",
+      "WorkerExecutionPort only if Stage 01 benchmark requires worker isolation"
+    ],
+    "requiredDesignOsPorts": [
+      "CommandCatalogPort",
+      "CommandDispatchPort",
+      "DomainProjectionPort",
+      "ShellProjectionPort"
+    ],
+    "adapterRequirements": [
+      "local_only",
+      "offline",
+      "bounded_input",
+      "no_remote_code"
+    ],
+    "surfaceManifests": [
+      {
+        "surfaceId": "atlas.currentScene.context.v1",
+        "status": "TARGET_FOR_STAGE01_UI_CONTOUR"
+      },
+      {
+        "surfaceId": "atlas.entityDossier.v1",
+        "status": "TARGET_FOR_STAGE01_UI_CONTOUR"
+      }
+    ],
+    "slotRequirements": [
+      "existing_review_or_context_slot_or_new_manifested_slot_before_ui_runtime"
+    ],
+    "supportedWorkspaces": [
+      "WRITE",
+      "REVIEW"
+    ],
+    "platformAvailability": [
+      "P0_CURRENT_DESKTOP_DEV"
+    ],
+    "accessibilityRequirements": [
+      "keyboard_access_to_mentions",
+      "list_fallback_for_dossier",
+      "trust_state_not_color_only"
+    ],
+    "fallbacks": [
+      "Atlas unavailable leaves manuscript editing unaffected",
+      "Unsupported language uses exact-only matching",
+      "Missing surface exposes command/query test route without product data loss"
+    ],
+    "stateClasses": {
+      "projectState": [
+        "Entity",
+        "Alias",
+        "AuthorDecision"
+      ],
+      "authoringWorkingState": [
+        "unsaved_editor_text_not_read_by_stale_generation"
+      ],
+      "derivedState": [
+        "ExactMention",
+        "EvidenceAnchor",
+        "SceneMentionShard"
+      ],
+      "shellState": [
+        "future_surface_visibility_and_layout_only"
+      ],
+      "transientState": [
+        "hover",
+        "selection_paint"
+      ]
+    },
+    "persistenceClass": "Project author data durable; derived exact mention shards rebuildable.",
+    "migrations": [
+      "none_in_stage00",
+      "stage01_may_add_reversible_schema_if_current_project_format_requires"
+    ],
+    "recovery": [
+      "author data reopens after save",
+      "derived cache deletion rebuilds",
+      "stale generation rejected"
+    ],
+    "rollback": [
+      "remove Stage 01 Atlas author records via migration rollback before activation or keep unknown fields preserved after activation"
+    ],
+    "performanceBudget": [
+      "no full analysis or graph layout in typing hot path",
+      "current scene exact projection target remains below 300ms p95 after calibration"
+    ],
+    "securityBoundary": [
+      "no network",
+      "no remote code",
+      "bounded payload validation",
+      "worker has no storage authority"
+    ],
+    "lifecycle": [
+      "explicit command or save event invalidates projection",
+      "scheduler coalesces exact analysis",
+      "CAS publish only on matching revision"
+    ],
+    "negativeBypassChecks": [
+      "UI cannot write Atlas author data directly",
+      "worker cannot write project storage",
+      "visibility does not satisfy capability",
+      "stale derived generation cannot publish",
+      "analysis never mutates manuscript"
+    ],
+    "evidenceBindings": [
+      "Stage 01 focused contracts to be created with runtime slice"
+    ],
+    "currentReality": "TARGET_ONLY_UNTIL_STAGE01_RUNTIME_CONTOURS_MERGE"
+  },
+  "stage01ContourQueue": [
+    {
+      "contourId": "E01_C01_ATLAS_AUTHOR_DATA_AND_COMMAND_BOUNDARY",
+      "userOutcome": "Author can create an entity and alias through canonical command authority and reopen the project without losing author data.",
+      "integrationMode": "EXISTING_SEAM_WITH_MINIMAL_NEW_DOMAIN_MODULES",
+      "primaryRisk": "Atlas author data bypasses Command Kernel or project recovery.",
+      "focusedChecks": [
+        "command payload validation",
+        "capability revalidation",
+        "save_reopen_author_data",
+        "negative_direct_storage_bypass"
+      ]
+    },
+    {
+      "contourId": "E01_C02_EXACT_MENTION_ANALYZER_AND_EVIDENCE_ANCHORS",
+      "userOutcome": "Author sees exact alias mentions bound to scene text evidence without manuscript mutation.",
+      "integrationMode": "EXISTING_SEAM_PLUS_DERIVED_GENERATION_MODULE",
+      "primaryRisk": "Derived analyzer mutates text or publishes stale evidence.",
+      "focusedChecks": [
+        "unicode_exact_mentions",
+        "source_revision_guard",
+        "stale_generation_rejection",
+        "cache_delete_rebuild"
+      ]
+    },
+    {
+      "contourId": "E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_AND_DOSSIER_SURFACE",
+      "userOutcome": "Author opens current scene Atlas context and entity dossier through immutable projections.",
+      "integrationMode": "EXISTING_SEAM_WITH_SURFACE_MANIFEST",
+      "primaryRisk": "UI computes semantic truth or changes toolbar baseline.",
+      "focusedChecks": [
+        "surface_manifest_contract",
+        "projection_identity",
+        "keyboard_list_fallback",
+        "toolbar_baseline_no_change"
+      ]
+    },
+    {
+      "contourId": "E01_C04_EXACT_ATLAS_RECOVERY_EXPORT_AND_PACKAGED_JOURNEY",
+      "userOutcome": "Exact Atlas slice survives cache deletion, reopen, export IR, and packaged critical journey.",
+      "integrationMode": "EXISTING_SEAM_WITH_EXPORT_EXTENSION",
+      "primaryRisk": "Runtime claim greens without end-to-end recovery evidence.",
+      "focusedChecks": [
+        "export_ir_contains_atlas_author_data",
+        "derived_cache_rebuild",
+        "packaged_exact_journey",
+        "seven_gate_family_stage01_rollup"
+      ]
+    }
+  ],
+  "stage00Acceptance": {
+    "noTargetOnlyClaimMarkedLive": true,
+    "linearStage01OrderExists": true,
+    "rollbackDefined": true,
+    "focusedChecksDefined": true,
+    "secondTrackerCreated": false,
+    "secondTokenRegistryCreated": false,
+    "productRuntimeChanged": false,
+    "readyForE01CompilationAfterMerge": true
+  }
+}

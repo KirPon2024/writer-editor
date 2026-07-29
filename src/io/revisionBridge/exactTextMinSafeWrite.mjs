@@ -257,7 +257,7 @@ function countOccurrences(text, needle) {
     const found = text.indexOf(needle, cursor);
     if (found === -1) break;
     count += 1;
-    cursor = found + needle.length;
+    cursor = found + 1;
   }
   return count;
 }
@@ -400,6 +400,14 @@ function normalizeBatchTextChange(item) {
   return isPlainObject(item?.textChange) ? item.textChange : item;
 }
 
+function hasOverlappingRange(left, right) {
+  return left.from < right.to && right.from < left.to;
+}
+
+function isClosedRevisionSession(status) {
+  return ['closed', 'archived', 'completed', 'resolved'].includes(normalizeString(status));
+}
+
 export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) {
   if (!isPlainObject(input)) {
     return block(buildReason(
@@ -444,6 +452,56 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     ));
   }
 
+  const projectId = rawString(input.projectSnapshot?.projectId || input.revisionSession?.projectId);
+  const sessionProjectId = rawString(input.revisionSession?.projectId);
+  const snapshotProjectId = rawString(input.projectSnapshot?.projectId);
+  if (snapshotProjectId && sessionProjectId && snapshotProjectId !== sessionProjectId) {
+    return block(buildReason(
+      'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_PROJECT_MISMATCH',
+      'projectId',
+      'projectSnapshot.projectId differs from revisionSession.projectId',
+      {
+        expectedProjectId: sessionProjectId,
+        observedProjectId: snapshotProjectId,
+      },
+    ));
+  }
+
+  const baselineHash = rawString(input.projectSnapshot?.baselineHash || input.revisionSession?.baselineHash);
+  const sessionBaselineHash = rawString(input.revisionSession?.baselineHash);
+  const snapshotBaselineHash = rawString(input.projectSnapshot?.baselineHash);
+  if (snapshotBaselineHash && sessionBaselineHash && snapshotBaselineHash !== sessionBaselineHash) {
+    return block(buildReason(
+      'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_STALE_BASELINE',
+      'baselineHash',
+      'projectSnapshot.baselineHash differs from revisionSession.baselineHash',
+      {
+        expectedBaselineHash: sessionBaselineHash,
+        observedBaselineHash: snapshotBaselineHash,
+      },
+    ));
+  }
+
+  if (isClosedRevisionSession(input.revisionSession?.status)) {
+    return block(buildReason(
+      'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_SESSION_CLOSED',
+      'revisionSession.status',
+      'closed revision session cannot produce batch apply ops',
+      {
+        sessionStatus: normalizeString(input.revisionSession?.status),
+      },
+    ));
+  }
+
+  if (Array.isArray(input.revisionSession?.reviewGraph?.structuralChanges)
+    && input.revisionSession.reviewGraph.structuralChanges.length > 0) {
+    return block(buildReason(
+      'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_STRUCTURAL_CHANGE',
+      'reviewGraph.structuralChanges',
+      'structural changes are manual-only for exact text batch apply',
+    ));
+  }
+
   const sceneIds = [...new Set(reviewItems
     .map((item) => normalizeString(item?.targetScope?.id))
     .filter(Boolean))];
@@ -458,6 +516,21 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       {
         sceneIds,
         targetScopeTypes,
+      },
+    ));
+  }
+
+  const changeIds = reviewItems.map((item) => normalizeString(item?.changeId));
+  const duplicateChangeId = changeIds.find((changeId, index) => (
+    changeId && changeIds.indexOf(changeId) !== index
+  ));
+  if (duplicateChangeId) {
+    return block(buildReason(
+      'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_DUPLICATE_CHANGE_ID',
+      'reviewItems.changeId',
+      'batch text changes must have unique changeIds',
+      {
+        changeId: duplicateChangeId,
       },
     ));
   }
@@ -500,7 +573,6 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     ));
   }
 
-  let nextText = currentText;
   const operations = [];
   for (const item of reviewItems) {
     const changeId = normalizeString(item?.changeId);
@@ -540,7 +612,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       ));
     }
 
-    const occurrenceCount = countOccurrences(nextText, expectedText);
+    const occurrenceCount = countOccurrences(currentText, expectedText);
     if (occurrenceCount === 0) {
       return block(buildReason(
         'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_NO_MATCH',
@@ -561,9 +633,9 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       ));
     }
 
-    const from = nextText.indexOf(expectedText);
+    const from = currentText.indexOf(expectedText);
     const to = from + expectedText.length;
-    operations.push({
+    const operation = {
       kind: 'replaceExactText',
       sceneId,
       changeId,
@@ -571,8 +643,31 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       to,
       expectedText,
       replacementText,
-    });
-    nextText = `${nextText.slice(0, from)}${replacementText}${nextText.slice(to)}`;
+    };
+    const overlappingOperation = operations.find((existing) => hasOverlappingRange(existing, operation));
+    if (overlappingOperation) {
+      return block(buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_OVERLAPPING_RANGE',
+        'reviewItems.match.quote',
+        'batch exact apply ranges must be disjoint on the immutable baseline',
+        {
+          changeId,
+          overlappingChangeId: overlappingOperation.changeId,
+          range: { from, to },
+          overlappingRange: { from: overlappingOperation.from, to: overlappingOperation.to },
+        },
+      ));
+    }
+    operations.push(operation);
+  }
+
+  let nextText = currentText;
+  const operationsRightToLeft = operations.slice().sort((left, right) => (
+    right.from - left.from
+    || String(right.changeId).localeCompare(String(left.changeId))
+  ));
+  for (const operation of operationsRightToLeft) {
+    nextText = `${nextText.slice(0, operation.from)}${operation.replacementText}${nextText.slice(operation.to)}`;
   }
 
   if (nextText === currentText) {
@@ -603,7 +698,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       afterHash: outputHash,
       inputHash,
       operationKind: 'replaceExactTextBatch',
-      projectId: rawString(input.projectSnapshot?.projectId || input.revisionSession?.projectId),
+      projectId,
       sessionId: rawString(input.revisionSession?.sessionId),
       sceneId,
       changeIds: operations.map((operation) => operation.changeId),
@@ -677,11 +772,11 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
     const receipt = {
       schemaVersion: REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_RECEIPT_SCHEMA,
       operationId: journalRef.entry.operationId,
-      projectId: rawString(input.projectSnapshot?.projectId || input.revisionSession?.projectId),
+      projectId,
       sessionId: rawString(input.revisionSession?.sessionId),
       sceneId,
       changeIds: operations.map((operation) => operation.changeId),
-      baselineHashBefore: rawString(input.projectSnapshot?.baselineHash || input.revisionSession?.baselineHash),
+      baselineHashBefore: baselineHash,
       operationKind: 'replaceExactTextBatch',
       writeStatus: 'applied',
       backupId,

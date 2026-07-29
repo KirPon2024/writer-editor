@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "G0C_EXISTING_EXACT_SAFETY_RECEIPT",
+  "missionId": "YALKEN_RTK_D1_END_TO_END",
+  "stageId": "G0C_EXISTING_EXACT_SAFETY_REPAIR",
+  "candidateBaseSha": "e3aa6f073a1c9c532135538b250c6f986cbaf778",
+  "status": "PASS_LOCAL_READY_FOR_PR",
+  "producer": "manual V6 G0C implementation with focused contract tests",
+  "sourceDigests": {
+    "src/io/revisionBridge/index.mjs": "9acb4b8e817ae85f0e5f2cfcde13b6904924d9edd355f704bff7b51d13b6fbcf",
+    "src/io/revisionBridge/exactTextMinSafeWrite.mjs": "69db066f3d65efd066c6e5efa5da557ac6c5ac6aa100c328a4c0a1638683d719",
+    "test/contracts/revision-bridge-exact-text-apply-plan-no-disk.contract.test.js": "90f1390e0480b33d3b64fab789c63443e007a4537d7569e5feecc1f41f48a4f7",
+    "test/contracts/revision-bridge-exact-text-min-safe-write.contract.test.js": "7a90db8e2becd24c5aaea4d685bc67806a0c666256f41ba68c00cec1eb7e0325",
+    "test/contracts/rtk-g0c-exact-safety.contract.test.js": "8a0b250eee1c72300bbd2d68846b92c89f79b949b25bfda5b6dec6e47587916c"
+  },
+  "contractTests": [
+    "test/contracts/rtk-g0c-exact-safety.contract.test.js",
+    "test/contracts/revision-bridge-exact-text-apply-plan-no-disk.contract.test.js",
+    "test/contracts/revision-bridge-exact-text-min-safe-write.contract.test.js",
+    "test/contracts/revision-bridge-exact-text-apply-crash-reconciliation.contract.test.js"
+  ],
+  "focusedChecks": [
+    {
+      "command": "node --test test/contracts/rtk-g0c-exact-safety.contract.test.js",
+      "status": "PASS",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0
+    },
+    {
+      "command": "node --test test/contracts/revision-bridge-exact-text-apply-plan-no-disk.contract.test.js test/contracts/revision-bridge-exact-text-min-safe-write.contract.test.js test/contracts/revision-bridge-exact-text-apply-crash-reconciliation.contract.test.js test/contracts/rtk-g0c-exact-safety.contract.test.js",
+      "status": "PASS",
+      "tests": 32,
+      "pass": 32,
+      "fail": 0
+    }
+  ],
+  "affectedChecks": [
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "npm test",
+      "status": "PASS",
+      "tests": 785,
+      "pass": 721,
+      "fail": 0,
+      "skip": 64
+    }
+  ],
+  "safetyAssertions": [
+    "overlapping exact occurrences are counted with step one",
+    "batch ranges are computed on immutable current baseline text",
+    "duplicate change IDs block before write",
+    "overlapping baseline ranges block before write",
+    "disjoint batch permutations produce the same final output hash",
+    "one operation cannot manufacture authority for a later operation",
+    "project, baseline, closed-session and structural batch contradictions block with stable typed reasons",
+    "tampered claimed single-plan binding hard-fails with zero writes",
+    "negative cases return no receipt and leave target text unchanged"
+  ],
+  "requiredCi": [
+    "oss-policy",
+    "lockfile",
+    "x1-runtime-parity"
+  ],
+  "delivery": {
+    "commit": null,
+    "push": null,
+    "pr": null,
+    "merge": null
+  },
+  "notes": [
+    "G0C repairs the existing exact planner and same-scene batch safe writer only.",
+    "No new runtime dependency, network behavior, DOCX writer change, parser, Review UI, cross-scene transaction, structural apply, or DOCX apply authority is introduced."
+  ]
+}

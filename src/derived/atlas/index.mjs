@@ -11,8 +11,20 @@ export {
   sortAtlasMentions,
   sortAtlasSceneShards,
 } from './atlasMentionTypes.mjs';
+export {
+  ATLAS_OBSERVATION_AGGREGATE_SCHEMA_VERSION,
+  ATLAS_OBSERVATION_ANALYZER_ID,
+  ATLAS_OBSERVATION_CANDIDATE_SCHEMA_VERSION,
+  ATLAS_OBSERVATION_LANGUAGE_POLICY,
+  ATLAS_OBSERVATION_SCHEMA_VERSION,
+  normalizeAtlasObservationLanguagePolicy,
+  sortAtlasObservationCandidates,
+  sortAtlasObservationEntityAggregates,
+  sortAtlasObservations,
+} from './atlasObservationTypes.mjs';
 export { deriveAtlasMentionIndex, ATLAS_MENTION_INDEX_VIEW_ID } from './deriveAtlasMentionIndex.mjs';
 export { deriveAtlasCurrentSceneDossier, ATLAS_CURRENT_SCENE_DOSSIER_VIEW_ID } from './deriveAtlasCurrentSceneDossier.mjs';
+export { deriveAtlasObservationAggregate, ATLAS_OBSERVATION_AGGREGATE_VIEW_ID } from './deriveAtlasObservationAggregate.mjs';
 export {
   ATLAS_GENERATION_MANIFEST_VIEW_ID,
   canPublishAtlasGeneration,

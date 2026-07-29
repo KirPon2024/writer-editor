@@ -4508,6 +4508,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C00_DETERMINISTIC_ATLAS_CONTOUR_COMPILATION",
       "approvedAtUtc": "2026-07-29T23:09:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E04 C00 compilation receipt: records current deterministic Atlas runtime facts and compiles a linear Stage 04 queue for observation candidate aggregates, alias scope and suppression, co-occurrence first-last absence intervals, explicit merge split reassign restore, evidence reattachment review inbox, and local graph cluster layout budget proof; this contour adds no runtime code, UI surface, storage adapter, network, cloud, paid service, dependency, or release readiness widening."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C01_ATLAS_OBSERVATION_CANDIDATE_AGGREGATE_MODEL_RECEIPT.json",
+      "sha256": "8357b731d7563f627f887ff4807515240a88042be4af79aee01ded3fb3a72e76",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C01_ATLAS_OBSERVATION_CANDIDATE_AGGREGATE_MODEL",
+      "approvedAtUtc": "2026-07-29T23:40:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E04 C01 contract: adds a deterministic derived Atlas observation aggregate over the existing exact mention index, with BASIC exact-term candidate and observation schemas, evidence anchors required for every observation, unsupported-language exact-only behavior, read-only aggregate authority, and no UI, storage, network, command, dependency, or external-service expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e04-c01-atlas-observation-candidate-aggregate-model.contract.test.js",
+      "sha256": "eed613bd977c55e9665d63c0be50f14e5559c023f17d96397bc5680216c1249b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C01_ATLAS_OBSERVATION_CANDIDATE_AGGREGATE_MODEL",
+      "approvedAtUtc": "2026-07-29T23:41:00.000Z",
+      "rationale": "Approve E04 C01 contract test coverage for the deterministic Atlas observation aggregate: proves BASIC candidate and observation outputs, evidence-required invariants, unsupported-language exact-only behavior, deterministic invalidation, capability fail-closed behavior, and side-effect guard coverage for the derived Atlas layer."
     }
   ]
 }

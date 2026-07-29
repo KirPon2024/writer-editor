@@ -70,3 +70,47 @@ test('feature integration doctrine rejects a missing package script binding', as
   assert.equal(result.ok, false);
   assert.ok(result.errors.some((entry) => entry.code === 'E_DOCTRINE_CHECK_SCRIPT_UNBOUND'));
 });
+
+test('feature integration doctrine rejects canon source order drift', async () => {
+  const checker = await loadChecker();
+  const textMap = loadActualTextMap(checker.REQUIRED_REFERENCE_PATHS);
+  textMap['README.md'] = textMap['README.md'].replace(
+    '- Active execution canon: `docs/OPS/STATUS/CANON_STATUS.json`\n- Верхний repo canon: `CANON.md`',
+    '- Верхний repo canon: `CANON.md`\n- Active execution canon: `docs/OPS/STATUS/CANON_STATUS.json`',
+  );
+  const result = checker.evaluateDoctrineTextMap(textMap, loadPackageJson());
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some((entry) => (
+    entry.code === 'E_CANON_SOURCE_ORDER_INVALID' && entry.path === 'README.md'
+  )));
+});
+
+test('feature integration doctrine rejects obsolete path-line output contract', async () => {
+  const checker = await loadChecker();
+  const textMap = loadActualTextMap(checker.REQUIRED_REFERENCE_PATHS);
+  textMap['docs/templates/FEATURE_TZ.md'] = textMap['docs/templates/FEATURE_TZ.md'].replace(
+    '- `CHANGED_BASENAMES`: только имена файлов без директорий; URL, пути и `path:line` запрещены.',
+    '- Изменённые файлы: список + ссылки `path:line` на ключевые места.',
+  );
+  const result = checker.evaluateDoctrineTextMap(textMap, loadPackageJson());
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some((entry) => (
+    entry.code === 'E_OUTPUT_POLICY_PATH_LINE_CONFLICT'
+      && entry.path === 'docs/templates/FEATURE_TZ.md'
+  )));
+});
+
+test('feature integration doctrine rejects missing basenames output binding', async () => {
+  const checker = await loadChecker();
+  const textMap = loadActualTextMap(checker.REQUIRED_REFERENCE_PATHS);
+  textMap['docs/templates/hard-tz.md'] = textMap['docs/templates/hard-tz.md'].replace(
+    '`CHANGED_BASENAMES`,',
+    '`CHANGED_FILES`,',
+  );
+  const result = checker.evaluateDoctrineTextMap(textMap, loadPackageJson());
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some((entry) => (
+    entry.code === 'E_OUTPUT_POLICY_BASENAMES_MISSING'
+      && entry.path === 'docs/templates/hard-tz.md'
+  )));
+});

@@ -6,7 +6,7 @@
 ## Контекст / ограничения
 - Технологии: Electron + vanilla HTML/CSS/JS
 - Оффлайн, без сетевых запросов
-- Канон/инварианты: `CANON.md` и `docs/BIBLE.md`
+- Истина: `CANON_STATUS.json` и resolved active canon → `CANON.md` → COREX → `docs/BIBLE.md`
 - Формат данных: см. `docs/BIBLE.md` (project format v1; обязательны recovery/бэкапы/атомарная запись)
 - Без новых зависимостей
 - Изменения: (только стили / UI тулбара / editor.js / и т.п.)
@@ -23,15 +23,25 @@
 - `PRODUCT_AUTHORITY`: канонические данные и их владелец
 - `DERIVED_DATA`: пересобираемые поколения и evidence
 - `COMMAND_AUTHORITY`: command IDs единственного write path
+- `WRITE_PATH`: intent → dispatch → command → use case → mutation → event
+- `READ_PATH`: source → revision-bound projection → Design OS → surface
 - `EVENTS_AND_QUERIES`: события, queries и immutable projections
 - `PRODUCT_PORTS`: внешние эффекты и требуемые adapters
+- `DESIGN_OS_PORTS`: read-only catalogs и projections, intent-only dispatch
 - `DESIGN_OS_CONTRIBUTION`: surfaces, typed slots и representations
-- `STATE_CLASSES`: project, derived, shell, transient
+- `STATE_CLASSES`: project, authoring working, derived, shell, transient
+- `IDENTITY_GUARDS`: project, entity, revision и generation
+- `SECURITY_BOUNDARY`: validation, normalization, size и path-authority limits
 - `PLATFORM_FALLBACKS`: unavailable и degraded behavior
+- `ACCESSIBILITY_AND_LOCALE`: keyboard parity, reduced motion, RTL, CJK и IME границы
 - `RECOVERY`: atomicity, rollback и restore path
+- `MIGRATIONS_AND_COMPATIBILITY`: versioning, downgrade и preservation
+- `PERFORMANCE_BUDGET`: измеримый threshold и способ проверки
 - `HOT_PATH_BOUNDARY`: что запрещено запускать при вводе
 - `NEGATIVE_BYPASS_CHECKS`: прямой UI, worker, storage, IPC и private bus bypass
 - `CURRENT_REALITY`: live, partial, planned и target-only границы
+- `EVIDENCE_BINDINGS`: код, tests и proof для каждого live claim
+- `MATERIALIZATION`: `EXISTING_SEAM`, `NEW_PORT` или `TARGET_ONLY`; manifest не создаёт speculative registry
 
 Если создаётся новая визуальная зона:
 
@@ -148,6 +158,10 @@
 - [ ] UI получает immutable projection и не пишет в project truth
 - [ ] Project persistence и shell-state persistence разделены
 - [ ] Прямые обходы и missing fallback покрыты negative checks
+- [ ] Unsaved authoring state не теряется при reset, fallback или crash route
+- [ ] Capability повторно проверяется Command Kernel при dispatch
+- [ ] Async result не публикуется при stale identity, revision или generation
+- [ ] Target-only элементы не описаны как live runtime
 
 ## Промежуточные тестирования (после каждого шага)
 > Если изменение “ядра” (редактор/рендер/сохранение/undo) — обязательно этапами (минимум 2–4 этапа).
@@ -166,9 +180,11 @@
 - Использовать `docs/templates/REGRESSION_CHECKLIST.md`.
 
 ## Output contract (формат ответа Codex)
-- Изменённые файлы: список + ссылки `path:line` на ключевые места.
+- Ровно один code block `text`; внутри только строки `KEY: VALUE`.
+- `CHANGED_BASENAMES`: только имена файлов без директорий; URL, пути и `path:line` запрещены.
 - Проверки: какие команды/ручные клики реально выполнены; если что-то не проверено — сказать явно.
 - Инварианты/приёмка: отметить, что выполнено, и где остались риски/сомнения.
+- Delivery: `COMMIT_SHA`, `PUSH_RESULT`, `PR_RESULT`, `MERGE_RESULT`, `NEXT_STEP`.
 - Без “улучшений”: если потребовался рефакторинг — остановиться и спросить.
 
 ## Уточнения (максимум 3 вопроса, только high‑impact)

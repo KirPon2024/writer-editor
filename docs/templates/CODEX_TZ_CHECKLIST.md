@@ -8,9 +8,16 @@
 - [ ] **Два plane**: product plane и interface plane описаны раздельно
 - [ ] **Authority map**: Product Core, Command Kernel и Design OS не смешаны
 - [ ] **Manifest**: приложен `FEATURE_INTEGRATION_MANIFEST_V1`; для новой UI-зоны также `SURFACE_MANIFEST_V1`
+- [ ] **Materialization**: указан `EXISTING_SEAM`, `NEW_PORT` или `TARGET_ONLY`; speculative registry не создаётся
 - [ ] **No bypass**: UI, worker и feature pack не пишут напрямую в Core, storage, IPC или platform API
-- [ ] **State split**: project, derived, shell и transient state разделены
+- [ ] **State split**: project, authoring working, derived, shell и transient state разделены
+- [ ] **No-loss authoring**: unsaved editor content не теряется при shell reset или fallback
+- [ ] **Port direction**: catalogs и projections read-only, dispatch intent-only
+- [ ] **Capability**: Command Kernel повторно проверяет capability независимо от UI visibility
+- [ ] **Async identity**: project, entity, revision и generation guards определены
+- [ ] **External input**: validation, normalization, size limits и path authority определены
 - [ ] **Fallback и recovery**: определены degraded path, rollback и negative checks
+- [ ] **Evidence**: каждый live claim привязан к коду, тесту или machine proof
 - [ ] **Минимальность дизайн-инструментов**: при `APPLIED` назван один визуальный вопрос и выбран только необходимый набор по матрице
 - [ ] **Файлы**: перечислены явно; всё остальное запрещено
 - [ ] **Diff budget**: ограничение масштаба (строки/блоки/файлы), запрет на форматирование/рефакторинг
@@ -24,5 +31,5 @@
 - [ ] **Приёмка**: чек‑лист [ ] с измеримыми критериями
 - [ ] **Тесты**: точные шаги “клик/команда → ожидаемый результат”
 - [ ] **Шорткаты**: перечислить “не ломать” (Cmd/Ctrl+C/V/X/A/Z + zoom) и добавить ручную проверку
-- [ ] **Output contract**: формат ответа Codex (изменённые файлы + `path:line` + что проверено/не проверено)
+- [ ] **Output contract**: один блок `text`, строки `KEY: VALUE`, `CHANGED_BASENAMES` без путей и URL, проверки и delivery outcomes
 - [ ] **Стоп‑протокол**: если данных не хватает — остановиться и задать 1–3 high‑impact вопроса

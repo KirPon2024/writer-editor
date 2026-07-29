@@ -3,8 +3,8 @@
 Этот файл фиксирует фактическое текущее состояние репозитория после repo-level closure, последующих bounded false-green remediation contours и принятой vertical sheets baseline, уже смерженных на main.
 
 ## Как читать репозиторий
-- Верхний repo entrypoint: `CANON.md`
 - Active execution canon: `docs/OPS/STATUS/CANON_STATUS.json`
+- Верхний repo entrypoint: `CANON.md`
 - Target architecture: `docs/corex/COREX.v1.md`
 - Product map: `docs/BIBLE.md`
 - Process rules: `docs/PROCESS.md`
@@ -17,6 +17,12 @@
 - Новая фича обязана разделять product-plane effects и interface-plane projection.
 - Текущий общий Core port layer остаётся частичным каркасом; полный MIK, Host Pack и Surface Protocol не считаются live без machine evidence.
 - Existing runtime не переписывается big-bang способом; правило применяется к новому contour и к реально затронутым legacy boundaries.
+- `FEATURE_INTEGRATION_MANIFEST_V1` и `SURFACE_MANIFEST_V1` являются сначала
+  контрактными блоками ТЗ; universal runtime registry по их наличию не заявлен.
+- Несохранённый editor buffer относится к product-plane authoring working
+  state и не может быть потерян safe reset или shell-state восстановлением.
+- Command visibility не считается capability enforcement; Command Kernel
+  повторно проверяет capability при dispatch.
 
 ## Stable Product Reality
 - Продукт: `Yalken Writer`

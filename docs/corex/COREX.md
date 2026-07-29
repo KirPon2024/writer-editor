@@ -11,12 +11,15 @@ COREX:
 - не является текущим ТЗ
 
 ## Иерархия источников истины (жёстко)
-1. `CANON.md` — верховный закон проекта (правила, запреты, приоритеты)
-2. `docs/corex/COREX.vN.md` — философия + целевая архитектура + долгий горизонт
-3. `docs/BIBLE.md` — дорожная карта и текущая реализация
-4. Остальные `docs/**` — справочные материалы
+1. `docs/OPS/STATUS/CANON_STATUS.json` и указанный active execution canon
+2. `CANON.md` — верхний repo canon (правила, запреты, приоритеты)
+3. `docs/corex/COREX.vN.md` — философия + целевая архитектура + долгий горизонт
+4. `docs/BIBLE.md` — product map и roadmap
+5. Остальные `docs/**` — factual, process и справочные материалы
 
-Правило конфликта: при любом противоречии **`CANON.md` имеет приоритет** над COREX и BIBLE.
+Правило конфликта: active execution canon имеет высший execution priority;
+`CANON.md` имеет приоритет над COREX и BIBLE и не может отменить binding law
+из active execution canon.
 
 ## Текущая версия
 - Каноническая версия: `docs/corex/COREX.v1.md`

@@ -5,8 +5,11 @@
 Мы **не внедряем Spec Kit как зависимость/CLI**. Мы берём только полезные идеи (спека → план → задачи → проверки) и фиксируем их в документах репозитория.
 
 Канон:
-- `CANON.md` — верхний канон решений/изменений (свободная интерпретация запрещена)
-- `docs/BIBLE.md` — канон проекта и дорожная карта
+- `docs/OPS/STATUS/CANON_STATUS.json` — resolver active execution canon
+- указанный resolver-ом active execution document — binding execution law
+- `CANON.md` — верхний repo canon решений и change control
+- `docs/corex/COREX.v1.md` — философия и target architecture
+- `docs/BIBLE.md` — product map и roadmap
 
 ## Быстрый старт (как работать с новой задачей)
 0) **Два режима: ChatGPT → Codex**
@@ -15,7 +18,8 @@
 - Git-фиксация результата (обязательно):
   - Любая write-задача должна иметь зафиксированный commit-исход до перехода к следующему контуру.
   - Допустимые исходы: `COMMIT_CREATED` или `EXPLICIT_DEFERRED` (только для read-only/OPS_REPORT с причиной).
-  - Агент может выполнять commit/push при явной команде в ТЗ или в сообщении.
+  - Агент выполняет commit, push, PR и merge по `DELIVERY_POLICY`; без явного
+    переопределения действует жёсткий default `true/true/true/true`.
   - Переход к следующему контуру при `TYPE != OPS_REPORT` без `COMMIT_CREATED` запрещён.
   - Merge выполняется только через PR path по канону.
 
@@ -39,19 +43,30 @@ analysis или UI surface прочитать
 
 1. `PRODUCT_AUTHORITY`: какие данные канонические и кто ими владеет.
 2. `COMMAND_AUTHORITY`: какие Commands являются единственным write path.
-3. `PRODUCT_PORTS`: какие внешние эффекты требуют adapters.
-4. `READ_PROJECTIONS`: какие immutable projections получает UI.
-5. `DESIGN_OS_CONTRIBUTION`: какие surfaces, slots и representations нужны.
-6. `STATE_CLASSES`: project, derived, shell и transient state.
-7. `FALLBACKS`: поведение при отсутствующей capability или platform surface.
-8. `RECOVERY_AND_NEGATIVE_CHECKS`: восстановление и доказательство отсутствия
+3. `WRITE_AND_READ_PATHS`: полный command write path и projection read path.
+4. `PRODUCT_PORTS`: какие внешние эффекты требуют adapters.
+5. `DESIGN_OS_PORTS`: какие read-only catalogs, projections и snapshot routes нужны.
+6. `READ_PROJECTIONS`: какие revision-bound immutable projections получает UI.
+7. `DESIGN_OS_CONTRIBUTION`: какие surfaces, slots и representations нужны.
+8. `STATE_CLASSES`: project, authoring working, derived, shell и transient state.
+9. `FALLBACKS`: поведение при отсутствующей capability или platform surface.
+10. `RECOVERY_AND_NEGATIVE_CHECKS`: восстановление и доказательство отсутствия
    прямого обхода.
-9. `HOT_PATH_BOUNDARY`: что запрещено выполнять на каждый ввод символа.
-10. `CURRENT_REALITY`: что уже live, а что остаётся target only.
+11. `IDENTITY_GUARDS`: project, entity, revision и generation для async results.
+12. `SECURITY_AND_INPUT_BOUNDARY`: validation, normalization и bounded inputs.
+13. `PERFORMANCE_AND_ACCESSIBILITY`: измеримый budget, locale и fallback parity.
+14. `MIGRATION_ROLLBACK_EVIDENCE`: compatibility, rollback и machine evidence.
+15. `HOT_PATH_BOUNDARY`: что запрещено выполнять на каждый ввод символа.
+16. `CURRENT_REALITY`: что уже live, а что остаётся target only.
 
 Новая фича должна иметь `FEATURE_INTEGRATION_MANIFEST_V1`; новая визуальная
 зона — `SURFACE_MANIFEST_V1`. Если эти сведения нельзя определить из канона и
 репозитория, агент задаёт только high-impact вопросы и не начинает реализацию.
+
+Manifest по умолчанию является блоком ТЗ, а не отдельным runtime-файлом. Новый
+registry, feature pack или port infrastructure создаётся только если это
+отдельно входит в принятый scope. Видимость UI не считается capability
+enforcement: Command Kernel повторно проверяет capability при dispatch.
 
 Feature integration preflight не требует отдельного PR на каждый слой. Один
 bounded vertical contour может затрагивать несколько слоёв, если сохраняет один

@@ -6,7 +6,7 @@
 ## Контекст / ограничения
 - Технологии: Electron + vanilla HTML/CSS/JS
 - Оффлайн, без сетевых запросов
-- Канон/инварианты: `CANON.md` и `docs/BIBLE.md`
+- Истина: `CANON_STATUS.json` и resolved active canon → `CANON.md` → COREX → `docs/BIBLE.md`
 - Формат данных: текущий формат по канону (legacy и/или project format v1)
 - Без новых зависимостей
 - Diff budget: (ограничение масштаба правок; запрет на рефакторинг/форматирование без запроса)
@@ -22,13 +22,16 @@
 - product ports и adapters;
 - immutable read projections;
 - Design OS surfaces, typed slots и fallbacks;
-- раздельные project, derived, shell и transient state;
+- раздельные project, authoring working, derived, shell и transient state;
+- project, entity, revision и generation guards для async results;
 - recovery и negative bypass checks;
 - typing hot-path boundary.
 
 Editor surface не получает новую product authority. Если фича требует
 `FEATURE_INTEGRATION_MANIFEST_V1` или `SURFACE_MANIFEST_V1`, они создаются до
-изменения renderer.
+изменения renderer как блоки ТЗ. Это не разрешение создавать speculative
+runtime registry или feature pack. Несохранённый editor buffer имеет no-loss
+duty и не принадлежит shell-state.
 
 ## Референсы (скрины/видео/описание)
 - Скрин/видео: …
@@ -130,9 +133,11 @@ Editor surface не получает новую product authority. Если фи
 - Полный регресс‑прогон: `docs/templates/REGRESSION_CHECKLIST.md`
 
 ## Output contract (формат ответа Codex)
-- Изменённые файлы: список + ссылки `path:line` на ключевые места.
+- Ровно один code block `text`; внутри только строки `KEY: VALUE`.
+- `CHANGED_BASENAMES`: только имена файлов без директорий; URL, пути и `path:line` запрещены.
 - Проверки: какие команды/ручные проверки реально выполнены; если что-то не проверено — сказать явно.
 - Риски: что может пойти не так и какие места самые хрупкие.
+- Delivery: `COMMIT_SHA`, `PUSH_RESULT`, `PR_RESULT`, `MERGE_RESULT`, `NEXT_STEP`.
 
 ## Уточнения (максимум 3 вопроса, только high‑impact)
 Q1:

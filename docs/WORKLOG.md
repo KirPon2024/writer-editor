@@ -8,6 +8,11 @@
 - Каждая новая фича получает два независимых подключения: product plane через Commands, Events, Queries, product ports и adapters; interface plane через Design OS ports, surface manifests, typed slots и projection adapters.
 - Активные агентские входы, process docs и task templates ссылаются на `YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md`; frozen COREX v1 и frozen legacy CANON не переписывались.
 - Добавлен focused machine-check с negative cases на потерю authority marker, ссылочного входа и package-script binding; runtime, UI, project format и release scope не изменялись.
+- Повторный consistency audit выровнял источник истины: сначала `CANON_STATUS.json` и resolved active canon, затем repo canon, COREX, BIBLE и factual/process docs.
+- Устранён конфликт output contracts: task templates требуют `KEY: VALUE` и `CHANGED_BASENAMES`, а не запрещённые path-line ссылки.
+- Доктрина усилена authoring working state с no-loss duty, направленными command catalog и dispatch ports, capability revalidation, async identity guards, external-input boundary и contract-first manifest materialization.
+- Core, contracts и task README подключены к доктрине; checker теперь контролирует 17 entrypoints, source order и obsolete output-contract drift.
+- Historical Design OS map больше не создаёт ложный STOP для несвязанной работы: rebind обязателен только перед использованием старых rows как текущего evidence.
 
 ## 2026-07-19
 - S42 factual docs and Capability Matrix sync opened as a docs-only contour after `S41_VISUAL_RECOVERY_NEGATIVE_HARDENING` merged at remote main `b4d2ab806490a0aad488ba247ec5f6e8bf3f8c95`.

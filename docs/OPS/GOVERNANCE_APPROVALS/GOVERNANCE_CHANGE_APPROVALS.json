@@ -3969,6 +3969,34 @@
       "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S43_PROMOTION_EVIDENCE_ORDER",
       "approvedAtUtc": "2026-07-19T11:45:00.000Z",
       "rationale": "Approve bounded S43 regression coverage proving promotion verify writes no evidence when strict doctor fails; no product runtime, storage, import, export, UI, dependency, network, cloud, entitlement, or release capability claim is introduced."
+    },
+    {
+      "filePath": "docs/OPS/RTK/G0A_ASSURANCE_REGISTRY.json",
+      "sha256": "2e924d90754b5e0c9eb31a4e6d394c801da0bce3548fb8748d7fb2aa7b55568c",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0A_ASSURANCE_REPAIR",
+      "approvedAtUtc": "2026-07-29T12:07:12.000Z",
+      "rationale": "Approve bounded G0A assurance registry projection required by the owner-approved RTK V6 contract; it binds existing blocking signals to product evidence without adding runtime wiring, product behavior, dependencies, network, cloud, storage, export, or UI capability."
+    },
+    {
+      "filePath": "docs/OPS/RTK/G0A_ASSURANCE_RECEIPT.json",
+      "sha256": "5d40e048b9d47e5898aa6a6385530e1c5f4c83c4dc65209b4784d0cb9da47ba6",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0A_ASSURANCE_REPAIR",
+      "approvedAtUtc": "2026-07-29T12:07:12.000Z",
+      "rationale": "Approve bounded G0A assurance receipt required by the owner-approved RTK V6 contract; it records local verification evidence only and introduces no runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
+    },
+    {
+      "filePath": "scripts/ops/rtk-g0a-assurance.mjs",
+      "sha256": "fd9b333f834029af4f341665fb41e73f206dac11c1825ffd07b8d71f4275c32a",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0A_ASSURANCE_REPAIR",
+      "approvedAtUtc": "2026-07-29T12:07:12.000Z",
+      "rationale": "Approve bounded G0A assurance evaluator required by the owner-approved RTK V6 contract; it is an offline governance verifier using Node built-ins only and adds no product runtime wiring, dependency, network, cloud, storage, export, or UI capability."
+    },
+    {
+      "filePath": "test/contracts/rtk-g0a-assurance.contract.test.js",
+      "sha256": "e9823aeae21f0ff20570c551c5df4a7760320ded1c5100dea94c16e0a707ed7a",
+      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0A_ASSURANCE_REPAIR",
+      "approvedAtUtc": "2026-07-29T12:07:12.000Z",
+      "rationale": "Approve bounded G0A assurance contract tests required by the owner-approved RTK V6 contract; they verify fail-closed registry behavior and introduce no product runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     }
   ]
 }

@@ -4172,6 +4172,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C01_ATLAS_AUTHOR_DATA_COMMAND_BOUNDARY",
       "approvedAtUtc": "2026-07-29T18:25:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E01 C01 author-data command boundary change: adds deterministic local atlas.entity.create and atlas.alias.add Core reducer commands, binds them to Command Kernel capability policy and docs capability matrix, proves save/reopen author data persistence and negative capability/storage bypass checks, preserves no UI surface, no network, no cloud, no paid service, no new dependency, no private storage adapter, and no release readiness widening."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E01_C02_EXACT_MENTION_ANALYZER_EVIDENCE_ANCHORS_RECEIPT.json",
+      "sha256": "f3d05ffc566c556b631b6946229e7caba42924f0ab3a1afecfe9ad68762097a9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C02_EXACT_MENTION_ANALYZER_AND_EVIDENCE_ANCHORS",
+      "approvedAtUtc": "2026-07-29T18:17:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C02 exact mention analyzer and evidence anchor change: adds deterministic derived atlas mention index, exact literal case-sensitive Unicode-boundary matching, stable evidence anchors, stale generation detection by invalidation key, and negative capability/storage/network bypass checks while preserving no project truth write, no UI surface, no storage adapter, no dependency, no network, no paid service, and no release readiness widening. Receipt updated with completed local validation: test:ops, full non-ops test runner, design doctrine, perf lite, OSS policy, and governance detection all pass."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e01-c02-exact-mention-anchors.contract.test.js",
+      "sha256": "d04681a9c0831a862e144ec9b5f48040ea2f9ed1a799aca82e3cc4eb87852750",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C02_EXACT_MENTION_ANALYZER_AND_EVIDENCE_ANCHORS",
+      "approvedAtUtc": "2026-07-29T18:13:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E01 C02 exact mention analyzer and evidence anchor change: adds deterministic derived atlas mention index, exact literal case-sensitive Unicode-boundary matching, stable evidence anchors, stale generation detection by invalidation key, and negative capability/storage/network bypass checks while preserving no project truth write, no UI surface, no storage adapter, no dependency, no network, no paid service, and no release readiness widening."
     }
   ]
 }

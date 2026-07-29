@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E01_C02_EXACT_MENTION_ANALYZER_EVIDENCE_ANCHORS_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E01_C02_EXACT_MENTION_ANALYZER_AND_EVIDENCE_ANCHORS",
+  "programStage": "STAGE_01",
+  "status": "READY_FOR_DELIVERY",
+  "createdAtUtc": "2026-07-29T18:12:00Z",
+  "baseSha": "a7b047d6661d8374e534b774247be36a481ffcf3",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a derived analyzer and evidence anchors only; no product UI screen, visual composition, layout, palette, typography, or Design OS surface changes.",
+  "featureIntegrationManifest": {
+    "featureId": "atlas.exactMentionIndex.v1",
+    "productPlane": {
+      "owner": "Product Core plus Derived Views",
+      "readPath": [
+        "coreState.data.projects",
+        "project.atlas.entities",
+        "project.scenes"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "dispatch": "NOT_APPLICABLE",
+      "capabilityRevalidation": "Derived capability snapshot can fail closed with E_CAPABILITY_DISABLED_FOR_COMMAND before producing an index."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedProjection": {
+    "viewId": "derived.atlas.mentionIndex.v1",
+    "schemaVersion": "derived.atlas.mentionIndex.v1",
+    "evidenceAnchorSchemaVersion": "atlas.evidenceAnchor.v1",
+    "matchingPolicy": {
+      "mode": "exact_literal",
+      "caseSensitive": true,
+      "unicodeTokenBoundary": true,
+      "fuzzyMatching": false,
+      "stemming": false,
+      "languageModel": false
+    },
+    "stableEvidence": [
+      "mentionId",
+      "anchorId",
+      "projectId",
+      "sceneId",
+      "entityId",
+      "termId",
+      "startOffset",
+      "endOffset",
+      "quote",
+      "quoteHash",
+      "sceneTextHash"
+    ],
+    "staleRejectionPrimitive": "deriveView invalidationKey changes when Core state, params, or capability snapshot changes."
+  },
+  "dependencyDecision": {
+    "newDependenciesAdded": [],
+    "networkAdded": false,
+    "paidOrCloudServiceAdded": false,
+    "uiFrameworkAdded": false
+  },
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c02-exact-mention-anchors.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c01-author-data-command-boundary.contract.test.js test/contracts/mindmap-derived-deterministic.contract.test.js test/contracts/derived-views-deterministic.contract.test.js",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "result": "795 tests, 731 pass, 64 skipped, 0 fail"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s perf:lite",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS"
+    }
+  ],
+  "negativeChecks": [
+    "Annabel does not satisfy Anna exact boundary",
+    "lowercase atlas keeper does not satisfy Atlas keeper exact case",
+    "disabled atlasMentionIndex capability fails closed",
+    "missing project fails closed",
+    "derived atlas module has no filesystem, network, Electron, localStorage, sessionStorage, or indexedDB use"
+  ],
+  "stage01NextContour": "E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_AND_DOSSIER_SURFACE"
+}

@@ -12,6 +12,24 @@ export {
   sortAtlasSceneShards,
 } from './atlasMentionTypes.mjs';
 export {
+  ATLAS_ABSENCE_INTERVAL_SCHEMA_VERSION,
+  ATLAS_COOCCURRENCE_SCHEMA_VERSION,
+  ATLAS_TEMPORAL_CONTINUITY_SCHEMA_VERSION,
+  ATLAS_TEMPORAL_ENTITY_APPEARANCE_SCHEMA_VERSION,
+  ATLAS_TEMPORAL_PARITY_PROOF_SCHEMA_VERSION,
+  sortAtlasAbsenceIntervals,
+  sortAtlasCooccurrences,
+  sortAtlasEntityAppearances,
+  sortAtlasTemporalSceneRefs,
+} from './atlasTemporalTypes.mjs';
+export {
+  ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
+  buildAtlasTemporalContinuityFromObservationAggregate,
+  buildAtlasTemporalContinuityIncrementally,
+  buildAtlasTemporalContinuityParityProof,
+  deriveAtlasTemporalContinuity,
+} from './deriveAtlasTemporalContinuity.mjs';
+export {
   ATLAS_OBSERVATION_AGGREGATE_SCHEMA_VERSION,
   ATLAS_OBSERVATION_ANALYZER_ID,
   ATLAS_OBSERVATION_CANDIDATE_SCHEMA_VERSION,

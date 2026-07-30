@@ -260,6 +260,8 @@ const atlasRelationDossierHost = document.querySelector('[data-atlas-relation-do
 const atlasMatricesHost = document.querySelector('[data-atlas-matrices-host]');
 const atlasHeatmapShell = document.querySelector('[data-atlas-heatmap-shell]');
 const atlasHeatmapHost = document.querySelector('[data-atlas-heatmap-host]');
+const atlasTemporalLayoutShell = document.querySelector('[data-atlas-temporal-layout-shell]');
+const atlasTemporalLayoutHost = document.querySelector('[data-atlas-temporal-layout-host]');
 const atlasReportsHost = document.querySelector('[data-atlas-reports-host]');
 const atlasDiagnosticsHost = document.querySelector('[data-atlas-diagnostics-host]');
 const atlasCurrentSceneHost = document.querySelector('[data-atlas-current-scene-host]');
@@ -741,6 +743,38 @@ let atlasHeatmapState = {
   viewportBudgetProof: {},
   unavailableReason: '',
 };
+let atlasTemporalLayoutExplicitOpen = false;
+let atlasTemporalLayoutKeyboardBound = false;
+let atlasTemporalLayoutState = {
+  state: 'empty',
+  projectId: '',
+  summary: {
+    sceneCount: 0,
+    anchoredSceneCount: 0,
+    unknownTemporalSceneCount: 0,
+    relationSegmentCount: 0,
+    selectedSceneCount: 0,
+    layoutHash: '',
+    sourceHash: '',
+  },
+  layoutPacket: {
+    axis: { min: 0, max: 0, step: 1 },
+    events: [],
+    segments: [],
+  },
+  timeSliderState: {
+    min: 0,
+    max: 0,
+    step: 1,
+    value: 0,
+    selectedSceneIds: [],
+    rangeLabel: 'empty',
+  },
+  listParity: { rows: [], equivalentToTimeline: true, omittedRowCount: 0 },
+  keyboardContract: { supportedKeys: [] },
+  largeProjectBudgetProof: {},
+  unavailableReason: '',
+};
 let atlasReportsState = {
   state: 'empty',
   projectId: '',
@@ -908,6 +942,7 @@ const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
 const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
 const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
+const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = 'query.atlasTemporalLayout';
 const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query.atlasReportsSavedQueries';
 const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = 'query.atlasDiagnosticsStageAcceptance';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
@@ -11239,6 +11274,9 @@ function syncRightRailCompositionState(tab) {
   if (atlasHeatmapHost instanceof HTMLElement) {
     atlasHeatmapHost.dataset.atlasHeatmapProvider = ATLAS_HEATMAP_QUERY_ID;
   }
+  if (atlasTemporalLayoutHost instanceof HTMLElement) {
+    atlasTemporalLayoutHost.dataset.atlasTemporalLayoutProvider = ATLAS_TEMPORAL_LAYOUT_QUERY_ID;
+  }
   if (atlasReportsHost instanceof HTMLElement) {
     atlasReportsHost.dataset.atlasReportsProvider = ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID;
   }
@@ -11265,6 +11303,7 @@ function applyRightTab(tab) {
     refreshAtlasRelationDossier();
     refreshAtlasMatrices();
     renderAtlasHeatmapState();
+    renderAtlasTemporalLayoutState();
     refreshAtlasCurrentScene();
     refreshAtlasReportsSavedQueries();
     refreshAtlasDiagnosticsStageAcceptance();
@@ -12248,6 +12287,11 @@ function handleAtlasMatrixGridClick(event) {
     openAtlasHeatmapSurface();
     return;
   }
+  const temporalLayoutOpen = event.target instanceof Element ? event.target.closest('[data-atlas-temporal-layout-open]') : null;
+  if (temporalLayoutOpen instanceof HTMLElement && atlasMatricesHost instanceof HTMLElement && atlasMatricesHost.contains(temporalLayoutOpen)) {
+    openAtlasTemporalLayoutSurface();
+    return;
+  }
   const target = event.target instanceof Element ? event.target.closest('[data-atlas-matrix-cell], [data-atlas-relation-pair-id]') : null;
   if (!(target instanceof HTMLElement) || !(atlasMatricesHost instanceof HTMLElement) || !atlasMatricesHost.contains(target)) return;
   if (target.dataset.atlasMatrixCell === 'true') {
@@ -12324,6 +12368,13 @@ function renderAtlasMatricesState() {
   heatmapButton.disabled = state.state !== 'ready';
   heatmapButton.textContent = atlasHeatmapExplicitOpen ? 'Refresh heatmap' : 'Open heatmap';
   actionBar.appendChild(heatmapButton);
+  const temporalLayoutButton = document.createElement('button');
+  temporalLayoutButton.type = 'button';
+  temporalLayoutButton.className = 'right-rail-atlas-action';
+  temporalLayoutButton.dataset.atlasTemporalLayoutOpen = 'true';
+  temporalLayoutButton.disabled = state.summary.sceneCount < 1;
+  temporalLayoutButton.textContent = atlasTemporalLayoutExplicitOpen ? 'Refresh timeline' : 'Open timeline';
+  actionBar.appendChild(temporalLayoutButton);
   atlasMatricesHost.appendChild(actionBar);
 
   if (state.state === 'empty') {
@@ -12547,6 +12598,294 @@ async function refreshAtlasHeatmap() {
     : { state: 'unavailable', unavailableReason: 'ATLAS_HEATMAP_QUERY_FAILED' };
   atlasHeatmapState = normalizeAtlasHeatmap(nextState);
   renderAtlasHeatmapState();
+}
+
+function normalizeAtlasTemporalLayout(result = {}) {
+  const source = result && typeof result === 'object' && !Array.isArray(result) ? result : {};
+  const summary = source.summary && typeof source.summary === 'object' && !Array.isArray(source.summary) ? source.summary : {};
+  const packet = source.layoutPacket && typeof source.layoutPacket === 'object' && !Array.isArray(source.layoutPacket) ? source.layoutPacket : {};
+  const slider = source.timeSliderState && typeof source.timeSliderState === 'object' && !Array.isArray(source.timeSliderState) ? source.timeSliderState : {};
+  const parity = source.listParity && typeof source.listParity === 'object' && !Array.isArray(source.listParity) ? source.listParity : {};
+  return {
+    schemaVersion: typeof source.schemaVersion === 'string' ? source.schemaVersion : 'derived.atlas.temporalLayout.v1',
+    state: typeof source.state === 'string' ? source.state : 'empty',
+    unavailableReason: typeof source.unavailableReason === 'string' ? source.unavailableReason : '',
+    projectId: typeof source.projectId === 'string' ? source.projectId : '',
+    summary: {
+      sceneCount: Number.isInteger(summary.sceneCount) ? Math.max(0, summary.sceneCount) : 0,
+      anchoredSceneCount: Number.isInteger(summary.anchoredSceneCount) ? Math.max(0, summary.anchoredSceneCount) : 0,
+      unknownTemporalSceneCount: Number.isInteger(summary.unknownTemporalSceneCount) ? Math.max(0, summary.unknownTemporalSceneCount) : 0,
+      relationSegmentCount: Number.isInteger(summary.relationSegmentCount) ? Math.max(0, summary.relationSegmentCount) : 0,
+      selectedSceneCount: Number.isInteger(summary.selectedSceneCount) ? Math.max(0, summary.selectedSceneCount) : 0,
+      layoutHash: typeof summary.layoutHash === 'string' ? summary.layoutHash : '',
+      sourceHash: typeof summary.sourceHash === 'string' ? summary.sourceHash : '',
+    },
+    layoutPacket: {
+      schemaVersion: typeof packet.schemaVersion === 'string' ? packet.schemaVersion : 'derived.atlas.temporalLayoutPacket.v1',
+      state: typeof packet.state === 'string' ? packet.state : 'empty',
+      axis: packet.axis && typeof packet.axis === 'object' && !Array.isArray(packet.axis) ? packet.axis : { min: 0, max: 0, step: 1 },
+      events: Array.isArray(packet.events) ? packet.events.filter(reviewSurfaceIsPlainObject) : [],
+      segments: Array.isArray(packet.segments) ? packet.segments.filter(reviewSurfaceIsPlainObject) : [],
+    },
+    timeSliderState: {
+      schemaVersion: typeof slider.schemaVersion === 'string' ? slider.schemaVersion : 'derived.atlas.timeSliderState.v1',
+      min: Number.isFinite(Number(slider.min)) ? Number(slider.min) : 0,
+      max: Number.isFinite(Number(slider.max)) ? Number(slider.max) : 0,
+      step: Number.isFinite(Number(slider.step)) ? Number(slider.step) : 1,
+      value: Number.isFinite(Number(slider.value)) ? Number(slider.value) : 0,
+      selectedSceneIds: Array.isArray(slider.selectedSceneIds) ? slider.selectedSceneIds.filter((value) => typeof value === 'string') : [],
+      rangeLabel: typeof slider.rangeLabel === 'string' ? slider.rangeLabel : 'empty',
+    },
+    listParity: {
+      schemaVersion: typeof parity.schemaVersion === 'string' ? parity.schemaVersion : 'derived.atlas.temporalLayoutListParity.v1',
+      rows: Array.isArray(parity.rows) ? parity.rows.filter(reviewSurfaceIsPlainObject) : [],
+      equivalentToTimeline: parity.equivalentToTimeline !== false,
+      omittedRowCount: Number.isInteger(parity.omittedRowCount) ? Math.max(0, parity.omittedRowCount) : 0,
+    },
+    keyboardContract: source.keyboardContract && typeof source.keyboardContract === 'object' && !Array.isArray(source.keyboardContract)
+      ? source.keyboardContract
+      : {},
+    largeProjectBudgetProof: source.largeProjectBudgetProof && typeof source.largeProjectBudgetProof === 'object' && !Array.isArray(source.largeProjectBudgetProof)
+      ? source.largeProjectBudgetProof
+      : {},
+  };
+}
+
+function focusAtlasTemporalEvent(offset) {
+  if (!(atlasTemporalLayoutHost instanceof HTMLElement)) return;
+  const events = Array.from(atlasTemporalLayoutHost.querySelectorAll('[data-atlas-temporal-event]'))
+    .filter((item) => item instanceof HTMLElement);
+  if (events.length < 1) return;
+  const currentIndex = Math.max(0, events.findIndex((item) => item.getAttribute('tabindex') === '0' || item === document.activeElement));
+  const nextIndex = Math.max(0, Math.min(events.length - 1, currentIndex + offset));
+  events.forEach((item, index) => { item.tabIndex = index === nextIndex ? 0 : -1; });
+  events[nextIndex].focus();
+}
+
+function handleAtlasTemporalLayoutKeydown(event) {
+  const target = event.target instanceof Element ? event.target.closest('[data-atlas-temporal-event]') : null;
+  if (!(target instanceof HTMLElement) || !(atlasTemporalLayoutHost instanceof HTMLElement) || !atlasTemporalLayoutHost.contains(target)) return;
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter', ' '].includes(event.key)) return;
+  event.preventDefault();
+  if (event.key === 'ArrowLeft') focusAtlasTemporalEvent(-1);
+  if (event.key === 'ArrowRight') focusAtlasTemporalEvent(1);
+  if (event.key === 'Home') focusAtlasTemporalEvent(-9999);
+  if (event.key === 'End') focusAtlasTemporalEvent(9999);
+  if (event.key === 'Enter' || event.key === ' ') {
+    updateStatusText(`Atlas timeline scene: ${target.dataset.atlasTemporalSceneId || 'scene'}`);
+  }
+}
+
+function handleAtlasTemporalLayoutClick(event) {
+  const close = event.target instanceof Element ? event.target.closest('[data-atlas-temporal-layout-close]') : null;
+  if (close instanceof HTMLElement && atlasTemporalLayoutHost instanceof HTMLElement && atlasTemporalLayoutHost.contains(close)) {
+    closeAtlasTemporalLayoutSurface();
+    return;
+  }
+  const eventButton = event.target instanceof Element ? event.target.closest('[data-atlas-temporal-event]') : null;
+  if (eventButton instanceof HTMLElement && atlasTemporalLayoutHost instanceof HTMLElement && atlasTemporalLayoutHost.contains(eventButton)) {
+    updateStatusText(`Atlas timeline scene: ${eventButton.dataset.atlasTemporalSceneId || 'scene'}`);
+  }
+}
+
+function handleAtlasTemporalLayoutInput(event) {
+  const input = event.target instanceof Element ? event.target.closest('[data-atlas-temporal-slider]') : null;
+  if (!(input instanceof HTMLInputElement) || !(atlasTemporalLayoutHost instanceof HTMLElement) || !atlasTemporalLayoutHost.contains(input)) return;
+  atlasTemporalLayoutState = {
+    ...atlasTemporalLayoutState,
+    timeSliderState: {
+      ...atlasTemporalLayoutState.timeSliderState,
+      value: Number(input.value || 0),
+    },
+  };
+  refreshAtlasTemporalLayout(Number(input.value || 0));
+}
+
+function bindAtlasTemporalLayoutKeyboardNavigation() {
+  if (!(atlasTemporalLayoutHost instanceof HTMLElement) || atlasTemporalLayoutKeyboardBound) return;
+  atlasTemporalLayoutHost.addEventListener('keydown', handleAtlasTemporalLayoutKeydown);
+  atlasTemporalLayoutHost.addEventListener('click', handleAtlasTemporalLayoutClick);
+  atlasTemporalLayoutHost.addEventListener('input', handleAtlasTemporalLayoutInput);
+  atlasTemporalLayoutKeyboardBound = true;
+}
+
+function appendAtlasTemporalLayoutList(parent, rows, omittedCount = 0) {
+  const list = document.createElement('div');
+  list.className = 'right-rail-atlas-temporal-list';
+  for (const row of rows.slice(0, 16)) {
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'right-rail-atlas-temporal-list-row';
+    item.dataset.atlasTemporalSceneId = row.sceneId || '';
+    item.dataset.state = row.selected ? 'selected' : row.temporalState || 'anchored';
+    const main = document.createElement('span');
+    main.className = 'right-rail-atlas-matrix-list-row__main';
+    main.textContent = row.sceneTitle || row.sceneId || 'Scene';
+    const meta = document.createElement('span');
+    meta.className = 'right-rail-atlas-matrix-list-row__meta';
+    meta.textContent = `${row.storyLabel || 'unknown'} · ${row.relationSegmentCount || 0} segments`;
+    item.append(main, meta);
+    list.appendChild(item);
+  }
+  if (rows.length < 1) {
+    const empty = document.createElement('div');
+    empty.className = 'right-rail-atlas-state';
+    empty.textContent = 'Timeline list appears after scene temporal anchors exist.';
+    list.appendChild(empty);
+  }
+  if (omittedCount > 0) {
+    const omitted = document.createElement('div');
+    omitted.className = 'right-rail-atlas-state';
+    omitted.textContent = `${omittedCount} additional timeline rows clipped by surface budget.`;
+    list.appendChild(omitted);
+  }
+  parent.appendChild(list);
+}
+
+function renderAtlasTemporalLayoutState() {
+  if (!(atlasTemporalLayoutHost instanceof HTMLElement)) return;
+  bindAtlasTemporalLayoutKeyboardNavigation();
+  if (atlasTemporalLayoutShell instanceof HTMLElement) {
+    atlasTemporalLayoutShell.hidden = atlasTemporalLayoutExplicitOpen !== true;
+  }
+  atlasTemporalLayoutHost.innerHTML = '';
+  atlasTemporalLayoutHost.dataset.atlasTemporalLayoutStatus = atlasTemporalLayoutExplicitOpen ? atlasTemporalLayoutState.state : 'closed';
+  atlasTemporalLayoutHost.dataset.atlasTemporalLayoutProvider = ATLAS_TEMPORAL_LAYOUT_QUERY_ID;
+  if (atlasTemporalLayoutExplicitOpen !== true) return;
+
+  const state = normalizeAtlasTemporalLayout(atlasTemporalLayoutState);
+  const header = document.createElement('div');
+  header.className = 'right-rail-atlas-matrices-head right-rail-atlas-temporal-head';
+  const label = document.createElement('div');
+  label.className = 'right-rail-section__label';
+  label.textContent = 'Timeline';
+  const title = document.createElement('strong');
+  title.className = 'right-rail-atlas-matrices-title';
+  title.textContent = 'Atlas temporal layout';
+  const hash = document.createElement('span');
+  hash.className = 'right-rail-atlas-overview-hash';
+  hash.textContent = state.summary.layoutHash ? state.summary.layoutHash.slice(0, 8) : state.state;
+  header.append(label, title, hash);
+  atlasTemporalLayoutHost.appendChild(header);
+
+  const metrics = document.createElement('div');
+  metrics.className = 'right-rail-atlas-overview-metrics right-rail-atlas-matrices-metrics';
+  appendAtlasOverviewMetric(metrics, 'scenes', state.summary.sceneCount);
+  appendAtlasOverviewMetric(metrics, 'anchored', state.summary.anchoredSceneCount);
+  appendAtlasOverviewMetric(metrics, 'unknown', state.summary.unknownTemporalSceneCount, state.summary.unknownTemporalSceneCount > 0 ? 'reviewRequired' : 'current');
+  appendAtlasOverviewMetric(metrics, 'segments', state.summary.relationSegmentCount);
+  atlasTemporalLayoutHost.appendChild(metrics);
+
+  const actionBar = document.createElement('div');
+  actionBar.className = 'right-rail-atlas-action-bar';
+  const closeButton = document.createElement('button');
+  closeButton.type = 'button';
+  closeButton.className = 'right-rail-atlas-action';
+  closeButton.dataset.atlasTemporalLayoutClose = 'true';
+  closeButton.textContent = 'Close';
+  actionBar.appendChild(closeButton);
+  atlasTemporalLayoutHost.appendChild(actionBar);
+
+  if (state.state === 'unavailable') {
+    const unavailable = document.createElement('div');
+    unavailable.className = 'right-rail-atlas-state right-rail-atlas-state--blocked';
+    unavailable.textContent = state.unavailableReason || 'ATLAS_TEMPORAL_LAYOUT_UNAVAILABLE';
+    atlasTemporalLayoutHost.appendChild(unavailable);
+    return;
+  }
+  if (state.state === 'loading') {
+    const loading = document.createElement('div');
+    loading.className = 'right-rail-atlas-state';
+    loading.textContent = 'Atlas timeline загружается только после явного открытия.';
+    atlasTemporalLayoutHost.appendChild(loading);
+    return;
+  }
+  if (state.state === 'empty') {
+    const empty = document.createElement('div');
+    empty.className = 'right-rail-atlas-state';
+    empty.textContent = 'Timeline appears after scene temporal anchors exist.';
+    atlasTemporalLayoutHost.appendChild(empty);
+    return;
+  }
+
+  const sliderSection = appendAtlasOverviewSection(atlasTemporalLayoutHost, 'Time slider', { open: true });
+  const sliderWrap = document.createElement('label');
+  sliderWrap.className = 'right-rail-atlas-temporal-slider';
+  const sliderText = document.createElement('span');
+  sliderText.textContent = state.timeSliderState.rangeLabel || 'story time';
+  const sliderInput = document.createElement('input');
+  sliderInput.type = 'range';
+  sliderInput.min = String(state.timeSliderState.min);
+  sliderInput.max = String(state.timeSliderState.max);
+  sliderInput.step = String(state.timeSliderState.step || 1);
+  sliderInput.value = String(state.timeSliderState.value);
+  sliderInput.dataset.atlasTemporalSlider = 'true';
+  sliderInput.setAttribute('aria-label', 'Atlas time slider');
+  sliderWrap.append(sliderText, sliderInput);
+  sliderSection.appendChild(sliderWrap);
+
+  const timelineSection = appendAtlasOverviewSection(atlasTemporalLayoutHost, 'Temporal layout', { open: true });
+  const rail = document.createElement('div');
+  rail.className = 'right-rail-atlas-temporal-rail';
+  rail.setAttribute('role', 'list');
+  for (const event of state.layoutPacket.events.slice(0, 24)) {
+    const marker = document.createElement('button');
+    marker.type = 'button';
+    marker.className = 'right-rail-atlas-temporal-event';
+    marker.dataset.atlasTemporalEvent = 'true';
+    marker.dataset.atlasTemporalSceneId = event.sceneId || '';
+    marker.dataset.state = event.selected ? 'selected' : event.temporalState || 'anchored';
+    marker.style.setProperty('--atlas-temporal-x', `${Number(event.xPercent || 0)}%`);
+    marker.tabIndex = Number(event.focusIndex || 0) === 0 ? 0 : -1;
+    marker.setAttribute('aria-label', event.ariaLabel || `${event.sceneTitle || event.sceneId || 'Scene'} timeline event`);
+    marker.textContent = String(Number(event.sceneOrdinal || 0) + 1);
+    rail.appendChild(marker);
+  }
+  timelineSection.appendChild(rail);
+
+  const listSection = appendAtlasOverviewSection(atlasTemporalLayoutHost, 'List fallback', { open: true });
+  appendAtlasTemporalLayoutList(listSection, state.listParity.rows, state.listParity.omittedRowCount);
+
+  if (state.largeProjectBudgetProof?.clippingHonest) {
+    const budget = document.createElement('div');
+    budget.className = 'right-rail-atlas-state';
+    budget.textContent = `Virtualized ${state.largeProjectBudgetProof.visibleSceneCount || 0}/${state.largeProjectBudgetProof.totalSceneCount || 0} scenes and ${state.largeProjectBudgetProof.visibleSegmentCount || 0}/${state.largeProjectBudgetProof.totalSegmentCount || 0} segments.`;
+    atlasTemporalLayoutHost.appendChild(budget);
+  }
+}
+
+function closeAtlasTemporalLayoutSurface() {
+  atlasTemporalLayoutExplicitOpen = false;
+  renderAtlasTemporalLayoutState();
+}
+
+function openAtlasTemporalLayoutSurface() {
+  atlasTemporalLayoutExplicitOpen = true;
+  renderAtlasTemporalLayoutState();
+  refreshAtlasTemporalLayout();
+}
+
+async function refreshAtlasTemporalLayout(sliderValue = null) {
+  if (currentRightTab !== 'atlas') return;
+  if (atlasTemporalLayoutExplicitOpen !== true) return;
+  atlasTemporalLayoutState = {
+    ...atlasTemporalLayoutState,
+    state: currentProjectId ? 'loading' : 'empty',
+    projectId: currentProjectId || '',
+  };
+  renderAtlasTemporalLayoutState();
+  const result = await invokeWorkspaceQueryBridge(ATLAS_TEMPORAL_LAYOUT_QUERY_ID, {
+    projectId: currentProjectId,
+    explicitOpen: atlasTemporalLayoutExplicitOpen === true,
+    sceneLimit: 48,
+    segmentLimit: 32,
+    sliderValue,
+  });
+  const nextState = result && result.ok !== false && result.atlasTemporalLayout
+    ? result.atlasTemporalLayout
+    : { state: 'unavailable', unavailableReason: 'ATLAS_TEMPORAL_LAYOUT_QUERY_FAILED' };
+  atlasTemporalLayoutState = normalizeAtlasTemporalLayout(nextState);
+  renderAtlasTemporalLayoutState();
 }
 
 function normalizeAtlasReportsSavedQueries(result = {}) {

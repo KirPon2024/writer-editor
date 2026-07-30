@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_TIME_SLIDER_SURFACE_RECEIPT.json",
+      "sha256": "4f949870c6b8a64958c1f50b80dae7f4a1c5f49cb3a140f107d8e4091c75de7f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_AND_TIME_SLIDER_SURFACE",
+      "approvedAtUtc": "2026-07-30T04:40:02.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C06 delivery receipt: records local verified implementation of the explicit-open Atlas temporal layout and time slider surface, SURFACE_MANIFEST_V1 rightRail.context.atlas.temporalLayout slot, query.atlasTemporalLayout read-only heavy projection, temporal layout packet, time slider state model, keyboard and list parity, large-project UI budget proof, Lazyweb health plus strong timeline dashboard search and recorded create-report unavailable fallback, UI Craft implementation route, no Core command, no project truth mutation, no manuscript mutation, no storage, no network, no new dependency, no background daemon, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js",
+      "sha256": "f4270fb701650816f07b507c9e80c2b8f8f84a72745caf71abd4fbb308949eff",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_AND_TIME_SLIDER_SURFACE",
+      "approvedAtUtc": "2026-07-30T04:40:02.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C06 contract: proves Atlas temporal layout derives an explicit heavy timeline, slider state, keyboard contract, list fallback parity, and large-project budget proof from existing temporal anchors and relation segments without mutation, records unknown-time degraded state honestly, fails closed when atlas.temporalLayout capability is disabled, exports through derived barrels, wires renderer and main query bridge only behind explicitOpen and query allowlist, and keeps derived temporal layout sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, automatic correction, automatic apply, manuscript mutation, project truth mutation, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_DISAPPEARANCE_CHECKS_RECEIPT.json",
       "sha256": "22f4e290947eacffd3361c3244099171674697c3369c3da2a4f4e025b4e48ea1",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_AND_DISAPPEARANCE_CHECKS",

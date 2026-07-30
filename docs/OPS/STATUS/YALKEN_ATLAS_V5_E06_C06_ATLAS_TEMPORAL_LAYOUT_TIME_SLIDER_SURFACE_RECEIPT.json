@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_TIME_SLIDER_SURFACE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E06_C06_ATLAS_TEMPORAL_LAYOUT_AND_TIME_SLIDER_SURFACE",
+  "programStage": "E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T04:40:02Z",
+  "baseSha": "2e99bb03e61beb24fc4fbbecaec85c63b7a7190c",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour creates a new bounded Atlas product UI surface for temporal layout and a time slider.",
+  "designRouteEvidence": {
+    "lazyweb": {
+      "health": "healthy",
+      "version": "0.14.9",
+      "leadSearch": {
+        "query": "timeline dashboard",
+        "platform": "desktop",
+        "coverageStrength": "strong",
+        "topSimilarity": 0.56,
+        "referenceCompanies": [
+          "fibery",
+          "coda",
+          "formlabs"
+        ],
+        "resultUse": "Reference-only temporal dashboard density, explicit date controls, timeline grid, and list fallback signal."
+      },
+      "fullReport": "unavailable",
+      "fullReportUnavailableReason": "lazyweb_generate_report objective=create returned a redirect to lazyweb-deep-design-research, and lazyweb_get_workflows returned WORKFLOW_NOT_FOUND for lazyweb-deep-design-research. This recorded unavailable fallback is used before UI code per the C06 contract."
+    },
+    "uiCraft": {
+      "applied": true,
+      "craftRead": "Desktop authoring analytics surface for writers, product language, restrained neutral Atlas tokens, variance 4, signature bet: native slider over a compact evidence-first timeline.",
+      "referencesRead": [
+        "brief.md",
+        "craft-intent.md",
+        "tokens.md",
+        "inspiration.md",
+        "accessibility.md",
+        "color.md",
+        "layout.md",
+        "dashboard.md",
+        "components.md",
+        "dataviz.md"
+      ]
+    },
+    "brainRefs": {
+      "command": "npm run brain:refs -- \"temporal layout time slider continuity ledger\"",
+      "topReference": "native-fluency-typographic-sharpness.md"
+    },
+    "leonardo": "not-applicable-no-semantic-color-system-change",
+    "projectWallace": "not-applicable-css-change-contained-to-existing-right-rail-atlas-surface"
+  },
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.temporalLayout",
+    "productPlane": {
+      "truthPath": "none",
+      "commandId": "none",
+      "mutationAuthority": "none",
+      "writePath": "none",
+      "readPath": "derived.atlas.temporalLayout.v1",
+      "sourceReadModels": [
+        "derived.atlas.sceneTemporalAnchors.v1",
+        "derived.atlas.relationSegmentsPerspective.v1"
+      ],
+      "ports": [
+        "query.atlasTemporalLayout"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "cloudSync": false,
+      "accountSync": false,
+      "automaticCorrection": false,
+      "automaticApply": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "surface.atlas.temporalLayout.v1",
+      "host": "rightRail",
+      "slotId": "rightRail.context.atlas.temporalLayout",
+      "providerId": "query.atlasTemporalLayout",
+      "runtimeUiChanged": true,
+      "explicitOpenRequired": true,
+      "dispatchIntentOnly": true
+    },
+    "authorityMap": {
+      "productTruth": "existing Product Core Atlas scene temporal anchors and relation segment derived sources",
+      "commandAuthority": "none",
+      "designAuthority": "Design OS right-rail surface manifest and typed slot",
+      "storageAuthority": "none",
+      "capabilityRevalidation": "derived capability snapshot gates atlas.temporalLayout; main query bridge allows query only by query allowlist and explicitOpen"
+    },
+    "fallbacks": [
+      "ATLAS_TEMPORAL_LAYOUT_EMPTY",
+      "ATLAS_TEMPORAL_LAYOUT_LIST_PARITY",
+      "ATLAS_TEMPORAL_LAYOUT_UNAVAILABLE",
+      "ATLAS_TEMPORAL_LAYOUT_EXPLICIT_OPEN_REQUIRED"
+    ],
+    "recovery": {
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "generationIdentityProof": true,
+      "revisionGuard": true,
+      "unknownOutcomesExplicit": true,
+      "listParityFallback": true
+    },
+    "negativeBypassChecks": [
+      "disabled capability fails closed",
+      "main query without explicitOpen returns explicit-open-required fallback",
+      "renderer does not refresh temporal layout from typing or text edit path",
+      "temporal layout query path contains no writeFileAtomic",
+      "derived temporal layout sources contain no storage, network, DOM, platform, renderer, worker, daemon, command dispatch, manuscript mutation, project truth mutation, automatic correction, or automatic apply side effects"
+    ]
+  },
+  "implementation": {
+    "commandIdsAdded": [
+      "none"
+    ],
+    "capabilitiesAdded": [
+      "none"
+    ],
+    "schemasAdded": [
+      "derived.atlas.temporalLayout.v1",
+      "surface.atlas.temporalLayout.v1",
+      "derived.atlas.temporalLayoutPacket.v1",
+      "derived.atlas.timeSliderState.v1",
+      "derived.atlas.temporalLayoutListParity.v1",
+      "derived.atlas.temporalLayoutKeyboardContract.v1",
+      "derived.atlas.temporalLayoutBudgetProof.v1"
+    ],
+    "surfaceAdded": "rightRail.context.atlas.temporalLayout",
+    "providerAdded": "query.atlasTemporalLayout",
+    "explicitOpenRequired": true,
+    "timeSliderStateModel": true,
+    "keyboardAndListParity": true,
+    "largeProjectUiBudgetProof": true,
+    "runtimeUiChanged": true,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node -c src/derived/atlas/deriveAtlasTemporalLayout.mjs && node -c src/derived/atlas/atlasTemporalLayoutTypes.mjs && node -c test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js && node -c src/main.js",
+      "result": "PASS",
+      "summary": "C06 derived modules, focused contract, and main parse"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js",
+      "result": "PASS",
+      "summary": "5 tests, 5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c02-atlas-temporal-range-model-scene-anchors.contract.test.js test/contracts/yalken-atlas-v5-e06-c03-atlas-relation-segments-perspective-model.contract.test.js test/contracts/yalken-atlas-v5-e06-c04-atlas-continuity-fact-ledgers-command-boundary.contract.test.js test/contracts/yalken-atlas-v5-e06-c05-atlas-continuity-findings-promises-disappearance-checks.contract.test.js test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
+      "result": "PASS",
+      "summary": "25 tests, 25 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; COMMAND_NAMESPACE_CHECK_RESULT=PASS; MENU_OVERLAY_STACK_CHECK_RESULT=PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": true,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "read-only explicit-open derived surface; no project truth or persistence mutation",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AND_AUTHOR_CORRECTION_ROUTE"
+}

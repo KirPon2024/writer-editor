@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.c02-authority-carrier-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "C02_INTEGRATE_SELECTED_WORD_AUTHORITY_CARRIER_AND_NEGATIVE_EXACT_ORACLES",
+  "status": "C02_AUTHORITY_CARRIER_PARSER_READY_NOT_APPLY_EXPANDED",
+  "createdAtUtc": "2026-07-30T17:16:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "9a0ebac92202968ae39f45cd5290f2f6d66aa960",
+    "precedingC01MergeSha": "9a0ebac92202968ae39f45cd5290f2f6d66aa960",
+    "precedingC01Pr": 1267
+  },
+  "selectedAuthorityCarrier": "customDocumentProperty",
+  "selectedAuthorityCarrierPropertyName": "YRTK_C01_AUTH",
+  "physicalEvidenceBinding": {
+    "c01Receipt": "WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C01_LOCATOR_CARRIER_RECEIPT.json",
+    "c01Result": "PASS",
+    "wordProfileFamily": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+    "customDocumentPropertySurvivedAllMutatingCases": true,
+    "customXmlManifestSurvivedAllMutatingCases": false,
+    "settingsDocVarSurvivedAllMutatingCases": false
+  },
+  "implementedSurface": {
+    "parserCore": "reviewTransportPackageParserV2.mjs",
+    "publicBarrel": "index.mjs",
+    "authorityCarrierSchema": "yalken.rtk.review-transport-authority-carrier.v2",
+    "carrierExtraction": "docProps/custom.xml custom property via namespace-aware token scan",
+    "hmacVerification": "CryptoPort hmacSha256Json plus local hmacSecret; secret is never embedded in DOCX",
+    "baselineBinding": [
+      "sceneId",
+      "sceneRevision",
+      "rawSha256",
+      "blockId",
+      "roundId",
+      "exportId"
+    ],
+    "classifierAuthorityOutput": {
+      "validSignedLocator": "true only when carrier verifies and expected baseline fields all match",
+      "sceneRevisionUnchanged": "derived from expected baseline match",
+      "rawSha256Unchanged": "derived from expected baseline match",
+      "uniqueTarget": false,
+      "nonOverlapping": false,
+      "allRelevantXmlSemanticsAccounted": false
+    }
+  },
+  "negativeOracles": {
+    "missingLocalSecretBlocksAuthority": true,
+    "tamperedHmacBlocksAuthority": true,
+    "staleSceneRevisionBlocksAuthority": true,
+    "staleRawShaBlocksAuthority": true,
+    "duplicateCarrierBlocksAuthority": true,
+    "verifiedCarrierDoesNotExpandExactWithoutUniquenessAndSemanticAccounting": true
+  },
+  "zeroFalseExactPolicy": {
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "exactRateMeasuredNotGamed": true
+  },
+  "wordSaturationSequencing": {
+    "currentFocus": "WORD_ONLY_UNTIL_SATURATION",
+    "googleDocsNextAfterWordSaturation": true,
+    "otherEditorsRemainFutureMasterPlan": true,
+    "masterPlanReduced": false
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "automaticApplyExpanded": false,
+    "parserWriteAuthorityAdded": false,
+    "rendererAuthorityAdded": false
+  },
+  "nonClaims": {
+    "automaticApplyExpanded": false,
+    "blockLocalExactCertified": false,
+    "googleDocsCertified": false,
+    "otherEditorsCertified": false,
+    "latestWordSaturationDone": false,
+    "fullWordSemanticsPortable": false,
+    "fixtureOnlyPass": false
+  },
+  "nextStage": "C03_BLOCK_LOCAL_EXACT_NEGATIVE_ORACLES_AND_LOCATOR_UNIQUENESS"
+}

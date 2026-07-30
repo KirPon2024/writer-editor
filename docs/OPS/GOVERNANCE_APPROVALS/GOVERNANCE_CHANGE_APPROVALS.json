@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "d9bb03e16b211a2f63f5d1062a3aeac3d9b69bfcb44d22d8d3e4d399bab25acd",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T16:05:00.000Z",
-      "rationale": "Approve bounded B05 Sector M scope-map sync: adds only the new ReviewIRV2 exact apply admission adapter file to the cumulative DONE allowlist so existing sector-m no-scope-leak and runner guards can validate the B05 branch, with no Sector M product scope, UI, runtime dependency, network, Design OS, DOCX Minimal, or direct manuscript mutation expansion beyond the existing exact writer boundary."
+      "sha256": "8cef53f433f454c55f1087f4fecfaeab3f87f7792aba2179d0f5561076a1f6cb",
+      "rationale": "Approve bounded C03 Sector-M cumulative scope-map hygiene update: adds the new platform-neutral reviewTransportBlockExactAuthorityV2.mjs file to the existing DONE revisionBridge allowlist so the already-enforced scope leak and sector runner guards recognize the C03 RTK authority core; this preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no writer authority, and no product claim expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.b03-modern-comments-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "B03_MODERN_COMMENT_GRAPH_REPLIES_RESOLVE_ORPHAN_RECOVERY",
+  "status": "B03_COMMENT_GRAPH_PARSER_READY_NOT_CERTIFIED",
+  "createdAtUtc": "2026-07-30T15:31:00Z",
+  "base": {
+    "originMainSha": "70437bfb05ca5721ef0810dacdcd4ac795038f6a",
+    "branch": "codex/rtk-word-latest-semantic-b03",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "precedingStage": "B02",
+    "precedingPr": 1258,
+    "precedingMergeSha": "70437bfb05ca5721ef0810dacdcd4ac795038f6a",
+    "precedingCi": "PASS"
+  },
+  "coveredSemantics": [
+    "recursive reply ordering",
+    "durable comment IDs",
+    "resolved state",
+    "reopened state",
+    "orphan body preservation",
+    "expected deleted or missing comment detection",
+    "comment on deleted text related revision",
+    "duplicate comment ID unsupported blocking",
+    "no-op empty comment package non-pass",
+    "comment lane independence from text and apply authority"
+  ],
+  "commentGraphCapability": {
+    "schemaVersion": "yalken.rtk.comment-graph-capability.v1",
+    "parserOnlyStatus": "PARSER_ONLY_NOT_CERTIFIED",
+    "commentPassRequiresPhysicalWordReopenVisibility": true,
+    "noOpSaveCountsAsPass": false,
+    "anyUnsupportedBlockedThreadDisablesCommentPassAllowed": true
+  },
+  "negativeContracts": [
+    "duplicate IDs do not certify comment support",
+    "empty or no-comments save does not certify comment support",
+    "missing expected comment becomes deleted-or-missing UNSUPPORTED_BLOCKED",
+    "orphan comment body is preserved independently from placement",
+    "comment on deleted text preserves quoted anchor and related delete revision",
+    "reopened state is distinct from active and resolved",
+    "comments never authorize manuscript apply"
+  ],
+  "nonClaims": {
+    "latestWordCertified": false,
+    "word161112Certified": false,
+    "modernCommentsPhysicallyCertified": false,
+    "modernRepliesResolvePhysicallyCertified": false,
+    "automaticApplyExpanded": false,
+    "exactAuthorityExpanded": false,
+    "runtimeImportAdded": false,
+    "uiChanged": false,
+    "networkAdded": false,
+    "dependencyAdded": false,
+    "fixtureOnlyPassClaimed": false
+  },
+  "nextStage": "B04_REVISION_PROPERTY_STRUCTURE_CLASSIFIER"
+}

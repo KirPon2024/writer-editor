@@ -45,10 +45,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "8df01320c843bc7321e07878df03c4298bf78f2187e4fb44afb3f16c6094ae41",
+      "sha256": "4d75c4de62a4f54c4d1125ab3728adfa4c3da28194c705c8af0811b80dea6a56",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:19:00.000Z",
-      "rationale": "Approve bounded B02 platform-neutral package-aware ReviewIRV2 parser core: parses namespace-aware OOXML tokens, package relationships, content types, comments, revisions, properties, structure, formatting, and opaque unsupported lanes through CryptoPort-provided digests, blocks hostile package evidence, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not expand EXACT or apply authority."
+      "approvedAtUtc": "2026-07-30T15:33:00.000Z",
+      "rationale": "Approve bounded B03 extension of the platform-neutral package-aware ReviewIRV2 parser core: preserves recursive comment replies, durable IDs, resolved and reopened state, deleted-or-missing expected comments, orphan bodies, comment-on-deleted-text related revisions, duplicate-ID blocking, and no-op comment non-pass while importing no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority and without expanding EXACT or apply authority."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",
@@ -56,6 +56,20 @@
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
       "approvedAtUtc": "2026-07-30T15:19:00.000Z",
       "rationale": "Approve focused B02 parser contract coverage: proves namespace prefix and attribute-order stability, modern comment graph preservation with replies and resolved state, separate revision/property/structure/formatting lanes, hostile package blocking, typed opaque unsupported handling, malformed XML blocking, public export, receipt non-certification, and platform-neutral no-regex/no-runtime boundaries."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B03_MODERN_COMMENTS_RECEIPT.json",
+      "sha256": "17ade1211b4971608cdb1dacc217394433ec5c5471c883ca58d07d950cb5dd89",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T15:33:00.000Z",
+      "rationale": "Approve bounded B03 modern comments receipt: records parser-only comment graph semantics for recursive replies, durable IDs, resolved and reopened state, orphan recovery, deleted-or-missing expected comments, comment-on-deleted-text related revisions, duplicate/no-op non-pass, and no latest Word certification, modern comments physical certification, automatic apply expansion, UI, runtime, network, dependency, fixture-only pass, or writer authority claim."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b03-modern-comments.contract.test.js",
+      "sha256": "e499f8893f2a26265b73e964b6857908ed9e61ada061013e95769f4b803664ee",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T15:33:00.000Z",
+      "rationale": "Approve focused B03 modern comments contract coverage: proves reopened state, durable identity, recursive replies, comment-on-deleted-text related revision, orphan body preservation, missing expected comment deleted-or-missing diagnostics, duplicate ID non-pass, no-op empty comment non-pass, and receipt non-certification without runtime, UI, dependency, network, apply, or Word certification expansion."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json",
@@ -857,10 +871,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "e21124d387c422e8f093b7df46ec190c14b50aa31fe87fc9c424cb9fa0c73db6",
+      "sha256": "836adcb350389647e55e74155c3966a8dcb5a1b165fce5e1d256d7c1e04bb8f3",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:19:00.000Z",
-      "rationale": "Approve bounded B02 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside latest Word semantic B00, B01, and B02 receipts, lab scripts, manifest core, parser core, Sector M scope map and focused contracts while preserving W5 false Word PASS rejection, no Word support overclaim, no roundtrip certification claim, no modern reply/resolve certification, no release DONE, no dependency, no runtime, no UI, no storage expansion, and no writer authority change."
+      "approvedAtUtc": "2026-07-30T15:33:00.000Z",
+      "rationale": "Approve bounded B03 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside latest Word semantic B00 through B03 receipts and focused contracts while preserving W5 false Word PASS rejection, no Word support overclaim, no roundtrip certification claim, no modern comment physical certification, no release DONE, no dependency, no runtime, no UI, no storage expansion, and no writer authority change."
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",

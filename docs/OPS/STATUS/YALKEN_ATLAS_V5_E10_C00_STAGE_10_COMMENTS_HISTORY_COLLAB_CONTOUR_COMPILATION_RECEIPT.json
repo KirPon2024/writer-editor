@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E10_C00_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOUR_COMPILATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E10_C00_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOUR_COMPILATION",
+  "programStage": "E10_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T15:29:41Z",
+  "validatedAtUtc": "2026-07-30T15:40:21Z",
+  "baseSha": "515f282b754e0c6df70df8a6b9a046405d78d6a7",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E10 C00 compiles comments, history, and local-first collab contours only. It changes no product UI screen, visual composition, layout, palette, typography, runtime Design OS surface, renderer surface, storage adapter, network adapter, or project truth.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "515f282b754e0c6df70df8a6b9a046405d78d6a7",
+    "stage09AcceptanceExists": true,
+    "stage09HandoffTarget": "E10_C00_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOUR_COMPILATION",
+    "stage09FinalProgramDoDClaim": false,
+    "commentsHistoryDerivedViewsExist": true,
+    "commentsHistorySecondSot": false,
+    "collabEventLogExists": true,
+    "collabApplyPipelineExists": true,
+    "collabReplayDeterminismExists": true,
+    "collabConflictEnvelopeExists": true,
+    "collabCausalQueueReadinessExists": true,
+    "rtkWordLatestSemanticB00Exists": true,
+    "rtkWordLatestSemanticB01Exists": true,
+    "rtkWordLatestSemanticB02Exists": true,
+    "rtkWordLatestSemanticB03Exists": true,
+    "operationLogTruthSource": "existing collab event log and Command Kernel receipts only",
+    "secondOperationLogTruth": false,
+    "secondCommentTruth": false,
+    "transportTruthInCore": false,
+    "networkAdapterActive": false,
+    "crdtCoreAdopted": false,
+    "localFirstSingleUserBaselineWorks": true,
+    "currentMainFullRunner": "795 tests, 731 pass, 0 fail, 64 skipped"
+  },
+  "stageScopeBinding": {
+    "userOutcome": "Author can discuss evidence and changes, inspect history, and later collaborate without breaking local-first authoring.",
+    "acceptance": [
+      "CRDT or transport never becomes Product Core",
+      "offline single-user mode remains fully usable",
+      "comments and decisions keep stable anchors through replay, reopen, and portability boundaries",
+      "history is a derived projection, not a second source of truth",
+      "capability can be disabled without blocking author data",
+      "network transport remains a separately activated adapter"
+    ],
+    "scopeIn": [
+      "stable comment anchors",
+      "revision history projection",
+      "operation replay",
+      "actor identities",
+      "causal ordering",
+      "local multi-session tests",
+      "transport-neutral operation exchange",
+      "offline queue",
+      "recovery",
+      "conflict surfaces through Design OS"
+    ],
+    "scopeOut": [
+      "network collaboration runtime",
+      "account sync",
+      "cloud transport",
+      "Yjs or CRDT as Core truth",
+      "second operation log truth",
+      "second comment truth",
+      "new storage adapter in C00",
+      "release readiness claim",
+      "platform certification",
+      "final Program DoD"
+    ]
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E10_C01_STABLE_COMMENT_ANCHORS_AND_DECISION_SURVIVAL",
+      "userOutcome": "Author comments and decisions stay attached to the intended evidence or text span across reopen, replay, import evidence, and local edits.",
+      "scopeIn": [
+        "stable comment anchor packet",
+        "decision row identity",
+        "scene block inline and evidence anchor refs",
+        "anchor confidence report",
+        "RTK modern comment graph reuse",
+        "comment anchor survival fixtures"
+      ],
+      "scopeOut": [
+        "auto-apply comment decisions",
+        "new comment storage truth",
+        "network comment sync",
+        "renderer comment UI redesign"
+      ],
+      "expectedWriteSet": [
+        "src/derived/commentsHistory",
+        "src/io/revisionBridge",
+        "test/contracts/yalken-atlas-v5-e10-c01-stable-comment-anchors-decision-survival.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C01_STABLE_COMMENT_ANCHORS_DECISION_SURVIVAL_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete comment surface changes",
+        "reuse existing Review/Comments surface truth and RTK contracts"
+      ]
+    },
+    {
+      "contourId": "E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION",
+      "userOutcome": "Author can inspect revision history as a deterministic projection while project and manuscript truth remain owned by Product Core.",
+      "scopeIn": [
+        "history projection packet",
+        "Command Kernel receipt references",
+        "review apply receipt references",
+        "derived invalidation key",
+        "no second history store proof"
+      ],
+      "scopeOut": [
+        "stored timeline as project truth",
+        "direct history write API",
+        "renderer-owned history truth",
+        "cloud audit log"
+      ],
+      "expectedWriteSet": [
+        "src/derived/commentsHistory",
+        "test/contracts/yalken-atlas-v5-e10-c02-revision-history-projection-author-truth.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AUTHOR_TRUTH_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete history surface changes",
+        "negative checks for second SOT and direct write bypass"
+      ]
+    },
+    {
+      "contourId": "E10_C03_OPERATION_REPLAY_OVER_EXISTING_COMMAND_EVENT_LOG",
+      "userOutcome": "Local operation replay is deterministic and debuggable without adding another operation log or bypassing Command Kernel authority.",
+      "scopeIn": [
+        "existing collab event log reuse",
+        "Command Kernel event entry binding",
+        "state hash replay proof",
+        "idempotency and duplicate operation rejection",
+        "typed replay error envelopes"
+      ],
+      "scopeOut": [
+        "second operation log truth",
+        "private command bus",
+        "direct manuscript mutation",
+        "transport exchange"
+      ],
+      "expectedWriteSet": [
+        "src/collab",
+        "test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C03_OPERATION_REPLAY_COMMAND_EVENT_LOG_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE",
+        "reuse existing collab-eventlog and collab-apply contracts"
+      ]
+    },
+    {
+      "contourId": "E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE",
+      "userOutcome": "Local sessions can attribute operations to actors, preserve causal ordering, and queue offline work without requiring network availability.",
+      "scopeIn": [
+        "actor identity envelope",
+        "causal ordering report",
+        "offline queue packet",
+        "capability disabled nonblocking proof",
+        "causal queue readiness proof"
+      ],
+      "scopeOut": [
+        "account identity",
+        "remote presence",
+        "network queue transport",
+        "Core transport dependency"
+      ],
+      "expectedWriteSet": [
+        "src/collab",
+        "test/contracts/yalken-atlas-v5-e10-c04-actor-causal-offline-queue.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C04_ACTOR_CAUSAL_OFFLINE_QUEUE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless conflict/offline UI changes",
+        "network adapter stays inactive and separately activated"
+      ]
+    },
+    {
+      "contourId": "E10_C05_LOCAL_MULTI_SESSION_RECOVERY_AND_CONFLICT_ENVELOPES",
+      "userOutcome": "Two local sessions can replay, recover, and surface conflicts without losing author data or inventing silent merges.",
+      "scopeIn": [
+        "local multi-session replay fixture",
+        "conflict envelope schema",
+        "rollback and reopen proof",
+        "manual conflict decision route",
+        "offline recovery proof"
+      ],
+      "scopeOut": [
+        "automatic conflict merge",
+        "network collaboration",
+        "destructive recovery",
+        "silent project rewrite"
+      ],
+      "expectedWriteSet": [
+        "src/collab",
+        "src/derived/commentsHistory",
+        "test/contracts/yalken-atlas-v5-e10-c05-local-multi-session-recovery-conflicts.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C05_LOCAL_MULTI_SESSION_RECOVERY_CONFLICTS_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER APPLIED only if a concrete conflict surface changes",
+        "conflict surfaces are Design OS projections, not Core truth"
+      ]
+    },
+    {
+      "contourId": "E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY",
+      "userOutcome": "Operation exchange is versioned and transport-neutral, while local offline authoring remains the default and network adapters stay disabled.",
+      "scopeIn": [
+        "transport-neutral exchange packet",
+        "local fixture adapter",
+        "capability gate for transport",
+        "network adapter disabled proof",
+        "no CRDT Core adoption proof"
+      ],
+      "scopeOut": [
+        "live network adapter",
+        "remote account or cloud sync",
+        "Yjs runtime dependency",
+        "transport as source of truth"
+      ],
+      "expectedWriteSet": [
+        "src/collab",
+        "test/contracts/yalken-atlas-v5-e10-c06-transport-neutral-operation-exchange.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE",
+        "local free reversible adapter only"
+      ]
+    },
+    {
+      "contourId": "E10_C07_STAGE_10_ACCEPTANCE_AND_HANDOFF_TO_PLATFORM_CERTIFICATION",
+      "userOutcome": "Stage 10 closes only after comments, history, replay, actor identity, causal ordering, local recovery, and transport-neutral boundaries are proven together.",
+      "scopeIn": [
+        "Stage 10 acceptance proof",
+        "stable comments and decisions anchor proof",
+        "history projection proof",
+        "operation replay proof",
+        "actor and causal ordering proof",
+        "offline queue and recovery proof",
+        "transport-neutral boundary proof",
+        "handoff to Stage 11"
+      ],
+      "scopeOut": [
+        "platform certification",
+        "packaged release claim",
+        "live network collaboration",
+        "EFINAL Program DoD"
+      ],
+      "expectedWriteSet": [
+        "src/collab",
+        "src/derived/commentsHistory",
+        "test/contracts/yalken-atlas-v5-e10-c07-stage-10-acceptance-handoff.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C07_STAGE_10_ACCEPTANCE_HANDOFF_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER APPLIED only if final acceptance updates a concrete conflict/comment/history UI surface",
+        "handoff target must be Stage 11, not EFINAL"
+      ]
+    }
+  ],
+  "handoffBinding": {
+    "previousContour": "E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_AND_STAGE_09_ACCEPTANCE",
+    "requiredPreviousNextContour": "E10_C00_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOUR_COMPILATION",
+    "newHandoffTarget": "E10_C01_STABLE_COMMENT_ANCHORS_AND_DECISION_SURVIVAL",
+    "finalProgramDoDClaim": false
+  },
+  "validation": [
+    {
+      "command": "node --test E09 C05 and E10 C00 contracts",
+      "result": "PASS",
+      "summary": "11 tests, 11 pass, 0 fail, executed after origin/main drift reconciliation"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1; missing approvals []"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; MENU checks PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": "NOT_APPLICABLE_C00_COMPILATION_ONLY",
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E10 C00 compiles comments, history, and local-first collaboration contours over the existing commentsHistory derived views, collab event log, apply pipeline, replay determinism, conflict envelopes, causal queue readiness, and RTK Word latest semantic contracts. It does not add runtime mutation, storage, network, transport Core truth, a second operation log, a second comment truth, a CRDT dependency, UI, platform certification, release readiness, or final Program DoD.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E10_C01_STABLE_COMMENT_ANCHORS_AND_DECISION_SURVIVAL"
+}

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "yalken.rtk.post-d1.a00-reconciliation-receipt.v1",
+  "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
+  "stageId": "A00_POST_D1_RECONCILIATION",
+  "observedAtUtc": "2026-07-30T13:19:11Z",
+  "result": "PASS",
+  "repoTruth": {
+    "canonicalMainDirtyPreserved": true,
+    "canonicalMainBranch": "main",
+    "canonicalMainHead": "f777b03880cb0428d6949a06ffabe81dfcfa762a",
+    "originMainHead": "835d0a9d84438f6243a789f06a81f35547440998",
+    "selectedWorktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "selectedBranch": "codex/rtk-post-d1-portability-a00-a01",
+    "selectedHead": "835d0a9d84438f6243a789f06a81f35547440998",
+    "selectedWorktreeCleanAtStart": true,
+    "atlasWorktreePreserved": true
+  },
+  "secureStorageTruth": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true,
+    "failClosedForPhysicalRuns": true
+  },
+  "d1Truth": {
+    "status": "DONE_MACOS_WORD_CERTIFIED_F00_PROVEN",
+    "wordProfile": "Microsoft Word for Mac 16.42 build 16.42.20101102",
+    "rounds": 40,
+    "exact": 18,
+    "manual": 9,
+    "blocked": 13,
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "immutableHistoryChanged": false
+  },
+  "postD1Truth": {
+    "latestWordSupplementalEvidenceFound": true,
+    "latestWordProfileCertified": false,
+    "wordOnlinePhysicalReturnedDocxClosed": false,
+    "googleDocsOfficeModePhysicalClosed": false,
+    "googleDocsNativeConversionPhysicalClosed": false,
+    "libreOfficePhysicalClosed": false,
+    "onlyOfficePhysicalClosed": false,
+    "pagesPhysicalClosed": false,
+    "wpsAdvisoryPhysicalClosed": false
+  },
+  "firstContour": {
+    "stageIds": [
+      "A00_POST_D1_RECONCILIATION",
+      "A01_EDITOR_LAB_HARNESS"
+    ],
+    "purpose": "Create a versioned post-D1 program, matrix, queue, and bounded harness without broad support claims.",
+    "noRuntimeWidening": true,
+    "noUiChange": true,
+    "noDependencyChange": true,
+    "noBuildInstallDownload": true
+  }
+}

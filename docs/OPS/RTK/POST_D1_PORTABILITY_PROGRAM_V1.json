@@ -1,0 +1,356 @@
+{
+  "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
+  "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
+  "status": "A00_A01_PROGRAM_AND_HARNESS_BOUND",
+  "createdAtUtc": "2026-07-30T13:19:11Z",
+  "binding": {
+    "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
+    "originMainSha": "835d0a9d84438f6243a789f06a81f35547440998",
+    "branch": "codex/rtk-post-d1-portability-a00-a01",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "preserveOwnerDirtyMain": true,
+    "preserveAtlasWorktree": true,
+    "immutableV6HistoryChanged": false,
+    "d1NormativeStatusChanged": false
+  },
+  "immutableD1Reference": {
+    "profileId": "word-mac-16.42-d1-f00-v1",
+    "status": "HISTORICAL_CERTIFIED_D1_MACOS_WORD_16_42",
+    "wordProfileDigest": "sha256:389db0305e9956bcbc6b58146a571caefbcab1158b5a328e9b7f633b3b5f5cfa",
+    "corpusDigest": "sha256:2b47991f142415d6930a86734efadebe7e220089a3f412410a0e089e59f0f601",
+    "evidenceManifestDigest": "sha256:618d2067ec272b1877fa965d2b732821aedfa353c4721b5b0b9c996a1464a610",
+    "rounds": 40,
+    "exact": 18,
+    "manual": 9,
+    "blocked": 13,
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "limitationPolicy": "Immutable D1 evidence remains accepted only for the recorded Word 16.42 macOS profile. Post-D1 profiles cannot inherit this PASS."
+  },
+  "latestWordCandidate": {
+    "profileId": "word-mac-latest-post-d1-v1",
+    "observedSupplementalProfile": "Microsoft Word for Mac 16.111.2 supplemental runs after D1",
+    "status": "SUPPLEMENTAL_EVIDENCE_NOT_CERTIFIED",
+    "certificationRequires": [
+      "new settings capsule with exact Word version build channel architecture macOS locale and synthetic identity",
+      "new frozen post-D1 corpus digest before first certification round",
+      "at least 30 physical editor-native Word round trips",
+      "modern comments package semantics for commentsExtended commentsExtensible commentsIds equivalents and people.xml where present",
+      "editor-native open edit save save-as close reopen readback",
+      "package inventory and OOXML semantic readback per round",
+      "zero false exact zero silent apply zero wrong scene routing",
+      "comment bodies replies ordering resolved or typed unsupported outcomes",
+      "writer-scale corpus including high page counts high comment density and formatting matrix"
+    ],
+    "forbiddenShortcut": "Supplemental Word 16.111.2 ZIP and large-corpus fixes do not certify this profile without its own physical corpus and oracle chain."
+  },
+  "capabilityProfileVocabulary": [
+    "EXACT_AUTOMATIC",
+    "MANUAL_REVIEW",
+    "COMMENTS_ONLY",
+    "SURVIVAL_ONLY",
+    "LOSSY",
+    "BLOCKED",
+    "UNTESTED"
+  ],
+  "lanes": [
+    "manuscriptText",
+    "comments",
+    "revisions",
+    "formatting",
+    "structure",
+    "locatorSurvival",
+    "performance",
+    "packageSemantics"
+  ],
+  "writerFormattingMatrix": [
+    "paragraphs",
+    "styles",
+    "headings",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "lists",
+    "alignment",
+    "indents",
+    "tabs",
+    "tables",
+    "hyperlinks",
+    "pageBreaks",
+    "sectionBreaks",
+    "headers",
+    "footers",
+    "pageNumbers",
+    "footnotes",
+    "endnotes",
+    "bookmarks",
+    "images",
+    "captions",
+    "altText",
+    "fields",
+    "languageTags",
+    "typographyProperties",
+    "comments",
+    "trackedRevisions"
+  ],
+  "scaleMatrix": {
+    "wordTargets": [
+      10000,
+      200000
+    ],
+    "pageTargetsWhenPractical": [
+      2000,
+      5000
+    ],
+    "commentDensityTiers": [
+      "low",
+      "medium",
+      "high",
+      "very_high"
+    ],
+    "trackedChangeDensityTiers": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "unicodeCoverage": [
+      "ru",
+      "en",
+      "cjk",
+      "rtl",
+      "combiningMarks",
+      "emoji",
+      "variationSelector",
+      "zwj",
+      "zwnj",
+      "zeroWidthSpace",
+      "softHyphen",
+      "bidiControls"
+    ]
+  },
+  "externalEditorProfiles": [
+    {
+      "profileId": "word-mac-latest-post-d1-v1",
+      "editor": "Microsoft Word Desktop for Mac latest",
+      "authorityClass": "WORD_ORACLE_CANDIDATE",
+      "status": "SUPPLEMENTAL_EVIDENCE_NOT_CERTIFIED",
+      "currentCapability": "UNTESTED",
+      "physicalEvidenceRequired": true,
+      "fixtureOnlyPassAllowed": false,
+      "blocksPostD1DoneWhenActivated": true
+    },
+    {
+      "profileId": "word-online-docx-post-d1-v1",
+      "editor": "Word Online returned DOCX",
+      "authorityClass": "COMPATIBILITY_PROFILE_ONLY",
+      "status": "RESUMABLE_PHYSICAL_PROFILE_REQUIRED",
+      "currentCapability": "UNTESTED",
+      "physicalEvidenceRequired": true,
+      "fixtureOnlyPassAllowed": false,
+      "blocksPostD1DoneWhenActivated": true
+    },
+    {
+      "profileId": "google-docs-office-mode-post-d1-v1",
+      "editor": "Google Docs Office Mode",
+      "authorityClass": "COMPATIBILITY_PROFILE_ONLY",
+      "status": "UNTESTED",
+      "currentCapability": "UNTESTED",
+      "physicalEvidenceRequired": true,
+      "fixtureOnlyPassAllowed": false,
+      "blocksPostD1DoneWhenActivated": true
+    },
+    {
+      "profileId": "google-docs-native-conversion-post-d1-v1",
+      "editor": "Google Docs native conversion and export",
+      "authorityClass": "COMPATIBILITY_PROFILE_ONLY",
+      "status": "UNTESTED_MANUAL_LOSSY_BY_DEFAULT",
+      "currentCapability": "LOSSY",
+      "physicalEvidenceRequired": true,
+      "fixtureOnlyPassAllowed": false,
+      "blocksPostD1DoneWhenActivated": true
+    },
+    {
+      "profileId": "libreoffice-post-d1-v1",
+      "editor": "LibreOffice",
+      "authorityClass": "DIFFERENTIAL_COMPATIBILITY_PROFILE",
+      "status": "UNTESTED",
+      "currentCapability": "UNTESTED",
+      "physicalEvidenceRequired": true,
+      "fixtureOnlyPassAllowed": false,
+      "blocksPostD1DoneWhenActivated": false
+    },
+    {
+      "profileId": "onlyoffice-post-d1-v1",
+      "editor": "ONLYOFFICE",
+      "authorityClass": "COMPATIBILITY_PROFILE_ONLY",
+      "status": "UNTESTED",
+      "currentCapability": "UNTESTED",
+      "physicalEvidenceRequired": true,
+      "fixtureOnlyPassAllowed": false,
+      "blocksPostD1DoneWhenActivated": false
+    },
+    {
+      "profileId": "pages-post-d1-v1",
+      "editor": "Apple Pages",
+      "authorityClass": "COMPATIBILITY_PROFILE_ONLY",
+      "status": "UNTESTED",
+      "currentCapability": "UNTESTED",
+      "physicalEvidenceRequired": true,
+      "fixtureOnlyPassAllowed": false,
+      "blocksPostD1DoneWhenActivated": false
+    },
+    {
+      "profileId": "wps-advisory-post-d1-v1",
+      "editor": "WPS Office",
+      "authorityClass": "LOW_TRUST_ADVISORY_ONLY",
+      "status": "OPTIONAL_UNTESTED",
+      "currentCapability": "UNTESTED",
+      "physicalEvidenceRequired": true,
+      "fixtureOnlyPassAllowed": false,
+      "blocksPostD1DoneWhenActivated": false
+    }
+  ],
+  "portabilityMechanismsToProve": [
+    {
+      "mechanismId": "locator-survival-lab-v1",
+      "status": "QUEUED",
+      "claimStatus": "NO_RUNTIME_AUTHORITY_UNTIL_PHYSICAL_SURVIVAL_PROVEN",
+      "carriers": [
+        "w14:paraId",
+        "w14:textId",
+        "bookmarks",
+        "contentControls",
+        "customParts",
+        "classicCommentIds",
+        "modernCommentIds"
+      ]
+    },
+    {
+      "mechanismId": "redundant-exact-locator-envelope-v1",
+      "status": "QUEUED",
+      "claimStatus": "NO_FUZZY_APPLY_UNIQUE_EXHAUSTIVE_MATCH_REQUIRED",
+      "guards": [
+        "sceneRevision",
+        "rawHash",
+        "stableBlockIdWhenSurvived",
+        "exactTextHash",
+        "boundedNeighboringBlockHashes",
+        "hmacBoundExportParagraphIdentity"
+      ]
+    },
+    {
+      "mechanismId": "block-local-exact-eligibility-d1-1-v1",
+      "status": "LOCKED_PENDING_NEGATIVE_ORACLES",
+      "claimStatus": "NOT_AVAILABLE_IN_D1_OR_POST_D1_UNTIL_EXHAUSTIVE_NEGATIVE_PROOF"
+    },
+    {
+      "mechanismId": "separate-lanes-transaction-boundary-v1",
+      "status": "QUEUED",
+      "claimStatus": "LANE_FAILURE_MUST_NOT_DESTROY_SAFE_COMMENT_PREVIEW"
+    },
+    {
+      "mechanismId": "versioned-format-ir-preservation-envelope-v1",
+      "status": "QUEUED",
+      "claimStatus": "UNKNOWN_FOREIGN_PROPERTIES_REQUIRE_PRESERVATION_OR_TYPED_LOSS"
+    },
+    {
+      "mechanismId": "no-edit-conservation-semantic-oracle-v1",
+      "status": "QUEUED",
+      "claimStatus": "EDITOR_PROFILE_REQUIRED_BEFORE_SUPPORT_CLAIM"
+    }
+  ],
+  "editorLabHarness": {
+    "script": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
+    "status": "A01_BOUND_NO_PHYSICAL_PROFILE_CERTIFIED",
+    "syntheticFilesOnly": true,
+    "deterministicRoot": "/Volumes/T7-Secure/storage/yalken/post-d1-editor-lab",
+    "requiresSecureVolumeBeforePhysicalRun": true,
+    "secureVolume": {
+      "mount": "/Volumes/T7-Secure",
+      "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+      "fileVaultRequired": true
+    },
+    "caseTimeoutMsDefault": 90000,
+    "watchdogRequired": true,
+    "resumeLedgerRequired": true,
+    "cleanupPolicy": "synthetic outputs only; never kill editor with user documents; never delete source evidence before manifest verification",
+    "networkPolicy": "no Yalken runtime network dependency; browser/cloud editor profiles are external physical evidence only and remain profile-scoped",
+    "writePolicy": "repo writes require normal delivery chain; lab artifacts write only under deterministic T7 evidence root",
+    "hangPolicy": "record typed HANG receipt and continue other independent profile work"
+  },
+  "executionQueue": [
+    {
+      "stageId": "A00_POST_D1_RECONCILIATION",
+      "status": "COMPLETE_IN_THIS_CONTOUR",
+      "deliveryMode": "PR_AUTO",
+      "scope": "bind fresh main, D1 immutable status, supplemental latest Word facts, missing profiles, and no-claim boundary"
+    },
+    {
+      "stageId": "A01_EDITOR_LAB_HARNESS",
+      "status": "COMPLETE_IN_THIS_CONTOUR",
+      "deliveryMode": "PR_AUTO",
+      "scope": "bounded synthetic-only harness contract, ledger schema, secure T7 fail-closed rule, timeout and cleanup policy"
+    },
+    {
+      "stageId": "A02_WORD_MAC_LATEST_PROFILE",
+      "status": "READY_NEXT_AFTER_MERGED_A00_A01",
+      "deliveryMode": "PR_AUTO",
+      "scope": "physical Word latest settings capsule, corpus, modern comments, format and scale matrix"
+    },
+    {
+      "stageId": "A03_SAFE_PORTABILITY_IMPROVEMENTS",
+      "status": "LOCKED_UNTIL_A02_EVIDENCE",
+      "deliveryMode": "PR_AUTO",
+      "scope": "only evidence-backed automatic portability improvements; no fuzzy apply"
+    },
+    {
+      "stageId": "A04_WORD_ONLINE_PROFILE",
+      "status": "QUEUED",
+      "deliveryMode": "PR_AUTO"
+    },
+    {
+      "stageId": "A05_GOOGLE_DOCS_PROFILES",
+      "status": "QUEUED",
+      "deliveryMode": "PR_AUTO"
+    },
+    {
+      "stageId": "A06_DESKTOP_EDITOR_PROFILES",
+      "status": "QUEUED",
+      "deliveryMode": "PR_AUTO"
+    },
+    {
+      "stageId": "A07_CAPABILITY_MATRIX_AND_LOSS_REPORTING",
+      "status": "QUEUED",
+      "deliveryMode": "PR_AUTO"
+    },
+    {
+      "stageId": "A08_FINAL_POST_D1_AUDIT",
+      "status": "QUEUED",
+      "deliveryMode": "PR_AUTO"
+    }
+  ],
+  "nonClaims": [
+    "No D1 F00 history is rewritten.",
+    "No Word 16.111.2 certification is claimed yet.",
+    "No Word Online support is claimed yet.",
+    "No Google Docs support, import, sync, roundtrip, or parity is claimed yet.",
+    "No LibreOffice, ONLYOFFICE, Pages, or WPS support is claimed yet.",
+    "No new runtime dependency is introduced.",
+    "No product network dependency is introduced.",
+    "No user-facing UI, toolbar, layout, shell mode, or Design OS behavior is changed.",
+    "No automatic apply authority is expanded.",
+    "No fuzzy matching is introduced.",
+    "No manuscript or project truth write is performed by this program binding."
+  ],
+  "designToolRouter": "NOT_APPLICABLE",
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "pullRequestRequired": true,
+    "mergeRequired": true,
+    "status": "pending_delivery"
+  },
+  "nextStep": "A02_WORD_MAC_LATEST_PROFILE_AFTER_A00_A01_PR_MERGE"
+}

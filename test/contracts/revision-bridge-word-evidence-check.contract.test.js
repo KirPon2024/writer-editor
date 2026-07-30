@@ -24,6 +24,10 @@ const RELEASE_CANDIDATE_LOCK_PATH = 'docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json
 const W5_STATUS_PATH = 'docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json';
 const W5_VERIFIER_PATH = 'scripts/ops/rtk-w5-release-hardening-certification.mjs';
 const W5_TEST_PATH = 'test/contracts/rtk-w5-release-hardening-certification.contract.test.js';
+const POST_D1_PROGRAM_PATH = 'docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json';
+const POST_D1_A00_RECEIPT_PATH = 'docs/OPS/RTK/POST_D1_A00_RECONCILIATION_RECEIPT.json';
+const POST_D1_HARNESS_PATH = 'scripts/ops/rtk-post-d1-editor-lab-harness.mjs';
+const POST_D1_TEST_PATH = 'test/contracts/rtk-post-d1-portability-program.contract.test.js';
 const DOCX_PACKAGE_BOUNDARY_TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
 const CONTEXT_PATH = 'docs/CONTEXT.md';
 const HANDOFF_PATH = 'docs/HANDOFF.md';
@@ -47,6 +51,10 @@ const ALLOWLIST = [
   W5_STATUS_PATH,
   W5_VERIFIER_PATH,
   W5_TEST_PATH,
+  POST_D1_PROGRAM_PATH,
+  POST_D1_A00_RECEIPT_PATH,
+  POST_D1_HARNESS_PATH,
+  POST_D1_TEST_PATH,
   DOCX_PACKAGE_BOUNDARY_TEST_PATH,
   CONTEXT_PATH,
   HANDOFF_PATH,

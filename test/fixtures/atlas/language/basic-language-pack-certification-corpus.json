@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "fixture.atlas.basicLanguagePackCertificationCorpus.v1",
+  "threshold": {
+    "precision": 1,
+    "recall": 1,
+    "f1": 1
+  },
+  "languages": [
+    {
+      "languageCode": "und",
+      "accepted": true,
+      "claims": ["exactBoundaryMention"]
+    },
+    {
+      "languageCode": "en",
+      "accepted": true,
+      "claims": [
+        "exactBoundaryMention",
+        "punctuationStable",
+        "quoteStable",
+        "nameFormLiteral",
+        "contractionLiteral",
+        "possessiveLiteral"
+      ]
+    },
+    {
+      "languageCode": "ru",
+      "accepted": true,
+      "claims": [
+        "exactBoundaryMention",
+        "punctuationStable",
+        "quoteStable",
+        "nameFormLiteral",
+        "diacriticPreserving"
+      ]
+    },
+    {
+      "languageCode": "de",
+      "accepted": true,
+      "claims": ["exactBoundaryMention", "diacriticPreserving"]
+    },
+    {
+      "languageCode": "es",
+      "accepted": true,
+      "claims": ["exactBoundaryMention", "diacriticPreserving"]
+    },
+    {
+      "languageCode": "fr",
+      "accepted": true,
+      "claims": ["exactBoundaryMention", "diacriticPreserving"]
+    },
+    {
+      "languageCode": "pl",
+      "accepted": true,
+      "claims": ["exactBoundaryMention", "diacriticPreserving"]
+    },
+    {
+      "languageCode": "it",
+      "accepted": false,
+      "claims": []
+    },
+    {
+      "languageCode": "pt-br",
+      "accepted": false,
+      "claims": []
+    },
+    {
+      "languageCode": "zh-hant",
+      "accepted": false,
+      "claims": []
+    }
+  ],
+  "cases": [
+    {
+      "caseId": "und-exact-boundary-neutral",
+      "languageCode": "und",
+      "dimensions": ["exact-boundary"],
+      "text": "Ari met Nika. Aria stayed outside.",
+      "terms": [{ "termId": "ari", "value": "Ari" }],
+      "expectations": [{ "termId": "ari", "count": 1 }]
+    },
+    {
+      "caseId": "en-punctuation-quotes-names",
+      "languageCode": "en",
+      "dimensions": ["punctuation", "quotes", "names"],
+      "text": "Dr. Bell said, \"Mira, wait.\" Mira waited; Annabelle did not.",
+      "terms": [
+        { "termId": "dr-bell", "value": "Dr. Bell" },
+        { "termId": "mira", "value": "Mira" },
+        { "termId": "anna", "value": "Anna" }
+      ],
+      "expectations": [
+        { "termId": "dr-bell", "count": 1 },
+        { "termId": "mira", "count": 2 },
+        { "termId": "anna", "count": 0 }
+      ]
+    },
+    {
+      "caseId": "en-contractions-possessives",
+      "languageCode": "en",
+      "dimensions": ["contractions", "possessives"],
+      "text": "Anna's note says she can't leave; Ann cannot answer.",
+      "terms": [
+        { "termId": "anna-possessive", "value": "Anna's" },
+        { "termId": "cant", "value": "can't" },
+        { "termId": "ann", "value": "Ann" }
+      ],
+      "expectations": [
+        { "termId": "anna-possessive", "count": 1 },
+        { "termId": "cant", "count": 1 },
+        { "termId": "ann", "count": 1 }
+      ]
+    },
+    {
+      "caseId": "ru-patronymic-surname-quotes",
+      "languageCode": "ru",
+      "dimensions": ["punctuation", "quotes", "patronymic", "surname"],
+      "text": "«Мария Ивановна Соколова», сказала Мария. Ивановна кивнула.",
+      "terms": [
+        { "termId": "maria-full", "value": "Мария Ивановна Соколова" },
+        { "termId": "maria", "value": "Мария" },
+        { "termId": "ivanovna", "value": "Ивановна" }
+      ],
+      "expectations": [
+        { "termId": "maria-full", "count": 1 },
+        { "termId": "maria", "count": 2 },
+        { "termId": "ivanovna", "count": 2 }
+      ]
+    },
+    {
+      "caseId": "ru-e-yo-preservation",
+      "languageCode": "ru",
+      "dimensions": ["e-yo-preservation"],
+      "text": "Семён встретил Семена. Семён написал письмо.",
+      "terms": [
+        { "termId": "semyon-yo", "value": "Семён" },
+        { "termId": "semen-e", "value": "Семен" }
+      ],
+      "expectations": [
+        { "termId": "semyon-yo", "count": 2 },
+        { "termId": "semen-e", "count": 0 }
+      ]
+    },
+    {
+      "caseId": "de-diacritic-exact",
+      "languageCode": "de",
+      "dimensions": ["european-diacritic"],
+      "text": "Müller traf Muller. Herr Müller blieb.",
+      "terms": [
+        { "termId": "mueller-umlaut", "value": "Müller" },
+        { "termId": "muller-plain", "value": "Muller" }
+      ],
+      "expectations": [
+        { "termId": "mueller-umlaut", "count": 2 },
+        { "termId": "muller-plain", "count": 1 }
+      ]
+    },
+    {
+      "caseId": "es-diacritic-exact",
+      "languageCode": "es",
+      "dimensions": ["european-diacritic"],
+      "text": "Iñigo vio a Inigo. Iñigo sonrió.",
+      "terms": [
+        { "termId": "inigo-tilde", "value": "Iñigo" },
+        { "termId": "inigo-plain", "value": "Inigo" }
+      ],
+      "expectations": [
+        { "termId": "inigo-tilde", "count": 2 },
+        { "termId": "inigo-plain", "count": 1 }
+      ]
+    },
+    {
+      "caseId": "fr-diacritic-exact",
+      "languageCode": "fr",
+      "dimensions": ["european-diacritic"],
+      "text": "Élodie salue Elodie. Élodie reste.",
+      "terms": [
+        { "termId": "elodie-accent", "value": "Élodie" },
+        { "termId": "elodie-plain", "value": "Elodie" }
+      ],
+      "expectations": [
+        { "termId": "elodie-accent", "count": 2 },
+        { "termId": "elodie-plain", "count": 1 }
+      ]
+    },
+    {
+      "caseId": "pl-diacritic-exact",
+      "languageCode": "pl",
+      "dimensions": ["european-diacritic"],
+      "text": "Łukasz minął Lukasz. Łukasz wrócił.",
+      "terms": [
+        { "termId": "lukasz-stroke", "value": "Łukasz" },
+        { "termId": "lukasz-plain", "value": "Lukasz" }
+      ],
+      "expectations": [
+        { "termId": "lukasz-stroke", "count": 2 },
+        { "termId": "lukasz-plain", "count": 1 }
+      ]
+    }
+  ]
+}

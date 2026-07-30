@@ -4,6 +4,8 @@ import {
   ATLAS_OBSERVATION_LANGUAGE_POLICY,
   normalizeAtlasObservationLanguagePolicy,
 } from './atlasObservationTypes.mjs';
+import { deriveAtlasBasicLanguagePackCertification } from './deriveAtlasBasicLanguagePackCertification.mjs';
+import { ATLAS_BASIC_LANGUAGE_PACK_STATUS } from './atlasBasicLanguagePackTypes.mjs';
 import {
   ATLAS_LANGUAGE_CAPABILITY_GUARD_SCHEMA_VERSION,
   ATLAS_LANGUAGE_CAPABILITY_LEVEL,
@@ -14,7 +16,7 @@ import {
 } from './atlasLanguageCapabilityTypes.mjs';
 
 const VIEW_ID = 'derived.atlas.languageCapabilityReport.v1';
-const DEFAULT_LANGUAGE_CODES = Object.freeze(['und', 'en', 'ru', 'zh', 'ja', 'ko', 'ar', 'he', 'hi', 'zz']);
+const DEFAULT_LANGUAGE_CODES = Object.freeze(['und', 'de', 'en', 'es', 'fr', 'pl', 'ru', 'zh', 'ja', 'ko', 'ar', 'he', 'hi', 'zz']);
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -53,9 +55,11 @@ function getProject(coreState, projectId) {
   return isPlainObject(projects[projectId]) ? projects[projectId] : null;
 }
 
-function buildLanguageRow(languageCode) {
+function buildLanguageRow(languageCode, certificationByLanguageCode) {
   const policy = normalizeAtlasObservationLanguagePolicy(languageCode);
-  const supported = policy.policy === ATLAS_OBSERVATION_LANGUAGE_POLICY.BASIC_SUPPORTED;
+  const certification = certificationByLanguageCode.get(policy.languageCode) || null;
+  const certifiedByCorpus = certification?.status === ATLAS_BASIC_LANGUAGE_PACK_STATUS.CERTIFIED_EXACT_ONLY;
+  const supported = policy.policy === ATLAS_OBSERVATION_LANGUAGE_POLICY.BASIC_SUPPORTED && certifiedByCorpus;
   const status = supported
     ? ATLAS_LANGUAGE_CAPABILITY_STATUS.CERTIFIED_EXACT_ONLY
     : ATLAS_LANGUAGE_CAPABILITY_STATUS.UNSUPPORTED_EXACT_ONLY;
@@ -74,7 +78,7 @@ function buildLanguageRow(languageCode) {
       ? ['manualAliases', 'exactMentions', 'evidenceAnchors', 'observationAggregate']
       : ['manualAliases', 'exactMentions', 'evidenceAnchors'],
     unavailableCapabilities: [
-      'segmentation',
+      'segmentationEngine',
       'nameForms',
       'ner',
       'morphology',
@@ -83,7 +87,25 @@ function buildLanguageRow(languageCode) {
       'eventExtraction',
       'relationProposals',
     ],
-    corpusMetricsStatus: 'not-yet-certified-in-stage-07-c01',
+    corpusMetricsStatus: supported
+      ? 'certified-by-e07-c04-basic-fixtures'
+      : 'unsupported-or-not-certified-by-e07-c04-basic-fixtures',
+    corpusMetrics: certification
+      ? {
+        caseCount: certification.caseCount,
+        passedCaseCount: certification.passedCaseCount,
+        precision: certification.precision,
+        recall: certification.recall,
+        f1: certification.f1,
+      }
+      : {
+        caseCount: 0,
+        passedCaseCount: 0,
+        precision: 1,
+        recall: 1,
+        f1: 1,
+      },
+    languagePackClaims: supported && Array.isArray(certification?.claims) ? certification.claims : [],
     downgradeTarget: 'GLOBAL_EXACT_ONLY',
   };
 }
@@ -131,8 +153,13 @@ function buildGuards(rows) {
 
 function buildReport({ project, params, meta }) {
   const languageCodes = languageCodesFromParams(params);
+  const languagePackCertification = deriveAtlasBasicLanguagePackCertification({
+    corpus: params.basicLanguagePackCorpus,
+  });
+  const certificationByLanguageCode = new Map(languagePackCertification.languageRows
+    .map((row) => [row.languageCode, row]));
   const capabilityRows = sortAtlasLanguageCapabilityRows([
-    ...languageCodes.map((code) => buildLanguageRow(code)),
+    ...languageCodes.map((code) => buildLanguageRow(code, certificationByLanguageCode)),
     ...languageCodes.map((code) => buildDeepUnavailableRow(code)),
   ]);
   const guards = buildGuards(capabilityRows);
@@ -179,6 +206,7 @@ function buildReport({ project, params, meta }) {
       invalidationKey: meta.invalidationKey,
     },
     guards,
+    basicLanguagePackCertification: languagePackCertification,
     capabilityRows,
   };
 }

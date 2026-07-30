@@ -8,7 +8,7 @@ export const ATLAS_OBSERVATION_LANGUAGE_POLICY = Object.freeze({
   UNSUPPORTED_EXACT_ONLY: 'UNSUPPORTED_EXACT_ONLY',
 });
 
-const BASIC_SUPPORTED_LANGUAGE_CODES = Object.freeze(['en', 'ru', 'und']);
+const BASIC_SUPPORTED_LANGUAGE_CODES = Object.freeze(['de', 'en', 'es', 'fr', 'pl', 'ru', 'und']);
 
 function compareText(a, b) {
   return String(a).localeCompare(String(b), 'en', { sensitivity: 'variant' });

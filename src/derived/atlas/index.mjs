@@ -190,6 +190,20 @@ export {
   sortAtlasSavedQueryReadbacks,
 } from './atlasReportsTypes.mjs';
 export {
+  ATLAS_SAVED_VIEW_BATCH_APPLY_RECEIPT_SCHEMA_VERSION,
+  ATLAS_SAVED_VIEW_BATCH_COLLISION_SCHEMA_VERSION,
+  ATLAS_SAVED_VIEW_BATCH_PREVIEW_SCHEMA_VERSION,
+  ATLAS_SAVED_VIEW_BATCH_ROW_SCHEMA_VERSION,
+  ATLAS_SAVED_VIEW_PORTABILITY_PACKET_SCHEMA_VERSION,
+  ATLAS_SAVED_VIEW_PORTABILITY_ROW_SCHEMA_VERSION,
+  ATLAS_STAGE_09_ACCEPTANCE_SCHEMA_VERSION,
+  ATLAS_STAGE_09_ID,
+  ATLAS_STAGE_09_NEXT_CONTOUR,
+  sortAtlasSavedViewBatchCollisions,
+  sortAtlasSavedViewBatchRows,
+  sortAtlasSavedViewPortabilityRows,
+} from './atlasStage09PortabilityTypes.mjs';
+export {
   ATLAS_CALENDAR_CONVERSION_RULE_SCHEMA_VERSION,
   ATLAS_CALENDAR_DEFINITIONS_SCHEMA_VERSION,
   ATLAS_CALENDAR_DEFINITION_SCHEMA_VERSION,
@@ -383,6 +397,12 @@ export { deriveAtlasContinuityLedgerSurface, ATLAS_CONTINUITY_LEDGER_SURFACE_VIE
 export { deriveAtlasMatrices, ATLAS_MATRICES_VIEW_ID } from './deriveAtlasMatrices.mjs';
 export { deriveAtlasHeatmap, ATLAS_HEATMAP_VIEW_ID } from './deriveAtlasHeatmap.mjs';
 export { deriveAtlasReportsSavedQueries, ATLAS_REPORTS_SAVED_QUERIES_VIEW_ID } from './deriveAtlasReportsSavedQueries.mjs';
+export {
+  ATLAS_STAGE_09_PORTABILITY_ACCEPTANCE_VIEW_ID,
+  buildAtlasSavedViewBatchOperationPreview,
+  buildAtlasSavedViewPortabilityPacket,
+  deriveAtlasStage09PortabilityAcceptance,
+} from './deriveAtlasStage09PortabilityAcceptance.mjs';
 export { deriveAtlasCalendarDefinitions, ATLAS_CALENDAR_DEFINITIONS_VIEW_ID } from './deriveAtlasCalendarDefinitions.mjs';
 export {
   deriveAtlasDiagnosticsStageAcceptance,

@@ -156,6 +156,20 @@
       "rationale": "Approve E09 C04 contract coverage: proves graph package schema and deterministic package hash, full archive preservation of author truth, language tags, evidence identities, custom vocabularies, series references and unknown fields, explicit loss report and rebuildable derived omission, archive integration required entries, repeat import preview-only restoration, tamper hash rejection, blocking loss failure, rebuild contract failure, Atlas image SVG evidence, Atlas PDF HTML print packet evidence without binary generation, receipt false-green guard, barrel exposure, and source absence of storage, network, Electron, DOM, Worker, timers, persistence APIs, command dispatch, apply authority, project truth mutation, manuscript mutation, renderer mutation, and binary PDF false claims."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_STAGE_09_ACCEPTANCE_RECEIPT.json",
+      "sha256": "5cb93694820a26534a7013ed41fb6347d793e97ea085dae21e06e191764f85d0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_AND_STAGE_09_ACCEPTANCE",
+      "approvedAtUtc": "2026-07-30T15:20:01.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E09 C05 final receipt: records local pure saved-view portability packet, batch operation preview rows, batch apply through existing atlas.savedQuery.save Command Kernel boundary with preview hash and author confirmation, capability revalidation, rollback and reopen proof, series isolation proof, full archive content proof reuse, Atlas image/PDF evidence proof reuse, explicit loss report and repeat import proof reuse, Stage 09 acceptance proof, factual focused, ops, doctrine, OSS, governance, diff, and full-runner PASS evidence after execution, handoff to Stage 10, no collaboration comments/history, no transport exchange, no platform certification, no final Program DoD, no new command bus, no UI, no storage adapter, no network, no dependency, no manuscript mutation, and no renderer mutation."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e09-c05-saved-views-batch-operations-stage-09-acceptance.contract.test.js",
+      "sha256": "56723e45ab72112344868f6108fa847bcaffb0b0d0cdbdb0b728dfa6f0700b23",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_AND_STAGE_09_ACCEPTANCE",
+      "approvedAtUtc": "2026-07-30T15:20:01.000Z",
+      "rationale": "Approve E09 C05 contract coverage: proves saved-view portability packet, pathless saved views, batch preview rows, collision blocking, existing atlas.savedQuery.save command boundary, Command Kernel capability revalidation, preview hash and author confirmation gates, rollback and reopen proof, Stage 09 acceptance over saved views, series isolation, full archive content, Atlas image/PDF evidence, explicit loss report and repeat import, handoff to Stage 10 rather than EFINAL, final receipt base SHA reconciliation after main drift, receipt false-green guard, barrel exposure, and source absence of storage, network, Electron, DOM, Worker, timers, persistence APIs, UI command bypass, automatic apply, final Program DoD claim, release readiness claim, manuscript mutation, storage mutation, network mutation, and renderer mutation."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AUTONOMY_BOUNDARY_RECEIPT.json",
       "sha256": "09e58aa2be875939404f755972af67537e409666e90cfd6acaff9f7af3d20342",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",

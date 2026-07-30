@@ -369,6 +369,7 @@ const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
 const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
 const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query.atlasReportsSavedQueries';
+const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = 'query.atlasDiagnosticsStageAcceptance';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const HISTORY_CREATE_CHECKPOINT_COMMAND_ID = 'cmd.project.history.createCheckpoint';
 const HISTORY_RESTORE_PREVIEW_COMMAND_ID = 'cmd.project.history.restorePreview';
@@ -6983,6 +6984,18 @@ function loadAtlasReportsSavedQueriesModule() {
   return atlasReportsSavedQueriesModulePromise;
 }
 
+let atlasDiagnosticsStageAcceptanceModulePromise = null;
+function loadAtlasDiagnosticsStageAcceptanceModule() {
+  if (!atlasDiagnosticsStageAcceptanceModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'atlas', 'deriveAtlasDiagnosticsStageAcceptance.mjs')).href;
+    atlasDiagnosticsStageAcceptanceModulePromise = import(modulePath).catch((error) => {
+      atlasDiagnosticsStageAcceptanceModulePromise = null;
+      throw error;
+    });
+  }
+  return atlasDiagnosticsStageAcceptanceModulePromise;
+}
+
 async function normalizeProjectManifest(manifest, projectName = DEFAULT_PROJECT_NAME) {
   const source = isPlainObjectValue(manifest) ? manifest : {};
   const stableProjectId = normalizeStableProjectId(source.projectId);
@@ -8076,6 +8089,81 @@ function makeAtlasReportsSavedQueriesFallback(projectId, reason, extra = {}) {
   };
 }
 
+function makeAtlasDiagnosticsStageAcceptanceFallback(projectId, reason, extra = {}) {
+  return {
+    schemaVersion: 'derived.atlas.diagnosticsStageAcceptance.v1',
+    state: reason ? 'unavailable' : 'empty',
+    unavailableReason: reason || '',
+    surfaceManifest: {
+      schemaVersion: 'surface.atlas.diagnosticsStageAcceptance.v1',
+      surfaceId: 'surface.atlas.diagnosticsStageAcceptance',
+      providerId: ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID,
+      host: 'rightRail',
+      slotId: 'rightRail.context.atlas.diagnosticsStageAcceptance',
+      contributionKind: 'readOnlyDiagnosticsAndAcceptanceProjection',
+      commandAuthority: 'none',
+      productMutation: false,
+      storageAuthority: false,
+    },
+    authority: {
+      readModelOnly: true,
+      commandAuthority: 'none',
+      projectTruthMutation: false,
+      storageMutation: false,
+      networkMutation: false,
+      rendererMutation: false,
+      hiddenMutation: false,
+      backgroundDaemon: false,
+    },
+    projectId: typeof projectId === 'string' ? projectId : '',
+    summary: {
+      surfaceCount: 0,
+      degradedSurfaceCount: reason ? 1 : 0,
+      degradedCapabilityCount: 0,
+      acceptanceGateCount: 0,
+      passedAcceptanceGateCount: 0,
+      stageAcceptance: reason ? 'unavailable' : 'empty',
+      diagnosticsHash: '',
+      invalidationKey: '',
+    },
+    surfaceFallbackInventory: {
+      schemaVersion: 'derived.atlas.surfaceFallbackInventory.v1',
+      rows: [],
+    },
+    degradedCapabilityReport: {
+      schemaVersion: 'derived.atlas.degradedCapabilityReport.v1',
+      rows: reason
+        ? [{
+          code: reason,
+          severity: 'degraded',
+          surfaceId: 'surface.atlas.diagnosticsStageAcceptance',
+          label: 'Diagnostics',
+          detail: reason,
+        }]
+        : [],
+    },
+    stageAcceptanceProof: {
+      schemaVersion: 'derived.atlas.stage05AcceptanceProof.v1',
+      stageId: 'E05_STAGE_05_FULL_ATLAS_UX_CONTOURS',
+      gates: [],
+      pass: false,
+      reportHash: '',
+    },
+    finalUiAuditReceipt: {
+      schemaVersion: 'derived.atlas.finalUiAuditReceipt.v1',
+      reviewMode: 'fallback',
+      finalBar: { status: reason ? 'NOT_READY' : 'EMPTY' },
+    },
+    heuristicReviewReceipt: {
+      schemaVersion: 'derived.atlas.heuristicReviewReceipt.v1',
+      reviewMode: 'fallback',
+      usabilityScoreJudged: 0,
+      grade: 'F',
+    },
+    ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
 function getAtlasAuthorDataForProjection(manifest = {}) {
   const atlas = isPlainObjectValue(manifest.atlas) ? manifest.atlas : {};
   if (atlas.schemaVersion !== 'atlas.author.v1' || !isPlainObjectValue(atlas.entities)) {
@@ -8267,6 +8355,13 @@ function normalizeAtlasReportsSavedQueriesPayload(payload = {}) {
   return {
     projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
     limit: Number.isSafeInteger(Number(source.limit)) ? Number(source.limit) : 12,
+  };
+}
+
+function normalizeAtlasDiagnosticsStageAcceptancePayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
   };
 }
 
@@ -8609,6 +8704,71 @@ async function handleWorkspaceAtlasReportsSavedQueriesQuery(payload = {}) {
       atlasReportsSavedQueries: makeAtlasReportsSavedQueriesFallback(
         safePayload.projectId,
         error && typeof error.code === 'string' ? error.code : 'ATLAS_REPORTS_SAVED_QUERIES_READ_FAILED',
+      ),
+    };
+  }
+}
+
+async function handleWorkspaceAtlasDiagnosticsStageAcceptanceQuery(payload = {}) {
+  const safePayload = normalizeAtlasDiagnosticsStageAcceptancePayload(payload);
+  const diagnosticsModule = await loadAtlasDiagnosticsStageAcceptanceModule();
+  try {
+    const { projectId, coreState } = await buildAtlasOverviewCoreState();
+    if (safePayload.projectId && safePayload.projectId !== projectId) {
+      return {
+        ok: true,
+        atlasDiagnosticsStageAcceptance: makeAtlasDiagnosticsStageAcceptanceFallback(safePayload.projectId, 'ATLAS_PROJECT_MISMATCH'),
+      };
+    }
+    const diagnostics = diagnosticsModule.deriveAtlasDiagnosticsStageAcceptance({
+      coreState,
+      params: {
+        projectId,
+      },
+      capabilitySnapshot: {
+        platformId: 'node',
+        capabilities: {
+          atlasDiagnosticsStageAcceptance: true,
+          atlasOverview: true,
+          atlasMatrices: true,
+          atlasHeatmap: true,
+          atlasReportsSavedQueries: true,
+          atlasObservationAggregate: true,
+          atlasTemporalContinuity: true,
+          atlasLocalGraph: true,
+          'cap.atlas.entity.create': true,
+          'cap.atlas.alias.add': true,
+          'cap.atlas.mention.confirm': true,
+          'cap.atlas.observation.suppress': true,
+          'cap.atlas.entity.merge': true,
+          'cap.atlas.entity.splitRestore': true,
+          'cap.atlas.observation.reassign': true,
+          'cap.atlas.evidence.reattach': true,
+          'cap.atlas.savedQuery.save': true,
+        },
+      },
+    });
+    if (!diagnostics.ok) {
+      return {
+        ok: true,
+        atlasDiagnosticsStageAcceptance: makeAtlasDiagnosticsStageAcceptanceFallback(
+          projectId,
+          diagnostics.error?.reason || 'ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_UNAVAILABLE',
+          { error: diagnostics.error || null },
+        ),
+      };
+    }
+    return {
+      ok: true,
+      atlasDiagnosticsStageAcceptance: diagnostics.value,
+    };
+  } catch (error) {
+    logDevError('query.atlasDiagnosticsStageAcceptance', error);
+    return {
+      ok: true,
+      atlasDiagnosticsStageAcceptance: makeAtlasDiagnosticsStageAcceptanceFallback(
+        safePayload.projectId,
+        error && typeof error.code === 'string' ? error.code : 'ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_READ_FAILED',
       ),
     };
   }
@@ -18610,6 +18770,9 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
   if (queryId === ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID) {
     return handleWorkspaceAtlasReportsSavedQueriesQuery(payload);
   }
+  if (queryId === ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID) {
+    return handleWorkspaceAtlasDiagnosticsStageAcceptanceQuery(payload);
+  }
   if (queryId === ATLAS_CURRENT_SCENE_QUERY_ID) {
     return handleWorkspaceAtlasCurrentSceneQuery(payload);
   }
@@ -20512,6 +20675,7 @@ const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set([
   ATLAS_MATRICES_QUERY_ID,
   ATLAS_HEATMAP_QUERY_ID,
   ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,
+  ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID,
 ]);
 const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.plan.switchMode',

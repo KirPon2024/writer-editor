@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
+      "sha256": "33c164694e7236286f90a5232b114557a310eef21bcf573c2e52d535163346de",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE",
+      "approvedAtUtc": "2026-07-30T02:56:40.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C07 diagnostics, degraded capability, and Stage 05 acceptance contract: proves read-only diagnostics packet, surface fallback inventory, degraded capability report, Stage 05 acceptance proof, repo-native final UI audit and heuristic receipts, explicit heavy-surface guard, large-project nonblocking guard, main query bridge allowlist, typed right-rail diagnostics surface, and side-effect boundaries while preserving no project truth mutation, no storage write, no network runtime, no hidden renderer mutation, no worker or daemon, no new dependency, and no release readiness claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_STAGE_ACCEPTANCE_RECEIPT.json",
+      "sha256": "3db6a2e21860072f09eb5e7e594026340ff108f42853b524fae232cd3bdb820f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE",
+      "approvedAtUtc": "2026-07-30T03:02:01.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C07 delivery receipt: records local verified implementation of the Atlas diagnostics and Stage 05 acceptance surface, degraded capability report, fallback inventory, Stage 05 acceptance proof, Lazyweb diagnostics dashboard quick-search evidence with current-session report-unavailable fallback, UI Craft application with repo-native final audit and heuristic receipt fallback, no project truth mutation, no storage write, no network runtime, no hidden renderer mutation, no worker or daemon, no new dependency, focused and full runner pass evidence, and Stage 06 contour compilation handoff without widening release readiness."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js",
       "sha256": "ebb6d6d1a2ac477753c91dba987fa25c565aee42ce92a210a3eae00d90a8c5fe",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_AND_SAVED_QUERIES_BOUNDARY",

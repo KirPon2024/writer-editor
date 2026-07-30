@@ -261,6 +261,7 @@ const atlasMatricesHost = document.querySelector('[data-atlas-matrices-host]');
 const atlasHeatmapShell = document.querySelector('[data-atlas-heatmap-shell]');
 const atlasHeatmapHost = document.querySelector('[data-atlas-heatmap-host]');
 const atlasReportsHost = document.querySelector('[data-atlas-reports-host]');
+const atlasDiagnosticsHost = document.querySelector('[data-atlas-diagnostics-host]');
 const atlasCurrentSceneHost = document.querySelector('[data-atlas-current-scene-host]');
 const inspectorCommentsAction = document.querySelector('[data-inspector-comments-action]');
 const inspectorFocusStatus = document.querySelector('[data-inspector-focus-status]');
@@ -756,6 +757,25 @@ let atlasReportsState = {
   exportSafeSummary: { rows: [] },
   unavailableReason: '',
 };
+let atlasDiagnosticsState = {
+  state: 'empty',
+  projectId: '',
+  summary: {
+    surfaceCount: 0,
+    degradedSurfaceCount: 0,
+    degradedCapabilityCount: 0,
+    acceptanceGateCount: 0,
+    passedAcceptanceGateCount: 0,
+    stageAcceptance: 'empty',
+    diagnosticsHash: '',
+  },
+  surfaceFallbackInventory: { rows: [] },
+  degradedCapabilityReport: { rows: [] },
+  stageAcceptanceProof: { gates: [], pass: false },
+  finalUiAuditReceipt: { finalBar: { status: 'EMPTY' } },
+  heuristicReviewReceipt: { usabilityScoreJudged: 0, grade: 'F' },
+  unavailableReason: '',
+};
 let atlasCurrentSceneState = {
   state: 'empty',
   projectId: '',
@@ -889,6 +909,7 @@ const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
 const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
 const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query.atlasReportsSavedQueries';
+const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = 'query.atlasDiagnosticsStageAcceptance';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const RIGHT_RAIL_SURFACE_PROVIDERS = Object.freeze({
   inspector: METADATA_INSPECTOR_QUERY_ID,
@@ -8738,6 +8759,7 @@ async function openDocumentNode(node) {
       refreshAtlasRelationDossier();
       refreshAtlasMatrices();
       refreshAtlasReportsSavedQueries();
+      refreshAtlasDiagnosticsStageAcceptance();
       refreshAtlasCurrentScene();
     }
     return true;
@@ -11220,6 +11242,9 @@ function syncRightRailCompositionState(tab) {
   if (atlasReportsHost instanceof HTMLElement) {
     atlasReportsHost.dataset.atlasReportsProvider = ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID;
   }
+  if (atlasDiagnosticsHost instanceof HTMLElement) {
+    atlasDiagnosticsHost.dataset.atlasDiagnosticsProvider = ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID;
+  }
   if (atlasCurrentSceneHost instanceof HTMLElement) {
     atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
   }
@@ -11240,8 +11265,9 @@ function applyRightTab(tab) {
     refreshAtlasRelationDossier();
     refreshAtlasMatrices();
     renderAtlasHeatmapState();
-    refreshAtlasReportsSavedQueries();
     refreshAtlasCurrentScene();
+    refreshAtlasReportsSavedQueries();
+    refreshAtlasDiagnosticsStageAcceptance();
   }
   syncInspectorStateSurface();
   syncToolbarShellState();
@@ -12672,6 +12698,163 @@ async function refreshAtlasReportsSavedQueries() {
     : { state: 'unavailable', unavailableReason: 'ATLAS_REPORTS_SAVED_QUERIES_QUERY_FAILED' };
   atlasReportsState = normalizeAtlasReportsSavedQueries(nextState);
   renderAtlasReportsSavedQueriesState();
+}
+
+function normalizeAtlasDiagnosticsStageAcceptance(result = {}) {
+  const source = result && typeof result === 'object' && !Array.isArray(result) ? result : {};
+  const summary = source.summary && typeof source.summary === 'object' && !Array.isArray(source.summary) ? source.summary : {};
+  const inventory = source.surfaceFallbackInventory && typeof source.surfaceFallbackInventory === 'object' && !Array.isArray(source.surfaceFallbackInventory)
+    ? source.surfaceFallbackInventory
+    : {};
+  const degraded = source.degradedCapabilityReport && typeof source.degradedCapabilityReport === 'object' && !Array.isArray(source.degradedCapabilityReport)
+    ? source.degradedCapabilityReport
+    : {};
+  const proof = source.stageAcceptanceProof && typeof source.stageAcceptanceProof === 'object' && !Array.isArray(source.stageAcceptanceProof)
+    ? source.stageAcceptanceProof
+    : {};
+  const audit = source.finalUiAuditReceipt && typeof source.finalUiAuditReceipt === 'object' && !Array.isArray(source.finalUiAuditReceipt)
+    ? source.finalUiAuditReceipt
+    : {};
+  const heuristic = source.heuristicReviewReceipt && typeof source.heuristicReviewReceipt === 'object' && !Array.isArray(source.heuristicReviewReceipt)
+    ? source.heuristicReviewReceipt
+    : {};
+  return {
+    schemaVersion: typeof source.schemaVersion === 'string' ? source.schemaVersion : 'derived.atlas.diagnosticsStageAcceptance.v1',
+    state: typeof source.state === 'string' ? source.state : 'empty',
+    unavailableReason: typeof source.unavailableReason === 'string' ? source.unavailableReason : '',
+    projectId: typeof source.projectId === 'string' ? source.projectId : '',
+    summary: {
+      surfaceCount: Number.isInteger(summary.surfaceCount) ? Math.max(0, summary.surfaceCount) : 0,
+      degradedSurfaceCount: Number.isInteger(summary.degradedSurfaceCount) ? Math.max(0, summary.degradedSurfaceCount) : 0,
+      degradedCapabilityCount: Number.isInteger(summary.degradedCapabilityCount) ? Math.max(0, summary.degradedCapabilityCount) : 0,
+      acceptanceGateCount: Number.isInteger(summary.acceptanceGateCount) ? Math.max(0, summary.acceptanceGateCount) : 0,
+      passedAcceptanceGateCount: Number.isInteger(summary.passedAcceptanceGateCount) ? Math.max(0, summary.passedAcceptanceGateCount) : 0,
+      stageAcceptance: typeof summary.stageAcceptance === 'string' ? summary.stageAcceptance : 'empty',
+      diagnosticsHash: typeof summary.diagnosticsHash === 'string' ? summary.diagnosticsHash : '',
+    },
+    surfaceFallbackInventory: {
+      rows: Array.isArray(inventory.rows) ? inventory.rows.filter(reviewSurfaceIsPlainObject) : [],
+    },
+    degradedCapabilityReport: {
+      rows: Array.isArray(degraded.rows) ? degraded.rows.filter(reviewSurfaceIsPlainObject) : [],
+    },
+    stageAcceptanceProof: {
+      gates: Array.isArray(proof.gates) ? proof.gates.filter(reviewSurfaceIsPlainObject) : [],
+      pass: proof.pass === true,
+    },
+    finalUiAuditReceipt: {
+      finalBar: audit.finalBar && typeof audit.finalBar === 'object' && !Array.isArray(audit.finalBar) ? audit.finalBar : { status: 'EMPTY' },
+    },
+    heuristicReviewReceipt: {
+      usabilityScoreJudged: Number.isInteger(heuristic.usabilityScoreJudged) ? Math.max(0, Math.min(100, heuristic.usabilityScoreJudged)) : 0,
+      grade: typeof heuristic.grade === 'string' ? heuristic.grade : 'F',
+    },
+  };
+}
+
+function renderAtlasDiagnosticsStageAcceptanceState() {
+  if (!(atlasDiagnosticsHost instanceof HTMLElement)) return;
+  const state = normalizeAtlasDiagnosticsStageAcceptance(atlasDiagnosticsState);
+  atlasDiagnosticsHost.innerHTML = '';
+  atlasDiagnosticsHost.dataset.atlasDiagnosticsStatus = state.state;
+  atlasDiagnosticsHost.dataset.atlasDiagnosticsProvider = ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID;
+
+  const header = document.createElement('div');
+  header.className = 'right-rail-atlas-matrices-head';
+  const label = document.createElement('div');
+  label.className = 'right-rail-section__label';
+  label.textContent = 'Diagnostics';
+  const title = document.createElement('strong');
+  title.className = 'right-rail-atlas-matrices-title';
+  title.textContent = 'Stage 05 acceptance';
+  const hash = document.createElement('span');
+  hash.className = 'right-rail-atlas-overview-hash';
+  hash.textContent = state.summary.diagnosticsHash ? state.summary.diagnosticsHash.slice(0, 8) : state.state;
+  header.append(label, title, hash);
+  atlasDiagnosticsHost.appendChild(header);
+
+  if (state.state === 'unavailable') {
+    const unavailable = document.createElement('div');
+    unavailable.className = 'right-rail-atlas-state right-rail-atlas-state--blocked';
+    unavailable.textContent = state.unavailableReason || 'ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_UNAVAILABLE';
+    atlasDiagnosticsHost.appendChild(unavailable);
+    return;
+  }
+  if (state.state === 'loading') {
+    const loading = document.createElement('div');
+    loading.className = 'right-rail-atlas-state';
+    loading.textContent = 'Atlas diagnostics обновляются.';
+    atlasDiagnosticsHost.appendChild(loading);
+    return;
+  }
+
+  const metrics = document.createElement('div');
+  metrics.className = 'right-rail-atlas-overview-metrics right-rail-atlas-matrices-metrics';
+  appendAtlasOverviewMetric(metrics, 'surfaces', state.summary.surfaceCount);
+  appendAtlasOverviewMetric(metrics, 'degraded', state.summary.degradedSurfaceCount + state.summary.degradedCapabilityCount, state.summary.degradedSurfaceCount > 0 ? 'reviewRequired' : 'current');
+  appendAtlasOverviewMetric(metrics, 'gates', `${state.summary.passedAcceptanceGateCount}/${state.summary.acceptanceGateCount}`, state.stageAcceptanceProof.pass ? 'current' : 'reviewRequired');
+  appendAtlasOverviewMetric(metrics, 'score', `${state.heuristicReviewReceipt.usabilityScoreJudged} ${state.heuristicReviewReceipt.grade}`, state.heuristicReviewReceipt.usabilityScoreJudged >= 80 ? 'current' : 'reviewRequired');
+  atlasDiagnosticsHost.appendChild(metrics);
+
+  const gatesSection = appendAtlasOverviewSection(atlasDiagnosticsHost, 'Acceptance gates', { open: true });
+  const gateRows = document.createElement('div');
+  gateRows.className = 'right-rail-atlas-matrix-list';
+  for (const gate of state.stageAcceptanceProof.gates) {
+    appendAtlasReportsRow(
+      gateRows,
+      gate.label || gate.id || 'Gate',
+      `${gate.status || 'UNKNOWN'} · ${gate.evidence || ''}`,
+      gate.status === 'PASS' ? 'current' : 'reviewRequired',
+    );
+  }
+  if (state.stageAcceptanceProof.gates.length < 1) {
+    appendAtlasReportsRow(gateRows, 'No acceptance gates yet', 'Diagnostics will populate after project Atlas data is available.');
+  }
+  gatesSection.appendChild(gateRows);
+
+  const degradedSection = appendAtlasOverviewSection(atlasDiagnosticsHost, 'Degraded capability report', { open: true });
+  const degradedRows = document.createElement('div');
+  degradedRows.className = 'right-rail-atlas-matrix-list';
+  for (const row of state.degradedCapabilityReport.rows.slice(0, 10)) {
+    appendAtlasReportsRow(
+      degradedRows,
+      row.label || row.code || 'Capability',
+      `${row.severity || 'info'} · ${row.detail || row.surfaceId || ''}`,
+      row.severity === 'degraded' ? 'reviewRequired' : 'current',
+    );
+  }
+  degradedSection.appendChild(degradedRows);
+
+  const inventorySection = appendAtlasOverviewSection(atlasDiagnosticsHost, 'Fallback inventory', { open: false });
+  const inventoryRows = document.createElement('div');
+  inventoryRows.className = 'right-rail-atlas-matrix-list';
+  for (const row of state.surfaceFallbackInventory.rows.slice(0, 10)) {
+    appendAtlasReportsRow(
+      inventoryRows,
+      row.surfaceId || 'Surface',
+      `${row.state || 'unknown'} · ${row.fallback || ''}`,
+      row.state === 'unavailable' || row.state === 'degraded' ? 'reviewRequired' : 'current',
+    );
+  }
+  inventorySection.appendChild(inventoryRows);
+}
+
+async function refreshAtlasDiagnosticsStageAcceptance() {
+  if (currentRightTab !== 'atlas') return;
+  atlasDiagnosticsState = {
+    ...atlasDiagnosticsState,
+    state: currentProjectId ? 'loading' : 'empty',
+    projectId: currentProjectId || '',
+  };
+  renderAtlasDiagnosticsStageAcceptanceState();
+  const result = await invokeWorkspaceQueryBridge(ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID, {
+    projectId: currentProjectId,
+  });
+  const nextState = result && result.ok !== false && result.atlasDiagnosticsStageAcceptance
+    ? result.atlasDiagnosticsStageAcceptance
+    : { state: 'unavailable', unavailableReason: 'ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_FAILED' };
+  atlasDiagnosticsState = normalizeAtlasDiagnosticsStageAcceptance(nextState);
+  renderAtlasDiagnosticsStageAcceptanceState();
 }
 
 function normalizeAtlasCurrentSceneDossier(result = {}) {
@@ -17077,6 +17260,8 @@ if (window.electronAPI) {
       refreshAtlasEntityDossier();
       refreshAtlasRelationDossier();
       refreshAtlasMatrices();
+      refreshAtlasReportsSavedQueries();
+      refreshAtlasDiagnosticsStageAcceptance();
       refreshAtlasCurrentScene();
     }
     applyPendingProjectSearchJump(currentDocumentId || '');

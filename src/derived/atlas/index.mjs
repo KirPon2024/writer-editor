@@ -95,6 +95,16 @@ export {
   sortAtlasSavedQueryReadbacks,
 } from './atlasReportsTypes.mjs';
 export {
+  ATLAS_DEGRADED_CAPABILITY_REPORT_SCHEMA_VERSION,
+  ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_SCHEMA_VERSION,
+  ATLAS_DIAGNOSTICS_SURFACE_MANIFEST_VERSION,
+  ATLAS_FINAL_UI_AUDIT_RECEIPT_SCHEMA_VERSION,
+  ATLAS_HEURISTIC_REVIEW_RECEIPT_SCHEMA_VERSION,
+  ATLAS_STAGE_ACCEPTANCE_PROOF_SCHEMA_VERSION,
+  ATLAS_SURFACE_FALLBACK_INVENTORY_SCHEMA_VERSION,
+  sortAtlasDiagnosticsRows,
+} from './atlasDiagnosticsTypes.mjs';
+export {
   ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
   buildAtlasTemporalContinuityFromObservationAggregate,
   buildAtlasTemporalContinuityIncrementally,
@@ -127,6 +137,10 @@ export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './de
 export { deriveAtlasMatrices, ATLAS_MATRICES_VIEW_ID } from './deriveAtlasMatrices.mjs';
 export { deriveAtlasHeatmap, ATLAS_HEATMAP_VIEW_ID } from './deriveAtlasHeatmap.mjs';
 export { deriveAtlasReportsSavedQueries, ATLAS_REPORTS_SAVED_QUERIES_VIEW_ID } from './deriveAtlasReportsSavedQueries.mjs';
+export {
+  deriveAtlasDiagnosticsStageAcceptance,
+  ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_VIEW_ID,
+} from './deriveAtlasDiagnosticsStageAcceptance.mjs';
 export {
   acceptAtlasLocalGraphLayoutResult,
   buildAtlasLocalGraphLayoutPlan,

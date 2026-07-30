@@ -28,6 +28,10 @@ const POST_D1_PROGRAM_PATH = 'docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json';
 const POST_D1_A00_RECEIPT_PATH = 'docs/OPS/RTK/POST_D1_A00_RECONCILIATION_RECEIPT.json';
 const POST_D1_HARNESS_PATH = 'scripts/ops/rtk-post-d1-editor-lab-harness.mjs';
 const POST_D1_TEST_PATH = 'test/contracts/rtk-post-d1-portability-program.contract.test.js';
+const WORD_LATEST_B00_MATRIX_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_MATRIX.json';
+const WORD_LATEST_B00_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json';
+const WORD_LATEST_B00_GENERATOR_PATH = 'scripts/ops/rtk-word-latest-semantic-corpus-generator.mjs';
+const WORD_LATEST_B00_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b00.contract.test.js';
 const DOCX_PACKAGE_BOUNDARY_TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
 const CONTEXT_PATH = 'docs/CONTEXT.md';
 const HANDOFF_PATH = 'docs/HANDOFF.md';
@@ -55,6 +59,10 @@ const ALLOWLIST = [
   POST_D1_A00_RECEIPT_PATH,
   POST_D1_HARNESS_PATH,
   POST_D1_TEST_PATH,
+  WORD_LATEST_B00_MATRIX_PATH,
+  WORD_LATEST_B00_RECEIPT_PATH,
+  WORD_LATEST_B00_GENERATOR_PATH,
+  WORD_LATEST_B00_TEST_PATH,
   DOCX_PACKAGE_BOUNDARY_TEST_PATH,
   CONTEXT_PATH,
   HANDOFF_PATH,

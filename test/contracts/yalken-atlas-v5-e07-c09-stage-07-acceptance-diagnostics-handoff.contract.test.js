@@ -165,7 +165,9 @@ test('E07 C09: acceptance handoff stays local, read-only, and explicit about out
 
   assert.equal(acceptance.ok, true);
   assert.equal(acceptance.value.handoff.schemaVersion, derived.ATLAS_LANGUAGE_STAGE_HANDOFF_SCHEMA_VERSION);
-  assert.equal(acceptance.value.handoff.readyForFinalProgramDoD, true);
+  assert.equal(acceptance.value.handoff.nextContour, 'E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION');
+  assert.equal(acceptance.value.handoff.readyForNextStage, true);
+  assert.equal(acceptance.value.handoff.readyForFinalProgramDoD, false);
   assert.equal(acceptance.value.handoff.releaseReadinessClaim, false);
   assert.ok(acceptance.value.handoff.remainingScopeOut.includes('production Deep runtime resources'));
   assert.ok(acceptance.value.handoff.remainingScopeOut.includes('network language service'));
@@ -202,6 +204,7 @@ test('E07 C09: acceptance degrades honestly when RU Deep fixture metrics fail', 
   assert.equal(rollbackGate.status, derived.ATLAS_LANGUAGE_STAGE_GATE_STATUS.PASS);
   assert.equal(acceptance.value.summary.certifiedDeepCount, 1);
   assert.equal(acceptance.value.summary.englishFallbackCount, 0);
+  assert.equal(acceptance.value.handoff.readyForNextStage, false);
   assert.equal(acceptance.value.handoff.readyForFinalProgramDoD, false);
 });
 

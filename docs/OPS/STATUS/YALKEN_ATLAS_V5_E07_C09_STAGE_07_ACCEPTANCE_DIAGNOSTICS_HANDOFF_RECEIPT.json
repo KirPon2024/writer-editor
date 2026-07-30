@@ -62,7 +62,7 @@
       "acceptance degrades when a Stage 07 gate loses evidence",
       "failing RU Deep fixture metrics degrade the Stage 07 acceptance proof while rollback/resource isolation remains passing",
       "disabled language stage acceptance capability returns E_CAPABILITY_DISABLED_FOR_COMMAND",
-      "Stage 07 handoff stays explicit that production Deep runtime resources, network language service, dynamic executable analyzer plugins, global graph composite mode, series atlas packaging, and platform certification remain out of scope"
+      "Stage 07 handoff stays explicit that production Deep runtime resources, network language service, dynamic executable analyzer plugins, global graph composite mode, series atlas packaging, and platform certification remain out of scope and that final Program DoD remains unavailable until E08 through E11 are closed"
     ],
     "recovery": {
       "projectTruthMutation": false,
@@ -71,7 +71,8 @@
       "networkMutation": false,
       "rollbackTargetStatus": "BASIC_OR_GLOBAL_EXACT_ONLY_PER_LANGUAGE",
       "releaseReadinessClaim": false,
-      "readyForFinalProgramDoDOnlyWhenAllGatesPass": true
+      "readyForNextStageOnlyWhenAllGatesPass": true,
+      "readyForFinalProgramDoD": false
     },
     "negativeBypassChecks": [
       "all eight Stage 07 gates must pass before readyForFinalProgramDoD becomes true",
@@ -98,7 +99,8 @@
       "stage07-c07-ru-en-deep-fixture-certification",
       "stage07-c08-rollback-resource-isolation"
     ],
-    "handoffTarget": "EFINAL_PROGRAM_ACCEPTANCE_AND_DONE",
+    "handoffTarget": "E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION",
+    "finalProgramDoDClaim": false,
     "runtimeUiChanged": false,
     "newDependencies": false
   },
@@ -165,5 +167,5 @@
     "recoveryProof": "Stage 07 acceptance is a read-only derived packet; readiness degrades when evidence gates fail and no Stage 07 acceptance path mutates project truth, manuscript text, storage, network, runtime resources, or UI.",
     "diffBudgetRespected": true
   },
-  "nextContour": "EFINAL_PROGRAM_ACCEPTANCE_AND_DONE"
+  "nextContour": "E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION"
 }

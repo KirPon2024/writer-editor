@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AUTHOR_CORRECTION_ROUTE_RECEIPT.json",
+      "sha256": "bcba82b3499c8db5e36b0ce4c125b69bceb31c1c7dc8dcab4e2d8b0e950a71e2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AND_AUTHOR_CORRECTION_ROUTE",
+      "approvedAtUtc": "2026-07-30T05:10:18.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C07 delivery receipt: records local verified implementation of the explicit-open Atlas continuity ledger surface, SURFACE_MANIFEST_V1 rightRail.context.atlas.continuityLedger slot, query.atlasContinuityLedgerSurface read-only projection, finding rows with evidence anchors, jump-to-evidence intent-only behavior, author correction route disclosure through existing atlas.continuityFact.record command authority, degraded and empty states, Lazyweb search and unavailable create-report fallback, UI Craft and heuristic review, no automatic manuscript edits, no cross-scene apply, no project truth mutation, no storage, no network, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js",
+      "sha256": "163fefefc56010433922aa0c88e68b8d74128a4f443e5959b9d815fde34090c6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AND_AUTHOR_CORRECTION_ROUTE",
+      "approvedAtUtc": "2026-07-30T05:10:18.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C07 contract: proves continuity ledger surface derives finding rows with evidence jump intents and correction route disclosure from existing continuity findings and fact ledgers, exposes empty and disabled capability states, exports through derived barrels, wires renderer and main query bridge only behind explicitOpen and query allowlist, keeps correction route intent-only with no dispatchUiCommand bypass, and keeps derived continuity ledger surface sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, automatic correction, automatic apply, cross-scene apply, manuscript mutation, project truth mutation, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_TIME_SLIDER_SURFACE_RECEIPT.json",
       "sha256": "4f949870c6b8a64958c1f50b80dae7f4a1c5f49cb3a140f107d8e4091c75de7f",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_AND_TIME_SLIDER_SURFACE",

@@ -369,6 +369,7 @@ const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
 const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
 const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = 'query.atlasTemporalLayout';
+const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = 'query.atlasContinuityLedgerSurface';
 const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query.atlasReportsSavedQueries';
 const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = 'query.atlasDiagnosticsStageAcceptance';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
@@ -6985,6 +6986,18 @@ function loadAtlasTemporalLayoutModule() {
   return atlasTemporalLayoutModulePromise;
 }
 
+let atlasContinuityLedgerSurfaceModulePromise = null;
+function loadAtlasContinuityLedgerSurfaceModule() {
+  if (!atlasContinuityLedgerSurfaceModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'atlas', 'deriveAtlasContinuityLedgerSurface.mjs')).href;
+    atlasContinuityLedgerSurfaceModulePromise = import(modulePath).catch((error) => {
+      atlasContinuityLedgerSurfaceModulePromise = null;
+      throw error;
+    });
+  }
+  return atlasContinuityLedgerSurfaceModulePromise;
+}
+
 let atlasReportsSavedQueriesModulePromise = null;
 function loadAtlasReportsSavedQueriesModule() {
   if (!atlasReportsSavedQueriesModulePromise) {
@@ -8142,6 +8155,76 @@ function makeAtlasTemporalLayoutFallback(projectId, reason, extra = {}) {
   };
 }
 
+function makeAtlasContinuityLedgerSurfaceFallback(projectId, reason, extra = {}) {
+  return {
+    schemaVersion: 'derived.atlas.continuityLedgerSurface.v1',
+    state: reason ? 'unavailable' : 'empty',
+    unavailableReason: reason || '',
+    surfaceManifest: {
+      schemaVersion: 'surface.atlas.continuityLedger.v1',
+      surfaceId: 'surface.atlas.continuityLedger',
+      providerId: ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID,
+      host: 'rightRail',
+      slotId: 'rightRail.context.atlas.continuityLedger',
+      contributionKind: 'readOnlyProjectionWithCommandRouteDisclosure',
+      commandAuthority: 'CommandKernel',
+      commandIds: ['atlas.continuityFact.record'],
+      productMutation: false,
+      manuscriptMutation: false,
+      storageAuthority: false,
+      heavySurface: true,
+      explicitOpenRequired: true,
+    },
+    authority: {
+      readModelOnly: true,
+      commandAuthority: 'CommandKernel',
+      commandIds: ['atlas.continuityFact.record'],
+      correctionRouteOnly: true,
+      projectTruthMutation: false,
+      manuscriptMutation: false,
+      storageMutation: false,
+      networkMutation: false,
+      rendererMutation: false,
+      automaticCorrection: false,
+      automaticApply: false,
+      crossSceneApply: false,
+      hiddenMutation: false,
+      jumpToEvidenceIntentOnly: true,
+    },
+    projectId: typeof projectId === 'string' ? projectId : '',
+    summary: {
+      findingCount: 0,
+      outcomeCount: 0,
+      rowCount: 0,
+      visibleRowCount: 0,
+      omittedRowCount: 0,
+      evidenceAnchorCount: 0,
+      correctionRouteCount: 0,
+      degradedRowCount: 0,
+      surfaceHash: '',
+      sourceHash: '',
+      invalidationKey: '',
+    },
+    rows: [],
+    listParity: {
+      schemaVersion: 'derived.atlas.continuityLedgerListParity.v1',
+      rows: [],
+      equivalentToFindingRows: true,
+      omittedRowCount: 0,
+    },
+    keyboardContract: {
+      schemaVersion: 'derived.atlas.continuityLedgerKeyboardContract.v1',
+      rowFocusModel: 'native-list-buttons',
+      evidenceFocusModel: 'native-evidence-buttons',
+      correctionFocusModel: 'native-intent-buttons',
+      supportedKeys: ['Tab', 'Enter', ' '],
+      noPointerOnlyState: true,
+      equivalentListParity: true,
+    },
+    ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
 function makeAtlasReportsSavedQueriesFallback(projectId, reason, extra = {}) {
   return {
     schemaVersion: 'derived.atlas.reportsSavedQueries.v1',
@@ -8466,6 +8549,15 @@ function normalizeAtlasTemporalLayoutPayload(payload = {}) {
     sceneLimit: Number.isSafeInteger(Number(source.sceneLimit)) ? Number(source.sceneLimit) : 48,
     segmentLimit: Number.isSafeInteger(Number(source.segmentLimit)) ? Number(source.segmentLimit) : 32,
     sliderValue: Number.isFinite(Number(source.sliderValue)) ? Number(source.sliderValue) : null,
+  };
+}
+
+function normalizeAtlasContinuityLedgerSurfacePayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
+    explicitOpen: source.explicitOpen === true,
+    rowLimit: Number.isSafeInteger(Number(source.rowLimit)) ? Number(source.rowLimit) : 16,
   };
 }
 
@@ -8829,6 +8921,64 @@ async function handleWorkspaceAtlasTemporalLayoutQuery(payload = {}) {
       atlasTemporalLayout: makeAtlasTemporalLayoutFallback(
         safePayload.projectId,
         error && typeof error.code === 'string' ? error.code : 'ATLAS_TEMPORAL_LAYOUT_READ_FAILED',
+      ),
+    };
+  }
+}
+
+async function handleWorkspaceAtlasContinuityLedgerSurfaceQuery(payload = {}) {
+  const safePayload = normalizeAtlasContinuityLedgerSurfacePayload(payload);
+  if (safePayload.explicitOpen !== true) {
+    return {
+      ok: true,
+      atlasContinuityLedgerSurface: makeAtlasContinuityLedgerSurfaceFallback(safePayload.projectId, 'ATLAS_CONTINUITY_LEDGER_EXPLICIT_OPEN_REQUIRED'),
+    };
+  }
+  const continuityLedgerModule = await loadAtlasContinuityLedgerSurfaceModule();
+  try {
+    const { projectId, coreState } = await buildAtlasOverviewCoreState();
+    if (safePayload.projectId && safePayload.projectId !== projectId) {
+      return {
+        ok: true,
+        atlasContinuityLedgerSurface: makeAtlasContinuityLedgerSurfaceFallback(safePayload.projectId, 'ATLAS_PROJECT_MISMATCH'),
+      };
+    }
+    const continuityLedger = continuityLedgerModule.deriveAtlasContinuityLedgerSurface({
+      coreState,
+      params: {
+        projectId,
+        rowLimit: safePayload.rowLimit,
+      },
+      capabilitySnapshot: {
+        platformId: 'node',
+        capabilities: {
+          atlasContinuityLedgerSurface: true,
+          atlasContinuityFindings: true,
+          atlasContinuityFactLedgers: true,
+        },
+      },
+    });
+    if (!continuityLedger.ok) {
+      return {
+        ok: true,
+        atlasContinuityLedgerSurface: makeAtlasContinuityLedgerSurfaceFallback(
+          projectId,
+          continuityLedger.error?.reason || 'ATLAS_CONTINUITY_LEDGER_UNAVAILABLE',
+          { error: continuityLedger.error || null },
+        ),
+      };
+    }
+    return {
+      ok: true,
+      atlasContinuityLedgerSurface: continuityLedger.value,
+    };
+  } catch (error) {
+    logDevError('query.atlasContinuityLedgerSurface', error);
+    return {
+      ok: true,
+      atlasContinuityLedgerSurface: makeAtlasContinuityLedgerSurfaceFallback(
+        safePayload.projectId,
+        error && typeof error.code === 'string' ? error.code : 'ATLAS_CONTINUITY_LEDGER_READ_FAILED',
       ),
     };
   }
@@ -18951,6 +19101,9 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
   if (queryId === ATLAS_TEMPORAL_LAYOUT_QUERY_ID) {
     return handleWorkspaceAtlasTemporalLayoutQuery(payload);
   }
+  if (queryId === ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID) {
+    return handleWorkspaceAtlasContinuityLedgerSurfaceQuery(payload);
+  }
   if (queryId === ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID) {
     return handleWorkspaceAtlasReportsSavedQueriesQuery(payload);
   }
@@ -20859,6 +21012,7 @@ const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set([
   ATLAS_MATRICES_QUERY_ID,
   ATLAS_HEATMAP_QUERY_ID,
   ATLAS_TEMPORAL_LAYOUT_QUERY_ID,
+  ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID,
   ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,
   ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID,
 ]);

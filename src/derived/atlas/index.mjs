@@ -67,6 +67,16 @@ export {
   sortAtlasRelationTimelineRows,
 } from './atlasRelationDossierTypes.mjs';
 export {
+  ATLAS_ENTITY_SCENE_MATRIX_SCHEMA_VERSION,
+  ATLAS_MATRICES_SCHEMA_VERSION,
+  ATLAS_MATRICES_SURFACE_MANIFEST_VERSION,
+  ATLAS_MATRIX_ACCESSIBILITY_CONTRACT_SCHEMA_VERSION,
+  ATLAS_RELATION_MATRIX_SCHEMA_VERSION,
+  sortAtlasEntitySceneListRows,
+  sortAtlasMatrixEntities,
+  sortAtlasRelationListRows,
+} from './atlasMatricesTypes.mjs';
+export {
   ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
   buildAtlasTemporalContinuityFromObservationAggregate,
   buildAtlasTemporalContinuityIncrementally,
@@ -96,6 +106,7 @@ export {
 export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOverview.mjs';
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';
+export { deriveAtlasMatrices, ATLAS_MATRICES_VIEW_ID } from './deriveAtlasMatrices.mjs';
 export {
   acceptAtlasLocalGraphLayoutResult,
   buildAtlasLocalGraphLayoutPlan,

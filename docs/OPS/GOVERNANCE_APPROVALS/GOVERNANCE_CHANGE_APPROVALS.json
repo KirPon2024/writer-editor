@@ -3720,7 +3720,7 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-hostile-file-gate.contract.test.js",
-      "sha256": "c562e3e4f1afba9652936372ad125b7b6f196bba2004fe3ffaf7a6cd82f6ee32",
+      "sha256": "fdce11545385efd211fda0de29f976ce33b7cd01061c0689345a8d429fc8b58b",
       "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
       "approvedAtUtc": "2026-07-12T23:00:00.000Z",
       "rationale": "Approve hostile gate coverage distinguishing internal OOXML relationships from literal, encoded, and malformed external TargetMode values while preserving all ZIP and XML defenses."
@@ -3741,7 +3741,7 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
-      "sha256": "22e26ae308c4080ec4c58ada6d12da743a65c636b7f9b5a3878f74a7540bd805",
+      "sha256": "aec911d0dc3dfc939ab55f94af53ec0931bd4c0df655aa6a720d3d37e3609e63",
       "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
       "approvedAtUtc": "2026-07-12T23:00:00.000Z",
       "rationale": "Approve materializer contract alignment with the honest relationship-part diagnostic code while preserving all binary bounds and rejection behavior."
@@ -4641,6 +4641,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS",
       "approvedAtUtc": "2026-07-30T01:30:32.000Z",
       "rationale": "Approve E05 C03 contract test coverage for the Atlas relation dossier and contextual review action surface: proves deterministic relation selection, pair evidence and timeline rows, absence context, existing Command Kernel action-intent ids, unavailable and empty states without mutation, public barrel exports, renderer and main-process query bridge wiring through a typed host, keyboard-selectable relation rows, and no storage, network, command bypass, direct dispatch, or renderer-side product mutation."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_ACCESSIBILITY_PARITY_RECEIPT.json",
+      "sha256": "a6430d124aa120c41fdd12cbf2e1f3cf3884c61be97f4ce31cd1067e4659242a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_AND_ACCESSIBILITY_PARITY",
+      "approvedAtUtc": "2026-07-30T01:51:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C04 receipt: records the Atlas matrices read model, entity-scene and relation matrix packets, table-first and equivalent list parity accessibility contract, workspace query bridge provider, right-rail typed slot, keyboard grid navigation, honest large-project clipping proof, Lazyweb and UI Craft design-route evidence, synchronized renderer bundle, and no product-truth, storage, network, command-bypass, worker, dependency, heatmap color-system, or external-service expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
+      "sha256": "da90d8e514d86d582e93304e24c84bf3c87bc8d72e88ebe7a1926ce8e52c11e3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_AND_ACCESSIBILITY_PARITY",
+      "approvedAtUtc": "2026-07-30T01:51:00.000Z",
+      "rationale": "Approve E05 C04 contract test coverage for the Atlas matrices accessibility parity surface: proves deterministic entity-scene and relation matrix derivation, clipped table and list parity budgets, keyboard navigation and table-first accessibility contract, unavailable and empty states without mutation, public barrel exports, renderer and main-process query bridge wiring through a typed host, and no storage, network, command bypass, direct dispatch, heatmap color-system, or renderer-side product mutation."
     }
   ]
 }

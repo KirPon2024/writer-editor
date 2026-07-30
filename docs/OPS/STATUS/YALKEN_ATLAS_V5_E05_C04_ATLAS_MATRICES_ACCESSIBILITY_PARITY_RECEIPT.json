@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_ACCESSIBILITY_PARITY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E05_C04_ATLAS_MATRICES_AND_ACCESSIBILITY_PARITY",
+  "programStage": "E05_STAGE_05_FULL_ATLAS_UX_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED_FULL_RUNNER_PASS",
+  "createdAtUtc": "2026-07-30T01:51:00Z",
+  "baseSha": "6ea43a02c3d7124cda35de0edc2e4378b925f665",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour adds a product UI read surface inside the Atlas right rail: entity-scene and relation matrices with equivalent list access, keyboard navigation, and large-data clipping proof. It changes an existing product screen and therefore uses Lazyweb and UI Craft reference guidance before closing.",
+  "designRouteEvidence": {
+    "lazyweb": {
+      "health": "OK",
+      "skillPackVersion": "0.14.9",
+      "quickSearch": {
+        "query": "matrix analytics dashboard",
+        "platform": "desktop",
+        "coverageStrength": "moderate",
+        "topSimilarity": 0.541,
+        "referenceCompanies": [
+          "google-analytics",
+          "hashnode",
+          "navattic",
+          "mixpanel",
+          "hex"
+        ],
+        "resultUse": "reference-only signal for dense analytics dashboard structure, restrained toolbar/table treatment, native data density, and no heatmap color dependency; no external style, code, URL, service, dependency, token, or hosted runtime is adopted into the product"
+      },
+      "workflowFetch": {
+        "operation": "lazyweb_get_workflows",
+        "workflow": "lazyweb-design-create",
+        "result": "FETCH_OK",
+        "sourceSha": "b4b9dce613ba9cc0f34bff400eaa9d33b86a82ad"
+      },
+      "reportAttempt": {
+        "objective": "create",
+        "hostedReportGenerated": false,
+        "fallbackReason": "Lazyweb quick-search evidence was available. The data-bearing report path requested a client restart after the local Lazyweb update to unlock the fresh report tooling. The V5 contour explicitly permits a recorded unavailable fallback, so implementation continued without fabricating a hosted report or adding any external runtime dependency."
+      },
+      "selfUpdate": {
+        "completed": true,
+        "productRepoChanged": false,
+        "clientRestartRequiredForFreshTools": true
+      }
+    },
+    "uiCraft": {
+      "skillRead": true,
+      "projectDesignMemory": "absent",
+      "referencesRead": [
+        "accessibility",
+        "dataviz",
+        "dashboard"
+      ],
+      "tokenInventory": "existing renderer CSS variables and right-rail Atlas styles reused; no new palette, font, framework, chart library, or token dependency introduced",
+      "application": "Used native table-first matrix rendering, explicit focus-visible states, roving gridcell keyboard navigation, list parity rows, tabular numerals, and honest clipping text without heatmap color encoding."
+    }
+  },
+  "implementedScope": [
+    "Atlas matrices derived read model with schema derived.atlas.matrices.v1",
+    "entity-scene matrix packet with schema derived.atlas.entitySceneMatrix.v1",
+    "relation matrix packet with schema derived.atlas.relationMatrix.v1",
+    "matrix accessibility contract with schema derived.atlas.matrixAccessibilityContract.v1",
+    "surface manifest with schema surface.atlas.matrices.v1",
+    "workspace query bridge route query.atlasMatrices",
+    "right-rail typed host rightRail.context.atlas.matrices",
+    "native table-first renderer with role grid and gridcell focus contract",
+    "equivalent entity-scene and relation list parity rows",
+    "large-project row, column, cell, and list clipping proof",
+    "renderer bundle synchronized for packaged runtime"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "atlas.matricesAccessibilityParitySurface.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "derived.atlas.observationAggregate.v1",
+        "derived.atlas.temporalContinuity.v1",
+        "derived.atlas.matrices.v1"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "existingCommandIds": [],
+      "commandAuthority": "none",
+      "capabilityRevalidation": "The read surface introduces no command. Relation matrix cells may set transient renderer selection for the existing relation dossier surface; no command dispatch, project truth mutation, or storage write is performed."
+    },
+    "interfacePlane": {
+      "newSurface": true,
+      "surfaceManifest": "surface.atlas.matrices.v1",
+      "host": "rightRail",
+      "typedSlot": "rightRail.context.atlas.matrices",
+      "provider": "query.atlasMatrices",
+      "directDomMutation": false,
+      "progressiveDisclosure": true,
+      "heavySurface": false,
+      "accessibilityParity": true
+    }
+  },
+  "runtimeFacts": {
+    "matricesSchema": "derived.atlas.matrices.v1",
+    "entitySceneMatrixSchema": "derived.atlas.entitySceneMatrix.v1",
+    "relationMatrixSchema": "derived.atlas.relationMatrix.v1",
+    "accessibilityContractSchema": "derived.atlas.matrixAccessibilityContract.v1",
+    "surfaceManifestSchema": "surface.atlas.matrices.v1",
+    "workspaceQueryId": "query.atlasMatrices",
+    "surfaceId": "surface.atlas.matrices",
+    "host": "rightRail",
+    "slot": "rightRail.context.atlas.matrices",
+    "defaultRowLimit": 8,
+    "defaultColumnLimit": 8,
+    "defaultListLimit": 24,
+    "keyboardSupportedKeys": [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End"
+    ],
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "commandBypass": false,
+    "directActionDispatch": false,
+    "workerScheduling": false,
+    "newDependency": false,
+    "externalServiceDependency": false,
+    "quietWriteInterference": false,
+    "heatmapColorSystem": false
+  },
+  "changedFiles": [
+    "src/derived/atlas/atlasMatricesTypes.mjs",
+    "src/derived/atlas/deriveAtlasMatrices.mjs",
+    "src/derived/atlas/index.mjs",
+    "src/derived/index.mjs",
+    "src/main.js",
+    "src/renderer/editor.js",
+    "src/renderer/editor.bundle.js",
+    "src/renderer/index.html",
+    "src/renderer/styles.css",
+    "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_ACCESSIBILITY_PARITY_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s build:renderer",
+      "status": "PASS",
+      "summary": "dist renderer bundle rebuilt, 962.2kb"
+    },
+    {
+      "command": "node --test C03 C02 C01 E01_C03 Atlas surface contracts",
+      "status": "PASS",
+      "summary": "16 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK 1"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "ok true, missing approvals 0; registry hygiene corrected two stale prior approval hashes without changing their files"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK 1, STRICT_LIE_CLASSES_OK 1"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS PASS; command namespace, menu, law path, execution sequence, release candidate all PASS"
+    }
+  ],
+  "nextContour": "E05_C05_ATLAS_DEGRADED_CAPABILITY_AND_EMPTY_STATE_COPY"
+}

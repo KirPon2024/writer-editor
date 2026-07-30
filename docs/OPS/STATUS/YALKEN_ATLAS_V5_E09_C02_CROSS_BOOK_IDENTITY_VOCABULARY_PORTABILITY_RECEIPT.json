@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E09_C02_CROSS_BOOK_IDENTITY_VOCABULARY_PORTABILITY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY",
+  "programStage": "E09_STAGE_09_SERIES_AND_PORTABILITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T13:42:30Z",
+  "baseSha": "08a79d005f93b1afbe088ee669b6ad0ebcac2ca0",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E09 C02 adds Product Core and derived contracts for cross-book identity links and custom vocabulary portability. It changes no product UI screen, visual composition, layout, palette, typography, renderer surface, Design OS surface, storage adapter, network adapter, or project shell.",
+  "featureIntegrationManifest": {
+    "featureId": "atlas.seriesPortability.v1",
+    "productPlane": {
+      "owner": "Product Core",
+      "readPath": [
+        "project.atlas.entities",
+        "project.atlas.seriesIdentityLinks",
+        "project.atlas.entityVocabulary",
+        "project.atlas.relationVocabulary",
+        "derived.atlas.seriesPortabilityPreview.v1"
+      ],
+      "writePath": [
+        "Command Kernel dispatch atlas.seriesPortability.apply",
+        "Command Kernel dispatch atlas.seriesPortability.rollback",
+        "Product Core reducer writes only atlas portability buckets and operation receipt"
+      ],
+      "storageAdapter": "existing project persistence only",
+      "newStorageAdapter": false,
+      "projectTruthMutation": true,
+      "manuscriptMutation": false
+    },
+    "commandPlane": {
+      "newCommands": [
+        "atlas.seriesPortability.apply",
+        "atlas.seriesPortability.rollback"
+      ],
+      "capabilityRevalidation": "Required through CAPABILITY_BINDING and createCommandRunner before every apply or rollback.",
+      "previewRequiredBeforeApply": true,
+      "authorConfirmationRequired": true
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "identityLinkSchema": "atlas.seriesIdentityLink.v1",
+    "customVocabularyRowSchema": "atlas.customVocabularyRow.v1",
+    "previewSchema": "derived.atlas.seriesPortabilityPreview.v1",
+    "applyReceiptSchema": "atlas.seriesPortabilityApplyReceipt.v1",
+    "rollbackProofSchema": "atlas.seriesPortabilityRollbackProof.v1",
+    "scopeIn": [
+      "cross-book identity link schema",
+      "custom entity vocabulary rows",
+      "custom relation vocabulary rows",
+      "preview-only apply plan",
+      "Command Kernel capability revalidation",
+      "conflict and collision report",
+      "author-confirmed apply boundary",
+      "rollback and reopen validation"
+    ],
+    "scopeOut": [
+      "automatic entity merge",
+      "automatic manuscript rewrite",
+      "silent project truth rewrite",
+      "network vocabulary registry",
+      "new storage adapter",
+      "renderer vocabulary management UI"
+    ],
+    "previewRequiredBeforeApply": true,
+    "authorConfirmedApplyRequired": true,
+    "collisionReportRequired": true,
+    "rollbackProofRequired": true,
+    "reopenValidationRequired": true,
+    "autoMerge": false,
+    "silentProjectRewrite": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false
+  },
+  "runtimeFacts": {
+    "crossBookIdentityApplyExists": true,
+    "customVocabularyApplyExists": true,
+    "seriesPortabilityRollbackExists": true,
+    "commandKernelCapabilityRevalidation": true,
+    "previewHashRequired": true,
+    "sourceCoreStateHashRequired": true,
+    "collisionReportBlocksApply": true,
+    "autoMerge": false,
+    "silentProjectRewrite": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "newStorageAdapter": false,
+    "newDependency": false
+  },
+  "validation": [
+    {
+      "command": "node --check E09 C02 source and contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E09 C02 contract",
+      "result": "PASS",
+      "summary": "6 tests, 6 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "executedAtUtc": "2026-07-30T14:12:14Z",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline, menu, law path canon, execution sequence, and release candidate checks PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E09 C02 stores only author-confirmed series identity and vocabulary rows in Product Core through Command Kernel capability revalidation, records before and after snapshots, and proves rollback after JSON reopen without touching manuscript text, renderer state, storage adapters, network adapters, or Design OS surfaces.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_AND_UNKNOWN_FIELD_PRESERVATION"
+}

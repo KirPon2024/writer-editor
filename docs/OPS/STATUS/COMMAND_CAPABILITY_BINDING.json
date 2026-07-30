@@ -55,6 +55,14 @@
       "capabilityId": "cap.atlas.languageTag.edit"
     },
     {
+      "commandId": "atlas.seriesPortability.apply",
+      "capabilityId": "cap.atlas.seriesPortability.apply"
+    },
+    {
+      "commandId": "atlas.seriesPortability.rollback",
+      "capabilityId": "cap.atlas.seriesPortability.rollback"
+    },
+    {
       "commandId": "atlas.calendar.define",
       "capabilityId": "cap.atlas.calendar.define"
     },

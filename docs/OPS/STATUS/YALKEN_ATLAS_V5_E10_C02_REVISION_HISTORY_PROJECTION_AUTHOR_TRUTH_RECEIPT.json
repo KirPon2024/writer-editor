@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AUTHOR_TRUTH_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION",
+  "programStage": "E10_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T16:23:00Z",
+  "validatedAtUtc": "2026-07-30T16:29:57Z",
+  "baseSha": "da1b7fe46b7232dd3815eb7a332c5f88a2fc4792",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E10 C02 adds a pure revision history projection packet and derived history projection support only. It changes no product UI screen, visual composition, renderer surface, Design OS manifest, typography, layout, storage adapter, network adapter, or project truth.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "da1b7fe46b7232dd3815eb7a332c5f88a2fc4792",
+    "stage10CompilationReceiptExists": true,
+    "stage10CompilationNextContour": "E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION",
+    "historyProjectionPacketSchema": "derived.history.projection-packet.v1",
+    "collabEventLogReused": true,
+    "commandKernelReceiptReferences": true,
+    "reviewApplyReceiptReferences": true,
+    "derivedInvalidationKeyBoundToPacket": true,
+    "authorTruthValuesCopied": false,
+    "storedHistoryTruth": false,
+    "directHistoryWriteApi": false,
+    "rendererOwnedHistoryTruth": false,
+    "cloudAuditLog": false,
+    "uiChanged": false,
+    "storageAdapterChanged": false,
+    "newDependencyAdded": false
+  },
+  "productPlane": {
+    "dataAuthority": "Existing Product Core and manuscript truth remain authoritative. E10 C02 derives history entries only from append-only collab event log entries, Command Kernel receipt references, review apply outcome references, and hash-only author truth refs.",
+    "writePath": "No write path. No Command Kernel dispatch is introduced by this contour.",
+    "readPath": "buildRevisionHistoryProjectionPacket creates a pathless read packet; deriveHistory consumes that packet as params and publishes derived.history.v1 entries.",
+    "portsAndAdapters": "No runtime adapter, storage adapter, network adapter, account adapter, CRDT adapter, or renderer adapter is introduced."
+  },
+  "interfacePlane": {
+    "designRoute": "NOT_APPLICABLE",
+    "surfaceManifest": "NOT_CHANGED",
+    "typedSlot": "NOT_CHANGED",
+    "rendererMutation": false,
+    "notes": "Existing history surfaces may consume derived.history.v1 entries later; this contour does not alter renderer UI."
+  },
+  "acceptanceProof": {
+    "historyProjectionPacket": true,
+    "commandKernelReceiptReferences": true,
+    "reviewApplyReceiptReferences": true,
+    "derivedInvalidationKey": true,
+    "authorTruthSeparation": "author truth snapshots are represented by hash refs with valueIncluded=false; packet entries do not copy author truth values",
+    "noSecondHistoryStore": true,
+    "noDirectHistoryWriteApi": true,
+    "nextContour": "E10_C03_OPERATION_REPLAY_OVER_EXISTING_COMMAND_EVENT_LOG"
+  },
+  "changedBasenames": [
+    "deriveHistory.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e10-c02-revision-history-projection-author-truth.contract.test.js",
+    "YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AUTHOR_TRUTH_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "sourceHashes": {
+    "deriveHistory.mjs": "a14c7cfe47961178d065e6fc3348b58b1fe751e1c3cb91ca283af4165fd728b7",
+    "index.mjs": "ad1f1b7537d04395bfbae4040056b0c8b1998a7cd6810f7b569bd09e63700616",
+    "focusedContract": "aa6872d99084eaf8c5670d6880da79af78e8914220bd2c09bc085a9ac40294bf"
+  },
+  "validation": [
+    {
+      "command": "node --check deriveHistory.mjs and commentsHistory index and E10 C02 contract",
+      "result": "PASS",
+      "summary": "syntax checks passed"
+    },
+    {
+      "command": "node --test E10 C02 focused plus comments-history, collab eventlog, and E10 C01 adjacency contracts",
+      "result": "PASS",
+      "summary": "17 tests, 17 pass, 0 fail, including RTK B06 drift adjacency"
+    },
+    {
+      "command": "node scripts/ops/comments-history-safe-state.mjs --json",
+      "result": "PASS",
+      "summary": "COMMENTS_HISTORY_SAFE_OK=1; no second SOT violations; no recovery unsafe violations; deterministic and invalidation checks all PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1; registry valid; approved files: governance approvals, E10 C02 receipt, E10 C02 focused contract"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace PASS; menu checks PASS; law path canon PASS; execution sequence PASS; release candidate verify PASS"
+    }
+  ],
+  "notes": {
+    "falseGreenGuard": "Governance, ops, doctrine, OSS, diff, and full-runner PASS were claimed only after each command completed successfully in this contour.",
+    "authorTruthBoundary": "The packet may hash author truth snapshots but never copies author truth values into history entries."
+  },
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": "NO_COMMAND_OR_WRITE_PATH_IN_E10_C02",
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E10 C02 creates derived history projection packets from existing event and receipt references only. It exposes author truth refs as hashes, keeps all mutation authority false, and does not alter project truth, manuscript, storage, renderer, command state, network, or transport.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E10_C03_OPERATION_REPLAY_OVER_EXISTING_COMMAND_EVENT_LOG"
+}

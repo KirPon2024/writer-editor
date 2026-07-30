@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_STALE_DISCARD_RECEIPT.json",
+      "sha256": "95c21a19739cc809e4a37b87d02ead42b7b24ea050544620c115c871c9d63ce4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_AND_STALE_DISCARD",
+      "approvedAtUtc": "2026-07-30T08:31:53.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E08 C02 receipt: records pure on-demand and idle-budget scheduler envelope for the global composite graph, explicit allowed triggers, rejection of eager background daemon work, bounded latest-per-project queue coalescing, requestId projectId sourceRevision generation identity binding, current core hash stale discard, pointer-only compositeHash publication, no persistent derived truth, no UI, no renderer adapter, no storage, no network, no filesystem, no timer loop, no worker pool, no command bypass, no project truth mutation, no manuscript mutation, no dependency, and handoff to E08 C03."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e08-c02-global-graph-on-demand-idle-scheduler-stale-discard.contract.test.js",
+      "sha256": "afff499478939f46fa1b6a12cf903a5ce83ce1e96ee5cdcc27e22fec970fb9de",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_AND_STALE_DISCARD",
+      "approvedAtUtc": "2026-07-30T08:31:53.000Z",
+      "rationale": "Approve E08 C02 contract coverage: proves scheduler work is created only for explicitOpen or positive idleBudget, backgroundDaemon and missing idle budget fail closed, queue coalesces latest generation per project while remaining bounded, fresh results publish only a derived compositeHash pointer after identity and source revision match, stale source revision and stale request identity are discarded, exports pass through derived barrels, and source files contain no filesystem, network, Electron, Worker, timer, storage, command-dispatch, persistent-derived-truth, project mutation, manuscript mutation, or renderer mutation path."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_SOURCE_ISOLATION_RECEIPT.json",
       "sha256": "1f5ab3ea481b9c8845a0a224eca197ae9666d8abfc6ae639257e0e9c9e9f475e",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_AND_SOURCE_ISOLATION",

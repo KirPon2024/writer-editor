@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_STALE_DISCARD_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_AND_STALE_DISCARD",
+  "programStage": "E08_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T08:31:53Z",
+  "baseSha": "672c8b4c1089b244014a711e75a78572a2c2322b",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E08 C02 adds a pure scheduler envelope for the existing derived global composite graph. It changes no product UI screen, layout, typography, palette, surface manifest, renderer adapter, or user-facing interaction contract.",
+  "featureIntegrationManifest": {
+    "featureId": "atlas.globalCompositeGraph.scheduler",
+    "productPlane": {
+      "sourceTruth": "project.core plus derived global composite graph output",
+      "writePath": "none",
+      "readPath": "createAtlasGlobalCompositeGraphJob -> runAtlasGlobalCompositeGraphJob -> acceptAtlasGlobalCompositeGraphResult",
+      "ports": [],
+      "adapters": [
+        "local-pure-derived-on-demand-idle-worker envelope"
+      ],
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "storageMutation": false,
+      "networkMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifest": "none in this contour",
+      "typedSlot": "none in this contour",
+      "commandCatalog": "future open intent only; no command dispatch added in E08 C02",
+      "rendererAdapter": "none in this contour"
+    },
+    "authorityMap": {
+      "allowedTriggers": [
+        "explicitOpen",
+        "idleBudget"
+      ],
+      "forbiddenTriggers": [
+        "backgroundDaemon",
+        "startupEagerRun",
+        "timerLoop",
+        "networkWorker"
+      ],
+      "staleDiscardIdentity": [
+        "requestId",
+        "projectId",
+        "sourceRevision",
+        "generation"
+      ],
+      "currentSourceRevisionCheck": "hashCoreState(currentCoreState) must match activeJob.sourceRevision before accept"
+    },
+    "negativeBypassChecks": [
+      "no setTimeout",
+      "no setInterval",
+      "no Date.now",
+      "no new Worker",
+      "no filesystem import",
+      "no network import",
+      "no Electron import",
+      "no localStorage/sessionStorage/indexedDB",
+      "no dispatchUiCommand",
+      "no persistentDerivedTruth true",
+      "stale source revision rejects result",
+      "stale request identity rejects result"
+    ]
+  },
+  "runtimeFacts": {
+    "globalCompositeSchedulerExists": true,
+    "jobSchemaVersion": "atlas.globalCompositeGraph.job.v1",
+    "resultSchemaVersion": "atlas.globalCompositeGraph.result.v1",
+    "queueSchemaVersion": "atlas.globalCompositeGraph.queue.v1",
+    "allowedTriggers": [
+      "explicitOpen",
+      "idleBudget"
+    ],
+    "idleBudgetRequiresPositiveBudget": true,
+    "eagerBackgroundTriggerRejected": true,
+    "queueCoalescesLatestByProject": true,
+    "queueBounded": true,
+    "resultCarriesCompositeGraphForAcceptanceOnly": true,
+    "acceptedPublicationShape": "pointer-only compositeHash summary",
+    "persistentDerivedTruth": false,
+    "sourceRevisionBoundToCoreStateHash": true,
+    "staleSourceRevisionDiscard": true,
+    "staleIdentityDiscard": true,
+    "filesystemMutation": false,
+    "networkMutation": false,
+    "timerDaemon": false,
+    "workerPool": false,
+    "rendererMutation": false
+  },
+  "changedArtifacts": [
+    "atlasGlobalCompositeGraphTypes.mjs",
+    "scheduleAtlasGlobalCompositeGraph.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e08-c02-global-graph-on-demand-idle-scheduler-stale-discard.contract.test.js",
+    "YALKEN_ATLAS_V5_E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_STALE_DISCARD_RECEIPT.json"
+  ],
+  "validation": [
+    {
+      "command": "node --check scheduleAtlasGlobalCompositeGraph and E08 C02 contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E08 C02 contract",
+      "result": "PASS",
+      "summary": "5 tests, 5 pass, 0 fail"
+    },
+    {
+      "command": "node --test E08 C01 and E08 C02 contracts",
+      "result": "PASS",
+      "summary": "9 tests, 9 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; release/perf/menu/law/execution checks PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E08 C02 is pure scheduling metadata and derived-result acceptance. Stale request or source revision results fail closed, and accepted output publishes only compositeHash summary without storage, runtime cache, project truth, manuscript, network, renderer, timer, or worker-pool mutation.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E08_C03_ADVANCED_LOD_STABLE_POSITIONS_AND_LARGE_GRAPH_BUDGET"
+}

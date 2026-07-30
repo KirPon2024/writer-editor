@@ -2,6 +2,9 @@ export const ATLAS_GLOBAL_COMPOSITE_GRAPH_SCHEMA_VERSION = 'derived.atlas.global
 export const ATLAS_GLOBAL_COMPOSITE_SOURCE_REF_SCHEMA_VERSION = 'derived.atlas.globalCompositeSourceRef.v1';
 export const ATLAS_GLOBAL_COMPOSITE_NODE_SCHEMA_VERSION = 'derived.atlas.globalCompositeNode.v1';
 export const ATLAS_GLOBAL_COMPOSITE_EDGE_SCHEMA_VERSION = 'derived.atlas.globalCompositeEdge.v1';
+export const ATLAS_GLOBAL_COMPOSITE_GRAPH_JOB_SCHEMA_VERSION = 'atlas.globalCompositeGraph.job.v1';
+export const ATLAS_GLOBAL_COMPOSITE_GRAPH_RESULT_SCHEMA_VERSION = 'atlas.globalCompositeGraph.result.v1';
+export const ATLAS_GLOBAL_COMPOSITE_GRAPH_QUEUE_SCHEMA_VERSION = 'atlas.globalCompositeGraph.queue.v1';
 
 export const ATLAS_GLOBAL_COMPOSITE_NODE_KIND = Object.freeze({
   ATLAS_ENTITY: 'atlasEntity',
@@ -20,6 +23,11 @@ export const ATLAS_GLOBAL_COMPOSITE_EDGE_KIND = Object.freeze({
   PLOT_EDGE: 'plotEdge',
   CROSS_PROJECTION_LINK: 'crossProjectionLink',
   MANUAL_TARGET_REF: 'manualTargetRef',
+});
+
+export const ATLAS_GLOBAL_COMPOSITE_GRAPH_TRIGGER = Object.freeze({
+  EXPLICIT_OPEN: 'explicitOpen',
+  IDLE_BUDGET: 'idleBudget',
 });
 
 function compareText(a, b) {

@@ -8,6 +8,9 @@ export const ATLAS_GLOBAL_COMPOSITE_GRAPH_QUEUE_SCHEMA_VERSION = 'atlas.globalCo
 export const ATLAS_GLOBAL_COMPOSITE_LOD_PLAN_SCHEMA_VERSION = 'atlas.globalCompositeGraph.lodPlan.v1';
 export const ATLAS_GLOBAL_COMPOSITE_STABLE_POSITION_SCHEMA_VERSION = 'atlas.globalCompositeGraph.stablePosition.v1';
 export const ATLAS_GLOBAL_COMPOSITE_RESOURCE_BUDGET_PROOF_SCHEMA_VERSION = 'atlas.globalCompositeGraph.resourceBudgetProof.v1';
+export const ATLAS_GLOBAL_COMPOSITE_TRUST_FILTER_SCHEMA_VERSION = 'atlas.globalCompositeGraph.trustFilter.v1';
+export const ATLAS_GLOBAL_COMPOSITE_BATCH_NAVIGATION_INTENT_SCHEMA_VERSION = 'atlas.globalCompositeGraph.batchNavigationIntent.v1';
+export const ATLAS_GLOBAL_COMPOSITE_ACCESSIBILITY_PARITY_SCHEMA_VERSION = 'atlas.globalCompositeGraph.accessibilityParity.v1';
 
 export const ATLAS_GLOBAL_COMPOSITE_NODE_KIND = Object.freeze({
   ATLAS_ENTITY: 'atlasEntity',

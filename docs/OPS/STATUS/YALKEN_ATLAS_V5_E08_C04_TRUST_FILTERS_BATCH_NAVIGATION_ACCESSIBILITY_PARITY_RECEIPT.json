@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_ACCESSIBILITY_PARITY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_AND_ACCESSIBILITY_PARITY",
+  "programStage": "E08_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T09:03:10Z",
+  "baseSha": "4d01247564b658358ed8bcf0f78fbc5cae1c864f",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E08 C04 adds a pure composite graph navigation read packet: trust filters, intent-only evidence jumps, batch navigation rows, and keyboard/list parity metadata. It changes no concrete renderer surface, visual layout, typography, palette, Design OS slot, or interaction implementation.",
+  "runtimeFacts": {
+    "trustFilterExists": true,
+    "trustFilterSchemaVersion": "atlas.globalCompositeGraph.trustFilter.v1",
+    "batchNavigationIntentSchemaVersion": "atlas.globalCompositeGraph.batchNavigationIntent.v1",
+    "accessibilityParitySchemaVersion": "atlas.globalCompositeGraph.accessibilityParity.v1",
+    "authorConfirmedFilterWorks": true,
+    "algorithmicObservationFilterWorks": true,
+    "batchNavigationIntentOnly": true,
+    "evidenceJumpRouteIntentOnly": true,
+    "keyboardListParityExists": true,
+    "pointerOnlyGraphAction": false,
+    "automaticApply": false,
+    "commandDispatch": false,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false
+  },
+  "changedArtifacts": [
+    "atlasGlobalCompositeGraphTypes.mjs",
+    "deriveAtlasGlobalCompositeGraphNavigation.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e08-c04-trust-filters-batch-navigation-accessibility-parity.contract.test.js",
+    "YALKEN_ATLAS_V5_E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_ACCESSIBILITY_PARITY_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "validation": [
+    {
+      "command": "node --check deriveAtlasGlobalCompositeGraphNavigation and E08 C04 contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E08 C04 contract",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node --test E08 C03 and E08 C04 contracts",
+      "result": "PASS",
+      "summary": "8 tests, 8 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; release/perf/menu/law/execution PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E08 C04 is a pure navigation read packet over the derived global composite graph. Rebuilding from the same composite source revision, node ids, trust filters, and selection ids produces the same navigationPacketHash; no automatic apply, command dispatch, UI, storage, network, project truth mutation, or manuscript mutation exists.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E08_C05_RENDERER_ADAPTER_PROFILING_AND_STAGE_08_ACCEPTANCE"
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.b04-classifier-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "B04_REVISION_PROPERTY_STRUCTURE_CLASSIFIER",
+  "status": "B04_CLASSIFIER_READY_NOT_APPLY_INTEGRATED",
+  "createdAtUtc": "2026-07-30T15:43:00Z",
+  "base": {
+    "originMainSha": "1e9465ace0984234e4b09efeb8848a55af95036e",
+    "branch": "codex/rtk-word-latest-semantic-b04",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "precedingStage": "B03",
+    "precedingPr": 1259,
+    "precedingMergeSha": "4bc94fd241eb91b04e11e82c1d3bfc7b8ca474e2",
+    "precedingCi": "PASS"
+  },
+  "classifierProfile": {
+    "profileId": "bounded-review-ir-classifier-v2-b04",
+    "schemaVersion": "yalken.rtk.review-transport-classifier.v2",
+    "platformNeutralCore": true,
+    "cryptoThroughCryptoPort": true,
+    "fileSystemAuthority": false,
+    "networkAuthority": false,
+    "writerAuthority": false,
+    "globalTextSearchAuthority": false,
+    "fuzzyMatchAuthority": false,
+    "moveRevisionExactAuthority": false
+  },
+  "exactEligibility": [
+    "valid signed scene/block locator",
+    "unchanged scene revision",
+    "unchanged raw SHA256",
+    "unique target",
+    "non-overlapping changes",
+    "all relevant XML semantics accounted",
+    "no duplicate ambiguity",
+    "no cross-scene or structural topology change",
+    "no move revision",
+    "no opaque unsupported semantics"
+  ],
+  "laneDisposition": {
+    "text": "EXACT_AUTOMATIC_CANDIDATE only when every exactEligibility guard is true",
+    "replacementPair": "atomic candidate group only when paired delete and insert share guards",
+    "moveRevisions": "BLOCKED with RTK_BLOCKED_MOVE_REVISION",
+    "propertyRevisions": "MANUAL_REVIEW",
+    "structureChanges": "BLOCKED",
+    "formattingDeltas": "MANUAL_REVIEW",
+    "commentThreads": "COMMENTS_ONLY or BLOCKED independent from manuscript apply",
+    "opaqueUnsupported": "BLOCKED typed diagnostic"
+  },
+  "negativeContracts": [
+    "missing signed locator prevents exact",
+    "ambiguous duplicate target prevents exact",
+    "move revisions remain non-EXACT",
+    "structure changes remain blocked",
+    "property and formatting deltas remain manual review",
+    "comments do not authorize manuscript apply",
+    "classifier cannot write or apply"
+  ],
+  "nonClaims": {
+    "latestWordCertified": false,
+    "word161112Certified": false,
+    "automaticApplyExpanded": false,
+    "applyIntegrated": false,
+    "fuzzyApplyAuthority": false,
+    "globalTextSearchAuthority": false,
+    "moveRevisionExactAuthority": false,
+    "runtimeImportAdded": false,
+    "uiChanged": false,
+    "networkAdded": false,
+    "dependencyAdded": false
+  },
+  "nextStage": "B05_EXACT_APPLY_INTEGRATION_THROUGH_COMMAND_KERNEL"
+}

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX",
+  "programStage": "E04_STAGE_04_DETERMINISTIC_ATLAS_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T00:02:32Z",
+  "baseSha": "3330eebdb817d3501ff4549d5e79e8c571148779",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds Atlas product command boundaries and deterministic read models only; it adds no product UI surface, visual composition, layout, palette, typography, or Design OS contribution.",
+  "implementedScope": [
+    "evidence reattachment candidate model",
+    "deterministic review inbox read model",
+    "explicit atlas.evidence.reattach command",
+    "stale source-record and stale new-evidence fail-closed behavior",
+    "no-loss evidence reattachment ledger with stale and new anchors",
+    "Command Kernel capability revalidation for reattachment"
+  ],
+  "authority": {
+    "productTruthMutation": "explicit atlas.evidence.reattach command only",
+    "commandAuthority": "Command Kernel capability revalidation",
+    "designAuthority": "none",
+    "storageMutation": false,
+    "networkMutation": false,
+    "externalServiceMutation": false,
+    "automaticReattachment": false,
+    "sourceEvidenceMutation": false,
+    "noLossLedger": true
+  },
+  "runtimeFacts": {
+    "reattachCommandId": "atlas.evidence.reattach",
+    "reattachCapabilityId": "cap.atlas.evidence.reattach",
+    "inboxViewId": "derived.atlas.evidenceReattachmentInbox.v1",
+    "candidateSchemaVersion": "derived.atlas.evidenceReattachmentCandidate.v1",
+    "itemSchemaVersion": "derived.atlas.evidenceReattachmentItem.v1",
+    "ledgerPath": "atlas.author.v1.evidenceReattachments",
+    "nodeCapability": true,
+    "webCapability": false,
+    "mobileCapability": false,
+    "reviewInboxReadOnly": true,
+    "staleHashFailClosed": true,
+    "newEvidenceMustMatchCurrentScene": true,
+    "sourceRecordEvidencePreserved": true,
+    "projectTruthMutationWithoutCommand": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "uiMutation": false
+  },
+  "changedFiles": [
+    "src/core/runtime.mjs",
+    "src/core/registry.ts",
+    "src/renderer/commands/capabilityPolicy.mjs",
+    "src/renderer/commands/localCapabilityProvider.mjs",
+    "src/derived/atlas/atlasEvidenceReattachmentTypes.mjs",
+    "src/derived/atlas/deriveAtlasEvidenceReattachmentInbox.mjs",
+    "src/derived/atlas/index.mjs",
+    "src/derived/index.mjs",
+    "test/contracts/yalken-atlas-v5-e04-c05-atlas-evidence-reattachment-review-inbox.contract.test.js",
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c05-atlas-evidence-reattachment-review-inbox.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c04-atlas-entity-merge-split-reassign-restore.contract.test.js",
+      "status": "PASS",
+      "summary": "6 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c03-atlas-cooccurrence-first-last-absence-intervals.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c02-atlas-alias-scope-suppression-boundary.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c01-atlas-observation-candidate-aggregate-model.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "ok true, missing approvals 0"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "3 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E04_C06_ATLAS_LOCAL_GRAPH_CLUSTER_LAYOUT_BUDGET_PROOF"
+}

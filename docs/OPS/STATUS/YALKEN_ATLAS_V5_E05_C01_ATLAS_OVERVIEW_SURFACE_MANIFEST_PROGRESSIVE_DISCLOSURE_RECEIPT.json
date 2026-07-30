@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE",
+  "programStage": "E05_STAGE_05_FULL_ATLAS_UX_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T00:49:56Z",
+  "baseSha": "240e8b0055da1284476fb61b3e40f3633c7310ca",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour changes an existing product UI surface by adding the first bounded Atlas overview host inside the right rail. It uses the Stage 05 C00 queue, Design OS change guide, design tool matrix, Lazyweb reference evidence, and UI Craft implementation guidance before closing the product UI change.",
+  "designRouteEvidence": {
+    "designGuideRead": "YALKEN_DESIGN_OS_CHANGE_GUIDE_V2_2",
+    "designToolMatrixRead": "YALKEN_DESIGN_TOOL_MATRIX_V1",
+    "lazyweb": {
+      "health": "OK",
+      "skillPackVersion": "0.14.9",
+      "quickSearch": {
+        "query": "knowledge graph dashboard",
+        "platform": "desktop",
+        "coverageStrength": "strong",
+        "topSimilarity": 0.58,
+        "referenceCompanies": [
+          "relevance-ai",
+          "v7-labs",
+          "mixpanel",
+          "profound",
+          "plasticity",
+          "writer",
+          "sentry",
+          "yext"
+        ],
+        "resultUse": "reference-only pattern signal for dense graph-aware desktop dashboards; no external style, code, URL, service, dependency, or hosted runtime is adopted into the product"
+      },
+      "reportAttempt": {
+        "objective": "create",
+        "result": "redirected-to-deep-design-research-workflow",
+        "workflowFallback": "lazyweb-design-create instructions read locally and applied as reference-only guidance",
+        "hostedReportGenerated": false,
+        "fallbackReason": "Greenfield create request redirected to workflow selection in the available Lazyweb tool path; the bounded repo contour continued with quick-search evidence and local workflow guidance without external runtime dependency."
+      }
+    },
+    "uiCraft": {
+      "instructionsRead": true,
+      "localUiCraftProjectFile": false,
+      "application": "Matched the existing right-rail Atlas density, tokens, tabs, keyboard focus style, and compact disclosure rhythm without introducing a new visual system."
+    }
+  },
+  "implementedScope": [
+    "Atlas overview derived read model with schema derived.atlas.overview.v1",
+    "Atlas overview surface manifest with schema surface.atlas.overview.v1",
+    "read-only workspace query bridge route query.atlasOverview",
+    "right-rail typed Atlas overview host and provider attribute",
+    "progressive disclosure sections for health, entities, relations, and graph preview",
+    "deterministic unavailable and empty fallbacks",
+    "renderer bundle synchronized for packaged runtime"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "atlas.overviewSurface.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "derived.atlas.observationAggregate.v1",
+        "derived.atlas.temporalContinuity.v1",
+        "derived.atlas.localGraph.v1",
+        "derived.atlas.overview.v1"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "commandAuthority": "none",
+      "capabilityRevalidation": "The overview introduces no command. The renderer requests a read-only query packet, and main-process normalization keeps unavailable states fail-closed without granting write authority."
+    },
+    "interfacePlane": {
+      "newSurface": true,
+      "surfaceManifest": "surface.atlas.overview.v1",
+      "host": "rightRail",
+      "typedSlot": "rightRail.context.atlas.overview",
+      "provider": "query.atlasOverview",
+      "directDomMutation": false,
+      "progressiveDisclosure": true,
+      "heavySurface": false
+    }
+  },
+  "runtimeFacts": {
+    "atlasOverviewSchema": "derived.atlas.overview.v1",
+    "surfaceManifestSchema": "surface.atlas.overview.v1",
+    "workspaceQueryId": "query.atlasOverview",
+    "surfaceId": "surface.atlas.overview",
+    "host": "rightRail",
+    "slot": "rightRail.context.atlas.overview",
+    "maxReadNodes": 500,
+    "graphPreviewMaxNodes": 96,
+    "graphPreviewMaxEdges": 192,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "commandBypass": false,
+    "workerScheduling": false,
+    "newDependency": false,
+    "externalServiceDependency": false,
+    "quietWriteInterference": false
+  },
+  "changedFiles": [
+    "src/derived/atlas/atlasOverviewTypes.mjs",
+    "src/derived/atlas/deriveAtlasOverview.mjs",
+    "src/derived/atlas/index.mjs",
+    "src/derived/index.mjs",
+    "src/main.js",
+    "src/renderer/editor.js",
+    "src/renderer/editor.bundle.js",
+    "src/renderer/index.html",
+    "src/renderer/styles.css",
+    "test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c03-current-scene-dossier-surface.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c06-atlas-local-graph-cluster-layout-budget-proof.contract.test.js",
+      "status": "PASS",
+      "summary": "6 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "ok true, missing approvals 0"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK 1, STRICT_LIE_CLASSES_OK 1"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E05_C02_ENTITY_DOSSIER_AND_EVIDENCE_LEDGER_READ_SURFACE"
+}

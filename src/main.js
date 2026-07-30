@@ -363,6 +363,7 @@ const PROJECT_LIFECYCLE_BACKUP_COMMAND_ID = 'cmd.project.lifecycle.createBackup'
 const PROJECT_LIFECYCLE_INTEGRITY_COMMAND_ID = 'cmd.project.lifecycle.inspectIntegrity';
 const PROJECT_LIFECYCLE_PERMANENT_DELETE_COMMAND_ID = 'cmd.project.lifecycle.permanentDelete';
 const SCENE_HISTORY_QUERY_ID = 'query.sceneHistory';
+const ATLAS_OVERVIEW_QUERY_ID = 'query.atlasOverview';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const HISTORY_CREATE_CHECKPOINT_COMMAND_ID = 'cmd.project.history.createCheckpoint';
 const HISTORY_RESTORE_PREVIEW_COMMAND_ID = 'cmd.project.history.restorePreview';
@@ -6905,6 +6906,18 @@ function loadAtlasCurrentSceneDossierModule() {
   return atlasCurrentSceneDossierModulePromise;
 }
 
+let atlasOverviewModulePromise = null;
+function loadAtlasOverviewModule() {
+  if (!atlasOverviewModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'atlas', 'deriveAtlasOverview.mjs')).href;
+    atlasOverviewModulePromise = import(modulePath).catch((error) => {
+      atlasOverviewModulePromise = null;
+      throw error;
+    });
+  }
+  return atlasOverviewModulePromise;
+}
+
 async function normalizeProjectManifest(manifest, projectName = DEFAULT_PROJECT_NAME) {
   const source = isPlainObjectValue(manifest) ? manifest : {};
   const stableProjectId = normalizeStableProjectId(source.projectId);
@@ -7592,6 +7605,67 @@ function makeAtlasCurrentSceneFallback(projectId, sceneId, reason, extra = {}) {
   };
 }
 
+function makeAtlasOverviewFallback(projectId, reason, extra = {}) {
+  return {
+    schemaVersion: 'derived.atlas.overview.v1',
+    state: reason ? 'unavailable' : 'empty',
+    unavailableReason: reason || '',
+    surfaceManifest: {
+      schemaVersion: 'surface.atlas.overview.v1',
+      surfaceId: 'surface.atlas.overview',
+      providerId: ATLAS_OVERVIEW_QUERY_ID,
+      host: 'rightRail',
+      slotId: 'rightRail.context.atlas.overview',
+      contributionKind: 'readOnlyProjection',
+      commandAuthority: 'none',
+      productMutation: false,
+      storageAuthority: false,
+    },
+    authority: {
+      readModelOnly: true,
+      commandAuthority: 'none',
+      projectTruthMutation: false,
+      storageMutation: false,
+      networkMutation: false,
+      rendererMutation: false,
+      heavySurface: false,
+    },
+    projectId: typeof projectId === 'string' ? projectId : '',
+    summary: {
+      sceneCount: 0,
+      entityCount: 0,
+      observationCount: 0,
+      activeObservationCount: 0,
+      evidenceAnchorCount: 0,
+      cooccurrencePairCount: 0,
+      absenceIntervalCount: 0,
+      graphNodeCount: 0,
+      graphEdgeCount: 0,
+      graphClusterCount: 0,
+      omittedGraphNodeCount: 0,
+      omittedGraphEdgeCount: 0,
+      evidenceHealth: reason ? 'unavailable' : 'empty',
+      overviewHash: '',
+      invalidationKey: '',
+    },
+    progressiveDisclosure: { bands: [] },
+    topEntities: [],
+    topRelations: [],
+    sceneCoverage: [],
+    graphPreview: {
+      state: 'empty',
+      nodeCount: 0,
+      edgeCount: 0,
+      clusterCount: 0,
+      omittedNodeCount: 0,
+      omittedEdgeCount: 0,
+      clusters: [],
+    },
+    degradedCapabilities: reason ? [{ code: reason, detail: reason }] : [],
+    ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
 function getAtlasAuthorDataForProjection(manifest = {}) {
   const atlas = isPlainObjectValue(manifest.atlas) ? manifest.atlas : {};
   if (atlas.schemaVersion !== 'atlas.author.v1' || !isPlainObjectValue(atlas.entities)) {
@@ -7651,6 +7725,141 @@ async function buildAtlasCurrentSceneCoreState(resolvedNode, documentTarget) {
       },
     },
   };
+}
+
+function collectAtlasOverviewSceneNodes(roots) {
+  const nodes = [];
+  Object.values(roots || {}).forEach((root) => {
+    walkProjectTreeNodes(root, (node) => {
+      if (node && ROMAN_META_KINDS.has(node.kind)) {
+        nodes.push(node);
+      }
+    });
+  });
+  return nodes;
+}
+
+async function buildAtlasOverviewCoreState() {
+  const { projectId, roots, manifestPath, manifest } = await buildProjectTreeRootsWithIdentitiesReadOnly();
+  const projectRoot = path.dirname(manifestPath);
+  const envelopeModule = await loadDocumentContentEnvelopeModule();
+  const scenes = {};
+  for (const node of collectAtlasOverviewSceneNodes(roots).slice(0, 500)) {
+    let documentTarget;
+    try {
+      documentTarget = getResolvedTreeDocumentTarget({
+        projectId,
+        projectRoot,
+        manifestPath,
+        manifest,
+        nodeId: node.nodeId,
+        nodePath: node.nodePath,
+        kind: node.kind,
+      });
+    } catch (error) {
+      logDevError('query.atlasOverview:target', error);
+      continue;
+    }
+    if (!ROMAN_META_KINDS.has(documentTarget.kind)) continue;
+    const guard = sanitizePayloadWithinProjectRoot(
+      { path: documentTarget.filePath },
+      ['path'],
+      projectRoot,
+    );
+    if (!guard.ok || !guard.payload) continue;
+    try {
+      const sourceText = await fs.readFile(guard.payload.path, 'utf8');
+      const parsed = envelopeModule.parseObservablePayload(sourceText);
+      if (!parsed || parsed.issue) continue;
+      const context = getDocumentContextFromPath(guard.payload.path);
+      scenes[node.nodeId] = {
+        id: node.nodeId,
+        title: typeof node.label === 'string' && node.label ? node.label : context.title,
+        text: parsed.text || '',
+      };
+    } catch (error) {
+      if (error && error.code !== 'ENOENT') logDevError('query.atlasOverview:fileRead', error);
+    }
+  }
+
+  return {
+    projectId,
+    coreState: {
+      version: 1,
+      data: {
+        lastCommandId: Number.isInteger(manifest?.lastCommandId) ? manifest.lastCommandId : 0,
+        projects: {
+          [projectId]: {
+            id: projectId,
+            title: manifest?.projectName || currentProjectName || DEFAULT_PROJECT_NAME,
+            atlas: getAtlasAuthorDataForProjection(manifest),
+            scenes,
+          },
+        },
+      },
+    },
+  };
+}
+
+function normalizeAtlasOverviewPayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
+    limit: Number.isSafeInteger(Number(source.limit)) ? Number(source.limit) : 5,
+  };
+}
+
+async function handleWorkspaceAtlasOverviewQuery(payload = {}) {
+  const safePayload = normalizeAtlasOverviewPayload(payload);
+  const overviewModule = await loadAtlasOverviewModule();
+  try {
+    const { projectId, coreState } = await buildAtlasOverviewCoreState();
+    if (safePayload.projectId && safePayload.projectId !== projectId) {
+      return {
+        ok: true,
+        atlasOverview: makeAtlasOverviewFallback(safePayload.projectId, 'ATLAS_PROJECT_MISMATCH'),
+      };
+    }
+    const overview = overviewModule.deriveAtlasOverview({
+      coreState,
+      params: {
+        projectId,
+        limit: safePayload.limit,
+      },
+      capabilitySnapshot: {
+        platformId: 'node',
+        capabilities: {
+          atlasOverview: true,
+          atlasObservationAggregate: true,
+          atlasTemporalContinuity: true,
+          atlasLocalGraph: true,
+        },
+      },
+    });
+    if (!overview.ok) {
+      return {
+        ok: true,
+        atlasOverview: makeAtlasOverviewFallback(
+          projectId,
+          overview.error?.reason || 'ATLAS_OVERVIEW_UNAVAILABLE',
+          { error: overview.error || null },
+        ),
+      };
+    }
+    return {
+      ok: true,
+      atlasOverview: overview.value,
+    };
+  } catch (error) {
+    logDevError('query.atlasOverview', error);
+    return {
+      ok: true,
+      atlasOverview: makeAtlasOverviewFallback(
+        safePayload.projectId,
+        error && typeof error.code === 'string' ? error.code : 'ATLAS_OVERVIEW_READ_FAILED',
+      ),
+    };
+  }
 }
 
 async function handleWorkspaceAtlasCurrentSceneQuery(payload = {}) {
@@ -17631,6 +17840,9 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
   if (queryId === SCENE_HISTORY_QUERY_ID) {
     return handleWorkspaceSceneHistoryQuery(payload);
   }
+  if (queryId === ATLAS_OVERVIEW_QUERY_ID) {
+    return handleWorkspaceAtlasOverviewQuery(payload);
+  }
   if (queryId === ATLAS_CURRENT_SCENE_QUERY_ID) {
     return handleWorkspaceAtlasCurrentSceneQuery(payload);
   }
@@ -19526,6 +19738,7 @@ const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set([
   'query.projectNotes',
   'query.projectSearch',
   SCENE_HISTORY_QUERY_ID,
+  ATLAS_OVERVIEW_QUERY_ID,
   ATLAS_CURRENT_SCENE_QUERY_ID,
 ]);
 const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([

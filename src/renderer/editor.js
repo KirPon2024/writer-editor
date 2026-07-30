@@ -253,6 +253,7 @@ const rightAtlasPanel = document.querySelector('[data-right-panel-atlas]');
 const rightInspectorTabButton = document.querySelector('[data-right-tab="inspector"]');
 const sceneHistoryHost = document.querySelector('[data-scene-history-host]');
 const reviewSurfaceHost = document.querySelector('[data-review-surface-host]');
+const atlasOverviewHost = document.querySelector('[data-atlas-overview-host]');
 const atlasCurrentSceneHost = document.querySelector('[data-atlas-current-scene-host]');
 const inspectorCommentsAction = document.querySelector('[data-inspector-comments-action]');
 const inspectorFocusStatus = document.querySelector('[data-inspector-focus-status]');
@@ -602,6 +603,28 @@ let sceneHistoryState = {
   restoreReceiptId: '',
   restoreState: 'idle',
 };
+let atlasOverviewState = {
+  state: 'empty',
+  projectId: '',
+  summary: {
+    sceneCount: 0,
+    entityCount: 0,
+    observationCount: 0,
+    activeObservationCount: 0,
+    evidenceAnchorCount: 0,
+    cooccurrencePairCount: 0,
+    graphNodeCount: 0,
+    graphEdgeCount: 0,
+    graphClusterCount: 0,
+    evidenceHealth: 'empty',
+  },
+  topEntities: [],
+  topRelations: [],
+  sceneCoverage: [],
+  graphPreview: { clusters: [] },
+  degradedCapabilities: [],
+  unavailableReason: '',
+};
 let atlasCurrentSceneState = {
   state: 'empty',
   projectId: '',
@@ -729,6 +752,7 @@ const REVIEW_SURFACE_RECEIPT_SCHEMA = 'revision-bridge.exact-text-min-safe-write
 const REVIEW_SURFACE_QUERY_ID = 'query.reviewSurface';
 const METADATA_INSPECTOR_QUERY_ID = 'query.metadataInspector';
 const SCENE_HISTORY_QUERY_ID = 'query.sceneHistory';
+const ATLAS_OVERVIEW_QUERY_ID = 'query.atlasOverview';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const RIGHT_RAIL_SURFACE_PROVIDERS = Object.freeze({
   inspector: METADATA_INSPECTOR_QUERY_ID,
@@ -6491,6 +6515,7 @@ async function invokeWorkspaceQueryBridge(queryId, payload = {}) {
     && queryId !== NOTES_WORKSPACE_QUERY_ID
     && queryId !== PROJECT_SEARCH_QUERY_ID
     && queryId !== SCENE_HISTORY_QUERY_ID
+    && queryId !== ATLAS_OVERVIEW_QUERY_ID
     && queryId !== ATLAS_CURRENT_SCENE_QUERY_ID
   ) {
     return null;
@@ -8570,6 +8595,7 @@ async function openDocumentNode(node) {
       refreshSceneHistory('');
     }
     if (currentRightTab === 'atlas') {
+      refreshAtlasOverview();
       refreshAtlasCurrentScene();
     }
     return true;
@@ -11034,6 +11060,9 @@ function syncRightRailCompositionState(tab) {
   if (reviewSurfaceHost instanceof HTMLElement) {
     reviewSurfaceHost.dataset.reviewSurfaceProvider = RIGHT_RAIL_SURFACE_PROVIDERS.comments;
   }
+  if (atlasOverviewHost instanceof HTMLElement) {
+    atlasOverviewHost.dataset.atlasOverviewProvider = ATLAS_OVERVIEW_QUERY_ID;
+  }
   if (atlasCurrentSceneHost instanceof HTMLElement) {
     atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
   }
@@ -11049,6 +11078,7 @@ function applyRightTab(tab) {
   } else if (tab === 'history') {
     refreshSceneHistory();
   } else if (tab === 'atlas') {
+    refreshAtlasOverview();
     refreshAtlasCurrentScene();
   }
   syncInspectorStateSurface();
@@ -11187,6 +11217,186 @@ async function refreshSceneHistory(selectedSnapshotId = sceneHistoryState.select
   if (sequence !== sceneHistoryState.sequence) return;
   sceneHistoryState = normalizeSceneHistoryReadModel(result, sequence);
   renderSceneHistoryState();
+}
+
+function normalizeAtlasOverview(result = {}) {
+  const source = result && typeof result === 'object' && !Array.isArray(result) ? result : {};
+  const summary = source.summary && typeof source.summary === 'object' && !Array.isArray(source.summary) ? source.summary : {};
+  const graphPreview = source.graphPreview && typeof source.graphPreview === 'object' && !Array.isArray(source.graphPreview) ? source.graphPreview : {};
+  return {
+    schemaVersion: typeof source.schemaVersion === 'string' ? source.schemaVersion : 'derived.atlas.overview.v1',
+    state: typeof source.state === 'string' ? source.state : 'empty',
+    unavailableReason: typeof source.unavailableReason === 'string' ? source.unavailableReason : '',
+    projectId: typeof source.projectId === 'string' ? source.projectId : '',
+    summary: {
+      sceneCount: Number.isInteger(summary.sceneCount) ? Math.max(0, summary.sceneCount) : 0,
+      entityCount: Number.isInteger(summary.entityCount) ? Math.max(0, summary.entityCount) : 0,
+      observationCount: Number.isInteger(summary.observationCount) ? Math.max(0, summary.observationCount) : 0,
+      activeObservationCount: Number.isInteger(summary.activeObservationCount) ? Math.max(0, summary.activeObservationCount) : 0,
+      evidenceAnchorCount: Number.isInteger(summary.evidenceAnchorCount) ? Math.max(0, summary.evidenceAnchorCount) : 0,
+      cooccurrencePairCount: Number.isInteger(summary.cooccurrencePairCount) ? Math.max(0, summary.cooccurrencePairCount) : 0,
+      graphNodeCount: Number.isInteger(summary.graphNodeCount) ? Math.max(0, summary.graphNodeCount) : 0,
+      graphEdgeCount: Number.isInteger(summary.graphEdgeCount) ? Math.max(0, summary.graphEdgeCount) : 0,
+      graphClusterCount: Number.isInteger(summary.graphClusterCount) ? Math.max(0, summary.graphClusterCount) : 0,
+      evidenceHealth: typeof summary.evidenceHealth === 'string' ? summary.evidenceHealth : 'empty',
+      overviewHash: typeof summary.overviewHash === 'string' ? summary.overviewHash : '',
+    },
+    topEntities: Array.isArray(source.topEntities) ? source.topEntities.filter(reviewSurfaceIsPlainObject) : [],
+    topRelations: Array.isArray(source.topRelations) ? source.topRelations.filter(reviewSurfaceIsPlainObject) : [],
+    sceneCoverage: Array.isArray(source.sceneCoverage) ? source.sceneCoverage.filter(reviewSurfaceIsPlainObject) : [],
+    graphPreview: {
+      state: typeof graphPreview.state === 'string' ? graphPreview.state : 'empty',
+      nodeCount: Number.isInteger(graphPreview.nodeCount) ? Math.max(0, graphPreview.nodeCount) : 0,
+      edgeCount: Number.isInteger(graphPreview.edgeCount) ? Math.max(0, graphPreview.edgeCount) : 0,
+      clusterCount: Number.isInteger(graphPreview.clusterCount) ? Math.max(0, graphPreview.clusterCount) : 0,
+      omittedNodeCount: Number.isInteger(graphPreview.omittedNodeCount) ? Math.max(0, graphPreview.omittedNodeCount) : 0,
+      omittedEdgeCount: Number.isInteger(graphPreview.omittedEdgeCount) ? Math.max(0, graphPreview.omittedEdgeCount) : 0,
+      clusters: Array.isArray(graphPreview.clusters) ? graphPreview.clusters.filter(reviewSurfaceIsPlainObject) : [],
+    },
+    degradedCapabilities: Array.isArray(source.degradedCapabilities) ? source.degradedCapabilities.filter(reviewSurfaceIsPlainObject) : [],
+  };
+}
+
+function appendAtlasOverviewMetric(parent, label, value, state = '') {
+  const item = document.createElement('div');
+  item.className = 'right-rail-atlas-overview-metric';
+  if (state) item.dataset.state = state;
+  const valueElement = document.createElement('strong');
+  valueElement.textContent = String(value);
+  const labelElement = document.createElement('span');
+  labelElement.textContent = label;
+  item.append(valueElement, labelElement);
+  parent.appendChild(item);
+  return item;
+}
+
+function appendAtlasOverviewRow(parent, primary, secondary = '', tertiary = '') {
+  const row = document.createElement('div');
+  row.className = 'right-rail-atlas-overview-row';
+  const main = document.createElement('span');
+  main.className = 'right-rail-atlas-overview-row__main';
+  main.textContent = primary;
+  row.appendChild(main);
+  if (secondary) {
+    const meta = document.createElement('span');
+    meta.className = 'right-rail-atlas-overview-row__meta';
+    meta.textContent = secondary;
+    row.appendChild(meta);
+  }
+  if (tertiary) {
+    const tag = document.createElement('span');
+    tag.className = 'right-rail-atlas-overview-row__tag';
+    tag.textContent = tertiary;
+    row.appendChild(tag);
+  }
+  parent.appendChild(row);
+  return row;
+}
+
+function appendAtlasOverviewSection(parent, title, options = {}) {
+  const section = document.createElement('details');
+  section.className = 'right-rail-atlas-overview-section';
+  section.open = options.open === true;
+  const summary = document.createElement('summary');
+  summary.textContent = title;
+  const body = document.createElement('div');
+  body.className = 'right-rail-atlas-overview-section__body';
+  section.append(summary, body);
+  parent.appendChild(section);
+  return body;
+}
+
+function renderAtlasOverviewState() {
+  if (!(atlasOverviewHost instanceof HTMLElement)) return;
+  const state = normalizeAtlasOverview(atlasOverviewState);
+  atlasOverviewHost.innerHTML = '';
+  atlasOverviewHost.dataset.atlasOverviewStatus = state.state;
+  atlasOverviewHost.dataset.atlasOverviewProvider = ATLAS_OVERVIEW_QUERY_ID;
+
+  const header = document.createElement('div');
+  header.className = 'right-rail-atlas-overview-head';
+  const label = document.createElement('div');
+  label.className = 'right-rail-section__label';
+  label.textContent = 'Atlas overview';
+  const hash = document.createElement('span');
+  hash.className = 'right-rail-atlas-overview-hash';
+  hash.textContent = state.summary.overviewHash ? state.summary.overviewHash.slice(0, 8) : state.summary.evidenceHealth;
+  header.append(label, hash);
+  atlasOverviewHost.appendChild(header);
+
+  if (state.state === 'unavailable') {
+    const unavailable = document.createElement('div');
+    unavailable.className = 'right-rail-atlas-state right-rail-atlas-state--blocked';
+    unavailable.textContent = state.unavailableReason || 'ATLAS_OVERVIEW_UNAVAILABLE';
+    atlasOverviewHost.appendChild(unavailable);
+    return;
+  }
+
+  if (state.state === 'loading') {
+    const loading = document.createElement('div');
+    loading.className = 'right-rail-atlas-state';
+    loading.textContent = 'Atlas overview обновляется.';
+    atlasOverviewHost.appendChild(loading);
+    return;
+  }
+
+  const metrics = document.createElement('div');
+  metrics.className = 'right-rail-atlas-overview-metrics';
+  appendAtlasOverviewMetric(metrics, 'сцен', state.summary.sceneCount);
+  appendAtlasOverviewMetric(metrics, 'сущн.', state.summary.entityCount);
+  appendAtlasOverviewMetric(metrics, 'набл.', state.summary.activeObservationCount);
+  appendAtlasOverviewMetric(metrics, 'связей', state.summary.cooccurrencePairCount);
+  appendAtlasOverviewMetric(metrics, 'граф', `${state.summary.graphNodeCount}/${state.summary.graphEdgeCount}`, state.summary.evidenceHealth);
+  atlasOverviewHost.appendChild(metrics);
+
+  if (state.summary.observationCount < 1) {
+    const empty = document.createElement('div');
+    empty.className = 'right-rail-atlas-state';
+    empty.textContent = 'Atlas overview пуст.';
+    atlasOverviewHost.appendChild(empty);
+    return;
+  }
+
+  const health = appendAtlasOverviewSection(atlasOverviewHost, 'Health', { open: true });
+  appendAtlasOverviewRow(health, state.summary.evidenceHealth, `${state.summary.evidenceAnchorCount} evidence anchors`, state.degradedCapabilities.length ? 'degraded' : 'ready');
+  for (const item of state.degradedCapabilities.slice(0, 4)) {
+    appendAtlasOverviewRow(health, item.code || 'ATLAS_DEGRADED', item.detail || '');
+  }
+
+  const entities = appendAtlasOverviewSection(atlasOverviewHost, 'Entities');
+  for (const entity of state.topEntities.slice(0, 5)) {
+    appendAtlasOverviewRow(entities, entity.name || entity.entityId || 'Entity', `${entity.appearanceCount || 0} appearances, ${entity.sceneCount || 0} scenes`, entity.entityKind || '');
+  }
+
+  const relations = appendAtlasOverviewSection(atlasOverviewHost, 'Relations');
+  for (const relation of state.topRelations.slice(0, 5)) {
+    appendAtlasOverviewRow(relations, `${relation.leftName || relation.leftEntityId} ↔ ${relation.rightName || relation.rightEntityId}`, `${relation.occurrenceCount || 0} occurrences`, `${relation.sceneCount || 0} scenes`);
+  }
+
+  const graph = appendAtlasOverviewSection(atlasOverviewHost, 'Graph');
+  appendAtlasOverviewRow(graph, `${state.graphPreview.clusterCount || 0} clusters`, `${state.graphPreview.nodeCount || 0} nodes, ${state.graphPreview.edgeCount || 0} edges`, state.graphPreview.state || 'empty');
+  for (const cluster of state.graphPreview.clusters.slice(0, 4)) {
+    appendAtlasOverviewRow(graph, cluster.clusterKind || 'cluster', `${cluster.nodeCount || 0} nodes`, `${cluster.edgeCount || 0} edges`);
+  }
+}
+
+async function refreshAtlasOverview() {
+  if (currentRightTab !== 'atlas') return;
+  atlasOverviewState = {
+    ...atlasOverviewState,
+    state: currentProjectId ? 'loading' : 'empty',
+    projectId: currentProjectId || '',
+  };
+  renderAtlasOverviewState();
+  const result = await invokeWorkspaceQueryBridge(ATLAS_OVERVIEW_QUERY_ID, {
+    projectId: currentProjectId,
+    limit: 5,
+  });
+  const nextState = result && result.ok !== false && result.atlasOverview
+    ? result.atlasOverview
+    : { state: 'unavailable', unavailableReason: 'ATLAS_OVERVIEW_QUERY_FAILED' };
+  atlasOverviewState = normalizeAtlasOverview(nextState);
+  renderAtlasOverviewState();
 }
 
 function normalizeAtlasCurrentSceneDossier(result = {}) {
@@ -15479,6 +15689,7 @@ if (window.electronAPI) {
       refreshSceneHistory('');
     }
     if (currentRightTab === 'atlas') {
+      refreshAtlasOverview();
       refreshAtlasCurrentScene();
     }
     applyPendingProjectSearchJump(currentDocumentId || '');

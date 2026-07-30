@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_SAVED_QUERIES_BOUNDARY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E05_C06_ATLAS_REPORTS_AND_SAVED_QUERIES_BOUNDARY",
+  "programStage": "E05_STAGE_05_FULL_ATLAS_UX_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED_FULL_RUNNER_PASS",
+  "createdAtUtc": "2026-07-30T02:39:32Z",
+  "baseSha": "a08b7d7559999c7cd7f54bf96c6c51472f012e9d",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour adds a product UI report and saved-query readback surface inside the Atlas right rail. It changes an existing product screen by adding local report packet sections, saved query state badges, export-safe summary rows, and explicit command-boundary disclosure.",
+  "designRouteEvidence": {
+    "lazyweb": {
+      "health": "SEARCH_AVAILABLE_REPORT_REDIRECTED_UNAVAILABLE",
+      "skillPackVersion": "0.14.9",
+      "quickSearch": {
+        "query": "saved reports dashboard",
+        "platform": "desktop",
+        "coverageStrength": "strong",
+        "topSimilarity": 0.683,
+        "referenceCompanies": [
+          "freshdesk",
+          "docusign",
+          "attio",
+          "google-analytics",
+          "dock",
+          "mixpanel",
+          "intercom",
+          "steep"
+        ],
+        "resultUse": "reference-only signal for saved report/dashboard readback patterns, named query state visibility, compact report rows, and local export-safe summary treatment; no external style, code, URL, service, dependency, token, or hosted runtime is adopted into the product"
+      },
+      "reportAttempt": {
+        "objective": "create",
+        "hostedReportGenerated": false,
+        "fallbackReason": "Lazyweb generate report redirected create-objective work to the deep design research flow and no deep-design-research tool was exposed in this session. The contour used the V5 permitted recorded unavailable fallback after strong quick-search evidence, without fabricating a hosted report or adding an external runtime dependency."
+      }
+    },
+    "uiCraft": {
+      "skillRead": true,
+      "projectDesignMemory": "absent",
+      "referencesRead": [
+        "accessibility",
+        "dataviz",
+        "dashboard"
+      ],
+      "tokenInventory": "existing renderer CSS variables and right-rail Atlas styles reused; no new palette, font, framework, chart library, or token dependency introduced",
+      "application": "Used compact right-rail report sections, state badges, pathless export-safe rows, stable small tables, and explicit saved-query command-boundary copy."
+    },
+    "leonardo": {
+      "status": "NOT_APPLICABLE",
+      "reason": "No new semantic color system or branded visual direction was introduced. Saved query states reuse restrained local badge styles in the existing Atlas right rail."
+    },
+    "projectWallace": {
+      "status": "NOT_APPLICABLE",
+      "reason": "CSS change is scoped to the existing right-rail Atlas surface and does not introduce a substantial page-wide CSS contract, external stylesheet, or new design system dependency."
+    }
+  },
+  "implementedScope": [
+    "Atlas reports and saved queries derived read model with schema derived.atlas.reportsSavedQueries.v1",
+    "local report packet with schema derived.atlas.localReportPacket.v1",
+    "saved query readback rows with schema derived.atlas.savedQueryReadback.v1",
+    "export-safe pathless summary with schema derived.atlas.reportExportSafeSummary.v1",
+    "surface manifest with schema surface.atlas.reportsSavedQueries.v1",
+    "workspace query bridge route query.atlasReportsSavedQueries",
+    "right-rail typed reports host rightRail.context.atlas.reportsSavedQueries",
+    "Core command boundary atlas.savedQuery.save",
+    "node-only saved query capability cap.atlas.savedQuery.save",
+    "saved query source hash and stale-source detection",
+    "project author truth persistence through existing atlas.author.v1 project snapshot path",
+    "renderer bundle synchronized for packaged runtime"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "atlas.reportsSavedQueriesBoundary.v1",
+    "productPlane": {
+      "owner": "Product Core and Derived Views",
+      "readPath": [
+        "project.atlas.savedQueries",
+        "derived.atlas.overview.v1",
+        "derived.atlas.matrices.v1",
+        "derived.atlas.heatmap.v1",
+        "derived.atlas.reportsSavedQueries.v1"
+      ],
+      "writePath": [
+        "atlas.savedQuery.save",
+        "project.atlas.savedQueries"
+      ],
+      "projectTruthMutation": true,
+      "storageAdapter": "existing project manifest and recovery path",
+      "newStorageAdapter": false,
+      "atomicWriteRequired": "existing project persistence authority only",
+      "recoveryRequired": "existing project recovery authority only"
+    },
+    "commandPlane": {
+      "newCommand": true,
+      "commandId": "atlas.savedQuery.save",
+      "capabilityId": "cap.atlas.savedQuery.save",
+      "commandAuthority": "Core reducer",
+      "capabilityRevalidation": "The command is node-only in capabilityPolicy, web and mobile wrappers fail closed, and tests prove capability binding before dispatch. Renderer readback does not dispatch the saved-query command or mutate project truth directly.",
+      "directRendererMutation": false
+    },
+    "interfacePlane": {
+      "newSurface": true,
+      "surfaceManifest": "surface.atlas.reportsSavedQueries.v1",
+      "host": "rightRail",
+      "typedSlot": "rightRail.context.atlas.reportsSavedQueries",
+      "provider": "query.atlasReportsSavedQueries",
+      "directDomMutation": false,
+      "hiddenMutation": false,
+      "savedQueryReadbackOnly": true,
+      "exportSafeSummary": true,
+      "typingHotPathNonblocking": true,
+      "accessibilityParity": true
+    }
+  },
+  "runtimeFacts": {
+    "reportsSchema": "derived.atlas.reportsSavedQueries.v1",
+    "localReportPacketSchema": "derived.atlas.localReportPacket.v1",
+    "savedQueryReadbackSchema": "derived.atlas.savedQueryReadback.v1",
+    "exportSafeSummarySchema": "derived.atlas.reportExportSafeSummary.v1",
+    "surfaceManifestSchema": "surface.atlas.reportsSavedQueries.v1",
+    "workspaceQueryId": "query.atlasReportsSavedQueries",
+    "surfaceId": "surface.atlas.reportsSavedQueries",
+    "host": "rightRail",
+    "slot": "rightRail.context.atlas.reportsSavedQueries",
+    "coreCommandId": "atlas.savedQuery.save",
+    "capabilityId": "cap.atlas.savedQuery.save",
+    "savedQueriesProjectTruth": true,
+    "staleSourceDetection": true,
+    "exportSummaryPathless": true,
+    "containsPrivateData": false,
+    "newStorageAdapter": false,
+    "networkMutation": false,
+    "accountSync": false,
+    "cloudSync": false,
+    "paidService": false,
+    "rendererCommandBypass": false,
+    "hiddenMutation": false,
+    "workerScheduling": false,
+    "backgroundDaemon": false,
+    "typingHotPathRefresh": false,
+    "newDependency": false,
+    "externalServiceDependency": false,
+    "releaseReadinessWidened": false
+  },
+  "changedFiles": [
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_SAVED_QUERIES_BOUNDARY_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+    "src/core/runtime.mjs",
+    "src/derived/atlas/atlasReportsTypes.mjs",
+    "src/derived/atlas/deriveAtlasReportsSavedQueries.mjs",
+    "src/derived/atlas/index.mjs",
+    "src/derived/index.mjs",
+    "src/main.js",
+    "src/renderer/commands/capabilityPolicy.mjs",
+    "src/renderer/editor.js",
+    "src/renderer/editor.bundle.js",
+    "src/renderer/index.html",
+    "src/renderer/styles.css",
+    "test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s build:renderer",
+      "status": "PASS",
+      "summary": "dist renderer bundle rebuilt, 976.1kb"
+    },
+    {
+      "command": "node --test E05 C01 C02 C03 C04 C05 C06 Atlas surface contracts",
+      "status": "PASS",
+      "summary": "24 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK 1"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK 1, STRICT_LIE_CLASSES_OK 1"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS PASS; command namespace, menu, law path, execution sequence, release candidate all PASS"
+    }
+  ],
+  "nextContour": "E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE"
+}

@@ -11,6 +11,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_ENTITY_SPLIT_RESTORE: 'atlas.entity.splitRestore',
   ATLAS_OBSERVATION_REASSIGN: 'atlas.observation.reassign',
   ATLAS_EVIDENCE_REATTACH: 'atlas.evidence.reattach',
+  ATLAS_SAVED_QUERY_SAVE: 'atlas.savedQuery.save',
   IDEA_CREATE: 'idea.create',
   IDEA_ORIGIN_LINK_ADD: 'idea.originLink.add',
   MEANING_PROMOTE: 'meaning.promote',
@@ -71,6 +72,7 @@ function createEmptyAtlasAuthorData() {
     entityOperations: {},
     reassignments: {},
     evidenceReattachments: {},
+    savedQueries: {},
   };
 }
 
@@ -87,6 +89,7 @@ function normalizeAtlasAuthorData(input) {
     entityOperations: isPlainObject(input.entityOperations) ? cloneJson(input.entityOperations) : {},
     reassignments: isPlainObject(input.reassignments) ? cloneJson(input.reassignments) : {},
     evidenceReattachments: isPlainObject(input.evidenceReattachments) ? cloneJson(input.evidenceReattachments) : {},
+    savedQueries: isPlainObject(input.savedQueries) ? cloneJson(input.savedQueries) : {},
   };
 }
 
@@ -813,6 +816,76 @@ function applyAtlasAliasAdd(state, payload) {
     createdByCommandSeq: next.data.lastCommandId + 1,
   };
   nextEntity.updatedByCommandSeq = next.data.lastCommandId + 1;
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function normalizeAtlasSavedQueryFilter(input) {
+  const source = isPlainObject(input) ? input : {};
+  const entityIds = Array.isArray(source.entityIds)
+    ? [...new Set(source.entityIds.map(trimString).filter(Boolean))].sort()
+    : [];
+  const sceneIds = Array.isArray(source.sceneIds)
+    ? [...new Set(source.sceneIds.map(trimString).filter(Boolean))].sort()
+    : [];
+  const relationPairIds = Array.isArray(source.relationPairIds)
+    ? [...new Set(source.relationPairIds.map(trimString).filter(Boolean))].sort()
+    : [];
+  const queryText = trimString(source.queryText);
+  return {
+    entityIds,
+    sceneIds,
+    relationPairIds,
+    queryText,
+  };
+}
+
+function applyAtlasSavedQuerySave(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const savedQueryId = trimString(payload?.savedQueryId);
+  const name = trimString(payload?.name);
+  const reportType = trimString(payload?.reportType) || 'overview';
+  const sourceHash = trimString(payload?.sourceHash);
+  const filter = normalizeAtlasSavedQueryFilter(payload?.filter);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'atlas.savedQuery.save', 'PROJECT_ID_REQUIRED');
+  }
+  if (!savedQueryId) {
+    return fail(state, 'E_ATLAS_SAVED_QUERY_ID_REQUIRED', 'atlas.savedQuery.save', 'SAVED_QUERY_ID_REQUIRED', { projectId });
+  }
+  if (!name) {
+    return fail(state, 'E_ATLAS_SAVED_QUERY_NAME_REQUIRED', 'atlas.savedQuery.save', 'SAVED_QUERY_NAME_REQUIRED', { projectId, savedQueryId });
+  }
+  if (!['overview', 'entity', 'relation', 'matrix', 'heatmap'].includes(reportType)) {
+    return fail(state, 'E_ATLAS_SAVED_QUERY_REPORT_TYPE_INVALID', 'atlas.savedQuery.save', 'REPORT_TYPE_INVALID', { projectId, savedQueryId, reportType });
+  }
+  if (!sourceHash) {
+    return fail(state, 'E_ATLAS_SAVED_QUERY_SOURCE_HASH_REQUIRED', 'atlas.savedQuery.save', 'SOURCE_HASH_REQUIRED', { projectId, savedQueryId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'atlas.savedQuery.save', 'PROJECT_NOT_FOUND', { projectId });
+  }
+
+  const next = cloneJson(state);
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  if (!isPlainObject(nextAtlas.savedQueries)) nextAtlas.savedQueries = {};
+  const existing = isPlainObject(nextAtlas.savedQueries[savedQueryId])
+    ? nextAtlas.savedQueries[savedQueryId]
+    : null;
+  const commandSeq = next.data.lastCommandId + 1;
+  nextAtlas.savedQueries[savedQueryId] = {
+    id: savedQueryId,
+    name,
+    reportType,
+    filter,
+    sourceHash,
+    createdByCommandSeq: Number.isInteger(existing?.createdByCommandSeq) ? existing.createdByCommandSeq : commandSeq,
+    updatedByCommandSeq: commandSeq,
+  };
   next.data.lastCommandId += 1;
   return ok(next);
 }
@@ -1713,6 +1786,9 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_EVIDENCE_REATTACH) {
     return applyAtlasEvidenceReattach(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_SAVED_QUERY_SAVE) {
+    return applyAtlasSavedQuerySave(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.IDEA_CREATE) {
     return applyIdeaCreate(state, command.payload || {});

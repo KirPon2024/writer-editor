@@ -45,6 +45,10 @@ const WORD_LATEST_B03_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b03-m
 const WORD_LATEST_B04_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B04_CLASSIFIER_RECEIPT.json';
 const WORD_LATEST_B04_CLASSIFIER_CORE_PATH = 'src/io/revisionBridge/reviewTransportClassifierV2.mjs';
 const WORD_LATEST_B04_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b04-classifier.contract.test.js';
+const WORD_LATEST_B05_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B05_EXACT_APPLY_RECEIPT.json';
+const WORD_LATEST_B05_ADAPTER_PATH = 'src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs';
+const WORD_LATEST_B05_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js';
+const SECTOR_M_RUNNER_PATH = 'scripts/sector-m-run.mjs';
 const DOCX_PACKAGE_BOUNDARY_TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
 const CONTEXT_PATH = 'docs/CONTEXT.md';
 const HANDOFF_PATH = 'docs/HANDOFF.md';
@@ -89,6 +93,10 @@ const ALLOWLIST = [
   WORD_LATEST_B04_RECEIPT_PATH,
   WORD_LATEST_B04_CLASSIFIER_CORE_PATH,
   WORD_LATEST_B04_TEST_PATH,
+  WORD_LATEST_B05_RECEIPT_PATH,
+  WORD_LATEST_B05_ADAPTER_PATH,
+  WORD_LATEST_B05_TEST_PATH,
+  SECTOR_M_RUNNER_PATH,
   DOCX_PACKAGE_BOUNDARY_TEST_PATH,
   CONTEXT_PATH,
   HANDOFF_PATH,

@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C03_ATLAS_RELATION_SEGMENTS_PERSPECTIVE_MODEL_RECEIPT.json",
+      "sha256": "9dd49dd039170d14e2be9201289a0439c0e3cdec33b3609df21685914f3db3bd",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C03_ATLAS_RELATION_SEGMENTS_AND_PERSPECTIVE_MODEL",
+      "approvedAtUtc": "2026-07-30T03:52:34.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C03 delivery receipt: records local verified implementation of read-only Atlas relation segments and perspective derived model, source-bound observation aggregate, temporal continuity, and scene temporal anchors, contiguous relation run segmentation, story time and narrative order context, unknown-time degraded fallback, full versus incremental parity proof, no Core command, no project truth mutation, no storage, no network, no renderer mutation, no UI runtime change, no worker or daemon, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c03-atlas-relation-segments-perspective-model.contract.test.js",
+      "sha256": "7864b3b1822998a16add3deab1a9cfafabbc1721420ab196e7e85538556a0cd5",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C03_ATLAS_RELATION_SEGMENTS_AND_PERSPECTIVE_MODEL",
+      "approvedAtUtc": "2026-07-30T03:52:34.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C03 contract: proves relation segments split contiguous relation runs by scene ordinal, carry perspective scene rows with storyRange and narrativeRange context, preserve evidence anchor linkage, surface unknown story time as degraded perspective state, produce deterministic full and incremental parity hashes, fail closed when atlas.relationSegmentsPerspective capability is disabled, return empty state without inventing relation truth for a single entity scene, and keep derived relation segment sources free of storage, network, DOM, platform, renderer, worker, daemon, command, or hidden mutation bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_SCENE_ANCHORS_RECEIPT.json",
       "sha256": "663bd657034f84fcbfbf92f05ed8f22958bf81e53dea74929012a9bf6958c080",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_AND_SCENE_ANCHORS",

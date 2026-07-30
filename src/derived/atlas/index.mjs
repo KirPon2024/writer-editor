@@ -23,6 +23,14 @@ export {
   sortAtlasTemporalSceneRefs,
 } from './atlasTemporalTypes.mjs';
 export {
+  ATLAS_EVIDENCE_REATTACHMENT_CANDIDATE_SCHEMA_VERSION,
+  ATLAS_EVIDENCE_REATTACHMENT_INBOX_SCHEMA_VERSION,
+  ATLAS_EVIDENCE_REATTACHMENT_ITEM_SCHEMA_VERSION,
+  ATLAS_EVIDENCE_REATTACHMENT_RECORD_SCHEMA_VERSION,
+  sortAtlasEvidenceReattachmentCandidates,
+  sortAtlasEvidenceReattachmentItems,
+} from './atlasEvidenceReattachmentTypes.mjs';
+export {
   ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
   buildAtlasTemporalContinuityFromObservationAggregate,
   buildAtlasTemporalContinuityIncrementally,
@@ -43,6 +51,7 @@ export {
 export { deriveAtlasMentionIndex, ATLAS_MENTION_INDEX_VIEW_ID } from './deriveAtlasMentionIndex.mjs';
 export { deriveAtlasCurrentSceneDossier, ATLAS_CURRENT_SCENE_DOSSIER_VIEW_ID } from './deriveAtlasCurrentSceneDossier.mjs';
 export { deriveAtlasObservationAggregate, ATLAS_OBSERVATION_AGGREGATE_VIEW_ID } from './deriveAtlasObservationAggregate.mjs';
+export { deriveAtlasEvidenceReattachmentInbox, ATLAS_EVIDENCE_REATTACHMENT_INBOX_VIEW_ID } from './deriveAtlasEvidenceReattachmentInbox.mjs';
 export {
   ATLAS_GENERATION_MANIFEST_VIEW_ID,
   canPublishAtlasGeneration,

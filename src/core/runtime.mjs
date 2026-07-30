@@ -10,6 +10,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_ENTITY_MERGE: 'atlas.entity.merge',
   ATLAS_ENTITY_SPLIT_RESTORE: 'atlas.entity.splitRestore',
   ATLAS_OBSERVATION_REASSIGN: 'atlas.observation.reassign',
+  ATLAS_EVIDENCE_REATTACH: 'atlas.evidence.reattach',
   IDEA_CREATE: 'idea.create',
   IDEA_ORIGIN_LINK_ADD: 'idea.originLink.add',
   MEANING_PROMOTE: 'meaning.promote',
@@ -69,6 +70,7 @@ function createEmptyAtlasAuthorData() {
     suppressions: {},
     entityOperations: {},
     reassignments: {},
+    evidenceReattachments: {},
   };
 }
 
@@ -84,6 +86,7 @@ function normalizeAtlasAuthorData(input) {
     suppressions: isPlainObject(input.suppressions) ? cloneJson(input.suppressions) : {},
     entityOperations: isPlainObject(input.entityOperations) ? cloneJson(input.entityOperations) : {},
     reassignments: isPlainObject(input.reassignments) ? cloneJson(input.reassignments) : {},
+    evidenceReattachments: isPlainObject(input.evidenceReattachments) ? cloneJson(input.evidenceReattachments) : {},
   };
 }
 
@@ -883,6 +886,23 @@ function validateEvidenceStillMatchesScene({ state, project, sceneId, evidenceAn
   return null;
 }
 
+function normalizeAtlasEvidenceSourceKind(value) {
+  const kind = trimString(value);
+  if (kind === 'decision' || kind === 'suppression' || kind === 'reassignment') return kind;
+  return '';
+}
+
+function getAtlasEvidenceSourceRecord(atlas, sourceRecordKind, sourceRecordId) {
+  if (sourceRecordKind === 'decision') return isPlainObject(atlas.decisions?.[sourceRecordId]) ? atlas.decisions[sourceRecordId] : null;
+  if (sourceRecordKind === 'suppression') return isPlainObject(atlas.suppressions?.[sourceRecordId]) ? atlas.suppressions[sourceRecordId] : null;
+  if (sourceRecordKind === 'reassignment') return isPlainObject(atlas.reassignments?.[sourceRecordId]) ? atlas.reassignments[sourceRecordId] : null;
+  return null;
+}
+
+function evidenceAnchorMatches(a, b) {
+  return hashCanonicalValue(isPlainObject(a) ? a : null) === hashCanonicalValue(isPlainObject(b) ? b : null);
+}
+
 function applyAtlasMentionConfirm(state, payload) {
   const projectId = trimString(payload?.projectId);
   const sceneId = trimString(payload?.sceneId);
@@ -1296,6 +1316,97 @@ function applyAtlasObservationReassign(state, payload) {
   return ok(next);
 }
 
+function applyAtlasEvidenceReattach(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const sourceRecordKind = normalizeAtlasEvidenceSourceKind(payload?.sourceRecordKind);
+  const sourceRecordId = trimString(payload?.sourceRecordId);
+  const staleEvidenceAnchor = normalizeEvidenceAnchor(payload?.staleEvidenceAnchor || payload?.oldEvidenceAnchor);
+  const newEvidenceAnchor = normalizeEvidenceAnchor(payload?.newEvidenceAnchor);
+  const reason = trimString(payload?.reason);
+  const reattachmentId = trimString(payload?.reattachmentId) || `atlas-evidence-reattach:${hashCanonicalValue({
+    projectId,
+    sourceRecordKind,
+    sourceRecordId,
+    oldAnchorId: staleEvidenceAnchor?.anchorId || '',
+    newAnchorId: newEvidenceAnchor?.anchorId || '',
+  })}`;
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'atlas.evidence.reattach', 'PROJECT_ID_REQUIRED');
+  }
+  if (!sourceRecordKind) {
+    return fail(state, 'E_ATLAS_EVIDENCE_SOURCE_KIND_REQUIRED', 'atlas.evidence.reattach', 'SOURCE_RECORD_KIND_REQUIRED', { projectId });
+  }
+  if (!sourceRecordId) {
+    return fail(state, 'E_ATLAS_EVIDENCE_SOURCE_ID_REQUIRED', 'atlas.evidence.reattach', 'SOURCE_RECORD_ID_REQUIRED', { projectId, sourceRecordKind });
+  }
+  if (!staleEvidenceAnchor) {
+    return fail(state, 'E_ATLAS_STALE_EVIDENCE_ANCHOR_REQUIRED', 'atlas.evidence.reattach', 'STALE_EVIDENCE_ANCHOR_REQUIRED', { projectId, sourceRecordKind, sourceRecordId });
+  }
+  if (!newEvidenceAnchor) {
+    return fail(state, 'E_ATLAS_NEW_EVIDENCE_ANCHOR_REQUIRED', 'atlas.evidence.reattach', 'NEW_EVIDENCE_ANCHOR_REQUIRED', { projectId, sourceRecordKind, sourceRecordId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'atlas.evidence.reattach', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  if (!project.scenes || !project.scenes[newEvidenceAnchor.sceneId]) {
+    return fail(state, 'E_CORE_SCENE_NOT_FOUND', 'atlas.evidence.reattach', 'NEW_EVIDENCE_SCENE_NOT_FOUND', { projectId, sceneId: newEvidenceAnchor.sceneId });
+  }
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  const sourceRecord = getAtlasEvidenceSourceRecord(atlas, sourceRecordKind, sourceRecordId);
+  if (!sourceRecord) {
+    return fail(state, 'E_ATLAS_EVIDENCE_SOURCE_NOT_FOUND', 'atlas.evidence.reattach', 'SOURCE_RECORD_NOT_FOUND', { projectId, sourceRecordKind, sourceRecordId });
+  }
+  if (!evidenceAnchorMatches(sourceRecord.evidenceAnchor, staleEvidenceAnchor)) {
+    return fail(state, 'E_ATLAS_EVIDENCE_SOURCE_MISMATCH', 'atlas.evidence.reattach', 'SOURCE_EVIDENCE_MISMATCH', { projectId, sourceRecordKind, sourceRecordId });
+  }
+  const expectedSourceRecordHash = trimString(payload?.expectedSourceRecordHash);
+  const actualSourceRecordHash = hashCanonicalValue(sourceRecord);
+  if (expectedSourceRecordHash && expectedSourceRecordHash !== actualSourceRecordHash) {
+    return fail(state, 'E_ATLAS_SOURCE_RECORD_STALE', 'atlas.evidence.reattach', 'SOURCE_RECORD_STALE', {
+      projectId,
+      sourceRecordKind,
+      sourceRecordId,
+      expectedSourceRecordHash,
+      actualSourceRecordHash,
+    });
+  }
+  const staleNewEvidence = validateEvidenceStillMatchesScene({
+    state,
+    project,
+    sceneId: newEvidenceAnchor.sceneId,
+    evidenceAnchor: newEvidenceAnchor,
+    op: 'atlas.evidence.reattach',
+    reasonDetails: { projectId, sourceRecordKind, sourceRecordId },
+  });
+  if (staleNewEvidence) return staleNewEvidence;
+  if (atlas.evidenceReattachments && atlas.evidenceReattachments[reattachmentId]) {
+    return fail(state, 'E_ATLAS_REATTACHMENT_ALREADY_EXISTS', 'atlas.evidence.reattach', 'REATTACHMENT_ALREADY_EXISTS', { projectId, reattachmentId });
+  }
+
+  const next = cloneJson(state);
+  const commandSeq = next.data.lastCommandId + 1;
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  if (!isPlainObject(nextAtlas.evidenceReattachments)) nextAtlas.evidenceReattachments = {};
+  nextAtlas.evidenceReattachments[reattachmentId] = {
+    id: reattachmentId,
+    operationKind: 'evidence.reattach',
+    projectId,
+    sourceRecordKind,
+    sourceRecordId,
+    sourceRecordHash: actualSourceRecordHash,
+    staleEvidenceAnchor,
+    newEvidenceAnchor,
+    reason,
+    createdByCommandSeq: commandSeq,
+  };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
 function applyIdeaCreate(state, payload) {
   const projectId = trimString(payload?.projectId);
   const ideaId = trimString(payload?.ideaId);
@@ -1599,6 +1710,9 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_OBSERVATION_REASSIGN) {
     return applyAtlasObservationReassign(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_EVIDENCE_REATTACH) {
+    return applyAtlasEvidenceReattach(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.IDEA_CREATE) {
     return applyIdeaCreate(state, command.payload || {});

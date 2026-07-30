@@ -4564,6 +4564,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C04_ATLAS_ENTITY_MERGE_SPLIT_REASSIGN_RESTORE",
       "approvedAtUtc": "2026-07-30T00:05:00.000Z",
       "rationale": "Approve E04 C04 contract test coverage for explicit Atlas merge split and reassign: proves merge rewires derived mentions without deleting source truth, split restore reverses only an unstale explicit merge operation, observation reassign changes one active observation without mutating text, stale evidence and stale entity hashes fail closed without mutation, Command Kernel denies web and admits node free, and no storage, network, UI, or bypass route is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX_RECEIPT.json",
+      "sha256": "f3a83667f6bd3a54581c68b6dbbf194e42d3379b4c82c9c313cb6e2a8a867280",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX",
+      "approvedAtUtc": "2026-07-30T00:02:32.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E04 C05 receipt: records deterministic stale and moved Atlas evidence review inbox, exact quote reattachment candidate model, explicit atlas.evidence.reattach command, no-loss old and new evidence ledger, stale source-record and stale new-evidence fail-closed guards, Command Kernel capability binding, and side-effect-free local execution with no UI, storage, network, dependency, or external-service expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e04-c05-atlas-evidence-reattachment-review-inbox.contract.test.js",
+      "sha256": "cc1968f7d019c6c00bd07dd172616df6c57d12ef62e4bd342df71c42846dbca9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C05_ATLAS_EVIDENCE_REATTACHMENT_REVIEW_INBOX",
+      "approvedAtUtc": "2026-07-30T00:02:32.000Z",
+      "rationale": "Approve E04 C05 contract test coverage for Atlas evidence reattachment review inbox: proves stale evidence appears in a deterministic review inbox without automatic mutation, explicit reattachment records a no-loss ledger and clears the pending item, stale source hash and stale new evidence fail closed without mutation, Command Kernel denies web and admits node free, inbox fail-closed behavior is explicit, and no storage, network, UI, or bypass route is introduced."
     }
   ]
 }

@@ -58,6 +58,20 @@
       "rationale": "Approve focused post-D1 portability contract: proves A00 and A01 are bounded, D1 history is immutable, latest Word remains uncertified, all external editor profiles require physical evidence and reject fixture-only PASS, writer formatting scale lanes and locator research queue are present, harness guard and ledger are synthetic-only, and false certification or fixture-only profile PASS mutations fail."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C02_CROSS_BOOK_IDENTITY_VOCABULARY_PORTABILITY_RECEIPT.json",
+      "sha256": "e592a916d53aae823778897447c01d2a555bad546d365badbffb69f86e107dc7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY",
+      "approvedAtUtc": "2026-07-30T14:07:40.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E09 C02 final receipt: records cross-book identity link schema, custom entity and relation vocabulary rows, preview-only apply plan, Command Kernel capability revalidation, explicit collision report, author-confirmed apply boundary, rollback and reopen validation, factual focused, ops, doctrine, OSS, governance, diff, and full-runner PASS evidence after execution, no automatic entity merge, no automatic manuscript rewrite, no silent project truth rewrite, no network vocabulary registry, no storage adapter, no UI, no dependency, and handoff to E09 C03."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e09-c02-cross-book-identity-vocabulary-portability.contract.test.js",
+      "sha256": "d5e3c1d8624eb947bc64b540e4fb5043a16e246cfae76e00567bcc4c2be7c67b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY",
+      "approvedAtUtc": "2026-07-30T14:07:40.000Z",
+      "rationale": "Approve E09 C02 contract coverage: proves pathless preview apply plan, explicit collision report, private path and content denial, Command Kernel capability-gated apply, author confirmation, stale preview failure, collision-blocked apply, no automatic merge, custom entity and relation vocabulary persistence, rollback after JSON reopen, capability canon binding, derived exports, and source absence of storage, network, UI, auto-merge, silent rewrite, renderer mutation, and command bypass paths."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AUTONOMY_BOUNDARY_RECEIPT.json",
       "sha256": "09e58aa2be875939404f755972af67537e409666e90cfd6acaff9f7af3d20342",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",
@@ -290,10 +304,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "12e1188e5c5ef4c8ec811f2cd2bea16447f42838e870a679d71a8a6a2af08708",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER",
-      "approvedAtUtc": "2026-07-30T06:07:30.000Z",
-      "rationale": "Approve bounded command capability binding repair for Yalken Atlas V5 E07 C03: synchronizes COMMAND_CAPABILITY_BINDING.json with runtime CAPABILITY_BINDING for existing Atlas, Idea, and Meaning command authority entries plus new atlas.languageTag.set and atlas.languageTag.clear bindings to cap.atlas.languageTag.edit, preserving command coverage enforcement without adding UI routes, network, storage, dependency, or release readiness claims."
+      "sha256": "0add4c417d66d258c8899fb07e6b9810f3d94ef725c4aceadf09dcf0f43eec08",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY",
+      "approvedAtUtc": "2026-07-30T13:56:41.000Z",
+      "rationale": "Approve bounded command capability binding update for E09 C02: preserves existing Atlas, Idea, Meaning, Manual Map, project and UI bindings while adding atlas.seriesPortability.apply to cap.atlas.seriesPortability.apply and atlas.seriesPortability.rollback to cap.atlas.seriesPortability.rollback so series identity and vocabulary writes are admitted only through Command Kernel capability revalidation, preserving local node execution and denying web/mobile wrappers."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_NORMALIZATION_MAP_RECEIPT.json",

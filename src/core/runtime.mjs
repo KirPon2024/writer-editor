@@ -14,6 +14,8 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_SAVED_QUERY_SAVE: 'atlas.savedQuery.save',
   ATLAS_LANGUAGE_TAG_SET: 'atlas.languageTag.set',
   ATLAS_LANGUAGE_TAG_CLEAR: 'atlas.languageTag.clear',
+  ATLAS_SERIES_PORTABILITY_APPLY: 'atlas.seriesPortability.apply',
+  ATLAS_SERIES_PORTABILITY_ROLLBACK: 'atlas.seriesPortability.rollback',
   ATLAS_CALENDAR_DEFINE: 'atlas.calendar.define',
   ATLAS_SCENE_TEMPORAL_ANCHOR_SET: 'atlas.sceneTemporalAnchor.set',
   ATLAS_CONTINUITY_FACT_RECORD: 'atlas.continuityFact.record',
@@ -29,6 +31,11 @@ export const CORE_COMMAND_IDS = Object.freeze({
 });
 
 const ATLAS_AUTHOR_SCHEMA_VERSION = 'atlas.author.v1';
+const ATLAS_SERIES_IDENTITY_LINK_SCHEMA_VERSION = 'atlas.seriesIdentityLink.v1';
+const ATLAS_CUSTOM_VOCABULARY_ROW_SCHEMA_VERSION = 'atlas.customVocabularyRow.v1';
+const ATLAS_SERIES_PORTABILITY_PREVIEW_SCHEMA_VERSION = 'derived.atlas.seriesPortabilityPreview.v1';
+const ATLAS_SERIES_PORTABILITY_APPLY_RECEIPT_SCHEMA_VERSION = 'atlas.seriesPortabilityApplyReceipt.v1';
+const ATLAS_SERIES_PORTABILITY_ROLLBACK_PROOF_SCHEMA_VERSION = 'atlas.seriesPortabilityRollbackProof.v1';
 const MANUAL_MAP_AUTHOR_SCHEMA_VERSION = 'manualMap.author.v1';
 const IDEA_AUTHOR_SCHEMA_VERSION = 'idea.author.v1';
 const IDEA_ORIGIN_REF_SCHEMA_VERSION = 'idea.originRef.v1';
@@ -118,6 +125,10 @@ function createEmptyAtlasAuthorData() {
     evidenceReattachments: {},
     savedQueries: {},
     languageTags: createEmptyAtlasLanguageTags(),
+    seriesIdentityLinks: {},
+    entityVocabulary: {},
+    relationVocabulary: {},
+    seriesPortabilityOperations: {},
     calendarDefinitions: {},
     sceneTemporalAnchors: {},
     continuityFactLedgers: createEmptyAtlasContinuityFactLedgers(),
@@ -139,6 +150,10 @@ function normalizeAtlasAuthorData(input) {
     evidenceReattachments: isPlainObject(input.evidenceReattachments) ? cloneJson(input.evidenceReattachments) : {},
     savedQueries: isPlainObject(input.savedQueries) ? cloneJson(input.savedQueries) : {},
     languageTags: normalizeAtlasLanguageTags(input.languageTags),
+    seriesIdentityLinks: isPlainObject(input.seriesIdentityLinks) ? cloneJson(input.seriesIdentityLinks) : {},
+    entityVocabulary: isPlainObject(input.entityVocabulary) ? cloneJson(input.entityVocabulary) : {},
+    relationVocabulary: isPlainObject(input.relationVocabulary) ? cloneJson(input.relationVocabulary) : {},
+    seriesPortabilityOperations: isPlainObject(input.seriesPortabilityOperations) ? cloneJson(input.seriesPortabilityOperations) : {},
     calendarDefinitions: isPlainObject(input.calendarDefinitions) ? cloneJson(input.calendarDefinitions) : {},
     sceneTemporalAnchors: isPlainObject(input.sceneTemporalAnchors) ? cloneJson(input.sceneTemporalAnchors) : {},
     continuityFactLedgers: normalizeAtlasContinuityFactLedgers(input.continuityFactLedgers),
@@ -1588,6 +1603,396 @@ function applyAtlasLanguageTagClear(state, payloadInput) {
   return ok(next);
 }
 
+const ATLAS_SERIES_PORTABILITY_PRIVATE_FIELD_NAMES = new Set([
+  'path',
+  'filepath',
+  'file_path',
+  'absolute_path',
+  'relative_path',
+  'source_path',
+  'url',
+  'uri',
+  'content',
+  'text',
+  'bytes',
+  'byte_content',
+  'data',
+  'base64',
+  'raw',
+  'buffer',
+]);
+
+function findAtlasSeriesPortabilityPrivateField(value, trail = []) {
+  if (Array.isArray(value)) {
+    for (let index = 0; index < value.length; index += 1) {
+      const found = findAtlasSeriesPortabilityPrivateField(value[index], [...trail, String(index)]);
+      if (found) return found;
+    }
+    return null;
+  }
+  if (!isPlainObject(value)) return null;
+  for (const [key, child] of Object.entries(value)) {
+    if (ATLAS_SERIES_PORTABILITY_PRIVATE_FIELD_NAMES.has(key.toLowerCase())) {
+      return [...trail, key].join('.');
+    }
+    const found = findAtlasSeriesPortabilityPrivateField(child, [...trail, key]);
+    if (found) return found;
+  }
+  return null;
+}
+
+function normalizeAtlasSeriesPortabilityRows(value) {
+  return Array.isArray(value) ? cloneJson(value).filter(isPlainObject) : [];
+}
+
+function hashAtlasSeriesPortabilityPlan(plan) {
+  return hashCanonicalValue({
+    schemaVersion: plan?.schemaVersion,
+    projectId: plan?.projectId,
+    seriesId: plan?.seriesId,
+    sourceCoreStateHash: plan?.sourceCoreStateHash,
+    identityLinks: Array.isArray(plan?.identityLinks) ? plan.identityLinks : [],
+    entityVocabularyRows: Array.isArray(plan?.entityVocabularyRows) ? plan.entityVocabularyRows : [],
+    relationVocabularyRows: Array.isArray(plan?.relationVocabularyRows) ? plan.relationVocabularyRows : [],
+    collisionReport: Array.isArray(plan?.collisionReport) ? plan.collisionReport : [],
+    applyAllowed: plan?.applyAllowed === true,
+  });
+}
+
+function assertAtlasSeriesIdentityLinksReady(state, atlas, links, op) {
+  const entities = isPlainObject(atlas.entities) ? atlas.entities : {};
+  const existingLinks = isPlainObject(atlas.seriesIdentityLinks) ? atlas.seriesIdentityLinks : {};
+  const localToShared = new Map(Object.values(existingLinks)
+    .filter(isPlainObject)
+    .map((link) => [trimString(link.localEntityId), trimString(link.sharedIdentityId)]));
+  const sharedToLocal = new Map(Object.values(existingLinks)
+    .filter(isPlainObject)
+    .map((link) => [trimString(link.sharedIdentityId), trimString(link.localEntityId)]));
+  for (const link of links) {
+    const linkId = trimString(link.id);
+    const localEntityId = trimString(link.localEntityId);
+    const sharedIdentityId = trimString(link.sharedIdentityId);
+    if (link.schemaVersion !== ATLAS_SERIES_IDENTITY_LINK_SCHEMA_VERSION || !linkId || !localEntityId || !sharedIdentityId) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_IDENTITY_LINK_INVALID', op, 'IDENTITY_LINK_INVALID', { linkId, localEntityId, sharedIdentityId });
+    }
+    const entity = entities[localEntityId];
+    if (!isPlainObject(entity)) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_ENTITY_NOT_FOUND', op, 'IDENTITY_LOCAL_ENTITY_NOT_FOUND', { linkId, localEntityId });
+    }
+    const expectedEntityHash = trimString(link.expectedEntityHash);
+    const actualEntityHash = hashCanonicalValue(entity);
+    if (expectedEntityHash && expectedEntityHash !== actualEntityHash) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_ENTITY_STALE', op, 'IDENTITY_LOCAL_ENTITY_STALE', {
+        linkId,
+        localEntityId,
+        expectedEntityHash,
+        actualEntityHash,
+      });
+    }
+    if (isPlainObject(existingLinks[linkId])) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_LINK_EXISTS', op, 'IDENTITY_LINK_ALREADY_EXISTS', { linkId });
+    }
+    const existingShared = localToShared.get(localEntityId);
+    if (existingShared && existingShared !== sharedIdentityId) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_COLLISION', op, 'IDENTITY_LOCAL_COLLISION', {
+        linkId,
+        localEntityId,
+        existingSharedIdentityId: existingShared,
+        incomingSharedIdentityId: sharedIdentityId,
+      });
+    }
+    const existingLocal = sharedToLocal.get(sharedIdentityId);
+    if (existingLocal && existingLocal !== localEntityId) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_COLLISION', op, 'IDENTITY_SHARED_COLLISION', {
+        linkId,
+        sharedIdentityId,
+        existingLocalEntityId: existingLocal,
+        incomingLocalEntityId: localEntityId,
+      });
+    }
+    localToShared.set(localEntityId, sharedIdentityId);
+    sharedToLocal.set(sharedIdentityId, localEntityId);
+  }
+  return null;
+}
+
+function assertAtlasVocabularyRowsReady(state, existingRows, rows, vocabularyKind, op) {
+  const labelToId = new Map(Object.values(existingRows)
+    .filter(isPlainObject)
+    .map((row) => [`${trimString(row.vocabularyKind)}:${trimString(row.normalizedLabel)}`, trimString(row.id)]));
+  for (const row of rows) {
+    const rowId = trimString(row.id);
+    const label = trimString(row.label);
+    const normalizedLabel = trimString(row.normalizedLabel);
+    if (row.schemaVersion !== ATLAS_CUSTOM_VOCABULARY_ROW_SCHEMA_VERSION || row.vocabularyKind !== vocabularyKind || !rowId || !label || !normalizedLabel) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_VOCABULARY_ROW_INVALID', op, 'VOCABULARY_ROW_INVALID', {
+        rowId,
+        vocabularyKind,
+      });
+    }
+    if (isPlainObject(existingRows[rowId])) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_VOCABULARY_EXISTS', op, 'VOCABULARY_ROW_ALREADY_EXISTS', {
+        rowId,
+        vocabularyKind,
+      });
+    }
+    const labelKey = `${vocabularyKind}:${normalizedLabel}`;
+    const existingRowId = labelToId.get(labelKey);
+    if (existingRowId && existingRowId !== rowId) {
+      return fail(state, 'E_ATLAS_SERIES_PORTABILITY_COLLISION', op, 'VOCABULARY_LABEL_COLLISION', {
+        rowId,
+        existingRowId,
+        vocabularyKind,
+        normalizedLabel,
+      });
+    }
+    labelToId.set(labelKey, rowId);
+  }
+  return null;
+}
+
+function applyAtlasSeriesPortabilityApply(state, payload) {
+  const op = CORE_COMMAND_IDS.ATLAS_SERIES_PORTABILITY_APPLY;
+  const previewPlan = isPlainObject(payload?.previewPlan) ? cloneJson(payload.previewPlan) : null;
+  const projectId = trimString(payload?.projectId || previewPlan?.projectId);
+  const suppliedPreviewHash = trimString(payload?.previewHash || payload?.expectedPreviewHash);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', op, 'PROJECT_ID_REQUIRED');
+  }
+  if (!previewPlan || previewPlan.schemaVersion !== ATLAS_SERIES_PORTABILITY_PREVIEW_SCHEMA_VERSION) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_PREVIEW_REQUIRED', op, 'PREVIEW_PLAN_REQUIRED', { projectId });
+  }
+  if (previewPlan.projectId !== projectId) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_PROJECT_MISMATCH', op, 'PROJECT_MISMATCH', {
+      projectId,
+      previewProjectId: trimString(previewPlan.projectId),
+    });
+  }
+  if (payload?.authorConfirmed !== true) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_CONFIRMATION_REQUIRED', op, 'AUTHOR_CONFIRMATION_REQUIRED', { projectId });
+  }
+  const privateField = findAtlasSeriesPortabilityPrivateField(previewPlan);
+  if (privateField) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_PRIVATE_FIELD', op, 'PRIVATE_FIELD_DENIED', { projectId, field: privateField });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', op, 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const actualPreviewHash = hashAtlasSeriesPortabilityPlan(previewPlan);
+  if (!suppliedPreviewHash || suppliedPreviewHash !== actualPreviewHash || trimString(previewPlan.previewHash) !== actualPreviewHash) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_PREVIEW_HASH_MISMATCH', op, 'PREVIEW_HASH_MISMATCH', {
+      projectId,
+      suppliedPreviewHash,
+      actualPreviewHash,
+    });
+  }
+  if (trimString(previewPlan.sourceCoreStateHash) !== hashCoreState(state)) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_PREVIEW_STALE', op, 'PREVIEW_STALE', {
+      projectId,
+      expectedCoreStateHash: trimString(previewPlan.sourceCoreStateHash),
+      actualCoreStateHash: hashCoreState(state),
+    });
+  }
+  if (previewPlan.applyAllowed !== true || (Array.isArray(previewPlan.collisionReport) && previewPlan.collisionReport.length > 0)) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_COLLISIONS_UNRESOLVED', op, 'COLLISIONS_UNRESOLVED', {
+      projectId,
+      collisionCount: Array.isArray(previewPlan.collisionReport) ? previewPlan.collisionReport.length : 0,
+    });
+  }
+
+  const identityLinks = normalizeAtlasSeriesPortabilityRows(previewPlan.identityLinks);
+  const entityVocabularyRows = normalizeAtlasSeriesPortabilityRows(previewPlan.entityVocabularyRows);
+  const relationVocabularyRows = normalizeAtlasSeriesPortabilityRows(previewPlan.relationVocabularyRows);
+  if (identityLinks.length + entityVocabularyRows.length + relationVocabularyRows.length === 0) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_NO_OP', op, 'NO_PORTABILITY_ROWS', { projectId });
+  }
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  const identityFailure = assertAtlasSeriesIdentityLinksReady(state, atlas, identityLinks, op);
+  if (identityFailure) return identityFailure;
+  const entityVocabularyFailure = assertAtlasVocabularyRowsReady(state, atlas.entityVocabulary, entityVocabularyRows, 'entity', op);
+  if (entityVocabularyFailure) return entityVocabularyFailure;
+  const relationVocabularyFailure = assertAtlasVocabularyRowsReady(state, atlas.relationVocabulary, relationVocabularyRows, 'relation', op);
+  if (relationVocabularyFailure) return relationVocabularyFailure;
+
+  const next = cloneJson(state);
+  const commandSeq = next.data.lastCommandId + 1;
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  const operationId = trimString(payload?.operationId || previewPlan.operationId) || `atlas-series-portability:${actualPreviewHash}`;
+  if (isPlainObject(nextAtlas.seriesPortabilityOperations[operationId])) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_OPERATION_EXISTS', op, 'OPERATION_ALREADY_EXISTS', { projectId, operationId });
+  }
+  const before = {
+    seriesIdentityLinks: cloneJson(nextAtlas.seriesIdentityLinks),
+    entityVocabulary: cloneJson(nextAtlas.entityVocabulary),
+    relationVocabulary: cloneJson(nextAtlas.relationVocabulary),
+  };
+  for (const link of identityLinks) {
+    nextAtlas.seriesIdentityLinks[link.id] = {
+      ...link,
+      source: 'author-confirmed',
+      authorConfirmed: true,
+      previewHash: actualPreviewHash,
+      appliedByCommandSeq: commandSeq,
+      updatedByCommandSeq: commandSeq,
+    };
+  }
+  for (const row of entityVocabularyRows) {
+    nextAtlas.entityVocabulary[row.id] = {
+      ...row,
+      source: 'author-confirmed',
+      authorConfirmed: true,
+      previewHash: actualPreviewHash,
+      appliedByCommandSeq: commandSeq,
+      updatedByCommandSeq: commandSeq,
+    };
+  }
+  for (const row of relationVocabularyRows) {
+    nextAtlas.relationVocabulary[row.id] = {
+      ...row,
+      source: 'author-confirmed',
+      authorConfirmed: true,
+      previewHash: actualPreviewHash,
+      appliedByCommandSeq: commandSeq,
+      updatedByCommandSeq: commandSeq,
+    };
+  }
+  const after = {
+    seriesIdentityLinks: cloneJson(nextAtlas.seriesIdentityLinks),
+    entityVocabulary: cloneJson(nextAtlas.entityVocabulary),
+    relationVocabulary: cloneJson(nextAtlas.relationVocabulary),
+  };
+  const rollbackProof = {
+    schemaVersion: ATLAS_SERIES_PORTABILITY_ROLLBACK_PROOF_SCHEMA_VERSION,
+    commandId: CORE_COMMAND_IDS.ATLAS_SERIES_PORTABILITY_ROLLBACK,
+    operationId,
+    canRollback: true,
+    requiresAuthorConfirmation: true,
+    beforeHash: hashCanonicalValue(before),
+    afterHash: hashCanonicalValue(after),
+    reopenValidationHash: hashCanonicalValue(JSON.parse(JSON.stringify({ projectId, operationId, before, after }))),
+    pathless: true,
+  };
+  nextAtlas.seriesPortabilityOperations[operationId] = {
+    schemaVersion: ATLAS_SERIES_PORTABILITY_APPLY_RECEIPT_SCHEMA_VERSION,
+    id: operationId,
+    operationKind: 'seriesPortability.apply',
+    projectId,
+    seriesId: trimString(previewPlan.seriesId),
+    previewHash: actualPreviewHash,
+    sourceCoreStateHash: trimString(previewPlan.sourceCoreStateHash),
+    identityLinkIds: identityLinks.map((link) => link.id).sort(),
+    entityVocabularyRowIds: entityVocabularyRows.map((row) => row.id).sort(),
+    relationVocabularyRowIds: relationVocabularyRows.map((row) => row.id).sort(),
+    authorConfirmed: true,
+    noAutoMerge: true,
+    manuscriptMutation: false,
+    storageMutation: false,
+    networkMutation: false,
+    rendererMutation: false,
+    before,
+    after,
+    rollbackProof,
+    createdByCommandSeq: commandSeq,
+    restoredByCommandSeq: 0,
+    rollbackOperationId: '',
+  };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function applyAtlasSeriesPortabilityRollback(state, payload) {
+  const op = CORE_COMMAND_IDS.ATLAS_SERIES_PORTABILITY_ROLLBACK;
+  const projectId = trimString(payload?.projectId);
+  const operationId = trimString(payload?.operationId);
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', op, 'PROJECT_ID_REQUIRED');
+  }
+  if (!operationId) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_OPERATION_ID_REQUIRED', op, 'OPERATION_ID_REQUIRED', { projectId });
+  }
+  if (payload?.authorConfirmed !== true) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_CONFIRMATION_REQUIRED', op, 'AUTHOR_CONFIRMATION_REQUIRED', { projectId, operationId });
+  }
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', op, 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  const operation = isPlainObject(atlas.seriesPortabilityOperations?.[operationId])
+    ? atlas.seriesPortabilityOperations[operationId]
+    : null;
+  if (!operation || operation.operationKind !== 'seriesPortability.apply') {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_OPERATION_NOT_FOUND', op, 'OPERATION_NOT_FOUND', { projectId, operationId });
+  }
+  if (operation.restoredByCommandSeq) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_OPERATION_ALREADY_RESTORED', op, 'OPERATION_ALREADY_RESTORED', { projectId, operationId });
+  }
+  const expectedOperationHash = trimString(payload?.expectedOperationHash);
+  const actualOperationHash = hashCanonicalValue(operation);
+  if (expectedOperationHash && expectedOperationHash !== actualOperationHash) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_OPERATION_STALE', op, 'OPERATION_STALE', {
+      projectId,
+      operationId,
+      expectedOperationHash,
+      actualOperationHash,
+    });
+  }
+  const currentAfter = {
+    seriesIdentityLinks: cloneJson(atlas.seriesIdentityLinks),
+    entityVocabulary: cloneJson(atlas.entityVocabulary),
+    relationVocabulary: cloneJson(atlas.relationVocabulary),
+  };
+  if (hashCanonicalValue(currentAfter) !== hashCanonicalValue(operation.after)) {
+    return fail(state, 'E_ATLAS_SERIES_PORTABILITY_OPERATION_STALE', op, 'OPERATION_AFTER_SNAPSHOT_STALE', {
+      projectId,
+      operationId,
+      expectedAfterHash: hashCanonicalValue(operation.after),
+      actualAfterHash: hashCanonicalValue(currentAfter),
+    });
+  }
+
+  const next = cloneJson(state);
+  const commandSeq = next.data.lastCommandId + 1;
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  nextAtlas.seriesIdentityLinks = cloneJson(operation.before.seriesIdentityLinks);
+  nextAtlas.entityVocabulary = cloneJson(operation.before.entityVocabulary);
+  nextAtlas.relationVocabulary = cloneJson(operation.before.relationVocabulary);
+  const rollbackOperationId = trimString(payload?.rollbackOperationId) || `atlas-series-portability-rollback:${hashCanonicalValue({ projectId, operationId })}`;
+  nextAtlas.seriesPortabilityOperations[operationId] = {
+    ...nextAtlas.seriesPortabilityOperations[operationId],
+    restoredByCommandSeq: commandSeq,
+    rollbackOperationId,
+    rollbackProof: {
+      ...nextAtlas.seriesPortabilityOperations[operationId].rollbackProof,
+      canRollback: false,
+      restored: true,
+      restoredByCommandSeq: commandSeq,
+      rollbackOperationId,
+      restoredStateHash: hashCanonicalValue({
+        seriesIdentityLinks: nextAtlas.seriesIdentityLinks,
+        entityVocabulary: nextAtlas.entityVocabulary,
+        relationVocabulary: nextAtlas.relationVocabulary,
+      }),
+      reopenValidationHash: hashCanonicalValue(JSON.parse(JSON.stringify({
+        projectId,
+        operationId,
+        restoredBuckets: {
+          seriesIdentityLinks: nextAtlas.seriesIdentityLinks,
+          entityVocabulary: nextAtlas.entityVocabulary,
+          relationVocabulary: nextAtlas.relationVocabulary,
+        },
+      }))),
+    },
+  };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
 function applyAtlasSavedQuerySave(state, payload) {
   const projectId = trimString(payload?.projectId);
   const savedQueryId = trimString(payload?.savedQueryId);
@@ -2543,6 +2948,12 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_LANGUAGE_TAG_CLEAR) {
     return applyAtlasLanguageTagClear(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_SERIES_PORTABILITY_APPLY) {
+    return applyAtlasSeriesPortabilityApply(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_SERIES_PORTABILITY_ROLLBACK) {
+    return applyAtlasSeriesPortabilityRollback(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.ATLAS_CALENDAR_DEFINE) {
     return applyAtlasCalendarDefine(state, command.payload || {});

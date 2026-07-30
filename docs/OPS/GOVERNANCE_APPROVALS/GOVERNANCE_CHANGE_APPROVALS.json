@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "8cef53f433f454c55f1087f4fecfaeab3f87f7792aba2179d0f5561076a1f6cb",
-      "rationale": "Approve bounded C03 Sector-M cumulative scope-map hygiene update: adds the new platform-neutral reviewTransportBlockExactAuthorityV2.mjs file to the existing DONE revisionBridge allowlist so the already-enforced scope leak and sector runner guards recognize the C03 RTK authority core; this preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no writer authority, and no product claim expansion.",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
-      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+      "sha256": "39709937a8db34ed169ab4964bb5f28202f2e3adf17665f35642aa71ade3e68f",
+      "rationale": "Approve bounded C04 Sector-M cumulative scope-map hygiene update: keeps the existing C03 reviewTransportBlockExactAuthorityV2.mjs entry and adds only the new reviewTransportBlockExactWriterBindingV2.mjs file to the exact DONE revisionBridge allowlist so the already-enforced scope leak and sector runner guards recognize the bounded C04 main-side writer binding adapter; this preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no parser authority, no standalone insert apply, no range writer claim, and no product claim expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
+      "approvedAtUtc": "2026-07-30T18:12:00.000Z"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",

@@ -4283,6 +4283,11 @@ body.dark-theme .toolbar__swatch::before {
   gap: 8px;
 }
 
+.right-rail-surface--atlas-diagnostics {
+  display: grid;
+  gap: 8px;
+}
+
 .right-rail-atlas-reports-row[data-state="current"] {
   border-color: rgba(62, 111, 76, 0.24);
 }

@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_STAGE_ACCEPTANCE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE",
+  "programStage": "E05_STAGE_05_FULL_ATLAS_UX_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED_FULL_RUNNER_PASS",
+  "createdAtUtc": "2026-07-30T03:02:01Z",
+  "baseSha": "c0fa7c7f336c69181cf389b591940816db945865",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour adds an Atlas diagnostics and Stage 05 acceptance read surface inside the existing right rail. It changes an existing product screen by exposing degraded capability rows, fallback inventory, explicit heavy-surface status, large-project UI guards, and Stage 05 audit and heuristic receipts without adding a release claim.",
+  "designRouteEvidence": {
+    "lazyweb": {
+      "health": "SEARCH_AVAILABLE_REPORT_UNAVAILABLE_IN_CURRENT_MCP_SESSION",
+      "skillPackVersion": "0.14.9",
+      "quickSearch": {
+        "query": "diagnostics dashboard",
+        "platform": "desktop",
+        "coverageStrength": "strong",
+        "topSimilarity": 0.591,
+        "referenceCompanies": [
+          "appsignal",
+          "logrocket",
+          "fingerprint",
+          "dash0",
+          "signoz",
+          "better-stack",
+          "atom-mobility",
+          "function-health"
+        ],
+        "resultUse": "reference-only signal for compact diagnostic state, grouped health rows, degraded capability disclosure, and explicit surface fallback summaries; no external style, code, URL, service, dependency, token, or hosted runtime is adopted into the product"
+      },
+      "reportAttempt": {
+        "hostedReportGenerated": false,
+        "fallbackReason": "Lazyweb notice required a local skill-pack update. The update completed to 0.14.9, but the current MCP session still exposed search-only tools until client restart. The contour used the V5 permitted unavailable fallback after strong quick-search evidence, without fabricating a hosted report or adding an external runtime dependency."
+      }
+    },
+    "uiCraft": {
+      "skillRead": true,
+      "projectDesignMemory": "absent",
+      "referencesRead": [
+        "accessibility",
+        "dashboard",
+        "dataviz",
+        "responsive",
+        "motion-rendering-performance",
+        "heuristics",
+        "finish-bar",
+        "review-feedback-hierarchy",
+        "tokens",
+        "layout",
+        "color",
+        "inspiration"
+      ],
+      "finalizeMode": {
+        "strictSkillInputsPresent": false,
+        "strictSkillInputsMissing": [
+          ".ui-craft/brief.md",
+          ".ui-craft/tokens.json",
+          ".ui-craft/spec.md"
+        ],
+        "appliedFallback": "repoNativeCodeAndContractAudit",
+        "visualCapture": "notCapturedInThisDerivedPacket"
+      },
+      "application": "Used compact diagnostics sections, stable health rows, explicit PASS/DEGRADED labels, fallback inventory groups, no nested card layout, no new palette, no animation, and no hidden instructional UI copy."
+    },
+    "finalUiAudit": {
+      "method": "repoNativeCodeAndContractAudit",
+      "verdict": "READY",
+      "visualCapture": "notCapturedInThisDerivedPacket",
+      "checks": [
+        "typed right-rail host exists",
+        "diagnostics surface is read-only",
+        "explicit heavy surfaces are not auto-opened",
+        "large-project UI guards remain bounded",
+        "accessibility labels and keyboard tab continuity are preserved",
+        "renderer bundle rebuilt"
+      ]
+    },
+    "heuristicReview": {
+      "method": "repoNativeHeuristicReceipt",
+      "verdict": "PASS",
+      "usabilityScore": 88,
+      "coverage": [
+        "visibility of system status",
+        "match to author mental model",
+        "user control and freedom",
+        "consistency and standards",
+        "error prevention",
+        "recognition over recall",
+        "flexibility and efficiency",
+        "aesthetic and minimalist design",
+        "help users recognize and recover",
+        "help and documentation through explicit status evidence"
+      ]
+    },
+    "leonardo": {
+      "status": "NOT_APPLICABLE",
+      "reason": "No new semantic color system, illustration, brand direction, or generated visual asset was introduced."
+    },
+    "projectWallace": {
+      "status": "NOT_APPLICABLE",
+      "reason": "CSS change is scoped to one existing Atlas right-rail surface and does not introduce a substantial CSS contract, external stylesheet, or design system dependency."
+    }
+  },
+  "implementedScope": [
+    "Atlas diagnostics and Stage 05 acceptance derived packet with schema derived.atlas.diagnosticsStageAcceptance.v1",
+    "degraded capability report with schema derived.atlas.degradedCapabilityReport.v1",
+    "surface fallback inventory with schema derived.atlas.surfaceFallbackInventory.v1",
+    "Stage 05 acceptance proof with schema derived.atlas.stage05AcceptanceProof.v1",
+    "final UI audit receipt with schema derived.atlas.finalUiAuditReceipt.v1",
+    "heuristic review receipt with schema derived.atlas.heuristicReviewReceipt.v1",
+    "surface manifest with schema surface.atlas.diagnosticsStageAcceptance.v1",
+    "workspace query bridge route query.atlasDiagnosticsStageAcceptance",
+    "right-rail typed diagnostics host rightRail.context.atlas.diagnosticsStageAcceptance",
+    "explicit degraded-state handling that keeps the surface renderable instead of failing hard",
+    "renderer bundle synchronized for packaged runtime"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "atlas.diagnosticsStageAcceptance.v1",
+    "productPlane": {
+      "owner": "Product Core and Derived Views",
+      "readPath": [
+        "derived.atlas.overview.v1",
+        "derived.atlas.matrices.v1",
+        "derived.atlas.heatmap.v1",
+        "derived.atlas.reportsSavedQueries.v1",
+        "derived.atlas.diagnosticsStageAcceptance.v1"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false,
+      "atomicWriteRequired": "not applicable because the contour adds no project-truth write path",
+      "recoveryRequired": "not applicable because the contour adds no persistence or recovery mutation"
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "commandId": null,
+      "capabilityIdsRead": [
+        "cap.atlas.currentScene",
+        "cap.atlas.overview",
+        "cap.atlas.entityDossier",
+        "cap.atlas.relationDossier",
+        "cap.atlas.matrices",
+        "cap.atlas.heatmap",
+        "cap.atlas.reportsSavedQueries",
+        "cap.atlas.diagnosticsStageAcceptance"
+      ],
+      "commandAuthority": "not changed",
+      "capabilityRevalidation": "Diagnostics reads node capability snapshot and reports degraded rows honestly; it does not dispatch commands and does not treat renderer visibility as enforcement.",
+      "directRendererMutation": false
+    },
+    "interfacePlane": {
+      "newSurface": true,
+      "surfaceManifest": "surface.atlas.diagnosticsStageAcceptance.v1",
+      "host": "rightRail",
+      "typedSlot": "rightRail.context.atlas.diagnosticsStageAcceptance",
+      "provider": "query.atlasDiagnosticsStageAcceptance",
+      "directDomMutation": false,
+      "hiddenMutation": false,
+      "degradedCapabilityReport": true,
+      "fallbackInventory": true,
+      "stageAcceptanceProof": true,
+      "typingHotPathNonblocking": true,
+      "accessibilityParity": true
+    }
+  },
+  "runtimeFacts": {
+    "diagnosticsSchema": "derived.atlas.diagnosticsStageAcceptance.v1",
+    "degradedCapabilityReportSchema": "derived.atlas.degradedCapabilityReport.v1",
+    "surfaceFallbackInventorySchema": "derived.atlas.surfaceFallbackInventory.v1",
+    "stageAcceptanceProofSchema": "derived.atlas.stage05AcceptanceProof.v1",
+    "finalUiAuditReceiptSchema": "derived.atlas.finalUiAuditReceipt.v1",
+    "heuristicReviewReceiptSchema": "derived.atlas.heuristicReviewReceipt.v1",
+    "surfaceManifestSchema": "surface.atlas.diagnosticsStageAcceptance.v1",
+    "workspaceQueryId": "query.atlasDiagnosticsStageAcceptance",
+    "surfaceId": "surface.atlas.diagnosticsStageAcceptance",
+    "host": "rightRail",
+    "slot": "rightRail.context.atlas.diagnosticsStageAcceptance",
+    "stageAcceptanceGateCount": 5,
+    "stageAcceptanceGates": [
+      "quiet-write",
+      "explicit-heavy-surfaces",
+      "honest-capability-state",
+      "large-project-ui-guards",
+      "stage-close-audit-heuristic"
+    ],
+    "containsPrivateData": false,
+    "projectTruthMutation": false,
+    "newStorageAdapter": false,
+    "networkMutation": false,
+    "accountSync": false,
+    "cloudSync": false,
+    "paidService": false,
+    "rendererCommandBypass": false,
+    "hiddenMutation": false,
+    "workerScheduling": false,
+    "backgroundDaemon": false,
+    "typingHotPathRefresh": false,
+    "newDependency": false,
+    "externalServiceDependency": false,
+    "releaseReadinessWidened": false
+  },
+  "changedFiles": [
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_STAGE_ACCEPTANCE_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+    "src/derived/atlas/atlasDiagnosticsTypes.mjs",
+    "src/derived/atlas/deriveAtlasDiagnosticsStageAcceptance.mjs",
+    "src/derived/atlas/index.mjs",
+    "src/derived/index.mjs",
+    "src/main.js",
+    "src/renderer/editor.js",
+    "src/renderer/editor.bundle.js",
+    "src/renderer/index.html",
+    "src/renderer/styles.css",
+    "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js"
+  ],
+  "checks": [
+    {
+      "command": "node -e import src derived diagnostics smoke",
+      "status": "PASS",
+      "summary": "derived.atlas.diagnosticsStageAcceptance.v1 exported"
+    },
+    {
+      "command": "node -c src/main.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node -e deriveAtlasDiagnosticsStageAcceptance sample",
+      "status": "PASS",
+      "summary": "ok true, state ready, pass true, 8 surfaces, 0 degraded, 5 acceptance gates passed"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s build:renderer",
+      "status": "PASS",
+      "summary": "dist renderer bundle rebuilt, 982.2kb"
+    },
+    {
+      "command": "node --test E05 C01 C02 C03 C04 C05 C06 C07 Atlas surface contracts",
+      "status": "PASS",
+      "summary": "28 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK 1, references 17"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK 1, STRICT_LIE_CLASSES_OK 1"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "governance changed files are approved, missing approvals empty"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS PASS; command namespace, menu, law path, execution sequence, release candidate all PASS"
+    }
+  ],
+  "nextContour": "E06_C00_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOUR_COMPILATION"
+}

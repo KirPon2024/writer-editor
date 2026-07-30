@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.b00-design-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "B00_DESIGN_RECEIPT_AND_CORPUS_GENERATOR",
+  "result": "PASS",
+  "createdAtUtc": "2026-07-30T13:50:52Z",
+  "repoTruth": {
+    "originMainHeadBeforeB00": "1134ba18b43cf84085843e48c9cbf1cd5c491bb8",
+    "selectedBranch": "codex/rtk-word-latest-semantic-b00",
+    "selectedWorktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "ownerDirtyMainTouched": false,
+    "atlasWorktreeTouched": false
+  },
+  "startCondition": {
+    "a00A01Pr": 1252,
+    "a00A01MergeSha": "1134ba18b43cf84085843e48c9cbf1cd5c491bb8",
+    "a00A01RemoteHeadVerified": true,
+    "a00A01Ci": [
+      "oss-policy PASS",
+      "x1-runtime-parity ubuntu-latest PASS",
+      "x1-runtime-parity windows-latest PASS",
+      "ops-vector-close PASS"
+    ],
+    "scopeMixedWithA00A01": false
+  },
+  "profileBoundary": {
+    "historicalD1Profile": "word-mac-16.42-d1-f00-v1",
+    "historicalD1Status": "IMMUTABLE_HISTORICAL_EVIDENCE_ONLY",
+    "targetProfile": "word-mac-latest-16.111.2-semantic-v2",
+    "targetProfileStatusAfterB00": "DESIGN_ONLY_NOT_CERTIFIED",
+    "latestWordSettingsCapsuleCreated": false,
+    "physicalRoundTripsExecutedInB00": 0
+  },
+  "ownerFactBinding": {
+    "emptyModernCommentProbePolicy": "UI-created files such as yalken_word_ui_comments_0020.docx that contain no comments parts are failed automation evidence, not modern comment support.",
+    "commentsPassRequiresPackageInventorySemanticReadbackAndWordReopenVisibility": true,
+    "largeWriterCorpusRequiredBeforeCertification": true
+  },
+  "b00Artifacts": [
+    {
+      "path": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_MATRIX.json",
+      "purpose": "complete pain capability matrix and semantic architecture contract"
+    },
+    {
+      "path": "scripts/ops/rtk-word-latest-semantic-corpus-generator.mjs",
+      "purpose": "deterministic synthetic physical corpus plan generator"
+    },
+    {
+      "path": "test/contracts/rtk-word-latest-semantic-b00.contract.test.js",
+      "purpose": "negative and positive contract proof for B00"
+    }
+  ],
+  "corpusManifest": {
+    "path": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/corpus/word-latest-semantic-v2-b00-corpus-corpus.json",
+    "digest": "sha256:94143f9c2a165f9f21057790fe785c2fa4fc7e90c3d0559ba7c1a6b4bd73ea62",
+    "cases": 32,
+    "physicalEvidenceClaimed": false,
+    "largeDocxMaterialized": false,
+    "wordAutomationRun": false
+  },
+  "noRuntimeMutation": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "dependencyChanged": false,
+    "networkRuntimeAdded": false,
+    "wordAutomationRun": false,
+    "manuscriptOrProjectTruthMutated": false
+  },
+  "nextStage": {
+    "stageId": "B01_SIGNED_LOCATOR_AND_WORD_PRESERVATION_EVIDENCE",
+    "startCondition": "after B00 commit push PR CI merge and merged origin main verification",
+    "goal": "export packet v2 signed locator experiments and physical Word preservation evidence"
+  }
+}

@@ -2,6 +2,34 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json",
+      "sha256": "2af237f52ca2681465155596b1d82b6b6753b6bd943d615717e0f36a57c4fe04",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T13:50:52.000Z",
+      "rationale": "Approve bounded B00 design receipt for latest Word semantic roundtrip v2: records the satisfied A00/A01 merge start condition, binds target profile Word Mac 16.111.2 as design-only not certified, preserves historical D1 Word 16.42 evidence, records the owner correction that empty/no-op comment probes are failed automation evidence, binds the generated T7 corpus manifest digest, and claims no physical Word run, no modern comment support, no runtime, no UI, no dependency, no network, and no manuscript or project truth mutation."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_MATRIX.json",
+      "sha256": "4191e1a1ef19f94f7e1e9782788e0e059ac71fb2d9bc410dab37a163730d9439",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T13:50:52.000Z",
+      "rationale": "Approve bounded B00 latest Word semantic pain and capability matrix: specifies dual snapshot and signed locator design, separates signed apply authority from placement and manual recovery signals, defines ReviewTransportIRV2 records for text revisions, moves, properties, structure, comments, formatting and opaque unsupported data, binds modern comment package inventory and no-op comment failure policy, covers all P0/P1 pain points, scale, comments, formatting, hostile and stale cases, and makes no certification, support, UI, dependency, runtime, network, fuzzy apply, or manuscript mutation claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-latest-semantic-corpus-generator.mjs",
+      "sha256": "1efc49c9c4dafdd4667f0f960d06056ded85be97e34c876d2c5ffee00f0f6c93",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T13:50:52.000Z",
+      "rationale": "Approve bounded B00 synthetic corpus generator and verifier: emits a deterministic latest-Word semantic v2 corpus plan with 32 physical roundtrip cases, 20 pain IDs, 7 IR record kinds, 100k and 250k word scale targets, high comment density, no-op comment failure guards, fixture-only PASS rejection, secure T7 fail-closed write mode, and no Word automation, no document import from user data, no runtime product entrypoint, no UI, no dependency, no build, no install, no download, and no profile certification."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b00.contract.test.js",
+      "sha256": "97f2d8f12c0d42aad837db1a944a2a9b74b4714863e2bfe556f77e416eda74e0",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T13:50:52.000Z",
+      "rationale": "Approve focused B00 contract coverage: proves latest Word remains uncertified, D1 is not rebound, all pain points and ReviewTransportIRV2 records are present, signed locator authority is required while fingerprints remain manual-only, modern comment PASS requires inventory/readback/reopen visibility, corpus families cover physical cases, scale and high comment density, and false certification or fixture-only/no-op comment support mutations fail."
+    },
+    {
       "filePath": "docs/OPS/RTK/POST_D1_A00_RECONCILIATION_RECEIPT.json",
       "sha256": "99558f5aeb27b96980bd36b130e3d81cc6b8a3dbeb3bbbe0d2c8a4525ba9fcd3",
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
@@ -731,10 +759,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "65c52def763fbaed318122ae847c6a386c5ddedab4e1e4426ef3d371c57a4e8c",
-      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
-      "rationale": "Approve bounded post-D1 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside the post-D1 program, A00 receipt, lab harness, and focused contract test while preserving W5 false Word PASS rejection, no Word support, no Word import, no roundtrip, no layout parity, no release DONE, no dependency, no runtime, no UI, no storage, and no writer authority change."
+      "sha256": "2c0479d1303d607b81b460f9c0535a7a34cc2ae3dfc2eacabc30253d38a852e2",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T13:50:52.000Z",
+      "rationale": "Approve bounded B00 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside the latest Word semantic B00 matrix, receipt, generator and focused contract while preserving W5 false Word PASS rejection, no Word support claim, no Word import claim, no roundtrip claim, no modern comment support claim, no release DONE, no dependency, no runtime, no UI, no storage, and no writer authority change."
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",

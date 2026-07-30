@@ -1,0 +1,507 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.b00-matrix.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "B00_DESIGN_RECEIPT_AND_CORPUS_GENERATOR",
+  "status": "B00_DESIGNED_NOT_CERTIFIED",
+  "createdAtUtc": "2026-07-30T13:50:52Z",
+  "base": {
+    "originMainSha": "1134ba18b43cf84085843e48c9cbf1cd5c491bb8",
+    "branch": "codex/rtk-word-latest-semantic-b00",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "precedingPr": 1252,
+    "precedingMergeSha": "1134ba18b43cf84085843e48c9cbf1cd5c491bb8",
+    "precedingCi": "PASS"
+  },
+  "profile": {
+    "profileId": "word-mac-latest-16.111.2-semantic-v2",
+    "editor": "Microsoft Word Desktop for Mac",
+    "observedVersion": "16.111.2",
+    "status": "DESIGN_ONLY_NOT_CERTIFIED",
+    "settingsCapsuleRequired": true,
+    "physicalEvidenceStatus": "NOT_STARTED_IN_B00",
+    "fixtureOnlyPassAllowed": false,
+    "emptyNoOpCommentSaveCountsAsPass": false,
+    "oldD1Profile": {
+      "profileId": "word-mac-16.42-d1-f00-v1",
+      "status": "IMMUTABLE_HISTORICAL_EVIDENCE_ONLY",
+      "notReboundByB00": true
+    }
+  },
+  "hardInvariants": [
+    "zero false EXACT",
+    "zero silent apply",
+    "zero wrong-scene routing",
+    "local-first runtime",
+    "checkpoint before apply",
+    "no destructive flattening",
+    "no fuzzy apply authority",
+    "no broad compatibility claim without physical evidence"
+  ],
+  "dualSnapshotAndSignedLocatorModel": {
+    "exportBaselineFreeze": [
+      "roundId",
+      "projectId",
+      "sceneId",
+      "sceneRevision",
+      "rawSha256",
+      "blockId",
+      "paragraphId",
+      "canonicalTextSha256",
+      "canonicalMarksSha256",
+      "exportedAtUtc"
+    ],
+    "transportManifest": {
+      "container": "customXml",
+      "schemaVersion": "yalken.rtk.transport-manifest.v2",
+      "docxPayload": "public locator payloads and HMAC only",
+      "localSecretPolicy": "HMAC secret remains local in Yalken and is never embedded in DOCX",
+      "tamperPolicy": "invalid or missing HMAC is BLOCKED before semantic apply authority"
+    },
+    "locatorSignals": [
+      {
+        "signal": "signed scene and block locator plus baseline guards",
+        "authority": "required_apply_authority",
+        "exactEligible": true
+      },
+      {
+        "signal": "scene boundary bookmarks",
+        "authority": "placement_signal_only",
+        "exactEligible": false
+      },
+      {
+        "signal": "SDT tags",
+        "authority": "placement_signal_only",
+        "exactEligible": false
+      },
+      {
+        "signal": "w14:paraId and w14:textId mapping",
+        "authority": "word_native_placement_signal_only",
+        "exactEligible": false
+      },
+      {
+        "signal": "prefix suffix text fingerprint",
+        "authority": "recovery_manual_signal_only",
+        "exactEligible": false
+      }
+    ],
+    "physicalSurvivalABRequired": [
+      "customXml",
+      "bookmarks",
+      "SDT",
+      "w14:paraId",
+      "w14:textId",
+      "classic comments",
+      "modern comment IDs"
+    ]
+  },
+  "reviewTransportIRV2": {
+    "schemaId": "ReviewTransportIRV2",
+    "derivedImmutableAnalysisOnly": true,
+    "requiredRecords": [
+      {
+        "kind": "TextRevision",
+        "fields": [
+          "insert",
+          "delete",
+          "replacementPair",
+          "paragraphBreakInsert",
+          "paragraphBreakDelete",
+          "author",
+          "date",
+          "nativeRevisionId",
+          "sourceXmlProvenance"
+        ]
+      },
+      {
+        "kind": "MoveRevision",
+        "fields": [
+          "moveFrom",
+          "moveTo",
+          "pairedRanges",
+          "sourceXmlProvenance",
+          "classificationFloor"
+        ],
+        "classificationFloor": "MANUAL_OR_BLOCKED_NOT_EXACT"
+      },
+      {
+        "kind": "PropertyRevision",
+        "fields": [
+          "rPrChange",
+          "pPrChange",
+          "numberingChange",
+          "styleChange",
+          "alignmentChange",
+          "sourceXmlProvenance"
+        ]
+      },
+      {
+        "kind": "StructureChange",
+        "fields": [
+          "paragraphSplit",
+          "paragraphMerge",
+          "listTopology",
+          "tableBoundary",
+          "sectionBoundary",
+          "footnoteBoundary",
+          "endnoteBoundary",
+          "crossSceneMove"
+        ]
+      },
+      {
+        "kind": "CommentThread",
+        "fields": [
+          "commentId",
+          "durableId",
+          "parent",
+          "replies",
+          "doneResolvedReopenedState",
+          "authorPersonIdentity",
+          "date",
+          "anchorStart",
+          "anchorEnd",
+          "quotedAnchorText",
+          "relatedRevision"
+        ]
+      },
+      {
+        "kind": "FormattingDelta",
+        "fields": [
+          "bold",
+          "italic",
+          "underline",
+          "strike",
+          "color",
+          "highlight",
+          "font",
+          "size",
+          "hyperlinks",
+          "characterStyle",
+          "paragraphStyle",
+          "alignment",
+          "listMetadata"
+        ]
+      },
+      {
+        "kind": "OpaqueUnsupported",
+        "fields": [
+          "partName",
+          "elementName",
+          "relationshipId",
+          "typedDiagnostic",
+          "preservationPolicy"
+        ],
+        "silentDropAllowed": false
+      }
+    ]
+  },
+  "modernCommentPackageSemantics": {
+    "requiredInventory": [
+      "word/comments.xml",
+      "word/commentsExtended.xml",
+      "word/commentsExtensible.xml",
+      "word/commentsIds.xml",
+      "word/people.xml",
+      "word/_rels/document.xml.rels",
+      "[Content_Types].xml"
+    ],
+    "equivalentModernPartsPolicy": "unknown comment identity or people parts are BLOCKED or OpaqueUnsupported until semantic readback proves their role",
+    "commentPassRequires": [
+      "package inventory",
+      "semantic readback of body and anchor",
+      "Word reopen visibility",
+      "author identity readback",
+      "reply graph readback where Word permits",
+      "resolved or reopened state readback where Word permits"
+    ],
+    "emptyNoOpSavePolicy": "a Word-saved DOCX with no comments parts is failed automation evidence, never modern comment support"
+  },
+  "painMatrix": [
+    {
+      "id": "P0-01",
+      "pain": "scene or paragraph locator lost after Word save",
+      "solution": "signed multi-signal locator with required HMAC sceneRevision rawSha and unique supported placement",
+      "lanes": [
+        "locatorSurvival",
+        "manuscriptText"
+      ],
+      "exactPolicy": "EXACT requires valid signed locator and unchanged required baseline"
+    },
+    {
+      "id": "P0-02",
+      "pain": "repeated text routes to the wrong location",
+      "solution": "global text search has no authority; fingerprint is manual suggestion only",
+      "lanes": [
+        "locatorSurvival"
+      ],
+      "exactPolicy": "ambiguous duplicate placement is MANUAL or BLOCKED"
+    },
+    {
+      "id": "P0-03",
+      "pain": "paragraph split or merge breaks offsets",
+      "solution": "token stream carries paragraph-break revisions and split or merge as explicit structure changes",
+      "lanes": [
+        "manuscriptText",
+        "structure"
+      ],
+      "exactPolicy": "only proven single-scene non-overlapping paragraph break changes can become EXACT"
+    },
+    {
+      "id": "P0-04",
+      "pain": "Track Changes has more topology than w:ins and w:del",
+      "solution": "namespace-aware parser covers w:ins w:del w:delText paragraph mark deletes rPrChange pPrChange numbering and move ranges",
+      "lanes": [
+        "revisions",
+        "structure",
+        "formatting"
+      ],
+      "exactPolicy": "moveFrom and moveTo are structural and never automatic in B00"
+    },
+    {
+      "id": "P0-05",
+      "pain": "replacement appears as adjacent delete and insert",
+      "solution": "preserve source events and derive an atomic replacement group with provenance",
+      "lanes": [
+        "revisions",
+        "manuscriptText"
+      ],
+      "exactPolicy": "replacement group applies or rejects atomically only after all guards pass"
+    },
+    {
+      "id": "P0-06",
+      "pain": "modern comments span comments people and extended identity parts",
+      "solution": "package relationship aware comment graph resolver with unknown modern parts blocked until understood",
+      "lanes": [
+        "comments",
+        "packageSemantics"
+      ],
+      "exactPolicy": "comments never grant manuscript apply authority"
+    },
+    {
+      "id": "P0-07",
+      "pain": "replies and resolved state are lost",
+      "solution": "durable thread graph captures parent reply done resolved and reopened state separately from text",
+      "lanes": [
+        "comments"
+      ],
+      "exactPolicy": "loss of reply or resolve state blocks comment certification"
+    },
+    {
+      "id": "P0-08",
+      "pain": "comment on deleted text can disappear after save",
+      "solution": "extract comments before text classification and preserve quoted anchor related revision and orphan outcome",
+      "lanes": [
+        "comments",
+        "revisions"
+      ],
+      "exactPolicy": "orphaned thread is preserved as ORPHAN and never silently deleted"
+    },
+    {
+      "id": "P0-09",
+      "pain": "comments are mixed with text apply authority",
+      "solution": "comment lane stays independent from manuscript lane",
+      "lanes": [
+        "comments",
+        "manuscriptText"
+      ],
+      "exactPolicy": "CLEAN MIXED MANUAL or BLOCKED text cannot erase safe comment read authority"
+    },
+    {
+      "id": "P0-10",
+      "pain": "author and dates mutate across editors",
+      "solution": "preserve native author person initials and date separately from normalized local identity",
+      "lanes": [
+        "comments",
+        "revisions"
+      ],
+      "exactPolicy": "Yalken never rewrites foreign author truth to manufacture support"
+    },
+    {
+      "id": "P0-11",
+      "pain": "formatting gets flattened",
+      "solution": "whitelist semantic marks and report unsupported direct style or property deltas as typed diagnostics",
+      "lanes": [
+        "formatting"
+      ],
+      "exactPolicy": "unsupported formatting is MANUAL or typed loss report, not destructive apply"
+    },
+    {
+      "id": "P0-12",
+      "pain": "structural moves or cross-scene edits masquerade as text",
+      "solution": "move section table and cross-scene topology routes to structural proposal lane",
+      "lanes": [
+        "structure"
+      ],
+      "exactPolicy": "cross-scene move and move revisions are not EXACT"
+    },
+    {
+      "id": "P0-13",
+      "pain": "Word rewrites rsid ids zip flags and part order",
+      "solution": "semantic package comparison validates relationships content types and required parts rather than byte equality",
+      "lanes": [
+        "packageSemantics"
+      ],
+      "exactPolicy": "byte drift alone does not prove content mutation"
+    },
+    {
+      "id": "P0-14",
+      "pain": "stale or divergent editor copies race",
+      "solution": "roundId baseline hash effectKey requestKey and branch-of-round detection",
+      "lanes": [
+        "manuscriptText",
+        "packageSemantics"
+      ],
+      "exactPolicy": "divergent rounds are separate sessions and never auto-merged"
+    },
+    {
+      "id": "P0-15",
+      "pain": "repeat import applies twice",
+      "solution": "write-once outcome ledger with idempotent replay and recovery reconciliation",
+      "lanes": [
+        "manuscriptText",
+        "comments"
+      ],
+      "exactPolicy": "replay is ALREADY_ANALYZED or ALREADY_APPLIED, never second mutation"
+    },
+    {
+      "id": "P0-16",
+      "pain": "Unicode and locale break boundaries",
+      "solution": "raw UTF-8 evidence plus NFC comparison view without automatic user text normalization",
+      "lanes": [
+        "manuscriptText",
+        "locatorSurvival"
+      ],
+      "exactPolicy": "NBSP soft hyphen ZWJ ZWNJ ZWSP combining bidi emoji and variation selectors must not be silently rewritten"
+    },
+    {
+      "id": "P0-17",
+      "pain": "large manuscripts slow or crash",
+      "solution": "stream package parts bounded memory per-scene lazy IR limits and hostile-file gates",
+      "lanes": [
+        "performance",
+        "packageSemantics"
+      ],
+      "exactPolicy": "scale PASS requires measured thresholds, not invented claims"
+    },
+    {
+      "id": "P0-18",
+      "pain": "hostile DOCX or external effects reach runtime",
+      "solution": "reject macros OLE active content external relationships path traversal zip bombs and network or shell effects",
+      "lanes": [
+        "packageSemantics"
+      ],
+      "exactPolicy": "hostile or malformed packages are BLOCKED"
+    },
+    {
+      "id": "P1-19",
+      "pain": "Word Compare and Combine create different revision topology",
+      "solution": "separate native corpus and semantic equivalence checks",
+      "lanes": [
+        "revisions",
+        "structure"
+      ],
+      "exactPolicy": "compare/combine topology is not treated as ordinary hand-edit evidence"
+    },
+    {
+      "id": "P1-20",
+      "pain": "footnotes endnotes fields breaks and tables are complex boundaries",
+      "solution": "inventory and preserve; automatic apply only for explicitly supported subtypes",
+      "lanes": [
+        "formatting",
+        "structure",
+        "packageSemantics"
+      ],
+      "exactPolicy": "unsupported structures receive typed MANUAL or BLOCKED diagnostics with original DOCX evidence preserved"
+    }
+  ],
+  "physicalCorpusContract": {
+    "generator": "scripts/ops/rtk-word-latest-semantic-corpus-generator.mjs",
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2",
+    "syntheticOnly": true,
+    "minimumPhysicalRoundTrips": 30,
+    "workflow": [
+      "Yalken export DOCX with transport manifest",
+      "open in native Word 16.111.2",
+      "perform editor-native action",
+      "save or Save As",
+      "close",
+      "reopen in Word",
+      "return to Yalken",
+      "package inventory",
+      "semantic readback",
+      "ReviewTransportIRV2 classification",
+      "preview before any apply",
+      "checkpointed apply only when EXACT"
+    ],
+    "requiredCaseFamilies": [
+      "basic text insert delete replace",
+      "repeated text locator ambiguity",
+      "paragraph split merge paragraph mark delete",
+      "moves and cross-scene moves",
+      "Track Changes on off mixed accept reject",
+      "comments point range paragraph overlap replies resolve reopen delete",
+      "comment on inserted deleted and moved text",
+      "modern comments package inventory",
+      "formatting marks style paragraph and list deltas",
+      "tables sections footnotes endnotes fields and breaks",
+      "Unicode locale and bidi",
+      "stale tampered stripped duplicate and replay negatives",
+      "Compare and Combine generated revisions",
+      "100k and 250k word scale",
+      "high comment density",
+      "no-edit conservation and re-export reopen oracle"
+    ]
+  },
+  "classificationContract": {
+    "exactRequiresAll": [
+      "valid signed locator",
+      "exact project round scene binding",
+      "unchanged required baseline",
+      "supported semantic operation",
+      "unique non-overlapping target",
+      "all relevant XML semantics accounted",
+      "no structural or cross-scene ambiguity"
+    ],
+    "manualWhen": [
+      "understandable but ambiguous",
+      "unsupported formatting or structure",
+      "fingerprint-only recovery",
+      "editor capability unknown"
+    ],
+    "blockedWhen": [
+      "hostile package",
+      "malformed package",
+      "tampered manifest or HMAC",
+      "stale conflicting round",
+      "move or cross-scene topology unsafe for automatic apply"
+    ],
+    "absoluteVeto": "zero false EXACT"
+  },
+  "applyContract": {
+    "previewFirst": true,
+    "checkpointBeforeApply": true,
+    "atomicPerSceneWrite": true,
+    "outcomeLedger": true,
+    "crashRecovery": true,
+    "commentsPersistIndependently": true,
+    "returnedDocxNeverOverwritesProject": true,
+    "unknownProjectFieldsPreserved": true
+  },
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "pullRequestRequired": true,
+    "mergeRequired": true,
+    "status": "pending_delivery"
+  },
+  "nonClaims": [
+    "B00 does not certify Word 16.111.2.",
+    "B00 does not execute physical Word round trips.",
+    "B00 does not claim modern comments support.",
+    "B00 does not claim Google Docs Word Online LibreOffice ONLYOFFICE Pages or WPS support.",
+    "B00 does not expand automatic apply authority.",
+    "B00 does not add a runtime dependency.",
+    "B00 does not change product UI or Design OS.",
+    "B00 does not mutate manuscript or project truth."
+  ],
+  "nextStage": "B01_SIGNED_LOCATOR_AND_WORD_PRESERVATION_EVIDENCE"
+}

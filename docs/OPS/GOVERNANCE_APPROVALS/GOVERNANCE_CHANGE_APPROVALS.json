@@ -2,6 +2,41 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B01_LOCATOR_SURVIVAL_RECEIPT.json",
+      "sha256": "133a66225736f09816b8a0e6ba9a9c4a3424c76f8172eb78e4ea52db45dc3a6d",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
+      "rationale": "Approve bounded B01 locator-survival receipt: records five synthetic Microsoft Word for Mac physical open-save-close-reopen cases, preserves returned DOCX evidence on T7-Secure, proves no-edit customXml HMAC survival, records customXml loss after tracked/commented Word saves as a typed limitation, confirms bookmarks, SDT tags, w14 paraId/textId and classic comment readback as placement or comment signals without apply authority, observes local Word bundle 16.111.1 rather than claiming 16.111.2, and makes no latest-Word certification, modern reply/resolve support, automatic apply, UI, runtime, dependency, network, or manuscript mutation claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-latest-signed-locator-lab.mjs",
+      "sha256": "2d7847e7a3ec20a807ada2d19c447f53c8861237e0481b548f88cea0686b9a90",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
+      "rationale": "Approve bounded B01 signed locator lab: generates synthetic DOCX packets with customXml/HMAC, bookmarks, SDT, w14 paraId/textId and classic comments, opens returned working copies through macOS LaunchServices for real Word save/readback, mirrors evidence to T7-Secure, writes a receipt atomically, closes only lab documents by target handle, records Grant File Access and customXml mutation limitations truthfully, and adds no product runtime entrypoint, UI, network, dependency, user document access, or profile certification."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportManifestCore.mjs",
+      "sha256": "bda5ec2faac7a44b266f6122c52fb45417adc23210c00c4de23bbf093476ab04",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
+      "rationale": "Approve platform-neutral Review Transport Manifest v2 core: normalizes signed scene/block/baseline locator payloads, requires CryptoPort-provided SHA/HMAC, forbids embedded secrets, blocks tamper, missing secret and missing signed authority, keeps bookmarks, SDT, w14 ids and fingerprints as non-authoritative placement or manual signals, imports no Node, Electron, filesystem, Buffer, picker, network, parser, UI, or writer authority, and makes no automatic apply expansion claim."
+    },
+    {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "97f3c11c1901ef4e8ef937f5c88b59f2dfc222051f7c288e8d848ea5bece2c72",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
+      "rationale": "Approve bounded public barrel export for B01 manifest core: exposes Review Transport Manifest v2 constants and create/verify helpers through the existing Revision Bridge entrypoint without adding renderer, UI, network, filesystem, parser, apply, writer authority, dependency, or product behavior changes."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
+      "sha256": "5807d3d43bf8a827642075541350f6ae451a0888d2c8521250e48c0c79802e60",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
+      "rationale": "Approve focused B01 contract coverage: proves manifest HMAC creation and verification through CryptoPort, tamper and missing-secret blocking, public barrel export, receipt non-certification, no-op comment false-pass rejection, user-document safety, customXml no-edit survival with mutating-save limitation, placement signals remaining non-authoritative, Word-native classic comment visibility, and platform-neutral core without Node/Electron/Buffer/network imports."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json",
       "sha256": "2af237f52ca2681465155596b1d82b6b6753b6bd943d615717e0f36a57c4fe04",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
@@ -759,10 +794,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "2c0479d1303d607b81b460f9c0535a7a34cc2ae3dfc2eacabc30253d38a852e2",
+      "sha256": "465277a739876f659f671641d42bd35f6a170ebea6aee9a6b87ee0d6191fd948",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T13:50:52.000Z",
-      "rationale": "Approve bounded B00 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside the latest Word semantic B00 matrix, receipt, generator and focused contract while preserving W5 false Word PASS rejection, no Word support claim, no Word import claim, no roundtrip claim, no modern comment support claim, no release DONE, no dependency, no runtime, no UI, no storage, and no writer authority change."
+      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
+      "rationale": "Approve bounded B01 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside latest Word semantic B00 and B01 receipts, lab scripts, manifest core and focused contracts while preserving W5 false Word PASS rejection, no Word support claim, no Word import claim, no roundtrip certification claim, no modern reply/resolve support claim, no release DONE, no dependency, no runtime, no UI, no storage expansion, and no writer authority change."
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",

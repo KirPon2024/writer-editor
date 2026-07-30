@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E06_C00_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOUR_COMPILATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E06_C00_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOUR_COMPILATION",
+  "programStage": "E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T03:10:44Z",
+  "baseSha": "f6786b384c737cf2f205f5481d5dffdcc79a6ff9",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "Stage 06 compiles future product UI contours for temporal layout, time slider, calendar status, and Continuity Ledger surfaces. This C00 receipt changes no UI runtime code, but it binds all following Stage 06 UI contours to the Design OS route.",
+  "designRouteEvidence": {
+    "designGuideRead": "YALKEN_DESIGN_OS_CHANGE_GUIDE_V2_2",
+    "designToolMatrixRead": "YALKEN_DESIGN_TOOL_MATRIX_V1",
+    "featureIntegrationDoctrineRead": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "brainRefsCommand": "npm run brain:refs -- \"Atlas time calendar continuity temporal relation segments\"",
+    "brainRefsResult": [
+      "native-fluency-typographic-sharpness",
+      "YALKEN_DESIGN_TOOL_RESERVE_V1",
+      "YALKEN_DESIGN_TOOL_MATRIX_V1"
+    ],
+    "lazywebQuickSearch": {
+      "query": "timeline calendar dashboard",
+      "platform": "desktop",
+      "coverageStrength": "strong",
+      "topSimilarity": 0.584,
+      "referenceCompanies": [
+        "fibery",
+        "notion",
+        "drift",
+        "calendly",
+        "midday",
+        "wrike",
+        "weekrise",
+        "bonsai"
+      ],
+      "resultUse": "reference-only pattern signal for dense timeline, calendar, date-range, and dashboard surfaces; no external style, code, URL, service, token, or dependency is adopted into the product"
+    },
+    "lazywebReportAvailability": {
+      "hostedReportGenerated": false,
+      "fallbackReason": "Current MCP session exposes lazyweb_search and report render/publish helpers but not the one-call lazyweb_generate_report flow required by the served notice. C00 used the V5 permitted unavailable fallback after strong quick-search evidence and records that each concrete Stage 06 UI contour must use Lazyweb again or record a precise unavailable-tool fallback before UI code changes."
+    }
+  },
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "atlasAuthorTruthExists": true,
+    "atlasObservationAggregateExists": true,
+    "atlasTemporalContinuityExists": true,
+    "atlasTemporalContinuityCurrentScope": "scene ordinal cooccurrence first last absence interval derived read model",
+    "atlasTemporalContinuityRealCalendarExists": false,
+    "atlasTemporalContinuityFictionalCalendarExists": false,
+    "exactApproximateOpenRangeModelExists": false,
+    "calendarConversionRulesExist": false,
+    "relationSegmentsExist": false,
+    "perspectiveModelExists": false,
+    "locationLedgerExists": false,
+    "knowledgeLedgerExists": false,
+    "objectLedgerExists": false,
+    "promiseLedgerExists": false,
+    "disappearanceChecksExist": false,
+    "continuityFindingsExist": false,
+    "temporalLayoutSurfaceExists": false,
+    "timeSliderSurfaceExists": false,
+    "continuityLedgerSurfaceExists": false,
+    "authorCorrectionCommandBoundaryExists": false,
+    "currentMainFullRunner": "795 tests, 731 pass, 0 fail, 64 skipped"
+  },
+  "stageScopeBinding": {
+    "userOutcome": "Author can define real or fictional calendar truth, see story and narrative time, inspect relation changes and evidence-backed continuity contradictions, and correct only through explicit author commands.",
+    "acceptance": [
+      "calendar does not make hidden assumptions",
+      "every finding carries evidence",
+      "unknown or approximate time remains explicit",
+      "fixes occur only through author command",
+      "history of temporal states is not overwritten"
+    ],
+    "scopeIn": [
+      "temporal model",
+      "exact approximate and open ranges",
+      "calendar definitions and conversion rules",
+      "relation segments",
+      "perspective model",
+      "location knowledge and object ledgers",
+      "promises and disappearance checks",
+      "temporal layout and slider",
+      "Continuity Ledger"
+    ],
+    "scopeOut": [
+      "Stage 07 language expansion",
+      "global graph composite mode",
+      "series atlas",
+      "collaboration transport",
+      "release readiness claim",
+      "cloud sync or account truth"
+    ]
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E06_C01_ATLAS_CALENDAR_DEFINITION_AND_CONVERSION_COMMAND_BOUNDARY",
+      "userOutcome": "Author can define a real or fictional project calendar and conversion rules without hidden assumptions or network time services.",
+      "scopeIn": [
+        "FEATURE_INTEGRATION_MANIFEST_V1 for Atlas calendar truth",
+        "calendar definition schema in atlas.author.v1 or a canonically attached project truth path",
+        "canonical command for calendar definition save",
+        "conversion rule validation",
+        "exact unsupported and degraded capability states"
+      ],
+      "scopeOut": [
+        "scene temporal anchors",
+        "timeline UI",
+        "Continuity Ledger UI",
+        "language expansion",
+        "external calendar services"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete UI surface is changed",
+        "Feature Integration Manifest before runtime write",
+        "Atomic write and recovery checks because project truth changes"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e06-c01-atlas-calendar-definition-conversion-command-boundary.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C01_ATLAS_CALENDAR_DEFINITION_CONVERSION_COMMAND_BOUNDARY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_AND_SCENE_ANCHORS",
+      "userOutcome": "Author can assign exact, approximate, or open story/narrative time ranges to scenes while unknown time stays explicit.",
+      "scopeIn": [
+        "temporal range schema",
+        "scene temporal anchor command boundary",
+        "story time versus narrative order separation",
+        "unknown approximate open range normalization",
+        "saved and reopened temporal anchor proof"
+      ],
+      "scopeOut": [
+        "relation segment derivation",
+        "Continuity Ledger findings",
+        "time slider UI",
+        "automatic NLP time extraction as truth",
+        "calendar service integration"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete UI surface is changed",
+        "Feature Integration Manifest update",
+        "Recovery and negative bypass checks for temporal author truth"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e06-c02-atlas-temporal-range-model-scene-anchors.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_SCENE_ANCHORS_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E06_C03_ATLAS_RELATION_SEGMENTS_AND_PERSPECTIVE_MODEL",
+      "userOutcome": "Author can inspect how relations change across story time, narrative order, and perspective without rewriting source evidence.",
+      "scopeIn": [
+        "relation segment derived model",
+        "perspective model tied to project scene and entity evidence",
+        "segment evidence anchors",
+        "unknown time fallback",
+        "full versus incremental parity proof"
+      ],
+      "scopeOut": [
+        "location knowledge object ledgers",
+        "promise checks",
+        "Continuity Ledger UI",
+        "automatic relation mutation",
+        "global graph composite mode"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete UI surface is changed",
+        "Negative tests for read-only derived model boundaries",
+        "Large project bounded derivation checks"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e06-c03-atlas-relation-segments-perspective-model.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C03_ATLAS_RELATION_SEGMENTS_PERSPECTIVE_MODEL_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY",
+      "userOutcome": "Author can record location, knowledge, object, and promise facts as bounded Atlas truth with evidence and recovery.",
+      "scopeIn": [
+        "location ledger author truth",
+        "knowledge ledger author truth",
+        "object ledger author truth",
+        "promise ledger author truth",
+        "canonical commands and capability policy for ledger facts",
+        "evidence anchor validation"
+      ],
+      "scopeOut": [
+        "finding synthesis",
+        "visual ledger surface",
+        "automatic apply",
+        "collaboration history",
+        "external ontology services"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete UI surface is changed",
+        "Feature Integration Manifest update",
+        "Atomic write recovery and stale evidence checks"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/renderer/commands if capability policy changes",
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e06-c04-atlas-continuity-fact-ledgers-command-boundary.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_AND_DISAPPEARANCE_CHECKS",
+      "userOutcome": "Author can see evidence-backed continuity findings for promises, disappearances, location conflicts, knowledge conflicts, and object state conflicts.",
+      "scopeIn": [
+        "continuity finding schema",
+        "promise fulfillment and disappearance checks",
+        "location knowledge and object contradiction checks",
+        "evidence-first finding packets",
+        "unknown and insufficient-evidence outcomes"
+      ],
+      "scopeOut": [
+        "finding UI",
+        "automatic correction",
+        "language expansion",
+        "series-wide continuity",
+        "cloud analysis"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete UI surface is changed",
+        "Negative tests for no manuscript mutation",
+        "Derived generation identity and revision guards"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e06-c05-atlas-continuity-findings-promises-disappearance-checks.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_DISAPPEARANCE_CHECKS_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E06_C06_ATLAS_TEMPORAL_LAYOUT_AND_TIME_SLIDER_SURFACE",
+      "userOutcome": "Author can explicitly open a bounded temporal layout and time slider with keyboard and list parity while WRITE remains quiet.",
+      "scopeIn": [
+        "SURFACE_MANIFEST_V1 for temporal layout",
+        "typed right-rail or explicit heavy Atlas slot",
+        "temporal layout packet",
+        "time slider state model",
+        "keyboard and list fallback",
+        "large-project UI budget proof"
+      ],
+      "scopeOut": [
+        "Continuity Ledger findings surface",
+        "global graph composite mode",
+        "new chart dependency",
+        "new design system",
+        "background daemon"
+      ],
+      "designRoute": [
+        "Lazyweb report or recorded unavailable fallback before UI code",
+        "UI Craft implementation pass",
+        "Audit and heuristic checks before close",
+        "Leonardo only if semantic color system changes",
+        "Project Wallace only if substantial CSS changes occur"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_TIME_SLIDER_SURFACE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AND_AUTHOR_CORRECTION_ROUTE",
+      "userOutcome": "Author can inspect continuity findings, jump to evidence, and route corrections only through explicit author commands.",
+      "scopeIn": [
+        "SURFACE_MANIFEST_V1 for Continuity Ledger",
+        "finding rows with evidence anchors",
+        "jump-to-evidence intent",
+        "author correction route disclosure",
+        "degraded and empty-state behavior"
+      ],
+      "scopeOut": [
+        "automatic manuscript edits",
+        "cross-scene apply transactions",
+        "collaboration history",
+        "language expansion",
+        "release readiness"
+      ],
+      "designRoute": [
+        "Lazyweb report or recorded unavailable fallback before UI code",
+        "UI Craft and heuristic review for finding workflow",
+        "Negative bypass checks for command authority"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "src/renderer/commands if correction intents are exposed",
+        "test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AUTHOR_CORRECTION_ROUTE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
+      "userOutcome": "Author can see exactly which Stage 06 time and continuity capabilities are live, degraded, or still outside scope before Stage 07 begins.",
+      "scopeIn": [
+        "Stage 06 acceptance proof",
+        "temporal and continuity degraded capability report",
+        "calendar assumption audit",
+        "evidence-backed finding audit",
+        "large-project UI and hot-path proof"
+      ],
+      "scopeOut": [
+        "Stage 07 language expansion implementation",
+        "global graph",
+        "series atlas",
+        "platform certification",
+        "release claim"
+      ],
+      "designRoute": [
+        "Finalize skill or equivalent pre-close audit when concrete UI changed",
+        "Heuristic review for full Stage 06 workflow",
+        "Document consciously skipped tools per matrix"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "command": "npm run brain:refs -- \"Atlas time calendar continuity temporal relation segments\"",
+      "status": "PASS",
+      "summary": "reference suggestions returned native-fluency-typographic-sharpness, design tool reserve, and design tool matrix"
+    },
+    {
+      "command": "lazyweb_search query timeline calendar dashboard platform desktop",
+      "status": "PASS",
+      "summary": "8 references returned, coverage strong, top similarity 0.584"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS PASS; command namespace, menu, law path, execution sequence, release candidate all PASS"
+    }
+  ],
+  "nextContour": "E06_C01_ATLAS_CALENDAR_DEFINITION_AND_CONVERSION_COMMAND_BOUNDARY"
+}

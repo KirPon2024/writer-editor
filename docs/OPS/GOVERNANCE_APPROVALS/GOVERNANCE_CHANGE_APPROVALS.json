@@ -2,6 +2,13 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C00_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOUR_COMPILATION_RECEIPT.json",
+      "sha256": "9ac881200bbf092ab084551df520fb3d3f5ffb248f3f81aefbe880861a12729e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C00_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-30T03:10:44.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C00 Stage 06 compilation receipt: records read-only canon and runtime reconciliation, existing ordinal temporal continuity seam, missing real and fictional calendar capabilities, Stage 06 queue for calendar definitions, temporal ranges, relation segments, perspective, continuity fact ledgers, promise and disappearance findings, temporal layout, time slider, Continuity Ledger, acceptance diagnostics, Lazyweb timeline calendar dashboard quick-search evidence with report-unavailable fallback, fresh full runner pass evidence, and no runtime, UI, storage, command, dependency, network, cloud, account, release readiness, or external service mutation in this compilation contour."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
       "sha256": "33c164694e7236286f90a5232b114557a310eef21bcf573c2e52d535163346de",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE",

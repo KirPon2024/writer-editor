@@ -3412,7 +3412,7 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-content-preview.contract.test.js",
-      "sha256": "00397ea39ee68d102fabae9b403a8ba94f0d8acce27da9bd77297a175ae4a152",
+      "sha256": "e7ff3f8229f254660fac2c2f176ad2daa437fc34f8d8980686d8bb0dafe05068",
       "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
       "approvedAtUtc": "2026-07-12T23:00:00.000Z",
       "rationale": "Approve bounded content preview coverage allowing known ignored DOCX parts while retaining hostile and malformed package rejection and explicit diagnostics."
@@ -3426,14 +3426,14 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-preview-plan.contract.test.js",
-      "sha256": "bb3c3be5c61e36a0302535079b2884289b13402454f6c10df4eac3ab7c44e406",
+      "sha256": "f9c9535abed60a0c0ed22418a36b28c70304172da73e3603dd109f62a9deba90",
       "approvedBy": "ticket:DOCX_CONTENT_PREVIEW_TO_IMPORT_PLAN_001",
       "approvedAtUtc": "2026-06-30T12:48:00.000Z",
       "rationale": "DOCX_CONTENT_PREVIEW_TO_IMPORT_PLAN_001 approves the bounded kernel-only DOCX import preview plan contract for accepted content preview reports, deterministic single-scene candidateCreatePlan, explicit loss report diagnostics, fail-closed malformed and layer-leaking source reports, tamper hash rejection, and no renderer, preload, UI, storage write, import mutation, safe create apply, review packet, export rewrite, network, dependency, or release claim."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-preview-command-surface.contract.test.js",
-      "sha256": "3bb806a9101ca5a9e8c28d0ef21ea2ef80a4f4de88f3245efc4c0fc07d95faf9",
+      "sha256": "c4f22a7d1f98bfd57bf983462087f501b67358b0c1525291ad75f0bf3aeb97f7",
       "approvedBy": "ticket:DOCX_IMPORT_SAFE_CREATE_ADMISSION_001",
       "approvedAtUtc": "2026-06-30T16:58:00.000Z",
       "rationale": "DOCX_IMPORT_SAFE_CREATE_ADMISSION_001 approves the bounded main-only DOCX import preview command-surface contract update to register only validated ready preview plans into the DOCX safe-create admission registry while preserving requestId validation, canonical source-report stripping, wrapped command ok semantics, blocked source reports as inner import-preview failures, helper fail-closed behavior, forbidden intake review apply storage export result guards, and no renderer, preload, UI, storage write, import mutation, DOCX reparse, export rewrite, network, dependency, or release claim."
@@ -3720,14 +3720,14 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-hostile-file-gate.contract.test.js",
-      "sha256": "2f4a19d477df58e34d983a023fa6bc501368b8b0861c727efdf5bd4686dcd895",
+      "sha256": "c562e3e4f1afba9652936372ad125b7b6f196bba2004fe3ffaf7a6cd82f6ee32",
       "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
       "approvedAtUtc": "2026-07-12T23:00:00.000Z",
       "rationale": "Approve hostile gate coverage distinguishing internal OOXML relationships from literal, encoded, and malformed external TargetMode values while preserving all ZIP and XML defenses."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-package-boundary.contract.test.js",
-      "sha256": "6acf29145997cef13162f9a40ed234674e0a669ab10f111919a3a1c089ae81fd",
+      "sha256": "bc0e7be09ab2d34bdc7c4727563fc0469d658e3807193c26de4977e0396f2cf5",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
       "approvedAtUtc": "2026-07-29T17:48:00.000Z",
       "rationale": "Approve bounded W5 V6 DOCX package-boundary contract allowlist sync so the existing dirty-tree guard can run alongside W5 local hardening status, verifier, Word evidence guard, and governance approval files while preserving package budget semantics, parser authority limits, no release DONE, no dependency, no runtime behavior change, no UI change, no DOCX Minimal behavior change, and no writer authority change."
@@ -3741,7 +3741,7 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
-      "sha256": "64e25d7fdfac87bad422dad07edc49b91cb2308fe766093d86679ab646d10d3d",
+      "sha256": "22e26ae308c4080ec4c58ada6d12da743a65c636b7f9b5a3878f74a7540bd805",
       "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
       "approvedAtUtc": "2026-07-12T23:00:00.000Z",
       "rationale": "Approve materializer contract alignment with the honest relationship-part diagnostic code while preserving all binary bounds and rejection behavior."
@@ -4599,6 +4599,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C00_FULL_ATLAS_UX_CONTOUR_COMPILATION",
       "approvedAtUtc": "2026-07-30T00:29:18.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E05 C00 compilation receipt: records the Stage 05 Full Atlas UX contour queue, Design Tool Router application, Lazyweb and local brain reference evidence, Design OS surface authority boundaries, expected write sets, heavy-surface and quiet-WRITE constraints, accessibility parity requirements, degraded capability reporting, and no direct product UI code, storage, network, dependency, or external-service mutation in the compilation contour."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE_RECEIPT.json",
+      "sha256": "669f9bd8e1ebf4c6ef09647ae9a6f210b2a8566648ec68c60caa84ef6d315a1a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE",
+      "approvedAtUtc": "2026-07-30T00:49:56.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C01 receipt: records the Atlas overview read model, read-only surface manifest, workspace query bridge provider, right-rail typed slot contribution, progressive disclosure sections, deterministic unavailable and empty fallbacks, Lazyweb and UI Craft design-route evidence, synchronized renderer bundle, and no product-truth, storage, network, command-bypass, worker, dependency, or external-service expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
+      "sha256": "7510238320c90d0b1b47ca074fa7e800166f12171c45aeca87390d1dd2f02997",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE",
+      "approvedAtUtc": "2026-07-30T00:49:56.000Z",
+      "rationale": "Approve E05 C01 contract test coverage for the Atlas overview surface: proves deterministic overview derivation and surface manifest metadata, unavailable and empty states without mutation, public barrel exports and side-effect boundaries, renderer and main-process query-bridge wiring through a typed host, progressive disclosure presence, and no storage, network, command bypass, or renderer-side product mutation."
     }
   ]
 }

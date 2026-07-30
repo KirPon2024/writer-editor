@@ -44,6 +44,13 @@ export {
   sortAtlasLocalGraphNodes,
 } from './atlasLocalGraphTypes.mjs';
 export {
+  ATLAS_OVERVIEW_SCHEMA_VERSION,
+  ATLAS_OVERVIEW_SURFACE_MANIFEST_VERSION,
+  sortAtlasOverviewEntities,
+  sortAtlasOverviewRelations,
+  sortAtlasOverviewSceneCoverage,
+} from './atlasOverviewTypes.mjs';
+export {
   ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
   buildAtlasTemporalContinuityFromObservationAggregate,
   buildAtlasTemporalContinuityIncrementally,
@@ -70,6 +77,7 @@ export {
   buildAtlasLocalGraphFromTemporalContinuity,
   deriveAtlasLocalGraph,
 } from './deriveAtlasLocalGraph.mjs';
+export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOverview.mjs';
 export {
   acceptAtlasLocalGraphLayoutResult,
   buildAtlasLocalGraphLayoutPlan,

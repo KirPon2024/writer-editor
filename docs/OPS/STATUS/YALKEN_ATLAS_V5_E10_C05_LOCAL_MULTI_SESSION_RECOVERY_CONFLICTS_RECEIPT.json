@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E10_C05_LOCAL_MULTI_SESSION_RECOVERY_CONFLICTS_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E10_C05_LOCAL_MULTI_SESSION_RECOVERY_AND_CONFLICT_ENVELOPES",
+  "programStage": "E10_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T17:54:36Z",
+  "validatedAtUtc": "2026-07-30T17:54:36Z",
+  "baseSha": "e720743a1edf5b9fee4ed220226b6f111cb09b2e",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E10 C05 adds pure local multi-session recovery and typed conflict evidence under existing collab utilities. It changes no product UI screen, visual composition, renderer surface, Design OS manifest, typography, layout, storage adapter, network adapter, project truth, or manuscript writer.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "e720743a1edf5b9fee4ed220226b6f111cb09b2e",
+    "originMainDriftReconciled": true,
+    "previousBoundHead": "31cbd983fc22447347aef85d3a1fc07adfe52525",
+    "reconciledOriginMainHead": "e720743a1edf5b9fee4ed220226b6f111cb09b2e",
+    "driftReconciliationMethod": "preserve WIP, fast-forward branch to origin/main, reapply WIP without conflicts, rerun focused and full evidence",
+    "stage10CompilationReceiptExists": true,
+    "stage10CompilationNextContour": "E10_C05_LOCAL_MULTI_SESSION_RECOVERY_AND_CONFLICT_ENVELOPES",
+    "rtkWordC03AdjacencyPreserved": true,
+    "localMultiSessionRecoverySchema": "collab-local-multi-session-recovery.report.v1",
+    "localConflictEnvelopeSchema": "collab-local-conflict-envelope.v1",
+    "offlineRecoveryProofSchema": "collab-offline-recovery.proof.v1",
+    "deterministicReplay": true,
+    "multiSessionInput": true,
+    "conflictEnvelopeProduced": true,
+    "collisionReport": "conflicts array plus summary conflictCount and manualDecisionRequiredCount",
+    "manualPreviewRequired": true,
+    "commandKernelApplyRequired": true,
+    "capabilityRevalidationRequired": true,
+    "rollbackProof": true,
+    "reopenHashProof": true,
+    "offlineHeldLocalRecoveryProof": true,
+    "payloadHashOnly": true,
+    "authorTruthCopiedIntoReceipt": false,
+    "automaticMerge": false,
+    "networkCollaboration": false,
+    "networkDispatch": false,
+    "destructiveRecovery": false,
+    "silentProjectRewrite": false,
+    "secondOperationLogTruth": false,
+    "secondCommentTruth": false,
+    "projectTruthMutation": false,
+    "directManuscriptMutation": false,
+    "uiChanged": false,
+    "storageAdapterChanged": false,
+    "newDependencyAdded": false
+  },
+  "productPlane": {
+    "dataAuthority": "Existing Product Core and manuscript truth remain authoritative. E10 C05 produces deterministic local recovery reports, conflict envelopes, rollback and reopen evidence, and offline queue proof with hashes only; none of these artifacts becomes author truth, operation log truth, comment truth, or project truth.",
+    "writePath": "No project, manuscript, storage, renderer, transport, account, or network write path. Manual conflict resolution is represented as a preview-required Command Kernel route and cannot apply without later command authority and capability revalidation.",
+    "readPath": "buildLocalMultiSessionRecoveryReport reads local session event metadata, local state hashes, optional recovery snapshot identities, and existing collab merge semantics. Manuscript text and command payload bodies are excluded from the report.",
+    "portsAndAdapters": "No runtime adapter, storage adapter, network adapter, account adapter, CRDT adapter, renderer adapter, or transport provider is introduced."
+  },
+  "interfacePlane": {
+    "designRoute": "NOT_APPLICABLE",
+    "surfaceManifest": "NOT_CHANGED",
+    "typedSlot": "NOT_CHANGED",
+    "rendererMutation": false,
+    "notes": "Conflict evidence may feed later Design OS projections, but this contour does not alter any UI surface."
+  },
+  "acceptanceProof": {
+    "localMultiSessionRecoveryReport": true,
+    "deterministicReplayProof": true,
+    "typedConflictEnvelope": true,
+    "collisionReport": true,
+    "manualDecisionRoute": true,
+    "previewRequired": true,
+    "commandKernelApplyRequired": true,
+    "capabilityRevalidationRequired": true,
+    "rollbackProof": true,
+    "reopenProof": true,
+    "offlineHeldLocalRecoveryProof": true,
+    "invalidEventTypedEnvelope": true,
+    "hashOnlyPayloadExclusion": true,
+    "noAutomaticMerge": true,
+    "noNetworkCollaboration": true,
+    "noDestructiveRecovery": true,
+    "noSilentProjectRewrite": true,
+    "noSecondOperationLogTruth": true,
+    "noSecondCommentTruth": true,
+    "noUiMutation": true,
+    "noStorageWriter": true,
+    "nextContour": "E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY"
+  },
+  "changedBasenames": [
+    "mergePolicy.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e10-c05-local-multi-session-recovery-conflicts.contract.test.js",
+    "YALKEN_ATLAS_V5_E10_C05_LOCAL_MULTI_SESSION_RECOVERY_CONFLICTS_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "sourceHashes": {
+    "mergePolicy.mjs": "5100ee7840b7a795fb2955cf4da1e7b5b35e052350bbc444b8aa80e1789261af",
+    "index.mjs": "abf1022cb538f04197bd989c19babc969bbe1eda149319fa1c014ea232ce165e",
+    "focusedContract": "c6a4f676623d64a74a42c5061b5461502976498f81df4db8287d70cd32e91762"
+  },
+  "validation": [
+    {
+      "command": "node --check mergePolicy.mjs and collab index and E10 C05 contract",
+      "result": "PASS",
+      "summary": "syntax checks passed"
+    },
+    {
+      "command": "node --test E10 C05 focused plus adjacent E10 C04, collab conflict, merge, replay, causal queue, event log, apply, no-network, comments-history, recovery, and RTK C03 contracts",
+      "result": "PASS",
+      "summary": "31 tests, 31 pass, 0 fail after origin/main drift reconciliation to e720743a"
+    },
+    {
+      "command": "node scripts/ops/collab-causal-queue-readiness-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_CAUSAL_QUEUE_READINESS_OK=1; status READY"
+    },
+    {
+      "command": "node scripts/ops/collab-stress-safe-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_STRESS_SAFE_OK=1; no missing files, no network wiring, no core bypass"
+    },
+    {
+      "command": "node scripts/ops/comments-history-safe-state.mjs",
+      "result": "PASS",
+      "summary": "COMMENTS_HISTORY_SAFE_OK=1"
+    },
+    {
+      "command": "node scripts/ops/recovery-io-state.mjs",
+      "result": "PASS",
+      "summary": "RECOVERY_IO_OK=1"
+    },
+    {
+      "command": "node scripts/ops/governance-approval-state.mjs and governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "approval registry valid; GOVERNANCE_CHANGE_OK=1 before final receipt approval hash append"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "exit code 0; 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace PASS; menu checks PASS; law path canon PASS; execution sequence PASS; release candidate verify PASS"
+    }
+  ],
+  "notes": {
+    "falseGreenGuard": "All PASS rows in this receipt were recorded only after the commands completed successfully. PENDING or NOT_RUN rows must not be interpreted as PASS. The receipt's own governance approval is intentionally recorded after this file's SHA is computed, so this receipt does not claim a precomputed self-approval.",
+    "payloadBoundary": "The local multi-session recovery report carries event references, state hashes, payload hashes, conflict envelopes, rollback proof, reopen proof, and offline recovery proof only. It does not copy manuscript text, command payload bodies, author truth values, storage paths, account identities, remote presence, or transport endpoints.",
+    "driftBoundary": "Origin/main advanced to e720743a with RTK Word C03 while this contour was in local WIP. The branch was fast-forwarded to origin/main, WIP was reapplied without conflicts, and focused, ops, doctrine, OSS, diff, and full runner checks were repeated before this receipt was created."
+  },
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E10 C05 adds deterministic local multi-session recovery and typed conflict envelopes. It exposes rollback, reopen, offline held-local, and manual preview-required route evidence without mutating project truth, manuscript, storage, renderer, command state, network, account, or transport.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY"
+}

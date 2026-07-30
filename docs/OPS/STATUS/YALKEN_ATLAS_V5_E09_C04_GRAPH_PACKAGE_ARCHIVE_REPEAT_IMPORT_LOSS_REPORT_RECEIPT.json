@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E09_C04_GRAPH_PACKAGE_ARCHIVE_REPEAT_IMPORT_LOSS_REPORT_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E09_C04_GRAPH_PACKAGE_ARCHIVE_REPEAT_IMPORT_AND_LOSS_REPORT",
+  "programStage": "E09_STAGE_09_SERIES_AND_PORTABILITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T14:43:22Z",
+  "baseSha": "1dfb3d8f6f2243114445a8f7f66de809a390358d",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E09 C04 adds local pure Atlas graph package, archive integration proof, repeat import validation, explicit loss report, and SVG plus HTML print packet evidence adapters. It changes no product UI screen, visual composition, layout, palette, typography, renderer surface, Design OS surface, storage adapter, network adapter, or project shell.",
+  "featureIntegrationManifest": {
+    "featureId": "atlas.graphPackage.archive.repeatImport.v1",
+    "productPlane": {
+      "owner": "Product Core export and import ports",
+      "readPath": [
+        "Atlas ExportIR readable JSON packet",
+        "project.atlas author data",
+        "safe project unknown fields",
+        "Atlas graph package",
+        "explicit graph package loss report"
+      ],
+      "writePath": [],
+      "storageAdapter": "none in C04; archive proof is pathless and materialization remains a later local adapter",
+      "newStorageAdapter": false,
+      "projectTruthMutation": false,
+      "manuscriptMutation": false
+    },
+    "commandPlane": {
+      "newCommands": [],
+      "capabilityRevalidation": "NOT_APPLICABLE in C04 because repeat import remains preview-only and no apply authority is introduced.",
+      "previewOnlyImport": true,
+      "collisionReport": "NOT_APPLICABLE in C04; cross-book apply authority remains in E09 C02 Command Kernel coverage."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "graphPackageSchema": "atlas.graphPackage.v1",
+    "lossReportSchema": "atlas.graphPackageLossReport.v1",
+    "derivedRebuildContractSchema": "atlas.derivedRebuildContract.v1",
+    "archiveIntegrationProofSchema": "atlas.fullArchiveIntegrationProof.v1",
+    "imagePdfEvidenceSchema": "atlas.graphPackageImagePdfEvidence.v1",
+    "repeatImportProofSchema": "atlas.graphPackageRepeatImportProof.v1",
+    "scopeIn": [
+      "graph package schema over Atlas ExportIR readable JSON",
+      "full archive content proof for author truth, language tags, evidence identities, custom vocabularies, series references, and unknown fields",
+      "full archive integration proof with required package, readable JSON, and loss report entries",
+      "derived data omission only with deterministic rebuild proof",
+      "explicit loss report with blocking loss fail-closed behavior",
+      "repeat import validation with package hash and rebuild contract checks",
+      "Atlas image evidence adapter over versioned ExportIR graph package",
+      "Atlas PDF evidence adapter over local SVG and HTML print packet pattern"
+    ],
+    "scopeOut": [
+      "cloud archive",
+      "paid or remote PDF renderer",
+      "binary PDF generation claim",
+      "irreversible import",
+      "filesystem path materialization",
+      "project truth mutation",
+      "manuscript mutation",
+      "renderer import or export UI"
+    ],
+    "authorTruthPreserved": true,
+    "languageTagsPreserved": true,
+    "evidenceIdentitiesPreserved": true,
+    "customVocabulariesPreserved": true,
+    "seriesReferencesPreserved": true,
+    "unknownFieldsPreserved": true,
+    "lossReportExplicit": true,
+    "derivedRebuildProofRequired": true,
+    "repeatImportPreviewOnly": true,
+    "imageEvidenceAdapter": "svg",
+    "pdfEvidenceAdapter": "html-print-packet",
+    "binaryPdfGenerated": false,
+    "projectTruthMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false
+  },
+  "runtimeFacts": {
+    "graphPackageExists": true,
+    "fullArchiveIntegrationProofExists": true,
+    "fullArchivePreservesAuthorTruth": true,
+    "fullArchivePreservesLanguageTags": true,
+    "fullArchivePreservesEvidenceIdentities": true,
+    "fullArchivePreservesCustomVocabularies": true,
+    "fullArchivePreservesSeriesReferences": true,
+    "fullArchivePreservesUnknownFields": true,
+    "lossReportExists": true,
+    "derivedRebuildContractExists": true,
+    "repeatImportProofExists": true,
+    "atlasImageEvidenceAdapterExists": true,
+    "atlasPdfEvidenceAdapterExists": true,
+    "binaryPdfGenerationClaim": false,
+    "applyAuthorityExists": false,
+    "irreversibleImport": false,
+    "remoteArchiveService": false,
+    "projectTruthMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "newDependency": false
+  },
+  "validation": [
+    {
+      "command": "node --check E09 C04 source and contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E09 C04 contract",
+      "result": "PASS",
+      "summary": "5 tests, 5 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "executedAtUtc": "2026-07-30T14:48:35Z",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline, menu, law path canon, execution sequence, and release candidate checks PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": "NOT_APPLICABLE_NO_COMMAND_OR_APPLY_AUTHORITY",
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E09 C04 creates a deterministic pathless Atlas graph package over versioned ExportIR, proves full archive coverage for author truth, language tags, evidence identities, custom vocabularies, series references, and safe unknown fields, omits derived graph data only with deterministic rebuild proof and explicit nonblocking loss report, validates repeat import as preview-only, and supplies local SVG plus HTML print packet evidence adapters without project truth, manuscript, storage, network, renderer, binary PDF, or UI mutation.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_AND_STAGE_09_ACCEPTANCE"
+}

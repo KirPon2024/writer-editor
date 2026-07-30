@@ -30,6 +30,20 @@
       "rationale": "Approve focused post-D1 portability contract: proves A00 and A01 are bounded, D1 history is immutable, latest Word remains uncertified, all external editor profiles require physical evidence and reject fixture-only PASS, writer formatting scale lanes and locator research queue are present, harness guard and ledger are synthetic-only, and false certification or fixture-only profile PASS mutations fail."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AUTONOMY_BOUNDARY_RECEIPT.json",
+      "sha256": "09e58aa2be875939404f755972af67537e409666e90cfd6acaff9f7af3d20342",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T13:37:09.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E09 C01 receipt: records pure derived series package manifest, pathless book reference rows, book autonomy proof, package hash, private path and embedded content fail-closed behavior, no silent source project rewrite, no UI, no storage adapter, no command dispatch, no project truth mutation, no manuscript mutation, no storage, no network, no renderer mutation, no dependency, and handoff to E09 C02."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e09-c01-series-atlas-package-manifest-autonomy-boundary.contract.test.js",
+      "sha256": "581117cd369dd0634e97afb561f7791cf1d0271f4511b7213dcf8ea445d60651",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T13:24:36.000Z",
+      "rationale": "Approve E09 C01 contract coverage: proves the series package manifest is pathless and deterministic, keeps each book autonomous, blocks private paths and embedded content before output, fails closed for missing capability or project, binds receipt scope and next handoff to E09 C02, exports through derived barrels, and keeps filesystem, network, Electron, DOM, Worker, timer, storage, command-dispatch, project-truth, manuscript, renderer mutation, silent rewrite, release readiness, and final Program DoD bypass paths absent."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C00_STAGE_09_SERIES_PORTABILITY_CONTOUR_COMPILATION_RECEIPT.json",
       "sha256": "98b495502e59749664f4b72b515892c8fa6d5fec7805255d51a9575567117bf6",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C00_STAGE_09_SERIES_AND_PORTABILITY_CONTOUR_COMPILATION",

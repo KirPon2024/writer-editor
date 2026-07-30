@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "fixture.atlas.ruEnDeepCertificationCorpus.v1",
+  "threshold": {
+    "precision": 1,
+    "recall": 1,
+    "f1": 1
+  },
+  "languages": [
+    {
+      "languageCode": "en",
+      "accepted": true,
+      "claims": ["nerFixture", "coreferenceFixture", "dialogueFixture", "eventFixture", "roleFixture"]
+    },
+    {
+      "languageCode": "ru",
+      "accepted": true,
+      "claims": ["nerFixture", "coreferenceFixture", "dialogueFixture", "eventFixture", "roleFixture"]
+    },
+    {
+      "languageCode": "de",
+      "accepted": false,
+      "claims": []
+    },
+    {
+      "languageCode": "ar",
+      "accepted": false,
+      "claims": []
+    }
+  ],
+  "cases": [
+    {
+      "caseId": "en-dialogue-promise-coref",
+      "languageCode": "en",
+      "dimensions": ["ner", "dialogue", "coreference", "event", "role"],
+      "expectations": [
+        { "signalId": "entity:mira", "kind": "ner", "count": 2 },
+        { "signalId": "entity:anna", "kind": "ner", "count": 1 },
+        { "signalId": "speaker:anna", "kind": "dialogue", "count": 1 },
+        { "signalId": "coref:she->anna", "kind": "coreference", "count": 1 },
+        { "signalId": "event:promise:return", "kind": "event", "count": 1 },
+        { "signalId": "role:anna:promiser", "kind": "role", "count": 1 }
+      ],
+      "observed": [
+        { "signalId": "entity:mira", "kind": "ner", "count": 2 },
+        { "signalId": "entity:anna", "kind": "ner", "count": 1 },
+        { "signalId": "speaker:anna", "kind": "dialogue", "count": 1 },
+        { "signalId": "coref:she->anna", "kind": "coreference", "count": 1 },
+        { "signalId": "event:promise:return", "kind": "event", "count": 1 },
+        { "signalId": "role:anna:promiser", "kind": "role", "count": 1 }
+      ]
+    },
+    {
+      "caseId": "ru-dialogue-return-coref",
+      "languageCode": "ru",
+      "dimensions": ["ner", "dialogue", "coreference", "event", "role"],
+      "expectations": [
+        { "signalId": "entity:мария", "kind": "ner", "count": 2 },
+        { "signalId": "entity:софья", "kind": "ner", "count": 1 },
+        { "signalId": "speaker:мария", "kind": "dialogue", "count": 1 },
+        { "signalId": "coref:она->мария", "kind": "coreference", "count": 1 },
+        { "signalId": "event:обещание:вернуться", "kind": "event", "count": 1 },
+        { "signalId": "role:мария:promiser", "kind": "role", "count": 1 }
+      ],
+      "observed": [
+        { "signalId": "entity:мария", "kind": "ner", "count": 2 },
+        { "signalId": "entity:софья", "kind": "ner", "count": 1 },
+        { "signalId": "speaker:мария", "kind": "dialogue", "count": 1 },
+        { "signalId": "coref:она->мария", "kind": "coreference", "count": 1 },
+        { "signalId": "event:обещание:вернуться", "kind": "event", "count": 1 },
+        { "signalId": "role:мария:promiser", "kind": "role", "count": 1 }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,27 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_DEGRADATION_RECEIPT.json",
+      "sha256": "0e4e3435637ceab5bb64d3fde909842ecb50359117d4e0b7357bf3f601c83b4a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_AND_DEGRADATION",
+      "approvedAtUtc": "2026-07-30T07:13:08.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C07 delivery receipt: records local verified implementation of read-only RU EN Deep fixture certification, explicit corpus-only capability report binding, DE and AR degradation to exact-only, per-language decertification behavior, no production runtime claim, no manuscript mutation, no project truth mutation, no storage, no network, no runtime download, no dynamic executable plugin, no UI runtime change, no new dependency, focused pass evidence, ops guard pass, and full runner pass evidence before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c07-ru-en-deep-fixture-certification-degradation.contract.test.js",
+      "sha256": "9065851e49314a89d5af621fc67640b1e279e167c1b51aefeaeb975d693a1fe8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_AND_DEGRADATION",
+      "approvedAtUtc": "2026-07-30T07:10:31.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C07 contract: proves local free RU and EN Deep fixture certification with deterministic corpus metrics, degrades unsupported languages to BASIC or GLOBAL exact-only without blocking certified languages, decertifies a failing RU fixture without mutating EN or promoting English fallback, binds capability report Deep rows only through explicit corpus input, exports through derived barrels, and keeps new sources free of storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, production runtime claim, release readiness claim, project truth mutation, manuscript mutation, or hidden UI bypasses."
+    },
+    {
+      "filePath": "test/fixtures/atlas/language/ru-en-deep-fixture-certification-corpus.json",
+      "sha256": "35a81e5342b1919e51b0e678ab3f19d5800c18a6396c98bc2283a809c5c162fe",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_AND_DEGRADATION",
+      "approvedAtUtc": "2026-07-30T07:10:31.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C07 RU EN Deep fixture corpus: provides local free deterministic EN and RU NER coreference dialogue event and role fixture metrics at precision recall and F1 threshold 1.0 plus DE and AR degradation rows, no private data, no production language resource, no model file, no runtime dependency, no paid service, no network service, and no executable artifact."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_ADAPTER_STUB_RECEIPT.json",
       "sha256": "33b103c9ec73d44c215eb5bc9b4cdbeb6610559eb38a54873240b80a8af7cd56",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_AND_ADAPTER_STUB",

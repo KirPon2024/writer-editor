@@ -166,11 +166,21 @@ function buildAdapterStub(resourceManifest) {
   };
 }
 
+function isSafeAcceptedCandidate(candidate, status) {
+  return candidate.status === status
+    && candidate.offlineOnly === true
+    && candidate.networkRequired === false
+    && candidate.runtimeDownload === false
+    && candidate.dynamicExecutablePlugin === false
+    && candidate.licenseAccepted === true
+    && (status !== ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.ACCEPTED_CERTIFIED || candidate.corpusMetricsAvailable === true);
+}
+
 function chooseDecisionStatus(candidates) {
-  if (candidates.some((candidate) => candidate.status === ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.ACCEPTED_CERTIFIED)) {
+  if (candidates.some((candidate) => isSafeAcceptedCandidate(candidate, ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.ACCEPTED_CERTIFIED))) {
     return ATLAS_DEEP_ENGINE_DECISION_STATUS.CERTIFIED_OFFLINE;
   }
-  if (candidates.some((candidate) => candidate.status === ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.ACCEPTED_EXPERIMENTAL)) {
+  if (candidates.some((candidate) => isSafeAcceptedCandidate(candidate, ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.ACCEPTED_EXPERIMENTAL))) {
     return ATLAS_DEEP_ENGINE_DECISION_STATUS.EXPERIMENTAL_NOT_CERTIFIED;
   }
   return ATLAS_DEEP_ENGINE_DECISION_STATUS.UNAVAILABLE_LOCAL_STUB_ONLY;
@@ -188,7 +198,7 @@ export function deriveAtlasDeepEngineDecision(input = {}) {
   const adapterStub = buildAdapterStub(resourceManifest);
   const decisionStatus = chooseDecisionStatus(candidates);
   const certifiedLanguages = [...new Set(candidates
-    .filter((candidate) => candidate.status === ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.ACCEPTED_CERTIFIED)
+    .filter((candidate) => isSafeAcceptedCandidate(candidate, ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.ACCEPTED_CERTIFIED))
     .flatMap((candidate) => candidate.certifiedLanguages))]
     .sort((left, right) => left.localeCompare(right, 'en', { sensitivity: 'variant' }));
   const decisionHash = hashCanonicalValue({

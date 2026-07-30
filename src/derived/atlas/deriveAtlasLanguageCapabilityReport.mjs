@@ -9,6 +9,9 @@ import { ATLAS_BASIC_LANGUAGE_PACK_STATUS } from './atlasBasicLanguagePackTypes.
 import { deriveAtlasComplexScriptExactOnlyGuards } from './deriveAtlasComplexScriptExactOnlyGuards.mjs';
 import { ATLAS_COMPLEX_SCRIPT_GUARD_STATUS } from './atlasComplexScriptGuardTypes.mjs';
 import { deriveAtlasDeepEngineDecision } from './deriveAtlasDeepEngineDecision.mjs';
+import { deriveAtlasDeepFixtureCertification } from './deriveAtlasDeepFixtureCertification.mjs';
+import { ATLAS_DEEP_ENGINE_CANDIDATE_STATUS } from './atlasDeepEngineDecisionTypes.mjs';
+import { ATLAS_DEEP_FIXTURE_STATUS } from './atlasDeepFixtureCertificationTypes.mjs';
 import {
   ATLAS_LANGUAGE_CAPABILITY_GUARD_SCHEMA_VERSION,
   ATLAS_LANGUAGE_CAPABILITY_LEVEL,
@@ -130,7 +133,9 @@ function buildLanguageRow(languageCode, certificationByLanguageCode, complexGuar
   };
 }
 
-function buildDeepUnavailableRow(languageCode) {
+function buildDeepUnavailableRow(languageCode, deepFixtureRow = null) {
+  const decertified = deepFixtureRow?.status === ATLAS_DEEP_FIXTURE_STATUS.DECERTIFIED_BY_CORPUS;
+  const degraded = deepFixtureRow?.status === ATLAS_DEEP_FIXTURE_STATUS.DEGRADED_TO_EXACT_ONLY;
   return {
     schemaVersion: ATLAS_LANGUAGE_CAPABILITY_ROW_SCHEMA_VERSION,
     languageCode,
@@ -152,8 +157,74 @@ function buildDeepUnavailableRow(languageCode) {
       'roles',
       'relationProposals',
     ],
-    corpusMetricsStatus: 'blocked-until-engine-decision-and-corpus-metrics',
+    corpusMetricsStatus: decertified
+      ? 'decertified-by-e07-c07-deep-fixture-metrics'
+      : degraded
+        ? 'degraded-to-basic-or-global-exact-only-by-e07-c07'
+        : 'blocked-until-engine-decision-and-corpus-metrics',
+    corpusMetrics: deepFixtureRow
+      ? {
+        caseCount: deepFixtureRow.caseCount,
+        passedCaseCount: deepFixtureRow.passedCaseCount,
+        precision: deepFixtureRow.precision,
+        recall: deepFixtureRow.recall,
+        f1: deepFixtureRow.f1,
+      }
+      : null,
+    deepFixtureCertification: deepFixtureRow
+      ? {
+        status: deepFixtureRow.status,
+        fixtureOnly: true,
+        productionRuntimeClaim: false,
+        downgradeTarget: deepFixtureRow.downgradeTarget,
+      }
+      : null,
     downgradeTarget: 'BASIC_OR_GLOBAL_EXACT_ONLY',
+  };
+}
+
+function buildCertifiedDeepFixtureRow(languageCode, deepFixtureRow) {
+  return {
+    schemaVersion: ATLAS_LANGUAGE_CAPABILITY_ROW_SCHEMA_VERSION,
+    languageCode,
+    claimLevel: ATLAS_LANGUAGE_CAPABILITY_LEVEL.DEEP,
+    status: ATLAS_LANGUAGE_CAPABILITY_STATUS.CERTIFIED_DEEP_FIXTURE,
+    analyzerId: deepFixtureRow.adapterId,
+    exactOnly: false,
+    fuzzyMatching: false,
+    englishFallback: false,
+    deepSupported: true,
+    unsupportedLanguageExactOnly: false,
+    certifiedCapabilities: [
+      'ner',
+      'constrainedCoreference',
+      'dialogue',
+      'eventExtraction',
+      'roles',
+      'corpusFixtureMetrics',
+    ],
+    unavailableCapabilities: [
+      'morphology',
+      'relationProposals',
+      'productionRuntimeResource',
+      'automaticManuscriptRewrite',
+    ],
+    corpusMetricsStatus: 'certified-by-e07-c07-ru-en-deep-fixtures',
+    corpusMetrics: {
+      caseCount: deepFixtureRow.caseCount,
+      passedCaseCount: deepFixtureRow.passedCaseCount,
+      precision: deepFixtureRow.precision,
+      recall: deepFixtureRow.recall,
+      f1: deepFixtureRow.f1,
+    },
+    deepFixtureCertification: {
+      status: deepFixtureRow.status,
+      fixtureOnly: true,
+      productionRuntimeClaim: false,
+      claims: deepFixtureRow.claims,
+      downgradeTarget: deepFixtureRow.downgradeTarget,
+    },
+    downgradeTarget: 'BASIC_EXACT_ONLY',
   };
 }
 
@@ -164,11 +235,54 @@ function buildGuards(rows) {
     schemaVersion: ATLAS_LANGUAGE_CAPABILITY_GUARD_SCHEMA_VERSION,
     noSilentEnglishFallback: rows.every((row) => row.englishFallback === false),
     unsupportedExactOnly: unsupportedRows.every((row) => row.exactOnly === true && row.fuzzyMatching === false),
-    noDeepWithoutMetrics: deepRows.every((row) => row.status === ATLAS_LANGUAGE_CAPABILITY_STATUS.UNAVAILABLE && row.deepSupported === false),
+    noDeepWithoutMetrics: deepRows.every((row) => {
+      if (row.status === ATLAS_LANGUAGE_CAPABILITY_STATUS.CERTIFIED_DEEP_FIXTURE) {
+        return row.deepSupported === true
+          && row.deepFixtureCertification?.fixtureOnly === true
+          && row.deepFixtureCertification?.productionRuntimeClaim === false
+          && row.corpusMetrics?.caseCount > 0
+          && row.corpusMetrics?.precision === 1
+          && row.corpusMetrics?.recall === 1
+          && row.corpusMetrics?.f1 === 1;
+      }
+      return row.status === ATLAS_LANGUAGE_CAPABILITY_STATUS.UNAVAILABLE && row.deepSupported === false;
+    }),
     noAutomaticTruthMutation: true,
     noRuntimeDownload: true,
     noDynamicExecutablePlugin: true,
   };
+}
+
+function buildDeepEngineCandidatesFromCertification(deepFixtureCertification) {
+  if (!deepFixtureCertification || deepFixtureCertification.summary.certifiedLanguageCodes.length === 0) return null;
+  return [
+    {
+      candidateId: 'basic-exact-term-v1',
+      candidateKind: 'current-basic-analyzer',
+      status: ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.REJECTED,
+      reason: 'BASIC_EXACT_TERM_V1 remains exact mention evidence only and cannot be promoted to Deep.',
+      offlineOnly: true,
+      networkRequired: false,
+      runtimeDownload: false,
+      dynamicExecutablePlugin: false,
+      licenseAccepted: true,
+      corpusMetricsAvailable: false,
+      certifiedLanguages: [],
+    },
+    {
+      candidateId: 'local-ru-en-deep-fixture-v1',
+      candidateKind: 'local-fixture-adapter',
+      status: ATLAS_DEEP_ENGINE_CANDIDATE_STATUS.ACCEPTED_CERTIFIED,
+      reason: 'C07 local RU EN fixture corpus is certified for deterministic fixture metrics only; no production runtime or release readiness claim.',
+      offlineOnly: true,
+      networkRequired: false,
+      runtimeDownload: false,
+      dynamicExecutablePlugin: false,
+      licenseAccepted: true,
+      corpusMetricsAvailable: true,
+      certifiedLanguages: deepFixtureCertification.summary.certifiedLanguageCodes,
+    },
+  ];
 }
 
 function buildReport({ project, params, meta }) {
@@ -183,12 +297,29 @@ function buildReport({ project, params, meta }) {
     : null;
   const complexGuardByLanguageCode = new Map((complexScriptExactOnlyGuards?.languageRows || [])
     .map((row) => [row.languageCode, row]));
+  const deepFixtureCertification = isPlainObject(params.deepFixtureCertificationCorpus)
+    ? deriveAtlasDeepFixtureCertification({ corpus: params.deepFixtureCertificationCorpus })
+    : null;
+  const deepFixtureByLanguageCode = new Map((deepFixtureCertification?.languageRows || [])
+    .map((row) => [row.languageCode, row]));
   const deepEngineDecision = deriveAtlasDeepEngineDecision({
-    candidates: params.deepEngineCandidates,
+    candidates: params.deepEngineCandidates || buildDeepEngineCandidatesFromCertification(deepFixtureCertification),
   });
+  const certifiedDeepLanguages = new Set(deepEngineDecision.currentDeepCapability === 'CERTIFIED_OFFLINE'
+    ? deepEngineDecision.certifiedLanguages
+    : []);
   const capabilityRows = sortAtlasLanguageCapabilityRows([
     ...languageCodes.map((code) => buildLanguageRow(code, certificationByLanguageCode, complexGuardByLanguageCode)),
-    ...languageCodes.map((code) => buildDeepUnavailableRow(code)),
+    ...languageCodes.map((code) => {
+      const deepFixtureRow = deepFixtureByLanguageCode.get(code) || null;
+      if (
+        certifiedDeepLanguages.has(code)
+        && deepFixtureRow?.status === ATLAS_DEEP_FIXTURE_STATUS.CERTIFIED_DEEP_FIXTURE
+      ) {
+        return buildCertifiedDeepFixtureRow(code, deepFixtureRow);
+      }
+      return buildDeepUnavailableRow(code, deepFixtureRow);
+    }),
   ]);
   const guards = buildGuards(capabilityRows);
   const certifiedExactOnlyCount = capabilityRows
@@ -197,17 +328,19 @@ function buildReport({ project, params, meta }) {
     .filter((row) => row.status === ATLAS_LANGUAGE_CAPABILITY_STATUS.UNSUPPORTED_EXACT_ONLY).length;
   const deepUnavailableCount = capabilityRows
     .filter((row) => row.claimLevel === ATLAS_LANGUAGE_CAPABILITY_LEVEL.DEEP && row.status === ATLAS_LANGUAGE_CAPABILITY_STATUS.UNAVAILABLE).length;
-  const reportHash = hashCanonicalValue({ capabilityRows, guards, analyzerId: ATLAS_OBSERVATION_ANALYZER_ID });
+  const certifiedDeepCount = capabilityRows
+    .filter((row) => row.claimLevel === ATLAS_LANGUAGE_CAPABILITY_LEVEL.DEEP && row.status === ATLAS_LANGUAGE_CAPABILITY_STATUS.CERTIFIED_DEEP_FIXTURE).length;
+  const reportHash = hashCanonicalValue({ capabilityRows, guards, analyzerId: ATLAS_OBSERVATION_ANALYZER_ID, deepFixtureCertification, deepEngineDecision });
   return {
     schemaVersion: ATLAS_LANGUAGE_CAPABILITY_REPORT_SCHEMA_VERSION,
     state: guards.noSilentEnglishFallback && guards.unsupportedExactOnly && guards.noDeepWithoutMetrics ? 'ready' : 'degraded',
     projectId: normalizeString(project.id) || params.projectId,
     analyzer: {
       analyzerId: ATLAS_OBSERVATION_ANALYZER_ID,
-      currentRuntimeKind: 'BASIC_EXACT_TERM',
+      currentRuntimeKind: certifiedDeepCount > 0 ? 'BASIC_EXACT_TERM + LOCAL_DEEP_FIXTURE' : 'BASIC_EXACT_TERM',
       exactOnly: true,
       fuzzyMatching: false,
-      deepRuntimeAvailable: false,
+      deepRuntimeAvailable: certifiedDeepCount > 0,
       remoteModelRequired: false,
     },
     authority: {
@@ -228,7 +361,11 @@ function buildReport({ project, params, meta }) {
       certifiedExactOnlyCount,
       unsupportedExactOnlyCount,
       deepUnavailableCount,
-      falseDeepClaimCount: capabilityRows.filter((row) => row.deepSupported === true).length,
+      certifiedDeepCount,
+      degradedDeepCount: capabilityRows
+        .filter((row) => row.claimLevel === ATLAS_LANGUAGE_CAPABILITY_LEVEL.DEEP && row.corpusMetricsStatus === 'degraded-to-basic-or-global-exact-only-by-e07-c07').length,
+      falseDeepClaimCount: capabilityRows
+        .filter((row) => row.deepSupported === true && row.status !== ATLAS_LANGUAGE_CAPABILITY_STATUS.CERTIFIED_DEEP_FIXTURE).length,
       englishFallbackCount: capabilityRows.filter((row) => row.englishFallback === true).length,
       reportHash,
       invalidationKey: meta.invalidationKey,
@@ -236,6 +373,7 @@ function buildReport({ project, params, meta }) {
     guards,
     basicLanguagePackCertification: languagePackCertification,
     complexScriptExactOnlyGuards,
+    deepFixtureCertification,
     deepEngineDecision,
     capabilityRows,
   };

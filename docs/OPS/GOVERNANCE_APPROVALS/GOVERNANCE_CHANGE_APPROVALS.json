@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "283ec0328d4ef10d97dcf68725047fb4cbbf9168aede6baac26c95f62354c4fe",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:56:54.000Z",
-      "rationale": "Approve bounded public barrel export for B01 through B05 Review Transport helpers plus E10 C01 stable comment anchor packet helpers: exposes manifest, package-aware parser, classifier, exact apply admission adapter, and pure stable comment anchor packet constants/functions through the existing Revision Bridge entrypoint while preserving main command authority, existing exact writer ownership, durable comment identity preference, canonical browser-safe SHA identities, preview-only decision rows, no renderer or UI authority, no storage adapter, no network, no dependency, no product certification expansion, no automatic comment writer authority, and no second comment truth."
+      "sha256": "11c1bf3fe6b18536a035f4193e4b13371239020d253daf2cb0f40f3a9966cb58",
+      "rationale": "Approve bounded public barrel export for C02 authority carrier constants alongside existing Revision Bridge helpers: exposes only the authority carrier schema and custom property name through the existing revisionBridge entrypoint while preserving B01-B05 parser, classifier, exact apply admission, comment/history helpers, main command authority, no renderer or UI authority, no storage adapter, no network, no dependency, and no automatic apply expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
+      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -45,10 +45,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "4d75c4de62a4f54c4d1125ab3728adfa4c3da28194c705c8af0811b80dea6a56",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:33:00.000Z",
-      "rationale": "Approve bounded B03 extension of the platform-neutral package-aware ReviewIRV2 parser core: preserves recursive comment replies, durable IDs, resolved and reopened state, deleted-or-missing expected comments, orphan bodies, comment-on-deleted-text related revisions, duplicate-ID blocking, and no-op comment non-pass while importing no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority and without expanding EXACT or apply authority."
+      "sha256": "31b194da169db5406e71a30c40183bb907f9492180a3f7d5bb2d43f6292d37cf",
+      "rationale": "Approve bounded C02 extension of the platform-neutral package-aware ReviewIRV2 parser core: semantically parses docProps/custom.xml as the C01-physically-proven custom document property authority carrier, verifies the carrier through CryptoPort hmacSha256Json plus local hmacSecret without embedded secret, binds expected scene, sceneRevision, rawSha256, block, round, and export identity, exports immutable exactAuthority inputs while deliberately leaving target uniqueness, overlap, and full XML semantic accounting false until later negative oracles, preserves customXml and docVar non-authority, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not expand automatic apply.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
+      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",
@@ -948,10 +948,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "eb98c93fb88cf0723b7bb6ebe894f6a920bf72a61c882662eccc8fa57e3ef46b",
-      "rationale": "Approve evidence-check allowlist extension for C01 only: adds the C01 locator carrier receipt, lab script, and focused contract test to the bounded revision bridge Word evidence change scope while preserving existing Word evidence gates, governance detection, release claim checks, and no product runtime or UI expansion.",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
-      "approvedAtUtc": "2026-07-30T17:00:09.000Z"
+      "sha256": "edbb629bea3fba99df6c1ee56ec7f86d3cf225c87622d488a5b4b0a004a13915",
+      "rationale": "Approve evidence-check allowlist extension for C02 only: adds the C02 authority carrier receipt and focused contract test to the bounded revision bridge Word evidence change scope while preserving existing parser, classifier, exact apply, governance detection, release claim checks, and no product runtime or UI expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
+      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",
@@ -5411,6 +5411,20 @@
       "rationale": "Approve focused C01 contract coverage: verifies the physical locator carrier receipt, selected custom document property authority candidate, customXml and docVar non-authority on mutating saves, Word-created source construction, GUI-close saved-lab-only policy, zero false EXACT counters, Word-only sequencing with Google Docs next after saturation and no master-plan reduction, CLI receipt evaluation without Word in CI, no product UI/network/runtime overclaim, and no broad compatibility certification.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
       "approvedAtUtc": "2026-07-30T17:00:09.000Z"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C02_AUTHORITY_CARRIER_RECEIPT.json",
+      "sha256": "945438c6c4b32b2f9ee06505071b9eef500ed203725ab2bc8534475ac706c3df",
+      "rationale": "Approve bounded C02 authority carrier receipt: records parser integration of the C01 selected customDocumentProperty carrier, binds to physical C01 evidence, records HMAC verification and expected baseline checks, proves missing secret, tampered HMAC, stale scene revision, stale raw hash, duplicate carrier, and verified-carrier-without-uniqueness negatives, keeps falseExact, silentApply, wrongSceneRouting, and replayFailure at zero, preserves Word-only WIP sequencing with Google Docs next after saturation and no master-plan reduction, and makes no automatic apply, block-local exact certification, UI, runtime, network, dependency, other editor, or broad Word saturation claim.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
+      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-saturation-c02-authority-carrier.contract.test.js",
+      "sha256": "939802ff078d5bd795d1adf5d54e522500c2c4ad4123b1c2963cb98e08214dc9",
+      "rationale": "Approve focused C02 contract coverage: proves custom document property authority carrier extraction, HMAC verification, expected baseline binding, docProps/custom.xml semantic inventory, classifier non-exact behavior until target uniqueness and semantic accounting are proven, tampered HMAC and missing-secret blocking, stale baseline blocking, duplicate-carrier ambiguity blocking, public export, receipt nonclaims, and parser core absence of Node, Buffer, child process, network, regex parser, UI, and writer authority.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
+      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
     }
   ]
 }

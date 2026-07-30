@@ -9,12 +9,19 @@ export const RTK_REVIEW_TRANSPORT_PACKAGE_PARSER_V2_PROFILE =
   'yalken.rtk.package-aware-review-ir-parser.v2.b02';
 export const RTK_REVIEW_TRANSPORT_PACKAGE_PARSER_V2_BUILD =
   'bounded-namespace-package-scanner-no-regex-b02';
+export const RTK_REVIEW_TRANSPORT_AUTHORITY_CARRIER_V2_SCHEMA =
+  'yalken.rtk.review-transport-authority-carrier.v2';
+export const RTK_REVIEW_TRANSPORT_AUTHORITY_CUSTOM_PROPERTY_NAMES = Object.freeze([
+  'YRTK_C01_AUTH',
+]);
 
 const W_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const REL_NS = 'http://schemas.openxmlformats.org/package/2006/relationships';
 const CONTENT_TYPES_NS = 'http://schemas.openxmlformats.org/package/2006/content-types';
 const W15_NS = 'http://schemas.microsoft.com/office/word/2012/wordml';
 const W16CID_NS = 'http://schemas.microsoft.com/office/word/2016/wordml/cid';
+const SIGNED_SHA256_RE = /^sha256:[a-f0-9]{64}$/u;
+const HMAC_RE = /^hmac-sha256:[a-f0-9]{64}$/u;
 
 const REQUIRED_PARTS = Object.freeze(['word/document.xml']);
 const CORE_PARTS = Object.freeze([
@@ -27,6 +34,7 @@ const CORE_PARTS = Object.freeze([
   'word/commentsExtensible.xml',
   'word/commentsIds.xml',
   'word/people.xml',
+  'docProps/custom.xml',
 ]);
 const KNOWN_ADVISORY_PARTS = Object.freeze([
   'word/styles.xml',
@@ -98,6 +106,7 @@ function resolveCryptoPort(port) {
     sha256Text: port?.sha256Text?.bind(port),
     sha256Json: port?.sha256Json?.bind(port),
     byteLength: port?.byteLength?.bind(port),
+    hmacSha256Json: typeof port?.hmacSha256Json === 'function' ? port.hmacSha256Json.bind(port) : null,
     crc32: typeof port?.crc32 === 'function' ? port.crc32.bind(port) : null,
   };
 }
@@ -573,6 +582,188 @@ function isWordToken(token, localName) {
 
 function tokenDigest(cryptoPort, payload) {
   return cryptoPort.sha256Json(payload);
+}
+
+function normalizeHmac(value) {
+  const text = rawString(value).trim().toLowerCase();
+  if (HMAC_RE.test(text)) return text;
+  if (/^[a-f0-9]{64}$/u.test(text)) return `hmac-sha256:${text}`;
+  return '';
+}
+
+function base64UrlDecodeText(value) {
+  const text = rawString(value);
+  if (!text.startsWith('YRTK1.')) {
+    return { ok: false, code: 'RTK_AUTHORITY_CARRIER_BAD_PREFIX', value: '' };
+  }
+  if (typeof globalThis.atob !== 'function' || typeof globalThis.TextDecoder !== 'function') {
+    return { ok: false, code: 'RTK_AUTHORITY_CARRIER_DECODE_UNAVAILABLE', value: '' };
+  }
+  try {
+    const encoded = text.slice('YRTK1.'.length).split('-').join('+').split('_').join('/');
+    const padded = `${encoded}${'='.repeat((4 - (encoded.length % 4)) % 4)}`;
+    const binary = globalThis.atob(padded);
+    const bytes = new Uint8Array(binary.length);
+    for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+    return { ok: true, code: 'RTK_AUTHORITY_CARRIER_DECODED', value: new globalThis.TextDecoder().decode(bytes) };
+  } catch {
+    return { ok: false, code: 'RTK_AUTHORITY_CARRIER_DECODE_FAILED', value: '' };
+  }
+}
+
+function customPropertyAuthorityCandidates(parts, budgets, cryptoPort) {
+  const xml = rawString(parts['docProps/custom.xml']);
+  if (!xml) return { candidates: [], reasons: [] };
+  const scan = parseXmlPart('docProps/custom.xml', xml, budgets, cryptoPort);
+  const candidates = [];
+  for (const token of scan.tokens.filter((item) => item.localName === 'property')) {
+    const propertyName = attr(token, 'name');
+    if (!RTK_REVIEW_TRANSPORT_AUTHORITY_CUSTOM_PROPERTY_NAMES.includes(propertyName)) continue;
+    candidates.push({
+      carrier: 'customDocumentProperty',
+      propertyName,
+      encoded: tokenText(xml, token),
+      sourceXmlProvenance: provenance(token),
+    });
+  }
+  return { candidates, reasons: scan.diagnostics };
+}
+
+function validateAuthorityPayload(payload) {
+  const reasons = [];
+  for (const key of ['caseId', 'sceneId', 'sceneRevision', 'blockId', 'roundId', 'exportId']) {
+    if (!rawString(payload?.[key])) {
+      reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', `authorityCarrier.payload.${key}`, 'Authority carrier payload field is required.'));
+    }
+  }
+  if (!SIGNED_SHA256_RE.test(rawString(payload?.rawSha256))) {
+    reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payload.rawSha256', 'Authority carrier raw hash must be a full lowercase sha256 digest.'));
+  }
+  return reasons;
+}
+
+function verifyAuthorityCandidate(candidate, input, cryptoPort, hmacSecret) {
+  const reasons = [];
+  const decoded = base64UrlDecodeText(candidate.encoded);
+  if (!decoded.ok) {
+    reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.encoded', 'Authority carrier could not be decoded.', {
+      decodeCode: decoded.code,
+    }));
+    return {
+      ...candidate,
+      schemaVersion: RTK_REVIEW_TRANSPORT_AUTHORITY_CARRIER_V2_SCHEMA,
+      visibleToAuthor: false,
+      exactAuthorityCandidate: true,
+      verified: false,
+      validSignedLocator: false,
+      encodedDigest: cryptoPort.sha256Text(candidate.encoded),
+      payloadDigest: '',
+      signatureDigest: '',
+      payload: null,
+      baselineBinding: {},
+      reasons,
+    };
+  }
+  let envelope = null;
+  try {
+    envelope = JSON.parse(decoded.value);
+  } catch {
+    reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.envelope', 'Authority carrier JSON is malformed.'));
+  }
+  const payload = isPlainObject(envelope?.payload) ? envelope.payload : {};
+  reasons.push(...validateAuthorityPayload(payload));
+  const expectedPayloadDigest = cryptoPort.sha256Json(payload);
+  if (rawString(envelope?.payloadDigest) !== expectedPayloadDigest) {
+    reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payloadDigest', 'Authority carrier payload digest mismatch.'));
+  }
+  if (!HMAC_RE.test(rawString(envelope?.signature))) {
+    reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.signature', 'Authority carrier signature must be a full hmac-sha256 digest.'));
+  }
+  if (envelope?.secretEmbeddedInDocx !== false) {
+    reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.secretEmbeddedInDocx', 'Authority carrier secret must not be embedded.'));
+  }
+  if (!cryptoPort.hmacSha256Json || !rawString(hmacSecret)) {
+    reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.hmacSecret', 'Local HMAC secret is required for authority carrier verification.'));
+  } else {
+    const expectedHmac = normalizeHmac(cryptoPort.hmacSha256Json(payload, hmacSecret));
+    if (rawString(envelope?.signature) !== expectedHmac) {
+      reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.signature', 'Authority carrier HMAC mismatch.'));
+    }
+  }
+  const expected = isPlainObject(input.expectedAuthority) ? input.expectedAuthority : {};
+  const expectedKeys = ['sceneId', 'sceneRevision', 'rawSha256', 'blockId', 'roundId', 'exportId'];
+  const baselineBinding = Object.fromEntries(expectedKeys.map((key) => {
+    const expectedValue = rawString(expected[key]);
+    return [`${key}Matches`, Boolean(expectedValue) && rawString(payload[key]) === expectedValue];
+  }));
+  for (const key of expectedKeys) {
+    const expectedValue = rawString(expected[key]);
+    if (expectedValue && rawString(payload[key]) !== expectedValue) {
+      const code = key === 'sceneRevision'
+        ? 'RTK_BLOCKED_STALE_REVISION'
+        : (key === 'rawSha256' ? 'RTK_BLOCKED_STALE_BYTES' : 'RTK_MANUAL_DEGRADED_LOCATOR');
+      reasons.push(reason(code, `authorityCarrier.expectedAuthority.${key}`, 'Authority carrier does not match the expected local baseline.', {
+        expected: expectedValue,
+        actual: rawString(payload[key]),
+      }));
+    }
+  }
+  const allExpectedPresent = expectedKeys.every((key) => rawString(expected[key]));
+  const allExpectedMatched = allExpectedPresent && Object.values(baselineBinding).every(Boolean);
+  const verified = reasons.length === 0;
+  return {
+    ...candidate,
+    schemaVersion: RTK_REVIEW_TRANSPORT_AUTHORITY_CARRIER_V2_SCHEMA,
+    visibleToAuthor: false,
+    exactAuthorityCandidate: true,
+    verified,
+    validSignedLocator: verified && allExpectedMatched,
+    encodedDigest: cryptoPort.sha256Text(candidate.encoded),
+    payloadDigest: expectedPayloadDigest,
+    signatureDigest: normalizeHmac(envelope?.signature),
+    payload: cloneJsonSafe(payload),
+    baselineBinding: {
+      ...baselineBinding,
+      allExpectedPresent,
+      allExpectedMatched,
+    },
+    reasons,
+  };
+}
+
+function analyzeAuthorityCarriers(input, parts, budgets, cryptoPort) {
+  const found = customPropertyAuthorityCandidates(parts, budgets, cryptoPort);
+  const reasons = [...found.reasons];
+  const carriers = found.candidates.map((candidate) => verifyAuthorityCandidate(
+    candidate,
+    input,
+    cryptoPort,
+    input.hmacSecret,
+  ));
+  if (carriers.length > 1) {
+    reasons.push(reason('RTK_BLOCKED_AMBIGUOUS_TEXT', 'authorityCarrier', 'Multiple authority carriers are ambiguous and cannot grant exact authority.'));
+  }
+  for (const carrier of carriers) reasons.push(...carrier.reasons);
+  const selected = carriers.length === 1 ? carriers[0] : null;
+  const exactAuthority = {
+    validSignedLocator: selected?.validSignedLocator === true,
+    sceneRevisionUnchanged: selected?.baselineBinding?.sceneRevisionMatches === true,
+    rawSha256Unchanged: selected?.baselineBinding?.rawSha256Matches === true,
+    uniqueTarget: false,
+    nonOverlapping: false,
+    allRelevantXmlSemanticsAccounted: false,
+    ambiguousDuplicate: carriers.length > 1,
+    crossScene: false,
+    structuralTopologyChanged: false,
+  };
+  return {
+    schemaVersion: RTK_REVIEW_TRANSPORT_AUTHORITY_CARRIER_V2_SCHEMA,
+    status: selected?.validSignedLocator === true ? 'verified-baseline-bound' : (carriers.length > 0 ? 'present-not-authoritative' : 'missing'),
+    selectedCarrier: selected,
+    carriers,
+    exactAuthority,
+    reasons,
+  };
 }
 
 function parseTextRevisions(documentXml, documentScan, cryptoPort) {
@@ -1177,6 +1368,8 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
   const relationships = parseRelationshipParts(parts, budgets, cryptoPort);
   const contentTypes = parseContentTypes(parts['[Content_Types].xml'], budgets, cryptoPort);
   reasons.push(...relationships.reasons, ...contentTypes.reasons);
+  const authorityCarrier = analyzeAuthorityCarriers(input, parts, budgets, cryptoPort);
+  reasons.push(...authorityCarrier.reasons);
 
   const documentXml = rawString(parts['word/document.xml']);
   const documentScan = parseXmlPart('word/document.xml', documentXml, budgets, cryptoPort);
@@ -1229,8 +1422,12 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
         partNames,
         relationships: relationships.relationships,
         contentTypes: contentTypes.contentTypes,
+        authorityCarriers: authorityCarrier.carriers,
+        selectedAuthorityCarrier: authorityCarrier.selectedCarrier,
         opaqueUnsupported,
       },
+      authorityCarrier,
+      exactAuthority: authorityCarrier.exactAuthority,
       reviewIr: emptyReviewIr(reasons),
       reasons,
     };
@@ -1265,6 +1462,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     comments: comments.commentThreads,
     formattingDeltas,
     opaqueUnsupported,
+    authorityCarrier,
     commentGraphCapability,
     changes: textRevisions,
     diagnostics: reasons,
@@ -1284,6 +1482,8 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     commentParts: partNames.filter((partName) => partName.startsWith('word/comments')),
     relationships: relationships.relationships,
     contentTypes: contentTypes.contentTypes,
+    authorityCarriers: authorityCarrier.carriers,
+    selectedAuthorityCarrier: authorityCarrier.selectedCarrier,
     opaqueUnsupported,
   };
   const parserProfile = {
@@ -1306,6 +1506,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       'formatting-delta-lane',
       'opaque-unsupported-lane',
       'hostile-package-gate',
+      'custom-document-property-authority-carrier',
     ],
   };
   const semanticProjection = {
@@ -1339,6 +1540,21 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       bodyDigest: cryptoPort.sha256Json({ commentId: thread.commentId, body: thread.body }),
     })),
     commentGraphCapability,
+    authorityCarrier: {
+      status: authorityCarrier.status,
+      selectedCarrier: authorityCarrier.selectedCarrier
+        ? {
+          carrier: authorityCarrier.selectedCarrier.carrier,
+          propertyName: authorityCarrier.selectedCarrier.propertyName,
+          verified: authorityCarrier.selectedCarrier.verified,
+          validSignedLocator: authorityCarrier.selectedCarrier.validSignedLocator,
+          payloadDigest: authorityCarrier.selectedCarrier.payloadDigest,
+          signatureDigest: authorityCarrier.selectedCarrier.signatureDigest,
+          baselineBinding: authorityCarrier.selectedCarrier.baselineBinding,
+        }
+        : null,
+      exactAuthority: authorityCarrier.exactAuthority,
+    },
     formattingDeltas: formattingDeltas.map((delta) => ({
       formatKind: delta.formatKind,
       values: delta.values,
@@ -1367,6 +1583,8 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     sourceMode,
     packageInventory,
     commentGraphCapability,
+    authorityCarrier,
+    exactAuthority: authorityCarrier.exactAuthority,
     reviewIr,
     parserProfile,
     supportedSemanticDigest,

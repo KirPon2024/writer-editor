@@ -4242,6 +4242,11 @@ body.dark-theme .toolbar__swatch::before {
   gap: 8px;
 }
 
+.right-rail-surface--atlas-continuity-ledger {
+  display: grid;
+  gap: 8px;
+}
+
 .right-rail-atlas-temporal-slider {
   display: grid;
   gap: 6px;
@@ -4360,6 +4365,112 @@ body.dark-theme .toolbar__swatch::before {
   outline: 2px solid var(--a11y-focus-outline);
   outline-offset: 2px;
   background: var(--a11y-focus-surface);
+}
+
+.right-rail-atlas-continuity-list {
+  display: grid;
+  gap: 8px;
+}
+
+.right-rail-atlas-continuity-row {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  background: var(--panel-bg);
+}
+
+.right-rail-atlas-continuity-row[data-state="error"] {
+  border-color: rgba(138, 59, 46, 0.34);
+  background: var(--hover-bg);
+}
+
+.right-rail-atlas-continuity-row[data-state="warning"] {
+  border-color: rgba(138, 111, 46, 0.3);
+}
+
+.right-rail-atlas-continuity-row__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.right-rail-atlas-continuity-row__head strong {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--foreground);
+  font-size: 12px;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.right-rail-atlas-continuity-row__head span {
+  color: var(--text-tertiary);
+  font-size: 11px;
+  line-height: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.right-rail-atlas-continuity-row__summary {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  line-height: 16px;
+  overflow-wrap: anywhere;
+}
+
+.right-rail-atlas-continuity-evidence {
+  display: grid;
+  gap: 5px;
+}
+
+.right-rail-atlas-continuity-evidence-button {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: 38px;
+  padding: 6px 7px;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  background: var(--card);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.right-rail-atlas-continuity-evidence-button:hover {
+  background: var(--hover-bg);
+}
+
+.right-rail-atlas-continuity-evidence-button:focus-visible {
+  outline: 2px solid var(--a11y-focus-outline);
+  outline-offset: 2px;
+  background: var(--a11y-focus-surface);
+}
+
+.right-rail-atlas-continuity-evidence-button__quote {
+  color: var(--foreground);
+  font-size: 11.5px;
+  line-height: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.right-rail-atlas-continuity-evidence-button__detail {
+  color: var(--text-tertiary);
+  font-size: 11px;
+  line-height: 14px;
+  overflow-wrap: anywhere;
+}
+
+.right-rail-atlas-continuity-actions {
+  justify-content: flex-start;
 }
 
 .right-rail-atlas-heatmap td[data-atlas-heatmap-tile="true"] {

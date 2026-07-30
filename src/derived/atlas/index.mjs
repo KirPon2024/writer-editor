@@ -92,6 +92,17 @@ export {
   sortAtlasSeriesPackageBookRefs,
 } from './atlasSeriesPackageTypes.mjs';
 export {
+  ATLAS_CUSTOM_VOCABULARY_ROW_SCHEMA_VERSION,
+  ATLAS_SERIES_IDENTITY_LINK_SCHEMA_VERSION,
+  ATLAS_SERIES_PORTABILITY_APPLY_RECEIPT_SCHEMA_VERSION,
+  ATLAS_SERIES_PORTABILITY_COLLISION_SCHEMA_VERSION,
+  ATLAS_SERIES_PORTABILITY_PREVIEW_SCHEMA_VERSION,
+  ATLAS_SERIES_PORTABILITY_ROLLBACK_PROOF_SCHEMA_VERSION,
+  sortAtlasCustomVocabularyRows,
+  sortAtlasSeriesIdentityLinks,
+  sortAtlasSeriesPortabilityCollisions,
+} from './atlasSeriesPortabilityTypes.mjs';
+export {
   ATLAS_OVERVIEW_SCHEMA_VERSION,
   ATLAS_OVERVIEW_SURFACE_MANIFEST_VERSION,
   sortAtlasOverviewEntities,
@@ -358,6 +369,10 @@ export {
   deriveAtlasSeriesPackageManifest,
   ATLAS_SERIES_PACKAGE_MANIFEST_VIEW_ID,
 } from './deriveAtlasSeriesPackageManifest.mjs';
+export {
+  deriveAtlasSeriesPortabilityPreview,
+  ATLAS_SERIES_PORTABILITY_PREVIEW_VIEW_ID,
+} from './deriveAtlasSeriesPortabilityPreview.mjs';
 export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOverview.mjs';
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';

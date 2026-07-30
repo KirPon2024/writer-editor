@@ -307,7 +307,10 @@ test('DOCX content preview: accepted containers still fail closed on malformed X
     '<w:p><w:r><w:t>Leaked</w:p></w:r>',
   ));
   const tooManyParagraphs = bridge.buildDocxContentPreviewFromZipBytes(cleanStoredDocxZip(
-    '<w:p/>'.repeat(5001),
+    '<w:p/>'.repeat(64001),
+  ));
+  const writerScaleOverOldLimit = bridge.buildDocxContentPreviewFromZipBytes(cleanStoredDocxZip(
+    paragraphXml('W'.repeat(1000001)),
   ));
 
   assertContentPreviewShell(malformed);
@@ -327,6 +330,11 @@ test('DOCX content preview: accepted containers still fail closed on malformed X
   assert.equal(tooManyParagraphs.parse.attempted, true);
   assert.equal(tooManyParagraphs.parse.completed, false);
   assert.equal(tooManyParagraphs.contentPreview, null);
+
+  assertContentPreviewShell(writerScaleOverOldLimit);
+  assert.equal(writerScaleOverOldLimit.ok, true);
+  assert.equal(writerScaleOverOldLimit.code, 'DOCX_CONTENT_PREVIEW_READY');
+  assert.equal(writerScaleOverOldLimit.contentPreview.textLength, 1000001);
 });
 
 test('DOCX content preview: unsupported encoding and namespace prefix do not produce empty successful previews', async () => {

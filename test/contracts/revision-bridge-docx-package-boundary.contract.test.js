@@ -7,6 +7,11 @@ const { pathToFileURL } = require('node:url');
 
 const MODULE_PATH = 'src/io/revisionBridge/index.mjs';
 const TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
+const ZIP_INVENTORY_MATERIALIZER_TEST_PATH = 'test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js';
+const HOSTILE_FILE_GATE_TEST_PATH = 'test/contracts/revision-bridge-docx-hostile-file-gate.contract.test.js';
+const CONTENT_PREVIEW_TEST_PATH = 'test/contracts/revision-bridge-docx-content-preview.contract.test.js';
+const IMPORT_PREVIEW_PLAN_TEST_PATH = 'test/contracts/revision-bridge-docx-import-preview-plan.contract.test.js';
+const IMPORT_PREVIEW_COMMAND_SURFACE_TEST_PATH = 'test/contracts/revision-bridge-docx-import-preview-command-surface.contract.test.js';
 const GOVERNANCE_APPROVALS_PATH = 'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json';
 const RELEASE_CANDIDATE_LOCK_PATH = 'docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json';
 const W5_STATUS_PATH = 'docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json';
@@ -16,6 +21,11 @@ const WORD_EVIDENCE_TEST_PATH = 'test/contracts/revision-bridge-word-evidence-ch
 const ALLOWLIST = [
   MODULE_PATH,
   TEST_PATH,
+  ZIP_INVENTORY_MATERIALIZER_TEST_PATH,
+  HOSTILE_FILE_GATE_TEST_PATH,
+  CONTENT_PREVIEW_TEST_PATH,
+  IMPORT_PREVIEW_PLAN_TEST_PATH,
+  IMPORT_PREVIEW_COMMAND_SURFACE_TEST_PATH,
   GOVERNANCE_APPROVALS_PATH,
   RELEASE_CANDIDATE_LOCK_PATH,
   W5_STATUS_PATH,
@@ -117,8 +127,8 @@ test('RB-05 exports DOCX package boundary API and constants', async () => {
   assert.equal(typeof bridge.inspectDocxPackageInventory, 'function');
   assert.deepEqual(bridge.DOCX_PACKAGE_BOUNDARY_BUDGETS, {
     maxEntries: 512,
-    maxTotalBytes: 52428800,
-    maxEntryBytes: 10485760,
+    maxTotalBytes: 67108864,
+    maxEntryBytes: 33554432,
     maxRelationshipEntries: 64,
     maxUnsupportedStoryEntries: 32,
   });
@@ -234,7 +244,7 @@ test('RB-05 enforces quarantine budgets using byteSize only', async () => {
     cleanEntry({ id: `entry-${index}`, byteSize: 1 })
   ));
   const totalEntries = Array.from({ length: 6 }, (_, index) => (
-    cleanEntry({ id: `big-${index}`, byteSize: 9 * 1024 * 1024, compressedSize: 1 })
+    cleanEntry({ id: `big-${index}`, byteSize: 12 * 1024 * 1024, compressedSize: 1 })
   ));
   const relationshipEntries = Array.from({ length: budgets.maxRelationshipEntries + 1 }, (_, index) => (
     cleanEntry({ id: `rel-${index}`, kind: 'relationshipPart', byteSize: 1 })

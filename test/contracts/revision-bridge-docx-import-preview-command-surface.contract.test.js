@@ -126,8 +126,8 @@ function contentPreviewReport(paragraphTexts, overrides = {}) {
       },
     ],
     budgets: {
-      maxParagraphs: 5000,
-      maxTextChars: 1000000,
+      maxParagraphs: 64000,
+      maxTextChars: 5000000,
       maxDiagnostics: 200,
     },
     preflightSummary: {

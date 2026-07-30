@@ -7,7 +7,20 @@ const { pathToFileURL } = require('node:url');
 
 const MODULE_PATH = 'src/io/revisionBridge/index.mjs';
 const TEST_PATH = 'test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js';
-const ALLOWLIST = [MODULE_PATH, TEST_PATH];
+const PACKAGE_BOUNDARY_TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
+const HOSTILE_FILE_GATE_TEST_PATH = 'test/contracts/revision-bridge-docx-hostile-file-gate.contract.test.js';
+const CONTENT_PREVIEW_TEST_PATH = 'test/contracts/revision-bridge-docx-content-preview.contract.test.js';
+const IMPORT_PREVIEW_PLAN_TEST_PATH = 'test/contracts/revision-bridge-docx-import-preview-plan.contract.test.js';
+const IMPORT_PREVIEW_COMMAND_SURFACE_TEST_PATH = 'test/contracts/revision-bridge-docx-import-preview-command-surface.contract.test.js';
+const ALLOWLIST = [
+  MODULE_PATH,
+  TEST_PATH,
+  PACKAGE_BOUNDARY_TEST_PATH,
+  HOSTILE_FILE_GATE_TEST_PATH,
+  CONTENT_PREVIEW_TEST_PATH,
+  IMPORT_PREVIEW_PLAN_TEST_PATH,
+  IMPORT_PREVIEW_COMMAND_SURFACE_TEST_PATH,
+];
 
 async function loadBridge() {
   return import(pathToFileURL(path.join(process.cwd(), MODULE_PATH)).href);
@@ -179,6 +192,11 @@ test('RB-06 classifies relationship, unknown, directory, media, and unsupported 
     { name: 'word/_rels/document.xml.rels', bodySize: 2 },
     { name: 'custom/item.bin', bodySize: 3 },
     { name: 'word/media/image1.png', bodySize: 4 },
+    { name: 'word/webSettings.xml', bodySize: 5 },
+    { name: 'word/stylesWithEffects.xml', bodySize: 5 },
+    { name: 'docProps/thumbnail.jpeg', bodySize: 5 },
+    { name: 'customXml/item1.xml', bodySize: 5 },
+    { name: 'customXml/itemProps1.xml', bodySize: 5 },
     { name: 'word/header1.xml', bodySize: 5 },
     { name: 'folder/', bodySize: 0 },
   ]));
@@ -194,6 +212,11 @@ test('RB-06 classifies relationship, unknown, directory, media, and unsupported 
     { id: 'word/_rels/document.xml.rels', kind: 'relationshipPart', story: undefined, markers: ['relationship'] },
     { id: 'custom/item.bin', kind: 'unknownPart', story: undefined, markers: undefined },
     { id: 'word/media/image1.png', kind: 'knownPart', story: undefined, markers: ['mediaPart'] },
+    { id: 'word/webSettings.xml', kind: 'knownPart', story: undefined, markers: undefined },
+    { id: 'word/stylesWithEffects.xml', kind: 'knownPart', story: undefined, markers: undefined },
+    { id: 'docProps/thumbnail.jpeg', kind: 'knownPart', story: undefined, markers: ['mediaPart'] },
+    { id: 'customXml/item1.xml', kind: 'knownPart', story: undefined, markers: undefined },
+    { id: 'customXml/itemProps1.xml', kind: 'knownPart', story: undefined, markers: undefined },
     { id: 'word/header1.xml', kind: 'knownPart', story: 'unsupported', markers: ['unsupportedStory'] },
     { id: 'folder/', kind: 'directory', story: undefined, markers: undefined },
   ]);
@@ -307,11 +330,11 @@ test('RB-06 enforces entry field and uncompressed-size limits', async () => {
   const nameTooLarge = zipFixture([{ name: longName, bodySize: 1 }]);
   const extraTooLarge = zipFixture([{ name: 'word/document.xml', bodySize: 1, extraSize: 4097 }]);
   const commentTooLarge = zipFixture([{ name: 'word/document.xml', bodySize: 1, commentSize: 4097 }]);
-  const singleTooLarge = zipFixture([{ name: 'word/document.xml', bodySize: 0, centralByteSize: 10485761 }]);
+  const singleTooLarge = zipFixture([{ name: 'word/document.xml', bodySize: 0, centralByteSize: 33554433 }]);
   const totalTooLarge = zipFixture(Array.from({ length: 6 }, (_, index) => ({
     name: `word/document${index}.xml`,
     bodySize: 0,
-    centralByteSize: 9 * 1024 * 1024,
+    centralByteSize: 12 * 1024 * 1024,
   })));
   const invalidName = zipFixture([{ name: '../word/document.xml', bodySize: 1 }]);
 

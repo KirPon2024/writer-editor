@@ -1,8 +1,6 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
-import {
-  ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION,
-  canonicalizeAtlasMentionIndex,
-} from './atlasMentionTypes.mjs';
+import { canonicalizeAtlasMentionIndex } from './atlasMentionTypes.mjs';
+import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
 
 const VIEW_ID = 'derived.atlas.mentionIndex.v1';
 
@@ -78,31 +76,17 @@ function collectEntityTerms(atlas) {
   return terms;
 }
 
-function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset, endOffset, quote, sceneText }) {
-  const quoteHash = hashCanonicalValue(quote);
-  const sceneTextHash = hashCanonicalValue(sceneText);
-  const anchorHash = hashCanonicalValue({
+function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset, endOffset, sceneText }) {
+  const packet = buildAtlasTextAnchorPacket({
     projectId,
     sceneId,
     entityId,
     termId,
     startOffset,
     endOffset,
-    quoteHash,
-    sceneTextHash,
+    sceneText,
   });
-  return {
-    schemaVersion: ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION,
-    anchorId: `atlas-anchor:${anchorHash}`,
-    projectId,
-    sceneId,
-    entityId,
-    startOffset,
-    endOffset,
-    quote,
-    quoteHash,
-    sceneTextHash,
-  };
+  return packet.evidenceAnchor;
 }
 
 function collectTermMentions({ projectId, sceneId, sceneText, term }) {
@@ -121,7 +105,6 @@ function collectTermMentions({ projectId, sceneId, sceneText, term }) {
         termId: term.termId,
         startOffset: found,
         endOffset,
-        quote: sceneText.slice(found, endOffset),
         sceneText,
       });
       out.push({

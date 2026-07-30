@@ -2,6 +2,27 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_NORMALIZATION_MAP_RECEIPT.json",
+      "sha256": "2fea4ced8afc368c690a38713732bf1f37eef48ba2c662222111e135efa77a89",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_AND_NORMALIZATION_MAP",
+      "approvedAtUtc": "2026-07-30T06:02:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C02 delivery receipt: records local verified implementation of Unicode evidence anchor offset-domain and normalization-map helpers, UTF16_JS_CODE_UNIT adapter domain, Unicode code point and grapheme canonical ranges, NFC and NFD hash metadata without destructive normalization, mention index evidence-anchor metadata extension preserving existing anchorId hash inputs, Unicode edge corpus coverage, no command, no product truth mutation, no manuscript mutation, no storage, no network, no runtime analyzer, no runtime download, no dynamic executable plugin, no UI runtime change, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c02-unicode-evidence-anchor-offset-domain-normalization-map.contract.test.js",
+      "sha256": "f4e660a4d8fdfd4a6bff71021bc051ee435f86f1ca3ca299686f207824cd7e69",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_AND_NORMALIZATION_MAP",
+      "approvedAtUtc": "2026-07-30T06:02:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C02 contract: proves text offset maps preserve original Unicode while exposing UTF16, code point, and grapheme domains, mention evidence anchors carry adapter offset domain, canonical offset domains, prefix and suffix selectors, normalization map hashes, and quote-preservation proof, exports helper symbols through derived barrels, and keeps Unicode anchor sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, runtime download, dynamic executable plugins, destructive normalization, manuscript mutation, project truth mutation, or hidden UI bypasses."
+    },
+    {
+      "filePath": "test/fixtures/atlas/language/unicode-edge-corpus.json",
+      "sha256": "87213d7437ffa95553edf8b013cd25f5892f7aacef6419837e0ebad67a583f04",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_AND_NORMALIZATION_MAP",
+      "approvedAtUtc": "2026-07-30T06:02:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C02 Unicode edge corpus fixture: covers combining-mark NFD normalization detection, emoji ZWJ grapheme range behavior, and CRLF plus bidi-control preservation for evidence-anchor offset-domain tests without adding runtime resources, model files, dependencies, network services, private data, or production language packs."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C01_LANGUAGE_CAPABILITY_TRUTH_REGISTRY_REPORT_RECEIPT.json",
       "sha256": "1e6d03e1f37c2dc3fa33aa9efe412f69675cc69d881a01671d31a024b056314f",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C01_LANGUAGE_CAPABILITY_TRUTH_REGISTRY_AND_REPORT",

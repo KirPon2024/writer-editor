@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_DISAPPEARANCE_CHECKS_RECEIPT.json",
+      "sha256": "22f4e290947eacffd3361c3244099171674697c3369c3da2a4f4e025b4e48ea1",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_AND_DISAPPEARANCE_CHECKS",
+      "approvedAtUtc": "2026-07-30T04:17:29.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C05 delivery receipt: records local verified implementation of read-only Atlas continuity findings for promises, disappearances, location conflicts, knowledge conflicts, and object state conflicts, evidence-first finding packets, explicit unknown and insufficient-evidence outcomes, generation identity and revision guards, no Core command, no project truth mutation, no manuscript mutation, no storage, no network, no renderer mutation, no finding UI, no automatic correction or apply, no language expansion, no cloud analysis, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c05-atlas-continuity-findings-promises-disappearance-checks.contract.test.js",
+      "sha256": "43d89eaa899c70878005231c2ade4af55af2365b78868fc31939d5cd5db7cd51",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_AND_DISAPPEARANCE_CHECKS",
+      "approvedAtUtc": "2026-07-30T04:17:29.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C05 contract: proves derived continuity findings emit evidence-backed promise broken, disappearance resolved or conflicting, location contradiction, knowledge contradiction, and object contradiction packets without mutation, expose open promise unknown and singleton location insufficient-evidence outcomes without inventing findings, bind generation keys to source and current revision, remain deterministic, fail closed when atlas.continuityFindings capability is disabled, and keep finding sources free of storage, network, DOM, platform, renderer, worker, daemon, cloud analysis, automatic correction, automatic apply, manuscript mutation, project truth mutation, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY_RECEIPT.json",
       "sha256": "f87e7dd858eec7de9f7df43cef493bc178e6c9d5b4ee1a5151c55a51c4ff8380",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY",

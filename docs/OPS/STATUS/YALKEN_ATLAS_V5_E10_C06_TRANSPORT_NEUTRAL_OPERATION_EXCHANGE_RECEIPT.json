@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY",
+  "programStage": "E10_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T18:09:51Z",
+  "validatedAtUtc": "2026-07-30T18:09:51Z",
+  "baseSha": "650c58a8320f29e20b9650c13c9d83387eefaeb8",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E10 C06 adds pure local transport-neutral operation exchange packets and a local fixture adapter report under existing collab utilities. It changes no product UI screen, visual composition, renderer surface, Design OS manifest, typography, layout, storage adapter, network adapter, project truth, or manuscript writer.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "650c58a8320f29e20b9650c13c9d83387eefaeb8",
+    "originMainDriftReconciled": false,
+    "stage10CompilationReceiptExists": true,
+    "stage10CompilationNextContour": "E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY",
+    "transportNeutralExchangePacketSchema": "collab-transport-neutral-operation-exchange.packet.v1",
+    "localFixtureExchangeAdapterReportSchema": "collab-local-fixture-exchange-adapter.report.v1",
+    "versionedPacket": true,
+    "transportNeutral": true,
+    "localFixtureAdapter": true,
+    "freeReversibleAdapter": true,
+    "capabilityGate": true,
+    "transportDisabledByDefault": true,
+    "disabledNonBlockingAuthoring": true,
+    "networkAdapterDisabledProof": true,
+    "tamperHashMismatchProof": true,
+    "invalidEventTypedEnvelope": true,
+    "payloadHashOnly": true,
+    "authorTruthCopiedIntoReceipt": false,
+    "liveNetworkAdapter": false,
+    "accountSync": false,
+    "cloudSync": false,
+    "transportSourceOfTruth": false,
+    "crdtCoreAdopted": false,
+    "yjsRuntimeDependency": false,
+    "secondOperationLogTruth": false,
+    "secondCommentTruth": false,
+    "projectTruthMutation": false,
+    "directManuscriptMutation": false,
+    "uiChanged": false,
+    "storageAdapterChanged": false,
+    "newDependencyAdded": false
+  },
+  "productPlane": {
+    "dataAuthority": "Existing Product Core, existing collab event log, and Command Kernel receipts remain authoritative. E10 C06 produces versioned transport-neutral exchange packets and local fixture preview reports with hashes only; neither artifact becomes operation truth, comment truth, transport truth, author truth, or project truth.",
+    "writePath": "No project, manuscript, storage, renderer, transport provider, account, cloud, or network write path. Local fixture import is preview-only and explicitly requires a later Command Kernel apply route with capability revalidation.",
+    "readPath": "buildTransportNeutralExchangePacket reads local operation metadata and payload hashes. buildLocalFixtureExchangeAdapterReport reads the versioned packet, recomputes the packet hash, and emits preview rows without copying payload bodies.",
+    "portsAndAdapters": "No runtime adapter, storage adapter, network adapter, account adapter, CRDT adapter, renderer adapter, or transport provider is introduced. The local fixture adapter is a pure report builder, not a runtime transport."
+  },
+  "interfacePlane": {
+    "designRoute": "NOT_APPLICABLE",
+    "surfaceManifest": "NOT_CHANGED",
+    "typedSlot": "NOT_CHANGED",
+    "rendererMutation": false,
+    "notes": "Transport-neutral exchange evidence may feed later Design OS projections, but this contour does not alter any UI surface."
+  },
+  "acceptanceProof": {
+    "transportNeutralExchangePacket": true,
+    "versionedPacket": true,
+    "localFixtureAdapterReport": true,
+    "localFixturePreviewOnly": true,
+    "capabilityGate": true,
+    "disabledNonBlockingAuthoring": true,
+    "networkAdapterDisabledProof": true,
+    "tamperedPacketHashMismatch": true,
+    "invalidEventTypedEnvelope": true,
+    "payloadBodyExclusion": true,
+    "noLiveNetworkAdapter": true,
+    "noRemoteAccountOrCloudSync": true,
+    "noYjsRuntimeDependency": true,
+    "noCrdtCoreAdoption": true,
+    "noTransportSourceOfTruth": true,
+    "noProjectTruthMutation": true,
+    "noManuscriptMutation": true,
+    "noStorageWriter": true,
+    "noUiMutation": true,
+    "noSecondOperationLogTruth": true,
+    "noSecondCommentTruth": true,
+    "nextContour": "E10_C07_STAGE_10_ACCEPTANCE_AND_HANDOFF_TO_PLATFORM_CERTIFICATION"
+  },
+  "changedBasenames": [
+    "mergePolicy.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e10-c06-transport-neutral-operation-exchange.contract.test.js",
+    "YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "sourceHashes": {
+    "mergePolicy.mjs": "26c0a9c06ce4c8ad16a2a316963e916f1ad20333ab065069cb7ce0da05a3e7c5",
+    "index.mjs": "3a48ff26d76686f2d1ffd03bf508db2f874669ed23544c4a0025e952912a30c5",
+    "focusedContract": "acc745a8c480fd83b84ab2b4ffeeb079420881e36c8c793fd30c81229631d70f"
+  },
+  "validation": [
+    {
+      "command": "node --check mergePolicy.mjs and collab index and E10 C06 contract",
+      "result": "PASS",
+      "summary": "syntax checks passed"
+    },
+    {
+      "command": "node --test E10 C06 focused plus adjacent E10 C05, E10 C04, collab no-network, causal queue, eventlog, apply pipeline, comments-history, and recovery contracts",
+      "result": "PASS",
+      "summary": "27 tests, 27 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/collab-causal-queue-readiness-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_CAUSAL_QUEUE_READINESS_OK=1; status READY"
+    },
+    {
+      "command": "node scripts/ops/collab-stress-safe-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_STRESS_SAFE_OK=1; no missing files, no network wiring, no core bypass"
+    },
+    {
+      "command": "node scripts/ops/collab-eventlog-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_EVENTLOG_OK=1"
+    },
+    {
+      "command": "node scripts/ops/collab-apply-pipeline-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_APPLY_PIPELINE_OK=1"
+    },
+    {
+      "command": "node scripts/ops/governance-approval-state.mjs and governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "approval registry valid; GOVERNANCE_CHANGE_OK=1 before final receipt approval hash append"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "exit code 0; 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace PASS; menu checks PASS; law path canon PASS; execution sequence PASS; release candidate verify PASS"
+    }
+  ],
+  "notes": {
+    "falseGreenGuard": "All PASS rows in this receipt were recorded only after the commands completed successfully. PENDING or NOT_RUN rows must not be interpreted as PASS. The receipt's own governance approval is intentionally recorded after this file's SHA is computed, so this receipt does not claim a precomputed self-approval.",
+    "transportBoundary": "The exchange packet is versioned and transport-neutral, but the only adapter proof is a local fixture preview builder. No live provider, account, cloud, socket, CRDT Core adoption, Yjs runtime dependency, or network transport is activated.",
+    "payloadBoundary": "The exchange packet carries operation references, dependency refs, event hashes, and payload hashes only. It does not copy manuscript text, command payload bodies, author truth values, storage paths, account identities, remote presence, or transport endpoints."
+  },
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E10 C06 adds deterministic transport-neutral operation exchange packet and local fixture adapter report builders. It exposes typed network-disabled, invalid-event, and tamper-hash rejection evidence without mutating project truth, manuscript, storage, renderer, command state, network, account, cloud, or transport.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E10_C07_STAGE_10_ACCEPTANCE_AND_HANDOFF_TO_PLATFORM_CERTIFICATION"
+}

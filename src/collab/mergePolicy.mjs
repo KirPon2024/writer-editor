@@ -5,6 +5,8 @@ const ACTOR_IDENTITY_SCHEMA_VERSION = 'collab-actor-identity.v1';
 const CAUSAL_ORDERING_REPORT_SCHEMA_VERSION = 'collab-causal-ordering.report.v1';
 const OFFLINE_QUEUE_PACKET_SCHEMA_VERSION = 'collab-offline-queue.packet.v1';
 const LOCAL_MULTI_SESSION_RECOVERY_REPORT_SCHEMA_VERSION = 'collab-local-multi-session-recovery.report.v1';
+const TRANSPORT_NEUTRAL_EXCHANGE_PACKET_SCHEMA_VERSION = 'collab-transport-neutral-operation-exchange.packet.v1';
+const LOCAL_FIXTURE_EXCHANGE_ADAPTER_REPORT_SCHEMA_VERSION = 'collab-local-fixture-exchange-adapter.report.v1';
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -89,6 +91,15 @@ function offlineQueueError(code, reason, event = {}) {
   });
 }
 
+function transportExchangeError(code, reason, details = {}) {
+  return createConflictEnvelope({
+    code,
+    op: 'collab.transportNeutralExchange',
+    reason,
+    details,
+  });
+}
+
 function normalizeEvent(event) {
   const src = isPlainObject(event) ? event : {};
   return {
@@ -154,6 +165,20 @@ function buildMultiSessionRecoveryReport(base) {
   return {
     ...base,
     recoveryHash: hashCanonical(base),
+  };
+}
+
+function buildExchangePacket(base) {
+  return {
+    ...base,
+    exchangeHash: hashCanonical(base),
+  };
+}
+
+function buildLocalFixtureAdapterReport(base) {
+  return {
+    ...base,
+    adapterReportHash: hashCanonical(base),
   };
 }
 
@@ -251,6 +276,56 @@ function normalizeRecoverySnapshots(value) {
       readableRecovery: item.readableRecovery !== false,
       destructiveRewrite: false,
     }));
+}
+
+function normalizeExchangeEvent(event = {}, index = 0) {
+  const src = isPlainObject(event) ? event : {};
+  const causalEvent = normalizeCausalEvent(src);
+  const ref = {
+    opId: causalEvent.opId,
+    actorId: causalEvent.actorId,
+    sessionId: causalEvent.sessionId,
+    seq: causalEvent.seq,
+    ts: causalEvent.ts,
+    commandId: causalEvent.commandId,
+    payloadHash: causalEvent.payloadHash,
+    dependsOn: causalEvent.dependsOn,
+  };
+  return {
+    ...ref,
+    sourceOrdinal: index,
+    eventHash: hashCanonical(ref),
+  };
+}
+
+function exchangeEventValid(event) {
+  return Boolean(
+    event.opId
+    && event.actorId
+    && event.seq > 0
+    && event.ts
+    && event.commandId
+    && event.payloadHash
+  );
+}
+
+function exchangeEventRef(event) {
+  return {
+    opId: event.opId,
+    actorId: event.actorId,
+    sessionId: event.sessionId,
+    seq: event.seq,
+    ts: event.ts,
+    commandId: event.commandId,
+    payloadHash: event.payloadHash,
+    dependsOn: event.dependsOn,
+    eventHash: event.eventHash,
+  };
+}
+
+function stripExchangeHash(packet = {}) {
+  const { exchangeHash, ...packetBase } = isPlainObject(packet) ? packet : {};
+  return packetBase;
 }
 
 export function buildActorIdentityEnvelope(input = {}) {
@@ -674,6 +749,225 @@ export function buildLocalMultiSessionRecoveryReport(input = {}) {
   };
 
   return buildMultiSessionRecoveryReport(reportBase);
+}
+
+export function buildTransportNeutralExchangePacket(input = {}) {
+  const projectId = normalizeString(input.projectId);
+  const events = Array.isArray(input.events) ? input.events.map((event, index) => normalizeExchangeEvent(event, index)) : [];
+  const orderedEvents = [...events].sort(sortCausalEvents);
+  const transportCapabilityEnabled = input.transportCapabilityEnabled === true;
+  const requestedAdapterKind = normalizeString(input.adapterKind) || 'localFixture';
+  const networkAdapterRequested = input.networkAdapterEnabled === true || requestedAdapterKind === 'network';
+  const rejected = [];
+  const entries = [];
+
+  if (networkAdapterRequested) {
+    rejected.push(transportExchangeError(
+      'E_COLLAB_TRANSPORT_NETWORK_ADAPTER_DISABLED',
+      'NETWORK_ADAPTER_NOT_ACTIVE_IN_STAGE_10',
+      {
+        adapterKind: requestedAdapterKind,
+        networkAdapterRequested: true,
+      },
+    ));
+  }
+
+  for (const event of orderedEvents) {
+    if (!exchangeEventValid(event)) {
+      rejected.push(transportExchangeError(
+        'E_COLLAB_TRANSPORT_EXCHANGE_EVENT_INVALID',
+        'EVENT_FIELDS_AND_PAYLOAD_HASH_REQUIRED',
+        {
+          opId: event.opId,
+          actorId: event.actorId,
+          ts: event.ts,
+          commandId: event.commandId,
+          sourceOrdinal: event.sourceOrdinal,
+        },
+      ));
+      continue;
+    }
+
+    entries.push({
+      ...exchangeEventRef(event),
+      exchangeState: transportCapabilityEnabled && !networkAdapterRequested ? 'readyLocalFixture' : 'heldLocalFixture',
+      localFixtureExchangeable: transportCapabilityEnabled && !networkAdapterRequested,
+      networkDispatchable: false,
+      sourceOrdinal: event.sourceOrdinal,
+    });
+  }
+
+  return buildExchangePacket({
+    schemaVersion: TRANSPORT_NEUTRAL_EXCHANGE_PACKET_SCHEMA_VERSION,
+    ok: rejected.length === 0,
+    packetKind: 'operationExchange',
+    packetVersion: 1,
+    projectId,
+    transport: {
+      adapterKind: 'localFixture',
+      transportNeutral: true,
+      localFixtureAdapter: true,
+      freeReversibleAdapter: true,
+      liveNetwork: false,
+      networkAdapterEnabled: false,
+      accountSync: false,
+      cloudSync: false,
+      runtimeDownload: false,
+      transportSourceOfTruth: false,
+      crdtCoreAdopted: false,
+      yjsRuntimeDependency: false,
+    },
+    capability: {
+      transportEnabled: transportCapabilityEnabled,
+      disabledNonBlocking: transportCapabilityEnabled === false,
+      authoringBlocked: false,
+      explicitActivationRequired: true,
+      networkAdapterEnabled: false,
+    },
+    entries,
+    rejected,
+    summary: {
+      inputCount: events.length,
+      exchangeableCount: entries.filter((entry) => entry.localFixtureExchangeable).length,
+      heldLocalCount: entries.filter((entry) => entry.exchangeState === 'heldLocalFixture').length,
+      rejectedCount: rejected.length,
+    },
+    authority: {
+      localOnly: true,
+      transportNeutral: true,
+      usesExistingOperationLogTruth: true,
+      transportSourceOfTruth: false,
+      networkAdapter: false,
+      networkDispatch: false,
+      accountIdentity: false,
+      cloudSync: false,
+      remotePresence: false,
+      coreTransportDependency: false,
+      crdtCoreAdopted: false,
+      yjsRuntimeDependency: false,
+      projectTruthMutation: false,
+      manuscriptMutation: false,
+      storageMutation: false,
+      uiMutation: false,
+      secondOperationLogTruth: false,
+      secondCommentTruth: false,
+    },
+  });
+}
+
+export function buildLocalFixtureExchangeAdapterReport(input = {}) {
+  const packet = isPlainObject(input.packet)
+    ? input.packet
+    : buildTransportNeutralExchangePacket(input);
+  const entries = Array.isArray(packet.entries) ? packet.entries.map((entry) => exchangeEventRef(normalizeExchangeEvent(entry))) : [];
+  const expectedExchangeHash = normalizeString(input.expectedExchangeHash || packet.exchangeHash);
+  const actualExchangeHash = normalizeString(packet.exchangeHash);
+  const recomputedExchangeHash = hashCanonical(stripExchangeHash(packet));
+  const packetHashMatches = Boolean(
+    actualExchangeHash
+    && actualExchangeHash === recomputedExchangeHash
+    && (!expectedExchangeHash || expectedExchangeHash === actualExchangeHash)
+  );
+  const rejected = [];
+
+  if (packet.schemaVersion !== TRANSPORT_NEUTRAL_EXCHANGE_PACKET_SCHEMA_VERSION) {
+    rejected.push(transportExchangeError(
+      'E_COLLAB_LOCAL_FIXTURE_PACKET_SCHEMA_INVALID',
+      'TRANSPORT_NEUTRAL_PACKET_SCHEMA_REQUIRED',
+      { schemaVersion: normalizeString(packet.schemaVersion) },
+    ));
+  }
+
+  if (!packetHashMatches) {
+    rejected.push(transportExchangeError(
+      'E_COLLAB_LOCAL_FIXTURE_PACKET_HASH_MISMATCH',
+      'EXCHANGE_PACKET_HASH_MISMATCH',
+      {
+        expectedExchangeHash,
+        actualExchangeHash,
+        recomputedExchangeHash,
+      },
+    ));
+  }
+
+  if (packet.transport?.networkAdapterEnabled === true || packet.authority?.networkAdapter === true) {
+    rejected.push(transportExchangeError(
+      'E_COLLAB_LOCAL_FIXTURE_NETWORK_PACKET_REJECTED',
+      'NETWORK_PACKET_NOT_ACCEPTED_BY_LOCAL_FIXTURE',
+      { actualExchangeHash },
+    ));
+  }
+
+  return buildLocalFixtureAdapterReport({
+    schemaVersion: LOCAL_FIXTURE_EXCHANGE_ADAPTER_REPORT_SCHEMA_VERSION,
+    ok: packet.ok === true && rejected.length === 0,
+    adapter: {
+      adapterKind: 'localFixture',
+      localOnly: true,
+      free: true,
+      reversible: true,
+      readsPacketOnly: true,
+      writesRuntime: false,
+      liveNetwork: false,
+      networkDispatch: false,
+      accountSync: false,
+      cloudSync: false,
+      storageMutation: false,
+      uiMutation: false,
+    },
+    packetRef: {
+      schemaVersion: normalizeString(packet.schemaVersion),
+      exchangeHash: actualExchangeHash,
+      expectedExchangeHash,
+      recomputedExchangeHash,
+      packetHashMatches,
+      entryCount: entries.length,
+    },
+    previewRows: entries.map((entry) => ({
+      ...entry,
+      previewOnly: true,
+      payloadCopied: false,
+    })),
+    applyRoute: {
+      routeKind: 'COMMAND_KERNEL_PREVIEW_REQUIRED',
+      previewRequired: true,
+      commandKernelApplyRequired: true,
+      capabilityRevalidationRequired: true,
+      dispatchIntentOnly: true,
+      automaticApply: false,
+      transportApplyAuthority: false,
+    },
+    rejected: [
+      ...(Array.isArray(packet.rejected) ? packet.rejected : []),
+      ...rejected,
+    ],
+    summary: {
+      previewCount: entries.length,
+      appliedCount: 0,
+      rejectedCount: (Array.isArray(packet.rejected) ? packet.rejected.length : 0) + rejected.length,
+      transportCapabilityEnabled: packet.capability?.transportEnabled === true,
+      authoringBlocked: false,
+    },
+    authority: {
+      localOnly: true,
+      transportNeutral: true,
+      transportSourceOfTruth: false,
+      networkAdapter: false,
+      networkDispatch: false,
+      accountIdentity: false,
+      cloudSync: false,
+      remotePresence: false,
+      coreTransportDependency: false,
+      crdtCoreAdopted: false,
+      yjsRuntimeDependency: false,
+      projectTruthMutation: false,
+      manuscriptMutation: false,
+      storageMutation: false,
+      uiMutation: false,
+      secondOperationLogTruth: false,
+      secondCommentTruth: false,
+    },
+  });
 }
 
 export function mergeRemoteEvent(input = {}) {

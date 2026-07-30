@@ -63,6 +63,17 @@ export {
   sortAtlasLocalGraphNodes,
 } from './atlasLocalGraphTypes.mjs';
 export {
+  ATLAS_GLOBAL_COMPOSITE_EDGE_KIND,
+  ATLAS_GLOBAL_COMPOSITE_EDGE_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_GRAPH_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_NODE_KIND,
+  ATLAS_GLOBAL_COMPOSITE_NODE_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_SOURCE_REF_SCHEMA_VERSION,
+  sortAtlasGlobalCompositeEdges,
+  sortAtlasGlobalCompositeNodes,
+  sortAtlasGlobalCompositeSourceRefs,
+} from './atlasGlobalCompositeGraphTypes.mjs';
+export {
   ATLAS_OVERVIEW_SCHEMA_VERSION,
   ATLAS_OVERVIEW_SURFACE_MANIFEST_VERSION,
   sortAtlasOverviewEntities,
@@ -300,6 +311,10 @@ export {
   buildAtlasLocalGraphFromTemporalContinuity,
   deriveAtlasLocalGraph,
 } from './deriveAtlasLocalGraph.mjs';
+export {
+  deriveAtlasGlobalCompositeGraph,
+  ATLAS_GLOBAL_COMPOSITE_GRAPH_VIEW_ID,
+} from './deriveAtlasGlobalCompositeGraph.mjs';
 export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOverview.mjs';
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';

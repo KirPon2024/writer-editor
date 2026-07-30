@@ -48,6 +48,9 @@ const WORD_LATEST_B04_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b04-c
 const WORD_LATEST_B05_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B05_EXACT_APPLY_RECEIPT.json';
 const WORD_LATEST_B05_ADAPTER_PATH = 'src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs';
 const WORD_LATEST_B05_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js';
+const WORD_LATEST_B06_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B06_PHYSICAL_CERTIFICATION_RECEIPT.json';
+const WORD_LATEST_B06_LAB_PATH = 'scripts/ops/rtk-word-latest-physical-certification-lab.mjs';
+const WORD_LATEST_B06_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b06-physical-certification.contract.test.js';
 const SECTOR_M_RUNNER_PATH = 'scripts/sector-m-run.mjs';
 const DOCX_PACKAGE_BOUNDARY_TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
 const CONTEXT_PATH = 'docs/CONTEXT.md';
@@ -96,6 +99,9 @@ const ALLOWLIST = [
   WORD_LATEST_B05_RECEIPT_PATH,
   WORD_LATEST_B05_ADAPTER_PATH,
   WORD_LATEST_B05_TEST_PATH,
+  WORD_LATEST_B06_RECEIPT_PATH,
+  WORD_LATEST_B06_LAB_PATH,
+  WORD_LATEST_B06_TEST_PATH,
   SECTOR_M_RUNNER_PATH,
   DOCX_PACKAGE_BOUNDARY_TEST_PATH,
   CONTEXT_PATH,

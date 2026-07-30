@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_STAGE_08_ACCEPTANCE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E08_C05_RENDERER_ADAPTER_PROFILING_AND_STAGE_08_ACCEPTANCE",
+  "programStage": "E08_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T09:11:57Z",
+  "baseSha": "a060d17f3e9e785bbbebfcccbcc5ee4196788912",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E08 C05 adds pure renderer-adapter profiling metadata and Stage 08 acceptance/handoff proof over existing Stage 08 derived packets. It changes no concrete product UI, renderer surface, visual layout, palette, typography, Design OS slot, or interaction implementation.",
+  "runtimeFacts": {
+    "rendererAdapterProfileExists": true,
+    "rendererAdapterProfileSchemaVersion": "atlas.globalCompositeGraph.rendererAdapterProfile.v1",
+    "stage08AcceptanceSchemaVersion": "atlas.globalCompositeGraph.stage08Acceptance.v1",
+    "stage08AcceptanceGateCount": 6,
+    "stage08AcceptancePass": true,
+    "sourceIsolationGate": true,
+    "schedulerGate": true,
+    "lodStableBudgetGate": true,
+    "trustNavigationAccessibilityGate": true,
+    "rendererAdapterProfileGate": true,
+    "handoffBoundaryGate": true,
+    "graphWorkOnTypingHotPath": false,
+    "readyForNextStage": true,
+    "nextContour": "E09_C00_STAGE_09_SERIES_AND_PORTABILITY_CONTOUR_COMPILATION",
+    "readyForFinalProgramDoD": false,
+    "releaseReadinessClaim": false,
+    "projectTruthMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false
+  },
+  "changedArtifacts": [
+    "atlasGlobalCompositeGraphTypes.mjs",
+    "deriveAtlasGlobalCompositeStageAcceptance.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e08-c05-renderer-adapter-profiling-stage-08-acceptance.contract.test.js",
+    "YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_STAGE_08_ACCEPTANCE_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "validation": [
+    {
+      "command": "node --check deriveAtlasGlobalCompositeStageAcceptance and E08 C05 contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E08 C05 contract",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node --test E08 C03 E08 C04 E08 C05 contracts",
+      "result": "PASS",
+      "summary": "12 tests, 12 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; release/perf/menu/law/execution PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E08 C05 is a pure acceptance and profiling proof over Stage 08 derived packets. Rebuilding from the same composite graph, scheduler acceptance, LOD plan, navigation packet, and profile metrics produces the same acceptance hashes; no UI, command dispatch, storage, network, renderer mutation, project truth mutation, manuscript mutation, release readiness claim, or final Program DoD claim exists.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E09_C00_STAGE_09_SERIES_AND_PORTABILITY_CONTOUR_COMPILATION"
+}

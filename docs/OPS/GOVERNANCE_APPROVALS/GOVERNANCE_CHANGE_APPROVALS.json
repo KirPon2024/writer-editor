@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_STAGE_08_ACCEPTANCE_RECEIPT.json",
+      "sha256": "c1498531d27d14c14da11714b145a93bb4fbdd5b7e89a08051b9f38fcdae0db4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_AND_STAGE_08_ACCEPTANCE",
+      "approvedAtUtc": "2026-07-30T09:11:57.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E08 C05 receipt: records pure renderer adapter profiling metadata and Stage 08 acceptance proof over global composite graph source isolation, on-demand scheduler stale discard, LOD stable budgets, trust filters, batch navigation accessibility parity, renderer hot-path budget, handoff to E09, no UI runtime change, no storage, no network, no renderer mutation, no project truth mutation, no manuscript mutation, no release readiness claim, and no final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e08-c05-renderer-adapter-profiling-stage-08-acceptance.contract.test.js",
+      "sha256": "b8b0e95cbf29d867d2e49e282791b1d06a9385e3bd0e3437c02ee9d6f17118fa",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_AND_STAGE_08_ACCEPTANCE",
+      "approvedAtUtc": "2026-07-30T09:11:57.000Z",
+      "rationale": "Approve E08 C05 contract coverage: proves Stage 08 acceptance closes all six advanced graph gates and hands off to Stage 09, renderer adapter profile keeps graph work off typing hot path, hot-path regression degrades without release readiness, exports pass through barrels, and source files contain no filesystem, network, Electron, DOM, Worker, timer, storage, command dispatch, final Program DoD, release readiness, project truth, manuscript, storage, network, renderer mutation, or UI bypass path."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_ACCESSIBILITY_PARITY_RECEIPT.json",
       "sha256": "38dc88e4069d7700b73a0fc6481b0db1f41989ca4d51c6acf29e61df57a1f7ec",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_AND_ACCESSIBILITY_PARITY",

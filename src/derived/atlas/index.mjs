@@ -76,6 +76,8 @@ export {
   ATLAS_GLOBAL_COMPOSITE_NODE_KIND,
   ATLAS_GLOBAL_COMPOSITE_NODE_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_RESOURCE_BUDGET_PROOF_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_RENDERER_ADAPTER_PROFILE_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_STAGE_08_ACCEPTANCE_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_STABLE_POSITION_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_SOURCE_REF_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_TRUST_FILTER_SCHEMA_VERSION,
@@ -340,6 +342,12 @@ export {
   buildAtlasGlobalCompositeTrustFilter,
   deriveAtlasGlobalCompositeGraphNavigationPacket,
 } from './deriveAtlasGlobalCompositeGraphNavigation.mjs';
+export {
+  ATLAS_GLOBAL_COMPOSITE_STAGE_08_ID,
+  ATLAS_GLOBAL_COMPOSITE_STAGE_08_NEXT_CONTOUR,
+  buildAtlasGlobalCompositeRendererAdapterProfilingPacket,
+  deriveAtlasGlobalCompositeStageAcceptance,
+} from './deriveAtlasGlobalCompositeStageAcceptance.mjs';
 export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOverview.mjs';
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';

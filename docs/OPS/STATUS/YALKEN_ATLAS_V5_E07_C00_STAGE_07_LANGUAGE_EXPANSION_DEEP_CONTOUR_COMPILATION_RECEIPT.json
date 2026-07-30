@@ -1,0 +1,399 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E07_C00_STAGE_07_LANGUAGE_EXPANSION_DEEP_CONTOUR_COMPILATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E07_C00_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOUR_COMPILATION",
+  "programStage": "E07_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T05:36:00Z",
+  "baseSha": "cbb2ade82665ebd2c16c20b1925a1d7c2a87f058",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "Stage 07 C00 compiles language analyzer, corpus, resource, rollback, and diagnostics contours only. It changes no product UI screen, visual composition, layout, palette, typography, or runtime Design OS surface.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "cbb2ade82665ebd2c16c20b1925a1d7c2a87f058",
+    "atlasMentionIndexExists": true,
+    "atlasMentionIndexCurrentScope": "exact entity and alias matching with Unicode letter number underscore token boundaries",
+    "atlasObservationAggregateExists": true,
+    "observationAnalyzerId": "BASIC_EXACT_TERM_V1",
+    "observationAnalyzerKind": "BASIC",
+    "currentSupportedLanguageCodes": [
+      "en",
+      "ru",
+      "und"
+    ],
+    "currentLanguagePolicy": "BASIC_SUPPORTED or UNSUPPORTED_EXACT_ONLY",
+    "currentAnalyzerExactOnly": true,
+    "currentFuzzyMatching": false,
+    "unsupportedLanguageExactOnlyExists": true,
+    "englishFallbackForUnsupportedExists": false,
+    "projectLanguageCodeStorageExists": "partial factual field on project objects, no canonical command boundary or range model",
+    "sceneLanguageRangeTruthExists": false,
+    "mixedLanguageRouterExists": false,
+    "graphemeAwareCanonicalOffsetContractExists": false,
+    "normalizationMapExists": false,
+    "languageCapabilityReportExists": false,
+    "languageCorpusMetricsExists": false,
+    "signedOfflineLanguageResourcesExist": false,
+    "deepEngineDecisionExists": false,
+    "deepRuntimeCapabilityExists": false,
+    "deCertificationRollbackExists": false,
+    "currentMainFullRunner": "795 tests, 731 pass, 0 fail, 64 skipped"
+  },
+  "stageScopeBinding": {
+    "userOutcome": "Atlas honestly works on claimed languages, including mixed-language, CJK, and RTL text, without damaging original Unicode text.",
+    "acceptance": [
+      "every language capability claim is backed by corpus metrics",
+      "unsupported fragments remain GLOBAL exact-only with no silent English fallback",
+      "original Unicode round-trip stays identical",
+      "one unsupported or decertified package does not block certified languages"
+    ],
+    "scopeIn": [
+      "Language Engine Decision",
+      "RU and EN Deep",
+      "European Basic and Deep certification where evidence supports it",
+      "ZH JA KO",
+      "bidi and complex scripts",
+      "mixed-language router",
+      "corpus builder",
+      "signed offline resources",
+      "de-certification and rollback"
+    ],
+    "scopeOut": [
+      "network model downloads",
+      "remote language service",
+      "dynamic executable plugins",
+      "cloud sync or account truth",
+      "release readiness claim",
+      "platform certification",
+      "global graph composite mode",
+      "series atlas packaging"
+    ]
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E07_C01_LANGUAGE_CAPABILITY_TRUTH_REGISTRY_AND_REPORT",
+      "userOutcome": "Author can see exactly which language capabilities are GLOBAL, BASIC, DEEP, unsupported, experimental, or decertified before Atlas analysis runs.",
+      "scopeIn": [
+        "language capability registry and report schema",
+        "GLOBAL BASIC DEEP claim taxonomy",
+        "unsupported exact-only truth rows",
+        "no silent English fallback proof",
+        "capability report query projection"
+      ],
+      "scopeOut": [
+        "language tag author commands",
+        "mixed-language range routing",
+        "new analyzer engine",
+        "corpus certification metrics",
+        "UI runtime surface"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete UI surface is changed",
+        "Feature Integration Manifest for read-only language capability projection",
+        "Negative tests for false DEEP and false fallback claims"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e07-c01-language-capability-truth-registry-report.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C01_LANGUAGE_CAPABILITY_TRUTH_REGISTRY_REPORT_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_AND_NORMALIZATION_MAP",
+      "userOutcome": "Author evidence remains stable across surrogate pairs, combining marks, ZWJ, bidi controls, CRLF/LF, and NFC/NFD without destructive text normalization.",
+      "scopeIn": [
+        "canonical text anchor offset-domain contract",
+        "adapter offset domain declaration",
+        "normalization map schema",
+        "Unicode edge corpus fixtures",
+        "original quote and source hash preservation"
+      ],
+      "scopeOut": [
+        "mixed-language router",
+        "Deep analyzer",
+        "renderer IME changes unless a contract gap requires it",
+        "storage migration"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE",
+        "No UI route unless diagnostics presentation changes later",
+        "Negative tests for destructive normalization and offset-domain ambiguity"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/core if evidence anchor schema requires canonical helper updates",
+        "test/contracts/yalken-atlas-v5-e07-c02-unicode-evidence-anchor-offset-domain-normalization-map.contract.test.js",
+        "test/fixtures/atlas/language",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_NORMALIZATION_MAP_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER",
+      "userOutcome": "Author can mark project, scene, block, or range language intent and mixed-language analysis routes each range without altering manuscript text.",
+      "scopeIn": [
+        "language tag author truth model",
+        "canonical command boundary for language tag set or clear",
+        "range-level language overrides",
+        "mixed-language router projection",
+        "unsupported range exact-only fallback"
+      ],
+      "scopeOut": [
+        "Deep analyzer",
+        "external language detection service",
+        "automatic manuscript rewrite",
+        "UI picker unless explicitly selected as a later surface contour"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete language UI picker is changed",
+        "Feature Integration Manifest before command/runtime write",
+        "Atomic write and recovery checks if author truth changes"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs",
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e07-c03-language-tag-author-truth-mixed-range-router.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_MIXED_RANGE_ROUTER_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_AND_EUROPEAN_CERTIFICATION_FIXTURES",
+      "userOutcome": "Author gets certified BASIC language behavior for EN and RU plus bounded European fixtures only where corpus metrics prove the claim.",
+      "scopeIn": [
+        "Language Pack Contract BASIC subset",
+        "EN segmentation punctuation quotes names contractions possessives fixtures",
+        "RU segmentation punctuation quotes names patronymics surname and e yo preservation fixtures",
+        "European BASIC fixture matrix for independently certified languages",
+        "precision recall F1 metric packet"
+      ],
+      "scopeOut": [
+        "DEEP coreference",
+        "CJK segmentation",
+        "RTL morphology",
+        "new paid or network dependency",
+        "runtime model download"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE",
+        "Dependency decision remains no-new-dependency unless C07 accepts one after license and benchmark proof",
+        "Corpus metric thresholds define certified versus unsupported rows"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/fixtures/atlas/language",
+        "test/contracts/yalken-atlas-v5-e07-c04-basic-language-packs-en-ru-european-certification.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_EUROPEAN_CERTIFICATION_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E07_C05_CJK_RTL_AND_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS",
+      "userOutcome": "Author can write CJK, RTL, and complex-script manuscripts with intact evidence and honest exact-only or certified segmentation behavior.",
+      "scopeIn": [
+        "ZH Hans and Hant exact text fixtures",
+        "JA KO exact text fixtures",
+        "Arabic Hebrew bidi fixtures",
+        "Indic and combining-script grapheme fixtures",
+        "capability report entries that avoid false DEEP claims"
+      ],
+      "scopeOut": [
+        "full CJK morphological engine unless certified locally",
+        "RTL Deep morphology",
+        "renderer bidi redesign",
+        "network language resources"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless UI bidi rendering changes",
+        "Unicode edge and exact-only negative checks",
+        "No unsupported pack may block certified languages"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/fixtures/atlas/language",
+        "test/contracts/yalken-atlas-v5-e07-c05-cjk-rtl-complex-script-exact-only-guards.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C05_CJK_RTL_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_AND_ADAPTER_STUB",
+      "userOutcome": "Author sees DEEP as explicitly unavailable, experimental, or certified by a local offline adapter decision instead of implied by BASIC exact analysis.",
+      "scopeIn": [
+        "Language Engine Decision packet",
+        "license size RAM cold-start determinism platform and supply-chain evaluation",
+        "local reversible adapter stub for Deep capability gates",
+        "offline resource manifest and signed hash packet",
+        "rollback rule for rejected engine candidates"
+      ],
+      "scopeOut": [
+        "paid API",
+        "remote model service",
+        "runtime executable plugin download",
+        "full RU EN Deep certification without corpus metrics"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE",
+        "Dependency contour required before any new engine dependency",
+        "False-green tests must keep DEEP unavailable until metrics certify it"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "docs/OPS/STATUS",
+        "test/contracts/yalken-atlas-v5-e07-c06-deep-engine-decision-offline-resource-adapter-stub.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_ADAPTER_STUB_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_AND_DEGRADATION",
+      "userOutcome": "Author can use only certified RU and EN Deep signals that pass local corpus metrics, while failed metrics degrade to BASIC exact-only.",
+      "scopeIn": [
+        "RU EN Deep fixture corpus",
+        "NER morphology constrained coreference dialogue event extraction metric packets where implemented",
+        "precision recall F1 thresholds",
+        "degraded outcome rows for uncertified signals",
+        "no automatic storyCanon mutation"
+      ],
+      "scopeOut": [
+        "European Deep certification",
+        "CJK Deep",
+        "series-wide analysis",
+        "cloud inference"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete Deep diagnostics surface is changed",
+        "Corpus metrics decide certified versus degraded capability rows",
+        "Negative tests for automatic entity or relation truth mutation"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/fixtures/atlas/language",
+        "test/contracts/yalken-atlas-v5-e07-c07-ru-en-deep-fixture-certification-degradation.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_DEGRADATION_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_AND_RESOURCE_ISOLATION",
+      "userOutcome": "Author keeps certified languages working when one language pack is decertified, removed, corrupted, or rolled back.",
+      "scopeIn": [
+        "de-certification state machine",
+        "per-language isolation",
+        "resource corruption and missing-resource fixtures",
+        "rollback to exact-only",
+        "capability report and corpus metric invalidation"
+      ],
+      "scopeOut": [
+        "online update service",
+        "external package manager",
+        "platform installer",
+        "release certification"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless diagnostics UI changes",
+        "Recovery ladder for corrupt or missing language resources",
+        "One unsupported package must not block certified languages"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/fixtures/atlas/language",
+        "test/contracts/yalken-atlas-v5-e07-c08-language-decertification-rollback-resource-isolation.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_RESOURCE_ISOLATION_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
+      "userOutcome": "Author can see which Stage 07 language capabilities are certified, degraded, exact-only, decertified, or out of scope before Stage 08 begins.",
+      "scopeIn": [
+        "Stage 07 acceptance proof",
+        "language capability truth suite rollup",
+        "Unicode original round-trip audit",
+        "mixed-language corpus metric audit",
+        "Deep decision and decertification handoff"
+      ],
+      "scopeOut": [
+        "Stage 08 advanced graph implementation",
+        "series atlas",
+        "platform certification",
+        "release readiness claim"
+      ],
+      "designRoute": [
+        "Finalize skill or equivalent pre-close audit only if concrete UI changed",
+        "Heuristic review for language diagnostics workflow if UI changed",
+        "Document consciously skipped tools per matrix"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer if diagnostics title or display changes",
+        "test/contracts/yalken-atlas-v5-e07-c09-stage-07-acceptance-diagnostics-handoff.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    }
+  ],
+  "stageAcceptanceBinding": {
+    "claimTruth": "E07_C01 introduces language capability rows before any expanded analyzer claim.",
+    "unicodeNoLoss": "E07_C02 must prove original Unicode preservation and offset-domain conversion before range routing or corpus metrics rely on anchors.",
+    "mixedLanguage": "E07_C03 routes confirmed language ranges and keeps unsupported ranges exact-only.",
+    "corpusMetrics": "E07_C04 through E07_C07 certify only evidence-backed capabilities and leave failures degraded or exact-only.",
+    "deepGate": "E07_C06 separates engine and dependency decisions from BASIC analysis and prevents false DEEP activation.",
+    "isolation": "E07_C08 ensures one unsupported or decertified package cannot block certified languages.",
+    "handoff": "E07_C09 closes Stage 07 only with acceptance diagnostics and no release readiness claim."
+  },
+  "validation": [
+    {
+      "command": "git rev-parse HEAD",
+      "result": "PASS",
+      "summary": "cbb2ade82665ebd2c16c20b1925a1d7c2a87f058"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c02-exact-mention-anchors.contract.test.js test/contracts/yalken-atlas-v5-e04-c01-atlas-observation-candidate-aggregate-model.contract.test.js test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
+      "result": "PASS",
+      "summary": "14 tests, 14 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approval"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "read-only contour compilation receipt only; no product truth, manuscript, persistence, analyzer engine, resource, or runtime UI mutation",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E07_C01_LANGUAGE_CAPABILITY_TRUTH_REGISTRY_AND_REPORT"
+}

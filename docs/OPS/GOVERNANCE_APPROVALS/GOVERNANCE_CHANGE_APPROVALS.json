@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C00_STAGE_09_SERIES_PORTABILITY_CONTOUR_COMPILATION_RECEIPT.json",
+      "sha256": "98b495502e59749664f4b72b515892c8fa6d5fec7805255d51a9575567117bf6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C00_STAGE_09_SERIES_AND_PORTABILITY_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-30T09:21:43.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E09 C00 compilation receipt: records factual Stage 09 series and portability runtime state on merge SHA 835d0a9d84438f6243a789f06a81f35547440998, binds the accepted Stage 08 handoff to E09, compiles a linear queue for series package autonomy, cross-book identity and vocabulary portability, Atlas ExportIR readable JSON unknown-field preservation, graph package archive repeat import explicit loss report, Atlas image and PDF evidence over local ExportIR adapters, full archive content preservation, saved views batch operations and Stage 09 acceptance, records factual focused, ops, doctrine, OSS, diff, and full-runner PASS evidence only after execution, and adds no runtime implementation, no UI, no dependency, no project truth mutation, no manuscript mutation, no storage, no network, no renderer mutation, no release readiness claim, and no final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e09-c00-stage-09-series-portability-contour-compilation.contract.test.js",
+      "sha256": "fae81ba30ffec686778ca987319dd83262256de91df90eccb9129daae1795a23",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C00_STAGE_09_SERIES_AND_PORTABILITY_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-30T09:21:43.000Z",
+      "rationale": "Approve E09 C00 contract coverage: proves Stage 08 acceptance hands off to Stage 09 rather than final Program DoD, validates the Stage 09 compiled queue covers series package autonomy, cross-book identity, vocabularies, Command Kernel preview apply boundaries, rollback reopen proof, ExportIR, readable JSON, unknown-field preservation, graph package archive repeat import, Atlas image and PDF evidence, full archive content preservation, derived rebuild proof, explicit loss report, saved views, batch operations and Stage 09 acceptance, rejects false-green validation rows, distinguishes existing manual-map/archive portability from missing Stage 09 runtime, and keeps filesystem, network, Electron, DOM, command-dispatch, storage, renderer, project-truth, manuscript mutation, release readiness, and final Program DoD bypass paths absent."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_STAGE_08_ACCEPTANCE_RECEIPT.json",
       "sha256": "c1498531d27d14c14da11714b145a93bb4fbdd5b7e89a08051b9f38fcdae0db4",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_AND_STAGE_08_ACCEPTANCE",

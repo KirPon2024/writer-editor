@@ -2,6 +2,27 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C05_CJK_RTL_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS_RECEIPT.json",
+      "sha256": "f7cf933175a494b12c02c86a70c65828f50a7c78f6a1fad21004f1e81ec8434e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C05_CJK_RTL_AND_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS",
+      "approvedAtUtc": "2026-07-30T06:40:58.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C05 delivery receipt: records local verified implementation of read-only complex-script exact-only guards for CJK RTL Indic and combining-script fixtures, capability report opt-in binding for guarded exact-only unsupported rows, no segmentation certification, no morphology certification, no Deep claim, no silent English fallback, original Unicode evidence preservation through C02 anchor metadata, no automatic language detection, no manuscript mutation, no project truth mutation, no storage, no network, no runtime download, no dynamic executable plugin, no UI runtime change, no new dependency, focused pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c05-cjk-rtl-complex-script-exact-only-guards.contract.test.js",
+      "sha256": "da1ccd79b05c1b0aec707222d16908393cc0a9643121a184b96de5c8613ee650",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C05_CJK_RTL_AND_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS",
+      "approvedAtUtc": "2026-07-30T06:40:58.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C05 contract: proves CJK exact phrase fixtures do not imply segmentation, Arabic and Hebrew RTL fixtures preserve original quote and bidi offset-domain evidence, Hindi Tamil and combining-mark fixtures preserve grapheme evidence anchors, guarded rows remain unsupported exact-only in the capability report with englishFallback false and Deep unavailable, failing guard metrics decertify only the affected language, exports are present through derived barrels, and sources remain free of storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, true segmentation, true morphology, true English fallback, true Deep support, or hidden UI bypasses."
+    },
+    {
+      "filePath": "test/fixtures/atlas/language/complex-script-exact-only-guard-corpus.json",
+      "sha256": "42134d749cfd2166772e3f68690fc28e89cbc1bf40f4c475ccd30dba7f888b5d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C05_CJK_RTL_AND_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS",
+      "approvedAtUtc": "2026-07-30T06:40:58.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C05 complex-script fixture corpus: provides local free deterministic ZH Hans ZH Hant JA KO Arabic Hebrew Hindi Tamil and combining-mark exact-only guard examples with precision recall and F1 threshold 1.0, no private data, no production language resource, no model file, no runtime dependency, no paid service, no network service, and no executable artifact."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_EUROPEAN_CERTIFICATION_RECEIPT.json",
       "sha256": "8c1c8284b412cea4ad696b9253df59fd4be95ff684d781a200e91ce7d960d007",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_AND_EUROPEAN_CERTIFICATION_FIXTURES",

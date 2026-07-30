@@ -172,6 +172,19 @@ export {
   sortAtlasDiagnosticsRows,
 } from './atlasDiagnosticsTypes.mjs';
 export {
+  ATLAS_COMPLEX_SCRIPT_CLASS,
+  ATLAS_COMPLEX_SCRIPT_EXACT_ONLY_GUARD_SCHEMA_VERSION,
+  ATLAS_COMPLEX_SCRIPT_GUARD_CASE_METRIC_SCHEMA_VERSION,
+  ATLAS_COMPLEX_SCRIPT_GUARD_LANGUAGE_ROW_SCHEMA_VERSION,
+  ATLAS_COMPLEX_SCRIPT_GUARD_STATUS,
+  sortAtlasComplexScriptGuardCaseMetrics,
+  sortAtlasComplexScriptGuardRows,
+} from './atlasComplexScriptGuardTypes.mjs';
+export {
+  deriveAtlasComplexScriptExactOnlyGuards,
+  getAtlasComplexScriptExactOnlyGuardDefaultCorpus,
+} from './deriveAtlasComplexScriptExactOnlyGuards.mjs';
+export {
   ATLAS_BASIC_LANGUAGE_PACK_CASE_METRIC_SCHEMA_VERSION,
   ATLAS_BASIC_LANGUAGE_PACK_CERTIFICATION_SCHEMA_VERSION,
   ATLAS_BASIC_LANGUAGE_PACK_CLAIM,

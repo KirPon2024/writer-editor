@@ -6,6 +6,8 @@ import {
 } from './atlasObservationTypes.mjs';
 import { deriveAtlasBasicLanguagePackCertification } from './deriveAtlasBasicLanguagePackCertification.mjs';
 import { ATLAS_BASIC_LANGUAGE_PACK_STATUS } from './atlasBasicLanguagePackTypes.mjs';
+import { deriveAtlasComplexScriptExactOnlyGuards } from './deriveAtlasComplexScriptExactOnlyGuards.mjs';
+import { ATLAS_COMPLEX_SCRIPT_GUARD_STATUS } from './atlasComplexScriptGuardTypes.mjs';
 import {
   ATLAS_LANGUAGE_CAPABILITY_GUARD_SCHEMA_VERSION,
   ATLAS_LANGUAGE_CAPABILITY_LEVEL,
@@ -16,7 +18,7 @@ import {
 } from './atlasLanguageCapabilityTypes.mjs';
 
 const VIEW_ID = 'derived.atlas.languageCapabilityReport.v1';
-const DEFAULT_LANGUAGE_CODES = Object.freeze(['und', 'de', 'en', 'es', 'fr', 'pl', 'ru', 'zh', 'ja', 'ko', 'ar', 'he', 'hi', 'zz']);
+const DEFAULT_LANGUAGE_CODES = Object.freeze(['und', 'de', 'en', 'es', 'fr', 'pl', 'ru', 'zh', 'zh-hans', 'zh-hant', 'ja', 'ko', 'ar', 'he', 'hi', 'ta', 'zz']);
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -55,11 +57,13 @@ function getProject(coreState, projectId) {
   return isPlainObject(projects[projectId]) ? projects[projectId] : null;
 }
 
-function buildLanguageRow(languageCode, certificationByLanguageCode) {
+function buildLanguageRow(languageCode, certificationByLanguageCode, complexGuardByLanguageCode) {
   const policy = normalizeAtlasObservationLanguagePolicy(languageCode);
   const certification = certificationByLanguageCode.get(policy.languageCode) || null;
+  const complexGuard = complexGuardByLanguageCode.get(policy.languageCode) || null;
   const certifiedByCorpus = certification?.status === ATLAS_BASIC_LANGUAGE_PACK_STATUS.CERTIFIED_EXACT_ONLY;
   const supported = policy.policy === ATLAS_OBSERVATION_LANGUAGE_POLICY.BASIC_SUPPORTED && certifiedByCorpus;
+  const guardedExactOnly = complexGuard?.status === ATLAS_COMPLEX_SCRIPT_GUARD_STATUS.GUARDED_EXACT_ONLY;
   const status = supported
     ? ATLAS_LANGUAGE_CAPABILITY_STATUS.CERTIFIED_EXACT_ONLY
     : ATLAS_LANGUAGE_CAPABILITY_STATUS.UNSUPPORTED_EXACT_ONLY;
@@ -89,7 +93,9 @@ function buildLanguageRow(languageCode, certificationByLanguageCode) {
     ],
     corpusMetricsStatus: supported
       ? 'certified-by-e07-c04-basic-fixtures'
-      : 'unsupported-or-not-certified-by-e07-c04-basic-fixtures',
+      : guardedExactOnly
+        ? 'guarded-exact-only-by-e07-c05-complex-script-fixtures'
+        : 'unsupported-or-not-certified-by-e07-c04-basic-fixtures',
     corpusMetrics: certification
       ? {
         caseCount: certification.caseCount,
@@ -104,8 +110,21 @@ function buildLanguageRow(languageCode, certificationByLanguageCode) {
         precision: 1,
         recall: 1,
         f1: 1,
-      },
+    },
     languagePackClaims: supported && Array.isArray(certification?.claims) ? certification.claims : [],
+    complexScriptGuard: complexGuard
+      ? {
+        status: complexGuard.status,
+        scriptClass: complexGuard.scriptClass,
+        caseCount: complexGuard.caseCount,
+        passedCaseCount: complexGuard.passedCaseCount,
+        precision: complexGuard.precision,
+        recall: complexGuard.recall,
+        f1: complexGuard.f1,
+        segmentationCertified: false,
+        morphologyCertified: false,
+      }
+      : null,
     downgradeTarget: 'GLOBAL_EXACT_ONLY',
   };
 }
@@ -158,8 +177,13 @@ function buildReport({ project, params, meta }) {
   });
   const certificationByLanguageCode = new Map(languagePackCertification.languageRows
     .map((row) => [row.languageCode, row]));
+  const complexScriptExactOnlyGuards = isPlainObject(params.complexScriptGuardCorpus)
+    ? deriveAtlasComplexScriptExactOnlyGuards({ corpus: params.complexScriptGuardCorpus })
+    : null;
+  const complexGuardByLanguageCode = new Map((complexScriptExactOnlyGuards?.languageRows || [])
+    .map((row) => [row.languageCode, row]));
   const capabilityRows = sortAtlasLanguageCapabilityRows([
-    ...languageCodes.map((code) => buildLanguageRow(code, certificationByLanguageCode)),
+    ...languageCodes.map((code) => buildLanguageRow(code, certificationByLanguageCode, complexGuardByLanguageCode)),
     ...languageCodes.map((code) => buildDeepUnavailableRow(code)),
   ]);
   const guards = buildGuards(capabilityRows);
@@ -207,6 +231,7 @@ function buildReport({ project, params, meta }) {
     },
     guards,
     basicLanguagePackCertification: languagePackCertification,
+    complexScriptExactOnlyGuards,
     capabilityRows,
   };
 }

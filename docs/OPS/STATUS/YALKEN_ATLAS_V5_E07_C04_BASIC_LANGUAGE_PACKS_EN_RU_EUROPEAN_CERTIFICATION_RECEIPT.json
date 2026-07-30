@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_EUROPEAN_CERTIFICATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_AND_EUROPEAN_CERTIFICATION_FIXTURES",
+  "programStage": "E07_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T06:26:47Z",
+  "baseSha": "046bc7dd2f01c6630279ddf271f971269956c221",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds BASIC exact-only language pack certification types, evaluator, fixture corpus, and language capability report binding only; no product UI screen, visual composition, layout, palette, typography, or runtime Design OS surface changes.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.basicLanguagePackCertification",
+    "productPlane": {
+      "truthPath": "none-read-only-derived-certification",
+      "commandIds": [],
+      "mutationAuthority": "none",
+      "writePath": "none",
+      "readPath": "derived.atlas.basicLanguagePackCertification.v1 and derived.atlas.languageCapabilityReport.v1",
+      "sourceReadModels": [
+        "BASIC language pack fixture corpus",
+        "atlasObservationTypes.mjs language policy",
+        "BASIC_EXACT_TERM_V1 exact boundary matcher"
+      ],
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "runtimeDownload": false,
+      "dynamicExecutablePlugin": false,
+      "automaticLanguageDetection": false,
+      "automaticManuscriptRewrite": false,
+      "projectTruthMutation": false,
+      "manuscriptMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "not-applicable-no-ui",
+      "host": "none",
+      "slotId": "not-applicable-no-ui-surface",
+      "providerId": "none",
+      "runtimeUiChanged": false,
+      "explicitOpenRequired": false,
+      "dispatchIntentOnly": false
+    },
+    "authorityMap": {
+      "productTruth": "none",
+      "commandAuthority": "none",
+      "designAuthority": "none",
+      "storageAuthority": "none",
+      "capabilityRevalidation": "atlas.languageCapabilityReport derived capability gate unchanged"
+    },
+    "fallbacks": [
+      "certified EN RU UND DE ES FR PL rows remain BASIC exact-only only when corpus metrics pass threshold",
+      "PT-BR ZH-HANT IT and other unsupported rows remain GLOBAL exact-only with englishFallback false",
+      "Deep remains UNAVAILABLE until later engine and corpus contours",
+      "failing corpus rows decertify only that language and do not mutate project truth"
+    ],
+    "recovery": {
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "storageMutation": false,
+      "networkMutation": false,
+      "decertificationLocalToReport": true,
+      "noRuntimeResourceInstall": true,
+      "noModelDownload": true
+    },
+    "negativeBypassChecks": [
+      "unsupported corpus languages remain unsupported exact-only",
+      "failing accepted fixture language decertifies without mutating EN or RU",
+      "capability report keeps englishFallback false for every row",
+      "capability report keeps Deep unavailable for every language",
+      "language certification sources contain no storage, network, DOM IPC, UI dispatch, worker, child process, runtime download, dynamic executable plugin, true English fallback, or true Deep support"
+    ]
+  },
+  "implementation": {
+    "schemasAdded": [
+      "derived.atlas.basicLanguagePackContract.v1",
+      "derived.atlas.basicLanguagePackCertification.v1",
+      "derived.atlas.basicLanguagePackLanguageRow.v1",
+      "derived.atlas.basicLanguagePackCaseMetric.v1"
+    ],
+    "certifiedBasicExactOnlyLanguages": [
+      "de",
+      "en",
+      "es",
+      "fr",
+      "pl",
+      "ru",
+      "und"
+    ],
+    "unsupportedExactOnlyFixtureLanguages": [
+      "it",
+      "pt-br",
+      "zh-hant"
+    ],
+    "fixtureDimensions": [
+      "EN punctuation quotes names contractions possessives",
+      "RU punctuation quotes patronymics surname e-yo preservation",
+      "DE ES FR PL diacritic preservation",
+      "UND neutral exact boundary"
+    ],
+    "metricThresholds": {
+      "precision": 1,
+      "recall": 1,
+      "f1": 1
+    },
+    "runtimeUiChanged": false,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node --check src derived atlas basic language pack files and C04 contract",
+      "result": "PASS",
+      "summary": "C04 language pack types, certification evaluator, capability report binding, barrels, and focused contract parse"
+    },
+    {
+      "command": "node --test C01 language capability contract and C04 language pack certification contract",
+      "result": "PASS",
+      "summary": "9 tests, 9 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; COMMAND_NAMESPACE_CHECK_RESULT=PASS; MENU_OVERLAY_STACK_CHECK_RESULT=PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "BASIC language certification is read-only, corpus-metric gated, locally decertifiable, and does not mutate manuscript text or project truth",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E07_C05_CJK_RTL_AND_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS"
+}

@@ -2,6 +2,27 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_EUROPEAN_CERTIFICATION_RECEIPT.json",
+      "sha256": "8c1c8284b412cea4ad696b9253df59fd4be95ff684d781a200e91ce7d960d007",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_AND_EUROPEAN_CERTIFICATION_FIXTURES",
+      "approvedAtUtc": "2026-07-30T06:26:47.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C04 delivery receipt: records local verified implementation of BASIC exact-only language pack certification, EN and RU corpus metrics, bounded DE ES FR PL European fixture certification, PT-BR ZH-HANT IT unsupported exact-only guard rows, capability report binding to C04 corpus metrics, no Deep claim, no silent English fallback, no automatic language detection, no manuscript mutation, no project truth mutation, no storage, no network, no runtime download, no dynamic executable plugin, no UI runtime change, no new dependency, focused pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c04-basic-language-packs-en-ru-european-certification.contract.test.js",
+      "sha256": "9777486acb53a162b1f936347cbdb49019c59fbc7cd3acd0216f000a715e8d81",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_AND_EUROPEAN_CERTIFICATION_FIXTURES",
+      "approvedAtUtc": "2026-07-30T06:26:47.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C04 contract: proves BASIC language pack certification exposes schema and exact-only contract, certifies EN RU UND DE ES FR PL only at precision recall and F1 threshold 1.0, covers EN punctuation quotes names contractions possessives, RU punctuation quotes patronymic surname and e-yo preservation, binds capability report rows to corpus metrics without English fallback or Deep support, decertifies failing accepted languages locally without mutating EN or RU, exports through derived barrels, and keeps sources free of storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, true English fallback, true Deep support, or hidden UI bypasses."
+    },
+    {
+      "filePath": "test/fixtures/atlas/language/basic-language-pack-certification-corpus.json",
+      "sha256": "c945a871f0f598aabb71f0a3be2d6f1cc614133951f9a707412675e6a1c42bac",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_AND_EUROPEAN_CERTIFICATION_FIXTURES",
+      "approvedAtUtc": "2026-07-30T06:26:47.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C04 BASIC language pack fixture corpus: provides local free deterministic EN RU UND DE ES FR PL exact-only certification examples and unsupported PT-BR ZH-HANT IT rows, with precision recall and F1 threshold 1.0, no private data, no production language resource, no model file, no runtime dependency, no paid service, no network service, and no executable artifact."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_MIXED_RANGE_ROUTER_RECEIPT.json",
       "sha256": "ca2f47c5a967a7767da9ede2556d088f3b081b4d08bee737d8b15539c418fb1b",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER",

@@ -1,0 +1,716 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.c01-locator-carrier-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "C01_WORD_SATURATION_LOCATOR_AUTHORITY_CARRIER_AB",
+  "createdAtUtc": "2026-07-30T16:58:50.121Z",
+  "base": {
+    "originMainShaAtBranchStart": "d3aa4eb1dc109bb474870f134602d66188c3e260",
+    "branch": "codex/rtk-word-saturation-c01",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "precedingB06MergeSha": "da1b7fe46b7232dd3815eb7a332c5f88a2fc4792"
+  },
+  "profile": {
+    "profileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+    "oldD1ProfileNotRebound": true,
+    "latestB06ProfilePreserved": "word-mac-latest-observed-16.111.x-semantic-v2-b06"
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "observedProfileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+    "versionByBundle": "16.111.1",
+    "buildByBundle": "16.111.26071913",
+    "versionByAppleScript": "16.111.1",
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true
+  },
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007",
+  "wordSandboxRunDir": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/c01-locator-carrier/c01-physical-007",
+  "wordSandboxPolicy": {
+    "scratchKind": "WORD_CONTAINER_LOCAL_TMP_TO_AVOID_MACOS_FILE_ACCESS_PROMPTS",
+    "durableEvidenceOnT7": true,
+    "sourceConstruction": "WORD_CREATED_BASE_DOCX_THEN_CARRIER_INJECTION",
+    "cleanupRemovesScratchAfterReceipt": true,
+    "noUserDocumentsClosed": true,
+    "closeStrategy": "GUI_CLOSE_SAVED_ACTIVE_LAB_WINDOW_ONLY"
+  },
+  "b06Baseline": {
+    "receiptPath": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability/docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B06_PHYSICAL_CERTIFICATION_RECEIPT.json",
+    "physicalRoundTrips": 32,
+    "exactAutomaticCandidates": 0,
+    "customXmlMutationLimitation": "CUSTOM_XML_DROPPED_AFTER_TRACKED_OR_COMMENTED_WORD_SAVE_ON_OBSERVED_WORD_PROFILE"
+  },
+  "cases": [
+    {
+      "caseId": "C01-001",
+      "title": "no edit save reopen carrier baseline",
+      "mutating": false,
+      "sourceConstruction": "WORD_CREATED_BASE_DOCX_THEN_CARRIER_INJECTION",
+      "baseWordStatus": "PASS",
+      "closeStrategy": "GUI_CLOSE_SAVED_ACTIVE_LAB_WINDOW_ONLY",
+      "wordActions": [],
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "wordRevisionCount": 0,
+      "wordCommentCount": 0,
+      "sourceDocxSha256": "sha256:0f07b4c05ed80442f3693ed3fa4a439b65b9198ac2339630be705b648da25c08",
+      "returnedDocxSha256": "sha256:0f07b4c05ed80442f3693ed3fa4a439b65b9198ac2339630be705b648da25c08",
+      "returnedBytes": 71433,
+      "encodedCarrierSha256": "sha256:2dbbaf9f24b7a4c59e5c98c90be972496eb82408ce99f1844b7ab6dc23e254b8",
+      "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/applescripts/C01-001-word.applescript",
+      "carrierInspection": {
+        "packageZipOk": true,
+        "entries": [
+          "_rels/.rels",
+          "[Content_Types].xml",
+          "customXml/_rels/item1.xml.rels",
+          "customXml/item1.xml",
+          "customXml/itemProps1.xml",
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "docProps/custom.xml",
+          "word/_rels/document.xml.rels",
+          "word/document.xml",
+          "word/fontTable.xml",
+          "word/settings.xml",
+          "word/styles.xml",
+          "word/theme/theme1.xml",
+          "word/webSettings.xml"
+        ],
+        "carriers": {
+          "customXmlManifest": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": true,
+            "verification": {
+              "ok": true,
+              "code": "C01_CARRIER_VERIFIED",
+              "payloadDigest": "sha256:37f34c8f2ef3d181f2e20d8a025485f637bdf3588a0daec2317ce34b0ac1dbc9",
+              "signatureDigest": "hmac-sha256:8d081cacfb3b2bfc4efc882732b616bef72abc44a9ff1f2f99615f6ded7d0ce0",
+              "payload": {
+                "schemaVersion": "yalken.rtk.locator-authority-payload.c01.v1",
+                "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+                "profileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+                "caseId": "C01-001",
+                "sceneId": "scene-c01-alpha",
+                "sceneRevision": "scene-revision-c01-alpha-0001",
+                "blockId": "block-c01-target",
+                "roundId": "round-c01-locator-carrier",
+                "exportId": "export-c01-locator-carrier",
+                "rawSha256": "sha256:b8bf367664ee24f3f415530cbe28b1bc0537fca3d1bdd12d2c23c89a9c30367d",
+                "blockTextSha256": "sha256:fa90d1679a3766641a8ab28155bf24589ef9971960e1506fd509a80ca7923247"
+              }
+            }
+          },
+          "customDocumentProperty": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": true,
+            "verification": {
+              "ok": true,
+              "code": "C01_CARRIER_VERIFIED",
+              "payloadDigest": "sha256:37f34c8f2ef3d181f2e20d8a025485f637bdf3588a0daec2317ce34b0ac1dbc9",
+              "signatureDigest": "hmac-sha256:8d081cacfb3b2bfc4efc882732b616bef72abc44a9ff1f2f99615f6ded7d0ce0",
+              "payload": {
+                "schemaVersion": "yalken.rtk.locator-authority-payload.c01.v1",
+                "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+                "profileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+                "caseId": "C01-001",
+                "sceneId": "scene-c01-alpha",
+                "sceneRevision": "scene-revision-c01-alpha-0001",
+                "blockId": "block-c01-target",
+                "roundId": "round-c01-locator-carrier",
+                "exportId": "export-c01-locator-carrier",
+                "rawSha256": "sha256:b8bf367664ee24f3f415530cbe28b1bc0537fca3d1bdd12d2c23c89a9c30367d",
+                "blockTextSha256": "sha256:fa90d1679a3766641a8ab28155bf24589ef9971960e1506fd509a80ca7923247"
+              }
+            }
+          },
+          "settingsDocVar": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "sdtTag": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "bookmarkName": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "hiddenRun": {
+            "visibleToAuthor": true,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_HIDDEN_PLACEMENT_SIGNAL_LOST"
+            }
+          }
+        }
+      },
+      "paths": {
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/source-docx/C01-001-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/returned-docx/C01-001-returned.docx"
+      }
+    },
+    {
+      "caseId": "C01-002",
+      "title": "tracked insert carrier survival",
+      "mutating": true,
+      "sourceConstruction": "WORD_CREATED_BASE_DOCX_THEN_CARRIER_INJECTION",
+      "baseWordStatus": "PASS",
+      "closeStrategy": "GUI_CLOSE_SAVED_ACTIVE_LAB_WINDOW_ONLY",
+      "wordActions": [
+        "insert"
+      ],
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "wordRevisionCount": 1,
+      "wordCommentCount": 0,
+      "sourceDocxSha256": "sha256:2d4c4f4dbe347f8340448e1dff3c3391176a1d65700cea6da118cd06f6e080fa",
+      "returnedDocxSha256": "sha256:26757cd13b716649646548661aefeee18377ef590e9cfa78741ab9846e1f2ca3",
+      "returnedBytes": 16732,
+      "encodedCarrierSha256": "sha256:28fbd83d4f998536984ce6cf4dbd82ab62e88054df8fe0fd633479aaf1c05923",
+      "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/applescripts/C01-002-word.applescript",
+      "carrierInspection": {
+        "packageZipOk": true,
+        "entries": [
+          "[Content_Types].xml",
+          "_rels/.rels",
+          "word/document.xml",
+          "word/_rels/document.xml.rels",
+          "word/theme/theme1.xml",
+          "word/settings.xml",
+          "word/styles.xml",
+          "word/webSettings.xml",
+          "word/fontTable.xml",
+          "word/people.xml",
+          "docProps/core.xml",
+          "docProps/app.xml",
+          "docProps/custom.xml"
+        ],
+        "carriers": {
+          "customXmlManifest": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "customDocumentProperty": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": true,
+            "verification": {
+              "ok": true,
+              "code": "C01_CARRIER_VERIFIED",
+              "payloadDigest": "sha256:198d6061f22e5131f66787e93060a8616e751f20f383b8162da075e47059d9d1",
+              "signatureDigest": "hmac-sha256:9ba06a86438845385feab90bb0351bd7d51eb67daffbee930e7c3a1dda96f355",
+              "payload": {
+                "schemaVersion": "yalken.rtk.locator-authority-payload.c01.v1",
+                "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+                "profileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+                "caseId": "C01-002",
+                "sceneId": "scene-c01-alpha",
+                "sceneRevision": "scene-revision-c01-alpha-0001",
+                "blockId": "block-c01-target",
+                "roundId": "round-c01-locator-carrier",
+                "exportId": "export-c01-locator-carrier",
+                "rawSha256": "sha256:b8bf367664ee24f3f415530cbe28b1bc0537fca3d1bdd12d2c23c89a9c30367d",
+                "blockTextSha256": "sha256:fa90d1679a3766641a8ab28155bf24589ef9971960e1506fd509a80ca7923247"
+              }
+            }
+          },
+          "settingsDocVar": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "sdtTag": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "bookmarkName": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "hiddenRun": {
+            "visibleToAuthor": true,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_HIDDEN_PLACEMENT_SIGNAL_LOST"
+            }
+          }
+        }
+      },
+      "paths": {
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/source-docx/C01-002-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/returned-docx/C01-002-returned.docx"
+      }
+    },
+    {
+      "caseId": "C01-003",
+      "title": "tracked delete carrier survival",
+      "mutating": true,
+      "sourceConstruction": "WORD_CREATED_BASE_DOCX_THEN_CARRIER_INJECTION",
+      "baseWordStatus": "PASS",
+      "closeStrategy": "GUI_CLOSE_SAVED_ACTIVE_LAB_WINDOW_ONLY",
+      "wordActions": [
+        "delete"
+      ],
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "wordRevisionCount": 1,
+      "wordCommentCount": 0,
+      "sourceDocxSha256": "sha256:7b356b020251b5fb7f7573c67f48fdde5dd615773836571bbeccbf21d74cb022",
+      "returnedDocxSha256": "sha256:a076ef0ce833b40bb8e6ac81e10a861fdcf20326665ee7126edad2e76506bc3c",
+      "returnedBytes": 16736,
+      "encodedCarrierSha256": "sha256:feacdce08e82d8c4de9509424e2988460ffb9be0fda4d8c22d31bec27e45d787",
+      "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/applescripts/C01-003-word.applescript",
+      "carrierInspection": {
+        "packageZipOk": true,
+        "entries": [
+          "[Content_Types].xml",
+          "_rels/.rels",
+          "word/document.xml",
+          "word/_rels/document.xml.rels",
+          "word/theme/theme1.xml",
+          "word/settings.xml",
+          "word/styles.xml",
+          "word/webSettings.xml",
+          "word/fontTable.xml",
+          "word/people.xml",
+          "docProps/core.xml",
+          "docProps/app.xml",
+          "docProps/custom.xml"
+        ],
+        "carriers": {
+          "customXmlManifest": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "customDocumentProperty": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": true,
+            "verification": {
+              "ok": true,
+              "code": "C01_CARRIER_VERIFIED",
+              "payloadDigest": "sha256:0a490080b8dbac33917bacf3054d2b17fef27088ada827520da23276b7c667c5",
+              "signatureDigest": "hmac-sha256:c6f9c920817d5c511b3d7582f20e2f0cdafcd821974a4a62ac11fa1047a47db0",
+              "payload": {
+                "schemaVersion": "yalken.rtk.locator-authority-payload.c01.v1",
+                "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+                "profileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+                "caseId": "C01-003",
+                "sceneId": "scene-c01-alpha",
+                "sceneRevision": "scene-revision-c01-alpha-0001",
+                "blockId": "block-c01-target",
+                "roundId": "round-c01-locator-carrier",
+                "exportId": "export-c01-locator-carrier",
+                "rawSha256": "sha256:b8bf367664ee24f3f415530cbe28b1bc0537fca3d1bdd12d2c23c89a9c30367d",
+                "blockTextSha256": "sha256:fa90d1679a3766641a8ab28155bf24589ef9971960e1506fd509a80ca7923247"
+              }
+            }
+          },
+          "settingsDocVar": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "sdtTag": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "bookmarkName": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "hiddenRun": {
+            "visibleToAuthor": true,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_HIDDEN_PLACEMENT_SIGNAL_LOST"
+            }
+          }
+        }
+      },
+      "paths": {
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/source-docx/C01-003-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/returned-docx/C01-003-returned.docx"
+      }
+    },
+    {
+      "caseId": "C01-004",
+      "title": "word comment carrier survival",
+      "mutating": true,
+      "sourceConstruction": "WORD_CREATED_BASE_DOCX_THEN_CARRIER_INJECTION",
+      "baseWordStatus": "PASS",
+      "closeStrategy": "GUI_CLOSE_SAVED_ACTIVE_LAB_WINDOW_ONLY",
+      "wordActions": [
+        "comment"
+      ],
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "wordRevisionCount": 0,
+      "wordCommentCount": 1,
+      "sourceDocxSha256": "sha256:946671e13f1c2f3bef45f2c3cc5f4c134c839453933c41c4b52c8792658f87e2",
+      "returnedDocxSha256": "sha256:4b24f8ee9b309f79c44bf3e0a78bb7df6ec58bc45cc79e029cb911dc4aec152d",
+      "returnedBytes": 20195,
+      "encodedCarrierSha256": "sha256:b9073d5533b63a6afd26ed876cafacedde30e7656c112c0ffd8c419ed39b9804",
+      "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/applescripts/C01-004-word.applescript",
+      "carrierInspection": {
+        "packageZipOk": true,
+        "entries": [
+          "[Content_Types].xml",
+          "_rels/.rels",
+          "word/document.xml",
+          "word/_rels/document.xml.rels",
+          "word/comments.xml",
+          "word/theme/theme1.xml",
+          "word/settings.xml",
+          "word/styles.xml",
+          "word/webSettings.xml",
+          "word/commentsExtended.xml",
+          "word/commentsIds.xml",
+          "word/commentsExtensible.xml",
+          "word/fontTable.xml",
+          "word/people.xml",
+          "docProps/core.xml",
+          "docProps/app.xml",
+          "docProps/custom.xml"
+        ],
+        "carriers": {
+          "customXmlManifest": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "customDocumentProperty": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": true,
+            "verification": {
+              "ok": true,
+              "code": "C01_CARRIER_VERIFIED",
+              "payloadDigest": "sha256:227e5bf962b8a4f041e066d352e0cb493e3a8961e408a16ce8f24c9856e430de",
+              "signatureDigest": "hmac-sha256:de6e5e3cfc05f1378a800f840d4b8176f6b7b8e5ec2265916cf7543db2936b0a",
+              "payload": {
+                "schemaVersion": "yalken.rtk.locator-authority-payload.c01.v1",
+                "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+                "profileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+                "caseId": "C01-004",
+                "sceneId": "scene-c01-alpha",
+                "sceneRevision": "scene-revision-c01-alpha-0001",
+                "blockId": "block-c01-target",
+                "roundId": "round-c01-locator-carrier",
+                "exportId": "export-c01-locator-carrier",
+                "rawSha256": "sha256:b8bf367664ee24f3f415530cbe28b1bc0537fca3d1bdd12d2c23c89a9c30367d",
+                "blockTextSha256": "sha256:fa90d1679a3766641a8ab28155bf24589ef9971960e1506fd509a80ca7923247"
+              }
+            }
+          },
+          "settingsDocVar": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "sdtTag": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "bookmarkName": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "hiddenRun": {
+            "visibleToAuthor": true,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_HIDDEN_PLACEMENT_SIGNAL_LOST"
+            }
+          }
+        }
+      },
+      "paths": {
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/source-docx/C01-004-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/returned-docx/C01-004-returned.docx"
+      }
+    },
+    {
+      "caseId": "C01-005",
+      "title": "tracked paragraph split carrier survival",
+      "mutating": true,
+      "sourceConstruction": "WORD_CREATED_BASE_DOCX_THEN_CARRIER_INJECTION",
+      "baseWordStatus": "PASS",
+      "closeStrategy": "GUI_CLOSE_SAVED_ACTIVE_LAB_WINDOW_ONLY",
+      "wordActions": [
+        "insert"
+      ],
+      "wordStatus": "PASS",
+      "openEditSaveCloseReopen": "PASS",
+      "wordRevisionCount": 1,
+      "wordCommentCount": 0,
+      "sourceDocxSha256": "sha256:f4bad0dd5cbc6478ab9d682d0889273b1c07b456f97d309a73ab53690b1a21d0",
+      "returnedDocxSha256": "sha256:357810ffee5fd5b0e57a1058b02089f212825d6dd9424bd236a61f91cb71ad31",
+      "returnedBytes": 16755,
+      "encodedCarrierSha256": "sha256:aaea8a81ce8c3fa43a06c6911619ae2e59b070aaa88fa7e5c0900fe80675e4dd",
+      "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/applescripts/C01-005-word.applescript",
+      "carrierInspection": {
+        "packageZipOk": true,
+        "entries": [
+          "[Content_Types].xml",
+          "_rels/.rels",
+          "word/document.xml",
+          "word/_rels/document.xml.rels",
+          "word/theme/theme1.xml",
+          "word/settings.xml",
+          "word/styles.xml",
+          "word/webSettings.xml",
+          "word/fontTable.xml",
+          "word/people.xml",
+          "docProps/core.xml",
+          "docProps/app.xml",
+          "docProps/custom.xml"
+        ],
+        "carriers": {
+          "customXmlManifest": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "customDocumentProperty": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": true,
+            "verification": {
+              "ok": true,
+              "code": "C01_CARRIER_VERIFIED",
+              "payloadDigest": "sha256:3f22a6d942f58838da8f2d890882601fb2b4a418fe8fa9796664dfeaf624c870",
+              "signatureDigest": "hmac-sha256:9d35b7f6ccade653c4fa1138d7f1287f477f86693db469f12c2a7779e1cf60f9",
+              "payload": {
+                "schemaVersion": "yalken.rtk.locator-authority-payload.c01.v1",
+                "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+                "profileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+                "caseId": "C01-005",
+                "sceneId": "scene-c01-alpha",
+                "sceneRevision": "scene-revision-c01-alpha-0001",
+                "blockId": "block-c01-target",
+                "roundId": "round-c01-locator-carrier",
+                "exportId": "export-c01-locator-carrier",
+                "rawSha256": "sha256:b8bf367664ee24f3f415530cbe28b1bc0537fca3d1bdd12d2c23c89a9c30367d",
+                "blockTextSha256": "sha256:fa90d1679a3766641a8ab28155bf24589ef9971960e1506fd509a80ca7923247"
+              }
+            }
+          },
+          "settingsDocVar": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": true,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_CARRIER_MISSING_OR_BAD_PREFIX"
+            }
+          },
+          "sdtTag": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "bookmarkName": {
+            "visibleToAuthor": false,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_PLACEMENT_SIGNAL_LOST"
+            }
+          },
+          "hiddenRun": {
+            "visibleToAuthor": true,
+            "exactAuthorityCandidate": false,
+            "present": false,
+            "verification": {
+              "ok": false,
+              "code": "C01_HIDDEN_PLACEMENT_SIGNAL_LOST"
+            }
+          }
+        }
+      },
+      "paths": {
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/source-docx/C01-005-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007/returned-docx/C01-005-returned.docx"
+      }
+    }
+  ],
+  "carrierRollup": {
+    "customXmlManifest": {
+      "survivedAllCases": false,
+      "survivedAllMutatingCases": false,
+      "verifiedAllMutatingCases": false,
+      "visibleToAuthor": false,
+      "exactAuthorityCandidate": true
+    },
+    "customDocumentProperty": {
+      "survivedAllCases": true,
+      "survivedAllMutatingCases": true,
+      "verifiedAllMutatingCases": true,
+      "visibleToAuthor": false,
+      "exactAuthorityCandidate": true
+    },
+    "settingsDocVar": {
+      "survivedAllCases": false,
+      "survivedAllMutatingCases": false,
+      "verifiedAllMutatingCases": false,
+      "visibleToAuthor": false,
+      "exactAuthorityCandidate": true
+    },
+    "sdtTag": {
+      "survivedAllCases": false,
+      "survivedAllMutatingCases": false,
+      "verifiedAllMutatingCases": false,
+      "visibleToAuthor": false,
+      "exactAuthorityCandidate": false
+    },
+    "bookmarkName": {
+      "survivedAllCases": false,
+      "survivedAllMutatingCases": false,
+      "verifiedAllMutatingCases": false,
+      "visibleToAuthor": false,
+      "exactAuthorityCandidate": false
+    },
+    "hiddenRun": {
+      "survivedAllCases": false,
+      "survivedAllMutatingCases": false,
+      "verifiedAllMutatingCases": false,
+      "visibleToAuthor": true,
+      "exactAuthorityCandidate": false
+    }
+  },
+  "selectedAuthorityCarrier": {
+    "carrier": "customDocumentProperty",
+    "reason": "Survived and HMAC-verified across every mutating Word save while remaining non-visible to the author.",
+    "nextIntegration": "C02 may integrate this carrier into package parser authority verification; C01 itself does not expand automatic apply."
+  },
+  "wordSaturationSequencing": {
+    "currentFocus": "WORD_ONLY_UNTIL_SATURATION",
+    "googleDocsNextAfterWordSaturation": true,
+    "otherEditorsRemainFutureMasterPlan": true,
+    "masterPlanReduced": false
+  },
+  "zeroFalseExactPolicy": {
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "exactRateMeasuredNotGamed": true
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "automaticApplyExpanded": false,
+    "parserAuthorityIntegrated": false
+  },
+  "nonClaims": [
+    "C01 is a locator authority carrier physical A/B lab, not a broad Word saturation PASS.",
+    "C01 does not certify Google Docs, LibreOffice, ONLYOFFICE, Pages, WPS, Windows, Linux, or Word Online.",
+    "C01 does not expand exact apply until the selected carrier is integrated into parser authority and negative oracles.",
+    "C01 does not treat customXml as a mutating Word authority carrier on the observed profile."
+  ],
+  "nextStage": "C02_INTEGRATE_SELECTED_WORD_AUTHORITY_CARRIER_AND_NEGATIVE_EXACT_ORACLES",
+  "result": "PASS",
+  "receiptDigest": "sha256:c5941948f70ce95306a14264bc37504e2fac9291a458a5dc3568398a4ae50f80"
+}

@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E09_C00_STAGE_09_SERIES_PORTABILITY_CONTOUR_COMPILATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E09_C00_STAGE_09_SERIES_AND_PORTABILITY_CONTOUR_COMPILATION",
+  "programStage": "E09_STAGE_09_SERIES_AND_PORTABILITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T09:21:43Z",
+  "baseSha": "835d0a9d84438f6243a789f06a81f35547440998",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "Stage 09 C00 compiles series, vocabulary, and portability contours only. It changes no product UI screen, visual composition, layout, palette, typography, runtime Design OS surface, renderer surface, storage adapter, or project truth.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "835d0a9d84438f6243a789f06a81f35547440998",
+    "stage08AcceptanceExists": true,
+    "stage08HandoffTarget": "E09_C00_STAGE_09_SERIES_AND_PORTABILITY_CONTOUR_COMPILATION",
+    "stage08FinalProgramDoDClaim": false,
+    "globalCompositeGraphExists": true,
+    "manualMapJsonRepeatImportExists": true,
+    "manualMapMarkdownPortabilityBridgeExists": true,
+    "manualMapImagePdfEvidenceExists": true,
+    "projectFullArchiveExportImportExists": true,
+    "atlasSavedQueriesExist": true,
+    "languageTagsAndUnicodeAnchorsExist": true,
+    "seriesAtlasExists": false,
+    "crossBookIdentityModelExists": false,
+    "customVocabularyModelExists": false,
+    "fullAtlasExportIrExists": false,
+    "atlasReadableJsonPackageExists": false,
+    "atlasUnknownFieldPreservingPackageExists": false,
+    "atlasGraphPackageRepeatImportExists": false,
+    "stage09AcceptanceExists": false,
+    "currentMainFullRunner": "795 tests, 731 pass, 0 fail, 64 skipped"
+  },
+  "stageScopeBinding": {
+    "userOutcome": "Author can connect several books, carry shared identities and vocabularies, and move the complete Atlas and maps without losing author truth, language tags, evidence identity, or unknown fields.",
+    "acceptance": [
+      "each book remains autonomous and can be opened without its series package",
+      "series links never silently rewrite project truth",
+      "round-trip preserves author data, language tags, evidence identity, and unknown fields",
+      "derived graph data may be omitted from portable packages and rebuilt deterministically",
+      "loss reports are explicit, readable, and fail closed for unsupported irreversible payloads"
+    ],
+    "scopeIn": [
+      "series atlas",
+      "cross-book identities",
+      "custom entity and relation vocabularies",
+      "saved views",
+      "batch operations",
+      "full ExportIR",
+      "readable JSON",
+      "graph package",
+      "images and PDF evidence",
+      "full archive",
+      "repeat import",
+      "explicit loss report"
+    ],
+    "scopeOut": [
+      "collaboration transport",
+      "remote account or cloud sync",
+      "network graph package service",
+      "paid export or model service",
+      "silent project truth rewrite",
+      "irreversible migration",
+      "release readiness claim",
+      "platform certification",
+      "final Program DoD"
+    ]
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",
+      "userOutcome": "Author can declare a local series package that references multiple autonomous books without embedding private file paths or making any book depend on the package to reopen.",
+      "scopeIn": [
+        "series package manifest schema",
+        "pathless book reference rows",
+        "book autonomy proof",
+        "series package hash",
+        "no silent source project rewrite"
+      ],
+      "scopeOut": [
+        "cross-book identity merge",
+        "custom vocabulary commands",
+        "cloud account sync",
+        "renderer series UI"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e09-c01-series-atlas-package-manifest-autonomy-boundary.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AUTONOMY_BOUNDARY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete series UI surface changes",
+        "Feature Integration Manifest for read-only package projection"
+      ]
+    },
+    {
+      "contourId": "E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY",
+      "userOutcome": "Author can carry shared identity aliases and custom entity or relation vocabularies across books while each project keeps its own author truth.",
+      "scopeIn": [
+        "cross-book identity link schema",
+        "custom entity vocabulary rows",
+        "custom relation vocabulary rows",
+        "preview-only apply plan",
+        "Command Kernel capability revalidation",
+        "conflict and collision report",
+        "author-confirmed apply boundary",
+        "rollback and reopen validation"
+      ],
+      "scopeOut": [
+        "automatic entity merge",
+        "automatic manuscript rewrite",
+        "silent project truth rewrite",
+        "network vocabulary registry",
+        "new storage adapter"
+      ],
+      "expectedWriteSet": [
+        "src/core",
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e09-c02-cross-book-identity-vocabulary-portability.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C02_CROSS_BOOK_IDENTITY_VOCABULARY_PORTABILITY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete vocabulary management surface changes",
+        "all project truth writes require Command Kernel capability revalidation",
+        "negative tests for auto-merge, bypass apply, missing preview, collision silence, and missing rollback proof"
+      ]
+    },
+    {
+      "contourId": "E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_AND_UNKNOWN_FIELD_PRESERVATION",
+      "userOutcome": "Author can export Atlas data as readable local JSON with a full ExportIR envelope that preserves unknown fields for safe future round-trip.",
+      "scopeIn": [
+        "Atlas ExportIR schema",
+        "readable JSON packet",
+        "unknown field preservation envelope",
+        "language tag and evidence identity preservation",
+        "deterministic package hash"
+      ],
+      "scopeOut": [
+        "binary archive materialization",
+        "series identity apply",
+        "derived graph persistence as truth",
+        "remote export service"
+      ],
+      "expectedWriteSet": [
+        "src/export/atlas",
+        "src/import/atlas",
+        "test/contracts/yalken-atlas-v5-e09-c03-atlas-export-ir-readable-json-unknown-field-preservation.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_UNKNOWN_FIELD_PRESERVATION_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE",
+        "negative tests for dropped unknown fields and language or evidence identity loss"
+      ]
+    },
+    {
+      "contourId": "E09_C04_GRAPH_PACKAGE_ARCHIVE_REPEAT_IMPORT_AND_LOSS_REPORT",
+      "userOutcome": "Author can move a graph package through local archive and repeat import checks, with explicit loss reports for any unsupported or intentionally omitted derived data.",
+      "scopeIn": [
+        "graph package schema",
+        "full archive integration proof",
+        "full archive includes author truth, language tags, evidence identities, custom vocabularies, series references, and unknown fields",
+        "Atlas image evidence adapter over versioned ExportIR graph package",
+        "Atlas PDF evidence adapter over the existing local SVG and HTML print packet pattern",
+        "repeat import validation",
+        "explicit loss report",
+        "derived rebuild contract",
+        "derived data omitted only with deterministic rebuild proof and explicit loss report"
+      ],
+      "scopeOut": [
+        "cloud archive",
+        "paid PDF renderer",
+        "irreversible import",
+        "filesystem path leakage"
+      ],
+      "expectedWriteSet": [
+        "src/export/atlas",
+        "src/import/atlas",
+        "src/export/archive",
+        "test/contracts/yalken-atlas-v5-e09-c04-graph-package-archive-repeat-import-loss-report.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C04_GRAPH_PACKAGE_ARCHIVE_REPEAT_IMPORT_LOSS_REPORT_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless import/export UI changes",
+        "local free reversible adapters only",
+        "reuse existing manual-map image/PDF evidence conventions without adopting a paid renderer or runtime dependency"
+      ]
+    },
+    {
+      "contourId": "E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_AND_STAGE_09_ACCEPTANCE",
+      "userOutcome": "Stage 09 closes only after saved views, batch operation preview/apply boundaries, portability round-trip, series isolation, and loss reporting are proven together.",
+      "scopeIn": [
+        "saved view portability packet",
+        "batch operation preview rows",
+        "batch apply Command Kernel boundary",
+        "series isolation proof",
+        "full archive content proof",
+        "Atlas image/PDF evidence proof",
+        "Stage 09 acceptance proof",
+        "handoff to Stage 10"
+      ],
+      "scopeOut": [
+        "collaboration comments or history",
+        "transport exchange",
+        "platform certification",
+        "EFINAL Program DoD"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/core",
+        "test/contracts/yalken-atlas-v5-e09-c05-saved-views-batch-operations-stage-09-acceptance.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_STAGE_09_ACCEPTANCE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER APPLIED only if a concrete saved-view or batch-operation UI is changed",
+        "handoff target must be Stage 10, not EFINAL"
+      ]
+    }
+  ],
+  "handoffBinding": {
+    "previousContour": "E08_C05_RENDERER_ADAPTER_PROFILING_AND_STAGE_08_ACCEPTANCE",
+    "requiredPreviousNextContour": "E09_C00_STAGE_09_SERIES_AND_PORTABILITY_CONTOUR_COMPILATION",
+    "newHandoffTarget": "E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",
+    "finalProgramDoDClaim": false
+  },
+  "validation": [
+    {
+      "command": "node --test E08 C05 and E09 C00 contracts",
+      "result": "PASS",
+      "summary": "10 tests, 10 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline, menu, law path canon, execution sequence, and release candidate checks PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E09 C00 is a pure contour compilation receipt over accepted Stage 08 state and factual portability gaps. It introduces no runtime source mutation, storage adapter, network path, dependency, UI, renderer mutation, project truth mutation, manuscript mutation, release readiness claim, or final Program DoD claim.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY"
+}

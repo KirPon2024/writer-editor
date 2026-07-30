@@ -47,6 +47,12 @@ export {
 } from './reviewTransportClassifierV2.mjs';
 
 export {
+  RTK_REVIEW_TRANSPORT_BLOCK_EXACT_AUTHORITY_V2_PROFILE,
+  RTK_REVIEW_TRANSPORT_BLOCK_EXACT_AUTHORITY_V2_SCHEMA,
+  evaluateReviewTransportBlockExactAuthorityV2,
+} from './reviewTransportBlockExactAuthorityV2.mjs';
+
+export {
   RTK_REVIEW_TRANSPORT_EXACT_APPLY_ADAPTER_V2_PROFILE,
   RTK_REVIEW_TRANSPORT_EXACT_APPLY_ADMISSION_V2_SCHEMA,
   applyReviewTransportIrV2ExactText,

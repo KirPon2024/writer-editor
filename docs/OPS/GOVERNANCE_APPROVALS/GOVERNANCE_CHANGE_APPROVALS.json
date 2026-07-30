@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "11c1bf3fe6b18536a035f4193e4b13371239020d253daf2cb0f40f3a9966cb58",
-      "rationale": "Approve bounded public barrel export for C02 authority carrier constants alongside existing Revision Bridge helpers: exposes only the authority carrier schema and custom property name through the existing revisionBridge entrypoint while preserving B01-B05 parser, classifier, exact apply admission, comment/history helpers, main command authority, no renderer or UI authority, no storage adapter, no network, no dependency, and no automatic apply expansion.",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
-      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
+      "sha256": "3bac8ffab6ae277533c82c740e598134bee16a6a3c2c4d8e8be7c2f3b0407cda",
+      "rationale": "Approve bounded public barrel export for C03 block exact authority constants and evaluator through the existing revisionBridge entrypoint while preserving parser, classifier, exact apply adapter, main command authority, no renderer or UI authority, no storage adapter, no network, no dependency, and no automatic apply expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -948,10 +948,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "edbb629bea3fba99df6c1ee56ec7f86d3cf225c87622d488a5b4b0a004a13915",
-      "rationale": "Approve evidence-check allowlist extension for C02 only: adds the C02 authority carrier receipt and focused contract test to the bounded revision bridge Word evidence change scope while preserving existing parser, classifier, exact apply, governance detection, release claim checks, and no product runtime or UI expansion.",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
-      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
+      "sha256": "5dd5a8764c3441e8a5104851dbc3c896447930a4c79efa2f16f71f5f0a641ae9",
+      "rationale": "Approve evidence-check allowlist extension for C03 only: adds the C03 block exact authority module, C03 receipt, and focused contract test to the bounded revision bridge Word evidence change scope while preserving existing parser, classifier, exact apply, governance detection, release claim checks, and no product runtime or UI expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "d9bb03e16b211a2f63f5d1062a3aeac3d9b69bfcb44d22d8d3e4d399bab25acd",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T16:05:00.000Z",
-      "rationale": "Approve bounded B05 Sector M scope-map sync: adds only the new ReviewIRV2 exact apply admission adapter file to the cumulative DONE allowlist so existing sector-m no-scope-leak and runner guards can validate the B05 branch, with no Sector M product scope, UI, runtime dependency, network, Design OS, DOCX Minimal, or direct manuscript mutation expansion beyond the existing exact writer boundary."
+      "sha256": "8cef53f433f454c55f1087f4fecfaeab3f87f7792aba2179d0f5561076a1f6cb",
+      "rationale": "Approve bounded C03 Sector-M cumulative scope-map hygiene update: adds the new platform-neutral reviewTransportBlockExactAuthorityV2.mjs file to the existing DONE revisionBridge allowlist so the already-enforced scope leak and sector runner guards recognize the C03 RTK authority core; this preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no writer authority, and no product claim expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -5425,6 +5425,27 @@
       "rationale": "Approve focused C02 contract coverage: proves custom document property authority carrier extraction, HMAC verification, expected baseline binding, docProps/custom.xml semantic inventory, classifier non-exact behavior until target uniqueness and semantic accounting are proven, tampered HMAC and missing-secret blocking, stale baseline blocking, duplicate-carrier ambiguity blocking, public export, receipt nonclaims, and parser core absence of Node, Buffer, child process, network, regex parser, UI, and writer authority.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
       "approvedAtUtc": "2026-07-30T17:12:04.000Z"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
+      "sha256": "ba13521aade53a940e9fa4f88c93054155cb50cf81952c8ae01220ac5d5817c8",
+      "rationale": "Approve bounded C03 platform-neutral block-local exact authority evaluator: consumes ReviewIRV2, C02 verified authority carrier, C02 baseline guards, and local Yalken baseline block text to prove uniqueTarget, nonOverlapping, and allRelevantXmlSemanticsAccounted for supported delete and replacement-pair text groups; blocks duplicate text, duplicate block identities, overlapping ranges, standalone inserts without anchors, move and structural changes, cross-scene drift, stale baseline guards, and opaque unsupported OOXML; imports no Node, Electron, filesystem, Buffer, picker, network, UI, renderer, parser write, or writer authority; keeps canApply false and only feeds classifier authority inputs.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C03_BLOCK_EXACT_AUTHORITY_RECEIPT.json",
+      "sha256": "6cf50b02f60d86006fef5d043c3f6f9c187933af20a6bb73148fe47cee3ec57e",
+      "rationale": "Approve bounded C03 receipt: records block-local exact authority evaluator, C02 carrier binding, supported delete and replacement-pair scope, negative oracles for duplicate text, duplicate block id, overlap, standalone insert, move, structure, cross-scene drift and stale guards, zero false counters, Word-only sequencing with Google Docs next after saturation, and nonclaims for writer call, automatic apply expansion, broad Word portability, Google Docs, other editors, and latest Word saturation done.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-saturation-c03-block-exact-authority.contract.test.js",
+      "sha256": "64d36562d7b310e5228474c350387cb03d62a89b75a24a838d237d091fead3ce",
+      "rationale": "Approve focused C03 contract coverage: proves block-local exact authority from the C02 custom property carrier without global duplicate text authority, classifier exact candidate generation with canApply false, independent comments and formatting lanes, duplicate text and duplicate block blocking, overlapping range blocking, standalone insert blocking, move and structure blocking, cross-scene and stale baseline blocking, receipt nonclaims, and source absence of Node, Buffer, child process, network, regex parser, UI, and writer authority.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e10-c04-actor-causal-offline-queue.contract.test.js",

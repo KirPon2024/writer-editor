@@ -56,6 +56,9 @@ const WORD_SATURATION_C01_LAB_PATH = 'scripts/ops/rtk-word-saturation-c01-locato
 const WORD_SATURATION_C01_TEST_PATH = 'test/contracts/rtk-word-saturation-c01-locator-carrier.contract.test.js';
 const WORD_SATURATION_C02_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C02_AUTHORITY_CARRIER_RECEIPT.json';
 const WORD_SATURATION_C02_TEST_PATH = 'test/contracts/rtk-word-saturation-c02-authority-carrier.contract.test.js';
+const WORD_SATURATION_C03_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C03_BLOCK_EXACT_AUTHORITY_RECEIPT.json';
+const WORD_SATURATION_C03_AUTHORITY_PATH = 'src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs';
+const WORD_SATURATION_C03_TEST_PATH = 'test/contracts/rtk-word-saturation-c03-block-exact-authority.contract.test.js';
 const SECTOR_M_RUNNER_PATH = 'scripts/sector-m-run.mjs';
 const DOCX_PACKAGE_BOUNDARY_TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
 const CONTEXT_PATH = 'docs/CONTEXT.md';
@@ -112,6 +115,9 @@ const ALLOWLIST = [
   WORD_SATURATION_C01_TEST_PATH,
   WORD_SATURATION_C02_RECEIPT_PATH,
   WORD_SATURATION_C02_TEST_PATH,
+  WORD_SATURATION_C03_RECEIPT_PATH,
+  WORD_SATURATION_C03_AUTHORITY_PATH,
+  WORD_SATURATION_C03_TEST_PATH,
   SECTOR_M_RUNNER_PATH,
   DOCX_PACKAGE_BOUNDARY_TEST_PATH,
   CONTEXT_PATH,

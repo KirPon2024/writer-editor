@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.c03-block-exact-authority-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "C03_BLOCK_LOCAL_EXACT_NEGATIVE_ORACLES_AND_LOCATOR_UNIQUENESS",
+  "status": "C03_BLOCK_LOCAL_EXACT_AUTHORITY_READY_NOT_WRITER_AUTHORITY",
+  "createdAtUtc": "2026-07-30T17:31:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "9807fd2a458754a2a935156fe29ba76c663868ea",
+    "precedingC02MergeSha": "9807fd2a458754a2a935156fe29ba76c663868ea",
+    "precedingC02Pr": 1269
+  },
+  "implementedSurface": {
+    "authorityCore": "reviewTransportBlockExactAuthorityV2.mjs",
+    "publicBarrel": "index.mjs",
+    "schemaVersion": "yalken.rtk.review-transport-block-exact-authority.v2",
+    "profileId": "bounded-block-local-exact-authority-v2-c03",
+    "inputTruth": [
+      "ReviewIRV2",
+      "C02 verified authority carrier",
+      "C02 exactAuthority baseline guards",
+      "local baseline scene/block text supplied by Yalken project truth"
+    ],
+    "provenExactFlags": [
+      "uniqueTarget",
+      "nonOverlapping",
+      "allRelevantXmlSemanticsAccounted"
+    ],
+    "supportedTextGroups": [
+      "standalone delete with exactly one occurrence in signed block",
+      "replacement pair with exactly one delete and one insert revision and exactly one deleted-text occurrence in signed block"
+    ],
+    "separateLanes": {
+      "comments": "preserved as independent comments-only lane",
+      "formatting": "preserved as manual formatting lane",
+      "properties": "preserved as manual property lane",
+      "moves": "blocked from exact authority",
+      "structure": "blocked from exact authority",
+      "opaqueUnsupported": "blocked from exact authority"
+    }
+  },
+  "negativeOracles": {
+    "duplicateTextInsideSignedBlockBlocksExact": true,
+    "duplicateBlockIdentityBlocksExact": true,
+    "overlappingTextRangesBlockExact": true,
+    "standaloneInsertWithoutAnchorBlocksExact": true,
+    "moveAndStructureChangesBlockExact": true,
+    "crossSceneBaselineDriftBlocksExact": true,
+    "staleSceneRevisionBlocksExact": true,
+    "staleRawShaBlocksExact": true,
+    "globalTextSearchDoesNotGrantAuthority": true
+  },
+  "zeroFalseExactPolicy": {
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "exactRateMeasuredNotGamed": true
+  },
+  "wordSaturationSequencing": {
+    "currentFocus": "WORD_ONLY_UNTIL_SATURATION",
+    "googleDocsNextAfterWordSaturation": true,
+    "otherEditorsRemainFutureMasterPlan": true,
+    "masterPlanReduced": false
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "parserWriteAuthorityAdded": false,
+    "rendererAuthorityAdded": false,
+    "blockAuthorityWriteAuthorityAdded": false
+  },
+  "nonClaims": {
+    "automaticApplyExpanded": false,
+    "writerCalled": false,
+    "fullWordSemanticsPortable": false,
+    "standaloneInsertExactCertified": false,
+    "moveRevisionExactCertified": false,
+    "crossSceneMoveExactCertified": false,
+    "googleDocsCertified": false,
+    "otherEditorsCertified": false,
+    "latestWordSaturationDone": false,
+    "fixtureOnlyPass": false
+  },
+  "nextStage": "C04_EXPLICIT_WRITER_BINDING_FROM_BLOCK_LOCAL_AUTHORITY_WITH_CRASH_REPLAY_NEGATIVES"
+}

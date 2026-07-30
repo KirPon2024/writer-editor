@@ -948,10 +948,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "5cf3d527243530f56d6f6c55b54dcf83dd7e60f52a8f53a5967414274f8bd6aa",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T16:35:00.000Z",
-      "rationale": "Approve bounded B06 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside latest Word semantic B00 through B06 receipts, parser/classifier/apply-admission cores, physical Word certification lab, focused contracts, and the Sector M runner test-harness skip repair while preserving W5 false Word PASS rejection, no Word support overclaim beyond physical evidence, no release DONE, no dependency, no product runtime, no UI, no storage expansion, and no direct writer authority change."
+      "sha256": "eb98c93fb88cf0723b7bb6ebe894f6a920bf72a61c882662eccc8fa57e3ef46b",
+      "rationale": "Approve evidence-check allowlist extension for C01 only: adds the C01 locator carrier receipt, lab script, and focused contract test to the bounded revision bridge Word evidence change scope while preserving existing Word evidence gates, governance detection, release claim checks, and no product runtime or UI expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
+      "approvedAtUtc": "2026-07-30T17:00:09.000Z"
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",
@@ -5376,6 +5376,27 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION",
       "approvedAtUtc": "2026-07-30T16:29:57.000Z",
       "rationale": "Approve bounded E10 C02 final receipt after origin/main B06 drift reconciliation: records history projection packet scope, existing collab event log reuse, Command Kernel and review apply receipt refs, derived invalidation key binding, author truth hash-only separation, no stored history truth, no direct history write API, no renderer-owned history truth, no cloud audit log, no UI, no storage adapter, no network, no dependency, focused and B06 adjacency PASS evidence, comments-history safe-state PASS, ops PASS, doctrine PASS, OSS PASS, governance PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C01_LOCATOR_CARRIER_RECEIPT.json",
+      "sha256": "10ae30f52121c84e3f6e8f780a47c124d6796e0349a9b576ec7c8551ebaad34b",
+      "rationale": "Approve bounded C01 locator authority carrier receipt: records five physical Microsoft Word for Mac 16.111.x Word-created base DOCX round trips with carrier injection, save, GUI-close, reopen, and package readback; proves custom document property HMAC survives every mutating save as a non-visible authority carrier candidate, confirms customXml and docVar are not mutating authority carriers on the observed profile, keeps zero false EXACT, silent apply, wrong scene routing, and replay counters at zero, preserves durable synthetic evidence on T7-Secure, keeps Word-only WIP sequencing without reducing the master plan, and makes no automatic apply, parser integration, UI, runtime, network, dependency, Google Docs, other editor, Windows, Linux, or broad saturation claim.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
+      "approvedAtUtc": "2026-07-30T17:00:09.000Z"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-saturation-c01-locator-carrier-lab.mjs",
+      "sha256": "81c078bdea41feafb32597ffb668ba0157bf8ad84271dacc7753d800dc33506e",
+      "rationale": "Approve bounded C01 locator carrier lab: creates synthetic Word base DOCX through desktop Word, injects candidate carriers into a Word-created package, runs five physical Word edit/save/GUI-close/reopen cases, stores durable evidence on T7-Secure while using Word container-local scratch to avoid macOS file-access prompts, writes receipts atomically, verifies HMAC carriers, uses stdlib zipfile only for literal ops extraction, closes only saved active lab windows, records limitations truthfully, and adds no product runtime entrypoint, UI, network, dependency, user document close, parser authority integration, or automatic apply expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
+      "approvedAtUtc": "2026-07-30T17:00:09.000Z"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-saturation-c01-locator-carrier.contract.test.js",
+      "sha256": "6434426b112f104b073f11017316e3e34fce749de580d8e8b38e1452f9fa3db1",
+      "rationale": "Approve focused C01 contract coverage: verifies the physical locator carrier receipt, selected custom document property authority candidate, customXml and docVar non-authority on mutating saves, Word-created source construction, GUI-close saved-lab-only policy, zero false EXACT counters, Word-only sequencing with Google Docs next after saturation and no master-plan reduction, CLI receipt evaluation without Word in CI, no product UI/network/runtime overclaim, and no broad compatibility certification.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
+      "approvedAtUtc": "2026-07-30T17:00:09.000Z"
     }
   ]
 }

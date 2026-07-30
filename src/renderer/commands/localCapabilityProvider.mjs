@@ -33,6 +33,7 @@ const FREE_ALWAYS_AVAILABLE_COMMAND_IDS = Object.freeze([
   'atlas.entity.splitRestore',
   'atlas.observation.reassign',
   'atlas.evidence.reattach',
+  'atlas.calendar.define',
   'idea.create',
   'idea.originLink.add',
   'meaning.promote',

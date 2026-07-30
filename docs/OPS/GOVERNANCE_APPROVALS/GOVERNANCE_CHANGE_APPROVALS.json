@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C01_ATLAS_CALENDAR_DEFINITION_CONVERSION_COMMAND_BOUNDARY_RECEIPT.json",
+      "sha256": "de61a352483291cd738019b6e0bc97950f1b509b7b689171b5e3df7910ac8f33",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C01_ATLAS_CALENDAR_DEFINITION_AND_CONVERSION_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T03:27:29.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C01 delivery receipt: records local verified implementation of Atlas calendar definitions and conversion command boundary, atlas.calendar.define Core command, atlas.author.v1 calendarDefinitions truth, real and fictional calendars, explicit conversion rule precision, unsupported conversion degraded states, node-only capability revalidation, read-only derived calendarDefinitions projection, no UI runtime change, no external calendar service, no network, no cloud or account sync, no new dependency, no hidden mutation, focused and adjacent pass evidence, and governance-only full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c01-atlas-calendar-definition-conversion-command-boundary.contract.test.js",
+      "sha256": "b9b729ad9ca73a91a145f7de11d49f552e2246d237175f67b13a955a105f428e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C01_ATLAS_CALENDAR_DEFINITION_AND_CONVERSION_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T03:27:29.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C01 contract: proves atlas.calendar.define saves real and fictional project calendar truth through Core only, requires explicit conversion rules and precision, records unsupported conversions as degraded rather than assumed, preserves scene text across JSON reopen, rejects stale calendar hashes without mutation, enforces node-only Command Kernel capability revalidation, and keeps calendar derived and runtime boundaries free of storage, network, DOM, platform, cloud, account, dependency, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C00_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOUR_COMPILATION_RECEIPT.json",
       "sha256": "9ac881200bbf092ab084551df520fb3d3f5ffb248f3f81aefbe880861a12729e",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C00_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOUR_COMPILATION",

@@ -12,6 +12,8 @@ export const CORE_COMMANDS = [
   'atlas.entity.splitRestore',
   'atlas.observation.reassign',
   'atlas.evidence.reattach',
+  'atlas.savedQuery.save',
+  'atlas.calendar.define',
   'idea.create',
   'idea.originLink.add',
   'meaning.promote',

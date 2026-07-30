@@ -116,6 +116,62 @@ export type AtlasObservationReassignmentState = {
   createdByCommandSeq: number
 }
 
+export type AtlasEvidenceReattachmentState = {
+  id: string
+  operationKind: "evidence.reattach"
+  projectId: string
+  sourceRecordKind: "decision" | "suppression" | "reassignment"
+  sourceRecordId: string
+  sourceRecordHash: string
+  staleEvidenceAnchor: AtlasEvidenceAnchorState
+  newEvidenceAnchor: AtlasEvidenceAnchorState
+  reason: string
+  createdByCommandSeq: number
+}
+
+export type AtlasSavedQueryFilterState = {
+  entityIds: string[]
+  sceneIds: string[]
+  relationPairIds: string[]
+  queryText: string
+}
+
+export type AtlasSavedQueryState = {
+  id: string
+  name: string
+  reportType: "overview" | "entity" | "relation" | "matrix" | "heatmap"
+  filter: AtlasSavedQueryFilterState
+  sourceHash: string
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
+export type AtlasCalendarConversionRuleState = {
+  schemaVersion: "atlas.calendarConversionRule.v1"
+  id: string
+  ruleKind: "identity" | "dayOffset" | "unsupported"
+  sourceScale: string
+  targetScale: string
+  precision: "exact" | "approximate" | "unsupported"
+  canConvert: boolean
+  offsetDays: number
+  reason: string
+}
+
+export type AtlasCalendarDefinitionState = {
+  schemaVersion: "atlas.calendarDefinition.v1"
+  id: string
+  name: string
+  calendarKind: "real" | "fictional"
+  calendarSystem: string
+  dayZeroLabel: string
+  localePolicy: "project-local"
+  conversionRules: AtlasCalendarConversionRuleState[]
+  sourceHash: string
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
 export type AtlasAuthorDataState = {
   schemaVersion: "atlas.author.v1"
   entities: Record<string, AtlasEntityState>
@@ -123,6 +179,9 @@ export type AtlasAuthorDataState = {
   suppressions?: Record<string, AtlasSuppressionState>
   entityOperations?: Record<string, AtlasEntityMergeOperationState>
   reassignments?: Record<string, AtlasObservationReassignmentState>
+  evidenceReattachments?: Record<string, AtlasEvidenceReattachmentState>
+  savedQueries?: Record<string, AtlasSavedQueryState>
+  calendarDefinitions?: Record<string, AtlasCalendarDefinitionState>
 }
 
 export type ManualMapNodeState = {
@@ -263,6 +322,18 @@ export type CoreCommand =
   | {
       type: "atlas.observation.reassign"
       payload: { projectId: string; sceneId: string; sourceEntityId: string; targetEntityId: string; observationId?: string; mentionId?: string; evidenceAnchor: AtlasEvidenceAnchorState; reassignmentId?: string; reason?: string; expectedSourceEntityHash?: string; expectedTargetEntityHash?: string }
+    }
+  | {
+      type: "atlas.evidence.reattach"
+      payload: { projectId: string; sourceRecordKind: "decision" | "suppression" | "reassignment"; sourceRecordId: string; staleEvidenceAnchor: AtlasEvidenceAnchorState; newEvidenceAnchor: AtlasEvidenceAnchorState; reattachmentId?: string; reason?: string; expectedSourceRecordHash?: string }
+    }
+  | {
+      type: "atlas.savedQuery.save"
+      payload: { projectId: string; savedQueryId: string; name: string; reportType?: "overview" | "entity" | "relation" | "matrix" | "heatmap"; sourceHash: string; filter?: Partial<AtlasSavedQueryFilterState> }
+    }
+  | {
+      type: "atlas.calendar.define"
+      payload: { projectId: string; calendarId: string; name: string; calendarKind: "real" | "fictional"; calendarSystem: string; dayZeroLabel?: string; conversionRules: Array<Partial<AtlasCalendarConversionRuleState> & { ruleId?: string }>; expectedCalendarHash?: string }
     }
   | {
       type: "idea.create"

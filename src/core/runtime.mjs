@@ -12,6 +12,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_OBSERVATION_REASSIGN: 'atlas.observation.reassign',
   ATLAS_EVIDENCE_REATTACH: 'atlas.evidence.reattach',
   ATLAS_SAVED_QUERY_SAVE: 'atlas.savedQuery.save',
+  ATLAS_CALENDAR_DEFINE: 'atlas.calendar.define',
   IDEA_CREATE: 'idea.create',
   IDEA_ORIGIN_LINK_ADD: 'idea.originLink.add',
   MEANING_PROMOTE: 'meaning.promote',
@@ -73,6 +74,7 @@ function createEmptyAtlasAuthorData() {
     reassignments: {},
     evidenceReattachments: {},
     savedQueries: {},
+    calendarDefinitions: {},
   };
 }
 
@@ -90,6 +92,7 @@ function normalizeAtlasAuthorData(input) {
     reassignments: isPlainObject(input.reassignments) ? cloneJson(input.reassignments) : {},
     evidenceReattachments: isPlainObject(input.evidenceReattachments) ? cloneJson(input.evidenceReattachments) : {},
     savedQueries: isPlainObject(input.savedQueries) ? cloneJson(input.savedQueries) : {},
+    calendarDefinitions: isPlainObject(input.calendarDefinitions) ? cloneJson(input.calendarDefinitions) : {},
   };
 }
 
@@ -816,6 +819,158 @@ function applyAtlasAliasAdd(state, payload) {
     createdByCommandSeq: next.data.lastCommandId + 1,
   };
   nextEntity.updatedByCommandSeq = next.data.lastCommandId + 1;
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function normalizeAtlasCalendarKind(value) {
+  const kind = trimString(value);
+  if (kind === 'real' || kind === 'fictional') return kind;
+  return '';
+}
+
+function normalizeAtlasCalendarRulePrecision(value) {
+  const precision = trimString(value);
+  if (precision === 'exact' || precision === 'approximate' || precision === 'unsupported') return precision;
+  return '';
+}
+
+function normalizeAtlasCalendarConversionRule(rule) {
+  if (!isPlainObject(rule)) return { ok: false, reason: 'CONVERSION_RULE_OBJECT_REQUIRED' };
+  const id = trimString(rule.id || rule.ruleId);
+  const ruleKind = trimString(rule.ruleKind);
+  const sourceScale = trimString(rule.sourceScale);
+  const targetScale = trimString(rule.targetScale);
+  const precision = normalizeAtlasCalendarRulePrecision(rule.precision);
+  const reason = trimString(rule.reason);
+  if (!id) return { ok: false, reason: 'CONVERSION_RULE_ID_REQUIRED' };
+  if (!['identity', 'dayOffset', 'unsupported'].includes(ruleKind)) {
+    return { ok: false, reason: 'CONVERSION_RULE_KIND_INVALID', details: { id, ruleKind } };
+  }
+  if (!sourceScale) return { ok: false, reason: 'CONVERSION_RULE_SOURCE_SCALE_REQUIRED', details: { id } };
+  if (!targetScale) return { ok: false, reason: 'CONVERSION_RULE_TARGET_SCALE_REQUIRED', details: { id } };
+  if (!precision) return { ok: false, reason: 'CONVERSION_RULE_PRECISION_REQUIRED', details: { id } };
+  if (ruleKind === 'unsupported' && precision !== 'unsupported') {
+    return { ok: false, reason: 'CONVERSION_RULE_UNSUPPORTED_PRECISION_REQUIRED', details: { id, precision } };
+  }
+  if (ruleKind !== 'unsupported' && precision === 'unsupported') {
+    return { ok: false, reason: 'CONVERSION_RULE_SUPPORTED_PRECISION_INVALID', details: { id, ruleKind } };
+  }
+  if (ruleKind === 'unsupported' && !reason) {
+    return { ok: false, reason: 'CONVERSION_RULE_UNSUPPORTED_REASON_REQUIRED', details: { id } };
+  }
+  const offsetDays = Number(rule.offsetDays);
+  if (ruleKind === 'dayOffset' && !Number.isSafeInteger(offsetDays)) {
+    return { ok: false, reason: 'CONVERSION_RULE_OFFSET_DAYS_REQUIRED', details: { id } };
+  }
+  return {
+    ok: true,
+    value: {
+      schemaVersion: 'atlas.calendarConversionRule.v1',
+      id,
+      ruleKind,
+      sourceScale,
+      targetScale,
+      precision,
+      canConvert: ruleKind !== 'unsupported',
+      offsetDays: ruleKind === 'dayOffset' ? offsetDays : 0,
+      reason: ruleKind === 'unsupported' ? reason : '',
+    },
+  };
+}
+
+function applyAtlasCalendarDefine(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const calendarId = trimString(payload?.calendarId);
+  const name = trimString(payload?.name);
+  const calendarKind = normalizeAtlasCalendarKind(payload?.calendarKind);
+  const calendarSystem = trimString(payload?.calendarSystem);
+  const dayZeroLabel = trimString(payload?.dayZeroLabel);
+  const conversionRuleInputs = Array.isArray(payload?.conversionRules) ? payload.conversionRules : [];
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'atlas.calendar.define', 'PROJECT_ID_REQUIRED');
+  }
+  if (!calendarId) {
+    return fail(state, 'E_ATLAS_CALENDAR_ID_REQUIRED', 'atlas.calendar.define', 'CALENDAR_ID_REQUIRED', { projectId });
+  }
+  if (!name) {
+    return fail(state, 'E_ATLAS_CALENDAR_NAME_REQUIRED', 'atlas.calendar.define', 'CALENDAR_NAME_REQUIRED', { projectId, calendarId });
+  }
+  if (!calendarKind) {
+    return fail(state, 'E_ATLAS_CALENDAR_KIND_INVALID', 'atlas.calendar.define', 'CALENDAR_KIND_INVALID', { projectId, calendarId });
+  }
+  if (!calendarSystem) {
+    return fail(state, 'E_ATLAS_CALENDAR_SYSTEM_REQUIRED', 'atlas.calendar.define', 'CALENDAR_SYSTEM_REQUIRED', { projectId, calendarId });
+  }
+  if (conversionRuleInputs.length < 1) {
+    return fail(state, 'E_ATLAS_CALENDAR_CONVERSION_RULE_REQUIRED', 'atlas.calendar.define', 'CONVERSION_RULE_REQUIRED', { projectId, calendarId });
+  }
+
+  const seenRuleIds = new Set();
+  const conversionRules = [];
+  for (const ruleInput of conversionRuleInputs) {
+    const normalized = normalizeAtlasCalendarConversionRule(ruleInput);
+    if (!normalized.ok) {
+      return fail(state, `E_ATLAS_CALENDAR_${normalized.reason}`, 'atlas.calendar.define', normalized.reason, {
+        projectId,
+        calendarId,
+        ...(isPlainObject(normalized.details) ? normalized.details : {}),
+      });
+    }
+    if (seenRuleIds.has(normalized.value.id)) {
+      return fail(state, 'E_ATLAS_CALENDAR_CONVERSION_RULE_DUPLICATE', 'atlas.calendar.define', 'CONVERSION_RULE_DUPLICATE', {
+        projectId,
+        calendarId,
+        ruleId: normalized.value.id,
+      });
+    }
+    seenRuleIds.add(normalized.value.id);
+    conversionRules.push(normalized.value);
+  }
+  conversionRules.sort((a, b) => a.id.localeCompare(b.id, 'en', { sensitivity: 'variant' }));
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'atlas.calendar.define', 'PROJECT_NOT_FOUND', { projectId });
+  }
+
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  const existing = isPlainObject(atlas.calendarDefinitions?.[calendarId])
+    ? atlas.calendarDefinitions[calendarId]
+    : null;
+  const expectedCalendarHash = trimString(payload?.expectedCalendarHash);
+  const actualCalendarHash = existing ? hashCanonicalValue(existing) : '';
+  if (expectedCalendarHash && expectedCalendarHash !== actualCalendarHash) {
+    return fail(state, 'E_ATLAS_CALENDAR_STALE', 'atlas.calendar.define', 'CALENDAR_STALE', {
+      projectId,
+      calendarId,
+      expectedCalendarHash,
+      actualCalendarHash,
+    });
+  }
+
+  const commandSeq = state.data.lastCommandId + 1;
+  const calendarBase = {
+    schemaVersion: 'atlas.calendarDefinition.v1',
+    id: calendarId,
+    name,
+    calendarKind,
+    calendarSystem,
+    dayZeroLabel,
+    localePolicy: 'project-local',
+    conversionRules,
+    createdByCommandSeq: Number.isInteger(existing?.createdByCommandSeq) ? existing.createdByCommandSeq : commandSeq,
+    updatedByCommandSeq: commandSeq,
+  };
+  const next = cloneJson(state);
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  if (!isPlainObject(nextAtlas.calendarDefinitions)) nextAtlas.calendarDefinitions = {};
+  nextAtlas.calendarDefinitions[calendarId] = {
+    ...calendarBase,
+    sourceHash: hashCanonicalValue(calendarBase),
+  };
   next.data.lastCommandId += 1;
   return ok(next);
 }
@@ -1789,6 +1944,9 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_SAVED_QUERY_SAVE) {
     return applyAtlasSavedQuerySave(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_CALENDAR_DEFINE) {
+    return applyAtlasCalendarDefine(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.IDEA_CREATE) {
     return applyIdeaCreate(state, command.payload || {});

@@ -180,6 +180,12 @@ export {
   sortAtlasLanguageCapabilityRows,
 } from './atlasLanguageCapabilityTypes.mjs';
 export {
+  ATLAS_TEXT_ANCHOR_PACKET_SCHEMA_VERSION,
+  ATLAS_TEXT_NORMALIZATION_MAP_SCHEMA_VERSION,
+  ATLAS_TEXT_OFFSET_DOMAIN,
+  ATLAS_TEXT_OFFSET_MAP_SCHEMA_VERSION,
+} from './atlasTextAnchorTypes.mjs';
+export {
   ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
   buildAtlasTemporalContinuityFromObservationAggregate,
   buildAtlasTemporalContinuityIncrementally,
@@ -227,6 +233,10 @@ export {
   deriveAtlasLanguageCapabilityReport,
   ATLAS_LANGUAGE_CAPABILITY_REPORT_VIEW_ID,
 } from './deriveAtlasLanguageCapabilityReport.mjs';
+export {
+  buildAtlasTextAnchorPacket,
+  buildAtlasTextOffsetMap,
+} from './atlasTextAnchorNormalization.mjs';
 export {
   acceptAtlasLocalGraphLayoutResult,
   buildAtlasLocalGraphLayoutPlan,

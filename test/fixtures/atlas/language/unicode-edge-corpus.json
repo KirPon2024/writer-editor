@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "test.fixture.atlas.language.unicodeEdgeCorpus.v1",
+  "cases": [
+    {
+      "caseId": "combining-mark-nfd",
+      "text": "Café meets Anna",
+      "target": "Café",
+      "expectedChangedByNfc": true
+    },
+    {
+      "caseId": "emoji-zwj",
+      "text": "Anna uses 👩‍💻 tools",
+      "target": "👩‍💻",
+      "expectedGraphemeLength": 1
+    },
+    {
+      "caseId": "crlf-bidi",
+      "text": "Anna\r\nאבג‏",
+      "target": "אבג‏",
+      "expectedCrlfCount": 1
+    }
+  ]
+}

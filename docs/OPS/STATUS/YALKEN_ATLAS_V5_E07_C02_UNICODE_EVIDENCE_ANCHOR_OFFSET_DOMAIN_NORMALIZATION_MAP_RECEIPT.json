@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_NORMALIZATION_MAP_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_AND_NORMALIZATION_MAP",
+  "programStage": "E07_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T06:02:00Z",
+  "baseSha": "8a7a53e12ab4b3ac6c964cf762d9161c342cfa5c",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds Unicode evidence-anchor offset-domain and normalization helper contracts only; no product UI screen, visual composition, layout, palette, typography, or runtime Design OS surface changes.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.unicodeEvidenceAnchorOffsetDomain",
+    "productPlane": {
+      "truthPath": "none",
+      "commandId": "none",
+      "mutationAuthority": "none",
+      "writePath": "none",
+      "readPath": "atlas evidence anchor helper and derived mention index evidence anchors",
+      "sourceReadModels": [
+        "derived.atlas.mentionIndex.v1"
+      ],
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "runtimeDownload": false,
+      "dynamicExecutablePlugin": false,
+      "destructiveNormalization": false,
+      "projectTruthMutation": false,
+      "manuscriptMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "none",
+      "host": "none",
+      "slotId": "none",
+      "providerId": "none",
+      "runtimeUiChanged": false,
+      "explicitOpenRequired": false,
+      "dispatchIntentOnly": false
+    },
+    "authorityMap": {
+      "productTruth": "existing scene text and Atlas entity aliases only",
+      "commandAuthority": "none",
+      "designAuthority": "none",
+      "storageAuthority": "none",
+      "capabilityRevalidation": "existing deriveAtlasMentionIndex capability gate remains unchanged"
+    },
+    "fallbacks": [
+      "adapter offset domain remains explicit UTF16_JS_CODE_UNIT",
+      "canonical ranges expose UTF16, Unicode code point, and grapheme domains",
+      "normalization map records NFC and NFD hashes without applying destructive normalization"
+    ],
+    "recovery": {
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "anchorIdPreservedFromExistingInputs": true,
+      "originalQuotePreserved": true,
+      "sourceTextHashPreserved": true,
+      "destructiveNormalizationApplied": false,
+      "offsetDomainExplicit": true
+    },
+    "negativeBypassChecks": [
+      "combining mark NFD fixture reports changedByNfc without changing source quote",
+      "emoji ZWJ fixture maps to one grapheme range",
+      "CRLF and bidi fixture keeps original text and line ending counts",
+      "existing mention index contracts still pass after adding anchor metadata",
+      "Unicode anchor sources contain no storage, network, DOM, platform, renderer, worker, daemon, command dispatch, runtime download, dynamic executable plugin, destructive normalization, manuscript mutation, project truth mutation, or hidden UI bypasses"
+    ]
+  },
+  "implementation": {
+    "commandIdsAdded": [
+      "none"
+    ],
+    "capabilitiesAdded": [
+      "none"
+    ],
+    "schemasAdded": [
+      "derived.atlas.textOffsetMap.v1",
+      "derived.atlas.textAnchorPacket.v1",
+      "derived.atlas.textNormalizationMap.v1"
+    ],
+    "helpersAdded": [
+      "buildAtlasTextOffsetMap",
+      "buildAtlasTextAnchorPacket"
+    ],
+    "mentionIndexEvidenceAnchorsExtended": true,
+    "anchorIdCompatibility": "anchorId hash inputs are preserved: projectId sceneId entityId termId startOffset endOffset quoteHash sceneTextHash",
+    "adapterOffsetDomain": "UTF16_JS_CODE_UNIT",
+    "canonicalOffsetDomains": [
+      "UTF16_JS_CODE_UNIT",
+      "UNICODE_CODE_POINT",
+      "GRAPHEME_CLUSTER"
+    ],
+    "unicodeFixtureAdded": "unicode-edge-corpus.json",
+    "runtimeUiChanged": false,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node -c src/derived/atlas/atlasTextAnchorNormalization.mjs && node -c src/derived/atlas/atlasTextAnchorTypes.mjs && node -c src/derived/atlas/deriveAtlasMentionIndex.mjs && node -c test/contracts/yalken-atlas-v5-e07-c02-unicode-evidence-anchor-offset-domain-normalization-map.contract.test.js",
+      "result": "PASS",
+      "summary": "C02 anchor helpers, mention index, and focused contract parse"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e07-c02-unicode-evidence-anchor-offset-domain-normalization-map.contract.test.js",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e07-c02-unicode-evidence-anchor-offset-domain-normalization-map.contract.test.js test/contracts/yalken-atlas-v5-e01-c02-exact-mention-anchors.contract.test.js test/contracts/yalken-atlas-v5-e04-c01-atlas-observation-candidate-aggregate-model.contract.test.js test/contracts/yalken-atlas-v5-e07-c01-language-capability-truth-registry-report.contract.test.js",
+      "result": "PASS",
+      "summary": "18 tests, 18 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; COMMAND_NAMESPACE_CHECK_RESULT=PASS; MENU_OVERLAY_STACK_CHECK_RESULT=PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "read-only anchor metadata extension; no project truth, manuscript, persistence, runtime analyzer, runtime download, dynamic plugin, destructive normalization, or UI mutation",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER"
+}

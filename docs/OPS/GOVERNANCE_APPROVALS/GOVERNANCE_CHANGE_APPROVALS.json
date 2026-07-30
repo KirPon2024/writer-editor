@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_RESOURCE_ISOLATION_RECEIPT.json",
+      "sha256": "2e29c333c44d3dd9a1202f252860ae5abd154ae74a816f71a99456df124f89de",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_AND_RESOURCE_ISOLATION",
+      "approvedAtUtc": "2026-07-30T07:25:34.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C08 delivery receipt: records local verified implementation of read-only language decertification rollback proof, per-language rollback rows, non-executable shared-read-only resource isolation, requested RU rollback leaving EN certified, failed RU corpus decertification without shared deletion, default unavailable Deep no-row fallback, no manuscript mutation, no project truth mutation, no storage, no network, no runtime download, no dynamic executable plugin, no UI runtime change, no new dependency, focused pass evidence, ops guard pass, and full runner pass evidence before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c08-language-decertification-rollback-resource-isolation.contract.test.js",
+      "sha256": "104b948dae52666cde218bb36171e4bba3f722e5474faa68b47316d575d523f6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_AND_RESOURCE_ISOLATION",
+      "approvedAtUtc": "2026-07-30T07:23:11.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C08 contract: proves requested RU rollback decertifies only RU while EN remains certified, failing RU corpus decertifies RU without deleting shared resources or mutating EN, local fixture resources remain non-executable shared-read-only and isolated per language, default unavailable Deep path has no rollback rows and remains reversible, exports are present, and rollback sources keep storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, production runtime claim, release readiness claim, project truth mutation, manuscript mutation, storage mutation, and shared resource removal paths closed."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_DEGRADATION_RECEIPT.json",
       "sha256": "0e4e3435637ceab5bb64d3fde909842ecb50359117d4e0b7357bf3f601c83b4a",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_AND_DEGRADATION",

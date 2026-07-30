@@ -114,6 +114,27 @@
       "rationale": "Approve focused B05 contract coverage: proves bound replacement-pair admission applies through the existing safe writer with recovery and outcome ledger, replay is idempotent, comment and formatting lanes remain non-writer evidence, and comment-only, standalone insert, move, structure, tampered classification and non-main caller cases block before writer."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B06_PHYSICAL_CERTIFICATION_RECEIPT.json",
+      "sha256": "7762958bb6c638b2cd8308be2783cc51c4345d70329601ff98f77636a9f920cd",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T16:35:00.000Z",
+      "rationale": "Approve bounded B06 physical Word certification receipt: records 32 synthetic Microsoft Word for Mac 16.111-family native open-edit-save-close-reopen round trips, package inventory and parser/classifier readback, 100k and 250k word scale samples, high-comment physical sample, hostile package blocking, zero falseExact, zero silentApply, zero wrongSceneRouting, no fixture-only or no-op comment support claim, historical D1 preservation, and typed limitations for replies, resolve/reopen, compare/combine, large page automation and unsupported formatting/structure surfaces."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-latest-physical-certification-lab.mjs",
+      "sha256": "88d84b94ed3fc08d1fc0d97f5096ea6d9c7087b9ca5d09f3f5645ac9c2340860",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T16:35:00.000Z",
+      "rationale": "Approve bounded B06 physical Word lab runner: generates synthetic DOCX corpora only, verifies encrypted T7-Secure before physical runs, drives Microsoft Word through AppleScript with target lab documents, mirrors source and returned DOCX evidence to T7, parses returned packages through ReviewIRV2 parser/classifier, writes atomic receipts, records typed unsupported semantics instead of false PASS, and adds no product runtime entrypoint, UI, dependency, network, user-document access, or automatic apply expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b06-physical-certification.contract.test.js",
+      "sha256": "e87ef0f8e95e13bc5c2c61dd156c27fb52bbdd1f15ed17c13d8742757845a7df",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T16:35:00.000Z",
+      "rationale": "Approve focused B06 contract coverage: proves the committed physical Word receipt has 30-plus native round trips, comment PASS requires package inventory, semantic readback and Word reopen visibility, high-comment and scale rows are physical, hostile package stays BLOCKED, unsupported modern semantics are typed limitations, D1 is not rebound, no fixture-only PASS is allowed, and exact/apply/UI/network claims are not widened."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json",
       "sha256": "2af237f52ca2681465155596b1d82b6b6753b6bd943d615717e0f36a57c4fe04",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
@@ -927,10 +948,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "5aca880452f9d8f487c19924c1774f681f7474c97e03adf7338ba9f044a21983",
+      "sha256": "5cf3d527243530f56d6f6c55b54dcf83dd7e60f52a8f53a5967414274f8bd6aa",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T16:05:00.000Z",
-      "rationale": "Approve bounded B05 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside latest Word semantic B00 through B05 receipts, parser/classifier/apply-admission cores, focused contracts, and the Sector M runner test-harness skip repair while preserving W5 false Word PASS rejection, no Word support overclaim, no roundtrip certification claim, no release DONE, no dependency, no runtime, no UI, no storage expansion, and no direct writer authority change."
+      "approvedAtUtc": "2026-07-30T16:35:00.000Z",
+      "rationale": "Approve bounded B06 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside latest Word semantic B00 through B06 receipts, parser/classifier/apply-admission cores, physical Word certification lab, focused contracts, and the Sector M runner test-harness skip repair while preserving W5 false Word PASS rejection, no Word support overclaim beyond physical evidence, no release DONE, no dependency, no product runtime, no UI, no storage expansion, and no direct writer authority change."
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",

@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
+      "sha256": "99bd2f478842c41aceb467fbd6f8f2bdfbfd7c75190d247e9de68088af652167",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF",
+      "approvedAtUtc": "2026-07-30T02:14:33.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C05 heatmap large UI budget proof contract: proves derived atlas heatmap packet, explicit heavy-surface open requirement, viewport tile budget proof, typing hot-path nonblocking guard, legend/list degraded fallback, renderer/main typed host wiring, and side-effect boundaries while preserving no project truth mutation, no storage write, no network service, no background daemon, no command bypass, no semantic heatmap palette dependency, no product runtime dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF_RECEIPT.json",
+      "sha256": "8316e673f99cad647b838bfbc326de92b36c2c30743fde6c05cb96da48123504",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF",
+      "approvedAtUtc": "2026-07-30T02:14:33.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C05 delivery receipt: records local verified implementation of the explicit Atlas heatmap heavy surface, Lazyweb search evidence with report-unavailable fallback, UI Craft application, no Leonardo trigger, no Project Wallace trigger, no project truth mutation, no storage, no network, no daemon, no command bypass, no new dependency, focused and full runner pass evidence, and next contour handoff without widening release readiness."
+    },
+    {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_RELEASE_CLAIM_EXECUTION_GATE_BINDING_001_STATUS.json",
       "sha256": "536840150f813275ca13cdb1a8e5d2c01d3add158fff692f9404bc3a419c0b13",
       "approvedBy": "ticket:REVIEW_BRIDGE_RELEASE_CLAIM_EXECUTION_GATE_BINDING_001_DELIVERY_REBIND",

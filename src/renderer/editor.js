@@ -258,6 +258,8 @@ const atlasOverviewHost = document.querySelector('[data-atlas-overview-host]');
 const atlasEntityDossierHost = document.querySelector('[data-atlas-entity-dossier-host]');
 const atlasRelationDossierHost = document.querySelector('[data-atlas-relation-dossier-host]');
 const atlasMatricesHost = document.querySelector('[data-atlas-matrices-host]');
+const atlasHeatmapShell = document.querySelector('[data-atlas-heatmap-shell]');
+const atlasHeatmapHost = document.querySelector('[data-atlas-heatmap-host]');
 const atlasCurrentSceneHost = document.querySelector('[data-atlas-current-scene-host]');
 const inspectorCommentsAction = document.querySelector('[data-inspector-comments-action]');
 const inspectorFocusStatus = document.querySelector('[data-inspector-focus-status]');
@@ -712,6 +714,31 @@ let atlasMatricesState = {
   unavailableReason: '',
 };
 let atlasMatricesKeyboardBound = false;
+let atlasHeatmapExplicitOpen = false;
+let atlasHeatmapState = {
+  state: 'empty',
+  projectId: '',
+  summary: {
+    entityCount: 0,
+    sceneCount: 0,
+    renderedTileCount: 0,
+    omittedTileCount: 0,
+    maxObservationCount: 0,
+    heatmapHash: '',
+    matrixHash: '',
+  },
+  tilePacket: {
+    rows: [],
+    columns: [],
+    tiles: [],
+    rowAxis: {},
+    columnAxis: {},
+  },
+  legend: { bands: [], degradedVisualFallback: {} },
+  degradedVisualFallback: [],
+  viewportBudgetProof: {},
+  unavailableReason: '',
+};
 let atlasCurrentSceneState = {
   state: 'empty',
   projectId: '',
@@ -843,6 +870,7 @@ const ATLAS_OVERVIEW_QUERY_ID = 'query.atlasOverview';
 const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
 const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
+const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const RIGHT_RAIL_SURFACE_PROVIDERS = Object.freeze({
   inspector: METADATA_INSPECTOR_QUERY_ID,
@@ -11167,6 +11195,9 @@ function syncRightRailCompositionState(tab) {
   if (atlasMatricesHost instanceof HTMLElement) {
     atlasMatricesHost.dataset.atlasMatricesProvider = ATLAS_MATRICES_QUERY_ID;
   }
+  if (atlasHeatmapHost instanceof HTMLElement) {
+    atlasHeatmapHost.dataset.atlasHeatmapProvider = ATLAS_HEATMAP_QUERY_ID;
+  }
   if (atlasCurrentSceneHost instanceof HTMLElement) {
     atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
   }
@@ -11186,6 +11217,7 @@ function applyRightTab(tab) {
     refreshAtlasEntityDossier();
     refreshAtlasRelationDossier();
     refreshAtlasMatrices();
+    renderAtlasHeatmapState();
     refreshAtlasCurrentScene();
   }
   syncInspectorStateSurface();
@@ -11956,6 +11988,49 @@ function normalizeAtlasMatrices(result = {}) {
   };
 }
 
+function normalizeAtlasHeatmap(result = {}) {
+  const source = result && typeof result === 'object' && !Array.isArray(result) ? result : {};
+  const summary = source.summary && typeof source.summary === 'object' && !Array.isArray(source.summary) ? source.summary : {};
+  const tilePacket = source.tilePacket && typeof source.tilePacket === 'object' && !Array.isArray(source.tilePacket) ? source.tilePacket : {};
+  const legend = source.legend && typeof source.legend === 'object' && !Array.isArray(source.legend) ? source.legend : {};
+  return {
+    schemaVersion: typeof source.schemaVersion === 'string' ? source.schemaVersion : 'derived.atlas.heatmap.v1',
+    state: typeof source.state === 'string' ? source.state : 'empty',
+    unavailableReason: typeof source.unavailableReason === 'string' ? source.unavailableReason : '',
+    projectId: typeof source.projectId === 'string' ? source.projectId : '',
+    summary: {
+      entityCount: Number.isInteger(summary.entityCount) ? Math.max(0, summary.entityCount) : 0,
+      sceneCount: Number.isInteger(summary.sceneCount) ? Math.max(0, summary.sceneCount) : 0,
+      renderedTileCount: Number.isInteger(summary.renderedTileCount) ? Math.max(0, summary.renderedTileCount) : 0,
+      omittedTileCount: Number.isInteger(summary.omittedTileCount) ? Math.max(0, summary.omittedTileCount) : 0,
+      maxObservationCount: Number.isInteger(summary.maxObservationCount) ? Math.max(0, summary.maxObservationCount) : 0,
+      heatmapHash: typeof summary.heatmapHash === 'string' ? summary.heatmapHash : '',
+      matrixHash: typeof summary.matrixHash === 'string' ? summary.matrixHash : '',
+    },
+    tilePacket: {
+      schemaVersion: typeof tilePacket.schemaVersion === 'string' ? tilePacket.schemaVersion : 'derived.atlas.heatmap.tilePacket.v1',
+      state: typeof tilePacket.state === 'string' ? tilePacket.state : 'empty',
+      mode: typeof tilePacket.mode === 'string' ? tilePacket.mode : 'entityScene',
+      rowAxis: normalizeAtlasMatrixAxis(tilePacket.rowAxis, 'entity'),
+      columnAxis: normalizeAtlasMatrixAxis(tilePacket.columnAxis, 'scene'),
+      rows: Array.isArray(tilePacket.rows) ? tilePacket.rows.filter(reviewSurfaceIsPlainObject) : [],
+      columns: Array.isArray(tilePacket.columns) ? tilePacket.columns.filter(reviewSurfaceIsPlainObject) : [],
+      tiles: Array.isArray(tilePacket.tiles) ? tilePacket.tiles.filter(reviewSurfaceIsPlainObject) : [],
+    },
+    legend: {
+      schemaVersion: typeof legend.schemaVersion === 'string' ? legend.schemaVersion : 'derived.atlas.heatmapLegend.v1',
+      bands: Array.isArray(legend.bands) ? legend.bands.filter(reviewSurfaceIsPlainObject) : [],
+      degradedVisualFallback: legend.degradedVisualFallback && typeof legend.degradedVisualFallback === 'object' && !Array.isArray(legend.degradedVisualFallback)
+        ? legend.degradedVisualFallback
+        : {},
+    },
+    degradedVisualFallback: Array.isArray(source.degradedVisualFallback) ? source.degradedVisualFallback.filter(reviewSurfaceIsPlainObject) : [],
+    viewportBudgetProof: source.viewportBudgetProof && typeof source.viewportBudgetProof === 'object' && !Array.isArray(source.viewportBudgetProof)
+      ? source.viewportBudgetProof
+      : {},
+  };
+}
+
 function atlasMatrixCellValue(cell, mode) {
   if (!cell || typeof cell !== 'object') return '';
   if (mode === 'relation') {
@@ -12119,6 +12194,11 @@ function handleAtlasMatrixGridKeydown(event) {
 }
 
 function handleAtlasMatrixGridClick(event) {
+  const heatmapOpen = event.target instanceof Element ? event.target.closest('[data-atlas-heatmap-open]') : null;
+  if (heatmapOpen instanceof HTMLElement && atlasMatricesHost instanceof HTMLElement && atlasMatricesHost.contains(heatmapOpen)) {
+    openAtlasHeatmapSurface();
+    return;
+  }
   const target = event.target instanceof Element ? event.target.closest('[data-atlas-matrix-cell], [data-atlas-relation-pair-id]') : null;
   if (!(target instanceof HTMLElement) || !(atlasMatricesHost instanceof HTMLElement) || !atlasMatricesHost.contains(target)) return;
   if (target.dataset.atlasMatrixCell === 'true') {
@@ -12186,6 +12266,17 @@ function renderAtlasMatricesState() {
   appendAtlasOverviewMetric(metrics, 'clipped', state.summary.omittedEntitySceneCellCount + state.summary.omittedRelationCellCount, state.largeProjectBudgetProof?.clippingHonest ? 'reviewRequired' : 'current');
   atlasMatricesHost.appendChild(metrics);
 
+  const actionBar = document.createElement('div');
+  actionBar.className = 'right-rail-atlas-action-bar';
+  const heatmapButton = document.createElement('button');
+  heatmapButton.type = 'button';
+  heatmapButton.className = 'right-rail-atlas-action';
+  heatmapButton.dataset.atlasHeatmapOpen = 'true';
+  heatmapButton.disabled = state.state !== 'ready';
+  heatmapButton.textContent = atlasHeatmapExplicitOpen ? 'Refresh heatmap' : 'Open heatmap';
+  actionBar.appendChild(heatmapButton);
+  atlasMatricesHost.appendChild(actionBar);
+
   if (state.state === 'empty') {
     const empty = document.createElement('div');
     empty.className = 'right-rail-atlas-state';
@@ -12229,6 +12320,184 @@ async function refreshAtlasMatrices() {
     : { state: 'unavailable', unavailableReason: 'ATLAS_MATRICES_QUERY_FAILED' };
   atlasMatricesState = normalizeAtlasMatrices(nextState);
   renderAtlasMatricesState();
+}
+
+function renderAtlasHeatmapState() {
+  if (!(atlasHeatmapHost instanceof HTMLElement)) return;
+  if (atlasHeatmapShell instanceof HTMLElement) {
+    atlasHeatmapShell.hidden = atlasHeatmapExplicitOpen !== true;
+  }
+  atlasHeatmapHost.innerHTML = '';
+  atlasHeatmapHost.dataset.atlasHeatmapStatus = atlasHeatmapExplicitOpen ? atlasHeatmapState.state : 'closed';
+  atlasHeatmapHost.dataset.atlasHeatmapProvider = ATLAS_HEATMAP_QUERY_ID;
+  if (atlasHeatmapExplicitOpen !== true) return;
+
+  const state = normalizeAtlasHeatmap(atlasHeatmapState);
+  const header = document.createElement('div');
+  header.className = 'right-rail-atlas-matrices-head right-rail-atlas-heatmap-head';
+  const label = document.createElement('div');
+  label.className = 'right-rail-section__label';
+  label.textContent = 'Heatmap';
+  const title = document.createElement('strong');
+  title.className = 'right-rail-atlas-matrices-title';
+  title.textContent = 'Atlas density heatmap';
+  const hash = document.createElement('span');
+  hash.className = 'right-rail-atlas-overview-hash';
+  hash.textContent = state.summary.heatmapHash ? state.summary.heatmapHash.slice(0, 8) : state.state;
+  header.append(label, title, hash);
+  atlasHeatmapHost.appendChild(header);
+
+  const metrics = document.createElement('div');
+  metrics.className = 'right-rail-atlas-overview-metrics right-rail-atlas-matrices-metrics';
+  appendAtlasOverviewMetric(metrics, 'tiles', state.summary.renderedTileCount);
+  appendAtlasOverviewMetric(metrics, 'omitted', state.summary.omittedTileCount, state.viewportBudgetProof?.clippingHonest ? 'reviewRequired' : 'current');
+  appendAtlasOverviewMetric(metrics, 'max', state.summary.maxObservationCount);
+  appendAtlasOverviewMetric(metrics, 'budget', state.viewportBudgetProof?.tileLimit || 0);
+  atlasHeatmapHost.appendChild(metrics);
+
+  const actionBar = document.createElement('div');
+  actionBar.className = 'right-rail-atlas-action-bar';
+  const closeButton = document.createElement('button');
+  closeButton.type = 'button';
+  closeButton.className = 'right-rail-atlas-action';
+  closeButton.dataset.atlasHeatmapClose = 'true';
+  closeButton.textContent = 'Close';
+  actionBar.appendChild(closeButton);
+  atlasHeatmapHost.appendChild(actionBar);
+
+  if (state.state === 'unavailable') {
+    const unavailable = document.createElement('div');
+    unavailable.className = 'right-rail-atlas-state right-rail-atlas-state--blocked';
+    unavailable.textContent = state.unavailableReason || 'ATLAS_HEATMAP_UNAVAILABLE';
+    atlasHeatmapHost.appendChild(unavailable);
+    return;
+  }
+  if (state.state === 'loading') {
+    const loading = document.createElement('div');
+    loading.className = 'right-rail-atlas-state';
+    loading.textContent = 'Atlas heatmap загружается только после явного открытия.';
+    atlasHeatmapHost.appendChild(loading);
+    return;
+  }
+  if (state.state === 'empty') {
+    const empty = document.createElement('div');
+    empty.className = 'right-rail-atlas-state';
+    empty.textContent = 'Heatmap appears after entity-scene observations exist.';
+    atlasHeatmapHost.appendChild(empty);
+    return;
+  }
+
+  const packet = state.tilePacket;
+  const tableSection = appendAtlasOverviewSection(atlasHeatmapHost, 'Density tiles', { open: true });
+  const wrapper = document.createElement('div');
+  wrapper.className = 'right-rail-atlas-matrix-wrap';
+  const table = document.createElement('table');
+  table.className = 'right-rail-atlas-matrix right-rail-atlas-heatmap';
+  table.setAttribute('role', 'grid');
+  table.setAttribute('aria-label', 'Atlas entity scene density heatmap');
+  const caption = document.createElement('caption');
+  caption.textContent = 'Entity-scene observation density';
+  table.appendChild(caption);
+  const thead = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  headRow.setAttribute('role', 'row');
+  const corner = document.createElement('th');
+  corner.scope = 'col';
+  corner.textContent = 'Scene';
+  headRow.appendChild(corner);
+  for (const column of packet.columns) {
+    const th = document.createElement('th');
+    th.scope = 'col';
+    th.setAttribute('role', 'columnheader');
+    th.textContent = column.sceneTitle || column.sceneId || 'Scene';
+    headRow.appendChild(th);
+  }
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+  const tbody = document.createElement('tbody');
+  const tilesByPosition = new Map(packet.tiles.map((tile) => [`${tile.rowIndex}:${tile.columnIndex}`, tile]));
+  packet.rows.forEach((row, rowIndex) => {
+    const tr = document.createElement('tr');
+    tr.setAttribute('role', 'row');
+    const rowHeader = document.createElement('th');
+    rowHeader.scope = 'row';
+    rowHeader.textContent = row.name || row.entityId || 'Entity';
+    tr.appendChild(rowHeader);
+    packet.columns.forEach((column, columnIndex) => {
+      const tile = tilesByPosition.get(`${rowIndex}:${columnIndex}`) || {};
+      const td = document.createElement('td');
+      td.setAttribute('role', 'gridcell');
+      td.dataset.atlasHeatmapTile = 'true';
+      td.dataset.atlasHeatmapBand = tile.intensityBand || 'none';
+      td.setAttribute('aria-label', tile.ariaLabel || `${rowHeader.textContent} in ${column.sceneTitle || 'Scene'}: no rendered heatmap tile`);
+      td.textContent = Number.isInteger(tile.observationCount) ? String(tile.observationCount) : '·';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrapper.appendChild(table);
+  tableSection.appendChild(wrapper);
+
+  const legendSection = appendAtlasOverviewSection(atlasHeatmapHost, 'Legend and fallback', { open: false });
+  const legend = document.createElement('div');
+  legend.className = 'right-rail-atlas-heatmap-legend';
+  for (const band of state.legend.bands) {
+    const item = document.createElement('span');
+    item.className = 'right-rail-atlas-heatmap-legend-item';
+    item.dataset.atlasHeatmapBand = band.band || 'none';
+    item.textContent = band.label || band.band || 'none';
+    legend.appendChild(item);
+  }
+  legendSection.appendChild(legend);
+  appendAtlasMatrixListRows(legendSection, state.degradedVisualFallback.map((row) => ({
+    entityName: row.entityName,
+    sceneTitle: row.sceneTitle,
+    appearanceCount: row.observationCount,
+    evidenceAnchorIds: Array.from({ length: row.evidenceAnchorCount || 0 }, (_, index) => String(index)),
+  })), 'entityScene', 0);
+
+  if (state.viewportBudgetProof?.clippingHonest) {
+    const budget = document.createElement('div');
+    budget.className = 'right-rail-atlas-state';
+    budget.textContent = `Virtualized ${state.viewportBudgetProof.renderedTileCount || 0}/${state.viewportBudgetProof.totalTileCount || 0} tiles. Typing path stays nonblocking.`;
+    atlasHeatmapHost.appendChild(budget);
+  }
+}
+
+function closeAtlasHeatmapSurface() {
+  atlasHeatmapExplicitOpen = false;
+  renderAtlasHeatmapState();
+}
+
+function openAtlasHeatmapSurface() {
+  atlasHeatmapExplicitOpen = true;
+  renderAtlasHeatmapState();
+  refreshAtlasHeatmap();
+}
+
+async function refreshAtlasHeatmap() {
+  if (currentRightTab !== 'atlas') return;
+  if (atlasHeatmapExplicitOpen !== true) return;
+  atlasHeatmapState = {
+    ...atlasHeatmapState,
+    state: currentProjectId ? 'loading' : 'empty',
+    projectId: currentProjectId || '',
+  };
+  renderAtlasHeatmapState();
+  const result = await invokeWorkspaceQueryBridge(ATLAS_HEATMAP_QUERY_ID, {
+    projectId: currentProjectId,
+    explicitOpen: atlasHeatmapExplicitOpen === true,
+    rowLimit: 10,
+    columnLimit: 10,
+    tileLimit: 64,
+    listLimit: 16,
+  });
+  const nextState = result && result.ok !== false && result.atlasHeatmap
+    ? result.atlasHeatmap
+    : { state: 'unavailable', unavailableReason: 'ATLAS_HEATMAP_QUERY_FAILED' };
+  atlasHeatmapState = normalizeAtlasHeatmap(nextState);
+  renderAtlasHeatmapState();
 }
 
 function normalizeAtlasCurrentSceneDossier(result = {}) {
@@ -16158,6 +16427,14 @@ atlasRelationDossierHost?.addEventListener('click', (event) => {
   const commandId = action.dataset.commandId || '';
   if (!isAtlasRelationReviewActionCommandId(commandId) || action.disabled) return;
   updateStatusText(`Atlas review action intent: ${commandId}`);
+});
+
+atlasHeatmapHost?.addEventListener('click', (event) => {
+  const closeButton = event.target instanceof Element
+    ? event.target.closest('[data-atlas-heatmap-close]')
+    : null;
+  if (!(closeButton instanceof HTMLButtonElement)) return;
+  closeAtlasHeatmapSurface();
 });
 
 sceneHistoryHost?.addEventListener('click', (event) => {

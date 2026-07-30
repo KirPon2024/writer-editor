@@ -4232,6 +4232,52 @@ body.dark-theme .toolbar__swatch::before {
   background: var(--a11y-focus-surface);
 }
 
+.right-rail-surface--atlas-heatmap {
+  display: grid;
+  gap: 8px;
+}
+
+.right-rail-atlas-heatmap td[data-atlas-heatmap-tile="true"] {
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--panel-bg);
+}
+
+.right-rail-atlas-heatmap td[data-atlas-heatmap-band="low"] {
+  background: var(--selected-bg);
+}
+
+.right-rail-atlas-heatmap td[data-atlas-heatmap-band="medium"] {
+  color: var(--foreground);
+  background: rgba(62, 111, 76, 0.12);
+}
+
+.right-rail-atlas-heatmap td[data-atlas-heatmap-band="high"] {
+  color: var(--foreground);
+  background: rgba(62, 111, 76, 0.2);
+}
+
+.right-rail-atlas-heatmap td[data-atlas-heatmap-band="max"] {
+  color: var(--foreground);
+  font-weight: 600;
+  background: rgba(62, 111, 76, 0.28);
+}
+
+.right-rail-atlas-heatmap-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.right-rail-atlas-heatmap-legend-item {
+  padding: 3px 5px;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 14px;
+}
+
 .right-rail-atlas-matrix-list {
   display: grid;
   gap: 5px;

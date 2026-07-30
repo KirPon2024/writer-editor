@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF",
+  "programStage": "E05_STAGE_05_FULL_ATLAS_UX_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED_FULL_RUNNER_PASS",
+  "createdAtUtc": "2026-07-30T02:14:33Z",
+  "baseSha": "8d91f7edcf237af14c42c033beb36cadee5d9b8b",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour adds a product UI heavy read surface inside the Atlas right rail. It changes an existing product screen by adding an explicit heatmap open path, density visualization, legend, degraded fallback rows, and large UI budget proof.",
+  "designRouteEvidence": {
+    "lazyweb": {
+      "health": "SEARCH_AVAILABLE_REPORT_UNAVAILABLE",
+      "skillPackVersion": "0.14.9",
+      "quickSearch": {
+        "query": "analytics heatmap dashboard",
+        "platform": "desktop",
+        "coverageStrength": "strong",
+        "topSimilarity": 0.636,
+        "referenceCompanies": [
+          "pop",
+          "mapbox",
+          "amplitude",
+          "atom-mobility",
+          "hotjar",
+          "squarespace",
+          "cloudflare",
+          "google-analytics"
+        ],
+        "resultUse": "reference-only signal for explicit analytics surfaces, density legend treatment, native bounded dashboards, and degraded textual fallback; no external style, code, URL, service, dependency, token, or hosted runtime is adopted into the product"
+      },
+      "reportAttempt": {
+        "objective": "create",
+        "hostedReportGenerated": false,
+        "fallbackReason": "Lazyweb quick-search evidence was available and strong. The report path returned legacy-path restart/update guidance after the local update, so the contour used the V5 permitted recorded unavailable fallback without fabricating a hosted report or adding any external runtime dependency."
+      }
+    },
+    "uiCraft": {
+      "skillRead": true,
+      "projectDesignMemory": "absent",
+      "referencesRead": [
+        "accessibility",
+        "dataviz",
+        "dashboard"
+      ],
+      "tokenInventory": "existing renderer CSS variables and right-rail Atlas styles reused; no new palette, font, framework, chart library, or token dependency introduced",
+      "application": "Used explicit heavy-surface disclosure, table-based bounded heatmap tiles, tabular numerals, semantic intensity labels, visible budget copy, and list fallback rows."
+    },
+    "leonardo": {
+      "status": "NOT_APPLICABLE",
+      "reason": "No semantic heatmap palette change was made. The renderer uses existing Yalken variables plus contained band states without creating a new product color system."
+    },
+    "projectWallace": {
+      "status": "NOT_APPLICABLE",
+      "reason": "CSS change is scoped to the existing right-rail Atlas surface and does not introduce a substantial page-wide CSS contract, external stylesheet, or new design system dependency."
+    }
+  },
+  "implementedScope": [
+    "Atlas heatmap derived read model with schema derived.atlas.heatmap.v1",
+    "tile packet with schema derived.atlas.heatmap.tilePacket.v1",
+    "legend contract with schema derived.atlas.heatmapLegend.v1",
+    "viewport budget proof with schema derived.atlas.heatmapViewportBudgetProof.v1",
+    "surface manifest with schema surface.atlas.heatmap.v1",
+    "workspace query bridge route query.atlasHeatmap",
+    "right-rail typed heavy host rightRail.context.atlas.heatmap",
+    "explicit open button from Atlas matrix surface",
+    "renderer guard requiring atlasHeatmapExplicitOpen before query invocation",
+    "virtualized viewport fitting so rendered rows and columns stay inside tile limit",
+    "degraded list fallback rows and semantic legend",
+    "renderer bundle synchronized for packaged runtime"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "atlas.heatmapLargeUiBudgetProofSurface.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "derived.atlas.matrices.v1",
+        "derived.atlas.heatmap.v1"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "existingCommandIds": [],
+      "commandAuthority": "none",
+      "capabilityRevalidation": "The read surface introduces no command. The main query bridge requires explicitOpen true and capability snapshot allows atlasHeatmap only for read derivation; UI visibility is not treated as enforcement for any mutation because no mutation exists."
+    },
+    "interfacePlane": {
+      "newSurface": true,
+      "surfaceManifest": "surface.atlas.heatmap.v1",
+      "host": "rightRail",
+      "typedSlot": "rightRail.context.atlas.heatmap",
+      "provider": "query.atlasHeatmap",
+      "directDomMutation": false,
+      "progressiveDisclosure": true,
+      "heavySurface": true,
+      "explicitOpenRequired": true,
+      "typingHotPathNonblocking": true,
+      "accessibilityParity": true
+    }
+  },
+  "runtimeFacts": {
+    "heatmapSchema": "derived.atlas.heatmap.v1",
+    "tilePacketSchema": "derived.atlas.heatmap.tilePacket.v1",
+    "legendSchema": "derived.atlas.heatmapLegend.v1",
+    "viewportBudgetProofSchema": "derived.atlas.heatmapViewportBudgetProof.v1",
+    "surfaceManifestSchema": "surface.atlas.heatmap.v1",
+    "workspaceQueryId": "query.atlasHeatmap",
+    "surfaceId": "surface.atlas.heatmap",
+    "host": "rightRail",
+    "slot": "rightRail.context.atlas.heatmap",
+    "defaultRowLimit": 10,
+    "defaultColumnLimit": 10,
+    "defaultTileLimit": 64,
+    "defaultListLimit": 16,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "commandBypass": false,
+    "directActionDispatch": false,
+    "workerScheduling": false,
+    "backgroundDaemon": false,
+    "typingHotPathRefresh": false,
+    "queryOnlyOnExplicitOpen": true,
+    "renderAllCells": false,
+    "newDependency": false,
+    "externalServiceDependency": false,
+    "quietWriteInterference": false,
+    "heatmapColorSystem": false,
+    "semanticPaletteChanged": false
+  },
+  "changedFiles": [
+    "src/derived/atlas/atlasHeatmapTypes.mjs",
+    "src/derived/atlas/deriveAtlasHeatmap.mjs",
+    "src/derived/atlas/index.mjs",
+    "src/derived/index.mjs",
+    "src/main.js",
+    "src/renderer/editor.js",
+    "src/renderer/editor.bundle.js",
+    "src/renderer/index.html",
+    "src/renderer/styles.css",
+    "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s build:renderer",
+      "status": "PASS",
+      "summary": "dist renderer bundle rebuilt, 970.5kb"
+    },
+    {
+      "command": "node --test E05 C01 C02 C03 C04 C05 Atlas surface contracts",
+      "status": "PASS",
+      "summary": "20 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK 1"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK 1, STRICT_LIE_CLASSES_OK 1"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "status": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS PASS; command namespace, menu, law path, execution sequence, release candidate all PASS"
+    }
+  ],
+  "nextContour": "E05_C06_ATLAS_COMPARISON_AND_FILTERING_RESTORABILITY"
+}

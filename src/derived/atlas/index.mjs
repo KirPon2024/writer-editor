@@ -77,6 +77,16 @@ export {
   sortAtlasRelationListRows,
 } from './atlasMatricesTypes.mjs';
 export {
+  ATLAS_HEATMAP_INTENSITY_BANDS,
+  ATLAS_HEATMAP_LEGEND_SCHEMA_VERSION,
+  ATLAS_HEATMAP_SCHEMA_VERSION,
+  ATLAS_HEATMAP_SURFACE_MANIFEST_VERSION,
+  ATLAS_HEATMAP_TILE_PACKET_SCHEMA_VERSION,
+  ATLAS_HEATMAP_VIEWPORT_BUDGET_PROOF_SCHEMA_VERSION,
+  compareAtlasHeatmapTiles,
+  normalizeAtlasHeatmapBand,
+} from './atlasHeatmapTypes.mjs';
+export {
   ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
   buildAtlasTemporalContinuityFromObservationAggregate,
   buildAtlasTemporalContinuityIncrementally,
@@ -107,6 +117,7 @@ export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOvervi
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';
 export { deriveAtlasMatrices, ATLAS_MATRICES_VIEW_ID } from './deriveAtlasMatrices.mjs';
+export { deriveAtlasHeatmap, ATLAS_HEATMAP_VIEW_ID } from './deriveAtlasHeatmap.mjs';
 export {
   acceptAtlasLocalGraphLayoutResult,
   buildAtlasLocalGraphLayoutPlan,

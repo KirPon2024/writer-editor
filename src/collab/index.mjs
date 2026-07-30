@@ -5,6 +5,8 @@ export {
   buildCausalOrderingReport,
   buildOfflineQueuePacket,
   buildLocalMultiSessionRecoveryReport,
+  buildTransportNeutralExchangePacket,
+  buildLocalFixtureExchangeAdapterReport,
 } from './mergePolicy.mjs';
 export { runCollabReplay } from './replayDeterminism.mjs';
 export { applyEventLog } from './applyEventLog.mjs';

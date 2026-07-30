@@ -5474,6 +5474,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C05_LOCAL_MULTI_SESSION_RECOVERY_AND_CONFLICT_ENVELOPES",
       "approvedAtUtc": "2026-07-30T17:54:36.000Z",
       "rationale": "Approve bounded E10 C05 final receipt after origin/main drift reconciliation to e720743a: records deterministic local multi-session recovery, typed local conflict envelopes, collision report, manual preview-required decision route through Command Kernel authority, capability revalidation requirement, rollback proof, reopen hash proof, offline held-local recovery proof, invalid-event typed envelopes, payload hash-only exclusion, no automatic merge, no network collaboration, no destructive recovery, no silent project rewrite, no second operation log truth, no second comment truth, no project or manuscript mutation, no UI, no storage writer, no dependency, focused and adjacent local PASS evidence with 31 tests, causal queue readiness PASS, collab stress safe PASS, comments-history PASS, recovery IO PASS, governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e10-c06-transport-neutral-operation-exchange.contract.test.js",
+      "sha256": "acc745a8c480fd83b84ab2b4ffeeb079420881e36c8c793fd30c81229631d70f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T18:04:30.000Z",
+      "rationale": "Approve E10 C06 focused contract: proves deterministic versioned transport-neutral operation exchange packets, local fixture adapter preview-only round trip, disabled-by-default nonblocking transport capability gate, network adapter disabled proof, tampered packet hash mismatch rejection, invalid event rejection, payload body exclusion, no live network, no account or cloud sync, no transport source of truth, no CRDT Core adoption, no Yjs runtime dependency, no project or manuscript mutation, no storage writer, no UI, no second operation log truth, no second comment truth, and no new collab source file."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_RECEIPT.json",
+      "sha256": "9c30708f732d8db9654c9ce3e07ed10521579cff20a76962535dee295dc9ab47",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T18:09:51.000Z",
+      "rationale": "Approve bounded E10 C06 final receipt: records deterministic versioned transport-neutral operation exchange packets, local fixture adapter preview-only report, disabled-by-default nonblocking transport capability gate, network adapter disabled proof, tampered packet hash mismatch rejection, invalid event rejection, payload hash-only exclusion, no live network adapter, no remote account or cloud sync, no transport source of truth, no CRDT Core adoption, no Yjs runtime dependency, no project or manuscript mutation, no storage writer, no UI, no dependency, no second operation log truth, no second comment truth, focused and adjacent local PASS evidence with 27 tests, collab causal readiness PASS, collab stress safe PASS, collab eventlog PASS, collab apply pipeline PASS, governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
     }
   ]
 }

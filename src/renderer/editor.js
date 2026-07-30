@@ -27,6 +27,7 @@ import {
 } from './commands/projectCommands.mjs';
 import { COMMAND_BUS_ROUTE, runCommandThroughBus } from './commands/commandBusGuard.mjs';
 import { createPaletteDataProvider } from './commands/palette-groups.v1.mjs';
+import { isAtlasRelationReviewActionCommandId } from './commands/atlasRelationReviewActions.mjs';
 import {
   buildFlowModeKickoffStatus,
   buildFlowModeCoreStatus,
@@ -255,6 +256,7 @@ const sceneHistoryHost = document.querySelector('[data-scene-history-host]');
 const reviewSurfaceHost = document.querySelector('[data-review-surface-host]');
 const atlasOverviewHost = document.querySelector('[data-atlas-overview-host]');
 const atlasEntityDossierHost = document.querySelector('[data-atlas-entity-dossier-host]');
+const atlasRelationDossierHost = document.querySelector('[data-atlas-relation-dossier-host]');
 const atlasCurrentSceneHost = document.querySelector('[data-atlas-current-scene-host]');
 const inspectorCommentsAction = document.querySelector('[data-inspector-comments-action]');
 const inspectorFocusStatus = document.querySelector('[data-inspector-focus-status]');
@@ -653,6 +655,38 @@ let atlasEntityDossierState = {
   unavailableReason: '',
 };
 let atlasSelectedEntityId = '';
+let atlasRelationDossierState = {
+  state: 'empty',
+  projectId: '',
+  requestedPairId: '',
+  requestedLeftEntityId: '',
+  requestedRightEntityId: '',
+  selectedPairId: '',
+  relation: null,
+  summary: {
+    sceneCount: 0,
+    occurrenceCount: 0,
+    evidenceRowCount: 0,
+    leftEvidenceCount: 0,
+    rightEvidenceCount: 0,
+    reviewRequiredEvidenceCount: 0,
+    absenceIntervalCount: 0,
+    actionCount: 0,
+    availableActionCount: 0,
+    evidenceHealth: 'empty',
+    dossierHash: '',
+  },
+  evidencePacket: { rows: [] },
+  timelineRows: [],
+  absenceContext: [],
+  contextualReviewActions: { actions: [] },
+  unavailableReason: '',
+};
+let atlasSelectedRelation = {
+  pairId: '',
+  leftEntityId: '',
+  rightEntityId: '',
+};
 let atlasCurrentSceneState = {
   state: 'empty',
   projectId: '',
@@ -782,6 +816,7 @@ const METADATA_INSPECTOR_QUERY_ID = 'query.metadataInspector';
 const SCENE_HISTORY_QUERY_ID = 'query.sceneHistory';
 const ATLAS_OVERVIEW_QUERY_ID = 'query.atlasOverview';
 const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
+const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const RIGHT_RAIL_SURFACE_PROVIDERS = Object.freeze({
   inspector: METADATA_INSPECTOR_QUERY_ID,
@@ -6546,6 +6581,7 @@ async function invokeWorkspaceQueryBridge(queryId, payload = {}) {
     && queryId !== SCENE_HISTORY_QUERY_ID
     && queryId !== ATLAS_OVERVIEW_QUERY_ID
     && queryId !== ATLAS_ENTITY_DOSSIER_QUERY_ID
+    && queryId !== ATLAS_RELATION_DOSSIER_QUERY_ID
     && queryId !== ATLAS_CURRENT_SCENE_QUERY_ID
   ) {
     return null;
@@ -8627,6 +8663,7 @@ async function openDocumentNode(node) {
     if (currentRightTab === 'atlas') {
       refreshAtlasOverview();
       refreshAtlasEntityDossier();
+      refreshAtlasRelationDossier();
       refreshAtlasCurrentScene();
     }
     return true;
@@ -11097,6 +11134,9 @@ function syncRightRailCompositionState(tab) {
   if (atlasEntityDossierHost instanceof HTMLElement) {
     atlasEntityDossierHost.dataset.atlasEntityDossierProvider = ATLAS_ENTITY_DOSSIER_QUERY_ID;
   }
+  if (atlasRelationDossierHost instanceof HTMLElement) {
+    atlasRelationDossierHost.dataset.atlasRelationDossierProvider = ATLAS_RELATION_DOSSIER_QUERY_ID;
+  }
   if (atlasCurrentSceneHost instanceof HTMLElement) {
     atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
   }
@@ -11114,6 +11154,7 @@ function applyRightTab(tab) {
   } else if (tab === 'atlas') {
     refreshAtlasOverview();
     refreshAtlasEntityDossier();
+    refreshAtlasRelationDossier();
     refreshAtlasCurrentScene();
   }
   syncInspectorStateSurface();
@@ -11411,7 +11452,15 @@ function renderAtlasOverviewState() {
 
   const relations = appendAtlasOverviewSection(atlasOverviewHost, 'Relations');
   for (const relation of state.topRelations.slice(0, 5)) {
-    appendAtlasOverviewRow(relations, `${relation.leftName || relation.leftEntityId} ↔ ${relation.rightName || relation.rightEntityId}`, `${relation.occurrenceCount || 0} occurrences`, `${relation.sceneCount || 0} scenes`);
+    const row = appendAtlasOverviewRow(relations, `${relation.leftName || relation.leftEntityId} ↔ ${relation.rightName || relation.rightEntityId}`, `${relation.occurrenceCount || 0} occurrences`, `${relation.sceneCount || 0} scenes`);
+    if (relation.pairId) {
+      row.dataset.atlasRelationPairId = relation.pairId;
+      row.dataset.atlasRelationLeftEntityId = relation.leftEntityId || '';
+      row.dataset.atlasRelationRightEntityId = relation.rightEntityId || '';
+      row.tabIndex = 0;
+      row.setAttribute('role', 'button');
+      row.setAttribute('aria-label', `Open Atlas relation ${relation.leftName || relation.leftEntityId} and ${relation.rightName || relation.rightEntityId}`);
+    }
   }
 
   const graph = appendAtlasOverviewSection(atlasOverviewHost, 'Graph');
@@ -11543,7 +11592,15 @@ function renderAtlasEntityDossierState() {
 
   const relations = appendAtlasOverviewSection(atlasEntityDossierHost, 'Relations');
   for (const relation of state.relationRows.slice(0, 6)) {
-    appendAtlasOverviewRow(relations, relation.otherName || relation.otherEntityId || 'Entity', `${relation.occurrenceCount || 0} occurrences`, `${relation.sceneCount || 0} scenes`);
+    const row = appendAtlasOverviewRow(relations, relation.otherName || relation.otherEntityId || 'Entity', `${relation.occurrenceCount || 0} occurrences`, `${relation.sceneCount || 0} scenes`);
+    if (relation.pairId) {
+      row.dataset.atlasRelationPairId = relation.pairId;
+      row.dataset.atlasRelationLeftEntityId = state.selectedEntityId || '';
+      row.dataset.atlasRelationRightEntityId = relation.otherEntityId || '';
+      row.tabIndex = 0;
+      row.setAttribute('role', 'button');
+      row.setAttribute('aria-label', `Open Atlas relation ${state.entity?.name || state.selectedEntityId} and ${relation.otherName || relation.otherEntityId}`);
+    }
   }
   if (state.relationRows.length < 1) {
     appendAtlasOverviewRow(relations, 'No relation evidence yet', '', '');
@@ -11586,6 +11643,211 @@ function selectAtlasEntity(entityId = '') {
   atlasSelectedEntityId = normalized;
   refreshAtlasEntityDossier();
   updateStatusText('Atlas entity dossier открыт');
+}
+
+function normalizeAtlasRelationDossier(result = {}) {
+  const source = result && typeof result === 'object' && !Array.isArray(result) ? result : {};
+  const summary = source.summary && typeof source.summary === 'object' && !Array.isArray(source.summary) ? source.summary : {};
+  const packet = source.evidencePacket && typeof source.evidencePacket === 'object' && !Array.isArray(source.evidencePacket)
+    ? source.evidencePacket
+    : {};
+  const actions = source.contextualReviewActions && typeof source.contextualReviewActions === 'object' && !Array.isArray(source.contextualReviewActions)
+    ? source.contextualReviewActions
+    : {};
+  return {
+    schemaVersion: typeof source.schemaVersion === 'string' ? source.schemaVersion : 'derived.atlas.relationDossier.v1',
+    state: typeof source.state === 'string' ? source.state : 'empty',
+    unavailableReason: typeof source.unavailableReason === 'string' ? source.unavailableReason : '',
+    projectId: typeof source.projectId === 'string' ? source.projectId : '',
+    requestedPairId: typeof source.requestedPairId === 'string' ? source.requestedPairId : '',
+    requestedLeftEntityId: typeof source.requestedLeftEntityId === 'string' ? source.requestedLeftEntityId : '',
+    requestedRightEntityId: typeof source.requestedRightEntityId === 'string' ? source.requestedRightEntityId : '',
+    selectedPairId: typeof source.selectedPairId === 'string' ? source.selectedPairId : '',
+    relation: source.relation && typeof source.relation === 'object' && !Array.isArray(source.relation) ? source.relation : null,
+    summary: {
+      sceneCount: Number.isInteger(summary.sceneCount) ? Math.max(0, summary.sceneCount) : 0,
+      occurrenceCount: Number.isInteger(summary.occurrenceCount) ? Math.max(0, summary.occurrenceCount) : 0,
+      evidenceRowCount: Number.isInteger(summary.evidenceRowCount) ? Math.max(0, summary.evidenceRowCount) : 0,
+      leftEvidenceCount: Number.isInteger(summary.leftEvidenceCount) ? Math.max(0, summary.leftEvidenceCount) : 0,
+      rightEvidenceCount: Number.isInteger(summary.rightEvidenceCount) ? Math.max(0, summary.rightEvidenceCount) : 0,
+      reviewRequiredEvidenceCount: Number.isInteger(summary.reviewRequiredEvidenceCount) ? Math.max(0, summary.reviewRequiredEvidenceCount) : 0,
+      absenceIntervalCount: Number.isInteger(summary.absenceIntervalCount) ? Math.max(0, summary.absenceIntervalCount) : 0,
+      actionCount: Number.isInteger(summary.actionCount) ? Math.max(0, summary.actionCount) : 0,
+      availableActionCount: Number.isInteger(summary.availableActionCount) ? Math.max(0, summary.availableActionCount) : 0,
+      evidenceHealth: typeof summary.evidenceHealth === 'string' ? summary.evidenceHealth : 'empty',
+      dossierHash: typeof summary.dossierHash === 'string' ? summary.dossierHash : '',
+    },
+    evidencePacket: {
+      schemaVersion: typeof packet.schemaVersion === 'string' ? packet.schemaVersion : 'derived.atlas.relationEvidencePacket.v1',
+      state: typeof packet.state === 'string' ? packet.state : 'empty',
+      readOnly: packet.readOnly !== false,
+      rows: Array.isArray(packet.rows) ? packet.rows.filter(reviewSurfaceIsPlainObject) : [],
+    },
+    timelineRows: Array.isArray(source.timelineRows) ? source.timelineRows.filter(reviewSurfaceIsPlainObject) : [],
+    absenceContext: Array.isArray(source.absenceContext) ? source.absenceContext.filter(reviewSurfaceIsPlainObject) : [],
+    contextualReviewActions: {
+      schemaVersion: typeof actions.schemaVersion === 'string' ? actions.schemaVersion : 'derived.atlas.relationContextualActions.v1',
+      state: typeof actions.state === 'string' ? actions.state : 'empty',
+      commandAuthority: typeof actions.commandAuthority === 'string' ? actions.commandAuthority : 'CommandKernel',
+      directDispatch: actions.directDispatch === true ? true : false,
+      actions: Array.isArray(actions.actions) ? actions.actions.filter(reviewSurfaceIsPlainObject) : [],
+    },
+  };
+}
+
+function isAtlasRelationActionCapabilityAvailable(action) {
+  if (!isAtlasRelationReviewActionCommandId(action.commandId)) return false;
+  if (action.availability !== 'available') return false;
+  const capability = enforceCapabilityForCommand(
+    action.commandId,
+    { platformId: 'node', editorMode: currentEditorMode },
+    { platformId: 'node' },
+  );
+  return capability.ok === true;
+}
+
+function appendAtlasRelationAction(parent, action) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'right-rail-atlas-action';
+  button.dataset.atlasRelationActionId = action.actionId || '';
+  button.dataset.commandId = action.commandId || '';
+  button.textContent = action.label || action.commandId || 'Review action';
+  const available = isAtlasRelationActionCapabilityAvailable(action);
+  button.disabled = !available;
+  button.setAttribute('aria-disabled', available ? 'false' : 'true');
+  button.title = available
+    ? `Command Kernel intent: ${action.commandId}`
+    : action.unavailableReason || action.availability || 'Unavailable';
+  parent.appendChild(button);
+  return button;
+}
+
+function renderAtlasRelationDossierState() {
+  if (!(atlasRelationDossierHost instanceof HTMLElement)) return;
+  const state = normalizeAtlasRelationDossier(atlasRelationDossierState);
+  atlasRelationDossierHost.innerHTML = '';
+  atlasRelationDossierHost.dataset.atlasRelationDossierStatus = state.state;
+  atlasRelationDossierHost.dataset.atlasRelationDossierProvider = ATLAS_RELATION_DOSSIER_QUERY_ID;
+  atlasRelationDossierHost.dataset.atlasSelectedRelationPairId = state.selectedPairId || atlasSelectedRelation.pairId || '';
+
+  const header = document.createElement('div');
+  header.className = 'right-rail-atlas-relation-dossier-head';
+  const label = document.createElement('div');
+  label.className = 'right-rail-section__label';
+  label.textContent = 'Relation dossier';
+  const name = document.createElement('strong');
+  name.className = 'right-rail-atlas-relation-dossier-name';
+  name.textContent = state.relation
+    ? `${state.relation.leftName || state.relation.leftEntityId} - ${state.relation.rightName || state.relation.rightEntityId}`
+    : 'Entity pair';
+  const hash = document.createElement('span');
+  hash.className = 'right-rail-atlas-overview-hash';
+  hash.textContent = state.summary.dossierHash ? state.summary.dossierHash.slice(0, 8) : state.summary.evidenceHealth;
+  header.append(label, name, hash);
+  atlasRelationDossierHost.appendChild(header);
+
+  if (state.state === 'unavailable') {
+    const unavailable = document.createElement('div');
+    unavailable.className = 'right-rail-atlas-state right-rail-atlas-state--blocked';
+    unavailable.textContent = state.unavailableReason || 'ATLAS_RELATION_DOSSIER_UNAVAILABLE';
+    atlasRelationDossierHost.appendChild(unavailable);
+    return;
+  }
+  if (state.state === 'loading') {
+    const loading = document.createElement('div');
+    loading.className = 'right-rail-atlas-state';
+    loading.textContent = 'Relation dossier обновляется.';
+    atlasRelationDossierHost.appendChild(loading);
+    return;
+  }
+  if (!state.selectedPairId) {
+    const empty = document.createElement('div');
+    empty.className = 'right-rail-atlas-state';
+    empty.textContent = 'Выберите relation в Atlas overview или entity dossier.';
+    atlasRelationDossierHost.appendChild(empty);
+    return;
+  }
+
+  const metrics = document.createElement('div');
+  metrics.className = 'right-rail-atlas-overview-metrics right-rail-atlas-relation-dossier-metrics';
+  appendAtlasOverviewMetric(metrics, 'сцен', state.summary.sceneCount);
+  appendAtlasOverviewMetric(metrics, 'co-occur', state.summary.occurrenceCount);
+  appendAtlasOverviewMetric(metrics, 'evidence', state.summary.evidenceRowCount, state.summary.evidenceHealth);
+  appendAtlasOverviewMetric(metrics, 'actions', `${state.summary.availableActionCount}/${state.summary.actionCount}`, state.summary.availableActionCount > 0 ? 'current' : 'empty');
+  atlasRelationDossierHost.appendChild(metrics);
+
+  const actionBar = document.createElement('div');
+  actionBar.className = 'right-rail-atlas-action-bar';
+  for (const action of state.contextualReviewActions.actions.slice(0, 4)) {
+    appendAtlasRelationAction(actionBar, action);
+  }
+  if (actionBar.childElementCount > 0) atlasRelationDossierHost.appendChild(actionBar);
+
+  const timeline = appendAtlasOverviewSection(atlasRelationDossierHost, 'Co-occurrence timeline', { open: true });
+  for (const row of state.timelineRows.slice(0, 8)) {
+    appendAtlasOverviewRow(timeline, row.sceneId || 'scene', `${row.leftObservationCount || 0}/${row.rightObservationCount || 0} observations`, `${row.evidenceAnchorIds?.length || 0} anchors`);
+  }
+  if (state.timelineRows.length < 1) {
+    appendAtlasOverviewRow(timeline, 'No co-occurrence timeline yet', '', '');
+  }
+
+  const evidence = appendAtlasOverviewSection(atlasRelationDossierHost, 'Pair evidence');
+  for (const row of state.evidencePacket.rows.slice(0, 8)) {
+    appendAtlasOverviewRow(evidence, row.quote || row.sourceRecordId || row.observationId || 'evidence', `${row.side || 'pair'} ${row.sceneId || ''}`.trim(), row.evidenceState || 'CURRENT');
+  }
+  if (state.evidencePacket.rows.length < 1) {
+    appendAtlasOverviewRow(evidence, 'No pair evidence rows yet', '', '');
+  }
+
+  const absence = appendAtlasOverviewSection(atlasRelationDossierHost, 'Absence context');
+  for (const row of state.absenceContext.slice(0, 6)) {
+    appendAtlasOverviewRow(absence, row.entityId || 'entity', `${row.length || 0} scenes absent`, `${row.startSceneOrdinal || 0}-${row.endSceneOrdinal || 0}`);
+  }
+  if (state.absenceContext.length < 1) {
+    appendAtlasOverviewRow(absence, 'No absence interval between appearances', '', '');
+  }
+}
+
+async function refreshAtlasRelationDossier() {
+  if (currentRightTab !== 'atlas') return;
+  atlasRelationDossierState = {
+    ...atlasRelationDossierState,
+    state: currentProjectId ? 'loading' : 'empty',
+    projectId: currentProjectId || '',
+    requestedPairId: atlasSelectedRelation.pairId || '',
+    requestedLeftEntityId: atlasSelectedRelation.leftEntityId || '',
+    requestedRightEntityId: atlasSelectedRelation.rightEntityId || '',
+  };
+  renderAtlasRelationDossierState();
+  const result = await invokeWorkspaceQueryBridge(ATLAS_RELATION_DOSSIER_QUERY_ID, {
+    projectId: currentProjectId,
+    pairId: atlasSelectedRelation.pairId || '',
+    leftEntityId: atlasSelectedRelation.leftEntityId || '',
+    rightEntityId: atlasSelectedRelation.rightEntityId || '',
+    limit: 8,
+  });
+  const nextState = result && result.ok !== false && result.atlasRelationDossier
+    ? result.atlasRelationDossier
+    : { state: 'unavailable', unavailableReason: 'ATLAS_RELATION_DOSSIER_QUERY_FAILED' };
+  atlasRelationDossierState = normalizeAtlasRelationDossier(nextState);
+  atlasSelectedRelation = {
+    pairId: atlasRelationDossierState.selectedPairId || atlasSelectedRelation.pairId || '',
+    leftEntityId: atlasRelationDossierState.relation?.leftEntityId || atlasSelectedRelation.leftEntityId || '',
+    rightEntityId: atlasRelationDossierState.relation?.rightEntityId || atlasSelectedRelation.rightEntityId || '',
+  };
+  renderAtlasRelationDossierState();
+}
+
+function selectAtlasRelation(relation = {}) {
+  const source = relation && typeof relation === 'object' && !Array.isArray(relation) ? relation : {};
+  const pairId = typeof source.pairId === 'string' ? source.pairId.trim() : '';
+  const leftEntityId = typeof source.leftEntityId === 'string' ? source.leftEntityId.trim() : '';
+  const rightEntityId = typeof source.rightEntityId === 'string' ? source.rightEntityId.trim() : '';
+  if (!pairId && (!leftEntityId || !rightEntityId)) return;
+  atlasSelectedRelation = { pairId, leftEntityId, rightEntityId };
+  refreshAtlasRelationDossier();
+  updateStatusText('Atlas relation dossier открыт');
 }
 
 function normalizeAtlasCurrentSceneDossier(result = {}) {
@@ -15444,8 +15706,19 @@ atlasOverviewHost?.addEventListener('click', (event) => {
   const entity = event.target instanceof Element
     ? event.target.closest('[data-atlas-entity-id]')
     : null;
-  if (!(entity instanceof HTMLElement)) return;
-  selectAtlasEntity(entity.dataset.atlasEntityId || '');
+  if (entity instanceof HTMLElement) {
+    selectAtlasEntity(entity.dataset.atlasEntityId || '');
+    return;
+  }
+  const relation = event.target instanceof Element
+    ? event.target.closest('[data-atlas-relation-pair-id]')
+    : null;
+  if (!(relation instanceof HTMLElement)) return;
+  selectAtlasRelation({
+    pairId: relation.dataset.atlasRelationPairId || '',
+    leftEntityId: relation.dataset.atlasRelationLeftEntityId || '',
+    rightEntityId: relation.dataset.atlasRelationRightEntityId || '',
+  });
 });
 
 atlasOverviewHost?.addEventListener('keydown', (event) => {
@@ -15453,9 +15726,57 @@ atlasOverviewHost?.addEventListener('keydown', (event) => {
   const entity = event.target instanceof Element
     ? event.target.closest('[data-atlas-entity-id]')
     : null;
-  if (!(entity instanceof HTMLElement)) return;
+  if (entity instanceof HTMLElement) {
+    event.preventDefault();
+    selectAtlasEntity(entity.dataset.atlasEntityId || '');
+    return;
+  }
+  const relation = event.target instanceof Element
+    ? event.target.closest('[data-atlas-relation-pair-id]')
+    : null;
+  if (!(relation instanceof HTMLElement)) return;
   event.preventDefault();
-  selectAtlasEntity(entity.dataset.atlasEntityId || '');
+  selectAtlasRelation({
+    pairId: relation.dataset.atlasRelationPairId || '',
+    leftEntityId: relation.dataset.atlasRelationLeftEntityId || '',
+    rightEntityId: relation.dataset.atlasRelationRightEntityId || '',
+  });
+});
+
+atlasEntityDossierHost?.addEventListener('click', (event) => {
+  const relation = event.target instanceof Element
+    ? event.target.closest('[data-atlas-relation-pair-id]')
+    : null;
+  if (!(relation instanceof HTMLElement)) return;
+  selectAtlasRelation({
+    pairId: relation.dataset.atlasRelationPairId || '',
+    leftEntityId: relation.dataset.atlasRelationLeftEntityId || '',
+    rightEntityId: relation.dataset.atlasRelationRightEntityId || '',
+  });
+});
+
+atlasEntityDossierHost?.addEventListener('keydown', (event) => {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+  const relation = event.target instanceof Element
+    ? event.target.closest('[data-atlas-relation-pair-id]')
+    : null;
+  if (!(relation instanceof HTMLElement)) return;
+  event.preventDefault();
+  selectAtlasRelation({
+    pairId: relation.dataset.atlasRelationPairId || '',
+    leftEntityId: relation.dataset.atlasRelationLeftEntityId || '',
+    rightEntityId: relation.dataset.atlasRelationRightEntityId || '',
+  });
+});
+
+atlasRelationDossierHost?.addEventListener('click', (event) => {
+  const action = event.target instanceof Element
+    ? event.target.closest('[data-atlas-relation-action-id]')
+    : null;
+  if (!(action instanceof HTMLButtonElement)) return;
+  const commandId = action.dataset.commandId || '';
+  if (!isAtlasRelationReviewActionCommandId(commandId) || action.disabled) return;
+  updateStatusText(`Atlas review action intent: ${commandId}`);
 });
 
 sceneHistoryHost?.addEventListener('click', (event) => {
@@ -15922,6 +16243,7 @@ if (window.electronAPI) {
     if (currentRightTab === 'atlas') {
       refreshAtlasOverview();
       refreshAtlasEntityDossier();
+      refreshAtlasRelationDossier();
       refreshAtlasCurrentScene();
     }
     applyPendingProjectSearchJump(currentDocumentId || '');

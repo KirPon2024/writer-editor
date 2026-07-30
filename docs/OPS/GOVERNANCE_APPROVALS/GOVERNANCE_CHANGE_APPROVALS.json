@@ -4627,6 +4627,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C02_ENTITY_DOSSIER_AND_EVIDENCE_LEDGER_READ_SURFACE",
       "approvedAtUtc": "2026-07-30T01:10:48.000Z",
       "rationale": "Approve E05 C02 contract test coverage for the Atlas entity dossier and evidence ledger read surface: proves deterministic entity selection, read-only surface manifest, evidence ledger rows for current observations and review-required source records, unavailable and empty states without mutation, public barrel exports, renderer and main-process query bridge wiring through a typed host, keyboard-selectable entity rows, and no storage, network, command bypass, or renderer-side product mutation."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS_RECEIPT.json",
+      "sha256": "7ecb110cc9c3860708bfb9280908dccf20a84ea7d92522aacfc163b654b42398",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS",
+      "approvedAtUtc": "2026-07-30T01:30:32.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C03 receipt: records the relation dossier read model, read-only pair evidence packet, co-occurrence timeline, absence context, contextual review action intents bound to existing Atlas command ids, query bridge provider, right-rail typed slot, transient renderer relation selection, Lazyweb and UI Craft design-route evidence, synchronized renderer bundle, and no product-truth, storage, network, command-bypass, worker, dependency, or external-service expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
+      "sha256": "1b940b19cfb058a66304132dbf65034f50a4430d814f87b996225094b7630a7c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS",
+      "approvedAtUtc": "2026-07-30T01:30:32.000Z",
+      "rationale": "Approve E05 C03 contract test coverage for the Atlas relation dossier and contextual review action surface: proves deterministic relation selection, pair evidence and timeline rows, absence context, existing Command Kernel action-intent ids, unavailable and empty states without mutation, public barrel exports, renderer and main-process query bridge wiring through a typed host, keyboard-selectable relation rows, and no storage, network, command bypass, direct dispatch, or renderer-side product mutation."
     }
   ]
 }

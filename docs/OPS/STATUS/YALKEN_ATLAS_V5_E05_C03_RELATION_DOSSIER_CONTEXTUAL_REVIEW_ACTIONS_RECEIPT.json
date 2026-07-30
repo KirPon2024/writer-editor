@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS",
+  "programStage": "E05_STAGE_05_FULL_ATLAS_UX_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED_FULL_RUNNER_PASS",
+  "createdAtUtc": "2026-07-30T01:30:32Z",
+  "baseSha": "a221bd4b0e6881d1145e362c8b4c9732d8e5e8c6",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour adds a product UI read surface inside the Atlas right rail: a relation dossier with pair evidence, co-occurrence timeline, absence context, and contextual review action intents. It changes an existing product screen and therefore uses Lazyweb and UI Craft reference guidance before closing.",
+  "designRouteEvidence": {
+    "lazyweb": {
+      "health": "OK",
+      "skillPackVersion": "0.14.9",
+      "quickSearch": {
+        "query": "relationship evidence dashboard",
+        "platform": "desktop",
+        "coverageStrength": "strong",
+        "topSimilarity": 0.551,
+        "referenceCompanies": [
+          "dock",
+          "docusign",
+          "mixpanel",
+          "google-analytics",
+          "relativity"
+        ],
+        "resultUse": "reference-only signal for dense relation detail hierarchy, metric header, timeline list, evidence rows, and compact action bar; no external style, code, URL, service, dependency, token, or hosted runtime is adopted into the product"
+      },
+      "reportAttempt": {
+        "objective": "create",
+        "result": "redirected-to-deep-design-research-workflow",
+        "hostedReportGenerated": false,
+        "workflowFetchResult": "WORKFLOW_NOT_FOUND",
+        "fallbackReason": "The available full-report path requires an existing screenshot for improve or optimize. Greenfield create redirected to a workflow that was not fetchable from the MCP. The bounded repo contour continued with quick-search evidence and local UI Craft guidance without adding an external runtime dependency."
+      },
+      "selfUpdate": {
+        "completed": true,
+        "productRepoChanged": false,
+        "clientRestartRequiredForFreshTools": true
+      }
+    },
+    "uiCraft": {
+      "skillRead": true,
+      "projectDesignMemory": "absent",
+      "tokenInventory": "existing renderer CSS variables and right-rail Atlas styles reused; no new palette, font, framework, or token dependency introduced",
+      "application": "Kept the surface compact, scan-first, keyboard-selectable, token-matched to the existing right rail, and free of card nesting or new framework styling."
+    }
+  },
+  "implementedScope": [
+    "Atlas relation dossier derived read model with schema derived.atlas.relationDossier.v1",
+    "read-only pair evidence packet with schema derived.atlas.relationEvidencePacket.v1",
+    "contextual review action intent packet with schema derived.atlas.relationContextualActions.v1",
+    "surface manifest with schema surface.atlas.relationDossier.v1",
+    "workspace query bridge route query.atlasRelationDossier",
+    "right-rail typed host rightRail.context.atlas.relationDossier",
+    "transient renderer relation selection from overview or entity dossier rows",
+    "keyboard-accessible relation rows and action intent buttons",
+    "renderer command helper allowlisting existing Atlas command ids only",
+    "renderer bundle synchronized for packaged runtime"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "atlas.relationDossierContextualReviewActionsSurface.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "derived.atlas.observationAggregate.v1",
+        "derived.atlas.temporalContinuity.v1",
+        "derived.atlas.evidenceReattachmentInbox.v1",
+        "derived.atlas.relationDossier.v1"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "existingCommandIds": [
+        "atlas.observation.suppress",
+        "atlas.observation.reassign",
+        "atlas.evidence.reattach"
+      ],
+      "commandAuthority": "CommandKernel",
+      "capabilityRevalidation": "The read surface introduces no command. Contextual review actions are intent-only affordances bound to existing Atlas command ids and renderer capability policy; the surface does not dispatch direct product mutations."
+    },
+    "interfacePlane": {
+      "newSurface": true,
+      "surfaceManifest": "surface.atlas.relationDossier.v1",
+      "host": "rightRail",
+      "typedSlot": "rightRail.context.atlas.relationDossier",
+      "provider": "query.atlasRelationDossier",
+      "directDomMutation": false,
+      "progressiveDisclosure": true,
+      "heavySurface": false
+    }
+  },
+  "runtimeFacts": {
+    "relationDossierSchema": "derived.atlas.relationDossier.v1",
+    "relationEvidencePacketSchema": "derived.atlas.relationEvidencePacket.v1",
+    "relationContextualActionsSchema": "derived.atlas.relationContextualActions.v1",
+    "surfaceManifestSchema": "surface.atlas.relationDossier.v1",
+    "workspaceQueryId": "query.atlasRelationDossier",
+    "surfaceId": "surface.atlas.relationDossier",
+    "host": "rightRail",
+    "slot": "rightRail.context.atlas.relationDossier",
+    "defaultEvidenceLimit": 8,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "commandBypass": false,
+    "directActionDispatch": false,
+    "workerScheduling": false,
+    "newDependency": false,
+    "externalServiceDependency": false,
+    "quietWriteInterference": false
+  },
+  "changedFiles": [
+    "src/derived/atlas/atlasRelationDossierTypes.mjs",
+    "src/derived/atlas/deriveAtlasRelationDossier.mjs",
+    "src/derived/atlas/index.mjs",
+    "src/derived/index.mjs",
+    "src/main.js",
+    "src/renderer/commands/atlasRelationReviewActions.mjs",
+    "src/renderer/editor.js",
+    "src/renderer/editor.bundle.js",
+    "src/renderer/index.html",
+    "src/renderer/styles.css",
+    "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c02-entity-dossier-evidence-ledger-read-surface.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
+      "status": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c05-atlas-evidence-reattachment-review-inbox.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "ok true, missing approvals 0"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK 1, STRICT_LIE_CLASSES_OK 1"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E05_C04_ATLAS_MATRICES_AND_ACCESSIBILITY_PARITY"
+}

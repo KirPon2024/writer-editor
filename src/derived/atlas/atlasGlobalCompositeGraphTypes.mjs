@@ -5,6 +5,9 @@ export const ATLAS_GLOBAL_COMPOSITE_EDGE_SCHEMA_VERSION = 'derived.atlas.globalC
 export const ATLAS_GLOBAL_COMPOSITE_GRAPH_JOB_SCHEMA_VERSION = 'atlas.globalCompositeGraph.job.v1';
 export const ATLAS_GLOBAL_COMPOSITE_GRAPH_RESULT_SCHEMA_VERSION = 'atlas.globalCompositeGraph.result.v1';
 export const ATLAS_GLOBAL_COMPOSITE_GRAPH_QUEUE_SCHEMA_VERSION = 'atlas.globalCompositeGraph.queue.v1';
+export const ATLAS_GLOBAL_COMPOSITE_LOD_PLAN_SCHEMA_VERSION = 'atlas.globalCompositeGraph.lodPlan.v1';
+export const ATLAS_GLOBAL_COMPOSITE_STABLE_POSITION_SCHEMA_VERSION = 'atlas.globalCompositeGraph.stablePosition.v1';
+export const ATLAS_GLOBAL_COMPOSITE_RESOURCE_BUDGET_PROOF_SCHEMA_VERSION = 'atlas.globalCompositeGraph.resourceBudgetProof.v1';
 
 export const ATLAS_GLOBAL_COMPOSITE_NODE_KIND = Object.freeze({
   ATLAS_ENTITY: 'atlasEntity',

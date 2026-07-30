@@ -189,5 +189,5 @@
       "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS PASS; command namespace, menu, law path, execution sequence, release candidate all PASS"
     }
   ],
-  "nextContour": "E05_C06_ATLAS_COMPARISON_AND_FILTERING_RESTORABILITY"
+  "nextContour": "E05_C06_ATLAS_REPORTS_AND_SAVED_QUERIES_BOUNDARY"
 }

@@ -2,6 +2,34 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/RTK/POST_D1_A00_RECONCILIATION_RECEIPT.json",
+      "sha256": "99558f5aeb27b96980bd36b130e3d81cc6b8a3dbeb3bbbe0d2c8a4525ba9fcd3",
+      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
+      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
+      "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "b71123c5c161a2bbaba8b8ed2486ac5e6a1992eb4b63018244bf803f681232fe",
+      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
+      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
+      "rationale": "Approve bounded post-D1 portability program: creates versioned matrix, profile vocabulary, queue A00 through A08, writer formatting and scale requirements, locator-survival research queue, explicit nonclaims, and latest Word candidate boundary while preserving D1 history and making no Word 16.111.2, Word Online, Google Docs, LibreOffice, ONLYOFFICE, Pages, WPS, automatic apply, fuzzy matching, UI, runtime, network, dependency, project truth, or manuscript support claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
+      "sha256": "1fef5c09ca0499d00762db5f8b53a070aafcb1d5c8a7c88848b0ef7d2c31a239",
+      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
+      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
+      "rationale": "Approve bounded post-D1 editor lab harness and verifier: validates the post-D1 program and A00 receipt, exposes a synthetic-only ledger plan, requires encrypted T7-Secure before physical editor runs, writes lab ledgers atomically only under the deterministic T7 evidence root when explicitly requested, enforces timeout resume cleanup and fixture-only PASS rejection, and adds no product runtime entrypoint, no UI, no dependency, no build, no install, no download, no user document handling, and no profile certification."
+    },
+    {
+      "filePath": "test/contracts/rtk-post-d1-portability-program.contract.test.js",
+      "sha256": "df2ec25c82d3670fa84542fa14480c147590713736f1daaad493ed4a79ebb53e",
+      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
+      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
+      "rationale": "Approve focused post-D1 portability contract: proves A00 and A01 are bounded, D1 history is immutable, latest Word remains uncertified, all external editor profiles require physical evidence and reject fixture-only PASS, writer formatting scale lanes and locator research queue are present, harness guard and ledger are synthetic-only, and false certification or fixture-only profile PASS mutations fail."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_STAGE_08_ACCEPTANCE_RECEIPT.json",
       "sha256": "c1498531d27d14c14da11714b145a93bb4fbdd5b7e89a08051b9f38fcdae0db4",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_AND_STAGE_08_ACCEPTANCE",
@@ -675,10 +703,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "8f2c38d15e1e51675ffa7961e9dea626bc7f1e80deeeeafc17afc6d7cb1a1ca9",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
-      "approvedAtUtc": "2026-07-29T17:48:00.000Z",
-      "rationale": "Approve bounded W5 V6 Word evidence contract allowlist sync so the existing dirty-tree guard can run alongside W5 local hardening status, verifier, package-boundary guard, and governance approval files while preserving false Word PASS rejection, no Word support, no Word import, no roundtrip, no layout parity, no release DONE, no dependency, no runtime, no UI, no storage, and no writer authority change."
+      "sha256": "65c52def763fbaed318122ae847c6a386c5ddedab4e1e4426ef3d371c57a4e8c",
+      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
+      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
+      "rationale": "Approve bounded post-D1 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside the post-D1 program, A00 receipt, lab harness, and focused contract test while preserving W5 false Word PASS rejection, no Word support, no Word import, no roundtrip, no layout parity, no release DONE, no dependency, no runtime, no UI, no storage, and no writer authority change."
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",

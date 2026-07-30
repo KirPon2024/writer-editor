@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_RESOURCE_ISOLATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_AND_RESOURCE_ISOLATION",
+  "programStage": "E07_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T07:25:34Z",
+  "baseSha": "d1cca660c8a6dd39777aef467a1602e12fb4a2ea",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds read-only language decertification rollback and resource isolation proof only; no product UI screen, visual composition, layout, palette, typography, or runtime Design OS surface changes.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.languageDecertificationRollback",
+    "productPlane": {
+      "truthPath": "none-read-only-derived-rollback-proof",
+      "commandIds": [],
+      "mutationAuthority": "none",
+      "writePath": "none",
+      "readPath": "derived.atlas.languageDecertificationRollback.v1",
+      "sourceReadModels": [
+        "Deep fixture certification language rows",
+        "Deep engine decision packet",
+        "local fixture resource isolation packet"
+      ],
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "runtimeDownload": false,
+      "dynamicExecutablePlugin": false,
+      "automaticLanguageDetection": false,
+      "automaticManuscriptRewrite": false,
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "storageMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "not-applicable-no-ui",
+      "host": "none",
+      "slotId": "not-applicable-no-ui-surface",
+      "providerId": "none",
+      "runtimeUiChanged": false,
+      "explicitOpenRequired": false,
+      "dispatchIntentOnly": false
+    },
+    "authorityMap": {
+      "productTruth": "none",
+      "commandAuthority": "none",
+      "designAuthority": "none",
+      "storageAuthority": "none",
+      "capabilityRevalidation": "read-only derived proof; no command dispatch introduced"
+    },
+    "fallbacks": [
+      "default Deep unavailable path has no language rollback rows",
+      "requested language rollback decertifies only requested certified language",
+      "failed corpus decertifies only the failing language",
+      "shared local fixture resources remain non-executable shared-read-only and are not removed",
+      "BASIC_EXACT_TERM_V1 remains fallback analyzer"
+    ],
+    "recovery": {
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "storageMutation": false,
+      "networkMutation": false,
+      "rollbackTargetStatus": "BASIC_OR_GLOBAL_EXACT_ONLY_PER_LANGUAGE",
+      "reversible": true,
+      "removeRuntimeResource": false,
+      "clearCertifiedLanguageOnly": true
+    },
+    "negativeBypassChecks": [
+      "requested RU rollback leaves EN certified",
+      "failing RU corpus decertifies RU without deleting shared resources or mutating EN",
+      "default unavailable Deep path has no rollback rows",
+      "resource isolation forbids executable resource model weights network runtime download dynamic executable plugin and shared deletion",
+      "C08 sources contain no storage, network, DOM IPC, UI dispatch, worker, child process, runtime download, dynamic executable plugin, release readiness claim, project truth mutation, manuscript mutation, storage mutation, or hidden UI bypass"
+    ]
+  },
+  "implementation": {
+    "schemasAdded": [
+      "derived.atlas.languageDecertificationRollback.v1",
+      "derived.atlas.languageRollbackRow.v1",
+      "derived.atlas.languageResourceIsolation.v1"
+    ],
+    "rollbackStatusesAdded": [
+      "CERTIFIED_ACTIVE",
+      "ROLLED_BACK_TO_EXACT_ONLY",
+      "DECERTIFIED_BY_CORPUS",
+      "DEGRADED_TO_EXACT_ONLY",
+      "UNAVAILABLE"
+    ],
+    "rollbackActionsAdded": [
+      "KEEP_CERTIFIED",
+      "DECERTIFY_TO_EXACT_ONLY",
+      "KEEP_DEGRADED_EXACT_ONLY",
+      "KEEP_DECERTIFIED_EXACT_ONLY"
+    ],
+    "requestedRollbackFixture": "ru",
+    "independentCertifiedLanguageFixture": "en",
+    "resourceIsolation": "non-executable-shared-read-only-no-removal",
+    "runtimeUiChanged": false,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node --check C08 rollback files and contract",
+      "result": "PASS",
+      "summary": "C08 rollback types, rollback derivation, and focused contract parse"
+    },
+    {
+      "command": "node --test C06 C07 C08 language contracts",
+      "result": "PASS",
+      "summary": "14 tests, 14 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after C08 contract governance approval"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; COMMAND_NAMESPACE_CHECK_RESULT=PASS; MENU_OVERLAY_STACK_CHECK_RESULT=PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "Language rollback proof is read-only, per-language, reversible, local-only, and preserves shared resources while failed metrics decertify only the affected language.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF"
+}

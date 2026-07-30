@@ -200,6 +200,17 @@ export {
   getAtlasRuEnDeepFixtureDefaultCorpus,
 } from './deriveAtlasDeepFixtureCertification.mjs';
 export {
+  ATLAS_LANGUAGE_DECERTIFICATION_ROLLBACK_SCHEMA_VERSION,
+  ATLAS_LANGUAGE_RESOURCE_ISOLATION_SCHEMA_VERSION,
+  ATLAS_LANGUAGE_ROLLBACK_ACTION,
+  ATLAS_LANGUAGE_ROLLBACK_ROW_SCHEMA_VERSION,
+  ATLAS_LANGUAGE_ROLLBACK_STATUS,
+  sortAtlasLanguageRollbackRows,
+} from './atlasLanguageRollbackTypes.mjs';
+export {
+  deriveAtlasLanguageDecertificationRollback,
+} from './deriveAtlasLanguageDecertificationRollback.mjs';
+export {
   ATLAS_COMPLEX_SCRIPT_CLASS,
   ATLAS_COMPLEX_SCRIPT_EXACT_ONLY_GUARD_SCHEMA_VERSION,
   ATLAS_COMPLEX_SCRIPT_GUARD_CASE_METRIC_SCHEMA_VERSION,

@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E07_C05_CJK_RTL_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E07_C05_CJK_RTL_AND_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS",
+  "programStage": "E07_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T06:40:58Z",
+  "baseSha": "8fd6d08fcf670cbdf0f5c798c1a5f5ac667a229f",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds read-only complex-script exact-only guard types, evaluator, fixture corpus, and opt-in language capability report binding only; no product UI screen, bidi renderer redesign, visual composition, layout, palette, typography, or runtime Design OS surface changes.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.complexScriptExactOnlyGuards",
+    "productPlane": {
+      "truthPath": "none-read-only-derived-guard-report",
+      "commandIds": [],
+      "mutationAuthority": "none",
+      "writePath": "none",
+      "readPath": "derived.atlas.complexScriptExactOnlyGuard.v1 and opt-in derived.atlas.languageCapabilityReport.v1 binding",
+      "sourceReadModels": [
+        "complex script exact-only guard fixture corpus",
+        "C02 Unicode text anchor offset-domain helpers",
+        "BASIC_EXACT_TERM_V1 exact boundary matcher"
+      ],
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "runtimeDownload": false,
+      "dynamicExecutablePlugin": false,
+      "automaticLanguageDetection": false,
+      "automaticManuscriptRewrite": false,
+      "projectTruthMutation": false,
+      "manuscriptMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "not-applicable-no-ui",
+      "host": "none",
+      "slotId": "not-applicable-no-ui-surface",
+      "providerId": "none",
+      "runtimeUiChanged": false,
+      "explicitOpenRequired": false,
+      "dispatchIntentOnly": false
+    },
+    "authorityMap": {
+      "productTruth": "none",
+      "commandAuthority": "none",
+      "designAuthority": "none",
+      "storageAuthority": "none",
+      "capabilityRevalidation": "atlas.languageCapabilityReport derived capability gate unchanged"
+    },
+    "fallbacks": [
+      "CJK RTL Indic and combining-script rows remain unsupported exact-only, not BASIC certified",
+      "capability report marks C05 rows as guarded exact-only only when a complexScriptGuardCorpus is supplied",
+      "failing guard corpus decertifies only that guard row and does not block other guarded rows",
+      "Deep remains UNAVAILABLE for every complex script language"
+    ],
+    "recovery": {
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "storageMutation": false,
+      "networkMutation": false,
+      "decertificationLocalToReport": true,
+      "originalUnicodePreserved": true,
+      "noRuntimeResourceInstall": true,
+      "noModelDownload": true
+    },
+    "negativeBypassChecks": [
+      "CJK exact phrase fixtures do not imply segmentation",
+      "RTL bidi-control fixtures preserve original quote and offset-domain metadata",
+      "Indic and combining-script fixtures preserve original grapheme evidence anchors",
+      "capability report keeps englishFallback false for every row",
+      "capability report keeps Deep unavailable for every language",
+      "complex-script guard sources contain no storage, network, DOM IPC, UI dispatch, worker, child process, runtime download, dynamic executable plugin, true English fallback, true segmentation, true morphology, or true Deep support"
+    ]
+  },
+  "implementation": {
+    "schemasAdded": [
+      "derived.atlas.complexScriptExactOnlyGuard.v1",
+      "derived.atlas.complexScriptGuardLanguageRow.v1",
+      "derived.atlas.complexScriptGuardCaseMetric.v1"
+    ],
+    "guardedExactOnlyLanguages": [
+      "ar",
+      "he",
+      "hi",
+      "ja",
+      "ko",
+      "ta",
+      "und-combining",
+      "zh-hans",
+      "zh-hant"
+    ],
+    "scriptClasses": [
+      "CJK",
+      "RTL",
+      "INDIC",
+      "COMBINING"
+    ],
+    "metricThresholds": {
+      "precision": 1,
+      "recall": 1,
+      "f1": 1
+    },
+    "segmentationCertified": false,
+    "morphologyCertified": false,
+    "runtimeUiChanged": false,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node --check C05 complex script guard files and contract",
+      "result": "PASS",
+      "summary": "C05 complex script guard types, evaluator, capability report binding, barrels, and focused contract parse"
+    },
+    {
+      "command": "node --test C01 C04 C05 language contracts",
+      "result": "PASS",
+      "summary": "15 tests, 15 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; COMMAND_NAMESPACE_CHECK_RESULT=PASS; MENU_OVERLAY_STACK_CHECK_RESULT=PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "CJK RTL Indic and combining-script guards are read-only, corpus-metric gated, locally decertifiable, Unicode-preserving, and do not mutate manuscript text or project truth",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_AND_ADAPTER_STUB"
+}

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "fixture.atlas.complexScriptExactOnlyGuardCorpus.v1",
+  "threshold": {
+    "precision": 1,
+    "recall": 1,
+    "f1": 1
+  },
+  "languages": [
+    { "languageCode": "zh-hans", "scriptClass": "CJK", "guarded": true },
+    { "languageCode": "zh-hant", "scriptClass": "CJK", "guarded": true },
+    { "languageCode": "ja", "scriptClass": "CJK", "guarded": true },
+    { "languageCode": "ko", "scriptClass": "CJK", "guarded": true },
+    { "languageCode": "ar", "scriptClass": "RTL", "guarded": true },
+    { "languageCode": "he", "scriptClass": "RTL", "guarded": true },
+    { "languageCode": "hi", "scriptClass": "INDIC", "guarded": true },
+    { "languageCode": "ta", "scriptClass": "INDIC", "guarded": true },
+    { "languageCode": "und-combining", "scriptClass": "COMBINING", "guarded": true }
+  ],
+  "cases": [
+    {
+      "caseId": "zh-hans-exact-phrase-no-segmentation",
+      "languageCode": "zh-hans",
+      "scriptClass": "CJK",
+      "text": "阿明见到小林。阿明回家。",
+      "terms": [
+        { "termId": "zh-hans-phrase", "value": "阿明见到小林" },
+        { "termId": "zh-hans-subterm", "value": "阿明" }
+      ],
+      "expectations": [
+        { "termId": "zh-hans-phrase", "count": 1 },
+        { "termId": "zh-hans-subterm", "count": 0 }
+      ]
+    },
+    {
+      "caseId": "zh-hant-exact-phrase-no-segmentation",
+      "languageCode": "zh-hant",
+      "scriptClass": "CJK",
+      "text": "阿明見到小林。阿明回家。",
+      "terms": [
+        { "termId": "zh-hant-phrase", "value": "阿明見到小林" },
+        { "termId": "zh-hant-subterm", "value": "阿明" }
+      ],
+      "expectations": [
+        { "termId": "zh-hant-phrase", "count": 1 },
+        { "termId": "zh-hant-subterm", "count": 0 }
+      ]
+    },
+    {
+      "caseId": "ja-exact-phrase-no-segmentation",
+      "languageCode": "ja",
+      "scriptClass": "CJK",
+      "text": "太郎が花子を見た。太郎は帰った。",
+      "terms": [
+        { "termId": "ja-phrase", "value": "太郎が花子を見た" },
+        { "termId": "ja-subterm", "value": "太郎" }
+      ],
+      "expectations": [
+        { "termId": "ja-phrase", "count": 1 },
+        { "termId": "ja-subterm", "count": 0 }
+      ]
+    },
+    {
+      "caseId": "ko-exact-phrase-no-segmentation",
+      "languageCode": "ko",
+      "scriptClass": "CJK",
+      "text": "민수는 지연을 만났다. 민수는 돌아왔다.",
+      "terms": [
+        { "termId": "ko-phrase", "value": "민수는 지연을 만났다" },
+        { "termId": "ko-subterm", "value": "민수" }
+      ],
+      "expectations": [
+        { "termId": "ko-phrase", "count": 1 },
+        { "termId": "ko-subterm", "count": 0 }
+      ]
+    },
+    {
+      "caseId": "ar-rtl-exact-phrase-bidi-preserved",
+      "languageCode": "ar",
+      "scriptClass": "RTL",
+      "text": "قالت مريم: علي عاد. ‏علي بقي.",
+      "terms": [
+        { "termId": "ar-phrase", "value": "علي عاد" },
+        { "termId": "ar-name", "value": "علي" }
+      ],
+      "expectations": [
+        { "termId": "ar-phrase", "count": 1 },
+        { "termId": "ar-name", "count": 2 }
+      ]
+    },
+    {
+      "caseId": "he-rtl-exact-phrase-bidi-preserved",
+      "languageCode": "he",
+      "scriptClass": "RTL",
+      "text": "מרים אמרה: דניאל חזר. ‏דניאל שתק.",
+      "terms": [
+        { "termId": "he-phrase", "value": "דניאל חזר" },
+        { "termId": "he-name", "value": "דניאל" }
+      ],
+      "expectations": [
+        { "termId": "he-phrase", "count": 1 },
+        { "termId": "he-name", "count": 2 }
+      ]
+    },
+    {
+      "caseId": "hi-complex-grapheme-exact-phrase",
+      "languageCode": "hi",
+      "scriptClass": "INDIC",
+      "text": "मीरा ने कृष्ण को देखा। कृष्ण मुस्कुराए।",
+      "terms": [
+        { "termId": "hi-phrase", "value": "कृष्ण को देखा" },
+        { "termId": "hi-name", "value": "कृष्ण" }
+      ],
+      "expectations": [
+        { "termId": "hi-phrase", "count": 1 },
+        { "termId": "hi-name", "count": 2 }
+      ]
+    },
+    {
+      "caseId": "ta-complex-grapheme-exact-phrase",
+      "languageCode": "ta",
+      "scriptClass": "INDIC",
+      "text": "மீரா அருணை பார்த்தாள். அருண் அமைதியாக இருந்தான்.",
+      "terms": [
+        { "termId": "ta-phrase", "value": "அருணை பார்த்தாள்" },
+        { "termId": "ta-name", "value": "அருண்" }
+      ],
+      "expectations": [
+        { "termId": "ta-phrase", "count": 1 },
+        { "termId": "ta-name", "count": 1 }
+      ]
+    },
+    {
+      "caseId": "und-combining-original-preserved",
+      "languageCode": "und-combining",
+      "scriptClass": "COMBINING",
+      "text": "Café met Café. Café stayed.",
+      "terms": [
+        { "termId": "nfd-cafe", "value": "Café" },
+        { "termId": "nfc-cafe", "value": "Café" }
+      ],
+      "expectations": [
+        { "termId": "nfd-cafe", "count": 2 },
+        { "termId": "nfc-cafe", "count": 1 }
+      ]
+    }
+  ]
+}

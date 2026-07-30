@@ -15,6 +15,7 @@ export const CORE_COMMANDS = [
   'atlas.savedQuery.save',
   'atlas.calendar.define',
   'atlas.sceneTemporalAnchor.set',
+  'atlas.continuityFact.record',
   'idea.create',
   'idea.originLink.add',
   'meaning.promote',

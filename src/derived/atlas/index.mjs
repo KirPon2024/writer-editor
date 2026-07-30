@@ -83,6 +83,14 @@ export {
   sortAtlasRelationSegments,
 } from './atlasRelationSegmentTypes.mjs';
 export {
+  ATLAS_CONTINUITY_FACT_LEDGERS_SCHEMA_VERSION,
+  ATLAS_CONTINUITY_FACT_LEDGERS_SURFACE_MANIFEST_VERSION,
+  ATLAS_CONTINUITY_FACT_SCHEMA_VERSION,
+  ATLAS_CONTINUITY_LEDGER_KINDS,
+  createEmptyAtlasContinuityFactLedgerRows,
+  sortAtlasContinuityFacts,
+} from './atlasContinuityFactLedgerTypes.mjs';
+export {
   ATLAS_ENTITY_SCENE_MATRIX_SCHEMA_VERSION,
   ATLAS_MATRICES_SCHEMA_VERSION,
   ATLAS_MATRICES_SURFACE_MANIFEST_VERSION,
@@ -160,6 +168,7 @@ export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOvervi
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';
 export { deriveAtlasRelationSegmentsPerspective, ATLAS_RELATION_SEGMENTS_PERSPECTIVE_VIEW_ID } from './deriveAtlasRelationSegmentsPerspective.mjs';
+export { deriveAtlasContinuityFactLedgers, ATLAS_CONTINUITY_FACT_LEDGERS_VIEW_ID } from './deriveAtlasContinuityFactLedgers.mjs';
 export { deriveAtlasMatrices, ATLAS_MATRICES_VIEW_ID } from './deriveAtlasMatrices.mjs';
 export { deriveAtlasHeatmap, ATLAS_HEATMAP_VIEW_ID } from './deriveAtlasHeatmap.mjs';
 export { deriveAtlasReportsSavedQueries, ATLAS_REPORTS_SAVED_QUERIES_VIEW_ID } from './deriveAtlasReportsSavedQueries.mjs';

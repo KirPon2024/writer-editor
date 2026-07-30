@@ -2,8 +2,22 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY_RECEIPT.json",
+      "sha256": "f87e7dd858eec7de9f7df43cef493bc178e6c9d5b4ee1a5151c55a51c4ff8380",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T04:06:25.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C04 delivery receipt: records local verified implementation of Atlas continuity fact ledgers command boundary, atlas.continuityFact.record Core command, atlas.author.v1 continuityFactLedgers truth for location, knowledge, object, and promise facts, evidence anchor validation, stale evidence protection, stale fact hash protection, node-only capability revalidation, read-only derived continuityFactLedgers projection, no finding synthesis, no automatic apply, no collaboration history, no visual ledger surface, no external ontology service, no network, no cloud or account sync, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c04-atlas-continuity-fact-ledgers-command-boundary.contract.test.js",
+      "sha256": "1a20d3e5f41b226d7608dddbc934e1b2bc606438d2916cee034e43fa5c529090",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T04:06:25.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C04 contract: proves atlas.continuityFact.record saves location, knowledge, object, and promise author truth through Core only, preserves evidence anchors and related entities, keeps scene text intact across JSON reopen, exposes read-only derived continuityFactLedgers with typed surface manifest, rejects missing evidence anchors, stale evidence anchors, and stale fact hashes without mutation, enforces node-only Command Kernel capability revalidation, and keeps continuity fact derived and runtime boundaries free of storage, network, DOM, platform, renderer, worker, daemon, external ontology, finding synthesis, automatic apply, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C03_ATLAS_RELATION_SEGMENTS_PERSPECTIVE_MODEL_RECEIPT.json",
-      "sha256": "9dd49dd039170d14e2be9201289a0439c0e3cdec33b3609df21685914f3db3bd",
+      "sha256": "212afe76e4954f88fcde17f93fa64e4b5fd3e750424a961ceb1b8edfaa469824",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C03_ATLAS_RELATION_SEGMENTS_AND_PERSPECTIVE_MODEL",
       "approvedAtUtc": "2026-07-30T03:52:34.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E06 C03 delivery receipt: records local verified implementation of read-only Atlas relation segments and perspective derived model, source-bound observation aggregate, temporal continuity, and scene temporal anchors, contiguous relation run segmentation, story time and narrative order context, unknown-time degraded fallback, full versus incremental parity proof, no Core command, no project truth mutation, no storage, no network, no renderer mutation, no UI runtime change, no worker or daemon, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."

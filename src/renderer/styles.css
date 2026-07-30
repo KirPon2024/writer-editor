@@ -3914,6 +3914,11 @@ body.dark-theme .toolbar__swatch::before {
   gap: 10px;
 }
 
+.right-rail-surface--atlas-entity-dossier {
+  display: grid;
+  gap: 10px;
+}
+
 .right-rail-atlas-overview-head {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -4003,6 +4008,24 @@ body.dark-theme .toolbar__swatch::before {
   line-height: 16px;
 }
 
+.right-rail-atlas-overview-row[role="button"] {
+  padding: 5px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.right-rail-atlas-overview-row[role="button"]:hover {
+  border-color: var(--divider);
+  background: var(--hover-bg);
+}
+
+.right-rail-atlas-overview-row[role="button"]:focus-visible {
+  outline: 2px solid var(--a11y-focus-outline);
+  outline-offset: 2px;
+  background: var(--a11y-focus-surface);
+}
+
 .right-rail-atlas-overview-row__main {
   color: var(--foreground);
   font-weight: 500;
@@ -4022,6 +4045,36 @@ body.dark-theme .toolbar__swatch::before {
   line-height: 14px;
   text-align: right;
   white-space: nowrap;
+}
+
+.right-rail-atlas-entity-dossier-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.right-rail-atlas-entity-dossier-name {
+  grid-column: 1 / 2;
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.right-rail-atlas-entity-dossier-metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.right-rail-atlas-overview-metric[data-state="current"] {
+  border-color: rgba(62, 111, 76, 0.28);
+}
+
+.right-rail-atlas-overview-metric[data-state="reviewRequired"] {
+  border-color: rgba(138, 59, 46, 0.28);
 }
 
 .right-rail-surface--atlas-header {
@@ -4084,6 +4137,22 @@ body.dark-theme .toolbar__swatch::before {
   gap: 8px;
   padding-bottom: 5px;
   border-bottom: 1px solid var(--divider);
+}
+
+.right-rail-atlas-entity__head[role="button"] {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 5px 6px;
+}
+
+.right-rail-atlas-entity__head[role="button"]:hover {
+  background: var(--hover-bg);
+}
+
+.right-rail-atlas-entity__head[role="button"]:focus-visible {
+  outline: 2px solid var(--a11y-focus-outline);
+  outline-offset: 2px;
+  background: var(--a11y-focus-surface);
 }
 
 .right-rail-atlas-entity__name {

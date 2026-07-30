@@ -72,6 +72,20 @@
       "rationale": "Approve E09 C02 contract coverage: proves pathless preview apply plan, explicit collision report, private path and content denial, Command Kernel capability-gated apply, author confirmation, stale preview failure, collision-blocked apply, no automatic merge, custom entity and relation vocabulary persistence, rollback after JSON reopen, capability canon binding, derived exports, and source absence of storage, network, UI, auto-merge, silent rewrite, renderer mutation, and command bypass paths."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_UNKNOWN_FIELD_PRESERVATION_RECEIPT.json",
+      "sha256": "8c716ac59aa4652fe5e696c7df3ecd2b640acbbf3f57df3658e7a04f62d97898",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_AND_UNKNOWN_FIELD_PRESERVATION",
+      "approvedAtUtc": "2026-07-30T14:29:23.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E09 C03 receipt: records a local pure Atlas ExportIR readable JSON packet and import preview with deterministic package hash, unknown field preservation envelope, language tag and evidence identity preservation, safe future unknown field carry-forward, explicit private unknown field rejection, no binary archive materialization, no apply authority, no derived graph truth persistence, no UI, no storage adapter, no network, no dependency, no project truth mutation, no manuscript mutation, and handoff to E09 C04."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e09-c03-atlas-export-ir-readable-json-unknown-field-preservation.contract.test.js",
+      "sha256": "0704102055f16dd4e733c2e1f89087e76b3854976dfa08beb44348c6d6880c93",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_AND_UNKNOWN_FIELD_PRESERVATION",
+      "approvedAtUtc": "2026-07-30T14:29:23.000Z",
+      "rationale": "Approve E09 C03 contract coverage: proves readable deterministic Atlas ExportIR JSON, package hash stability, author truth preservation, language tag and evidence identity round-trip proof, custom vocabulary and series reference preservation, safe unknown field restoration, private unknown field fail-closed behavior, tamper hash rejection, schema rejection, receipt false-green guard, export/import barrel exposure, and source absence of storage, network, Electron, DOM, Worker, timers, persistence APIs, command dispatch, apply bypass, project truth mutation, manuscript mutation, renderer mutation, and derived graph truth persistence."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AUTONOMY_BOUNDARY_RECEIPT.json",
       "sha256": "09e58aa2be875939404f755972af67537e409666e90cfd6acaff9f7af3d20342",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",

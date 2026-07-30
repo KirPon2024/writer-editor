@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_UNKNOWN_FIELD_PRESERVATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_AND_UNKNOWN_FIELD_PRESERVATION",
+  "programStage": "E09_STAGE_09_SERIES_AND_PORTABILITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T14:25:19Z",
+  "baseSha": "36d6b1793dcdd399ce6671627d4d040ce7935c02",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E09 C03 adds local pure Atlas ExportIR serialization and import preview for readable JSON. It changes no product UI screen, visual composition, layout, palette, typography, renderer surface, Design OS surface, storage adapter, network adapter, or project shell.",
+  "featureIntegrationManifest": {
+    "featureId": "atlas.exportIr.readableJson.v1",
+    "productPlane": {
+      "owner": "Product Core export and import ports",
+      "readPath": [
+        "project.atlas author data",
+        "project.unknownFields",
+        "Atlas ExportIR readable JSON packet"
+      ],
+      "writePath": [],
+      "storageAdapter": "none in C03; materialization is later archive/export adapter work",
+      "newStorageAdapter": false,
+      "projectTruthMutation": false,
+      "manuscriptMutation": false
+    },
+    "commandPlane": {
+      "newCommands": [],
+      "capabilityRevalidation": "NOT_APPLICABLE in C03 because export/import helpers are pure local builders with no apply authority.",
+      "previewOnlyImport": true
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "exportIrSchema": "atlas.exportIr.v1",
+    "readableJsonSchema": "atlas.exportReadableJson.v1",
+    "unknownFieldsEnvelopeSchema": "atlas.unknownFieldsEnvelope.v1",
+    "evidenceIdentityIndexSchema": "atlas.evidenceIdentityIndex.v1",
+    "importPreviewSchema": "atlas.exportIrImportPreview.v1",
+    "scopeIn": [
+      "Atlas ExportIR schema",
+      "readable JSON packet",
+      "unknown field preservation envelope",
+      "language tag and evidence identity preservation",
+      "deterministic package hash"
+    ],
+    "scopeOut": [
+      "binary archive materialization",
+      "series identity apply",
+      "derived graph persistence as truth",
+      "remote export service",
+      "project truth mutation",
+      "renderer import or export UI"
+    ],
+    "readableJson": true,
+    "unknownFieldsPreserved": true,
+    "languageTagsPreserved": true,
+    "evidenceIdentityPreserved": true,
+    "derivedGraphDataPersistedAsTruth": false,
+    "projectTruthMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false
+  },
+  "runtimeFacts": {
+    "atlasExportIrExists": true,
+    "readableJsonPacketExists": true,
+    "unknownFieldPreservationEnvelopeExists": true,
+    "languageTagPreservationExists": true,
+    "evidenceIdentityPreservationExists": true,
+    "deterministicPackageHashExists": true,
+    "importPreviewExists": true,
+    "applyAuthorityExists": false,
+    "derivedGraphDataPersistedAsTruth": false,
+    "binaryArchiveMaterialization": false,
+    "remoteExportService": false,
+    "projectTruthMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "newDependency": false
+  },
+  "validation": [
+    {
+      "command": "node --check E09 C03 source and contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E09 C03 contract",
+      "result": "PASS",
+      "summary": "5 tests, 5 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "executedAtUtc": "2026-07-30T14:31:55Z",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline, menu, law path canon, execution sequence, and release candidate checks PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": "NOT_APPLICABLE_NO_COMMAND_OR_APPLY_AUTHORITY",
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E09 C03 creates a deterministic readable Atlas ExportIR packet and import preview. It preserves author Atlas data, language tags, evidence identity rows, custom vocabularies, series references, and safe unknown fields in the packet while rejecting private unknown fields. Import remains preview-only and mutates no project truth, manuscript, storage, network, renderer, or derived graph truth.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E09_C04_GRAPH_PACKAGE_ARCHIVE_REPEAT_IMPORT_AND_LOSS_REPORT"
+}

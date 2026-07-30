@@ -12,6 +12,8 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_OBSERVATION_REASSIGN: 'atlas.observation.reassign',
   ATLAS_EVIDENCE_REATTACH: 'atlas.evidence.reattach',
   ATLAS_SAVED_QUERY_SAVE: 'atlas.savedQuery.save',
+  ATLAS_LANGUAGE_TAG_SET: 'atlas.languageTag.set',
+  ATLAS_LANGUAGE_TAG_CLEAR: 'atlas.languageTag.clear',
   ATLAS_CALENDAR_DEFINE: 'atlas.calendar.define',
   ATLAS_SCENE_TEMPORAL_ANCHOR_SET: 'atlas.sceneTemporalAnchor.set',
   ATLAS_CONTINUITY_FACT_RECORD: 'atlas.continuityFact.record',
@@ -75,6 +77,25 @@ function createEmptyAtlasContinuityFactLedgers() {
   };
 }
 
+function createEmptyAtlasLanguageTags() {
+  return {
+    project: null,
+    scenes: {},
+    blocks: {},
+    ranges: {},
+  };
+}
+
+function normalizeAtlasLanguageTags(input) {
+  const source = isPlainObject(input) ? input : {};
+  return {
+    project: isPlainObject(source.project) ? cloneJson(source.project) : null,
+    scenes: isPlainObject(source.scenes) ? cloneJson(source.scenes) : {},
+    blocks: isPlainObject(source.blocks) ? cloneJson(source.blocks) : {},
+    ranges: isPlainObject(source.ranges) ? cloneJson(source.ranges) : {},
+  };
+}
+
 function normalizeAtlasContinuityFactLedgers(input) {
   const source = isPlainObject(input) ? input : {};
   const empty = createEmptyAtlasContinuityFactLedgers();
@@ -96,6 +117,7 @@ function createEmptyAtlasAuthorData() {
     reassignments: {},
     evidenceReattachments: {},
     savedQueries: {},
+    languageTags: createEmptyAtlasLanguageTags(),
     calendarDefinitions: {},
     sceneTemporalAnchors: {},
     continuityFactLedgers: createEmptyAtlasContinuityFactLedgers(),
@@ -116,6 +138,7 @@ function normalizeAtlasAuthorData(input) {
     reassignments: isPlainObject(input.reassignments) ? cloneJson(input.reassignments) : {},
     evidenceReattachments: isPlainObject(input.evidenceReattachments) ? cloneJson(input.evidenceReattachments) : {},
     savedQueries: isPlainObject(input.savedQueries) ? cloneJson(input.savedQueries) : {},
+    languageTags: normalizeAtlasLanguageTags(input.languageTags),
     calendarDefinitions: isPlainObject(input.calendarDefinitions) ? cloneJson(input.calendarDefinitions) : {},
     sceneTemporalAnchors: isPlainObject(input.sceneTemporalAnchors) ? cloneJson(input.sceneTemporalAnchors) : {},
     continuityFactLedgers: normalizeAtlasContinuityFactLedgers(input.continuityFactLedgers),
@@ -1358,6 +1381,213 @@ function normalizeAtlasSavedQueryFilter(input) {
   };
 }
 
+function normalizeAtlasLanguageCode(value) {
+  const code = trimString(value).toLowerCase().replace(/_/gu, '-');
+  return code || 'und';
+}
+
+function normalizeAtlasLanguageTagScope(value) {
+  const scopeKind = trimString(value);
+  if (scopeKind === 'project' || scopeKind === 'scene' || scopeKind === 'block' || scopeKind === 'range') return scopeKind;
+  return '';
+}
+
+function normalizeRangeOffset(value) {
+  const number = Number(value);
+  return Number.isSafeInteger(number) ? number : -1;
+}
+
+function getAtlasLanguageTagBucket(languageTags, scopeKind) {
+  if (scopeKind === 'scene') return languageTags.scenes;
+  if (scopeKind === 'block') return languageTags.blocks;
+  if (scopeKind === 'range') return languageTags.ranges;
+  return null;
+}
+
+function inferAtlasLanguageTagId({ projectId, scopeKind, sceneId, blockId, startOffset, endOffset }) {
+  if (scopeKind === 'project') return `atlas-language-tag:project:${projectId}`;
+  if (scopeKind === 'scene') return `atlas-language-tag:scene:${projectId}:${sceneId}`;
+  if (scopeKind === 'block') return `atlas-language-tag:block:${projectId}:${sceneId}:${blockId}`;
+  return `atlas-language-tag:range:${hashCanonicalValue({ projectId, sceneId, startOffset, endOffset })}`;
+}
+
+function normalizeAtlasLanguageTagPayload(payload) {
+  const projectId = trimString(payload?.projectId);
+  const scopeKind = normalizeAtlasLanguageTagScope(payload?.scopeKind || payload?.scope);
+  const sceneId = trimString(payload?.sceneId);
+  const blockId = trimString(payload?.blockId);
+  const startOffset = normalizeRangeOffset(payload?.startOffset);
+  const endOffset = normalizeRangeOffset(payload?.endOffset);
+  return {
+    projectId,
+    scopeKind,
+    sceneId,
+    blockId,
+    startOffset,
+    endOffset,
+    languageCode: normalizeAtlasLanguageCode(payload?.languageCode),
+    note: trimString(payload?.note),
+    expectedTagHash: trimString(payload?.expectedTagHash),
+    tagId: trimString(payload?.tagId) || inferAtlasLanguageTagId({ projectId, scopeKind, sceneId, blockId, startOffset, endOffset }),
+  };
+}
+
+function validateAtlasLanguageTagTarget(state, payload, op) {
+  const { projectId, scopeKind, sceneId, blockId, startOffset, endOffset } = payload;
+  if (!projectId) return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', op, 'PROJECT_ID_REQUIRED');
+  if (!scopeKind) return fail(state, 'E_ATLAS_LANGUAGE_TAG_SCOPE_INVALID', op, 'LANGUAGE_TAG_SCOPE_INVALID', { projectId });
+  const project = state.data.projects[projectId];
+  if (!project) return fail(state, 'E_CORE_PROJECT_NOT_FOUND', op, 'PROJECT_NOT_FOUND', { projectId });
+  if ((scopeKind === 'scene' || scopeKind === 'block' || scopeKind === 'range') && !sceneId) {
+    return fail(state, 'E_CORE_SCENE_ID_REQUIRED', op, 'SCENE_ID_REQUIRED', { projectId, scopeKind });
+  }
+  if ((scopeKind === 'scene' || scopeKind === 'block' || scopeKind === 'range') && (!project.scenes || !project.scenes[sceneId])) {
+    return fail(state, 'E_CORE_SCENE_NOT_FOUND', op, 'SCENE_NOT_FOUND', { projectId, sceneId, scopeKind });
+  }
+  if (scopeKind === 'block' && !blockId) {
+    return fail(state, 'E_ATLAS_LANGUAGE_TAG_BLOCK_ID_REQUIRED', op, 'BLOCK_ID_REQUIRED', { projectId, sceneId });
+  }
+  if (scopeKind === 'range') {
+    const text = typeof project.scenes?.[sceneId]?.text === 'string' ? project.scenes[sceneId].text : '';
+    if (startOffset < 0 || endOffset < 0 || endOffset <= startOffset || endOffset > text.length) {
+      return fail(state, 'E_ATLAS_LANGUAGE_TAG_RANGE_INVALID', op, 'LANGUAGE_TAG_RANGE_INVALID', {
+        projectId,
+        sceneId,
+        startOffset,
+        endOffset,
+        textLength: text.length,
+      });
+    }
+  }
+  return { ok: true, project };
+}
+
+function findAtlasLanguageTag(languageTags, payload) {
+  if (payload.scopeKind === 'project') return languageTags.project;
+  const bucket = getAtlasLanguageTagBucket(languageTags, payload.scopeKind);
+  return isPlainObject(bucket?.[payload.tagId]) ? bucket[payload.tagId] : null;
+}
+
+function rangeLanguageTagOverlaps(left, right) {
+  return left.sceneId === right.sceneId
+    && left.id !== right.id
+    && Number(left.startOffset) < Number(right.endOffset)
+    && Number(left.endOffset) > Number(right.startOffset);
+}
+
+function applyAtlasLanguageTagSet(state, payloadInput) {
+  const payload = normalizeAtlasLanguageTagPayload(payloadInput);
+  const validation = validateAtlasLanguageTagTarget(state, payload, 'atlas.languageTag.set');
+  if (!validation.ok) return validation;
+  const { project } = validation;
+  if (!payload.tagId) {
+    return fail(state, 'E_ATLAS_LANGUAGE_TAG_ID_REQUIRED', 'atlas.languageTag.set', 'LANGUAGE_TAG_ID_REQUIRED', {
+      projectId: payload.projectId,
+      scopeKind: payload.scopeKind,
+    });
+  }
+
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  const languageTags = normalizeAtlasLanguageTags(atlas.languageTags);
+  const existing = findAtlasLanguageTag(languageTags, payload);
+  const actualTagHash = existing ? hashCanonicalValue(existing) : '';
+  if (payload.expectedTagHash && payload.expectedTagHash !== actualTagHash) {
+    return fail(state, 'E_ATLAS_LANGUAGE_TAG_STALE', 'atlas.languageTag.set', 'LANGUAGE_TAG_STALE', {
+      projectId: payload.projectId,
+      tagId: payload.tagId,
+      expectedTagHash: payload.expectedTagHash,
+      actualTagHash,
+    });
+  }
+
+  const commandSeq = state.data.lastCommandId + 1;
+  const tagBase = {
+    schemaVersion: 'atlas.languageTag.v1',
+    id: payload.tagId,
+    projectId: payload.projectId,
+    scopeKind: payload.scopeKind,
+    sceneId: payload.scopeKind === 'project' ? '' : payload.sceneId,
+    blockId: payload.scopeKind === 'block' ? payload.blockId : '',
+    startOffset: payload.scopeKind === 'range' ? payload.startOffset : 0,
+    endOffset: payload.scopeKind === 'range' ? payload.endOffset : 0,
+    languageCode: payload.languageCode,
+    note: payload.note,
+    source: 'author',
+    manuscriptMutation: false,
+    createdByCommandSeq: Number.isInteger(existing?.createdByCommandSeq) ? existing.createdByCommandSeq : commandSeq,
+    updatedByCommandSeq: commandSeq,
+  };
+  if (payload.scopeKind === 'range') {
+    const overlapping = Object.values(languageTags.ranges)
+      .filter((tag) => isPlainObject(tag))
+      .find((tag) => rangeLanguageTagOverlaps(tag, tagBase));
+    if (overlapping) {
+      return fail(state, 'E_ATLAS_LANGUAGE_TAG_RANGE_OVERLAP', 'atlas.languageTag.set', 'LANGUAGE_TAG_RANGE_OVERLAP', {
+        projectId: payload.projectId,
+        sceneId: payload.sceneId,
+        tagId: payload.tagId,
+        overlappingTagId: overlapping.id,
+      });
+    }
+  }
+
+  const next = cloneJson(state);
+  const nextProject = next.data.projects[payload.projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  nextAtlas.languageTags = normalizeAtlasLanguageTags(nextAtlas.languageTags);
+  const tag = {
+    ...tagBase,
+    sourceHash: hashCanonicalValue(tagBase),
+  };
+  if (payload.scopeKind === 'project') {
+    nextAtlas.languageTags.project = tag;
+  } else {
+    const bucket = getAtlasLanguageTagBucket(nextAtlas.languageTags, payload.scopeKind);
+    bucket[payload.tagId] = tag;
+  }
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function applyAtlasLanguageTagClear(state, payloadInput) {
+  const payload = normalizeAtlasLanguageTagPayload(payloadInput);
+  const validation = validateAtlasLanguageTagTarget(state, payload, 'atlas.languageTag.clear');
+  if (!validation.ok) return validation;
+  const { project } = validation;
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  const languageTags = normalizeAtlasLanguageTags(atlas.languageTags);
+  const existing = findAtlasLanguageTag(languageTags, payload);
+  if (!existing) {
+    return fail(state, 'E_ATLAS_LANGUAGE_TAG_NOT_FOUND', 'atlas.languageTag.clear', 'LANGUAGE_TAG_NOT_FOUND', {
+      projectId: payload.projectId,
+      tagId: payload.tagId,
+      scopeKind: payload.scopeKind,
+    });
+  }
+  const actualTagHash = hashCanonicalValue(existing);
+  if (payload.expectedTagHash && payload.expectedTagHash !== actualTagHash) {
+    return fail(state, 'E_ATLAS_LANGUAGE_TAG_STALE', 'atlas.languageTag.clear', 'LANGUAGE_TAG_STALE', {
+      projectId: payload.projectId,
+      tagId: payload.tagId,
+      expectedTagHash: payload.expectedTagHash,
+      actualTagHash,
+    });
+  }
+
+  const next = cloneJson(state);
+  const nextProject = next.data.projects[payload.projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  nextAtlas.languageTags = normalizeAtlasLanguageTags(nextAtlas.languageTags);
+  if (payload.scopeKind === 'project') {
+    nextAtlas.languageTags.project = null;
+  } else {
+    const bucket = getAtlasLanguageTagBucket(nextAtlas.languageTags, payload.scopeKind);
+    delete bucket[payload.tagId];
+  }
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
 function applyAtlasSavedQuerySave(state, payload) {
   const projectId = trimString(payload?.projectId);
   const savedQueryId = trimString(payload?.savedQueryId);
@@ -2307,6 +2537,12 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_SAVED_QUERY_SAVE) {
     return applyAtlasSavedQuerySave(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_LANGUAGE_TAG_SET) {
+    return applyAtlasLanguageTagSet(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_LANGUAGE_TAG_CLEAR) {
+    return applyAtlasLanguageTagClear(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.ATLAS_CALENDAR_DEFINE) {
     return applyAtlasCalendarDefine(state, command.payload || {});

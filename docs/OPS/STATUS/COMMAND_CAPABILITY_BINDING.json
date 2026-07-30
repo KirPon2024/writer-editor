@@ -23,6 +23,62 @@
       "capabilityId": "cap.atlas.mention.confirm"
     },
     {
+      "commandId": "atlas.observation.suppress",
+      "capabilityId": "cap.atlas.observation.suppress"
+    },
+    {
+      "commandId": "atlas.entity.merge",
+      "capabilityId": "cap.atlas.entity.merge"
+    },
+    {
+      "commandId": "atlas.entity.splitRestore",
+      "capabilityId": "cap.atlas.entity.splitRestore"
+    },
+    {
+      "commandId": "atlas.observation.reassign",
+      "capabilityId": "cap.atlas.observation.reassign"
+    },
+    {
+      "commandId": "atlas.evidence.reattach",
+      "capabilityId": "cap.atlas.evidence.reattach"
+    },
+    {
+      "commandId": "atlas.savedQuery.save",
+      "capabilityId": "cap.atlas.savedQuery.save"
+    },
+    {
+      "commandId": "atlas.languageTag.set",
+      "capabilityId": "cap.atlas.languageTag.edit"
+    },
+    {
+      "commandId": "atlas.languageTag.clear",
+      "capabilityId": "cap.atlas.languageTag.edit"
+    },
+    {
+      "commandId": "atlas.calendar.define",
+      "capabilityId": "cap.atlas.calendar.define"
+    },
+    {
+      "commandId": "atlas.sceneTemporalAnchor.set",
+      "capabilityId": "cap.atlas.sceneTemporalAnchor.set"
+    },
+    {
+      "commandId": "atlas.continuityFact.record",
+      "capabilityId": "cap.atlas.continuityFact.record"
+    },
+    {
+      "commandId": "idea.create",
+      "capabilityId": "cap.idea.edit"
+    },
+    {
+      "commandId": "idea.originLink.add",
+      "capabilityId": "cap.idea.edit"
+    },
+    {
+      "commandId": "meaning.promote",
+      "capabilityId": "cap.meaning.edit"
+    },
+    {
       "commandId": "manualMap.create",
       "capabilityId": "cap.manualMap.edit"
     },

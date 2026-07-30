@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_MIXED_RANGE_ROUTER_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER",
+  "programStage": "E07_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T06:07:30Z",
+  "baseSha": "7617348dd68c9922880033842f0e416dc752a56c",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds Core language-tag commands, command capability bindings, and a read-only mixed-language router projection only; no product UI screen, picker, visual composition, layout, palette, typography, or runtime Design OS surface changes.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.languageTagsMixedLanguageRouter",
+    "productPlane": {
+      "truthPath": "atlas.author.v1.languageTags",
+      "commandIds": [
+        "atlas.languageTag.set",
+        "atlas.languageTag.clear"
+      ],
+      "mutationAuthority": "CommandKernel",
+      "writePath": "Core runtime reducer only",
+      "readPath": "derived.atlas.mixedLanguageRouter.v1",
+      "sourceReadModels": [
+        "project.scenes",
+        "project.languageCode",
+        "atlas.author.v1.languageTags",
+        "atlasObservationTypes.mjs language policy",
+        "C02 text anchor offset-domain helpers"
+      ],
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "runtimeDownload": false,
+      "dynamicExecutablePlugin": false,
+      "automaticLanguageDetection": false,
+      "automaticManuscriptRewrite": false,
+      "projectTruthMutation": "only explicit atlas.languageTag.set or atlas.languageTag.clear author truth mutation",
+      "manuscriptMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "surface.atlas.languageTags.v1",
+      "host": "none",
+      "slotId": "not-applicable-no-ui-surface",
+      "providerId": "query.atlasMixedLanguageRouter",
+      "runtimeUiChanged": false,
+      "explicitOpenRequired": false,
+      "dispatchIntentOnly": false
+    },
+    "authorityMap": {
+      "productTruth": "atlas.author.v1.languageTags",
+      "commandAuthority": "CommandKernel with cap.atlas.languageTag.edit",
+      "designAuthority": "none",
+      "storageAuthority": "existing project persistence only, not touched by this derived projection",
+      "capabilityRevalidation": "capabilityPolicy.mjs node-only cap.atlas.languageTag.edit binding and command runner enforcement"
+    },
+    "fallbacks": [
+      "project language defaults to project.languageCode or und",
+      "scene tags override project tags",
+      "range tags override scene defaults",
+      "unsupported ranges route to GLOBAL_EXACT_ONLY with englishFallback false",
+      "Deep remains unsupported until later engine and corpus contours"
+    ],
+    "recovery": {
+      "projectTruthMutation": "bounded languageTags author truth only",
+      "manuscriptMutation": false,
+      "clearCommand": true,
+      "staleHashProtection": true,
+      "invalidRangeRejectedWithoutMutation": true,
+      "overlappingRangeRejectedWithoutMutation": true,
+      "sourceHashRecorded": true,
+      "originalTextPreserved": true
+    },
+    "negativeBypassChecks": [
+      "invalid range offsets fail without state mutation",
+      "overlapping range overrides fail without state mutation",
+      "stale clear command fails without mutation",
+      "web capability denies atlas.languageTag.set despite registered handler",
+      "router reports unsupported Hebrew range as GLOBAL_EXACT_ONLY with englishFallback false",
+      "router sources contain no storage, network, DOM IPC, UI dispatch, worker, child process, runtime download, dynamic executable plugin, true English fallback, or true Deep support"
+    ]
+  },
+  "implementation": {
+    "commandIdsAdded": [
+      "atlas.languageTag.set",
+      "atlas.languageTag.clear"
+    ],
+    "capabilitiesAdded": [
+      "cap.atlas.languageTag.edit"
+    ],
+    "schemasAdded": [
+      "atlas.languageTag.v1",
+      "derived.atlas.mixedLanguageRouter.v1",
+      "derived.atlas.mixedLanguageRoute.v1",
+      "surface.atlas.languageTags.v1"
+    ],
+    "truthBuckets": [
+      "project",
+      "scenes",
+      "blocks",
+      "ranges"
+    ],
+    "commandCapabilityBindingRepaired": true,
+    "runtimeUiChanged": false,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node -c src/core/runtime.mjs && node -c src/derived/atlas/atlasLanguageTagTypes.mjs && node -c src/derived/atlas/deriveAtlasMixedLanguageRouter.mjs && node -c test/contracts/yalken-atlas-v5-e07-c03-language-tag-author-truth-mixed-range-router.contract.test.js",
+      "result": "PASS",
+      "summary": "C03 runtime, router, types, and focused contract parse"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e07-c03-language-tag-author-truth-mixed-range-router.contract.test.js test/contracts/yalken-atlas-v5-e07-c02-unicode-evidence-anchor-offset-domain-normalization-map.contract.test.js test/contracts/yalken-atlas-v5-e07-c01-language-capability-truth-registry-report.contract.test.js test/contracts/capability-command-coverage.contract.test.js",
+      "result": "PASS",
+      "summary": "13 tests, 13 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; COMMAND_NAMESPACE_CHECK_RESULT=PASS; MENU_OVERLAY_STACK_CHECK_RESULT=PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "language tag author truth is explicit, hash-guarded, clearable, and does not mutate manuscript text; mixed-language routing is read-only and exact-only for unsupported languages",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E07_C04_BASIC_LANGUAGE_PACKS_EN_RU_AND_EUROPEAN_CERTIFICATION_FIXTURES"
+}

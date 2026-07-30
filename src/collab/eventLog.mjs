@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 
 const EVENTLOG_SCHEMA_VERSION = 'collab-eventlog.v1';
+const OPERATION_REPLAY_REPORT_SCHEMA_VERSION = 'collab-operation-replay.report.v1';
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -78,6 +79,93 @@ function collectKnownOpIds(events) {
   const known = new Set();
   for (const event of events) known.add(event.opId);
   return known;
+}
+
+function normalizeCommandReceipt(input = {}) {
+  const receipt = isPlainObject(input) ? input : {};
+  const command = isPlainObject(receipt.command) ? receipt.command : {};
+  return {
+    receiptId: normalizeString(receipt.receiptId || receipt.id || receipt.kernelReceiptId),
+    operationId: normalizeString(receipt.operationId || receipt.opId),
+    commandId: normalizeString(receipt.commandId || command.type || receipt.type),
+    status: normalizeString(receipt.status || receipt.result || receipt.writeStatus),
+    appliedAt: normalizeString(receipt.appliedAt || receipt.completedAt || receipt.ts || receipt.writtenAt),
+    preStateHash: normalizeString(receipt.preStateHash || receipt.stateHashBefore || receipt.baselineHashBefore),
+    postStateHash: normalizeString(receipt.postStateHash || receipt.stateHashAfter || receipt.outputHash),
+    capabilityRevalidated: receipt.capabilityRevalidated === true
+      || receipt.commandKernelCapabilityRevalidation === true,
+  };
+}
+
+function normalizeCommandReceipts(receipts) {
+  if (!Array.isArray(receipts)) return [];
+  return receipts.map((receipt) => normalizeCommandReceipt(receipt));
+}
+
+function receiptMatchesEvent(receipt, event) {
+  if (receipt.commandId && receipt.commandId !== event.commandId) return false;
+  if (receipt.operationId && receipt.operationId === event.opId) return true;
+  if (receipt.receiptId && receipt.receiptId === event.opId) return true;
+  if (receipt.preStateHash && receipt.postStateHash) {
+    return receipt.preStateHash === event.preStateHash && receipt.postStateHash === event.postStateHash;
+  }
+  return false;
+}
+
+function findCommandReceipt(receipts, event) {
+  return receipts.find((receipt) => receiptMatchesEvent(receipt, event)) || null;
+}
+
+function commandReceiptRef(receipt) {
+  const ref = {
+    receiptId: receipt.receiptId,
+    operationId: receipt.operationId,
+    commandId: receipt.commandId,
+    status: receipt.status,
+    appliedAt: receipt.appliedAt,
+    preStateHash: receipt.preStateHash,
+    postStateHash: receipt.postStateHash,
+    capabilityRevalidated: receipt.capabilityRevalidated,
+  };
+  return {
+    ...ref,
+    receiptRefHash: hashCanonical(ref),
+  };
+}
+
+function replayError(code, reason, details) {
+  return typedError(
+    code,
+    'collab.operationReplay.buildReport',
+    reason,
+    details,
+  );
+}
+
+function buildReplayStep(event, index, currentHash, receipt) {
+  return {
+    index,
+    opId: event.opId,
+    actorId: event.actorId,
+    ts: event.ts,
+    commandId: event.commandId,
+    payloadHash: event.payloadHash,
+    preStateHash: event.preStateHash,
+    postStateHash: event.postStateHash,
+    replayedFromStateHash: currentHash,
+    commandReceiptRef: receipt ? commandReceiptRef(receipt) : null,
+    stateHashProof: {
+      preStateHashMatches: event.preStateHash === currentHash,
+      nextStateHash: event.postStateHash,
+    },
+  };
+}
+
+function buildReplayReport(base) {
+  return {
+    ...base,
+    replayHash: hashCanonical(base),
+  };
 }
 
 export function createEmptyEventLog() {
@@ -268,4 +356,151 @@ export function replayEventLog(input = {}) {
     appliedEvents: eventLog.events.length,
     eventLogHash: hashCanonical(eventLog),
   };
+}
+
+export function buildOperationReplayReport(input = {}) {
+  const eventLog = normalizeEventLog(input.eventLog);
+  const commandReceipts = normalizeCommandReceipts(input.commandReceipts);
+  const initialStateHash = normalizeString(input.initialStateHash);
+  const expectedFinalStateHash = normalizeString(input.expectedFinalStateHash);
+  const requireCommandKernelReceipt = input.requireCommandKernelReceipt === true;
+  const authority = {
+    usesExistingEventLog: true,
+    commandKernelReceiptBinding: requireCommandKernelReceipt,
+    secondOperationLogTruth: false,
+    privateCommandBus: false,
+    directManuscriptMutation: false,
+    projectTruthMutation: false,
+    transportExchange: false,
+    networkAdapter: false,
+  };
+
+  if (!initialStateHash) {
+    return buildReplayReport({
+      schemaVersion: OPERATION_REPLAY_REPORT_SCHEMA_VERSION,
+      ok: false,
+      eventLogHash: hashCanonical(eventLog),
+      initialStateHash: '',
+      finalStateHash: '',
+      expectedFinalStateHash,
+      expectedFinalStateHashMatches: expectedFinalStateHash ? false : null,
+      appliedCount: 0,
+      rejectedCount: 1,
+      steps: [],
+      rejected: [
+        replayError(
+          'E_COLLAB_OPERATION_REPLAY_INITIAL_STATE_HASH_REQUIRED',
+          'INITIAL_STATE_HASH_REQUIRED',
+        ),
+      ],
+      authority,
+    });
+  }
+
+  const steps = [];
+  const rejected = [];
+  const seenOpIds = new Set();
+  let currentHash = initialStateHash;
+
+  for (let index = 0; index < eventLog.events.length; index += 1) {
+    const event = eventLog.events[index];
+    if (!eventEntryValid(event)) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_ENTRY_INVALID',
+        'ENTRY_FIELDS_REQUIRED',
+        { index, opId: event.opId },
+      ));
+      continue;
+    }
+
+    if (seenOpIds.has(event.opId)) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_DUPLICATE_OP_ID',
+        'OP_ID_ALREADY_REPLAYED',
+        { index, opId: event.opId },
+      ));
+      continue;
+    }
+    seenOpIds.add(event.opId);
+
+    if (event.preStateHash !== currentHash) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_PRE_STATE_HASH_MISMATCH',
+        'PRE_STATE_HASH_MISMATCH',
+        {
+          index,
+          opId: event.opId,
+          expectedPreStateHash: currentHash,
+          actualPreStateHash: event.preStateHash,
+        },
+      ));
+      continue;
+    }
+
+    const receipt = findCommandReceipt(commandReceipts, event);
+    if (requireCommandKernelReceipt && !receipt) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_COMMAND_RECEIPT_MISSING',
+        'COMMAND_KERNEL_RECEIPT_REQUIRED',
+        { index, opId: event.opId, commandId: event.commandId },
+      ));
+      continue;
+    }
+
+    if (requireCommandKernelReceipt && receipt.capabilityRevalidated !== true) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_CAPABILITY_NOT_REVALIDATED',
+        'COMMAND_KERNEL_CAPABILITY_REVALIDATION_REQUIRED',
+        { index, opId: event.opId, commandId: event.commandId },
+      ));
+      continue;
+    }
+
+    if (receipt && receipt.preStateHash && receipt.preStateHash !== event.preStateHash) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_RECEIPT_PRE_HASH_MISMATCH',
+        'COMMAND_KERNEL_RECEIPT_PRE_HASH_MISMATCH',
+        { index, opId: event.opId, receiptId: receipt.receiptId },
+      ));
+      continue;
+    }
+
+    if (receipt && receipt.postStateHash && receipt.postStateHash !== event.postStateHash) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_RECEIPT_POST_HASH_MISMATCH',
+        'COMMAND_KERNEL_RECEIPT_POST_HASH_MISMATCH',
+        { index, opId: event.opId, receiptId: receipt.receiptId },
+      ));
+      continue;
+    }
+
+    steps.push(buildReplayStep(event, index, currentHash, receipt));
+    currentHash = event.postStateHash;
+  }
+
+  if (expectedFinalStateHash && expectedFinalStateHash !== currentHash) {
+    rejected.push(replayError(
+      'E_COLLAB_OPERATION_REPLAY_FINAL_STATE_HASH_MISMATCH',
+      'FINAL_STATE_HASH_MISMATCH',
+      {
+        expectedFinalStateHash,
+        actualFinalStateHash: currentHash,
+      },
+    ));
+  }
+
+  return buildReplayReport({
+    schemaVersion: OPERATION_REPLAY_REPORT_SCHEMA_VERSION,
+    ok: rejected.length === 0,
+    eventLogHash: hashCanonical(eventLog),
+    initialStateHash,
+    finalStateHash: currentHash,
+    expectedFinalStateHash,
+    expectedFinalStateHashMatches: expectedFinalStateHash ? expectedFinalStateHash === currentHash : null,
+    appliedCount: steps.length,
+    rejectedCount: rejected.length,
+    steps,
+    rejected,
+    authority,
+  });
 }

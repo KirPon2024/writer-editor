@@ -9,4 +9,5 @@ export {
   appendEventLogEntry,
   applyCommandWithEventLog,
   replayEventLog,
+  buildOperationReplayReport,
 } from './eventLog.mjs';

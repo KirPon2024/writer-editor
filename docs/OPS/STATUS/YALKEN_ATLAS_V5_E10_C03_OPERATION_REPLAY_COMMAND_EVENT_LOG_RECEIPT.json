@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E10_C03_OPERATION_REPLAY_COMMAND_EVENT_LOG_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E10_C03_OPERATION_REPLAY_OVER_EXISTING_COMMAND_EVENT_LOG",
+  "programStage": "E10_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T16:50:00Z",
+  "validatedAtUtc": "2026-07-30T17:01:19Z",
+  "baseSha": "d3aa4eb1dc109bb474870f134602d66188c3e260",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E10 C03 adds pure local collab operation replay reporting over the existing event log. It changes no product UI screen, visual composition, renderer surface, Design OS manifest, typography, layout, storage adapter, network adapter, project truth, or manuscript writer.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "d3aa4eb1dc109bb474870f134602d66188c3e260",
+    "stage10CompilationReceiptExists": true,
+    "stage10CompilationNextContour": "E10_C03_OPERATION_REPLAY_OVER_EXISTING_COMMAND_EVENT_LOG",
+    "operationReplayReportSchema": "collab-operation-replay.report.v1",
+    "existingCollabEventLogReused": true,
+    "commandKernelReceiptBinding": true,
+    "stateHashReplayProof": true,
+    "duplicateOperationRejected": true,
+    "typedReplayErrorEnvelopes": true,
+    "payloadCopiedIntoReplayReport": false,
+    "secondOperationLogTruth": false,
+    "privateCommandBus": false,
+    "directManuscriptMutation": false,
+    "projectTruthMutation": false,
+    "transportExchange": false,
+    "networkAdapter": false,
+    "uiChanged": false,
+    "storageAdapterChanged": false,
+    "newDependencyAdded": false
+  },
+  "productPlane": {
+    "dataAuthority": "Existing Product Core and manuscript truth remain authoritative. E10 C03 replays only the existing collab-eventlog.v1 hash chain and binds replay steps to safe Command Kernel receipt refs when requested.",
+    "writePath": "No write path. The replay report applies no commands and mutates no project, manuscript, storage, renderer, or transport state.",
+    "readPath": "buildOperationReplayReport reads an event log, initial state hash, optional expected final hash, and optional Command Kernel receipt refs; it returns a deterministic pathless report and typed rejection envelopes.",
+    "portsAndAdapters": "No runtime adapter, storage adapter, network adapter, account adapter, CRDT adapter, or renderer adapter is introduced."
+  },
+  "interfacePlane": {
+    "designRoute": "NOT_APPLICABLE",
+    "surfaceManifest": "NOT_CHANGED",
+    "typedSlot": "NOT_CHANGED",
+    "rendererMutation": false,
+    "notes": "Operation replay evidence may feed later diagnostics, but this contour does not alter any UI surface."
+  },
+  "acceptanceProof": {
+    "existingEventLogReuse": true,
+    "commandKernelEventEntryBinding": true,
+    "stateHashReplayProof": true,
+    "idempotencyDuplicateRejection": true,
+    "typedReplayErrorEnvelopes": true,
+    "noSecondOperationLogTruth": true,
+    "noPrivateCommandBus": true,
+    "noDirectManuscriptMutation": true,
+    "noTransportExchange": true,
+    "nextContour": "E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE"
+  },
+  "changedBasenames": [
+    "eventLog.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js",
+    "YALKEN_ATLAS_V5_E10_C03_OPERATION_REPLAY_COMMAND_EVENT_LOG_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "sourceHashes": {
+    "eventLog.mjs": "c4043d05fd81114a3590f6ce21c76b87d31625241f21b950fee4ed726713b273",
+    "index.mjs": "05fa8937d69203485eed0f87beaa5156bb06c8b6f7c036c57f9c03c8fbb01f21",
+    "focusedContract": "8c74930548bd41dcb57f4054543d339d1da6e10b1a1b82d60ebfcaa31e8cfb7f"
+  },
+  "validation": [
+    {
+      "command": "node --check eventLog.mjs and collab index and E10 C03 contract",
+      "result": "PASS",
+      "summary": "syntax checks passed"
+    },
+    {
+      "command": "node --test E10 C03 focused plus collab eventlog apply no-network and E10 C02 adjacency contracts",
+      "result": "PASS",
+      "summary": "13 tests, 13 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/collab-eventlog-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_EVENTLOG_OK=1; schema, append-only, replay determinism, and idempotency checks PASS"
+    },
+    {
+      "command": "node scripts/ops/collab-apply-pipeline-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_APPLY_PIPELINE_OK=1; pure, deterministic, typed error checks PASS"
+    },
+    {
+      "command": "node scripts/ops/collab-stress-safe-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_STRESS_SAFE_OK=1; no network wiring or core bypass violations"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1 for the focused contract before receipt hash approval; receipt approval is recorded after this file hash is computed"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace PASS; menu checks PASS; law path canon PASS; execution sequence PASS; release candidate verify PASS"
+    }
+  ],
+  "notes": {
+    "falseGreenGuard": "All PASS rows in this receipt were recorded only after the commands completed successfully. The receipt's own governance approval is intentionally recorded after this file's SHA is computed, so this receipt does not claim a precomputed self-approval.",
+    "replayBoundary": "Replay reports carry payload hashes and safe receipt refs only; they do not copy command payloads, manuscript text, author truth values, or storage paths."
+  },
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E10 C03 adds deterministic local operation replay reporting over the existing append-only collab event log. It exposes typed rejection envelopes and receipt refs only, and does not alter project truth, manuscript, storage, renderer, command state, network, or transport.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE"
+}

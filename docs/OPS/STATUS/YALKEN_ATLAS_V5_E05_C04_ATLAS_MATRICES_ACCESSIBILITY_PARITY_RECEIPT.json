@@ -194,5 +194,5 @@
       "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS PASS; command namespace, menu, law path, execution sequence, release candidate all PASS"
     }
   ],
-  "nextContour": "E05_C05_ATLAS_DEGRADED_CAPABILITY_AND_EMPTY_STATE_COPY"
+  "nextContour": "E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF"
 }

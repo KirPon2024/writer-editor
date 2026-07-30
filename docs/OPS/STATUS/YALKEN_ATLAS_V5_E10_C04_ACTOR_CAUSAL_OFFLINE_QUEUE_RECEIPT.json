@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E10_C04_ACTOR_CAUSAL_OFFLINE_QUEUE_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE",
+  "programStage": "E10_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T17:24:13Z",
+  "validatedAtUtc": "2026-07-30T17:33:47Z",
+  "baseSha": "9807fd2a458754a2a935156fe29ba76c663868ea",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E10 C04 adds pure local actor identity, causal ordering, and offline queue packets under existing collab utilities. It changes no product UI screen, visual composition, renderer surface, Design OS manifest, typography, layout, storage adapter, network adapter, project truth, or manuscript writer.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "9807fd2a458754a2a935156fe29ba76c663868ea",
+    "originMainDriftReconciled": true,
+    "previousBoundHead": "a0cd7590a57a6db7e8398c8543f49f467a192740",
+    "reconciledOriginMainHead": "9807fd2a458754a2a935156fe29ba76c663868ea",
+    "stage10CompilationReceiptExists": true,
+    "stage10CompilationNextContour": "E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE",
+    "actorIdentitySchema": "collab-actor-identity.v1",
+    "causalOrderingReportSchema": "collab-causal-ordering.report.v1",
+    "offlineQueuePacketSchema": "collab-offline-queue.packet.v1",
+    "localActorIdentityEnvelope": true,
+    "stableActorKeyHashOnly": true,
+    "perActorFifoOrdering": true,
+    "causalBufferForSequenceGaps": true,
+    "dependencyBuffering": true,
+    "duplicateOperationRejected": true,
+    "typedCausalErrorEnvelopes": true,
+    "offlineQueueCapabilityDisabledNonBlocking": true,
+    "offlineQueuePayloadCopied": false,
+    "accountIdentity": false,
+    "remotePresence": false,
+    "networkIdentity": false,
+    "networkQueueTransport": false,
+    "coreTransportDependency": false,
+    "secondQueueTruth": false,
+    "projectTruthMutation": false,
+    "directManuscriptMutation": false,
+    "uiChanged": false,
+    "storageAdapterChanged": false,
+    "newDependencyAdded": false
+  },
+  "productPlane": {
+    "dataAuthority": "Existing Product Core and manuscript truth remain authoritative. E10 C04 produces local-only actor, causal ordering, and offline queue packets with hashes and typed envelopes; none of these packets becomes project truth.",
+    "writePath": "No project, manuscript, storage, renderer, transport, account, or network write path. Offline queue packets are diagnostic/local exchange envelopes only and do not dispatch commands.",
+    "readPath": "buildActorIdentityEnvelope reads local actor/session inputs; buildCausalOrderingReport reads operation metadata and dependency refs; buildOfflineQueuePacket reads an actor envelope and operation metadata. Payloads are represented by hashes only.",
+    "portsAndAdapters": "No runtime adapter, storage adapter, network adapter, account adapter, CRDT adapter, renderer adapter, or transport provider is introduced."
+  },
+  "interfacePlane": {
+    "designRoute": "NOT_APPLICABLE",
+    "surfaceManifest": "NOT_CHANGED",
+    "typedSlot": "NOT_CHANGED",
+    "rendererMutation": false,
+    "notes": "Conflict and offline evidence may feed later Design OS projections, but this contour does not alter any UI surface."
+  },
+  "acceptanceProof": {
+    "actorIdentityEnvelope": true,
+    "causalOrderingReport": true,
+    "offlineQueuePacket": true,
+    "capabilityDisabledNonBlockingProof": true,
+    "causalQueueReadinessProof": true,
+    "noAccountIdentity": true,
+    "noRemotePresence": true,
+    "noNetworkQueueTransport": true,
+    "noCoreTransportDependency": true,
+    "noSecondQueueTruth": true,
+    "payloadExclusion": true,
+    "nextContour": "E10_C05_LOCAL_MULTI_SESSION_RECOVERY_AND_CONFLICT_ENVELOPES"
+  },
+  "changedBasenames": [
+    "mergePolicy.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e10-c04-actor-causal-offline-queue.contract.test.js",
+    "YALKEN_ATLAS_V5_E10_C04_ACTOR_CAUSAL_OFFLINE_QUEUE_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "sourceHashes": {
+    "mergePolicy.mjs": "63ca0ad7a72b939dd9a8f1bb76f36c68728efe3094b13a417bad69ca13f5c948",
+    "index.mjs": "33ff1d912610ccf6207440c35813565d6fa5a947e9a0981a7cc275df5fe62f12",
+    "focusedContract": "2a547396cf62041366491a001e9dc6b6936b2d2c7c0e9165ee73026a66f49ae8"
+  },
+  "validation": [
+    {
+      "command": "node --check mergePolicy.mjs and collab index and E10 C04 contract",
+      "result": "PASS",
+      "summary": "syntax checks passed"
+    },
+    {
+      "command": "node --test E10 C04 focused plus adjacent collab causal queue, merge, replay, apply, no-network, and E10 C03 contracts",
+      "result": "PASS",
+      "summary": "24 tests, 24 pass, 0 fail after origin/main drift reconciliation, including RTK C02 adjacency"
+    },
+    {
+      "command": "node scripts/ops/collab-causal-queue-readiness-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_CAUSAL_QUEUE_READINESS_OK=1; status READY"
+    },
+    {
+      "command": "node scripts/ops/collab-stress-safe-state.mjs",
+      "result": "PASS",
+      "summary": "COLLAB_STRESS_SAFE_OK=1; no network wiring or core bypass violations"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1 after post-drift receipt checkpoint approval; final receipt approval is recorded after this file hash is computed"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace PASS; menu checks PASS; law path canon PASS; execution sequence PASS; release candidate verify PASS"
+    }
+  ],
+  "notes": {
+    "falseGreenGuard": "All PASS rows in this receipt were recorded only after the commands completed successfully. PENDING rows must not be interpreted as PASS. The receipt's own governance approval is intentionally recorded after this file's SHA is computed, so this receipt does not claim a precomputed self-approval.",
+    "queueBoundary": "Offline queue packets carry operation metadata and payload hashes only. They do not copy command payloads, manuscript text, author truth values, storage paths, account identities, remote presence, or transport endpoints."
+  },
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E10 C04 adds deterministic local actor identity, causal ordering, and offline queue packet builders. It exposes typed rejection envelopes and hash-only queue entries, and does not alter project truth, manuscript, storage, renderer, command state, network, account, or transport.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E10_C05_LOCAL_MULTI_SESSION_RECOVERY_AND_CONFLICT_ENVELOPES"
+}

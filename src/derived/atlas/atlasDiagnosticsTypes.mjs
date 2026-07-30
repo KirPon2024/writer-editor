@@ -3,6 +3,10 @@ export const ATLAS_DIAGNOSTICS_SURFACE_MANIFEST_VERSION = 'surface.atlas.diagnos
 export const ATLAS_DEGRADED_CAPABILITY_REPORT_SCHEMA_VERSION = 'derived.atlas.degradedCapabilityReport.v1';
 export const ATLAS_SURFACE_FALLBACK_INVENTORY_SCHEMA_VERSION = 'derived.atlas.surfaceFallbackInventory.v1';
 export const ATLAS_STAGE_ACCEPTANCE_PROOF_SCHEMA_VERSION = 'derived.atlas.stage05AcceptanceProof.v1';
+export const ATLAS_STAGE_06_ACCEPTANCE_PROOF_SCHEMA_VERSION = 'derived.atlas.stage06AcceptanceProof.v1';
+export const ATLAS_CALENDAR_ASSUMPTION_AUDIT_SCHEMA_VERSION = 'derived.atlas.calendarAssumptionAudit.v1';
+export const ATLAS_EVIDENCE_BACKED_FINDING_AUDIT_SCHEMA_VERSION = 'derived.atlas.evidenceBackedFindingAudit.v1';
+export const ATLAS_STAGE_06_HOT_PATH_PROOF_SCHEMA_VERSION = 'derived.atlas.stage06HotPathProof.v1';
 export const ATLAS_FINAL_UI_AUDIT_RECEIPT_SCHEMA_VERSION = 'derived.atlas.finalUiAuditReceipt.v1';
 export const ATLAS_HEURISTIC_REVIEW_RECEIPT_SCHEMA_VERSION = 'derived.atlas.heuristicReviewReceipt.v1';
 

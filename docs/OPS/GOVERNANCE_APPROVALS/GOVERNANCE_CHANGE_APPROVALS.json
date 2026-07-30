@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT.json",
+      "sha256": "960ad980ee7496265aac4e300d3faedbfd50417b93dbdf173b6b202d054574be",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-30T05:24:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C08 delivery receipt: records local verified Stage 06 acceptance diagnostics and handoff proof, calendar assumption audit, temporal and continuity degraded capability report, evidence-backed finding audit, large-project UI and hot-path proof, Lazyweb diagnostics dashboard search and screenshot-report unavailable fallback, repo-native finalize-equivalent and heuristic review, no Stage 07 implementation, no release readiness claim, no project truth mutation, no manuscript mutation, no storage, no network, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
+      "sha256": "f76a9c5060cd536fe7f07b576f91bfca7ce6c664c325c2c2f9eedbfb75fc9ceb",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-30T05:24:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C08 contract: proves diagnostics packet closes Stage 06 time calendar continuity acceptance, exports Stage 06 audit schema constants, embeds calendar assumption, evidence-backed finding, hot-path, and Stage 07 handoff gates, degrades honestly when continuity ledger capability is disabled, keeps previous diagnostics renderer naming compatible, and keeps expanded diagnostics derived sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, automatic correction, automatic apply, manuscript mutation, project truth mutation, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AUTHOR_CORRECTION_ROUTE_RECEIPT.json",
       "sha256": "bcba82b3499c8db5e36b0ce4c125b69bceb31c1c7dc8dcab4e2d8b0e950a71e2",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AND_AUTHOR_CORRECTION_ROUTE",

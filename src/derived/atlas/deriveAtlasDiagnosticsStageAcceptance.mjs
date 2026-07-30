@@ -3,12 +3,21 @@ import { deriveAtlasOverview } from './deriveAtlasOverview.mjs';
 import { deriveAtlasMatrices } from './deriveAtlasMatrices.mjs';
 import { deriveAtlasHeatmap } from './deriveAtlasHeatmap.mjs';
 import { deriveAtlasReportsSavedQueries } from './deriveAtlasReportsSavedQueries.mjs';
+import { deriveAtlasCalendarDefinitions } from './deriveAtlasCalendarDefinitions.mjs';
+import { deriveAtlasSceneTemporalAnchors } from './deriveAtlasSceneTemporalAnchors.mjs';
+import { deriveAtlasTemporalLayout } from './deriveAtlasTemporalLayout.mjs';
+import { deriveAtlasContinuityFindings } from './deriveAtlasContinuityFindings.mjs';
+import { deriveAtlasContinuityLedgerSurface } from './deriveAtlasContinuityLedgerSurface.mjs';
 import {
+  ATLAS_CALENDAR_ASSUMPTION_AUDIT_SCHEMA_VERSION,
   ATLAS_DEGRADED_CAPABILITY_REPORT_SCHEMA_VERSION,
   ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_SCHEMA_VERSION,
+  ATLAS_EVIDENCE_BACKED_FINDING_AUDIT_SCHEMA_VERSION,
   ATLAS_DIAGNOSTICS_SURFACE_MANIFEST_VERSION,
   ATLAS_FINAL_UI_AUDIT_RECEIPT_SCHEMA_VERSION,
   ATLAS_HEURISTIC_REVIEW_RECEIPT_SCHEMA_VERSION,
+  ATLAS_STAGE_06_ACCEPTANCE_PROOF_SCHEMA_VERSION,
+  ATLAS_STAGE_06_HOT_PATH_PROOF_SCHEMA_VERSION,
   ATLAS_STAGE_ACCEPTANCE_PROOF_SCHEMA_VERSION,
   ATLAS_SURFACE_FALLBACK_INVENTORY_SCHEMA_VERSION,
   sortAtlasDiagnosticsRows,
@@ -64,7 +73,12 @@ function buildAuthority() {
       'surface.atlas.relationDossier.v1',
       'surface.atlas.matrices.v1',
       'surface.atlas.heatmap.v1',
+      'surface.atlas.temporalLayout.v1',
+      'surface.atlas.continuityLedger.v1',
       'surface.atlas.reportsSavedQueries.v1',
+      'derived.atlas.calendarDefinitions.v1',
+      'derived.atlas.sceneTemporalAnchors.v1',
+      'derived.atlas.continuityFindings.v1',
       'capabilityPolicy.mjs',
     ],
     readModelOnly: true,
@@ -185,6 +199,9 @@ function buildCapabilityRows({ snapshot, surfaceRuns, inventory }) {
     ['cap.atlas.observation.reassign', 'atlas.observation.reassign'],
     ['cap.atlas.evidence.reattach', 'atlas.evidence.reattach'],
     ['cap.atlas.savedQuery.save', 'atlas.savedQuery.save'],
+    ['cap.atlas.calendar.define', 'atlas.calendar.define'],
+    ['cap.atlas.sceneTemporalAnchor.set', 'atlas.sceneTemporalAnchor.set'],
+    ['cap.atlas.continuityFact.record', 'atlas.continuityFact.record'],
   ];
   const capabilities = capabilityMap(snapshot);
   for (const [capabilityId, commandId] of commandCapabilities) {
@@ -257,7 +274,7 @@ function buildAuditReceipt({ inventory, surfaceRuns }) {
       blockShipFindings: [],
       majorFindings: hasExplicitHeavy && allRowsHaveTextState ? [] : ['missing explicit heavy-surface proof or text fallback inventory'],
       skippedTools: [
-        'Finalize skill strict mode requires .ui-craft/brief.md, which is absent; C07 uses equivalent repo-native acceptance proof bound to V5 canon instead.',
+        'Finalize skill strict mode requires .ui-craft/brief.md, which is absent; C08 uses equivalent repo-native acceptance proof bound to V5 canon instead.',
       ],
     },
   };
@@ -297,16 +314,129 @@ function buildHeuristicReceipt({ inventory, capabilityRows }) {
       { law: 'Hick', status: 'PASS', detail: 'Diagnostics groups acceptance rows into fallback inventory, degraded capability report, and acceptance proof.' },
       { law: 'Doherty', status: 'PASS', detail: 'Diagnostics derives bounded packet summaries and does not start heavy heatmap work unless already explicit.' },
       { law: 'Cleveland-McGill', status: 'PASS', detail: 'Capability status is textual rows, not hue-only magnitude encoding.' },
-      { law: 'Miller', status: 'PASS', detail: 'The surface chunks Stage 05 closure into five acceptance gates.' },
+      { law: 'Miller', status: 'PASS', detail: 'The surface chunks Stage 06 closure into bounded acceptance gates.' },
       { law: 'Tesler', status: failedLaws.includes('Tesler') ? 'FAIL' : 'PASS', detail: 'Complexity is absorbed into diagnostics rows and fallback reasons instead of exposing raw derived internals.' },
     ],
     topFindings: failedLaws.length > 0
       ? ['Some fallback inventory rows missed explicit text; keep diagnostics textual before closing the stage.']
-      : ['No block-ship findings in the C07 repo-native heuristic receipt.'],
+      : ['No block-ship findings in the C08 repo-native heuristic receipt.'],
   };
 }
 
-function buildAcceptanceProof({ inventory, surfaceRuns, auditReceipt, heuristicReceipt }) {
+function surfaceValue(surfaceRuns, surfaceId) {
+  return surfaceRuns.find((run) => run.surfaceId === surfaceId)?.value || null;
+}
+
+function buildCalendarAssumptionAudit({ calendarDefinitions, sceneTemporalAnchors }) {
+  const calendarSummary = calendarDefinitions?.summary || {};
+  const anchorSummary = sceneTemporalAnchors?.summary || {};
+  return {
+    schemaVersion: ATLAS_CALENDAR_ASSUMPTION_AUDIT_SCHEMA_VERSION,
+    state: calendarDefinitions?.state || 'empty',
+    hiddenAssumptions: false,
+    externalTimeService: false,
+    calendarCount: Number(calendarSummary.calendarCount || 0),
+    unsupportedConversionRuleCount: Number(calendarSummary.unsupportedConversionRuleCount || 0),
+    missingAnchorSceneCount: Number(anchorSummary.missingAnchorSceneCount || 0),
+    unknownTemporalRangeCount: Number(anchorSummary.storyUnknownCount || 0) + Number(anchorSummary.narrativeUnknownCount || 0),
+    pass: calendarDefinitions?.authority?.networkMutation === false
+      && sceneTemporalAnchors?.authority?.networkMutation === false
+      && calendarDefinitions?.evidence?.guarantees?.hiddenAssumptions === false
+      && sceneTemporalAnchors?.evidence?.guarantees?.unknownTimeExplicit === true,
+  };
+}
+
+function buildEvidenceBackedFindingAudit({ continuityFindings, continuityLedger }) {
+  const findingsSummary = continuityFindings?.summary || {};
+  const ledgerSummary = continuityLedger?.summary || {};
+  return {
+    schemaVersion: ATLAS_EVIDENCE_BACKED_FINDING_AUDIT_SCHEMA_VERSION,
+    state: continuityLedger?.state || continuityFindings?.state || 'empty',
+    findingCount: Number(findingsSummary.findingCount || 0),
+    unknownOutcomeCount: Number(findingsSummary.unknownOutcomeCount || 0),
+    insufficientEvidenceOutcomeCount: Number(findingsSummary.insufficientEvidenceOutcomeCount || 0),
+    evidenceAnchorCount: Number(ledgerSummary.evidenceAnchorCount || 0),
+    correctionRouteCount: Number(ledgerSummary.correctionRouteCount || 0),
+    evidenceFirst: continuityFindings?.evidence?.guarantees?.evidenceFirst === true,
+    jumpIntentOnly: continuityLedger?.authority?.jumpToEvidenceIntentOnly === true,
+    correctionRouteOnly: continuityLedger?.authority?.correctionRouteOnly === true,
+    automaticCorrection: continuityLedger?.authority?.automaticCorrection === true || continuityFindings?.authority?.automaticCorrection === true,
+    automaticApply: continuityLedger?.authority?.automaticApply === true || continuityFindings?.authority?.automaticApply === true,
+    pass: continuityFindings?.evidence?.guarantees?.evidenceFirst === true
+      && continuityLedger?.authority?.jumpToEvidenceIntentOnly === true
+      && continuityLedger?.authority?.correctionRouteOnly === true
+      && continuityLedger?.authority?.automaticCorrection === false
+      && continuityLedger?.authority?.automaticApply === false,
+  };
+}
+
+function buildStage06HotPathProof({ heatmap, temporalLayout, continuityLedger, matrices }) {
+  return {
+    schemaVersion: ATLAS_STAGE_06_HOT_PATH_PROOF_SCHEMA_VERSION,
+    heatmapExplicitOpen: heatmap?.surfaceManifest?.explicitOpenRequired === true,
+    temporalLayoutExplicitOpen: temporalLayout?.surfaceManifest?.explicitOpenRequired === true,
+    continuityLedgerExplicitOpen: continuityLedger?.surfaceManifest?.explicitOpenRequired === true,
+    matrixListParity: matrices?.listParity?.accessibilityEquivalent === true || matrices?.accessibilityContract?.keyboardNavigation?.noPointerOnlyState === true,
+    heatmapTypingHotPathNonblocking: heatmap?.viewportBudgetProof?.typingHotPathNonblocking === true,
+    temporalTypingHotPathNonblocking: temporalLayout?.largeProjectBudgetProof?.typingHotPathNonblocking === true,
+    continuityLedgerNoBackgroundDaemon: continuityLedger?.authority?.backgroundDaemon !== true,
+    pass: heatmap?.surfaceManifest?.explicitOpenRequired === true
+      && temporalLayout?.surfaceManifest?.explicitOpenRequired === true
+      && continuityLedger?.surfaceManifest?.explicitOpenRequired === true
+      && heatmap?.viewportBudgetProof?.typingHotPathNonblocking === true
+      && temporalLayout?.largeProjectBudgetProof?.typingHotPathNonblocking === true
+      && continuityLedger?.authority?.automaticApply === false,
+  };
+}
+
+function buildStage06AcceptanceProof({ calendarAssumptionAudit, evidenceBackedFindingAudit, hotPathProof, inventory }) {
+  const gates = [
+    {
+      id: 'stage06-calendar-assumption-audit',
+      label: 'Calendar assumption audit',
+      status: calendarAssumptionAudit.pass ? 'PASS' : 'DEGRADED',
+      evidence: 'Calendar and scene temporal anchor projections expose unsupported and unknown states without network time services or hidden assumptions.',
+    },
+    {
+      id: 'stage06-temporal-continuity-degraded-report',
+      label: 'Temporal degraded capability report',
+      status: inventory.rows.some((row) => row.surfaceId === 'surface.atlas.temporalLayout') ? 'PASS' : 'DEGRADED',
+      evidence: 'Temporal layout and scene temporal anchors appear in the fallback inventory with explicit state labels.',
+    },
+    {
+      id: 'stage06-evidence-backed-finding-audit',
+      label: 'Evidence-backed finding audit',
+      status: evidenceBackedFindingAudit.pass ? 'PASS' : 'DEGRADED',
+      evidence: 'Continuity findings remain evidence-first and correction is route-only through the existing author command.',
+    },
+    {
+      id: 'stage06-large-project-ui-hot-path-proof',
+      label: 'Large-project UI and hot-path proof',
+      status: hotPathProof.pass ? 'PASS' : 'DEGRADED',
+      evidence: 'Heatmap, temporal layout, and continuity ledger remain explicit-open or read-only with no typing hot-path mutation.',
+    },
+    {
+      id: 'stage06-handoff-boundary',
+      label: 'Stage 07 handoff boundary',
+      status: 'PASS',
+      evidence: 'Diagnostics claims Stage 06 acceptance only; Stage 07 language expansion, global graph, series atlas, platform certification, and release readiness remain outside scope.',
+    },
+  ];
+  return {
+    schemaVersion: ATLAS_STAGE_06_ACCEPTANCE_PROOF_SCHEMA_VERSION,
+    stageId: 'E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS',
+    gates,
+    pass: gates.every((gate) => gate.status === 'PASS'),
+    reportHash: hashCanonicalValue({
+      calendarAssumptionAudit,
+      evidenceBackedFindingAudit,
+      hotPathProof,
+      gates,
+    }),
+  };
+}
+
+function buildAcceptanceProof({ inventory, surfaceRuns, auditReceipt, heuristicReceipt, stage06AcceptanceProof = null }) {
   const matrices = surfaceRuns.find((run) => run.surfaceId === 'surface.atlas.matrices')?.value;
   const heatmap = surfaceRuns.find((run) => run.surfaceId === 'surface.atlas.heatmap')?.value;
   const reports = surfaceRuns.find((run) => run.surfaceId === 'surface.atlas.reportsSavedQueries')?.value;
@@ -341,10 +471,16 @@ function buildAcceptanceProof({ inventory, surfaceRuns, auditReceipt, heuristicR
       status: auditReceipt.finalBar.status === 'READY' && heuristicReceipt.usabilityScoreJudged >= 80 ? 'PASS' : 'DEGRADED',
       evidence: 'Repo-native audit and heuristic receipts are embedded in this packet and receipt.',
     },
+    {
+      id: 'stage06-time-calendar-continuity-acceptance',
+      label: 'Stage 06 time calendar continuity acceptance',
+      status: stage06AcceptanceProof?.pass === true ? 'PASS' : 'DEGRADED',
+      evidence: 'Stage 06 acceptance proof covers calendar assumptions, temporal degraded report, evidence-backed findings, and hot-path budget.',
+    },
   ];
   return {
     schemaVersion: ATLAS_STAGE_ACCEPTANCE_PROOF_SCHEMA_VERSION,
-    stageId: 'E05_STAGE_05_FULL_ATLAS_UX_CONTOURS',
+    stageId: 'E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS',
     gates,
     pass: gates.every((gate) => gate.status === 'PASS'),
     reportHash: hashCanonicalValue({
@@ -362,7 +498,56 @@ function emptyDiagnostics(projectId, reason = '') {
   const capabilityRows = buildCapabilityRows({ snapshot: {}, surfaceRuns: [], inventory });
   const auditReceipt = buildAuditReceipt({ inventory, surfaceRuns: [] });
   const heuristicReceipt = buildHeuristicReceipt({ inventory, capabilityRows });
-  const acceptanceProof = buildAcceptanceProof({ inventory, surfaceRuns: [], auditReceipt, heuristicReceipt });
+  const calendarAssumptionAudit = {
+    schemaVersion: ATLAS_CALENDAR_ASSUMPTION_AUDIT_SCHEMA_VERSION,
+    state: reason ? 'unavailable' : 'empty',
+    hiddenAssumptions: false,
+    externalTimeService: false,
+    calendarCount: 0,
+    unsupportedConversionRuleCount: 0,
+    missingAnchorSceneCount: 0,
+    unknownTemporalRangeCount: 0,
+    pass: false,
+  };
+  const evidenceBackedFindingAudit = {
+    schemaVersion: ATLAS_EVIDENCE_BACKED_FINDING_AUDIT_SCHEMA_VERSION,
+    state: reason ? 'unavailable' : 'empty',
+    findingCount: 0,
+    unknownOutcomeCount: 0,
+    insufficientEvidenceOutcomeCount: 0,
+    evidenceAnchorCount: 0,
+    correctionRouteCount: 0,
+    evidenceFirst: false,
+    jumpIntentOnly: false,
+    correctionRouteOnly: false,
+    automaticCorrection: false,
+    automaticApply: false,
+    pass: false,
+  };
+  const stage06HotPathProof = {
+    schemaVersion: ATLAS_STAGE_06_HOT_PATH_PROOF_SCHEMA_VERSION,
+    heatmapExplicitOpen: false,
+    temporalLayoutExplicitOpen: false,
+    continuityLedgerExplicitOpen: false,
+    matrixListParity: false,
+    heatmapTypingHotPathNonblocking: false,
+    temporalTypingHotPathNonblocking: false,
+    continuityLedgerNoBackgroundDaemon: true,
+    pass: false,
+  };
+  const stage06AcceptanceProof = buildStage06AcceptanceProof({
+    calendarAssumptionAudit,
+    evidenceBackedFindingAudit,
+    hotPathProof: stage06HotPathProof,
+    inventory,
+  });
+  const acceptanceProof = buildAcceptanceProof({
+    inventory,
+    surfaceRuns: [],
+    auditReceipt,
+    heuristicReceipt,
+    stage06AcceptanceProof,
+  });
   return {
     schemaVersion: ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_SCHEMA_VERSION,
     state: reason ? 'unavailable' : 'empty',
@@ -386,6 +571,10 @@ function emptyDiagnostics(projectId, reason = '') {
       rows: capabilityRows,
     },
     stageAcceptanceProof: acceptanceProof,
+    stage06AcceptanceProof,
+    calendarAssumptionAudit,
+    evidenceBackedFindingAudit,
+    stage06HotPathProof,
     finalUiAuditReceipt: auditReceipt,
     heuristicReviewReceipt: heuristicReceipt,
     evidence: buildEvidence(),
@@ -398,11 +587,11 @@ function buildEvidence() {
     lazyweb: {
       applied: true,
       query: 'diagnostics dashboard',
-      coverageStrength: 'strong',
-      topSimilarity: 0.591,
-      referenceCompanies: ['appsignal', 'logrocket', 'fingerprint', 'dash0', 'signoz', 'better-stack', 'atom-mobility', 'function-health'],
+      coverageStrength: 'moderate',
+      topSimilarity: 0.539,
+      referenceCompanies: ['appsignal', 'logrocket', 'fingerprint'],
       fullReport: 'unavailable',
-      fullReportUnavailableReason: 'CURRENT_MCP_SESSION_EXPOSED_SEARCH_ONLY_AFTER_LAZYWEB_UPDATE_RESTART_REQUIRED',
+      fullReportUnavailableReason: 'No current diagnostics screenshot was available in this local Electron session; C08 uses repo-native finalize-equivalent and heuristic receipts.',
     },
     uiCraft: {
       applied: true,
@@ -420,6 +609,13 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
       atlasMatrices: capabilityMap(capabilitySnapshot).atlasMatrices !== false,
       atlasHeatmap: capabilityMap(capabilitySnapshot).atlasHeatmap !== false,
       atlasReportsSavedQueries: capabilityMap(capabilitySnapshot).atlasReportsSavedQueries !== false,
+      atlasCalendarDefinitions: capabilityMap(capabilitySnapshot).atlasCalendarDefinitions !== false,
+      atlasSceneTemporalAnchors: capabilityMap(capabilitySnapshot).atlasSceneTemporalAnchors !== false,
+      atlasRelationSegmentsPerspective: capabilityMap(capabilitySnapshot).atlasRelationSegmentsPerspective !== false,
+      atlasTemporalLayout: capabilityMap(capabilitySnapshot).atlasTemporalLayout !== false,
+      atlasContinuityFactLedgers: capabilityMap(capabilitySnapshot).atlasContinuityFactLedgers !== false,
+      atlasContinuityFindings: capabilityMap(capabilitySnapshot).atlasContinuityFindings !== false,
+      atlasContinuityLedgerSurface: capabilityMap(capabilitySnapshot).atlasContinuityLedgerSurface !== false,
       atlasObservationAggregate: capabilityMap(capabilitySnapshot).atlasObservationAggregate !== false,
       atlasTemporalContinuity: capabilityMap(capabilitySnapshot).atlasTemporalContinuity !== false,
       atlasLocalGraph: capabilityMap(capabilitySnapshot).atlasLocalGraph !== false,
@@ -441,6 +637,31 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
       params: { projectId: params.projectId, languageCode: params.languageCode, rowLimit: 6, columnLimit: 6, tileLimit: 36, listLimit: 12 },
       capabilitySnapshot: surfaceCapabilitySnapshot,
     })),
+    runSurface('surface.atlas.calendarDefinitions', () => deriveAtlasCalendarDefinitions({
+      coreState,
+      params: { projectId: params.projectId, languageCode: params.languageCode },
+      capabilitySnapshot: surfaceCapabilitySnapshot,
+    })),
+    runSurface('surface.atlas.sceneTemporalAnchors', () => deriveAtlasSceneTemporalAnchors({
+      coreState,
+      params: { projectId: params.projectId, languageCode: params.languageCode },
+      capabilitySnapshot: surfaceCapabilitySnapshot,
+    })),
+    runSurface('surface.atlas.temporalLayout', () => deriveAtlasTemporalLayout({
+      coreState,
+      params: { projectId: params.projectId, languageCode: params.languageCode, sceneLimit: 24, segmentLimit: 24 },
+      capabilitySnapshot: surfaceCapabilitySnapshot,
+    })),
+    runSurface('surface.atlas.continuityFindings', () => deriveAtlasContinuityFindings({
+      coreState,
+      params: { projectId: params.projectId, languageCode: params.languageCode },
+      capabilitySnapshot: surfaceCapabilitySnapshot,
+    })),
+    runSurface('surface.atlas.continuityLedger', () => deriveAtlasContinuityLedgerSurface({
+      coreState,
+      params: { projectId: params.projectId, languageCode: params.languageCode, rowLimit: 12 },
+      capabilitySnapshot: surfaceCapabilitySnapshot,
+    })),
     runSurface('surface.atlas.reportsSavedQueries', () => deriveAtlasReportsSavedQueries({
       coreState,
       params: { projectId: params.projectId, languageCode: params.languageCode, limit: 8 },
@@ -451,7 +672,33 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
   const capabilityRows = buildCapabilityRows({ snapshot: capabilitySnapshot, surfaceRuns, inventory });
   const auditReceipt = buildAuditReceipt({ inventory, surfaceRuns });
   const heuristicReceipt = buildHeuristicReceipt({ inventory, capabilityRows });
-  const acceptanceProof = buildAcceptanceProof({ inventory, surfaceRuns, auditReceipt, heuristicReceipt });
+  const calendarAssumptionAudit = buildCalendarAssumptionAudit({
+    calendarDefinitions: surfaceValue(surfaceRuns, 'surface.atlas.calendarDefinitions'),
+    sceneTemporalAnchors: surfaceValue(surfaceRuns, 'surface.atlas.sceneTemporalAnchors'),
+  });
+  const evidenceBackedFindingAudit = buildEvidenceBackedFindingAudit({
+    continuityFindings: surfaceValue(surfaceRuns, 'surface.atlas.continuityFindings'),
+    continuityLedger: surfaceValue(surfaceRuns, 'surface.atlas.continuityLedger'),
+  });
+  const stage06HotPathProof = buildStage06HotPathProof({
+    heatmap: surfaceValue(surfaceRuns, 'surface.atlas.heatmap'),
+    temporalLayout: surfaceValue(surfaceRuns, 'surface.atlas.temporalLayout'),
+    continuityLedger: surfaceValue(surfaceRuns, 'surface.atlas.continuityLedger'),
+    matrices: surfaceValue(surfaceRuns, 'surface.atlas.matrices'),
+  });
+  const stage06AcceptanceProof = buildStage06AcceptanceProof({
+    calendarAssumptionAudit,
+    evidenceBackedFindingAudit,
+    hotPathProof: stage06HotPathProof,
+    inventory,
+  });
+  const acceptanceProof = buildAcceptanceProof({
+    inventory,
+    surfaceRuns,
+    auditReceipt,
+    heuristicReceipt,
+    stage06AcceptanceProof,
+  });
   const degradedSurfaceCount = inventory.rows.filter((row) => row.state === 'unavailable' || row.state === 'degraded').length;
   const degradedCapabilityCount = capabilityRows.filter((row) => row.severity === 'degraded').length;
   const diagnosticsHash = hashCanonicalValue({
@@ -460,6 +707,10 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
     acceptanceProof,
     auditReceipt,
     heuristicReceipt,
+    calendarAssumptionAudit,
+    evidenceBackedFindingAudit,
+    stage06HotPathProof,
+    stage06AcceptanceProof,
   });
   return {
     schemaVersion: ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_SCHEMA_VERSION,
@@ -484,6 +735,10 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
       rows: capabilityRows,
     },
     stageAcceptanceProof: acceptanceProof,
+    stage06AcceptanceProof,
+    calendarAssumptionAudit,
+    evidenceBackedFindingAudit,
+    stage06HotPathProof,
     finalUiAuditReceipt: auditReceipt,
     heuristicReviewReceipt: heuristicReceipt,
     evidence: buildEvidence(),

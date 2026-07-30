@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
+  "programStage": "E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T05:24:00Z",
+  "baseSha": "d429fc04689d3a9a5c4008d506865385b4da6fe7",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "This contour updates an existing Atlas product UI diagnostics surface to summarize Stage 06 time, calendar, continuity, degraded capability, acceptance, and Stage 07 handoff status.",
+  "designRouteEvidence": {
+    "lazyweb": {
+      "health": "healthy",
+      "version": "0.14.9",
+      "leadSearch": {
+        "query": "diagnostics dashboard",
+        "platform": "desktop",
+        "coverageStrength": "moderate",
+        "topSimilarity": 0.539,
+        "referenceCompanies": [
+          "appsignal",
+          "logrocket",
+          "fingerprint"
+        ],
+        "resultUse": "Reference-only diagnostics dashboard density, status-first grouping, compact degraded rows, and evidence-backed issue summary patterns."
+      },
+      "fullReport": "unavailable",
+      "fullReportUnavailableReason": "No current Electron diagnostics screenshot was available in this local session; C08 records a repo-native finalize-equivalent proof and heuristic receipt bound to the V5 canon instead."
+    },
+    "uiCraft": {
+      "applied": true,
+      "craftRead": "Desktop authoring diagnostics surface, status-first grouping, compact right-rail density, evidence-first degraded rows, no hidden mutation, and no new decorative UI system.",
+      "referencesRead": [
+        "SKILL.md",
+        "heuristics.md",
+        "finish-bar"
+      ]
+    },
+    "brainRefs": {
+      "command": "npm run brain:refs -- \"stage 06 atlas diagnostics handoff calendar continuity\"",
+      "result": "PASS_NO_MATCHES",
+      "topReference": "none"
+    },
+    "finalizeEquivalent": {
+      "applied": true,
+      "reviewMode": "repoNativeCodeAndContractAudit",
+      "verdict": "READY",
+      "blockShipFindings": [],
+      "majorFindings": [],
+      "evidence": "deriveAtlasDiagnosticsStageAcceptance embeds finalUiAuditReceipt, Stage 06 acceptance gates, degraded capability report, fallback inventory, and hot-path proof."
+    },
+    "heuristicReview": {
+      "applied": true,
+      "reviewMode": "repoNativeHeuristicReceipt",
+      "usabilityScoreJudged": 78,
+      "grade": "B",
+      "nielsenScores": {
+        "visibilityOfSystemStatus": 5,
+        "matchRealWorld": 4,
+        "userControlFreedom": 4,
+        "consistencyStandards": 4,
+        "errorPrevention": 5,
+        "recognitionRecall": 4,
+        "flexibilityEfficiency": 4,
+        "aestheticMinimalist": 4,
+        "errorRecovery": 4,
+        "helpDocumentation": 4
+      },
+      "designLaws": {
+        "fitts": "PASS",
+        "hick": "PASS",
+        "doherty": "PASS",
+        "clevelandMcGill": "PASS",
+        "miller": "PASS",
+        "tesler": "PASS"
+      },
+      "topFinding": "The diagnostics surface stays compact and status-first while explicitly naming Stage 06 degraded or out-of-scope handoff conditions."
+    },
+    "leonardo": "not-applicable-no-semantic-color-system-change",
+    "projectWallace": "not-applicable-css-change-contained-to-existing-right-rail-atlas-surface"
+  },
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.diagnosticsStage06Handoff",
+    "productPlane": {
+      "truthPath": "none",
+      "commandId": "none",
+      "mutationAuthority": "none",
+      "writePath": "none",
+      "readPath": "derived.atlas.diagnosticsStageAcceptance.v1",
+      "sourceReadModels": [
+        "derived.atlas.calendarDefinitions.v1",
+        "derived.atlas.sceneTemporalAnchors.v1",
+        "derived.atlas.temporalLayout.v1",
+        "derived.atlas.continuityFindings.v1",
+        "derived.atlas.continuityLedgerSurface.v1",
+        "derived.atlas.matrices.v1",
+        "derived.atlas.heatmap.v1",
+        "derived.atlas.reportsSavedQueries.v1"
+      ],
+      "ports": [
+        "query.atlasDiagnosticsStageAcceptance"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "cloudSync": false,
+      "accountSync": false,
+      "automaticCorrection": false,
+      "automaticApply": false,
+      "stage07Implementation": false,
+      "releaseReadinessClaim": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "surface.atlas.diagnosticsStageAcceptance.v1",
+      "host": "rightRail",
+      "slotId": "rightRail.context.atlas.diagnosticsStageAcceptance",
+      "providerId": "query.atlasDiagnosticsStageAcceptance",
+      "runtimeUiChanged": true,
+      "explicitOpenRequired": false,
+      "dispatchIntentOnly": false,
+      "displayName": "Stage 05 acceptance / Stage 06 handoff"
+    },
+    "authorityMap": {
+      "productTruth": "existing Product Core Atlas author truth and derived Atlas Stage 06 read models",
+      "commandAuthority": "none",
+      "designAuthority": "Design OS right-rail diagnostics surface manifest and typed slot",
+      "storageAuthority": "none",
+      "capabilityRevalidation": "diagnostics reads platform capability snapshot and reports disabled Stage 06 commands and surfaces as degraded rows"
+    },
+    "fallbacks": [
+      "ATLAS_DIAGNOSTICS_EMPTY",
+      "ATLAS_DIAGNOSTICS_DEGRADED",
+      "ATLAS_DIAGNOSTICS_UNAVAILABLE",
+      "ATLAS_CALENDAR_ASSUMPTION_DEGRADED",
+      "ATLAS_EVIDENCE_BACKED_FINDING_DEGRADED",
+      "ATLAS_STAGE_06_HOT_PATH_DEGRADED"
+    ],
+    "recovery": {
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "generationIdentityProof": true,
+      "revisionGuard": true,
+      "unknownTimeExplicit": true,
+      "unknownOutcomesExplicit": true,
+      "fallbackInventoryVisible": true,
+      "degradedCapabilityReportVisible": true,
+      "stage07BoundaryExplicit": true
+    },
+    "negativeBypassChecks": [
+      "disabled Stage 06 command capability becomes degraded report row",
+      "disabled continuity ledger surface appears unavailable in fallback inventory",
+      "calendar assumption audit forbids network time service or hidden assumptions",
+      "evidence-backed finding audit forbids automatic correction and automatic apply",
+      "hot-path proof requires heatmap, temporal layout, and continuity ledger explicit-open or query-only budget evidence",
+      "diagnostics derived sources contain no storage, network, DOM, platform, renderer, worker, daemon, command dispatch, manuscript mutation, project truth mutation, automatic correction, automatic apply, release readiness claim, or Stage 07 implementation side effects"
+    ]
+  },
+  "implementation": {
+    "commandIdsAdded": [
+      "none"
+    ],
+    "commandIdsReportedAsCapabilities": [
+      "atlas.calendar.define",
+      "atlas.sceneTemporalAnchor.set",
+      "atlas.continuityFact.record"
+    ],
+    "capabilitiesAdded": [
+      "none"
+    ],
+    "schemasAdded": [
+      "derived.atlas.stage06AcceptanceProof.v1",
+      "derived.atlas.calendarAssumptionAudit.v1",
+      "derived.atlas.evidenceBackedFindingAudit.v1",
+      "derived.atlas.stage06HotPathProof.v1"
+    ],
+    "surfaceUpdated": "rightRail.context.atlas.diagnosticsStageAcceptance",
+    "providerUpdated": "query.atlasDiagnosticsStageAcceptance",
+    "calendarAssumptionAudit": true,
+    "evidenceBackedFindingAudit": true,
+    "temporalAndContinuityDegradedReport": true,
+    "largeProjectUiHotPathProof": true,
+    "stage07HandoffBoundary": true,
+    "runtimeUiChanged": true,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node -c src/derived/atlas/deriveAtlasDiagnosticsStageAcceptance.mjs && node -c src/derived/atlas/atlasDiagnosticsTypes.mjs && node -c test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
+      "result": "PASS",
+      "summary": "C08 derived diagnostics module, diagnostics types, and focused contract parse"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
+      "result": "PASS",
+      "summary": "18 tests, 18 pass, 0 fail"
+    },
+    {
+      "command": "npm run brain:refs -- \"stage 06 atlas diagnostics handoff calendar continuity\"",
+      "result": "PASS",
+      "summary": "Command completed with no matching references; Design OS matrix and route doctrine were already read for the Stage 06 UI diagnostic contour."
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; COMMAND_NAMESPACE_CHECK_RESULT=PASS; MENU_OVERLAY_STACK_CHECK_RESULT=PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": true,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "read-only diagnostics projection; no project truth, manuscript, persistence, automatic correction, automatic apply, release readiness, or Stage 07 mutation",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E07_C00_STAGE_07_LANGUAGE_AND_CROSS_MANUSCRIPT_CONTOUR_COMPILATION"
+}

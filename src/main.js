@@ -366,6 +366,7 @@ const SCENE_HISTORY_QUERY_ID = 'query.sceneHistory';
 const ATLAS_OVERVIEW_QUERY_ID = 'query.atlasOverview';
 const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
 const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
+const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const HISTORY_CREATE_CHECKPOINT_COMMAND_ID = 'cmd.project.history.createCheckpoint';
 const HISTORY_RESTORE_PREVIEW_COMMAND_ID = 'cmd.project.history.restorePreview';
@@ -6944,6 +6945,18 @@ function loadAtlasRelationDossierModule() {
   return atlasRelationDossierModulePromise;
 }
 
+let atlasMatricesModulePromise = null;
+function loadAtlasMatricesModule() {
+  if (!atlasMatricesModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'atlas', 'deriveAtlasMatrices.mjs')).href;
+    atlasMatricesModulePromise = import(modulePath).catch((error) => {
+      atlasMatricesModulePromise = null;
+      throw error;
+    });
+  }
+  return atlasMatricesModulePromise;
+}
+
 async function normalizeProjectManifest(manifest, projectName = DEFAULT_PROJECT_NAME) {
   const source = isPlainObjectValue(manifest) ? manifest : {};
   const stableProjectId = normalizeStableProjectId(source.projectId);
@@ -7821,6 +7834,90 @@ function makeAtlasRelationDossierFallback(projectId, relationRequest, reason, ex
   };
 }
 
+function makeAtlasMatricesFallback(projectId, reason, extra = {}) {
+  return {
+    schemaVersion: 'derived.atlas.matrices.v1',
+    state: reason ? 'unavailable' : 'empty',
+    unavailableReason: reason || '',
+    surfaceManifest: {
+      schemaVersion: 'surface.atlas.matrices.v1',
+      surfaceId: 'surface.atlas.matrices',
+      providerId: ATLAS_MATRICES_QUERY_ID,
+      host: 'rightRail',
+      slotId: 'rightRail.context.atlas.matrices',
+      contributionKind: 'readOnlyProjection',
+      commandAuthority: 'none',
+      productMutation: false,
+      storageAuthority: false,
+    },
+    authority: {
+      readModelOnly: true,
+      commandAuthority: 'none',
+      projectTruthMutation: false,
+      storageMutation: false,
+      networkMutation: false,
+      rendererMutation: false,
+      heavySurface: false,
+      heatmapColorSystem: false,
+    },
+    projectId: typeof projectId === 'string' ? projectId : '',
+    summary: {
+      entityCount: 0,
+      sceneCount: 0,
+      entitySceneCellCount: 0,
+      relationCellCount: 0,
+      entitySceneListRowCount: 0,
+      relationListRowCount: 0,
+      omittedEntityCount: 0,
+      omittedSceneCount: 0,
+      omittedEntitySceneCellCount: 0,
+      omittedRelationCellCount: 0,
+      matrixHash: '',
+      invalidationKey: '',
+    },
+    entitySceneMatrix: {
+      schemaVersion: 'derived.atlas.entitySceneMatrix.v1',
+      state: reason ? 'unavailable' : 'empty',
+      rowAxis: { kind: 'entity', totalCount: 0, visibleCount: 0, omittedCount: 0, clipped: false },
+      columnAxis: { kind: 'scene', totalCount: 0, visibleCount: 0, omittedCount: 0, clipped: false },
+      columns: [],
+      rows: [],
+    },
+    relationMatrix: {
+      schemaVersion: 'derived.atlas.relationMatrix.v1',
+      state: reason ? 'unavailable' : 'empty',
+      rowAxis: { kind: 'entity', totalCount: 0, visibleCount: 0, omittedCount: 0, clipped: false },
+      columnAxis: { kind: 'entity', totalCount: 0, visibleCount: 0, omittedCount: 0, clipped: false },
+      columns: [],
+      rows: [],
+    },
+    listParity: {
+      entitySceneRows: [],
+      relationRows: [],
+      omittedEntitySceneRowCount: 0,
+      omittedRelationRowCount: 0,
+    },
+    accessibilityContract: {
+      schemaVersion: 'derived.atlas.matrixAccessibilityContract.v1',
+      tableFirst: true,
+      equivalentListParity: true,
+      keyboardNavigation: {
+        focusModel: 'roving-gridcell-tabindex',
+        supportedKeys: ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'],
+        wrap: false,
+      },
+    },
+    largeProjectBudgetProof: {
+      schemaVersion: 'derived.atlas.matrixLargeProjectBudgetProof.v1',
+      rowLimit: 0,
+      columnLimit: 0,
+      listLimit: 0,
+      clippingHonest: false,
+    },
+    ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
 function getAtlasAuthorDataForProjection(manifest = {}) {
   const atlas = isPlainObjectValue(manifest.atlas) ? manifest.atlas : {};
   if (atlas.schemaVersion !== 'atlas.author.v1' || !isPlainObjectValue(atlas.entities)) {
@@ -7981,6 +8078,16 @@ function normalizeAtlasRelationDossierPayload(payload = {}) {
     leftEntityId: typeof source.leftEntityId === 'string' ? source.leftEntityId.trim() : '',
     rightEntityId: typeof source.rightEntityId === 'string' ? source.rightEntityId.trim() : '',
     limit: Number.isSafeInteger(Number(source.limit)) ? Number(source.limit) : 8,
+  };
+}
+
+function normalizeAtlasMatricesPayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
+    rowLimit: Number.isSafeInteger(Number(source.rowLimit)) ? Number(source.rowLimit) : 8,
+    columnLimit: Number.isSafeInteger(Number(source.columnLimit)) ? Number(source.columnLimit) : 8,
+    listLimit: Number.isSafeInteger(Number(source.listLimit)) ? Number(source.listLimit) : 24,
   };
 }
 
@@ -8151,6 +8258,60 @@ async function handleWorkspaceAtlasRelationDossierQuery(payload = {}) {
         safePayload.projectId,
         relationRequest,
         error && typeof error.code === 'string' ? error.code : 'ATLAS_RELATION_DOSSIER_READ_FAILED',
+      ),
+    };
+  }
+}
+
+async function handleWorkspaceAtlasMatricesQuery(payload = {}) {
+  const safePayload = normalizeAtlasMatricesPayload(payload);
+  const matricesModule = await loadAtlasMatricesModule();
+  try {
+    const { projectId, coreState } = await buildAtlasOverviewCoreState();
+    if (safePayload.projectId && safePayload.projectId !== projectId) {
+      return {
+        ok: true,
+        atlasMatrices: makeAtlasMatricesFallback(safePayload.projectId, 'ATLAS_PROJECT_MISMATCH'),
+      };
+    }
+    const matrices = matricesModule.deriveAtlasMatrices({
+      coreState,
+      params: {
+        projectId,
+        rowLimit: safePayload.rowLimit,
+        columnLimit: safePayload.columnLimit,
+        listLimit: safePayload.listLimit,
+      },
+      capabilitySnapshot: {
+        platformId: 'node',
+        capabilities: {
+          atlasMatrices: true,
+          atlasObservationAggregate: true,
+          atlasTemporalContinuity: true,
+        },
+      },
+    });
+    if (!matrices.ok) {
+      return {
+        ok: true,
+        atlasMatrices: makeAtlasMatricesFallback(
+          projectId,
+          matrices.error?.reason || 'ATLAS_MATRICES_UNAVAILABLE',
+          { error: matrices.error || null },
+        ),
+      };
+    }
+    return {
+      ok: true,
+      atlasMatrices: matrices.value,
+    };
+  } catch (error) {
+    logDevError('query.atlasMatrices', error);
+    return {
+      ok: true,
+      atlasMatrices: makeAtlasMatricesFallback(
+        safePayload.projectId,
+        error && typeof error.code === 'string' ? error.code : 'ATLAS_MATRICES_READ_FAILED',
       ),
     };
   }
@@ -18143,6 +18304,9 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
   if (queryId === ATLAS_RELATION_DOSSIER_QUERY_ID) {
     return handleWorkspaceAtlasRelationDossierQuery(payload);
   }
+  if (queryId === ATLAS_MATRICES_QUERY_ID) {
+    return handleWorkspaceAtlasMatricesQuery(payload);
+  }
   if (queryId === ATLAS_CURRENT_SCENE_QUERY_ID) {
     return handleWorkspaceAtlasCurrentSceneQuery(payload);
   }
@@ -20042,6 +20206,7 @@ const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set([
   ATLAS_ENTITY_DOSSIER_QUERY_ID,
   ATLAS_CURRENT_SCENE_QUERY_ID,
   ATLAS_RELATION_DOSSIER_QUERY_ID,
+  ATLAS_MATRICES_QUERY_ID,
 ]);
 const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.plan.switchMode',

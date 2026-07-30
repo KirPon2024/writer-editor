@@ -66,6 +66,10 @@ export {
   ATLAS_GLOBAL_COMPOSITE_EDGE_KIND,
   ATLAS_GLOBAL_COMPOSITE_EDGE_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_GRAPH_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_GRAPH_JOB_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_GRAPH_QUEUE_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_GRAPH_RESULT_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_GRAPH_TRIGGER,
   ATLAS_GLOBAL_COMPOSITE_NODE_KIND,
   ATLAS_GLOBAL_COMPOSITE_NODE_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_SOURCE_REF_SCHEMA_VERSION,
@@ -315,6 +319,12 @@ export {
   deriveAtlasGlobalCompositeGraph,
   ATLAS_GLOBAL_COMPOSITE_GRAPH_VIEW_ID,
 } from './deriveAtlasGlobalCompositeGraph.mjs';
+export {
+  acceptAtlasGlobalCompositeGraphResult,
+  coalesceAtlasGlobalCompositeGraphJobs,
+  createAtlasGlobalCompositeGraphJob,
+  runAtlasGlobalCompositeGraphJob,
+} from './scheduleAtlasGlobalCompositeGraph.mjs';
 export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOverview.mjs';
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';

@@ -14,6 +14,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_SAVED_QUERY_SAVE: 'atlas.savedQuery.save',
   ATLAS_CALENDAR_DEFINE: 'atlas.calendar.define',
   ATLAS_SCENE_TEMPORAL_ANCHOR_SET: 'atlas.sceneTemporalAnchor.set',
+  ATLAS_CONTINUITY_FACT_RECORD: 'atlas.continuityFact.record',
   IDEA_CREATE: 'idea.create',
   IDEA_ORIGIN_LINK_ADD: 'idea.originLink.add',
   MEANING_PROMOTE: 'meaning.promote',
@@ -65,6 +66,26 @@ function isPlainObject(value) {
   return !!value && typeof value === 'object' && !Array.isArray(value);
 }
 
+function createEmptyAtlasContinuityFactLedgers() {
+  return {
+    location: {},
+    knowledge: {},
+    object: {},
+    promise: {},
+  };
+}
+
+function normalizeAtlasContinuityFactLedgers(input) {
+  const source = isPlainObject(input) ? input : {};
+  const empty = createEmptyAtlasContinuityFactLedgers();
+  return {
+    location: isPlainObject(source.location) ? cloneJson(source.location) : empty.location,
+    knowledge: isPlainObject(source.knowledge) ? cloneJson(source.knowledge) : empty.knowledge,
+    object: isPlainObject(source.object) ? cloneJson(source.object) : empty.object,
+    promise: isPlainObject(source.promise) ? cloneJson(source.promise) : empty.promise,
+  };
+}
+
 function createEmptyAtlasAuthorData() {
   return {
     schemaVersion: ATLAS_AUTHOR_SCHEMA_VERSION,
@@ -77,6 +98,7 @@ function createEmptyAtlasAuthorData() {
     savedQueries: {},
     calendarDefinitions: {},
     sceneTemporalAnchors: {},
+    continuityFactLedgers: createEmptyAtlasContinuityFactLedgers(),
   };
 }
 
@@ -96,6 +118,7 @@ function normalizeAtlasAuthorData(input) {
     savedQueries: isPlainObject(input.savedQueries) ? cloneJson(input.savedQueries) : {},
     calendarDefinitions: isPlainObject(input.calendarDefinitions) ? cloneJson(input.calendarDefinitions) : {},
     sceneTemporalAnchors: isPlainObject(input.sceneTemporalAnchors) ? cloneJson(input.sceneTemporalAnchors) : {},
+    continuityFactLedgers: normalizeAtlasContinuityFactLedgers(input.continuityFactLedgers),
   };
 }
 
@@ -1160,6 +1183,161 @@ function applyAtlasSceneTemporalAnchorSet(state, payload) {
   return ok(next);
 }
 
+function normalizeAtlasContinuityLedgerKind(value) {
+  const ledgerKind = trimString(value);
+  if (ledgerKind === 'location' || ledgerKind === 'knowledge' || ledgerKind === 'object' || ledgerKind === 'promise') return ledgerKind;
+  return '';
+}
+
+function normalizeAtlasPromiseState(value) {
+  const promiseState = trimString(value);
+  if (promiseState === 'open' || promiseState === 'fulfilled' || promiseState === 'broken' || promiseState === 'unknown') return promiseState;
+  return '';
+}
+
+function normalizeAtlasContinuityRelatedEntityIds(values) {
+  return uniqueStringList(values).slice(0, 24);
+}
+
+function applyAtlasContinuityFactRecord(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const ledgerKind = normalizeAtlasContinuityLedgerKind(payload?.ledgerKind);
+  const sceneId = trimString(payload?.sceneId);
+  const subjectEntityId = trimString(payload?.subjectEntityId || payload?.entityId);
+  const factLabel = trimString(payload?.factLabel || payload?.label);
+  const factValue = trimString(payload?.factValue || payload?.value);
+  const promiseState = ledgerKind === 'promise' ? normalizeAtlasPromiseState(payload?.promiseState) : '';
+  const relatedEntityIds = normalizeAtlasContinuityRelatedEntityIds(payload?.relatedEntityIds);
+  const note = trimString(payload?.note);
+  const evidenceAnchor = normalizeEvidenceAnchor(payload?.evidenceAnchor);
+  const factId = trimString(payload?.factId) || `atlas-continuity-fact:${hashCanonicalValue({
+    projectId,
+    ledgerKind,
+    sceneId,
+    subjectEntityId,
+    factLabel,
+  })}`;
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'atlas.continuityFact.record', 'PROJECT_ID_REQUIRED');
+  }
+  if (!ledgerKind) {
+    return fail(state, 'E_ATLAS_CONTINUITY_FACT_LEDGER_KIND_INVALID', 'atlas.continuityFact.record', 'LEDGER_KIND_INVALID', { projectId });
+  }
+  if (!sceneId) {
+    return fail(state, 'E_CORE_SCENE_ID_REQUIRED', 'atlas.continuityFact.record', 'SCENE_ID_REQUIRED', { projectId, ledgerKind });
+  }
+  if (!subjectEntityId) {
+    return fail(state, 'E_ATLAS_ENTITY_ID_REQUIRED', 'atlas.continuityFact.record', 'ENTITY_ID_REQUIRED', { projectId, ledgerKind, sceneId });
+  }
+  if (!factLabel) {
+    return fail(state, 'E_ATLAS_CONTINUITY_FACT_LABEL_REQUIRED', 'atlas.continuityFact.record', 'FACT_LABEL_REQUIRED', { projectId, ledgerKind, sceneId });
+  }
+  if (!factValue) {
+    return fail(state, 'E_ATLAS_CONTINUITY_FACT_VALUE_REQUIRED', 'atlas.continuityFact.record', 'FACT_VALUE_REQUIRED', { projectId, ledgerKind, sceneId });
+  }
+  if (ledgerKind === 'promise' && !promiseState) {
+    return fail(state, 'E_ATLAS_CONTINUITY_FACT_PROMISE_STATE_INVALID', 'atlas.continuityFact.record', 'PROMISE_STATE_INVALID', {
+      projectId,
+      ledgerKind,
+      sceneId,
+    });
+  }
+  if (!evidenceAnchor) {
+    return fail(state, 'E_ATLAS_EVIDENCE_ANCHOR_REQUIRED', 'atlas.continuityFact.record', 'EVIDENCE_ANCHOR_REQUIRED', {
+      projectId,
+      ledgerKind,
+      sceneId,
+      subjectEntityId,
+    });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'atlas.continuityFact.record', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  if (!project.scenes || !project.scenes[sceneId]) {
+    return fail(state, 'E_CORE_SCENE_NOT_FOUND', 'atlas.continuityFact.record', 'SCENE_NOT_FOUND', { projectId, sceneId });
+  }
+
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  if (!atlas.entities[subjectEntityId]) {
+    return fail(state, 'E_ATLAS_ENTITY_NOT_FOUND', 'atlas.continuityFact.record', 'ENTITY_NOT_FOUND', { projectId, subjectEntityId });
+  }
+  for (const relatedEntityId of relatedEntityIds) {
+    if (!atlas.entities[relatedEntityId]) {
+      return fail(state, 'E_ATLAS_RELATED_ENTITY_NOT_FOUND', 'atlas.continuityFact.record', 'RELATED_ENTITY_NOT_FOUND', {
+        projectId,
+        relatedEntityId,
+      });
+    }
+  }
+  if (evidenceAnchor.sceneId && evidenceAnchor.sceneId !== sceneId) {
+    return fail(state, 'E_ATLAS_EVIDENCE_SCENE_MISMATCH', 'atlas.continuityFact.record', 'EVIDENCE_SCENE_MISMATCH', {
+      sceneId,
+      evidenceSceneId: evidenceAnchor.sceneId,
+    });
+  }
+  if (evidenceAnchor.entityId && evidenceAnchor.entityId !== subjectEntityId) {
+    return fail(state, 'E_ATLAS_EVIDENCE_ENTITY_MISMATCH', 'atlas.continuityFact.record', 'EVIDENCE_ENTITY_MISMATCH', {
+      subjectEntityId,
+      evidenceEntityId: evidenceAnchor.entityId,
+    });
+  }
+  const staleEvidence = validateEvidenceStillMatchesScene({
+    state,
+    project,
+    sceneId,
+    evidenceAnchor,
+    op: 'atlas.continuityFact.record',
+    reasonDetails: { projectId, ledgerKind, factId },
+  });
+  if (staleEvidence) return staleEvidence;
+
+  const ledgers = normalizeAtlasContinuityFactLedgers(atlas.continuityFactLedgers);
+  const existing = isPlainObject(ledgers[ledgerKind]?.[factId]) ? ledgers[ledgerKind][factId] : null;
+  const expectedFactHash = trimString(payload?.expectedFactHash);
+  const actualFactHash = existing ? hashCanonicalValue(existing) : '';
+  if (expectedFactHash && expectedFactHash !== actualFactHash) {
+    return fail(state, 'E_ATLAS_CONTINUITY_FACT_STALE', 'atlas.continuityFact.record', 'CONTINUITY_FACT_STALE', {
+      projectId,
+      ledgerKind,
+      factId,
+      expectedFactHash,
+      actualFactHash,
+    });
+  }
+
+  const commandSeq = state.data.lastCommandId + 1;
+  const factBase = {
+    schemaVersion: 'atlas.continuityFact.v1',
+    id: factId,
+    projectId,
+    ledgerKind,
+    sceneId,
+    subjectEntityId,
+    relatedEntityIds,
+    factLabel,
+    factValue,
+    promiseState,
+    evidenceAnchor,
+    note,
+    source: 'author',
+    createdByCommandSeq: Number.isInteger(existing?.createdByCommandSeq) ? existing.createdByCommandSeq : commandSeq,
+    updatedByCommandSeq: commandSeq,
+  };
+  const next = cloneJson(state);
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  nextAtlas.continuityFactLedgers = normalizeAtlasContinuityFactLedgers(nextAtlas.continuityFactLedgers);
+  nextAtlas.continuityFactLedgers[ledgerKind][factId] = {
+    ...factBase,
+    sourceHash: hashCanonicalValue(factBase),
+  };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
 function normalizeAtlasSavedQueryFilter(input) {
   const source = isPlainObject(input) ? input : {};
   const entityIds = Array.isArray(source.entityIds)
@@ -2135,6 +2313,9 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_SCENE_TEMPORAL_ANCHOR_SET) {
     return applyAtlasSceneTemporalAnchorSet(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_CONTINUITY_FACT_RECORD) {
+    return applyAtlasContinuityFactRecord(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.IDEA_CREATE) {
     return applyIdeaCreate(state, command.payload || {});

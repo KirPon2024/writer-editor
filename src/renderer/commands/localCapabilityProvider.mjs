@@ -35,6 +35,7 @@ const FREE_ALWAYS_AVAILABLE_COMMAND_IDS = Object.freeze([
   'atlas.evidence.reattach',
   'atlas.calendar.define',
   'atlas.sceneTemporalAnchor.set',
+  'atlas.continuityFact.record',
   'idea.create',
   'idea.originLink.add',
   'meaning.promote',

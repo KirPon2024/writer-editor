@@ -204,6 +204,29 @@ export type AtlasSceneTemporalAnchorState = {
   updatedByCommandSeq: number
 }
 
+export type AtlasContinuityLedgerKindState = "location" | "knowledge" | "object" | "promise"
+
+export type AtlasContinuityFactState = {
+  schemaVersion: "atlas.continuityFact.v1"
+  id: string
+  projectId: string
+  ledgerKind: AtlasContinuityLedgerKindState
+  sceneId: string
+  subjectEntityId: string
+  relatedEntityIds: string[]
+  factLabel: string
+  factValue: string
+  promiseState: "" | "open" | "fulfilled" | "broken" | "unknown"
+  evidenceAnchor: AtlasEvidenceAnchorState
+  note: string
+  source: "author"
+  sourceHash: string
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
+export type AtlasContinuityFactLedgersState = Record<AtlasContinuityLedgerKindState, Record<string, AtlasContinuityFactState>>
+
 export type AtlasAuthorDataState = {
   schemaVersion: "atlas.author.v1"
   entities: Record<string, AtlasEntityState>
@@ -215,6 +238,7 @@ export type AtlasAuthorDataState = {
   savedQueries?: Record<string, AtlasSavedQueryState>
   calendarDefinitions?: Record<string, AtlasCalendarDefinitionState>
   sceneTemporalAnchors?: Record<string, AtlasSceneTemporalAnchorState>
+  continuityFactLedgers?: AtlasContinuityFactLedgersState
 }
 
 export type ManualMapNodeState = {
@@ -371,6 +395,10 @@ export type CoreCommand =
   | {
       type: "atlas.sceneTemporalAnchor.set"
       payload: { projectId: string; sceneId: string; anchorId?: string; storyRange: AtlasTemporalRangeState; narrativeRange: AtlasTemporalRangeState; note?: string; expectedAnchorHash?: string }
+    }
+  | {
+      type: "atlas.continuityFact.record"
+      payload: { projectId: string; ledgerKind: AtlasContinuityLedgerKindState; sceneId: string; subjectEntityId: string; factId?: string; factLabel: string; factValue: string; promiseState?: "open" | "fulfilled" | "broken" | "unknown"; relatedEntityIds?: string[]; evidenceAnchor: AtlasEvidenceAnchorState; note?: string; expectedFactHash?: string }
     }
   | {
       type: "idea.create"

@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E06_C04_ATLAS_CONTINUITY_FACT_LEDGERS_COMMAND_BOUNDARY",
+  "programStage": "E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T04:06:25Z",
+  "baseSha": "de2887f961a98b054bd29653360d885e737f75a7",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds Core author truth, Command Kernel capability policy, and read-only derived projection for continuity fact ledgers. It changes no product UI composition, typography, palette, layout, screen, or visual contract.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.continuityFactLedgers",
+    "productPlane": {
+      "truthPath": "atlas.author.v1.continuityFactLedgers",
+      "commandId": "atlas.continuityFact.record",
+      "mutationAuthority": "Core reduceCoreState",
+      "writePath": "Command Kernel revalidation then Core command reducer",
+      "readPath": "derived.atlas.continuityFactLedgers.v1",
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "cloudSync": false,
+      "accountSync": false,
+      "automaticFindingSynthesis": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "surface.atlas.continuityFactLedgers.v1",
+      "host": "rightRail",
+      "slotId": "rightRail.context.atlas.continuityFactLedgers",
+      "providerId": "query.atlasContinuityFactLedgers",
+      "runtimeUiChanged": false,
+      "dispatchIntentOnly": true
+    },
+    "authorityMap": {
+      "productTruth": "Product Core",
+      "commandAuthority": "Command Kernel",
+      "designAuthority": "Design OS read-only projection manifest",
+      "storageAuthority": "existing project persistence only",
+      "capabilityRevalidation": "node-only cap.atlas.continuityFact.record"
+    },
+    "fallbacks": [
+      "ATLAS_CONTINUITY_FACT_LEDGERS_EMPTY",
+      "ATLAS_CONTINUITY_FACT_LEDGERS_DEGRADED",
+      "ATLAS_CONTINUITY_FACT_LEDGERS_UNAVAILABLE"
+    ],
+    "recovery": {
+      "projectTruthReopenProof": true,
+      "jsonRoundTripProof": true,
+      "staleEvidenceProtection": true,
+      "staleFactHashProtection": true
+    },
+    "negativeBypassChecks": [
+      "missing evidence anchor fails closed",
+      "stale evidence anchor fails closed without mutation",
+      "stale fact hash fails closed without mutation",
+      "web capability denies atlas.continuityFact.record",
+      "derived continuity fact ledger sources contain no storage, network, DOM, platform, or renderer side effects",
+      "no finding synthesis, automatic apply, collaboration history, visual ledger surface, external ontology service, worker, daemon, or new dependency is added"
+    ]
+  },
+  "implementation": {
+    "commandIdsAdded": [
+      "atlas.continuityFact.record"
+    ],
+    "capabilitiesAdded": [
+      "cap.atlas.continuityFact.record"
+    ],
+    "schemasAdded": [
+      "atlas.continuityFact.v1",
+      "derived.atlas.continuityFactLedgers.v1",
+      "surface.atlas.continuityFactLedgers.v1"
+    ],
+    "ledgerKinds": [
+      "location",
+      "knowledge",
+      "object",
+      "promise"
+    ],
+    "evidenceAnchorValidation": true,
+    "staleFactHashProtection": true,
+    "runtimeUiChanged": false,
+    "newDependencies": false,
+    "c03ReceiptNextContourReconciled": true
+  },
+  "validation": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c04-atlas-continuity-fact-ledgers-command-boundary.contract.test.js",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node -c src/core/runtime.mjs && node -c src/core/contracts.ts && node -c src/derived/atlas/deriveAtlasContinuityFactLedgers.mjs && node -c src/derived/atlas/atlasContinuityFactLedgerTypes.mjs && node -c test/contracts/yalken-atlas-v5-e06-c04-atlas-continuity-fact-ledgers-command-boundary.contract.test.js",
+      "result": "PASS",
+      "summary": "Core, contract, derived modules, and focused contract parse"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c01-atlas-calendar-definition-conversion-command-boundary.contract.test.js test/contracts/yalken-atlas-v5-e06-c02-atlas-temporal-range-model-scene-anchors.contract.test.js test/contracts/yalken-atlas-v5-e04-c03-atlas-cooccurrence-first-last-absence-intervals.contract.test.js test/contracts/yalken-atlas-v5-e06-c03-atlas-relation-segments-perspective-model.contract.test.js test/contracts/yalken-atlas-v5-e06-c04-atlas-continuity-fact-ledgers-command-boundary.contract.test.js",
+      "result": "PASS",
+      "summary": "21 tests, 21 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "full runner reached 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline, command namespace, menu, law path canon, execution sequence, and release candidate verification passed"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "JSON save and reopen proof in contract",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_AND_DISAPPEARANCE_CHECKS"
+}

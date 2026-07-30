@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_SOURCE_ISOLATION_RECEIPT.json",
+      "sha256": "1f5ab3ea481b9c8845a0a224eca197ae9666d8abfc6ae639257e0e9c9e9f475e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_AND_SOURCE_ISOLATION",
+      "approvedAtUtc": "2026-07-30T08:17:52.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E08 C01 receipt: records the pure derived global composite graph read model, typed sourceRefs for Atlas local graph, Atlas temporal continuity, manual map graph, plot, idea, meaning, and cross-projection impact preview, deterministic compositeHash, source projection hash binding, read-only authority proof, source isolation, fail-closed capability and source projection behavior, no UI, no renderer adapter, no storage, no network, no manuscript mutation, no project truth mutation, no source projection write-back, no persistent derived truth, no dependency, and handoff to E08 C02."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e08-c01-global-composite-graph-read-model-source-isolation.contract.test.js",
+      "sha256": "f408c937526a3dcf3efbb3b9db85ff345aff5eedf54e063de93cd63e7a011c59",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_AND_SOURCE_ISOLATION",
+      "approvedAtUtc": "2026-07-30T08:17:52.000Z",
+      "rationale": "Approve E08 C01 contract coverage: proves the global composite graph assembles read-only source refs from every Stage 08 source family, produces stable deterministic compositeHash output, exposes typed composite node and edge kinds including crossProjectionLink and manual target refs, carries source hashes and invalidation keys, fails closed for missing project id, disabled composite capability, and disabled source projection, exports through derived barrels, and keeps storage, network, electron, DOM, command dispatch, source write-back, project truth mutation, manuscript mutation, and renderer mutation paths absent."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION_RECEIPT.json",
       "sha256": "0ca591c6024a8300787b0c6cd9130ef8118ee38d0601584f2666d881ec95183f",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION",

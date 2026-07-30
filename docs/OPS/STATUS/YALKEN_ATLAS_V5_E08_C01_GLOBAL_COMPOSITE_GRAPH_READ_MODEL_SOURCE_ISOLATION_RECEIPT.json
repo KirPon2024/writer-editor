@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_SOURCE_ISOLATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_AND_SOURCE_ISOLATION",
+  "programStage": "E08_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T08:17:52Z",
+  "baseSha": "be36e8fbb4bc4e4ec2408173f2ed53834bc8d11f",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E08 C01 adds a pure derived read model and source isolation contract for a global composite graph. It changes no product UI screen, surface manifest, visual layout, palette, typography, interaction model, renderer adapter, or Design OS slot.",
+  "featureIntegrationManifest": {
+    "featureId": "atlas.globalCompositeGraph",
+    "productPlane": {
+      "sourceTruth": "project.core plus existing derived projections",
+      "writePath": "none",
+      "readPath": "deriveAtlasGlobalCompositeGraph",
+      "ports": [],
+      "adapters": [],
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "storageMutation": false,
+      "networkMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifest": "none in this contour",
+      "typedSlot": "none in this contour",
+      "commandCatalog": "read-only, no command dispatch",
+      "rendererAdapter": "none in this contour"
+    },
+    "authorityMap": {
+      "productCoreOwns": [
+        "manuscript scenes",
+        "manual map author truth",
+        "idea author truth",
+        "meaning author truth",
+        "Atlas decisions"
+      ],
+      "commandKernelOwns": [
+        "future composite graph opening intent",
+        "future source navigation intents"
+      ],
+      "designOsOwns": [
+        "no surface in E08 C01"
+      ],
+      "derivedReadModelOwns": [
+        "sourceRefs",
+        "typed composite nodes",
+        "typed composite edges",
+        "deterministic compositeHash"
+      ]
+    },
+    "negativeBypassChecks": [
+      "no sourceProjectionWriteBack true",
+      "no projectTruthMutation true",
+      "no manuscriptMutation true",
+      "no storageMutation true",
+      "no networkMutation true",
+      "no rendererMutation true",
+      "disabled composite capability fails closed",
+      "disabled source projection fails closed before partial publish"
+    ]
+  },
+  "runtimeFacts": {
+    "globalCompositeGraphExists": true,
+    "globalCompositeGraphViewId": "derived.atlas.globalCompositeGraph.v1",
+    "sourceProjectionFamilies": [
+      "atlas.localGraph",
+      "atlas.temporalContinuity",
+      "manualMap.graph",
+      "plot.projection",
+      "idea.projection",
+      "meaning.projection",
+      "crossProjection.impactPreview"
+    ],
+    "sourceRefsTyped": true,
+    "sourceRefsCarryHashes": true,
+    "deterministicCompositeHash": true,
+    "readModelOnly": true,
+    "sourceProjectionWriteBack": false,
+    "projectTruthMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "persistentDerivedTruth": false,
+    "manualMapDiscovery": "project.manualMaps.maps keys only; no storage scan",
+    "crossProjectionBinding": "crossProjection.impactPreview is derived with the current coreStateHash and contributes typed crossProjectionLink edges"
+  },
+  "changedArtifacts": [
+    "atlasGlobalCompositeGraphTypes.mjs",
+    "deriveAtlasGlobalCompositeGraph.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e08-c01-global-composite-graph-read-model-source-isolation.contract.test.js",
+    "YALKEN_ATLAS_V5_E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_SOURCE_ISOLATION_RECEIPT.json"
+  ],
+  "validation": [
+    {
+      "command": "node --check atlasGlobalCompositeGraphTypes deriveAtlasGlobalCompositeGraph E08 C01 contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E08 C01 contract",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node --test E08 C00 and E08 C01 contracts",
+      "result": "PASS",
+      "summary": "8 tests, 8 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; release/perf/menu/law/execution checks PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E08 C01 is pure derived output. Re-running from project core and source projection hashes rebuilds the same compositeHash; no runtime persistence, UI, storage, network, or source write-back exists.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_AND_STALE_DISCARD"
+}

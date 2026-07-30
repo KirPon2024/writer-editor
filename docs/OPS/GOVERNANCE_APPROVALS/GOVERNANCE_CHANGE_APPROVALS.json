@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "39f66523a7224afa325e1e6c00ea4ea3103b6bbb05c7aa51fd76814a49d5e443",
+      "sha256": "283ec0328d4ef10d97dcf68725047fb4cbbf9168aede6baac26c95f62354c4fe",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T16:05:00.000Z",
-      "rationale": "Approve bounded public barrel export for B01 through B05 Review Transport helpers: exposes manifest, package-aware parser, classifier, and exact apply admission adapter constants/functions through the existing Revision Bridge entrypoint while preserving main command authority, existing exact writer ownership, no renderer or UI authority, no network, no dependency, no product certification expansion, and no direct parser or comment writer authority."
+      "approvedAtUtc": "2026-07-30T15:56:54.000Z",
+      "rationale": "Approve bounded public barrel export for B01 through B05 Review Transport helpers plus E10 C01 stable comment anchor packet helpers: exposes manifest, package-aware parser, classifier, exact apply admission adapter, and pure stable comment anchor packet constants/functions through the existing Revision Bridge entrypoint while preserving main command authority, existing exact writer ownership, durable comment identity preference, canonical browser-safe SHA identities, preview-only decision rows, no renderer or UI authority, no storage adapter, no network, no dependency, no product certification expansion, no automatic comment writer authority, and no second comment truth."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -5327,6 +5327,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C00_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOUR_COMPILATION",
       "approvedAtUtc": "2026-07-30T15:40:21.000Z",
       "rationale": "Approve E10 C00 contract coverage: proves E09 C05 handoff to Stage 10 rather than final Program DoD, Stage 10 bounded linear queue, required coverage for comment anchors, decisions, history projection, existing collab event log replay, actor identity, causal ordering, offline queue, recovery, transport-neutral exchange, conflict surfaces, and Stage 10 acceptance; probes existing commentsHistory and collab APIs plus RTK B00-B03 contracts; rejects false-green validation and source claims for network adapter activation, second operation log truth, second comment truth, transport Core truth, CRDT Core adoption, runtime downloads, dynamic executable plugins, project truth mutation, manuscript mutation, storage mutation, renderer mutation, release readiness, and final Program DoD."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e10-c01-stable-comment-anchors-decision-survival.contract.test.js",
+      "sha256": "221136eb560a9c3f2e067992a3787365349b7d7da11e09710570febcb4dc99fd",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C01_STABLE_COMMENT_ANCHORS_AND_DECISION_SURVIVAL",
+      "approvedAtUtc": "2026-07-30T15:56:54.000Z",
+      "rationale": "Approve E10 C01 focused contract: proves RTK modern comment graph reuse, stable anchor packet shape, durable identity and decision-row survival across Word comment id drift, no implicit placement fabrication, no auto-apply or manuscript write authority, derived comments projection without stored truth, E10 C00 handoff binding, and local preview-only source boundaries."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C01_STABLE_COMMENT_ANCHORS_DECISION_SURVIVAL_RECEIPT.json",
+      "sha256": "fc2410814878002ad91fa3ebf17f42180a94fb103e9cd6fe64ac437886abc796",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C01_STABLE_COMMENT_ANCHORS_AND_DECISION_SURVIVAL",
+      "approvedAtUtc": "2026-07-30T16:11:43.000Z",
+      "rationale": "Approve bounded E10 C01 final receipt: records stable comment anchor packet and decision survival scope, RTK B03/B04/B05 reuse, commentsHistory read-only projection, no implicit placement, no auto-apply, no manuscript write authority, no second comment truth, no second operation log truth, no transport Core truth, no network, no storage adapter, no UI, no dependency, focused and adjacent local PASS evidence, ops PASS, doctrine PASS, OSS PASS, governance PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
     }
   ]
 }

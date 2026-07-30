@@ -1,3 +1,5 @@
+import { hashCanonicalValue } from '../../core/browser-safe-hash.mjs';
+
 const PACKET_VALID_CODE = 'REVISION_BRIDGE_PACKET_VALID';
 const PACKET_INVALID_CODE = 'E_REVISION_BRIDGE_PACKET_INVALID';
 const APPLY_BLOCKED_CODE = 'E_REVISION_BRIDGE_APPLY_BLOCKED';
@@ -207,6 +209,8 @@ export const REVISION_BRIDGE_PLACEMENT_BATCH_DIAGNOSTICS_SCHEMA = 'revision-brid
 export const REVISION_BRIDGE_REVISION_SESSION_SKELETON_ADMISSION_PREVIEW_SCHEMA =
   'revision-bridge.revision-session-skeleton-admission-preview.v1';
 export const REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_SCHEMA = 'revision-bridge.comment-survival-preview.v1';
+export const REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_SCHEMA =
+  'revision-bridge.stable-comment-anchor-packet.v1';
 const COMMENT_SURVIVAL_PREVIEW_READY_CODE = 'REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_READY';
 const COMMENT_SURVIVAL_PREVIEW_DIAGNOSTICS_CODE = 'E_REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_DIAGNOSTICS';
 const COMMENT_SURVIVAL_THREAD_INVALID_CODE = 'REVISION_BRIDGE_COMMENT_SURVIVAL_THREAD_INVALID';
@@ -218,6 +222,13 @@ const COMMENT_SURVIVAL_PLACEMENT_THREAD_MISSING_CODE = 'REVISION_BRIDGE_COMMENT_
 const COMMENT_SURVIVAL_PLACEMENT_NOT_EVALUATED_CODE = 'REVISION_BRIDGE_COMMENT_SURVIVAL_PLACEMENT_NOT_EVALUATED';
 const COMMENT_SURVIVAL_LEGACY_PLACEMENT_UNSUPPORTED_CODE =
   'REVISION_BRIDGE_COMMENT_SURVIVAL_LEGACY_PLACEMENT_UNSUPPORTED';
+const STABLE_COMMENT_ANCHOR_PACKET_READY_CODE = 'REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_READY';
+const STABLE_COMMENT_ANCHOR_PACKET_DIAGNOSTICS_CODE =
+  'E_REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_DIAGNOSTICS';
+const STABLE_COMMENT_ANCHOR_PACKET_EMPTY_CODE =
+  'REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_EMPTY';
+const STABLE_COMMENT_ANCHOR_PACKET_NO_IMPLICIT_PLACEMENT_CODE =
+  'REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_NO_IMPLICIT_PLACEMENT';
 const PLACEMENT_BATCH_DIAGNOSTICS_EVALUATED_CODE = 'REVISION_BRIDGE_PLACEMENT_BATCH_DIAGNOSTICS_EVALUATED';
 const PLACEMENT_BATCH_DIAGNOSTICS_VALIDATION_FAILED_CODE = 'REVISION_BRIDGE_PLACEMENT_BATCH_DIAGNOSTICS_VALIDATION_FAILED';
 const PLACEMENT_BATCH_DIAGNOSTICS_DIAGNOSTICS_CODE = 'REVISION_BRIDGE_PLACEMENT_BATCH_DIAGNOSTICS_DIAGNOSTICS';
@@ -234,6 +245,13 @@ export const REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_REASON_CODES = Object.free
   COMMENT_SURVIVAL_PLACEMENT_THREAD_MISSING_CODE,
   COMMENT_SURVIVAL_PLACEMENT_NOT_EVALUATED_CODE,
   COMMENT_SURVIVAL_LEGACY_PLACEMENT_UNSUPPORTED_CODE,
+]);
+export const REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_REASON_CODES = Object.freeze([
+  STABLE_COMMENT_ANCHOR_PACKET_READY_CODE,
+  STABLE_COMMENT_ANCHOR_PACKET_DIAGNOSTICS_CODE,
+  STABLE_COMMENT_ANCHOR_PACKET_EMPTY_CODE,
+  STABLE_COMMENT_ANCHOR_PACKET_NO_IMPLICIT_PLACEMENT_CODE,
+  ...REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_REASON_CODES,
 ]);
 export const REVISION_BRIDGE_PLACEMENT_BATCH_DIAGNOSTICS_REASON_CODES = Object.freeze([
   PLACEMENT_BATCH_DIAGNOSTICS_EVALUATED_CODE,
@@ -579,6 +597,10 @@ function normalizeStringEnum(value, allowedValues, fallback) {
 
 function hasOwnField(input, field) {
   return isPlainObject(input) && Object.prototype.hasOwnProperty.call(input, field);
+}
+
+function stableRevisionBridgeDigest(value) {
+  return `sha256:${hashCanonicalValue(value)}`;
 }
 
 function isDocxPackageBoundaryPlainObject(value) {
@@ -7236,6 +7258,322 @@ export function buildCommentSurvivalPreview(input = {}) {
   };
 }
 // RB_18_COMMENT_SURVIVAL_PREVIEW_CONTRACTS_END
+
+// E10_C01_STABLE_COMMENT_ANCHOR_PACKET_START
+function stableCommentAnchorPacketReviewIr(input) {
+  if (!isPlainObject(input)) return {};
+  if (isPlainObject(input.reviewIr)) return input.reviewIr;
+  if (isPlainObject(input.analysis?.reviewIr)) return input.analysis.reviewIr;
+  return input;
+}
+
+function stableCommentAnchorPacketShortId(value) {
+  return stableRevisionBridgeDigest(value).replace(/^sha256:/u, '').slice(0, 16);
+}
+
+function stableCommentAnchorPacketThreadBase(thread, index) {
+  const durableId = normalizeString(thread.durableId);
+  if (durableId) return { kind: 'durableId', value: durableId };
+  const sourceThreadId = normalizeString(thread.threadId);
+  if (sourceThreadId) return { kind: 'threadId', value: sourceThreadId };
+  const commentId = normalizeString(thread.commentId);
+  if (commentId) return { kind: 'commentId', value: commentId };
+  return { kind: 'ordinal', value: String(index) };
+}
+
+function stableCommentAnchorPacketThreadIdentity(thread, index) {
+  const base = stableCommentAnchorPacketThreadBase(thread, index);
+  return `stable-comment-thread:${base.kind}:${stableCommentAnchorPacketShortId(base)}`;
+}
+
+function stableCommentAnchorPacketThreadKeys(thread, stableThreadId) {
+  return [
+    stableThreadId,
+    normalizeString(thread.threadId),
+    normalizeString(thread.commentId),
+    normalizeString(thread.durableId),
+    normalizeString(thread.paraId),
+  ].filter(Boolean);
+}
+
+function stableCommentAnchorPacketBody(thread) {
+  if (hasOwnField(thread, 'body')) return preserveString(thread.body);
+  if (hasOwnField(thread, 'bodyExcerpt')) return preserveString(thread.bodyExcerpt);
+  return '';
+}
+
+function stableCommentAnchorPacketThreadStatus(thread) {
+  const state = normalizeString(thread.doneResolvedReopenedState).toLowerCase();
+  const status = normalizeString(thread.status).toUpperCase();
+  return state === 'resolved' || status === 'RESOLVED' ? 'resolved' : 'open';
+}
+
+function stableCommentAnchorPacketRootMessage(thread, stableThreadId) {
+  const stableCommentIdentity = normalizeString(thread.durableId) || normalizeString(thread.commentId);
+  return {
+    messageId: `stable-comment-message:${stableCommentAnchorPacketShortId({
+      stableThreadId,
+      commentIdentity: stableCommentIdentity,
+      role: 'root',
+    })}`,
+    authorId: normalizeString(thread.authorId || thread.authorPersonIdentity?.author),
+    body: stableCommentAnchorPacketBody(thread),
+    createdAt: normalizeString(thread.createdAt || thread.date),
+    replyParent: '',
+  };
+}
+
+function stableCommentAnchorPacketReplyMessages(thread, stableThreadId) {
+  const replies = Array.isArray(thread.replies) ? thread.replies.filter(isPlainObject) : [];
+  return replies.map((reply, index) => ({
+    messageId: `stable-comment-reply:${stableCommentAnchorPacketShortId({
+      stableThreadId,
+      rawId: normalizeString(reply.rawId),
+      itemId: normalizeString(reply.itemId),
+      index,
+    })}`,
+    authorId: normalizeString(reply.author || reply.authorId),
+    body: preserveString(reply.body),
+    createdAt: normalizeString(reply.date || reply.createdAt),
+    replyParent: normalizeString(reply.parentRawId),
+  }));
+}
+
+function stableCommentAnchorPacketThreadSnapshot(thread, index) {
+  const source = isPlainObject(thread) ? thread : {};
+  const stableThreadId = stableCommentAnchorPacketThreadIdentity(source, index);
+  return {
+    thread: {
+      schemaVersion: REVISION_BRIDGE_COMMENT_THREAD_SCHEMA,
+      threadId: stableThreadId,
+      authorId: normalizeString(source.authorId || source.authorPersonIdentity?.author),
+      status: stableCommentAnchorPacketThreadStatus(source),
+      createdAt: normalizeString(source.createdAt || source.date),
+      updatedAt: normalizeString(source.updatedAt),
+      tags: normalizeStringArray(source.reasonCodes),
+      messages: [
+        stableCommentAnchorPacketRootMessage(source, stableThreadId),
+        ...stableCommentAnchorPacketReplyMessages(source, stableThreadId),
+      ],
+    },
+    sourceRef: {
+      stableThreadIdentity: stableThreadId,
+      sourceThreadId: normalizeString(source.threadId),
+      commentId: normalizeString(source.commentId),
+      durableId: normalizeString(source.durableId),
+      doneResolvedReopenedState: normalizeString(source.doneResolvedReopenedState),
+      status: normalizeString(source.status),
+      quotedAnchorText: preserveString(source.quotedAnchorText),
+      relatedRevision: cloneJsonSafe(source.relatedRevision || null),
+      reasonCodes: normalizeStringArray(source.reasonCodes),
+      sourceXmlProvenance: cloneJsonSafe(source.sourceXmlProvenance || null),
+      placementSelectorEvidence: cloneJsonSafe(source.placement?.selectorStack || {}),
+    },
+    lookupKeys: stableCommentAnchorPacketThreadKeys(source, stableThreadId),
+  };
+}
+
+function stableCommentAnchorPacketPlacementHints(input) {
+  const hints = new Map();
+  function addHint(key, placement) {
+    const normalizedKey = normalizeString(key);
+    if (!normalizedKey || !isPlainObject(placement) || hints.has(normalizedKey)) return;
+    hints.set(normalizedKey, cloneJsonSafe(placement));
+  }
+  const placementHints = isPlainObject(input?.placementHints) ? input.placementHints : {};
+  for (const [key, value] of Object.entries(placementHints)) addHint(key, value);
+  const placements = Array.isArray(input?.commentAnchorPlacements)
+    ? input.commentAnchorPlacements
+    : (Array.isArray(input?.placements) ? input.placements : []);
+  placements.forEach((placement) => {
+    if (!isPlainObject(placement)) return;
+    addHint(placement.threadId, placement);
+    addHint(placement.sourceThreadId, placement);
+    addHint(placement.commentId, placement);
+    addHint(placement.durableId, placement);
+  });
+  return hints;
+}
+
+function stableCommentAnchorPacketPlacementForThread(threadSnapshot, hints) {
+  for (const key of threadSnapshot.lookupKeys) {
+    const placement = hints.get(key);
+    if (!placement) continue;
+    return {
+      ...placement,
+      threadId: threadSnapshot.thread.threadId,
+    };
+  }
+  return null;
+}
+
+function stableCommentAnchorPacketDiagnostics(threadSnapshots, placementResults, survivalPreview) {
+  const diagnostics = [];
+  if (threadSnapshots.length === 0) {
+    diagnostics.push({
+      code: STABLE_COMMENT_ANCHOR_PACKET_EMPTY_CODE,
+      field: 'reviewIr.commentThreads',
+      message: 'no comment threads were available for stable anchor packet projection',
+    });
+  }
+  const placedThreadIds = new Set(placementResults.map((item) => item.threadId).filter(Boolean));
+  threadSnapshots.forEach((threadSnapshot, index) => {
+    const ref = threadSnapshot.sourceRef;
+    const anchored = ref.status === 'ANCHORED' || normalizeString(ref.quotedAnchorText) !== '';
+    if (anchored && !placedThreadIds.has(threadSnapshot.thread.threadId)) {
+      diagnostics.push({
+        code: STABLE_COMMENT_ANCHOR_PACKET_NO_IMPLICIT_PLACEMENT_CODE,
+        field: `commentThreads.${index}`,
+        message: 'anchored RTK comment was preserved without fabricating an app placement',
+        threadId: threadSnapshot.thread.threadId,
+      });
+    }
+  });
+  diagnostics.push(...commentSurvivalPreviewArray(survivalPreview.diagnostics));
+  return diagnostics;
+}
+
+function stableCommentAnchorPacketRecordRows(commentRecords, sourceRefByThreadId, projectId, sceneId) {
+  return commentRecords.map((record) => {
+    const ref = sourceRefByThreadId.get(record.threadId) || {};
+    const evidenceIdentity = stableRevisionBridgeDigest({
+      stableThreadIdentity: ref.stableThreadIdentity || record.threadId,
+      sourceThreadId: ref.sourceThreadId,
+      commentId: ref.commentId || record.commentId,
+      durableId: ref.durableId,
+      placementStatus: record.placementStatus,
+      orphanReason: record.orphanReason,
+      sourceXmlProvenance: ref.sourceXmlProvenance,
+      relatedRevision: ref.relatedRevision,
+    });
+    return {
+      schemaVersion: 'revision-bridge.stable-comment-anchor-record.v1',
+      anchorRecordId: `stable-comment-anchor:${stableCommentAnchorPacketShortId({
+        evidenceIdentity,
+        recordCommentId: record.commentId,
+      })}`,
+      projectId,
+      sceneId,
+      stableThreadIdentity: ref.stableThreadIdentity || record.threadId,
+      threadId: record.threadId,
+      commentId: record.commentId,
+      sourceThreadId: ref.sourceThreadId || '',
+      sourceCommentId: ref.commentId || '',
+      durableId: ref.durableId || '',
+      bodyDigest: stableRevisionBridgeDigest({ bodyText: record.bodyText }),
+      placementStatus: record.placementStatus,
+      orphanReason: record.orphanReason,
+      anchorKind: record.anchorKind,
+      sourcePart: record.sourcePart,
+      authorHandle: record.authorHandle,
+      createdAtUtc: record.createdAtUtc,
+      replyParent: record.replyParent,
+      resolvedDone: record.resolvedDone === true,
+      evidenceIdentity,
+      selectorEvidence: cloneJsonSafe(ref.placementSelectorEvidence || {}),
+      relatedRevision: cloneJsonSafe(ref.relatedRevision || null),
+      canAutoApply: false,
+      canWriteManuscript: false,
+    };
+  });
+}
+
+function stableCommentAnchorPacketDecisionRows(anchorRecords) {
+  return anchorRecords.map((record) => ({
+    schemaVersion: 'revision-bridge.stable-comment-decision-row.v1',
+    decisionId: `stable-comment-decision:${stableCommentAnchorPacketShortId({
+      stableThreadIdentity: record.stableThreadIdentity,
+      commentId: record.commentId,
+    })}`,
+    anchorRecordId: record.anchorRecordId,
+    stableThreadIdentity: record.stableThreadIdentity,
+    commentId: record.commentId,
+    state: record.resolvedDone ? 'resolved' : 'pending',
+    placementStatus: record.placementStatus,
+    requiresAuthorDecision: record.placementStatus !== 'exact',
+    canAutoApply: false,
+    canWriteManuscript: false,
+    mutationAuthority: 'none-preview-only',
+  }));
+}
+
+export function buildStableCommentAnchorPacketFromReviewIr(input = {}) {
+  const reviewIr = stableCommentAnchorPacketReviewIr(input);
+  const rawThreads = Array.isArray(reviewIr.commentThreads) ? reviewIr.commentThreads.filter(isPlainObject) : [];
+  const threadSnapshots = rawThreads.map((thread, index) => stableCommentAnchorPacketThreadSnapshot(thread, index));
+  const hints = stableCommentAnchorPacketPlacementHints(input);
+  const commentAnchorPlacements = threadSnapshots
+    .map((threadSnapshot) => stableCommentAnchorPacketPlacementForThread(threadSnapshot, hints))
+    .filter(isPlainObject);
+  const survivalPreview = buildCommentSurvivalPreview({
+    commentThreads: threadSnapshots.map((threadSnapshot) => threadSnapshot.thread),
+    commentAnchorPlacements,
+    context: isPlainObject(input.context) ? input.context : {},
+  });
+  const sourceRefByThreadId = new Map(threadSnapshots.map((threadSnapshot) => [
+    threadSnapshot.thread.threadId,
+    threadSnapshot.sourceRef,
+  ]));
+  const projectId = normalizeString(input.projectId);
+  const sceneId = normalizeString(input.sceneId);
+  const anchorRecords = stableCommentAnchorPacketRecordRows(
+    survivalPreview.commentRecords,
+    sourceRefByThreadId,
+    projectId,
+    sceneId,
+  );
+  const decisionRows = stableCommentAnchorPacketDecisionRows(anchorRecords);
+  const diagnostics = stableCommentAnchorPacketDiagnostics(threadSnapshots, survivalPreview.placementResults, survivalPreview);
+  const status = diagnostics.length > 0 ? 'diagnostics' : 'ready';
+  const code = status === 'ready'
+    ? STABLE_COMMENT_ANCHOR_PACKET_READY_CODE
+    : STABLE_COMMENT_ANCHOR_PACKET_DIAGNOSTICS_CODE;
+  const packetCore = {
+    projectId,
+    sceneId,
+    revisionId: normalizeString(input.revisionId),
+    anchorRecords,
+    decisionRows,
+    diagnostics,
+    survivalPreviewHash: stableRevisionBridgeDigest(survivalPreview),
+  };
+
+  return {
+    schemaVersion: REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_SCHEMA,
+    type: 'revisionBridge.stableCommentAnchor.packet',
+    status,
+    code,
+    reason: diagnostics[0]?.code || code,
+    canAutoApply: false,
+    canWriteManuscript: false,
+    projectId,
+    sceneId,
+    revisionId: normalizeString(input.revisionId),
+    source: {
+      reviewIrSchemaVersion: normalizeString(reviewIr.schemaVersion),
+      commentThreadCount: rawThreads.length,
+      placementHintCount: commentAnchorPlacements.length,
+      parserAuthority: 'rtk-review-ir-comment-graph-only',
+    },
+    sourceThreadRefs: threadSnapshots.map((threadSnapshot) => threadSnapshot.sourceRef),
+    anchorRecords,
+    decisionRows,
+    survivalPreviewHash: packetCore.survivalPreviewHash,
+    survivalPreview,
+    diagnostics: cloneJsonSafe(diagnostics),
+    summary: {
+      totalThreads: threadSnapshots.length,
+      totalAnchorRecords: anchorRecords.length,
+      totalDecisionRows: decisionRows.length,
+      exactAnchors: anchorRecords.filter((record) => record.placementStatus === 'exact').length,
+      orphanAnchors: anchorRecords.filter((record) => record.placementStatus === 'orphan').length,
+      deletedAnchors: anchorRecords.filter((record) => record.placementStatus === 'deletedAnchor').length,
+      diagnostics: diagnostics.length,
+    },
+    packetHash: stableRevisionBridgeDigest(packetCore),
+  };
+}
+// E10_C01_STABLE_COMMENT_ANCHOR_PACKET_END
 
 export { evaluateCommentAnchorPlacementProof };
 

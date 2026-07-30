@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E06_C03_ATLAS_RELATION_SEGMENTS_PERSPECTIVE_MODEL_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E06_C03_ATLAS_RELATION_SEGMENTS_AND_PERSPECTIVE_MODEL",
+  "programStage": "E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T03:52:34Z",
+  "baseSha": "e57ec075a4e1a3b8b9470ae57140191e6b3b6c9b",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds a read-only derived relation segment and perspective model. It changes no product UI composition, typography, palette, layout, screen, or visual contract.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.relationSegmentsPerspective",
+    "productPlane": {
+      "truthPath": "none",
+      "commandId": "none",
+      "mutationAuthority": "none",
+      "writePath": "none",
+      "readPath": "derived.atlas.relationSegmentsPerspective.v1",
+      "sourceReadModels": [
+        "derived.atlas.observationAggregate.v1",
+        "derived.atlas.temporalContinuity.v1",
+        "derived.atlas.sceneTemporalAnchors.v1"
+      ],
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "cloudSync": false,
+      "accountSync": false,
+      "automaticRelationMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "none",
+      "host": "none",
+      "slotId": "none",
+      "providerId": "query.atlasRelationSegmentsPerspective",
+      "runtimeUiChanged": false,
+      "dispatchIntentOnly": true
+    },
+    "authorityMap": {
+      "productTruth": "existing Product Core Atlas entity and scene truth only",
+      "commandAuthority": "none",
+      "designAuthority": "none; read-only derived packet for future surface consumption",
+      "storageAuthority": "none",
+      "capabilityRevalidation": "derived capability snapshot gates atlas.relationSegmentsPerspective"
+    },
+    "fallbacks": [
+      "ATLAS_RELATION_SEGMENTS_PERSPECTIVE_EMPTY",
+      "ATLAS_RELATION_SEGMENTS_PERSPECTIVE_DEGRADED",
+      "ATLAS_RELATION_SEGMENTS_PERSPECTIVE_UNAVAILABLE"
+    ],
+    "recovery": {
+      "projectTruthMutation": false,
+      "jsonRoundTripRequired": false,
+      "fullIncrementalParityProof": true,
+      "unknownTimeFallback": true
+    },
+    "negativeBypassChecks": [
+      "disabled capability fails closed",
+      "single entity scene returns empty relation model without inventing relation truth",
+      "unknown story or narrative time is surfaced as degraded perspective state",
+      "relation segment derived sources contain no storage, network, DOM, platform, or renderer side effects",
+      "no Core command, command bus, worker, daemon, port, adapter, UI registry, or external service is added"
+    ]
+  },
+  "implementation": {
+    "commandIdsAdded": [
+      "none"
+    ],
+    "capabilitiesAdded": [
+      "none"
+    ],
+    "schemasAdded": [
+      "derived.atlas.relationSegmentsPerspective.v1",
+      "derived.atlas.relationSegment.v1",
+      "derived.atlas.relationPerspectiveScene.v1",
+      "derived.atlas.relationSegmentParityProof.v1"
+    ],
+    "relationSegmentModel": {
+      "source": "derived.atlas.temporalContinuity.v1 cooccurrences",
+      "segmentation": "contiguous sceneOrdinal runs per relation pair",
+      "evidenceAnchors": true,
+      "storyTimeCarried": true,
+      "narrativeOrderCarried": true,
+      "unknownTimeFallback": true,
+      "fullIncrementalParityProof": true
+    },
+    "perspectiveModel": {
+      "source": "active observation scenes plus scene temporal anchors",
+      "states": [
+        "directEvidence",
+        "noDirectEvidence"
+      ],
+      "temporalStates": [
+        "anchored",
+        "unknown"
+      ]
+    },
+    "runtimeUiChanged": false,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c03-atlas-relation-segments-perspective-model.contract.test.js",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node -c test/contracts/yalken-atlas-v5-e06-c03-atlas-relation-segments-perspective-model.contract.test.js && node -c src/derived/atlas/deriveAtlasRelationSegmentsPerspective.mjs && node -c src/derived/atlas/atlasRelationSegmentTypes.mjs",
+      "result": "PASS",
+      "summary": "contract and derived relation segment modules parse"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c01-atlas-calendar-definition-conversion-command-boundary.contract.test.js test/contracts/yalken-atlas-v5-e06-c02-atlas-temporal-range-model-scene-anchors.contract.test.js test/contracts/yalken-atlas-v5-e04-c03-atlas-cooccurrence-first-last-absence-intervals.contract.test.js test/contracts/yalken-atlas-v5-e06-c03-atlas-relation-segments-perspective-model.contract.test.js",
+      "result": "PASS",
+      "summary": "17 tests, 17 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "full runner reached 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline, command namespace, menu, law path canon, execution sequence, and release candidate verification passed"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "read-only derived packet; no project truth or persistence mutation",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E06_C04_CONTINUITY_FACT_LEDGER_AND_PROMISE_CHECKS"
+}

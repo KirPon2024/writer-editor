@@ -3720,7 +3720,7 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-hostile-file-gate.contract.test.js",
-      "sha256": "4e9af1ff2062c4ac7ebf243c9912209702e349da8b27fba35792c4591d1317e5",
+      "sha256": "2f4a19d477df58e34d983a023fa6bc501368b8b0861c727efdf5bd4686dcd895",
       "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
       "approvedAtUtc": "2026-07-12T23:00:00.000Z",
       "rationale": "Approve hostile gate coverage distinguishing internal OOXML relationships from literal, encoded, and malformed external TargetMode values while preserving all ZIP and XML defenses."
@@ -4592,6 +4592,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E04_C06_ATLAS_LOCAL_GRAPH_CLUSTER_LAYOUT_BUDGET_PROOF",
       "approvedAtUtc": "2026-07-30T00:19:42.000Z",
       "rationale": "Approve E04 C06 contract test coverage for Atlas local graph cluster layout budget proof: proves deterministic graph packet derivation from temporal continuity, 10k-node bounded layout without render-all nodes or edges, stale layout result rejection on source revision and request identity, exported public schema bindings, deterministic empty and unavailable fallbacks, and no storage, network, UI, worker scheduling, command bypass, dependency, or platform side effect."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C00_FULL_ATLAS_UX_CONTOUR_COMPILATION_RECEIPT.json",
+      "sha256": "267b526b7c2891057834dd3e99217b55ecbea9582008b3ce745a0e3769ab953c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C00_FULL_ATLAS_UX_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-30T00:29:18.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C00 compilation receipt: records the Stage 05 Full Atlas UX contour queue, Design Tool Router application, Lazyweb and local brain reference evidence, Design OS surface authority boundaries, expected write sets, heavy-surface and quiet-WRITE constraints, accessibility parity requirements, degraded capability reporting, and no direct product UI code, storage, network, dependency, or external-service mutation in the compilation contour."
     }
   ]
 }

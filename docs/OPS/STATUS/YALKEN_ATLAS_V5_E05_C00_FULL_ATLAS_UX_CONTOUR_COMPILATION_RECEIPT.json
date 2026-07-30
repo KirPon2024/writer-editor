@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E05_C00_FULL_ATLAS_UX_CONTOUR_COMPILATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E05_C00_FULL_ATLAS_UX_CONTOUR_COMPILATION",
+  "programStage": "E05_STAGE_05_FULL_ATLAS_UX_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T00:29:18Z",
+  "baseSha": "8114b32c51d203203fede9c280493f9be034ae45",
+  "designToolRouter": "APPLIED",
+  "designToolRouterReason": "Stage 05 compiles product UI contours for Atlas overview, dossiers, ledger, matrices, heatmap, reports, saved queries, contextual actions, accessibility parity, diagnostics, and degraded capability surfaces. This C00 receipt changes no UI code, but it binds all following UI contours to the Design OS route.",
+  "designRouteEvidence": {
+    "designGuideRead": "YALKEN_DESIGN_OS_CHANGE_GUIDE_V2_2",
+    "designToolMatrixRead": "YALKEN_DESIGN_TOOL_MATRIX_V1",
+    "brainRefsCommand": "npm run brain:refs -- \"full atlas ux overview relation dossier evidence ledger matrices heatmap reports\"",
+    "brainRefsResult": [
+      "native-fluency-typographic-sharpness"
+    ],
+    "lazywebQuickSearch": {
+      "query": "entity relationship dashboard",
+      "platform": "desktop",
+      "coverageStrength": "moderate",
+      "topSimilarity": 0.534,
+      "referenceCompanies": [
+        "mixpanel",
+        "pinterest",
+        "dock",
+        "toggl-track",
+        "elementary",
+        "metabase"
+      ],
+      "resultUse": "reference-only pattern signal for dense desktop dashboards; no external style, code, URL, service, or dependency is adopted into the product"
+    },
+    "lazywebSkillPackUpdate": {
+      "updatedTo": "0.14.9",
+      "clientRestartRequiredForFreshTools": true,
+      "fullReportRequirement": "Each implementation contour that changes a concrete product screen must start from an applicable Lazyweb report or record a precise unavailable-tool fallback before code changes."
+    }
+  },
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "atlasAuthorTruthExists": true,
+    "atlasObservationAggregateExists": true,
+    "atlasTemporalContinuityExists": true,
+    "atlasEvidenceReattachmentInboxExists": true,
+    "atlasLocalGraphBudgetProofExists": true,
+    "atlasCurrentSceneDossierSurfaceExists": true,
+    "fullAtlasOverviewSurfaceExists": false,
+    "entityDossierSurfaceExists": false,
+    "relationDossierSurfaceExists": false,
+    "evidenceLedgerSurfaceExists": false,
+    "atlasMatricesSurfaceExists": false,
+    "atlasHeatmapSurfaceExists": false,
+    "atlasReportsSurfaceExists": false,
+    "savedQueriesRuntimeExists": false,
+    "atlasDiagnosticsDegradedCapabilityReportExists": false
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE",
+      "userOutcome": "Author can open a quiet Atlas overview from REVIEW without disturbing WRITE, with honest capability state and a bounded first-screen summary.",
+      "scopeIn": [
+        "SURFACE_MANIFEST_V1 for Atlas overview",
+        "typed slot contribution through Design OS",
+        "read-only overview projection from existing Atlas read models",
+        "quiet progressive disclosure entry points",
+        "capability and degraded-state visibility"
+      ],
+      "scopeOut": [
+        "relation dossier detail",
+        "matrices",
+        "heatmap",
+        "saved queries",
+        "new visual design system",
+        "network or paid services"
+      ],
+      "designRoute": [
+        "Lazyweb report or recorded unavailable fallback before UI code",
+        "UI Craft implementation pass",
+        "Browser or equivalent render verification if a runnable surface changes"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E05_C02_ENTITY_DOSSIER_AND_EVIDENCE_LEDGER_READ_SURFACE",
+      "userOutcome": "Author can inspect one entity dossier and its evidence ledger without the ledger becoming editable truth or hiding original manuscript anchors.",
+      "scopeIn": [
+        "entity dossier read model",
+        "evidence ledger projection",
+        "origin and current evidence anchor display contract",
+        "empty stale and reattached states",
+        "keyboard-accessible evidence list"
+      ],
+      "scopeOut": [
+        "relation pair actions",
+        "matrix layouts",
+        "automatic evidence repair",
+        "new persistence adapter",
+        "private command bus"
+      ],
+      "designRoute": [
+        "Lazyweb report for entity/detail dashboard or recorded unavailable fallback",
+        "Component reference for dense evidence list if needed",
+        "Audit and heuristic pass before close"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "test/contracts/yalken-atlas-v5-e05-c02-entity-dossier-evidence-ledger-read-surface.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C02_ENTITY_DOSSIER_EVIDENCE_LEDGER_READ_SURFACE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS",
+      "userOutcome": "Author can inspect an entity pair, relation evidence, co-occurrence timeline, absence context, and safe contextual review actions.",
+      "scopeIn": [
+        "relation dossier read model",
+        "pair evidence packet",
+        "co-occurrence and absence summaries",
+        "contextual review actions routed through existing command authority",
+        "stale and unavailable fallbacks"
+      ],
+      "scopeOut": [
+        "automatic relation creation",
+        "heatmap",
+        "reports",
+        "storage adapter",
+        "cloud analysis"
+      ],
+      "designRoute": [
+        "Lazyweb report for relation/detail workflow or recorded unavailable fallback",
+        "Open UI or component reference for action menus if new control semantics appear",
+        "Negative bypass checks for command authority"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "src/renderer/commands",
+        "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E05_C04_ATLAS_MATRICES_AND_ACCESSIBILITY_PARITY",
+      "userOutcome": "Author can inspect entity-scene and relation matrices with equivalent list/table access, keyboard navigation, and honest large-data clipping.",
+      "scopeIn": [
+        "entity-scene matrix packet",
+        "relation matrix packet",
+        "list and table accessibility parity",
+        "keyboard navigation contract",
+        "large-project row and column budget proof"
+      ],
+      "scopeOut": [
+        "heatmap color system",
+        "saved query persistence",
+        "global graph clustering",
+        "UI framework",
+        "network service"
+      ],
+      "designRoute": [
+        "Lazyweb report for analytics matrix/dashboard or recorded unavailable fallback",
+        "Component Gallery or Open UI check for table semantics if new grid behavior is introduced",
+        "Accessibility audit before close"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_ACCESSIBILITY_PARITY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF",
+      "userOutcome": "Author can open a heatmap only as an explicit heavy surface, with virtualized rendering and no typing hot-path blockage.",
+      "scopeIn": [
+        "heatmap derived packet",
+        "heatmap viewport or tile budget proof",
+        "explicit heavy-surface open path",
+        "typing hot-path nonblocking guard",
+        "legend and degraded visual fallback"
+      ],
+      "scopeOut": [
+        "global clusters",
+        "new color palette dependency",
+        "background daemon",
+        "network service",
+        "release visual baseline suite"
+      ],
+      "designRoute": [
+        "Lazyweb report for heatmap/analytics dashboard or recorded unavailable fallback",
+        "Leonardo only if semantic heatmap colors are changed",
+        "Project Wallace only if substantial CSS changes occur"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E05_C06_ATLAS_REPORTS_AND_SAVED_QUERIES_BOUNDARY",
+      "userOutcome": "Author can generate local Atlas reports and save named queries without introducing cloud sync, hidden mutations, or query truth drift.",
+      "scopeIn": [
+        "local report packet",
+        "saved query author truth or explicit command boundary",
+        "report readback and export-safe summary",
+        "query stale-source detection",
+        "offline-only storage and recovery constraints if persistence is introduced"
+      ],
+      "scopeOut": [
+        "cloud sharing",
+        "account sync",
+        "paid services",
+        "full series atlas",
+        "advanced global graph"
+      ],
+      "designRoute": [
+        "Lazyweb report for saved reports/search dashboard or recorded unavailable fallback",
+        "Feature Integration Manifest before any saved query command",
+        "Atomic write and recovery checks if storage changes"
+      ],
+      "expectedWriteSet": [
+        "src/core/runtime.mjs if saved query truth is introduced",
+        "src/core/registry.ts if saved query commands are introduced",
+        "src/renderer/commands if saved query commands are introduced",
+        "src/derived/atlas",
+        "src/renderer",
+        "test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_SAVED_QUERIES_BOUNDARY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    },
+    {
+      "contourId": "E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE",
+      "userOutcome": "Author can see why Atlas UX is partial or degraded, and Stage 05 closes only with quiet WRITE, explicit heavy surfaces, honest capability state, and large-project UI guards proven.",
+      "scopeIn": [
+        "diagnostics and degraded capability report",
+        "surface fallback inventory",
+        "Stage 05 acceptance proof",
+        "large-project UI nonblocking proof",
+        "final UI audit and heuristic receipts for Stage 05 surfaces"
+      ],
+      "scopeOut": [
+        "Stage 06 time calendar model",
+        "language expansion",
+        "global graph",
+        "platform certification",
+        "release claim"
+      ],
+      "designRoute": [
+        "Finalize skill or equivalent pre-close audit when concrete UI changed",
+        "Heuristic review for full Atlas UX workflow",
+        "Document consciously skipped tools per matrix"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/renderer",
+        "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_STAGE_ACCEPTANCE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ]
+    }
+  ],
+  "stageAcceptanceBinding": {
+    "writeRemainsQuiet": "enforced from E05_C01 onward by REVIEW/explicit heavy-surface entry requirements",
+    "heavySurfacesOpenExplicitly": "first introduced in E05_C01 and hardened by E05_C05",
+    "designOsOwnsFormNotTruth": "required in every E05 surface manifest and negative bypass test",
+    "capabilityStateHonestAcrossSurfaces": "introduced in E05_C01 and closed in E05_C07",
+    "largeProjectUiDoesNotBlockTyping": "introduced for matrices in E05_C04 and heatmap in E05_C05, then closed in E05_C07"
+  },
+  "checks": [
+    {
+      "command": "npm run brain:refs -- \"full atlas ux overview relation dossier evidence ledger matrices heatmap reports\"",
+      "status": "PASS",
+      "summary": "reference suggestions returned native-fluency-typographic-sharpness"
+    },
+    {
+      "command": "lazyweb_search query entity relationship dashboard platform desktop",
+      "status": "PASS",
+      "summary": "6 references returned, coverage moderate, Lazyweb skill pack updated to 0.14.9"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "ok true, missing approvals 0"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "3 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE"
+}

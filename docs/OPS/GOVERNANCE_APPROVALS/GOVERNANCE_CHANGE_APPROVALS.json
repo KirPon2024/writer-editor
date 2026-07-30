@@ -94,10 +94,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B05_EXACT_APPLY_RECEIPT.json",
-      "sha256": "4b0c4aefc866ec929e1549a9f9472b8633958dc32f4fdddec105ac41205aba84",
+      "sha256": "29e94d3083a27e58dd1c33d16b79a95cde03c927dfbe5078cfb7d03d98e4d07f",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
       "approvedAtUtc": "2026-07-30T16:05:00.000Z",
-      "rationale": "Approve bounded B05 exact apply receipt: records main-owned admission from ReviewIRV2 classification to the existing exact writer, requires recomputed classification digest, explicit candidate-to-change binding, checkpoint before apply and outcome ledger, keeps comments and formatting as non-writer lanes, blocks moves, structure, opaque unsupported and standalone insert, and makes no latest Word certification, formatting apply, comment apply, UI, runtime, network, dependency, or broad compatibility claim."
+      "rationale": "Approve bounded B05 exact apply receipt: records main-owned admission from ReviewIRV2 classification to the existing exact writer, requires recomputed classification digest, explicit candidate-to-change binding, checkpoint before apply and outcome ledger, integrates fresh origin/main Atlas Stage 10 drift truthfully, keeps comments and formatting as non-writer lanes, blocks moves, structure, opaque unsupported and standalone insert, and makes no latest Word certification, formatting apply, comment apply, UI, runtime, network, dependency, or broad compatibility claim."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",

@@ -5,13 +5,21 @@
   "status": "B05_EXACT_APPLY_ADAPTER_READY_NOT_LATEST_WORD_CERTIFIED",
   "createdAtUtc": "2026-07-30T16:05:00Z",
   "base": {
-    "originMainSha": "515f282b754e0c6df70df8a6b9a046405d78d6a7",
+    "originMainSha": "f74cd2ace23119b6b1e7401ea58855588798bb3b",
+    "initialB05BaseSha": "515f282b754e0c6df70df8a6b9a046405d78d6a7",
     "branch": "codex/rtk-word-latest-semantic-b05",
     "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
     "precedingStage": "B04",
     "precedingPr": 1261,
     "precedingMergeSha": "515f282b754e0c6df70df8a6b9a046405d78d6a7",
-    "precedingCi": "PASS"
+    "precedingCi": "PASS",
+    "driftIntegrated": {
+      "originMainSha": "f74cd2ace23119b6b1e7401ea58855588798bb3b",
+      "source": "Atlas Stage 10 contour compilation",
+      "mergeStrategy": "git merge origin/main",
+      "ownerDirtyMainTouched": false,
+      "atlasWorktreeTouched": false
+    }
   },
   "adapterProfile": {
     "profileId": "bounded-review-ir-exact-apply-adapter-v2-b05",

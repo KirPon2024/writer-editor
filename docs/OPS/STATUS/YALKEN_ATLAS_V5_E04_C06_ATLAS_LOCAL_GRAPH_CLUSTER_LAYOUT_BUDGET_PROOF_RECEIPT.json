@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E04_C06_ATLAS_LOCAL_GRAPH_CLUSTER_LAYOUT_BUDGET_PROOF_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E04_C06_ATLAS_LOCAL_GRAPH_CLUSTER_LAYOUT_BUDGET_PROOF",
+  "programStage": "E04_STAGE_04_DETERMINISTIC_ATLAS_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T00:19:42Z",
+  "baseSha": "55d2eeeea493bcff78c4c75c669b2227881d5973",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds pure derived Atlas graph and local cluster layout budget proof modules only. It creates no product UI surface, visual composition, palette, typography, Design OS contribution, worker scheduling, network, or external service path.",
+  "implementedScope": [
+    "local Atlas graph packet derived from temporal continuity",
+    "deterministic connected-component clusters",
+    "local cluster layout job and result envelopes",
+    "resource budget proof with 10k-node fixture coverage",
+    "large-project guardrails for planned nodes edges and clusters",
+    "deterministic empty and unavailable fallbacks"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "atlas.localGraphClusterLayoutBudgetProof.v1",
+    "productPlane": {
+      "owner": "Derived Views",
+      "readPath": [
+        "derived.atlas.temporalContinuity.v1",
+        "derived.atlas.localGraph.v1",
+        "atlas.localGraph.layoutPlan.v1"
+      ],
+      "writePath": [],
+      "projectTruthMutation": false,
+      "storageAdapter": "none",
+      "newStorageAdapter": false
+    },
+    "commandPlane": {
+      "newCommand": false,
+      "capabilityRevalidation": "No command is introduced. Local graph and cluster layout jobs are pure derived local work envelopes and acceptance publishes only hash pointers."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "runtimeFacts": {
+    "localGraphSchema": "derived.atlas.localGraph.v1",
+    "layoutJobSchema": "atlas.localGraph.layoutJob.v1",
+    "layoutResultSchema": "atlas.localGraph.layoutResult.v1",
+    "layoutPlanSchema": "atlas.localGraph.layoutPlan.v1",
+    "resourceBudgetProofSchema": "atlas.localGraph.resourceBudgetProof.v1",
+    "adapterKind": "local-pure-derived-planner",
+    "webWorkerApiUsed": false,
+    "workerScheduling": false,
+    "staleResultDiscard": true,
+    "tenThousandNodeBudgetProof": true,
+    "renderAllNodes": false,
+    "renderAllEdges": false,
+    "persistentDerivedTruth": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "uiMutation": false
+  },
+  "changedFiles": [
+    "src/derived/atlas/atlasLocalGraphTypes.mjs",
+    "src/derived/atlas/deriveAtlasLocalGraph.mjs",
+    "src/derived/atlas/atlasLocalGraphLayoutPlanner.mjs",
+    "src/derived/atlas/index.mjs",
+    "src/derived/index.mjs",
+    "test/contracts/yalken-atlas-v5-e04-c06-atlas-local-graph-cluster-layout-budget-proof.contract.test.js",
+    "docs/OPS/STATUS/YALKEN_ATLAS_V5_E04_C06_ATLAS_LOCAL_GRAPH_CLUSTER_LAYOUT_BUDGET_PROOF_RECEIPT.json",
+    "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c06-atlas-local-graph-cluster-layout-budget-proof.contract.test.js",
+      "status": "PASS",
+      "summary": "6 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c05-atlas-evidence-reattachment-review-inbox.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c04-atlas-entity-merge-split-reassign-restore.contract.test.js",
+      "status": "PASS",
+      "summary": "6 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c03-atlas-cooccurrence-first-last-absence-intervals.contract.test.js",
+      "status": "PASS",
+      "summary": "5 pass, 0 fail"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e04-c02-atlas-alias-scope-suppression-boundary.contract.test.js test/contracts/yalken-atlas-v5-e04-c01-atlas-observation-candidate-aggregate-model.contract.test.js",
+      "status": "PASS",
+      "summary": "10 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "status": "PASS",
+      "summary": "ok true, missing approvals 0"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "3 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "nextContour": "E05_STAGE_05_FULL_ATLAS_UX_CONTOURS"
+}

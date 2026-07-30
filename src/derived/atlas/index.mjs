@@ -31,6 +31,19 @@ export {
   sortAtlasEvidenceReattachmentItems,
 } from './atlasEvidenceReattachmentTypes.mjs';
 export {
+  ATLAS_LOCAL_GRAPH_CLUSTER_SCHEMA_VERSION,
+  ATLAS_LOCAL_GRAPH_EDGE_SCHEMA_VERSION,
+  ATLAS_LOCAL_GRAPH_LAYOUT_JOB_SCHEMA_VERSION,
+  ATLAS_LOCAL_GRAPH_LAYOUT_PLAN_SCHEMA_VERSION,
+  ATLAS_LOCAL_GRAPH_LAYOUT_RESULT_SCHEMA_VERSION,
+  ATLAS_LOCAL_GRAPH_NODE_SCHEMA_VERSION,
+  ATLAS_LOCAL_GRAPH_RESOURCE_BUDGET_PROOF_SCHEMA_VERSION,
+  ATLAS_LOCAL_GRAPH_SCHEMA_VERSION,
+  sortAtlasLocalGraphClusters,
+  sortAtlasLocalGraphEdges,
+  sortAtlasLocalGraphNodes,
+} from './atlasLocalGraphTypes.mjs';
+export {
   ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
   buildAtlasTemporalContinuityFromObservationAggregate,
   buildAtlasTemporalContinuityIncrementally,
@@ -52,6 +65,18 @@ export { deriveAtlasMentionIndex, ATLAS_MENTION_INDEX_VIEW_ID } from './deriveAt
 export { deriveAtlasCurrentSceneDossier, ATLAS_CURRENT_SCENE_DOSSIER_VIEW_ID } from './deriveAtlasCurrentSceneDossier.mjs';
 export { deriveAtlasObservationAggregate, ATLAS_OBSERVATION_AGGREGATE_VIEW_ID } from './deriveAtlasObservationAggregate.mjs';
 export { deriveAtlasEvidenceReattachmentInbox, ATLAS_EVIDENCE_REATTACHMENT_INBOX_VIEW_ID } from './deriveAtlasEvidenceReattachmentInbox.mjs';
+export {
+  ATLAS_LOCAL_GRAPH_VIEW_ID,
+  buildAtlasLocalGraphFromTemporalContinuity,
+  deriveAtlasLocalGraph,
+} from './deriveAtlasLocalGraph.mjs';
+export {
+  acceptAtlasLocalGraphLayoutResult,
+  buildAtlasLocalGraphLayoutPlan,
+  buildAtlasLocalGraphResourceBudgetProof,
+  createAtlasLocalGraphLayoutJob,
+  runAtlasLocalGraphLayoutJob,
+} from './atlasLocalGraphLayoutPlanner.mjs';
 export {
   ATLAS_GENERATION_MANIFEST_VIEW_ID,
   canPublishAtlasGeneration,

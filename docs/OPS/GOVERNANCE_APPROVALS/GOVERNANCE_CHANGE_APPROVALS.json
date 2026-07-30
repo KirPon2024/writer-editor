@@ -5376,6 +5376,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION",
       "approvedAtUtc": "2026-07-30T16:29:57.000Z",
       "rationale": "Approve bounded E10 C02 final receipt after origin/main B06 drift reconciliation: records history projection packet scope, existing collab event log reuse, Command Kernel and review apply receipt refs, derived invalidation key binding, author truth hash-only separation, no stored history truth, no direct history write API, no renderer-owned history truth, no cloud audit log, no UI, no storage adapter, no network, no dependency, focused and B06 adjacency PASS evidence, comments-history safe-state PASS, ops PASS, doctrine PASS, OSS PASS, governance PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js",
+      "sha256": "8c74930548bd41dcb57f4054543d339d1da6e10b1a1b82d60ebfcaa31e8cfb7f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C03_OPERATION_REPLAY_OVER_EXISTING_COMMAND_EVENT_LOG",
+      "approvedAtUtc": "2026-07-30T16:58:50.000Z",
+      "rationale": "Approve E10 C03 focused contract: proves deterministic operation replay report over the existing collab event log with Command Kernel receipt refs, hash-only state replay proof, duplicate op id rejection, typed replay error envelopes, capability revalidation requirement, payload exclusion, no second operation log truth, no private command bus, no direct manuscript mutation, no transport exchange, no network wiring, no storage writer, and no UI scope."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C03_OPERATION_REPLAY_COMMAND_EVENT_LOG_RECEIPT.json",
+      "sha256": "7a31e49d41f992741b417c929a071d375359cb7f92b999b67b2c39610c3706d7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C03_OPERATION_REPLAY_OVER_EXISTING_COMMAND_EVENT_LOG",
+      "approvedAtUtc": "2026-07-30T17:02:36.000Z",
+      "rationale": "Approve bounded E10 C03 final receipt: records deterministic operation replay report over the existing collab event log, Command Kernel receipt binding, state hash replay proof, duplicate operation rejection, typed replay envelopes, payload exclusion, no second operation log truth, no private command bus, no direct manuscript mutation, no project truth mutation, no transport exchange, no network adapter, no storage adapter, no UI, no dependency, focused and adjacent local PASS evidence, collab ops state PASS, pre-receipt governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
     }
   ]
 }

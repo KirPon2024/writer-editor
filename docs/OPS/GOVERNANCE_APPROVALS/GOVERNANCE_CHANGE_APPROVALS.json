@@ -5425,6 +5425,20 @@
       "rationale": "Approve focused C02 contract coverage: proves custom document property authority carrier extraction, HMAC verification, expected baseline binding, docProps/custom.xml semantic inventory, classifier non-exact behavior until target uniqueness and semantic accounting are proven, tampered HMAC and missing-secret blocking, stale baseline blocking, duplicate-carrier ambiguity blocking, public export, receipt nonclaims, and parser core absence of Node, Buffer, child process, network, regex parser, UI, and writer authority.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
       "approvedAtUtc": "2026-07-30T17:12:04.000Z"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e10-c04-actor-causal-offline-queue.contract.test.js",
+      "sha256": "2a547396cf62041366491a001e9dc6b6936b2d2c7c0e9165ee73026a66f49ae8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE",
+      "approvedAtUtc": "2026-07-30T17:20:10.000Z",
+      "rationale": "Approve E10 C04 focused contract: proves deterministic local actor identity envelopes without account or remote presence identity, PER_ACTOR_FIFO causal ordering report with typed buffering and duplicate rejection, offline queue packet with capability-disabled nonblocking authoring proof, payload exclusion, no network transport queue, no Core transport dependency, no second queue truth, no project or manuscript mutation, no UI, no storage writer, and no new collab file."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C04_ACTOR_CAUSAL_OFFLINE_QUEUE_RECEIPT.json",
+      "sha256": "1fb58bf59db8f40cc6c2e0cae1a5225b320262b76fdda904ec32e4c965e568bf",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE",
+      "approvedAtUtc": "2026-07-30T17:34:08.000Z",
+      "rationale": "Approve bounded E10 C04 final receipt after origin/main drift reconciliation to 9807fd2a: records deterministic local actor identity envelopes, PER_ACTOR_FIFO causal ordering report, offline queue packet, capability-disabled nonblocking proof, typed causal and queue rejection envelopes, payload exclusion, no account identity, no remote presence, no network queue transport, no Core transport dependency, no second queue truth, no project or manuscript mutation, no UI, no storage adapter, no dependency, focused and adjacent local PASS evidence with 24 tests, causal queue readiness PASS, collab stress safe PASS, governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
     }
   ]
 }

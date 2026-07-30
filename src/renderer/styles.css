@@ -4278,6 +4278,20 @@ body.dark-theme .toolbar__swatch::before {
   line-height: 14px;
 }
 
+.right-rail-surface--atlas-reports {
+  display: grid;
+  gap: 8px;
+}
+
+.right-rail-atlas-reports-row[data-state="current"] {
+  border-color: rgba(62, 111, 76, 0.24);
+}
+
+.right-rail-atlas-reports-row[data-state="reviewRequired"] {
+  border-color: rgba(138, 59, 46, 0.28);
+  background: var(--hover-bg);
+}
+
 .right-rail-atlas-matrix-list {
   display: grid;
   gap: 5px;

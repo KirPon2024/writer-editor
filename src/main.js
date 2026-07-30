@@ -368,6 +368,7 @@ const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
 const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
 const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
+const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query.atlasReportsSavedQueries';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const HISTORY_CREATE_CHECKPOINT_COMMAND_ID = 'cmd.project.history.createCheckpoint';
 const HISTORY_RESTORE_PREVIEW_COMMAND_ID = 'cmd.project.history.restorePreview';
@@ -6970,6 +6971,18 @@ function loadAtlasHeatmapModule() {
   return atlasHeatmapModulePromise;
 }
 
+let atlasReportsSavedQueriesModulePromise = null;
+function loadAtlasReportsSavedQueriesModule() {
+  if (!atlasReportsSavedQueriesModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'atlas', 'deriveAtlasReportsSavedQueries.mjs')).href;
+    atlasReportsSavedQueriesModulePromise = import(modulePath).catch((error) => {
+      atlasReportsSavedQueriesModulePromise = null;
+      throw error;
+    });
+  }
+  return atlasReportsSavedQueriesModulePromise;
+}
+
 async function normalizeProjectManifest(manifest, projectName = DEFAULT_PROJECT_NAME) {
   const source = isPlainObjectValue(manifest) ? manifest : {};
   const stableProjectId = normalizeStableProjectId(source.projectId);
@@ -8008,6 +8021,61 @@ function makeAtlasHeatmapFallback(projectId, reason, extra = {}) {
   };
 }
 
+function makeAtlasReportsSavedQueriesFallback(projectId, reason, extra = {}) {
+  return {
+    schemaVersion: 'derived.atlas.reportsSavedQueries.v1',
+    state: reason ? 'unavailable' : 'empty',
+    unavailableReason: reason || '',
+    surfaceManifest: {
+      schemaVersion: 'surface.atlas.reportsSavedQueries.v1',
+      surfaceId: 'surface.atlas.reportsSavedQueries',
+      providerId: ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,
+      host: 'rightRail',
+      slotId: 'rightRail.context.atlas.reportsSavedQueries',
+      contributionKind: 'readOnlyProjectionWithCommandBoundary',
+      commandAuthority: 'CommandKernel',
+      commandIds: ['atlas.savedQuery.save'],
+      productMutation: false,
+      storageAuthority: false,
+    },
+    authority: {
+      readModelOnly: true,
+      commandAuthority: 'CommandKernel',
+      commandIds: ['atlas.savedQuery.save'],
+      projectTruthMutation: false,
+      storageMutation: false,
+      networkMutation: false,
+      rendererMutation: false,
+      cloudSync: false,
+      accountSync: false,
+      hiddenMutation: false,
+    },
+    projectId: typeof projectId === 'string' ? projectId : '',
+    summary: {
+      reportCount: 0,
+      savedQueryCount: 0,
+      staleSavedQueryCount: 0,
+      exportSafeRowCount: 0,
+      reportHash: '',
+      sourceHash: '',
+      invalidationKey: '',
+    },
+    localReportPacket: {
+      schemaVersion: 'derived.atlas.localReportPacket.v1',
+      state: reason ? 'unavailable' : 'empty',
+      sections: [],
+    },
+    savedQueries: [],
+    exportSafeSummary: {
+      schemaVersion: 'derived.atlas.reportExportSafeSummary.v1',
+      rows: [],
+      pathless: true,
+      containsPrivateData: false,
+    },
+    ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
 function getAtlasAuthorDataForProjection(manifest = {}) {
   const atlas = isPlainObjectValue(manifest.atlas) ? manifest.atlas : {};
   if (atlas.schemaVersion !== 'atlas.author.v1' || !isPlainObjectValue(atlas.entities)) {
@@ -8015,6 +8083,7 @@ function getAtlasAuthorDataForProjection(manifest = {}) {
       schemaVersion: 'atlas.author.v1',
       entities: {},
       decisions: {},
+      savedQueries: {},
     };
   }
   return JSON.parse(JSON.stringify(atlas));
@@ -8190,6 +8259,14 @@ function normalizeAtlasHeatmapPayload(payload = {}) {
     columnLimit: Number.isSafeInteger(Number(source.columnLimit)) ? Number(source.columnLimit) : 10,
     tileLimit: Number.isSafeInteger(Number(source.tileLimit)) ? Number(source.tileLimit) : 64,
     listLimit: Number.isSafeInteger(Number(source.listLimit)) ? Number(source.listLimit) : 16,
+  };
+}
+
+function normalizeAtlasReportsSavedQueriesPayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
+    limit: Number.isSafeInteger(Number(source.limit)) ? Number(source.limit) : 12,
   };
 }
 
@@ -8476,6 +8553,62 @@ async function handleWorkspaceAtlasHeatmapQuery(payload = {}) {
       atlasHeatmap: makeAtlasHeatmapFallback(
         safePayload.projectId,
         error && typeof error.code === 'string' ? error.code : 'ATLAS_HEATMAP_READ_FAILED',
+      ),
+    };
+  }
+}
+
+async function handleWorkspaceAtlasReportsSavedQueriesQuery(payload = {}) {
+  const safePayload = normalizeAtlasReportsSavedQueriesPayload(payload);
+  const reportsModule = await loadAtlasReportsSavedQueriesModule();
+  try {
+    const { projectId, coreState } = await buildAtlasOverviewCoreState();
+    if (safePayload.projectId && safePayload.projectId !== projectId) {
+      return {
+        ok: true,
+        atlasReportsSavedQueries: makeAtlasReportsSavedQueriesFallback(safePayload.projectId, 'ATLAS_PROJECT_MISMATCH'),
+      };
+    }
+    const reports = reportsModule.deriveAtlasReportsSavedQueries({
+      coreState,
+      params: {
+        projectId,
+        limit: safePayload.limit,
+      },
+      capabilitySnapshot: {
+        platformId: 'node',
+        capabilities: {
+          atlasReportsSavedQueries: true,
+          atlasOverview: true,
+          atlasMatrices: true,
+          atlasHeatmap: true,
+          atlasObservationAggregate: true,
+          atlasTemporalContinuity: true,
+          atlasLocalGraph: true,
+        },
+      },
+    });
+    if (!reports.ok) {
+      return {
+        ok: true,
+        atlasReportsSavedQueries: makeAtlasReportsSavedQueriesFallback(
+          projectId,
+          reports.error?.reason || 'ATLAS_REPORTS_SAVED_QUERIES_UNAVAILABLE',
+          { error: reports.error || null },
+        ),
+      };
+    }
+    return {
+      ok: true,
+      atlasReportsSavedQueries: reports.value,
+    };
+  } catch (error) {
+    logDevError('query.atlasReportsSavedQueries', error);
+    return {
+      ok: true,
+      atlasReportsSavedQueries: makeAtlasReportsSavedQueriesFallback(
+        safePayload.projectId,
+        error && typeof error.code === 'string' ? error.code : 'ATLAS_REPORTS_SAVED_QUERIES_READ_FAILED',
       ),
     };
   }
@@ -18474,6 +18607,9 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
   if (queryId === ATLAS_HEATMAP_QUERY_ID) {
     return handleWorkspaceAtlasHeatmapQuery(payload);
   }
+  if (queryId === ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID) {
+    return handleWorkspaceAtlasReportsSavedQueriesQuery(payload);
+  }
   if (queryId === ATLAS_CURRENT_SCENE_QUERY_ID) {
     return handleWorkspaceAtlasCurrentSceneQuery(payload);
   }
@@ -20375,6 +20511,7 @@ const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set([
   ATLAS_RELATION_DOSSIER_QUERY_ID,
   ATLAS_MATRICES_QUERY_ID,
   ATLAS_HEATMAP_QUERY_ID,
+  ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,
 ]);
 const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.plan.switchMode',

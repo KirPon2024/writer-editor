@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js",
+      "sha256": "ebb6d6d1a2ac477753c91dba987fa25c565aee42ce92a210a3eae00d90a8c5fe",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_AND_SAVED_QUERIES_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T02:35:46.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C06 reports and saved queries contract: proves atlas.savedQuery.save Core command boundary, saved query author truth save/reopen, stale-source detection, local report packet, export-safe pathless summary, typed right-rail reports surface, main query bridge allowlist, capability revalidation, and side-effect boundaries while preserving no cloud sync, no account sync, no paid service, no network runtime, no hidden mutation, no renderer command bypass, no new dependency, and no release readiness widening."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_SAVED_QUERIES_BOUNDARY_RECEIPT.json",
+      "sha256": "1c805597d54384f304a8d4c1174da1ccd30a9f57db30c00c2d23eae65acef734",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_AND_SAVED_QUERIES_BOUNDARY",
+      "approvedAtUtc": "2026-07-30T02:39:32.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C06 delivery receipt: records local verified implementation of Atlas reports and saved queries boundary, Lazyweb saved-reports search evidence with create-report redirect fallback, UI Craft application, no Leonardo trigger, no Project Wallace trigger, Core command atlas.savedQuery.save, node-only capability cap.atlas.savedQuery.save, local report packet, saved query readback, stale-source detection, export-safe pathless summary, no cloud sync, no account sync, no network runtime, no hidden renderer mutation, no new dependency, focused and full runner pass evidence, and next contour handoff without widening release readiness."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
       "sha256": "99bd2f478842c41aceb467fbd6f8f2bdfbfd7c75190d247e9de68088af652167",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF",

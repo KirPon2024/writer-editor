@@ -260,6 +260,7 @@ const atlasRelationDossierHost = document.querySelector('[data-atlas-relation-do
 const atlasMatricesHost = document.querySelector('[data-atlas-matrices-host]');
 const atlasHeatmapShell = document.querySelector('[data-atlas-heatmap-shell]');
 const atlasHeatmapHost = document.querySelector('[data-atlas-heatmap-host]');
+const atlasReportsHost = document.querySelector('[data-atlas-reports-host]');
 const atlasCurrentSceneHost = document.querySelector('[data-atlas-current-scene-host]');
 const inspectorCommentsAction = document.querySelector('[data-inspector-comments-action]');
 const inspectorFocusStatus = document.querySelector('[data-inspector-focus-status]');
@@ -739,6 +740,22 @@ let atlasHeatmapState = {
   viewportBudgetProof: {},
   unavailableReason: '',
 };
+let atlasReportsState = {
+  state: 'empty',
+  projectId: '',
+  summary: {
+    reportCount: 0,
+    savedQueryCount: 0,
+    staleSavedQueryCount: 0,
+    exportSafeRowCount: 0,
+    reportHash: '',
+    sourceHash: '',
+  },
+  localReportPacket: { sections: [] },
+  savedQueries: [],
+  exportSafeSummary: { rows: [] },
+  unavailableReason: '',
+};
 let atlasCurrentSceneState = {
   state: 'empty',
   projectId: '',
@@ -871,6 +888,7 @@ const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
 const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
 const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
+const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query.atlasReportsSavedQueries';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const RIGHT_RAIL_SURFACE_PROVIDERS = Object.freeze({
   inspector: METADATA_INSPECTOR_QUERY_ID,
@@ -8719,6 +8737,7 @@ async function openDocumentNode(node) {
       refreshAtlasEntityDossier();
       refreshAtlasRelationDossier();
       refreshAtlasMatrices();
+      refreshAtlasReportsSavedQueries();
       refreshAtlasCurrentScene();
     }
     return true;
@@ -11198,6 +11217,9 @@ function syncRightRailCompositionState(tab) {
   if (atlasHeatmapHost instanceof HTMLElement) {
     atlasHeatmapHost.dataset.atlasHeatmapProvider = ATLAS_HEATMAP_QUERY_ID;
   }
+  if (atlasReportsHost instanceof HTMLElement) {
+    atlasReportsHost.dataset.atlasReportsProvider = ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID;
+  }
   if (atlasCurrentSceneHost instanceof HTMLElement) {
     atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
   }
@@ -11218,6 +11240,7 @@ function applyRightTab(tab) {
     refreshAtlasRelationDossier();
     refreshAtlasMatrices();
     renderAtlasHeatmapState();
+    refreshAtlasReportsSavedQueries();
     refreshAtlasCurrentScene();
   }
   syncInspectorStateSurface();
@@ -12498,6 +12521,157 @@ async function refreshAtlasHeatmap() {
     : { state: 'unavailable', unavailableReason: 'ATLAS_HEATMAP_QUERY_FAILED' };
   atlasHeatmapState = normalizeAtlasHeatmap(nextState);
   renderAtlasHeatmapState();
+}
+
+function normalizeAtlasReportsSavedQueries(result = {}) {
+  const source = result && typeof result === 'object' && !Array.isArray(result) ? result : {};
+  const summary = source.summary && typeof source.summary === 'object' && !Array.isArray(source.summary) ? source.summary : {};
+  const report = source.localReportPacket && typeof source.localReportPacket === 'object' && !Array.isArray(source.localReportPacket) ? source.localReportPacket : {};
+  const exportSafe = source.exportSafeSummary && typeof source.exportSafeSummary === 'object' && !Array.isArray(source.exportSafeSummary) ? source.exportSafeSummary : {};
+  return {
+    schemaVersion: typeof source.schemaVersion === 'string' ? source.schemaVersion : 'derived.atlas.reportsSavedQueries.v1',
+    state: typeof source.state === 'string' ? source.state : 'empty',
+    unavailableReason: typeof source.unavailableReason === 'string' ? source.unavailableReason : '',
+    projectId: typeof source.projectId === 'string' ? source.projectId : '',
+    summary: {
+      reportCount: Number.isInteger(summary.reportCount) ? Math.max(0, summary.reportCount) : 0,
+      savedQueryCount: Number.isInteger(summary.savedQueryCount) ? Math.max(0, summary.savedQueryCount) : 0,
+      staleSavedQueryCount: Number.isInteger(summary.staleSavedQueryCount) ? Math.max(0, summary.staleSavedQueryCount) : 0,
+      exportSafeRowCount: Number.isInteger(summary.exportSafeRowCount) ? Math.max(0, summary.exportSafeRowCount) : 0,
+      reportHash: typeof summary.reportHash === 'string' ? summary.reportHash : '',
+      sourceHash: typeof summary.sourceHash === 'string' ? summary.sourceHash : '',
+    },
+    localReportPacket: {
+      schemaVersion: typeof report.schemaVersion === 'string' ? report.schemaVersion : 'derived.atlas.localReportPacket.v1',
+      state: typeof report.state === 'string' ? report.state : 'empty',
+      sections: Array.isArray(report.sections) ? report.sections.filter(reviewSurfaceIsPlainObject) : [],
+    },
+    savedQueries: Array.isArray(source.savedQueries) ? source.savedQueries.filter(reviewSurfaceIsPlainObject) : [],
+    exportSafeSummary: {
+      schemaVersion: typeof exportSafe.schemaVersion === 'string' ? exportSafe.schemaVersion : 'derived.atlas.reportExportSafeSummary.v1',
+      rows: Array.isArray(exportSafe.rows) ? exportSafe.rows.filter(reviewSurfaceIsPlainObject) : [],
+      pathless: exportSafe.pathless !== false,
+      containsPrivateData: exportSafe.containsPrivateData === true,
+    },
+  };
+}
+
+function appendAtlasReportsRow(parent, primary, secondary = '', state = '') {
+  const row = document.createElement('div');
+  row.className = 'right-rail-atlas-matrix-list-row right-rail-atlas-reports-row';
+  if (state) row.dataset.state = state;
+  const main = document.createElement('span');
+  main.className = 'right-rail-atlas-matrix-list-row__main';
+  main.textContent = primary;
+  const meta = document.createElement('span');
+  meta.className = 'right-rail-atlas-matrix-list-row__meta';
+  meta.textContent = secondary;
+  row.append(main, meta);
+  parent.appendChild(row);
+  return row;
+}
+
+function renderAtlasReportsSavedQueriesState() {
+  if (!(atlasReportsHost instanceof HTMLElement)) return;
+  const state = normalizeAtlasReportsSavedQueries(atlasReportsState);
+  atlasReportsHost.innerHTML = '';
+  atlasReportsHost.dataset.atlasReportsStatus = state.state;
+  atlasReportsHost.dataset.atlasReportsProvider = ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID;
+
+  const header = document.createElement('div');
+  header.className = 'right-rail-atlas-matrices-head';
+  const label = document.createElement('div');
+  label.className = 'right-rail-section__label';
+  label.textContent = 'Reports';
+  const title = document.createElement('strong');
+  title.className = 'right-rail-atlas-matrices-title';
+  title.textContent = 'Local Atlas reports';
+  const hash = document.createElement('span');
+  hash.className = 'right-rail-atlas-overview-hash';
+  hash.textContent = state.summary.reportHash ? state.summary.reportHash.slice(0, 8) : state.state;
+  header.append(label, title, hash);
+  atlasReportsHost.appendChild(header);
+
+  if (state.state === 'unavailable') {
+    const unavailable = document.createElement('div');
+    unavailable.className = 'right-rail-atlas-state right-rail-atlas-state--blocked';
+    unavailable.textContent = state.unavailableReason || 'ATLAS_REPORTS_SAVED_QUERIES_UNAVAILABLE';
+    atlasReportsHost.appendChild(unavailable);
+    return;
+  }
+  if (state.state === 'loading') {
+    const loading = document.createElement('div');
+    loading.className = 'right-rail-atlas-state';
+    loading.textContent = 'Atlas reports обновляются.';
+    atlasReportsHost.appendChild(loading);
+    return;
+  }
+
+  const metrics = document.createElement('div');
+  metrics.className = 'right-rail-atlas-overview-metrics right-rail-atlas-matrices-metrics';
+  appendAtlasOverviewMetric(metrics, 'reports', state.summary.reportCount);
+  appendAtlasOverviewMetric(metrics, 'queries', state.summary.savedQueryCount);
+  appendAtlasOverviewMetric(metrics, 'stale', state.summary.staleSavedQueryCount, state.summary.staleSavedQueryCount > 0 ? 'reviewRequired' : 'current');
+  appendAtlasOverviewMetric(metrics, 'export rows', state.summary.exportSafeRowCount);
+  atlasReportsHost.appendChild(metrics);
+
+  const reportSection = appendAtlasOverviewSection(atlasReportsHost, 'Report packet', { open: true });
+  const reportRows = document.createElement('div');
+  reportRows.className = 'right-rail-atlas-matrix-list';
+  for (const section of state.localReportPacket.sections) {
+    const metricsText = Object.entries(section.metrics || {})
+      .map(([key, value]) => `${key} ${value}`)
+      .join(' · ');
+    appendAtlasReportsRow(reportRows, section.label || section.id || 'Report section', metricsText);
+  }
+  if (state.localReportPacket.sections.length < 1) {
+    appendAtlasReportsRow(reportRows, 'No local report sections yet', 'Atlas reports appear after observations exist.');
+  }
+  reportSection.appendChild(reportRows);
+
+  const querySection = appendAtlasOverviewSection(atlasReportsHost, 'Saved queries', { open: true });
+  const queryRows = document.createElement('div');
+  queryRows.className = 'right-rail-atlas-matrix-list';
+  for (const query of state.savedQueries) {
+    const filterCount = (query.filter?.entityIds?.length || 0) + (query.filter?.sceneIds?.length || 0) + (query.filter?.relationPairIds?.length || 0);
+    appendAtlasReportsRow(
+      queryRows,
+      query.name || query.id || 'Saved query',
+      `${query.reportType || 'overview'} · ${filterCount} filters · ${query.stale ? 'stale source' : 'current source'}`,
+      query.stale ? 'reviewRequired' : 'current',
+    );
+  }
+  if (state.savedQueries.length < 1) {
+    appendAtlasReportsRow(queryRows, 'No saved queries yet', 'Command boundary: atlas.savedQuery.save');
+  }
+  querySection.appendChild(queryRows);
+
+  const exportSection = appendAtlasOverviewSection(atlasReportsHost, 'Export-safe summary', { open: false });
+  const exportRows = document.createElement('div');
+  exportRows.className = 'right-rail-atlas-matrix-list';
+  for (const row of state.exportSafeSummary.rows.slice(0, 8)) {
+    appendAtlasReportsRow(exportRows, row.label || row.id || row.kind || 'row', row.summary || '');
+  }
+  exportSection.appendChild(exportRows);
+}
+
+async function refreshAtlasReportsSavedQueries() {
+  if (currentRightTab !== 'atlas') return;
+  atlasReportsState = {
+    ...atlasReportsState,
+    state: currentProjectId ? 'loading' : 'empty',
+    projectId: currentProjectId || '',
+  };
+  renderAtlasReportsSavedQueriesState();
+  const result = await invokeWorkspaceQueryBridge(ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID, {
+    projectId: currentProjectId,
+    limit: 12,
+  });
+  const nextState = result && result.ok !== false && result.atlasReportsSavedQueries
+    ? result.atlasReportsSavedQueries
+    : { state: 'unavailable', unavailableReason: 'ATLAS_REPORTS_SAVED_QUERIES_QUERY_FAILED' };
+  atlasReportsState = normalizeAtlasReportsSavedQueries(nextState);
+  renderAtlasReportsSavedQueriesState();
 }
 
 function normalizeAtlasCurrentSceneDossier(result = {}) {

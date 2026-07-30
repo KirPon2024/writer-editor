@@ -13393,7 +13393,7 @@ function renderAtlasDiagnosticsStageAcceptanceState() {
   label.textContent = 'Diagnostics';
   const title = document.createElement('strong');
   title.className = 'right-rail-atlas-matrices-title';
-  title.textContent = 'Stage 05 acceptance';
+  title.textContent = 'Stage 05 acceptance / Stage 06 handoff';
   const hash = document.createElement('span');
   hash.className = 'right-rail-atlas-overview-hash';
   hash.textContent = state.summary.diagnosticsHash ? state.summary.diagnosticsHash.slice(0, 8) : state.state;

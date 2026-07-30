@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C03_ADVANCED_LOD_STABLE_POSITIONS_LARGE_GRAPH_BUDGET_RECEIPT.json",
+      "sha256": "d5f7567fa7365d8f1ad60a7a9dcd53500fa3e0b5fabb131db138bc211dc0e1eb",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C03_ADVANCED_LOD_STABLE_POSITIONS_AND_LARGE_GRAPH_BUDGET",
+      "approvedAtUtc": "2026-07-30T08:43:26.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E08 C03 receipt: records pure advanced LOD and stable-position planning over the global composite graph, 10k-node large graph budget proof, bounded max node and edge plans, no render-all claim, deterministic source-hash-bound stable positions, source-order-independent LOD output, no persistent layout truth, no UI, no renderer adapter, no storage, no network, no timer, no worker pool, no dependency, no project truth mutation, no manuscript mutation, and handoff to E08 C04."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e08-c03-advanced-lod-stable-positions-large-graph-budget.contract.test.js",
+      "sha256": "ec834fbe8248304223e7f24eb899d132b46eb185348228d493d6940692d1d3ba",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C03_ADVANCED_LOD_STABLE_POSITIONS_AND_LARGE_GRAPH_BUDGET",
+      "approvedAtUtc": "2026-07-30T08:43:26.000Z",
+      "rationale": "Approve E08 C03 contract coverage: proves LOD planning keeps a 10000-node and 9999-edge composite graph within bounded node and edge budgets without render-all, stable positions are deterministic and bound to source hashes, output is independent of source node and edge ordering, exports pass through derived barrels, and source files contain no filesystem, network, Electron, Worker, timer, storage, command dispatch, persistent layout truth, project truth mutation, storage mutation, network mutation, or renderer mutation path."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_STALE_DISCARD_RECEIPT.json",
       "sha256": "95c21a19739cc809e4a37b87d02ead42b7b24ea050544620c115c871c9d63ce4",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_AND_STALE_DISCARD",

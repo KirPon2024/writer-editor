@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E08_C03_ADVANCED_LOD_STABLE_POSITIONS_LARGE_GRAPH_BUDGET_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E08_C03_ADVANCED_LOD_STABLE_POSITIONS_AND_LARGE_GRAPH_BUDGET",
+  "programStage": "E08_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T08:43:26Z",
+  "baseSha": "7a6fe525b79b0048ead19ed1e5e16253f95e7734",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E08 C03 adds a pure LOD and stable-position planner for the existing global composite graph. It changes no product UI screen, visual layout, renderer adapter, surface manifest, palette, typography, or interaction contract.",
+  "runtimeFacts": {
+    "lodPlanExists": true,
+    "lodPlanSchemaVersion": "atlas.globalCompositeGraph.lodPlan.v1",
+    "stablePositionSchemaVersion": "atlas.globalCompositeGraph.stablePosition.v1",
+    "resourceBudgetProofSchemaVersion": "atlas.globalCompositeGraph.resourceBudgetProof.v1",
+    "largeGraphFixtureNodeCount": 10000,
+    "largeGraphFixtureEdgeCount": 9999,
+    "boundedMaxNodes": 320,
+    "boundedMaxEdges": 240,
+    "renderAllNodes": false,
+    "renderAllEdges": false,
+    "stablePositionsDeterministic": true,
+    "stablePositionsSourceHashBound": true,
+    "sourceOrderIndependent": true,
+    "persistentLayoutTruth": false,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false
+  },
+  "changedArtifacts": [
+    "atlasGlobalCompositeGraphTypes.mjs",
+    "atlasGlobalCompositeGraphLayoutPlanner.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e08-c03-advanced-lod-stable-positions-large-graph-budget.contract.test.js",
+    "YALKEN_ATLAS_V5_E08_C03_ADVANCED_LOD_STABLE_POSITIONS_LARGE_GRAPH_BUDGET_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "validation": [
+    {
+      "command": "node --check atlasGlobalCompositeGraphLayoutPlanner and E08 C03 contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E08 C03 contract",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 gate passed"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; release/perf/menu/law/execution PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E08 C03 is a pure planner over derived global composite graph packets. Rebuild from the same composite source hashes and node ids produces the same LOD plan hash; no persistent layout truth, source write-back, UI, storage, network, timer, worker, project truth, or manuscript mutation exists.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_AND_ACCESSIBILITY_PARITY"
+}

@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "3bac8ffab6ae277533c82c740e598134bee16a6a3c2c4d8e8be7c2f3b0407cda",
-      "rationale": "Approve bounded public barrel export for C03 block exact authority constants and evaluator through the existing revisionBridge entrypoint while preserving parser, classifier, exact apply adapter, main command authority, no renderer or UI authority, no storage adapter, no network, no dependency, and no automatic apply expansion.",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
-      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+      "sha256": "1231667fcb96b442401b351a281a776fb416ba36ecf8af2842b54ce7f09d19a9",
+      "rationale": "Approve bounded public barrel export for C04 block exact writer binding constants, builder, and apply adapter through the existing revisionBridge entrypoint while preserving parser, classifier, exact apply adapter, main command authority, no renderer or UI authority, no storage adapter bypass, no network, no dependency, and no broad automatic apply expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
+      "approvedAtUtc": "2026-07-30T17:58:00.000Z"
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "8cef53f433f454c55f1087f4fecfaeab3f87f7792aba2179d0f5561076a1f6cb",
-      "rationale": "Approve bounded C03 Sector-M cumulative scope-map hygiene update: adds the new platform-neutral reviewTransportBlockExactAuthorityV2.mjs file to the existing DONE revisionBridge allowlist so the already-enforced scope leak and sector runner guards recognize the C03 RTK authority core; this preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no writer authority, and no product claim expansion.",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
-      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+      "sha256": "39709937a8db34ed169ab4964bb5f28202f2e3adf17665f35642aa71ade3e68f",
+      "rationale": "Approve bounded C04 Sector-M cumulative scope-map hygiene update: keeps the existing C03 reviewTransportBlockExactAuthorityV2.mjs entry and adds only the new reviewTransportBlockExactWriterBindingV2.mjs file to the exact DONE revisionBridge allowlist so the already-enforced scope leak and sector runner guards recognize the bounded C04 main-side writer binding adapter; this preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no parser authority, no standalone insert apply, no range writer claim, and no product claim expansion.",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
+      "approvedAtUtc": "2026-07-30T18:12:00.000Z"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -4679,10 +4679,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-exact-text-min-safe-write.contract.test.js",
-      "sha256": "7a90db8e2becd24c5aaea4d685bc67806a0c666256f41ba68c00cec1eb7e0325",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
-      "approvedAtUtc": "2026-07-29T13:02:36.000Z",
-      "rationale": "Approve bounded G0C exact safe-writer contract allowlist sync required by the owner-approved RTK V6 contract; it admits focused exact-safety regression evidence without adding runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
+      "sha256": "ec82e5554a024cfecba85a4e1126c85d6d2e8df7e3ba00ef3d5b50d4f3b60568",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
+      "approvedAtUtc": "2026-07-30T17:58:00.000Z",
+      "rationale": "Approve narrow adjacent exact-writer guard update: adds only the C04 RTK writer binding module, contract, and receipt to the existing exact safe-write changed-file allowlist; it preserves the no-wildcard scope check, existing crash reconciliation tests, existing writer safety assertions, and adds no UI, runtime dependency, network, renderer authority, parser authority, or broad apply expansion."
     },
     {
       "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
@@ -5460,6 +5460,27 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C04_ACTOR_IDENTITY_CAUSAL_ORDERING_AND_OFFLINE_QUEUE",
       "approvedAtUtc": "2026-07-30T17:34:08.000Z",
       "rationale": "Approve bounded E10 C04 final receipt after origin/main drift reconciliation to 9807fd2a: records deterministic local actor identity envelopes, PER_ACTOR_FIFO causal ordering report, offline queue packet, capability-disabled nonblocking proof, typed causal and queue rejection envelopes, payload exclusion, no account identity, no remote presence, no network queue transport, no Core transport dependency, no second queue truth, no project or manuscript mutation, no UI, no storage adapter, no dependency, focused and adjacent local PASS evidence with 24 tests, causal queue readiness PASS, collab stress safe PASS, governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportBlockExactWriterBindingV2.mjs",
+      "sha256": "d52df307ad9905d951a86b93a65b8aa8104609f457100bd6ec8995a8b15bd59c",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
+      "approvedAtUtc": "2026-07-30T17:58:00.000Z",
+      "rationale": "Approve bounded C04 main-side writer binding adapter: re-evaluates C03 block exact authority digest, rejects missing or mismatched provided C03 authority digest before writer execution, uses computed authority rather than external overrides, binds full candidate ids one-to-one to writer change ids, builds B05 admission input for delete and replacement-pair text groups, requires main-owned command authority, preserves parser, renderer, comments, formatting, and block-authority self-write guards, records duplicate scene quote as an existing exact-writer limitation, adds no UI, network, dependency, cloud, other editor, range writer certification, standalone insert apply, move apply, or broad Word saturation claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C04_BLOCK_WRITER_BINDING_RECEIPT.json",
+      "sha256": "a21ccacf7579bb8c678ea436a6b1734b8b6956833b42287fbbb684dd36464fc8",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
+      "approvedAtUtc": "2026-07-30T17:58:00.000Z",
+      "rationale": "Approve bounded C04 receipt: records explicit writer binding from C03 authority to B05 admission, crash-before-receipt no-false-success proof, repeated request no-double-mutation proof, parser caller, tampered authority, and missing C03 authority digest blocking, standalone insert blocking, duplicate scene quote limitation, zero false counters, Word-only sequencing with Google Docs next after saturation, and nonclaims for range writer, duplicate scene quote auto apply, full Word saturation, Google Docs, and other editors."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js",
+      "sha256": "7f482b86761f559ae121270f033f2caeeacdbe6151fe6fecab3fdbce061095c2",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
+      "approvedAtUtc": "2026-07-30T17:58:00.000Z",
+      "rationale": "Approve focused C04 contract coverage: proves C03 authority to B05 writer binding, full candidate id one-to-one binding, positive apply and replay, comment and formatting lane independence, parser caller blocking before writer, tampered and missing C03 digest blocking before writer, standalone insert blocking before writer, duplicate scene quote no false exact mutation, crash-before-receipt no false success, repeated request no double mutation, receipt nonclaims, and source absence of renderer, Electron, IPC, and network authority."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e10-c05-local-multi-session-recovery-conflicts.contract.test.js",

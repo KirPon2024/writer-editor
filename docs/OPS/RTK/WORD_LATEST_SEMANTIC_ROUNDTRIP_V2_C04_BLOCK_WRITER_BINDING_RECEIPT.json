@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.c04-block-writer-binding-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "C04_EXPLICIT_WRITER_BINDING_FROM_BLOCK_LOCAL_AUTHORITY_WITH_CRASH_REPLAY_NEGATIVES",
+  "status": "C04_BLOCK_EXACT_WRITER_BINDING_READY_NOT_RANGE_WRITER_SATURATION",
+  "createdAtUtc": "2026-07-30T17:58:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "e720743a1edf5b9fee4ed220226b6f111cb09b2e",
+    "precedingC03MergeSha": "e720743a1edf5b9fee4ed220226b6f111cb09b2e",
+    "precedingC03Pr": 1271
+  },
+  "implementedSurface": {
+    "writerBindingAdapter": "reviewTransportBlockExactWriterBindingV2.mjs",
+    "publicBarrel": "index.mjs",
+    "schemaVersion": "yalken.rtk.review-transport-block-exact-writer-binding.v2",
+    "profileId": "bounded-block-exact-writer-binding-v2-c04",
+    "inputTruth": [
+      "ReviewIRV2",
+      "C02 verified authority carrier",
+      "C03 block exact authority digest",
+      "local Yalken baseline block text",
+      "main-owned command authority",
+      "main-provided writer context"
+    ],
+    "boundWriterPath": [
+      "C03 authority digest re-evaluation",
+      "exact anchor to ReviewIR source revision evidence",
+      "full candidate id to writer change id one-to-one binding",
+      "B05 exact apply admission",
+      "existing exact text safe writer",
+      "checkpoint and outcome ledger"
+    ],
+    "supportedTextGroups": [
+      "replacement pair with one delete and one insert revision when existing writer can prove one scene occurrence",
+      "delete revision when existing writer can prove one scene occurrence"
+    ],
+    "separateLanes": {
+      "comments": "preserved as independent non-writer lane",
+      "formatting": "preserved as manual non-writer lane",
+      "properties": "preserved as manual non-writer lane",
+      "moves": "blocked from automatic writer binding",
+      "structure": "blocked from automatic writer binding"
+    }
+  },
+  "negativeOracles": {
+    "parserCallerBlockedBeforeWriter": true,
+    "tamperedC03AuthorityDigestBlockedBeforeWriter": true,
+    "missingC03AuthorityDigestBlockedBeforeWriter": true,
+    "standaloneInsertBlockedBeforeWriter": true,
+    "duplicateSceneQuoteDoesNotBecomeFalseExact": true,
+    "crashBeforeReceiptDoesNotReturnFalseSuccess": true,
+    "repeatedRequestAfterCrashDoesNotDoubleMutate": true,
+    "commentLaneDoesNotGrantManuscriptAuthority": true
+  },
+  "zeroFalseExactPolicy": {
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "exactRateMeasuredNotGamed": true
+  },
+  "wordSaturationSequencing": {
+    "currentFocus": "WORD_ONLY_UNTIL_SATURATION",
+    "googleDocsNextAfterWordSaturation": true,
+    "otherEditorsRemainFutureMasterPlan": true,
+    "masterPlanReduced": false
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "parserWriteAuthorityAdded": false,
+    "rendererAuthorityAdded": false,
+    "blockAuthoritySelfWriteAuthorityAdded": false,
+    "mainOwnedWriterBindingAdded": true
+  },
+  "nonClaims": {
+    "rangeWriterCertified": false,
+    "duplicateSceneQuoteAutoApplyCertified": false,
+    "standaloneInsertAutoApplyCertified": false,
+    "moveRevisionExactCertified": false,
+    "formattingAutoApplyCertified": false,
+    "commentApplyAuthority": false,
+    "googleDocsCertified": false,
+    "otherEditorsCertified": false,
+    "fullWordSaturationDone": false,
+    "fixtureOnlyPass": false
+  },
+  "nextStage": "C05_BLOCK_RANGE_WRITER_OR_DUPLICATE_SCENE_QUOTE_LIMITATION_PROOF"
+}

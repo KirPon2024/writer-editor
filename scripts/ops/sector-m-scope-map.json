@@ -246,6 +246,7 @@
       "src/io/revisionBridge/reviewTransportApplyStore.mjs",
       "src/io/revisionBridge/reviewTransportExactApply.mjs",
       "src/io/revisionBridge/reviewTransportIr.mjs",
+      "src/io/revisionBridge/reviewTransportManifestCore.mjs",
       "src/io/revisionBridge/reviewTransportOracle.mjs",
       "src/io/revisionBridge/reviewTransportRoundStore.mjs",
       "src/renderer/editor.bundle.js",

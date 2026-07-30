@@ -892,10 +892,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "4117d4f754b3d96b47918359bcb7a8917135bac78c9f6cacecc3bc3fb6997038",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
-      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
-      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+      "sha256": "0a75b1b0125c35e7029ea58eef0daccc91d93534a152b09c00d3f4cdebfb40fe",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T15:04:00.000Z",
+      "rationale": "Approve bounded B01 Sector M scope-map sync: adds only the new platform-neutral Review Transport Manifest v2 core file to the cumulative DONE allowlist so existing sector-m no-scope-leak and runner guards can validate the B01 branch, with no Sector M product scope, UI, runtime, dependency, network, parser authority, apply authority, Design OS, DOCX Minimal, or manuscript mutation expansion."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",

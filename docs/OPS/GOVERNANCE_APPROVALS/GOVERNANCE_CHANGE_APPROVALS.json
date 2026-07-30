@@ -4613,6 +4613,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE",
       "approvedAtUtc": "2026-07-30T00:49:56.000Z",
       "rationale": "Approve E05 C01 contract test coverage for the Atlas overview surface: proves deterministic overview derivation and surface manifest metadata, unavailable and empty states without mutation, public barrel exports and side-effect boundaries, renderer and main-process query-bridge wiring through a typed host, progressive disclosure presence, and no storage, network, command bypass, or renderer-side product mutation."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C02_ENTITY_DOSSIER_EVIDENCE_LEDGER_READ_SURFACE_RECEIPT.json",
+      "sha256": "e8f62f04ee201f933ccb8e852571b8dab67b6cd223df0d281f5f3afb6e1107f8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C02_ENTITY_DOSSIER_AND_EVIDENCE_LEDGER_READ_SURFACE",
+      "approvedAtUtc": "2026-07-30T01:10:48.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E05 C02 receipt: records the entity dossier read model, read-only evidence ledger, surface manifest, query bridge provider, right-rail typed slot, transient renderer entity selection, keyboard-accessible evidence list, Lazyweb and UI Craft design-route evidence, synchronized renderer bundle, and no product-truth, storage, network, command-bypass, worker, dependency, or external-service expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c02-entity-dossier-evidence-ledger-read-surface.contract.test.js",
+      "sha256": "4dbaa847e8dd4258d9a45aa98800a276dea2342f4d68e01c7c66ec7af113476c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C02_ENTITY_DOSSIER_AND_EVIDENCE_LEDGER_READ_SURFACE",
+      "approvedAtUtc": "2026-07-30T01:10:48.000Z",
+      "rationale": "Approve E05 C02 contract test coverage for the Atlas entity dossier and evidence ledger read surface: proves deterministic entity selection, read-only surface manifest, evidence ledger rows for current observations and review-required source records, unavailable and empty states without mutation, public barrel exports, renderer and main-process query bridge wiring through a typed host, keyboard-selectable entity rows, and no storage, network, command bypass, or renderer-side product mutation."
     }
   ]
 }

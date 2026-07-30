@@ -4,6 +4,7 @@ export {
   buildActorIdentityEnvelope,
   buildCausalOrderingReport,
   buildOfflineQueuePacket,
+  buildLocalMultiSessionRecoveryReport,
 } from './mergePolicy.mjs';
 export { runCollabReplay } from './replayDeterminism.mjs';
 export { applyEventLog } from './applyEventLog.mjs';

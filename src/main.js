@@ -365,6 +365,7 @@ const PROJECT_LIFECYCLE_PERMANENT_DELETE_COMMAND_ID = 'cmd.project.lifecycle.per
 const SCENE_HISTORY_QUERY_ID = 'query.sceneHistory';
 const ATLAS_OVERVIEW_QUERY_ID = 'query.atlasOverview';
 const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
+const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
 const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
 const HISTORY_CREATE_CHECKPOINT_COMMAND_ID = 'cmd.project.history.createCheckpoint';
 const HISTORY_RESTORE_PREVIEW_COMMAND_ID = 'cmd.project.history.restorePreview';
@@ -6931,6 +6932,18 @@ function loadAtlasEntityDossierModule() {
   return atlasEntityDossierModulePromise;
 }
 
+let atlasRelationDossierModulePromise = null;
+function loadAtlasRelationDossierModule() {
+  if (!atlasRelationDossierModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'atlas', 'deriveAtlasRelationDossier.mjs')).href;
+    atlasRelationDossierModulePromise = import(modulePath).catch((error) => {
+      atlasRelationDossierModulePromise = null;
+      throw error;
+    });
+  }
+  return atlasRelationDossierModulePromise;
+}
+
 async function normalizeProjectManifest(manifest, projectName = DEFAULT_PROJECT_NAME) {
   const source = isPlainObjectValue(manifest) ? manifest : {};
   const stableProjectId = normalizeStableProjectId(source.projectId);
@@ -7740,6 +7753,74 @@ function makeAtlasEntityDossierFallback(projectId, entityId, reason, extra = {})
   };
 }
 
+function makeAtlasRelationDossierFallback(projectId, relationRequest, reason, extra = {}) {
+  const request = isPlainObjectValue(relationRequest) ? relationRequest : {};
+  return {
+    schemaVersion: 'derived.atlas.relationDossier.v1',
+    state: reason ? 'unavailable' : 'empty',
+    unavailableReason: reason || '',
+    surfaceManifest: {
+      schemaVersion: 'surface.atlas.relationDossier.v1',
+      surfaceId: 'surface.atlas.relationDossier',
+      providerId: ATLAS_RELATION_DOSSIER_QUERY_ID,
+      host: 'rightRail',
+      slotId: 'rightRail.context.atlas.relationDossier',
+      contributionKind: 'readOnlyProjectionWithIntentActions',
+      commandAuthority: 'CommandKernel',
+      productMutation: false,
+      storageAuthority: false,
+    },
+    authority: {
+      readModelOnly: true,
+      commandAuthority: 'CommandKernel',
+      actionDispatch: 'intent-only',
+      projectTruthMutation: false,
+      storageMutation: false,
+      networkMutation: false,
+      rendererMutation: false,
+      relationTruthMutation: false,
+      automaticRelationCreation: false,
+      heavySurface: false,
+    },
+    projectId: typeof projectId === 'string' ? projectId : '',
+    requestedPairId: typeof request.pairId === 'string' ? request.pairId : '',
+    requestedLeftEntityId: typeof request.leftEntityId === 'string' ? request.leftEntityId : '',
+    requestedRightEntityId: typeof request.rightEntityId === 'string' ? request.rightEntityId : '',
+    selectedPairId: '',
+    relation: null,
+    summary: {
+      sceneCount: 0,
+      occurrenceCount: 0,
+      evidenceRowCount: 0,
+      leftEvidenceCount: 0,
+      rightEvidenceCount: 0,
+      reviewRequiredEvidenceCount: 0,
+      absenceIntervalCount: 0,
+      actionCount: 0,
+      availableActionCount: 0,
+      dossierHash: '',
+      invalidationKey: '',
+      evidenceHealth: reason ? 'unavailable' : 'empty',
+    },
+    evidencePacket: {
+      schemaVersion: 'derived.atlas.relationEvidencePacket.v1',
+      state: reason ? 'unavailable' : 'empty',
+      readOnly: true,
+      rows: [],
+    },
+    timelineRows: [],
+    absenceContext: [],
+    contextualReviewActions: {
+      schemaVersion: 'derived.atlas.relationContextualActions.v1',
+      state: reason ? 'unavailable' : 'empty',
+      commandAuthority: 'CommandKernel',
+      directDispatch: false,
+      actions: [],
+    },
+    ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
 function getAtlasAuthorDataForProjection(manifest = {}) {
   const atlas = isPlainObjectValue(manifest.atlas) ? manifest.atlas : {};
   if (atlas.schemaVersion !== 'atlas.author.v1' || !isPlainObjectValue(atlas.entities)) {
@@ -7892,6 +7973,17 @@ function normalizeAtlasEntityDossierPayload(payload = {}) {
   };
 }
 
+function normalizeAtlasRelationDossierPayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
+    pairId: typeof source.pairId === 'string' ? source.pairId.trim() : '',
+    leftEntityId: typeof source.leftEntityId === 'string' ? source.leftEntityId.trim() : '',
+    rightEntityId: typeof source.rightEntityId === 'string' ? source.rightEntityId.trim() : '',
+    limit: Number.isSafeInteger(Number(source.limit)) ? Number(source.limit) : 8,
+  };
+}
+
 async function handleWorkspaceAtlasOverviewQuery(payload = {}) {
   const safePayload = normalizeAtlasOverviewPayload(payload);
   const overviewModule = await loadAtlasOverviewModule();
@@ -7996,6 +8088,69 @@ async function handleWorkspaceAtlasEntityDossierQuery(payload = {}) {
         safePayload.projectId,
         safePayload.entityId,
         error && typeof error.code === 'string' ? error.code : 'ATLAS_ENTITY_DOSSIER_READ_FAILED',
+      ),
+    };
+  }
+}
+
+async function handleWorkspaceAtlasRelationDossierQuery(payload = {}) {
+  const safePayload = normalizeAtlasRelationDossierPayload(payload);
+  const dossierModule = await loadAtlasRelationDossierModule();
+  const relationRequest = {
+    pairId: safePayload.pairId,
+    leftEntityId: safePayload.leftEntityId,
+    rightEntityId: safePayload.rightEntityId,
+  };
+  try {
+    const { projectId, coreState } = await buildAtlasOverviewCoreState();
+    if (safePayload.projectId && safePayload.projectId !== projectId) {
+      return {
+        ok: true,
+        atlasRelationDossier: makeAtlasRelationDossierFallback(safePayload.projectId, relationRequest, 'ATLAS_PROJECT_MISMATCH'),
+      };
+    }
+    const dossier = dossierModule.deriveAtlasRelationDossier({
+      coreState,
+      params: {
+        projectId,
+        pairId: safePayload.pairId,
+        leftEntityId: safePayload.leftEntityId,
+        rightEntityId: safePayload.rightEntityId,
+        limit: safePayload.limit,
+      },
+      capabilitySnapshot: {
+        platformId: 'node',
+        capabilities: {
+          atlasRelationDossier: true,
+          atlasObservationAggregate: true,
+          atlasTemporalContinuity: true,
+          atlasEvidenceReattachmentInbox: true,
+        },
+      },
+    });
+    if (!dossier.ok) {
+      return {
+        ok: true,
+        atlasRelationDossier: makeAtlasRelationDossierFallback(
+          projectId,
+          relationRequest,
+          dossier.error?.reason || 'ATLAS_RELATION_DOSSIER_UNAVAILABLE',
+          { error: dossier.error || null },
+        ),
+      };
+    }
+    return {
+      ok: true,
+      atlasRelationDossier: dossier.value,
+    };
+  } catch (error) {
+    logDevError('query.atlasRelationDossier', error);
+    return {
+      ok: true,
+      atlasRelationDossier: makeAtlasRelationDossierFallback(
+        safePayload.projectId,
+        relationRequest,
+        error && typeof error.code === 'string' ? error.code : 'ATLAS_RELATION_DOSSIER_READ_FAILED',
       ),
     };
   }
@@ -17985,6 +18140,9 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
   if (queryId === ATLAS_ENTITY_DOSSIER_QUERY_ID) {
     return handleWorkspaceAtlasEntityDossierQuery(payload);
   }
+  if (queryId === ATLAS_RELATION_DOSSIER_QUERY_ID) {
+    return handleWorkspaceAtlasRelationDossierQuery(payload);
+  }
   if (queryId === ATLAS_CURRENT_SCENE_QUERY_ID) {
     return handleWorkspaceAtlasCurrentSceneQuery(payload);
   }
@@ -19883,6 +20041,7 @@ const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set([
   ATLAS_OVERVIEW_QUERY_ID,
   ATLAS_ENTITY_DOSSIER_QUERY_ID,
   ATLAS_CURRENT_SCENE_QUERY_ID,
+  ATLAS_RELATION_DOSSIER_QUERY_ID,
 ]);
 const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.plan.switchMode',

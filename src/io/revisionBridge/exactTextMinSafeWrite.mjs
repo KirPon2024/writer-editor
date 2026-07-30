@@ -20,6 +20,8 @@ export const REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_SCHEMA =
   'revision-bridge.exact-text-batch-min-safe-write.v1';
 export const REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_RECEIPT_SCHEMA =
   'revision-bridge.exact-text-batch-min-safe-write.receipt.v1';
+export const RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA =
+  'yalken.rtk.review-transport-block-range-writer-authority.v2';
 
 const READY_CODE = 'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_APPLIED';
 const BATCH_READY_CODE = 'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_APPLIED';
@@ -41,6 +43,10 @@ function cloneJsonSafe(value) {
 
 function sha256Text(text) {
   return crypto.createHash('sha256').update(Buffer.from(text, 'utf8')).digest('hex');
+}
+
+function sha256Json(value) {
+  return `sha256:${sha256Text(stableJson(value))}`;
 }
 
 function stableJson(value) {
@@ -260,6 +266,177 @@ function countOccurrences(text, needle) {
     cursor = found + 1;
   }
   return count;
+}
+
+function numberOrNull(value) {
+  return Number.isSafeInteger(value) ? value : null;
+}
+
+function buildBlockRangeDigest(range) {
+  return sha256Json({
+    schemaVersion: RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA,
+    sceneId: rawString(range.sceneId),
+    blockId: rawString(range.blockId),
+    blockText: rawString(range.blockText),
+    sceneStart: numberOrNull(range.sceneStart),
+    blockLocalStart: numberOrNull(range.blockLocalStart),
+    blockLocalEnd: numberOrNull(range.blockLocalEnd),
+    expectedText: rawString(range.expectedText),
+  });
+}
+
+function buildBlockTextDigest(range) {
+  return sha256Json({
+    schemaVersion: RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA,
+    sceneId: rawString(range.sceneId),
+    blockId: rawString(range.blockId),
+    blockText: rawString(range.blockText),
+  });
+}
+
+function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, replacementText }) {
+  const changeId = normalizeString(item?.changeId);
+  const range = isPlainObject(item?.match?.blockRange) ? item.match.blockRange : null;
+  if (!range) return null;
+
+  const blockId = normalizeString(range.blockId || item?.match?.blockId);
+  const rangeSceneId = normalizeString(range.sceneId);
+  const blockText = rawString(range.blockText);
+  const sceneStart = numberOrNull(range.sceneStart);
+  const blockLocalStart = numberOrNull(range.blockLocalStart);
+  const blockLocalEnd = numberOrNull(range.blockLocalEnd);
+
+  if (range.schemaVersion !== RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_INVALID',
+        'reviewItems.match.blockRange.schemaVersion',
+        'block range writer authority schema is invalid',
+        { changeId },
+      ),
+    };
+  }
+  if (!blockId || rangeSceneId !== sceneId) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_BINDING_MISMATCH',
+        'reviewItems.match.blockRange',
+        'block range writer authority must bind the same scene and a non-empty block id',
+        { changeId, sceneId, rangeSceneId, blockId },
+      ),
+    };
+  }
+  if (!blockText || sceneStart === null || blockLocalStart === null || blockLocalEnd === null) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_INVALID',
+        'reviewItems.match.blockRange',
+        'block range writer authority requires block text and safe integer offsets',
+        { changeId },
+      ),
+    };
+  }
+  if (blockLocalStart < 0 || blockLocalEnd < blockLocalStart || blockLocalEnd > blockText.length) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_OFFSET_MISMATCH',
+        'reviewItems.match.blockRange',
+        'block-local range is outside the signed block text',
+        { changeId, blockLocalStart, blockLocalEnd, blockLength: blockText.length },
+      ),
+    };
+  }
+  const expectedRange = {
+    sceneId,
+    blockId,
+    blockText,
+    sceneStart,
+    blockLocalStart,
+    blockLocalEnd,
+    expectedText,
+  };
+  const expectedRangeDigest = buildBlockRangeDigest(expectedRange);
+  const expectedBlockTextDigest = buildBlockTextDigest(expectedRange);
+  if (normalizeString(range.rangeDigest) !== expectedRangeDigest) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_DIGEST_MISMATCH',
+        'reviewItems.match.blockRange.rangeDigest',
+        'block range writer authority digest does not match current writer input',
+        { changeId, expectedRangeDigest, observedRangeDigest: normalizeString(range.rangeDigest) },
+      ),
+    };
+  }
+  if (normalizeString(range.blockTextDigest) !== expectedBlockTextDigest) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_DIGEST_MISMATCH',
+        'reviewItems.match.blockRange.blockTextDigest',
+        'block text digest does not match current writer input',
+        { changeId, expectedBlockTextDigest, observedBlockTextDigest: normalizeString(range.blockTextDigest) },
+      ),
+    };
+  }
+  if (currentText.slice(sceneStart, sceneStart + blockText.length) !== blockText) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_STALE',
+        'reviewItems.match.blockRange.sceneStart',
+        'current scene text no longer contains the signed block text at the authorized range',
+        { changeId, sceneStart },
+      ),
+    };
+  }
+  const blockOccurrenceCount = countOccurrences(currentText, blockText);
+  if (blockOccurrenceCount !== 1) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_DUPLICATE_BLOCK',
+        'reviewItems.match.blockRange.blockText',
+        'block-local apply requires the signed block text to be unique in the scene',
+        { changeId, blockOccurrenceCount },
+      ),
+    };
+  }
+  if (blockText.slice(blockLocalStart, blockLocalEnd) !== expectedText) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_OFFSET_MISMATCH',
+        'reviewItems.match.blockRange',
+        'block-local range does not match expected exact quote',
+        { changeId, blockLocalStart, blockLocalEnd },
+      ),
+    };
+  }
+  const blockQuoteOccurrenceCount = countOccurrences(blockText, expectedText);
+  if (blockQuoteOccurrenceCount !== 1) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_DUPLICATE_QUOTE',
+        'reviewItems.match.quote',
+        'block-local apply requires the quote to be unique inside the signed block',
+        { changeId, blockQuoteOccurrenceCount },
+      ),
+    };
+  }
+
+  return {
+    ok: true,
+    from: sceneStart + blockLocalStart,
+    to: sceneStart + blockLocalEnd,
+    operationAuthority: 'signedBlockRange',
+    replacementText,
+  };
 }
 
 function buildInputHash(input, plan) {
@@ -614,29 +791,46 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       ));
     }
 
-    const occurrenceCount = countOccurrences(currentText, expectedText);
-    if (occurrenceCount === 0) {
-      return block(buildReason(
-        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_NO_MATCH',
-        'reviewItems.match.quote',
-        'expectedText is not present in current batch text',
-        { changeId },
-      ));
-    }
-    if (occurrenceCount > 1) {
-      return block(buildReason(
-        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_DUPLICATE_MATCH',
-        'reviewItems.match.quote',
-        'expectedText occurs multiple times in current batch text',
-        {
-          changeId,
-          matchCount: occurrenceCount,
-        },
-      ));
+    const blockRangeOperation = resolveBlockRangeOperation({
+      item,
+      sceneId,
+      currentText,
+      expectedText,
+      replacementText,
+    });
+    if (blockRangeOperation && !blockRangeOperation.ok) {
+      return block(blockRangeOperation.reason);
     }
 
-    const from = currentText.indexOf(expectedText);
-    const to = from + expectedText.length;
+    let from = Number.isSafeInteger(blockRangeOperation?.from) ? blockRangeOperation.from : -1;
+    let to = Number.isSafeInteger(blockRangeOperation?.to) ? blockRangeOperation.to : -1;
+    let operationAuthority = normalizeString(blockRangeOperation?.operationAuthority);
+    if (!blockRangeOperation) {
+      const occurrenceCount = countOccurrences(currentText, expectedText);
+      if (occurrenceCount === 0) {
+        return block(buildReason(
+          'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_NO_MATCH',
+          'reviewItems.match.quote',
+          'expectedText is not present in current batch text',
+          { changeId },
+        ));
+      }
+      if (occurrenceCount > 1) {
+        return block(buildReason(
+          'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_DUPLICATE_MATCH',
+          'reviewItems.match.quote',
+          'expectedText occurs multiple times in current batch text',
+          {
+            changeId,
+            matchCount: occurrenceCount,
+          },
+        ));
+      }
+
+      from = currentText.indexOf(expectedText);
+      to = from + expectedText.length;
+      operationAuthority = 'sceneUniqueQuote';
+    }
     const operation = {
       kind: 'replaceExactText',
       sceneId,
@@ -645,6 +839,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       to,
       expectedText,
       replacementText,
+      authority: operationAuthority,
     };
     const overlappingOperation = operations.find((existing) => hasOverlappingRange(existing, operation));
     if (overlappingOperation) {

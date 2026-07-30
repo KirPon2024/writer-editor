@@ -84,12 +84,22 @@ function canonicalKey(cryptoPort, payload) {
 
 function normalizeTextChange(item) {
   const textChange = isPlainObject(item?.textChange) ? item.textChange : item;
+  const match = isPlainObject(textChange?.match) ? textChange.match : {};
+  const blockRange = isPlainObject(match.blockRange) ? match.blockRange : {};
   return {
     changeId: normalizeString(textChange?.changeId),
     sceneId: normalizeString(textChange?.targetScope?.id),
     targetScopeType: normalizeString(textChange?.targetScope?.type),
-    matchKind: normalizeString(textChange?.match?.kind),
-    quote: rawString(textChange?.match?.quote),
+    matchKind: normalizeString(match.kind),
+    quote: rawString(match.quote),
+    blockId: normalizeString(match.blockId || blockRange.blockId),
+    blockRangeDigest: normalizeString(blockRange.rangeDigest),
+    blockLocalStart: Number.isSafeInteger(blockRange.blockLocalStart)
+      ? blockRange.blockLocalStart
+      : (Number.isSafeInteger(match.blockLocalStart) ? match.blockLocalStart : null),
+    blockLocalEnd: Number.isSafeInteger(blockRange.blockLocalEnd)
+      ? blockRange.blockLocalEnd
+      : (Number.isSafeInteger(match.blockLocalEnd) ? match.blockLocalEnd : null),
     replacementText: rawString(textChange?.replacementText),
   };
 }
@@ -111,6 +121,10 @@ function semanticChanges(writerInput) {
       targetScopeType: item.targetScopeType,
       matchKind: item.matchKind,
       quote: item.quote,
+      blockId: item.blockId,
+      blockRangeDigest: item.blockRangeDigest,
+      blockLocalStart: item.blockLocalStart,
+      blockLocalEnd: item.blockLocalEnd,
       replacementText: item.replacementText,
     }))
     .sort((left, right) => (
@@ -373,4 +387,3 @@ export function buildRtkExactApplyRecoveryResolution(envelope, reconciliation = 
     resolutionDigest: canonicalKey(cryptoPort, recordUnsigned),
   };
 }
-

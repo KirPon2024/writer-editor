@@ -172,6 +172,14 @@ export {
   sortAtlasDiagnosticsRows,
 } from './atlasDiagnosticsTypes.mjs';
 export {
+  ATLAS_LANGUAGE_CAPABILITY_GUARD_SCHEMA_VERSION,
+  ATLAS_LANGUAGE_CAPABILITY_LEVEL,
+  ATLAS_LANGUAGE_CAPABILITY_REPORT_SCHEMA_VERSION,
+  ATLAS_LANGUAGE_CAPABILITY_ROW_SCHEMA_VERSION,
+  ATLAS_LANGUAGE_CAPABILITY_STATUS,
+  sortAtlasLanguageCapabilityRows,
+} from './atlasLanguageCapabilityTypes.mjs';
+export {
   ATLAS_TEMPORAL_CONTINUITY_VIEW_ID,
   buildAtlasTemporalContinuityFromObservationAggregate,
   buildAtlasTemporalContinuityIncrementally,
@@ -215,6 +223,10 @@ export {
   deriveAtlasDiagnosticsStageAcceptance,
   ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_VIEW_ID,
 } from './deriveAtlasDiagnosticsStageAcceptance.mjs';
+export {
+  deriveAtlasLanguageCapabilityReport,
+  ATLAS_LANGUAGE_CAPABILITY_REPORT_VIEW_ID,
+} from './deriveAtlasLanguageCapabilityReport.mjs';
 export {
   acceptAtlasLocalGraphLayoutResult,
   buildAtlasLocalGraphLayoutPlan,

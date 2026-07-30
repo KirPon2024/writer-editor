@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C01_LANGUAGE_CAPABILITY_TRUTH_REGISTRY_REPORT_RECEIPT.json",
+      "sha256": "1e6d03e1f37c2dc3fa33aa9efe412f69675cc69d881a01671d31a024b056314f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C01_LANGUAGE_CAPABILITY_TRUTH_REGISTRY_AND_REPORT",
+      "approvedAtUtc": "2026-07-30T05:47:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C01 delivery receipt: records local verified implementation of the read-only Atlas language capability truth report, current BASIC_EXACT_TERM_V1 exact-only analyzer truth, certified exact-only EN RU UND rows, unsupported exact-only rows for non-certified languages, DEEP unavailable rows until engine decision and corpus metrics, no silent English fallback, no runtime analyzer download, no dynamic executable plugin, no command, no product truth mutation, no manuscript mutation, no storage, no network, no UI runtime change, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c01-language-capability-truth-registry-report.contract.test.js",
+      "sha256": "4c639e91e3a566acbc4a5ddf2789c4fe5b6f1f50f3f2404b9380a73c175a1ddf",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C01_LANGUAGE_CAPABILITY_TRUTH_REGISTRY_AND_REPORT",
+      "approvedAtUtc": "2026-07-30T05:47:00.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C01 contract: proves the language capability report exposes truthful exact-only BASIC rows and unsupported exact-only rows, normalizes language codes, keeps DEEP unavailable without metrics, rejects disabled report capability, exports through derived barrels, and keeps language capability report sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, runtime download, dynamic executable plugins, automatic truth mutation, manuscript mutation, project truth mutation, release readiness claim, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C00_STAGE_07_LANGUAGE_EXPANSION_DEEP_CONTOUR_COMPILATION_RECEIPT.json",
       "sha256": "6bd0362208c9f8251ba80c99dd37fe3dc58e2e692e4897e7cac79bb67a643e56",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C00_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOUR_COMPILATION",

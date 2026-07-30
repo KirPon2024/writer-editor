@@ -900,6 +900,11 @@ const DOCX_ZIP64_LOCATOR_SIGNATURE = 0x07064b50;
 const DOCX_ZIP_CENTRAL_FILE_FIXED_BYTES = 46;
 const DOCX_ZIP_END_FIXED_BYTES = 22;
 const DOCX_ZIP_FLAG_ENCRYPTED = 1;
+const DOCX_ZIP_FLAG_DEFLATE_COMPRESSION_OPTION_1 = 2;
+const DOCX_ZIP_FLAG_DEFLATE_COMPRESSION_OPTION_2 = 4;
+const DOCX_ZIP_FLAG_DATA_DESCRIPTOR = 8;
+const DOCX_ZIP_FLAGS_ALLOWED_MASK = DOCX_ZIP_FLAG_DEFLATE_COMPRESSION_OPTION_1
+  | DOCX_ZIP_FLAG_DEFLATE_COMPRESSION_OPTION_2;
 const DOCX_ZIP_U16_MAX = 0xffff;
 const DOCX_ZIP_U32_MAX = 0xffffffff;
 
@@ -1464,8 +1469,17 @@ function docxHostileFileGateValidateLocalHeader(bytes, entry) {
       ),
     };
   }
-  if (localFlags !== entry.flags || localFlags !== 0) {
+  if (localFlags !== entry.flags) {
     return { failure: docxHostileFileGateInvalidScanResult(entry.entryId, 'DOCX_ZIP_LOCAL_FLAG_MISMATCH') };
+  }
+  if (entry.flags & DOCX_ZIP_FLAG_DATA_DESCRIPTOR) {
+    return { failure: docxHostileFileGateInvalidScanResult(entry.entryId, 'DOCX_ZIP_DATA_DESCRIPTOR_UNSUPPORTED') };
+  }
+  if (entry.flags & ~DOCX_ZIP_FLAGS_ALLOWED_MASK) {
+    return { failure: docxHostileFileGateInvalidScanResult(entry.entryId, 'DOCX_ZIP_FLAGS_UNSUPPORTED') };
+  }
+  if (entry.flags !== 0 && entry.method !== 8) {
+    return { failure: docxHostileFileGateInvalidScanResult(entry.entryId, 'DOCX_ZIP_FLAGS_METHOD_UNSUPPORTED') };
   }
   if (
     localMethod !== entry.method
@@ -2227,7 +2241,7 @@ const DOCX_REVIEW_PREFLIGHT_HARD_GATE_CODES = new Set([
 
 const DOCX_REVIEW_PREFLIGHT_BOUNDS = Object.freeze({
   maxTargetPartBytes: DOCX_ZIP_INVENTORY_BOUNDS.MAX_ENTRY_UNCOMPRESSED_BYTES,
-  maxXmlScanChars: 2_000_000,
+  maxXmlScanChars: 5_000_000,
   maxDiagnostics: 200,
   maxUnsupportedItems: 200,
 });

@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E10_C01_STABLE_COMMENT_ANCHORS_DECISION_SURVIVAL_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E10_C01_STABLE_COMMENT_ANCHORS_AND_DECISION_SURVIVAL",
+  "programStage": "E10_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T15:56:54Z",
+  "validatedAtUtc": "2026-07-30T16:11:43Z",
+  "baseSha": "41ff00b83f946f40dca670cbf96edae73b996f57",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E10 C01 adds pure comment anchor packet and derived comments projection logic only. It changes no product UI screen, visual composition, renderer surface, Design OS surface manifest, palette, typography, layout, storage adapter, network adapter, or project truth.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "41ff00b83f946f40dca670cbf96edae73b996f57",
+    "stage10CompilationReceiptExists": true,
+    "stage10CompilationNextContour": "E10_C01_STABLE_COMMENT_ANCHORS_AND_DECISION_SURVIVAL",
+    "rtkModernCommentGraphReused": true,
+    "rtkB05ExactApplyAdapterOnBase": true,
+    "commentSurvivalPreviewReused": true,
+    "stableCommentAnchorPacketSchema": "revision-bridge.stable-comment-anchor-packet.v1",
+    "commentsDerivedViewProjectsPacketOnly": true,
+    "durableIdPreferredForStableThreadIdentity": true,
+    "decisionRowsStableAcrossCommentIdDrift": true,
+    "implicitPlacementFabricated": false,
+    "autoApplyAuthorityGranted": false,
+    "manuscriptWriteAuthorityGranted": false,
+    "secondCommentTruth": false,
+    "secondOperationLogTruth": false,
+    "transportTruthInCore": false,
+    "networkAdapterActive": false,
+    "uiChanged": false,
+    "storageAdapterChanged": false,
+    "newDependencyAdded": false
+  },
+  "productPlane": {
+    "dataAuthority": "Existing RTK ReviewIR commentThreads and existing revisionBridge comment survival preview remain evidence sources. The new stable anchor packet is a derived preview packet, not stored project truth.",
+    "writePath": "No write path. No Command Kernel dispatch is introduced by this contour.",
+    "readPath": "buildStableCommentAnchorPacketFromReviewIr maps RTK comment graph evidence into stable anchor records and decision rows; deriveComments projects packet rows when passed as params.",
+    "portsAndAdapters": "No runtime adapter, storage adapter, network adapter, account adapter, or CRDT adapter is introduced."
+  },
+  "interfacePlane": {
+    "designRoute": "NOT_APPLICABLE",
+    "surfaceManifest": "NOT_CHANGED",
+    "typedSlot": "NOT_CHANGED",
+    "rendererMutation": false,
+    "notes": "Existing comments surfaces may consume derived.comments.v1 rows later; this contour does not alter renderer UI."
+  },
+  "acceptanceProof": {
+    "stableCommentAnchorPacket": true,
+    "decisionRowIdentity": true,
+    "sceneBlockInlineAndEvidenceAnchorRefs": "packet preserves selector evidence, stable thread identity, evidence identity, related revision, and placement status; it does not reinterpret XML offsets as text offsets without supplied placement context",
+    "anchorConfidenceReport": "existing comment survival preview and placement evaluation reason codes are reused",
+    "rtkModernCommentGraphReuse": true,
+    "commentAnchorSurvivalFixtures": "focused E10 C01 contract plus existing B03/B04/B05 and comments-history contracts",
+    "noAutoMerge": true,
+    "noSilentProjectRewrite": true,
+    "noSecondCommentTruth": true,
+    "nextContour": "E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION"
+  },
+  "changedBasenames": [
+    "deriveComments.mjs",
+    "index.mjs",
+    "yalken-atlas-v5-e10-c01-stable-comment-anchors-decision-survival.contract.test.js",
+    "YALKEN_ATLAS_V5_E10_C01_STABLE_COMMENT_ANCHORS_DECISION_SURVIVAL_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "validation": [
+    {
+      "command": "node --check src/io/revisionBridge/index.mjs and src/derived/commentsHistory/deriveComments.mjs and E10 C01 contract",
+      "result": "PASS",
+      "summary": "syntax checks passed after origin/main drift reconciliation"
+    },
+    {
+      "command": "node --test yalken-atlas-v5-e10-c01-stable-comment-anchors-decision-survival.contract.test.js",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node --test RTK B03 B04 B05 contracts",
+      "result": "PASS",
+      "summary": "14 tests, 14 pass, 0 fail"
+    },
+    {
+      "command": "node --test comments-history deterministic and no-second-sot contracts",
+      "result": "PASS",
+      "summary": "2 tests, 2 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1; registry valid; approved files: governance approvals, E10 C01 receipt, E10 C01 focused contract"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace PASS; menu checks PASS; law path canon PASS; execution sequence PASS; release candidate verify PASS"
+    }
+  ],
+  "notes": {
+    "historicalCommentSurvivalAllowlistGuard": "revision-bridge-comment-survival functional assertions were observed green, but its historical changed-file allowlist guard rejects current E10 dirty files before commit. This receipt does not claim that historical guard as PASS.",
+    "falseGreenGuard": "Full-runner PASS was claimed only after node scripts/run-tests.js completed successfully in this contour."
+  },
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": "NO_COMMAND_OR_WRITE_PATH_IN_E10_C01",
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "Stable comment packet preserves thread identity, body digest, selector evidence, placement status, related revision, and decision rows as derived preview data. It does not mutate manuscript, storage, project truth, renderer state, command state, network, or transport.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION"
+}

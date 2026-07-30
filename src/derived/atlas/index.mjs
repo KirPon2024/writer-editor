@@ -86,6 +86,12 @@ export {
   sortAtlasGlobalCompositeSourceRefs,
 } from './atlasGlobalCompositeGraphTypes.mjs';
 export {
+  ATLAS_SERIES_PACKAGE_AUTONOMY_PROOF_SCHEMA_VERSION,
+  ATLAS_SERIES_PACKAGE_BOOK_REF_SCHEMA_VERSION,
+  ATLAS_SERIES_PACKAGE_MANIFEST_SCHEMA_VERSION,
+  sortAtlasSeriesPackageBookRefs,
+} from './atlasSeriesPackageTypes.mjs';
+export {
   ATLAS_OVERVIEW_SCHEMA_VERSION,
   ATLAS_OVERVIEW_SURFACE_MANIFEST_VERSION,
   sortAtlasOverviewEntities,
@@ -348,6 +354,10 @@ export {
   buildAtlasGlobalCompositeRendererAdapterProfilingPacket,
   deriveAtlasGlobalCompositeStageAcceptance,
 } from './deriveAtlasGlobalCompositeStageAcceptance.mjs';
+export {
+  deriveAtlasSeriesPackageManifest,
+  ATLAS_SERIES_PACKAGE_MANIFEST_VIEW_ID,
+} from './deriveAtlasSeriesPackageManifest.mjs';
 export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOverview.mjs';
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';

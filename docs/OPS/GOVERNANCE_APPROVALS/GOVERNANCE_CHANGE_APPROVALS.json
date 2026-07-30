@@ -5362,6 +5362,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C01_STABLE_COMMENT_ANCHORS_AND_DECISION_SURVIVAL",
       "approvedAtUtc": "2026-07-30T16:11:43.000Z",
       "rationale": "Approve bounded E10 C01 final receipt: records stable comment anchor packet and decision survival scope, RTK B03/B04/B05 reuse, commentsHistory read-only projection, no implicit placement, no auto-apply, no manuscript write authority, no second comment truth, no second operation log truth, no transport Core truth, no network, no storage adapter, no UI, no dependency, focused and adjacent local PASS evidence, ops PASS, doctrine PASS, OSS PASS, governance PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e10-c02-revision-history-projection-author-truth.contract.test.js",
+      "sha256": "aa6872d99084eaf8c5670d6880da79af78e8914220bd2c09bc085a9ac40294bf",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION",
+      "approvedAtUtc": "2026-07-30T16:27:11.000Z",
+      "rationale": "Approve E10 C02 focused contract after origin/main B06 drift reconciliation: proves revision history projection packets over existing collab event log entries, Command Kernel receipt refs, and RTK review apply outcome refs; proves author truth values are not copied into history entries, writer snapshot paths do not leak through receipt refs, derived history invalidation binds to packet and author truth hashes, and commentsHistory remains a read-only derived layer without storage, network, renderer, direct command dispatch, or second history store."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AUTHOR_TRUTH_RECEIPT.json",
+      "sha256": "28f535f8290db5559881bfd488aff6b018cd18927a988d6e70880db5fc95a4f2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AND_AUTHOR_TRUTH_SEPARATION",
+      "approvedAtUtc": "2026-07-30T16:29:57.000Z",
+      "rationale": "Approve bounded E10 C02 final receipt after origin/main B06 drift reconciliation: records history projection packet scope, existing collab event log reuse, Command Kernel and review apply receipt refs, derived invalidation key binding, author truth hash-only separation, no stored history truth, no direct history write API, no renderer-owned history truth, no cloud audit log, no UI, no storage adapter, no network, no dependency, focused and B06 adjacency PASS evidence, comments-history safe-state PASS, ops PASS, doctrine PASS, OSS PASS, governance PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
     }
   ]
 }

@@ -299,8 +299,8 @@ const STAGE01_REVIEW_PACKET_COLLECTIONS = Object.freeze([
 
 export const DOCX_PACKAGE_BOUNDARY_BUDGETS = Object.freeze({
   maxEntries: 512,
-  maxTotalBytes: 52428800,
-  maxEntryBytes: 10485760,
+  maxTotalBytes: 67108864,
+  maxEntryBytes: 33554432,
   maxRelationshipEntries: 64,
   maxUnsupportedStoryEntries: 32,
 });
@@ -373,7 +373,9 @@ const DOCX_PART_POLICY_KNOWN_SUPPORT_PARTS = [
   'word/numbering.xml',
   'word/settings.xml',
   'word/styles.xml',
+  'word/stylesWithEffects.xml',
   'word/theme/theme1.xml',
+  'word/webSettings.xml',
 ];
 
 const DOCX_PART_POLICY_DEGRADED_CATEGORY_CODES = Object.freeze({
@@ -857,8 +859,8 @@ const DOCX_ZIP_INVENTORY_BOUNDS = Object.freeze({
   MAX_ENTRY_NAME_BYTES: 1024,
   MAX_ENTRY_EXTRA_BYTES: 4096,
   MAX_ENTRY_COMMENT_BYTES: 4096,
-  MAX_ENTRY_UNCOMPRESSED_BYTES: 10485760,
-  MAX_TOTAL_UNCOMPRESSED_BYTES: 52428800,
+  MAX_ENTRY_UNCOMPRESSED_BYTES: 33554432,
+  MAX_TOTAL_UNCOMPRESSED_BYTES: 67108864,
   MAX_RELATIONSHIP_ENTRIES: 64,
   MAX_UNSUPPORTED_STORY_ENTRIES: 32,
 });
@@ -891,7 +893,9 @@ const DOCX_ZIP_INVENTORY_KNOWN_PARTS = [
   'word/settings.xml',
   'word/numbering.xml',
   'word/fontTable.xml',
+  'word/stylesWithEffects.xml',
   'word/theme/theme1.xml',
+  'word/webSettings.xml',
 ];
 
 const DOCX_ZIP_CENTRAL_FILE_SIGNATURE = 0x02014b50;
@@ -1020,6 +1024,14 @@ function docxZipUnsupportedStoryName(name) {
   );
 }
 
+function docxZipKnownSupportPartName(name) {
+  return (
+    DOCX_ZIP_INVENTORY_KNOWN_PARTS.includes(name)
+    || /^customXml\/item\d+\.xml$/u.test(name)
+    || /^customXml\/itemProps\d+\.xml$/u.test(name)
+  );
+}
+
 function docxZipClassifyEntry(name) {
   if (name.endsWith('/') || name.endsWith('\\')) {
     return { kind: 'directory' };
@@ -1030,10 +1042,13 @@ function docxZipClassifyEntry(name) {
   if (name === 'word/document.xml') {
     return { kind: 'knownPart', story: 'main', markers: ['documentPart'] };
   }
-  if (DOCX_ZIP_INVENTORY_KNOWN_PARTS.includes(name)) {
+  if (docxZipKnownSupportPartName(name)) {
     return { kind: 'knownPart' };
   }
   if (name.startsWith('word/media/')) {
+    return { kind: 'knownPart', markers: ['mediaPart'] };
+  }
+  if (name === 'docProps/thumbnail.jpeg') {
     return { kind: 'knownPart', markers: ['mediaPart'] };
   }
   if (docxZipUnsupportedStoryName(name)) {
@@ -2241,7 +2256,7 @@ const DOCX_REVIEW_PREFLIGHT_HARD_GATE_CODES = new Set([
 
 const DOCX_REVIEW_PREFLIGHT_BOUNDS = Object.freeze({
   maxTargetPartBytes: DOCX_ZIP_INVENTORY_BOUNDS.MAX_ENTRY_UNCOMPRESSED_BYTES,
-  maxXmlScanChars: 5_000_000,
+  maxXmlScanChars: 32_000_000,
   maxDiagnostics: 200,
   maxUnsupportedItems: 200,
 });
@@ -3612,8 +3627,8 @@ const DOCX_CONTENT_PREVIEW_CODES = Object.freeze({
 
 const DOCX_CONTENT_PREVIEW_BOUNDS = Object.freeze({
   maxMainDocumentBytes: DOCX_ZIP_INVENTORY_BOUNDS.MAX_ENTRY_UNCOMPRESSED_BYTES,
-  maxParagraphs: 5000,
-  maxTextChars: 1000000,
+  maxParagraphs: 64000,
+  maxTextChars: 5000000,
   maxDiagnostics: 200,
 });
 

@@ -248,6 +248,7 @@
       "src/io/revisionBridge/reviewTransportIr.mjs",
       "src/io/revisionBridge/reviewTransportManifestCore.mjs",
       "src/io/revisionBridge/reviewTransportOracle.mjs",
+      "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
       "src/io/revisionBridge/reviewTransportRoundStore.mjs",
       "src/renderer/editor.bundle.js",
       "src/renderer/index.html",

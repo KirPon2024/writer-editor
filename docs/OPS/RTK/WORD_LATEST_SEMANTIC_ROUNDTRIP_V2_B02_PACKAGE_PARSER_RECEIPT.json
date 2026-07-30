@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.b02-package-parser-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "B02_NAMESPACE_PACKAGE_AWARE_REVIEW_IR_V2_PARSER",
+  "status": "B02_PARSER_CONTRACT_READY_NOT_CERTIFIED",
+  "createdAtUtc": "2026-07-30T15:18:00Z",
+  "base": {
+    "originMainSha": "eb5682af67ad244f455a00a254b9730a236b630c",
+    "branch": "codex/rtk-word-latest-semantic-b02",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "precedingStage": "B01",
+    "precedingPr": 1257,
+    "precedingMergeSha": "eb5682af67ad244f455a00a254b9730a236b630c",
+    "precedingCi": "PASS"
+  },
+  "parserProfile": {
+    "profileId": "yalken.rtk.package-aware-review-ir-parser.v2.b02",
+    "implementationId": "bounded-namespace-package-scanner-no-regex-b02",
+    "platformNeutralCore": true,
+    "namespaceAware": true,
+    "packageRelationshipAware": true,
+    "regexXmlParser": false,
+    "generalXmlPlatform": false,
+    "cryptoThroughCryptoPort": true,
+    "fileSystemAuthority": false,
+    "networkAuthority": false,
+    "writerAuthority": false
+  },
+  "coveredLanes": [
+    "TextRevision",
+    "MoveRevision",
+    "PropertyRevision",
+    "StructureChange",
+    "CommentThread",
+    "FormattingDelta",
+    "OpaqueUnsupported"
+  ],
+  "packageGates": [
+    "required word/document.xml part",
+    "path traversal block",
+    "external relationship block",
+    "active relationship block",
+    "active content type block",
+    "CRC mismatch block when inventory is supplied",
+    "local-central mismatch block",
+    "overlapping ZIP region block",
+    "fake EOCD block",
+    "malformed XML block",
+    "typed opaque unsupported inventory"
+  ],
+  "negativeContracts": [
+    "namespace prefix changes keep semantic digest stable",
+    "attribute order changes keep semantic digest stable",
+    "malformed XML blocks production parser path",
+    "external relationships block",
+    "active content blocks",
+    "CRC and local-central mismatch blocks",
+    "fake EOCD blocks",
+    "unknown OOXML parts are typed opaque unsupported",
+    "MCE AlternateContent is typed opaque unsupported",
+    "move revisions remain non-EXACT",
+    "comment lane remains independent from text lane"
+  ],
+  "nonClaims": {
+    "latestWordCertified": false,
+    "word161112Certified": false,
+    "modernRepliesResolveCertified": false,
+    "automaticApplyExpanded": false,
+    "exactAuthorityExpanded": false,
+    "runtimeImportAdded": false,
+    "uiChanged": false,
+    "networkAdded": false,
+    "dependencyAdded": false,
+    "fixtureOnlyPassClaimed": false
+  },
+  "nextStage": "B03_MODERN_COMMENT_GRAPH_REPLIES_RESOLVE_ORPHAN_RECOVERY"
+}

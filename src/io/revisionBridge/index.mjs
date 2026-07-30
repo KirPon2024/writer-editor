@@ -36,6 +36,12 @@ export {
   parseReviewTransportPackageV2,
 } from './reviewTransportPackageParserV2.mjs';
 
+export {
+  RTK_REVIEW_TRANSPORT_CLASSIFIER_V2_PROFILE,
+  RTK_REVIEW_TRANSPORT_CLASSIFIER_V2_SCHEMA,
+  classifyReviewTransportIrV2,
+} from './reviewTransportClassifierV2.mjs';
+
 export const REVISION_BRIDGE_P0_PACKET_SCHEMA = 'revision-bridge-p0.packet.v1';
 export const REVISION_BRIDGE_REVISION_SESSION_SCHEMA = 'revision-bridge.revision-session.v1';
 export const REVISION_BRIDGE_COMMENT_THREAD_SCHEMA = 'revision-bridge.comment-thread.v1';

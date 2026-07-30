@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "68cb15345568848847809543c025bf04b4b5533d49db30e1ee6db272d87cebbc",
+      "sha256": "49cfe9b37e8ad79628fdc4970f31b090301fd0d44eb2dc5fb119698f455def45",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:19:00.000Z",
-      "rationale": "Approve bounded public barrel export for B01 manifest core and B02 package-aware parser core: exposes Review Transport Manifest v2 constants, create/verify helpers, and the package-aware ReviewIRV2 parser through the existing Revision Bridge entrypoint without adding renderer, UI, network, filesystem, apply, writer authority, dependency, or product behavior changes."
+      "approvedAtUtc": "2026-07-30T15:45:00.000Z",
+      "rationale": "Approve bounded public barrel export for B01 through B04 Review Transport helpers: exposes manifest, package-aware parser, and classifier constants/functions through the existing Revision Bridge entrypoint without adding renderer, UI, network, filesystem, apply, writer authority, dependency, or product behavior changes."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -70,6 +70,27 @@
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
       "approvedAtUtc": "2026-07-30T15:33:00.000Z",
       "rationale": "Approve focused B03 modern comments contract coverage: proves reopened state, durable identity, recursive replies, comment-on-deleted-text related revision, orphan body preservation, missing expected comment deleted-or-missing diagnostics, duplicate ID non-pass, no-op empty comment non-pass, and receipt non-certification without runtime, UI, dependency, network, apply, or Word certification expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B04_CLASSIFIER_RECEIPT.json",
+      "sha256": "124e15589ae8d4a0d6e82635f6989057e7035ab0b6ba16ad4c7bd62bdf4c776f",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T15:45:00.000Z",
+      "rationale": "Approve bounded B04 classifier receipt: records ReviewIRV2 classifier readiness, exact eligibility gates, replacement-pair grouping, move/structure blocking, property/formatting manual review, comments-only independence, and no latest Word certification, automatic apply expansion, fuzzy authority, global text search authority, runtime, UI, network, dependency, or writer authority claim."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
+      "sha256": "81983c52248eb512dfe1660efe4b7349ae92c45d2b22af15ce4484c971288fd8",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T15:45:00.000Z",
+      "rationale": "Approve bounded B04 platform-neutral ReviewIRV2 classifier core: classifies text, replacement pairs, move revisions, property revisions, structure changes, formatting deltas, comments and opaque unsupported lanes through CryptoPort digests, requires signed locator and baseline guards for exact candidates, blocks moves and structure from exact, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not apply."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b04-classifier.contract.test.js",
+      "sha256": "627beaba1f15117db1761c8191a439d9e67e0645550262d71a611674125fc83f",
+      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+      "approvedAtUtc": "2026-07-30T15:45:00.000Z",
+      "rationale": "Approve focused B04 classifier contract coverage: proves exact requires all signed locator and baseline guards, replacement pairs stay atomic, duplicate ambiguity blocks exact, move and structure are non-EXACT, property and formatting are manual, comments stay comments-only, public export works, and classifier core has no writer or fuzzy authority."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json",
@@ -885,10 +906,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
-      "sha256": "836adcb350389647e55e74155c3966a8dcb5a1b165fce5e1d256d7c1e04bb8f3",
+      "sha256": "901dc8d59d754e12f880ed8934dba02160a25379545904d609cf3edb9497059e",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:33:00.000Z",
-      "rationale": "Approve bounded B03 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside latest Word semantic B00 through B03 receipts and focused contracts while preserving W5 false Word PASS rejection, no Word support overclaim, no roundtrip certification claim, no modern comment physical certification, no release DONE, no dependency, no runtime, no UI, no storage expansion, and no writer authority change."
+      "approvedAtUtc": "2026-07-30T15:45:00.000Z",
+      "rationale": "Approve bounded B04 dirty-tree allowlist sync for the existing Word evidence adjacent guard so it can run alongside latest Word semantic B00 through B04 receipts, parser/classifier cores and focused contracts while preserving W5 false Word PASS rejection, no Word support overclaim, no roundtrip certification claim, no release DONE, no dependency, no runtime, no UI, no storage expansion, and no writer authority change."
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",
@@ -955,10 +976,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "f5cae8390e32d066f09123ebc1ffa48d1ee98bf78e9491c91df792f9a88c2f2d",
+      "sha256": "b745c70f2e6f68edb2bc0bb9e79387e4c1cfb3accda6e9a9919da1cb4e82db30",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:19:00.000Z",
-      "rationale": "Approve bounded B02 Sector M scope-map sync: adds only the new platform-neutral package-aware ReviewIRV2 parser core file to the cumulative DONE allowlist so existing sector-m no-scope-leak and runner guards can validate the B02 branch, with no Sector M product scope, UI, runtime, dependency, network, apply authority, Design OS, DOCX Minimal, or manuscript mutation expansion."
+      "approvedAtUtc": "2026-07-30T15:45:00.000Z",
+      "rationale": "Approve bounded B04 Sector M scope-map sync: adds only the new platform-neutral ReviewIRV2 classifier core file to the cumulative DONE allowlist so existing sector-m no-scope-leak and runner guards can validate the B04 branch, with no Sector M product scope, UI, runtime, dependency, network, apply authority, Design OS, DOCX Minimal, or manuscript mutation expansion."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",

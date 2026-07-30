@@ -27,6 +27,7 @@ function normalizeEntry(entry) {
   return {
     name: entry.name,
     method,
+    flags: entry.flags ?? 0,
     body,
     compressedBody,
     byteSize: entry.byteSize ?? body.length,
@@ -40,7 +41,7 @@ function localRecord(entry, offset) {
   const header = Buffer.alloc(30 + name.length);
   header.writeUInt32LE(0x04034b50, 0);
   header.writeUInt16LE(20, 4);
-  header.writeUInt16LE(0, 6);
+  header.writeUInt16LE(normalized.flags, 6);
   header.writeUInt16LE(normalized.method, 8);
   header.writeUInt32LE(0, 14);
   header.writeUInt32LE(normalized.compressedSize, 18);
@@ -60,7 +61,7 @@ function centralRecord(entry) {
   header.writeUInt32LE(0x02014b50, 0);
   header.writeUInt16LE(20, 4);
   header.writeUInt16LE(20, 6);
-  header.writeUInt16LE(0, 8);
+  header.writeUInt16LE(entry.flags, 8);
   header.writeUInt16LE(entry.method, 10);
   header.writeUInt32LE(0, 16);
   header.writeUInt32LE(entry.compressedSize, 20);
@@ -353,6 +354,49 @@ test('Stage02 hostile file gate fails closed on inflated size mismatch', async (
   assert.equal(result.ok, false);
   assert.equal(result.code, bridge.DOCX_HOSTILE_FILE_GATE_REASON_CODES.DECLARATION_SCAN_UNAVAILABLE);
   assert.equal(result.parse.semanticAllowed, false);
+});
+
+test('Stage02 hostile file gate allows latest Word deflate compression option flags', async () => {
+  const bridge = await loadBridge();
+  const zipBytes = zipFixture([
+    {
+      name: 'word/document.xml',
+      method: 8,
+      flags: 6,
+      body: '<root>latest Word deflate flags are not authority by themselves</root>',
+    },
+    {
+      name: 'word/_rels/document.xml.rels',
+      method: 8,
+      flags: 6,
+      body: '<Relationships><Relationship Target="styles.xml"/></Relationships>',
+    },
+  ]);
+
+  const result = bridge.inspectDocxHostileFileGateFromZipBytes(zipBytes);
+
+  assert.equal(result.ok, true);
+  assert.equal(result.code, bridge.DOCX_HOSTILE_FILE_GATE_REASON_CODES.PASS);
+  assert.equal(result.parse.semanticAllowed, true);
+});
+
+test('Stage02 hostile file gate still rejects data-descriptor and unknown ZIP flags', async () => {
+  const bridge = await loadBridge();
+  const dataDescriptor = bridge.inspectDocxHostileFileGateFromZipBytes(zipFixture([
+    { name: 'word/document.xml', method: 8, flags: 8, body: '<root/>' },
+  ]));
+  const unknownFlag = bridge.inspectDocxHostileFileGateFromZipBytes(zipFixture([
+    { name: 'word/document.xml', method: 8, flags: 32, body: '<root/>' },
+  ]));
+  const storedWithDeflateFlags = bridge.inspectDocxHostileFileGateFromZipBytes(zipFixture([
+    { name: 'word/document.xml', method: 0, flags: 6, body: '<root/>' },
+  ]));
+
+  for (const result of [dataDescriptor, unknownFlag, storedWithDeflateFlags]) {
+    assert.equal(result.ok, false);
+    assert.equal(result.code, bridge.DOCX_HOSTILE_FILE_GATE_REASON_CODES.DECLARATION_SCAN_UNAVAILABLE);
+    assert.equal(result.parse.semanticAllowed, false);
+  }
 });
 
 test('Stage02 hostile file gate rejects unsupported ZIP methods on non-XML entries too', async () => {

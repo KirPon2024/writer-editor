@@ -186,6 +186,20 @@ export {
   getAtlasDeepEngineDecisionDefaultCandidates,
 } from './deriveAtlasDeepEngineDecision.mjs';
 export {
+  ATLAS_DEEP_FIXTURE_CASE_METRIC_SCHEMA_VERSION,
+  ATLAS_DEEP_FIXTURE_CERTIFICATION_SCHEMA_VERSION,
+  ATLAS_DEEP_FIXTURE_CLAIM,
+  ATLAS_DEEP_FIXTURE_CONTRACT_SCHEMA_VERSION,
+  ATLAS_DEEP_FIXTURE_LANGUAGE_ROW_SCHEMA_VERSION,
+  ATLAS_DEEP_FIXTURE_STATUS,
+  sortAtlasDeepFixtureCaseMetrics,
+  sortAtlasDeepFixtureRows,
+} from './atlasDeepFixtureCertificationTypes.mjs';
+export {
+  deriveAtlasDeepFixtureCertification,
+  getAtlasRuEnDeepFixtureDefaultCorpus,
+} from './deriveAtlasDeepFixtureCertification.mjs';
+export {
   ATLAS_COMPLEX_SCRIPT_CLASS,
   ATLAS_COMPLEX_SCRIPT_EXACT_ONLY_GUARD_SCHEMA_VERSION,
   ATLAS_COMPLEX_SCRIPT_GUARD_CASE_METRIC_SCHEMA_VERSION,

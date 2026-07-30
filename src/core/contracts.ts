@@ -172,6 +172,38 @@ export type AtlasCalendarDefinitionState = {
   updatedByCommandSeq: number
 }
 
+export type AtlasTemporalPointState = {
+  schemaVersion: "atlas.temporalPoint.v1"
+  pointKind: "ordinalDay" | "calendarDate" | "label"
+  calendarId: string
+  dayIndex: number
+  value: string
+  label: string
+}
+
+export type AtlasTemporalRangeState = {
+  schemaVersion: "atlas.temporalRange.v1"
+  rangeKind: "exact" | "approximate" | "open" | "unknown"
+  start: AtlasTemporalPointState | null
+  end: AtlasTemporalPointState | null
+  precisionNote: string
+  explicitUnknown: boolean
+}
+
+export type AtlasSceneTemporalAnchorState = {
+  schemaVersion: "atlas.sceneTemporalAnchor.v1"
+  id: string
+  projectId: string
+  sceneId: string
+  storyRange: AtlasTemporalRangeState
+  narrativeRange: AtlasTemporalRangeState
+  note: string
+  source: "author"
+  sourceHash: string
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
+}
+
 export type AtlasAuthorDataState = {
   schemaVersion: "atlas.author.v1"
   entities: Record<string, AtlasEntityState>
@@ -182,6 +214,7 @@ export type AtlasAuthorDataState = {
   evidenceReattachments?: Record<string, AtlasEvidenceReattachmentState>
   savedQueries?: Record<string, AtlasSavedQueryState>
   calendarDefinitions?: Record<string, AtlasCalendarDefinitionState>
+  sceneTemporalAnchors?: Record<string, AtlasSceneTemporalAnchorState>
 }
 
 export type ManualMapNodeState = {
@@ -334,6 +367,10 @@ export type CoreCommand =
   | {
       type: "atlas.calendar.define"
       payload: { projectId: string; calendarId: string; name: string; calendarKind: "real" | "fictional"; calendarSystem: string; dayZeroLabel?: string; conversionRules: Array<Partial<AtlasCalendarConversionRuleState> & { ruleId?: string }>; expectedCalendarHash?: string }
+    }
+  | {
+      type: "atlas.sceneTemporalAnchor.set"
+      payload: { projectId: string; sceneId: string; anchorId?: string; storyRange: AtlasTemporalRangeState; narrativeRange: AtlasTemporalRangeState; note?: string; expectedAnchorHash?: string }
     }
   | {
       type: "idea.create"

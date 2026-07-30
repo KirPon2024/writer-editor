@@ -13,6 +13,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
   ATLAS_EVIDENCE_REATTACH: 'atlas.evidence.reattach',
   ATLAS_SAVED_QUERY_SAVE: 'atlas.savedQuery.save',
   ATLAS_CALENDAR_DEFINE: 'atlas.calendar.define',
+  ATLAS_SCENE_TEMPORAL_ANCHOR_SET: 'atlas.sceneTemporalAnchor.set',
   IDEA_CREATE: 'idea.create',
   IDEA_ORIGIN_LINK_ADD: 'idea.originLink.add',
   MEANING_PROMOTE: 'meaning.promote',
@@ -75,6 +76,7 @@ function createEmptyAtlasAuthorData() {
     evidenceReattachments: {},
     savedQueries: {},
     calendarDefinitions: {},
+    sceneTemporalAnchors: {},
   };
 }
 
@@ -93,6 +95,7 @@ function normalizeAtlasAuthorData(input) {
     evidenceReattachments: isPlainObject(input.evidenceReattachments) ? cloneJson(input.evidenceReattachments) : {},
     savedQueries: isPlainObject(input.savedQueries) ? cloneJson(input.savedQueries) : {},
     calendarDefinitions: isPlainObject(input.calendarDefinitions) ? cloneJson(input.calendarDefinitions) : {},
+    sceneTemporalAnchors: isPlainObject(input.sceneTemporalAnchors) ? cloneJson(input.sceneTemporalAnchors) : {},
   };
 }
 
@@ -970,6 +973,188 @@ function applyAtlasCalendarDefine(state, payload) {
   nextAtlas.calendarDefinitions[calendarId] = {
     ...calendarBase,
     sourceHash: hashCanonicalValue(calendarBase),
+  };
+  next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function normalizeAtlasTemporalPoint(point, context) {
+  if (!isPlainObject(point)) return { ok: false, reason: 'TEMPORAL_POINT_OBJECT_REQUIRED' };
+  const pointKind = trimString(point.pointKind);
+  const calendarId = trimString(point.calendarId);
+  if (!['ordinalDay', 'calendarDate', 'label'].includes(pointKind)) {
+    return { ok: false, reason: 'TEMPORAL_POINT_KIND_INVALID', details: { pointKind } };
+  }
+  if ((pointKind === 'calendarDate' || pointKind === 'label') && !calendarId) {
+    return { ok: false, reason: 'TEMPORAL_POINT_CALENDAR_ID_REQUIRED', details: { pointKind } };
+  }
+  if (calendarId) {
+    const atlas = normalizeAtlasAuthorData(context.project?.atlas);
+    if (!isPlainObject(atlas.calendarDefinitions?.[calendarId])) {
+      return { ok: false, reason: 'TEMPORAL_POINT_CALENDAR_NOT_FOUND', details: { calendarId } };
+    }
+  }
+  if (pointKind === 'ordinalDay') {
+    const dayIndex = Number(point.dayIndex);
+    if (!Number.isSafeInteger(dayIndex)) {
+      return { ok: false, reason: 'TEMPORAL_POINT_DAY_INDEX_REQUIRED' };
+    }
+    return {
+      ok: true,
+      value: {
+        schemaVersion: 'atlas.temporalPoint.v1',
+        pointKind,
+        calendarId: '',
+        dayIndex,
+        value: '',
+        label: '',
+      },
+    };
+  }
+  if (pointKind === 'calendarDate') {
+    const value = trimString(point.value || point.date);
+    if (!value) return { ok: false, reason: 'TEMPORAL_POINT_DATE_REQUIRED', details: { calendarId } };
+    return {
+      ok: true,
+      value: {
+        schemaVersion: 'atlas.temporalPoint.v1',
+        pointKind,
+        calendarId,
+        dayIndex: 0,
+        value,
+        label: '',
+      },
+    };
+  }
+  const label = trimString(point.label || point.value);
+  if (!label) return { ok: false, reason: 'TEMPORAL_POINT_LABEL_REQUIRED', details: { calendarId } };
+  return {
+    ok: true,
+    value: {
+      schemaVersion: 'atlas.temporalPoint.v1',
+      pointKind,
+      calendarId,
+      dayIndex: 0,
+      value: '',
+      label,
+    },
+  };
+}
+
+function normalizeAtlasTemporalRange(range, context) {
+  if (!isPlainObject(range)) return { ok: false, reason: 'TEMPORAL_RANGE_OBJECT_REQUIRED' };
+  const rangeKind = trimString(range.rangeKind);
+  const precisionNote = trimString(range.precisionNote || range.reason);
+  if (!['exact', 'approximate', 'open', 'unknown'].includes(rangeKind)) {
+    return { ok: false, reason: 'TEMPORAL_RANGE_KIND_INVALID', details: { rangeKind } };
+  }
+  if (rangeKind === 'unknown') {
+    if (!precisionNote) return { ok: false, reason: 'TEMPORAL_RANGE_UNKNOWN_REASON_REQUIRED' };
+    return {
+      ok: true,
+      value: {
+        schemaVersion: 'atlas.temporalRange.v1',
+        rangeKind,
+        start: null,
+        end: null,
+        precisionNote,
+        explicitUnknown: true,
+      },
+    };
+  }
+
+  const start = range.start == null ? null : normalizeAtlasTemporalPoint(range.start, context);
+  const end = range.end == null ? null : normalizeAtlasTemporalPoint(range.end, context);
+  if (start && !start.ok) return start;
+  if (end && !end.ok) return end;
+  if (rangeKind === 'exact' && (!start || !end)) {
+    return { ok: false, reason: 'TEMPORAL_RANGE_EXACT_BOUNDS_REQUIRED' };
+  }
+  if (rangeKind === 'approximate') {
+    if (!start && !end) return { ok: false, reason: 'TEMPORAL_RANGE_APPROXIMATE_BOUND_REQUIRED' };
+    if (!precisionNote) return { ok: false, reason: 'TEMPORAL_RANGE_APPROXIMATE_NOTE_REQUIRED' };
+  }
+  if (rangeKind === 'open') {
+    if ((start && end) || (!start && !end)) return { ok: false, reason: 'TEMPORAL_RANGE_OPEN_SINGLE_BOUND_REQUIRED' };
+    if (!precisionNote) return { ok: false, reason: 'TEMPORAL_RANGE_OPEN_REASON_REQUIRED' };
+  }
+  return {
+    ok: true,
+    value: {
+      schemaVersion: 'atlas.temporalRange.v1',
+      rangeKind,
+      start: start ? start.value : null,
+      end: end ? end.value : null,
+      precisionNote,
+      explicitUnknown: false,
+    },
+  };
+}
+
+function applyAtlasSceneTemporalAnchorSet(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const sceneId = trimString(payload?.sceneId);
+  const anchorId = trimString(payload?.anchorId) || `atlas-scene-temporal-anchor:${hashCanonicalValue({ projectId, sceneId })}`;
+  const note = trimString(payload?.note);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'atlas.sceneTemporalAnchor.set', 'PROJECT_ID_REQUIRED');
+  }
+  if (!sceneId) {
+    return fail(state, 'E_CORE_SCENE_ID_REQUIRED', 'atlas.sceneTemporalAnchor.set', 'SCENE_ID_REQUIRED', { projectId });
+  }
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'atlas.sceneTemporalAnchor.set', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  if (!project.scenes || !project.scenes[sceneId]) {
+    return fail(state, 'E_CORE_SCENE_NOT_FOUND', 'atlas.sceneTemporalAnchor.set', 'SCENE_NOT_FOUND', { projectId, sceneId });
+  }
+
+  const storyRange = normalizeAtlasTemporalRange(payload?.storyRange, { project, projectId, sceneId, rangeField: 'storyRange' });
+  if (!storyRange.ok) {
+    return fail(state, `E_ATLAS_SCENE_${storyRange.reason}`, 'atlas.sceneTemporalAnchor.set', storyRange.reason, { projectId, sceneId });
+  }
+  const narrativeRange = normalizeAtlasTemporalRange(payload?.narrativeRange, { project, projectId, sceneId, rangeField: 'narrativeRange' });
+  if (!narrativeRange.ok) {
+    return fail(state, `E_ATLAS_SCENE_${narrativeRange.reason}`, 'atlas.sceneTemporalAnchor.set', narrativeRange.reason, { projectId, sceneId });
+  }
+
+  const atlas = normalizeAtlasAuthorData(project.atlas);
+  const existing = isPlainObject(atlas.sceneTemporalAnchors?.[sceneId])
+    ? atlas.sceneTemporalAnchors[sceneId]
+    : null;
+  const expectedAnchorHash = trimString(payload?.expectedAnchorHash);
+  const actualAnchorHash = existing ? hashCanonicalValue(existing) : '';
+  if (expectedAnchorHash && expectedAnchorHash !== actualAnchorHash) {
+    return fail(state, 'E_ATLAS_SCENE_TEMPORAL_ANCHOR_STALE', 'atlas.sceneTemporalAnchor.set', 'SCENE_TEMPORAL_ANCHOR_STALE', {
+      projectId,
+      sceneId,
+      expectedAnchorHash,
+      actualAnchorHash,
+    });
+  }
+
+  const commandSeq = state.data.lastCommandId + 1;
+  const anchorBase = {
+    schemaVersion: 'atlas.sceneTemporalAnchor.v1',
+    id: anchorId,
+    projectId,
+    sceneId,
+    storyRange: storyRange.value,
+    narrativeRange: narrativeRange.value,
+    note,
+    source: 'author',
+    createdByCommandSeq: Number.isInteger(existing?.createdByCommandSeq) ? existing.createdByCommandSeq : commandSeq,
+    updatedByCommandSeq: commandSeq,
+  };
+  const next = cloneJson(state);
+  const nextProject = next.data.projects[projectId];
+  const nextAtlas = ensureAtlasAuthorData(nextProject);
+  if (!isPlainObject(nextAtlas.sceneTemporalAnchors)) nextAtlas.sceneTemporalAnchors = {};
+  nextAtlas.sceneTemporalAnchors[sceneId] = {
+    ...anchorBase,
+    sourceHash: hashCanonicalValue(anchorBase),
   };
   next.data.lastCommandId += 1;
   return ok(next);
@@ -1947,6 +2132,9 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.ATLAS_CALENDAR_DEFINE) {
     return applyAtlasCalendarDefine(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.ATLAS_SCENE_TEMPORAL_ANCHOR_SET) {
+    return applyAtlasSceneTemporalAnchorSet(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.IDEA_CREATE) {
     return applyIdeaCreate(state, command.payload || {});

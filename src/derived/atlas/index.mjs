@@ -23,6 +23,14 @@ export {
   sortAtlasTemporalSceneRefs,
 } from './atlasTemporalTypes.mjs';
 export {
+  ATLAS_SCENE_TEMPORAL_ANCHORS_SCHEMA_VERSION,
+  ATLAS_SCENE_TEMPORAL_ANCHORS_SURFACE_MANIFEST_VERSION,
+  ATLAS_SCENE_TEMPORAL_ANCHOR_SCHEMA_VERSION,
+  ATLAS_TEMPORAL_POINT_SCHEMA_VERSION,
+  ATLAS_TEMPORAL_RANGE_SCHEMA_VERSION,
+  sortAtlasSceneTemporalAnchors,
+} from './atlasTemporalRangeTypes.mjs';
+export {
   ATLAS_EVIDENCE_REATTACHMENT_CANDIDATE_SCHEMA_VERSION,
   ATLAS_EVIDENCE_REATTACHMENT_INBOX_SCHEMA_VERSION,
   ATLAS_EVIDENCE_REATTACHMENT_ITEM_SCHEMA_VERSION,
@@ -119,6 +127,7 @@ export {
   buildAtlasTemporalContinuityParityProof,
   deriveAtlasTemporalContinuity,
 } from './deriveAtlasTemporalContinuity.mjs';
+export { deriveAtlasSceneTemporalAnchors, ATLAS_SCENE_TEMPORAL_ANCHORS_VIEW_ID } from './deriveAtlasSceneTemporalAnchors.mjs';
 export {
   ATLAS_OBSERVATION_AGGREGATE_SCHEMA_VERSION,
   ATLAS_OBSERVATION_ANALYZER_ID,

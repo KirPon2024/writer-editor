@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AUTONOMY_BOUNDARY_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",
+  "programStage": "E09_STAGE_09_SERIES_AND_PORTABILITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T13:24:36Z",
+  "baseSha": "d32ad052efde4469aaf52f4df19d6a5f611883de",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "E09 C01 adds a pure derived series package manifest and autonomy proof. It changes no product UI screen, visual composition, layout, palette, typography, Design OS surface, renderer surface, storage adapter, command dispatch path, or project truth.",
+  "compiledE09Queue": [
+    "E09_C01_SERIES_ATLAS_PACKAGE_MANIFEST_AND_AUTONOMY_BOUNDARY",
+    "E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY",
+    "E09_C03_ATLAS_EXPORT_IR_READABLE_JSON_AND_UNKNOWN_FIELD_PRESERVATION",
+    "E09_C04_GRAPH_PACKAGE_ARCHIVE_REPEAT_IMPORT_AND_LOSS_REPORT",
+    "E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_AND_STAGE_09_ACCEPTANCE"
+  ],
+  "featureIntegrationManifest": {
+    "featureId": "atlas.seriesPackageManifest.v1",
+    "productPlane": {
+      "owner": "Derived Views over Product Core and explicit pathless external book references",
+      "readPath": [
+        "project.core.currentBookIdentity",
+        "params.bookRefs.pathlessExternalBookReferences",
+        "derived.atlas.seriesPackageManifest.v1"
+      ],
+      "writePath": [
+        "No project truth write is performed",
+        "No filesystem write is performed",
+        "No series package is stored as book truth in this contour"
+      ],
+      "storageAdapter": "none",
+      "newStorageAdapter": false,
+      "projectTruthMutation": false
+    },
+    "commandPlane": {
+      "newCommands": [],
+      "capabilityRevalidation": "Not applicable in E09 C01 because the manifest is a read-only derived package projection. E09 C02 owns preview/apply Command Kernel boundaries for identity and vocabulary writes."
+    },
+    "interfacePlane": {
+      "newSurface": false,
+      "surfaceManifest": "NOT_APPLICABLE",
+      "typedSlot": "NOT_APPLICABLE",
+      "directDomMutation": false
+    }
+  },
+  "implementedBoundary": {
+    "manifestSchema": "derived.atlas.seriesPackageManifest.v1",
+    "bookRefSchema": "atlas.seriesPackage.bookRef.v1",
+    "autonomyProofSchema": "atlas.seriesPackage.autonomyProof.v1",
+    "scopeIn": [
+      "series package manifest schema",
+      "pathless book reference rows",
+      "book autonomy proof",
+      "series package hash",
+      "no silent source project rewrite"
+    ],
+    "scopeOut": [
+      "automatic cross-book identity merge",
+      "custom vocabulary commands",
+      "cloud account sync",
+      "renderer series UI",
+      "new storage adapter"
+    ],
+    "pathlessBookRefs": true,
+    "privatePathOrContentInputRejected": true,
+    "bookAutonomyProof": true,
+    "packageRequiredToOpenBook": false,
+    "silentProjectTruthRewrite": false,
+    "sourceProjectRewrite": false,
+    "projectTruthMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "secondTruthStore": false
+  },
+  "runtimeFacts": {
+    "seriesPackageManifestExists": true,
+    "seriesPackageManifestSchemaVersion": "derived.atlas.seriesPackageManifest.v1",
+    "seriesPackageBookRefSchemaVersion": "atlas.seriesPackage.bookRef.v1",
+    "seriesPackageAutonomyProofSchemaVersion": "atlas.seriesPackage.autonomyProof.v1",
+    "crossBookIdentityApplyExists": false,
+    "customVocabularyApplyExists": false,
+    "projectTruthMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "newDependency": false
+  },
+  "validation": [
+    {
+      "command": "node --check E09 C01 source and contract",
+      "result": "PASS",
+      "summary": "Syntax checks passed"
+    },
+    {
+      "command": "node --test E09 C01 contract",
+      "result": "PASS",
+      "summary": "6 tests, 6 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; perf baseline, menu, law path canon, execution sequence, and release candidate checks PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E09 C01 is a pure derived manifest over current project identity and explicit pathless book refs. The manifest is rebuildable from Product Core state plus params, contains no private path or manuscript content, and performs no project truth, manuscript, storage, network, renderer, command, or UI mutation.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY"
+}

@@ -2,6 +2,27 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_MIXED_RANGE_ROUTER_RECEIPT.json",
+      "sha256": "ca2f47c5a967a7767da9ede2556d088f3b081b4d08bee737d8b15539c418fb1b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER",
+      "approvedAtUtc": "2026-07-30T06:07:30.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C03 delivery receipt: records local verified implementation of author-owned project scene block and range language tags, atlas.languageTag.set and atlas.languageTag.clear Core command authority, cap.atlas.languageTag.edit node-only capability revalidation, mixed-language router read-only projection, unsupported range GLOBAL exact-only fallback with no silent English fallback, no Deep claim, no automatic language detection, no manuscript mutation, no UI runtime change, no storage, no network, no new dependency, focused and adjacent pass evidence, command-capability binding repair, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c03-language-tag-author-truth-mixed-range-router.contract.test.js",
+      "sha256": "20c73910f78f5c55654155afa1e1a9b58d74914ad2a3b21da2a233a01a383319",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER",
+      "approvedAtUtc": "2026-07-30T06:07:30.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C03 contract: proves language tag commands persist author truth while preserving manuscript text, mixed-language routing applies project scene and range overrides, unsupported Hebrew routes to GLOBAL exact-only with englishFallback false, invalid ranges overlaps and stale clears fail without mutation, node capability revalidation admits commands while web denies them, derived exports are present, and router sources remain free of storage, network, DOM IPC, UI dispatch, workers, child processes, dynamic imports, true English fallback, or true Deep support."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
+      "sha256": "12e1188e5c5ef4c8ec811f2cd2bea16447f42838e870a679d71a8a6a2af08708",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C03_LANGUAGE_TAG_AUTHOR_TRUTH_AND_MIXED_RANGE_ROUTER",
+      "approvedAtUtc": "2026-07-30T06:07:30.000Z",
+      "rationale": "Approve bounded command capability binding repair for Yalken Atlas V5 E07 C03: synchronizes COMMAND_CAPABILITY_BINDING.json with runtime CAPABILITY_BINDING for existing Atlas, Idea, and Meaning command authority entries plus new atlas.languageTag.set and atlas.languageTag.clear bindings to cap.atlas.languageTag.edit, preserving command coverage enforcement without adding UI routes, network, storage, dependency, or release readiness claims."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_NORMALIZATION_MAP_RECEIPT.json",
       "sha256": "2fea4ced8afc368c690a38713732bf1f37eef48ba2c662222111e135efa77a89",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_AND_NORMALIZATION_MAP",
@@ -4123,13 +4144,6 @@
       "approvedBy": "ticket:YALKEN_NEXT_STAGE_AUTONOMOUS_V2_3_S42_FACTUAL_DOCS_CAPABILITY_MATRIX",
       "approvedAtUtc": "2026-07-19T10:58:00.000Z",
       "rationale": "Approve bounded S42 factual status artifact for the already merged S00-S41 next-stage runtime. The artifact records explicit LIVE, PARTIAL, PLANNED, and BLOCKED statuses and accepted limitations only; it introduces no runtime, command, storage, recovery, UI, dependency, account, cloud, network, import/export, entitlement, or project-format change."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "b3fd125715901f93350fb39998b6b75c1d448f07762679b9940b77c4e8a44fc1",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02D_C01_MANUAL_MAP_PORTABILITY_CORE_ATTACHMENTS_PORTALS_TEMPLATES",
-      "approvedAtUtc": "2026-07-29T20:55:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E02D C01 command capability binding update: binds manualMap.create, manualMap.node.add, manualMap.edge.add, manualMap.attachment.add, manualMap.portal.add, and manualMap.template.apply to cap.manualMap.edit so Command Kernel capability revalidation admits node desktop and denies web/mobile-wrapper while preserving no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
     },
     {
       "filePath": "scripts/ops/phase03-safe-reset-last-stable-artifact-state.mjs",

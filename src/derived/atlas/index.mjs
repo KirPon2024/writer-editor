@@ -180,6 +180,15 @@ export {
   sortAtlasLanguageCapabilityRows,
 } from './atlasLanguageCapabilityTypes.mjs';
 export {
+  ATLAS_LANGUAGE_TAG_SCHEMA_VERSION,
+  ATLAS_LANGUAGE_TAGS_SURFACE_MANIFEST_VERSION,
+  ATLAS_LANGUAGE_TAG_SCOPE_KIND,
+  ATLAS_MIXED_LANGUAGE_ROUTE_SCHEMA_VERSION,
+  ATLAS_MIXED_LANGUAGE_ROUTER_SCHEMA_VERSION,
+  sortAtlasLanguageTags,
+  sortAtlasMixedLanguageRoutes,
+} from './atlasLanguageTagTypes.mjs';
+export {
   ATLAS_TEXT_ANCHOR_PACKET_SCHEMA_VERSION,
   ATLAS_TEXT_NORMALIZATION_MAP_SCHEMA_VERSION,
   ATLAS_TEXT_OFFSET_DOMAIN,
@@ -233,6 +242,10 @@ export {
   deriveAtlasLanguageCapabilityReport,
   ATLAS_LANGUAGE_CAPABILITY_REPORT_VIEW_ID,
 } from './deriveAtlasLanguageCapabilityReport.mjs';
+export {
+  deriveAtlasMixedLanguageRouter,
+  ATLAS_MIXED_LANGUAGE_ROUTER_VIEW_ID,
+} from './deriveAtlasMixedLanguageRouter.mjs';
 export {
   buildAtlasTextAnchorPacket,
   buildAtlasTextOffsetMap,

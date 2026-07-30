@@ -754,6 +754,22 @@ function parseFormattingDeltas(documentXml, documentScan) {
   return deltas;
 }
 
+function relatedRevisionForRange(documentScan, start, end) {
+  for (const token of documentScan.tokens) {
+    if (!['ins', 'del', 'moveFrom', 'moveTo'].includes(token.localName)) continue;
+    if (token.openStart <= start && token.closeEnd >= end) {
+      return {
+        kind: token.localName === 'ins'
+          ? 'insert'
+          : (token.localName === 'del' ? 'delete' : token.localName),
+        nativeRevisionId: attr(token, 'id'),
+        sourceXmlProvenance: provenance(token),
+      };
+    }
+  }
+  return null;
+}
+
 function commentAnchorMap(documentXml, documentScan) {
   const map = new Map();
   for (const token of documentScan.tokens) {
@@ -773,6 +789,11 @@ function commentAnchorMap(documentXml, documentScan) {
       anchorEnd: rangeEnd ? rangeEnd.closeEnd : token.closeEnd,
       quotedAnchorText,
       anchored: true,
+      relatedRevision: relatedRevisionForRange(
+        documentScan,
+        token.openStart,
+        rangeEnd ? rangeEnd.closeEnd : token.closeEnd,
+      ),
     });
   }
   return map;
@@ -802,6 +823,20 @@ function collectModernCommentMetadata(scans) {
     if (item.paraId) metadataByParaId.set(item.paraId, { ...(metadataByParaId.get(item.paraId) || {}), ...item });
     if (item.durableId) metadataById.set(item.durableId, item);
   }
+  for (const token of scans.commentsExtensible.tokens) {
+    const paraId = attr(token, 'paraId');
+    if (!paraId) continue;
+    const item = {
+      ...(metadataByParaId.get(paraId) || {}),
+      paraId,
+      durableId: attr(token, 'durableId') || attr(token, 'durableId', W16CID_NS),
+      reopened: attr(token, 'reopened') === '1' || attr(token, 'reopened').toLowerCase() === 'true',
+      done: attr(token, 'done') === '1' || attr(token, 'done').toLowerCase() === 'true',
+      attributes: cloneJsonSafe(token.attributes),
+    };
+    metadataByParaId.set(paraId, item);
+    if (item.durableId) metadataById.set(item.durableId, item);
+  }
   for (const token of scans.people.tokens) {
     if (token.localName !== 'person') continue;
     people.push({
@@ -814,10 +849,27 @@ function collectModernCommentMetadata(scans) {
   return { metadataByParaId, metadataById, people };
 }
 
-function parseCommentThreads(documentXml, documentScan, scans, cryptoPort) {
+function expectedCommentRecords(input) {
+  const list = Array.isArray(input.expectedCommentThreads)
+    ? input.expectedCommentThreads
+    : (Array.isArray(input.baselineCommentThreads) ? input.baselineCommentThreads : []);
+  return list.filter(isPlainObject).map((item) => ({
+    commentId: rawString(item.commentId || item.rawId),
+    durableId: rawString(item.durableId),
+    bodyExcerpt: rawString(item.bodyExcerpt || item.body).slice(0, 160),
+    doneResolvedReopenedState: rawString(item.doneResolvedReopenedState || item.state),
+  }));
+}
+
+function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort) {
   const anchors = commentAnchorMap(documentXml, documentScan);
   const metadata = collectModernCommentMetadata(scans);
   const reasons = [...scans.comments.diagnostics, ...scans.commentsExtended.diagnostics, ...scans.commentsIds.diagnostics, ...scans.commentsExtensible.diagnostics, ...scans.people.diagnostics];
+  const expected = expectedCommentRecords(input);
+  const expectedByKey = new Map();
+  for (const item of expected) {
+    for (const key of [item.commentId, item.durableId].filter(Boolean)) expectedByKey.set(key, item);
+  }
   const records = [];
   const seenIds = new Set();
   let ordinal = 0;
@@ -825,6 +877,7 @@ function parseCommentThreads(documentXml, documentScan, scans, cryptoPort) {
     const rawId = attr(token, 'id') || String(ordinal);
     const paraId = attr(token, 'paraId') || rawId;
     const meta = metadata.metadataByParaId.get(paraId) || metadata.metadataByParaId.get(rawId) || {};
+    const expectedRecord = expectedByKey.get(rawId) || expectedByKey.get(rawString(meta.durableId)) || {};
     const duplicate = seenIds.has(rawId);
     seenIds.add(rawId);
     const anchor = anchors.get(rawId) || {};
@@ -843,6 +896,11 @@ function parseCommentThreads(documentXml, documentScan, scans, cryptoPort) {
       date: attr(token, 'date'),
       durableId: rawString(meta.durableId),
       done: meta.done === true,
+      reopened: meta.reopened === true
+        || (
+          meta.done === false
+          && rawString(expectedRecord.doneResolvedReopenedState).toLowerCase() === 'resolved'
+        ),
       anchor,
       metadata: meta,
       sourceXmlProvenance: provenance(token),
@@ -897,6 +955,9 @@ function parseCommentThreads(documentXml, documentScan, scans, cryptoPort) {
     const status = record.duplicate
       ? 'UNSUPPORTED_BLOCKED'
       : (record.done ? 'RESOLVED' : (record.anchor.anchored ? 'ANCHORED' : 'ORPHAN'));
+    const doneResolvedReopenedState = record.done
+      ? 'resolved'
+      : (record.reopened ? 'reopened' : 'active');
     const code = status === 'RESOLVED'
       ? 'RTK_COMMENT_RESOLVED'
       : (status === 'ANCHORED' ? 'RTK_COMMENT_ANCHORED' : (status === 'ORPHAN' ? 'RTK_COMMENT_ORPHAN' : 'RTK_COMMENT_UNSUPPORTED'));
@@ -907,7 +968,7 @@ function parseCommentThreads(documentXml, documentScan, scans, cryptoPort) {
       durableId: record.durableId,
       parentThreadId: '',
       replies,
-      doneResolvedReopenedState: record.done ? 'resolved' : 'active-or-reopened',
+      doneResolvedReopenedState,
       authorPersonIdentity: {
         author: record.author,
         initials: record.initials,
@@ -917,9 +978,10 @@ function parseCommentThreads(documentXml, documentScan, scans, cryptoPort) {
       anchorStart: record.anchor.anchorStart ?? null,
       anchorEnd: record.anchor.anchorEnd ?? null,
       quotedAnchorText: record.anchor.quotedAnchorText || '',
-      relatedRevision: '',
+      relatedRevision: record.anchor.relatedRevision || null,
       body: record.body,
       bodyExcerpt: record.body.slice(0, 160),
+      orderingKey: record.ordinal,
       status,
       placement: {
         outcome: status,
@@ -940,7 +1002,76 @@ function parseCommentThreads(documentXml, documentScan, scans, cryptoPort) {
       threadId: thread.threadId,
     }));
   }
+  const observedKeys = new Set();
+  for (const record of records) {
+    for (const key of [record.rawId, record.paraId, record.durableId].filter(Boolean)) observedKeys.add(key);
+  }
+  for (const missing of expected) {
+    if (!missing.commentId && !missing.durableId) continue;
+    if (observedKeys.has(missing.commentId) || observedKeys.has(missing.durableId)) continue;
+    const key = missing.commentId || missing.durableId;
+    const thread = {
+      kind: 'CommentThread',
+      threadId: `rtk-comment-missing-${key}`,
+      commentId: missing.commentId,
+      durableId: missing.durableId,
+      parentThreadId: '',
+      replies: [],
+      doneResolvedReopenedState: 'deleted-or-missing',
+      authorPersonIdentity: { author: '', initials: '', people: metadata.people },
+      date: '',
+      anchorStart: null,
+      anchorEnd: null,
+      quotedAnchorText: '',
+      relatedRevision: null,
+      body: '',
+      bodyExcerpt: missing.bodyExcerpt,
+      orderingKey: records.length + threads.length,
+      status: 'UNSUPPORTED_BLOCKED',
+      placement: {
+        outcome: 'UNSUPPORTED_BLOCKED',
+        anchored: false,
+        selectorStack: {
+          exactQuote: '',
+          prefix: '',
+          suffix: '',
+          utf16Position: null,
+        },
+      },
+      reasonCodes: ['RTK_COMMENT_UNSUPPORTED'],
+      modernMetadata: {},
+      sourceXmlProvenance: null,
+    };
+    threads.push(thread);
+    reasons.push(reason('RTK_COMMENT_UNSUPPORTED', `comments.${key}`, 'Expected comment thread is missing from the returned package and cannot be silently dropped.', {
+      threadId: thread.threadId,
+    }));
+  }
   return { commentThreads: threads, reasons };
+}
+
+function buildCommentGraphCapability(input, partNames, commentThreads) {
+  const replyCount = commentThreads.reduce((total, thread) => total + thread.replies.length, 0);
+  const statusCounts = {};
+  for (const thread of commentThreads) {
+    statusCounts[thread.status] = (statusCounts[thread.status] || 0) + 1;
+  }
+  return {
+    schemaVersion: 'yalken.rtk.comment-graph-capability.v1',
+    status: input.physicalWordReopenVisibility === true
+      ? 'SEMANTIC_READBACK_READY_PHYSICAL_VISIBILITY_PROVIDED'
+      : 'PARSER_ONLY_NOT_CERTIFIED',
+    commentPassAllowed: input.physicalWordReopenVisibility === true
+      && commentThreads.length > 0
+      && !statusCounts.UNSUPPORTED_BLOCKED,
+    noOpSaveCountsAsPass: false,
+    physicalWordReopenVisibility: input.physicalWordReopenVisibility === true,
+    packageParts: partNames.filter((partName) => partName.startsWith('word/comments') || partName === 'word/people.xml'),
+    threadCount: commentThreads.length,
+    replyCount,
+    durableIdCount: commentThreads.filter((thread) => Boolean(thread.durableId)).length,
+    statusCounts,
+  };
 }
 
 function collectUnsupportedElements(documentScan) {
@@ -1110,7 +1241,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
   const propertyRevisions = parsePropertyRevisions(documentXml, documentScan);
   const structureChanges = parseStructureChanges(documentScan);
   const formattingDeltas = parseFormattingDeltas(documentXml, documentScan);
-  const comments = parseCommentThreads(documentXml, documentScan, scans, cryptoPort);
+  const comments = parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort);
   reasons.push(...comments.reasons);
   if (moveRevisions.length > 0) {
     reasons.push(reason('RTK_BLOCKED_MOVE_REVISION', 'moveRevisions', 'Move revisions remain non-EXACT structural evidence.'));
@@ -1121,6 +1252,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
   const sourceMode = sourceModeFor(input, documentXml, textRevisions, moveRevisions, propertyRevisions);
   if (sourceMode === 'CLEAN') reasons.push(reason('RTK_MANUAL_CLEAN_RETURN', 'sourceMode', 'CLEAN return remains manual review in B02.'));
   if (sourceMode === 'MIXED') reasons.push(reason('RTK_MANUAL_MIXED_RETURN', 'sourceMode', 'MIXED return remains manual review in B02.'));
+  const commentGraphCapability = buildCommentGraphCapability(input, partNames, comments.commentThreads);
 
   const reviewIr = {
     schemaVersion: RTK_REVIEW_IR_V2_SCHEMA,
@@ -1133,6 +1265,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     comments: comments.commentThreads,
     formattingDeltas,
     opaqueUnsupported,
+    commentGraphCapability,
     changes: textRevisions,
     diagnostics: reasons,
     conservation: {
@@ -1195,9 +1328,17 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       commentId: thread.commentId,
       durableId: thread.durableId,
       status: thread.status,
+      doneResolvedReopenedState: thread.doneResolvedReopenedState,
+      relatedRevision: thread.relatedRevision
+        ? {
+          kind: thread.relatedRevision.kind,
+          nativeRevisionId: thread.relatedRevision.nativeRevisionId,
+        }
+        : null,
       replyDigests: thread.replies.map((reply) => reply.bodyDigest),
       bodyDigest: cryptoPort.sha256Json({ commentId: thread.commentId, body: thread.body }),
     })),
+    commentGraphCapability,
     formattingDeltas: formattingDeltas.map((delta) => ({
       formatKind: delta.formatKind,
       values: delta.values,
@@ -1225,6 +1366,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     canApply: false,
     sourceMode,
     packageInventory,
+    commentGraphCapability,
     reviewIr,
     parserProfile,
     supportedSemanticDigest,

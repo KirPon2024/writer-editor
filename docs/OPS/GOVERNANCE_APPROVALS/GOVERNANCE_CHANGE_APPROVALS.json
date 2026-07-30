@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_ACCESSIBILITY_PARITY_RECEIPT.json",
+      "sha256": "38dc88e4069d7700b73a0fc6481b0db1f41989ca4d51c6acf29e61df57a1f7ec",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_AND_ACCESSIBILITY_PARITY",
+      "approvedAtUtc": "2026-07-30T09:03:10.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E08 C04 receipt: records pure global composite graph trust filters, batch navigation intent rows, evidence jump intent-only route, keyboard/list accessibility parity, no pointer-only graph action, no automatic apply, no command dispatch, no UI, no renderer adapter mutation, no storage, no network, no project truth mutation, no manuscript mutation, no dependency, and handoff to E08 C05."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e08-c04-trust-filters-batch-navigation-accessibility-parity.contract.test.js",
+      "sha256": "86c7a1f31605910965d4aa0ae3c327a80685b4206d1fe113536a20c04d5b0d5c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_AND_ACCESSIBILITY_PARITY",
+      "approvedAtUtc": "2026-07-30T09:03:10.000Z",
+      "rationale": "Approve E08 C04 contract coverage: proves author-confirmed and algorithmic composite graph trust filters, intent-only evidence jump batch navigation rows, keyboard and list accessibility parity, deterministic source-order-independent packet hashes, derived barrel exports, and no filesystem, network, Electron, DOM, Worker, timer, storage, command dispatch, automatic apply, project truth mutation, storage mutation, network mutation, renderer mutation, or UI bypass path."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C03_ADVANCED_LOD_STABLE_POSITIONS_LARGE_GRAPH_BUDGET_RECEIPT.json",
       "sha256": "d5f7567fa7365d8f1ad60a7a9dcd53500fa3e0b5fabb131db138bc211dc0e1eb",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C03_ADVANCED_LOD_STABLE_POSITIONS_AND_LARGE_GRAPH_BUDGET",

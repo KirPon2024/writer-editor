@@ -65,6 +65,8 @@ export {
 export {
   ATLAS_GLOBAL_COMPOSITE_EDGE_KIND,
   ATLAS_GLOBAL_COMPOSITE_EDGE_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_ACCESSIBILITY_PARITY_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_BATCH_NAVIGATION_INTENT_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_GRAPH_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_GRAPH_JOB_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_GRAPH_QUEUE_SCHEMA_VERSION,
@@ -76,6 +78,7 @@ export {
   ATLAS_GLOBAL_COMPOSITE_RESOURCE_BUDGET_PROOF_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_STABLE_POSITION_SCHEMA_VERSION,
   ATLAS_GLOBAL_COMPOSITE_SOURCE_REF_SCHEMA_VERSION,
+  ATLAS_GLOBAL_COMPOSITE_TRUST_FILTER_SCHEMA_VERSION,
   sortAtlasGlobalCompositeEdges,
   sortAtlasGlobalCompositeNodes,
   sortAtlasGlobalCompositeSourceRefs,
@@ -332,6 +335,11 @@ export {
   buildAtlasGlobalCompositeGraphLodPlan,
   buildAtlasGlobalCompositeGraphResourceBudgetProof,
 } from './atlasGlobalCompositeGraphLayoutPlanner.mjs';
+export {
+  buildAtlasGlobalCompositeBatchNavigationIntents,
+  buildAtlasGlobalCompositeTrustFilter,
+  deriveAtlasGlobalCompositeGraphNavigationPacket,
+} from './deriveAtlasGlobalCompositeGraphNavigation.mjs';
 export { deriveAtlasOverview, ATLAS_OVERVIEW_VIEW_ID } from './deriveAtlasOverview.mjs';
 export { deriveAtlasEntityDossier, ATLAS_ENTITY_DOSSIER_VIEW_ID } from './deriveAtlasEntityDossier.mjs';
 export { deriveAtlasRelationDossier, ATLAS_RELATION_DOSSIER_VIEW_ID } from './deriveAtlasRelationDossier.mjs';

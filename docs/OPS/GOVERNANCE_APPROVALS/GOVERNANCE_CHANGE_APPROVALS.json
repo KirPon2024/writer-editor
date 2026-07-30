@@ -5481,6 +5481,20 @@
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
       "approvedAtUtc": "2026-07-30T17:58:00.000Z",
       "rationale": "Approve focused C04 contract coverage: proves C03 authority to B05 writer binding, full candidate id one-to-one binding, positive apply and replay, comment and formatting lane independence, parser caller blocking before writer, tampered and missing C03 digest blocking before writer, standalone insert blocking before writer, duplicate scene quote no false exact mutation, crash-before-receipt no false success, repeated request no double mutation, receipt nonclaims, and source absence of renderer, Electron, IPC, and network authority."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e10-c05-local-multi-session-recovery-conflicts.contract.test.js",
+      "sha256": "c6a4f676623d64a74a42c5061b5461502976498f81df4db8287d70cd32e91762",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C05_LOCAL_MULTI_SESSION_RECOVERY_AND_CONFLICT_ENVELOPES",
+      "approvedAtUtc": "2026-07-30T17:45:59.000Z",
+      "rationale": "Approve E10 C05 focused contract: proves deterministic local multi-session replay, typed conflict envelopes without auto merge, rollback and reopen hash proof, manual preview-required decision route through Command Kernel authority, offline held-local recovery proof, hash-only payload exclusion, invalid-event typed envelopes, no network collaboration, no destructive recovery, no silent project rewrite, no second operation log truth, no second comment truth, no UI, no storage writer, and no new collab source file."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C05_LOCAL_MULTI_SESSION_RECOVERY_CONFLICTS_RECEIPT.json",
+      "sha256": "bd961a3d1dba9fae9bdcc918f49a3d982cb6af4230af0054e44db433a2a59c79",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C05_LOCAL_MULTI_SESSION_RECOVERY_AND_CONFLICT_ENVELOPES",
+      "approvedAtUtc": "2026-07-30T17:54:36.000Z",
+      "rationale": "Approve bounded E10 C05 final receipt after origin/main drift reconciliation to e720743a: records deterministic local multi-session recovery, typed local conflict envelopes, collision report, manual preview-required decision route through Command Kernel authority, capability revalidation requirement, rollback proof, reopen hash proof, offline held-local recovery proof, invalid-event typed envelopes, payload hash-only exclusion, no automatic merge, no network collaboration, no destructive recovery, no silent project rewrite, no second operation log truth, no second comment truth, no project or manuscript mutation, no UI, no storage writer, no dependency, focused and adjacent local PASS evidence with 31 tests, causal queue readiness PASS, collab stress safe PASS, comments-history PASS, recovery IO PASS, governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
     }
   ]
 }

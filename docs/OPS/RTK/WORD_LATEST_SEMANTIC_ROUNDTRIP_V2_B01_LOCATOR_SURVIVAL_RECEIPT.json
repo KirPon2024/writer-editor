@@ -1,0 +1,794 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.b01-locator-survival-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "B01_SIGNED_LOCATOR_PRESERVATION",
+  "createdAtUtc": "2026-07-30T14:38:00.198Z",
+  "base": {
+    "originMainShaAtBranchStart": "1dfb3d8f6f2243114445a8f7f66de809a390358d",
+    "branch": "codex/rtk-word-latest-semantic-b01",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "precedingB00MergeSha": "08a79d005f93b1afbe088ee669b6ad0ebcac2ca0"
+  },
+  "profile": {
+    "targetProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "targetWordVersion": "16.111.2",
+    "statusBeforeB01": "DESIGN_ONLY_NOT_CERTIFIED",
+    "statusAfterB01": "SURVIVAL_EVIDENCE_ONLY_NOT_CERTIFIED",
+    "physicalRoundTripsExecutedForSurvival": 5,
+    "physicalRoundTripsClaimedAsCertification": false,
+    "oldD1Profile": {
+      "profileId": "word-mac-16.42-d1-f00-v1",
+      "status": "IMMUTABLE_HISTORICAL_EVIDENCE_ONLY",
+      "notReboundByB01": true
+    }
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "targetProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "targetVersion": "16.111.2",
+    "versionByBundle": "16.111.1",
+    "buildByBundle": "16.111.26071913",
+    "versionByAppleScript": "NOT_QUERIED_BEFORE_PHYSICAL_CASES_TO_AVOID_WORD_SANDBOX_MODAL_STATE",
+    "buildByAppleScript": "NOT_QUERIED_BEFORE_PHYSICAL_CASES_TO_AVOID_WORD_SANDBOX_MODAL_STATE",
+    "targetVersionMatched": false,
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true
+  },
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008",
+  "wordSandboxWorkRoot": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator",
+  "wordSandboxRunDir": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008",
+  "evidenceMirrorPolicy": {
+    "wordWorksInsideTransientLocalStaging": true,
+    "evidenceMirroredToT7Secure": true,
+    "localWordWorkCleanupAfterSuccess": true,
+    "reason": "Microsoft Word for Mac 16.111.2 displays Grant File Access prompts for direct T7 AppleScript open/save paths; /tmp staging is mirrored to T7 before receipt."
+  },
+  "signedLocatorAuthority": {
+    "transportManifestSchema": "yalken.rtk.transport-manifest.v2",
+    "hmacAlgorithm": "HMAC-SHA256",
+    "secretPolicy": "LOCAL_SECRET_NOT_EMBEDDED_IN_DOCX",
+    "secretEmbeddedInDocx": false,
+    "exactRequiresVerifiedCustomXmlManifestAndBaseline": true,
+    "customXmlNoEditSaveVerified": true,
+    "customXmlMutatingWordSaveVerifiedCases": 0,
+    "customXmlMutatingWordSaveTotalCases": 4,
+    "customXmlUsableForMutatingWordReturn": false,
+    "customXmlMutationLimitation": "CUSTOM_XML_DROPPED_AFTER_TRACKED_OR_COMMENTED_WORD_SAVE_ON_OBSERVED_WORD_PROFILE",
+    "placementSignalsHaveNoApplyAuthority": true,
+    "fingerprintSignalsHaveNoApplyAuthority": true
+  },
+  "wordDocumentSafety": {
+    "syntheticOnly": true,
+    "userDocumentsOpened": false,
+    "closeNonLabDocuments": false,
+    "usesTargetDocumentHandlesOnly": true,
+    "displayAlertsRestored": true
+  },
+  "commentNoopPassClaimed": false,
+  "cases": [
+    {
+      "caseId": "b01-no-edit-save-reopen",
+      "title": "no edit save reopen preserves carriers",
+      "sourceDocxSha256": "sha256:f94eade1ae50f1a3b985d8e278857a3b4f7395f2081e74382dccc3e6eab519aa",
+      "returnedDocxSha256": "sha256:f94eade1ae50f1a3b985d8e278857a3b4f7395f2081e74382dccc3e6eab519aa",
+      "sourceBytes": 9766,
+      "returnedBytes": 9766,
+      "wordActions": [],
+      "openSaveCloseReopen": "PASS",
+      "scriptPaths": {
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-no-edit-save-reopen-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-no-edit-save-reopen-readback.applescript"
+      },
+      "wordReadbackSha256": "sha256:8cf3c3ca2beec0381c352f955c40c0a66afc0b9d3596e51fac6025056854af8e",
+      "revisionCount": 0,
+      "commentCount": 1,
+      "commentSummarySha256": "sha256:198c5e2afdf7c7c71cedf35ad67009a9db9bcb2e0e088cab73a4264cc123a30c",
+      "wordNativeClassicCommentVisible": false,
+      "expectedSignals": [
+        "customXmlManifest",
+        "sceneBookmark",
+        "sdtTag",
+        "w14ParaId",
+        "w14TextId",
+        "seededClassicComment"
+      ],
+      "allRequiredSignalsAccounted": true,
+      "packageInspection": {
+        "packageZipOk": true,
+        "inventory": {
+          "entries": [
+            "_rels/.rels",
+            "[Content_Types].xml",
+            "customXml/_rels/item1.xml.rels",
+            "customXml/item1.xml",
+            "customXml/itemProps1.xml",
+            "word/_rels/document.xml.rels",
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/document.xml",
+            "word/people.xml"
+          ],
+          "requiredPartsPresent": {
+            "documentXml": true,
+            "customXmlItem1": true,
+            "customXmlItemProps1": true,
+            "documentRels": true,
+            "commentsXml": true,
+            "commentsExtendedXml": true,
+            "peopleXml": true
+          },
+          "entryDigests": {
+            "word/document.xml": "sha256:ce4679fa63f0796051b6eef9bc10e7a20f662905d2608b571c887f814d25ec70",
+            "word/comments.xml": "sha256:e9c1345b801ebf34998237f318fa70ea8daa543a28fb7fe66a8d8fbdf0befa9c",
+            "word/commentsExtended.xml": "sha256:a9b232abd1ab24c9aa2b0e7386498adc40c2ded58f8d7ad6f0c1e1c36500242c",
+            "word/people.xml": "sha256:565892fa557f73a6253885f52ba968056705a9288e2b544b052fac084c8c8369",
+            "customXml/item1.xml": "sha256:501fcd33e173aa1a4128aeb03c624987765444cee56869fcc6de0f831aa557e0"
+          }
+        },
+        "signals": {
+          "customXmlManifest": {
+            "status": "SURVIVED_VERIFIED",
+            "exactAuthority": true,
+            "manifestDigest": "sha256:a3d2705e7eadc5ed4765a040d51094f192ba9c1c20ba41de97ff51cfb03857c5",
+            "originalManifestDigestMatches": true,
+            "code": "RTK_TRANSPORT_MANIFEST_VERIFIED"
+          },
+          "sceneBookmark": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "sdtTag": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "w14ParaId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "1a2b3c4d",
+              "2b3c4d5e",
+              "3c4d5e6f",
+              "4d5e6f70"
+            ]
+          },
+          "w14TextId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "11111111",
+              "22222222",
+              "33333333",
+              "44444444"
+            ]
+          },
+          "seededClassicComment": {
+            "status": "SURVIVED_SEMANTIC_READBACK_REQUIRED",
+            "exactAuthority": false
+          },
+          "commentsExtended": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "peopleXml": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "modernCommentPackage": {
+            "status": "NOT_CERTIFIED_IN_B01",
+            "exactAuthority": false,
+            "reason": "B01 does not certify modern replies or resolved state; B03 remains required."
+          }
+        },
+        "manifestVerification": {
+          "ok": true,
+          "status": "verified",
+          "code": "RTK_TRANSPORT_MANIFEST_VERIFIED",
+          "exactAuthority": true,
+          "payloadDigest": "sha256:a3d2705e7eadc5ed4765a040d51094f192ba9c1c20ba41de97ff51cfb03857c5",
+          "reasons": []
+        }
+      },
+      "paths": {
+        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-no-edit-save-reopen-source.docx",
+        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-no-edit-save-reopen-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-no-edit-save-reopen-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-no-edit-save-reopen-returned.docx"
+      }
+    },
+    {
+      "caseId": "b01-tracked-insert",
+      "title": "tracked insert near locator carriers",
+      "sourceDocxSha256": "sha256:2f87bb59786f5079c27003b72bb0140f2b0a32240e54dbee47e3a778b64ea76d",
+      "returnedDocxSha256": "sha256:989d9523665ee6e4291efc69b2887b8a1a818e07338da25a9490cfe4930042e3",
+      "sourceBytes": 9751,
+      "returnedBytes": 16050,
+      "wordActions": [
+        "insert"
+      ],
+      "openSaveCloseReopen": "PASS",
+      "scriptPaths": {
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-tracked-insert-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-tracked-insert-readback.applescript"
+      },
+      "wordReadbackSha256": "sha256:07653f66d1d7f36869760a17c93a1cec705049f59c8f1c3d521ce268e1e36d18",
+      "revisionCount": 1,
+      "commentCount": 1,
+      "commentSummarySha256": "sha256:198c5e2afdf7c7c71cedf35ad67009a9db9bcb2e0e088cab73a4264cc123a30c",
+      "wordNativeClassicCommentVisible": false,
+      "expectedSignals": [
+        "customXmlManifest",
+        "sceneBookmark",
+        "sdtTag",
+        "w14ParaId",
+        "w14TextId",
+        "seededClassicComment"
+      ],
+      "allRequiredSignalsAccounted": false,
+      "packageInspection": {
+        "packageZipOk": true,
+        "inventory": {
+          "entries": [
+            "[Content_Types].xml",
+            "_rels/.rels",
+            "word/document.xml",
+            "word/_rels/document.xml.rels",
+            "word/comments.xml",
+            "word/theme/theme1.xml",
+            "word/settings.xml",
+            "word/styles.xml",
+            "word/webSettings.xml",
+            "word/commentsExtended.xml",
+            "word/commentsIds.xml",
+            "word/fontTable.xml",
+            "word/people.xml",
+            "docProps/core.xml",
+            "docProps/app.xml"
+          ],
+          "requiredPartsPresent": {
+            "documentXml": true,
+            "customXmlItem1": false,
+            "customXmlItemProps1": false,
+            "documentRels": true,
+            "commentsXml": true,
+            "commentsExtendedXml": true,
+            "peopleXml": true
+          },
+          "entryDigests": {
+            "word/document.xml": "sha256:5f9c69cebffe937ddc785e9e93187fd5abd7245aec2a1efbb72b86947e38f2fe",
+            "word/comments.xml": "sha256:baa043416f44f3dc126f2f3ec50c62c4f43fd6518dd0808f8d0d41cdc183438e",
+            "word/commentsExtended.xml": "sha256:081dc04575d741295057473ed9723867b82c9953741b9022fcf7633e9774b244",
+            "word/people.xml": "sha256:f3e5d545c02cedd5087c84e12bf943f501060f97aabfbe05d3237107d4aa83e7"
+          }
+        },
+        "signals": {
+          "customXmlManifest": {
+            "status": "LOST_OR_TAMPERED_BLOCKED",
+            "exactAuthority": false,
+            "manifestDigest": "",
+            "originalManifestDigestMatches": false,
+            "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING"
+          },
+          "sceneBookmark": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "sdtTag": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "w14ParaId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "1a2b3c4d",
+              "2b3c4d5e",
+              "3c4d5e6f",
+              "4d5e6f70"
+            ]
+          },
+          "w14TextId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "11111111",
+              "33333333",
+              "44444444"
+            ]
+          },
+          "seededClassicComment": {
+            "status": "SURVIVED_SEMANTIC_READBACK_REQUIRED",
+            "exactAuthority": false
+          },
+          "commentsExtended": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "peopleXml": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "modernCommentPackage": {
+            "status": "NOT_CERTIFIED_IN_B01",
+            "exactAuthority": false,
+            "reason": "B01 does not certify modern replies or resolved state; B03 remains required."
+          }
+        },
+        "manifestVerification": {
+          "ok": false,
+          "status": "blocked",
+          "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING",
+          "exactAuthority": false,
+          "reasons": [
+            {
+              "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING",
+              "field": "customXml/item1.xml",
+              "message": "Signed locator manifest customXml part was not preserved."
+            }
+          ]
+        }
+      },
+      "paths": {
+        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-tracked-insert-source.docx",
+        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-tracked-insert-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-tracked-insert-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-tracked-insert-returned.docx"
+      }
+    },
+    {
+      "caseId": "b01-tracked-delete",
+      "title": "tracked delete near locator carriers",
+      "sourceDocxSha256": "sha256:9bcb126d55e0addd9c69809d0dcd71c2c68847ac73d7acad1e1b1455a5b912b7",
+      "returnedDocxSha256": "sha256:895a40548dbce3246236647a51036fe002f825dffb23e3926b9fada49f67d539",
+      "sourceBytes": 9751,
+      "returnedBytes": 16053,
+      "wordActions": [
+        "delete"
+      ],
+      "openSaveCloseReopen": "PASS",
+      "scriptPaths": {
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-tracked-delete-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-tracked-delete-readback.applescript"
+      },
+      "wordReadbackSha256": "sha256:20bb9bf0b1e560a606b2afe666c45aab40062c174d8ea3a98601df34e384fbd3",
+      "revisionCount": 1,
+      "commentCount": 1,
+      "commentSummarySha256": "sha256:198c5e2afdf7c7c71cedf35ad67009a9db9bcb2e0e088cab73a4264cc123a30c",
+      "wordNativeClassicCommentVisible": false,
+      "expectedSignals": [
+        "customXmlManifest",
+        "sceneBookmark",
+        "sdtTag",
+        "w14ParaId",
+        "w14TextId",
+        "seededClassicComment"
+      ],
+      "allRequiredSignalsAccounted": false,
+      "packageInspection": {
+        "packageZipOk": true,
+        "inventory": {
+          "entries": [
+            "[Content_Types].xml",
+            "_rels/.rels",
+            "word/document.xml",
+            "word/_rels/document.xml.rels",
+            "word/comments.xml",
+            "word/theme/theme1.xml",
+            "word/settings.xml",
+            "word/styles.xml",
+            "word/webSettings.xml",
+            "word/commentsExtended.xml",
+            "word/commentsIds.xml",
+            "word/fontTable.xml",
+            "word/people.xml",
+            "docProps/core.xml",
+            "docProps/app.xml"
+          ],
+          "requiredPartsPresent": {
+            "documentXml": true,
+            "customXmlItem1": false,
+            "customXmlItemProps1": false,
+            "documentRels": true,
+            "commentsXml": true,
+            "commentsExtendedXml": true,
+            "peopleXml": true
+          },
+          "entryDigests": {
+            "word/document.xml": "sha256:2368e2b2b3dd01d28a75b265137a79e069b1d1a59c9e75f88459e4f93254214a",
+            "word/comments.xml": "sha256:f7c5044b514c32bd76d4e6f8203c4fde69af1d784d917649d164605108cddedb",
+            "word/commentsExtended.xml": "sha256:081dc04575d741295057473ed9723867b82c9953741b9022fcf7633e9774b244",
+            "word/people.xml": "sha256:f3e5d545c02cedd5087c84e12bf943f501060f97aabfbe05d3237107d4aa83e7"
+          }
+        },
+        "signals": {
+          "customXmlManifest": {
+            "status": "LOST_OR_TAMPERED_BLOCKED",
+            "exactAuthority": false,
+            "manifestDigest": "",
+            "originalManifestDigestMatches": false,
+            "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING"
+          },
+          "sceneBookmark": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "sdtTag": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "w14ParaId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "1a2b3c4d",
+              "2b3c4d5e",
+              "3c4d5e6f",
+              "4d5e6f70"
+            ]
+          },
+          "w14TextId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "11111111",
+              "33333333",
+              "44444444"
+            ]
+          },
+          "seededClassicComment": {
+            "status": "SURVIVED_SEMANTIC_READBACK_REQUIRED",
+            "exactAuthority": false
+          },
+          "commentsExtended": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "peopleXml": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "modernCommentPackage": {
+            "status": "NOT_CERTIFIED_IN_B01",
+            "exactAuthority": false,
+            "reason": "B01 does not certify modern replies or resolved state; B03 remains required."
+          }
+        },
+        "manifestVerification": {
+          "ok": false,
+          "status": "blocked",
+          "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING",
+          "exactAuthority": false,
+          "reasons": [
+            {
+              "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING",
+              "field": "customXml/item1.xml",
+              "message": "Signed locator manifest customXml part was not preserved."
+            }
+          ]
+        }
+      },
+      "paths": {
+        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-tracked-delete-source.docx",
+        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-tracked-delete-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-tracked-delete-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-tracked-delete-returned.docx"
+      }
+    },
+    {
+      "caseId": "b01-paragraph-split",
+      "title": "tracked paragraph split near locator carriers",
+      "sourceDocxSha256": "sha256:c88fc6c1184805d16c54019ab92cb1d42e790499cee9dca5f23b26e0f4b417b0",
+      "returnedDocxSha256": "sha256:7b64e5dc5aa8aedf34e9616cce027500a717b265586ec97dea0f9ae219b2891c",
+      "sourceBytes": 9754,
+      "returnedBytes": 16094,
+      "wordActions": [
+        "insert"
+      ],
+      "openSaveCloseReopen": "PASS",
+      "scriptPaths": {
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-paragraph-split-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-paragraph-split-readback.applescript"
+      },
+      "wordReadbackSha256": "sha256:08a2ebfeba8f5891c05e6aafa49aac2b0263990df022b10809eae326cfd82a6c",
+      "revisionCount": 1,
+      "commentCount": 1,
+      "commentSummarySha256": "sha256:198c5e2afdf7c7c71cedf35ad67009a9db9bcb2e0e088cab73a4264cc123a30c",
+      "wordNativeClassicCommentVisible": false,
+      "expectedSignals": [
+        "customXmlManifest",
+        "sceneBookmark",
+        "sdtTag",
+        "w14ParaId",
+        "w14TextId",
+        "seededClassicComment"
+      ],
+      "allRequiredSignalsAccounted": false,
+      "packageInspection": {
+        "packageZipOk": true,
+        "inventory": {
+          "entries": [
+            "[Content_Types].xml",
+            "_rels/.rels",
+            "word/document.xml",
+            "word/_rels/document.xml.rels",
+            "word/comments.xml",
+            "word/theme/theme1.xml",
+            "word/settings.xml",
+            "word/styles.xml",
+            "word/webSettings.xml",
+            "word/commentsExtended.xml",
+            "word/commentsIds.xml",
+            "word/fontTable.xml",
+            "word/people.xml",
+            "docProps/core.xml",
+            "docProps/app.xml"
+          ],
+          "requiredPartsPresent": {
+            "documentXml": true,
+            "customXmlItem1": false,
+            "customXmlItemProps1": false,
+            "documentRels": true,
+            "commentsXml": true,
+            "commentsExtendedXml": true,
+            "peopleXml": true
+          },
+          "entryDigests": {
+            "word/document.xml": "sha256:a73c01292f17efbb834ed154f56c3b4b3fbb85346e71cc4339f8505b0fc2c6e6",
+            "word/comments.xml": "sha256:1fb333ee2afa4e60b9966997292c6ebe05e68085be0cd8410f71e6d4372c420b",
+            "word/commentsExtended.xml": "sha256:081dc04575d741295057473ed9723867b82c9953741b9022fcf7633e9774b244",
+            "word/people.xml": "sha256:f3e5d545c02cedd5087c84e12bf943f501060f97aabfbe05d3237107d4aa83e7"
+          }
+        },
+        "signals": {
+          "customXmlManifest": {
+            "status": "LOST_OR_TAMPERED_BLOCKED",
+            "exactAuthority": false,
+            "manifestDigest": "",
+            "originalManifestDigestMatches": false,
+            "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING"
+          },
+          "sceneBookmark": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "sdtTag": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "w14ParaId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "1a2b3c4d",
+              "2b3c4d5e",
+              "3c4d5e6f",
+              "4d5e6f70"
+            ]
+          },
+          "w14TextId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "11111111",
+              "22222222",
+              "33333333"
+            ]
+          },
+          "seededClassicComment": {
+            "status": "SURVIVED_SEMANTIC_READBACK_REQUIRED",
+            "exactAuthority": false
+          },
+          "commentsExtended": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "peopleXml": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "modernCommentPackage": {
+            "status": "NOT_CERTIFIED_IN_B01",
+            "exactAuthority": false,
+            "reason": "B01 does not certify modern replies or resolved state; B03 remains required."
+          }
+        },
+        "manifestVerification": {
+          "ok": false,
+          "status": "blocked",
+          "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING",
+          "exactAuthority": false,
+          "reasons": [
+            {
+              "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING",
+              "field": "customXml/item1.xml",
+              "message": "Signed locator manifest customXml part was not preserved."
+            }
+          ]
+        }
+      },
+      "paths": {
+        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-paragraph-split-source.docx",
+        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-paragraph-split-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-paragraph-split-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-paragraph-split-returned.docx"
+      }
+    },
+    {
+      "caseId": "b01-word-native-comment",
+      "title": "Word-native classic comment adds semantic readback evidence",
+      "sourceDocxSha256": "sha256:8869f848d823d69554a270c8813aa06ad29d71d8e72257e63923912d220a0c2e",
+      "returnedDocxSha256": "sha256:fcce36db3b1621ad2564b5c8d1e3af39429524f95946abf98ac5269718063b07",
+      "sourceBytes": 9766,
+      "returnedBytes": 16997,
+      "wordActions": [
+        "wordComment"
+      ],
+      "openSaveCloseReopen": "PASS",
+      "scriptPaths": {
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-word-native-comment-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-word-native-comment-readback.applescript"
+      },
+      "wordReadbackSha256": "sha256:8cf3c3ca2beec0381c352f955c40c0a66afc0b9d3596e51fac6025056854af8e",
+      "revisionCount": 0,
+      "commentCount": 2,
+      "commentSummarySha256": "sha256:643929220e3b7985cf7df710d3e80308b9e28c451f2955dc003c6a7b5817499c",
+      "wordNativeClassicCommentVisible": true,
+      "expectedSignals": [
+        "customXmlManifest",
+        "sceneBookmark",
+        "sdtTag",
+        "w14ParaId",
+        "w14TextId",
+        "seededClassicComment",
+        "wordNativeClassicComment"
+      ],
+      "allRequiredSignalsAccounted": false,
+      "packageInspection": {
+        "packageZipOk": true,
+        "inventory": {
+          "entries": [
+            "[Content_Types].xml",
+            "_rels/.rels",
+            "word/document.xml",
+            "word/_rels/document.xml.rels",
+            "word/comments.xml",
+            "word/theme/theme1.xml",
+            "word/settings.xml",
+            "word/styles.xml",
+            "word/webSettings.xml",
+            "word/commentsExtended.xml",
+            "word/commentsIds.xml",
+            "word/commentsExtensible.xml",
+            "word/fontTable.xml",
+            "word/people.xml",
+            "docProps/core.xml",
+            "docProps/app.xml"
+          ],
+          "requiredPartsPresent": {
+            "documentXml": true,
+            "customXmlItem1": false,
+            "customXmlItemProps1": false,
+            "documentRels": true,
+            "commentsXml": true,
+            "commentsExtendedXml": true,
+            "peopleXml": true
+          },
+          "entryDigests": {
+            "word/document.xml": "sha256:f85486e715470db1818e9b7ed1b6fbe0b9e192c61bb5febf3d40a437fabff8cb",
+            "word/comments.xml": "sha256:08a3362c1898393dc00fc409397b931b4e94a80ea3b6108e445b69fed593b4a1",
+            "word/commentsExtended.xml": "sha256:e9d9622b0ecc491390cdcc11391ae9f5d5881a88a71af0d37314e6511ab2fba2",
+            "word/people.xml": "sha256:f3e5d545c02cedd5087c84e12bf943f501060f97aabfbe05d3237107d4aa83e7"
+          }
+        },
+        "signals": {
+          "customXmlManifest": {
+            "status": "LOST_OR_TAMPERED_BLOCKED",
+            "exactAuthority": false,
+            "manifestDigest": "",
+            "originalManifestDigestMatches": false,
+            "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING"
+          },
+          "sceneBookmark": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "sdtTag": {
+            "status": "SURVIVED_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false
+          },
+          "w14ParaId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "1a2b3c4d",
+              "2b3c4d5e",
+              "3c4d5e6f",
+              "4d5e6f70"
+            ]
+          },
+          "w14TextId": {
+            "status": "SURVIVED_WORD_NATIVE_PLACEMENT_SIGNAL_ONLY",
+            "exactAuthority": false,
+            "survivors": [
+              "11111111",
+              "22222222",
+              "33333333",
+              "44444444"
+            ]
+          },
+          "seededClassicComment": {
+            "status": "SURVIVED_SEMANTIC_READBACK_REQUIRED",
+            "exactAuthority": false
+          },
+          "commentsExtended": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "peopleXml": {
+            "status": "INVENTORIED_SURVIVAL_ONLY_NOT_CERTIFIED",
+            "exactAuthority": false
+          },
+          "modernCommentPackage": {
+            "status": "NOT_CERTIFIED_IN_B01",
+            "exactAuthority": false,
+            "reason": "B01 does not certify modern replies or resolved state; B03 remains required."
+          }
+        },
+        "manifestVerification": {
+          "ok": false,
+          "status": "blocked",
+          "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING",
+          "exactAuthority": false,
+          "reasons": [
+            {
+              "code": "RTK_TRANSPORT_MANIFEST_CUSTOM_XML_MISSING",
+              "field": "customXml/item1.xml",
+              "message": "Signed locator manifest customXml part was not preserved."
+            }
+          ]
+        }
+      },
+      "paths": {
+        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-word-native-comment-source.docx",
+        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-word-native-comment-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-word-native-comment-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-word-native-comment-returned.docx"
+      }
+    }
+  ],
+  "totals": {
+    "cases": 5,
+    "zipOk": 5,
+    "signedCustomXmlVerified": 1,
+    "wordNativeCommentVisible": 1,
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "productNetworkRequests": 0
+  },
+  "nonClaims": [
+    "B01 is not Word 16.111.2 profile certification.",
+    "B01 does not certify modern comment replies or resolved state.",
+    "B01 does not certify automatic apply.",
+    "B01 does not certify Word Online, Google Docs, LibreOffice, ONLYOFFICE, Pages, or WPS.",
+    "B01 does not claim no-op comment saves as support.",
+    "B01 does not claim customXml signed manifest authority for mutating latest Word returns when physical evidence shows it is dropped."
+  ],
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "manuscriptMutated": false
+  },
+  "nextStage": "B02_REVIEW_TRANSPORT_IR_V2_PARSER_CONTRACTS",
+  "result": "PASS",
+  "receiptDigest": "sha256:0d94f20e73ac3bc49d524f734065fea331edb7bb2d364d913a22b92013250c83"
+}

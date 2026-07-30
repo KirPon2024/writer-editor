@@ -32,6 +32,10 @@ const WORD_LATEST_B00_MATRIX_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP
 const WORD_LATEST_B00_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json';
 const WORD_LATEST_B00_GENERATOR_PATH = 'scripts/ops/rtk-word-latest-semantic-corpus-generator.mjs';
 const WORD_LATEST_B00_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b00.contract.test.js';
+const WORD_LATEST_B01_RECEIPT_PATH = 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B01_LOCATOR_SURVIVAL_RECEIPT.json';
+const WORD_LATEST_B01_LAB_PATH = 'scripts/ops/rtk-word-latest-signed-locator-lab.mjs';
+const WORD_LATEST_B01_MANIFEST_CORE_PATH = 'src/io/revisionBridge/reviewTransportManifestCore.mjs';
+const WORD_LATEST_B01_TEST_PATH = 'test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js';
 const DOCX_PACKAGE_BOUNDARY_TEST_PATH = 'test/contracts/revision-bridge-docx-package-boundary.contract.test.js';
 const CONTEXT_PATH = 'docs/CONTEXT.md';
 const HANDOFF_PATH = 'docs/HANDOFF.md';
@@ -63,6 +67,10 @@ const ALLOWLIST = [
   WORD_LATEST_B00_RECEIPT_PATH,
   WORD_LATEST_B00_GENERATOR_PATH,
   WORD_LATEST_B00_TEST_PATH,
+  WORD_LATEST_B01_RECEIPT_PATH,
+  WORD_LATEST_B01_LAB_PATH,
+  WORD_LATEST_B01_MANIFEST_CORE_PATH,
+  WORD_LATEST_B01_TEST_PATH,
   DOCX_PACKAGE_BOUNDARY_TEST_PATH,
   CONTEXT_PATH,
   HANDOFF_PATH,

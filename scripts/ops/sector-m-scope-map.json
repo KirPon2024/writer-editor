@@ -245,6 +245,7 @@
       "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "src/io/revisionBridge/reviewTransportApplyStore.mjs",
       "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
+      "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
       "src/io/revisionBridge/reviewTransportExactApply.mjs",
       "src/io/revisionBridge/reviewTransportIr.mjs",
       "src/io/revisionBridge/reviewTransportManifestCore.mjs",

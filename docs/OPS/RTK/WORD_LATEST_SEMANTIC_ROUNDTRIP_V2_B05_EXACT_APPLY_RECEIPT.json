@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.b05-exact-apply-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
+  "stageId": "B05_EXACT_APPLY_INTEGRATION_THROUGH_COMMAND_KERNEL",
+  "status": "B05_EXACT_APPLY_ADAPTER_READY_NOT_LATEST_WORD_CERTIFIED",
+  "createdAtUtc": "2026-07-30T16:05:00Z",
+  "base": {
+    "originMainSha": "515f282b754e0c6df70df8a6b9a046405d78d6a7",
+    "branch": "codex/rtk-word-latest-semantic-b05",
+    "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
+    "precedingStage": "B04",
+    "precedingPr": 1261,
+    "precedingMergeSha": "515f282b754e0c6df70df8a6b9a046405d78d6a7",
+    "precedingCi": "PASS"
+  },
+  "adapterProfile": {
+    "profileId": "bounded-review-ir-exact-apply-adapter-v2-b05",
+    "schemaVersion": "yalken.rtk.review-transport-exact-apply-admission.v2",
+    "mainCommandAuthorityRequired": true,
+    "classificationDigestRecomputed": true,
+    "explicitCandidateToChangeBindingRequired": true,
+    "checkpointBeforeApplyRequired": true,
+    "outcomeLedgerRequired": true,
+    "usesExistingExactWriter": true,
+    "classifierWriteAuthority": false,
+    "parserWriteAuthority": false,
+    "commentsWriteAuthority": false,
+    "formattingWriteAuthority": false,
+    "fuzzyMatchAuthority": false,
+    "globalTextSearchAuthority": false
+  },
+  "admittedSurface": {
+    "text": "only ReviewIRV2 replacement-pair or delete candidates that are already EXACT_AUTOMATIC_CANDIDATE and explicitly bound one-to-one to existing safe writer changeIds",
+    "comments": "preserved as independent non-writer lane evidence in the admission and envelope comment lane",
+    "formatting": "preserved as manual non-writer lane evidence and never applied by B05",
+    "moves": "blocked from automatic apply",
+    "structure": "blocked from automatic apply",
+    "opaqueUnsupported": "blocks automatic apply until package semantics are understood"
+  },
+  "negativeContracts": [
+    "comment-only evidence cannot authorize manuscript mutation",
+    "standalone insert remains blocked because the existing exact writer has no standalone insertion authority",
+    "move and structure changes are blocked before writer call",
+    "tampered or stale classification digest is blocked",
+    "parser caller is blocked before writer call",
+    "mismatched ReviewIR text evidence and writer change text is blocked"
+  ],
+  "nonClaims": {
+    "latestWordCertified": false,
+    "word161112Certified": false,
+    "standaloneInsertAutoApply": false,
+    "paragraphSplitMergeAutoApply": false,
+    "moveRevisionAutoApply": false,
+    "formattingAutoApply": false,
+    "commentApplyAuthority": false,
+    "modernCommentsPhysicalCertified": false,
+    "physicalWordRoundTripsExecutedInB05": 0,
+    "runtimeImportAdded": false,
+    "uiChanged": false,
+    "networkAdded": false,
+    "dependencyAdded": false
+  },
+  "nextStage": "B06_FULL_WORD_16_111_2_PHYSICAL_CERTIFICATION_AND_REEXPORT_ORACLE"
+}

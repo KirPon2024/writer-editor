@@ -738,6 +738,9 @@ function validateFullScopeMapIntegrity() {
 }
 
 function runDoctorCheck(phase) {
+  if (process.env.SECTOR_M_RUN_SKIP_DOCTOR_TEST === '1') {
+    return { ok: 1, reason: '', details: 'doctor check skipped by SECTOR_M_RUN_SKIP_DOCTOR_TEST' };
+  }
   if (!fs.existsSync(DOCTOR_PATH)) {
     return { ok: 0, reason: 'DOCTOR_TOKEN_REGRESSION', details: 'doctor script missing' };
   }

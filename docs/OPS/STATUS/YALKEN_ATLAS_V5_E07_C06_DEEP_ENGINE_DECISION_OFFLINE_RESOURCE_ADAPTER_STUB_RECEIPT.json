@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_ADAPTER_STUB_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_AND_ADAPTER_STUB",
+  "programStage": "E07_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T06:51:58Z",
+  "baseSha": "0ba56a70e5f066493f5f8151f96231571fe28867",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds read-only Deep engine decision, null offline resource manifest, hash packet, and local adapter stub only; no product UI screen, visual composition, layout, palette, typography, or runtime Design OS surface changes.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.deepEngineDecision",
+    "productPlane": {
+      "truthPath": "none-read-only-derived-decision",
+      "commandIds": [],
+      "mutationAuthority": "none",
+      "writePath": "none",
+      "readPath": "derived.atlas.deepEngineDecision.v1 and derived.atlas.languageCapabilityReport.v1",
+      "sourceReadModels": [
+        "Deep engine candidate decision packet",
+        "null offline resource manifest",
+        "local adapter stub",
+        "language capability report Deep rows"
+      ],
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "runtimeDownload": false,
+      "dynamicExecutablePlugin": false,
+      "automaticLanguageDetection": false,
+      "automaticManuscriptRewrite": false,
+      "projectTruthMutation": false,
+      "manuscriptMutation": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "not-applicable-no-ui",
+      "host": "none",
+      "slotId": "not-applicable-no-ui-surface",
+      "providerId": "none",
+      "runtimeUiChanged": false,
+      "explicitOpenRequired": false,
+      "dispatchIntentOnly": false
+    },
+    "authorityMap": {
+      "productTruth": "none",
+      "commandAuthority": "none",
+      "designAuthority": "none",
+      "storageAuthority": "none",
+      "capabilityRevalidation": "atlas.languageCapabilityReport derived capability gate unchanged"
+    },
+    "fallbacks": [
+      "current Deep capability remains UNAVAILABLE",
+      "local null adapter stub cannot analyze and cannot mutate project truth",
+      "BASIC_EXACT_TERM_V1 remains fallback analyzer",
+      "remote service and dynamic plugin candidates are rejected",
+      "future accepted candidates remain explicit inputs and do not change current default"
+    ],
+    "recovery": {
+      "projectTruthMutation": false,
+      "manuscriptMutation": false,
+      "storageMutation": false,
+      "networkMutation": false,
+      "rollbackTargetStatus": "UNAVAILABLE_LOCAL_STUB_ONLY",
+      "reversible": true,
+      "removeRuntimeResource": false,
+      "clearCertifiedLanguages": true
+    },
+    "negativeBypassChecks": [
+      "BASIC exact analyzer rejected as false Deep",
+      "remote language service rejected by offline-first authority",
+      "dynamic executable plugin rejected by security policy",
+      "null adapter canAnalyze false",
+      "hash packet signatureVerified false and releaseTrust false",
+      "capability report Deep rows remain UNAVAILABLE for EN RU AR",
+      "Deep decision sources contain no storage, network, DOM IPC, UI dispatch, worker, child process, runtime download, dynamic executable plugin, verified release signature, release readiness claim, or mutation authority"
+    ]
+  },
+  "implementation": {
+    "schemasAdded": [
+      "derived.atlas.deepEngineDecision.v1",
+      "derived.atlas.deepEngineCandidate.v1",
+      "derived.atlas.deepEngineResourceManifest.v1",
+      "derived.atlas.deepEngineAdapterStub.v1",
+      "derived.atlas.deepEngineHashPacket.v1"
+    ],
+    "decisionStatus": "UNAVAILABLE_LOCAL_STUB_ONLY",
+    "currentDeepCapability": "UNAVAILABLE",
+    "candidateCount": 4,
+    "rejectedCandidateCount": 3,
+    "stubOnlyCandidateCount": 1,
+    "certifiedLanguageCount": 0,
+    "runtimeUiChanged": false,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node --check C06 Deep decision files and contract",
+      "result": "PASS",
+      "summary": "C06 Deep decision types, decision evaluator, capability report binding, barrels, and focused contract parse"
+    },
+    {
+      "command": "node --test C01 C05 C06 language contracts",
+      "result": "PASS",
+      "summary": "15 tests, 15 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy passed with no dependency changes"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; COMMAND_NAMESPACE_CHECK_RESULT=PASS; MENU_OVERLAY_STACK_CHECK_RESULT=PASS; LAW_PATH_CANON_RESULT=PASS; EXECUTION_SEQUENCE_RESULT=PASS; RELEASE_CANDIDATE_RESULT=PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "Deep decision is read-only, explicitly unavailable by default, reversible to local null adapter, and does not mutate manuscript text or project truth",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E07_C07_RU_EN_DEEP_FIXTURE_CERTIFICATION_AND_DEGRADATION"
+}

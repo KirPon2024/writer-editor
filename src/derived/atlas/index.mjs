@@ -172,6 +172,20 @@ export {
   sortAtlasDiagnosticsRows,
 } from './atlasDiagnosticsTypes.mjs';
 export {
+  ATLAS_DEEP_ENGINE_ADAPTER_STUB_SCHEMA_VERSION,
+  ATLAS_DEEP_ENGINE_CANDIDATE_SCHEMA_VERSION,
+  ATLAS_DEEP_ENGINE_CANDIDATE_STATUS,
+  ATLAS_DEEP_ENGINE_DECISION_SCHEMA_VERSION,
+  ATLAS_DEEP_ENGINE_DECISION_STATUS,
+  ATLAS_DEEP_ENGINE_HASH_PACKET_SCHEMA_VERSION,
+  ATLAS_DEEP_ENGINE_RESOURCE_MANIFEST_SCHEMA_VERSION,
+  sortAtlasDeepEngineCandidates,
+} from './atlasDeepEngineDecisionTypes.mjs';
+export {
+  deriveAtlasDeepEngineDecision,
+  getAtlasDeepEngineDecisionDefaultCandidates,
+} from './deriveAtlasDeepEngineDecision.mjs';
+export {
   ATLAS_COMPLEX_SCRIPT_CLASS,
   ATLAS_COMPLEX_SCRIPT_EXACT_ONLY_GUARD_SCHEMA_VERSION,
   ATLAS_COMPLEX_SCRIPT_GUARD_CASE_METRIC_SCHEMA_VERSION,

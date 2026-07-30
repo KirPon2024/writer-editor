@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_ADAPTER_STUB_RECEIPT.json",
+      "sha256": "33b103c9ec73d44c215eb5bc9b4cdbeb6610559eb38a54873240b80a8af7cd56",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_AND_ADAPTER_STUB",
+      "approvedAtUtc": "2026-07-30T06:51:58.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C06 delivery receipt: records local verified implementation of read-only Deep engine decision packet, local null offline resource manifest, deterministic hash packet, reversible adapter stub, rejected basic exact remote service and dynamic plugin candidates, language capability report binding with Deep rows still unavailable, no false Deep claim, no release readiness claim, no verified release signature, no manuscript mutation, no project truth mutation, no storage, no network, no runtime download, no dynamic executable plugin, no UI runtime change, no new dependency, focused pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c06-deep-engine-decision-offline-resource-adapter-stub.contract.test.js",
+      "sha256": "10d454e54bf9912f3fba5fd702473623c078a079385ed0539335bd777c2eccb4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C06_DEEP_ENGINE_DECISION_OFFLINE_RESOURCE_AND_ADAPTER_STUB",
+      "approvedAtUtc": "2026-07-30T06:51:58.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C06 contract: proves the default Deep decision is UNAVAILABLE_LOCAL_STUB_ONLY, rejects BASIC_EXACT_TERM_V1 as false Deep, rejects remote and dynamic executable plugin candidates, exposes a non-executable zero-byte offline null resource manifest, records an untrusted deterministic hash packet, provides a canAnalyze false adapter stub and reversible rollback, keeps capability report Deep rows unavailable, demonstrates explicit experimental and certified input shapes without changing default truth, exports through derived barrels, and keeps sources free of storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, verified release signature, release readiness claim, project truth mutation, manuscript mutation, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C05_CJK_RTL_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS_RECEIPT.json",
       "sha256": "f7cf933175a494b12c02c86a70c65828f50a7c78f6a1fad21004f1e81ec8434e",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C05_CJK_RTL_AND_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS",

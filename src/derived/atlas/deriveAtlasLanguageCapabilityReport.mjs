@@ -8,6 +8,7 @@ import { deriveAtlasBasicLanguagePackCertification } from './deriveAtlasBasicLan
 import { ATLAS_BASIC_LANGUAGE_PACK_STATUS } from './atlasBasicLanguagePackTypes.mjs';
 import { deriveAtlasComplexScriptExactOnlyGuards } from './deriveAtlasComplexScriptExactOnlyGuards.mjs';
 import { ATLAS_COMPLEX_SCRIPT_GUARD_STATUS } from './atlasComplexScriptGuardTypes.mjs';
+import { deriveAtlasDeepEngineDecision } from './deriveAtlasDeepEngineDecision.mjs';
 import {
   ATLAS_LANGUAGE_CAPABILITY_GUARD_SCHEMA_VERSION,
   ATLAS_LANGUAGE_CAPABILITY_LEVEL,
@@ -182,6 +183,9 @@ function buildReport({ project, params, meta }) {
     : null;
   const complexGuardByLanguageCode = new Map((complexScriptExactOnlyGuards?.languageRows || [])
     .map((row) => [row.languageCode, row]));
+  const deepEngineDecision = deriveAtlasDeepEngineDecision({
+    candidates: params.deepEngineCandidates,
+  });
   const capabilityRows = sortAtlasLanguageCapabilityRows([
     ...languageCodes.map((code) => buildLanguageRow(code, certificationByLanguageCode, complexGuardByLanguageCode)),
     ...languageCodes.map((code) => buildDeepUnavailableRow(code)),
@@ -232,6 +236,7 @@ function buildReport({ project, params, meta }) {
     guards,
     basicLanguagePackCertification: languagePackCertification,
     complexScriptExactOnlyGuards,
+    deepEngineDecision,
     capabilityRows,
   };
 }

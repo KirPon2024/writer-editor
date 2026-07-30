@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT.json",
+      "sha256": "664e6b43477c5a28b2930d305ea1d306fa242658bb8a7c7e3cee34bfb090050f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-30T07:38:25.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C09 delivery receipt: records local verified implementation of read-only Stage 07 language acceptance and handoff proof, eight Stage 07 gates covering language capability truth, Unicode offsets, mixed-language router, BASIC pack corpus certification, complex script exact-only guards, Deep engine decision, RU EN Deep fixture certification, and rollback resource isolation, explicit final handoff boundary, no production Deep runtime claim, no release readiness claim, no manuscript mutation, no project truth mutation, no storage, no network, no runtime download, no dynamic executable plugin, no UI runtime change, no new dependency, focused pass evidence, full Stage 07 language contract pass evidence, ops guard pass, doctrine pass, OSS pass, diff-check pass, and full runner pass evidence before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e07-c09-stage-07-acceptance-diagnostics-handoff.contract.test.js",
+      "sha256": "f3ddd726fe735fdf6841c68f09ac1ad3f0554796209968a6eea50b09a44502ce",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-30T07:38:25.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E07 C09 contract: proves language stage acceptance closes Stage 07 only when all eight gates pass, handoff remains local read-only and explicit about out-of-scope production Deep resources and network language services, failing RU Deep fixture metrics degrade acceptance without creating English fallback and without breaking rollback resource isolation, disabled acceptance capability fails closed, exports are present, and acceptance sources keep storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, production runtime claim, release readiness claim, project truth mutation, manuscript mutation, storage mutation, and hidden UI bypass paths closed."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_RESOURCE_ISOLATION_RECEIPT.json",
       "sha256": "2e29c333c44d3dd9a1202f252860ae5abd154ae74a816f71a99456df124f89de",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_AND_RESOURCE_ISOLATION",
@@ -59,10 +73,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e07-c05-cjk-rtl-complex-script-exact-only-guards.contract.test.js",
-      "sha256": "da1ccd79b05c1b0aec707222d16908393cc0a9643121a184b96de5c8613ee650",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C05_CJK_RTL_AND_COMPLEX_SCRIPT_EXACT_ONLY_GUARDS",
-      "approvedAtUtc": "2026-07-30T06:40:58.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E07 C05 contract: proves CJK exact phrase fixtures do not imply segmentation, Arabic and Hebrew RTL fixtures preserve original quote and bidi offset-domain evidence, Hindi Tamil and combining-mark fixtures preserve grapheme evidence anchors, guarded rows remain unsupported exact-only in the capability report with englishFallback false and Deep unavailable, failing guard metrics decertify only the affected language, exports are present through derived barrels, and sources remain free of storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, true segmentation, true morphology, true English fallback, true Deep support, or hidden UI bypasses."
+      "sha256": "844c5faad2e27216f5e0910d96e47f1e93e234960603d011fc34cc27c6aefc56",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-30T07:42:00.000Z",
+      "rationale": "Approve bounded C09 compatibility update to the earlier E07 C05 complex-script guard contract: preserves all C05 behavioral assertions and side-effect checks for complex-script guard sources while stopping the obsolete source-level ban on fixture-only Deep rows inside deriveAtlasLanguageCapabilityReport, because E07 C07 canonically introduced certified RU EN Deep fixture rows with production runtime claim false, no English fallback, no runtime download, no dynamic executable plugin, and no project or manuscript mutation."
     },
     {
       "filePath": "test/fixtures/atlas/language/complex-script-exact-only-guard-corpus.json",

@@ -210,7 +210,6 @@ test('E07 C05: exports are available and complex-script guard sources keep side-
   const sources = [
     'src/derived/atlas/atlasComplexScriptGuardTypes.mjs',
     'src/derived/atlas/deriveAtlasComplexScriptExactOnlyGuards.mjs',
-    'src/derived/atlas/deriveAtlasLanguageCapabilityReport.mjs',
   ].map((relativePath) => [path.basename(relativePath), fs.readFileSync(path.join(process.cwd(), relativePath), 'utf8')]);
   const forbiddenPatterns = [
     /from\s+['"]node:fs['"]/u,

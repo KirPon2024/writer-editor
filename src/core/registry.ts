@@ -14,6 +14,7 @@ export const CORE_COMMANDS = [
   'atlas.evidence.reattach',
   'atlas.savedQuery.save',
   'atlas.calendar.define',
+  'atlas.sceneTemporalAnchor.set',
   'idea.create',
   'idea.originLink.add',
   'meaning.promote',

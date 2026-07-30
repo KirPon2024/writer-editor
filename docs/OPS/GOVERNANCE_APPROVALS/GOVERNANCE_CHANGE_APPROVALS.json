@@ -2,6 +2,20 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_SCENE_ANCHORS_RECEIPT.json",
+      "sha256": "663bd657034f84fcbfbf92f05ed8f22958bf81e53dea74929012a9bf6958c080",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_AND_SCENE_ANCHORS",
+      "approvedAtUtc": "2026-07-30T03:40:20.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C02 delivery receipt: records local verified implementation of Atlas scene temporal anchors, atlas.sceneTemporalAnchor.set Core command, atlas.author.v1 sceneTemporalAnchors truth, explicit exact approximate open and unknown temporal ranges, story time versus narrative order separation, node-only capability revalidation, read-only derived sceneTemporalAnchors projection, no UI runtime change, no external calendar service, no network, no cloud or account sync, no new dependency, no hidden mutation, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c02-atlas-temporal-range-model-scene-anchors.contract.test.js",
+      "sha256": "d6925063e626350febbd9b0d2537aed9b7962c401f01a996eae9a9ed3a55de19",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_AND_SCENE_ANCHORS",
+      "approvedAtUtc": "2026-07-30T03:40:20.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E06 C02 contract: proves atlas.sceneTemporalAnchor.set saves scene temporal anchor truth through Core only, preserves separate storyRange and narrativeRange, normalizes exact approximate open and explicit unknown ranges, requires real or fictional calendar definitions for calendar and label points, preserves scene text across JSON reopen, rejects implicit ranges, missing calendars, and stale anchor hashes without mutation, enforces node-only Command Kernel capability revalidation, and keeps temporal anchor derived and runtime boundaries free of storage, network, DOM, platform, cloud, account, dependency, or hidden UI bypasses."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C01_ATLAS_CALENDAR_DEFINITION_CONVERSION_COMMAND_BOUNDARY_RECEIPT.json",
       "sha256": "de61a352483291cd738019b6e0bc97950f1b509b7b689171b5e3df7910ac8f33",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C01_ATLAS_CALENDAR_DEFINITION_AND_CONVERSION_COMMAND_BOUNDARY",

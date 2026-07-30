@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_SCENE_ANCHORS_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E06_C02_ATLAS_TEMPORAL_RANGE_MODEL_AND_SCENE_ANCHORS",
+  "programStage": "E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T03:40:20Z",
+  "baseSha": "5af1b2a54f2223eef2384d7241301c5b26739968",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "This contour adds project truth schema, Core command boundary, capability policy, and read-only derived projection for temporal ranges and scene anchors. It changes no product UI composition, typography, palette, layout, screen, or visual contract.",
+  "featureIntegrationManifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "atlas.sceneTemporalAnchors",
+    "productPlane": {
+      "truthPath": "atlas.author.v1.sceneTemporalAnchors",
+      "commandId": "atlas.sceneTemporalAnchor.set",
+      "mutationAuthority": "Core reduceCoreState",
+      "writePath": "Command Kernel revalidation then Core command reducer",
+      "readPath": "derived.atlas.sceneTemporalAnchors.v1",
+      "ports": [
+        "none"
+      ],
+      "externalEffects": false,
+      "network": false,
+      "cloudSync": false,
+      "accountSync": false
+    },
+    "interfacePlane": {
+      "surfaceManifestVersion": "surface.atlas.sceneTemporalAnchors.v1",
+      "host": "rightRail",
+      "slotId": "rightRail.context.atlas.sceneTemporalAnchors",
+      "providerId": "query.atlasSceneTemporalAnchors",
+      "runtimeUiChanged": false,
+      "dispatchIntentOnly": true
+    },
+    "authorityMap": {
+      "productTruth": "Product Core",
+      "commandAuthority": "Command Kernel",
+      "designAuthority": "Design OS read-only projection manifest",
+      "storageAuthority": "existing project persistence only",
+      "capabilityRevalidation": "node-only cap.atlas.sceneTemporalAnchor.set"
+    },
+    "fallbacks": [
+      "ATLAS_SCENE_TEMPORAL_ANCHORS_EMPTY",
+      "ATLAS_SCENE_TEMPORAL_ANCHORS_DEGRADED",
+      "ATLAS_SCENE_TEMPORAL_ANCHORS_UNAVAILABLE"
+    ],
+    "recovery": {
+      "projectTruthReopenProof": true,
+      "jsonRoundTripProof": true,
+      "staleHashProtection": true
+    },
+    "negativeBypassChecks": [
+      "missing story range fails closed",
+      "exact range without both bounds fails closed",
+      "calendar date point with missing calendar fails closed",
+      "unknown time requires explicit reason",
+      "web capability denies atlas.sceneTemporalAnchor.set",
+      "derived scene temporal anchor sources contain no storage, network, DOM, or platform side effects"
+    ]
+  },
+  "implementation": {
+    "commandIdsAdded": [
+      "atlas.sceneTemporalAnchor.set"
+    ],
+    "capabilitiesAdded": [
+      "cap.atlas.sceneTemporalAnchor.set"
+    ],
+    "schemasAdded": [
+      "atlas.temporalPoint.v1",
+      "atlas.temporalRange.v1",
+      "atlas.sceneTemporalAnchor.v1",
+      "derived.atlas.sceneTemporalAnchors.v1",
+      "surface.atlas.sceneTemporalAnchors.v1"
+    ],
+    "rangeKinds": [
+      "exact",
+      "approximate",
+      "open",
+      "unknown"
+    ],
+    "pointKinds": [
+      "ordinalDay",
+      "calendarDate",
+      "label"
+    ],
+    "storyNarrativeSeparation": true,
+    "unknownTimePolicy": "unknown ranges are explicit author truth with required reason; missing scene anchors are reported as degraded read model rows, not silently converted to exact dates",
+    "runtimeUiChanged": false,
+    "newDependencies": false
+  },
+  "validation": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c02-atlas-temporal-range-model-scene-anchors.contract.test.js",
+      "result": "PASS",
+      "summary": "4 tests, 4 pass, 0 fail"
+    },
+    {
+      "command": "node -c src/core/runtime.mjs && node -c src/derived/atlas/deriveAtlasSceneTemporalAnchors.mjs && node -c src/derived/atlas/atlasTemporalRangeTypes.mjs",
+      "result": "PASS",
+      "summary": "runtime and derived temporal anchor modules parse"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e06-c01-atlas-calendar-definition-conversion-command-boundary.contract.test.js test/contracts/yalken-atlas-v5-e06-c02-atlas-temporal-range-model-scene-anchors.contract.test.js test/contracts/yalken-atlas-v5-e04-c03-atlas-cooccurrence-first-last-absence-intervals.contract.test.js",
+      "result": "PASS",
+      "summary": "13 tests, 13 pass, 0 fail"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after governance approvals"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "post-approval full runner reached 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline, command namespace, menu, law path canon, execution sequence, and release candidate verification passed"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "JSON save and reopen proof in contract",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E06_C03_ATLAS_RELATION_SEGMENTS_AND_PERSPECTIVE_MODEL"
+}

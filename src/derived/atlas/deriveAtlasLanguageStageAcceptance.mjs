@@ -275,8 +275,9 @@ function buildHandoff(acceptanceProof) {
   return {
     schemaVersion: ATLAS_LANGUAGE_STAGE_HANDOFF_SCHEMA_VERSION,
     fromStage: 'E07_STAGE_07_LANGUAGE_EXPANSION_AND_DEEP_CONTOURS',
-    nextContour: 'EFINAL_PROGRAM_ACCEPTANCE_AND_DONE',
-    readyForFinalProgramDoD: acceptanceProof.pass,
+    nextContour: 'E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION',
+    readyForNextStage: acceptanceProof.pass,
+    readyForFinalProgramDoD: false,
     releaseReadinessClaim: false,
     remainingScopeOut: [
       'production Deep runtime resources',

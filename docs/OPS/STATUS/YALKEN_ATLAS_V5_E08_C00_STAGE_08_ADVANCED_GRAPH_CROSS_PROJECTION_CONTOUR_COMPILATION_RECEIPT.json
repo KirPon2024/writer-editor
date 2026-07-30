@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "YALKEN_ATLAS_V5_E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION_RECEIPT",
+  "planId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+  "taskId": "YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
+  "contourId": "E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION",
+  "programStage": "E08_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOURS",
+  "status": "DELIVERED_LOCAL_VERIFIED",
+  "createdAtUtc": "2026-07-30T07:55:52Z",
+  "baseSha": "b6bfc17f7e5088a4b4c7c7203f54671fb9455f22",
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "Stage 08 C00 compiles advanced graph and cross-projection contours only, and corrects the previous Stage 07 handoff target from final Program DoD to E08. It changes no product UI screen, visual composition, layout, palette, typography, or runtime Design OS surface.",
+  "runtimeFacts": {
+    "activeCanon": "XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final",
+    "repoCanon": "CANON.md",
+    "featureIntegrationDoctrine": "YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1",
+    "currentHead": "b6bfc17f7e5088a4b4c7c7203f54671fb9455f22",
+    "stage07AcceptanceExists": true,
+    "stage07HandoffCorrectedToE08": true,
+    "stage07FinalProgramDoDClaim": false,
+    "atlasLocalGraphExists": true,
+    "atlasLocalGraphCurrentScope": "local graph cluster layout and bounded resource proof",
+    "atlasHeatmapExists": true,
+    "atlasTemporalLayoutExists": true,
+    "crossProjectionImpactPreviewExists": true,
+    "projectionInspectorExists": true,
+    "globalCompositeGraphExists": false,
+    "compositeModeExists": false,
+    "typedCrossLinksExist": "partial originRef projections only; no Stage 08 typed cross-link contract yet",
+    "globalGraphOnDemandIdleSchedulerExists": false,
+    "advancedLodPlannerExists": "manual map and local Atlas graph have bounded planners; no global composite planner yet",
+    "rendererAdapterProfilingExists": false,
+    "currentMainFullRunner": "795 tests, 731 pass, 0 fail, 64 skipped"
+  },
+  "stageScopeBinding": {
+    "userOutcome": "Author can open a global read-only composite graph across Atlas, plot, idea, meaning, temporal, and manual-map projections without blocking editing or mutating source projections.",
+    "acceptance": [
+      "composite mode remains read-only relative to source projections",
+      "global work runs only on explicit open, on-demand, or idle scheduling",
+      "large graphs stay bounded by LOD and stable-position budgets",
+      "batch navigation and trust filters have keyboard/list equivalents",
+      "renderer adapter profiling proves graph work does not block typing hot paths"
+    ],
+    "scopeIn": [
+      "global clusters",
+      "composite mode",
+      "typed cross-links",
+      "time slider reuse",
+      "remaining layouts",
+      "stable positions",
+      "trust filters",
+      "batch navigation",
+      "advanced LOD",
+      "renderer adapter profiling"
+    ],
+    "scopeOut": [
+      "series atlas packaging",
+      "cross-book identities",
+      "collaboration transport",
+      "network graph service",
+      "release readiness claim",
+      "platform certification",
+      "final Program DoD"
+    ]
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_AND_SOURCE_ISOLATION",
+      "userOutcome": "Author can inspect one composite graph assembled from Atlas, manual map, plot, idea, meaning, temporal, and cross-projection packets without any source projection write-back.",
+      "scopeIn": [
+        "composite graph schema",
+        "typed source projection refs",
+        "cross-projection link rows",
+        "read-only authority proof",
+        "deterministic composite hash"
+      ],
+      "scopeOut": [
+        "renderer surface",
+        "worker scheduler",
+        "series or cross-book graph",
+        "source projection mutation"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "src/derived/projections",
+        "test/contracts/yalken-atlas-v5-e08-c01-global-composite-graph-read-model-source-isolation.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_SOURCE_ISOLATION_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless a concrete UI surface changes",
+        "Feature Integration Manifest for read-only composite projection"
+      ]
+    },
+    {
+      "contourId": "E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_AND_STALE_DISCARD",
+      "userOutcome": "Global graph work runs only after explicit author intent or idle budget, and stale composite results cannot publish over newer source revisions.",
+      "scopeIn": [
+        "on-demand open gate",
+        "idle scheduling contract",
+        "project revision and generation binding",
+        "stale discard proof",
+        "no background daemon"
+      ],
+      "scopeOut": [
+        "new worker pool",
+        "renderer layout surface",
+        "network analysis"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e08-c02-global-graph-on-demand-idle-scheduler-stale-discard.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C02_GLOBAL_GRAPH_ON_DEMAND_IDLE_SCHEDULER_STALE_DISCARD_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE",
+        "negative checks for eager background global graph work"
+      ]
+    },
+    {
+      "contourId": "E08_C03_ADVANCED_LOD_STABLE_POSITIONS_AND_LARGE_GRAPH_BUDGET",
+      "userOutcome": "Large composite graphs remain navigable with stable node positions, bounded LOD packets, and no editor typing hot-path blocking.",
+      "scopeIn": [
+        "advanced LOD planner",
+        "stable position cache derived from source hashes",
+        "large graph budget proof",
+        "incremental/full parity",
+        "typing hot-path nonblocking proof"
+      ],
+      "scopeOut": [
+        "new visual graph library",
+        "persistent layout truth",
+        "unbounded all-node render"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e08-c03-advanced-lod-stable-positions-large-graph-budget.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C03_ADVANCED_LOD_STABLE_POSITIONS_LARGE_GRAPH_BUDGET_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless renderer graph surface changes",
+        "performance budget proof required before UI wiring"
+      ]
+    },
+    {
+      "contourId": "E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_AND_ACCESSIBILITY_PARITY",
+      "userOutcome": "Author can filter composite graph trust states and batch-navigate evidence with keyboard/list parity instead of pointer-only graph actions.",
+      "scopeIn": [
+        "trust filter model",
+        "batch navigation intent rows",
+        "evidence jump intent-only route",
+        "keyboard/list equivalent packet",
+        "no automatic apply"
+      ],
+      "scopeOut": [
+        "direct DOM graph mutation",
+        "automatic entity merge or relation apply",
+        "new Design OS surface unless C03 selects UI wiring"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e08-c04-trust-filters-batch-navigation-accessibility-parity.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C04_TRUST_FILTERS_BATCH_NAVIGATION_ACCESSIBILITY_PARITY_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER APPLIED only if a concrete graph navigation UI is changed",
+        "keyboard and list parity are mandatory if UI is changed"
+      ]
+    },
+    {
+      "contourId": "E08_C05_RENDERER_ADAPTER_PROFILING_AND_STAGE_08_ACCEPTANCE",
+      "userOutcome": "Stage 08 closes only after renderer adapter profiling, source isolation, on-demand scheduling, LOD, trust filters, and accessibility parity are proven on the final Stage 08 identity.",
+      "scopeIn": [
+        "renderer adapter profiling packet",
+        "Stage 08 acceptance proof",
+        "degraded capability report",
+        "final Stage 08 receipt",
+        "handoff to Stage 09"
+      ],
+      "scopeOut": [
+        "Stage 09 series packaging",
+        "Stage 10 collaboration transport",
+        "Stage 11 platform certification",
+        "EFINAL Program DoD"
+      ],
+      "expectedWriteSet": [
+        "src/derived/atlas",
+        "test/contracts/yalken-atlas-v5-e08-c05-renderer-adapter-profiling-stage-08-acceptance.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C05_RENDERER_ADAPTER_PROFILING_STAGE_08_ACCEPTANCE_RECEIPT.json",
+        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json"
+      ],
+      "designRoute": [
+        "DESIGN_TOOL_ROUTER NOT_APPLICABLE unless final acceptance updates a concrete UI surface",
+        "handoff target must be Stage 09, not EFINAL"
+      ]
+    }
+  ],
+  "corrections": [
+    {
+      "correctedArtifact": "YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT",
+      "reason": "C09 acceptance originally pointed directly to EFINAL even though V5 Section 54 allows final audit only after E11.",
+      "newHandoffTarget": "E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION",
+      "finalProgramDoDClaim": false
+    }
+  ],
+  "validation": [
+    {
+      "command": "node --test E07 C09 and E08 C00 contracts",
+      "result": "PASS",
+      "summary": "9 tests, 9 pass, 0 fail"
+    },
+    {
+      "command": "npm run test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy accepted current dependency set"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "No whitespace errors"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "795 tests, 731 pass, 0 fail, 64 skipped; release/perf/menu/law/execution checks PASS"
+    }
+  ],
+  "canonChecklist": {
+    "stageCorrect": true,
+    "featureIntegrationDoctrineApplied": true,
+    "productAuthorityCommandAuthorityDesignAuthoritySeparated": true,
+    "directUiWorkerFeaturePackBypass": false,
+    "unsavedAuthoringStateTouched": false,
+    "capabilityRevalidatedByCommandKernel": true,
+    "asyncProjectionAdded": false,
+    "designToolRouterCorrect": true,
+    "uiChanged": false,
+    "newDependencies": false,
+    "pastePolicyTouched": false,
+    "atomicWriteRuntimeTouched": false,
+    "recoveryProof": "E08_C00 compiles the queue and corrects Stage 07 handoff metadata only; it introduces no runtime source mutation, no storage, no network, no dependency, no UI, and no final Program DoD claim.",
+    "diffBudgetRespected": true
+  },
+  "nextContour": "E08_C01_GLOBAL_COMPOSITE_GRAPH_READ_MODEL_AND_SOURCE_ISOLATION"
+}

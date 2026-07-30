@@ -2,18 +2,32 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION_RECEIPT.json",
+      "sha256": "0ca591c6024a8300787b0c6cd9130ef8118ee38d0601584f2666d881ec95183f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-30T07:55:52.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E08 C00 compilation receipt: records factual Stage 08 advanced graph and cross-projection runtime state on merge SHA b6bfc17f7e5088a4b4c7c7203f54671fb9455f22, corrects the Stage 07 handoff target from EFINAL to E08 because V5 final audit is only after E11, compiles a linear queue for composite graph source isolation, on-demand idle scheduling, advanced LOD stable positions, trust filters batch navigation accessibility parity, and renderer adapter profiling with Stage 08 acceptance, while adding no runtime graph implementation, no UI, no dependency, no project truth mutation, no manuscript mutation, no storage, no network, no dynamic executable plugin, and no final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e08-c00-stage-08-advanced-graph-contour-compilation.contract.test.js",
+      "sha256": "50d4ff2c7fbc1461f77989fd163c7dea1c2c063c436b140cb3a92c1016f258a4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-30T07:55:52.000Z",
+      "rationale": "Approve bounded Yalken Atlas V5 E08 C00 contract: proves Stage 07 language acceptance now hands off to E08 rather than final Program DoD, verifies the Stage 08 compiled queue covers composite graph source isolation, on-demand scheduling, advanced LOD, trust filters, batch navigation, accessibility parity, renderer adapter profiling and Stage 08 acceptance, keeps series, collaboration, platform certification and final Program DoD out of Stage 08 scope, and keeps compilation artifacts local, non-runtime, no network, no runtime download, no dynamic executable plugin, no release readiness claim, no project truth mutation, no manuscript mutation, and no storage mutation."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT.json",
-      "sha256": "664e6b43477c5a28b2930d305ea1d306fa242658bb8a7c7e3cee34bfb090050f",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-30T07:38:25.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E07 C09 delivery receipt: records local verified implementation of read-only Stage 07 language acceptance and handoff proof, eight Stage 07 gates covering language capability truth, Unicode offsets, mixed-language router, BASIC pack corpus certification, complex script exact-only guards, Deep engine decision, RU EN Deep fixture certification, and rollback resource isolation, explicit final handoff boundary, no production Deep runtime claim, no release readiness claim, no manuscript mutation, no project truth mutation, no storage, no network, no runtime download, no dynamic executable plugin, no UI runtime change, no new dependency, focused pass evidence, full Stage 07 language contract pass evidence, ops guard pass, doctrine pass, OSS pass, diff-check pass, and full runner pass evidence before merge."
+      "sha256": "ef3a1523a471a6a3c7a585bd50e7740317d5e204f5c7a6a0b910603fae0b36d4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-30T07:55:52.000Z",
+      "rationale": "Approve bounded correction to Yalken Atlas V5 E07 C09 delivery receipt: preserves the read-only Stage 07 language acceptance proof and validation evidence while correcting handoffTarget and nextContour from EFINAL to E08_C00, and explicitly records finalProgramDoDClaim false because V5 Section 54 permits final audit only after E11; no runtime language implementation, UI, dependency, project truth mutation, manuscript mutation, storage, network, runtime download, dynamic executable plugin, or release readiness claim is added."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e07-c09-stage-07-acceptance-diagnostics-handoff.contract.test.js",
-      "sha256": "f3ddd726fe735fdf6841c68f09ac1ad3f0554796209968a6eea50b09a44502ce",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C09_STAGE_07_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-30T07:38:25.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E07 C09 contract: proves language stage acceptance closes Stage 07 only when all eight gates pass, handoff remains local read-only and explicit about out-of-scope production Deep resources and network language services, failing RU Deep fixture metrics degrade acceptance without creating English fallback and without breaking rollback resource isolation, disabled acceptance capability fails closed, exports are present, and acceptance sources keep storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, production runtime claim, release readiness claim, project truth mutation, manuscript mutation, storage mutation, and hidden UI bypass paths closed."
+      "sha256": "89023a82e185ab178c9cacb25867d3b1d5f10845d9ae41b8491f456e575b101f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E08_C00_STAGE_08_ADVANCED_GRAPH_CROSS_PROJECTION_CONTOUR_COMPILATION",
+      "approvedAtUtc": "2026-07-30T07:55:52.000Z",
+      "rationale": "Approve bounded correction to Yalken Atlas V5 E07 C09 contract: preserves all Stage 07 acceptance gate, degradation, capability fail-closed, export and side-effect boundary assertions while correcting the handoff expectation to E08_C00 and asserting readyForFinalProgramDoD false until later stages close; this prevents false final Program DoD without adding storage, network, DOM, platform, renderer, worker, child process, runtime download, dynamic executable plugin, production runtime claim, release readiness claim, project truth mutation, manuscript mutation, or hidden UI bypass paths."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E07_C08_LANGUAGE_DECERTIFICATION_ROLLBACK_RESOURCE_ISOLATION_RECEIPT.json",

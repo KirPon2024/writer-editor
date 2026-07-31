@@ -131,6 +131,10 @@ app.whenReady().then(async () => {
   try {
     const win = await waitForWindow();
     await waitForLoad(win);
+    await win.webContents.executeJavaScript(
+      'window.__PRODUCTION_APP_RUNTIME_HARNESS_TEMP_ROOT = ' + JSON.stringify(tempRoot),
+      true,
+    );
     const rendererProbe = await win.webContents.executeJavaScript(rendererProbeSource, true);
     const payload = {
       ok: 1,
@@ -141,6 +145,7 @@ app.whenReady().then(async () => {
       rendererProbe,
       networkRequests,
       dialogCalls,
+      tempRoot,
     };
     if (rendererProbeLabel === 'apiShape') {
       payload.apiShape = rendererProbe;
@@ -175,7 +180,10 @@ async function writeChildFile(tempRoot, rootDir, options = {}) {
 export async function runProductionAppRuntimeHarness(options = {}) {
   const rootDir = path.resolve(options.rootDir || process.cwd());
   const timeoutMs = normalizeTimeoutMs(options.timeoutMs);
-  const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'yalken-production-app-runtime-harness-'));
+  const tempRoot = options.tempRoot
+    ? path.resolve(String(options.tempRoot))
+    : await fs.mkdtemp(path.join(os.tmpdir(), 'yalken-production-app-runtime-harness-'));
+  await fs.mkdir(tempRoot, { recursive: true });
   let child = null;
   let timedOut = false;
 
@@ -219,6 +227,7 @@ export async function runProductionAppRuntimeHarness(options = {}) {
     return {
       ok: exitState.code === 0 && result && result.ok === 1 && timedOut === false,
       runtimeKind: 'production-app-runtime-harness',
+      tempRoot,
       timedOut,
       timeoutMs,
       exitCode: exitState.code,
@@ -231,7 +240,9 @@ export async function runProductionAppRuntimeHarness(options = {}) {
     if (child && !child.killed) {
       child.kill('SIGKILL');
     }
-    await fs.rm(tempRoot, { recursive: true, force: true });
+    if (options.preserveTempRoot !== true) {
+      await fs.rm(tempRoot, { recursive: true, force: true });
+    }
   }
 }
 

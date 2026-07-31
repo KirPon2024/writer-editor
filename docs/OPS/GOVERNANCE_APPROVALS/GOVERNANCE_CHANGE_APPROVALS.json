@@ -6272,6 +6272,41 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
       "approvedAtUtc": "2026-07-31T12:05:00.000Z",
       "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY/packaged-critical-journey-report.json",
+      "sha256": "a4a0c4a7f77779f055d7e85d8e662fc5311ade72bbda604633320b360efc8729",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
+      "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:05:34.097Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/production-app-runtime-harness.mjs",
+      "sha256": "57d1cb1a08976f636187b0dbebf633ad1b26d9408c97e320a2d346cdc769b8f9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c02-packaged-critical-journey.mjs",
+      "sha256": "8aa38f30c1b7ec5e6f349a06b40699a28711056deb55f316960e3a58fcafdff8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c02-packaged-critical-journey.contract.test.js",
+      "sha256": "e2079d7e93cb4a85fb89829127fca4971ae706525dbfbe47ffe0686493f600b2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
     }
   ]
 }

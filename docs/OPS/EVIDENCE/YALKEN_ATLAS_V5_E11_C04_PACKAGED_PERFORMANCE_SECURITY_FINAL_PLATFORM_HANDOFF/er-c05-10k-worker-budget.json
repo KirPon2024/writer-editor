@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "atlas.graphWorker.perfReport.v1",
+  "contourId": "ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
+  "status": "PASS",
+  "performanceProofKind": "measured-worker-runtime-not-element-count",
+  "corpus": {
+    "nodeCount": 10000,
+    "edgeCount": 10908,
+    "approvedCorpusId": "er-c05-synthetic-global-composite-10k-v1"
+  },
+  "iterations": 3,
+  "budgets": {
+    "nodeCount": 10000,
+    "p95WallTimeMs": 5000,
+    "p95InputLatencyMs": 32,
+    "p95FrameDelayMs": 32,
+    "maxHeapDeltaBytes": 167772160,
+    "maxPlannedNodes": 640,
+    "maxPlannedEdges": 960
+  },
+  "metrics": {
+    "p50WallTimeMs": 98.485,
+    "p95WallTimeMs": 100.089,
+    "p50InputLatencyMs": 0.017,
+    "p95InputLatencyMs": 0.018,
+    "p50FrameDelayMs": 0.017,
+    "p95FrameDelayMs": 0.018,
+    "maxHeapDeltaBytes": 4803848,
+    "maxFrameOverrunCount": 0,
+    "minInputSampleCount": 5808,
+    "maxPlannedNodes": 640,
+    "maxPlannedEdges": 370,
+    "minSpatialIndexCells": 155,
+    "minTransferableByteLength": 147264,
+    "workerThreadIds": [
+      1,
+      2,
+      3
+    ],
+    "executionModes": [
+      "worker-thread"
+    ]
+  },
+  "runs": [
+    {
+      "wallTimeMs": 98.485,
+      "inputLatencyP95Ms": 0.017,
+      "frameDelayP95Ms": 0.017,
+      "frameOverrunCount": 0,
+      "sampleCount": 6424,
+      "heapDeltaBytes": 2252488,
+      "workerThreadId": 1,
+      "executionMode": "worker-thread",
+      "plannedNodes": 640,
+      "plannedEdges": 370,
+      "spatialIndexCells": 155,
+      "transferableByteLength": 147264,
+      "workerComputeMs": 44.266
+    },
+    {
+      "wallTimeMs": 100.089,
+      "inputLatencyP95Ms": 0.018,
+      "frameDelayP95Ms": 0.018,
+      "frameOverrunCount": 0,
+      "sampleCount": 5808,
+      "heapDeltaBytes": 0,
+      "workerThreadId": 2,
+      "executionMode": "worker-thread",
+      "plannedNodes": 640,
+      "plannedEdges": 370,
+      "spatialIndexCells": 155,
+      "transferableByteLength": 147264,
+      "workerComputeMs": 45.811
+    },
+    {
+      "wallTimeMs": 96.247,
+      "inputLatencyP95Ms": 0.015,
+      "frameDelayP95Ms": 0.015,
+      "frameOverrunCount": 0,
+      "sampleCount": 6532,
+      "heapDeltaBytes": 4803848,
+      "workerThreadId": 3,
+      "executionMode": "worker-thread",
+      "plannedNodes": 640,
+      "plannedEdges": 370,
+      "spatialIndexCells": 155,
+      "transferableByteLength": 147264,
+      "workerComputeMs": 43.825
+    }
+  ],
+  "failures": [],
+  "authority": {
+    "workerThread": true,
+    "syncSchedulerLabeledWorker": false,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "persistentDerivedTruth": false
+  }
+}

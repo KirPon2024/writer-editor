@@ -1430,6 +1430,83 @@
       "rationale": "X25_WS05_STRICT_CLUSTER_ALIGNMENT_RECOVERY_APPROVAL_REBIND"
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/build-mac-output.txt",
+      "sha256": "a25078148baf4c861f23c1071023adbfbb623fe242632e8b33c3c67bfb8015b7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/macos-package-artifact-security-report.json",
+      "sha256": "b50487ed3dd19a371b4c198358ac1514dd44c6c24d6efc537b198939a4a733b3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY/packaged-critical-journey-report.json",
+      "sha256": "a4a0c4a7f77779f055d7e85d8e662fc5311ade72bbda604633320b360efc8729",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-desktop.png",
+      "sha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-mobile.png",
+      "sha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-responsive-audit.json",
+      "sha256": "617767c1a03159bd5d60dd574a6277fecb283540a773a18db6e6cd8b55eec113",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-tablet.png",
+      "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/packaged-accessibility-responsive-visual-regression-report.json",
+      "sha256": "73121a0f045e8a5931d147871a95d07b9dd891bc85d83deeee2967f1cc8f9a21",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/er-c05-10k-worker-budget.json",
+      "sha256": "0d7f963030c0beb0dc641af4e5a85f163f303fcb8ffc65668e10662e00fbb946",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/generic-sast-output.txt",
+      "sha256": "7ab06dc13e31a7f129053d69cde22f522550d6bf68d82fd2efa150dd695ca0a8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/packaged-performance-security-final-platform-handoff-report.json",
+      "sha256": "e66683526b99b6769ad75286df7f90318e1c39fc38fce0d862bf43feff57a0f4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-desktop.png",
       "sha256": "498cc4fe1081c81be9c6d193b6f18d63d77cf0e7309d4dd7007f241620f3128b",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
@@ -1605,6 +1682,13 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "a444400a39c7f285ae0a279e7522661f0b4a07441e7a8ee98bc31a0c23f42f25",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -1717,6 +1801,13 @@
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "6d599b81b259bb88cf665744f321407c914bb0074b886307f34b274e13136581",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
       "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
@@ -1787,6 +1878,34 @@
       "rationale": "Approve final E11 multi-scene atomic coordinator receipt: binds local verifier, focused E06-E11 contracts, governance, OSS policy, ops suite, syntax and full test suite evidence while preserving the canonical shadow-only status, zero-veto metrics, no physical Word overclaim and no product runtime multi-scene apply authority."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_FOLLOWUP_RECEIPT.json",
+      "sha256": "18091c36f06ff85cbe6c013e61b3c9cb24d7207fbcd9feb013465ddfd03e9169",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
+      "sha256": "a9e284e18629c7ea4cf87d69113fe11028330ba4b073df92facc0898fde98268",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
+      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json",
+      "sha256": "756088df415249ed87a037f53fb6dc0b4044a5ee97ff1245a1dcf97f37db4362",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
+      "sha256": "da19b595d0a30441cfe51d2540b5227f50062f4fa3a17429cd4c3a4f158edfd2",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
       "sha256": "caa7fcdeec3b5f935f210fc4c1ddfeab81fd09aaf797118caffb97c499f8fd3b",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100",
@@ -1813,6 +1932,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "904e554286f0fe3e408695974194332063f1228c9cc7da45f93d90e9f66b34e7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -3369,6 +3495,34 @@
       "rationale": "Approve bounded E11 C00 active platform certification compilation: records macOS packaged Electron as the only active Stage 11 certification scope, keeps inactive Windows Linux web iOS Android as NOT_ACTIVATED without false HOLD or PASS, compiles C01-C04 queue, binds ER C07 handoff, and makes no physical package, signing, SAST, release readiness, or Program DoD claim."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY_RECEIPT.json",
+      "sha256": "06f8330f763d21a00bff4b689218b0b13a8b4d5e327ca52ee59f44c6ed93f947",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
+      "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:05:34.097Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
+      "sha256": "cbf545e406a80ff3dce60bd64be0b5fd5df9fed2e6f2a128ff9881a238ae356e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:59.640Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json",
+      "sha256": "8441832b90e1ed0cead9d46689b76be6c4a6d07cc84fcaa081f95c66682e1f5d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",
       "sha256": "5a277d00ca94bd8b0492ebf9ba552175f559ba58cef3ae0b40eb8311eb8318d0",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
@@ -3866,6 +4020,13 @@
       "rationale": "Approve P2-03 process tax budget gate automation with unique signal enforcement, duplicate gate kill-switch rules, and drift-zero safeguards."
     },
     {
+      "filePath": "scripts/ops/production-app-runtime-harness.mjs",
+      "sha256": "57d1cb1a08976f636187b0dbebf633ad1b26d9408c97e320a2d346cdc769b8f9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
       "filePath": "scripts/ops/race-safe-governance-state.mjs",
       "sha256": "aa6690065d6d98c978da390f63e79f507a3a511950007ede4f15f4707b13c0a6",
       "approvedBy": "DOCS_OPERATOR",
@@ -4020,6 +4181,34 @@
       "rationale": "Approve E11 verifier: checks receipt/profile/program truth, source neutrality, single-root-pointer proof, shadow-only limitations and zero-veto metrics without granting product runtime apply authority or accepting false-green fixture claims."
     },
     {
+      "filePath": "scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs",
+      "sha256": "1537e79bb299beeddfe30f1a0f4640ff0dcca2b6dbe9a09a46233cbaf7aed7a7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-modern-comment-followup.mjs",
+      "sha256": "ddb1373f18be01159f143962c412136b922200cacaf29877322157999d6e84b1",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
+      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs",
+      "sha256": "7b02d890ba65ace0c1780c78dd4cba9f9270d5534f3033f9edba7015e69ee534",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs",
+      "sha256": "8ab124c725973e9926ed3467b7d23e644efa24f54eeac3e90aac60da1afd2c59",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-e12-physical-wave100.mjs",
       "sha256": "63ad2a38f5da75332740e128e72571c4a8bcb21d69b1ef12d6212b9e7d5249b4",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
@@ -4041,11 +4230,32 @@
       "rationale": "Approve bounded E12 physical Word wave-100 contour: records 100 synthetic Word 16.111.2 physical open edit save close reopen round trips, 398 visible Word comment threads, 400k-class large returned DOCX, zero falseExact silentApply wrongSceneRouting replayFailure, Word sandbox work root inside Microsoft Word container, T7-Secure evidence retention, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "f1cf96cf4dfda079c2f71a2085debb8d9bf14a0e7c70dc5bbc81a19e803361ff",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "3f2b327d86336ce2df93aef3c2e1cf43f7dae72827abf707679b4924573f4bba",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
       "sha256": "ccca8807ad552967f51d686f0e16df4754fded531b7bbe4ad811164c79f2fb83",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
       "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "4b9d9946ab5d295c08c4663ae1109f3048b3f2b4f16665915a26cb1845c2860f",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -4111,6 +4321,34 @@
       "rationale": "BLOCK3_TAIL_AUDIT_CLOSEOUT_001 approves the bounded Y6 proofhook rebind to the current commandEffectModel bridge-only executor; no command namespace, runtime behavior, UI, dependency, release gate, or token catalog expansion."
     },
     {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs",
+      "sha256": "70516dc7f9d6e728620e7ce4f812e0310d57a36b1a26f6c939c5202bf2766610",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c02-packaged-critical-journey.mjs",
+      "sha256": "8aa38f30c1b7ec5e6f349a06b40699a28711056deb55f316960e3a58fcafdff8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs",
+      "sha256": "0d153be6ea3bb03950dbe55153fc7674eaf8c782ac6e1b3969f1a77f4c27c86a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs",
+      "sha256": "82d1d121f9fe2d74781cb6862dea5147645667e97b5eea5f7b04200781ef031a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c05-10k-worker-budget.mjs",
       "sha256": "76f9a373904dd7016051cfc989dd79ca360be55a3dbc34cd44376e6df23a19de",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
@@ -4130,6 +4368,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "semgrep-generic-sast.mjs",
+      "sha256": "efb47d47bece4bf4bbe38a41ab10eee541146ec1502191189decdbb273efb412",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -4188,6 +4433,13 @@
       "rationale": "Approve ER C05 Manual Map scheduler label repair: relabels the existing synchronous layout scheduler so it no longer claims worker execution, preserving derived-only layout behavior, no storage write, no network, no dependency, and no product readiness claim."
     },
     {
+      "filePath": "src/import/mindmap/v1/manualMapMarkdownPortabilityBridge.mjs",
+      "sha256": "3dec429452955e174a85079ef6066059f1144d45908e6383cfff181c173e433b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
       "filePath": "src/io/revisionBridge/exactTextMinSafeWrite.mjs",
       "sha256": "98a9b931305f5b03a5b2040978ffb06c7cf11273cc4f83b438efe878824fd1d7",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -4196,10 +4448,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "5e045c02c9ce16355956c47a77e3cd2d23e8cb99a312ba7355e9fc505db7f07b",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
-      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
-      "rationale": "Approve E11 RTK barrel export: exposes the platform-neutral coordinator through the existing revision bridge interface without adding a private command bus, UI path, parser write authority or runtime apply switch."
+      "sha256": "d8235f1accd39743b4d5fda2aa9df515a68191a341f8d7de23f97f2f43ddcafe",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -5462,6 +5714,76 @@
       "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "sha256": "7e21c40ad5e484a1046f911ca34af436937f403173159d30469b97e905733e5b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "sha256": "3b5b5dc445c2f5ab8a51bb317d7ad1230293010718110b0c6cb63dd85340018e",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "a7475ae81d57085ad62091257c283b4904654175784fce4ba108cccb40602ddd",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "sha256": "f71fa26ce63bbbef60b9eef2d396c2385375ca084f2acc1c60499a64e6aa535e",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "sha256": "95ff607d56786027bfaa117eb18a644f7dc6fadbbb5445fa41bc20a085147480",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+      "sha256": "436765d642a3b595dad4caca68b5fb8a2ecec02ef77f79eaeb52012eaf62215e",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
+      "sha256": "b8f21cec31cf164117cc33662b1447da6fc7830cd62d3640ac45ce2a7d3968bc",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
+      "sha256": "f8756ce5b2b220c9566f7c951c08d79b3be2e7a03a2c4761c00529e96414c7ca",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
+      "sha256": "177a2a1687d1c49f3500323a3308e034d603eb1b4a1e5fcd848fc74c8e9ba151",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "sha256": "73cd27a753c31acdc373a4064f16772942034545840b74d210ef173a09fa8df1",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
+      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
+    },
+    {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
       "sha256": "bc6c83361298c49f195644f18960de0628839b458e1ff2854932cd454e7fef16",
       "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
@@ -6029,6 +6351,34 @@
       "rationale": "Approve bounded E11 C00 active platform certification compilation: records macOS packaged Electron as the only active Stage 11 certification scope, keeps inactive Windows Linux web iOS Android as NOT_ACTIVATED without false HOLD or PASS, compiles C01-C04 queue, binds ER C07 handoff, and makes no physical package, signing, SAST, release readiness, or Program DoD claim."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js",
+      "sha256": "14d745ebf89cf5472193e5e38f9f1355d742943e9480718f3548412149dbacd5",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c02-packaged-critical-journey.contract.test.js",
+      "sha256": "e2079d7e93cb4a85fb89829127fca4971ae706525dbfbe47ffe0686493f600b2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
+      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
+      "sha256": "ea60af52fa7190b7e488a5b0780f9458f5d19a11fb3222b3a5407169346c6825",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.contract.test.js",
+      "sha256": "a983099a70adeb435af71383192d8d88d43ceb3ac091011b582c62e54071e892",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
       "sha256": "b2f7c5c990ee07d29088d76d14783c40fff7f024c26d698a701266fdd4baf27a",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
@@ -6132,300 +6482,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/build-mac-output.txt",
-      "sha256": "a25078148baf4c861f23c1071023adbfbb623fe242632e8b33c3c67bfb8015b7",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
-      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
-      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/macos-package-artifact-security-report.json",
-      "sha256": "b50487ed3dd19a371b4c198358ac1514dd44c6c24d6efc537b198939a4a733b3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
-      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
-      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY_RECEIPT.json",
-      "sha256": "06f8330f763d21a00bff4b689218b0b13a8b4d5e327ca52ee59f44c6ed93f947",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
-      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
-      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs",
-      "sha256": "70516dc7f9d6e728620e7ce4f812e0310d57a36b1a26f6c939c5202bf2766610",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
-      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
-      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js",
-      "sha256": "14d745ebf89cf5472193e5e38f9f1355d742943e9480718f3548412149dbacd5",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
-      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
-      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
-      "sha256": "da19b595d0a30441cfe51d2540b5227f50062f4fa3a17429cd4c3a4f158edfd2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
-      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs",
-      "sha256": "8ab124c725973e9926ed3467b7d23e644efa24f54eeac3e90aac60da1afd2c59",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
-      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY/packaged-critical-journey-report.json",
-      "sha256": "a4a0c4a7f77779f055d7e85d8e662fc5311ade72bbda604633320b360efc8729",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
-      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
-      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-      "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
-      "approvedAtUtc": "2026-07-31T12:05:34.097Z",
-      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
-    },
-    {
-      "filePath": "scripts/ops/production-app-runtime-harness.mjs",
-      "sha256": "57d1cb1a08976f636187b0dbebf633ad1b26d9408c97e320a2d346cdc769b8f9",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
-      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
-      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-e11-c02-packaged-critical-journey.mjs",
-      "sha256": "8aa38f30c1b7ec5e6f349a06b40699a28711056deb55f316960e3a58fcafdff8",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
-      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
-      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-e11-c02-packaged-critical-journey.contract.test.js",
-      "sha256": "e2079d7e93cb4a85fb89829127fca4971ae706525dbfbe47ffe0686493f600b2",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
-      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
-      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-desktop.png",
-      "sha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-mobile.png",
-      "sha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-responsive-audit.json",
-      "sha256": "617767c1a03159bd5d60dd574a6277fecb283540a773a18db6e6cd8b55eec113",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-tablet.png",
-      "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/packaged-accessibility-responsive-visual-regression-report.json",
-      "sha256": "73121a0f045e8a5931d147871a95d07b9dd891bc85d83deeee2967f1cc8f9a21",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
-      "sha256": "cbf545e406a80ff3dce60bd64be0b5fd5df9fed2e6f2a128ff9881a238ae356e",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:59.640Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs",
-      "sha256": "0d153be6ea3bb03950dbe55153fc7674eaf8c782ac6e1b3969f1a77f4c27c86a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
-      "sha256": "ea60af52fa7190b7e488a5b0780f9458f5d19a11fb3222b3a5407169346c6825",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
-      "sha256": "a9e284e18629c7ea4cf87d69113fe11028330ba4b073df92facc0898fde98268",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-modern-comment-followup.mjs",
-      "sha256": "ddb1373f18be01159f143962c412136b922200cacaf29877322157999d6e84b1",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_FOLLOWUP_RECEIPT.json",
-      "sha256": "18091c36f06ff85cbe6c013e61b3c9cb24d7207fbcd9feb013465ddfd03e9169",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
-      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs",
-      "sha256": "1537e79bb299beeddfe30f1a0f4640ff0dcca2b6dbe9a09a46233cbaf7aed7a7",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
-      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "a444400a39c7f285ae0a279e7522661f0b4a07441e7a8ee98bc31a0c23f42f25",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "6d599b81b259bb88cf665744f321407c914bb0074b886307f34b274e13136581",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json",
-      "sha256": "756088df415249ed87a037f53fb6dc0b4044a5ee97ff1245a1dcf97f37db4362",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "904e554286f0fe3e408695974194332063f1228c9cc7da45f93d90e9f66b34e7",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs",
-      "sha256": "7b02d890ba65ace0c1780c78dd4cba9f9270d5534f3033f9edba7015e69ee534",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "f1cf96cf4dfda079c2f71a2085debb8d9bf14a0e7c70dc5bbc81a19e803361ff",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "3f2b327d86336ce2df93aef3c2e1cf43f7dae72827abf707679b4924573f4bba",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "4b9d9946ab5d295c08c4663ae1109f3048b3f2b4f16665915a26cb1845c2860f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "7e21c40ad5e484a1046f911ca34af436937f403173159d30469b97e905733e5b",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "3b5b5dc445c2f5ab8a51bb317d7ad1230293010718110b0c6cb63dd85340018e",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "a7475ae81d57085ad62091257c283b4904654175784fce4ba108cccb40602ddd",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "f71fa26ce63bbbef60b9eef2d396c2385375ca084f2acc1c60499a64e6aa535e",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "95ff607d56786027bfaa117eb18a644f7dc6fadbbb5445fa41bc20a085147480",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "436765d642a3b595dad4caca68b5fb8a2ecec02ef77f79eaeb52012eaf62215e",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
-      "sha256": "b8f21cec31cf164117cc33662b1447da6fc7830cd62d3640ac45ce2a7d3968bc",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
-      "sha256": "f8756ce5b2b220c9566f7c951c08d79b3be2e7a03a2c4761c00529e96414c7ca",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
-      "sha256": "177a2a1687d1c49f3500323a3308e034d603eb1b4a1e5fcd848fc74c8e9ba151",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "73cd27a753c31acdc373a4064f16772942034545840b74d210ef173a09fa8df1",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:54:00.000Z",
-      "rationale": "Approve bounded E12 multi-scene apply followup: binds E11 single-root-pointer coordinator evidence, confirms multi-scene apply remains a shadow-only typed limitation, rejects runtime writer authority overclaim, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure and zero partial canonical write, keeps Word not saturated, keeps Google closed, adds no UI, dependency, network, or product write path."
     }
   ]
 }

@@ -6,7 +6,7 @@ export const MANUAL_MAP_LAYOUT_RESULT_SCHEMA_VERSION = 'manualMap.layoutResult.v
 export const MANUAL_MAP_RESOURCE_BUDGET_PROOF_SCHEMA_VERSION = 'manualMap.resourceBudgetProof.v1';
 
 const LAYOUT_OP = 'derived.manualMap.layoutScheduler';
-const LAYOUT_ADAPTER_KIND = 'local-pure-derived-worker';
+const LAYOUT_ADAPTER_KIND = 'local-pure-derived-layout-scheduler';
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);

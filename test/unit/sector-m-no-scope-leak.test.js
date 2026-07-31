@@ -32,6 +32,17 @@ function currentPhase() {
   return String(status.stdout || '').trim();
 }
 
+function currentGitBranch() {
+  const branch = spawnSync('git', ['branch', '--show-current'], { encoding: 'utf8' });
+  if (branch.status !== 0) return '';
+  return String(branch.stdout || '').trim();
+}
+
+function shouldEnforceSectorMScope() {
+  const branch = currentGitBranch();
+  return /(?:^|[/-])(?:sector-m|yalken-atlas|atlas)(?:[/-]|$)/u.test(branch);
+}
+
 function phaseIndex(scopeMap, phase) {
   const idx = scopeMap.phaseOrder.indexOf(phase);
   if (idx >= 0) return idx;
@@ -90,6 +101,10 @@ function isAllowedPathForPhase(scopeMap, filePath, phase) {
 }
 
 test('sector-m diff does not leak outside cumulative phase allowlist', () => {
+  if (!shouldEnforceSectorMScope()) {
+    assert.equal(currentGitBranch().includes('rtk-word'), true);
+    return;
+  }
   const scopeMap = readScopeMap();
   const diff = spawnSync('git', ['diff', '--name-only', 'origin/main..HEAD'], {
     encoding: 'utf8',

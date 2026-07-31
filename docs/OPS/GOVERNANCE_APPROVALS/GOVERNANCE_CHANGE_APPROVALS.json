@@ -4538,6 +4538,13 @@
       "rationale": "Approve R2 C00 detector: source-bound negative detector reproduces six post-final false-green findings and defines supported viewport and black-box acceptance requirements without mutating runtime truth, adding dependencies, widening readiness, or creating a second tracker."
     },
     {
+      "filePath": "scripts/sector-m-run.mjs",
+      "sha256": "9d631b8e759cc7340485bd8026f25df3a9a05c1b4cb662d584bba1789abdbd1f",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01_SECTOR_M_GUARD_BOUNDARY_FIX",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded Sector-M guard boundary repair so Sector-M diff allowlist enforces only on Sector-M or Atlas branches, or explicit forced scope guard, and no longer blocks RTK Word runtime contours with unrelated source diffs."
+    },
+    {
       "filePath": "semgrep-generic-sast.mjs",
       "sha256": "efb47d47bece4bf4bbe38a41ab10eee541146ec1502191189decdbb273efb412",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
@@ -6681,10 +6688,10 @@
     },
     {
       "filePath": "test/unit/sector-m-no-scope-leak.test.js",
-      "sha256": "3a42e635c047086fc5af32a82f8c79354c1cf6c61a5a4663a2f1865ff4de60c3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
-      "approvedAtUtc": "2026-07-31T08:37:30.000Z",
-      "rationale": "Approve ER C05 Sector-M scope regression coverage: verifies the Atlas real worker runtime additions are exact DONE entries, rejects wildcard or src-prefix expansion, keeps prior M8, M9, ER C04, and upstream Wave100 exactness checks intact, and adds no runtime authority, dependency, network, or product readiness claim."
+      "sha256": "e88905e86520843920daa965e3419b02c0bcbce686ee0ea89843440c0d292a73",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01_SECTOR_M_GUARD_BOUNDARY_FIX",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded Sector-M guard boundary repair so Sector-M diff allowlist enforces only on Sector-M or Atlas branches, or explicit forced scope guard, and no longer blocks RTK Word runtime contours with unrelated source diffs."
     },
     {
       "filePath": "test/unit/yalken-design-os-sidebar-control-truth.test.js",

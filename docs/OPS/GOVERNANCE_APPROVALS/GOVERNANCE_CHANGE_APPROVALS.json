@@ -1578,10 +1578,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "f313830f7ddb8ab936f70eaf24c64b3d963749f6061cc19ed394ea4afdf9a6f8",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "bcfa077dd4e247d35b95cab9c2129de692b6256d000a3f3fa09dc681d196ca7c",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve E12 program/profile state transition to stability-audit-complete-not-saturated: preserves Word-only focus, no Google Docs, no saturation claim, no runtime apply expansion, and records next physical Word stability wave."
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -1697,10 +1697,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "a33fc85095a9d22cbe6bcb07b5e4c65e78ef6e5fd1a1ae27e3210019d00f3579",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "c696ccd1e7db4469f38b005217c69735b8743eb2f72142e1cb7c32f33670b52c",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve E12 program/profile state transition to stability-audit-complete-not-saturated: preserves Word-only focus, no Google Docs, no saturation claim, no runtime apply expansion, and records next physical Word stability wave."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -1799,6 +1799,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
+      "sha256": "2d914a5e62785d12b5191b796d4c5d26badf9a885fa6b42e881103382ac0ced6",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve bounded E12 stability limitation audit receipt: binds wave300 complete evidence, keeps all veto metrics zero, explicitly denies Word SATURATED and Google Docs opening, classifies five active limitations, and advances only to the next physical Word stability wave."
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -4007,17 +4014,24 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "071444696e403195ed30c0829e28eb20ab73a36ddd29b7460c8ba403d2ab0b4c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "163b9904d0a22a40e1261054b9545e5d537b80ca8187cd462c6ece7c8952ef11",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve narrow E12 saturation ledger verifier successor-state repair: permits only the audited not-saturated Word stability-wave successor while still blocking SATURATED, Google Docs, nonzero veto, profile overclaim, and broken sequence states."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "ce60d27850f0dc35162ac39e74343b3628c291d5161ad68f1b3a01241972d472",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve E12 stability limitation audit verifier: validates ledger binding, zero veto, one-stable-wave state, active limitation classes, no false saturation, no Google sequencing, and post-audit program/profile state."
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "141cf42f5fa69366a314d5555ce6b65c0e1baa785f22254fee8a66b8fe1bd302",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "a9ec20ed7fa71faa3ec12f8e64c17d04916bec2ab6c7be643177688af380362b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve Sector-M scope allowlist extension for the bounded E12 stability limitation audit verifier and receipt only; no wildcard scope, product runtime, UI, dependency, or network expansion."
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -5414,52 +5428,52 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "2d284d57e8472cf6a7d1030ebe22b6f6796b6aa0f967045827d49fd4d34980c0",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "6dbc13ca91080e783b4d80f14ff68d15962308c69e67b96cea4c99d8f8b823a0",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "6c9a1f36c15d4fa6fdb0e2467840736fc5a922286255f5272157c4bc3f683824",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "c18a11f5700e56ee24b01cc46decc43c615910ce3c12dad8a1d36c1bcadffa67",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "ba5bed927c1feb7fdf3bb9b814078e170377a1b635a420b3cf0ef301c1337819",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "ec89ccfc2a28c3c0b24b793a573c32fe4317bd9746a98456983f3ee02a4cd509",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "5279031abe4d8184e47833d04cfaa030ba685d689c0a945a4f287ac9d60d8625",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "f74dedc96ca7abf62eaf1e9162bfda98d2dd15c179ebb10d1d422fa54d9a8562",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "f688186993087f82c740ce820afafa55c8f647d4ff3f770eed74f208e7d300b2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "6f3105d1c722d51fe601fe5c958a32ac90540685889a0bd91df83027133abdee",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "74aea824f085ebcbe7ded3da48b75b21fff7fadf8f16bec9b8663473aa7f579c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "390a4300d69049a6071da6c64afd723934a1fb9d19e0c5185001cca64edb6d3c",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "a9fd2fc59bfb129d65125542eb99fb84608183e39477eae0e0760696e4130603",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "9da5672d0b235c090a9ef955a041cb12bb84c08663a6a58b7c093631bbdd5445",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
+      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",

@@ -9,8 +9,10 @@ const SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs';
 const WAVE40_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-physical-wave40.mjs';
 const WAVE100_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-physical-wave100.mjs';
 const WAVE300_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-physical-wave300.mjs';
+const STABILITY_AUDIT_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs';
 const WORD_SANDBOX_HELPER_PATH = 'scripts/ops/rtk-word-sandbox-work-root.mjs';
 const RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json';
+const STABILITY_AUDIT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json';
 const WAVE40_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json';
 const WAVE100_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json';
 const WAVE300_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json';
@@ -133,15 +135,37 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_E12_WAVE300_COMPLETE_NOT_SATURATED');
+  assert.equal(profile.status, 'WORD_16_111_2_E12_STABILITY_AUDIT_COMPLETE_NOT_SATURATED');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'SATURATION_WAVE300_COMPLETE_NOT_SATURATED');
+  assert.equal(cell.currentCapability, 'STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_E12_PHYSICAL_WAVE300_COMPLETE_NOT_SATURATED');
-  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES');
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT');
+  assert.equal(program.status, 'WORD_E12_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED');
+  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT');
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
+});
+
+test('V4 E12 stability limitation audit binds Word-only next wave without saturation or Google', async () => {
+  const verifier = await import(pathToFileURL(path.join(REPO_ROOT, STABILITY_AUDIT_SCRIPT_PATH)).href);
+  const receipt = readJson(STABILITY_AUDIT_RECEIPT_PATH);
+  const result = verifier.evaluateWordV4E12StabilityLimitationAudit({ receipt, requireFiles: true });
+  const limitationIds = new Set(receipt.actionableLimitations.map((item) => item.id));
+
+  assert.equal(result.status, 'PASS');
+  assert.deepEqual(result.issues, []);
+  assert.equal(receipt.status, 'WORD_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED');
+  assert.equal(receipt.saturationDecision.wordSaturated, false);
+  assert.equal(receipt.saturationDecision.googleDocsAllowedToOpen, false);
+  assert.equal(receipt.saturationDecision.nextStage, 'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT');
+  assert.equal(receipt.saturationDecision.consecutiveStableApprovedWaves, 1);
+  assert.equal(receipt.vetoMetrics.falseExact, 0);
+  assert.equal(receipt.vetoMetrics.prematureGoogleDocsOpen, 0);
+  assert.equal(limitationIds.has('SECOND_CONSECUTIVE_STABLE_APPROVED_WAVE_REQUIRED'), true);
+  assert.equal(limitationIds.has('CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY'), true);
+  assert.equal(limitationIds.has('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), true);
+  assert.equal(receipt.nonClaims.includes('WORD_SATURATED_NOT_CLAIMED'), true);
+  assert.equal(receipt.nonClaims.includes('GOOGLE_DOCS_NOT_OPENED'), true);
 });
 
 test('V4 E12 wave 40 receipt proves physical Word rounds without saturation claim', async () => {

@@ -110,7 +110,7 @@ test('V4 E10 updates capability profile and program state without runtime change
   assert.equal(cell.acceptanceTest, 'test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js');
   assert.equal(cell.physicalTotals.physicalGuardCases, 5);
   assert.equal(cell.physicalTotals.automaticReplayApplyCertified, 0);
-  assert.match(program.v4ExecutionState.status, /^EXECUTION_(1[01]_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_(?:LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES|WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100|WAVE100_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_300|WAVE300_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_LIMITATION_AUDIT))$/u);
+  assert.match(program.v4ExecutionState.status, /^EXECUTION_(1[01]_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_(?:LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES|WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100|WAVE100_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_300|WAVE300_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_LIMITATION_AUDIT|STABILITY_LIMITATION_AUDIT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_WAVE))$/u);
   assert.equal(typeof program.v4ExecutionState.currentStage, 'string');
   assert.equal(typeof program.v4ExecutionState.nextStage, 'string');
   assert.equal(program.v4ExecutionState.multiRoundReplayConflictGuardsCertified, true);

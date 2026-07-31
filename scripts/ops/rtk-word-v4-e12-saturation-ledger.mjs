@@ -190,21 +190,41 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
   }
 
   const cell = Array.isArray(profile.cells) ? profile.cells.find((item) => item.capabilityId === 'rtk.word.v4.saturationLedger') : null;
-  if (!cell || cell.state !== 'PHYSICAL_WORD_PROVEN' || cell.currentCapability !== 'SATURATION_WAVE300_COMPLETE_NOT_SATURATED' || cell.physicalWordEvidence !== true) {
+  const allowedProfileCapabilities = new Set([
+    'SATURATION_WAVE300_COMPLETE_NOT_SATURATED',
+    'STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED',
+  ]);
+  if (!cell || cell.state !== 'PHYSICAL_WORD_PROVEN' || !allowedProfileCapabilities.has(cell.currentCapability) || cell.physicalWordEvidence !== true) {
     add('RTK_V4_E12_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability profile must bind E12 wave 300 as physical evidence proven but not saturated.');
   }
-  if (profile.status !== 'WORD_16_111_2_E12_WAVE300_COMPLETE_NOT_SATURATED') {
+  const allowedProfileStatuses = new Set([
+    'WORD_16_111_2_E12_WAVE300_COMPLETE_NOT_SATURATED',
+    'WORD_16_111_2_E12_STABILITY_AUDIT_COMPLETE_NOT_SATURATED',
+  ]);
+  if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_PROFILE_STATUS_INVALID', 'profile.status', 'Profile status must reflect E12 wave 300 complete not-saturated ledger.');
   }
 
   const state = program.v4ExecutionState || {};
-  if (program.status !== 'WORD_E12_PHYSICAL_WAVE300_COMPLETE_NOT_SATURATED') {
+  const allowedProgramStatuses = new Set([
+    'WORD_E12_PHYSICAL_WAVE300_COMPLETE_NOT_SATURATED',
+    'WORD_E12_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED',
+  ]);
+  if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must reflect E12 physical wave 300 completion.');
   }
-  if (state.status !== 'EXECUTION_12_WAVE300_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_LIMITATION_AUDIT') {
+  const allowedStateStatuses = new Set([
+    'EXECUTION_12_WAVE300_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_LIMITATION_AUDIT',
+    'EXECUTION_12_STABILITY_LIMITATION_AUDIT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_WAVE',
+  ]);
+  if (!allowedStateStatuses.has(state.status)) {
     add('RTK_V4_E12_PROGRAM_STATE_INVALID', 'program.v4ExecutionState.status', 'Program state must keep E12 active and advance to the Word stability limitation audit.');
   }
-  if (state.nextStage !== 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT') {
+  const allowedNextStages = new Set([
+    'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',
+    'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT',
+  ]);
+  if (!allowedNextStages.has(state.nextStage)) {
     add('RTK_V4_E12_NEXT_STAGE_INVALID', 'program.v4ExecutionState.nextStage', 'Next stage must continue the Word stability limitation audit, not Google Docs.');
   }
   if (state.googleDocsOpened !== false || state.wordSaturated !== false || state.wordSaturationCurrentFocus !== true) {

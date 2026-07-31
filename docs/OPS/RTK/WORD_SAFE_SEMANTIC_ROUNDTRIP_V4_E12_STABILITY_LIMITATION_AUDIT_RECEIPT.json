@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-stability-limitation-audit-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
+  "stageId": "EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT",
+  "status": "WORD_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T10:55:00.000Z",
+  "base": {
+    "originMainSha": "3bfa062478f79dc60614049a128e401d9f877ad0",
+    "branch": "codex/rtk-v4-e12-word-stability-limitation-audit",
+    "precedingMergeSha": "3bfa062478f79dc60614049a128e401d9f877ad0"
+  },
+  "boundSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "executionRule": "PHYSICAL_WAVES_10_40_100_300_AND_TWO_STABLE_WAVES_WITH_ZERO_VETO"
+  },
+  "boundLedger": {
+    "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+    "sha256": "6ec521bbb8d966d1d10a5f4b4946ea2ccc5ebd68dffa9bde1d7296116690aa43",
+    "status": "BOUND"
+  },
+  "observedTotals": {
+    "physicalRoundTripsObserved": 300,
+    "visibleAnchoredCommentThreads": 638,
+    "physicalFormattingCases": 17,
+    "physicalStructuralCases": 30,
+    "replayHostileGuardCases": 5,
+    "focusedE11CoordinatorContracts": 7,
+    "exactAutomaticCandidates": 0,
+    "wave40PhysicalOpenEditSaveCloseReopenPass": 40,
+    "wave40ParserPass": 39,
+    "wave40DenseCommentThreads": 120,
+    "wave40ScaleWordsMax": 300000,
+    "wave100PhysicalOpenEditSaveCloseReopenPass": 100,
+    "wave100ParserPass": 99,
+    "wave100CommentThreads": 398,
+    "wave100DenseCommentThreads": 120,
+    "wave100ScaleReturnedBytesMax": 994079,
+    "wave300PhysicalOpenEditSaveCloseReopenPass": 300,
+    "wave300ParserPass": 299,
+    "wave300CommentThreads": 638,
+    "wave300DenseCommentThreads": 100,
+    "wave300ScaleReturnedBytesMax": 1239432
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetworkRequests": 0,
+    "prematureGoogleDocsOpen": 0,
+    "falseSaturationClaim": 0
+  },
+  "saturationDecision": {
+    "requiredWaveSequence": [
+      10,
+      40,
+      100,
+      300
+    ],
+    "completedWaves": [
+      10,
+      40,
+      100,
+      300
+    ],
+    "currentWaveTarget": 300,
+    "currentWaveObservedRounds": 300,
+    "consecutiveStableApprovedWaves": 1,
+    "stableHistogram": false,
+    "wordSaturated": false,
+    "wordSaturationClaimAllowed": false,
+    "googleDocsAllowedToOpen": false,
+    "nextStage": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT"
+  },
+  "actionableLimitations": [
+    {
+      "id": "SECOND_CONSECUTIVE_STABLE_APPROVED_WAVE_REQUIRED",
+      "status": "ACTIVE_LIMITATION",
+      "resolution": "NEXT_PHYSICAL_STABILITY_WAVE_REQUIRED",
+      "evidence": "SATURATION_RULE_REQUIRES_TWO_STABLE_APPROVED_WAVES"
+    },
+    {
+      "id": "MODERN_REPLY_RESOLVE_REOPEN_REMAINS_TYPED_LIMITATION",
+      "status": "ACTIVE_LIMITATION",
+      "resolution": "REQUIRES_DEEP_WORD_UI_OR_PACKAGE_SEMANTICS_CONTOUR",
+      "evidence": "E07_TYPED_LIMITATION_AND_WAVE300_COMMENT_SURVIVAL_WITHOUT_REPLY_RESOLVE_CERTIFICATION"
+    },
+    {
+      "id": "CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY",
+      "status": "ACTIVE_LIMITATION",
+      "resolution": "REQUIRES_ALTERNATE_OR_REDUNDANT_AUTHORITY_CARRIER_CONTOUR",
+      "evidence": "B01_CUSTOM_XML_MUTATION_LIMITATION"
+    },
+    {
+      "id": "AUTOMATIC_MULTI_SCENE_APPLY_REMAINS_SHADOW_ONLY",
+      "status": "ACTIVE_LIMITATION",
+      "resolution": "REQUIRES_PRODUCT_WAL_OR_SINGLE_ROOT_POINTER_INTEGRATION_BEFORE_AUTHORITY",
+      "evidence": "E11_COORDINATOR_COMPONENT_SHADOW_ONLY"
+    },
+    {
+      "id": "WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP",
+      "status": "ACTIVE_LIMITATION",
+      "resolution": "REQUIRES_WAVE300_PARSER_GAP_AUDIT_BEFORE_SATURATION",
+      "evidence": "WAVE300_PARSER_PASS_299_OF_300"
+    }
+  ],
+  "nonClaims": [
+    "WORD_SATURATED_NOT_CLAIMED",
+    "GOOGLE_DOCS_NOT_OPENED",
+    "NO_AUTOMATIC_APPLY_EXPANSION",
+    "NO_UI_CHANGE",
+    "NO_NETWORK_OR_DEPENDENCY_ADDED"
+  ],
+  "nextStage": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT"
+}

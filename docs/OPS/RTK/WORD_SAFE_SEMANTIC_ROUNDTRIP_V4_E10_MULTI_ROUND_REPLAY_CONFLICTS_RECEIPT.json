@@ -386,16 +386,16 @@
     "productNetworkRequests": 0
   },
   "testEvidence": {
-    "status": "PENDING_LOCAL_VERIFICATION",
-    "focusedVerifier": "pending",
-    "focusedContract": "pending",
-    "adjacentContracts": "pending",
-    "governance": "pending",
-    "ossPolicy": "pending",
-    "opsSuite": "pending",
-    "syntax": "pending",
-    "fullSuite": "pending",
-    "verifiedAtUtc": null
+    "status": "PASS",
+    "focusedVerifier": "node scripts/ops/rtk-word-v4-e10-multi-round-replay-conflicts.mjs --json --require-external PASS",
+    "focusedContract": "node --test E06 E07 E08 E09 E10 RTK V4 contracts PASS 26 pass 0 fail",
+    "adjacentContracts": "E06 physical text E07 comments E08 formatting E09 structural contracts PASS",
+    "governance": "node scripts/ops/governance-change-detection.mjs --json PASS",
+    "ossPolicy": "npm run -s oss:policy PASS",
+    "opsSuite": "npm run -s test:ops PASS",
+    "syntax": "node --check scripts/ops/rtk-word-v4-e10-multi-round-replay-conflicts.mjs PASS",
+    "fullSuite": "npm test -- --runInBand PASS 795 tests 731 pass 64 skip 0 fail perf baseline PASS menu release checks PASS",
+    "verifiedAtUtc": "2026-07-31T13:05:00.000Z"
   },
   "nonClaims": [
     "E10 does not certify automatic replay apply or divergent round auto-merge",

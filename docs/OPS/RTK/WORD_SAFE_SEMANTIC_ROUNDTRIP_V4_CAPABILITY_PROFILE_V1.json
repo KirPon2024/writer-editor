@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_PHYSICAL_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_16_111_2_COMMENT_SHADOW_AND_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -159,12 +159,33 @@
     {
       "capabilityId": "rtk.word.v4.commentsShadowAnalysis",
       "operationFamily": "classic and modern comments replies resolve reopen delete",
-      "state": "DECLARED",
-      "currentCapability": "UNTESTED",
-      "physicalWordEvidence": false,
-      "consumer": "EXECUTION_07 later contour",
-      "acceptanceTest": "future physical comments corpus",
-      "killCriterion": "silent comment reply state or anchor loss"
+      "state": "PHYSICAL_WORD_PROVEN",
+      "currentCapability": "VISIBLE_ANCHORED_COMMENT_SHADOW_ANALYSIS_WITH_TYPED_LIMITATIONS",
+      "physicalWordEvidence": true,
+      "consumer": "EXECUTION_08 effective formatting",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
+      "physicalTotals": {
+        "declaredCommentCases": 8,
+        "visibleAndParsedCommentCases": 6,
+        "visibleAnchoredThreads": 91,
+        "unsupportedBlockedThreads": 2,
+        "silentCommentLoss": 0,
+        "noOpCommentPassClaimed": 0
+      },
+      "supportedNow": [
+        "visible anchored point range and paragraph comments",
+        "multiple and overlapping comment anchors",
+        "comments alongside tracked text changes without manuscript apply authority",
+        "modern comment package inventory readback",
+        "80-comment high-density physical Word corpus"
+      ],
+      "limitations": [
+        "modern replies are not certified by E07",
+        "resolve reopen delete are not certified by E07",
+        "comment shadow parsing does not mutate Review Session state"
+      ],
+      "killCriterion": "reply resolve delete or no-op comment save is claimed as PASS, silent comment loss is nonzero, or comment parsing gains manuscript apply authority"
     },
     {
       "capabilityId": "rtk.word.v4.coreManifestYrtk2",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E06_PHYSICAL_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_E07_COMMENT_SHADOW_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -366,10 +366,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_06_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "currentStage": "EXECUTION_06_PHYSICAL_TEXT_CERTIFICATION",
-    "nextStage": "EXECUTION_07_COMMENTS_REPLIES_STATES",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
+    "status": "EXECUTION_07_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "currentStage": "EXECUTION_07_COMMENTS_REPLIES_STATES",
+    "nextStage": "EXECUTION_08_EFFECTIVE_FORMATTING",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -379,6 +379,13 @@
     "physicalWordWrongSceneRouting": 0,
     "physicalWordSilentApply": 0,
     "physicalWordReplayFailure": 0,
+    "commentShadowAnalysisCertified": true,
+    "commentShadowAnalysisStatus": "COMMENT_SHADOW_ANALYSIS_CERTIFIED_WITH_TYPED_LIMITATIONS",
+    "visibleAnchoredCommentThreads": 91,
+    "unsupportedBlockedCommentThreads": 2,
+    "replyThreadsCertified": 0,
+    "resolveReopenCertified": 0,
+    "silentCommentLoss": 0,
     "runtimeApplyAuthorityGranted": false,
     "wordSaturationCurrentFocus": true,
     "googleDocsOpened": false,

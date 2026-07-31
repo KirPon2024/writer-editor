@@ -18,6 +18,8 @@ const WORKSPACE_QUERY_IDS = Object.freeze({
   ATLAS_REPORTS_SAVED_QUERIES: 'query.atlasReportsSavedQueries',
   ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE: 'query.atlasDiagnosticsStageAcceptance',
   ATLAS_CURRENT_SCENE: 'query.atlasCurrentScene',
+  MANUAL_MAP_WORKBENCH: 'query.manualMapWorkbench',
+  PROJECTION_INSPECTOR: 'query.projectionInspector',
 });
 
 const ATLAS_WORKSPACE_QUERY_IDS = Object.freeze([
@@ -31,6 +33,8 @@ const ATLAS_WORKSPACE_QUERY_IDS = Object.freeze([
   WORKSPACE_QUERY_IDS.ATLAS_REPORTS_SAVED_QUERIES,
   WORKSPACE_QUERY_IDS.ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE,
   WORKSPACE_QUERY_IDS.ATLAS_CURRENT_SCENE,
+  WORKSPACE_QUERY_IDS.MANUAL_MAP_WORKBENCH,
+  WORKSPACE_QUERY_IDS.PROJECTION_INSPECTOR,
 ]);
 
 const WORKSPACE_QUERY_RECORDS = Object.freeze([
@@ -53,6 +57,8 @@ const WORKSPACE_QUERY_RECORDS = Object.freeze([
   Object.freeze({ id: WORKSPACE_QUERY_IDS.ATLAS_REPORTS_SAVED_QUERIES, owner: 'atlas', projection: 'reports' }),
   Object.freeze({ id: WORKSPACE_QUERY_IDS.ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE, owner: 'atlas', projection: 'diagnostics' }),
   Object.freeze({ id: WORKSPACE_QUERY_IDS.ATLAS_CURRENT_SCENE, owner: 'atlas', projection: 'current-scene' }),
+  Object.freeze({ id: WORKSPACE_QUERY_IDS.MANUAL_MAP_WORKBENCH, owner: 'manualMap', projection: 'workbench' }),
+  Object.freeze({ id: WORKSPACE_QUERY_IDS.PROJECTION_INSPECTOR, owner: 'projectionInspector', projection: 'plot-idea-meaning' }),
 ]);
 
 const WORKSPACE_QUERY_ID_LIST = Object.freeze(WORKSPACE_QUERY_RECORDS.map((record) => record.id));
@@ -69,6 +75,8 @@ const ATLAS_WORKSPACE_QUERY_SURFACES = Object.freeze({
   reports: WORKSPACE_QUERY_IDS.ATLAS_REPORTS_SAVED_QUERIES,
   diagnostics: WORKSPACE_QUERY_IDS.ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE,
   currentScene: WORKSPACE_QUERY_IDS.ATLAS_CURRENT_SCENE,
+  manualMapWorkbench: WORKSPACE_QUERY_IDS.MANUAL_MAP_WORKBENCH,
+  projectionInspector: WORKSPACE_QUERY_IDS.PROJECTION_INSPECTOR,
 });
 
 function isWorkspaceQueryIdAllowed(queryId) {

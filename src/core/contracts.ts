@@ -267,6 +267,16 @@ export type ManualMapEdgeState = {
   edgeKind: string
   label: string
   createdByCommandSeq: number
+  updatedByCommandSeq?: number
+}
+
+export type ManualMapGroupState = {
+  id: string
+  label: string
+  colorTag: string
+  nodeIds: string[]
+  createdByCommandSeq: number
+  updatedByCommandSeq: number
 }
 
 export type ManualMapState = {
@@ -274,6 +284,7 @@ export type ManualMapState = {
   title: string
   nodes: Record<string, ManualMapNodeState>
   edges: Record<string, ManualMapEdgeState>
+  groups?: Record<string, ManualMapGroupState>
   createdByCommandSeq: number
   updatedByCommandSeq: number
 }
@@ -430,8 +441,36 @@ export type CoreCommand =
       payload: { projectId: string; mapId: string; nodeId: string; label: string; nodeKind?: string; position?: { x?: number; y?: number }; targetKind?: string; targetId?: string }
     }
   | {
+      type: "manualMap.node.update"
+      payload: { projectId: string; mapId: string; nodeId: string; label?: string; nodeKind?: string; position?: { x?: number; y?: number }; targetKind?: string; targetId?: string }
+    }
+  | {
+      type: "manualMap.node.delete"
+      payload: { projectId: string; mapId: string; nodeId: string }
+    }
+  | {
       type: "manualMap.edge.add"
       payload: { projectId: string; mapId: string; edgeId: string; fromNodeId: string; toNodeId: string; edgeKind?: string; label?: string }
+    }
+  | {
+      type: "manualMap.edge.update"
+      payload: { projectId: string; mapId: string; edgeId: string; fromNodeId?: string; toNodeId?: string; edgeKind?: string; label?: string }
+    }
+  | {
+      type: "manualMap.edge.delete"
+      payload: { projectId: string; mapId: string; edgeId: string }
+    }
+  | {
+      type: "manualMap.group.create"
+      payload: { projectId: string; mapId: string; groupId: string; label: string; nodeIds: string[]; colorTag?: string }
+    }
+  | {
+      type: "manualMap.group.update"
+      payload: { projectId: string; mapId: string; groupId: string; label?: string; nodeIds?: string[]; colorTag?: string }
+    }
+  | {
+      type: "manualMap.group.delete"
+      payload: { projectId: string; mapId: string; groupId: string }
     }
   | {
       type: "manualMap.attachment.add"

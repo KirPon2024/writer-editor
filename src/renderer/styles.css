@@ -3929,6 +3929,13 @@ body.dark-theme .toolbar__swatch::before {
   gap: 10px;
 }
 
+.right-rail-surface--atlas-journey,
+.right-rail-surface--manual-map-workbench,
+.right-rail-surface--projection-inspector {
+  display: grid;
+  gap: 10px;
+}
+
 .right-rail-atlas-overview-head {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -4551,7 +4558,19 @@ body.dark-theme .toolbar__swatch::before {
   line-height: 16px;
 }
 
+button.right-rail-atlas-matrix-list-row {
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+}
+
 .right-rail-atlas-matrix-list-row[role="button"] {
+  cursor: pointer;
+}
+
+.right-rail-atlas-matrix-list-row[role="option"] {
   cursor: pointer;
 }
 
@@ -4560,10 +4579,26 @@ body.dark-theme .toolbar__swatch::before {
   background: var(--hover-bg);
 }
 
+.right-rail-atlas-matrix-list-row[role="option"]:hover {
+  border-color: var(--divider);
+  background: var(--hover-bg);
+}
+
 .right-rail-atlas-matrix-list-row[role="button"]:focus-visible {
   outline: 2px solid var(--a11y-focus-outline);
   outline-offset: 2px;
   background: var(--a11y-focus-surface);
+}
+
+.right-rail-atlas-matrix-list-row[role="option"]:focus-visible {
+  outline: 2px solid var(--a11y-focus-outline);
+  outline-offset: 2px;
+  background: var(--a11y-focus-surface);
+}
+
+.right-rail-manual-map-row[aria-selected="true"] {
+  border-color: rgba(47, 111, 237, 0.28);
+  background: rgba(47, 111, 237, 0.06);
 }
 
 .right-rail-atlas-matrix-list-row__main {

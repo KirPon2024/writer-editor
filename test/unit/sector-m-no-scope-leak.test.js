@@ -154,6 +154,26 @@ test('M9 scope addition is exact and does not use wildcard prefixes', () => {
   }
 });
 
+test('DONE scope admits ER C04 Atlas paths exactly without src wildcard prefixes', () => {
+  const scopeMap = readScopeMap();
+  const donePaths = Array.isArray(scopeMap.allowByPhase.DONE) ? scopeMap.allowByPhase.DONE : [];
+  const donePrefixes = Array.isArray(scopeMap.allowPrefixByPhase.DONE) ? scopeMap.allowPrefixByPhase.DONE : [];
+  const erC04Paths = [
+    'src/derived/mindmap/deriveManualMapGraph.mjs',
+    'src/derived/mindmap/manualMapListKeyboardParity.mjs',
+    'src/renderer/styles.css',
+    'src/shared/workspaceQueryRegistry.cjs',
+  ];
+
+  for (const filePath of erC04Paths) {
+    assert.equal(donePaths.includes(filePath), true, `missing ER C04 exact scope path: ${filePath}`);
+  }
+  for (const prefix of donePrefixes) {
+    assert.equal(prefix.includes('*'), false, `wildcard is forbidden in DONE prefixes: ${prefix}`);
+    assert.equal(prefix.startsWith('src/'), false, `src prefix is forbidden in DONE scope: ${prefix}`);
+  }
+});
+
 test('M5 overlay prefixes are allowed only from M5 and above', () => {
   const scopeMap = readScopeMap();
   for (const prefix of M5_OVERLAY_ALLOW_PREFIXES) {

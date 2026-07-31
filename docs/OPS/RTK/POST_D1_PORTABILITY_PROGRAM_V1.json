@@ -364,5 +364,19 @@
     "v6HistoryRewritten": false,
     "d1EvidenceRewritten": false,
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
+  },
+  "v4ExecutionState": {
+    "status": "EXECUTION_02_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "currentStage": "EXECUTION_02_LOCATOR_STACK_SURVIVAL_LAB",
+    "nextStage": "EXECUTION_03_COREMANIFEST_EXPORTMAP_HASHTREE_YRTK2",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
+    "selectedAuthorityPayloadCarrier": "customDocumentProperty",
+    "blockPlacementAuthoritySelected": false,
+    "runtimeApplyAuthorityGranted": false,
+    "wordSaturationCurrentFocus": true,
+    "googleDocsOpened": false,
+    "otherEditorsRemainFutureMasterPlan": true,
+    "v6HistoryRewritten": false,
+    "d1EvidenceRewritten": false
   }
 }

@@ -171,10 +171,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "d4a7213ce4e9e2711c92ad91a4e6d57b644c429d29f24d15a99711c83e21bb44",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
-      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
-      "rationale": "Approve post-D1 RTK program state update: binds V4 canonical integration paths and digest after C05 merge, records current focus as Word saturation before Google Docs, and preserves V6 history, D1 evidence, old Word profile, and future external-editor queue without claiming physical Word saturation."
+      "sha256": "f4e284bc7f68880c10596d59ac2e26aa504e062cf52a408e960ce44732f82758",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
+      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
+      "rationale": "Approve post-D1 RTK program E02 state update: records locator stack survival local verification, selected custom document property payload carrier, no block placement authority, no runtime apply authority, next E03 YRTK2/CoreManifest contour, and no Google Docs execution before Word saturation."
     },
     {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "5e7bc01a3c1cbb3cfa8e6e3701093484fb8f798f6c3c823451268e3085c730fe",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
-      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
-      "rationale": "Approve bounded V4 Sector-M scope-map update: adds exact V4 canonical integration artifacts, binding status, feature manifest, capability profile, receipt, CANON_STATUS, post-D1 program state, and contract test to existing RTK DONE allowlist; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, no parser or renderer authority, and no Google execution."
+      "sha256": "31e05eed2573e0a8cbc118c7ca4c4c62f06fb67e8e1cc306e798517f29f810e9",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
+      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
+      "rationale": "Approve bounded V4 E02 Sector-M scope-map update: adds only the E02 receipt, ops verifier, and contract to exact RTK DONE allowlist; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, and no Google execution."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -5561,10 +5561,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "b168e223c9f969c6f15037e32b2f9a72d6c946ba0ad3f26f7f0b3451135b3f07",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
-      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
-      "rationale": "Approve V4 capability profile: declares status vector, taint model, versioned reason registry, and capability cells with C05 component-proven exact text as the only immediate consumer, while physical Word proof remains pending, fixture-only PASS is forbidden, user claims wait for PHYSICAL_WORD_PROVEN, and zero false exact, wrong-scene, silent apply, replay, comment-loss, and network vetoes remain enforced."
+      "sha256": "88eb2e89e54444b15804bb2b7a47c4fad7f24186affa0ecfc2c056a7d66492df",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
+      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
+      "rationale": "Approve V4 capability profile E02 update: upgrades locatorSurvivalLab cell to PHYSICAL_WORD_PROVEN for customDocumentProperty signed payload carrier only, keeps runtime apply and placement authority pending YRTK2/CoreManifest, and preserves no fixture-only, no false exact, no UI, no network, and Word-current-focus gates."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
@@ -5579,6 +5579,27 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration contract: proves exact owner artifact digest, active binding through CANON_STATUS and RTK program state, complete Feature Integration Manifest fields, capability status vector, taint model, reason registry, C05 immediate consumer cell, and negative red cases for digest drift, missing manifest field, premature physical Word claim, premature Google execution, and missing consumer."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
+      "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
+      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
+      "rationale": "Approve V4 E02 locator stack survival receipt: binds committed physical C01 Word-created open-edit-save-close-reopen carrier evidence, selects custom document property only as signed locator payload carrier, rejects customXml/docVars/hidden/bookmark/SDT authority, keeps placement signals non-authoritative, requires YRTK2/CoreManifest before runtime authority, preserves Word-only sequencing, adds no UI, network, dependency, parser authority, or automatic apply expansion, and records local CLI/focused/governance/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
+      "sha256": "a7e1023568c6ab01a8e97144f6f2e15ebc521ba0179a7c643353a25d02725c32",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
+      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
+      "rationale": "Approve V4 E02 ops-only locator stack verifier: evaluates committed E02 receipt against byte-bound V4 spec and physical C01 receipt, rejects stale source evidence, fragile carriers, placement/apply overclaims, runtime broadening, Google sequencing drift, and requires no Word launch in CI."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js",
+      "sha256": "e8d5c8f3530738e1ab717d7634a7d8dc44c7a076f2f32ff76cb9ff8db834c291",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
+      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
+      "rationale": "Approve V4 E02 contract coverage: proves physical C01 evidence binding, custom document property carrier selection, fragile carrier rejection, placement-signal non-authority, capability state update, no YRTK2/runtime apply claim, and negative red cases for stale evidence, customXml selection, overclaim, runtime expansion, and Google drift."
     }
   ]
 }

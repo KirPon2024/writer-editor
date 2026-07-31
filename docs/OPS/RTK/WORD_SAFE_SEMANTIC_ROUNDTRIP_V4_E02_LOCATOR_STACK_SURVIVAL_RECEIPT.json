@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e02-locator-stack-survival-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_02_LOCATOR_STACK_SURVIVAL_LAB",
+  "status": "PASS_READY_FOR_DELIVERY_CHAIN",
+  "createdAtUtc": "2026-07-31T04:45:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "839d8c80e5fc71b9b6fcb097703a2f10678bbb93",
+    "branch": "codex/rtk-v4-e02-locator-survival-lab",
+    "headAtStageStart": "839d8c80e5fc71b9b6fcb097703a2f10678bbb93",
+    "precedingV4IntegrationPr": 1276,
+    "precedingV4IntegrationMergeSha": "839d8c80e5fc71b9b6fcb097703a2f10678bbb93"
+  },
+  "canonicalSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "blockId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4"
+  },
+  "physicalEvidence": {
+    "sourceReceiptPath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C01_LOCATOR_CARRIER_RECEIPT.json",
+    "sourceReceiptSha256": "10ae30f52121c84e3f6e8f780a47c124d6796e0349a9b576ec7c8551ebaad34b",
+    "sourceSchemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.c01-locator-carrier-receipt.v1",
+    "sourceStageId": "C01_WORD_SATURATION_LOCATOR_AUTHORITY_CARRIER_AB",
+    "sourceResult": "PASS",
+    "sourceRunDir": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier/c01-physical-007",
+    "sourceArtifactRoot": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/c01-locator-carrier",
+    "observedProfileId": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+    "requestedProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "wordVersionByBundle": "16.111.1",
+    "wordVersionByAppleScript": "16.111.1",
+    "caseCount": 5,
+    "mutatingCaseCount": 4,
+    "wordCreatedBaseDocx": true,
+    "openEditSaveCloseReopenAllPass": true,
+    "packageZipOkAll": true,
+    "physicalWordActionsCovered": [
+      "comment",
+      "delete",
+      "insert"
+    ],
+    "customDocumentPropertySurvivedAllMutatingCases": true,
+    "customDocumentPropertyVerifiedAllMutatingCases": true,
+    "customXmlSurvivedAllMutatingCases": false,
+    "settingsDocVarSurvivedAllMutatingCases": false
+  },
+  "locatorStackDecision": {
+    "result": "SELECT_CUSTOM_DOCUMENT_PROPERTY_FOR_SIGNED_LOCATOR_PAYLOAD_ONLY",
+    "blockPlacementAuthoritySelected": false,
+    "blockPlacementAuthorityReason": "No inline Word block carrier is selected as apply placement authority in E02; block placement remains subject to local baseline, exact block/range evidence, and later SourceMap or YRTK2 contours.",
+    "noOpinionSelection": true,
+    "physicalEvidenceRequired": true,
+    "physicalEvidenceSatisfiedBy": "WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C01_LOCATOR_CARRIER_RECEIPT"
+  },
+  "selectedCarrier": {
+    "carrier": "customDocumentProperty",
+    "selectedFromPhysicalEvidence": true,
+    "authorityRole": "SIGNED_LOCATOR_PAYLOAD_CARRIER_NOT_PLACEMENT_AUTHORITY",
+    "visibleToAuthor": false,
+    "survivedAllMutatingCases": true,
+    "verifiedAllMutatingCases": true,
+    "carries": [
+      "roundId",
+      "exportId",
+      "sceneId",
+      "sceneRevision",
+      "blockId",
+      "rawSha256",
+      "blockTextSha256",
+      "YRTK2 future HMAC payload"
+    ],
+    "requiresYrtk2BeforeRuntimeAuthority": true,
+    "requiresCoreManifestExportMapBeforeProductUse": true,
+    "runtimeApplyAuthorityGranted": false
+  },
+  "rejectedAuthorityCarriers": [
+    {
+      "carrier": "customXmlManifest",
+      "authorityAllowed": false,
+      "reasonCode": "V4_E02_CUSTOM_XML_DROPPED_AFTER_MUTATING_WORD_SAVE",
+      "observed": "survived no-edit save but was absent after tracked/commented mutating Word saves on C01 profile"
+    },
+    {
+      "carrier": "settingsDocVar",
+      "authorityAllowed": false,
+      "reasonCode": "V4_E02_SETTINGS_DOCVAR_NOT_SURVIVED",
+      "observed": "not present or not verified in committed C01 cases"
+    },
+    {
+      "carrier": "hiddenRun",
+      "authorityAllowed": false,
+      "reasonCode": "V4_E02_HIDDEN_RUN_VISIBLE_OR_LOST",
+      "observed": "author-visible if present and not a quiet carrier"
+    },
+    {
+      "carrier": "bookmarkName",
+      "authorityAllowed": false,
+      "reasonCode": "V4_E02_BOOKMARK_NOT_AUTHORITY",
+      "observed": "not preserved as C01 authority carrier and cannot carry authenticated payload alone"
+    },
+    {
+      "carrier": "sdtTag",
+      "authorityAllowed": false,
+      "reasonCode": "V4_E02_SDT_TAG_NOT_AUTHORITY",
+      "observed": "not preserved as C01 authority carrier and cannot carry authenticated payload alone"
+    }
+  ],
+  "placementSignals": [
+    {
+      "signal": "w14ParaIdTextId",
+      "status": "PLACEMENT_SIGNAL_FOR_LATER_SOURCEMAP_ONLY",
+      "applyAuthority": false,
+      "reason": "Word-native paragraph identities may help mapping but do not authenticate round or block identity."
+    },
+    {
+      "signal": "bookmarkName",
+      "status": "REJECTED_AS_AUTHORITY_KEEP_AS_OPTIONAL_DIAGNOSTIC",
+      "applyAuthority": false,
+      "reason": "Bookmark survival or duplication cannot override signed locator and local baseline guards."
+    },
+    {
+      "signal": "sdtTag",
+      "status": "REJECTED_AS_AUTHORITY_KEEP_AS_OPTIONAL_DIAGNOSTIC",
+      "applyAuthority": false,
+      "reason": "Content controls are not selected without separate survival and author-experience evidence."
+    },
+    {
+      "signal": "prefixSuffixFingerprint",
+      "status": "MANUAL_RECOVERY_SIGNAL_ONLY",
+      "applyAuthority": false,
+      "reason": "Fingerprint cannot create fuzzy exact or global text search authority."
+    }
+  ],
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "automaticApplyExpanded": false,
+    "parserAuthorityIntegrated": false,
+    "yrtk2Implemented": false,
+    "keyLifecycleImplemented": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "exactRateMeasuredNotGamed": true
+  },
+  "sequencing": {
+    "wordSaturationCurrentFocus": true,
+    "googleDocsOpened": false,
+    "googleDocsNextAfterWordSaturation": true,
+    "otherEditorsRemainFutureMasterPlan": true,
+    "masterPlanReduced": false
+  },
+  "nextStage": "EXECUTION_03_COREMANIFEST_EXPORTMAP_HASHTREE_YRTK2",
+  "testEvidence": {
+    "e02Cli": {
+      "command": "node scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
+      "status": "PASS",
+      "selectedCarrier": "customDocumentProperty",
+      "sourceC01Status": "PASS"
+    },
+    "e02FocusedContract": {
+      "command": "node --test test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0
+    },
+    "combinedFocusedContracts": {
+      "command": "node --test test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js test/contracts/governance-approval-state.contract.test.js test/contracts/governance-change-detection.contract.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "tests": 25,
+      "pass": 25,
+      "fail": 0
+    },
+    "governanceChangeDetection": "PASS",
+    "ossPolicy": "PASS",
+    "opsPolicy": "PASS",
+    "gitDiffCheck": "PASS",
+    "fullLocalRunner": {
+      "command": "npm test -- --runInBand",
+      "tests": 795,
+      "pass": 731,
+      "fail": 0,
+      "skipped": 64,
+      "perfBaseline": "PASS",
+      "menuAndReleaseChecks": "PASS"
+    }
+  }
+}

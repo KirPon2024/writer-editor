@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+  "programStage": "ER_AUDIT_REPAIR_2026_07_31",
+  "status": "DELIVERED_CODE_VALIDATED_LOCALLY_READY_FOR_DELIVERY_CHAIN",
+  "readinessDefault": "NOT_READY",
+  "designToolRouter": "NOT_APPLICABLE",
+  "generatedAtUtc": "2026-07-31T06:02:00.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-er-c01",
+    "baseSha": "d1349c5ff93994242f8932380732154b65767ef7",
+    "originMainSha": "d1349c5ff93994242f8932380732154b65767ef7",
+    "branchHeadSha": "d1349c5ff93994242f8932380732154b65767ef7",
+    "deliveryCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "targetBinding": {
+    "sha": "d1349c5ff93994242f8932380732154b65767ef7",
+    "platform": "macOS-local-dev",
+    "profile": "release-local-validation",
+    "timestampUtc": "2026-07-31T06:02:00.000Z",
+    "artifactDigest": "c77ac8fc54b7d8808299ab664d43de25ea15288db77558b47e9111fe605ad7db",
+    "artifactIdentity": "tmp:yalken-er-c01-full-runner.log"
+  },
+  "implementedBoundary": {
+    "scopeIn": [
+      "Core evidence anchor normalization no-loss envelope",
+      "Atlas text anchor packet offsetDomains alias",
+      "evidence reattachment inbox no-loss anchor normalization",
+      "reattachment candidate Unicode anchor metadata",
+      "Core-internal AtlasEvidenceAnchorState extension",
+      "negative contract tests for field loss and legacy no-invention",
+      "heatmap explicit-open behavioral contract repair"
+    ],
+    "scopeOut": [
+      "Stage 11 platform certification",
+      "Stage 01, 02, 03, or 05 user outcome recertification",
+      "new UI design contract",
+      "new storage adapter",
+      "new worker",
+      "network or paid runtime dependency",
+      "automatic evidence reattachment",
+      "release readiness claim"
+    ]
+  },
+  "runtimeFacts": {
+    "unicodeAnchorFieldsPreservedByCoreCommands": true,
+    "unknownFutureAnchorFieldsPreserved": true,
+    "legacyMinimalAnchorsAcceptedWithoutInventedFields": true,
+    "confirmationPreservesExtendedAnchor": true,
+    "suppressionPreservesExtendedAnchor": true,
+    "reassignmentPreservesExtendedAnchor": true,
+    "reattachmentPreservesStaleAndNewExtendedAnchors": true,
+    "commentsHistoryAnchorIntegrityFailuresRemaining": 0,
+    "heatmapContractNoLongerUsesBrittleSourceProximityRegex": true,
+    "stage11Started": false
+  },
+  "preservedEvidenceAnchorFields": [
+    "adapterOffsetDomain",
+    "offsetDomains",
+    "canonicalOffsetDomains",
+    "codePointRange",
+    "graphemeRange",
+    "normalizationMap",
+    "prefixSelector",
+    "suffixSelector",
+    "unknownFutureFields"
+  ],
+  "persistenceCoverage": [
+    "Core author truth decisions",
+    "Core author truth suppressions",
+    "Core author truth reassignments",
+    "Core author truth evidenceReattachments",
+    "JSON save/reopen clone",
+    "ExportIR authorData preservation via E09 C03 adjacent contract",
+    "evidence reattachment inbox collect and candidate paths"
+  ],
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "E01_STAGE_01_EXACT_ATLAS_USER_OUTCOME",
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME",
+    "E03_STAGE_03_PLOT_IDEA_MEANING_USER_OUTCOME",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E10_STAGE_10_ACCEPTANCE_READINESS",
+    "E11_STAGE_11_PLATFORM_CERTIFICATION_NOT_STARTED"
+  ],
+  "repairOrder": [
+    "ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+    "ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+    "ER_C02_SINGLE_QUERY_REGISTRY_AND_RUNTIME_PARITY",
+    "ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+    "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH",
+    "ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
+    "ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+    "ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+    "E11_ACTIVE_PLATFORM_CERTIFICATION",
+    "EFINAL"
+  ],
+  "negativeChecks": [
+    {
+      "id": "command-kernel-field-loss",
+      "result": "PASS",
+      "summary": "Core command normalization preserves extended Unicode anchor metadata and unknown future fields instead of rebuilding a narrow anchor object."
+    },
+    {
+      "id": "legacy-field-invention",
+      "result": "PASS",
+      "summary": "Legacy minimal anchors remain accepted and do not gain adapterOffsetDomain, offsetDomains, codePointRange, or normalizationMap."
+    },
+    {
+      "id": "reattachment-source-mismatch-regression",
+      "result": "PASS",
+      "summary": "Reattachment inbox preserves source anchors and candidates with matching no-loss envelopes, keeping stale-source and capability flows green."
+    },
+    {
+      "id": "heatmap-source-regex-staleness",
+      "result": "PASS",
+      "summary": "Heatmap contract binds explicit-open behavior and closed-shell refresh routing instead of a brittle source-proximity regex."
+    }
+  ],
+  "validation": [
+    {
+      "id": "focused-er-c01-anchor-and-adjacent",
+      "command": "node --test test/contracts/yalken-atlas-v5-e07-c02-unicode-evidence-anchor-offset-domain-normalization-map.contract.test.js test/contracts/yalken-atlas-v5-e04-c05-atlas-evidence-reattachment-review-inbox.contract.test.js test/contracts/yalken-atlas-v5-e04-c04-atlas-entity-merge-split-reassign-restore.contract.test.js test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js test/contracts/yalken-atlas-v5-e09-c03-atlas-export-ir-readable-json-unknown-field-preservation.contract.test.js test/contracts/yalken-atlas-v5-e06-c04-atlas-continuity-fact-ledgers-command-boundary.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "f6fb77455b21dca9a30aa487ca79c9deb2d9eb8dd172f4ee8ae9ecf42a981c56",
+      "summary": "Focused contracts: 30 tests, 30 pass, 0 fail, 0 skipped."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "Diff whitespace check completed with empty stdout and stderr."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "2e702b9459d20e209ece95ae7f810b0f5ec1b51e16de7d1fb6e5bdb282ec95ad",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1, references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "00483fad927a30ec13ba21105295daef9c4d9cfbc56e0566ea8087a9c1a7fb4c",
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "a9c8a6e68d6113477705a5b59af679d48d3a3510091f074b72aafd6f34033941",
+      "summary": "Governance change detection ok true, missing approvals empty, approval registry valid, receipt included."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "d1634aa350e31eac331c06db8a0d9f13707c29abc9f056c514641a39ff80c36e",
+      "summary": "Current wave guard PASS in release mode, strict doctor exit 0, boundary guard exit 0, strict lie classes OK."
+    },
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "ae4d280d1967012ac2215656cc2ee6ddbcec39f17683439462c94883601c6ff6",
+      "summary": "Renderer bundle rebuilt successfully."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "c77ac8fc54b7d8808299ab664d43de25ea15288db77558b47e9111fe605ad7db",
+      "summary": "Full runner: 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
+    }
+  ],
+  "nextExecutableContour": "ER_C02_SINGLE_QUERY_REGISTRY_AND_RUNTIME_PARITY"
+}

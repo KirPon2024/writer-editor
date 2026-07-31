@@ -75,6 +75,7 @@ test('E07 C02: text offset map preserves original Unicode while exposing UTF16 c
     assert.equal(packet.schemaVersion, derived.ATLAS_TEXT_ANCHOR_PACKET_SCHEMA_VERSION);
     assert.equal(packet.evidenceAnchor.quote, entry.target);
     assert.equal(packet.evidenceAnchor.adapterOffsetDomain, derived.ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT);
+    assert.deepEqual(packet.evidenceAnchor.offsetDomains, offsetMap.offsetDomains);
     assert.equal(packet.originalQuotePreserved, true);
     assert.equal(packet.destructiveNormalizationApplied, false);
     assert.match(packet.evidenceAnchor.quoteHash, /^[0-9a-f]{64}$/u);
@@ -107,6 +108,11 @@ test('E07 C02: mention evidence anchors carry offset-domain and normalization pr
     assert.equal(anchor.sceneId, sceneId);
     assert.equal(anchor.quote, quote);
     assert.equal(anchor.adapterOffsetDomain, derived.ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT);
+    assert.deepEqual(anchor.offsetDomains, [
+      derived.ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT,
+      derived.ATLAS_TEXT_OFFSET_DOMAIN.UNICODE_CODE_POINT,
+      derived.ATLAS_TEXT_OFFSET_DOMAIN.GRAPHEME_CLUSTER,
+    ]);
     assert.deepEqual(anchor.canonicalOffsetDomains, [
       derived.ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT,
       derived.ATLAS_TEXT_OFFSET_DOMAIN.UNICODE_CODE_POINT,
@@ -121,6 +127,147 @@ test('E07 C02: mention evidence anchors carry offset-domain and normalization pr
   assert.equal(byQuote.get('Café').evidenceAnchor.normalizationMap.changedByNfc, true);
   assert.equal(byQuote.get('👩‍💻').evidenceAnchor.graphemeRange.length, 1);
 });
+
+test('ER C01: Command Kernel preserves Unicode anchor schema fields and unknown future fields', async () => {
+  const { projectId, sceneId, text, state } = await buildUnicodeProjectFixture();
+  const runtime = await loadModule(path.join('src', 'core', 'runtime.mjs'));
+  const derived = await loadModule(path.join('src', 'derived', 'index.mjs'));
+  const result = derived.deriveAtlasMentionIndex({ coreState: state, params: { projectId } });
+  assert.equal(result.ok, true);
+  const cafe = result.value.mentions.find((mention) => mention.evidenceAnchor.quote === 'Café');
+  const developer = result.value.mentions.find((mention) => mention.evidenceAnchor.quote === '👩‍💻');
+  assert.ok(cafe);
+  assert.ok(developer);
+  const richCafeAnchor = {
+    ...cafe.evidenceAnchor,
+    futureRelocationHints: {
+      schemaVersion: 'future.atlas.anchorRelocationHints.v1',
+      preferDeclaredNormalization: true,
+      weights: [1, 2, 3],
+    },
+  };
+  const richDeveloperAnchor = {
+    ...developer.evidenceAnchor,
+    futureRelocationHints: {
+      schemaVersion: 'future.atlas.anchorRelocationHints.v1',
+      preferDeclaredNormalization: true,
+      weights: [5, 8, 13],
+    },
+  };
+
+  const confirmed = runtime.reduceCoreState(state, {
+    type: runtime.CORE_COMMAND_IDS.ATLAS_MENTION_CONFIRM,
+    payload: {
+      projectId,
+      sceneId,
+      entityId: 'entity-cafe',
+      mentionId: cafe.mentionId,
+      evidenceAnchor: richCafeAnchor,
+      decisionId: 'decision-cafe-rich-anchor',
+    },
+  });
+  assert.equal(confirmed.ok, true);
+  const decision = confirmed.state.data.projects[projectId].atlas.decisions['decision-cafe-rich-anchor'];
+  assert.deepEqual(decision.evidenceAnchor, richCafeAnchor);
+
+  const suppressed = runtime.reduceCoreState(confirmed.state, {
+    type: runtime.CORE_COMMAND_IDS.ATLAS_OBSERVATION_SUPPRESS,
+    payload: {
+      projectId,
+      sceneId,
+      entityId: 'entity-dev',
+      mentionId: developer.mentionId,
+      evidenceAnchor: richDeveloperAnchor,
+      suppressionId: 'suppression-dev-rich-anchor',
+      reason: 'reviewed duplicate',
+    },
+  });
+  assert.equal(suppressed.ok, true);
+  const suppression = suppressed.state.data.projects[projectId].atlas.suppressions['suppression-dev-rich-anchor'];
+  assert.deepEqual(suppression.evidenceAnchor, richDeveloperAnchor);
+
+  const reassigned = runtime.reduceCoreState(suppressed.state, {
+    type: runtime.CORE_COMMAND_IDS.ATLAS_OBSERVATION_REASSIGN,
+    payload: {
+      projectId,
+      sceneId,
+      sourceEntityId: 'entity-dev',
+      targetEntityId: 'entity-bidi',
+      mentionId: developer.mentionId,
+      evidenceAnchor: richDeveloperAnchor,
+      reassignmentId: 'reassignment-dev-rich-anchor',
+      reason: 'explicit author correction',
+    },
+  });
+  assert.equal(reassigned.ok, true);
+  const reassignment = reassigned.state.data.projects[projectId].atlas.reassignments['reassignment-dev-rich-anchor'];
+  assert.deepEqual(reassignment.evidenceAnchor, richDeveloperAnchor);
+
+  const reattached = runtime.reduceCoreState(reassigned.state, {
+    type: runtime.CORE_COMMAND_IDS.ATLAS_EVIDENCE_REATTACH,
+    payload: {
+      projectId,
+      sourceRecordKind: 'decision',
+      sourceRecordId: 'decision-cafe-rich-anchor',
+      staleEvidenceAnchor: richCafeAnchor,
+      newEvidenceAnchor: richDeveloperAnchor,
+      reattachmentId: 'reattachment-rich-anchor',
+      reason: 'manual relocation',
+    },
+  });
+  assert.equal(reattached.ok, true);
+  const ledger = reattached.state.data.projects[projectId].atlas.evidenceReattachments['reattachment-rich-anchor'];
+  assert.deepEqual(ledger.staleEvidenceAnchor, richCafeAnchor);
+  assert.deepEqual(ledger.newEvidenceAnchor, richDeveloperAnchor);
+
+  const reopened = JSON.parse(JSON.stringify(reattached.state));
+  assert.deepEqual(
+    reopened.data.projects[projectId].atlas.evidenceReattachments['reattachment-rich-anchor'].newEvidenceAnchor,
+    richDeveloperAnchor,
+  );
+  assert.equal(reopened.data.projects[projectId].atlas.decisions['decision-cafe-rich-anchor'].evidenceAnchor.normalizationMap.originalUtf16Length, text.length);
+});
+
+test('ER C01: legacy minimal anchors remain accepted without invented Unicode fields', async () => {
+  const { projectId, sceneId, state } = await buildUnicodeProjectFixture();
+  const runtime = await loadModule(path.join('src', 'core', 'runtime.mjs'));
+  const quote = 'Café';
+  const startOffset = state.data.projects[projectId].scenes[sceneId].text.indexOf(quote);
+  const minimalAnchor = {
+    schemaVersion: 'atlas.evidenceAnchor.v1',
+    anchorId: 'legacy-anchor-cafe',
+    projectId,
+    sceneId,
+    entityId: 'entity-cafe',
+    startOffset,
+    endOffset: startOffset + quote.length,
+    quote,
+    quoteHash: derivedHashFixture(await loadModule(path.join('src', 'derived', 'index.mjs')), quote),
+    sceneTextHash: derivedHashFixture(await loadModule(path.join('src', 'derived', 'index.mjs')), state.data.projects[projectId].scenes[sceneId].text),
+  };
+  const confirmed = runtime.reduceCoreState(state, {
+    type: runtime.CORE_COMMAND_IDS.ATLAS_MENTION_CONFIRM,
+    payload: {
+      projectId,
+      sceneId,
+      entityId: 'entity-cafe',
+      mentionId: 'legacy-cafe-mention',
+      evidenceAnchor: minimalAnchor,
+      decisionId: 'decision-legacy-minimal-anchor',
+    },
+  });
+  assert.equal(confirmed.ok, true);
+  const stored = confirmed.state.data.projects[projectId].atlas.decisions['decision-legacy-minimal-anchor'].evidenceAnchor;
+  assert.deepEqual(stored, minimalAnchor);
+  assert.equal(Object.hasOwn(stored, 'adapterOffsetDomain'), false);
+  assert.equal(Object.hasOwn(stored, 'offsetDomains'), false);
+  assert.equal(Object.hasOwn(stored, 'codePointRange'), false);
+  assert.equal(Object.hasOwn(stored, 'normalizationMap'), false);
+});
+
+function derivedHashFixture(derived, value) {
+  return derived.hashCanonicalValue(value);
+}
 
 test('E07 C02: Unicode anchor helpers export through derived barrels', async () => {
   const derived = await loadModule(path.join('src', 'derived', 'index.mjs'));

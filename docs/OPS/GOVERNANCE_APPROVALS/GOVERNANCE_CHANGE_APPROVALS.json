@@ -493,10 +493,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e07-c02-unicode-evidence-anchor-offset-domain-normalization-map.contract.test.js",
-      "sha256": "f4e660a4d8fdfd4a6bff71021bc051ee435f86f1ca3ca299686f207824cd7e69",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E07_C02_UNICODE_EVIDENCE_ANCHOR_OFFSET_DOMAIN_AND_NORMALIZATION_MAP",
-      "approvedAtUtc": "2026-07-30T06:02:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E07 C02 contract: proves text offset maps preserve original Unicode while exposing UTF16, code point, and grapheme domains, mention evidence anchors carry adapter offset domain, canonical offset domains, prefix and suffix selectors, normalization map hashes, and quote-preservation proof, exports helper symbols through derived barrels, and keeps Unicode anchor sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, runtime download, dynamic executable plugins, destructive normalization, manuscript mutation, project truth mutation, or hidden UI bypasses."
+      "sha256": "0839428031a4476bccd4f09e3b94d31ca14656bb3f6e7457eb70e6d9f94febb0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+      "approvedAtUtc": "2026-07-31T05:46:00.000Z",
+      "rationale": "Approve ER C01 Unicode anchor integrity contract expansion over the E07 C02 base: proves evidence anchors expose both offsetDomains and canonicalOffsetDomains, Command Kernel confirm, suppression, reassignment, and reattachment preserve adapterOffsetDomain, codePointRange, graphemeRange, normalizationMap, prefixSelector, suffixSelector, and unknown future fields through JSON reopen, legacy minimal anchors stay accepted without invented Unicode fields, and Unicode anchor sources remain free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, runtime download, dynamic executable plugins, destructive normalization, manuscript mutation, project truth mutation, or hidden UI bypasses."
     },
     {
       "filePath": "test/fixtures/atlas/language/unicode-edge-corpus.json",
@@ -675,10 +675,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
-      "sha256": "99bd2f478842c41aceb467fbd6f8f2bdfbfd7c75190d247e9de68088af652167",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF",
-      "approvedAtUtc": "2026-07-30T02:14:33.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E05 C05 heatmap large UI budget proof contract: proves derived atlas heatmap packet, explicit heavy-surface open requirement, viewport tile budget proof, typing hot-path nonblocking guard, legend/list degraded fallback, renderer/main typed host wiring, and side-effect boundaries while preserving no project truth mutation, no storage write, no network service, no background daemon, no command bypass, no semantic heatmap palette dependency, no product runtime dependency, and no release readiness widening."
+      "sha256": "c9bfb5ac5dfb63f03d5d89cf36e092b1d2b3bc80bb853566464a247ec3f04b69",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+      "approvedAtUtc": "2026-07-31T05:46:00.000Z",
+      "rationale": "Approve ER C01 heatmap contract repair over the E05 C05 base: replaces stale proximity/source-regex assertion with behavior-bound explicit-open evidence, proving derived Atlas heatmap packet, explicit heavy-surface open requirement, viewport tile budget proof, typing hot-path nonblocking guard, legend/list degraded fallback, applyRightTab renders the closed heatmap shell without querying, openAtlasHeatmapSurface is the only path that flips explicit open and invokes refresh, renderer/main typed host wiring, and side-effect boundaries while preserving no project truth mutation, no storage write, no network service, no background daemon, no command bypass, no semantic heatmap palette dependency, no product runtime dependency, and no release readiness widening."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF_RECEIPT.json",
@@ -5677,6 +5677,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
       "approvedAtUtc": "2026-07-31T05:10:00.000Z",
       "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY_RECEIPT.json",
+      "sha256": "ea72b5a3d5685955bb2ad7bd5150ac144a89a7ae6e27a6c7ae689307e51b0f5e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+      "approvedAtUtc": "2026-07-31T06:02:00.000Z",
+      "rationale": "Approve ER C01 receipt: records no-loss Unicode evidence anchor schema preservation through Core confirm, suppression, reassignment, reattachment, JSON reopen, ExportIR adjacent preservation, and reattachment inbox candidate paths; records legacy minimal no-invention, stale heatmap contract repair, focused 30/30 PASS, diff, doctrine, OSS, governance, test:ops, renderer build, and full runner PASS evidence, with no Stage 11 start, no user-outcome recertification, no UI design change, no storage adapter, no network dependency, and no release readiness claim."
     }
   ]
 }

@@ -2054,7 +2054,15 @@ function normalizeEvidenceAnchor(value) {
   if (!anchorId || !quoteHash || !sceneTextHash || !Number.isInteger(startOffset) || !Number.isInteger(endOffset) || endOffset < startOffset) {
     return null;
   }
+  let preserved = {};
+  try {
+    const cloned = cloneJson(value);
+    preserved = isPlainObject(cloned) ? cloned : {};
+  } catch {
+    preserved = {};
+  }
   return {
+    ...preserved,
     schemaVersion: trimString(value.schemaVersion) || 'atlas.evidenceAnchor.v1',
     anchorId,
     projectId: trimString(value.projectId),

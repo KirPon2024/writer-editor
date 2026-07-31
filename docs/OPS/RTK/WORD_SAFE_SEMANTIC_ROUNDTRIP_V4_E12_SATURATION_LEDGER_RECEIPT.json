@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED",
+  "status": "WORD_SATURATION_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -133,6 +133,13 @@
       "sha256": "18091c36f06ff85cbe6c013e61b3c9cb24d7207fbcd9feb013465ddfd03e9169",
       "status": "BOUND",
       "description": "customXml mutating-save authority limitation is resolved by rejecting customXml authority and binding the C01/C02 customDocumentProperty carrier path"
+    },
+    {
+      "id": "E12_MULTI_SCENE_APPLY_LIMITATION",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json",
+      "sha256": "756088df415249ed87a037f53fb6dc0b4044a5ee97ff1245a1dcf97f37db4362",
+      "status": "BOUND",
+      "description": "multi-scene apply remains a typed shadow-only limitation until a later writer-authority contour proves runtime apply without false exact or partial canonical writes"
     }
   ],
   "coverageLedger": {
@@ -210,6 +217,11 @@
       "status": "BOUND",
       "sourceEvidence": "E12_CUSTOM_XML_AUTHORITY_REROUTE",
       "outcome": "CUSTOM_XML_AUTHORITY_REJECTED_AND_REROUTED_TO_CUSTOM_DOCUMENT_PROPERTY"
+    },
+    "multiSceneApplyFollowup": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_MULTI_SCENE_APPLY_LIMITATION",
+      "outcome": "MULTI_SCENE_APPLY_REMAINS_SHADOW_ONLY_TYPED_LIMITATION_WITH_ZERO_VETO"
     }
   },
   "aggregateTotals": {
@@ -248,7 +260,10 @@
     "modernCommentAppleScriptDeleteCertified": 0,
     "customXmlAuthorityFollowupCases": 1,
     "customDocumentPropertyMutatingSurvivalCases": 4,
-    "customXmlMutatingAuthorityAllowed": 0
+    "customXmlMutatingAuthorityAllowed": 0,
+    "multiSceneApplyFollowupCases": 1,
+    "automaticMultiSceneApplyCertified": 0,
+    "falseMultiSceneApplyCertification": 0
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -261,8 +276,7 @@
     "falseSaturationClaim": 0
   },
   "notSaturatedReasons": [
-    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
-    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
+    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": false,
@@ -280,7 +294,7 @@
     "E12 wave 40 does not add automatic apply authority",
     "E12 wave 40 binds physical Word evidence and advances the next target to wave 100"
   ],
-  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION",
+  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
@@ -302,6 +316,7 @@
     "repeatWave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs --json --require-external",
     "parserGapFollowupVerifier": "PASS node scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs --json --require-files",
     "modernCommentFollowup": "PASS node scripts/ops/rtk-word-v4-e12-modern-comment-followup.mjs --run-physical --write-receipt --json commentsAfterReopen=5 replyThreadsCertified=0 resolveReopenCertified=0 deleteCertified=0 limitationConfirmed=1",
-    "customXmlAuthorityFollowup": "PASS node scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs --json --require-files customXmlAuthorityAllowed=0 selectedCarrier=customDocumentProperty falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0"
+    "customXmlAuthorityFollowup": "PASS node scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs --json --require-files customXmlAuthorityAllowed=0 selectedCarrier=customDocumentProperty falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
+    "multiSceneApplyFollowup": "PASS node scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs --json --require-files automaticMultiSceneApplyCertified=0 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0"
   }
 }

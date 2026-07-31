@@ -58,8 +58,11 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
     && ledgerRule.saturated === false
     && ledgerRule.googleDocsAllowedToOpen === false;
-  const ledgerIsModernCommentSuccessor = ledger.status === 'WORD_SATURATION_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED'
+  const ledgerIsModernCommentSuccessor = (
+    ledger.status === 'WORD_SATURATION_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED'
     || ledger.status === 'WORD_SATURATION_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED'
+    || ledger.status === 'WORD_SATURATION_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED'
+  )
     && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
     && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
     && ledgerRule.saturated === false
@@ -123,6 +126,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_16_111_2_E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED',
     'WORD_16_111_2_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED',
     'WORD_16_111_2_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED',
+    'WORD_16_111_2_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_NOT_SATURATED',
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_STABILITY_PROFILE_STATUS_INVALID', 'profile.status', 'Profile must bind the stability audit as complete not saturated.');
@@ -133,6 +137,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED',
     'MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED',
     'CUSTOM_XML_AUTHORITY_REROUTED_TO_CUSTOM_DOCUMENT_PROPERTY_NOT_SATURATED',
+    'MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED',
   ]);
   if (!cell || !allowedCapabilities.has(cell.currentCapability) || cell.state !== 'PHYSICAL_WORD_PROVEN') {
     add('RTK_V4_E12_STABILITY_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability cell must bind stability audit without saturation.');
@@ -145,6 +150,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED',
     'WORD_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED',
     'WORD_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED',
+    'WORD_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED',
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must bind the stability audit.');
@@ -155,6 +161,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_CONTINUE_REMAINING_WORD_LIMITATIONS',
     'EXECUTION_12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_CONTINUE_CUSTOM_XML_AUTHORITY',
     'EXECUTION_12_CUSTOM_XML_AUTHORITY_REROUTED_CONTINUE_MULTI_SCENE_APPLY_CERTIFICATION',
+    'EXECUTION_12_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_CONTINUE_MODERN_COMMENT_NATIVE_UI',
   ]);
   const allowedCurrentStages = new Set([
     'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',
@@ -162,6 +169,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES',
     'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS',
     'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_CUSTOM_XML_MUTATION_AUTHORITY',
+    'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION',
   ]);
   const allowedNextStages = new Set([
     NEXT_STAGE,
@@ -169,6 +177,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS',
     'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_CUSTOM_XML_MUTATION_AUTHORITY',
     'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION',
+    'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION',
   ]);
   if (!allowedStateStatuses.has(state.status)
     || !allowedCurrentStages.has(state.currentStage)

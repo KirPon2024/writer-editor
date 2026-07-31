@@ -13,12 +13,14 @@ const STABILITY_AUDIT_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-stability-limit
 const STABILITY_REPEAT_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs';
 const PARSER_GAP_FOLLOWUP_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs';
 const CUSTOMXML_FOLLOWUP_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs';
+const MULTI_SCENE_FOLLOWUP_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs';
 const WORD_SANDBOX_HELPER_PATH = 'scripts/ops/rtk-word-sandbox-work-root.mjs';
 const RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json';
 const STABILITY_AUDIT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json';
 const STABILITY_REPEAT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json';
 const PARSER_GAP_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json';
 const CUSTOMXML_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_FOLLOWUP_RECEIPT.json';
+const MULTI_SCENE_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json';
 const WAVE40_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json';
 const WAVE100_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json';
 const WAVE300_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json';
@@ -40,7 +42,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.status, 'WORD_SATURATION_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED');
+  assert.equal(receipt.status, 'WORD_SATURATION_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED');
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
   assert.equal(receipt.saturationRule.lastCompletedWaveTarget, 300);
@@ -48,7 +50,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
   assert.equal(receipt.saturationRule.currentWaveObservedRounds, 300);
   assert.equal(receipt.saturationRule.consecutiveStableApprovedWaves, 2);
   assert.equal(receipt.saturationRule.stableHistogram, true);
-  assert.equal(receipt.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION');
+  assert.equal(receipt.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
   assert.equal(receipt.saturationRule.saturated, false);
   assert.equal(receipt.saturationRule.googleDocsAllowedToOpen, false);
   assert.equal(receipt.notSaturatedReasons.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), false);
@@ -58,11 +60,11 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   const receipt = readJson(RECEIPT_PATH);
   const bindings = new Map(receipt.evidenceBindings.map((item) => [item.id, item]));
 
-  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK', 'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION', 'E12_CUSTOM_XML_AUTHORITY_REROUTE']) {
+  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK', 'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION', 'E12_CUSTOM_XML_AUTHORITY_REROUTE', 'E12_MULTI_SCENE_APPLY_LIMITATION']) {
     assert.equal(bindings.get(id).status, 'BOUND');
     assert.match(bindings.get(id).sha256, /^[0-9a-f]{64}$/u);
   }
-  for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300', 'physicalWave300Repeat', 'wave300ParserGapFollowup', 'modernCommentAppleScriptFollowup', 'customXmlAuthorityFollowup']) {
+  for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300', 'physicalWave300Repeat', 'wave300ParserGapFollowup', 'modernCommentAppleScriptFollowup', 'customXmlAuthorityFollowup', 'multiSceneApplyFollowup']) {
     assert.equal(receipt.coverageLedger[key].status, 'BOUND');
   }
   assert.equal(receipt.aggregateTotals.physicalRoundTripsObserved, 300);
@@ -86,6 +88,9 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   assert.equal(receipt.aggregateTotals.modernCommentAppleScriptProbeCases, 1);
   assert.equal(receipt.aggregateTotals.customXmlAuthorityFollowupCases, 1);
   assert.equal(receipt.aggregateTotals.customXmlMutatingAuthorityAllowed, 0);
+  assert.equal(receipt.aggregateTotals.multiSceneApplyFollowupCases, 1);
+  assert.equal(receipt.aggregateTotals.automaticMultiSceneApplyCertified, 0);
+  assert.equal(receipt.aggregateTotals.falseMultiSceneApplyCertification, 0);
   assert.equal(receipt.aggregateTotals.focusedE11CoordinatorContracts, 7);
 });
 
@@ -151,15 +156,30 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED');
+  assert.equal(profile.status, 'WORD_16_111_2_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_NOT_SATURATED');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'CUSTOM_XML_AUTHORITY_REROUTED_TO_CUSTOM_DOCUMENT_PROPERTY_NOT_SATURATED');
+  assert.equal(cell.currentCapability, 'MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED');
-  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_CUSTOM_XML_MUTATION_AUTHORITY');
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION');
+  assert.equal(program.status, 'WORD_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED');
+  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
+});
+
+test('V4 E12 multi-scene apply followup proves typed shadow-only limitation without runtime apply authority', async () => {
+  const verifier = await import(pathToFileURL(path.join(REPO_ROOT, MULTI_SCENE_FOLLOWUP_SCRIPT_PATH)).href);
+  const receipt = readJson(MULTI_SCENE_FOLLOWUP_RECEIPT_PATH);
+  const result = await verifier.evaluateWordV4E12MultiSceneApplyFollowup({ receipt, requireFiles: true });
+
+  assert.equal(result.status, 'PASS');
+  assert.deepEqual(result.issues, []);
+  assert.equal(receipt.certificationDecision.automaticMultiSceneApplyCertified, false);
+  assert.equal(receipt.certificationDecision.runtimeApplyAuthorityGranted, false);
+  assert.equal(receipt.certificationDecision.shadowCoordinatorAcceptedAsRuntimeApply, false);
+  assert.equal(receipt.resolvedLimitations.includes('AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED'), true);
+  assert.equal(receipt.remainingWordLimitations.includes('AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED'), false);
+  assert.equal(receipt.saturated, false);
 });
 
 test('V4 E12 customXml authority followup proves reroute without customXml authority', async () => {

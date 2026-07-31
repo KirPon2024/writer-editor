@@ -78,6 +78,6 @@ test('E12 saturation ledger binds customXml reroute and removes the old blocker 
   assert.equal(ledger.coverageLedger.customXmlAuthorityFollowup.status, 'BOUND');
   assert.equal(ledger.notSaturatedReasons.includes('CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY'), false);
   assert.equal(ledger.saturationRule.saturated, false);
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION');
+  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_12_WORD_LIMITATION_FOLLOWUP_(MULTI_SCENE_APPLY_CERTIFICATION|MODERN_COMMENT_NATIVE_UI_CERTIFICATION)$/u);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });

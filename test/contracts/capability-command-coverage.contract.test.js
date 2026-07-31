@@ -40,11 +40,13 @@ test('command capability binding covers all baseline domain-mutating commands', 
   const bindingMap = loadBindingMap(binding.items);
   const project = await loadProjectModule();
   const capabilityPolicy = await loadCapabilityPolicyModule();
+  const product = require(path.join(process.cwd(), 'src', 'shared', 'productCommandRegistry.cjs'));
 
   const requiredCommandIds = [
     'project.create',
     'project.applyTextEdit',
     ...Object.values(project.COMMAND_IDS),
+    ...product.PRODUCT_COMMAND_ID_LIST,
   ];
 
   for (const commandId of requiredCommandIds) {
@@ -53,5 +55,9 @@ test('command capability binding covers all baseline domain-mutating commands', 
 
   for (const [commandId, capabilityId] of Object.entries(capabilityPolicy.CAPABILITY_BINDING)) {
     assert.equal(bindingMap.get(commandId), capabilityId, `runtime/docs capability binding drift on ${commandId}`);
+  }
+
+  for (const [commandId, capabilityId] of Object.entries(product.PRODUCT_COMMAND_CAPABILITY_BINDING)) {
+    assert.equal(capabilityPolicy.CAPABILITY_BINDING[commandId], capabilityId, `product registry/runtime capability drift on ${commandId}`);
   }
 });

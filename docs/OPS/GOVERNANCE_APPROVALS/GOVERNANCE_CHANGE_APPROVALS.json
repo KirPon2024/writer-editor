@@ -5673,10 +5673,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
-      "sha256": "31a30555fd2b856aeec08d2adb8848a1d9ab7987d052a4ba85fe95efba92465f",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 relation dossier contract rebind: verifies registry-bound relation query id and handler-map route, preserving contextual action intents, command-boundary assertions, no renderer mutation bypass, no UI design change, no dependency, and no network."
+      "sha256": "3b2dbc478d29cf819ba6809efa8bdafbbe8b358028f3cffa592b28cac558981a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 relation dossier contract repair: updates the former intent-only assertion to require Command Kernel dispatch for relation review actions while preserving typed query host wiring, no direct storage write, no Core reducer bypass, no UI design change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
@@ -5778,10 +5778,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "dcde2064158379bdcd633bf4d77169709c454486fd0a92b2817891c85dd2cecc",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
-      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
-      "rationale": "Approve E11 governance-tracked update: binds the post-D1 Word V4 multi-scene atomic coordinator contour as component-proven and shadow-only, preserving prior Word evidence, existing runtime authority, zero-veto invariants, and forward-compatible E06-E10 assertions without enabling automatic multi-scene product apply."
+      "sha256": "67479d720c37417b0f6073f0795b676b9c372041aa9fb8108cb98689b75d674c",
+      "approvedBy": "tickets:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR,YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T06:54:31.000Z",
+      "rationale": "Approve merged E11 plus ER C03 Sector M scope-map rebind: preserves the Word V4 E11 multi-scene coordinator allowlist additions and adds only exact DONE allowlist paths for src/core/registry.ts and src/shared/productCommandRegistry.cjs, with no wildcard prefixes, UI design change, dependency, network, runtime apply authority, or readiness certification."
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
@@ -5838,6 +5838,34 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
       "approvedAtUtc": "2026-07-31T14:33:00.000Z",
       "rationale": "Approve E11 contracts: prove deterministic multi-scene prepare and commit, stale root, duplicate scene, duplicate authority, receipt mismatch, premature canonical write, recovery classification, platform-neutral export and shadow-only program/profile truth."
+    },
+    {
+      "filePath": "test/contracts/capability-command-coverage.contract.test.js",
+      "sha256": "ab6c83291eafed4129ea36d668eb9fc46d983033780dc118cc0c089dd4a0869e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 capability coverage rebind: requires product command capability bindings from the shared product registry to match runtime policy and governance docs, preserving local-only execution, no dependency, no network, no UI design change, and no product readiness claim."
+    },
+    {
+      "filePath": "test/contracts/command-catalog.contract.test.js",
+      "sha256": "97fad53bf569ca86b444dff98a7493281ec37817d7a8623ef85460ffdfc06aa1",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 command catalog contract rebind: allows the existing cmd menu namespace and the shared product command namespace side by side, proves product catalog reachability and explicit Plot degraded status, and adds no menu namespace widening, dependency, network, UI design change, or readiness certification."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js",
+      "sha256": "83505c2858e7f82dfb7cb44bda3ec5b204c183838012a0a0a0a368f920b438c2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 focused contract: proves shared product command registry parity with Core Atlas Manual Map Idea and Meaning commands, renderer catalog and Command Kernel reachability, main bridge registry allowlist, fail-closed degraded adapter, relation action dispatch, explicit Plot no-mutating-command status, no direct UI storage mutation bypass, no dependency, and no network."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json",
+      "sha256": "a4e94e00fcb4856f22ffd4ed8f46f3f9972c5ecba105ee6495b35569564aa4cc",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T07:10:42.000Z",
+      "rationale": "Approve ER C03 receipt after origin/main drift merge: records command reachability and Command Kernel authority repair, product command registry parity, explicit Plot degraded status, relation review dispatch route, Sector M exact scope-map rebind, focused 21 test pass, post-drift full runner pass, no Stage 01 02 03 05 or Stage 11 certification, no dependency, no network, and no release readiness claim."
     }
   ]
 }

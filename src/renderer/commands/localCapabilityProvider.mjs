@@ -1,3 +1,7 @@
+import productCommandRegistry from '../../shared/productCommandRegistry.cjs';
+
+const { PRODUCT_COMMAND_ID_LIST } = productCommandRegistry;
+
 export const LOCAL_CAPABILITY_SCHEMA_VERSION = 'local-capability-provider.v1';
 
 export const LOCAL_ENTITLEMENT_TIERS = Object.freeze({
@@ -25,30 +29,7 @@ const FREE_PRO_COMPLEXITY_COMMAND_IDS = Object.freeze([
 const FREE_ALWAYS_AVAILABLE_COMMAND_IDS = Object.freeze([
   'project.create',
   'project.applyTextEdit',
-  'atlas.entity.create',
-  'atlas.alias.add',
-  'atlas.mention.confirm',
-  'atlas.observation.suppress',
-  'atlas.entity.merge',
-  'atlas.entity.splitRestore',
-  'atlas.observation.reassign',
-  'atlas.evidence.reattach',
-  'atlas.languageTag.set',
-  'atlas.languageTag.clear',
-  'atlas.seriesPortability.apply',
-  'atlas.seriesPortability.rollback',
-  'atlas.calendar.define',
-  'atlas.sceneTemporalAnchor.set',
-  'atlas.continuityFact.record',
-  'idea.create',
-  'idea.originLink.add',
-  'meaning.promote',
-  'manualMap.create',
-  'manualMap.node.add',
-  'manualMap.edge.add',
-  'manualMap.attachment.add',
-  'manualMap.portal.add',
-  'manualMap.template.apply',
+  ...PRODUCT_COMMAND_ID_LIST,
   'cmd.project.new',
   'cmd.project.open',
   'cmd.project.save',

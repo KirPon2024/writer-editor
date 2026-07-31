@@ -57,6 +57,11 @@ const {
   WORKSPACE_QUERY_IDS,
   WORKSPACE_QUERY_ID_LIST,
 } = require('./shared/workspaceQueryRegistry.cjs');
+const {
+  PRODUCT_COMMAND_ID_LIST,
+  PRODUCT_COMMAND_ID_SET,
+  getProductCommandRecord,
+} = require('./shared/productCommandRegistry.cjs');
 
 const launchT0 = performance.now();
 let mainWindow;
@@ -19036,7 +19041,9 @@ ipcMain.handle('ui:command-bridge', async (_, request) => {
   }
 
   try {
-    const result = await dispatchMenuCommand(commandId, payload, { route: COMMAND_BUS_ROUTE });
+    const result = PRODUCT_COMMAND_ID_SET.has(commandId)
+      ? await dispatchProductCommandBridge(commandId, payload)
+      : await dispatchMenuCommand(commandId, payload, { route: COMMAND_BUS_ROUTE });
     if (result && result.ok === true) {
       return { ok: true, value: result };
     }
@@ -20902,6 +20909,7 @@ const MENU_RUNTIME_ARTIFACT_ENV_PATH = 'MENU_RUNTIME_ARTIFACT_PATH';
 const MENU_RUNTIME_RAW_CONFIG_ENV_PATH = 'MENU_RUNTIME_RAW_CONFIG_PATH';
 const MENU_RUNTIME_LEGACY_RAW_CONFIG_ENV_PATH = 'MENU_CONFIG_PATH';
 const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
+  ...PRODUCT_COMMAND_ID_LIST,
   'cmd.project.new',
   'cmd.project.open',
   PROJECT_LIFECYCLE_CREATE_COMMAND_ID,
@@ -21946,6 +21954,44 @@ function normalizeUiBridgeMenuResult(result) {
     ...result,
     ok: true,
   };
+}
+
+function makeProductCommandBridgeError(commandId, code, reason, details = undefined) {
+  const error = {
+    code,
+    op: commandId,
+    reason,
+  };
+  if (isPlainObjectValue(details) && Object.keys(details).length > 0) {
+    error.details = cloneJsonSafe(details);
+  }
+  return { ok: false, error };
+}
+
+function dispatchProductCommandBridge(commandId, payload = {}) {
+  const record = getProductCommandRecord(commandId);
+  if (!record) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_PRODUCT_COMMAND_NOT_ALLOWED',
+      'PRODUCT_COMMAND_NOT_ALLOWED',
+    );
+  }
+
+  return makeProductCommandBridgeError(
+    commandId,
+    'E_PRODUCT_COMMAND_BACKEND_DEGRADED',
+    'PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER',
+    {
+      commandAuthority: record.commandAuthority,
+      capabilityId: record.capabilityId,
+      domain: record.domain,
+      runtimeBacked: record.runtimeBacked === true,
+      payloadAccepted: isPlainObjectValue(payload),
+      mutationApplied: false,
+      storageWritten: false,
+    },
+  );
 }
 
 function buildFontSubmenu(config) {

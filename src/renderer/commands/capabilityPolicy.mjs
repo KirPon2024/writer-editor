@@ -1,33 +1,12 @@
 import { resolveCommandEntitlement } from './localCapabilityProvider.mjs';
+import productCommandRegistry from '../../shared/productCommandRegistry.cjs';
+
+const { PRODUCT_COMMAND_CAPABILITY_BINDING } = productCommandRegistry;
 
 export const CAPABILITY_BINDING = Object.freeze({
   'project.create': 'cap.core.project.create',
   'project.applyTextEdit': 'cap.core.project.applyTextEdit',
-  'atlas.entity.create': 'cap.atlas.entity.create',
-  'atlas.alias.add': 'cap.atlas.alias.add',
-  'atlas.mention.confirm': 'cap.atlas.mention.confirm',
-  'atlas.observation.suppress': 'cap.atlas.observation.suppress',
-  'atlas.entity.merge': 'cap.atlas.entity.merge',
-  'atlas.entity.splitRestore': 'cap.atlas.entity.splitRestore',
-  'atlas.observation.reassign': 'cap.atlas.observation.reassign',
-  'atlas.evidence.reattach': 'cap.atlas.evidence.reattach',
-  'atlas.savedQuery.save': 'cap.atlas.savedQuery.save',
-  'atlas.languageTag.set': 'cap.atlas.languageTag.edit',
-  'atlas.languageTag.clear': 'cap.atlas.languageTag.edit',
-  'atlas.seriesPortability.apply': 'cap.atlas.seriesPortability.apply',
-  'atlas.seriesPortability.rollback': 'cap.atlas.seriesPortability.rollback',
-  'atlas.calendar.define': 'cap.atlas.calendar.define',
-  'atlas.sceneTemporalAnchor.set': 'cap.atlas.sceneTemporalAnchor.set',
-  'atlas.continuityFact.record': 'cap.atlas.continuityFact.record',
-  'idea.create': 'cap.idea.edit',
-  'idea.originLink.add': 'cap.idea.edit',
-  'meaning.promote': 'cap.meaning.edit',
-  'manualMap.create': 'cap.manualMap.edit',
-  'manualMap.node.add': 'cap.manualMap.edit',
-  'manualMap.edge.add': 'cap.manualMap.edit',
-  'manualMap.attachment.add': 'cap.manualMap.edit',
-  'manualMap.portal.add': 'cap.manualMap.edit',
-  'manualMap.template.apply': 'cap.manualMap.edit',
+  ...PRODUCT_COMMAND_CAPABILITY_BINDING,
   'cmd.project.new': 'cap.project.new',
   'cmd.project.lifecycle.create': 'cap.project.lifecycle.create',
   'cmd.project.lifecycle.open': 'cap.project.lifecycle.open',
@@ -507,6 +486,7 @@ function isDomainCommandId(commandId) {
     || commandId.startsWith('atlas.')
     || commandId.startsWith('idea.')
     || commandId.startsWith('meaning.')
+    || commandId.startsWith('manualMap.')
     || commandId.startsWith('cmd.project.');
 }
 

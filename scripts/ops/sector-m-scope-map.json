@@ -296,7 +296,10 @@
       "test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js",
       "scripts/ops/rtk-word-v4-e06-physical-text-certification.mjs",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
-      "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js"
+      "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "scripts/ops/rtk-word-v4-e07-comments-replies-states.mjs",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
+      "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

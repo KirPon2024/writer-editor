@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED",
-  "createdAtUtc": "2026-07-31T11:28:19.647Z",
+  "status": "WORD_SATURATION_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
     "branch": "codex/rtk-v4-e12-physical-wave-40",
@@ -112,6 +112,13 @@
       "sha256": "108f475c0776795f1f36fca710ec88529c2f88dc0e2de97be0ebabee54439623",
       "status": "BOUND",
       "description": "repeat 300 physical Word 16.111.2 stability wave after limitation audit with zero veto metrics and Google closed"
+    },
+    {
+      "id": "E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
+      "sha256": "da19b595d0a30441cfe51d2540b5227f50062f4fa3a17429cd4c3a4f158edfd2",
+      "status": "BOUND",
+      "description": "case-level followup proves WL2-031 is a hostile package typed BLOCKED row, not an unresolved parser gap"
     }
   ],
   "coverageLedger": {
@@ -174,6 +181,11 @@
       "status": "BOUND",
       "sourceEvidence": "E12_PHYSICAL_WAVE300_REPEAT_01",
       "outcome": "PHYSICAL_STABILITY_WAVE_300_REPEAT_COMPLETE_WITH_ZERO_VETO_NOT_SATURATED"
+    },
+    "wave300ParserGapFollowup": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK",
+      "outcome": "WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_PARSER_GAP"
     }
   },
   "aggregateTotals": {
@@ -203,7 +215,8 @@
     "repeatWave300CommentThreads": 638,
     "repeatWave300DenseCommentThreads": 100,
     "repeatWave300ScaleReturnedBytesMax": 1239432,
-    "consecutiveStableApprovedWaves": 2
+    "consecutiveStableApprovedWaves": 2,
+    "wl2031HostilePackageTypedBlockedFollowupCases": 1
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -218,8 +231,7 @@
   "notSaturatedReasons": [
     "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
     "CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY",
-    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED",
-    "WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP"
+    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": false,
@@ -237,9 +249,9 @@
     "E12 wave 40 does not add automatic apply authority",
     "E12 wave 40 binds physical Word evidence and advances the next target to wave 100"
   ],
-  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES",
+  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS",
   "testEvidence": {
-    "status": "PASS_LOCAL_VERIFICATION_AFTER_REPEAT_WAVE300_BINDING",
+    "status": "PASS_LOCAL_VERIFICATION_AFTER_WL2_031_PARSER_GAP_FOLLOWUP_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "wave40Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --json --require-external",
     "saturationVerifier": "PASS node scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs --json --require-files",
@@ -256,6 +268,7 @@
     "physicalWave300": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --run-physical --write-receipt --json rounds=300 wordPass=300 parserPass=299 comments=638 scaleReturnedBytesMax=1239432 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "wave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --json --require-external",
     "physicalWave300Repeat": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --run-physical --json --artifact-root T7 repeat rounds=300 wordPass=300 parserPass=299 comments=638 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
-    "repeatWave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs --json --require-external"
+    "repeatWave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs --json --require-external",
+    "parserGapFollowupVerifier": "PASS node scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs --json --require-files"
   }
 }

@@ -11,10 +11,12 @@ const WAVE100_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-physical-wave100.mjs';
 const WAVE300_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-physical-wave300.mjs';
 const STABILITY_AUDIT_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs';
 const STABILITY_REPEAT_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs';
+const PARSER_GAP_FOLLOWUP_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs';
 const WORD_SANDBOX_HELPER_PATH = 'scripts/ops/rtk-word-sandbox-work-root.mjs';
 const RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json';
 const STABILITY_AUDIT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json';
 const STABILITY_REPEAT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json';
+const PARSER_GAP_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json';
 const WAVE40_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json';
 const WAVE100_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json';
 const WAVE300_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json';
@@ -36,7 +38,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.status, 'WORD_SATURATION_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED');
+  assert.equal(receipt.status, 'WORD_SATURATION_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED');
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
   assert.equal(receipt.saturationRule.lastCompletedWaveTarget, 300);
@@ -44,20 +46,21 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
   assert.equal(receipt.saturationRule.currentWaveObservedRounds, 300);
   assert.equal(receipt.saturationRule.consecutiveStableApprovedWaves, 2);
   assert.equal(receipt.saturationRule.stableHistogram, true);
-  assert.equal(receipt.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES');
+  assert.equal(receipt.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS');
   assert.equal(receipt.saturationRule.saturated, false);
   assert.equal(receipt.saturationRule.googleDocsAllowedToOpen, false);
+  assert.equal(receipt.notSaturatedReasons.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), false);
 });
 
 test('V4 E12 binds Unicode hostile performance crash replay evidence families', () => {
   const receipt = readJson(RECEIPT_PATH);
   const bindings = new Map(receipt.evidenceBindings.map((item) => [item.id, item]));
 
-  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01']) {
+  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK']) {
     assert.equal(bindings.get(id).status, 'BOUND');
     assert.match(bindings.get(id).sha256, /^[0-9a-f]{64}$/u);
   }
-  for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300', 'physicalWave300Repeat']) {
+  for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300', 'physicalWave300Repeat', 'wave300ParserGapFollowup']) {
     assert.equal(receipt.coverageLedger[key].status, 'BOUND');
   }
   assert.equal(receipt.aggregateTotals.physicalRoundTripsObserved, 300);
@@ -77,6 +80,7 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   assert.equal(receipt.aggregateTotals.repeatWave300ParserPass, 299);
   assert.equal(receipt.aggregateTotals.repeatWave300DenseCommentThreads, 100);
   assert.equal(receipt.aggregateTotals.consecutiveStableApprovedWaves, 2);
+  assert.equal(receipt.aggregateTotals.wl2031HostilePackageTypedBlockedFollowupCases, 1);
   assert.equal(receipt.aggregateTotals.focusedE11CoordinatorContracts, 7);
 });
 
@@ -142,15 +146,61 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED');
+  assert.equal(profile.status, 'WORD_16_111_2_E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED');
+  assert.equal(cell.currentCapability, 'WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED');
-  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT');
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES');
+  assert.equal(program.status, 'WORD_E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED');
+  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS');
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
+});
+
+test('V4 E12 parser gap followup proves WL2-031 is hostile typed BLOCKED, not a parser gap', async () => {
+  const verifier = await import(pathToFileURL(path.join(REPO_ROOT, PARSER_GAP_FOLLOWUP_SCRIPT_PATH)).href);
+  const receipt = readJson(PARSER_GAP_FOLLOWUP_RECEIPT_PATH);
+  const result = verifier.evaluateWordV4E12ParserGapFollowup({ receipt, requireFiles: true });
+
+  assert.equal(result.status, 'PASS');
+  assert.deepEqual(result.issues, []);
+  assert.equal(receipt.caseAssessment.caseId, 'WL2-031');
+  assert.equal(receipt.caseAssessment.reclassification, 'HOSTILE_PACKAGE_TYPED_BLOCK_NOT_PARSER_GAP');
+  assert.equal(receipt.caseAssessment.parserBlockedExpected, true);
+  assert.equal(receipt.caseAssessment.exactAutomaticCandidateAllowed, false);
+  assert.equal(receipt.resolvedLimitations.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), true);
+  assert.equal(receipt.remainingLimitations.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), false);
+  assert.equal(receipt.saturationDecision.wordSaturated, false);
+  assert.equal(receipt.saturationDecision.googleDocsAllowedToOpen, false);
+});
+
+test('V4 E12 parser gap followup rejects PASS overclaim and stale active parser-gap blocker', async () => {
+  const followupVerifier = await import(pathToFileURL(path.join(REPO_ROOT, PARSER_GAP_FOLLOWUP_SCRIPT_PATH)).href);
+  const ledgerVerifier = await loadVerifier();
+  const followupReceipt = readJson(PARSER_GAP_FOLLOWUP_RECEIPT_PATH);
+  const ledgerReceipt = readJson(RECEIPT_PATH);
+  const profile = readJson(PROFILE_PATH);
+  const program = readJson(PROGRAM_PATH);
+  const mutatedFollowup = JSON.parse(JSON.stringify(followupReceipt));
+  const mutatedLedger = JSON.parse(JSON.stringify(ledgerReceipt));
+
+  mutatedFollowup.caseAssessment.parserBlockedExpected = false;
+  mutatedFollowup.caseAssessment.exactAutomaticCandidateAllowed = true;
+  mutatedFollowup.caseAssessment.reclassification = 'PARSER_PASS_GAP_CLOSED';
+  mutatedLedger.notSaturatedReasons.push('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP');
+
+  const followupResult = followupVerifier.evaluateWordV4E12ParserGapFollowup({ receipt: mutatedFollowup });
+  const ledgerResult = ledgerVerifier.evaluateWordV4E12SaturationLedger({
+    receipt: mutatedLedger,
+    profile,
+    program,
+  });
+
+  assert.equal(followupResult.status, 'FAIL');
+  assert.equal(followupResult.issues.some((item) => item.code === 'RTK_V4_E12_FOLLOWUP_RECLASSIFICATION_INVALID'), true);
+  assert.equal(followupResult.issues.some((item) => item.code === 'RTK_V4_E12_FOLLOWUP_EXPECTATION_INVALID'), true);
+  assert.equal(ledgerResult.status, 'FAIL');
+  assert.equal(ledgerResult.issues.some((item) => item.code === 'RTK_V4_E12_PARSER_GAP_STILL_ACTIVE'), true);
 });
 
 test('V4 E12 stability limitation audit binds Word-only next wave without saturation or Google', async () => {

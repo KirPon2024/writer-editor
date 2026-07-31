@@ -53,6 +53,11 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
     && ledgerRule.saturated === false
     && ledgerRule.googleDocsAllowedToOpen === false;
+  const ledgerIsFollowupSuccessor = ledger.status === 'WORD_SATURATION_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED'
+    && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
+    && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
+    && ledgerRule.saturated === false
+    && ledgerRule.googleDocsAllowedToOpen === false;
 
   if (receipt.schemaVersion !== SCHEMA) add('RTK_V4_E12_STABILITY_SCHEMA_INVALID', 'schemaVersion', 'Stability limitation audit schema is invalid.');
   if (receipt.stageId !== 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT') add('RTK_V4_E12_STABILITY_STAGE_INVALID', 'stageId', 'Audit stage id is invalid.');
@@ -61,7 +66,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     add('RTK_V4_E12_STABILITY_LEDGER_PATH_INVALID', 'boundLedger.path', 'Audit must bind the E12 saturation ledger.');
   }
   if (!isHex64(receipt.boundLedger?.sha256)) add('RTK_V4_E12_STABILITY_LEDGER_SHA_INVALID', 'boundLedger.sha256', 'Bound ledger SHA-256 is invalid.');
-  if (input.requireFiles === true && !ledgerIsRepeatSuccessor && receipt.boundLedger?.sha256 !== sha256File(LEDGER_PATH)) {
+  if (input.requireFiles === true && !ledgerIsRepeatSuccessor && !ledgerIsFollowupSuccessor && receipt.boundLedger?.sha256 !== sha256File(LEDGER_PATH)) {
     add('RTK_V4_E12_STABILITY_LEDGER_SHA_MISMATCH', 'boundLedger.sha256', 'Bound ledger SHA-256 does not match current bytes.');
   }
 
@@ -101,7 +106,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && Number(ledgerRule.consecutiveStableApprovedWaves) === 1
     && ledgerRule.saturated === false
     && ledgerRule.googleDocsAllowedToOpen === false;
-  if (!ledgerIsAuditState && !ledgerIsRepeatSuccessor) {
+  if (!ledgerIsAuditState && !ledgerIsRepeatSuccessor && !ledgerIsFollowupSuccessor) {
     add('RTK_V4_E12_STABILITY_LEDGER_STATE_INVALID', 'ledger.saturationRule', 'Source ledger must remain wave300 complete not saturated.');
   }
 
@@ -109,6 +114,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
   const allowedProfileStatuses = new Set([
     'WORD_16_111_2_E12_STABILITY_AUDIT_COMPLETE_NOT_SATURATED',
     'WORD_16_111_2_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED',
+    'WORD_16_111_2_E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED',
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_STABILITY_PROFILE_STATUS_INVALID', 'profile.status', 'Profile must bind the stability audit as complete not saturated.');
@@ -116,6 +122,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
   const allowedCapabilities = new Set([
     'STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED',
     'STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED',
+    'WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED',
   ]);
   if (!cell || !allowedCapabilities.has(cell.currentCapability) || cell.state !== 'PHYSICAL_WORD_PROVEN') {
     add('RTK_V4_E12_STABILITY_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability cell must bind stability audit without saturation.');
@@ -125,6 +132,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
   const allowedProgramStatuses = new Set([
     'WORD_E12_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED',
     'WORD_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED',
+    'WORD_E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED',
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must bind the stability audit.');
@@ -132,12 +140,14 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
   const allowedStateStatuses = new Set([
     'EXECUTION_12_STABILITY_LIMITATION_AUDIT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_WAVE',
     'EXECUTION_12_STABILITY_WAVE300_REPEAT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_LIMITATION_FOLLOWUP',
+    'EXECUTION_12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_CONTINUE_REMAINING_WORD_LIMITATIONS',
   ]);
   const allowedCurrentStages = new Set([
     'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',
     'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT',
+    'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES',
   ]);
-  const allowedNextStages = new Set([NEXT_STAGE, SUCCESSOR_STAGE]);
+  const allowedNextStages = new Set([NEXT_STAGE, SUCCESSOR_STAGE, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS']);
   if (!allowedStateStatuses.has(state.status)
     || !allowedCurrentStages.has(state.currentStage)
     || !allowedNextStages.has(state.nextStage)

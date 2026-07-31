@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED",
+  "status": "WORD_E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -372,10 +372,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_12_STABILITY_WAVE300_REPEAT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_LIMITATION_FOLLOWUP",
-    "currentStage": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT",
-    "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+    "status": "EXECUTION_12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_CONTINUE_REMAINING_WORD_LIMITATIONS",
+    "currentStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES",
+    "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -466,6 +466,10 @@
     "repeatWave300ScaleReturnedBytesMax": 1239432,
     "wordStabilityWave300RepeatBound": true,
     "wordStabilityWave300RepeatReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
-    "wordLimitationFollowupRequired": true
+    "wordLimitationFollowupRequired": true,
+    "wl2031HostilePackageTypedBlockFollowupBound": true,
+    "wl2031HostilePackageTypedBlockFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
+    "wave300SingleParserGapResolvedAsTypedHostilePackageBlock": true,
+    "remainingWordLimitationFollowupRequired": true
   }
 }

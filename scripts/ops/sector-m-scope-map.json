@@ -338,10 +338,12 @@
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
       "scripts/ops/rtk-word-sandbox-work-root.mjs",
       "scripts/ops/rtk-word-v4-e12-physical-wave40.mjs",
       "scripts/ops/rtk-word-v4-e12-physical-wave100.mjs",
       "scripts/ops/rtk-word-v4-e12-physical-wave300.mjs",
+      "scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs",
       "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
       "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
       "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js"

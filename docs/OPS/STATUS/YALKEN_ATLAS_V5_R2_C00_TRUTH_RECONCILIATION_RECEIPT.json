@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_R2_C00_TRUTH_RECONCILIATION_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001",
+  "contourId": "R2_C00_TRUTH_RECONCILIATION",
+  "programStage": "R2_POST_FINAL_PRODUCT_OUTCOME_REPAIR_2026_07_31",
+  "status": "NOT_READY_FALSE_GREEN_REPRODUCED",
+  "programDodVerdict": "REJECTED_UNTIL_R2_REVALIDATION",
+  "generatedAtUtc": "2026-07-31T15:55:43.305Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r2-c00",
+    "baseSha": "dcc154fe70d8e0334124a7f37d97afcecd5b7f3c",
+    "auditedFalseGreenMergeSha": "e018a7c5e168cf24da73418645ee653b112aa5a2",
+    "originMainShaAtStart": "dcc154fe70d8e0334124a7f37d97afcecd5b7f3c",
+    "implementationCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "truthReconciliation": {
+    "machineReproducedFindings": [
+      "F01_NO_REAL_MANUAL_MAP_GRAPH_WORKBENCH",
+      "F02_UNSAFE_FIRST_OBJECT_SEMANTIC_ACTIONS",
+      "F03_ACCEPTANCE_CHAIN_FALSE_GREEN",
+      "F04_NARROW_DESKTOP_ATLAS_UNREACHABLE",
+      "F05_AUTHORITY_SIDE_CAPABILITY_REVALIDATION_MISSING",
+      "F06_DESIGN_RESEARCH_METADATA_IN_RUNTIME_PAYLOADS"
+    ],
+    "invalidatedContours": [
+      "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH",
+      "ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD"
+    ],
+    "retainedEvidence": [
+      "Manual Map Product Core reducers and author truth model remain valid implementation evidence.",
+      "Manual Map graph projection, ViewState, viewport planner, layout scheduler, export and import modules remain valid lower-layer evidence.",
+      "Atlas model, Command Kernel registry, recovery, Unicode anchors, deterministic derived caches, and no-network runtime evidence remain retained unless directly contradicted by a repair contour."
+    ]
+  },
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E11_STAGE_11_ACTIVE_MACOS_PACKAGED_ELECTRON_CERTIFIED",
+    "EFINAL_PROGRAM_DOD_CERTIFIED"
+  ],
+  "supportedViewportMatrix": [
+    {
+      "width": 1440,
+      "height": 900,
+      "classification": "SUPPORTED_DESKTOP",
+      "acceptance": "VISIBLE_UI_BLACK_BOX_REQUIRED"
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "classification": "SUPPORTED_DESKTOP",
+      "acceptance": "VISIBLE_UI_BLACK_BOX_REQUIRED"
+    },
+    {
+      "width": 900,
+      "height": 768,
+      "classification": "SUPPORTED_DESKTOP",
+      "acceptance": "VISIBLE_UI_BLACK_BOX_REQUIRED"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "classification": "SUPPORTED_DESKTOP",
+      "acceptance": "VISIBLE_UI_BLACK_BOX_REQUIRED"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "classification": "ADVISORY_MOBILE_FALLBACK_ONLY",
+      "acceptance": "MUST_NOT_GREEN_DESKTOP_RESPONSIVE_PASS_BY_HIDING_ATLAS"
+    }
+  ],
+  "blackBoxAcceptanceRequired": {
+    "route": "visible packaged or local Electron UI only",
+    "forbiddenAsReadinessProof": [
+      "direct IPC command calls",
+      "source regex alone",
+      "reducer-only journey",
+      "PNG byte size alone",
+      "hidden mobile fallback as desktop responsive PASS"
+    ],
+    "requiredJourney": [
+      "create or open manual map through visible UI",
+      "select arbitrary node edge group through pointer and keyboard list parity",
+      "create edit delete with explicit forms preview confirmation and cancel proof",
+      "pan zoom fit layout search filter pins minimap inspector",
+      "save quit reopen recovery export repeat import",
+      "verify persisted model and rendered hit-testable graph outcome"
+    ]
+  },
+  "validation": [
+    {
+      "id": "focused-r2-c00",
+      "command": "node --test test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused R2 C00 contract: 3 tests, 3 pass, 0 fail."
+    },
+    {
+      "id": "detector-r2-c00",
+      "command": "node scripts/ops/yalken-atlas-v5-r2-c00-truth-reconciliation.mjs",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Detector reproduced all six post-final false-green findings and returned REPRODUCED_FALSE_GREEN_PROGRAM_DOD_REJECTED."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Full runner: 797 tests, 733 pass, 0 fail, 64 skipped; perf baseline PASS. This does not certify Program DoD because R2_C00 intentionally keeps product readiness NOT_READY until R2 black-box repair and revalidation."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; lie classes OK."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Governance detector green after R2 C00 approvals; missing approvals empty."
+    }
+  ],
+  "nextContour": "R2_C01_REAL_GRAPH_WORKBENCH",
+  "readiness": "NOT_READY"
+}

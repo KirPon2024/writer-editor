@@ -6601,6 +6601,27 @@
       "approvedBy": "ticket:YALKEN_WORD_E12_A02_NEXTSTEP_REPAIR",
       "approvedAtUtc": "2026-07-31T15:50:00.000Z",
       "rationale": "Approve narrow post-merge A02 truth repair contract: ledger contract now asserts program nextStep agrees with the A02 terminal audit and A03 promotion-list stage; no corpus rerun, runtime authority, UI, network, apply, Google, or Word SATURATED claim is introduced."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C00_TRUTH_RECONCILIATION_RECEIPT.json",
+      "sha256": "489bbfefce6ecb70e14d9472798775b732896667d71ac95a453c517c96ccdd20",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
+      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
+      "rationale": "Approve append-only R2 C00 truth reconciliation receipt: post-final false green is machine-reproduced, Program DoD is reset to NOT_READY, only overclaimed Atlas product outcomes are invalidated, valid lower-layer kernel/recovery evidence is retained, no runtime behavior, network, dependency, storage writer, UI redesign, or readiness PASS is introduced."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r2-c00-truth-reconciliation.mjs",
+      "sha256": "7863572f6eccb6f5e4d0c7f01b55fa03fc77e14d6a539d2826de9b96fb8c8fd6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
+      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
+      "rationale": "Approve R2 C00 detector: source-bound negative detector reproduces six post-final false-green findings and defines supported viewport and black-box acceptance requirements without mutating runtime truth, adding dependencies, widening readiness, or creating a second tracker."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",
+      "sha256": "9bfeb492d0c05f9e42d41c94457986005e4fd19f74026c8d422773afbfba011e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
+      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
+      "rationale": "Approve R2 C00 focused contract: asserts false-green reproduction, append-only NOT_READY receipt semantics, invalidated contour list, retained lower-layer evidence, supported desktop viewport matrix, and black-box acceptance requirements without certifying Program DoD."
     }
   ]
 }

@@ -389,6 +389,8 @@ const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_CONTI
 const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_REPORTS_SAVED_QUERIES;
 const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE;
 const ATLAS_CURRENT_SCENE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_CURRENT_SCENE;
+const MANUAL_MAP_WORKBENCH_QUERY_ID = WORKSPACE_QUERY_IDS.MANUAL_MAP_WORKBENCH;
+const PROJECTION_INSPECTOR_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECTION_INSPECTOR;
 const HISTORY_CREATE_CHECKPOINT_COMMAND_ID = 'cmd.project.history.createCheckpoint';
 const HISTORY_RESTORE_PREVIEW_COMMAND_ID = 'cmd.project.history.restorePreview';
 const HISTORY_RESTORE_APPLY_COMMAND_ID = 'cmd.project.history.restoreApply';
@@ -7038,6 +7040,54 @@ function loadAtlasDiagnosticsStageAcceptanceModule() {
   return atlasDiagnosticsStageAcceptanceModulePromise;
 }
 
+let coreRuntimeModulePromise = null;
+function loadCoreRuntimeModule() {
+  if (!coreRuntimeModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'core', 'runtime.mjs')).href;
+    coreRuntimeModulePromise = import(modulePath).catch((error) => {
+      coreRuntimeModulePromise = null;
+      throw error;
+    });
+  }
+  return coreRuntimeModulePromise;
+}
+
+let manualMapGraphModulePromise = null;
+function loadManualMapGraphModule() {
+  if (!manualMapGraphModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'mindmap', 'deriveManualMapGraph.mjs')).href;
+    manualMapGraphModulePromise = import(modulePath).catch((error) => {
+      manualMapGraphModulePromise = null;
+      throw error;
+    });
+  }
+  return manualMapGraphModulePromise;
+}
+
+let manualMapListParityModulePromise = null;
+function loadManualMapListParityModule() {
+  if (!manualMapListParityModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'mindmap', 'manualMapListKeyboardParity.mjs')).href;
+    manualMapListParityModulePromise = import(modulePath).catch((error) => {
+      manualMapListParityModulePromise = null;
+      throw error;
+    });
+  }
+  return manualMapListParityModulePromise;
+}
+
+let projectionInspectorModulePromise = null;
+function loadProjectionInspectorModule() {
+  if (!projectionInspectorModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'derived', 'projections', 'projectionInspectorManifests.mjs')).href;
+    projectionInspectorModulePromise = import(modulePath).catch((error) => {
+      projectionInspectorModulePromise = null;
+      throw error;
+    });
+  }
+  return projectionInspectorModulePromise;
+}
+
 async function normalizeProjectManifest(manifest, projectName = DEFAULT_PROJECT_NAME) {
   const source = isPlainObjectValue(manifest) ? manifest : {};
   const stableProjectId = normalizeStableProjectId(source.projectId);
@@ -8384,6 +8434,40 @@ function getAtlasAuthorDataForProjection(manifest = {}) {
   return JSON.parse(JSON.stringify(atlas));
 }
 
+function getManualMapAuthorDataForProjection(manifest = {}) {
+  const manualMaps = isPlainObjectValue(manifest.manualMaps) ? manifest.manualMaps : {};
+  if (manualMaps.schemaVersion !== 'manualMap.author.v1' || !isPlainObjectValue(manualMaps.maps)) {
+    return {
+      schemaVersion: 'manualMap.author.v1',
+      maps: {},
+    };
+  }
+  return JSON.parse(JSON.stringify(manualMaps));
+}
+
+function getIdeaAuthorDataForProjection(manifest = {}) {
+  const ideas = isPlainObjectValue(manifest.ideas) ? manifest.ideas : {};
+  if (ideas.schemaVersion !== 'idea.author.v1' || !isPlainObjectValue(ideas.ideas)) {
+    return {
+      schemaVersion: 'idea.author.v1',
+      ideas: {},
+      originLinks: {},
+    };
+  }
+  return JSON.parse(JSON.stringify(ideas));
+}
+
+function getMeaningAuthorDataForProjection(manifest = {}) {
+  const meanings = isPlainObjectValue(manifest.meanings) ? manifest.meanings : {};
+  if (meanings.schemaVersion !== 'meaning.author.v1' || !isPlainObjectValue(meanings.meanings)) {
+    return {
+      schemaVersion: 'meaning.author.v1',
+      meanings: {},
+    };
+  }
+  return JSON.parse(JSON.stringify(meanings));
+}
+
 async function buildAtlasCurrentSceneCoreState(resolvedNode, documentTarget) {
   const guard = sanitizePayloadWithinProjectRoot(
     { path: documentTarget.filePath },
@@ -8419,6 +8503,9 @@ async function buildAtlasCurrentSceneCoreState(resolvedNode, documentTarget) {
             id: resolvedNode.projectId,
             title: resolvedNode.manifest?.projectName || currentProjectName || DEFAULT_PROJECT_NAME,
             atlas: getAtlasAuthorDataForProjection(resolvedNode.manifest),
+            manualMaps: getManualMapAuthorDataForProjection(resolvedNode.manifest),
+            ideas: getIdeaAuthorDataForProjection(resolvedNode.manifest),
+            meanings: getMeaningAuthorDataForProjection(resolvedNode.manifest),
             scenes: {
               [resolvedNode.nodeId]: {
                 id: resolvedNode.nodeId,
@@ -8445,7 +8532,7 @@ function collectAtlasOverviewSceneNodes(roots) {
   return nodes;
 }
 
-async function buildAtlasOverviewCoreState() {
+async function buildProductCoreStateForCurrentProject() {
   const { projectId, roots, manifestPath, manifest } = await buildProjectTreeRootsWithIdentitiesReadOnly();
   const projectRoot = path.dirname(manifestPath);
   const envelopeModule = await loadDocumentContentEnvelopeModule();
@@ -8490,6 +8577,10 @@ async function buildAtlasOverviewCoreState() {
 
   return {
     projectId,
+    manifestPath,
+    projectRoot,
+    manifest,
+    roots,
     coreState: {
       version: 1,
       data: {
@@ -8499,12 +8590,19 @@ async function buildAtlasOverviewCoreState() {
             id: projectId,
             title: manifest?.projectName || currentProjectName || DEFAULT_PROJECT_NAME,
             atlas: getAtlasAuthorDataForProjection(manifest),
+            manualMaps: getManualMapAuthorDataForProjection(manifest),
+            ideas: getIdeaAuthorDataForProjection(manifest),
+            meanings: getMeaningAuthorDataForProjection(manifest),
             scenes,
           },
         },
       },
     },
   };
+}
+
+async function buildAtlasOverviewCoreState() {
+  return buildProductCoreStateForCurrentProject();
 }
 
 function normalizeAtlasOverviewPayload(payload = {}) {
@@ -8590,6 +8688,305 @@ function normalizeAtlasDiagnosticsStageAcceptancePayload(payload = {}) {
   return {
     projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
   };
+}
+
+const MANUAL_MAP_WORKBENCH_COMMAND_IDS = Object.freeze([
+  'manualMap.create',
+  'manualMap.node.add',
+  'manualMap.node.update',
+  'manualMap.node.delete',
+  'manualMap.edge.add',
+  'manualMap.edge.update',
+  'manualMap.edge.delete',
+  'manualMap.group.create',
+  'manualMap.group.update',
+  'manualMap.group.delete',
+  'manualMap.attachment.add',
+  'manualMap.portal.add',
+  'manualMap.template.apply',
+]);
+
+function normalizeManualMapWorkbenchPayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
+    mapId: typeof source.mapId === 'string' ? source.mapId.trim() : '',
+  };
+}
+
+function makeManualMapWorkbenchFallback(projectId, reason, extra = {}) {
+  return {
+    schemaVersion: 'surface.manualMap.workbench.v1',
+    state: reason ? 'unavailable' : 'empty',
+    unavailableReason: reason || '',
+    surfaceManifest: {
+      schemaVersion: 'surface.manualMap.workbench.v1',
+      surfaceId: 'surface.manualMap.workbench',
+      providerId: MANUAL_MAP_WORKBENCH_QUERY_ID,
+      host: 'rightRail',
+      slotId: 'rightRail.context.atlas.manualMapWorkbench',
+      contributionKind: 'authoringWorkbench',
+      commandAuthority: 'CommandKernel',
+      commandIds: [...MANUAL_MAP_WORKBENCH_COMMAND_IDS],
+      productMutation: true,
+      storageAuthority: true,
+    },
+    authority: {
+      sourceOfTruth: 'project.core.manualMaps',
+      commandAuthority: 'CommandKernel',
+      commandIds: [...MANUAL_MAP_WORKBENCH_COMMAND_IDS],
+      directRendererMutation: false,
+      directStorageMutation: false,
+      networkMutation: false,
+      rollbackViaManifestRecovery: true,
+    },
+    projectId: typeof projectId === 'string' ? projectId : '',
+    mapId: '',
+    mapRows: [],
+    graph: {
+      schemaVersion: 'derived.manualMap.graph.v1',
+      projectId: typeof projectId === 'string' ? projectId : '',
+      mapId: '',
+      title: '',
+      nodes: [],
+      edges: [],
+      groups: [],
+      attachments: [],
+      portals: [],
+      templates: [],
+    },
+    listParity: {
+      schemaVersion: 'manualMap.listParity.v1',
+      rows: [],
+      counts: { rows: 0, nodes: 0, edges: 0, groups: 0, selectedRows: 0 },
+    },
+    summary: {
+      mapCount: 0,
+      nodeCount: 0,
+      edgeCount: 0,
+      groupCount: 0,
+      listRowCount: 0,
+      workbenchHash: '',
+    },
+    ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
+function normalizeProjectionInspectorPayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
+  };
+}
+
+function makeProjectionInspectorFallback(projectId, reason, extra = {}) {
+  return {
+    schemaVersion: 'derived.projection.inspectorProvider.v1',
+    state: reason ? 'unavailable' : 'empty',
+    unavailableReason: reason || '',
+    projectId: typeof projectId === 'string' ? projectId : '',
+    surfaceManifest: {
+      schemaVersion: 'surface.projection.inspector.v1',
+      surfaceId: 'surface.projection.inspector',
+      providerId: PROJECTION_INSPECTOR_QUERY_ID,
+      host: 'rightRail',
+      slotId: 'rightRail.context.atlas.projectionInspector',
+      contributionKind: 'readOnlyProjectionInspector',
+      commandAuthority: 'none',
+      productMutation: false,
+      storageAuthority: false,
+    },
+    authority: {
+      sourceOfTruth: 'derived plot, idea, and meaning projections',
+      commandAuthority: 'none',
+      readOnlyProvider: true,
+      promotionBoundary: 'meaning.promote via CommandKernel only',
+      projectTruthMutation: false,
+      storageMutation: false,
+      networkMutation: false,
+      rendererMutation: false,
+    },
+    manifests: [],
+    projectionStates: [],
+    summary: {
+      manifestCount: 0,
+      readyCount: 0,
+      emptyCount: 0,
+      unavailableCount: reason ? 1 : 0,
+    },
+    ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
+async function handleWorkspaceManualMapWorkbenchQuery(payload = {}) {
+  const safePayload = normalizeManualMapWorkbenchPayload(payload);
+  try {
+    const { projectId, coreState } = await buildProductCoreStateForCurrentProject();
+    if (safePayload.projectId && safePayload.projectId !== projectId) {
+      return {
+        ok: true,
+        manualMapWorkbench: makeManualMapWorkbenchFallback(safePayload.projectId, 'MANUAL_MAP_PROJECT_MISMATCH'),
+      };
+    }
+    const project = coreState?.data?.projects?.[projectId];
+    const maps = isPlainObjectValue(project?.manualMaps?.maps) ? project.manualMaps.maps : {};
+    const mapIds = Object.keys(maps).sort();
+    const mapRows = mapIds.map((mapId) => ({
+      mapId,
+      title: typeof maps[mapId]?.title === 'string' && maps[mapId].title.trim() ? maps[mapId].title.trim() : mapId,
+      nodeCount: isPlainObjectValue(maps[mapId]?.nodes) ? Object.keys(maps[mapId].nodes).length : 0,
+      edgeCount: isPlainObjectValue(maps[mapId]?.edges) ? Object.keys(maps[mapId].edges).length : 0,
+      groupCount: isPlainObjectValue(maps[mapId]?.groups) ? Object.keys(maps[mapId].groups).length : 0,
+    }));
+    const selectedMapId = safePayload.mapId && maps[safePayload.mapId]
+      ? safePayload.mapId
+      : mapIds[0] || '';
+    if (!selectedMapId) {
+      return {
+        ok: true,
+        manualMapWorkbench: {
+          ...makeManualMapWorkbenchFallback(projectId, ''),
+          mapRows,
+          summary: {
+            mapCount: 0,
+            nodeCount: 0,
+            edgeCount: 0,
+            groupCount: 0,
+            listRowCount: 0,
+            workbenchHash: computeHash(JSON.stringify({ projectId, mapRows })),
+          },
+        },
+      };
+    }
+
+    const [graphModule, listParityModule] = await Promise.all([
+      loadManualMapGraphModule(),
+      loadManualMapListParityModule(),
+    ]);
+    const graphResult = graphModule.deriveManualMapGraph({
+      coreState,
+      params: { projectId, mapId: selectedMapId },
+      capabilitySnapshot: {
+        platformId: 'node',
+        capabilities: { 'manualMap.view': true, manualMapView: true },
+      },
+    });
+    if (!graphResult.ok) {
+      return {
+        ok: true,
+        manualMapWorkbench: makeManualMapWorkbenchFallback(
+          projectId,
+          graphResult.error?.reason || 'MANUAL_MAP_GRAPH_UNAVAILABLE',
+          { error: graphResult.error },
+        ),
+      };
+    }
+    const graph = graphResult.value;
+    const listParity = listParityModule.buildManualMapListParityModel({ graph });
+    const summary = {
+      mapCount: mapIds.length,
+      nodeCount: Array.isArray(graph.nodes) ? graph.nodes.length : 0,
+      edgeCount: Array.isArray(graph.edges) ? graph.edges.length : 0,
+      groupCount: Array.isArray(graph.groups) ? graph.groups.length : 0,
+      listRowCount: Array.isArray(listParity.rows) ? listParity.rows.length : 0,
+      workbenchHash: computeHash(JSON.stringify({
+        projectId,
+        mapId: selectedMapId,
+        graphHash: graph.meta?.graphHash || '',
+        listParityHash: listParity.meta?.listParityHash || '',
+      })),
+    };
+    return {
+      ok: true,
+      manualMapWorkbench: {
+        ...makeManualMapWorkbenchFallback(projectId, ''),
+        state: 'ready',
+        unavailableReason: '',
+        mapId: selectedMapId,
+        mapRows,
+        graph,
+        listParity,
+        summary,
+      },
+    };
+  } catch (error) {
+    logDevError('query.manualMapWorkbench', error);
+    return {
+      ok: true,
+      manualMapWorkbench: makeManualMapWorkbenchFallback(
+        safePayload.projectId,
+        error && typeof error.code === 'string' ? error.code : 'MANUAL_MAP_WORKBENCH_READ_FAILED',
+        { error: error && typeof error === 'object' ? { code: error.code || '', message: error.message || '' } : undefined },
+      ),
+    };
+  }
+}
+
+async function handleWorkspaceProjectionInspectorQuery(payload = {}) {
+  const safePayload = normalizeProjectionInspectorPayload(payload);
+  try {
+    const inspectorModule = await loadProjectionInspectorModule();
+    const { projectId, coreState } = await buildProductCoreStateForCurrentProject();
+    if (safePayload.projectId && safePayload.projectId !== projectId) {
+      return {
+        ok: true,
+        projectionInspector: makeProjectionInspectorFallback(safePayload.projectId, 'PROJECTION_INSPECTOR_PROJECT_MISMATCH'),
+      };
+    }
+    const result = inspectorModule.deriveProjectionInspectorProvider({
+      coreState,
+      params: { projectId },
+      capabilitySnapshot: {
+        platformId: 'node',
+        capabilities: {
+          'plot.projection': true,
+          'idea.projection': true,
+          'meaning.projection': true,
+        },
+      },
+    });
+    if (!result.ok) {
+      return {
+        ok: true,
+        projectionInspector: makeProjectionInspectorFallback(
+          projectId,
+          result.error?.reason || 'PROJECTION_INSPECTOR_UNAVAILABLE',
+          { error: result.error },
+        ),
+      };
+    }
+    return {
+      ok: true,
+      projectionInspector: {
+        ...result.value,
+        surfaceManifest: {
+          schemaVersion: 'surface.projection.inspector.v1',
+          surfaceId: 'surface.projection.inspector',
+          providerId: PROJECTION_INSPECTOR_QUERY_ID,
+          host: 'rightRail',
+          slotId: 'rightRail.context.atlas.projectionInspector',
+          contributionKind: 'readOnlyProjectionInspector',
+          commandAuthority: 'none',
+          productMutation: false,
+          storageAuthority: false,
+        },
+        authority: {
+          ...result.value.authority,
+          promotionBoundary: 'meaning.promote via CommandKernel only',
+        },
+      },
+    };
+  } catch (error) {
+    logDevError('query.projectionInspector', error);
+    return {
+      ok: true,
+      projectionInspector: makeProjectionInspectorFallback(
+        safePayload.projectId,
+        error && typeof error.code === 'string' ? error.code : 'PROJECTION_INSPECTOR_READ_FAILED',
+        { error: error && typeof error === 'object' ? { code: error.code || '', message: error.message || '' } : undefined },
+      ),
+    };
+  }
 }
 
 async function handleWorkspaceAtlasOverviewQuery(payload = {}) {
@@ -19081,6 +19478,8 @@ const WORKSPACE_QUERY_BRIDGE_HANDLERS = new Map([
   [ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID, handleWorkspaceAtlasReportsSavedQueriesQuery],
   [ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID, handleWorkspaceAtlasDiagnosticsStageAcceptanceQuery],
   [ATLAS_CURRENT_SCENE_QUERY_ID, handleWorkspaceAtlasCurrentSceneQuery],
+  [MANUAL_MAP_WORKBENCH_QUERY_ID, handleWorkspaceManualMapWorkbenchQuery],
+  [PROJECTION_INSPECTOR_QUERY_ID, handleWorkspaceProjectionInspectorQuery],
 ]);
 
 ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
@@ -21968,7 +22367,7 @@ function makeProductCommandBridgeError(commandId, code, reason, details = undefi
   return { ok: false, error };
 }
 
-function dispatchProductCommandBridge(commandId, payload = {}) {
+async function dispatchProductCommandBridge(commandId, payload = {}) {
   const record = getProductCommandRecord(commandId);
   if (!record) {
     return makeProductCommandBridgeError(
@@ -21978,20 +22377,142 @@ function dispatchProductCommandBridge(commandId, payload = {}) {
     );
   }
 
-  return makeProductCommandBridgeError(
-    commandId,
-    'E_PRODUCT_COMMAND_BACKEND_DEGRADED',
-    'PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER',
+  if (!isPlainObjectValue(payload)) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_PRODUCT_COMMAND_PAYLOAD_INVALID',
+      'PRODUCT_COMMAND_PAYLOAD_REQUIRED',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        runtimeBacked: record.runtimeBacked === true,
+        payloadAccepted: false,
+        mutationApplied: false,
+        storageWritten: false,
+      },
+    );
+  }
+
+  const binding = await buildProductCoreStateForCurrentProject();
+  const requestedProjectId = typeof payload.projectId === 'string' ? payload.projectId.trim() : '';
+  if (requestedProjectId && requestedProjectId !== binding.projectId) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_PRODUCT_COMMAND_PROJECT_MISMATCH',
+      'PRODUCT_COMMAND_PROJECT_MISMATCH',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        requestedProjectId,
+        activeProjectId: binding.projectId,
+        mutationApplied: false,
+        storageWritten: false,
+      },
+    );
+  }
+
+  const runtime = await loadCoreRuntimeModule();
+  const commandPayload = {
+    ...cloneJsonSafe(payload),
+    projectId: binding.projectId,
+  };
+  const stateHashBefore = typeof runtime.hashCoreState === 'function'
+    ? runtime.hashCoreState(binding.coreState)
+    : computeHash(JSON.stringify(binding.coreState));
+  const reduced = runtime.reduceCoreState(binding.coreState, {
+    type: commandId,
+    payload: commandPayload,
+  });
+  if (!reduced || reduced.ok !== true) {
+    return makeProductCommandBridgeError(
+      commandId,
+      reduced?.error?.code || 'E_PRODUCT_COMMAND_REDUCER_FAILED',
+      reduced?.error?.reason || 'PRODUCT_COMMAND_REDUCER_FAILED',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        runtimeBacked: record.runtimeBacked === true,
+        coreError: reduced?.error || null,
+        mutationApplied: false,
+        storageWritten: false,
+      },
+    );
+  }
+
+  const nextProject = reduced.state?.data?.projects?.[binding.projectId];
+  if (!isPlainObjectValue(nextProject)) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_PRODUCT_COMMAND_NEXT_PROJECT_MISSING',
+      'PRODUCT_COMMAND_NEXT_PROJECT_MISSING',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        mutationApplied: false,
+        storageWritten: false,
+      },
+    );
+  }
+
+  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
+  const manifestHashBefore = computeHash(rawRecord.raw);
+  const recovery = await createProjectLifecycleRecovery(
     {
-      commandAuthority: record.commandAuthority,
-      capabilityId: record.capabilityId,
-      domain: record.domain,
-      runtimeBacked: record.runtimeBacked === true,
-      payloadAccepted: isPlainObjectValue(payload),
-      mutationApplied: false,
-      storageWritten: false,
+      projectId: binding.projectId,
+      projectRoot: binding.projectRoot,
+      manifestPath: binding.manifestPath,
     },
+    commandId,
+    rawRecord.raw,
   );
+  const nextManifest = {
+    ...binding.manifest,
+    atlas: cloneJsonSafe(nextProject.atlas || getAtlasAuthorDataForProjection({})),
+    manualMaps: cloneJsonSafe(nextProject.manualMaps || getManualMapAuthorDataForProjection({})),
+    ideas: cloneJsonSafe(nextProject.ideas || getIdeaAuthorDataForProjection({})),
+    meanings: cloneJsonSafe(nextProject.meanings || getMeaningAuthorDataForProjection({})),
+    lastCommandId: Number.isInteger(reduced.state?.data?.lastCommandId)
+      ? reduced.state.data.lastCommandId
+      : Number(binding.manifest?.lastCommandId || 0),
+  };
+  const manifestTextAfter = JSON.stringify(nextManifest, null, 2);
+  await persistProjectManifestAtPath(binding.manifestPath, nextManifest, `product command ${commandId}`);
+
+  return {
+    ok: true,
+    schemaVersion: 'product-command-dispatch-receipt.v1',
+    commandId,
+    commandAuthority: record.commandAuthority,
+    capabilityId: record.capabilityId,
+    domain: record.domain,
+    runtimeBacked: record.runtimeBacked === true,
+    projectId: binding.projectId,
+    mutationApplied: true,
+    storageWritten: true,
+    manifestWritten: true,
+    networkMutation: false,
+    directRendererMutation: false,
+    targetState: {
+      stateHashBefore,
+      stateHashAfter: reduced.stateHash,
+      manifestHashBefore,
+      manifestHashAfter: computeHash(manifestTextAfter),
+      commandSeqBefore: Number(binding.coreState?.data?.lastCommandId || 0),
+      commandSeqAfter: Number(reduced.state?.data?.lastCommandId || 0),
+    },
+    recovery: {
+      snapshotCreated: recovery.snapshotCreated === true,
+      snapshotReadable: recovery.snapshotReadable === true,
+      snapshotHashMatchesInput: recovery.snapshotHashMatchesInput === true,
+      backupCreated: recovery.backupCreated === true,
+      recoveryPackCreated: recovery.recoveryPackCreated === true,
+      manifestHash: recovery.manifestHash || manifestHashBefore,
+    },
+  };
 }
 
 function buildFontSubmenu(config) {

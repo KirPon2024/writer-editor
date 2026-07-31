@@ -124,6 +124,19 @@ function normalizeManualTemplate(template, templateId, validNodeIds, validEdgeId
   };
 }
 
+function normalizeManualGroup(group, groupId, validNodeIds) {
+  const nodeIds = Array.isArray(group.nodeIds)
+    ? [...new Set(group.nodeIds.map(normalizeString).filter((nodeId) => validNodeIds.has(nodeId)))].sort()
+    : [];
+  if (nodeIds.length === 0) return null;
+  return {
+    id: normalizeString(group.id) || groupId,
+    label: normalizeString(group.label) || groupId,
+    colorTag: normalizeString(group.colorTag),
+    nodeIds,
+  };
+}
+
 function buildManualMapGraph(coreState, projectId, mapId) {
   const project = getProject(coreState, projectId);
   if (!project) {
@@ -172,6 +185,12 @@ function buildManualMapGraph(coreState, projectId, mapId) {
     .map((templateId) => normalizeManualTemplate(isPlainObject(rawTemplates[templateId]) ? rawTemplates[templateId] : {}, templateId, validNodeIds, validEdgeIds))
     .filter(Boolean)
     .sort((a, b) => a.id.localeCompare(b.id));
+  const rawGroups = isPlainObject(map.groups) ? map.groups : {};
+  const groups = Object.keys(rawGroups)
+    .sort()
+    .map((groupId) => normalizeManualGroup(isPlainObject(rawGroups[groupId]) ? rawGroups[groupId] : {}, groupId, validNodeIds))
+    .filter(Boolean)
+    .sort((a, b) => a.id.localeCompare(b.id));
   return {
     schemaVersion: MANUAL_MAP_GRAPH_SCHEMA_VERSION,
     projectId,
@@ -179,6 +198,7 @@ function buildManualMapGraph(coreState, projectId, mapId) {
     title: normalizeString(map.title) || mapId,
     nodes: sortMindMapNodes(nodes),
     edges: sortMindMapEdges(edges),
+    groups,
     attachments,
     portals,
     templates,
@@ -234,6 +254,7 @@ export function deriveManualMapGraph(input = {}) {
         title: graph.title,
         nodes: graph.nodes,
         edges: graph.edges,
+        groups: graph.groups,
         attachments: graph.attachments,
         portals: graph.portals,
         templates: graph.templates,

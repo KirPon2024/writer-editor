@@ -24,7 +24,14 @@ export const CORE_COMMAND_IDS = Object.freeze({
   MEANING_PROMOTE: 'meaning.promote',
   MANUAL_MAP_CREATE: 'manualMap.create',
   MANUAL_MAP_NODE_ADD: 'manualMap.node.add',
+  MANUAL_MAP_NODE_UPDATE: 'manualMap.node.update',
+  MANUAL_MAP_NODE_DELETE: 'manualMap.node.delete',
   MANUAL_MAP_EDGE_ADD: 'manualMap.edge.add',
+  MANUAL_MAP_EDGE_UPDATE: 'manualMap.edge.update',
+  MANUAL_MAP_EDGE_DELETE: 'manualMap.edge.delete',
+  MANUAL_MAP_GROUP_CREATE: 'manualMap.group.create',
+  MANUAL_MAP_GROUP_UPDATE: 'manualMap.group.update',
+  MANUAL_MAP_GROUP_DELETE: 'manualMap.group.delete',
   MANUAL_MAP_ATTACHMENT_ADD: 'manualMap.attachment.add',
   MANUAL_MAP_PORTAL_ADD: 'manualMap.portal.add',
   MANUAL_MAP_TEMPLATE_APPLY: 'manualMap.template.apply',
@@ -340,6 +347,35 @@ function normalizeAttachmentSource(value) {
   };
 }
 
+function validateManualMapNodeTarget(project, targetKind, targetId, op, details = {}) {
+  if (!targetKind) return null;
+  if (targetKind === 'scene') {
+    if (!targetId || !isPlainObject(project.scenes) || !project.scenes[targetId]) {
+      return typedError('E_MANUAL_MAP_NODE_TARGET_SCENE_NOT_FOUND', op, 'TARGET_SCENE_NOT_FOUND', { ...details, targetId });
+    }
+    return null;
+  }
+  if (targetKind === 'entity') {
+    const atlas = normalizeAtlasAuthorData(project.atlas);
+    if (!targetId || !atlas.entities[targetId]) {
+      return typedError('E_MANUAL_MAP_NODE_TARGET_ENTITY_NOT_FOUND', op, 'TARGET_ENTITY_NOT_FOUND', { ...details, targetId });
+    }
+    return null;
+  }
+  return typedError('E_MANUAL_MAP_NODE_TARGET_KIND_INVALID', op, 'TARGET_KIND_INVALID', { ...details, targetKind });
+}
+
+function normalizeManualMapGroupNodeIds(value, nodes) {
+  const nodeIds = Array.isArray(value)
+    ? value.map(trimString).filter(Boolean)
+    : [];
+  const unique = [...new Set(nodeIds)].sort();
+  return {
+    nodeIds: unique,
+    missingNodeIds: unique.filter((nodeId) => !nodes[nodeId]),
+  };
+}
+
 function applyManualMapCreate(state, payload) {
   const projectId = trimString(payload?.projectId);
   const mapId = trimString(payload?.mapId);
@@ -410,8 +446,9 @@ function applyManualMapNodeAdd(state, payload) {
   if (nodes[nodeId]) {
     return fail(state, 'E_MANUAL_MAP_NODE_ALREADY_EXISTS', 'manualMap.node.add', 'NODE_ALREADY_EXISTS', { projectId, mapId, nodeId });
   }
-  if (targetKind === 'scene' && (!targetId || !isPlainObject(project.scenes) || !project.scenes[targetId])) {
-    return fail(state, 'E_MANUAL_MAP_NODE_TARGET_SCENE_NOT_FOUND', 'manualMap.node.add', 'TARGET_SCENE_NOT_FOUND', { projectId, mapId, nodeId, targetId });
+  const targetError = validateManualMapNodeTarget(project, targetKind, targetId, 'manualMap.node.add', { projectId, mapId, nodeId });
+  if (targetError) {
+    return fail(state, targetError.code, targetError.op, targetError.reason, targetError.details);
   }
 
   const next = cloneJson(state);
@@ -432,6 +469,152 @@ function applyManualMapNodeAdd(state, payload) {
   };
   nextMap.updatedByCommandSeq = next.data.lastCommandId + 1;
   next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function applyManualMapNodeUpdate(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const nodeId = trimString(payload?.nodeId);
+  const label = Object.prototype.hasOwnProperty.call(payload || {}, 'label') ? trimString(payload?.label) : null;
+  const nodeKind = Object.prototype.hasOwnProperty.call(payload || {}, 'nodeKind') ? trimString(payload?.nodeKind) : null;
+  const hasPosition = isPlainObject(payload?.position);
+  const hasTarget = Object.prototype.hasOwnProperty.call(payload || {}, 'targetKind')
+    || Object.prototype.hasOwnProperty.call(payload || {}, 'targetId');
+  const targetKind = hasTarget ? trimString(payload?.targetKind) : '';
+  const targetId = hasTarget ? trimString(payload?.targetId) : '';
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.node.update', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.node.update', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!nodeId) {
+    return fail(state, 'E_MANUAL_MAP_NODE_ID_REQUIRED', 'manualMap.node.update', 'NODE_ID_REQUIRED', { projectId, mapId });
+  }
+  if (label !== null && !label) {
+    return fail(state, 'E_MANUAL_MAP_NODE_LABEL_REQUIRED', 'manualMap.node.update', 'NODE_LABEL_REQUIRED', { projectId, mapId, nodeId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.node.update', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.node.update', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const nodes = isPlainObject(map.nodes) ? map.nodes : {};
+  if (!nodes[nodeId]) {
+    return fail(state, 'E_MANUAL_MAP_NODE_NOT_FOUND', 'manualMap.node.update', 'NODE_NOT_FOUND', { projectId, mapId, nodeId });
+  }
+  if (hasTarget) {
+    const targetError = validateManualMapNodeTarget(project, targetKind, targetId, 'manualMap.node.update', { projectId, mapId, nodeId });
+    if (targetError) {
+      return fail(state, targetError.code, targetError.op, targetError.reason, targetError.details);
+    }
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  const nextNode = nextMap.nodes[nodeId];
+  const commandSeq = next.data.lastCommandId + 1;
+  if (label !== null) nextNode.label = label;
+  if (nodeKind !== null && nodeKind) nextNode.nodeKind = nodeKind;
+  if (hasPosition) nextNode.position = normalizePosition(payload.position);
+  if (hasTarget) {
+    nextNode.target = { kind: targetKind, id: targetId };
+  }
+  nextNode.updatedByCommandSeq = commandSeq;
+  nextMap.updatedByCommandSeq = commandSeq;
+  next.data.lastCommandId = commandSeq;
+  return ok(next);
+}
+
+function applyManualMapNodeDelete(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const nodeId = trimString(payload?.nodeId);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.node.delete', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.node.delete', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!nodeId) {
+    return fail(state, 'E_MANUAL_MAP_NODE_ID_REQUIRED', 'manualMap.node.delete', 'NODE_ID_REQUIRED', { projectId, mapId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.node.delete', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.node.delete', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const nodes = isPlainObject(map.nodes) ? map.nodes : {};
+  if (!nodes[nodeId]) {
+    return fail(state, 'E_MANUAL_MAP_NODE_NOT_FOUND', 'manualMap.node.delete', 'NODE_NOT_FOUND', { projectId, mapId, nodeId });
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  const commandSeq = next.data.lastCommandId + 1;
+  delete nextMap.nodes[nodeId];
+  if (isPlainObject(nextMap.edges)) {
+    Object.keys(nextMap.edges).forEach((edgeId) => {
+      const edge = nextMap.edges[edgeId];
+      if (edge?.fromNodeId === nodeId || edge?.toNodeId === nodeId) delete nextMap.edges[edgeId];
+    });
+  }
+  if (isPlainObject(nextMap.attachments)) {
+    Object.keys(nextMap.attachments).forEach((attachmentId) => {
+      if (nextMap.attachments[attachmentId]?.nodeId === nodeId) delete nextMap.attachments[attachmentId];
+    });
+  }
+  if (isPlainObject(nextMap.portals)) {
+    Object.keys(nextMap.portals).forEach((portalId) => {
+      if (nextMap.portals[portalId]?.fromNodeId === nodeId) delete nextMap.portals[portalId];
+    });
+  }
+  if (isPlainObject(nextMap.groups)) {
+    Object.keys(nextMap.groups).forEach((groupId) => {
+      const group = nextMap.groups[groupId];
+      const nodeIds = Array.isArray(group?.nodeIds)
+        ? group.nodeIds.map(trimString).filter((id) => id && id !== nodeId).sort()
+        : [];
+      if (nodeIds.length === 0) {
+        delete nextMap.groups[groupId];
+      } else {
+        nextMap.groups[groupId] = { ...group, nodeIds, updatedByCommandSeq: commandSeq };
+      }
+    });
+  }
+  if (isPlainObject(nextMap.templates)) {
+    Object.keys(nextMap.templates).forEach((templateId) => {
+      const template = nextMap.templates[templateId];
+      const appliedNodeIds = Array.isArray(template?.appliedNodeIds)
+        ? template.appliedNodeIds.map(trimString).filter((id) => id && id !== nodeId).sort()
+        : [];
+      const appliedEdgeIds = Array.isArray(template?.appliedEdgeIds)
+        ? template.appliedEdgeIds.map(trimString).filter((edgeId) => isPlainObject(nextMap.edges) && nextMap.edges[edgeId]).sort()
+        : [];
+      if (appliedNodeIds.length === 0) {
+        delete nextMap.templates[templateId];
+      } else {
+        nextMap.templates[templateId] = { ...template, appliedNodeIds, appliedEdgeIds };
+      }
+    });
+  }
+  nextMap.updatedByCommandSeq = commandSeq;
+  next.data.lastCommandId = commandSeq;
   return ok(next);
 }
 
@@ -501,6 +684,281 @@ function applyManualMapEdgeAdd(state, payload) {
   };
   nextMap.updatedByCommandSeq = next.data.lastCommandId + 1;
   next.data.lastCommandId += 1;
+  return ok(next);
+}
+
+function applyManualMapEdgeUpdate(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const edgeId = trimString(payload?.edgeId);
+  const hasFrom = Object.prototype.hasOwnProperty.call(payload || {}, 'fromNodeId');
+  const hasTo = Object.prototype.hasOwnProperty.call(payload || {}, 'toNodeId');
+  const hasKind = Object.prototype.hasOwnProperty.call(payload || {}, 'edgeKind');
+  const hasLabel = Object.prototype.hasOwnProperty.call(payload || {}, 'label');
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.edge.update', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.edge.update', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!edgeId) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_ID_REQUIRED', 'manualMap.edge.update', 'EDGE_ID_REQUIRED', { projectId, mapId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.edge.update', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.edge.update', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const edges = isPlainObject(map.edges) ? map.edges : {};
+  const edge = edges[edgeId];
+  if (!edge) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_NOT_FOUND', 'manualMap.edge.update', 'EDGE_NOT_FOUND', { projectId, mapId, edgeId });
+  }
+  const nodes = isPlainObject(map.nodes) ? map.nodes : {};
+  const fromNodeId = hasFrom ? trimString(payload?.fromNodeId) : trimString(edge.fromNodeId);
+  const toNodeId = hasTo ? trimString(payload?.toNodeId) : trimString(edge.toNodeId);
+  if (!fromNodeId || !toNodeId || fromNodeId === toNodeId || !nodes[fromNodeId] || !nodes[toNodeId]) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_ENDPOINTS_INVALID', 'manualMap.edge.update', 'EDGE_ENDPOINTS_INVALID', {
+      projectId,
+      mapId,
+      edgeId,
+      fromNodeId,
+      toNodeId,
+    });
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  const nextEdge = nextMap.edges[edgeId];
+  const commandSeq = next.data.lastCommandId + 1;
+  nextEdge.fromNodeId = fromNodeId;
+  nextEdge.toNodeId = toNodeId;
+  if (hasKind) nextEdge.edgeKind = trimString(payload?.edgeKind) || 'link';
+  if (hasLabel) nextEdge.label = trimString(payload?.label);
+  nextEdge.updatedByCommandSeq = commandSeq;
+  nextMap.updatedByCommandSeq = commandSeq;
+  next.data.lastCommandId = commandSeq;
+  return ok(next);
+}
+
+function applyManualMapEdgeDelete(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const edgeId = trimString(payload?.edgeId);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.edge.delete', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.edge.delete', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!edgeId) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_ID_REQUIRED', 'manualMap.edge.delete', 'EDGE_ID_REQUIRED', { projectId, mapId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.edge.delete', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.edge.delete', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const edges = isPlainObject(map.edges) ? map.edges : {};
+  if (!edges[edgeId]) {
+    return fail(state, 'E_MANUAL_MAP_EDGE_NOT_FOUND', 'manualMap.edge.delete', 'EDGE_NOT_FOUND', { projectId, mapId, edgeId });
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  const commandSeq = next.data.lastCommandId + 1;
+  delete nextMap.edges[edgeId];
+  if (isPlainObject(nextMap.templates)) {
+    Object.keys(nextMap.templates).forEach((templateId) => {
+      const template = nextMap.templates[templateId];
+      if (!Array.isArray(template?.appliedEdgeIds)) return;
+      nextMap.templates[templateId] = {
+        ...template,
+        appliedEdgeIds: template.appliedEdgeIds.map(trimString).filter((id) => id && id !== edgeId).sort(),
+      };
+    });
+  }
+  nextMap.updatedByCommandSeq = commandSeq;
+  next.data.lastCommandId = commandSeq;
+  return ok(next);
+}
+
+function applyManualMapGroupCreate(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const groupId = trimString(payload?.groupId);
+  const label = trimString(payload?.label);
+  const colorTag = trimString(payload?.colorTag);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.group.create', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.group.create', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!groupId) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_ID_REQUIRED', 'manualMap.group.create', 'GROUP_ID_REQUIRED', { projectId, mapId });
+  }
+  if (!label) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_LABEL_REQUIRED', 'manualMap.group.create', 'GROUP_LABEL_REQUIRED', { projectId, mapId, groupId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.group.create', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.group.create', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const groups = isPlainObject(map.groups) ? map.groups : {};
+  if (groups[groupId]) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_ALREADY_EXISTS', 'manualMap.group.create', 'GROUP_ALREADY_EXISTS', { projectId, mapId, groupId });
+  }
+  const nodes = isPlainObject(map.nodes) ? map.nodes : {};
+  const normalizedNodes = normalizeManualMapGroupNodeIds(payload?.nodeIds, nodes);
+  if (normalizedNodes.nodeIds.length === 0 || normalizedNodes.missingNodeIds.length > 0) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_NODE_IDS_INVALID', 'manualMap.group.create', 'GROUP_NODE_IDS_INVALID', {
+      projectId,
+      mapId,
+      groupId,
+      missingNodeIds: normalizedNodes.missingNodeIds,
+    });
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  if (!isPlainObject(nextMap.groups)) nextMap.groups = {};
+  const commandSeq = next.data.lastCommandId + 1;
+  nextMap.groups[groupId] = {
+    id: groupId,
+    label,
+    colorTag,
+    nodeIds: normalizedNodes.nodeIds,
+    createdByCommandSeq: commandSeq,
+    updatedByCommandSeq: commandSeq,
+  };
+  nextMap.updatedByCommandSeq = commandSeq;
+  next.data.lastCommandId = commandSeq;
+  return ok(next);
+}
+
+function applyManualMapGroupUpdate(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const groupId = trimString(payload?.groupId);
+  const hasLabel = Object.prototype.hasOwnProperty.call(payload || {}, 'label');
+  const hasColorTag = Object.prototype.hasOwnProperty.call(payload || {}, 'colorTag');
+  const hasNodeIds = Object.prototype.hasOwnProperty.call(payload || {}, 'nodeIds');
+  const label = hasLabel ? trimString(payload?.label) : '';
+  const colorTag = hasColorTag ? trimString(payload?.colorTag) : '';
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.group.update', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.group.update', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!groupId) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_ID_REQUIRED', 'manualMap.group.update', 'GROUP_ID_REQUIRED', { projectId, mapId });
+  }
+  if (hasLabel && !label) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_LABEL_REQUIRED', 'manualMap.group.update', 'GROUP_LABEL_REQUIRED', { projectId, mapId, groupId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.group.update', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.group.update', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const groups = isPlainObject(map.groups) ? map.groups : {};
+  if (!groups[groupId]) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_NOT_FOUND', 'manualMap.group.update', 'GROUP_NOT_FOUND', { projectId, mapId, groupId });
+  }
+  let normalizedNodes = null;
+  if (hasNodeIds) {
+    const nodes = isPlainObject(map.nodes) ? map.nodes : {};
+    normalizedNodes = normalizeManualMapGroupNodeIds(payload?.nodeIds, nodes);
+    if (normalizedNodes.nodeIds.length === 0 || normalizedNodes.missingNodeIds.length > 0) {
+      return fail(state, 'E_MANUAL_MAP_GROUP_NODE_IDS_INVALID', 'manualMap.group.update', 'GROUP_NODE_IDS_INVALID', {
+        projectId,
+        mapId,
+        groupId,
+        missingNodeIds: normalizedNodes.missingNodeIds,
+      });
+    }
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  const nextGroup = nextMap.groups[groupId];
+  const commandSeq = next.data.lastCommandId + 1;
+  if (hasLabel) nextGroup.label = label;
+  if (hasColorTag) nextGroup.colorTag = colorTag;
+  if (normalizedNodes) nextGroup.nodeIds = normalizedNodes.nodeIds;
+  nextGroup.updatedByCommandSeq = commandSeq;
+  nextMap.updatedByCommandSeq = commandSeq;
+  next.data.lastCommandId = commandSeq;
+  return ok(next);
+}
+
+function applyManualMapGroupDelete(state, payload) {
+  const projectId = trimString(payload?.projectId);
+  const mapId = trimString(payload?.mapId);
+  const groupId = trimString(payload?.groupId);
+
+  if (!projectId) {
+    return fail(state, 'E_CORE_PROJECT_ID_REQUIRED', 'manualMap.group.delete', 'PROJECT_ID_REQUIRED');
+  }
+  if (!mapId) {
+    return fail(state, 'E_MANUAL_MAP_ID_REQUIRED', 'manualMap.group.delete', 'MAP_ID_REQUIRED', { projectId });
+  }
+  if (!groupId) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_ID_REQUIRED', 'manualMap.group.delete', 'GROUP_ID_REQUIRED', { projectId, mapId });
+  }
+
+  const project = state.data.projects[projectId];
+  if (!project) {
+    return fail(state, 'E_CORE_PROJECT_NOT_FOUND', 'manualMap.group.delete', 'PROJECT_NOT_FOUND', { projectId });
+  }
+  const manualMaps = normalizeManualMapData(project.manualMaps);
+  const map = manualMaps.maps[mapId];
+  if (!isPlainObject(map)) {
+    return fail(state, 'E_MANUAL_MAP_NOT_FOUND', 'manualMap.group.delete', 'MAP_NOT_FOUND', { projectId, mapId });
+  }
+  const groups = isPlainObject(map.groups) ? map.groups : {};
+  if (!groups[groupId]) {
+    return fail(state, 'E_MANUAL_MAP_GROUP_NOT_FOUND', 'manualMap.group.delete', 'GROUP_NOT_FOUND', { projectId, mapId, groupId });
+  }
+
+  const next = cloneJson(state);
+  const nextManualMaps = ensureManualMapData(next.data.projects[projectId]);
+  const nextMap = nextManualMaps.maps[mapId];
+  const commandSeq = next.data.lastCommandId + 1;
+  delete nextMap.groups[groupId];
+  nextMap.updatedByCommandSeq = commandSeq;
+  next.data.lastCommandId = commandSeq;
   return ok(next);
 }
 
@@ -685,14 +1143,23 @@ function applyManualMapTemplateApply(state, payload) {
     }
     const targetKind = trimString(rawNode?.targetKind);
     const targetId = trimString(rawNode?.targetId);
-    if (targetKind === 'scene' && (!targetId || !isPlainObject(project.scenes) || !project.scenes[targetId])) {
-      return fail(state, 'E_MANUAL_MAP_TEMPLATE_TARGET_SCENE_NOT_FOUND', 'manualMap.template.apply', 'TEMPLATE_TARGET_SCENE_NOT_FOUND', {
-        projectId,
-        mapId,
-        templateId,
-        nodeId,
-        targetId,
-      });
+    const targetError = validateManualMapNodeTarget(project, targetKind, targetId, 'manualMap.template.apply', { projectId, mapId, templateId, nodeId });
+    if (targetError) {
+      return fail(
+        state,
+        targetError.code === 'E_MANUAL_MAP_NODE_TARGET_SCENE_NOT_FOUND'
+          ? 'E_MANUAL_MAP_TEMPLATE_TARGET_SCENE_NOT_FOUND'
+          : targetError.code === 'E_MANUAL_MAP_NODE_TARGET_ENTITY_NOT_FOUND'
+            ? 'E_MANUAL_MAP_TEMPLATE_TARGET_ENTITY_NOT_FOUND'
+            : targetError.code,
+        targetError.op,
+        targetError.reason === 'TARGET_SCENE_NOT_FOUND'
+          ? 'TEMPLATE_TARGET_SCENE_NOT_FOUND'
+          : targetError.reason === 'TARGET_ENTITY_NOT_FOUND'
+            ? 'TEMPLATE_TARGET_ENTITY_NOT_FOUND'
+            : targetError.reason,
+        targetError.details,
+      );
     }
     nextNodeIds.add(nodeId);
     normalizedNodes.push({
@@ -2987,8 +3454,29 @@ export function reduceCoreState(stateInput, commandInput) {
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_NODE_ADD) {
     return applyManualMapNodeAdd(state, command.payload || {});
   }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_NODE_UPDATE) {
+    return applyManualMapNodeUpdate(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_NODE_DELETE) {
+    return applyManualMapNodeDelete(state, command.payload || {});
+  }
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_EDGE_ADD) {
     return applyManualMapEdgeAdd(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_EDGE_UPDATE) {
+    return applyManualMapEdgeUpdate(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_EDGE_DELETE) {
+    return applyManualMapEdgeDelete(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_GROUP_CREATE) {
+    return applyManualMapGroupCreate(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_GROUP_UPDATE) {
+    return applyManualMapGroupUpdate(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_GROUP_DELETE) {
+    return applyManualMapGroupDelete(state, command.payload || {});
   }
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_ATTACHMENT_ADD) {
     return applyManualMapAttachmentAdd(state, command.payload || {});

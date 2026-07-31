@@ -75,20 +75,6 @@ test('ER C03: renderer command registry reaches product commands through bridge-
   const electronAPI = {
     async invokeUiCommandBridge(request) {
       bridgedRequests.push(request);
-      if (request.commandId === 'atlas.observation.suppress') {
-        return {
-          ok: false,
-          value: {
-            ok: false,
-            error: {
-              code: 'E_PRODUCT_COMMAND_BACKEND_DEGRADED',
-              op: request.commandId,
-              reason: 'PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER',
-              details: { commandAuthority: 'CommandKernel', mutationApplied: false },
-            },
-          },
-        };
-      }
       return {
         ok: true,
         value: {
@@ -116,10 +102,10 @@ test('ER C03: renderer command registry reaches product commands through bridge-
   assert.equal(bridgedRequests.at(-1).route, 'command.bus');
   assert.equal(bridgedRequests.at(-1).commandId, 'manualMap.create');
 
-  const degraded = await runCommand('atlas.observation.suppress', { projectId: 'project-a' });
-  assert.equal(degraded.ok, false);
-  assert.equal(degraded.error.code, 'E_PRODUCT_COMMAND_BACKEND_DEGRADED');
-  assert.equal(degraded.error.reason, 'PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER');
+  const suppressResult = await runCommand('atlas.observation.suppress', { projectId: 'project-a' });
+  assert.equal(suppressResult.ok, true);
+  assert.equal(suppressResult.value.commandAuthority, 'CommandKernel');
+  assert.equal(bridgedRequests.at(-1).commandId, 'atlas.observation.suppress');
 
   const unknown = await runCommand('atlas.unknown.write', {});
   assert.equal(unknown.ok, false);
@@ -133,9 +119,11 @@ test('ER C03: main bridge allowlist and routing use product registry and fail cl
   assert.match(mainSource, /new Set\(\[\s*\.\.\.PRODUCT_COMMAND_ID_LIST/);
   assert.match(mainSource, /PRODUCT_COMMAND_ID_SET\.has\(commandId\)/);
   assert.match(mainSource, /dispatchProductCommandBridge\(commandId, payload\)/);
-  assert.match(mainSource, /PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER/);
+  assert.match(mainSource, /reduceCoreState\(binding\.coreState/);
+  assert.match(mainSource, /persistProjectManifestAtPath/);
   assert.match(mainSource, /mutationApplied:\s*false/);
   assert.match(mainSource, /storageWritten:\s*false/);
+  assert.doesNotMatch(mainSource, /PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER/);
   assert.doesNotMatch(mainSource, /resolveMenuCommandId\(commandId[\s\S]{0,80}atlas\./);
 });
 

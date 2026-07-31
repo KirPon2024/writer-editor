@@ -97,7 +97,7 @@ test('E02B C03: list parity model exposes every reachable graph item as determin
   assert.equal(first.rows.find((row) => row.rowId === 'edge:edge-main').selected, true);
   assert.deepEqual(first.rows.map((row) => row.accessibility.posInSet), [1, 2, 3, 4]);
   assert.equal(first.rows.every((row) => row.accessibility.role === 'option'), true);
-  assert.deepEqual(first.counts, { rows: 4, nodes: 3, edges: 1, selectedRows: 2 });
+  assert.deepEqual(first.counts, { rows: 4, nodes: 3, edges: 1, groups: 0, selectedRows: 2 });
   assert.match(first.meta.listParityHash, /^[0-9a-f]{64}$/u);
   assert.equal(JSON.stringify(graph), before);
 });

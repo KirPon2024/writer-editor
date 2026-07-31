@@ -4909,13 +4909,6 @@
       "rationale": "Approve bounded Yalken Atlas V5 E02B C03 selection keyboard and list parity receipt: adds manualMap.listParity.v1, manualMap.listState.v1, and manualMap.keyboardIntent.v1 as pure derived contracts over derived.manualMap.graph.v1 and transient ViewState/ListState, proves list reachability, semantic rows, keyboard navigation, Enter/Space activation, Escape clear, pointer selection parity, no project truth mutation, no UI surface, no storage adapter, no network, no cloud, no paid service, no dependency, and no release readiness widening."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e02b-c03-selection-keyboard-list-parity.contract.test.js",
-      "sha256": "88c8e8df1674656a2c0fea6fd1aca222d73b67f520cdfdc41f4be7ad07c5fb8e",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C03_SELECTION_KEYBOARD_AND_LIST_PARITY",
-      "approvedAtUtc": "2026-07-29T19:57:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E02B C03 contract: proves deterministic list rows for reachable graph nodes and edges, corrupt-edge exclusion, keyboard navigation as transient listState only, keyboard activation parity with pointer selection intents, Escape clear through the existing ViewState reducer, derived barrel exports, and no filesystem, network, Electron, Worker, timers, renderer storage, UI command dispatch, or hot-path event listener bypass is introduced."
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E02B_C04_LAYOUT_RESOURCE_BUDGET_PROOF_RECEIPT.json",
       "sha256": "d94d4f210d27e159e4aa0e4e16920be91ffdd1eed464dbcf5428721dba53ed07",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E02B_C04_WORKER_LAYOUT_AND_10K_RESOURCE_BUDGET_PROOF",
@@ -5714,13 +5707,6 @@
       "rationale": "Approve ER C02 continuity ledger contract rebind: verifies registry-bound continuity query id and handler-map route, preserving explicit-open read surface, intent-only correction route, no UI design change, no dependency, no network, and no direct author-truth mutation."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js",
-      "sha256": "6a356263b48012f7eb021ddb1d3fecde0ea8154e8f4566ea4c17ccba2c6d5caf",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 focused contract: proves one shared workspace query registry, ten Atlas surface ids, main/preload/renderer registry consumption, handler-map reachability, renderer fail-closed unknown query behavior, stale Atlas unavailable gate removal, no UI design change, no dependency, no network, and no runtime mutation authority expansion."
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY_RECEIPT.json",
       "sha256": "f14200598e5db467ef2bee59eecea7bfcff16e745ea15244a5b16c6027da940e",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
@@ -5782,13 +5768,6 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
       "approvedAtUtc": "2026-07-31T09:55:00.000Z",
       "rationale": "Approve ER C03 command catalog contract rebind: allows the existing cmd menu namespace and the shared product command namespace side by side, proves product catalog reachability and explicit Plot degraded status, and adds no menu namespace widening, dependency, network, UI design change, or readiness certification."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js",
-      "sha256": "83505c2858e7f82dfb7cb44bda3ec5b204c183838012a0a0a0a368f920b438c2",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
-      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
-      "rationale": "Approve ER C03 focused contract: proves shared product command registry parity with Core Atlas Manual Map Idea and Meaning commands, renderer catalog and Command Kernel reachability, main bridge registry allowlist, fail-closed degraded adapter, relation action dispatch, explicit Plot no-mutating-command status, no direct UI storage mutation bypass, no dependency, and no network."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json",
@@ -5855,10 +5834,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "005c76743ebded3877b7b4a625302dfbc407e9581673092fb01f7959fd443ba6",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
-      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
-      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+      "sha256": "89665af5e0370ebc40909f45b0914f1123d007a22532f41d0be7ea7dc4b38c96",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T16:15:00.000Z",
+      "rationale": "Approve ER C04 Sector-M scope-map repair: admits exactly four Atlas Manual Map and query projection paths already delivered by the contour, preserves fail-closed diff scope enforcement, adds no src wildcard or prefix, no runtime authority, no dependency, no network, and no readiness claim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
@@ -5908,6 +5887,48 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/unit/sector-m-no-scope-leak.test.js",
+      "sha256": "b2846bfffe2315ddec4dbebd18b11ab559f761cc4a68a7bbdb360584679952b8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T16:15:00.000Z",
+      "rationale": "Approve ER C04 Sector-M scope regression coverage: verifies the Atlas scope additions are exact DONE entries, rejects wildcard or src-prefix expansion, keeps M8 and M9 exactness checks intact, and adds no runtime authority, dependency, network, or product readiness claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e02b-c03-selection-keyboard-list-parity.contract.test.js",
+      "sha256": "ca2292811f8e0b4341a3c4c09736087e53a6e4d88815a91e4099ad29ba0dcd7a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T15:45:00.000Z",
+      "rationale": "Approve ER C04 list-parity contract schema rebind: records Manual Map group rows and zero-group counts as deterministic read projection state while preserving transient list state, no storage, no network, no UI direct mutation, and no product readiness overclaim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js",
+      "sha256": "228f79174b6ef305a93ffc73586088011c57370223707bb61eca362b6d134812",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T15:45:00.000Z",
+      "rationale": "Approve ER C04 query-registry parity extension: requires Manual Map Workbench and Projection Inspector query surfaces to project from the shared registry through main and renderer handlers, preserving fail-closed unknown query behavior, no private allowlist, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js",
+      "sha256": "f81614471733409e0969afc557aae23ab7912ce8602e2b45ecb91ab144485aee",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T15:45:00.000Z",
+      "rationale": "Approve ER C04 command-reachability contract rebind: removes the old degraded backend marker and requires Core reducer plus manifest persistence through Command Kernel for product writes, preserving fail-closed unknown commands, no menu namespace bypass, no renderer storage write, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c04-product-vertical-journeys-graph-workbench.contract.test.js",
+      "sha256": "48b4cc9c72f2ce79f6f1ee2468f61eb9364702f93b0408fc50a276b54abaf9d9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T15:45:00.000Z",
+      "rationale": "Approve ER C04 focused contract: proves Stage 01 Atlas command journey, Stage 02 Manual Map create edit delete group workbench, Stage 03 projection inspector boundary, Stage 05 product surface reachability, shared query and command registries, Command Kernel-only writes, no direct UI storage mutation, no dependency, and no network."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json",
+      "sha256": "18b840babe92a0a1b2c19f99f31c7d887fd48fddab9cb5a2102fdd7809cbcec8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T16:16:30.000Z",
+      "rationale": "Approve ER C04 receipt rebind after origin/main drift: records implementation commit, drift merge validation SHA, green post-drift full runner transcript hash, Sector-M exact-scope repair, Command Kernel-only mutation path, shared query and command registry reachability, keeps ER C07 E11 and EFINAL readiness pending, adds no dependency, no network, no second source of truth, and no direct renderer storage mutation."
     }
   ]
 }

@@ -258,6 +258,9 @@ const rightCommentsPanel = document.querySelector('[data-right-panel-comments]')
 const rightHistoryPanel = document.querySelector('[data-right-panel-history]');
 const rightAtlasPanel = document.querySelector('[data-right-panel-atlas]');
 const rightInspectorTabButton = document.querySelector('[data-right-tab="inspector"]');
+const atlasSurfaceNav = document.querySelector('[data-atlas-surface-nav]');
+const atlasSurfaceButtons = Array.from(document.querySelectorAll('[data-atlas-surface-button]'));
+const atlasSurfaceShells = Array.from(document.querySelectorAll('[data-atlas-surface-shell]'));
 const sceneHistoryHost = document.querySelector('[data-scene-history-host]');
 const reviewSurfaceHost = document.querySelector('[data-review-surface-host]');
 const atlasJourneyHost = document.querySelector('[data-atlas-journey-host]');
@@ -586,6 +589,7 @@ let notesWorkspaceState = {
   includeDeleted: false,
 };
 let currentRightTab = 'inspector';
+let currentAtlasSurface = 'currentScene';
 let pendingDocxImportPreviewValue = null;
 let pendingDocxImportPreviewPlan = null;
 let toolbarColorPickerState = {
@@ -1011,6 +1015,37 @@ const RIGHT_RAIL_SURFACE_PROVIDERS = Object.freeze({
   comments: REVIEW_SURFACE_QUERY_ID,
   history: SCENE_HISTORY_QUERY_ID,
   atlas: ATLAS_CURRENT_SCENE_QUERY_ID,
+});
+const ATLAS_SURFACE_IDS = Object.freeze([
+  'currentScene',
+  'journey',
+  'manualMap',
+  'projection',
+  'overview',
+  'entity',
+  'relation',
+  'matrices',
+  'reports',
+  'diagnostics',
+  'heatmap',
+  'temporal',
+  'continuity',
+]);
+const ATLAS_DEFERRED_SURFACE_IDS = Object.freeze(['heatmap', 'temporal', 'continuity']);
+const ATLAS_SURFACE_PROVIDER_BY_ID = Object.freeze({
+  currentScene: ATLAS_CURRENT_SCENE_QUERY_ID,
+  journey: ATLAS_CURRENT_SCENE_QUERY_ID,
+  manualMap: MANUAL_MAP_WORKBENCH_QUERY_ID,
+  projection: PROJECTION_INSPECTOR_QUERY_ID,
+  overview: ATLAS_OVERVIEW_QUERY_ID,
+  entity: ATLAS_ENTITY_DOSSIER_QUERY_ID,
+  relation: ATLAS_RELATION_DOSSIER_QUERY_ID,
+  matrices: ATLAS_MATRICES_QUERY_ID,
+  reports: ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,
+  diagnostics: ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID,
+  heatmap: ATLAS_HEATMAP_QUERY_ID,
+  temporal: ATLAS_TEMPORAL_LAYOUT_QUERY_ID,
+  continuity: ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID,
 });
 const METADATA_UPDATE_COMMAND_ID = 'cmd.project.metadata.update';
 const REVIEW_SURFACE_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.importLocalPacket';
@@ -8835,16 +8870,7 @@ async function openDocumentNode(node) {
       refreshSceneHistory('');
     }
     if (currentRightTab === 'atlas') {
-      renderAtlasJourneyState();
-      refreshManualMapWorkbench();
-      refreshProjectionInspector();
-      refreshAtlasOverview();
-      refreshAtlasEntityDossier();
-      refreshAtlasRelationDossier();
-      refreshAtlasMatrices();
-      refreshAtlasReportsSavedQueries();
-      refreshAtlasDiagnosticsStageAcceptance();
-      refreshAtlasCurrentScene();
+      refreshActiveAtlasSurface();
     }
     return true;
   } catch {
@@ -11263,6 +11289,116 @@ function normalizeRightTab(tab) {
   return 'inspector';
 }
 
+function normalizeAtlasSurface(surfaceId) {
+  const normalized = typeof surfaceId === 'string' ? surfaceId.trim() : '';
+  return ATLAS_SURFACE_IDS.includes(normalized) ? normalized : 'currentScene';
+}
+
+function isAtlasSurfaceActive(surfaceId) {
+  return normalizeAtlasSurface(surfaceId) === currentAtlasSurface;
+}
+
+function syncAtlasSurfaceCompositionState() {
+  const activeSurface = normalizeAtlasSurface(currentAtlasSurface);
+  currentAtlasSurface = activeSurface;
+  const activeProvider = ATLAS_SURFACE_PROVIDER_BY_ID[activeSurface] || ATLAS_CURRENT_SCENE_QUERY_ID;
+  if (rightAtlasPanel instanceof HTMLElement) {
+    rightAtlasPanel.dataset.activeAtlasSurface = activeSurface;
+    rightAtlasPanel.dataset.activeAtlasProvider = activeProvider;
+  }
+  for (const button of atlasSurfaceButtons) {
+    if (!(button instanceof HTMLElement)) continue;
+    const active = button.dataset.atlasSurfaceButton === activeSurface;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-selected', active ? 'true' : 'false');
+    button.tabIndex = active ? 0 : -1;
+  }
+  for (const shell of atlasSurfaceShells) {
+    if (!(shell instanceof HTMLElement)) continue;
+    const active = shell.dataset.atlasSurfaceShell === activeSurface;
+    shell.hidden = !active;
+    shell.dataset.atlasSurfaceActive = active ? 'true' : 'false';
+  }
+}
+
+function refreshActiveAtlasSurface() {
+  if (currentRightTab !== 'atlas') return;
+  const surface = normalizeAtlasSurface(currentAtlasSurface);
+  syncAtlasSurfaceCompositionState();
+  if (surface === 'journey') {
+    renderAtlasJourneyState();
+    return;
+  }
+  if (surface === 'manualMap') {
+    refreshManualMapWorkbench();
+    return;
+  }
+  if (surface === 'projection') {
+    refreshProjectionInspector();
+    return;
+  }
+  if (surface === 'overview') {
+    refreshAtlasOverview();
+    return;
+  }
+  if (surface === 'entity') {
+    refreshAtlasEntityDossier();
+    return;
+  }
+  if (surface === 'relation') {
+    refreshAtlasRelationDossier();
+    return;
+  }
+  if (surface === 'matrices') {
+    refreshAtlasMatrices();
+    return;
+  }
+  if (surface === 'reports') {
+    refreshAtlasReportsSavedQueries();
+    return;
+  }
+  if (surface === 'diagnostics') {
+    refreshAtlasDiagnosticsStageAcceptance();
+    return;
+  }
+  if (surface === 'heatmap') {
+    atlasHeatmapExplicitOpen = true;
+    renderAtlasHeatmapState();
+    refreshAtlasHeatmap();
+    return;
+  }
+  if (surface === 'temporal') {
+    atlasTemporalLayoutExplicitOpen = true;
+    renderAtlasTemporalLayoutState();
+    refreshAtlasTemporalLayout();
+    return;
+  }
+  if (surface === 'continuity') {
+    atlasContinuityLedgerExplicitOpen = true;
+    renderAtlasContinuityLedgerState();
+    refreshAtlasContinuityLedgerSurface();
+    return;
+  }
+  refreshAtlasCurrentScene();
+}
+
+function setCurrentAtlasSurface(surfaceId, options = {}) {
+  currentAtlasSurface = normalizeAtlasSurface(surfaceId);
+  if (ATLAS_DEFERRED_SURFACE_IDS.includes(currentAtlasSurface)) {
+    if (currentAtlasSurface === 'heatmap') atlasHeatmapExplicitOpen = true;
+    if (currentAtlasSurface === 'temporal') atlasTemporalLayoutExplicitOpen = true;
+    if (currentAtlasSurface === 'continuity') atlasContinuityLedgerExplicitOpen = true;
+  }
+  syncAtlasSurfaceCompositionState();
+  if (options.focus === true) {
+    const button = atlasSurfaceButtons.find((item) => item instanceof HTMLElement && item.dataset.atlasSurfaceButton === currentAtlasSurface);
+    requestAnimationFrame(() => button?.focus({ preventScroll: true }));
+  }
+  if (options.refresh !== false) {
+    refreshActiveAtlasSurface();
+  }
+}
+
 function syncInspectorStateSurface() {
   const commentsActive = currentRightTab === 'comments';
   if (inspectorCommentsAction) {
@@ -11347,6 +11483,7 @@ function syncRightRailCompositionState(tab) {
   if (atlasCurrentSceneHost instanceof HTMLElement) {
     atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
   }
+  syncAtlasSurfaceCompositionState();
 }
 
 function applyRightTab(tab) {
@@ -11359,19 +11496,7 @@ function applyRightTab(tab) {
   } else if (tab === 'history') {
     refreshSceneHistory();
   } else if (tab === 'atlas') {
-    renderAtlasJourneyState();
-    refreshManualMapWorkbench();
-    refreshProjectionInspector();
-    refreshAtlasOverview();
-    refreshAtlasEntityDossier();
-    refreshAtlasRelationDossier();
-    refreshAtlasMatrices();
-    renderAtlasHeatmapState();
-    renderAtlasTemporalLayoutState();
-    renderAtlasContinuityLedgerState();
-    refreshAtlasCurrentScene();
-    refreshAtlasReportsSavedQueries();
-    refreshAtlasDiagnosticsStageAcceptance();
+    refreshActiveAtlasSurface();
   }
   syncInspectorStateSurface();
   syncToolbarShellState();
@@ -12308,6 +12433,7 @@ function selectAtlasEntity(entityId = '') {
   const normalized = typeof entityId === 'string' ? entityId.trim() : '';
   if (!normalized) return;
   atlasSelectedEntityId = normalized;
+  setCurrentAtlasSurface('entity', { refresh: false });
   refreshAtlasEntityDossier();
   updateStatusText('Atlas entity dossier открыт');
 }
@@ -12513,6 +12639,7 @@ function selectAtlasRelation(relation = {}) {
   const rightEntityId = typeof source.rightEntityId === 'string' ? source.rightEntityId.trim() : '';
   if (!pairId && (!leftEntityId || !rightEntityId)) return;
   atlasSelectedRelation = { pairId, leftEntityId, rightEntityId };
+  setCurrentAtlasSurface('relation', { refresh: false });
   refreshAtlasRelationDossier();
   updateStatusText('Atlas relation dossier открыт');
 }
@@ -12953,7 +13080,7 @@ async function refreshAtlasMatrices() {
 function renderAtlasHeatmapState() {
   if (!(atlasHeatmapHost instanceof HTMLElement)) return;
   if (atlasHeatmapShell instanceof HTMLElement) {
-    atlasHeatmapShell.hidden = atlasHeatmapExplicitOpen !== true;
+    atlasHeatmapShell.hidden = !isAtlasSurfaceActive('heatmap') || atlasHeatmapExplicitOpen !== true;
   }
   atlasHeatmapHost.innerHTML = '';
   atlasHeatmapHost.dataset.atlasHeatmapStatus = atlasHeatmapExplicitOpen ? atlasHeatmapState.state : 'closed';
@@ -13095,11 +13222,13 @@ function renderAtlasHeatmapState() {
 
 function closeAtlasHeatmapSurface() {
   atlasHeatmapExplicitOpen = false;
+  setCurrentAtlasSurface('matrices', { refresh: true });
   renderAtlasHeatmapState();
 }
 
 function openAtlasHeatmapSurface() {
   atlasHeatmapExplicitOpen = true;
+  setCurrentAtlasSurface('heatmap', { refresh: false });
   renderAtlasHeatmapState();
   refreshAtlasHeatmap();
 }
@@ -13274,7 +13403,7 @@ function renderAtlasTemporalLayoutState() {
   if (!(atlasTemporalLayoutHost instanceof HTMLElement)) return;
   bindAtlasTemporalLayoutKeyboardNavigation();
   if (atlasTemporalLayoutShell instanceof HTMLElement) {
-    atlasTemporalLayoutShell.hidden = atlasTemporalLayoutExplicitOpen !== true;
+    atlasTemporalLayoutShell.hidden = !isAtlasSurfaceActive('temporal') || atlasTemporalLayoutExplicitOpen !== true;
   }
   atlasTemporalLayoutHost.innerHTML = '';
   atlasTemporalLayoutHost.dataset.atlasTemporalLayoutStatus = atlasTemporalLayoutExplicitOpen ? atlasTemporalLayoutState.state : 'closed';
@@ -13384,11 +13513,13 @@ function renderAtlasTemporalLayoutState() {
 
 function closeAtlasTemporalLayoutSurface() {
   atlasTemporalLayoutExplicitOpen = false;
+  setCurrentAtlasSurface('matrices', { refresh: true });
   renderAtlasTemporalLayoutState();
 }
 
 function openAtlasTemporalLayoutSurface() {
   atlasTemporalLayoutExplicitOpen = true;
+  setCurrentAtlasSurface('temporal', { refresh: false });
   renderAtlasTemporalLayoutState();
   refreshAtlasTemporalLayout();
 }
@@ -13560,7 +13691,7 @@ function appendAtlasContinuityLedgerRows(parent, rows) {
 function renderAtlasContinuityLedgerState() {
   if (!(atlasContinuityLedgerHost instanceof HTMLElement)) return;
   if (atlasContinuityLedgerShell instanceof HTMLElement) {
-    atlasContinuityLedgerShell.hidden = atlasContinuityLedgerExplicitOpen !== true;
+    atlasContinuityLedgerShell.hidden = !isAtlasSurfaceActive('continuity') || atlasContinuityLedgerExplicitOpen !== true;
   }
   atlasContinuityLedgerHost.innerHTML = '';
   atlasContinuityLedgerHost.dataset.atlasContinuityLedgerStatus = atlasContinuityLedgerExplicitOpen ? atlasContinuityLedgerState.state : 'closed';
@@ -13634,11 +13765,13 @@ function renderAtlasContinuityLedgerState() {
 
 function closeAtlasContinuityLedgerSurface() {
   atlasContinuityLedgerExplicitOpen = false;
+  setCurrentAtlasSurface('matrices', { refresh: true });
   renderAtlasContinuityLedgerState();
 }
 
 function openAtlasContinuityLedgerSurface() {
   atlasContinuityLedgerExplicitOpen = true;
+  setCurrentAtlasSurface('continuity', { refresh: false });
   renderAtlasContinuityLedgerState();
   refreshAtlasContinuityLedgerSurface();
 }
@@ -17796,6 +17929,43 @@ if (rightTabsHost) {
     event.preventDefault();
     buttons[nextIndex].focus();
     activateRightRailTabButton(buttons[nextIndex]);
+  });
+}
+
+if (atlasSurfaceNav) {
+  atlasSurfaceNav.addEventListener('click', (event) => {
+    const button = event.target instanceof Element
+      ? event.target.closest('[data-atlas-surface-button]')
+      : null;
+    if (!(button instanceof HTMLElement)) return;
+    setCurrentAtlasSurface(button.dataset.atlasSurfaceButton || 'currentScene', { refresh: true });
+  });
+
+  atlasSurfaceNav.addEventListener('keydown', (event) => {
+    const activeButton = event.target instanceof Element
+      ? event.target.closest('[data-atlas-surface-button]')
+      : null;
+    if (!(activeButton instanceof HTMLElement)) return;
+    const buttons = atlasSurfaceButtons.filter((button) => button instanceof HTMLElement && !button.hidden);
+    const currentIndex = buttons.indexOf(activeButton);
+    if (currentIndex < 0) return;
+    let nextIndex = currentIndex;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextIndex = (currentIndex + 1) % buttons.length;
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+    } else if (event.key === 'Home') {
+      nextIndex = 0;
+    } else if (event.key === 'End') {
+      nextIndex = buttons.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    setCurrentAtlasSurface(buttons[nextIndex].dataset.atlasSurfaceButton || 'currentScene', {
+      refresh: true,
+      focus: true,
+    });
   });
 }
 

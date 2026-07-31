@@ -976,9 +976,29 @@
           aria-labelledby="right-tab-atlas"
           hidden
         >
+          <nav class="right-rail-atlas-nav" aria-label="Atlas surfaces" data-atlas-surface-nav role="tablist">
+            <button type="button" class="right-rail-atlas-nav__button is-active" id="atlas-surface-tab-current-scene" data-atlas-surface-button="currentScene" aria-controls="atlas-surface-panel-current-scene" aria-selected="true" role="tab">Scene</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-journey" data-atlas-surface-button="journey" aria-controls="atlas-surface-panel-journey" aria-selected="false" role="tab">Flow</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-manual-map" data-atlas-surface-button="manualMap" aria-controls="atlas-surface-panel-manual-map" aria-selected="false" role="tab">Map</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-projection" data-atlas-surface-button="projection" aria-controls="atlas-surface-panel-projection" aria-selected="false" role="tab">Plot</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-overview" data-atlas-surface-button="overview" aria-controls="atlas-surface-panel-overview" aria-selected="false" role="tab">Overview</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-entity" data-atlas-surface-button="entity" aria-controls="atlas-surface-panel-entity" aria-selected="false" role="tab">Entity</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-relation" data-atlas-surface-button="relation" aria-controls="atlas-surface-panel-relation" aria-selected="false" role="tab">Relation</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-matrices" data-atlas-surface-button="matrices" aria-controls="atlas-surface-panel-matrices" aria-selected="false" role="tab">Matrix</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-reports" data-atlas-surface-button="reports" aria-controls="atlas-surface-panel-reports" aria-selected="false" role="tab">Reports</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-diagnostics" data-atlas-surface-button="diagnostics" aria-controls="atlas-surface-panel-diagnostics" aria-selected="false" role="tab">Diag.</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-heatmap" data-atlas-surface-button="heatmap" aria-controls="atlas-surface-panel-heatmap" aria-selected="false" role="tab">Heatmap</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-temporal" data-atlas-surface-button="temporal" aria-controls="atlas-surface-panel-temporal" aria-selected="false" role="tab">Time</button>
+            <button type="button" class="right-rail-atlas-nav__button" id="atlas-surface-tab-continuity" data-atlas-surface-button="continuity" aria-controls="atlas-surface-panel-continuity" aria-selected="false" role="tab">Ledger</button>
+          </nav>
           <div
+            id="atlas-surface-panel-journey"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-journey-shell
+            data-atlas-surface-shell="journey"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-journey"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-journey"
@@ -987,8 +1007,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-manual-map"
             class="right-rail-shell right-rail-shell--atlas"
             data-manual-map-workbench-shell
+            data-atlas-surface-shell="manualMap"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-manual-map"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--manual-map-workbench"
@@ -997,8 +1022,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-projection"
             class="right-rail-shell right-rail-shell--atlas"
             data-projection-inspector-shell
+            data-atlas-surface-shell="projection"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-projection"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--projection-inspector"
@@ -1007,8 +1037,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-overview"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-overview-shell
+            data-atlas-surface-shell="overview"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-overview"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-overview"
@@ -1017,8 +1052,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-entity"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-entity-dossier-shell
+            data-atlas-surface-shell="entity"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-entity"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-entity-dossier"
@@ -1027,8 +1067,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-relation"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-relation-dossier-shell
+            data-atlas-surface-shell="relation"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-relation"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-relation-dossier"
@@ -1037,8 +1082,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-matrices"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-matrices-shell
+            data-atlas-surface-shell="matrices"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-matrices"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-matrices"
@@ -1047,9 +1097,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-heatmap"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-heatmap-shell
             hidden
+            data-atlas-surface-shell="heatmap"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-heatmap"
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-heatmap"
@@ -1058,9 +1112,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-temporal"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-temporal-layout-shell
             hidden
+            data-atlas-surface-shell="temporal"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-temporal"
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-temporal-layout"
@@ -1069,9 +1127,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-continuity"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-continuity-ledger-shell
             hidden
+            data-atlas-surface-shell="continuity"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-continuity"
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-continuity-ledger"
@@ -1080,8 +1142,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-reports"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-reports-shell
+            data-atlas-surface-shell="reports"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-reports"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-reports"
@@ -1090,8 +1157,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-diagnostics"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-diagnostics-shell
+            data-atlas-surface-shell="diagnostics"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-diagnostics"
+            hidden
           >
             <div
               class="right-rail-surface right-rail-surface--atlas-diagnostics"
@@ -1100,9 +1172,13 @@
             ></div>
           </div>
           <div
+            id="atlas-surface-panel-current-scene"
             class="right-rail-shell right-rail-shell--atlas"
             data-atlas-current-scene-host
             data-atlas-current-scene-provider="query.atlasCurrentScene"
+            data-atlas-surface-shell="currentScene"
+            role="tabpanel"
+            aria-labelledby="atlas-surface-tab-current-scene"
           ></div>
         </div>
         <div class="sidebar__resize-handle sidebar__resize-handle--right" data-right-sidebar-resizer aria-hidden="true"></div>

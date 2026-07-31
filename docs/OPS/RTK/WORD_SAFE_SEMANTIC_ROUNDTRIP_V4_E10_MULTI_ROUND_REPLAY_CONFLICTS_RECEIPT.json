@@ -1,0 +1,407 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e10-multi-round-replay-conflicts-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_10_MULTI_ROUND_REPLAY_STALE_CONFLICTS",
+  "status": "MULTI_ROUND_REPLAY_STALE_CONFLICTS_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "createdAtUtc": "2026-07-31T12:25:00.000Z",
+  "base": {
+    "originMainSha": "54b9d1f35a360c6d2ff037a0718596710bee300e",
+    "branch": "codex/rtk-v4-e10-multi-round-replay-conflicts",
+    "preserveOwnerDirtyMain": true,
+    "preserveAtlasWorktree": true,
+    "v6HistoryRewritten": false,
+    "d1EvidenceRewritten": false
+  },
+  "boundSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "blockId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4"
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "certifiedProfileId": "word-mac-latest-observed-16.111.x-semantic-v2-e10-replay-conflict",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
+    "versionByAppleScript": "16.111.2",
+    "openDocumentsBeforeLab": 1,
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "externalEvidence": {
+    "artifactRootKind": "T7_SECURE_SYNTHETIC_PHYSICAL_WORD_LAB",
+    "sourceStage": "B06_WORD_MAC_LATEST_PHYSICAL_CERTIFICATION",
+    "runId": "e06-physical-text-001",
+    "externalReceiptPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e06-physical-text-certification/e06-physical-text-001/b06-physical-certification-receipt.json",
+    "externalReceiptSha256": "f2bba49d7d026f7a31d2594116b8f224777196147c8aa63c4b48607e6a76951a",
+    "externalReceiptDigest": "sha256:1a66926a25f22ba7eb3417381a2515c639244941b5dd9b0b7cdb87f6d95a7a52",
+    "externalFileAvailableAtReceiptCreation": true,
+    "syntheticOnly": true,
+    "userDocumentsOpened": false,
+    "closeNonLabDocuments": false
+  },
+  "multiRoundTotals": {
+    "physicalGuardCases": 5,
+    "staleTamperedStrippedCases": 1,
+    "replayIdempotenceCases": 1,
+    "noEditConservationCases": 1,
+    "reExportNoEditOracleCases": 1,
+    "hostilePackageBlockedCases": 1,
+    "exactAutomaticCandidates": 0,
+    "automaticReplayApplyCertified": 0,
+    "divergentRoundAutoMergeCertified": 0,
+    "destructiveConflictWriteAdded": 0,
+    "productNetworkRequests": 0
+  },
+  "guardCertificationBoundary": {
+    "proven": [
+      "physical Word stale tampered and stripped locator return remains authority rejected and cannot become EXACT",
+      "repeated import evidence is modeled as ALREADY_ANALYZED or ALREADY_APPLIED and never a second mutation",
+      "no-edit Word save close reopen return is a semantic conservation oracle with zero text candidates",
+      "supported apply re-export no-edit oracle remains blocked when signed locator authority is absent",
+      "hostile active-content package remains typed BLOCKED before preview or apply"
+    ],
+    "notProven": [
+      "automatic replay apply beyond the existing outcome ledger guard",
+      "divergent editor round auto-merge",
+      "multi-scene atomic apply coordinator",
+      "re-export apply oracle success when signed locator authority drops"
+    ]
+  },
+  "guardCertificationCases": [
+    {
+      "caseId": "WL2-022",
+      "title": "stale round tampered manifest and stripped locators",
+      "family": "stale tampered stripped duplicate and replay negatives",
+      "requiredPhysicalActions": [
+        "tamper-customXml-hmac",
+        "strip-bookmarks",
+        "stale-baseline-return",
+        "save",
+        "close-reopen"
+      ],
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "guardKinds": [
+        "staleBaselineBlocked",
+        "tamperedManifestBlocked",
+        "strippedLocatorBlocked"
+      ],
+      "guardOutcome": "BLOCKED_AUTHORITY_REJECT_TAMPERED_OR_STALE",
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 1,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "authority": {
+        "validSignedLocator": false,
+        "sceneRevisionUnchanged": true,
+        "rawSha256Unchanged": true,
+        "uniqueTarget": true,
+        "nonOverlapping": true,
+        "allRelevantXmlSemanticsAccounted": false,
+        "ambiguousDuplicate": false,
+        "crossScene": false,
+        "structuralTopologyChanged": false
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 1,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "commentsPass": false,
+      "noSilentApplyProof": "analysis-and-preview-only-no-writer-call",
+      "sourceDocxSha256": "sha256:5de3a1550a080afc5942e6c7a1d601bc63ce393d0ff201c09ed25764407369f0",
+      "returnedDocxSha256": "sha256:7a4e994f2b9bb1a261cb052db484faaff22944001b45e12c81cc5d02b7a0ab54",
+      "wordReadbackDigest": "sha256:341ec7dbe9b412aa9e4e2c0ffb60a236aa7369157832857ce3abc910a41a9409",
+      "analysisDigest": "sha256:0823e2bcf29678fbf56b000f1939d8532e2cbbef680d1dfcad94f3b847351fd9",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": [
+        "POST_WORD_STRIPPED_LOCATOR_NEGATIVE"
+      ]
+    },
+    {
+      "caseId": "WL2-023",
+      "title": "repeated import idempotence",
+      "family": "stale tampered stripped duplicate and replay negatives",
+      "requiredPhysicalActions": [
+        "return-once",
+        "analyze",
+        "apply-if-exact",
+        "return-same-docx-again"
+      ],
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "guardKinds": [
+        "repeatedImportIdempotent",
+        "outcomeLedgerReplayGuard",
+        "commentsRemainShadowOnly"
+      ],
+      "guardOutcome": "ALREADY_ANALYZED_OR_ALREADY_APPLIED_NOT_SECOND_MUTATION",
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 1,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "authority": {
+        "validSignedLocator": false,
+        "sceneRevisionUnchanged": true,
+        "rawSha256Unchanged": true,
+        "uniqueTarget": true,
+        "nonOverlapping": true,
+        "allRelevantXmlSemanticsAccounted": false,
+        "ambiguousDuplicate": false,
+        "crossScene": false,
+        "structuralTopologyChanged": false
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 4,
+        "blocked": 10,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "commentsPass": false,
+      "noSilentApplyProof": "analysis-and-preview-only-no-writer-call",
+      "sourceDocxSha256": "sha256:5eb0c081eeeda654126872d05a6b379446cd2d43473aa9f07960ef3d0e62696f",
+      "returnedDocxSha256": "sha256:6d0113dd3f574dfabf616f8441bc5033eacbce9fc48ffcd85cc9313c43f6af18",
+      "wordReadbackDigest": "sha256:9bd0a83fe47a9ec560de6ba3cf2710d925f3af3da5f2a0216c86aff13f43de1b",
+      "analysisDigest": "sha256:96cdc94ce03a8bb56301879445df73fadd5810fd3d90073cbcc6f725cc100c63",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-029",
+      "title": "no edit conservation oracle",
+      "family": "no-edit conservation and re-export reopen oracle",
+      "requiredPhysicalActions": [
+        "open-exported-docx",
+        "no-edit-save",
+        "close-reopen",
+        "return-to-yalken"
+      ],
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "guardKinds": [
+        "noEditConservationOracle",
+        "zeroCandidateNoEditReturn",
+        "wordNoEditPackageRewriteSemanticCompare"
+      ],
+      "guardOutcome": "NO_EDIT_RETURN_STAYS_ZERO_TEXT_CANDIDATE",
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "authority": {
+        "validSignedLocator": false,
+        "sceneRevisionUnchanged": true,
+        "rawSha256Unchanged": true,
+        "uniqueTarget": true,
+        "nonOverlapping": true,
+        "allRelevantXmlSemanticsAccounted": false,
+        "ambiguousDuplicate": false,
+        "crossScene": false,
+        "structuralTopologyChanged": false
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 0,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "commentsPass": false,
+      "noSilentApplyProof": "analysis-and-preview-only-no-writer-call",
+      "sourceDocxSha256": "sha256:41b6d8a0b478db5357337a8e7c6a2c01f4b4e02c05e8c40c21be182bf32f3a01",
+      "returnedDocxSha256": "sha256:916c06dd165df8c708a97c507c02fbc4f4e131e19536fa325c9a35edf8e24338",
+      "wordReadbackDigest": "sha256:b8346588a8f370a3e01189184166dd17c9da14dd3a23ef9774f55a303f51801a",
+      "analysisDigest": "sha256:b45717dc39261b75429671445df892997c0a5fad0901e41629ab3e971e2c22bc",
+      "parserProfileDigest": "sha256:b4ad50ca796f1690ca8f93f495bd591d2234ad9080274843af8e832500cf266a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-030",
+      "title": "supported apply re-export no-edit oracle",
+      "family": "no-edit conservation and re-export reopen oracle",
+      "requiredPhysicalActions": [
+        "apply-supported-exact",
+        "re-export-docx",
+        "open-in-word",
+        "no-edit-save",
+        "return-to-yalken"
+      ],
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "guardKinds": [
+        "reExportNoEditOracleBlockedWithoutSignedLocator",
+        "supportedApplyReexportRequiresSignedLocator"
+      ],
+      "guardOutcome": "REEXPORT_ORACLE_BLOCKED_AUTHORITY_REJECT_READ_ONLY",
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "authority": {
+        "validSignedLocator": false,
+        "sceneRevisionUnchanged": true,
+        "rawSha256Unchanged": true,
+        "uniqueTarget": true,
+        "nonOverlapping": true,
+        "allRelevantXmlSemanticsAccounted": false,
+        "ambiguousDuplicate": false,
+        "crossScene": false,
+        "structuralTopologyChanged": false
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 4,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "commentsPass": false,
+      "noSilentApplyProof": "analysis-and-preview-only-no-writer-call",
+      "sourceDocxSha256": "sha256:8517e46737a08df3a9f9e28ba6499774156cedd41f1f5f73e4defb3112755b35",
+      "returnedDocxSha256": "sha256:2317a9ead4fcb9725d0ef6bfde09bf7a119194e58bea4c04c7b259b1ae2c40cf",
+      "wordReadbackDigest": "sha256:2f64a716d0c941d1670385fb44044a8f43ceea884859c5ab76cd91f259089776",
+      "analysisDigest": "sha256:3c9737977125bd43878f2c59dbd1dbec7ef0e18e545ab3dabbf3c4b55c6e75c2",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": [
+        "SUPPORTED_APPLY_REEXPORT_ORACLE_REMAINS_BLOCKED_WHEN_SIGNED_LOCATOR_DROPS"
+      ]
+    },
+    {
+      "caseId": "WL2-031",
+      "title": "hostile and active content negative package",
+      "family": "stale tampered stripped duplicate and replay negatives",
+      "requiredPhysicalActions": [
+        "inject-macro-or-ole-fixture",
+        "external-relationship-fixture",
+        "zip-bomb-fixture"
+      ],
+      "wordStatus": "PASS",
+      "parserStatus": "BLOCKED",
+      "sourceMode": "CLEAN",
+      "guardKinds": [
+        "hostilePackageBlocked",
+        "activeContentRejectedBeforeApply",
+        "externalRelationshipRejectedBeforeApply"
+      ],
+      "guardOutcome": "PACKAGE_REJECT_BLOCKED_NO_PREVIEW_APPLY",
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 0
+      },
+      "authority": {
+        "validSignedLocator": false,
+        "sceneRevisionUnchanged": true,
+        "rawSha256Unchanged": true,
+        "uniqueTarget": true,
+        "nonOverlapping": true,
+        "allRelevantXmlSemanticsAccounted": false,
+        "ambiguousDuplicate": false,
+        "crossScene": false,
+        "structuralTopologyChanged": false
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 0,
+        "blocked": 0,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "commentsPass": false,
+      "noSilentApplyProof": "analysis-and-preview-only-no-writer-call",
+      "sourceDocxSha256": "sha256:2750e0cbf18eef6e0abceccac1457fa04c4b68564cc1c0910ce80b1a2579a0fe",
+      "returnedDocxSha256": "sha256:25d47b675e82e9f762011ff7c3b661ebdf87aa904ad17ae64eba6857ffdc4850",
+      "wordReadbackDigest": "sha256:0bb534956d78f7db405f3641e2a7c3fd5488012a616048075f21a9d9c29ed33e",
+      "analysisDigest": "",
+      "parserProfileDigest": "",
+      "limitations": [
+        "POST_WORD_HOSTILE_PACKAGE_NEGATIVE"
+      ]
+    }
+  ],
+  "typedLimitations": [
+    "REPLAY_SECOND_MUTATION_NOT_CERTIFIED_IN_E10",
+    "DIVERGENT_ROUND_AUTOMERGE_NOT_CERTIFIED_IN_E10",
+    "REEXPORT_APPLY_ORACLE_REMAINS_BLOCKED_WITHOUT_SIGNED_LOCATOR",
+    "MULTI_SCENE_ATOMIC_COORDINATOR_NOT_CERTIFIED_IN_E10",
+    "HOSTILE_PACKAGE_PREVIEW_AND_APPLY_REMAIN_BLOCKED"
+  ],
+  "runtimeClaims": {
+    "multiRoundReplayConflictGuardsCertified": true,
+    "automaticReplayApplyAdded": false,
+    "divergentRoundAutoMergeAdded": false,
+    "destructiveConflictWriteAdded": false,
+    "writerAuthorityAdded": false,
+    "reviewSessionMutationAuthorityAdded": false,
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "dependencyAdded": false,
+    "networkAdded": false,
+    "fixtureOnlyPassClaimed": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentConflictWrite": 0,
+    "productNetworkRequests": 0
+  },
+  "testEvidence": {
+    "status": "PASS",
+    "focusedVerifier": "node scripts/ops/rtk-word-v4-e10-multi-round-replay-conflicts.mjs --json --require-external PASS",
+    "focusedContract": "node --test E06 E07 E08 E09 E10 RTK V4 contracts PASS 26 pass 0 fail",
+    "adjacentContracts": "E06 physical text E07 comments E08 formatting E09 structural contracts PASS",
+    "governance": "node scripts/ops/governance-change-detection.mjs --json PASS",
+    "ossPolicy": "npm run -s oss:policy PASS",
+    "opsSuite": "npm run -s test:ops PASS",
+    "syntax": "node --check scripts/ops/rtk-word-v4-e10-multi-round-replay-conflicts.mjs PASS",
+    "fullSuite": "npm test -- --runInBand PASS 795 tests 731 pass 64 skip 0 fail perf baseline PASS menu release checks PASS",
+    "verifiedAtUtc": "2026-07-31T13:05:00.000Z"
+  },
+  "nonClaims": [
+    "E10 does not certify automatic replay apply or divergent round auto-merge",
+    "E10 does not certify multi-scene atomic coordinator or cross-scene write authority",
+    "E10 does not convert tampered stale stripped or hostile returns into EXACT",
+    "E10 does not change product runtime UI dependencies or network policy"
+  ],
+  "nextStage": "EXECUTION_11_MULTI_SCENE_ATOMIC_COORDINATOR_CRASH_PROOF"
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_REPLAY_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -322,6 +322,44 @@
         "table section footnote endnote field image header footer and layout mutation are not certified by E09"
       ],
       "killCriterion": "any structural diagnostic is claimed as automatic or destructive apply, native move revisions are claimed without evidence, cross-scene topology becomes EXACT, or writer authority is added"
+    },
+    {
+      "capabilityId": "rtk.word.v4.multiRoundReplayStaleConflictGuards",
+      "operationFamily": "multi-round repeated import stale baseline tampered locator conflict and no-edit conservation guards",
+      "state": "PHYSICAL_WORD_PROVEN",
+      "currentCapability": "REPLAY_STALE_CONFLICT_GUARD_DIAGNOSTICS_WITH_TYPED_LIMITATIONS",
+      "physicalWordEvidence": true,
+      "consumer": "EXECUTION_11 multi-scene atomic coordinator crash proof",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
+      "physicalTotals": {
+        "physicalGuardCases": 5,
+        "staleTamperedStrippedCases": 1,
+        "replayIdempotenceCases": 1,
+        "noEditConservationCases": 1,
+        "reExportNoEditOracleCases": 1,
+        "hostilePackageBlockedCases": 1,
+        "exactAutomaticCandidates": 0,
+        "automaticReplayApplyCertified": 0,
+        "divergentRoundAutoMergeCertified": 0,
+        "destructiveConflictWriteAdded": 0,
+        "productNetworkRequests": 0
+      },
+      "supportedNow": [
+        "stale tampered and stripped locator returns remain authority rejected",
+        "repeated import is idempotent and cannot produce a second mutation",
+        "no-edit Word save close reopen return is bound as zero text candidate conservation evidence",
+        "re-export no-edit oracle remains blocked without signed locator authority",
+        "hostile active-content package remains typed blocked before preview or apply"
+      ],
+      "limitations": [
+        "REPLAY_SECOND_MUTATION_NOT_CERTIFIED_IN_E10",
+        "DIVERGENT_ROUND_AUTOMERGE_NOT_CERTIFIED_IN_E10",
+        "REEXPORT_APPLY_ORACLE_REMAINS_BLOCKED_WITHOUT_SIGNED_LOCATOR",
+        "MULTI_SCENE_ATOMIC_COORDINATOR_NOT_CERTIFIED_IN_E10",
+        "HOSTILE_PACKAGE_PREVIEW_AND_APPLY_REMAIN_BLOCKED"
+      ],
+      "killCriterion": "any stale tampered stripped hostile or replay return becomes EXACT, any second mutation occurs, any divergent round auto-merge is claimed, or writer authority is added"
     }
   ]
 }

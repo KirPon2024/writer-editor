@@ -243,19 +243,12 @@ function buildEvidence({ layoutHash, sourceHashes }) {
     schemaVersion: 'derived.atlas.temporalLayout.evidence.v1',
     sourceHashes,
     layoutHash,
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      leadSearchQuery: 'timeline dashboard',
-      coverageStrength: 'strong',
-      topSimilarity: 0.56,
-      referenceCompanies: ['fibery', 'coda', 'formlabs'],
-      fullReport: 'unavailable',
-      fullReportUnavailableReason: 'LAZYWEB_OBJECTIVE_CREATE_REDIRECTED_TO_WORKFLOW_NOT_FOUND',
-      resultUse: 'reference-only temporal dashboard density, explicit date controls, timeline grid, and list fallback signal',
-    },
-    uiCraft: {
-      applied: true,
-      craftRead: 'desktop authoring analytics surface, product language, restrained neutral Atlas tokens, variance 4, signature bet: native slider over a compact evidence-first timeline',
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
+      readinessToken: false,
+      externalReportAvailable: false,
     },
     guarantees: {
       readOnly: true,

@@ -290,7 +290,7 @@ function buildAuditReceipt({ inventory, surfaceRuns, externalEvidence }) {
       ...evidenceArtifacts,
       allRequiredArtifactsPresent: externalEvidenceReady,
       missingArtifacts,
-      lazywebAdvisoryOnly: true,
+      designAdvisoryOnly: true,
       derivedSurfaceStateIsNotReadinessToken: true,
     },
     accessibility: {
@@ -671,22 +671,13 @@ function emptyDiagnostics(projectId, reason = '') {
 function buildEvidence() {
   return {
     schemaVersion: 'derived.atlas.diagnosticsStageAcceptance.evidence.v1',
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      advisoryOnly: true,
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
       readinessToken: false,
-      query: 'diagnostics dashboard',
-      coverageStrength: 'moderate',
-      topSimilarity: 0.539,
-      referenceCompanies: ['appsignal', 'logrocket', 'fingerprint'],
-      fullReport: 'unavailable',
-      fullReportUnavailableReason: 'No current diagnostics screenshot was available in this local Electron session; C08 uses repo-native finalize-equivalent and heuristic receipts.',
-    },
-    uiCraft: {
-      applied: true,
       advisoryOnly: true,
-      readinessToken: false,
-      references: ['accessibility', 'dashboard', 'dataviz', 'responsive', 'motion rendering performance', 'heuristics', 'finish-bar', 'review feedback hierarchy'],
+      externalReportAvailable: false,
     },
   };
 }

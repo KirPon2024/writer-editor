@@ -179,12 +179,11 @@ function buildEvidence({ overviewHash, sourceHashes }) {
     schemaVersion: 'derived.atlas.overview.evidence.v1',
     sourceHashes,
     overviewHash,
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      query: 'knowledge graph dashboard',
-      coverageStrength: 'strong',
-      referenceCompanies: ['relevance-ai', 'v7-labs', 'mixpanel', 'profound'],
-      resultUse: 'reference-only UI density and dashboard structure signal',
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
+      readinessToken: false,
     },
   };
 }

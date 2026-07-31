@@ -113,7 +113,9 @@ test('E05 C02: entity dossier derives a read-only surface manifest and evidence 
   assert.equal(result.value.evidenceLedger.commandAuthority, 'none');
   assert.ok(result.value.evidenceLedger.rows.some((row) => row.rowKind === 'sourceRecord' && row.evidenceState === 'REVIEW_REQUIRED'));
   assert.ok(result.value.evidenceLedger.rows.some((row) => row.rowKind === 'observation' && row.evidenceState === 'CURRENT'));
-  assert.equal(result.value.evidence.lazyweb.query, 'entity evidence dashboard');
+  assert.equal(result.value.evidence.designAdvisory.applied, true);
+  assert.equal(result.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(result.value.evidence.designAdvisory.readinessToken, false);
 });
 
 test('E05 C02: entity dossier chooses a deterministic entity and fails closed without mutation', async () => {

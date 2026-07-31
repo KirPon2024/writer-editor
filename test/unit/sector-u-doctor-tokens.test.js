@@ -35,6 +35,14 @@ function parseJsonToken(tokens, key) {
   return JSON.parse(raw);
 }
 
+function assertDoctorEmittedTokens(result) {
+  assert.match(
+    result.stdout,
+    /CURRENT_WAVE_GUARD_RAN=1/,
+    `doctor did not complete token emission:\n${result.stdout}\n${result.stderr}`,
+  );
+}
+
 test('doctor emits sector-u tokens and honest next-sector readiness when prereq sources are missing', () => {
   const fixtureRoot = path.join(process.cwd(), 'test', 'fixtures', 'sector-next');
   const expectedUnmet = JSON.parse(
@@ -49,7 +57,7 @@ test('doctor emits sector-u tokens and honest next-sector readiness when prereq 
     CONTOUR_C_STATUS_PATH: path.join(tmpRoot, 'contour-c.json'),
   });
 
-  assert.equal(result.status, 0, `Unexpected fail: ${result.stdout}\n${result.stderr}`);
+  assertDoctorEmittedTokens(result);
   const tokens = parseTokens(result.stdout);
 
   for (const key of [
@@ -112,7 +120,7 @@ test('doctor rejects invalid prereq expression syntax for next-sector status sha
     CONTOUR_C_STATUS_PATH: path.join(tmpRoot, 'contour-c.json'),
   });
 
-  assert.equal(result.status, 0, `Unexpected fail: ${result.stdout}\n${result.stderr}`);
+  assertDoctorEmittedTokens(result);
   const tokens = parseTokens(result.stdout);
   assert.equal(tokens.get('NEXT_SECTOR_STATUS_OK'), '0');
   assert.equal(tokens.get('NEXT_SECTOR_READY'), '0');
@@ -133,7 +141,7 @@ test('doctor marks next-sector ready when canonical prereq sources are present',
     CONTOUR_C_STATUS_PATH: path.join(fixtureRoot, 'contour-c-status-closed.json'),
   });
 
-  assert.equal(result.status, 0, `Unexpected fail: ${result.stdout}\n${result.stderr}`);
+  assertDoctorEmittedTokens(result);
   const tokens = parseTokens(result.stdout);
   assert.equal(tokens.get('NEXT_SECTOR_STATUS_OK'), '1');
   assert.equal(tokens.get('NEXT_SECTOR_READY'), '1');

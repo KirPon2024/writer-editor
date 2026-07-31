@@ -320,6 +320,9 @@
       "scripts/ops/rtk-word-v4-e11-multi-scene-atomic-coordinator.mjs",
       "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json",
+      "scripts/ops/rtk-word-sandbox-work-root.mjs",
+      "scripts/ops/rtk-word-v4-e12-physical-wave40.mjs",
       "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
       "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js"
     ]

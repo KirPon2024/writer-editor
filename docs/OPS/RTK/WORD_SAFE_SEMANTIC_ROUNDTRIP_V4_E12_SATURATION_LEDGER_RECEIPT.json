@@ -2,11 +2,11 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_LEDGER_BOUND_NOT_SATURATED",
-  "createdAtUtc": "2026-07-31T15:02:00.000Z",
+  "status": "WORD_SATURATION_WAVE40_COMPLETE_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T07:47:17.080Z",
   "base": {
-    "originMainSha": "b4d3f243dc9f531eab7ce9c56d3e6e9b499d4d4e",
-    "branch": "codex/rtk-v4-e12-unicode-hostile-performance-crash-replay",
+    "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
+    "branch": "codex/rtk-v4-e12-physical-wave-40",
     "priorMergedStage": "EXECUTION_11_MULTI_SCENE_ATOMIC_COORDINATOR_CRASH_PROOF"
   },
   "boundSpec": {
@@ -27,15 +27,18 @@
       300
     ],
     "completedWaves": [
-      10
+      10,
+      40
     ],
-    "currentWaveTarget": 40,
-    "currentWaveObservedRounds": 32,
+    "currentWaveTarget": 100,
+    "currentWaveObservedRounds": 40,
     "consecutiveStableApprovedWaves": 0,
     "stableHistogram": false,
     "saturated": false,
     "wordSaturationClaimAllowed": false,
-    "googleDocsAllowedToOpen": false
+    "googleDocsAllowedToOpen": false,
+    "lastCompletedWaveTarget": 40,
+    "nextWaveTarget": 100
   },
   "evidenceBindings": [
     {
@@ -79,6 +82,13 @@
       "sha256": "bf780e0556134a328a2aeeedacbeeebf721c893f64fec0f70c97dfbbc5cb01ac",
       "status": "BOUND",
       "description": "single-root-pointer multi-scene coordinator component crash proof"
+    },
+    {
+      "id": "E12_PHYSICAL_WAVE40",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json",
+      "sha256": "d87f04655f94b595951e3a73c524b6be9d731808abf6ea6945f3ea4e40348a35",
+      "status": "BOUND",
+      "description": "40 physical Word 16.111.2 open edit save close reopen wave with 300k scale and 120 comment density"
     }
   ],
   "coverageLedger": {
@@ -106,9 +116,11 @@
       "includes": [
         "100k-word synthetic manuscript",
         "250k-word synthetic manuscript",
-        "high-density comments bounded to 80 threads"
+        "300k-word synthetic manuscript in wave 40",
+        "high-density comments bounded to 80 threads",
+        "wave-40 dense comments bounded to 120 threads"
       ],
-      "saturationGap": "40_100_300_ESCALATING_WAVES_NOT_COMPLETE"
+      "saturationGap": "WAVE_100_WAVE_300_AND_TWO_STABLE_WAVES_NOT_COMPLETE"
     },
     "crashRecovery": {
       "status": "BOUND",
@@ -119,16 +131,25 @@
       "status": "BOUND",
       "sourceEvidence": "E10_REPLAY_HOSTILE",
       "outcome": "REPEATED_IMPORT_NOT_SECOND_MUTATION"
+    },
+    "physicalWave40": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_PHYSICAL_WAVE40",
+      "outcome": "PHYSICAL_WAVE_40_COMPLETE_WITH_ZERO_VETO_NOT_SATURATED"
     }
   },
   "aggregateTotals": {
-    "physicalRoundTripsObserved": 32,
-    "visibleAnchoredCommentThreads": 91,
+    "physicalRoundTripsObserved": 40,
+    "visibleAnchoredCommentThreads": 212,
     "physicalFormattingCases": 17,
     "physicalStructuralCases": 30,
     "replayHostileGuardCases": 5,
     "focusedE11CoordinatorContracts": 7,
-    "exactAutomaticCandidates": 0
+    "exactAutomaticCandidates": 0,
+    "wave40PhysicalOpenEditSaveCloseReopenPass": 40,
+    "wave40ParserPass": 39,
+    "wave40DenseCommentThreads": 120,
+    "wave40ScaleWordsMax": 300000
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -141,7 +162,6 @@
     "falseSaturationClaim": 0
   },
   "notSaturatedReasons": [
-    "WAVE_40_HAS_32_OF_40_OBSERVED_ROUNDS",
     "WAVE_100_NOT_STARTED",
     "WAVE_300_NOT_STARTED",
     "TWO_CONSECUTIVE_STABLE_APPROVED_WAVES_NOT_PROVEN",
@@ -159,21 +179,24 @@
     "wordSaturated": false
   },
   "nonClaims": [
-    "E12 ledger does not certify Word SATURATED",
-    "E12 ledger does not open Google Docs or any other editor profile",
-    "E12 ledger does not add automatic apply authority",
-    "E12 ledger does not run a new physical Word wave; it binds existing merged evidence and blocks false saturation claims"
+    "E12 wave 40 does not certify Word SATURATED",
+    "E12 wave 40 does not open Google Docs or any other editor profile",
+    "E12 wave 40 does not add automatic apply authority",
+    "E12 wave 40 binds physical Word evidence and advances the next target to wave 100"
   ],
-  "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_40",
+  "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_100",
   "testEvidence": {
-    "status": "PASS_LOCAL_VERIFICATION",
-    "focusedVerifier": "PASS node scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs --json --require-files",
-    "focusedContract": "PASS node --test E06 E07 E08 E09 E10 E11 E12 focused contracts: tests=38 pass=38 fail=0",
+    "status": "PASS_LOCAL_VERIFICATION_AFTER_WAVE40_REBIND",
+    "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
+    "wave40Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --json --require-external",
+    "saturationVerifier": "PASS node scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs --json --require-files",
+    "focusedContract": "PASS node --test E06 E07 E08 E09 E10 E11 E12 focused contracts: tests=40 pass=40 fail=0",
     "governance": "PASS node scripts/ops/governance-change-detection.mjs --json missing_approvals=0 approval_registry_valid=1",
     "ossPolicy": "PASS npm run -s oss:policy",
     "opsSuite": "PASS npm run -s test:ops",
-    "syntax": "PASS node --check rtk-word-v4-e12-saturation-ledger.mjs",
-    "fullSuite": "PASS npm test -- --runInBand tests=795 pass=731 skip=64 fail=0 perf=PASS menu=PASS releaseCandidate=PASS",
-    "verifiedAtUtc": "2026-07-31T15:21:00.000Z"
+    "syntax": "PASS node --check word sandbox helper latest physical runner e12 wave40 runner e12 ledger verifier",
+    "fullSuite": "PASS npm test -- --runInBand outerOpsTests=3 outerOpsPass=3 runnerTests=795 runnerPass=731 runnerSkip=64 runnerFail=0 perf=PASS menu=PASS releaseCandidate=PASS",
+    "grantPromptRepair": "PASS default Word work root is inside Library Containers com.microsoft.Word Data tmp YalkenWordLab and plain tmp fallback is contract-blocked",
+    "verifiedAtUtc": "2026-07-31T08:00:17.652Z"
   }
 }

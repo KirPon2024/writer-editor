@@ -2,8 +2,8 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_WAVE300_COMPLETE_NOT_SATURATED",
-  "createdAtUtc": "2026-07-31T07:47:17.080Z",
+  "status": "WORD_SATURATION_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T11:28:19.647Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
     "branch": "codex/rtk-v4-e12-physical-wave-40",
@@ -34,13 +34,13 @@
     ],
     "currentWaveTarget": 300,
     "currentWaveObservedRounds": 300,
-    "consecutiveStableApprovedWaves": 1,
-    "stableHistogram": false,
+    "consecutiveStableApprovedWaves": 2,
+    "stableHistogram": true,
     "saturated": false,
     "wordSaturationClaimAllowed": false,
     "googleDocsAllowedToOpen": false,
     "lastCompletedWaveTarget": 300,
-    "nextWaveTarget": "STABILITY_LIMITATION_AUDIT"
+    "nextWaveTarget": "WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES"
   },
   "evidenceBindings": [
     {
@@ -105,6 +105,13 @@
       "sha256": "1431aea0c1cc68d119e24e373003c4c297b70214623a67d4c0da8d57cc821fb3",
       "status": "BOUND",
       "description": "300 physical Word 16.111.2 open edit save close reopen wave with 500k-class returned DOCX and dense comment cases capped to stable 100-comment Word automation bound"
+    },
+    {
+      "id": "E12_PHYSICAL_WAVE300_REPEAT_01",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+      "sha256": "108f475c0776795f1f36fca710ec88529c2f88dc0e2de97be0ebabee54439623",
+      "status": "BOUND",
+      "description": "repeat 300 physical Word 16.111.2 stability wave after limitation audit with zero veto metrics and Google closed"
     }
   ],
   "coverageLedger": {
@@ -162,6 +169,11 @@
       "status": "BOUND",
       "sourceEvidence": "E12_PHYSICAL_WAVE300",
       "outcome": "PHYSICAL_WAVE_300_COMPLETE_WITH_ZERO_VETO_NOT_SATURATED"
+    },
+    "physicalWave300Repeat": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_PHYSICAL_WAVE300_REPEAT_01",
+      "outcome": "PHYSICAL_STABILITY_WAVE_300_REPEAT_COMPLETE_WITH_ZERO_VETO_NOT_SATURATED"
     }
   },
   "aggregateTotals": {
@@ -185,7 +197,13 @@
     "wave300ParserPass": 299,
     "wave300CommentThreads": 638,
     "wave300DenseCommentThreads": 100,
-    "wave300ScaleReturnedBytesMax": 1239432
+    "wave300ScaleReturnedBytesMax": 1239432,
+    "repeatWave300PhysicalOpenEditSaveCloseReopenPass": 300,
+    "repeatWave300ParserPass": 299,
+    "repeatWave300CommentThreads": 638,
+    "repeatWave300DenseCommentThreads": 100,
+    "repeatWave300ScaleReturnedBytesMax": 1239432,
+    "consecutiveStableApprovedWaves": 2
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -198,9 +216,10 @@
     "falseSaturationClaim": 0
   },
   "notSaturatedReasons": [
-    "TWO_CONSECUTIVE_STABLE_APPROVED_WAVES_NOT_PROVEN",
     "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
-    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
+    "CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY",
+    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED",
+    "WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": false,
@@ -218,9 +237,9 @@
     "E12 wave 40 does not add automatic apply authority",
     "E12 wave 40 binds physical Word evidence and advances the next target to wave 100"
   ],
-  "nextStage": "EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT",
+  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES",
   "testEvidence": {
-    "status": "PASS_LOCAL_VERIFICATION_AFTER_WAVE300_REBIND",
+    "status": "PASS_LOCAL_VERIFICATION_AFTER_REPEAT_WAVE300_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "wave40Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --json --require-external",
     "saturationVerifier": "PASS node scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs --json --require-files",
@@ -231,10 +250,12 @@
     "syntax": "PASS node --check word sandbox helper latest physical runner e12 wave40 runner e12 ledger verifier",
     "fullSuite": "PASS npm test -- --runInBand outerOpsTests=3 outerOpsPass=3 runnerTests=795 runnerPass=731 runnerSkip=64 runnerFail=0 perf=PASS menu=PASS releaseCandidate=PASS",
     "grantPromptRepair": "PASS default Word work root is inside Library Containers com.microsoft.Word Data tmp YalkenWordLab and plain tmp fallback is contract-blocked",
-    "verifiedAtUtc": "2026-07-31T08:00:17.652Z",
+    "verifiedAtUtc": "2026-07-31T11:28:19.648Z",
     "physicalWave100": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave100.mjs --run-physical --write-receipt --json rounds=100 wordPass=100 parserPass=99 comments=398 scaleReturnedBytesMax=994079 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "wave100Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave100.mjs --json --require-external",
     "physicalWave300": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --run-physical --write-receipt --json rounds=300 wordPass=300 parserPass=299 comments=638 scaleReturnedBytesMax=1239432 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
-    "wave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --json --require-external"
+    "wave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --json --require-external",
+    "physicalWave300Repeat": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --run-physical --json --artifact-root T7 repeat rounds=300 wordPass=300 parserPass=299 comments=638 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
+    "repeatWave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs --json --require-external"
   }
 }

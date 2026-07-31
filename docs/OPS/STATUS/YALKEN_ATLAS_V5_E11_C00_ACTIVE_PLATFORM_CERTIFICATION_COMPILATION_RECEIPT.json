@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION",
+  "programStage": "E11_ACTIVE_PLATFORM_CERTIFICATION",
+  "baseSha": "18deb5cdf96dced5f4a1dd603afb8baf4a9b8d90",
+  "generatedAtUtc": "2026-07-31T12:18:00.000Z",
+  "designToolRouter": "NOT_APPLICABLE",
+  "activePlatformScope": {
+    "platformId": "macos-packaged-electron",
+    "hostOs": "darwin",
+    "packageCommand": "npm run build:mac",
+    "physicalPackagedProofRequired": true,
+    "ciParityIsNotPhysicalPackageProof": true
+  },
+  "inactivePlatformScope": [
+    {
+      "platformId": "windows-packaged-electron",
+      "status": "NOT_ACTIVATED_BY_OWNER",
+      "stage11Hold": false,
+      "certificationClaim": "NOT_CLAIMED"
+    },
+    {
+      "platformId": "linux-packaged-electron",
+      "status": "NOT_ACTIVATED_BY_OWNER",
+      "stage11Hold": false,
+      "certificationClaim": "NOT_CLAIMED"
+    },
+    {
+      "platformId": "web",
+      "status": "NOT_ACTIVATED_BY_OWNER",
+      "stage11Hold": false,
+      "certificationClaim": "NOT_CLAIMED"
+    },
+    {
+      "platformId": "ios",
+      "status": "NOT_ACTIVATED_BY_OWNER",
+      "stage11Hold": false,
+      "certificationClaim": "NOT_CLAIMED"
+    },
+    {
+      "platformId": "android",
+      "status": "NOT_ACTIVATED_BY_OWNER",
+      "stage11Hold": false,
+      "certificationClaim": "NOT_CLAIMED"
+    }
+  ],
+  "runtimeFacts": {
+    "erC07ReceiptExists": true,
+    "erC07CertifiedStageOutcomes": [
+      "E01_STAGE_01_EXACT_ATLAS_USER_OUTCOME",
+      "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME",
+      "E03_STAGE_03_PLOT_IDEA_MEANING_USER_OUTCOME",
+      "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME"
+    ],
+    "erC07FinalProgramDoDClaim": false,
+    "packageJsonBuildMacScriptExists": true,
+    "electronBuilderConfigured": true,
+    "macAfterPackHookExists": true,
+    "macAtsDenyPolicyConfigured": true,
+    "packagedRendererBundleCheckExists": true,
+    "macosSigningReadinessExistingStatus": "PLACEHOLDER_OR_STATIC_READY_ONLY",
+    "physicalPackagedAppBuilt": false,
+    "packagedJourneyExecuted": false,
+    "inactivePlatformsCertified": false,
+    "genericSastReady": false,
+    "genericSastFalsePass": false,
+    "programDoDClaim": false
+  },
+  "stageScopeBinding": {
+    "acceptance": [
+      "active macOS packaged Electron artifact is physically built from the verified merged SHA",
+      "create save reopen recovery export import journey runs against the packaged app or a package-equivalent runtime harness bound to the package artifact",
+      "accessibility responsive performance security and visual regression evidence bind to actual artifacts",
+      "inactive platforms are listed as not activated without false HOLD or false PASS",
+      "SAST parser or timeout gaps remain NOT_READY unless resolved by executable evidence"
+    ],
+    "scopeOut": [
+      "Windows physical package certification",
+      "Linux physical package certification",
+      "web deployment certification",
+      "iOS certification",
+      "Android certification",
+      "notarized Apple distribution claim without credentials",
+      "paid signing service",
+      "live network runtime dependency",
+      "final Program DoD"
+    ]
+  },
+  "compiledQueue": [
+    {
+      "contourId": "E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "userOutcome": "A user can receive a local macOS Electron app artifact whose runtime entrypoint and offline security boundary are proven from the artifact.",
+      "scopeIn": [
+        "npm run build:mac physical artifact attempt",
+        "app.asar renderer entrypoint proof",
+        "afterPack ATS deny policy proof",
+        "CSP navigation new-window and IPC allowlist checks",
+        "honest signing/notarization classification without credentials"
+      ],
+      "scopeOut": [
+        "Windows Linux web mobile package claims",
+        "Apple notarization PASS without configured credentials",
+        "network capability activation"
+      ],
+      "expectedWriteSet": [
+        "scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs",
+        "test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY_RECEIPT.json",
+        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/*"
+      ],
+      "designRoute": [
+        "NOT_APPLICABLE packaging/security artifact contour"
+      ]
+    },
+    {
+      "contourId": "E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+      "userOutcome": "A user can complete create, save, reopen, recovery, export and import journeys in the packaged macOS app scope without data loss.",
+      "scopeIn": [
+        "packaged project create/save/reopen journey",
+        "recovery snapshot and recovery pack proof",
+        "DOCX Markdown TXT Atlas and Manual Map export/import smoke where activated",
+        "Command Kernel mutation path proof"
+      ],
+      "scopeOut": [
+        "direct renderer storage writes",
+        "private package-only project truth",
+        "inactive platform journeys"
+      ],
+      "expectedWriteSet": [
+        "scripts/ops/yalken-atlas-v5-e11-c02-packaged-critical-journey.mjs",
+        "test/contracts/yalken-atlas-v5-e11-c02-packaged-critical-journey.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
+        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY/*"
+      ],
+      "designRoute": [
+        "NOT_APPLICABLE journey proof uses existing UI and no design contract change"
+      ]
+    },
+    {
+      "contourId": "E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_PERFORMANCE_SECURITY_VISUAL",
+      "userOutcome": "The active packaged macOS scope has measured accessibility, responsive, performance, security and visual-regression evidence.",
+      "scopeIn": [
+        "keyboard and focus evidence",
+        "desktop tablet mobile viewport screenshots against existing renderer where package-equivalent proof is required",
+        "performance baseline and Atlas/Manual Map workload",
+        "generic SAST gap resolution or explicit NOT_READY classification",
+        "visual overlap and clipping proof"
+      ],
+      "scopeOut": [
+        "new visual direction",
+        "Lazyweb as readiness token",
+        "SAST PASS with parser or timeout gaps",
+        "inactive platform certification"
+      ],
+      "expectedWriteSet": [
+        "scripts/ops/yalken-atlas-v5-e11-c03-packaged-quality-gates.mjs",
+        "test/contracts/yalken-atlas-v5-e11-c03-packaged-quality-gates.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_QUALITY_GATES_RECEIPT.json",
+        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_QUALITY_GATES/*"
+      ],
+      "designRoute": [
+        "DESIGN_OS_ROUTE_EXISTING_CANON_ONLY if screenshots reveal UI defect",
+        "NO_NEW_GENERAL_RESEARCH without a concrete new UI question"
+      ]
+    },
+    {
+      "contourId": "E11_C04_STAGE_11_ACCEPTANCE_AND_EFINAL_HANDOFF",
+      "userOutcome": "Stage 11 active platform certification is accepted only from real artifacts and hands off to EFINAL without claiming Program DoD early.",
+      "scopeIn": [
+        "C01 C02 C03 receipt aggregation",
+        "active platform PASS/NOT_READY rollup",
+        "inactive platform non-hold matrix",
+        "remote SHA and CI binding",
+        "handoff to EFINAL"
+      ],
+      "scopeOut": [
+        "final Program DoD",
+        "second tracker",
+        "inactive platform false PASS",
+        "self-attested readiness"
+      ],
+      "expectedWriteSet": [
+        "test/contracts/yalken-atlas-v5-e11-c04-stage-11-acceptance-efinal-handoff.contract.test.js",
+        "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_STAGE_11_ACCEPTANCE_EFINAL_HANDOFF_RECEIPT.json"
+      ],
+      "designRoute": [
+        "NOT_APPLICABLE acceptance/handoff contour"
+      ]
+    }
+  ],
+  "validation": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e11-c00-active-platform-certification-compilation.contract.test.js",
+      "result": "PASS",
+      "summary": "6 pass, 0 fail"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    }
+  ],
+  "handoffBinding": {
+    "previousContour": "ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+    "nextContour": "E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+    "finalProgramDoDClaim": false,
+    "releaseReadinessClaim": false
+  },
+  "nextContour": "E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY"
+}

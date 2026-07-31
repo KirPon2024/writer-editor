@@ -1608,7 +1608,7 @@
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
       "sha256": "73cddfb5ccc12d826d246d1d5a1e67d02ad2c34a0d2979a7b50be16f22800b90",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
@@ -1727,7 +1727,7 @@
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
       "sha256": "0894e16c6cbc4d095f1c0865ca513569e0e681e3f71066ea798de85f83b04ced",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
@@ -1818,7 +1818,7 @@
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
       "sha256": "108f475c0776795f1f36fca710ec88529c2f88dc0e2de97be0ebabee54439623",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
@@ -1832,7 +1832,7 @@
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
       "sha256": "fc9429a3acbe8162d6b3764383254cce90bde72ddc8e29ec4c1670bb07f0decf",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
@@ -3383,6 +3383,13 @@
       "rationale": "Approve bounded E10 C06 final receipt: records deterministic versioned transport-neutral operation exchange packets, local fixture adapter preview-only report, disabled-by-default nonblocking transport capability gate, network adapter disabled proof, tampered packet hash mismatch rejection, invalid event rejection, payload hash-only exclusion, no live network adapter, no remote account or cloud sync, no transport source of truth, no CRDT Core adoption, no Yjs runtime dependency, no project or manuscript mutation, no storage writer, no UI, no dependency, no second operation log truth, no second comment truth, focused and adjacent local PASS evidence with 27 tests, collab causal readiness PASS, collab stress safe PASS, collab eventlog PASS, collab apply pipeline PASS, governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION_RECEIPT.json",
+      "sha256": "da2afad3734ff5bef66a9ab5f82b5d54f5b5ee63d1e930596a24685c2047c9f8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION",
+      "approvedAtUtc": "2026-07-31T12:19:00.000Z",
+      "rationale": "Approve bounded E11 C00 active platform certification compilation: records macOS packaged Electron as the only active Stage 11 certification scope, keeps inactive Windows Linux web iOS Android as NOT_ACTIVATED without false HOLD or PASS, compiles C01-C04 queue, binds ER C07 handoff, and makes no physical package, signing, SAST, release readiness, or Program DoD claim."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",
       "sha256": "5a277d00ca94bd8b0492ebf9ba552175f559ba58cef3ae0b40eb8311eb8318d0",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
@@ -4058,28 +4065,28 @@
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
       "sha256": "35b4d9675a57d61361e653b72fbd857b378d94f2eb92e2cf51612ec556059a23",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
       "sha256": "29862b73e8a4003b074484f520090493e27f99c3f89f01f586f99631e5227f4e",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
       "sha256": "ccca8807ad552967f51d686f0e16df4754fded531b7bbe4ad811164c79f2fb83",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
       "sha256": "10bd2dd944ad35d144f4a844ff46bad5e57af854dd6cf4fe91f1d7bfcce668a7",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
@@ -5500,49 +5507,49 @@
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
       "sha256": "1838779d7fc8499cfc4fa501a83a4b0cc7c47aa0e87d5e4a46fcf557643f4573",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
       "sha256": "cc38952b98c462c98ce033623207a610ade4bb405182449dab8cdd0f7f69a9e5",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
       "sha256": "a29ce873e82c719231d230c0035f8d14fadce41e89adf928b7ecf8ecbcb4c895",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
       "sha256": "2aa831586769899365729ad92dd22953b55c6be3b2863ece93f1bc81c1bbafb3",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
       "sha256": "820a3ec59691c46e10147e38a6f87173b8989046d6fac03df5ff0fd0af6c75d8",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
       "sha256": "4e685366c8e121122c76eca7b09e7d0273ee4f0a9d964e342fe44ff3839021ac",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
       "sha256": "99ff3944ec3604bf7f0ad8628bd794f49707d04e91f39e960ec0c931f7a5a681",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
@@ -6104,6 +6111,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY",
       "approvedAtUtc": "2026-07-30T18:04:30.000Z",
       "rationale": "Approve E10 C06 focused contract: proves deterministic versioned transport-neutral operation exchange packets, local fixture adapter preview-only round trip, disabled-by-default nonblocking transport capability gate, network adapter disabled proof, tampered packet hash mismatch rejection, invalid event rejection, payload body exclusion, no live network, no account or cloud sync, no transport source of truth, no CRDT Core adoption, no Yjs runtime dependency, no project or manuscript mutation, no storage writer, no UI, no second operation log truth, no second comment truth, and no new collab source file."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c00-active-platform-certification-compilation.contract.test.js",
+      "sha256": "5da3d26921e419b54ba8997df38b6d09bf92cdeaafd712cb66a974a486054070",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION",
+      "approvedAtUtc": "2026-07-31T12:19:00.000Z",
+      "rationale": "Approve bounded E11 C00 active platform certification compilation: records macOS packaged Electron as the only active Stage 11 certification scope, keeps inactive Windows Linux web iOS Android as NOT_ACTIVATED without false HOLD or PASS, compiles C01-C04 queue, binds ER C07 handoff, and makes no physical package, signing, SAST, release readiness, or Program DoD claim."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",

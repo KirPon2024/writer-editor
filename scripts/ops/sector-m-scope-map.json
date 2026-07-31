@@ -145,7 +145,10 @@
       "test/unit/sector-m-no-scope-leak.test.js",
       "test/fixtures/sector-m/expected-result.json",
       "test/fixtures/menu/context.default.json",
-      "test/fixtures/perf/long-scene.txt"
+      "test/fixtures/perf/long-scene.txt",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
+      "scripts/ops/rtk-word-v4-e12-modern-comment-followup.mjs",
+      "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js"
     ],
     "M1": [
       "docs/FORMAT/MARKDOWN_MODE_SPEC_v1.md",

@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED",
+  "status": "WORD_SATURATION_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -119,6 +119,13 @@
       "sha256": "da19b595d0a30441cfe51d2540b5227f50062f4fa3a17429cd4c3a4f158edfd2",
       "status": "BOUND",
       "description": "case-level followup proves WL2-031 is a hostile package typed BLOCKED row, not an unresolved parser gap"
+    },
+    {
+      "id": "E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
+      "sha256": "a9e284e18629c7ea4cf87d69113fe11028330ba4b073df92facc0898fde98268",
+      "status": "BOUND",
+      "description": "physical latest Word AppleScript probe confirms root comment creation but not semantic reply resolve reopen delete persistence"
     }
   ],
   "coverageLedger": {
@@ -186,6 +193,11 @@
       "status": "BOUND",
       "sourceEvidence": "E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK",
       "outcome": "WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_PARSER_GAP"
+    },
+    "modernCommentAppleScriptFollowup": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION",
+      "outcome": "WORD_APPLESCRIPT_COMMENT_CREATION_CONFIRMED_REPLY_RESOLVE_REOPEN_DELETE_STILL_TYPED_LIMITATION"
     }
   },
   "aggregateTotals": {
@@ -216,7 +228,12 @@
     "repeatWave300DenseCommentThreads": 100,
     "repeatWave300ScaleReturnedBytesMax": 1239432,
     "consecutiveStableApprovedWaves": 2,
-    "wl2031HostilePackageTypedBlockedFollowupCases": 1
+    "wl2031HostilePackageTypedBlockedFollowupCases": 1,
+    "modernCommentAppleScriptProbeCases": 1,
+    "modernCommentAppleScriptCommentsAfterReopen": 5,
+    "modernCommentAppleScriptReplyThreadsCertified": 0,
+    "modernCommentAppleScriptResolveReopenCertified": 0,
+    "modernCommentAppleScriptDeleteCertified": 0
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -249,9 +266,9 @@
     "E12 wave 40 does not add automatic apply authority",
     "E12 wave 40 binds physical Word evidence and advances the next target to wave 100"
   ],
-  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS",
+  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_CUSTOM_XML_MUTATION_AUTHORITY",
   "testEvidence": {
-    "status": "PASS_LOCAL_VERIFICATION_AFTER_WL2_031_PARSER_GAP_FOLLOWUP_BINDING",
+    "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "wave40Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --json --require-external",
     "saturationVerifier": "PASS node scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs --json --require-files",
@@ -269,6 +286,7 @@
     "wave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --json --require-external",
     "physicalWave300Repeat": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave300.mjs --run-physical --json --artifact-root T7 repeat rounds=300 wordPass=300 parserPass=299 comments=638 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "repeatWave300Verifier": "PASS node scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs --json --require-external",
-    "parserGapFollowupVerifier": "PASS node scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs --json --require-files"
+    "parserGapFollowupVerifier": "PASS node scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs --json --require-files",
+    "modernCommentFollowup": "PASS node scripts/ops/rtk-word-v4-e12-modern-comment-followup.mjs --run-physical --write-receipt --json commentsAfterReopen=5 replyThreadsCertified=0 resolveReopenCertified=0 deleteCertified=0 limitationConfirmed=1"
   }
 }

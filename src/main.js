@@ -7425,7 +7425,7 @@ async function buildProjectSearchDocumentSources(roots, options, projectContext)
         manifestPath: projectContext.manifestPath,
         manifest: projectContext.manifest,
         nodeId: node.nodeId,
-        nodePath: node.nodePath,
+        nodePath: typeof node.nodePath === 'string' ? node.nodePath : node.path,
         kind: node.kind,
       });
     } catch {
@@ -8546,7 +8546,7 @@ async function buildProductCoreStateForCurrentProject() {
         manifestPath,
         manifest,
         nodeId: node.nodeId,
-        nodePath: node.nodePath,
+        nodePath: typeof node.nodePath === 'string' ? node.nodePath : node.path,
         kind: node.kind,
       });
     } catch (error) {
@@ -18205,7 +18205,7 @@ async function reconcileProjectTreeIdentities(roots) {
     };
     await persistProjectTreeIdentityMigration(manifestPath, projectRoot, sourceText, nextManifest);
   }
-  annotateProjectTreeIdentities(roots, projectRoot, result.bindings);
+  annotateProjectTreeIdentities(Object.values(roots), projectRoot, result.bindings);
   return {
     projectId: manifest.projectId,
     roots,
@@ -18365,7 +18365,7 @@ async function buildProjectTreeRootsWithIdentitiesReadOnly() {
     error.code = 'E_TREE_IDENTITY_READONLY_STALE';
     throw error;
   }
-  annotateProjectTreeIdentities(roots, projectRoot, result.bindings);
+  annotateProjectTreeIdentities(Object.values(roots), projectRoot, result.bindings);
   await annotateProjectTreeDerivedCounters(Object.values(roots));
   return {
     projectId: manifest.projectId,

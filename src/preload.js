@@ -1,5 +1,8 @@
 const { contextBridge, ipcRenderer } = require('electron');
-const { WORKSPACE_QUERY_IDS } = require('./shared/workspaceQueryRegistry.cjs');
+const PRELOAD_WORKSPACE_QUERY_IDS = Object.freeze({
+  PROJECT_TREE: 'query.projectTree',
+  PROJECT_LIBRARY: 'query.projectLibrary',
+});
 const EXPORT_DOCX_MIN_CHANNEL = 'u:cmd:project:export:docxMin:v1';
 const IMPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:import:markdownV1:v1';
 const EXPORT_MARKDOWN_V1_CHANNEL = 'm:cmd:project:export:markdownV1:v1';
@@ -131,13 +134,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   getProjectTree: (tab) => {
     return ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, {
-      queryId: WORKSPACE_QUERY_IDS.PROJECT_TREE,
+      queryId: PRELOAD_WORKSPACE_QUERY_IDS.PROJECT_TREE,
       payload: { tab },
     });
   },
   getProjectLibrary: (payload) => {
     return ipcRenderer.invoke(WORKSPACE_QUERY_BRIDGE_CHANNEL, {
-      queryId: WORKSPACE_QUERY_IDS.PROJECT_LIBRARY,
+      queryId: PRELOAD_WORKSPACE_QUERY_IDS.PROJECT_LIBRARY,
       payload: normalizeRequestPayload(payload),
     });
   },

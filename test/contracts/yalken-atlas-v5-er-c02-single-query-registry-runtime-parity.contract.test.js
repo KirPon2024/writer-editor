@@ -137,13 +137,14 @@ test('ER C02: shared workspace query registry is the single Atlas query source',
   assert.equal(isWorkspaceQueryIdAllowed('__proto__'), false);
 });
 
-test('ER C02: main, preload and renderer consume the same registry projection', () => {
+test('ER C02: main and renderer consume registry; preload remains sandbox-safe pass-through', () => {
   const mainSource = readText(MAIN_PATH);
   const preloadSource = readText(PRELOAD_PATH);
   const editorSource = readText(EDITOR_PATH);
 
   assert.match(mainSource, /require\('\.\/shared\/workspaceQueryRegistry\.cjs'\)/u);
-  assert.match(preloadSource, /require\('\.\/shared\/workspaceQueryRegistry\.cjs'\)/u);
+  assert.doesNotMatch(preloadSource, /require\('\.\/shared\/workspaceQueryRegistry\.cjs'\)/u);
+  assert.match(preloadSource, /const PRELOAD_WORKSPACE_QUERY_IDS = Object\.freeze\(\{/u);
   assert.match(editorSource, /from '\.\.\/shared\/workspaceQueryRegistry\.cjs'/u);
 
   assert.match(mainSource, /const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set\(WORKSPACE_QUERY_ID_LIST\);/u);
@@ -151,8 +152,9 @@ test('ER C02: main, preload and renderer consume the same registry projection', 
   assert.doesNotMatch(editorSource, /queryId !== ATLAS_[A-Z_]+_QUERY_ID/u);
   assert.doesNotMatch(editorSource, /queryId !== 'query\.[^']+'/u);
 
-  assert.match(preloadSource, /queryId: WORKSPACE_QUERY_IDS\.PROJECT_TREE/u);
-  assert.match(preloadSource, /queryId: WORKSPACE_QUERY_IDS\.PROJECT_LIBRARY/u);
+  assert.match(preloadSource, /queryId: PRELOAD_WORKSPACE_QUERY_IDS\.PROJECT_TREE/u);
+  assert.match(preloadSource, /queryId: PRELOAD_WORKSPACE_QUERY_IDS\.PROJECT_LIBRARY/u);
+  assert.match(preloadSource, /return ipcRenderer\.invoke\(WORKSPACE_QUERY_BRIDGE_CHANNEL, \{ queryId, payload \}\);/u);
   assert.match(editorSource, /const PROJECT_TREE_QUERY_ID = WORKSPACE_QUERY_IDS\.PROJECT_TREE;/u);
   assert.match(editorSource, /const COLLAB_SCOPE_LOCAL_QUERY_ID = WORKSPACE_QUERY_IDS\.COLLAB_SCOPE_LOCAL;/u);
 });

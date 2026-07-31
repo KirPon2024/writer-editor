@@ -100,7 +100,7 @@ test('V4 E09 updates capability profile and program state without runtime change
   assert.equal(cell.physicalTotals.physicalStructuralCases, 30);
   assert.equal(cell.physicalTotals.totalStructureChanges, 31);
   assert.equal(cell.physicalTotals.automaticStructuralApplyCertified, 0);
-  assert.match(program.v4ExecutionState.status, /^EXECUTION_((09|1[01])_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES)$/u);
+  assert.match(program.v4ExecutionState.status, /^EXECUTION_((09|1[01])_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_(?:LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES|WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100))$/u);
   assert.equal(typeof program.v4ExecutionState.currentStage, 'string');
   assert.equal(typeof program.v4ExecutionState.nextStage, 'string');
   assert.equal(program.v4ExecutionState.typedStructuralDiagnosticsCertified, true);

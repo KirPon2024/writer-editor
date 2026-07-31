@@ -229,8 +229,8 @@ test('V4 E11 receipt profile and program state stay shadow-only without runtime 
   assert.equal(cell.state, 'COMPONENT_PROVEN');
   assert.equal(cell.currentCapability, 'MULTI_SCENE_ATOMIC_COORDINATOR_COMPONENT_SHADOW_ONLY');
   assert.equal(cell.physicalWordEvidence, false);
-  assert.match(program.v4ExecutionState.status, /^EXECUTION_(11_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES)$/u);
+  assert.match(program.v4ExecutionState.status, /^EXECUTION_(11_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_(?:LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES|WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100))$/u);
   assert.match(program.v4ExecutionState.currentStage, /^EXECUTION_(11_MULTI_SCENE_ATOMIC_COORDINATOR_CRASH_PROOF|12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES)$/u);
-  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_(12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES|12_NEXT_PHYSICAL_WAVE_40)$/u);
+  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_(12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES|12_NEXT_PHYSICAL_WAVE_(40|100))$/u);
   assert.equal(program.v4ExecutionState.runtimeApplyAuthorityGranted, false);
 });

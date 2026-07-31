@@ -309,7 +309,10 @@
       "src/derived/atlas/deriveAtlasEvidenceReattachmentInbox.mjs",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS_RECEIPT.json",
       "scripts/ops/rtk-word-v4-e09-typed-structural-edits.mjs",
-      "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js"
+      "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
+      "scripts/ops/rtk-word-v4-e10-multi-round-replay-conflicts.mjs",
+      "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

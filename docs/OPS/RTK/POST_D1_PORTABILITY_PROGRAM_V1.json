@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E09_STRUCTURAL_DIAGNOSTIC_BLOCKING_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_E10_REPLAY_STALE_CONFLICT_GUARDS_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -31,7 +31,7 @@
   "latestWordCandidate": {
     "profileId": "word-mac-latest-post-d1-v1",
     "observedSupplementalProfile": "Microsoft Word for Mac 16.111.2 supplemental runs after D1",
-    "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_CERTIFIED_WITH_TYPED_LIMITATIONS",
+    "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_REPLAY_CERTIFIED_WITH_TYPED_LIMITATIONS",
     "certificationRequires": [
       "new settings capsule with exact Word version build channel architecture macOS locale and synthetic identity",
       "new frozen post-D1 corpus digest before first certification round",
@@ -44,7 +44,7 @@
       "writer-scale corpus including high page counts high comment density and formatting matrix"
     ],
     "forbiddenShortcut": "Supplemental Word 16.111.2 ZIP and large-corpus fixes do not certify this profile without its own physical corpus and oracle chain.",
-    "currentCapability": "STRUCTURAL_DIAGNOSTIC_BLOCKING_WITH_TYPED_LIMITATIONS",
+    "currentCapability": "REPLAY_STALE_CONFLICT_GUARD_DIAGNOSTICS_WITH_TYPED_LIMITATIONS",
     "certificationBoundary": [
       "D1 Word 16.42 remains immutable historical release evidence",
       "post-D1 Word 16.111.2 text comments and formatting evidence is versioned separately",
@@ -301,7 +301,7 @@
     },
     {
       "stageId": "A02_WORD_MAC_LATEST_PROFILE",
-      "status": "IN_PROGRESS_WORD_PROFILE_CONTOUR_E08_FORMATTING_DONE_LOCALLY",
+      "status": "IN_PROGRESS_WORD_PROFILE_CONTOUR_E10_REPLAY_STALE_CONFLICT_DONE_LOCALLY",
       "deliveryMode": "PR_AUTO",
       "scope": "physical Word latest settings capsule, corpus, comments, format and scale matrix; E08 formatting diagnostic lane ready for delivery chain"
     },
@@ -358,7 +358,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "A02_WORD_MAC_LATEST_PROFILE_AFTER_A00_A01_PR_MERGE",
+  "nextStep": "EXECUTION_11_MULTI_SCENE_ATOMIC_COORDINATOR_AFTER_E10_PR_MERGE",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -372,10 +372,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_09_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "currentStage": "EXECUTION_09_TYPED_STRUCTURAL_EDITS",
-    "nextStage": "EXECUTION_10_MULTI_ROUND_REPLAY_STALE_CONFLICTS",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS_RECEIPT.json",
+    "status": "EXECUTION_10_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "currentStage": "EXECUTION_10_MULTI_ROUND_REPLAY_STALE_CONFLICTS",
+    "nextStage": "EXECUTION_11_MULTI_SCENE_ATOMIC_COORDINATOR_CRASH_PROOF",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -413,6 +413,17 @@
     "totalStructureChanges": 31,
     "nativeMoveRevisionsCertified": 0,
     "automaticStructuralApplyCertified": 0,
-    "destructiveStructuralApplyAdded": 0
+    "destructiveStructuralApplyAdded": 0,
+    "multiRoundReplayConflictGuardsCertified": true,
+    "replayStaleConflictGuardStatus": "REPLAY_STALE_CONFLICT_GUARD_DIAGNOSTICS_WITH_TYPED_LIMITATIONS",
+    "physicalGuardCases": 5,
+    "staleTamperedStrippedCases": 1,
+    "replayIdempotenceCases": 1,
+    "noEditConservationCases": 1,
+    "reExportNoEditOracleCases": 1,
+    "hostilePackageBlockedCases": 1,
+    "automaticReplayApplyCertified": 0,
+    "divergentRoundAutoMergeCertified": 0,
+    "destructiveConflictWriteAdded": 0
   }
 }

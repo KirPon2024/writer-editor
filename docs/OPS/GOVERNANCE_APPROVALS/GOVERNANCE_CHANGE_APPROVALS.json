@@ -5658,20 +5658,6 @@
       "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "07cf440aa5a73c66e9f2031e799ef7c824f6ad0dbaff6f1798565d87f38d26ac",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS",
-      "approvedAtUtc": "2026-07-31T11:35:00.000Z",
-      "rationale": "Owner-approved V4 E09 typed structural edits contour: physical Word structural diagnostic blocking with typed limitations and no structural apply authority."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "19ddc5e27c5b73d829bcbc697830c70ea3ef70e5cc56a066d8495178bd8eeffd",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS",
-      "approvedAtUtc": "2026-07-31T11:35:00.000Z",
-      "rationale": "Owner-approved V4 E09 typed structural edits contour: physical Word structural diagnostic blocking with typed limitations and no structural apply authority."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
       "sha256": "ebd1065afbac5f4a585b46727147b0498f95660d9f1d982ab5420328db2717b7",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
@@ -5684,20 +5670,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
       "approvedAtUtc": "2026-07-31T08:35:00.000Z",
       "rationale": "Approve V4 E06 ops-only verifier: validates committed physical text receipt, latest Word profile identity, external receipt digest, required text and scale cases, hostile typed BLOCKED negative, zero veto metrics, no exact overclaim, and optional local T7 evidence hash without launching Word in CI."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "fd1982f78778863f9a2da5c3afaf2072728ba53f6dfe354efbd4abf431adf2f2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS",
-      "approvedAtUtc": "2026-07-31T11:35:00.000Z",
-      "rationale": "Owner-approved V4 E09 typed structural edits contour: physical Word structural diagnostic blocking with typed limitations and no structural apply authority."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "6e1b2aaa54ebc5d8f6bf88261657716c66709fa12c6b1c850c030e458ddc300f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS",
-      "approvedAtUtc": "2026-07-31T11:35:00.000Z",
-      "rationale": "Owner-approved V4 E09 typed structural edits contour: physical Word structural diagnostic blocking with typed limitations and no structural apply authority."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY_RECEIPT.json",
@@ -5721,13 +5693,6 @@
       "rationale": "Approve V4 E07 comments replies states receipt: binds physical Word 16.111.2 comment corpus evidence, 6 visible parsed comment cases, 91 anchored threads, 2 unsupported blocked threads, high-density comments, no no-op pass claim, typed limitations, and no Review Session mutation or writer authority expansion."
     },
     {
-      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "c1682de54ed3926f6ddb1caa7ca3dda4a34e7eba764cc526c76675bd47ba23dd",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS",
-      "approvedAtUtc": "2026-07-31T11:35:00.000Z",
-      "rationale": "Owner-approved V4 E09 typed structural edits contour: physical Word structural diagnostic blocking with typed limitations and no structural apply authority."
-    },
-    {
       "filePath": "scripts/ops/rtk-word-v4-e08-effective-formatting.mjs",
       "sha256": "476b83e5319d0a4b6973fe726b3b412fb77768e065e9a9641f1f82e90700247a",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
@@ -5740,13 +5705,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
       "approvedAtUtc": "2026-07-31T10:36:00.000Z",
       "rationale": "Owner-approved V4 E08 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "af41906ce307502e30195ea922a954f08b784bce87dd67a52f3fe7ac32ef93fa",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS",
-      "approvedAtUtc": "2026-07-31T11:35:00.000Z",
-      "rationale": "Owner-approved V4 E09 typed structural edits contour: physical Word structural diagnostic blocking with typed limitations and no structural apply authority."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e09-typed-structural-edits.mjs",
@@ -5763,11 +5721,74 @@
       "rationale": "Owner-approved V4 E09 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "6bc2a77d39de180a25da2b84fb7b9fac7acf27809a148fe03efbc8f88907bb2c",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "d5ba4746cda0e8535089c734a81b37bc1ad8516b31adecd2618d0506466dc1a8",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "abe397c67b51d3e69a027ba25959ad2739dcb860dc986e18e0b3906768f91202",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "sha256": "2c3d2b72bb81bb577fed6469078a9cd7295e33859495cac74a80878988aef5c2",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "sha256": "18d1b6bb915f376be6537f84d422ac01adb6a1d8abffb6f5364647a8d5224fd2",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "54484ff02dfe6f40227a6639769fcaa92b9aaeb03a0824dec38678e5b451ff68",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "03d43f22863556953d21854b3d19e4c4f890975e4964f09a94f988137f327f35",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS",
-      "approvedAtUtc": "2026-07-31T11:35:00.000Z",
-      "rationale": "Owner-approved V4 E09 typed structural edits contour: physical Word structural diagnostic blocking with typed limitations and no structural apply authority."
+      "sha256": "c07102954356810799fa2b1eeca37974380217fd06d39840117cf11b02db6cfd",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
+      "sha256": "432fc735479233d8af036e2cf00ba3f28f1e28f4a3833f9c439574ef96865c16",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e10-multi-round-replay-conflicts.mjs",
+      "sha256": "641854636d7f8b9c3ba8cb14462fd6736c3c90137fa61ec901963196a3ec7e18",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "sha256": "dca2986c2a2a1805731deea86ea3884177e878e5ad00f581c91985659b9b3bc4",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
     }
   ]
 }

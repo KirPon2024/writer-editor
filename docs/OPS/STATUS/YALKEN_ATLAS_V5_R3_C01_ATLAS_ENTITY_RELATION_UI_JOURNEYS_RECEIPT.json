@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION",
+  "contourId": "R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS",
+  "programStage": "R3_MAXIMUM_PRODUCT_RELEASE_SATURATION_2026_07_31",
+  "status": "PASS_ATLAS_ENTITY_RELATION_UI_JOURNEY",
+  "pass": true,
+  "generatedAtUtc": "2026-07-31T23:10:10.500Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui",
+    "headSha": "235bcdd17f7e7719fc67f2b1e54ffa59b94f186b",
+    "originMainSha": "235bcdd17f7e7719fc67f2b1e54ffa59b94f186b",
+    "headEqualsOriginMain": true,
+    "dirtyFileCount": 8
+  },
+  "reportPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-ui-journeys-report.json",
+  "reportSha256": "c8b56fa067cd8a1100ddd7538cd136a4a2b6fdaf1bca2913d14658deb689dc18",
+  "physicalEvidenceAccepted": true,
+  "certifiedByThisContour": [
+    "atlas-entity-alias-mention-evidence-journey",
+    "atlas-relation-merge-split-reassign-suppress-reattach-visible-ui-journey",
+    "atlas-current-scene-projection-reopen-visible-ui-journey"
+  ],
+  "notCertifiedByThisContour": [
+    "atlas-temporal-calendar-continuity-saved-query-flow",
+    "manual-map-attachments-portals-templates",
+    "multilingual-grapheme-worker-staleness-large-graph-stress",
+    "packaged-all-program-dod-row-executable-journeys"
+  ],
+  "nextContours": [
+    "R3_C02_ATLAS_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS",
+    "R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_SATURATION",
+    "R3_C04_MULTILINGUAL_WORKER_STRESS_AND_STALE_RESULT_SATURATION",
+    "R3_C05_RELEASE_SATURATION_REVALIDATION_AND_INDEPENDENT_AUDIT"
+  ],
+  "independentAuditQueueAfterCurrentContour": "YALKEN_ATLAS_V5_RELEASE_AUDIT_NIGHT_01_P0_REBIND_AFTER_R3_C01_DELIVERY",
+  "programDodVerdict": "NOT_DONE_R3_SATURATION_REPAIRS_REQUIRED",
+  "acceptanceSummary": {
+    "visibleInputRuntime": true,
+    "pointerAndKeyboardUsed": true,
+    "explicitJourneyFields": true,
+    "commandKernelButtonsOnly": true,
+    "noFirstTargetFallbackSurface": true,
+    "persistedEntityAliasMentionEvidence": true,
+    "persistedRelationOperations": true,
+    "reopenProjectionVisible": true,
+    "noNetworkNoDialogs": true,
+    "noHorizontalOverflow": true
+  },
+  "negativeAssertions": {
+    "directIpcAcceptedJourney": false,
+    "hiddenFirstEntityFallbackAccepted": false,
+    "generatedArtifactOnlyAccepted": false,
+    "networkActivated": false,
+    "overflowAccepted": false
+  },
+  "evidenceFiles": {
+    "journeyScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-journey.png",
+      "exists": true,
+      "bytes": 611834,
+      "sha256": "cc0a20cd8f0077bf56803633cdb1263aa998454080e912d294b68738074dc997"
+    },
+    "reopenScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-reopen.png",
+      "exists": true,
+      "bytes": 609236,
+      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43"
+    }
+  },
+  "validation": [
+    {
+      "id": "fresh-physical-atlas-entity-relation-ui-journey",
+      "command": "node scripts/ops/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui-journeys.mjs",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "PASS_ATLAS_ENTITY_RELATION_UI_JOURNEY; report sha256 c8b56fa067cd8a1100ddd7538cd136a4a2b6fdaf1bca2913d14658deb689dc18; visible input, persistence, reopen, no network/dialogs, and no overflow all true."
+    },
+    {
+      "id": "focused-contracts",
+      "command": "node --test test/contracts/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui-journeys.contract.test.js test/contracts/yalken-atlas-v5-r3-c00-saturation-audit.contract.test.js test/contracts/yalken-atlas-v5-r2-c05-honest-black-box-acceptance.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused contracts PASS: 11 tests, 11 pass, 0 fail."
+    },
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "dist/renderer/editor.bundle.js rebuilt successfully."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "No Tiptap Pro and no private registry."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "GOVERNANCE_CHANGE_OK=1 after R3_C01 approval binding."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; boundary guard exit 0; strict lie classes OK."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Full runner PASS: 798 tests, 734 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace/menu/law/execution/release candidate guards PASS."
+    }
+  ],
+  "delivery": {
+    "commit": "PENDING_PRE_COMMIT",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  }
+}

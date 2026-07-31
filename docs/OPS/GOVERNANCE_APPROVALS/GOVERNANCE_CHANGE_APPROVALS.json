@@ -5063,13 +5063,6 @@
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
     },
     {
-      "filePath": "src/main.js",
-      "sha256": "55401ba74b1957f84eb8437143807591cef55f7528338b16f794bfa9f1e749de",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.240Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
       "filePath": "src/preload.js",
       "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
@@ -5077,32 +5070,11 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "79db168aff8d45d56f1561d8aa4ee1c2f79f7b3e07dbc6e664a9a59e9587a974",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve R2 C05 current-state renderer bundle and governed black-box acceptance artifact rebind after local renderer rebuild: visible Electron Manual Map journey PASS, graph hit-testability restored, no dependency, no network, no product truth expansion, and Program DoD remains NOT_READY until R2 C06."
-    },
-    {
-      "filePath": "src/renderer/editor.js",
-      "sha256": "d95e49e95636116445ab3efb4f54683494305ade34fe6eed19b43b90cda26dd3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve R2 C05 current-state renderer source and style rebind: Manual Map PLAN workspace owns main surface, editor wrapper hidden only in manual-map mode, visible Electron black-box PASS, no dependency, no network, no product truth expansion, and Program DoD remains NOT_READY until R2 C06."
-    },
-    {
       "filePath": "src/renderer/index.html",
       "sha256": "eb120716e8d7fb73d4f3c2faf6c655915d5234c635436fd57231d3ef3ff98e5c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
       "approvedAtUtc": "2026-07-31T18:48:00.000Z",
       "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
-    },
-    {
-      "filePath": "src/renderer/styles.css",
-      "sha256": "915fc0845e7c1048023ff47f150b73c92e931020417182c959ef6ad95df37964",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve R2 C05 current-state renderer source and style rebind: Manual Map PLAN workspace owns main surface, editor wrapper hidden only in manual-map mode, visible Electron black-box PASS, no dependency, no network, no product truth expansion, and Program DoD remains NOT_READY until R2 C06."
     },
     {
       "filePath": "src/shared/commandCapabilityAuthority.cjs",
@@ -7119,6 +7091,76 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
       "approvedAtUtc": "2026-07-31T22:27:26.981Z",
       "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-journey.png",
+      "sha256": "cc0a20cd8f0077bf56803633cdb1263aa998454080e912d294b68738074dc997",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-reopen.png",
+      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-ui-journeys-report.json",
+      "sha256": "c8b56fa067cd8a1100ddd7538cd136a4a2b6fdaf1bca2913d14658deb689dc18",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui-journeys.mjs",
+      "sha256": "fd09b5860ac54d3bbab21eccd7a70dc11ef662d44b964c4efdc9351235efd8a2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui-journeys.contract.test.js",
+      "sha256": "c9337583da11ca5073872527678761020838cce2629d1bb5b3cb1438aefba639",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "d960b1b049a870df54e713fb0a110a3ef30e8b5e00d2e0b32c3378b53dcec257",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "e298dff9709cd79f992bd5e028082a0055447cc30509909452a29ef23042868f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "1e252779f39ac8d391b6a2304544b71d5ef478455f301341c25a09e1a13fda0f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "src/renderer/styles.css",
+      "sha256": "955737c298aeedb02038525d0d11bc2da79e0d596789bf39adf306807482067a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS_RECEIPT.json",
+      "sha256": "54f5b50626302157fa7bcc364d8f1b54af8c9c68acea7f8659a5d54beb53494a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:10:22.090Z",
+      "rationale": "Bind R3_C01 receipt after physical Electron Atlas entity relation evidence journey, focused contracts, doctrine, OSS, governance, test:ops, and full runner passed; Program DoD remains NOT_DONE and audit queue continues."
     }
   ]
 }

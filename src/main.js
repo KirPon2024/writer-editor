@@ -8595,7 +8595,7 @@ function collectAtlasOverviewSceneNodes(roots) {
   const nodes = [];
   Object.values(roots || {}).forEach((root) => {
     walkProjectTreeNodes(root, (node) => {
-      if (node && ROMAN_META_KINDS.has(node.kind)) {
+      if (node && ROMAN_CONTEXT_KINDS.has(node.kind)) {
         nodes.push(node);
       }
     });
@@ -8624,7 +8624,7 @@ async function buildProductCoreStateForCurrentProject() {
       logDevError('query.atlasOverview:target', error);
       continue;
     }
-    if (!ROMAN_META_KINDS.has(documentTarget.kind)) continue;
+    if (!ROMAN_CONTEXT_KINDS.has(documentTarget.kind)) continue;
     const guard = sanitizePayloadWithinProjectRoot(
       { path: documentTarget.filePath },
       ['path'],
@@ -9615,7 +9615,7 @@ async function handleWorkspaceAtlasCurrentSceneQuery(payload = {}) {
     };
   }
 
-  if (!ROMAN_META_KINDS.has(documentTarget.kind)) {
+  if (!ROMAN_CONTEXT_KINDS.has(documentTarget.kind)) {
     return {
       ok: true,
       atlasCurrentScene: makeAtlasCurrentSceneFallback(

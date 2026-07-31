@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-modern-comment-followup-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_12_MODERN_COMMENT_REPLY_RESOLVE_REOPEN_FOLLOWUP",
+  "status": "MODERN_COMMENT_APPLESCRIPT_PROBE_LIMITATION_CONFIRMED_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T12:07:01.919Z",
+  "base": {
+    "originMainSha": "dc1944fb82ab9eba19af51c6b22b741a634b4adb",
+    "branch": "codex/rtk-v4-e12-modern-comment-followup",
+    "headSha": "dc1944fb82ab9eba19af51c6b22b741a634b4adb"
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "versionByAppleScript": "16.111.2",
+    "openDocumentsBeforeLab": 0
+  },
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true
+  },
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/e12-modern-comment-followup",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": true,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false
+  },
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-followup",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-followup/e12-modern-comment-20260731T120652",
+  "wordSandboxRunDir": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/e12-modern-comment-followup/e12-modern-comment-20260731T120652",
+  "returnedDocx": {
+    "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-followup/e12-modern-comment-20260731T120652/returned-docx/e12-modern-comment-followup-returned.docx",
+    "sha256": "sha256:0082a19ecfd4e3660ffd3068faf5fad938f0bc1cd04186fcfe99497ac4beb428",
+    "packagePartCount": 16,
+    "packageParts": [
+      "word/comments.xml",
+      "word/commentsExtended.xml",
+      "word/commentsIds.xml",
+      "word/commentsExtensible.xml",
+      "word/people.xml"
+    ]
+  },
+  "wordAutomation": {
+    "wordStatus": "PASS",
+    "commentsBeforeSave": 5,
+    "commentsAfterReopen": 5,
+    "commentSummaryDigest": "sha256:5b05d49d233429a2bec09e3f11a3c52c29e94809be6dcc77c62220162720fb5f",
+    "actionsPerformedInWord": [
+      "create root comment",
+      "attempt nested reply level one using Word AppleScript parent property",
+      "attempt nested reply level two using Word AppleScript parent property",
+      "attempt resolved comment using Word AppleScript done property",
+      "attempt reopened comment using Word AppleScript done true then false",
+      "attempt delete comment using Word AppleScript delete command",
+      "save as DOCX",
+      "close and reopen in Word"
+    ]
+  },
+  "parserSummary": {
+    "ok": true,
+    "commentThreads": 5,
+    "replyCount": 0,
+    "durableIdCount": 0,
+    "packageParts": [
+      "word/comments.xml",
+      "word/commentsExtended.xml",
+      "word/commentsExtensible.xml",
+      "word/commentsIds.xml",
+      "word/people.xml"
+    ],
+    "states": {
+      "active": 5
+    },
+    "bodies": [
+      {
+        "body": "Reply level one",
+        "replies": [],
+        "state": "active",
+        "status": "ANCHORED"
+      },
+      {
+        "body": "Reply level two",
+        "replies": [],
+        "state": "active",
+        "status": "ANCHORED"
+      },
+      {
+        "body": "Resolved comment body",
+        "replies": [],
+        "state": "active",
+        "status": "ANCHORED"
+      },
+      {
+        "body": "Reopened comment body",
+        "replies": [],
+        "state": "active",
+        "status": "ANCHORED"
+      },
+      {
+        "body": "Deleted comment body",
+        "replies": [],
+        "state": "active",
+        "status": "ANCHORED"
+      }
+    ],
+    "canApply": false
+  },
+  "totals": {
+    "commentsAfterReopen": 5,
+    "replyThreadsCertified": 0,
+    "resolveReopenCertified": 0,
+    "deleteCertified": 0,
+    "silentCommentLoss": 0,
+    "noOpCommentPassClaimed": 0
+  },
+  "capabilityChange": {
+    "priorLimitation": "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
+    "newCapability": "WORD_APPLESCRIPT_COMMENT_CREATION_CONFIRMED_REPLY_RESOLVE_REOPEN_DELETE_NOT_CERTIFIED",
+    "reviewSessionMutationAuthorityAdded": false,
+    "manuscriptApplyAuthorityAdded": false
+  },
+  "observedLimitations": [
+    "WORD_APPLESCRIPT_PARENT_COMMENT_DOES_NOT_PERSIST_AS_MODERN_REPLY_GRAPH",
+    "WORD_APPLESCRIPT_DONE_PROPERTY_DOES_NOT_PERSIST_RESOLVE_REOPEN_STATE",
+    "WORD_APPLESCRIPT_DELETE_COMMENT_OBJECT_DID_NOT_REMOVE_RETURNED_COMMENT_BODY",
+    "SYSTEM_EVENTS_UI_SCRIPTING_DISABLED_FOR_THIS_AGENT"
+  ],
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "writerAuthorityAdded": false,
+    "automaticApplyExpanded": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0
+  },
+  "saturated": false,
+  "remainingWordLimitations": [
+    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
+    "CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY",
+    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
+  ],
+  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_CUSTOM_XML_MUTATION_AUTHORITY",
+  "result": "PASS",
+  "receiptDigest": "sha256:6781e2720ba6714a76ddbce1944c93839490ca1c1b6a0a97e66fa577d0dee8dd"
+}

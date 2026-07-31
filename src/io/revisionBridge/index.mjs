@@ -97,6 +97,15 @@ export {
   evaluateWordV4MinimalSemanticKernel,
 } from './reviewTransportWordSemanticKernelV4.mjs';
 
+export {
+  RTK_WORD_V4_SOURCEMAP_SCHEMA,
+  RTK_WORD_V4_SOURCEMAP_UNIQUEDIFF_PROFILE,
+  RTK_WORD_V4_SOURCEMAP_UNIQUEDIFF_SCHEMA,
+  buildWordV4SourceMapRow,
+  computeWordV4SourceMapDigest,
+  evaluateWordV4SourceMapUniqueDiff,
+} from './reviewTransportSourceMapUniqueDiffV4.mjs';
+
 export const REVISION_BRIDGE_P0_PACKET_SCHEMA = 'revision-bridge-p0.packet.v1';
 export const REVISION_BRIDGE_REVISION_SESSION_SCHEMA = 'revision-bridge.revision-session.v1';
 export const REVISION_BRIDGE_COMMENT_THREAD_SCHEMA = 'revision-bridge.comment-thread.v1';

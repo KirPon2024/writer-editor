@@ -289,7 +289,10 @@
       "test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",
       "src/io/revisionBridge/reviewTransportWordSemanticKernelV4.mjs",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL_RECEIPT.json",
-      "test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js"
+      "test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js",
+      "src/io/revisionBridge/reviewTransportSourceMapUniqueDiffV4.mjs",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF_RECEIPT.json",
+      "test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

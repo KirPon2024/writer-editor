@@ -60,6 +60,7 @@ function run() {
   for (const config of SEMGREP_CONFIGS) {
     args.push("--config", config);
   }
+  args.push("--timeout", "30", "--timeout-threshold", "0");
   args.push("--json", ".");
 
   const scan = spawnSemgrep(semgrepBin, args);
@@ -97,6 +98,12 @@ function run() {
     console.error("GENERIC_SAST_STATUS: STOP");
     console.error("GENERIC_SAST_REASON: non_timeout_errors_present");
     process.exit(3);
+  }
+
+  if (timeouts.length > 0) {
+    console.error("GENERIC_SAST_STATUS: STOP");
+    console.error("GENERIC_SAST_REASON: timeouts_present");
+    process.exit(4);
   }
 
   if (findings > 0) {

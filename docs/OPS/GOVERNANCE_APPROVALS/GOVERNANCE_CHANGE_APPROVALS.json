@@ -4195,13 +4195,6 @@
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
     },
     {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "5e045c02c9ce16355956c47a77e3cd2d23e8cb99a312ba7355e9fc505db7f07b",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
-      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
-      "rationale": "Approve E11 RTK barrel export: exposes the platform-neutral coordinator through the existing revision bridge interface without adding a private command bus, UI path, parser write authority or runtime apply switch."
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "sha256": "3cc6794dd7acf034b33c0c2bf9ef3706d48b6105f4baef40c09eaa684d1b0e33",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -6405,6 +6398,69 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
       "approvedAtUtc": "2026-07-31T12:36:00.000Z",
       "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/er-c05-10k-worker-budget.json",
+      "sha256": "0d7f963030c0beb0dc641af4e5a85f163f303fcb8ffc65668e10662e00fbb946",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/generic-sast-output.txt",
+      "sha256": "7ab06dc13e31a7f129053d69cde22f522550d6bf68d82fd2efa150dd695ca0a8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/packaged-performance-security-final-platform-handoff-report.json",
+      "sha256": "e66683526b99b6769ad75286df7f90318e1c39fc38fce0d862bf43feff57a0f4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json",
+      "sha256": "8441832b90e1ed0cead9d46689b76be6c4a6d07cc84fcaa081f95c66682e1f5d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs",
+      "sha256": "82d1d121f9fe2d74781cb6862dea5147645667e97b5eea5f7b04200781ef031a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "semgrep-generic-sast.mjs",
+      "sha256": "efb47d47bece4bf4bbe38a41ab10eee541146ec1502191189decdbb273efb412",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "src/import/mindmap/v1/manualMapMarkdownPortabilityBridge.mjs",
+      "sha256": "3dec429452955e174a85079ef6066059f1144d45908e6383cfff181c173e433b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "d8235f1accd39743b4d5fda2aa9df515a68191a341f8d7de23f97f2f43ddcafe",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.contract.test.js",
+      "sha256": "a983099a70adeb435af71383192d8d88d43ceb3ac091011b582c62e54071e892",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
+      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
     }
   ]
 }

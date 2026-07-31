@@ -3227,7 +3227,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
   let plainBoundaryVersion = 0;
   let cursor = 0;
   let malformed = false;
-  const tokenPattern = /<!--[\s\S]*?-->|<!\[CDATA\[[\s\S]*?\]\]>|<[^>]+>|[^<]+/gu;
+  const tokenPattern = new RegExp('<!--[\\s\\S]*?-->|<!\\[CDATA\\[[\\s\\S]*?\\]\\]>|<[^>]+>|[^<]+', 'gu');
   let match;
 
   const addDiagnostic = (code, message, severity = 'warning', relatedItemId = '') => {

@@ -188,15 +188,15 @@ test('E05 C04: renderer and main wire matrix surface with keyboard parity and no
   const htmlSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'index.html'), 'utf8');
   const cssSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'styles.css'), 'utf8');
 
-  assert.match(mainSource, /const ATLAS_MATRICES_QUERY_ID = 'query\.atlasMatrices'/u);
+  assert.match(mainSource, /const ATLAS_MATRICES_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_MATRICES/u);
   assert.match(mainSource, /loadAtlasMatricesModule/u);
   assert.match(mainSource, /handleWorkspaceAtlasMatricesQuery/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_MATRICES_QUERY_ID/u);
+  assert.match(mainSource, /\[ATLAS_MATRICES_QUERY_ID,\s*handleWorkspaceAtlasMatricesQuery\]/u);
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasMatricesQuery[\s\S]{0,2600}writeFileAtomic/u);
 
   assert.match(htmlSource, /data-atlas-matrices-host/u);
   assert.match(htmlSource, /data-atlas-matrices-provider="query\.atlasMatrices"/u);
-  assert.match(editorSource, /const ATLAS_MATRICES_QUERY_ID = 'query\.atlasMatrices'/u);
+  assert.match(editorSource, /const ATLAS_MATRICES_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_MATRICES/u);
   assert.match(editorSource, /refreshAtlasMatrices/u);
   assert.match(editorSource, /role', 'grid'/u);
   assert.match(editorSource, /role', 'gridcell'/u);

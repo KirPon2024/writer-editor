@@ -199,15 +199,15 @@ test('E05 C03: renderer and main wire relation dossier through typed host and no
   const actionSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'commands', 'atlasRelationReviewActions.mjs'), 'utf8');
   const capabilitySource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'commands', 'capabilityPolicy.mjs'), 'utf8');
 
-  assert.match(mainSource, /const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query\.atlasRelationDossier'/u);
+  assert.match(mainSource, /const ATLAS_RELATION_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_RELATION_DOSSIER/u);
   assert.match(mainSource, /loadAtlasRelationDossierModule/u);
   assert.match(mainSource, /handleWorkspaceAtlasRelationDossierQuery/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_RELATION_DOSSIER_QUERY_ID/u);
+  assert.match(mainSource, /\[ATLAS_RELATION_DOSSIER_QUERY_ID,\s*handleWorkspaceAtlasRelationDossierQuery\]/u);
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasRelationDossierQuery[\s\S]{0,2600}writeFileAtomic/u);
 
   assert.match(htmlSource, /data-atlas-relation-dossier-host/u);
   assert.match(htmlSource, /data-atlas-relation-dossier-provider="query\.atlasRelationDossier"/u);
-  assert.match(editorSource, /const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query\.atlasRelationDossier'/u);
+  assert.match(editorSource, /const ATLAS_RELATION_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_RELATION_DOSSIER/u);
   assert.match(editorSource, /refreshAtlasRelationDossier/u);
   assert.match(editorSource, /atlasSelectedRelation/u);
   assert.match(editorSource, /data-atlas-relation-pair-id/u);

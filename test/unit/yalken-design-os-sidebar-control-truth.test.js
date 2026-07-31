@@ -96,7 +96,7 @@ test('sidebar product truth: scene inspector keeps canonical metadata primary an
   assert.ok(editor.includes('setMetadataInspectorSurfaceVisible(contextAvailable);'));
   assert.ok(editor.includes("metaPanel.dataset.contextMode = sceneFieldsVisible ? 'metadata' : 'document';"));
   assert.equal(editor.includes('inspectorMetaSynopsisValue.textContent = state.unavailableReason'), false);
-  assert.ok(editor.includes("const METADATA_INSPECTOR_QUERY_ID = 'query.metadataInspector';"));
+  assert.ok(editor.includes('const METADATA_INSPECTOR_QUERY_ID = WORKSPACE_QUERY_IDS.METADATA_INSPECTOR;'));
   assert.ok(editor.includes('if (!inspectorMarginsValue) return;'));
   assert.equal(editor.includes('if (inspectorFontValue) inspectorFontValue.textContent = fontLabel;'), false);
 

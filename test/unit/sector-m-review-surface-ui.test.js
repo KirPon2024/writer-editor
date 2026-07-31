@@ -5,6 +5,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
+const { WORKSPACE_QUERY_IDS } = require(path.join(ROOT, 'src', 'shared', 'workspaceQueryRegistry.cjs'));
 
 function read(parts) {
   return fs.readFileSync(path.join(ROOT, ...parts), 'utf8');
@@ -32,7 +33,7 @@ this.__reviewSurfaceExports = {
   renderReviewSurfaceMarkup,
 };
 `;
-  const sandbox = {};
+  const sandbox = { WORKSPACE_QUERY_IDS };
   vm.runInNewContext(snippet, sandbox, {
     filename: 'review-surface-ui.editor-snippet.js',
   });
@@ -139,6 +140,7 @@ this.__reviewSurfaceClickHarness = {
 };
 `;
   const sandbox = {
+    WORKSPACE_QUERY_IDS,
     __bridgeResult: bridgeResult,
     Element: null,
     HTMLElement: null,

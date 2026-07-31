@@ -47,7 +47,7 @@ function extractMenuCommandHandlersSection(text) {
 
 function extractUiCommandBridgeAllowedCommandIdsSection(text) {
   const startMarker = 'const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([';
-  const endMarker = 'const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set([';
+  const endMarker = 'const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set(WORKSPACE_QUERY_ID_LIST);';
   const start = text.indexOf(startMarker);
   const end = text.indexOf(endMarker, start);
   assert.notEqual(start, -1, `missing marker: ${startMarker}`);
@@ -60,8 +60,48 @@ const MENU_HANDLER_COMPUTED_KEY_GLOBALS = Object.freeze({
   EXPORT_CURRENT_SCENE_TXT_COMMAND_ID: 'cmd.project.exportCurrentSceneTxtV1',
   EXPORT_SELECTED_SCENES_TXT_COMMAND_ID: 'cmd.project.exportSelectedScenesTxtV1',
   EXPORT_ALL_SCENES_TXT_COMMAND_ID: 'cmd.project.exportAllScenesTxtV1',
+  EXPORT_PDF_COMMAND_ID: 'cmd.project.exportPdfV1',
+  EXPORT_PROJECT_ARCHIVE_COMMAND_ID: 'cmd.project.exportFullArchiveV1',
+  IMPORT_PROJECT_ARCHIVE_COMMAND_ID: 'cmd.project.importFullArchiveV1',
   TXT_IMPORT_LOCAL_FILE_PREVIEW_COMMAND_ID: 'cmd.project.txt.previewLocalFile',
   TXT_IMPORT_SAFE_CREATE_COMMAND_ID: 'cmd.project.txt.importSafeCreate',
+  TREE_MOVE_COMMAND_ID: 'cmd.project.tree.moveNode',
+  METADATA_UPDATE_COMMAND_ID: 'cmd.project.metadata.update',
+  NOTES_CREATE_COMMAND_ID: 'cmd.project.notes.create',
+  NOTES_UPDATE_COMMAND_ID: 'cmd.project.notes.update',
+  NOTES_DELETE_COMMAND_ID: 'cmd.project.notes.delete',
+  NOTES_RESTORE_COMMAND_ID: 'cmd.project.notes.restore',
+  NOTES_ATTACH_SCENE_COMMAND_ID: 'cmd.project.notes.attachToScene',
+  NOTES_CONVERT_SCENE_COMMAND_ID: 'cmd.project.notes.convertToScene',
+  REPLACE_SINGLE_SAFE_COMMAND_ID: 'cmd.project.edit.replaceSingleSafe',
+  REPLACE_MASS_PREVIEW_COMMAND_ID: 'cmd.project.edit.replaceMassPreview',
+  REPLACE_MASS_APPLY_COMMAND_ID: 'cmd.project.edit.replaceMassApply',
+  REPLACE_MASS_ROLLBACK_COMMAND_ID: 'cmd.project.edit.replaceMassRollback',
+  PROJECT_LIFECYCLE_CREATE_COMMAND_ID: 'cmd.project.lifecycle.create',
+  PROJECT_LIFECYCLE_OPEN_COMMAND_ID: 'cmd.project.lifecycle.open',
+  PROJECT_LIFECYCLE_CONTINUE_COMMAND_ID: 'cmd.project.lifecycle.continue',
+  PROJECT_LIFECYCLE_RENAME_COMMAND_ID: 'cmd.project.lifecycle.rename',
+  PROJECT_LIFECYCLE_DUPLICATE_COMMAND_ID: 'cmd.project.lifecycle.duplicate',
+  PROJECT_LIFECYCLE_MOVE_LOCATION_COMMAND_ID: 'cmd.project.lifecycle.moveLocation',
+  PROJECT_LIFECYCLE_ARCHIVE_COMMAND_ID: 'cmd.project.lifecycle.archive',
+  PROJECT_LIFECYCLE_TRASH_COMMAND_ID: 'cmd.project.lifecycle.trash',
+  PROJECT_LIFECYCLE_RESTORE_COMMAND_ID: 'cmd.project.lifecycle.restore',
+  PROJECT_LIFECYCLE_BACKUP_COMMAND_ID: 'cmd.project.lifecycle.createBackup',
+  PROJECT_LIFECYCLE_INTEGRITY_COMMAND_ID: 'cmd.project.lifecycle.inspectIntegrity',
+  PROJECT_LIFECYCLE_PERMANENT_DELETE_COMMAND_ID: 'cmd.project.lifecycle.permanentDelete',
+  HISTORY_CREATE_CHECKPOINT_COMMAND_ID: 'cmd.project.history.createCheckpoint',
+  HISTORY_RESTORE_PREVIEW_COMMAND_ID: 'cmd.project.history.restorePreview',
+  HISTORY_RESTORE_APPLY_COMMAND_ID: 'cmd.project.history.restoreApply',
+  HISTORY_RESTORE_UNDO_COMMAND_ID: 'cmd.project.history.restoreUndo',
+  MENU_CUSTOMIZATION_COMMAND_RESET: 'cmd.project.view.resetMenuCustomization',
+  MENU_CUSTOMIZATION_COMMAND_TOGGLE_VISIBILITY: 'cmd.project.view.toggleMenuSectionVisibility',
+  MENU_CUSTOMIZATION_COMMAND_MOVE_EARLIER: 'cmd.project.view.moveMenuSectionEarlier',
+  MENU_CUSTOMIZATION_COMMAND_MOVE_LATER: 'cmd.project.view.moveMenuSectionLater',
+  MENU_PRESENTATION_COMMAND_CLASSIC: 'cmd.project.view.setMenuPresentationClassic',
+  MENU_PRESENTATION_COMMAND_COMPACT: 'cmd.project.view.setMenuPresentationCompact',
+  MENU_LOCALE_COMMAND_BASE: 'cmd.project.view.setMenuLocaleBase',
+  MENU_LOCALE_COMMAND_RU: 'cmd.project.view.setMenuLocaleRu',
+  MENU_LOCALE_COMMAND_EN: 'cmd.project.view.setMenuLocaleEn',
 });
 
 function cloneJsonSafe(value) {

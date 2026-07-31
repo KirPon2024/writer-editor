@@ -190,15 +190,15 @@ test('E05 C02: renderer and main wire entity dossier through typed read-only hos
   const htmlSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'index.html'), 'utf8');
   const cssSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'styles.css'), 'utf8');
 
-  assert.match(mainSource, /const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query\.atlasEntityDossier'/u);
+  assert.match(mainSource, /const ATLAS_ENTITY_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_ENTITY_DOSSIER/u);
   assert.match(mainSource, /loadAtlasEntityDossierModule/u);
   assert.match(mainSource, /handleWorkspaceAtlasEntityDossierQuery/u);
-  assert.match(mainSource, /ATLAS_ENTITY_DOSSIER_QUERY_ID,\n\s+ATLAS_CURRENT_SCENE_QUERY_ID/u);
+  assert.match(mainSource, /\[ATLAS_ENTITY_DOSSIER_QUERY_ID,\s*handleWorkspaceAtlasEntityDossierQuery\]/u);
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasEntityDossierQuery[\s\S]{0,2400}writeFileAtomic/u);
 
   assert.match(htmlSource, /data-atlas-entity-dossier-host/u);
   assert.match(htmlSource, /data-atlas-entity-dossier-provider="query\.atlasEntityDossier"/u);
-  assert.match(editorSource, /const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query\.atlasEntityDossier'/u);
+  assert.match(editorSource, /const ATLAS_ENTITY_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_ENTITY_DOSSIER/u);
   assert.match(editorSource, /refreshAtlasEntityDossier/u);
   assert.match(editorSource, /atlasSelectedEntityId/u);
   assert.match(editorSource, /data-atlas-entity-id/u);

@@ -301,8 +301,8 @@ test('command kernel tree-document adoption: loadTree data fetch uses query brid
   const source = read('src/renderer/editor.js')
 
   assert.ok(source.includes('async function loadTree() {'))
-  assert.ok(source.includes("const result = await invokeWorkspaceQueryBridge('query.projectTree', { tab: activeTab });"))
+  assert.ok(source.includes('const result = await invokeWorkspaceQueryBridge(PROJECT_TREE_QUERY_ID, { tab: activeTab });'))
   assert.ok(source.includes("void invokeSaveLifecycleSignalBridge('signal.localDirty.set', { state: true });"))
   assert.ok(source.includes("invokeSaveLifecycleSignalBridge('signal.autoSave.request')"))
-  assert.ok(source.includes("collabScopeLocal = (await invokeWorkspaceQueryBridge('query.collabScopeLocal')) === true;"))
+  assert.ok(source.includes('collabScopeLocal = (await invokeWorkspaceQueryBridge(COLLAB_SCOPE_LOCAL_QUERY_ID)) === true;'))
 })

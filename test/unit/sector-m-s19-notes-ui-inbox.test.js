@@ -32,8 +32,8 @@ test('S19 notes UI: workspace, quick capture, and detail actions are shipped as 
 test('S19 notes UI: renderer uses pathless Notes query and command bridge only', () => {
   const editor = read('src/renderer/editor.js');
 
-  assert.ok(editor.includes("const NOTES_WORKSPACE_QUERY_ID = 'query.projectNotes';"));
-  assert.ok(editor.includes('queryId !== NOTES_WORKSPACE_QUERY_ID'));
+  assert.ok(editor.includes('const NOTES_WORKSPACE_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_NOTES;'));
+  assert.ok(editor.includes('WORKSPACE_QUERY_ID_SET.has(queryId)'));
   assert.ok(editor.includes('invokeWorkspaceQueryBridge(NOTES_WORKSPACE_QUERY_ID'));
   assert.ok(editor.includes('EXTRA_COMMAND_IDS.NOTES_CREATE'));
   assert.ok(editor.includes('EXTRA_COMMAND_IDS.NOTES_UPDATE'));

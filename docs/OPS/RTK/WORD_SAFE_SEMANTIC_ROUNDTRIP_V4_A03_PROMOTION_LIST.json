@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-promotion-list.v1",
   "taskId": "YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-  "status": "A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT",
+  "status": "A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT",
   "createdAtUtc": "2026-07-31T16:19:31.790Z",
   "sourceTerminalReceipt": {
     "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
@@ -57,13 +57,16 @@
         "NCUI-T18"
       ],
       "parserComponentConsumer": "Minimal Word Semantic Kernel TextRevision lane",
-      "missingRuntimeWiring": "Word-return preview/apply flow does not yet dispatch the RTK non-overlap tracked replacement command from user confirmation.",
+      "missingRuntimeWiring": "returned DOCX preview to explicit exact-text apply command path is wired; product-originated export and physical release loop remain next audit scope",
       "authorityLevel": {
         "physicalWordProven": true,
         "componentProven": true,
-        "productRuntimeWired": false,
+        "productRuntimeWired": true,
         "automaticApplyCertified": false,
-        "productCompositionRegistered": true
+        "productCompositionRegistered": true,
+        "endToEndProductPathWired": true,
+        "userAutomaticApplyCertified": false,
+        "componentAutomaticApplyCertified": true
       },
       "negativeTests": [
         "valid signed locator required before apply",
@@ -75,15 +78,15 @@
         "no fuzzy apply"
       ],
       "recoveryReplayRequirements": [
-        "checkpoint before apply",
-        "write-once outcome ledger",
-        "per-scene atomic write",
-        "readback after write"
+        "hidden main-owned apply envelope keyed by active review session",
+        "explicit user confirmation through existing exact text apply command",
+        "C02 runtime checkpoint atomic write reverse verification and outcome ledger",
+        "no fallback to legacy scene-wide exact matching when C05 envelope is missing"
       ],
-      "implementationContour": "A03-C02-NONOVERLAP-TRACKED-REPLACEMENT-RUNTIME-WIRING",
-      "killCriterion": "any duplicate, stale, overlap, wrong scene, unsigned, or reverse-verify-failing change applies",
-      "runtimeContour": "A03-C02",
-      "runtimeReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json"
+      "implementationContour": "A03-C05-NONOVERLAP-TRACKED-REPLACEMENT-PRODUCT-PATH",
+      "killCriterion": "any renderer or returned DOCX payload can manufacture writer authority, any missing C05 envelope falls back to legacy exact apply, or product release readiness is claimed before product-originated physical loop evidence",
+      "runtimeContour": "A03-C05",
+      "runtimeReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json"
     },
     {
       "capability": "adjacentTrackedReplacementExactCandidate",
@@ -186,8 +189,8 @@
     "A03 list does not open Google Docs.",
     "A03 list does not remove future editor stages."
   ],
-  "latestRuntimeContour": "A03-C04",
-  "nextContour": "A03-C05",
+  "latestRuntimeContour": "A03-C05",
+  "nextContour": "RELEASE-AUDIT",
   "truthCorrection": {
     "finalSummaryPhysicalWordProvenRowsWasWrong": true,
     "a03PromotionList": {
@@ -248,14 +251,14 @@
     "totalRows": 5,
     "physicalWordProvenRows": 2,
     "componentProvenRows": 5,
-    "productRuntimeWiredRows": 1,
+    "productRuntimeWiredRows": 2,
     "automaticApplyCertifiedRows": 0
   },
   "summary": {
     "totalRows": 5,
     "physicalWordProvenRows": 2,
     "componentProvenRows": 5,
-    "productRuntimeWiredRows": 1,
+    "productRuntimeWiredRows": 2,
     "automaticApplyCertifiedRows": 0
   },
   "c04Truth": {
@@ -265,5 +268,14 @@
     "resolveReopenPhysicalWordProven": false,
     "productRuntimeWiredRows": 1,
     "automaticApplyCertifiedRows": 0
+  },
+  "c05Truth": {
+    "productRuntimeWired": true,
+    "endToEndProductPathWired": true,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "componentAutomaticApplyCertified": true,
+    "releaseReady": false,
+    "nextStage": "RELEASE_AUDIT_REBIND_AFTER_C05"
   }
 }

@@ -117,6 +117,7 @@ function instantiateDocxReviewPreviewSessionPort(options = {}) {
     currentReviewSurfacePayloadSource: 'none',
     currentReviewSurfacePayloadContentHash: '',
     isDirty: false,
+    crypto,
     Buffer,
     ...MENU_HANDLER_COMPUTED_KEY_GLOBALS,
     cloneJsonSafe,
@@ -167,6 +168,7 @@ module.exports = {
   MENU_COMMAND_HANDLERS,
   runtimeCommands,
   handleDocxReviewPreviewSessionActivationCommandSurface,
+  handleReviewSurfaceApplyExactTextChangeCommandSurface,
   getState() {
     return {
       activeReviewSessionStore,
@@ -358,6 +360,177 @@ function reviewContext(overrides = {}) {
   };
 }
 
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+const c05CryptoPort = {
+  sha256Text(value) {
+    return crypto.createHash('sha256').update(Buffer.from(String(value || ''), 'utf8')).digest('hex');
+  },
+  sha256Json(value) {
+    return `sha256:${this.sha256Text(stableJson(value))}`;
+  },
+};
+
+function c05Sha256Text(value) {
+  return `sha256:${c05CryptoPort.sha256Text(value)}`;
+}
+
+function c05ReviewIr({ deleted = 'beta', inserted = 'delta', groupId = 'group-c05' } = {}) {
+  return {
+    schemaVersion: 'yalken.rtk.review-ir.v2',
+    sourceMode: 'TRACKED',
+    textRevisions: [
+      {
+        kind: 'TextRevision',
+        operation: 'delete',
+        nativeRevisionId: `del-${groupId}`,
+        text: deleted,
+        textDigest: c05Sha256Text(`delete:${deleted}`),
+        replacementGroupId: groupId,
+      },
+      {
+        kind: 'TextRevision',
+        operation: 'insert',
+        nativeRevisionId: `ins-${groupId}`,
+        text: inserted,
+        textDigest: c05Sha256Text(`insert:${inserted}`),
+        replacementGroupId: groupId,
+      },
+    ],
+    moveRevisions: [],
+    propertyRevisions: [],
+    structureChanges: [],
+    formattingDeltas: [],
+    commentThreads: [],
+    opaqueUnsupported: [],
+  };
+}
+
+function c05ExactAuthority(overrides = {}) {
+  return {
+    validSignedLocator: true,
+    sceneRevisionUnchanged: true,
+    rawSha256Unchanged: true,
+    uniqueTarget: true,
+    nonOverlapping: true,
+    allRelevantXmlSemanticsAccounted: true,
+    ambiguousDuplicate: false,
+    crossScene: false,
+    structuralTopologyChanged: false,
+    ...overrides,
+  };
+}
+
+function c05AuthorityCarrier(sceneId = 'roman/imported/scene-1.txt', blockId = 'block-c05-target') {
+  return {
+    schemaVersion: 'yalken.rtk.review-transport-authority-carrier.v2',
+    status: 'verified-baseline-bound',
+    selectedCarrier: {
+      carrier: 'customDocumentProperty',
+      propertyName: 'YRTK_C01_AUTH',
+      verified: true,
+      validSignedLocator: true,
+      payload: {
+        sceneId,
+        sceneRevision: 'scene-revision-c05-0001',
+        rawSha256: 'sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+        blockId,
+        roundId: 'round-c05',
+        exportId: 'export-c05',
+      },
+      baselineBinding: {
+        allExpectedPresent: true,
+        allExpectedMatched: true,
+        sceneRevisionMatches: true,
+        rawSha256Matches: true,
+      },
+    },
+    carriers: [],
+    exactAuthority: c05ExactAuthority(),
+    reasons: [],
+  };
+}
+
+function c05ProductApplyInput({
+  sceneText = 'Alpha beta gamma.',
+  sceneId = 'roman/imported/scene-1.txt',
+  blockId = 'block-c05-target',
+  baselineHash = 'baseline-1',
+} = {}) {
+  const sourceRevisionSha256 = c05Sha256Text(`revision:${sceneText}`);
+  const sourceRawBytesSha256 = c05Sha256Text(`raw:${sceneText}`);
+  return {
+    commandId: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+    callerRole: 'main',
+    commandAuthority: {
+      issuer: 'main',
+      intent: 'rtk.exactApply',
+      commandId: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+    },
+    roundId: 'round-c05',
+    requestId: 'request-c05-1',
+    exportIdentity: 'export-c05',
+    returnArtifactSha256: c05Sha256Text('returned-docx-c05'),
+    manifestDigest: c05Sha256Text('manifest-c05'),
+    analysisDigest: c05Sha256Text('analysis-c05'),
+    returnLifecycleState: 'RETURN_ANALYZED',
+    sourceIdentity: {
+      sourceTokenDomain: 'SOURCE_TOKEN_DOMAIN_V1',
+      writerTextDomain: 'WRITER_TEXT_DOMAIN_V1',
+      revisionSha256: sourceRevisionSha256,
+      rawBytesSha256: sourceRawBytesSha256,
+    },
+    currentIdentity: {
+      revisionSha256: sourceRevisionSha256,
+      rawBytesSha256: sourceRawBytesSha256,
+    },
+    exactAuthority: c05ExactAuthority(),
+    authorityCarrier: c05AuthorityCarrier(sceneId, blockId),
+    reviewIr: c05ReviewIr(),
+    localBaseline: {
+      sceneId,
+      sceneBlocks: [
+        {
+          sceneId,
+          blockId,
+          text: sceneText,
+        },
+      ],
+    },
+    writerContext: {
+      projectRoot: '/project',
+      scenePath: '/project/roman/imported/scene-1.txt',
+      scenePathBySceneId: { [sceneId]: '/project/roman/imported/scene-1.txt' },
+      projectSnapshot: {
+        projectId: 'project-1',
+        baselineHash,
+        scenes: [{ sceneId, text: sceneText }],
+      },
+      revisionSession: {
+        projectId: 'project-1',
+        sessionId: 'session-c05',
+        baselineHash,
+        status: 'open',
+        reviewGraph: {
+          commentThreads: [],
+          commentPlacements: [],
+          textChanges: [],
+          structuralChanges: [],
+          diagnosticItems: [],
+          decisionStates: [],
+        },
+      },
+    },
+    previewConfirmed: false,
+  };
+}
+
 test('DOCX review preview session command: command is bridge-allowlisted and handler-owned', () => {
   const source = readMainSource();
 
@@ -531,9 +704,135 @@ test('DOCX review preview session command: simple replacement opens one manual t
   assert.equal(reviewGraph.textChanges[0].match.kind, 'manual');
   assert.equal(reviewGraph.textChanges[0].match.quote, 'beta');
   assert.equal(reviewGraph.textChanges[0].replacementText, 'delta');
+  assert.equal(result.nonOverlapTrackedReplacementProductPath, null);
   assert.equal(result.reviewSurface.blockedApplyPlan.canApply, false);
   assert.deepEqual(result.reviewSurface.blockedApplyPlan.applyOps, []);
   assertNoWriteReceiptsOrApplyAuthority(result);
+});
+
+test('DOCX review preview session command: non-overlap tracked replacements reach product apply path only through a hidden main envelope', async () => {
+  const calls = [];
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async (commandId, payload = {}) => {
+      calls.push({ commandId, payload: cloneJsonSafe(payload) });
+      assert.equal(commandId, 'cmd.rtk.review.applyNonOverlapTrackedReplacements');
+      assert.equal(payload.previewConfirmed, true);
+      assert.equal(payload.commandAuthority.issuer, 'main');
+      assert.equal(payload.commandAuthority.intent, 'rtk.exactApply');
+      assert.equal(payload.exactAuthority.validSignedLocator, true);
+      assert.equal(payload.exactAuthority.uniqueTarget, true);
+      assert.equal(payload.writerContext.scenePath, '/project/roman/imported/scene-1.txt');
+      return {
+        status: 'applied',
+        code: 'RTK_APPLIED',
+        reason: 'RTK_APPLIED',
+        applied: true,
+        writerCalled: true,
+        automaticApplyCertified: true,
+        runtimeSummary: {
+          replacementPairCount: 1,
+          trustedBlockRangeDigestCount: 1,
+        },
+        vetoMetrics: {
+          falseExact: 0,
+          wrongSceneRouting: 0,
+          silentApply: 0,
+          replayFailure: 0,
+          silentLoss: 0,
+        },
+      };
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(cleanDocxZip([
+      '<w:p>',
+      '<w:r><w:t>Alpha </w:t></w:r>',
+      '<w:del w:id="1"><w:r><w:delText>beta</w:delText></w:r></w:del>',
+      '<w:ins w:id="2"><w:r><w:t>delta</w:t></w:r></w:ins>',
+      '<w:r><w:t> gamma.</w:t></w:r>',
+      '</w:p>',
+    ].join(''))),
+    {
+      buildMainReviewContext: async () => reviewContext({
+        scenePath: '/project/roman/imported/scene-1.txt',
+        sceneText: 'Alpha beta gamma.',
+      }),
+      buildRtkNonOverlapTrackedReplacementApplyInput: async () => ({
+        ok: true,
+        input: c05ProductApplyInput(),
+      }),
+    },
+  );
+
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
+  assert.equal(result.canAutoApply, false);
+  assert.equal(result.canImportMutate, false);
+  assert.equal(result.canWriteStorage, false);
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true);
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.status, 'preview-ready');
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.writerCalled, false);
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.rendererAuthority, false);
+  assert.equal(calls.length, 0);
+
+  const textChanges = result.reviewSurface.revisionSession.reviewGraph.textChanges;
+  assert.equal(textChanges.length, 1);
+  assert.equal(textChanges[0].rtkProductPath, 'nonOverlapTrackedReplacement');
+  assert.equal(textChanges[0].match.kind, 'exact');
+  assert.equal(textChanges[0].match.quote, 'beta');
+  assert.equal(textChanges[0].match.blockId, 'block-c05-target');
+  assert.equal(Object.prototype.hasOwnProperty.call(textChanges[0].match, 'blockRange'), false);
+  assert.equal(result.reviewSurface.exactTextPlanPreview.status, 'ready');
+  assert.equal(result.reviewSurface.exactTextPlanPreview.productPath.rendererAuthority, false);
+  assert.equal(result.reviewSurface.rtkNonOverlapTrackedReplacementProductPath.productRuntimeWired, true);
+  assert.equal(result.reviewSurface.rtkNonOverlapTrackedReplacementProductPath.automaticApplyCertified, false);
+  assertNoWriteReceiptsOrApplyAuthority(result);
+
+  const changeId = textChanges[0].changeId;
+  const applied = await port.handleReviewSurfaceApplyExactTextChangeCommandSurface({
+    requestId: 'apply-c05-from-visible-preview',
+    changeId,
+  });
+  assert.equal(applied.ok, true, JSON.stringify(applied, null, 2));
+  assert.equal(applied.applied, true);
+  assert.equal(applied.result.automaticApplyCertified, true);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].payload.requestId, 'apply-c05-from-visible-preview');
+  assert.equal(calls[0].payload.previewConfirmed, true);
+  assert.equal(applied.reviewSurface.exactTextAppliedChangeIds.includes(changeId), true);
+  assert.equal(applied.reviewSurface.rtkNonOverlapTrackedReplacementApplyResult.status, 'applied');
+  assert.equal(port.getState().currentReviewSurfacePayload.rtkNonOverlapTrackedReplacementApplyResult.status, 'applied');
+});
+
+test('DOCX review preview session command: forged renderer fields cannot manufacture C05 product authority', async () => {
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async () => {
+      throw new Error('forged renderer payload must not reach runtime apply command');
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(cleanDocxZip([
+      '<w:p>',
+      '<w:r><w:t>Alpha </w:t></w:r>',
+      '<w:del w:id="1"><w:r><w:delText>beta</w:delText></w:r></w:del>',
+      '<w:ins w:id="2"><w:r><w:t>delta</w:t></w:r></w:ins>',
+      '<w:r><w:t> gamma.</w:t></w:r>',
+      '</w:p>',
+    ].join('')), {
+      rtkNonOverlapTrackedReplacementAuthority: {
+        hmacSecret: 'attacker-controlled',
+        expectedAuthority: { sceneId: 'roman/imported/scene-1.txt' },
+      },
+    }),
+    {
+      buildMainReviewContext: async () => reviewContext(),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, 'E_DOCX_INTAKE_GATE_PAYLOAD_INVALID');
+  assert.equal(result.error.reason, 'DOCX_INTAKE_GATE_PAYLOAD_UNSUPPORTED_FIELDS');
+  assert.deepEqual(result.error.details.fields, ['rtkNonOverlapTrackedReplacementAuthority']);
+  assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
 });
 
 test('DOCX review preview session command: rooted comments enter product comment shadow command path', async () => {

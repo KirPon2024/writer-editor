@@ -1,4 +1,5 @@
 import { hashCanonicalValue } from '../../core/browser-safe-hash.mjs';
+import { parseReviewTransportPackageV2 } from './reviewTransportPackageParserV2.mjs';
 
 const PACKET_VALID_CODE = 'REVISION_BRIDGE_PACKET_VALID';
 const PACKET_INVALID_CODE = 'E_REVISION_BRIDGE_PACKET_INVALID';
@@ -2575,6 +2576,125 @@ function docxReviewPreflightExtractTargetXml(bytes, entries, sourcePart) {
       byteSize: entry.byteSize,
       compressedSize: entry.compressedSize,
       method: entry.method,
+    },
+  };
+}
+
+function docxReviewTransportAnalysisFailure(code, details = {}) {
+  return {
+    ok: false,
+    status: 'blocked',
+    code,
+    reason: code,
+    canWriteManuscript: false,
+    canApply: false,
+    parts: {},
+    zipInventory: { eocdCount: 1, entries: [] },
+    details: cloneJsonSafe(details),
+  };
+}
+
+function shouldExtractDocxReviewTransportAnalysisPart(entryId) {
+  const normalized = normalizeString(entryId).replace(/\\/gu, '/');
+  const lower = normalized.toLowerCase();
+  return lower === '[content_types].xml'
+    || lower.endsWith('.xml')
+    || lower.endsWith('.rels');
+}
+
+export function extractDocxReviewTransportPackagePartsFromZipBytes(input, options = {}) {
+  const bytes = docxZipInventoryInputToBytes(
+    isPlainObject(input) && input.bytes !== undefined ? input.bytes : input,
+  );
+  if (bytes === null) {
+    return docxReviewTransportAnalysisFailure('DOCX_ZIP_BYTES_INPUT_INVALID');
+  }
+  const gate = inspectDocxHostileFileGateFromZipBytes(bytes);
+  if (!gate || gate.ok !== true || gate.decision !== 'pass') {
+    return docxReviewTransportAnalysisFailure(
+      normalizeString(gate?.code) || 'DOCX_REVIEW_TRANSPORT_GATE_NOT_PASSED',
+      { gate },
+    );
+  }
+  const metadataResult = docxHostileFileGateCentralEntries(bytes);
+  if (metadataResult.failure) {
+    return docxReviewTransportAnalysisFailure(
+      normalizeString(metadataResult.failure.code) || 'DOCX_REVIEW_TRANSPORT_CENTRAL_DIRECTORY_INVALID',
+      { failure: metadataResult.failure },
+    );
+  }
+
+  const maxPartBytes = Number.isSafeInteger(options.maxPartBytes) && options.maxPartBytes > 0
+    ? options.maxPartBytes
+    : DOCX_REVIEW_PREFLIGHT_BOUNDS.maxTargetPartBytes;
+  const parts = {};
+  const inventoryEntries = [];
+  for (const entry of metadataResult.entries) {
+    const localHeader = docxHostileFileGateValidateLocalHeader(bytes, entry);
+    if (localHeader.failure) {
+      return docxReviewTransportAnalysisFailure(
+        normalizeString(localHeader.failure.code) || 'DOCX_REVIEW_TRANSPORT_LOCAL_HEADER_INVALID',
+        { failure: localHeader.failure },
+      );
+    }
+    const dataStart = localHeader.dataOffset;
+    const dataEnd = dataStart + entry.compressedSize;
+    inventoryEntries.push({
+      name: entry.entryId,
+      byteSize: entry.byteSize,
+      compressedSize: entry.compressedSize,
+      method: entry.method,
+      dataStart,
+      dataEnd,
+    });
+    if (!shouldExtractDocxReviewTransportAnalysisPart(entry.entryId)) continue;
+    if (entry.byteSize > maxPartBytes) {
+      return docxReviewTransportAnalysisFailure('DOCX_REVIEW_TRANSPORT_PART_BYTES_EXCEEDED', {
+        entryId: entry.entryId,
+        actual: entry.byteSize,
+        limit: maxPartBytes,
+      });
+    }
+    const inflated = docxHostileFileGateInflatedDeclarationText(bytes, entry);
+    if (inflated.failure) {
+      return docxReviewTransportAnalysisFailure(
+        normalizeString(inflated.failure.code) || 'DOCX_REVIEW_TRANSPORT_PART_INFLATE_FAILED',
+        { failure: inflated.failure },
+      );
+    }
+    parts[entry.entryId] = Buffer.from(inflated.contentBytes).toString('utf8');
+  }
+
+  return {
+    ok: true,
+    status: 'parts-ready',
+    code: 'DOCX_REVIEW_TRANSPORT_PARTS_READY',
+    reason: 'DOCX_REVIEW_TRANSPORT_PARTS_READY',
+    parts,
+    zipInventory: {
+      eocdCount: 1,
+      entries: inventoryEntries,
+    },
+    gate,
+  };
+}
+
+export function buildDocxReviewTransportAnalysisFromZipBytes(input, options = {}) {
+  const extracted = extractDocxReviewTransportPackagePartsFromZipBytes(input, options);
+  if (!extracted.ok) return extracted;
+  const parserInput = {
+    ...(isPlainObject(input) ? cloneJsonSafe(input) : {}),
+    parts: extracted.parts,
+    zipInventory: extracted.zipInventory,
+  };
+  delete parserInput.bytes;
+  return {
+    ...parseReviewTransportPackageV2(parserInput, options),
+    packagePartsFromZipBytes: {
+      status: extracted.status,
+      code: extracted.code,
+      partNames: Object.keys(extracted.parts).sort(),
+      zipEntryCount: extracted.zipInventory.entries.length,
     },
   };
 }

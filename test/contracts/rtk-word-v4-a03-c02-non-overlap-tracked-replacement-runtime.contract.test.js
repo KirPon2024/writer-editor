@@ -13,6 +13,7 @@ const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
 const C01_COMMAND_ID = 'cmd.rtk.reviewSession.importComments';
 const COMMAND_ID = 'cmd.rtk.review.applyNonOverlapTrackedReplacements';
 const RECEIPT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json');
+const C05_RECEIPT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json');
 const PROMOTION_LIST_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json');
 const PROFILE_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json');
 const LEDGER_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json');
@@ -319,6 +320,7 @@ test('A03 C02 command registration alone cannot claim user product apply wiring'
   const { ALLOWED_COMMAND_IDS } = require(COMMAND_KERNEL_PATH);
   const mainSource = fs.readFileSync(MAIN_PATH, 'utf8');
   const receipt = readJson(RECEIPT_PATH);
+  const c05Receipt = fs.existsSync(C05_RECEIPT_PATH) ? readJson(C05_RECEIPT_PATH) : null;
   const promotionList = readJson(PROMOTION_LIST_PATH);
   const profile = readJson(PROFILE_PATH);
   const ledger = readJson(LEDGER_PATH);
@@ -331,7 +333,6 @@ test('A03 C02 command registration alone cannot claim user product apply wiring'
   assert.equal(ALLOWED_COMMAND_IDS.includes(COMMAND_ID), true);
   assert.equal(mainSource.includes('handleRtkNonOverlapTrackedReplacementCommandSurface'), true);
   assert.equal(c01ProductDispatch.test(mainSource), true);
-  assert.equal(c02ProductDispatch.test(mainSource), false);
 
   assert.equal(receipt.implementedCapability.componentProven, true);
   assert.equal(receipt.implementedCapability.productCompositionRegistered, true);
@@ -340,13 +341,30 @@ test('A03 C02 command registration alone cannot claim user product apply wiring'
   assert.equal(receipt.implementedCapability.automaticApplyCertified, false);
   assert.equal(receipt.implementedCapability.userAutomaticApplyCertified, false);
 
+  const c05Successor = c02ProductDispatch.test(mainSource)
+    || c05Receipt?.status === 'WORD_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_WIRED_NOT_SATURATED'
+    || promotionList.status === 'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT';
+  if (c05Successor) {
+    assert.ok(c05Receipt, 'C05 product dispatch requires a C05 successor receipt');
+    assert.equal(c05Receipt.implementedCapability.productRuntimeWired, true);
+    assert.equal(c05Receipt.implementedCapability.endToEndProductPathWired, true);
+    assert.equal(c05Receipt.implementedCapability.automaticApplyCertified, false);
+    assert.equal(c05Receipt.implementedCapability.userAutomaticApplyCertified, false);
+    assert.equal(c02Row.authorityLevel.productRuntimeWired, true);
+    assert.equal(c02Row.authorityLevel.endToEndProductPathWired, true);
+    assert.equal(c02ProfileCell.state, 'COMPONENT_PROVEN_SUPERSEDED_BY_A03_C05_PRODUCT_PATH');
+    assert.equal(c02ProfileCell.productRuntimeWired, true);
+    assert.equal(ledger.coverageLedger.a03C05NonOverlapProductPath.productRuntimeWired, true);
+  } else {
+    assert.equal(c02Row.authorityLevel.productRuntimeWired, false);
+    assert.equal(c02ProfileCell.state, 'COMPONENT_PROVEN');
+    assert.equal(c02ProfileCell.productRuntimeWired, false);
+    assert.equal(ledger.runtimeClaims.writerAuthorityAdded, false);
+  }
+
   assert.equal(c02Row.authorityLevel.componentProven, true);
   assert.equal(c02Row.authorityLevel.productCompositionRegistered, true);
-  assert.equal(c02Row.authorityLevel.productRuntimeWired, false);
   assert.equal(c02Row.authorityLevel.automaticApplyCertified, false);
-  assert.equal(c02ProfileCell.state, 'COMPONENT_PROVEN');
-  assert.equal(c02ProfileCell.productRuntimeWired, false);
   assert.equal(c02ProfileCell.automaticApplyCertified, false);
-  assert.equal(ledger.runtimeClaims.writerAuthorityAdded, false);
   assert.equal(ledger.runtimeClaims.automaticApplyExpanded, false);
 });

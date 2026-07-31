@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_A03_C04_MODERN_COMMENT_STATE_BOUND_NOT_SATURATED",
+  "status": "WORD_SATURATION_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -158,7 +158,7 @@
     {
       "id": "E12_A03_PROMOTION_LIST",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "7074cb0c0d704be6eb6d1f3e96c9ba8709bf4b5d58b8397b0aabfaf261d5a9c5",
+      "sha256": "0f4d3c4cbab44dd2ec9fe06825c032646969179dfd556f695cc935923c9bd355",
       "status": "BOUND"
     },
     {
@@ -183,6 +183,12 @@
       "id": "A03_C04_MODERN_COMMENT_STATE",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C04_MODERN_COMMENT_STATE_RECEIPT.json",
       "sha256": "abf76d9256a1d3cadb8fe2db681adeb536776be5a7d766c42f58bb5c4f7a3614",
+      "status": "BOUND"
+    },
+    {
+      "id": "A03_C05_NON_OVERLAP_PRODUCT_PATH",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
+      "sha256": "519ee66e2742fb913d155ee084f8707734c72ae7f5082ce5dcec8fc41de0e2b6",
       "status": "BOUND"
     }
   ],
@@ -317,6 +323,16 @@
       "automaticApplyCertified": false,
       "replyPhysicalWordProven": false,
       "resolveReopenPhysicalWordProven": false
+    },
+    "a03C05NonOverlapProductPath": {
+      "status": "BOUND_PRODUCT_PATH_WIRED_NOT_RELEASE_READY",
+      "sourceEvidence": "A03_C05_NON_OVERLAP_PRODUCT_PATH",
+      "result": "WORD_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_WIRED_NOT_SATURATED",
+      "productRuntimeWired": true,
+      "endToEndProductPathWired": true,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "releaseReady": false
     }
   },
   "aggregateTotals": {
@@ -387,11 +403,11 @@
     "a03PromotionRows": 5,
     "a03PromotionPhysicalWordProvenRows": 2,
     "a03PromotionComponentProvenRows": 4,
-    "a03PromotionProductRuntimeWiredRows": 1,
+    "a03PromotionProductRuntimeWiredRows": 2,
     "a03PromotionAutomaticApplyCertifiedRows": 0,
     "a03C01CommentShadowRuntimeWired": 1,
     "a03C01CommentShadowRuntimeThreadProof": 2,
-    "a03C02NonOverlapTrackedReplacementRuntimeWired": 0,
+    "a03C02NonOverlapTrackedReplacementRuntimeWired": 1,
     "a03C02AutomaticApplyCertifiedRows": 0,
     "falseExact": 0,
     "wrongSceneRouting": 0,
@@ -410,7 +426,10 @@
     "a03C04ResolveDoneTrueReadbackOnly": 1,
     "a03C04ResolveReopenFullPass": 0,
     "a03C04ModernReplyPass": 0,
-    "silentCommentLoss": 0
+    "silentCommentLoss": 0,
+    "a03C05NonOverlapProductPathWired": 1,
+    "a03C05EndToEndProductPathWired": 1,
+    "a03C05AutomaticApplyCertifiedRows": 0
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -432,13 +451,14 @@
   "runtimeClaims": {
     "productRuntimeChanged": true,
     "automaticApplyExpanded": false,
-    "writerAuthorityAdded": false,
+    "writerAuthorityAdded": true,
     "uiChanged": false,
     "dependencyAdded": false,
     "networkAdded": false,
     "googleDocsOpened": false,
     "wordSaturated": false,
-    "automaticApplyScope": "none; C04 modern comment state readback gate only"
+    "automaticApplyScope": "none at release level; C05 wires explicit user-confirmed returned-DOCX non-overlap replacement path only",
+    "releaseReady": false
   },
   "nonClaims": [
     "E12 wave 40, wave 100, wave 300, and repeat wave 300 are already complete and are not repeated by targeted gap closure.",
@@ -448,7 +468,7 @@
     "Literal overlapping tracked edits are not certified as apply authority.",
     "Modern reply and resolve reopen remain typed limitations unless future physical readback proves them."
   ],
-  "nextStage": "EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR",
+  "nextStage": "RELEASE_AUDIT_REBIND_AFTER_C05",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

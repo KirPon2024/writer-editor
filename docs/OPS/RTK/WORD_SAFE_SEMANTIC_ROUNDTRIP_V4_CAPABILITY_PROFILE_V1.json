@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED",
+  "status": "WORD_16_111_2_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,7 +388,7 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_NOT_PROMOTED",
+      "currentCapability": "A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_03 A03 safe portability improvements runtime contour",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
@@ -635,16 +635,16 @@
     {
       "capabilityId": "rtk.word.v4.nonOverlapTrackedReplacementRuntimeApply",
       "operationFamily": "TextRevision replacement-pair inside trusted single-scene block range",
-      "state": "COMPONENT_PROVEN",
-      "currentCapability": "COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED_FOR_PHYSICALLY_PROVEN_NON_OVERLAP_TRACKED_REPLACEMENTS",
+      "state": "COMPONENT_PROVEN_SUPERSEDED_BY_A03_C05_PRODUCT_PATH",
+      "currentCapability": "COMPONENT_RUNTIME_RETAINED_AS_C05_CONSUMER",
       "physicalWordEvidence": true,
       "componentProven": true,
       "productCompositionRegistered": true,
-      "productRuntimeWired": false,
+      "productRuntimeWired": true,
       "automaticApplyCertified": false,
       "consumer": "Command Kernel RTK non-overlap tracked replacement command registration and component handler",
       "acceptanceTest": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
-      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
       "guards": [
         "valid signed locator",
         "unique scene mapping",
@@ -661,7 +661,8 @@
         "move revisions remain blocked",
         "structural changes remain blocked"
       ],
-      "killCriterion": "Any receipt claims user automatic apply before a real Word-return preview/apply product path dispatches this command through existing ports and Command Kernel."
+      "killCriterion": "Any receipt claims user automatic apply before a real Word-return preview/apply product path dispatches this command through existing ports and Command Kernel.",
+      "supersededByCapabilityId": "rtk.word.v4.nonOverlapTrackedReplacementProductPath"
     },
     {
       "capabilityId": "rtk.word.v4.adjacentRangeNegativeOracle",
@@ -737,6 +738,36 @@
         "C04 adds no manuscript apply authority"
       ],
       "killCriterion": "Any modern comment state is promoted to product mutation or automatic apply without deterministic physical Word readback and Command Kernel receipt."
+    },
+    {
+      "capabilityId": "rtk.word.v4.nonOverlapTrackedReplacementProductPath",
+      "operationFamily": "Word-return non-overlap tracked replacement preview and explicit apply path",
+      "state": "PRODUCT_RUNTIME_WIRED",
+      "currentCapability": "RETURNED_DOCX_PREVIEW_TO_COMMAND_KERNEL_APPLY_PATH_WIRED_PENDING_PRODUCT_ORIGINATED_PHYSICAL_LOOP",
+      "physicalWordEvidence": true,
+      "componentProven": true,
+      "productCompositionRegistered": true,
+      "productRuntimeWired": true,
+      "endToEndProductPathWired": true,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "componentAutomaticApplyCertified": true,
+      "consumer": "docx review preview activation and exact text apply command surface",
+      "acceptanceTest": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
+      "supportedNow": [
+        "hidden main-owned C05 apply envelope is created during returned DOCX preview activation",
+        "renderer receives exact preview and change id only",
+        "explicit apply dispatches the C02 RTK runtime command through the existing Command Kernel",
+        "missing C05 envelope blocks instead of falling back to legacy scene-wide matching"
+      ],
+      "limitations": [
+        "product-originated Review DOCX exporter is still next release-audit scope",
+        "physical Yalken UI export Word edit return reopen wave is still next release-audit scope",
+        "adjacent triple edits, literal overlap, replies, resolve reopen, formatting and structure are not promoted",
+        "Word SATURATED remains false"
+      ],
+      "killCriterion": "Any parser renderer returned DOCX or forged payload gains writer authority, or any release-ready automatic apply claim appears before product-originated physical evidence."
     }
   ]
 }

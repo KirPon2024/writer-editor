@@ -418,6 +418,8 @@ const COMMAND_SURFACE_KERNEL_COMMAND_IDS = Object.freeze({
   PROJECT_EXPORT_MARKDOWN_V1: 'cmd.project.exportMarkdownV1',
   PROJECT_RELEASE_CLAIM_ADMIT: 'cmd.project.releaseClaim.admit',
   PROJECT_RELEASE_CLAIM_EXECUTE: 'cmd.project.releaseClaim.execute',
+  RTK_REVIEW_SESSION_IMPORT_COMMENTS: 'cmd.rtk.reviewSession.importComments',
+  RTK_REVIEW_APPLY_NON_OVERLAP_TRACKED_REPLACEMENTS: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
 });
 let internalCommandSurfaceKernel = null;
 
@@ -3477,6 +3479,7 @@ async function buildDocxReviewPreviewSessionMainContext(options = {}) {
   return {
     ok: true,
     projectId,
+    projectRoot: docxReviewPreviewSessionDetailString(binding.projectRoot) || path.dirname(binding.manifestPath),
     baselineHash,
     currentBaselineHash: baselineHash,
     targetScope: {
@@ -3484,6 +3487,43 @@ async function buildDocxReviewPreviewSessionMainContext(options = {}) {
       id: sceneId,
     },
     createdAt: new Date().toISOString(),
+  };
+}
+
+function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, requestId) {
+  const reviewPacket = isPlainObjectValue(candidate?.reviewPacket)
+    ? cloneJsonSafe(candidate.reviewPacket)
+    : {};
+  if (!Array.isArray(reviewPacket.commentThreads) || reviewPacket.commentThreads.length === 0) {
+    return null;
+  }
+  const sourceViewState = isPlainObjectValue(candidate.sourceViewState)
+    ? candidate.sourceViewState
+    : {};
+  const packetHash = docxReviewPreviewSessionDetailString(sourceViewState.packetHash)
+    || computeHash(JSON.stringify(reviewPacket));
+  return {
+    projectRoot: docxReviewPreviewSessionDetailString(context.projectRoot),
+    roundId: docxReviewPreviewSessionDetailString(sourceViewState.revisionToken) || `docx-review-preview-${packetHash}`,
+    requestId,
+    returnArtifactId: packetHash,
+    semanticReturnId: `semantic:${packetHash}`,
+    reviewIr: {
+      schemaVersion: 'yalken.rtk.review-ir.v2',
+      roundId: docxReviewPreviewSessionDetailString(sourceViewState.revisionToken) || `docx-review-preview-${packetHash}`,
+      returnArtifactId: packetHash,
+      semanticReturnId: `semantic:${packetHash}`,
+      commentThreads: cloneJsonSafe(reviewPacket.commentThreads) || [],
+      commentPlacements: Array.isArray(reviewPacket.commentPlacements)
+        ? cloneJsonSafe(reviewPacket.commentPlacements)
+        : [],
+      textRevisions: [],
+      moveRevisions: [],
+      propertyRevisions: [],
+      formattingDeltas: [],
+      structureChanges: [],
+      opaqueUnsupported: [],
+    },
   };
 }
 
@@ -3650,6 +3690,14 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       isPlainObjectValue(nestedError.details) ? nestedError.details : undefined,
     );
   }
+  const commentShadowPayload = buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, requestId);
+  let commentShadowResult = null;
+  if (commentShadowPayload) {
+    commentShadowResult = await dispatchCommandSurfaceKernel(
+      'cmd.rtk.reviewSession.importComments',
+      commentShadowPayload,
+    );
+  }
 
   return assertDocxReviewPreviewSessionActivationResult({
     ok: true,
@@ -3659,6 +3707,19 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     diagnosticOnly: isDiagnosticEvidenceCandidate,
     session: importResult.session,
     reviewSurface: importResult.reviewSurface,
+    commentShadowSession: isPlainObjectValue(commentShadowResult?.session)
+      ? cloneJsonSafe(commentShadowResult.session)
+      : null,
+    commentShadowResult: isPlainObjectValue(commentShadowResult)
+      ? {
+        ok: commentShadowResult.ok === true,
+        status: docxReviewPreviewSessionDetailString(commentShadowResult.status),
+        code: docxReviewPreviewSessionDetailString(commentShadowResult.code || commentShadowResult.error?.code),
+        reason: docxReviewPreviewSessionDetailString(commentShadowResult.reason || commentShadowResult.error?.reason),
+        writerCalled: commentShadowResult.writerCalled === true,
+        manuscriptApplyAuthority: commentShadowResult.manuscriptApplyAuthority === true,
+      }
+      : null,
     candidateSummary: summarizeDocxReviewPreviewSessionCandidate(candidate),
     sourcePacketHash: importPayload.sourcePacketHash,
     canOpenReviewSession: candidate.canOpenReviewSession === true,
@@ -6712,6 +6773,12 @@ function getInternalCommandSurfaceKernel() {
     },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_RELEASE_CLAIM_EXECUTE]: async (payload = {}) => {
       return handleRevisionBridgeReleaseClaimPublicationEffect(payload);
+    },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_SESSION_IMPORT_COMMENTS]: async (payload = {}) => {
+      return handleRtkCommentShadowSessionCommandSurface(payload);
+    },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.RTK_REVIEW_APPLY_NON_OVERLAP_TRACKED_REPLACEMENTS]: async (payload = {}) => {
+      return handleRtkNonOverlapTrackedReplacementCommandSurface(payload);
     },
   });
   return internalCommandSurfaceKernel;
@@ -13771,6 +13838,90 @@ function loadRevisionBridgeModule() {
     });
   }
   return revisionBridgeModulePromise;
+}
+
+let rtkCommentShadowSessionModulePromise = null;
+function loadRtkCommentShadowSessionModule() {
+  if (!rtkCommentShadowSessionModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'io', 'revisionBridge', 'reviewTransportCommentShadowSession.mjs')).href;
+    rtkCommentShadowSessionModulePromise = import(modulePath).catch((error) => {
+      rtkCommentShadowSessionModulePromise = null;
+      throw error;
+    });
+  }
+  return rtkCommentShadowSessionModulePromise;
+}
+
+async function handleRtkCommentShadowSessionCommandSurface(payload = {}) {
+  let module = null;
+  try {
+    module = await loadRtkCommentShadowSessionModule();
+  } catch (error) {
+    return {
+      ok: false,
+      error: {
+        code: 'E_RTK_COMMENT_SHADOW_SESSION_UNAVAILABLE',
+        op: 'cmd.rtk.reviewSession.importComments',
+        reason: 'RTK_COMMENT_SHADOW_SESSION_UNAVAILABLE',
+        details: {
+          message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+        },
+      },
+    };
+  }
+  if (!module || typeof module.createRtkCommentShadowSessionCommandHandler !== 'function') {
+    return {
+      ok: false,
+      error: {
+        code: 'E_RTK_COMMENT_SHADOW_SESSION_UNAVAILABLE',
+        op: 'cmd.rtk.reviewSession.importComments',
+        reason: 'RTK_COMMENT_SHADOW_SESSION_HANDLER_UNAVAILABLE',
+      },
+    };
+  }
+  return module.createRtkCommentShadowSessionCommandHandler()(payload);
+}
+
+let rtkNonOverlapTrackedReplacementModulePromise = null;
+function loadRtkNonOverlapTrackedReplacementModule() {
+  if (!rtkNonOverlapTrackedReplacementModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'io', 'revisionBridge', 'reviewTransportNonOverlapTrackedReplacementRuntime.mjs')).href;
+    rtkNonOverlapTrackedReplacementModulePromise = import(modulePath).catch((error) => {
+      rtkNonOverlapTrackedReplacementModulePromise = null;
+      throw error;
+    });
+  }
+  return rtkNonOverlapTrackedReplacementModulePromise;
+}
+
+async function handleRtkNonOverlapTrackedReplacementCommandSurface(payload = {}) {
+  let module = null;
+  try {
+    module = await loadRtkNonOverlapTrackedReplacementModule();
+  } catch (error) {
+    return {
+      ok: false,
+      error: {
+        code: 'E_RTK_NON_OVERLAP_TRACKED_REPLACEMENT_UNAVAILABLE',
+        op: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+        reason: 'RTK_NON_OVERLAP_TRACKED_REPLACEMENT_UNAVAILABLE',
+        details: {
+          message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+        },
+      },
+    };
+  }
+  if (!module || typeof module.createRtkNonOverlapTrackedReplacementCommandHandler !== 'function') {
+    return {
+      ok: false,
+      error: {
+        code: 'E_RTK_NON_OVERLAP_TRACKED_REPLACEMENT_UNAVAILABLE',
+        op: 'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+        reason: 'RTK_NON_OVERLAP_TRACKED_REPLACEMENT_HANDLER_UNAVAILABLE',
+      },
+    };
+  }
+  return module.createRtkNonOverlapTrackedReplacementCommandHandler()(payload);
 }
 
 let exactTextMinSafeWriteModulePromise = null;

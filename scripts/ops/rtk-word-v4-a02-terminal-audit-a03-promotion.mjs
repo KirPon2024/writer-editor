@@ -934,19 +934,27 @@ export function evaluateWordA02TerminalAudit(input = {}) {
     add('RTK_WORD_A02_PRIOR_LEDGER_BINDING_INVALID', 'sourceEvidence.saturationLedgerReceipt', 'Prior saturation ledger source binding must keep path and lowercase SHA without creating a circular current-ledger hash dependency.');
   }
   const promotionStatusAllowed = promotionList.status === 'A03_PROMOTION_LIST_READY_AFTER_A02_TERMINAL_AUDIT'
-    || promotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT';
-  if (promotionList.schemaVersion !== PROMOTION_SCHEMA || !promotionStatusAllowed) add('RTK_WORD_A03_PROMOTION_SCHEMA_INVALID', 'promotionList', 'A03 promotion list must be ready after A02 terminal audit or advanced by A03-C01.');
+    || promotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT'
+    || promotionList.status === 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_C03_NEXT';
+  if (promotionList.schemaVersion !== PROMOTION_SCHEMA || !promotionStatusAllowed) add('RTK_WORD_A03_PROMOTION_SCHEMA_INVALID', 'promotionList', 'A03 promotion list must be ready after A02 terminal audit or advanced by bounded A03 contours.');
   if (!Array.isArray(promotionList.rows) || promotionList.rows.length < 5) add('RTK_WORD_A03_PROMOTION_ROWS_MISSING', 'promotionList.rows', 'Promotion list must contain capability rows.');
   for (const row of promotionList.rows || []) {
     for (const key of ['capability', 'physicalEvidence', 'parserComponentConsumer', 'missingRuntimeWiring', 'authorityLevel', 'negativeTests', 'recoveryReplayRequirements', 'implementationContour', 'killCriterion']) {
       if (row[key] === undefined || row[key] === '' || (Array.isArray(row[key]) && row[key].length === 0)) add('RTK_WORD_A03_ROW_INCOMPLETE', `promotionList.rows.${row.capability}.${key}`, 'Every A03 row must bind required fields.');
     }
-    const allowedC01RuntimeWiring = promotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT'
+    const successorRuntimeWiringAllowed = promotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT'
+      || promotionList.status === 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_C03_NEXT';
+    const allowedC01RuntimeWiring = successorRuntimeWiringAllowed
       && row.capability === 'rootModernCommentShadowImport'
       && row.authorityLevel?.productRuntimeWired === true;
-    if ((!allowedC01RuntimeWiring && row.authorityLevel?.productRuntimeWired !== false)
-      || row.authorityLevel?.automaticApplyCertified !== false) {
-      add('RTK_WORD_A03_RUNTIME_OVERCLAIM', `promotionList.rows.${row.capability}.authorityLevel`, 'A03 promotion list can only claim the A03-C01 root-comment runtime wiring and never automatic apply.');
+    const allowedC02ApplyWiring = promotionList.status === 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_C03_NEXT'
+      && row.capability === 'nonOverlapTrackedReplacementRuntimeApply'
+      && row.authorityLevel?.productRuntimeWired === true
+      && row.authorityLevel?.automaticApplyCertified === true;
+    const productRuntimeOk = allowedC01RuntimeWiring || allowedC02ApplyWiring || row.authorityLevel?.productRuntimeWired === false;
+    const automaticApplyOk = allowedC02ApplyWiring || row.authorityLevel?.automaticApplyCertified === false;
+    if (!productRuntimeOk || !automaticApplyOk) {
+      add('RTK_WORD_A03_RUNTIME_OVERCLAIM', `promotionList.rows.${row.capability}.authorityLevel`, 'A03 promotion list can only claim bounded delivered successor runtime contours.');
     }
   }
   return {

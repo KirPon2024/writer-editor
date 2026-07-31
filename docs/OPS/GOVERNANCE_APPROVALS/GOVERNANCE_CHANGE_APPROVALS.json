@@ -5946,10 +5946,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_MEASURED_10K_BUDGET_RECEIPT.json",
-      "sha256": "95044bf8c83ea8a86319a347dba159a83d3d1975c67463995b54a2835af48cba",
+      "sha256": "e6eaeca66df66e532a600cb74155949ac125e9d054384044d76e53c43ddbcdb7",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
       "approvedAtUtc": "2026-07-31T08:37:30.000Z",
-      "rationale": "Approve ER C05 delivery receipt after origin/main f2ce50d1 drift reconciliation: records real worker-thread adapter evidence, fresh measured 10k worker budget transcript, full runner PASS transcript hash, Sector-M exact scope proof, no Stage 11 start, no product readiness claim, no dependency, no network, no project truth mutation, and no persistent derived truth."
+      "rationale": "Approve ER C05 delivery receipt after origin/main f2ce50d1 drift reconciliation and implementation commit f6271ae4 binding: records real worker-thread adapter evidence, fresh measured 10k worker budget transcript, full runner PASS transcript hash, Sector-M exact scope proof, no Stage 11 start, no product readiness claim, no dependency, no network, no project truth mutation, and no persistent derived truth."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c05-10k-worker-budget.mjs",

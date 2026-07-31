@@ -5771,10 +5771,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "abe397c67b51d3e69a027ba25959ad2739dcb860dc986e18e0b3906768f91202",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T13:05:00.000Z",
-      "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
+      "sha256": "6cc9ade53a2277d092512429425d044fbdc9bf91cf8d543e746b49f4671678d2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T06:54:31.000Z",
+      "rationale": "Approve ER C03 Sector M scope-map rebind: adds only exact DONE allowlist paths for src/core/registry.ts and src/shared/productCommandRegistry.cjs so the existing diff and runner guards can verify command-registry source reachability without wildcard prefixes, UI design change, dependency, network, or readiness certification."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",

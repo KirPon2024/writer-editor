@@ -114,13 +114,6 @@
       "rationale": "Approve bounded B06 physical Word certification receipt: records 32 synthetic Microsoft Word for Mac 16.111-family native open-edit-save-close-reopen round trips, package inventory and parser/classifier readback, 100k and 250k word scale samples, high-comment physical sample, hostile package blocking, zero falseExact, zero silentApply, zero wrongSceneRouting, no fixture-only or no-op comment support claim, historical D1 preservation, and typed limitations for replies, resolve/reopen, compare/combine, large page automation and unsupported formatting/structure surfaces."
     },
     {
-      "filePath": "scripts/ops/rtk-word-latest-physical-certification-lab.mjs",
-      "sha256": "88d84b94ed3fc08d1fc0d97f5096ea6d9c7087b9ca5d09f3f5645ac9c2340860",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T16:35:00.000Z",
-      "rationale": "Approve bounded B06 physical Word lab runner: generates synthetic DOCX corpora only, verifies encrypted T7-Secure before physical runs, drives Microsoft Word through AppleScript with target lab documents, mirrors source and returned DOCX evidence to T7, parses returned packages through ReviewIRV2 parser/classifier, writes atomic receipts, records typed unsupported semantics instead of false PASS, and adds no product runtime entrypoint, UI, dependency, network, user-document access, or automatic apply expansion."
-    },
-    {
       "filePath": "test/contracts/rtk-word-latest-semantic-b06-physical-certification.contract.test.js",
       "sha256": "e87ef0f8e95e13bc5c2c61dd156c27fb52bbdd1f15ed17c13d8742757845a7df",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
@@ -5806,87 +5799,115 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "80c2f876364d4152ebb2a48e9349904760e7e581350a34a28fb94279522d11d3",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "f5bc87c89728450657a65d10022217d812094336832a795f1a3e1ec3ff3068e0",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "af12676b57c46105fc561119af2ac8e6d221d4a16418bdeba095f458571e9419",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "de4938ebd4f6d25da119639e9b0e9b7141c75e3d136f14e05bb581fde2e78525",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json",
+      "sha256": "d87f04655f94b595951e3a73c524b6be9d731808abf6ea6945f3ea4e40348a35",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "97bde5c79d78445c4bce71b9f2231363b12b6ea70b47a7a4f397fd80f46a5b7e",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve final E12 saturation ledger receipt after Atlas main drift: binds local verifier, focused E06-E12 contracts, governance, OSS policy, ops suite, syntax and full test suite evidence; preserves not-saturated Word focus, zero-veto metrics, no Google Docs sequencing, no runtime apply expansion, no network and no dependency change."
+      "sha256": "7372591551a8a46733ab5b10b8d1a37b9f42fa3e388187637b6091044e6b3af9",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-latest-physical-certification-lab.mjs",
+      "sha256": "8f91e726b6318b32773189e7fdc1ab530f7e92f768d3ee66465bf46247acede8",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
+      "sha256": "d4942252fa70307deb2eece720e318bc446a56bf0688572b3ad061f1469edf58",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-physical-wave40.mjs",
+      "sha256": "65b8fd54c94af716bcadccc67382055e56c42f00492ac0acd8f0c4dfb0e008a8",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "1e3d9543c14f16c5873e5b9581b89719323ca7609abbb2de757870abc808c26f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 verifier after Atlas main drift: validates required evidence file hashes, wave sequence, not-saturated state, aggregate zero veto metrics, profile/program sequencing and negative false-saturation conditions without changing runtime, opening Google Docs, adding network, or running product writes."
+      "sha256": "de33c6a456001223ea88daf41c7f377b245bbf65098c180db004c2f45f8a41f1",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "0247914e24a27fcad2c103170d875442ef4a155cd4cbbc5bd2a84dd85abd7d27",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "005c76743ebded3877b7b4a625302dfbc407e9581673092fb01f7959fd443ba6",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "d2074f63b529f923ddb4815a9e85472e83937857ede1d2c39452d693d3d6e89c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "804e87015961c5fca1ce619b6d0abcc068b8f498e763b06bb82cfeb76df8e53d",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "a39010f51c6ccfb2dbb7f1cd312aab6434c19076d1dec3511cdd7d83ba41e32a",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "b52e65c90339b3f72f905a654f3a5f526e23565b50934236736311f5f3122489",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "b55fdf43668f16cdb6a49b95c103fe1618653d6c685d21cef93467137416f3e2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "9db27054248dbbd3a04c43b46bd3dc1e8d93a616ebd6702f4a88df59b7455a28",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "17da33a78d941fdccb0fdd108276ca3411acc30880e0b7fdaa3e79f0c961e4ac",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "d08a93582d358acda4cbbed169a8eb774a4d78027da62b2c496701bdd63d3b2b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "9c4d6a48bef571f56efb516caeeb2763596350b5e6c9407802c60c1a5dba0349",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "198118254420c35a8565d5e59e9ffc551ea3847018cdc6cdc0312f4ad40a8941",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "e57450cf69ef2b67c69da1cee70da613f1e74eb520ead281375327a103018208",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "sha256": "d1b741ae3eaad576a5a34617d816d0431d865d7afdf3a112554273e8fc0c6942",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "cbf2ddd647865f53a80900a897082fd941b21a996e25774207f10b0214161f33",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
-      "rationale": "Approve E12 contracts after Atlas main drift: prove the saturation ledger remains not saturated, binds Unicode hostile performance crash replay evidence, rejects false SATURATED claims, rejects premature Google sequencing, rejects missing evidence and profile overclaim, and keeps Word as current focus."
+      "sha256": "922a92e5dd6f34c0f51a9488871a7be7d1ecc06ad9bef91c8dedb516015886ab",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
+      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
+      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     }
   ]
 }

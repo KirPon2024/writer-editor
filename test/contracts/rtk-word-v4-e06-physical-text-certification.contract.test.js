@@ -98,7 +98,7 @@ test('V4 E06 updates capability profile and program state without starting Googl
   assert.equal(cell.physicalWordEvidence, true);
   assert.equal(cell.currentCapability, 'WORD_16_111_2_TEXT_CORPUS_PHYSICAL_PASS_NO_EXACT_AUTHORITY_EXPANSION');
   assert.equal(cell.acceptanceTest, 'test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js');
-  assert.match(program.v4ExecutionState.status, /^EXECUTION_((0[6789]|1[01])_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES)$/u);
+  assert.match(program.v4ExecutionState.status, /^EXECUTION_((0[6789]|1[01])_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_(?:LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES|WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100))$/u);
   assert.equal(typeof program.v4ExecutionState.currentStage, 'string');
   assert.equal(program.v4ExecutionState.physicalTextCertificationProven, true);
   assert.equal(program.v4ExecutionState.runtimeApplyAuthorityGranted, false);

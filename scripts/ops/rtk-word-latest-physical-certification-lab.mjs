@@ -11,6 +11,10 @@ import {
   WORD_LATEST_SEMANTIC_PROFILE_ID,
 } from './rtk-word-latest-semantic-corpus-generator.mjs';
 import {
+  defaultWordSandboxWorkRoot,
+  resolveWordSandboxWorkRoot,
+} from './rtk-word-sandbox-work-root.mjs';
+import {
   classifyReviewTransportIrV2,
 } from '../../src/io/revisionBridge/reviewTransportClassifierV2.mjs';
 import {
@@ -27,14 +31,14 @@ const SECURE_MOUNT = '/Volumes/T7-Secure';
 const SECURE_UUID = 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2';
 const WORD_APP_PATH = '/Applications/Microsoft Word.app';
 const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b06-physical-certification';
-const DEFAULT_WORD_WORK_ROOT = path.join('/tmp', 'YalkenWordLab', 'word-latest-semantic-v2', 'b06-physical-certification');
+const DEFAULT_WORD_WORK_ROOT = defaultWordSandboxWorkRoot('word-latest-semantic-v2', 'b06-physical-certification');
 const RECEIPT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B06_PHYSICAL_CERTIFICATION_RECEIPT.json');
 const SYNTHETIC_AUTHOR = 'Yalken Synthetic Word Latest Lab';
 const SYNTHETIC_INITIALS = 'YSL';
 const B06_PROFILE_ID = 'word-mac-latest-observed-16.111.x-semantic-v2-b06';
 const WORD_LATEST_B06_RECEIPT_SCHEMA = 'yalken.rtk.word-latest-semantic-roundtrip-v2.b06-physical-certification-receipt.v1';
 
-function stableJson(value) {
+export function stableJson(value) {
   if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
   if (value && typeof value === 'object') {
     return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
@@ -50,7 +54,7 @@ function sha256Buffer(buffer) {
   return crypto.createHash('sha256').update(buffer).digest('hex');
 }
 
-function sha256Text(value) {
+export function sha256Text(value) {
   return sha256Buffer(Buffer.from(rawString(value), 'utf8'));
 }
 
@@ -97,7 +101,7 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
-function writeJsonAtomic(filePath, value) {
+export function writeJsonAtomic(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   const tempPath = path.join(path.dirname(filePath), `.${path.basename(filePath)}.${process.pid}.${Date.now()}.tmp`);
   fs.writeFileSync(tempPath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
@@ -116,7 +120,7 @@ function writeJsonAtomic(filePath, value) {
   }
 }
 
-function assertSecureVolume(artifactRoot) {
+export function assertSecureVolume(artifactRoot) {
   if (!fs.existsSync(SECURE_MOUNT)) throw new Error('T7_SECURE_MOUNT_MISSING');
   const info = execText('diskutil', ['info', SECURE_MOUNT], { timeout: 30_000 });
   const uuidLine = info.split('\n').find((line) => line.includes('Volume UUID')) || '';
@@ -433,6 +437,44 @@ function actionLinesForCase(caseSpec) {
     addTrackedInsert(' HOSTILE_NEGATIVE_POST_WORD_PACKAGE_MUTATION');
   } else if (caseSpec.id === 'WL2-032') {
     lines.push('set yNoEdit to true');
+  } else if (caseSpec.id === 'WL2-033') {
+    addTrackedInsert(' DUPLICATE_BLOCK_EDGE_INSERT');
+    lines.push(`set content of (create range yDoc start ${positionFor(sourceText, 'Alpha beta gamma', false)} end ${positionFor(sourceText, 'Alpha beta gamma', true)}) to "Alpha beta gamma copied Alpha beta gamma"`);
+    limitations.push('DUPLICATE_BLOCK_REORDER_REMAINS_MANUAL_UNTIL_UNIQUE_LOCATOR_PROOF');
+  } else if (caseSpec.id === 'WL2-034') {
+    lines.push('set track revisions of yDoc to true');
+    lines.push('set content of (create range yDoc start 1 end 1) to "WAVE40_SCALE_EDGE_START "');
+    lines.push(`set content of (create range yDoc start ${Math.max(2, sourceText.length - 20)} end ${Math.max(2, sourceText.length - 20)}) to " WAVE40_SCALE_EDGE_END"`);
+    limitations.push('WAVE40_300K_SCALE_MEASURED_NOT_SATURATION');
+  } else if (caseSpec.id === 'WL2-035') {
+    addTrackedInsert(' FORMAT_AND_TEXT_TRACKED');
+    lines.push('try');
+    lines.push(`  set underline of font object of (create range yDoc start ${commentStart} end ${commentEnd}) to true`);
+    lines.push(`  set highlight color index of font object of (create range yDoc start ${commentStart} end ${commentEnd}) to yellow`);
+    lines.push('on error errMsg number errNo');
+    lines.push('  set yLimitations to yLimitations & "WAVE40_FORMATTING_APPLESCRIPT_UNSUPPORTED:" & errNo & "|"');
+    lines.push('end try');
+  } else if (caseSpec.id === 'WL2-036') {
+    const count = Math.min(120, Number(caseSpec.commentTarget || 120));
+    for (let i = 0; i < count; i += 1) {
+      addComment(commentStart, commentEnd, `WL2-036 wave40 dense visible comment ${i + 1}`);
+    }
+    limitations.push(`WAVE40_HIGH_COMMENT_DENSITY_BOUNDED_TO_${count}_COMMENTS`);
+  } else if (caseSpec.id === 'WL2-037') {
+    addComment(commentStart, commentEnd, 'WL2-037 comment before tracked deletion');
+    lines.push('set track revisions of yDoc to true');
+    lines.push(`set content of (create range yDoc start ${oldStart} end ${oldEnd}) to ""`);
+    limitations.push('ACTIVE_COMMENT_ON_DELETED_ANCHOR_APPLESCRIPT_UNSTABLE_RECORDED_AS_TYPED_LIMITATION');
+    limitations.push('ADJACENT_TRACKED_DELETION_WITH_VISIBLE_COMMENT_PHYSICAL_PASS_REQUIRED');
+  } else if (caseSpec.id === 'WL2-038') {
+    lines.push('set track revisions of yDoc to true');
+    lines.push(`set content of (create range yDoc start ${unicodeAt} end ${unicodeAt}) to " WAVE40_RU_ё_кавычки_тире_—_NBSP_${String.fromCharCode(160)}_emoji_${String.fromCodePoint(0x1f4da)}_VS_${String.fromCodePoint(0xfe0f)}_RTL_‫אבג‬_CJK_短文"`);
+  } else if (caseSpec.id === 'WL2-039') {
+    addTrackedInsert('\nWAVE40 split paragraph before table/list pressure.');
+    limitations.push('PARAGRAPH_BREAK_EFFECT_REMAINS_STRUCTURE_LANE');
+  } else if (caseSpec.id === 'WL2-040') {
+    lines.push('set yNoEdit to true');
+    limitations.push('WAVE40_REPEAT_NO_EDIT_CONSERVATION_ORACLE');
   } else {
     addTrackedInsert(` ${caseSpec.id}_DEFAULT_EDIT`);
   }
@@ -578,7 +620,7 @@ function classifyCase(caseSpec, returnedPath, wordReadback, sourceSha256, return
   };
 }
 
-async function runPhysicalCase(caseSpec, dirs) {
+export async function runPhysicalCase(caseSpec, dirs) {
   const sourcePath = path.join(dirs.wordSources, `${caseSpec.id}-source.docx`);
   const returnedPath = path.join(dirs.wordReturns, `${caseSpec.id}-returned.docx`);
   const evidenceSourcePath = path.join(dirs.evidenceSources, `${caseSpec.id}-source.docx`);
@@ -627,7 +669,7 @@ async function runPhysicalCase(caseSpec, dirs) {
   };
 }
 
-function collectWordProfile() {
+export function collectWordProfile() {
   const versionByBundle = plistValue(':CFBundleShortVersionString') || '';
   const buildByBundle = plistValue(':CFBundleVersion') || '';
   const appleScriptProbe = shellValue('osascript', ['-e', 'tell application "Microsoft Word" to return "VERSION=" & (version as text) & linefeed & "DOCS=" & ((count of documents) as text)'], { timeout: 30_000 });
@@ -651,7 +693,7 @@ function collectWordProfile() {
   };
 }
 
-function summarizeCases(cases) {
+export function summarizeCases(cases) {
   const physicalPass = cases.filter((item) => item.openEditSaveCloseReopen === 'PASS').length;
   const parserPass = cases.filter((item) => item.parserStatus === 'PASS').length;
   const commentCases = cases.filter((item) => item.declaredCommentCase);
@@ -729,10 +771,14 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
   process.stderr.write('B06_PREFLIGHT_SECURE_VOLUME_START\n');
   const secureVolume = assertSecureVolume(artifactRoot);
   process.stderr.write('B06_PREFLIGHT_SECURE_VOLUME_PASS\n');
+  const wordSandboxWorkRoot = resolveWordSandboxWorkRoot({
+    defaultSegments: ['word-latest-semantic-v2', 'b06-physical-certification'],
+    overridePath: wordWorkRoot,
+  });
   if (!fs.existsSync(WORD_APP_PATH)) throw new Error('MICROSOFT_WORD_APP_MISSING');
   const wordProfile = collectWordProfile();
   const runDir = path.join(artifactRoot, runId);
-  const wordRunDir = path.join(wordWorkRoot, runId);
+  const wordRunDir = path.join(wordSandboxWorkRoot.root, runId);
   const dirs = {
     evidenceRunDir: runDir,
     wordRunDir,
@@ -779,6 +825,7 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
     },
     wordProfile,
     secureVolume,
+    wordSandboxWorkRoot,
     artifactRoot,
     runDir,
     wordSandboxRunDir: wordRunDir,
@@ -853,7 +900,9 @@ async function main() {
     ? `b06-${new Date().toISOString().replace(/[-:.]/gu, '').slice(0, 15)}`
     : rawString(process.argv[runIdArgIndex + 1]);
   const artifactRoot = rootArgIndex === -1 ? DEFAULT_ARTIFACT_ROOT : rawString(process.argv[rootArgIndex + 1]);
-  const wordWorkRoot = wordRootArgIndex === -1 ? DEFAULT_WORD_WORK_ROOT : rawString(process.argv[wordRootArgIndex + 1]);
+  const wordWorkRoot = wordRootArgIndex === -1
+    ? (process.env.YALKEN_WORD_WORK_ROOT || '')
+    : rawString(process.argv[wordRootArgIndex + 1]);
   if (runPhysicalFlag) {
     const result = await runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt });
     process.stdout.write(json ? `${JSON.stringify(result, null, 2)}\n` : `B06_PHYSICAL_CERTIFICATION_STATUS=${result.status}\n`);

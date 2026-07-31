@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E12_SATURATION_LEDGER_BOUND_NOT_SATURATED",
+  "status": "WORD_E12_PHYSICAL_WAVE40_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -44,7 +44,7 @@
       "writer-scale corpus including high page counts high comment density and formatting matrix"
     ],
     "forbiddenShortcut": "Supplemental Word 16.111.2 ZIP and large-corpus fixes do not certify this profile without its own physical corpus and oracle chain.",
-    "currentCapability": "MULTI_SCENE_ATOMIC_COORDINATOR_COMPONENT_SHADOW_ONLY",
+    "currentCapability": "SATURATION_WAVE40_COMPLETE_NOT_SATURATED",
     "certificationBoundary": [
       "D1 Word 16.42 remains immutable historical release evidence",
       "post-D1 Word 16.111.2 text comments and formatting evidence is versioned separately",
@@ -358,7 +358,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_AFTER_E11_PR_MERGE",
+  "nextStep": "EXECUTION_12_NEXT_PHYSICAL_WAVE_100_AFTER_WAVE40_PR_MERGE",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -372,22 +372,22 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_12_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES",
+    "status": "EXECUTION_12_WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100",
     "currentStage": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-    "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_40",
+    "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_100",
     "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
     "physicalTextCertificationStatus": "PHYSICAL_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
-    "physicalWordRoundTrips": 32,
+    "physicalWordRoundTrips": 40,
     "physicalWordFalseExact": 0,
     "physicalWordWrongSceneRouting": 0,
     "physicalWordSilentApply": 0,
     "physicalWordReplayFailure": 0,
     "commentShadowAnalysisCertified": true,
     "commentShadowAnalysisStatus": "COMMENT_SHADOW_ANALYSIS_CERTIFIED_WITH_TYPED_LIMITATIONS",
-    "visibleAnchoredCommentThreads": 91,
+    "visibleAnchoredCommentThreads": 212,
     "unsupportedBlockedCommentThreads": 2,
     "replyThreadsCertified": 0,
     "resolveReopenCertified": 0,
@@ -431,10 +431,17 @@
     "wordSaturationLedgerBound": true,
     "wordSaturated": false,
     "completedPhysicalWaves": [
-      10
+      10,
+      40
     ],
-    "currentPhysicalWaveTarget": 40,
-    "currentPhysicalWaveObservedRounds": 32,
-    "consecutiveStableApprovedWaves": 0
+    "currentPhysicalWaveTarget": 100,
+    "currentPhysicalWaveObservedRounds": 40,
+    "consecutiveStableApprovedWaves": 0,
+    "latestPhysicalWaveReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json",
+    "wave40PhysicalOpenEditSaveCloseReopenPass": 40,
+    "wave40ParserPass": 39,
+    "wave40DenseCommentThreads": 120,
+    "wave40ScaleWordsMax": 300000,
+    "wordSandboxGrantPromptRepair": "DEFAULT_WORK_ROOT_MOVED_TO_WORD_CONTAINER_DATA_TMP"
   }
 }

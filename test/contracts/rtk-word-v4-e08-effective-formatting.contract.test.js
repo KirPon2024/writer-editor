@@ -100,7 +100,7 @@ test('V4 E08 updates capability profile and program state without runtime change
   assert.equal(cell.acceptanceTest, 'test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js');
   assert.equal(cell.physicalTotals.physicalFormattingCases, 17);
   assert.equal(cell.physicalTotals.totalFormattingDeltas, 117);
-  assert.match(program.v4ExecutionState.status, /^EXECUTION_((0[89]|1[01])_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES)$/u);
+  assert.match(program.v4ExecutionState.status, /^EXECUTION_((0[89]|1[01])_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN|12_(?:LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVES|WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100))$/u);
   assert.equal(typeof program.v4ExecutionState.currentStage, 'string');
   assert.equal(typeof program.v4ExecutionState.nextStage, 'string');
   assert.equal(program.v4ExecutionState.effectiveFormattingCertified, true);

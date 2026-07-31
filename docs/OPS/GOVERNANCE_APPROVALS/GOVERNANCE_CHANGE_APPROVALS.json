@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "ec0748292bfd85638763ecf8a3533d1cbff5363f3110334a96efafebb3ec2838",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
-      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
-      "rationale": "Approve bounded V4 E04 Sector-M scope-map update: adds only Minimal Semantic Kernel core, existing revisionBridge barrel, E04 receipt, and contract to exact RTK DONE allowlist; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, and no Google execution."
+      "sha256": "9650200207d58abe14ef4f96c75d2ee7b99d8f886cdbc7ff66f13e28a0297b13",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T07:58:00.000Z",
+      "rationale": "Approve bounded ER C00 Sector-M scope-map rebind after RTK E04 merge: preserves exact RTK E03 and E04 DONE allowlist additions and adds only src/derived/atlas/deriveAtlasDiagnosticsStageAcceptance.mjs as an exact allowed path for the false-readiness audit repair; no wildcard prefix, no UI, no dependency, no network, no phase widening, and no runtime readiness claim is introduced."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -5610,10 +5610,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",
-      "sha256": "fc1d13bbe7f4a748690bd496028b5ff6b621541edff714594909e759d8c1daea",
+      "sha256": "5a277d00ca94bd8b0492ebf9ba552175f559ba58cef3ae0b40eb8311eb8318d0",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T04:51:38.000Z",
-      "rationale": "Approve ER C00 receipt: records the audit repair macro-stage, base SHA 077420506bd2f9350b06ff8877092df4b6170dce, NOT_READY default for missing external machine evidence, invalidated E05/E06/E10 readiness evidence, unsatisfied Stage 01/02/03/05 outcomes, Stage 11 NOT_STARTED, advisory-only Lazyweb and heuristic evidence, and local PASS validation artifacts including full-runner digest e442a627058d3efbfc7f057da6224b59f9bc469b5169f4787f44f78ef7c4fc26 without pending PASS rows."
+      "approvedAtUtc": "2026-07-31T05:07:14.000Z",
+      "rationale": "Approve ER C00 receipt after RTK E04 drift reconciliation: records the audit repair macro-stage, base SHA 0b31dc30eb2cb0e7fb488ae7bd56e1e9fb72c3e3, NOT_READY default for missing external machine evidence, invalidated E05/E06/E10 readiness evidence, unsatisfied Stage 01/02/03/05 outcomes, Stage 11 NOT_STARTED, advisory-only Lazyweb and heuristic evidence, dev-mode pre-merge ops guard proof, Sector-M exact allowlist proof, and local full-runner PASS artifact digest 7a6f5073d4ba07d490b2d7a040bacf528b3f5cdf9b10b7030ed5f13b044fb0c0 without pending PASS rows."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportYrtk2Core.mjs",

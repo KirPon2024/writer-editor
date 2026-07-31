@@ -6,21 +6,22 @@
   "status": "DELIVERED_CODE_VALIDATED_LOCALLY_READY_FOR_DELIVERY_CHAIN",
   "readinessDefault": "NOT_READY",
   "designToolRouter": "NOT_APPLICABLE",
-  "generatedAtUtc": "2026-07-31T04:51:38.000Z",
+  "generatedAtUtc": "2026-07-31T05:07:14.000Z",
   "git": {
     "branch": "codex/yalken-atlas-v5-er-c00",
-    "baseSha": "077420506bd2f9350b06ff8877092df4b6170dce",
-    "originMainSha": "077420506bd2f9350b06ff8877092df4b6170dce",
+    "baseSha": "0b31dc30eb2cb0e7fb488ae7bd56e1e9fb72c3e3",
+    "originMainSha": "0b31dc30eb2cb0e7fb488ae7bd56e1e9fb72c3e3",
+    "branchHeadSha": "f0cb8e8015108e8be0c48bd7ddebcf7cc0dbddd5",
     "deliveryCommitSha": "PENDING_PRE_COMMIT",
     "remoteMergeSha": "PENDING_PRE_DELIVERY"
   },
   "targetBinding": {
-    "sha": "077420506bd2f9350b06ff8877092df4b6170dce",
+    "sha": "0b31dc30eb2cb0e7fb488ae7bd56e1e9fb72c3e3",
     "platform": "macOS-local-dev",
     "profile": "release-local-validation",
-    "timestampUtc": "2026-07-31T04:51:38.000Z",
-    "artifactDigest": "e442a627058d3efbfc7f057da6224b59f9bc469b5169f4787f44f78ef7c4fc26",
-    "artifactIdentity": "tmp:yalken-er-c00-validation:full-runner.log"
+    "timestampUtc": "2026-07-31T05:07:14.000Z",
+    "artifactDigest": "7a6f5073d4ba07d490b2d7a040bacf528b3f5cdf9b10b7030ed5f13b044fb0c0",
+    "artifactIdentity": "tmp:yalken-er-c00-validation:full-runner-e04.log"
   },
   "runtimeFacts": {
     "stage10RuntimeSelfAttestationRemoved": true,
@@ -111,7 +112,7 @@
       "command": "node --test test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
       "result": "PASS",
       "exitCode": 0,
-      "artifactDigest": "c7ff7b5c48b921dd1f07b8c3a9bd4117d62dbb16efec155223fb741c12efa0e2",
+      "artifactDigest": "e03b6371720a948c70bb98fbee3a8e8dc20a18e3c765dda399c0b8cf83c666ca",
       "summary": "Focused contracts: 12 tests, 12 pass, 0 fail, 0 skipped."
     },
     {
@@ -140,18 +141,26 @@
     },
     {
       "id": "test-ops",
-      "command": "npm run -s test:ops",
+      "command": "OPS_CONTEXT_MODE=dev npm run -s test:ops",
       "result": "PASS",
       "exitCode": 0,
-      "artifactDigest": "d1634aa350e31eac331c06db8a0d9f13707c29abc9f056c514641a39ff80c36e",
-      "summary": "Current wave guard PASS, strict doctor exit 0, boundary guard exit 0, strict lie classes OK."
+      "artifactDigest": "0ef1ae1e606736100ffc62e4359b14d433fb3ce76d7160002090a73b6422c146",
+      "summary": "Current wave guard PASS in dev/PR mode, strict doctor exit 0, boundary guard exit 0, strict lie classes OK. Release-mode head strict is reserved for post-merge main."
+    },
+    {
+      "id": "sector-m-scope-runner",
+      "command": "node --test test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "f6bde9fe79748d793403e7f767467cf736e56f2cb60bc953af0a5e14a7f13087",
+      "summary": "Sector-M exact allowlist and runner artifact tests: 8 tests, 8 pass, 0 fail, 0 skipped."
     },
     {
       "id": "full-runner",
       "command": "node scripts/run-tests.js",
       "result": "PASS",
       "exitCode": 0,
-      "artifactDigest": "e442a627058d3efbfc7f057da6224b59f9bc469b5169f4787f44f78ef7c4fc26",
+      "artifactDigest": "7a6f5073d4ba07d490b2d7a040bacf528b3f5cdf9b10b7030ed5f13b044fb0c0",
       "summary": "Full runner: 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
     }
   ],

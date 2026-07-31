@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E12_PHYSICAL_WAVE300_COMPLETE_NOT_SATURATED",
+  "status": "WORD_E12_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -358,7 +358,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT_AFTER_WAVE300_PR_MERGE",
+  "nextStep": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -372,10 +372,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_12_WAVE300_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_LIMITATION_AUDIT",
-    "currentStage": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-    "nextStage": "EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+    "status": "EXECUTION_12_STABILITY_LIMITATION_AUDIT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_WAVE",
+    "currentStage": "EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT",
+    "nextStage": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -455,6 +455,9 @@
     "wave300CommentThreads": 638,
     "wave300DenseCommentThreads": 100,
     "wave300ScaleReturnedBytesMax": 1239432,
-    "wordSandboxTmpHangRecovery": "WORD_QUIT_NO_DOCS_RESTORED_CONTAINER_TMP_MKDIR_BEFORE_REPAIR5"
+    "wordSandboxTmpHangRecovery": "WORD_QUIT_NO_DOCS_RESTORED_CONTAINER_TMP_MKDIR_BEFORE_REPAIR5",
+    "wordStabilityLimitationAuditBound": true,
+    "wordStabilityLimitationAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
+    "nextPhysicalStabilityWaveTarget": 300
   }
 }

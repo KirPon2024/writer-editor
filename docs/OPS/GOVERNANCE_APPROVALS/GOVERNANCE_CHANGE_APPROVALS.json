@@ -1430,32 +1430,60 @@
       "rationale": "X25_WS05_STRICT_CLUSTER_ALIGNMENT_RECOVERY_APPROVAL_REBIND"
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION/e11-active-platform-certification-revalidation-report.json",
+      "sha256": "e286ff420c39d8d6065d3456aa47d2b8506cec745bf0d85a527a0f0b3fcede54",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/build-mac-output.txt",
-      "sha256": "a25078148baf4c861f23c1071023adbfbb623fe242632e8b33c3c67bfb8015b7",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
-      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
-      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+      "sha256": "36aa793f95dc8d2e509584c69441926fd4a0aa866bbf7d6ff29447248e9b7b9b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/macos-package-artifact-security-report.json",
-      "sha256": "b50487ed3dd19a371b4c198358ac1514dd44c6c24d6efc537b198939a4a733b3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
-      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
-      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+      "sha256": "c641659629ea4c9d3e0556bedbb412afabcf22f9a2d3f9ddd6db0d9becc2f7f3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY/packaged-critical-journey-report.json",
-      "sha256": "a4a0c4a7f77779f055d7e85d8e662fc5311ade72bbda604633320b360efc8729",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
-      "approvedAtUtc": "2026-07-31T12:04:38.638Z",
-      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+      "sha256": "9d757ac992629da3d486afd548c81bf4ae57b2e09c32db5603faaee8d9c1fc4b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-compact.png",
+      "sha256": "06cecc06baedba84837e1ddd262e20eb9030b2082e30de74376dbce6b0a0b2b3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-desktop.png",
-      "sha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+      "sha256": "7f99149603c639da525d2ace9c57a504d247def57043f682281817df9baf12dc",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-handset-advisory.png",
+      "sha256": "4f0c4b75f23253699326ca8293caec7fd7bc6ee60c43077b52ae1e9be0c3777e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-laptop.png",
+      "sha256": "05f223040c4af56245c66ad1f750fad829effc65060d79e4d3af8d66251ab62e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-mobile.png",
@@ -1466,31 +1494,31 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-responsive-audit.json",
-      "sha256": "617767c1a03159bd5d60dd574a6277fecb283540a773a18db6e6cd8b55eec113",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+      "sha256": "9363bcb7fdd22b44bfd4e28200ab2d426c56d3a49c83bfaa17b5733824300ada",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-tablet.png",
-      "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+      "sha256": "460e17150cabf5ffb44dd721ea87c169f473a9fcfed6de8e18d0dbbcde8a73f4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/packaged-accessibility-responsive-visual-regression-report.json",
-      "sha256": "73121a0f045e8a5931d147871a95d07b9dd891bc85d83deeee2967f1cc8f9a21",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+      "sha256": "5a44c473477a4d3f2be28806e2c30197cc1fb0f5e80d2ad213c133c5d7ea9e38",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/er-c05-10k-worker-budget.json",
-      "sha256": "0d7f963030c0beb0dc641af4e5a85f163f303fcb8ffc65668e10662e00fbb946",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
-      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
-      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+      "sha256": "2da94062088aa5f4a743bfe58ca5e87cbc93cde9f4ced996a07ab664b2fc0674",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/generic-sast-output.txt",
@@ -1501,10 +1529,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/packaged-performance-security-final-platform-handoff-report.json",
-      "sha256": "e66683526b99b6769ad75286df7f90318e1c39fc38fce0d862bf43feff57a0f4",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
-      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
-      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+      "sha256": "59633f971508bf65b29fc176ae4376b42c43f0b85e778e4a309a38404b07dbfe",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
@@ -3677,6 +3705,13 @@
       "rationale": "Approve bounded E10 C06 final receipt: records deterministic versioned transport-neutral operation exchange packets, local fixture adapter preview-only report, disabled-by-default nonblocking transport capability gate, network adapter disabled proof, tampered packet hash mismatch rejection, invalid event rejection, payload hash-only exclusion, no live network adapter, no remote account or cloud sync, no transport source of truth, no CRDT Core adoption, no Yjs runtime dependency, no project or manuscript mutation, no storage writer, no UI, no dependency, no second operation log truth, no second comment truth, focused and adjacent local PASS evidence with 27 tests, collab causal readiness PASS, collab stress safe PASS, collab eventlog PASS, collab apply pipeline PASS, governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION_RECEIPT.json",
+      "sha256": "c7d55d5141120ef54f72e6ef25d9a2da4228d0ad1280eeccbbdbcc3aa8ae46a4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:48:54.303Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION_RECEIPT.json",
       "sha256": "da2afad3734ff5bef66a9ab5f82b5d54f5b5ee63d1e930596a24685c2047c9f8",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION",
@@ -3685,31 +3720,31 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY_RECEIPT.json",
-      "sha256": "06f8330f763d21a00bff4b689218b0b13a8b4d5e327ca52ee59f44c6ed93f947",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
-      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
-      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+      "sha256": "6487424ba6b5e76e9af5d32b6806e199d42669489ce22b02ccbccc1b62ca6e9e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-      "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
-      "approvedAtUtc": "2026-07-31T12:05:34.097Z",
-      "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+      "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
-      "sha256": "cbf545e406a80ff3dce60bd64be0b5fd5df9fed2e6f2a128ff9881a238ae356e",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:59.640Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+      "sha256": "5506a917212a22c5f22bb9624cd30b2f8adf43d75e40a6cf457f67fcd2af0c35",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json",
-      "sha256": "8441832b90e1ed0cead9d46689b76be6c4a6d07cc84fcaa081f95c66682e1f5d",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
-      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
-      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+      "sha256": "f4631b1e723a20e02bb900faf3acdcb7b9b83234ed10b91aef21437ebd1d3e5a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
@@ -4601,6 +4636,13 @@
       "rationale": "BLOCK3_TAIL_AUDIT_CLOSEOUT_001 approves the bounded Y6 proofhook rebind to the current commandEffectModel bridge-only executor; no command namespace, runtime behavior, UI, dependency, release gate, or token catalog expansion."
     },
     {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-active-platform-certification-revalidation.mjs",
+      "sha256": "81d2e7275d934c2034ad88cf2662ebe78701dab833850463e7b372b48159bea0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
+    },
+    {
       "filePath": "scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs",
       "sha256": "70516dc7f9d6e728620e7ce4f812e0310d57a36b1a26f6c939c5202bf2766610",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
@@ -4616,10 +4658,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs",
-      "sha256": "f4f4f210f7fe7e4ebd4af802f25de5c4fa743fb028817970525b4a9c4a4c72e3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+      "sha256": "a457eb09738f62bcf4186d6655bb15dffe7d249e58c80f6f3cf1faa07c23b3c7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs",
@@ -6785,6 +6827,13 @@
       "rationale": "Approve E10 C06 focused contract: proves deterministic versioned transport-neutral operation exchange packets, local fixture adapter preview-only round trip, disabled-by-default nonblocking transport capability gate, network adapter disabled proof, tampered packet hash mismatch rejection, invalid event rejection, payload body exclusion, no live network, no account or cloud sync, no transport source of truth, no CRDT Core adoption, no Yjs runtime dependency, no project or manuscript mutation, no storage writer, no UI, no second operation log truth, no second comment truth, and no new collab source file."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-active-platform-certification-revalidation.contract.test.js",
+      "sha256": "45e8b1ee2240df406cf5cb4da7ceb7f17c18974ffc83279eb4edc0fb4e01b98b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-e11-c00-active-platform-certification-compilation.contract.test.js",
       "sha256": "5da3d26921e419b54ba8997df38b6d09bf92cdeaafd712cb66a974a486054070",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION",
@@ -6807,10 +6856,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
-      "sha256": "eee9ad45f67f5a31e98734c47dafdd479e150325b0d55c2050ff3f84a729296d",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+      "sha256": "1a5533dfbc122804ab30c09a2dd6994d9114ad2d9c016a5dafa5776f31b5ee27",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T21:45:33.118Z",
+      "rationale": "Approve E11 active macOS packaged Electron revalidation governed files: current package-bound C01-C04 evidence, stale visual baseline handling with explicit current-certification statuses, 10k worker budget, zero SAST findings/timeouts/parser errors, inactive platforms no pass/no hold, and no Program DoD claim before EFINAL."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.contract.test.js",

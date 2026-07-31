@@ -1,6 +1,6 @@
 {
   "schemaVersion": "yalken.atlas.v5.e11.c03.packagedAccessibilityResponsiveVisualRegression.v1",
-  "generatedAtUtc": "2026-07-31T12:16:25.684Z",
+  "generatedAtUtc": "2026-07-31T21:40:33.106Z",
   "contourId": "E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
   "platformId": "macos-packaged-electron",
   "status": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
@@ -8,8 +8,8 @@
   "packageBinding": {
     "packageBound": true,
     "c01ReceiptStatus": "PASS_UNSIGNED_LOCAL_ARTIFACT",
-    "appAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
-    "c01AppAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
+    "appAsarSha256": "39382c67ffa427a8e4604399a74337570695d6c88d7db8b44fa948a6d273ccca",
+    "c01AppAsarSha256": "39382c67ffa427a8e4604399a74337570695d6c88d7db8b44fa948a6d273ccca",
     "ciParityIsNotPackageProof": true
   },
   "audit": {
@@ -18,17 +18,21 @@
     "timedOut": false,
     "exitCode": 0,
     "proofPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-responsive-audit.json",
-    "proofSha256": "617767c1a03159bd5d60dd574a6277fecb283540a773a18db6e6cd8b55eec113",
+    "proofSha256": "9363bcb7fdd22b44bfd4e28200ab2d426c56d3a49c83bfaa17b5733824300ada",
     "assertions": {
       "noNetwork": true,
-      "desktopOneActiveShell": true,
-      "tabletOneActiveShell": true,
+      "supportedWidthMatrix": true,
+      "supportedOneActiveShell": true,
+      "externalOpenerReachable": true,
+      "openerNoToolbarCollision": true,
+      "noHorizontalOverflow": true,
       "keyboardNavigation": true,
+      "overlayFocusTrapAndEscape": true,
       "visibleAtlasScreenshots": true,
       "scrollBudget": true,
       "contrastAA": true,
-      "tabletNotClipped": true,
-      "mobileHonestOverlayScope": true
+      "supportedWidthsNotClipped": true,
+      "handsetHonestAdvisory": true
     },
     "networkRequestCount": 0,
     "viewports": [
@@ -39,40 +43,68 @@
         "activeShellCount": 1,
         "focusVisible": true,
         "keyboardMovedFocus": true,
-        "navContrast": 6.22,
+        "navContrast": 5.07,
         "atlasPanelScrollHeight": 573,
         "rightSidebarHidden": false,
         "screenshotName": "atlas-er-c06-desktop.png",
-        "screenshotBytes": 538673,
-        "screenshotSha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f"
+        "screenshotBytes": 539157,
+        "screenshotSha256": "7f99149603c639da525d2ace9c57a504d247def57043f682281817df9baf12dc"
       },
       {
-        "id": "tablet",
+        "id": "laptop",
         "width": 1024,
         "height": 768,
         "activeShellCount": 1,
         "focusVisible": true,
         "keyboardMovedFocus": true,
-        "navContrast": 6.22,
+        "navContrast": 5.07,
         "atlasPanelScrollHeight": 559,
         "rightSidebarHidden": false,
-        "screenshotName": "atlas-er-c06-tablet.png",
-        "screenshotBytes": 422999,
-        "screenshotSha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a"
+        "screenshotName": "atlas-er-c06-laptop.png",
+        "screenshotBytes": 429643,
+        "screenshotSha256": "05f223040c4af56245c66ad1f750fad829effc65060d79e4d3af8d66251ab62e"
       },
       {
-        "id": "mobile",
+        "id": "compact",
+        "width": 900,
+        "height": 720,
+        "activeShellCount": 1,
+        "focusVisible": true,
+        "keyboardMovedFocus": true,
+        "navContrast": 6.22,
+        "atlasPanelScrollHeight": 541,
+        "rightSidebarHidden": false,
+        "screenshotName": "atlas-er-c06-compact.png",
+        "screenshotBytes": 292524,
+        "screenshotSha256": "06cecc06baedba84837e1ddd262e20eb9030b2082e30de74376dbce6b0a0b2b3"
+      },
+      {
+        "id": "tablet",
+        "width": 768,
+        "height": 720,
+        "activeShellCount": 1,
+        "focusVisible": true,
+        "keyboardMovedFocus": true,
+        "navContrast": 6.22,
+        "atlasPanelScrollHeight": 541,
+        "rightSidebarHidden": false,
+        "screenshotName": "atlas-er-c06-tablet.png",
+        "screenshotBytes": 213656,
+        "screenshotSha256": "460e17150cabf5ffb44dd721ea87c169f473a9fcfed6de8e18d0dbbcde8a73f4"
+      },
+      {
+        "id": "handset-advisory",
         "width": 390,
         "height": 844,
         "activeShellCount": 1,
-        "focusVisible": false,
+        "focusVisible": true,
         "keyboardMovedFocus": true,
         "navContrast": 6.22,
-        "atlasPanelScrollHeight": 0,
-        "rightSidebarHidden": true,
-        "screenshotName": "atlas-er-c06-mobile.png",
-        "screenshotBytes": 93114,
-        "screenshotSha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e"
+        "atlasPanelScrollHeight": 603,
+        "rightSidebarHidden": false,
+        "screenshotName": "atlas-er-c06-handset-advisory.png",
+        "screenshotBytes": 109537,
+        "screenshotSha256": "4f0c4b75f23253699326ca8293caec7fd7bc6ee60c43077b52ae1e9be0c3777e"
       }
     ]
   },
@@ -89,8 +121,8 @@
         "current": {
           "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-desktop.png",
           "exists": true,
-          "bytes": 538673,
-          "sha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f"
+          "bytes": 539157,
+          "sha256": "7f99149603c639da525d2ace9c57a504d247def57043f682281817df9baf12dc"
         },
         "baseline": {
           "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-desktop.png",
@@ -98,6 +130,14 @@
           "bytes": 495184,
           "sha256": "498cc4fe1081c81be9c6d193b6f18d63d77cf0e7309d4dd7007f241620f3128b"
         },
+        "currentHealth": {
+          "dimensions": [
+            2880,
+            1564
+          ],
+          "nonBlankRatio": 0.9617
+        },
+        "baselineComparisonStatus": "COMPARABLE_BASELINE_DELTA_CHECKED",
         "exactHashMatch": false,
         "exactHashRequired": false,
         "delta": {
@@ -110,10 +150,76 @@
             2880,
             1564
           ],
-          "meanAbs": 0.346,
-          "changedRatio": 0.0082,
+          "meanAbs": 0.3502,
+          "changedRatio": 0.009,
           "nonBlankRatio": 0.9617,
           "withinLimits": true
+        },
+        "pass": true
+      },
+      {
+        "id": "laptop",
+        "current": {
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-laptop.png",
+          "exists": true,
+          "bytes": 429643,
+          "sha256": "05f223040c4af56245c66ad1f750fad829effc65060d79e4d3af8d66251ab62e"
+        },
+        "baseline": {
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+          "exists": false,
+          "bytes": 0,
+          "sha256": ""
+        },
+        "currentHealth": {
+          "dimensions": [
+            2048,
+            1536
+          ],
+          "nonBlankRatio": 0.9464
+        },
+        "baselineComparisonStatus": "NO_BASELINE_CURRENT_CERTIFICATION_ONLY",
+        "exactHashMatch": false,
+        "exactHashRequired": false,
+        "delta": {
+          "sameDimensions": false,
+          "meanAbs": null,
+          "changedRatio": 1,
+          "withinLimits": false,
+          "reason": "BASELINE_VIEWPORT_NOT_PRESENT"
+        },
+        "pass": true
+      },
+      {
+        "id": "compact",
+        "current": {
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-compact.png",
+          "exists": true,
+          "bytes": 292524,
+          "sha256": "06cecc06baedba84837e1ddd262e20eb9030b2082e30de74376dbce6b0a0b2b3"
+        },
+        "baseline": {
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+          "exists": false,
+          "bytes": 0,
+          "sha256": ""
+        },
+        "currentHealth": {
+          "dimensions": [
+            1800,
+            1440
+          ],
+          "nonBlankRatio": 1
+        },
+        "baselineComparisonStatus": "NO_BASELINE_CURRENT_CERTIFICATION_ONLY",
+        "exactHashMatch": false,
+        "exactHashRequired": false,
+        "delta": {
+          "sameDimensions": false,
+          "meanAbs": null,
+          "changedRatio": 1,
+          "withinLimits": false,
+          "reason": "BASELINE_VIEWPORT_NOT_PRESENT"
         },
         "pass": true
       },
@@ -122,8 +228,8 @@
         "current": {
           "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-tablet.png",
           "exists": true,
-          "bytes": 422999,
-          "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a"
+          "bytes": 213656,
+          "sha256": "460e17150cabf5ffb44dd721ea87c169f473a9fcfed6de8e18d0dbbcde8a73f4"
         },
         "baseline": {
           "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-tablet.png",
@@ -131,55 +237,55 @@
           "bytes": 395064,
           "sha256": "dae5477d644de3b5f07255f53ca047cbc96fc58af45b0722f38835a8b05bb9ec"
         },
+        "currentHealth": {
+          "dimensions": [
+            1536,
+            1440
+          ],
+          "nonBlankRatio": 1
+        },
+        "baselineComparisonStatus": "STALE_BASELINE_SCOPE_CURRENT_CERTIFICATION_ONLY",
         "exactHashMatch": false,
         "exactHashRequired": false,
         "delta": {
-          "sameDimensions": true,
-          "currentDimensions": [
-            2048,
-            1536
-          ],
-          "baselineDimensions": [
-            2048,
-            1536
-          ],
-          "meanAbs": 0.4509,
-          "changedRatio": 0.0093,
-          "nonBlankRatio": 0.9464,
-          "withinLimits": true
+          "sameDimensions": false,
+          "meanAbs": null,
+          "changedRatio": 1,
+          "withinLimits": false,
+          "reason": "BASELINE_VIEWPORT_SCOPE_MISMATCH"
         },
         "pass": true
       },
       {
-        "id": "mobile",
+        "id": "handset-advisory",
         "current": {
-          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-mobile.png",
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-handset-advisory.png",
           "exists": true,
-          "bytes": 93114,
-          "sha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e"
+          "bytes": 109537,
+          "sha256": "4f0c4b75f23253699326ca8293caec7fd7bc6ee60c43077b52ae1e9be0c3777e"
         },
         "baseline": {
-          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-mobile.png",
-          "exists": true,
-          "bytes": 92957,
-          "sha256": "34e4944e01e41a2280a698ae82735f08de99654e32795a6c2c413f65c5db8d22"
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+          "exists": false,
+          "bytes": 0,
+          "sha256": ""
         },
+        "currentHealth": {
+          "dimensions": [
+            780,
+            1564
+          ],
+          "nonBlankRatio": 1
+        },
+        "baselineComparisonStatus": "NO_BASELINE_CURRENT_CERTIFICATION_ONLY",
         "exactHashMatch": false,
         "exactHashRequired": false,
         "delta": {
-          "sameDimensions": true,
-          "currentDimensions": [
-            780,
-            1564
-          ],
-          "baselineDimensions": [
-            780,
-            1564
-          ],
-          "meanAbs": 0.014,
-          "changedRatio": 0.0002,
-          "nonBlankRatio": 0.8646,
-          "withinLimits": true
+          "sameDimensions": false,
+          "meanAbs": null,
+          "changedRatio": 1,
+          "withinLimits": false,
+          "reason": "BASELINE_VIEWPORT_NOT_PRESENT"
         },
         "pass": true
       }

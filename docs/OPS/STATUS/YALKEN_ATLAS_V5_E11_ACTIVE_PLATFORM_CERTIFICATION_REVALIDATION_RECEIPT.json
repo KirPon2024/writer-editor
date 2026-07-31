@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
+  "contourId": "E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION",
+  "programStage": "E11_ACTIVE_PLATFORM_CERTIFICATION",
+  "generatedAtUtc": "2026-07-31T21:44:44.527Z",
+  "baseSha": "336b5e1981ed40f2fed052bc1b56bc403b297d01",
+  "headShaAtReceiptGeneration": "336b5e1981ed40f2fed052bc1b56bc403b297d01",
+  "status": "PASS_READY_FOR_EFINAL_REVALIDATION",
+  "pass": true,
+  "activePlatformScope": {
+    "macosPackagedElectron": "CERTIFIED_FOR_LOCAL_UNSIGNED_PACKAGED_PROOF",
+    "windows": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+    "linux": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+    "web": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+    "ios": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+    "android": "NOT_ACTIVATED_NO_PASS_NO_HOLD"
+  },
+  "report": {
+    "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION/e11-active-platform-certification-revalidation-report.json",
+    "sha256": "e286ff420c39d8d6065d3456aa47d2b8506cec745bf0d85a527a0f0b3fcede54",
+    "bytes": 3527
+  },
+  "e11ReceiptReadiness": [
+    {
+      "key": "c01",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY_RECEIPT.json",
+      "sha256": "6487424ba6b5e76e9af5d32b6806e199d42669489ce22b02ccbccc1b62ca6e9e",
+      "status": "PASS_UNSIGNED_LOCAL_ARTIFACT",
+      "pass": true,
+      "headShaAtReceiptGeneration": "336b5e1981ed40f2fed052bc1b56bc403b297d01"
+    },
+    {
+      "key": "c02",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
+      "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
+      "status": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY",
+      "pass": true,
+      "headShaAtReceiptGeneration": "336b5e1981ed40f2fed052bc1b56bc403b297d01"
+    },
+    {
+      "key": "c03",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
+      "sha256": "5506a917212a22c5f22bb9624cd30b2f8adf43d75e40a6cf457f67fcd2af0c35",
+      "status": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "pass": true,
+      "headShaAtReceiptGeneration": "336b5e1981ed40f2fed052bc1b56bc403b297d01"
+    },
+    {
+      "key": "c04",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json",
+      "sha256": "f4631b1e723a20e02bb900faf3acdcb7b9b83234ed10b91aef21437ebd1d3e5a",
+      "status": "PASS_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "pass": true,
+      "headShaAtReceiptGeneration": "336b5e1981ed40f2fed052bc1b56bc403b297d01"
+    }
+  ],
+  "certifiedFacts": {
+    "c01LocalUnsignedPhysicalPackage": true,
+    "c02PackageBoundCriticalJourney": true,
+    "c03PackageBoundResponsiveVisual": true,
+    "c04PerformanceSecurityHandoff": true,
+    "inactivePlatformScopeHonest": true,
+    "programDoDNotClaimed": true
+  },
+  "limitations": {
+    "localUnsignedArtifact": true,
+    "localUnnotarizedArtifact": true,
+    "liveProductionDistributionClaim": false,
+    "physicalWindowsLinuxWebMobileProof": false
+  },
+  "negativeAssertions": {
+    "ciParityCanSubstitutePackagedProof": false,
+    "inactivePlatformCanCreateHoldOrPass": false,
+    "staleReceiptCanCertifyCurrentProgramDone": false,
+    "programDoneClaim": false
+  },
+  "certifiedStageOutcomes": [
+    "E11_STAGE_11_ACTIVE_MACOS_PACKAGED_ELECTRON_CERTIFIED"
+  ],
+  "unsatisfiedStageOutcomes": [
+    "EFINAL_PROGRAM_DOD_REVALIDATION"
+  ],
+  "validation": [
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY",
+      "result": "PASS",
+      "summary": "PASS_UNSIGNED_LOCAL_ARTIFACT; current app.asar 39382c67ffa427a8e4604399a74337570695d6c88d7db8b44fa948a6d273ccca; unsigned and unnotarized local proof only"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c02-packaged-critical-journey.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY",
+      "result": "PASS",
+      "summary": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY; two launches; create save reopen export import; networkRequests=0"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
+      "result": "PASS",
+      "summary": "Focused C03 contract PASS: 5 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "result": "PASS",
+      "summary": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION; desktop comparable delta; new/stale viewport baseline statuses explicit; networkRequests=0"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+      "result": "PASS",
+      "summary": "PASS_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF; p95WallTimeMs=128.572; SAST findings=0 timeouts=0 parserErrors=0"
+    },
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e11-active-platform-certification-revalidation.contract.test.js",
+      "result": "PASS",
+      "summary": "Focused E11 aggregate contract PASS: 3 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-active-platform-certification-revalidation.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION",
+      "result": "PASS",
+      "summary": "PASS_READY_FOR_EFINAL_REVALIDATION; active macOS packaged Electron certified; Program DoD remains NOT_DONE until EFINAL"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "result": "PENDING",
+      "summary": "Pending final execution after governance approval binding"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "result": "PENDING",
+      "summary": "Pending final execution after governance approval binding"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "result": "PENDING",
+      "summary": "Pending final execution after governance approval binding"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PENDING",
+      "summary": "Pending final execution after governance approval binding"
+    },
+    {
+      "id": "focused-e11-contracts",
+      "command": "node --test test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js test/contracts/yalken-atlas-v5-e11-c02-packaged-critical-journey.contract.test.js test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js test/contracts/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.contract.test.js test/contracts/yalken-atlas-v5-e11-active-platform-certification-revalidation.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused E11 contracts PASS on final validation form."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Design OS doctrine gate PASS on E11 final validation form."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "OSS dependency policy PASS; no new dependency or network runtime added."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Governance change detection PASS after E11 approval hash rebinding; missing approvals empty."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Release test:ops PASS; CURRENT_WAVE_STOP_CONDITION_OK=1."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Full runner PASS on final E11 validation form: 798 tests, 734 pass, 0 fail, 64 skipped."
+    }
+  ],
+  "delivery": {
+    "commit": "PENDING_PRE_COMMIT",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  },
+  "nextContour": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD_REVALIDATION",
+  "receiptDigestExcludingSelf": "f641e3d1fda30be282bdc4679deb824dd8f622ebe7cccb8579b8f5cdbb8061e1"
+}

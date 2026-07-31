@@ -24,6 +24,6 @@
 • building block map  blockMapFile=dist/Yalken-1.0.2-arm64.dmg.blockmap
   • building block map  blockMapFile=dist/Yalken-1.0.2-arm64-mac.zip.blockmap
 
-  dist/renderer/editor.bundle.js  1.0mb ⚠️
+  dist/renderer/editor.bundle.js  1.1mb ⚠️
 
-⚡ Done in 97ms
+⚡ Done in 126ms

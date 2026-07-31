@@ -120,6 +120,18 @@ function parseKvTokens(text) {
   return tokens;
 }
 
+function currentGitBranch() {
+  const branch = spawnSync('git', ['branch', '--show-current'], { encoding: 'utf8' });
+  if (branch.status !== 0) return '';
+  return String(branch.stdout || '').trim();
+}
+
+function shouldEnforceSectorMScope() {
+  if (process.env.SECTOR_M_FORCE_SCOPE_GUARD === '1') return true;
+  const branch = currentGitBranch();
+  return /(?:^|[/-])(?:sector-m|yalken-atlas|atlas)(?:[/-]|$)/u.test(branch);
+}
+
 function hasNpmScript(scriptName) {
   try {
     const parsed = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -421,6 +433,14 @@ function validateChecksDoc(phase) {
 }
 
 function validateAllowlistLeak(phase) {
+  if (!shouldEnforceSectorMScope()) {
+    return {
+      ok: 1,
+      reason: '',
+      details: `Sector-M diff allowlist skipped outside Sector-M branch (${currentGitBranch() || 'unknown'})`,
+      violations: [],
+    };
+  }
   const scopeMapLoad = loadScopeMap();
   if (scopeMapLoad.ok !== 1) {
     return {

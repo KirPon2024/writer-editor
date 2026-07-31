@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-c01-comment-shadow-runtime-receipt.v1",
+  "taskId": "YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR",
+  "contourId": "A03-C01",
+  "status": "WORD_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED",
+  "result": "PASS",
+  "headBinding": {
+    "headSha": "ebe5f9efceca53cd1a4e5b1753025597b82bd923",
+    "originMainSha": "55916e059a58cd1797adfd765d7cf0d3e80538d2",
+    "mergedRemoteShaRequired": true
+  },
+  "truthCorrection": {
+    "finalSummaryPhysicalWordProvenRowsWasWrong": true,
+    "a03PromotionList": {
+      "totalRows": 5,
+      "physicalWordProvenRows": 2,
+      "componentProvenRows": 4,
+      "productRuntimeWiredRowsBeforeC01": 0,
+      "productRuntimeWiredRowsAfterC01": 1,
+      "automaticApplyCertifiedRows": 0
+    },
+    "a02TerminalCapabilityFamilies": {
+      "physicalWordProvenFamilies": 4,
+      "families": [
+        "rootModernComments",
+        "modernResolveSaveCloseReopenDoneTrueReadbackOnly",
+        "commentDelete",
+        "trackedNonOverlapRevisions"
+      ]
+    },
+    "authorityCountsAreNotInterchangeable": true
+  },
+  "runtimeProof": {
+    "commandId": "cmd.rtk.reviewSession.importComments",
+    "firstStatus": "committed",
+    "replayStatus": "replay",
+    "replyBlocked": true,
+    "duplicateBlocked": true,
+    "crashStatus": "blocked",
+    "recoveryStatus": "recovered-replay-receipt",
+    "sessionPathCreated": true,
+    "receiptPathCreated": true,
+    "writerCalled": false,
+    "manuscriptApplyAuthority": false,
+    "threadCount": 2,
+    "anchored": 1,
+    "orphan": 1,
+    "automaticApplyCertified": false,
+    "productRuntimeWired": true
+  },
+  "implementedCapability": {
+    "capability": "rootModernCommentShadowImport",
+    "physicalWordProven": true,
+    "componentProven": true,
+    "productRuntimeWired": true,
+    "automaticApplyCertified": false,
+    "manuscriptApplyAuthority": false,
+    "reviewSessionMutation": "comment-shadow-session-only"
+  },
+  "nonPromotedCapabilities": [
+    "adjacent triple edits",
+    "literal overlap",
+    "modern replies",
+    "resolve then reopen"
+  ],
+  "changedRuntimeFiles": [
+    "reviewTransportCommentShadowSession.mjs",
+    "commandSurfaceKernel.js"
+  ],
+  "evidenceFiles": {
+    "module": {
+      "path": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "0e27401c3c039c6b2d52982cceb58c42472641411095c0227bbe93cfbb19bbb3"
+    },
+    "commandKernel": {
+      "path": "src/command/commandSurfaceKernel.js",
+      "sha256": "a955bd50c64c6bf6a7357b9633272e376605c8925e82787e541c3857d9081ee7"
+    },
+    "contract": {
+      "path": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+      "sha256": "e429ba1137fb2e023e8c5a7316c7208bd6a3fe97109eea46cac3f2711967741d"
+    }
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "manuscriptMutation": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "replyPromotion": 0,
+    "resolveReopenPromotion": 0,
+    "automaticApplyCertified": 0
+  },
+  "nextStage": "EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR"
+}

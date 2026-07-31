@@ -14,6 +14,7 @@ const ALLOWED_COMMAND_IDS = Object.freeze([
   'cmd.project.exportMarkdownV1',
   'cmd.project.releaseClaim.admit',
   'cmd.project.releaseClaim.execute',
+  'cmd.rtk.reviewSession.importComments',
 ]);
 
 const ALLOWED_COMMAND_ID_SET = new Set(ALLOWED_COMMAND_IDS);

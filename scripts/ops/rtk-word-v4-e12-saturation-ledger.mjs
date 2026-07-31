@@ -115,6 +115,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED',
     'WORD_SATURATION_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED',
     'WORD_SATURATION_A02_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED',
+    'WORD_SATURATION_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
   ]);
   if (!allowedReceiptStatuses.has(receipt.status)) {
     add('RTK_V4_E12_STATUS_INVALID', 'status', 'E12 must bind wave 300 complete while staying not-saturated until all wave criteria are proven.');
@@ -335,11 +336,22 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
       }
     }
     if (e12A03PromotionList) {
-      if (e12A03PromotionList.status !== 'A03_PROMOTION_LIST_READY_AFTER_A02_TERMINAL_AUDIT'
+      const rootRuntimeWiredRows = Array.isArray(e12A03PromotionList.rows)
+        ? e12A03PromotionList.rows.filter((row) => row.capability === 'rootModernCommentShadowImport' && row.authorityLevel?.productRuntimeWired === true)
+        : [];
+      const nonRootRuntimeWiredRows = Array.isArray(e12A03PromotionList.rows)
+        ? e12A03PromotionList.rows.filter((row) => row.capability !== 'rootModernCommentShadowImport' && row.authorityLevel?.productRuntimeWired === true)
+        : [];
+      const promotionIsA02Ready = e12A03PromotionList.status === 'A03_PROMOTION_LIST_READY_AFTER_A02_TERMINAL_AUDIT'
+        && e12A03PromotionList.rows.every((row) => row.authorityLevel?.productRuntimeWired === false);
+      const promotionIsC01Wired = e12A03PromotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT'
+        && rootRuntimeWiredRows.length === 1
+        && nonRootRuntimeWiredRows.length === 0;
+      if ((!promotionIsA02Ready && !promotionIsC01Wired)
         || !Array.isArray(e12A03PromotionList.rows)
         || e12A03PromotionList.rows.length < 5
-        || e12A03PromotionList.rows.some((row) => row.authorityLevel?.productRuntimeWired !== false || row.authorityLevel?.automaticApplyCertified !== false)) {
-        add('RTK_V4_E12_A03_PROMOTION_LIST_INVALID', 'evidenceBindings.E12_A03_PROMOTION_LIST', 'A03 promotion list must bind rows without claiming runtime wiring or automatic apply.');
+        || e12A03PromotionList.rows.some((row) => row.authorityLevel?.automaticApplyCertified !== false)) {
+        add('RTK_V4_E12_A03_PROMOTION_LIST_INVALID', 'evidenceBindings.E12_A03_PROMOTION_LIST', 'A03 promotion list must bind A02 rows or the single A03-C01 runtime-wired comment row without automatic apply.');
       }
     }
   }
@@ -389,6 +401,11 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
       || coverage.a03PromotionList?.sourceEvidence !== 'E12_A03_PROMOTION_LIST')) {
     add('RTK_V4_E12_A02_TERMINAL_COVERAGE_MISSING', 'coverageLedger.a02TerminalAudit', 'A02 terminal audit and A03 promotion list coverage must be bound.');
   }
+  if (receipt.status === 'WORD_SATURATION_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED'
+    && (coverage.a03C01CommentShadowRuntime?.status !== 'BOUND'
+      || coverage.a03C01CommentShadowRuntime?.sourceEvidence !== 'A03_C01_COMMENT_SHADOW_RUNTIME')) {
+    add('RTK_V4_E12_A03_C01_COVERAGE_MISSING', 'coverageLedger.a03C01CommentShadowRuntime', 'A03-C01 comment shadow runtime coverage must be bound.');
+  }
 
   const veto = receipt.vetoMetrics || {};
   if (!allZero(veto)) {
@@ -410,8 +427,13 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
   if (multiSceneResolved && receipt.notSaturatedReasons.includes('AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED')) {
     add('RTK_V4_E12_MULTI_SCENE_STILL_ACTIVE', 'notSaturatedReasons', 'multi-scene apply uncertified blocker cannot remain active after typed limitation confirmation.');
   }
-  if (receipt.runtimeClaims?.productRuntimeChanged !== false || receipt.runtimeClaims?.automaticApplyExpanded !== false || receipt.runtimeClaims?.googleDocsOpened !== false) {
-    add('RTK_V4_E12_RUNTIME_SCOPE_OVERCLAIM', 'runtimeClaims', 'E12 must not change runtime apply authority or open Google Docs.');
+  const c01RuntimeOnly = receipt.status === 'WORD_SATURATION_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED'
+    && receipt.runtimeClaims?.productRuntimeChanged === true
+    && receipt.runtimeClaims?.writerAuthorityAdded === false
+    && receipt.runtimeClaims?.automaticApplyExpanded === false
+    && receipt.runtimeClaims?.googleDocsOpened === false;
+  if (!c01RuntimeOnly && (receipt.runtimeClaims?.productRuntimeChanged !== false || receipt.runtimeClaims?.automaticApplyExpanded !== false || receipt.runtimeClaims?.googleDocsOpened !== false)) {
+    add('RTK_V4_E12_RUNTIME_SCOPE_OVERCLAIM', 'runtimeClaims', 'E12 must not change runtime apply authority or open Google Docs outside bounded A03-C01 comment shadow wiring.');
   }
 
   const cell = Array.isArray(profile.cells) ? profile.cells.find((item) => item.capabilityId === 'rtk.word.v4.saturationLedger') : null;
@@ -427,6 +449,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED',
     'TARGETED_GAP_CLOSURE_A02_RECONCILED_WITH_TYPED_LIMITATIONS',
     'A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED',
+    'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
   ]);
   if (!cell || cell.state !== 'PHYSICAL_WORD_PROVEN' || !allowedProfileCapabilities.has(cell.currentCapability) || cell.physicalWordEvidence !== true) {
     add('RTK_V4_E12_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability profile must bind E12 wave 300 as physical evidence proven but not saturated.');
@@ -443,6 +466,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_NOT_SATURATED',
     'WORD_16_111_2_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED',
     'WORD_16_111_2_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED',
+    'WORD_16_111_2_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_PROFILE_STATUS_INVALID', 'profile.status', 'Profile status must reflect E12 wave 300 complete not-saturated ledger.');
@@ -461,6 +485,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED',
     'WORD_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED',
     'WORD_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED',
+    'WORD_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must reflect E12 physical wave 300 completion.');
@@ -477,6 +502,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'EXECUTION_12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED',
     'EXECUTION_12_A02_TARGETED_GAP_CLOSURE_RECONCILED_NOT_SATURATED',
     'EXECUTION_12_A02_TERMINAL_AUDIT_COMPLETE_A03_READY',
+    'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN',
   ]);
   if (!allowedStateStatuses.has(state.status)) {
     add('RTK_V4_E12_PROGRAM_STATE_INVALID', 'program.v4ExecutionState.status', 'Program state must keep E12 active and advance to the Word stability limitation audit.');
@@ -491,6 +517,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION',
     'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST',
     'EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR',
+    'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR',
   ]);
   if (!allowedNextStages.has(state.nextStage)) {
     add('RTK_V4_E12_NEXT_STAGE_INVALID', 'program.v4ExecutionState.nextStage', 'Next stage must continue the Word stability limitation audit, not Google Docs.');

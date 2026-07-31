@@ -146,12 +146,15 @@
     {
       "capabilityId": "rtk.word.v4.locatorSurvivalLab",
       "operationFamily": "Word carrier survival and placement signal selection",
-      "state": "DECLARED",
-      "currentCapability": "UNTESTED",
-      "physicalWordEvidence": false,
-      "consumer": "EXECUTION_02 next contour",
-      "acceptanceTest": "future physical Word survival contract and receipt",
-      "killCriterion": "carrier loss duplication or conflict is claimed as authority"
+      "state": "PHYSICAL_WORD_PROVEN",
+      "currentCapability": "AUTHORITY_PAYLOAD_CARRIER_PROVEN_NOT_RUNTIME_APPLY",
+      "physicalWordEvidence": true,
+      "consumer": "EXECUTION_03_COREMANIFEST_EXPORTMAP_HASHTREE_YRTK2",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js",
+      "killCriterion": "carrier loss duplication or conflict is claimed as authority",
+      "provenCarrier": "customDocumentProperty",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
+      "limitation": "No inline block placement carrier gains apply authority in E02; runtime authority waits for YRTK2 CoreManifest ExportMap and negative oracles."
     },
     {
       "capabilityId": "rtk.word.v4.commentsShadowAnalysis",

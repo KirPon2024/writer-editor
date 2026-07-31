@@ -280,7 +280,10 @@
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
       "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
       "docs/OPS/STATUS/CANON_STATUS.json",
-      "test/contracts/rtk-word-v4-canonical-integration.contract.test.js"
+      "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
+      "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
+      "test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

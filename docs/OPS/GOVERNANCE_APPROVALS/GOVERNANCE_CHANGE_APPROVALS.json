@@ -6491,55 +6491,6 @@
       "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "2202450b507e55a7a58716667ff7e7e0a2a772f6e96b3306694a88cd085dcc13",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "343928f49009e5a169fb4b739991f4dd37f74937dcf054dc1f58191c1b9bcbe7",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
-      "sha256": "11ede02ea6368b7690aa3c465d1c63ece6506e0d5e02686593d9adda93373777",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "53772f9b68ab7466cd1f733eee380b5ff33c4eb2d151b95c3aa4543ad91a7373",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-modern-comment-native-ui-followup.mjs",
-      "sha256": "1e3c6d87cb4394c7c1e42ea50726760ba4bff1d2017ce86702ee40db2cb75339",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "964659ffeab576e5b23e40ebc2cbf933dfca964edf18d218dedf577fef3aff09",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "f2af5e598cc5ad0e1f5ebcf91b21ee2b69548c369de10b38ee73586605a42df7",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
       "filePath": "scripts/ops/sector-m-scope-map.json",
       "sha256": "75f8f11d53d11ae73b5b142b0ea0aa8c6e23d6af6e60e71d28e6654636ab3776",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
@@ -6589,18 +6540,67 @@
       "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "b4f837a543c0bc3504178551754e18ecc8c4a119cd5cf2461c63aab3f77ed1ed",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "37e03f6fdae33849fbde62b0b585bb58f7b66f5c19cd91aa9cbbcc12734d9b5f",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+      "sha256": "83f173e5614396dcf204ea9f2d6e11c1a705f42912a4bfdcf05b1d7e9be6f156",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "c2471ddf39f9347d14ff2f204636e81d6c4d8719d687a9800bc016ea37695a4f",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-modern-comment-native-ui-followup.mjs",
+      "sha256": "2810caad91b6a4b8ce27a52ed6dfb941b33f6ddcb818c735531ae68d23eca563",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "c0bd21e626dda6b0c160407940dcde1b81f0cd57ec0ec54a542a8871a119f1d2",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "337a070c90d71a9954cdc96c88f4450a4b6c849eee77904c11fccaa24cc893f1",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
-      "sha256": "90c43baafda8d77413f4d095e5f0bb4b613c42cdad310c72ada5dc0a883cd887",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
+      "sha256": "a700b427067dd4ee724cc39bfcd0d3658bf1b67dbd8a47e3099f49cd17c13bc7",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "a559aa950cba6eb5170ceb12fdb3d903c2c37e2f3b1393ca924d4c86f880f3e8",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
+      "sha256": "8a34bd46cf5715df9f5c817899331a5f690d2f44beb5ce8d08de3b99ba3dc6d9",
+      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
+      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
     }
   ]
 }

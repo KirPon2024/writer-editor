@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED",
+  "status": "WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -144,9 +144,9 @@
     {
       "id": "E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
-      "sha256": "11ede02ea6368b7690aa3c465d1c63ece6506e0d5e02686593d9adda93373777",
+      "sha256": "83f173e5614396dcf204ea9f2d6e11c1a705f42912a4bfdcf05b1d7e9be6f156",
       "status": "BOUND",
-      "description": "native modern comment UI certification is blocked by disabled macOS System Events UI scripting; no reply resolve reopen delete PASS is claimed"
+      "description": "targeted native UI physical corpus confirms root modern comments and Word-authored tracked replacement while reply resolve reopen delete and overlap remain typed limitations"
     }
   ],
   "coverageLedger": {
@@ -233,7 +233,7 @@
     "modernCommentNativeUiFollowup": {
       "status": "BOUND",
       "sourceEvidence": "E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER",
-      "outcome": "BLOCKED_EXTERNAL_MACOS_ACCESSIBILITY_NO_FALSE_SUPPORT_CLAIM"
+      "outcome": "TARGETED_NATIVE_UI_ROOT_COMMENTS_AND_WORD_AUTHORED_TRACKED_REPLACEMENT_CONFIRMED_WITH_TYPED_LIMITATIONS"
     }
   },
   "aggregateTotals": {
@@ -277,9 +277,13 @@
     "automaticMultiSceneApplyCertified": 0,
     "falseMultiSceneApplyCertification": 0,
     "modernCommentNativeUiProbeCases": 1,
-    "modernCommentNativeUiActionsPerformed": 0,
+    "modernCommentNativeUiActionsPerformed": 1,
     "modernCommentNativeUiExternalAccessBlocked": 1,
-    "falseModernCommentSupportClaim": 0
+    "falseModernCommentSupportClaim": 0,
+    "nativeUiRootModernCommentsCertified": 3,
+    "nativeUiTrackedReplacementCertified": 1,
+    "nativeUiReplyResolveDeleteCertified": 0,
+    "nativeUiOverlappingTrackedEditsCertified": 0
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -292,7 +296,8 @@
     "falseSaturationClaim": 0
   },
   "notSaturatedReasons": [
-    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION"
+    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
+    "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": false,

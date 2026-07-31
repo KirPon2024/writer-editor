@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+  "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
+  "status": "WORD_SATURATION_LEDGER_BOUND_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T15:02:00.000Z",
+  "base": {
+    "originMainSha": "b4d3f243dc9f531eab7ce9c56d3e6e9b499d4d4e",
+    "branch": "codex/rtk-v4-e12-unicode-hostile-performance-crash-replay",
+    "priorMergedStage": "EXECUTION_11_MULTI_SCENE_ATOMIC_COORDINATOR_CRASH_PROOF"
+  },
+  "boundSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "executionRule": "PHYSICAL_WAVES_10_40_100_300_AND_TWO_STABLE_WAVES_WITH_ZERO_VETO"
+  },
+  "wordProfile": {
+    "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
+    "observedWordVersion": "16.111.2",
+    "profileAuthority": "WORD_FOR_MAC_CURRENT_PROFILE_ONLY"
+  },
+  "saturationRule": {
+    "requiredWaveSequence": [
+      10,
+      40,
+      100,
+      300
+    ],
+    "completedWaves": [
+      10
+    ],
+    "currentWaveTarget": 40,
+    "currentWaveObservedRounds": 32,
+    "consecutiveStableApprovedWaves": 0,
+    "stableHistogram": false,
+    "saturated": false,
+    "wordSaturationClaimAllowed": false,
+    "googleDocsAllowedToOpen": false
+  },
+  "evidenceBindings": [
+    {
+      "id": "E06_PHYSICAL_TEXT",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
+      "sha256": "ebd1065afbac5f4a585b46727147b0498f95660d9f1d982ab5420328db2717b7",
+      "status": "BOUND",
+      "description": "physical text Unicode bidi CJK 100k 250k hostile baseline"
+    },
+    {
+      "id": "E07_COMMENTS",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
+      "sha256": "6671d10aa0c9ae5c2c8c039ce2c450f464f00cbfc464c9a294f933024ba17caa",
+      "status": "BOUND",
+      "description": "visible anchored comments high-density no silent comment loss"
+    },
+    {
+      "id": "E08_FORMATTING",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING_RECEIPT.json",
+      "sha256": "abdfd069304caedf0ae50e2325b8fe5884c0e3cc528f99c59d340138687c2356",
+      "status": "BOUND",
+      "description": "effective formatting headings lists hyperlinks diagnostics"
+    },
+    {
+      "id": "E09_STRUCTURE",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS_RECEIPT.json",
+      "sha256": "45bef8319b619a1413149d1666c815a086fb2c328f55931fe0258e4fd641b374",
+      "status": "BOUND",
+      "description": "typed structural edits moves tables sections fields diagnostics"
+    },
+    {
+      "id": "E10_REPLAY_HOSTILE",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
+      "sha256": "a651cea9bdbdc5150e6a37e92160cbbdb73ef30491f3ada4cc499dd56b1f39dd",
+      "status": "BOUND",
+      "description": "replay stale tampered stripped no-edit re-export hostile guards"
+    },
+    {
+      "id": "E11_MULTI_SCENE_COORDINATOR",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR_RECEIPT.json",
+      "sha256": "bf780e0556134a328a2aeeedacbeeebf721c893f64fec0f70c97dfbbc5cb01ac",
+      "status": "BOUND",
+      "description": "single-root-pointer multi-scene coordinator component crash proof"
+    }
+  ],
+  "coverageLedger": {
+    "unicodeAndBidi": {
+      "status": "BOUND",
+      "sourceEvidence": "E06_PHYSICAL_TEXT",
+      "includes": [
+        "Russian punctuation and yo",
+        "English punctuation",
+        "combining marks",
+        "emoji surrogate pairs",
+        "ZWJ ZWNJ zero-width soft hyphen",
+        "bidi RTL fragment",
+        "CJK fragment"
+      ]
+    },
+    "hostilePackage": {
+      "status": "BOUND",
+      "sourceEvidence": "E10_REPLAY_HOSTILE",
+      "outcome": "HOSTILE_PACKAGE_TYPED_BLOCKED_BEFORE_PREVIEW_OR_APPLY"
+    },
+    "performanceScale": {
+      "status": "BOUND",
+      "sourceEvidence": "E06_PHYSICAL_TEXT",
+      "includes": [
+        "100k-word synthetic manuscript",
+        "250k-word synthetic manuscript",
+        "high-density comments bounded to 80 threads"
+      ],
+      "saturationGap": "40_100_300_ESCALATING_WAVES_NOT_COMPLETE"
+    },
+    "crashRecovery": {
+      "status": "BOUND",
+      "sourceEvidence": "E11_MULTI_SCENE_COORDINATOR",
+      "outcome": "SINGLE_ROOT_POINTER_COMPONENT_PROVEN_SHADOW_ONLY"
+    },
+    "replayIdempotence": {
+      "status": "BOUND",
+      "sourceEvidence": "E10_REPLAY_HOSTILE",
+      "outcome": "REPEATED_IMPORT_NOT_SECOND_MUTATION"
+    }
+  },
+  "aggregateTotals": {
+    "physicalRoundTripsObserved": 32,
+    "visibleAnchoredCommentThreads": 91,
+    "physicalFormattingCases": 17,
+    "physicalStructuralCases": 30,
+    "replayHostileGuardCases": 5,
+    "focusedE11CoordinatorContracts": 7,
+    "exactAutomaticCandidates": 0
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetworkRequests": 0,
+    "prematureGoogleDocsOpen": 0,
+    "falseSaturationClaim": 0
+  },
+  "notSaturatedReasons": [
+    "WAVE_40_HAS_32_OF_40_OBSERVED_ROUNDS",
+    "WAVE_100_NOT_STARTED",
+    "WAVE_300_NOT_STARTED",
+    "TWO_CONSECUTIVE_STABLE_APPROVED_WAVES_NOT_PROVEN",
+    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
+    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
+  ],
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "automaticApplyExpanded": false,
+    "writerAuthorityAdded": false,
+    "uiChanged": false,
+    "dependencyAdded": false,
+    "networkAdded": false,
+    "googleDocsOpened": false,
+    "wordSaturated": false
+  },
+  "nonClaims": [
+    "E12 ledger does not certify Word SATURATED",
+    "E12 ledger does not open Google Docs or any other editor profile",
+    "E12 ledger does not add automatic apply authority",
+    "E12 ledger does not run a new physical Word wave; it binds existing merged evidence and blocks false saturation claims"
+  ],
+  "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_40",
+  "testEvidence": {
+    "status": "PASS_LOCAL_VERIFICATION",
+    "focusedVerifier": "PASS node scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs --json --require-files",
+    "focusedContract": "PASS node --test E06 E07 E08 E09 E10 E11 E12 focused contracts: tests=38 pass=38 fail=0",
+    "governance": "PASS node scripts/ops/governance-change-detection.mjs --json missing_approvals=0 approval_registry_valid=1",
+    "ossPolicy": "PASS npm run -s oss:policy",
+    "opsSuite": "PASS npm run -s test:ops",
+    "syntax": "PASS node --check rtk-word-v4-e12-saturation-ledger.mjs",
+    "fullSuite": "PASS npm test -- --runInBand tests=795 pass=731 skip=64 fail=0 perf=PASS menu=PASS releaseCandidate=PASS",
+    "verifiedAtUtc": "2026-07-31T15:21:00.000Z"
+  }
+}

@@ -316,7 +316,10 @@
       "src/io/revisionBridge/reviewTransportMultiSceneAtomicCoordinatorV4.mjs",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR_RECEIPT.json",
       "scripts/ops/rtk-word-v4-e11-multi-scene-atomic-coordinator.mjs",
-      "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js"
+      "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

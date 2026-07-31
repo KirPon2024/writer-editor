@@ -23,13 +23,6 @@
       "rationale": "Approve platform-neutral Review Transport Manifest v2 core: normalizes signed scene/block/baseline locator payloads, requires CryptoPort-provided SHA/HMAC, forbids embedded secrets, blocks tamper, missing secret and missing signed authority, keeps bookmarks, SDT, w14 ids and fingerprints as non-authoritative placement or manual signals, imports no Node, Electron, filesystem, Buffer, picker, network, parser, UI, or writer authority, and makes no automatic apply expansion claim."
     },
     {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "2c0a7565c72b06d9104ab608ac35b90e1caa93a08166f037ec64f06291052881",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
-      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
-      "rationale": "Approve bounded public barrel export for V4 E05 SourceMap UniqueDiff constants and evaluators through the existing revisionBridge module surface, preserving E04 exports; no runtime entrypoint, UI, network, dependency, parser write authority, writer authority, or automatic apply expansion is introduced."
-    },
-    {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
       "sha256": "5807d3d43bf8a827642075541350f6ae451a0888d2c8521250e48c0c79802e60",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
@@ -5742,20 +5735,6 @@
       "rationale": "Approve ER C02 receipt: records single workspace query registry runtime parity repair, post-drift full runner artifact digest, focused 167 test pass, governance reconciliation, no Stage 11 start, no readiness certification, no UI design change, no dependency, no network, no storage migration, and no product mutation authority widening."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "6bc2a77d39de180a25da2b84fb7b9fac7acf27809a148fe03efbc8f88907bb2c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T13:05:00.000Z",
-      "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "d5ba4746cda0e8535089c734a81b37bc1ad8516b31adecd2618d0506466dc1a8",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T13:05:00.000Z",
-      "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
       "sha256": "a651cea9bdbdc5150e6a37e92160cbbdb73ef30491f3ada4cc499dd56b1f39dd",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
@@ -5770,46 +5749,95 @@
       "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "259473b885489852f078f5aaeda110c2102b3382c3443e643c26efcfdb7fb348",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 governance-tracked update: binds the post-D1 Word V4 multi-scene atomic coordinator contour as component-proven and shadow-only, preserving prior Word evidence, existing runtime authority, zero-veto invariants, and forward-compatible E06-E10 assertions without enabling automatic multi-scene product apply."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "39b793359cca42441465d585a7be347d201c717b8fbfee41e85a557babcf1b58",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 governance-tracked update: binds the post-D1 Word V4 multi-scene atomic coordinator contour as component-proven and shadow-only, preserving prior Word evidence, existing runtime authority, zero-veto invariants, and forward-compatible E06-E10 assertions without enabling automatic multi-scene product apply."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR_RECEIPT.json",
+      "sha256": "bf780e0556134a328a2aeeedacbeeebf721c893f64fec0f70c97dfbbc5cb01ac",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve final E11 multi-scene atomic coordinator receipt: binds local verifier, focused E06-E11 contracts, governance, OSS policy, ops suite, syntax and full test suite evidence while preserving the canonical shadow-only status, zero-veto metrics, no physical Word overclaim and no product runtime multi-scene apply authority."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e11-multi-scene-atomic-coordinator.mjs",
+      "sha256": "94cdeae29311c3e1ca844313d22d792a81dab7b0083f44ae4f00fd3aa464a1a9",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 verifier: checks receipt/profile/program truth, source neutrality, single-root-pointer proof, shadow-only limitations and zero-veto metrics without granting product runtime apply authority or accepting false-green fixture claims."
+    },
+    {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "6cc9ade53a2277d092512429425d044fbdc9bf91cf8d543e746b49f4671678d2",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "sha256": "67479d720c37417b0f6073f0795b676b9c372041aa9fb8108cb98689b75d674c",
+      "approvedBy": "tickets:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR,YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
       "approvedAtUtc": "2026-07-31T06:54:31.000Z",
-      "rationale": "Approve ER C03 Sector M scope-map rebind: adds only exact DONE allowlist paths for src/core/registry.ts and src/shared/productCommandRegistry.cjs so the existing diff and runner guards can verify command-registry source reachability without wildcard prefixes, UI design change, dependency, network, or readiness certification."
+      "rationale": "Approve merged E11 plus ER C03 Sector M scope-map rebind: preserves the Word V4 E11 multi-scene coordinator allowlist additions and adds only exact DONE allowlist paths for src/core/registry.ts and src/shared/productCommandRegistry.cjs, with no wildcard prefixes, UI design change, dependency, network, runtime apply authority, or readiness certification."
+    },
+    {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "5e045c02c9ce16355956c47a77e3cd2d23e8cb99a312ba7355e9fc505db7f07b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 RTK barrel export: exposes the platform-neutral coordinator through the existing revision bridge interface without adding a private command bus, UI path, parser write authority or runtime apply switch."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportMultiSceneAtomicCoordinatorV4.mjs",
+      "sha256": "58cf7798644f1d097cc66f1e231dccd2f836c337b675de2ac811909c200c01cc",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 platform-neutral multi-scene atomic coordinator component: validates same-root prepare records, unique scene request and effect identities, staged receipt matching, root-pointer commit preconditions and recovery states through injected crypto only, with no Node filesystem, Electron, renderer, network or writer authority."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "2c3d2b72bb81bb577fed6469078a9cd7295e33859495cac74a80878988aef5c2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T13:05:00.000Z",
-      "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
+      "sha256": "dfcaf53888d9d00db7cb0d4f78dfc2ba69f8b89d6698c60fd042a2c39c441c90",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 governance-tracked update: binds the post-D1 Word V4 multi-scene atomic coordinator contour as component-proven and shadow-only, preserving prior Word evidence, existing runtime authority, zero-veto invariants, and forward-compatible E06-E10 assertions without enabling automatic multi-scene product apply."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "18d1b6bb915f376be6537f84d422ac01adb6a1d8abffb6f5364647a8d5224fd2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T13:05:00.000Z",
-      "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
+      "sha256": "aa28543ad880580ed0c9caea3250ac5d0c1f6e63fe3b0d9a7ee1d1732b331e8d",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 governance-tracked update: binds the post-D1 Word V4 multi-scene atomic coordinator contour as component-proven and shadow-only, preserving prior Word evidence, existing runtime authority, zero-veto invariants, and forward-compatible E06-E10 assertions without enabling automatic multi-scene product apply."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "54484ff02dfe6f40227a6639769fcaa92b9aaeb03a0824dec38678e5b451ff68",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T13:05:00.000Z",
-      "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
+      "sha256": "0b0200fdab724a35ae659ec3ebac7601b6a81f9dd62a52a057b1fe1e3e739bcd",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 governance-tracked update: binds the post-D1 Word V4 multi-scene atomic coordinator contour as component-proven and shadow-only, preserving prior Word evidence, existing runtime authority, zero-veto invariants, and forward-compatible E06-E10 assertions without enabling automatic multi-scene product apply."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "c07102954356810799fa2b1eeca37974380217fd06d39840117cf11b02db6cfd",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T13:05:00.000Z",
-      "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
+      "sha256": "6a99696f04d37ab4b209a4ef0aeffcb6a1ae00675566db084ee9cdbbf8e221d0",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 governance-tracked update: binds the post-D1 Word V4 multi-scene atomic coordinator contour as component-proven and shadow-only, preserving prior Word evidence, existing runtime authority, zero-veto invariants, and forward-compatible E06-E10 assertions without enabling automatic multi-scene product apply."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "dca2986c2a2a1805731deea86ea3884177e878e5ad00f581c91985659b9b3bc4",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T13:05:00.000Z",
-      "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
+      "sha256": "57044317e6cd2cf6fd9c9ef97cf8464692ea7172b8e241410a705efb552ef5d7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 governance-tracked update: binds the post-D1 Word V4 multi-scene atomic coordinator contour as component-proven and shadow-only, preserving prior Word evidence, existing runtime authority, zero-veto invariants, and forward-compatible E06-E10 assertions without enabling automatic multi-scene product apply."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+      "sha256": "a457e4cce7eaa07acddd77e4c645580cadf18b47c701bde1d96e0aae5190deb3",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR",
+      "approvedAtUtc": "2026-07-31T14:33:00.000Z",
+      "rationale": "Approve E11 contracts: prove deterministic multi-scene prepare and commit, stale root, duplicate scene, duplicate authority, receipt mismatch, premature canonical write, recovery classification, platform-neutral export and shadow-only program/profile truth."
     },
     {
       "filePath": "test/contracts/capability-command-coverage.contract.test.js",

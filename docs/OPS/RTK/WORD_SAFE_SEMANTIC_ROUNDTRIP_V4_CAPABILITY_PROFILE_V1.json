@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_REPLAY_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_REPLAY_E11_COMPONENT_PROVEN_WITH_TYPED_LIMITATIONS",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -360,6 +360,29 @@
         "HOSTILE_PACKAGE_PREVIEW_AND_APPLY_REMAIN_BLOCKED"
       ],
       "killCriterion": "any stale tampered stripped hostile or replay return becomes EXACT, any second mutation occurs, any divergent round auto-merge is claimed, or writer authority is added"
+    },
+    {
+      "capabilityId": "rtk.word.v4.multiSceneAtomicCoordinator",
+      "operationFamily": "multi-scene single-root-pointer prepare commit recovery coordinator",
+      "state": "COMPONENT_PROVEN",
+      "currentCapability": "MULTI_SCENE_ATOMIC_COORDINATOR_COMPONENT_SHADOW_ONLY",
+      "physicalWordEvidence": false,
+      "consumer": "EXECUTION_12 Unicode hostile performance crash replay escalating physical Word waves",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR_RECEIPT.json",
+      "supportedNow": [
+        "deterministic prepare record for two or more scene intents",
+        "single-root-pointer commit record requires every staged scene receipt",
+        "stale duplicate mismatched and premature canonical writes block",
+        "recovery classifies safe abort committed root and partial canonical crash windows"
+      ],
+      "limitations": [
+        "PRODUCT_MULTI_SCENE_APPLY_NOT_ENABLED_IN_E11",
+        "PHYSICAL_WORD_MULTI_SCENE_APPLY_NOT_CERTIFIED_IN_E11",
+        "SINGLE_ROOT_POINTER_PROTOCOL_COMPONENT_ONLY",
+        "NO_RUNTIME_WRITER_SWITCH_IN_E11"
+      ],
+      "killCriterion": "any partial canonical write before root pointer is allowed, runtime writer authority is granted, or stale duplicate mismatched receipts commit"
     }
   ]
 }

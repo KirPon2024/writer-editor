@@ -314,7 +314,11 @@
       "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
       "scripts/ops/rtk-word-v4-e10-multi-round-replay-conflicts.mjs",
-      "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js"
+      "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "src/io/revisionBridge/reviewTransportMultiSceneAtomicCoordinatorV4.mjs",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR_RECEIPT.json",
+      "scripts/ops/rtk-word-v4-e11-multi-scene-atomic-coordinator.mjs",
+      "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

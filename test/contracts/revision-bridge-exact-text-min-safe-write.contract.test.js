@@ -30,6 +30,7 @@ const RB11_TEST_PATH = 'test/contracts/revision-bridge-anchor-confidence-engine-
 const C05_TEST_PATH = 'test/contracts/revision-bridge-comment-survival.contract.test.js';
 const C06_TEST_PATH = 'test/contracts/revision-bridge-minimal-block-id.contract.test.js';
 const GOVERNANCE_APPROVALS_PATH = 'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json';
+const SECTOR_M_SCOPE_MAP_PATH = 'scripts/ops/sector-m-scope-map.json';
 const STATUS_PACKET_PATH = 'docs/OPS/STATUS/REVIEW_BRIDGE_SINGLE_EXACT_TEXT_SAFE_APPLY_ENABLEMENT_001_R2_STATUS_V1.json';
 const MAIN_PATH = 'src/main.js';
 const MARKDOWN_EXPORT_GUARD_TEST_PATH = 'test/contracts/export-contour-02-markdown-text-hardening.contract.test.js';
@@ -49,6 +50,12 @@ const RTK_C04_BLOCK_WRITER_BINDING_TEST_PATH =
   'test/contracts/rtk-word-saturation-c04-block-writer-binding.contract.test.js';
 const RTK_C04_BLOCK_WRITER_BINDING_RECEIPT_PATH =
   'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C04_BLOCK_WRITER_BINDING_RECEIPT.json';
+const RTK_C05_BLOCK_RANGE_AUTHORITY_MODULE_PATH =
+  'src/io/revisionBridge/reviewTransportBlockRangeAuthorityV2.mjs';
+const RTK_C05_BLOCK_RANGE_WRITER_TEST_PATH =
+  'test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js';
+const RTK_C05_BLOCK_RANGE_WRITER_RECEIPT_PATH =
+  'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C05_BLOCK_RANGE_WRITER_RECEIPT.json';
 const ALLOWLIST = [
   MODULE_PATH,
   JOURNAL_MODULE_PATH,
@@ -69,6 +76,7 @@ const ALLOWLIST = [
   C05_TEST_PATH,
   C06_TEST_PATH,
   GOVERNANCE_APPROVALS_PATH,
+  SECTOR_M_SCOPE_MAP_PATH,
   STATUS_PACKET_PATH,
   MARKDOWN_EXPORT_GUARD_TEST_PATH,
   REVIEW_MUTATE_PORT_TEST_PATH,
@@ -83,6 +91,9 @@ const ALLOWLIST = [
   RTK_C04_BLOCK_WRITER_BINDING_MODULE_PATH,
   RTK_C04_BLOCK_WRITER_BINDING_TEST_PATH,
   RTK_C04_BLOCK_WRITER_BINDING_RECEIPT_PATH,
+  RTK_C05_BLOCK_RANGE_AUTHORITY_MODULE_PATH,
+  RTK_C05_BLOCK_RANGE_WRITER_TEST_PATH,
+  RTK_C05_BLOCK_RANGE_WRITER_RECEIPT_PATH,
 ];
 const TOLERATED_NEIGHBOR_REVIEW_BRIDGE_TEST_PATHS = Object.freeze([
   'test/contracts/review-bridge-first-useful-release-gate.contract.test.js',

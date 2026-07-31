@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "1231667fcb96b442401b351a281a776fb416ba36ecf8af2842b54ce7f09d19a9",
-      "rationale": "Approve bounded public barrel export for C04 block exact writer binding constants, builder, and apply adapter through the existing revisionBridge entrypoint while preserving parser, classifier, exact apply adapter, main command authority, no renderer or UI authority, no storage adapter bypass, no network, no dependency, and no broad automatic apply expansion.",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
-      "approvedAtUtc": "2026-07-30T17:58:00.000Z"
+      "sha256": "55e706ae13a3c8ba12af349f52ff6e82b8227e49f823c3a4ca92158c8c510114",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded public barrel export for C05 locally bound block-range authority constants and digest builders through the existing revisionBridge module surface; no UI, renderer, network, dependency, product claim expansion, HMAC/YRTK2 claim, or direct writer authority is introduced."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "39709937a8db34ed169ab4964bb5f28202f2e3adf17665f35642aa71ade3e68f",
-      "rationale": "Approve bounded C04 Sector-M cumulative scope-map hygiene update: keeps the existing C03 reviewTransportBlockExactAuthorityV2.mjs entry and adds only the new reviewTransportBlockExactWriterBindingV2.mjs file to the exact DONE revisionBridge allowlist so the already-enforced scope leak and sector runner guards recognize the bounded C04 main-side writer binding adapter; this preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no parser authority, no standalone insert apply, no range writer claim, and no product claim expansion.",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
-      "approvedAtUtc": "2026-07-30T18:12:00.000Z"
+      "sha256": "a9cdcddfef849e5992879747f8e8e7cc01b8792bfa935831d90812a3a3472385",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded C05 Sector-M cumulative scope-map hygiene update: adds only the exact writer, locally bound block-range authority helper, C05 contract, and C05 receipt to existing RTK DONE allowlists; preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no parser authority, no HMAC/YRTK2 claim, and no full Word saturation claim."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -4679,10 +4679,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-exact-text-min-safe-write.contract.test.js",
-      "sha256": "ec82e5554a024cfecba85a4e1126c85d6d2e8df7e3ba00ef3d5b50d4f3b60568",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
-      "approvedAtUtc": "2026-07-30T17:58:00.000Z",
-      "rationale": "Approve narrow adjacent exact-writer guard update: adds only the C04 RTK writer binding module, contract, and receipt to the existing exact safe-write changed-file allowlist; it preserves the no-wildcard scope check, existing crash reconciliation tests, existing writer safety assertions, and adds no UI, runtime dependency, network, renderer authority, parser authority, or broad apply expansion."
+      "sha256": "6cf3165f60be4db5077766f5c8c671f02967cdc812f0611f179f45491bfc345d",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve narrow adjacent exact-writer guard update: extends the existing changed-file allowlist only for the Sector-M scope map plus C05 locally bound block-range authority helper, C05 focused contract, and C05 receipt while preserving legacy scene-unique behavior, canonical writer, recovery, no UI, no network, no dependency, no HMAC/YRTK2 claim, and no full Word saturation claim."
     },
     {
       "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
@@ -4777,10 +4777,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
-      "sha256": "4db3dc0fd4b7ccdcd1c07af2be1e2daa1ad119c4543dde241957bb5d53e38a89",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
-      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
-      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+      "sha256": "3cc6794dd7acf034b33c0c2bf9ef3706d48b6105f4baef40c09eaa684d1b0e33",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded C05 apply-core identity extension: includes block id, block range digest, and block-local offsets in normalized text change and semantic effect identity so distinct trusted block ranges do not replay-collapse; no writer path, UI, parser, renderer, network, dependency, or fuzzy apply authority is added."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyStore.mjs",
@@ -5463,10 +5463,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportBlockExactWriterBindingV2.mjs",
-      "sha256": "d52df307ad9905d951a86b93a65b8aa8104609f457100bd6ec8995a8b15bd59c",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C04_BLOCK_EXACT_WRITER_BINDING",
-      "approvedAtUtc": "2026-07-30T17:58:00.000Z",
-      "rationale": "Approve bounded C04 main-side writer binding adapter: re-evaluates C03 block exact authority digest, rejects missing or mismatched provided C03 authority digest before writer execution, uses computed authority rather than external overrides, binds full candidate ids one-to-one to writer change ids, builds B05 admission input for delete and replacement-pair text groups, requires main-owned command authority, preserves parser, renderer, comments, formatting, and block-authority self-write guards, records duplicate scene quote as an existing exact-writer limitation, adds no UI, network, dependency, cloud, other editor, range writer certification, standalone insert apply, move apply, or broad Word saturation claim."
+      "sha256": "bd67f1ade56f63f6e1166c2cc3b39f318fe597f17e76a50529f6b3623b60c2e5",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded C05 extension to C04 writer binding: generates locally bound blockRange only inside the trusted C04 path from validated C03 authority, ReviewIR source revisions, local baseline block text, project snapshot, and main command authority; carries trusted range digests into the existing exact writer, preserves C04 duplicateSceneTextLimitation field, adds no parser, renderer, UI, network, dependency, HMAC/YRTK2 claim, standalone insert apply, move apply, formatting apply, or broad Word saturation claim."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C04_BLOCK_WRITER_BINDING_RECEIPT.json",
@@ -5509,6 +5509,34 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_BOUNDARY",
       "approvedAtUtc": "2026-07-30T18:09:51.000Z",
       "rationale": "Approve bounded E10 C06 final receipt: records deterministic versioned transport-neutral operation exchange packets, local fixture adapter preview-only report, disabled-by-default nonblocking transport capability gate, network adapter disabled proof, tampered packet hash mismatch rejection, invalid event rejection, payload hash-only exclusion, no live network adapter, no remote account or cloud sync, no transport source of truth, no CRDT Core adoption, no Yjs runtime dependency, no project or manuscript mutation, no storage writer, no UI, no dependency, no second operation log truth, no second comment truth, focused and adjacent local PASS evidence with 27 tests, collab causal readiness PASS, collab stress safe PASS, collab eventlog PASS, collab apply pipeline PASS, governance PASS, ops PASS, doctrine PASS, OSS PASS, diff PASS, and full runner PASS with 795 tests, 731 pass, 0 fail, and 64 skipped."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js",
+      "sha256": "b38379fa9ff4f9094b9991a0475745f219c808a94655ecf3e853755e007d8cec",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve focused C05 contract coverage: proves duplicate scene quote applies only through trusted locally bound C04 block-range authority, caller-forged self-consistent ranges are rejected, duplicate quote, duplicate block, stale, wrong scene, wrong block, wrong schema, tampered digest, invalid offset, duplicate id, and overlapping ranges block atomically, legacy no-blockRange path remains compatible, effect identity distinguishes distinct ranges, batch permutation remains deterministic, crash recovery prevents double apply, and source adds no HMAC signing, UI, renderer, or network authority."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C05_BLOCK_RANGE_WRITER_RECEIPT.json",
+      "sha256": "a9bc1e14cc77fda757cb04e2b75d1a745dffafb5c22bb6a8342f8079fd5018e2",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded C05 receipt: records locally bound block-range writer authority from trusted C04 evidence, numerator and denominator for focused, adjacent, governance, sector, OSS, ops, and full local runner checks, zero false exact, zero silent apply, zero wrong-scene routing, zero replay failure, preservation of canonical writer and nonclaims for HMAC, YRTK2, signed locator, Word carrier selection, Google Docs, other editors, and full Word saturation."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportBlockRangeAuthorityV2.mjs",
+      "sha256": "434536fd11b3ead760035c26bc300ac5d5bf40e1030cd538bdb1374825ceb4bc",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve new bounded C05 platform-neutral block-range authority helper: builds locally bound block text and range integrity digests from local baseline and current project snapshot, requires unique block text in scene and exact block-local quote, models SHA-256 as integrity checks rather than signatures, imports no Node, Electron, renderer, network, parser, writer, or UI authority, and makes no HMAC/YRTK2 or Word carrier claim."
+    },
+    {
+      "filePath": "src/io/revisionBridge/exactTextMinSafeWrite.mjs",
+      "sha256": "98a9b931305f5b03a5b2040978ffb06c7cf11273cc4f83b438efe878824fd1d7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
     }
   ]
 }

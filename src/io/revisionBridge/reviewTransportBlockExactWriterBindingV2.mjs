@@ -1,4 +1,5 @@
 import { evaluateReviewTransportBlockExactAuthorityV2 } from './reviewTransportBlockExactAuthorityV2.mjs';
+import { buildLocalReviewTransportBlockRangeAuthorityV2 } from './reviewTransportBlockRangeAuthorityV2.mjs';
 import {
   applyReviewTransportIrV2ExactText,
   buildReviewTransportExactApplyAdmissionV2,
@@ -197,14 +198,23 @@ function validateAnchorDigest(anchor, evidence, cryptoPort) {
   return null;
 }
 
-function buildTextChangesFromAnchors({ blockAuthority, reviewIr, cryptoPort }) {
+function buildTextChangesFromAnchors({ blockAuthority, reviewIr, input, cryptoPort }) {
   const reasons = [];
   const revisions = revisionMap(reviewIr);
   const anchors = list(blockAuthority.exactTextAnchors);
   const textChanges = [];
   const bindings = [];
+  const trustedBlockRangeDigests = [];
   const seenCandidates = new Set();
   const sceneIds = new Set();
+  const writerContext = writerContextFrom(input);
+  const base = writerInputBaseFrom(input, writerContext);
+  const projectSnapshot = isPlainObject(writerContext.projectSnapshot)
+    ? writerContext.projectSnapshot
+    : (isPlainObject(base.projectSnapshot) ? base.projectSnapshot : {});
+  const localBaseline = isPlainObject(input.localBaseline)
+    ? input.localBaseline
+    : (isPlainObject(input.baseline) ? input.baseline : {});
 
   if (anchors.length === 0) {
     reasons.push(reason(
@@ -245,16 +255,31 @@ function buildTextChangesFromAnchors({ blockAuthority, reviewIr, cryptoPort }) {
       reasons.push(digestReason);
       continue;
     }
+    const blockId = normalizeString(anchor.blockId || blockAuthority.targetBlockId);
+    const match = {
+      kind: 'exact',
+      quote: evidence.expectedText,
+      blockId,
+      blockLocalStart: Number.isInteger(anchor.start) ? anchor.start : null,
+      blockLocalEnd: Number.isInteger(anchor.end) ? anchor.end : null,
+    };
+    const blockRangeAuthority = buildLocalReviewTransportBlockRangeAuthorityV2({
+      sceneId,
+      blockId,
+      expectedText: evidence.expectedText,
+      blockLocalStart: match.blockLocalStart,
+      blockLocalEnd: match.blockLocalEnd,
+      projectSnapshot,
+      localBaseline,
+    }, { cryptoPort });
+    if (blockRangeAuthority.ok) {
+      match.blockRange = blockRangeAuthority.authority;
+      trustedBlockRangeDigests.push(normalizeString(blockRangeAuthority.authority.rangeDigest));
+    }
     textChanges.push({
       changeId: candidateId,
       targetScope: { type: 'scene', id: sceneId },
-      match: {
-        kind: 'exact',
-        quote: evidence.expectedText,
-        blockId: normalizeString(anchor.blockId || blockAuthority.targetBlockId),
-        blockLocalStart: Number.isInteger(anchor.start) ? anchor.start : null,
-        blockLocalEnd: Number.isInteger(anchor.end) ? anchor.end : null,
-      },
+      match,
       replacementText: evidence.replacementText,
       sourceRevisionIds: evidence.sourceRevisionIds,
       bindingDigest: evidence.evidenceDigest,
@@ -272,7 +297,7 @@ function buildTextChangesFromAnchors({ blockAuthority, reviewIr, cryptoPort }) {
     ));
   }
 
-  return { textChanges, bindings, reasons };
+  return { textChanges, bindings, reasons, trustedBlockRangeDigests };
 }
 
 function buildWriterInput({ input, textChanges }) {
@@ -383,7 +408,12 @@ export function buildReviewTransportBlockExactWriterBindingV2(input = {}, option
     ));
   }
 
-  const builtChanges = buildTextChangesFromAnchors({ blockAuthority, reviewIr, cryptoPort });
+  const builtChanges = buildTextChangesFromAnchors({
+    blockAuthority,
+    reviewIr,
+    input,
+    cryptoPort,
+  });
   reasons.push(...builtChanges.reasons);
   const writerInput = buildWriterInput({ input, textChanges: builtChanges.textChanges });
   reasons.push(...writerInputReasons(writerInput));
@@ -404,6 +434,7 @@ export function buildReviewTransportBlockExactWriterBindingV2(input = {}, option
     reviewIr: cloneJsonSafe(reviewIr),
     exactAuthority: cloneJsonSafe(blockAuthority.exactAuthority),
     textCandidateBindings: cloneJsonSafe(builtChanges.bindings),
+    trustedBlockRangeDigests: cloneJsonSafe(builtChanges.trustedBlockRangeDigests),
     writerInput,
   };
   const admission = buildReviewTransportExactApplyAdmissionV2(admissionInput, { cryptoPort });
@@ -433,6 +464,9 @@ export function buildReviewTransportBlockExactWriterBindingV2(input = {}, option
     })),
     writerAuthority: 'main-command-kernel-only',
     duplicateSceneTextLimitation: 'existing-exact-writer-still-requires-unique-scene-quote',
+    blockRangeWriterAuthority: builtChanges.trustedBlockRangeDigests.length > 0
+      ? 'locally-bound-c05-ready'
+      : 'unavailable',
   };
 
   return {
@@ -450,6 +484,7 @@ export function buildReviewTransportBlockExactWriterBindingV2(input = {}, option
     writerInput,
     admissionInput,
     admission,
+    trustedBlockRangeDigests: cloneJsonSafe(builtChanges.trustedBlockRangeDigests),
     falseExactGuards: {
       globalTextSearchAuthority: false,
       fuzzyMatchAuthority: false,
@@ -469,7 +504,14 @@ export async function applyReviewTransportBlockExactWriterBindingV2(input = {}, 
       applied: false,
     };
   }
-  const result = await applyReviewTransportIrV2ExactText(binding.admissionInput, options);
+  const exactWriterOptions = {
+    ...(isPlainObject(options.exactWriterOptions) ? options.exactWriterOptions : {}),
+    trustedBlockRangeDigests: cloneJsonSafe(binding.trustedBlockRangeDigests || []),
+  };
+  const result = await applyReviewTransportIrV2ExactText(binding.admissionInput, {
+    ...options,
+    exactWriterOptions,
+  });
   return {
     ...result,
     type: 'yalken.rtk.reviewTransportBlockExactWriterBindingV2',

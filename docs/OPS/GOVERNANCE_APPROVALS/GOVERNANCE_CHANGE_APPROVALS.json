@@ -5680,10 +5680,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
-      "sha256": "31a30555fd2b856aeec08d2adb8848a1d9ab7987d052a4ba85fe95efba92465f",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 relation dossier contract rebind: verifies registry-bound relation query id and handler-map route, preserving contextual action intents, command-boundary assertions, no renderer mutation bypass, no UI design change, no dependency, and no network."
+      "sha256": "3b2dbc478d29cf819ba6809efa8bdafbbe8b358028f3cffa592b28cac558981a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 relation dossier contract repair: updates the former intent-only assertion to require Command Kernel dispatch for relation review actions while preserving typed query host wiring, no direct storage write, no Core reducer bypass, no UI design change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
@@ -5810,6 +5810,27 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
       "approvedAtUtc": "2026-07-31T13:05:00.000Z",
       "rationale": "Owner-approved V4 E10 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
+    },
+    {
+      "filePath": "test/contracts/capability-command-coverage.contract.test.js",
+      "sha256": "ab6c83291eafed4129ea36d668eb9fc46d983033780dc118cc0c089dd4a0869e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 capability coverage rebind: requires product command capability bindings from the shared product registry to match runtime policy and governance docs, preserving local-only execution, no dependency, no network, no UI design change, and no product readiness claim."
+    },
+    {
+      "filePath": "test/contracts/command-catalog.contract.test.js",
+      "sha256": "97fad53bf569ca86b444dff98a7493281ec37817d7a8623ef85460ffdfc06aa1",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 command catalog contract rebind: allows the existing cmd menu namespace and the shared product command namespace side by side, proves product catalog reachability and explicit Plot degraded status, and adds no menu namespace widening, dependency, network, UI design change, or readiness certification."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js",
+      "sha256": "83505c2858e7f82dfb7cb44bda3ec5b204c183838012a0a0a0a368f920b438c2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 focused contract: proves shared product command registry parity with Core Atlas Manual Map Idea and Meaning commands, renderer catalog and Command Kernel reachability, main bridge registry allowlist, fail-closed degraded adapter, relation action dispatch, explicit Plot no-mutating-command status, no direct UI storage mutation bypass, no dependency, and no network."
     }
   ]
 }

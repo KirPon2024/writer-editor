@@ -1,10 +1,16 @@
 import { COMMAND_CATALOG_V1, getCommandCatalogById } from './command-catalog.v1.mjs';
+import productCommandRegistry from '../../shared/productCommandRegistry.cjs';
 import {
   buildCommandOperationPlan,
   captureCommandEffectCapabilities,
   persistCommandOperationPlan,
   unwrapBridgeResponseValue,
 } from './commandEffectModel.mjs';
+
+const {
+  PRODUCT_COMMAND_RECORDS,
+  getProductCommandRecord,
+} = productCommandRegistry;
 
 const COMMAND_KEY_TO_ID = Object.freeze(
   Object.fromEntries(COMMAND_CATALOG_V1.map((entry) => [entry.key, entry.id])),
@@ -871,9 +877,77 @@ function registerBridgeOnlyProjectCommand(registry, electronAPI, commandId, meta
   );
 }
 
+async function runProductCommandBridge(electronAPI, commandId, input = {}) {
+  const record = getProductCommandRecord(commandId);
+  if (!record) {
+    return fail('E_PRODUCT_COMMAND_NOT_REGISTERED', commandId, 'PRODUCT_COMMAND_NOT_REGISTERED');
+  }
+  if (!electronAPI || typeof electronAPI !== 'object') {
+    return fail(
+      'E_COMMAND_FAILED',
+      commandId,
+      'ELECTRON_API_UNAVAILABLE',
+      { commandAuthority: record.commandAuthority, capabilityId: record.capabilityId, domain: record.domain },
+    );
+  }
+
+  let response;
+  try {
+    response = await invokeBridgeOnlyCommand(
+      electronAPI,
+      commandId,
+      input && typeof input === 'object' && !Array.isArray(input) ? input : {},
+    );
+  } catch (error) {
+    return fail(
+      'E_PRODUCT_COMMAND_BRIDGE_FAILED',
+      commandId,
+      'PRODUCT_COMMAND_IPC_FAILED',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+
+  const bridged = unwrapBridgeResponseValue(response);
+  if (bridged && (bridged.ok === 1 || bridged.ok === true)) {
+    return ok({
+      performed: true,
+      commandAuthority: record.commandAuthority,
+      commandId,
+      result: bridged,
+    });
+  }
+  if (bridged && bridged.error && typeof bridged.error === 'object' && !Array.isArray(bridged.error)) {
+    const error = bridged.error;
+    return fail(
+      typeof error.code === 'string' ? error.code : 'E_PRODUCT_COMMAND_FAILED',
+      typeof error.op === 'string' ? error.op : commandId,
+      typeof error.reason === 'string' ? error.reason : 'PRODUCT_COMMAND_FAILED',
+      error.details && typeof error.details === 'object' && !Array.isArray(error.details) ? error.details : undefined,
+    );
+  }
+  return fail(
+    bridged && typeof bridged.code === 'string' ? bridged.code : 'E_PRODUCT_COMMAND_DEGRADED',
+    commandId,
+    bridged && typeof bridged.reason === 'string' ? bridged.reason : 'PRODUCT_COMMAND_BACKEND_DEGRADED',
+    {
+      commandAuthority: record.commandAuthority,
+      capabilityId: record.capabilityId,
+      domain: record.domain,
+    },
+  );
+}
+
 export function registerProjectCommands(registry, options = {}) {
   const electronAPI = options.electronAPI || null;
   const uiActions = options.uiActions && typeof options.uiActions === 'object' ? options.uiActions : null;
+
+  for (const record of PRODUCT_COMMAND_RECORDS) {
+    registerCatalogCommand(
+      registry,
+      record.id,
+      async (input = {}) => runProductCommandBridge(electronAPI, record.id, input),
+    );
+  }
 
   registry.registerCommand(
     {

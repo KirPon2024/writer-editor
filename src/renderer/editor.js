@@ -17397,14 +17397,32 @@ atlasEntityDossierHost?.addEventListener('keydown', (event) => {
   });
 });
 
-atlasRelationDossierHost?.addEventListener('click', (event) => {
+atlasRelationDossierHost?.addEventListener('click', async (event) => {
   const action = event.target instanceof Element
     ? event.target.closest('[data-atlas-relation-action-id]')
     : null;
   if (!(action instanceof HTMLButtonElement)) return;
   const commandId = action.dataset.commandId || '';
   if (!isAtlasRelationReviewActionCommandId(commandId) || action.disabled) return;
-  updateStatusText(`Atlas review action intent: ${commandId}`);
+  action.disabled = true;
+  const result = await dispatchUiCommand(commandId, {
+    source: 'atlasRelationDossier',
+    actionId: action.dataset.atlasRelationActionId || '',
+    projectId: currentProjectId || atlasRelationDossierState.projectId || '',
+    pairId: atlasRelationDossierState.selectedPairId || atlasSelectedRelation.pairId || '',
+    leftEntityId: atlasRelationDossierState.requestedLeftEntityId || atlasSelectedRelation.leftEntityId || '',
+    rightEntityId: atlasRelationDossierState.requestedRightEntityId || atlasSelectedRelation.rightEntityId || '',
+    commandAuthority: 'CommandKernel',
+  });
+  const reason = result?.error?.reason
+    || result?.value?.error?.reason
+    || result?.value?.reason
+    || result?.reason
+    || '';
+  updateStatusText(result?.ok === true
+    ? `Atlas review action dispatched: ${commandId}`
+    : `Atlas review action degraded: ${reason || commandId}`);
+  action.disabled = false;
 });
 
 atlasHeatmapHost?.addEventListener('click', (event) => {

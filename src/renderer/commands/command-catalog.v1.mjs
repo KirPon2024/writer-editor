@@ -1,3 +1,7 @@
+import productCommandRegistry from '../../shared/productCommandRegistry.cjs';
+
+const { PRODUCT_COMMAND_CATALOG_ROWS } = productCommandRegistry;
+
 const COMMAND_CATALOG_ROWS = [
   {
     key: 'PROJECT_OPEN',
@@ -95,6 +99,7 @@ const COMMAND_CATALOG_ROWS = [
     surface: ['palette', 'shortcut'],
     hotkey: 'Cmd/Ctrl+Shift+S',
   },
+  ...PRODUCT_COMMAND_CATALOG_ROWS,
 ];
 
 function freezeCatalogEntry(entry) {

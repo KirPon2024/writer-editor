@@ -191,13 +191,17 @@ test('E05 C03: relation dossier exports through barrels and keeps side-effect bo
   }
 });
 
-test('E05 C03: renderer and main wire relation dossier through typed host and no bypass dispatch', () => {
+test('E05 C03: renderer and main wire relation dossier through typed host and Command Kernel dispatch', () => {
   const mainSource = fs.readFileSync(path.join(process.cwd(), 'src', 'main.js'), 'utf8');
   const editorSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'editor.js'), 'utf8');
   const htmlSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'index.html'), 'utf8');
   const cssSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'styles.css'), 'utf8');
   const actionSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'commands', 'atlasRelationReviewActions.mjs'), 'utf8');
   const capabilitySource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'commands', 'capabilityPolicy.mjs'), 'utf8');
+  const productCommandSource = fs.readFileSync(path.join(process.cwd(), 'src', 'shared', 'productCommandRegistry.cjs'), 'utf8');
+  const relationListenerStart = editorSource.indexOf("atlasRelationDossierHost?.addEventListener('click'");
+  const relationListenerEnd = editorSource.indexOf("atlasHeatmapHost?.addEventListener('click'", relationListenerStart);
+  const relationListenerSource = editorSource.slice(relationListenerStart, relationListenerEnd);
 
   assert.match(mainSource, /const ATLAS_RELATION_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_RELATION_DOSSIER/u);
   assert.match(mainSource, /loadAtlasRelationDossierModule/u);
@@ -213,13 +217,20 @@ test('E05 C03: renderer and main wire relation dossier through typed host and no
   assert.match(editorSource, /data-atlas-relation-pair-id/u);
   assert.match(editorSource, /isAtlasRelationReviewActionCommandId/u);
   assert.doesNotMatch(editorSource, /ATLAS_RELATION_DOSSIER_QUERY_ID[\s\S]{0,800}invokePreloadUiCommandBridge/u);
-  assert.doesNotMatch(editorSource, /data-atlas-relation-action-id[\s\S]{0,900}dispatchUiCommand/u);
+  assert.equal(relationListenerStart >= 0, true);
+  assert.equal(relationListenerEnd > relationListenerStart, true);
+  assert.match(relationListenerSource, /data-atlas-relation-action-id/u);
+  assert.match(relationListenerSource, /await dispatchUiCommand\(commandId,\s*\{/u);
+  assert.match(relationListenerSource, /commandAuthority:\s*'CommandKernel'/u);
+  assert.doesNotMatch(relationListenerSource, /Atlas review action intent:/u);
+  assert.doesNotMatch(relationListenerSource, /reduceCoreState|writeFile|localStorage\.setItem/u);
 
   assert.match(cssSource, /\.right-rail-surface--atlas-relation-dossier/u);
   assert.match(cssSource, /\.right-rail-atlas-action:focus-visible/u);
   assert.match(actionSource, /atlas\.observation\.suppress/u);
   assert.match(actionSource, /atlas\.observation\.reassign/u);
   assert.match(actionSource, /atlas\.evidence\.reattach/u);
-  assert.match(capabilitySource, /'atlas\.observation\.suppress': 'cap\.atlas\.observation\.suppress'/u);
-  assert.match(capabilitySource, /'atlas\.evidence\.reattach': 'cap\.atlas\.evidence\.reattach'/u);
+  assert.match(capabilitySource, /PRODUCT_COMMAND_CAPABILITY_BINDING/u);
+  assert.match(productCommandSource, /id: 'atlas\.observation\.suppress'[\s\S]{0,160}capabilityId: 'cap\.atlas\.observation\.suppress'/u);
+  assert.match(productCommandSource, /id: 'atlas\.evidence\.reattach'[\s\S]{0,160}capabilityId: 'cap\.atlas\.evidence\.reattach'/u);
 });

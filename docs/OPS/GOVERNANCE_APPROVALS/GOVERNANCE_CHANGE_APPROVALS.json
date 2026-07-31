@@ -535,10 +535,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
-      "sha256": "f76a9c5060cd536fe7f07b576f91bfca7ce6c664c325c2c2f9eedbfb75fc9ceb",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-30T05:24:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E06 C08 contract: proves diagnostics packet closes Stage 06 time calendar continuity acceptance, exports Stage 06 audit schema constants, embeds calendar assumption, evidence-backed finding, hot-path, and Stage 07 handoff gates, degrades honestly when continuity ledger capability is disabled, keeps previous diagnostics renderer naming compatible, and keeps expanded diagnostics derived sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, automatic correction, automatic apply, manuscript mutation, project truth mutation, or hidden UI bypasses."
+      "sha256": "c60adc9b01870641ce667a5129bc69e4cfc4e23c52338396402e0b7e24d3d32a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T04:18:37.000Z",
+      "rationale": "Approve ER C00 repair to invalidate the previous E06 C08 Stage 06 acceptance handoff: calendar, continuity, and hot-path diagnostics may remain locally informative, but the Stage 06 proof now includes an external-machine-evidence gate and stays NOT_READY until real artifacts bind the target SHA, platform profile, visual, accessibility, responsive, performance, and packaged evidence."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AUTHOR_CORRECTION_ROUTE_RECEIPT.json",
@@ -647,10 +647,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
-      "sha256": "33c164694e7236286f90a5232b114557a310eef21bcf573c2e52d535163346de",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE",
-      "approvedAtUtc": "2026-07-30T02:56:40.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E05 C07 diagnostics, degraded capability, and Stage 05 acceptance contract: proves read-only diagnostics packet, surface fallback inventory, degraded capability report, Stage 05 acceptance proof, repo-native final UI audit and heuristic receipts, explicit heavy-surface guard, large-project nonblocking guard, main query bridge allowlist, typed right-rail diagnostics surface, and side-effect boundaries while preserving no project truth mutation, no storage write, no network runtime, no hidden renderer mutation, no worker or daemon, no new dependency, and no release readiness claim."
+      "sha256": "892fbd6c81fe8dd4403b1409e8641de4a5a1d2a36456c2e23da3cf79a6e9fe3b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T04:18:37.000Z",
+      "rationale": "Approve ER C00 repair to invalidate the previous E05 C07 Stage 05 readiness assertion: diagnostics remains read-only and side-effect closed, but missing external visual, accessibility, responsive, performance, and packaged machine artifacts force summary.stageAcceptance not_ready, finalBar NOT_READY, Lazyweb and heuristic rows advisory only, and no static repo-native row can close Stage 05 readiness."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_STAGE_ACCEPTANCE_RECEIPT.json",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "39a4887ba57a82562fbd362751ecccbe353ed6912d1289eab40e918392e2af55",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
-      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
-      "rationale": "Approve bounded V4 E05 Sector-M scope-map update: adds only SourceMap UniqueDiff core, E05 receipt, and contract to exact RTK DONE allowlist while preserving E04 entries; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, and no Google execution."
+      "sha256": "1ddd9e8d8eac22869c3cf5b3aa4e30b80783f73001a5d32a5606bede564ae82e",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_AND_YALKEN_ATLAS_V5_ER_C00_MERGE_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T08:05:00.000Z",
+      "rationale": "Approve merged Sector-M scope-map rebind after origin/main drift: preserves Atlas ER C00 exact diagnostics-stage path and RTK E05 exact SourceMap UniqueDiff core, receipt, and contract additions; no wildcard prefix, UI, dependency, network, phase widening, Google execution, or runtime readiness claim is introduced."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -5600,6 +5600,20 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
       "approvedAtUtc": "2026-07-31T04:45:00.000Z",
       "rationale": "Approve V4 E02 contract coverage: proves physical C01 evidence binding, custom document property carrier selection, fragile carrier rejection, placement-signal non-authority, capability state update, no YRTK2/runtime apply claim, and negative red cases for stale evidence, customXml selection, overclaim, runtime expansion, and Google drift."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
+      "sha256": "b2f7c5c990ee07d29088d76d14783c40fff7f024c26d698a701266fdd4baf27a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T04:18:37.000Z",
+      "rationale": "Approve ER C00 false-green guard coverage: proves Stage 10 readiness is not exposed as a runtime-derived self-attestation, Atlas diagnostics defaults to NOT_READY without external machine evidence, quiet-write no longer uses a PASS/PASS ternary, Lazyweb and heuristic rows are advisory only, and the repair receipt must bind target SHA, artifact digest, invalidated evidence, unsatisfied outcomes, and non-pending PASS validation rows."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",
+      "sha256": "5a277d00ca94bd8b0492ebf9ba552175f559ba58cef3ae0b40eb8311eb8318d0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T05:07:14.000Z",
+      "rationale": "Approve ER C00 receipt after RTK E04 drift reconciliation: records the audit repair macro-stage, base SHA 0b31dc30eb2cb0e7fb488ae7bd56e1e9fb72c3e3, NOT_READY default for missing external machine evidence, invalidated E05/E06/E10 readiness evidence, unsatisfied Stage 01/02/03/05 outcomes, Stage 11 NOT_STARTED, advisory-only Lazyweb and heuristic evidence, dev-mode pre-merge ops guard proof, Sector-M exact allowlist proof, and local full-runner PASS artifact digest 7a6f5073d4ba07d490b2d7a040bacf528b3f5cdf9b10b7030ed5f13b044fb0c0 without pending PASS rows."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportYrtk2Core.mjs",

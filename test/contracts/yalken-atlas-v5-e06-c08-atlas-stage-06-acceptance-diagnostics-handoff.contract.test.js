@@ -183,7 +183,7 @@ function capabilitySnapshot(overrides = {}) {
   };
 }
 
-test('E06 C08: diagnostics packet closes Stage 06 time calendar continuity acceptance', async () => {
+test('E06 C08: diagnostics packet keeps Stage 06 acceptance invalidated without external machine evidence', async () => {
   const { derived, projectId, state } = await buildStage06DiagnosticsFixture();
   const diagnostics = derived.deriveAtlasDiagnosticsStageAcceptance({
     coreState: state,
@@ -195,12 +195,14 @@ test('E06 C08: diagnostics packet closes Stage 06 time calendar continuity accep
   assert.equal(diagnostics.value.stageAcceptanceProof.stageId, 'E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS');
   assert.equal(diagnostics.value.stage06AcceptanceProof.schemaVersion, derived.ATLAS_STAGE_06_ACCEPTANCE_PROOF_SCHEMA_VERSION);
   assert.equal(diagnostics.value.stage06AcceptanceProof.stageId, 'E06_STAGE_06_TIME_CALENDAR_CONTINUITY_CONTOURS');
-  assert.equal(diagnostics.value.stage06AcceptanceProof.pass, true);
-  assert.equal(diagnostics.value.summary.stageAcceptance, 'pass');
-  assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'stage06-time-calendar-continuity-acceptance' && gate.status === 'PASS'));
+  assert.equal(diagnostics.value.stage06AcceptanceProof.pass, false);
+  assert.equal(diagnostics.value.summary.stageAcceptance, 'not_ready');
+  assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'stage06-time-calendar-continuity-acceptance' && gate.status === 'DEGRADED'));
   assert.ok(diagnostics.value.stage06AcceptanceProof.gates.some((gate) => gate.id === 'stage06-calendar-assumption-audit' && gate.status === 'PASS'));
   assert.ok(diagnostics.value.stage06AcceptanceProof.gates.some((gate) => gate.id === 'stage06-evidence-backed-finding-audit' && gate.status === 'PASS'));
   assert.ok(diagnostics.value.stage06AcceptanceProof.gates.some((gate) => gate.id === 'stage06-large-project-ui-hot-path-proof' && gate.status === 'PASS'));
+  assert.ok(diagnostics.value.stage06AcceptanceProof.gates.some((gate) => gate.id === 'stage06-external-machine-evidence' && gate.status === 'NOT_READY'));
+  assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'external-machine-evidence' && gate.status === 'NOT_READY'));
   assert.equal(diagnostics.value.calendarAssumptionAudit.schemaVersion, derived.ATLAS_CALENDAR_ASSUMPTION_AUDIT_SCHEMA_VERSION);
   assert.equal(diagnostics.value.calendarAssumptionAudit.hiddenAssumptions, false);
   assert.equal(diagnostics.value.calendarAssumptionAudit.externalTimeService, false);
@@ -213,6 +215,7 @@ test('E06 C08: diagnostics packet closes Stage 06 time calendar continuity accep
   assert.equal(diagnostics.value.stage06HotPathProof.temporalLayoutExplicitOpen, true);
   assert.equal(diagnostics.value.stage06HotPathProof.continuityLedgerExplicitOpen, true);
   assert.equal(diagnostics.value.stage06HotPathProof.pass, true);
+  assert.equal(diagnostics.value.finalUiAuditReceipt.finalBar.status, 'NOT_READY');
   assert.ok(diagnostics.value.surfaceFallbackInventory.rows.some((row) => row.surfaceId === 'surface.atlas.temporalLayout'));
   assert.ok(diagnostics.value.surfaceFallbackInventory.rows.some((row) => row.surfaceId === 'surface.atlas.continuityLedger'));
   assert.match(diagnostics.value.summary.diagnosticsHash, /^[0-9a-f]{64}$/u);

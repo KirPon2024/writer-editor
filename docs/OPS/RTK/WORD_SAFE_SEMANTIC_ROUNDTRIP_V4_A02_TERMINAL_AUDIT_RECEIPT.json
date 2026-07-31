@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a02-terminal-audit-receipt.v1",
+  "taskId": "YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
+  "status": "WORD_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-07-31T16:19:31.790Z",
+  "base": {
+    "originMainSha": "936838c77238c344d72a67dd5761214efa4e9f45",
+    "branch": "codex/rtk-word-a02-terminal-audit-a03-list",
+    "headSha": "dcc154fe70d8e0334124a7f37d97afcecd5b7f3c"
+  },
+  "wordProfile": {
+    "versionByAppleScript": "16.111.2",
+    "targetedWordProcessProbe": {
+      "ok": true,
+      "processName": "Microsoft Word",
+      "bundleIdentifier": "com.microsoft.Word",
+      "windowCount": 0,
+      "windowNames": ""
+    },
+    "preexistingOpenDocumentsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "postOpenDocumentsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "openDocumentSetUnchanged": true
+  },
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true
+  },
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/a02-terminal-audit",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": true,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false
+  },
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/a02-terminal-audit",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/a02-terminal-audit/a02-terminal-20260731T161847Z",
+  "wordSandboxRunDir": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/a02-terminal-audit/a02-terminal-20260731T161847Z",
+  "sourceEvidence": {
+    "targetedGapClosureReceipt": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+      "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
+      "status": "MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE_COMPLETE_NOT_SATURATED"
+    },
+    "saturationLedgerReceipt": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "3487fb987f7a95e489264d13282bf76e81b6330108b85d7be93f72f1e1fc67ae",
+      "status": "WORD_SATURATION_A02_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED"
+    }
+  },
+  "authorityLevelVocabulary": [
+    "PHYSICAL_WORD_PROVEN",
+    "COMPONENT_PROVEN",
+    "PRODUCT_RUNTIME_WIRED",
+    "AUTOMATIC_APPLY_CERTIFIED"
+  ],
+  "capabilityFamilies": {
+    "rootModernComments": {
+      "physicalWordProven": true,
+      "componentProven": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "status": "PHYSICAL_WORD_PROVEN_SHADOW_ANALYSIS_PROMOTION_CANDIDATE"
+    },
+    "modernReplies": {
+      "physicalWordProven": false,
+      "componentProven": false,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "status": "TYPED_LIMITATION_REPLY_PARENT_LINK_ZERO"
+    },
+    "modernResolveSaveCloseReopen": {
+      "physicalWordProven": true,
+      "componentProven": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "status": "PHYSICAL_WORD_PROVEN_STATE_READBACK_ONLY"
+    },
+    "modernReopenAfterResolve": {
+      "physicalWordProven": false,
+      "componentProven": false,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "status": "TYPED_LIMITATION_DONE_FALSE_AFTER_REOPEN_NOT_READBACK"
+    },
+    "commentDelete": {
+      "physicalWordProven": true,
+      "componentProven": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "status": "PHYSICAL_WORD_PROVEN_SHADOW_ANALYSIS_PROMOTION_CANDIDATE"
+    },
+    "trackedNonOverlapRevisions": {
+      "physicalWordProven": true,
+      "componentProven": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "status": "PHYSICAL_WORD_PROVEN_SHADOW_ANALYSIS_PROMOTION_CANDIDATE"
+    },
+    "tripleAdjacentTrackedEdits": {
+      "physicalWordProven": false,
+      "componentProven": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "status": "WORD_MODEL_TYPED_LIMITATION"
+    },
+    "literalOverlappingTrackedEdits": {
+      "physicalWordProven": false,
+      "componentProven": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "status": "WORD_NORMALIZED_DIAGNOSTIC_ONLY_NOT_AUTOMATIC"
+    }
+  },
+  "metricClarifications": {
+    "modernReplies": {
+      "certified": 0,
+      "attempted": 1,
+      "status": "TYPED_LIMITATION"
+    },
+    "resolveSaveCloseReopen": {
+      "certified": 1,
+      "attempted": 1
+    },
+    "resolveThenReopenRoundtrip": {
+      "certified": 0,
+      "attempted": 1
+    },
+    "delete": {
+      "certified": 1,
+      "attempted": 1
+    },
+    "previousAmbiguousReplyResolveDeletePercentRetired": true,
+    "ncuiT07": "WORD_NORMALIZED_NON_OVERLAP_DIAGNOSTIC_ONLY",
+    "ncuiT17": "TYPED_LIMITATION_TWO_EXPECTED_TOKENS_MISSING_IN_PRIOR_RECEIPT"
+  },
+  "microLab": {
+    "genericWaveRepeated": false,
+    "modernCommentResolveReopen": {
+      "id": "A02-MC-RESOLVE-REOPEN",
+      "family": "modernCommentResolveReopenMicroLab",
+      "route": "single root modern comment plus stable named AX controls only",
+      "result": "TYPED_LIMITATION",
+      "deterministicSelectedThreadBinding": true,
+      "selectedThreadBindingBasis": "exactly one root comment in a synthetic document before resolve attempt",
+      "coordinateOnlyClicksUsed": false,
+      "errorDigest": "",
+      "controls": {
+        "resolveControlsBeforeDigest": "sha256:3f16ae45a9a23cd19c035ae0bb288a6ff90505145c3379d34ee161c63a5f4426",
+        "resolveClickResult": "1|true",
+        "reopenControlsBeforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reopenControlsAfterReopenDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "reopenClickResult": "0|false",
+        "resolveControlCount": 1,
+        "reopenControlCount": 0,
+        "resolveStableControlBound": true,
+        "reopenStableControlBound": false
+      },
+      "returnedDocx": {
+        "resolvedPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/a02-terminal-audit/a02-terminal-20260731T161847Z/returned-docx/A02-MC-RESOLVE-REOPEN-resolved.docx",
+        "resolvedSha256": "sha256:8662ce87910fbaf46403cc694e9e95f4a4a6cf0b3470ea5bebb8296d05bdf1a2",
+        "reopenedPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/a02-terminal-audit/a02-terminal-20260731T161847Z/returned-docx/A02-MC-RESOLVE-REOPEN-reopened.docx",
+        "reopenedSha256": "sha256:8662ce87910fbaf46403cc694e9e95f4a4a6cf0b3470ea5bebb8296d05bdf1a2"
+      },
+      "packageReadback": {
+        "resolved": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "commentTokensFound": [],
+          "commentTokensMissing": [
+            "178554A02RESOLVE001"
+          ],
+          "doneTrueCount": 1,
+          "doneFalseCount": 0,
+          "parentLinkCount": 0,
+          "peopleCount": 1,
+          "commentsIdsCount": 1,
+          "commentsExtensibleCount": 0,
+          "trackedTokensFound": [],
+          "trackedTokensMissing": [],
+          "insertionCount": 0,
+          "deletionCount": 0,
+          "deletedTextCount": 0,
+          "documentTextDigest": "sha256:38bf75e5b29ae8d6af3b404b750a9937784017439fe0b65c5dd6ebc15cede9b7"
+        },
+        "reopened": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "commentTokensFound": [],
+          "commentTokensMissing": [
+            "178554A02RESOLVE001"
+          ],
+          "doneTrueCount": 1,
+          "doneFalseCount": 0,
+          "parentLinkCount": 0,
+          "peopleCount": 1,
+          "commentsIdsCount": 1,
+          "commentsExtensibleCount": 0,
+          "trackedTokensFound": [],
+          "trackedTokensMissing": [],
+          "insertionCount": 0,
+          "deletionCount": 0,
+          "deletedTextCount": 0,
+          "documentTextDigest": "sha256:38bf75e5b29ae8d6af3b404b750a9937784017439fe0b65c5dd6ebc15cede9b7"
+        }
+      },
+      "typedLimitation": "AX_RESOLVE_REOPEN_DID_NOT_PRODUCE_DONE_TRUE_THEN_DONE_FALSE_OOXML_READBACK"
+    },
+    "tripleAdjacentTrackedEdits": {
+      "id": "A02-T17-REBIND-SAVE-REOPEN",
+      "family": "tripleAdjacentTrackedEditsMicroLab",
+      "route": "save close reopen between adjacent replacements with range rebinding from current Word text",
+      "result": "TYPED_LIMITATION",
+      "strategy": "SAVE_CLOSE_REOPEN_BETWEEN_EDITS_AND_REBIND_TARGET_RANGE",
+      "coordinateOnlyClicksUsed": false,
+      "wordVisibleEvidence": {
+        "reopenedTextDigest": "sha256:3550c60f1b93f6b4409410462cef858c9ad4accec79493f004dccdc3dc1ffd4b"
+      },
+      "errorDigest": "",
+      "expectedTokens": [
+        "178554A02T17C",
+        "178554A02T17B",
+        "178554A02T17A"
+      ],
+      "returnedDocx": {
+        "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/a02-terminal-audit/a02-terminal-20260731T161847Z/returned-docx/A02-T17-REBIND.docx",
+        "sha256": "sha256:07a19536ed3b46fee7e5c5d51125ba6a71883fc3fc0a00e2d8d9be9b7dee7d91"
+      },
+      "packageReadback": {
+        "packagePartCount": 12,
+        "commentRelatedParts": [
+          "word/people.xml"
+        ],
+        "commentCount": 0,
+        "commentTokensFound": [],
+        "commentTokensMissing": [],
+        "doneTrueCount": 0,
+        "doneFalseCount": 0,
+        "parentLinkCount": 0,
+        "peopleCount": 1,
+        "commentsIdsCount": 0,
+        "commentsExtensibleCount": 0,
+        "trackedTokensFound": [],
+        "trackedTokensMissing": [
+          "178554A02T17C",
+          "178554A02T17B",
+          "178554A02T17A"
+        ],
+        "insertionCount": 2,
+        "deletionCount": 2,
+        "deletedTextCount": 2,
+        "documentTextDigest": "sha256:7574fba5e7304e544b714d481d01a39bc2168b54e676f27ade44dd70c8006bae"
+      },
+      "typedLimitation": "TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_NORMALIZED_OR_LOST_IDENTITIES_AFTER_REBIND_STRATEGY"
+    }
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "falseSupport": 0,
+    "noOpPass": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "productRuntimeAuthorityExpansion": 0
+  },
+  "a02Verdict": "TERMINAL_A02_WORD_AUDIT_COMPLETE_NOT_SATURATED_A03_READY",
+  "wordSaturated": false,
+  "googleDocsOpened": false,
+  "nextStage": "EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR",
+  "receiptDigest": "sha256:e6d99db89dd44397e8540c14f9c970bf973db08d1c486012755e495e42ef9455"
+}

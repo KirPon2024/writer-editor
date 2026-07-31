@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED",
+  "status": "WORD_16_111_2_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,9 +388,9 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "TARGETED_GAP_CLOSURE_A02_RECONCILED_WITH_TYPED_LIMITATIONS",
+      "currentCapability": "A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED",
       "physicalWordEvidence": true,
-      "consumer": "EXECUTION_12 A02 terminal Word audit before A03 promotion list",
+      "consumer": "EXECUTION_03 A03 safe portability improvements runtime contour",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
       "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
       "physicalTotals": {
@@ -482,17 +482,20 @@
         "NCUI-002 range-shift token loss is fixed by end-to-start selected ranges",
         "native root modern comments survive save close reopen with commentsExtended commentsIds commentsExtensible people parts",
         "non-overlap tracked replacements, adjacent replacements, sequential replacements, paragraph-boundary replacements, and comments adjacent to revisions survive semantic readback",
-        "Word object-model delete of a comment thread is physically read back as removed without granting manuscript apply authority"
+        "Word object-model delete of a comment thread is physically read back as removed without granting manuscript apply authority",
+        "A02 terminal audit separates PHYSICAL_WORD_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED",
+        "modern resolve control can be deterministically bound and produces done true readback, but reopen done false is not certified",
+        "triple-adjacent tracked edits remain Word-model typed limitation after save-close-reopen range rebinding",
+        "A03 promotion list is ready for a separate runtime contour through existing ports and Command Kernel"
       ],
       "limitations": [
-        "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
-        "WAVE300_REPEAT_STABLE_ZERO_VETO_PROVEN_BUT_NOT_SATURATED",
-        "WORD_APPLESCRIPT_PARENT_COMMENT_DOES_NOT_PERSIST_AS_MODERN_REPLY_GRAPH",
-        "WORD_APPLESCRIPT_DONE_PROPERTY_DOES_NOT_PERSIST_RESOLVE_REOPEN_STATE",
-        "MULTI_SCENE_APPLY_REMAINS_SHADOW_ONLY_TYPED_LIMITATION",
-        "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED"
+        "MODERN_REPLY_REMAINS_ZERO_PARENT_LINK_NOT_CERTIFIED",
+        "MODERN_RESOLVE_REOPEN_ROUNDTRIP_REMAINS_TYPED_LIMITATION_UNTIL_DONE_FALSE_READBACK",
+        "TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_TYPED_LIMITATION",
+        "PRODUCT_RUNTIME_WIRING_NOT_STARTED_IN_A02",
+        "AUTOMATIC_APPLY_NOT_CERTIFIED_IN_A02"
       ],
-      "killCriterion": "Word SATURATED is claimed while remaining typed limitations exist, any veto becomes nonzero, Google Docs opens before Word saturation, or targeted corpus evidence is replaced by a generic wave repeat.",
+      "killCriterion": "Any physical evidence row is claimed as product runtime wiring or automatic apply, any veto becomes nonzero, or Google Docs opens before A03 Word runtime decision delivery.",
       "wave100EvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
       "wave300EvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json",
       "stabilityLimitationAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -532,6 +535,66 @@
           "requiredStableWaves": 2,
           "percent": 100,
           "productCapability": "A02_PHYSICAL_SCALE_STABILITY_PROVEN_WITH_TYPED_LIMITATIONS"
+        }
+      },
+      "a02TerminalAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
+      "a03PromotionListPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+      "capabilityFamilyStatus": {
+        "rootModernComments": {
+          "physicalWordProven": true,
+          "componentProven": true,
+          "productRuntimeWired": false,
+          "automaticApplyCertified": false,
+          "status": "PHYSICAL_WORD_PROVEN_SHADOW_ANALYSIS_PROMOTION_CANDIDATE"
+        },
+        "modernReplies": {
+          "physicalWordProven": false,
+          "componentProven": false,
+          "productRuntimeWired": false,
+          "automaticApplyCertified": false,
+          "status": "TYPED_LIMITATION_REPLY_PARENT_LINK_ZERO"
+        },
+        "modernResolveSaveCloseReopen": {
+          "physicalWordProven": true,
+          "componentProven": true,
+          "productRuntimeWired": false,
+          "automaticApplyCertified": false,
+          "status": "PHYSICAL_WORD_PROVEN_STATE_READBACK_ONLY"
+        },
+        "modernReopenAfterResolve": {
+          "physicalWordProven": false,
+          "componentProven": false,
+          "productRuntimeWired": false,
+          "automaticApplyCertified": false,
+          "status": "TYPED_LIMITATION_DONE_FALSE_AFTER_REOPEN_NOT_READBACK"
+        },
+        "commentDelete": {
+          "physicalWordProven": true,
+          "componentProven": true,
+          "productRuntimeWired": false,
+          "automaticApplyCertified": false,
+          "status": "PHYSICAL_WORD_PROVEN_SHADOW_ANALYSIS_PROMOTION_CANDIDATE"
+        },
+        "trackedNonOverlapRevisions": {
+          "physicalWordProven": true,
+          "componentProven": true,
+          "productRuntimeWired": false,
+          "automaticApplyCertified": false,
+          "status": "PHYSICAL_WORD_PROVEN_SHADOW_ANALYSIS_PROMOTION_CANDIDATE"
+        },
+        "tripleAdjacentTrackedEdits": {
+          "physicalWordProven": false,
+          "componentProven": true,
+          "productRuntimeWired": false,
+          "automaticApplyCertified": false,
+          "status": "WORD_MODEL_TYPED_LIMITATION"
+        },
+        "literalOverlappingTrackedEdits": {
+          "physicalWordProven": false,
+          "componentProven": true,
+          "productRuntimeWired": false,
+          "automaticApplyCertified": false,
+          "status": "WORD_NORMALIZED_DIAGNOSTIC_ONLY_NOT_AUTOMATIC"
         }
       }
     }

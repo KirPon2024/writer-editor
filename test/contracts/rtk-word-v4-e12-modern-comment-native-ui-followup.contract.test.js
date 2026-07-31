@@ -98,9 +98,9 @@ test('E12 saturation ledger binds native UI physical limitation and keeps Word c
   assert.equal(binding.path, RECEIPT_PATH);
   assert.equal(ledger.coverageLedger.modernCommentNativeUiFollowup.status, 'BOUND');
   assert.equal(ledger.coverageLedger.modernCommentNativeUiFollowup.outcome, 'TARGETED_30_CASE_NATIVE_UI_GAP_CLOSURE_CONFIRMED_WITH_TYPED_LIMITATIONS_NO_GENERIC_WAVE_REPEAT');
-  assert.equal(ledger.notSaturatedReasons.includes('MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION'), true);
-  assert.equal(ledger.notSaturatedReasons.includes('NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED'), true);
+  assert.equal(ledger.notSaturatedReasons.includes('MODERN_REPLY_REMAINS_ZERO_PARENT_LINK_NOT_CERTIFIED'), true);
+  assert.equal(ledger.notSaturatedReasons.includes('TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_TYPED_LIMITATION'), true);
   assert.equal(ledger.saturationRule.saturated, false);
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR');
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });

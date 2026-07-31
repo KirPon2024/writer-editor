@@ -1,0 +1,596 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e06-physical-text-certification-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_06_PHYSICAL_TEXT_CERTIFICATION",
+  "status": "PHYSICAL_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "createdAtUtc": "2026-07-31T08:35:00.000Z",
+  "base": {
+    "originMainSha": "d1349c5ff93994242f8932380732154b65767ef7",
+    "branch": "codex/rtk-v4-e06-physical-text-certification",
+    "preserveOwnerDirtyMain": true,
+    "preserveAtlasWorktree": true,
+    "v6HistoryRewritten": false,
+    "d1EvidenceRewritten": false
+  },
+  "boundSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "blockId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4"
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "certifiedProfileId": "word-mac-latest-observed-16.111.x-semantic-v2-e06-physical-text",
+    "requestedVersionFromOwnerBrief": "16.111.2",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
+    "versionByAppleScript": "16.111.2",
+    "openDocumentsBeforeLab": 1,
+    "observedVersionMatchesOwnerPatchBrief": true,
+    "observedVersionClass": "WORD_16_111_FAMILY",
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "externalEvidence": {
+    "artifactRootKind": "T7_SECURE_SYNTHETIC_PHYSICAL_WORD_LAB",
+    "runId": "e06-physical-text-001",
+    "externalReceiptPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e06-physical-text-certification/e06-physical-text-001/b06-physical-certification-receipt.json",
+    "externalReceiptSha256": "f2bba49d7d026f7a31d2594116b8f224777196147c8aa63c4b48607e6a76951a",
+    "externalReceiptDigest": "sha256:1a66926a25f22ba7eb3417381a2515c639244941b5dd9b0b7cdb87f6d95a7a52",
+    "externalFileAvailableAtReceiptCreation": true,
+    "wordWorkRoot": "/tmp/YalkenWordLab/word-safe-semantic-v4/e06-physical-text-certification",
+    "syntheticOnly": true,
+    "userDocumentsOpened": false,
+    "closeNonLabDocuments": false
+  },
+  "physicalTextTotals": {
+    "physicalRoundTrips": 32,
+    "physicalOpenEditSaveCloseReopenPass": 32,
+    "parserPass": 31,
+    "commentDeclaredCases": 8,
+    "commentVisibleAndParsedCases": 6,
+    "exactAutomaticCandidates": 0,
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "productNetworkRequests": 0,
+    "unsupportedTypedCases": 32,
+    "sourceModes": {
+      "MIXED": 17,
+      "CLEAN": 15
+    }
+  },
+  "physicalCertificationBoundary": {
+    "proven": [
+      "Word 16.111.2 create open edit save close reopen on 32 synthetic DOCX round trips",
+      "tracked and clean text edits are physically returned and parsed into typed lanes",
+      "basic insert delete replace repeated text paragraph split merge Unicode and writer-scale text cases are covered",
+      "100k and 250k word synthetic writer-scale text cases pass Word and parser gates",
+      "hostile post-Word package negative remains typed BLOCKED",
+      "veto metrics remain zero"
+    ],
+    "notProven": [
+      "automatic EXACT apply authority expansion",
+      "signed locator survival through a full apply/re-export oracle",
+      "modern comment replies resolve reopen as certified support",
+      "tables sections footnotes fields as automatic text apply support",
+      "Word Compare Combine topology as certified automatic support"
+    ]
+  },
+  "textCertificationCases": [
+    {
+      "caseId": "WL2-001",
+      "title": "insert at beginning middle and end",
+      "family": "basic text insert delete replace",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 2,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 4,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:72ec9f018da7f31d4c48728f02af5e53d0a2e6f7db0047b0e65e8f00626dae6a",
+      "returnedDocxSha256": "sha256:3991e72fa2036c9134e045ec85f3d2bcb24642bd74dbf5eaa3419b92e2e238c1",
+      "returnedBytes": 13544,
+      "analysisDigest": "sha256:3721a7b45bf458171252f78a9212b28c5c58deb2aa296b9f89fd0b96d85e1c92",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:24ff1fad8294b796b06001b7bc63fafe0aab7626fb37071b82f622cf24b79bef",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-002",
+      "title": "delete word sentence and cross-line range",
+      "family": "basic text insert delete replace",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 2,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 1,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 1,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:5b6a3b38b896e9eb7800e8e14c846926951007e280fb76ffda47adaa220cae14",
+      "returnedDocxSha256": "sha256:9074e43672203ce7ba560b8062c067b62f7cd2ee6946d685b4fd5056ff514a90",
+      "returnedBytes": 13456,
+      "analysisDigest": "sha256:0dd737425f57e191456a17f6b2c5b8f367018b009cd1631f2f0e668b0d789627",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:a15c747226387fa909a1db3cc79abc09c05f9032b3f9406adb3709d00c792fd0",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-003",
+      "title": "replacement pair with provenance",
+      "family": "basic text insert delete replace",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 2,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 2,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:2048023fe1672cb140104fb3d4dacfc75623df8e696480675650b884cef5b70e",
+      "returnedDocxSha256": "sha256:2f6a446c46ed11840d98fdc0d12945b9510f411a1ce90306fbe5be8c064c3c45",
+      "returnedBytes": 13511,
+      "analysisDigest": "sha256:5c56fd948ca32c32194b2c2985c26404d95b026e0c9939620352f24e5fb27ddd",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:5b3380020487d1946a54d4638d27c05a311b921bb3af91adb999c94d5afd56ec",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-004",
+      "title": "repeated passages attack locator ambiguity",
+      "family": "repeated text locator ambiguity",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 1,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 1,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 1,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:7ad68b606f7700f194a6d1d62eb374d1d39467ddfa3d0b462dcfcdfa368eca7a",
+      "returnedDocxSha256": "sha256:a5d81a316702395b6fff0d55dd5a2d435721172fe664a5baf06f878ca64dec97",
+      "returnedBytes": 13474,
+      "analysisDigest": "sha256:b2bf1768ea7383a0f6509056a923ce46ce6474830e5d3252c21c1f4e1b21474f",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:f0a349c59f7de24fc294ba493de9c71729cc427c0b73d184a72ccc41e3aa9511",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-005",
+      "title": "paragraph split and merge",
+      "family": "paragraph split merge paragraph mark delete",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 1,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 4,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:b9d52871e053163b023bfe2834f909a07d4d57a6db609d57fe0b1820ac3b0edd",
+      "returnedDocxSha256": "sha256:baaab0b023457e27619e3e813466f34dba37a92e7d1263381c62a0e45decfad6",
+      "returnedBytes": 13515,
+      "analysisDigest": "sha256:02b5d4d41708b14dfc0f0890a0d643dcca2b2f8a0d4f84c15ca2af94fbf7b29a",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:a4c0f6a89d9ab7f1b468691d638db8f8b30bdc27b99bd6f8071e99df8ac8254a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-006",
+      "title": "deleted paragraph mark and empty line",
+      "family": "paragraph split merge paragraph mark delete",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 1,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 1,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 3,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:af40616a2458b09437845d02e18b357fab26533ff632fd7b23883b9919a0e118",
+      "returnedDocxSha256": "sha256:0c1dc324bd1871fa0bbc6d65a904b1068ed8eab460e5b46f49e7885153f7b91f",
+      "returnedBytes": 13463,
+      "analysisDigest": "sha256:74477ef8e54b32184298fc5541d01a9e509e65ba9865cb3baab1e9204ef18172",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:852602baa707780a8e9247a9d7df5bff6817f875a9a95da8acda938dbe84768f",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-009",
+      "title": "Track Changes off clean edit",
+      "family": "Track Changes on off mixed accept reject",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordRevisionCount": 0,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 0,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:ac030f8e27e2d70289ba51ea261d276180d3cd26153f8cffc2a7d72e0e4b84ca",
+      "returnedDocxSha256": "sha256:c88c8b75260ad37abacdf85df17ac2ca3f3fbec22ce092c59eb4a009976b8f49",
+      "returnedBytes": 12610,
+      "analysisDigest": "sha256:65581a48126fdb02dd3c650597c82b8b37659a1ab70cbb71afa588962f6039bf",
+      "parserProfileDigest": "sha256:b4ad50ca796f1690ca8f93f495bd591d2234ad9080274843af8e832500cf266a",
+      "wordReadbackDigest": "sha256:4fb83b19fbe2c5cd9fce2cbebb3fca9747fba9b9c33afd78612a44d1643bbba9",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-010",
+      "title": "mixed tracked and clean edits",
+      "family": "Track Changes on off mixed accept reject",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 1,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 1,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 1,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:3ff2e353ca1f47005e653719f35a31e9e83f14344923253b1bd179690d44bde4",
+      "returnedDocxSha256": "sha256:7a0701233b01b94ecd944481affecee4705b5867e51ea93d53c4182a5d57ba7a",
+      "returnedBytes": 13543,
+      "analysisDigest": "sha256:db214b0c9d82226bf680cdc137994f87bb47f0dcdea17dfd4da7a1e7ccd2178b",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:f0a349c59f7de24fc294ba493de9c71729cc427c0b73d184a72ccc41e3aa9511",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-021",
+      "title": "unicode locale and bidi corpus",
+      "family": "Unicode locale and bidi",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 3,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 5,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 7,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:33a02aaf5d4127f09c57ae7c45f2a204b47016b3d4d370eaae1be3baedc6e99c",
+      "returnedDocxSha256": "sha256:448ffbf236ca3f58e78d656507ef9911b07547e476bc2b20bda6c194589f3dd0",
+      "returnedBytes": 13833,
+      "analysisDigest": "sha256:df4c6c89c81bc02627930d6b9f26b8ecefbd844fc9ca700a2cdc4a1500a3af61",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:b249fd6cc02be1fc1bb0ad13c2529203bb22fd5288d3ac159c37ea8a68ab135c",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-026",
+      "title": "100k word writer scale text",
+      "family": "100k and 250k word scale",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 3,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 4,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:aead46bb662099a56b9aa69c81e3be21aa80d83ddabc063dd64861283ac16354",
+      "returnedDocxSha256": "sha256:1bd066eda62baeccf9474a2bf3fa35995dd213ba1651f1b5d1addb1e5c4f5635",
+      "returnedBytes": 258879,
+      "analysisDigest": "sha256:c4235f641068c0d594a4024d107d2f2c8d0856a50584c5cb0f1efa56b544706b",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:f7599320b4dda552178b6ab028d22bd1f2f0f8e554a35d5596545c1b31014d49",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-027",
+      "title": "250k word writer scale text",
+      "family": "100k and 250k word scale",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordRevisionCount": 2,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 7
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 0,
+        "blocked": 7,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:9973583e22cc2b02549101e70504ed6e98882aab7b2c300f385cd4b97e7b7108",
+      "returnedDocxSha256": "sha256:a1d286b1976f8a39b99e756b847fc279762b77ff3a77058ced72281ad41568ca",
+      "returnedBytes": 626459,
+      "analysisDigest": "sha256:c9ac545a25d00826e2535c376b0d3920ee2ddba9def6d897bc8a0a5d3ed4c7bc",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:8107e6440ad23eb2d2a902ff2f51359f6ff59094010fd925bb26c1a63743b69e",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-030",
+      "title": "supported apply re-export no-edit oracle",
+      "family": "no-edit conservation and re-export reopen oracle",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordRevisionCount": 3,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 4,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:8517e46737a08df3a9f9e28ba6499774156cedd41f1f5f73e4defb3112755b35",
+      "returnedDocxSha256": "sha256:2317a9ead4fcb9725d0ef6bfde09bf7a119194e58bea4c04c7b259b1ae2c40cf",
+      "returnedBytes": 13550,
+      "analysisDigest": "sha256:3c9737977125bd43878f2c59dbd1dbec7ef0e18e545ab3dabbf3c4b55c6e75c2",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "wordReadbackDigest": "sha256:2f64a716d0c941d1670385fb44044a8f43ceea884859c5ab76cd91f259089776",
+      "limitations": [
+        "SUPPORTED_APPLY_REEXPORT_ORACLE_REMAINS_BLOCKED_WHEN_SIGNED_LOCATOR_DROPS"
+      ]
+    },
+    {
+      "caseId": "WL2-031",
+      "title": "hostile and active content negative package",
+      "family": "stale tampered stripped duplicate and replay negatives",
+      "wordStatus": "PASS",
+      "parserStatus": "BLOCKED",
+      "sourceMode": "CLEAN",
+      "wordRevisionCount": 3,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 0
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 0,
+        "blocked": 0,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:2750e0cbf18eef6e0abceccac1457fa04c4b68564cc1c0910ce80b1a2579a0fe",
+      "returnedDocxSha256": "sha256:25d47b675e82e9f762011ff7c3b661ebdf87aa904ad17ae64eba6857ffdc4850",
+      "returnedBytes": 56097,
+      "analysisDigest": "",
+      "parserProfileDigest": "",
+      "wordReadbackDigest": "sha256:0bb534956d78f7db405f3641e2a7c3fd5488012a616048075f21a9d9c29ed33e",
+      "limitations": [
+        "POST_WORD_HOSTILE_PACKAGE_NEGATIVE"
+      ]
+    },
+    {
+      "caseId": "WL2-032",
+      "title": "locator carrier survival A B matrix",
+      "family": "modern comments package inventory",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordRevisionCount": 0,
+      "wordCommentCount": 0,
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "classificationSummary": {
+        "exactAutomaticCandidates": 0,
+        "manualReview": 0,
+        "blocked": 9,
+        "commentsOnly": 0
+      },
+      "exactAutomaticCandidateCount": 0,
+      "sourceDocxSha256": "sha256:2cc2b31ebaac7939dacf1e803cdb069c87af6c535b2f928621747fa4874d78a9",
+      "returnedDocxSha256": "sha256:f58428ff7c76d34064c4f3c5b4548598352e42fc7efe50bd17bc6060d77ec9fc",
+      "returnedBytes": 12576,
+      "analysisDigest": "sha256:36546e9a2887e831a12bd493d586f7f97baa27b6043dccc5f63165f230a7f1d7",
+      "parserProfileDigest": "sha256:b4ad50ca796f1690ca8f93f495bd591d2234ad9080274843af8e832500cf266a",
+      "wordReadbackDigest": "sha256:1d0d6282b45e0f659a500f51cb157358c386f39e4dd61c0113621e8b4bd6ee5e",
+      "limitations": []
+    }
+  ],
+  "typedLimitations": [
+    "COMMENT_RESOLVE_REOPEN_APPLESCRIPT_UNSUPPORTED",
+    "CROSS_SCENE_MOVE_RECORDED_AS_STRUCTURAL_BLOCKED_SURROGATE",
+    "HIGH_COMMENT_DENSITY_BOUNDED_TO_80_COMMENTS_IN_B06",
+    "MODERN_REPLY_UI_NOT_AVAILABLE_IN_APPLESCRIPT_DICTIONARY_PROBE",
+    "POST_WORD_HOSTILE_PACKAGE_NEGATIVE",
+    "POST_WORD_STRIPPED_LOCATOR_NEGATIVE",
+    "STYLE_LIST_HYPERLINK_SEMANTICS_SEE_PACKAGE_READBACK_MANUAL",
+    "SUPPORTED_APPLY_REEXPORT_ORACLE_REMAINS_BLOCKED_WHEN_SIGNED_LOCATOR_DROPS",
+    "TABLE_SECTION_FOOTNOTE_FIELD_AUTOMATION_NOT_CERTIFIED",
+    "WORD_APPLESCRIPT_MOVE_REVISION_NOT_PROVEN_REPRESENTED_AS_DELETE_INSERT",
+    "WORD_COMPARE_COMBINE_APPLESCRIPT_NOT_PROVEN_IN_B06"
+  ],
+  "runtimeClaims": {
+    "automaticApplyExpanded": false,
+    "writerAuthorityAdded": false,
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "dependencyAdded": false,
+    "networkAdded": false,
+    "fixtureOnlyPassClaimed": false,
+    "noOpCommentPassClaimed": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "productNetworkRequests": 0
+  },
+  "testEvidence": {
+    "localVerifierRequireExternal": "PASS node scripts/ops/rtk-word-v4-e06-physical-text-certification.mjs --json --require-external",
+    "focusedContracts": "PASS node --test test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js test/contracts/governance-approval-state.contract.test.js test/contracts/governance-change-detection.contract.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+    "governanceChangeDetection": "PASS node scripts/ops/governance-change-detection.mjs",
+    "ossPolicy": "PASS npm run -s oss:policy",
+    "opsPolicy": "PASS npm run -s test:ops",
+    "fullSuite": "PASS npm test -- --runInBand; tests 795 pass 731 fail 0 skipped 64; perf baseline PASS; menu and release candidate gates PASS"
+  },
+  "nextStage": "EXECUTION_07_COMMENTS_REPLIES_STATES",
+  "nonClaims": [
+    "E06 does not certify modern comments replies resolve or reopen support.",
+    "E06 does not expand automatic EXACT apply authority.",
+    "E06 does not create a product runtime writer path.",
+    "E06 does not certify Google Docs or any non-Word editor.",
+    "E06 does not rewrite V6 D1 or F00 history."
+  ]
+}

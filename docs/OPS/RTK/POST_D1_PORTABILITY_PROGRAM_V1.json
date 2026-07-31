@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "A00_A01_PROGRAM_AND_HARNESS_BOUND",
+  "status": "WORD_E06_PHYSICAL_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -366,12 +366,19 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_05_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "currentStage": "EXECUTION_05_SOURCEMAP_BOCG_PROJECTIONS_UNIQUEDIFF_BOUNDED_TEXT_EFFECTS",
-    "nextStage": "EXECUTION_06_PHYSICAL_TEXT_CERTIFICATION",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF_RECEIPT.json",
+    "status": "EXECUTION_06_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "currentStage": "EXECUTION_06_PHYSICAL_TEXT_CERTIFICATION",
+    "nextStage": "EXECUTION_07_COMMENTS_REPLIES_STATES",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
+    "physicalTextCertificationProven": true,
+    "physicalTextCertificationStatus": "PHYSICAL_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
+    "physicalWordRoundTrips": 32,
+    "physicalWordFalseExact": 0,
+    "physicalWordWrongSceneRouting": 0,
+    "physicalWordSilentApply": 0,
+    "physicalWordReplayFailure": 0,
     "runtimeApplyAuthorityGranted": false,
     "wordSaturationCurrentFocus": true,
     "googleDocsOpened": false,

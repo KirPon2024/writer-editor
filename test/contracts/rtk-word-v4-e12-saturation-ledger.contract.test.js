@@ -51,7 +51,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.status, 'WORD_SATURATION_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_SATURATED');
+  assert.equal(receipt.status, 'WORD_SATURATION_A03_C04_MODERN_COMMENT_STATE_BOUND_NOT_SATURATED');
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
   assert.equal(receipt.saturationRule.lastCompletedWaveTarget, 300);
@@ -59,7 +59,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
   assert.equal(receipt.saturationRule.currentWaveObservedRounds, 300);
   assert.equal(receipt.saturationRule.consecutiveStableApprovedWaves, 2);
   assert.equal(receipt.saturationRule.stableHistogram, true);
-  assert.equal(receipt.nextStage, 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS');
+  assert.equal(receipt.nextStage, 'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR');
   assert.equal(receipt.saturationRule.saturated, false);
   assert.equal(receipt.saturationRule.googleDocsAllowedToOpen, false);
   assert.equal(receipt.notSaturatedReasons.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), false);
@@ -69,13 +69,14 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   const receipt = readJson(RECEIPT_PATH);
   const bindings = new Map(receipt.evidenceBindings.map((item) => [item.id, item]));
 
-  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK', 'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION', 'E12_CUSTOM_XML_AUTHORITY_REROUTE', 'E12_MULTI_SCENE_APPLY_LIMITATION', 'E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE', 'E12_A02_TERMINAL_AUDIT', 'E12_A03_PROMOTION_LIST', 'A03_C01_COMMENT_SHADOW_RUNTIME', 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME', 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE']) {
+  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK', 'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION', 'E12_CUSTOM_XML_AUTHORITY_REROUTE', 'E12_MULTI_SCENE_APPLY_LIMITATION', 'E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE', 'E12_A02_TERMINAL_AUDIT', 'E12_A03_PROMOTION_LIST', 'A03_C01_COMMENT_SHADOW_RUNTIME', 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME', 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE', 'A03_C04_MODERN_COMMENT_STATE']) {
     assert.equal(bindings.get(id).status, 'BOUND');
     assert.match(bindings.get(id).sha256, /^[0-9a-f]{64}$/u);
   }
   for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300', 'physicalWave300Repeat', 'wave300ParserGapFollowup', 'modernCommentAppleScriptFollowup', 'customXmlAuthorityFollowup', 'multiSceneApplyFollowup', 'modernCommentNativeUiFollowup', 'a02TerminalAudit', 'a03PromotionList', 'a03C01CommentShadowRuntime', 'a03C02NonOverlapTrackedReplacementRuntime', 'a03C03AdjacentRangeNegativeOracle']) {
     assert.equal(receipt.coverageLedger[key].status, 'BOUND');
   }
+  assert.equal(receipt.coverageLedger.a03C04ModernCommentState.status, 'BOUND_STATE_READBACK_ONLY');
   assert.equal(receipt.aggregateTotals.physicalRoundTripsObserved, 300);
   assert.equal(receipt.aggregateTotals.visibleAnchoredCommentThreads, 638);
   assert.equal(receipt.aggregateTotals.wave40PhysicalOpenEditSaveCloseReopenPass, 40);
@@ -124,10 +125,15 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   assert.equal(receipt.aggregateTotals.a03C03AdjacentTwoTokenPhysicalPass, 1);
   assert.equal(receipt.aggregateTotals.a03C03TripleAdjacentIdentityLossTypedLimitation, 1);
   assert.equal(receipt.aggregateTotals.a03C03AutomaticApplyCertifiedRows, 0);
+  assert.equal(receipt.aggregateTotals.a03C04ModernCommentStateReadbackOnlyBound, 1);
+  assert.equal(receipt.aggregateTotals.a03C04CommentDeletePhysicalPass, 1);
+  assert.equal(receipt.aggregateTotals.a03C04ResolveDoneTrueReadbackOnly, 1);
+  assert.equal(receipt.aggregateTotals.a03C04ResolveReopenFullPass, 0);
+  assert.equal(receipt.aggregateTotals.a03C04ModernReplyPass, 0);
   assert.equal(receipt.runtimeClaims.productRuntimeChanged, true);
   assert.equal(receipt.runtimeClaims.writerAuthorityAdded, false);
   assert.equal(receipt.runtimeClaims.automaticApplyExpanded, false);
-  assert.equal(receipt.runtimeClaims.automaticApplyScope, 'none; C03 negative oracle only');
+  assert.equal(receipt.runtimeClaims.automaticApplyScope, 'none; C04 modern comment state readback gate only');
   assert.equal(receipt.aggregateTotals.focusedE11CoordinatorContracts, 7);
 });
 
@@ -193,22 +199,24 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED');
+  assert.equal(profile.status, 'WORD_16_111_2_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED');
+  assert.equal(cell.currentCapability, 'A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_NOT_PROMOTED');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED');
-  assert.equal(program.nextStep, 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS');
-  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE');
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS');
+  assert.equal(program.status, 'WORD_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED');
+  assert.equal(program.nextStep, 'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR');
+  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR');
   assert.equal(program.v4ExecutionState.rootModernCommentShadowRuntimeWired, true);
   assert.equal(program.v4ExecutionState.nonOverlapTrackedReplacementComponentProven, true);
   assert.equal(program.v4ExecutionState.nonOverlapTrackedReplacementProductCompositionRegistered, true);
   assert.equal(program.v4ExecutionState.nonOverlapTrackedReplacementRuntimeWired, false);
   assert.equal(program.v4ExecutionState.runtimeApplyAuthorityGranted, false);
-  assert.equal(program.v4ExecutionState.runtimeApplyAuthorityScope, 'NONE_C03_NEGATIVE_ORACLE_ONLY');
+  assert.equal(program.v4ExecutionState.runtimeApplyAuthorityScope, 'NONE_C04_STATE_READBACK_ONLY');
   assert.equal(program.v4ExecutionState.adjacentRangeNegativeOracleBound, true);
   assert.equal(program.v4ExecutionState.adjacentRangeAutomaticApplyCertified, false);
+  assert.equal(program.v4ExecutionState.modernCommentStateReadbackOnlyBound, true);
+  assert.equal(program.v4ExecutionState.modernResolveReopenCertified, false);
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });

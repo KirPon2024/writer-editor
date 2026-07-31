@@ -50,7 +50,9 @@ test('A03 C03 binds adjacent range negative oracle without product apply promoti
   assert.equal(row.authorityLevel.automaticApplyCertified, false);
   assert.equal(ledger.runtimeClaims.writerAuthorityAdded, false);
   assert.equal(ledger.runtimeClaims.automaticApplyExpanded, false);
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS');
+  assert.equal(receipt.nextStage, 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS');
+  assert.equal(program.v4ExecutionState.adjacentRangeNegativeOracleBound, true);
+  assert.equal(program.v4ExecutionState.runtimeApplyAuthorityGranted, false);
 });
 
 test('A03 C03 rejects automatic apply overclaim and missing triple-adjacent identity loss', async () => {

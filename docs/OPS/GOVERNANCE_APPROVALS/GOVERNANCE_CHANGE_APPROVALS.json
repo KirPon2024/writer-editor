@@ -1556,8 +1556,29 @@
       "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-compact.png",
+      "sha256": "06cecc06baedba84837e1ddd262e20eb9030b2082e30de74376dbce6b0a0b2b3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-desktop.png",
       "sha256": "c4c31ec93533c4e2fcc91e8ba66912d2e648a52c6a40b57846a7815ec77d2936",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-handset-advisory.png",
+      "sha256": "84956b363690a1bdeb4db4d1d209a454f57aaa0df417a1cf97182c83a312e059",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-laptop.png",
+      "sha256": "3e3c22d7da45791bc19cc0c65c3c9e087a542d912731f83bed4b76fdb5facc95",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
       "approvedAtUtc": "2026-07-31T22:06:11.513Z",
       "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
@@ -1858,10 +1879,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "de2222a414377e6cb123b05c180c473d0e1ddbf5baa95b50e4e7c0402a075377",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "91ad909c365c832ac2d6f0925f23c064583db47289535d61e0c7c505154944a4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -1990,11 +2011,18 @@
       "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "d38b7092143470ff8f738c5d6d28ba4f5bc96f2cdea177ac62b5b59d8ac68733",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C04_MODERN_COMMENT_STATE_RECEIPT.json",
+      "sha256": "abf76d9256a1d3cadb8fe2db681adeb536776be5a7d766c42f58bb5c4f7a3614",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+      "sha256": "7074cb0c0d704be6eb6d1f3e96c9ba8709bf4b5d58b8397b0aabfaf261d5a9c5",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
@@ -2012,10 +2040,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "c8af9829212c14cb6dfee5b3df60187f95d9bd03ea07f4b26b279d0da221aaa8",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "a9f46d17734b02f751eac9dbccc71e2947fb07e5d8317a520550c9b1ff1f689e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2152,10 +2180,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "e3d8e02f0a80976d9896209501e981fbe578339c77af627b92c212ab9de85ec7",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "61bd2cd942ec3f01878bc8056962acb2553de3b3fbcc8c975c8561ce03828b23",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -4413,17 +4441,17 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
-      "sha256": "37cee9514bfbffd49b89aa4833ed421b9d357ae8d15f532ed6c2b880fc6d78e9",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "7bac2aca427c932f969d130ecb8d89ec162083856ef9d36fa774bdd2cdad8153",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "940e7c32442429015875b57928bb8fd33f4393aa07d4261792f359b436d46bcb",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "0308012d8f972f57e3c72921e0e498dfe7518b7b8217812f09138e0d498e4a24",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
@@ -4434,10 +4462,17 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
-      "sha256": "8517fc58360e5f3ba1aa946cc8505060065398484806f89537a0d220136c981f",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "b84825561080e1d483bc7cc3c1a6fbfbe17656bfaaa65e2b68b209fa204e3fea",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
+      "sha256": "093d1a5b8e3517e8c9f4aadb02d63a83035d745fd78de2bee4c92d285a0c9e0f",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -4546,17 +4581,17 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "711bcb23ec6267fe479007a2cb354be3a50a7563bde94720099ba9fb61af5a6b",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "088babf1983334cfc54398a764f14c5b5a5c9192fe91c8659bf0c2ac818ee8c0",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "f357f6aee39a5a5b31ce56aa8f61fb7e182f9b7dfce9ae5bf65e12309b52c2c6",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "a01b7cd7f8f6dc05edf2cfdb76bad14fe897eff922ea843025d2e8b35608cbff",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -6149,10 +6184,17 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.contract.test.js",
-      "sha256": "c399e3e87657043bcba85c1812f1520eddf95c1a28d02ee54f1afccc88406cc6",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "0a1ac8e05f99ff3735e958715227b13ed4b239367f74fbbb09954babfeb4e2c9",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
+      "sha256": "4bd3560af3f860ddf9e708492c601cb557c299b9d4cde3395d781b3bc509e126",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
@@ -6226,45 +6268,45 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "986afda1594b1af3472f6b5313f97388a9dc7c970eb5ec8e4f988286170087e9",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "sha256": "590ac52cc875cbe3b5f1f4c6e15a05f3c2c9d4c9bbdfb636a1d4abb59785dd50",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
-      "sha256": "4628e38a5204078960d3363fc14626996aa86ae701555c7c25f00b5fd122dd7d",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "sha256": "d148e7b724e778abbe1f6e58c6c83126ad0738f65956bc249b9f465a7d703af3",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
-      "sha256": "19f637e1b2da7ecb506d5aedd4cf98b4c7e8e7d8187f46dd30865c23d549b20f",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "sha256": "146afad81bdb1adc7333d6cefe0d933132381186c523cdaa61840f3b802f7f2e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
-      "sha256": "bfd4946605c98c7121489843f74f6d5d488ab45d6c6086ee1e7751bc7edf8cc1",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "b09a1a1f802fd5dc431425fdbf19434ce7ac789909fdab4c80d63de8de4d5921",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
-      "sha256": "5792cd7b310965c00d9ac60b95c931c1bc295b088f73a780401a070af6a2526e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "sha256": "702ebfd7ed9fc8e5a69ad341bc5bd016638548b6c83fe8195545997b0c9cfeb4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "fd33a6d6065f6bdd2a7a7f585edb8ec9435e696516a39a1dfb7dac9a7d59de47",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "sha256": "89970c9ce2d5d3ccf4399ddb8d2b8449d76582c68fb7607d0089a70cdc7d727e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -7028,27 +7070,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-compact.png",
-      "sha256": "06cecc06baedba84837e1ddd262e20eb9030b2082e30de74376dbce6b0a0b2b3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
-      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-handset-advisory.png",
-      "sha256": "84956b363690a1bdeb4db4d1d209a454f57aaa0df417a1cf97182c83a312e059",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
-      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-laptop.png",
-      "sha256": "3e3c22d7da45791bc19cc0c65c3c9e087a542d912731f83bed4b76fdb5facc95",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
-      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/physical-black-box/r2-c05-black-box-journey.png",

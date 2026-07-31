@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_SATURATED",
+  "status": "WORD_SATURATION_A03_C04_MODERN_COMMENT_STATE_BOUND_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -158,7 +158,7 @@
     {
       "id": "E12_A03_PROMOTION_LIST",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "d38b7092143470ff8f738c5d6d28ba4f5bc96f2cdea177ac62b5b59d8ac68733",
+      "sha256": "7074cb0c0d704be6eb6d1f3e96c9ba8709bf4b5d58b8397b0aabfaf261d5a9c5",
       "status": "BOUND"
     },
     {
@@ -177,6 +177,12 @@
       "id": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_RECEIPT.json",
       "sha256": "9ab2c96512efe3b64194df2526a9d4893e7ec3876c729ed177c75b0e8237940b",
+      "status": "BOUND"
+    },
+    {
+      "id": "A03_C04_MODERN_COMMENT_STATE",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C04_MODERN_COMMENT_STATE_RECEIPT.json",
+      "sha256": "abf76d9256a1d3cadb8fe2db681adeb536776be5a7d766c42f58bb5c4f7a3614",
       "status": "BOUND"
     }
   ],
@@ -300,6 +306,17 @@
       "result": "WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED",
       "productRuntimeWired": false,
       "automaticApplyCertified": false
+    },
+    "a03C04ModernCommentState": {
+      "status": "BOUND_STATE_READBACK_ONLY",
+      "sourceEvidence": "A03_C04_MODERN_COMMENT_STATE",
+      "result": "WORD_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_TYPED_LIMITATION_NOT_PROMOTED",
+      "stateReadbackOnlyPhysicalWordProven": true,
+      "commentDeletePhysicalWordProven": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "replyPhysicalWordProven": false,
+      "resolveReopenPhysicalWordProven": false
     }
   },
   "aggregateTotals": {
@@ -385,7 +402,15 @@
     "a03C03AdjacentRangeNegativeOracleBound": 1,
     "a03C03AdjacentTwoTokenPhysicalPass": 1,
     "a03C03TripleAdjacentIdentityLossTypedLimitation": 1,
-    "a03C03AutomaticApplyCertifiedRows": 0
+    "a03C03AutomaticApplyCertifiedRows": 0,
+    "a03C04ModernCommentStateReadbackOnlyBound": 1,
+    "a03C04ActiveRootCommentReadbackPass": 1,
+    "a03C04ActiveRootCommentCaseCount": 9,
+    "a03C04CommentDeletePhysicalPass": 1,
+    "a03C04ResolveDoneTrueReadbackOnly": 1,
+    "a03C04ResolveReopenFullPass": 0,
+    "a03C04ModernReplyPass": 0,
+    "silentCommentLoss": 0
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -413,7 +438,7 @@
     "networkAdded": false,
     "googleDocsOpened": false,
     "wordSaturated": false,
-    "automaticApplyScope": "none; C03 negative oracle only"
+    "automaticApplyScope": "none; C04 modern comment state readback gate only"
   },
   "nonClaims": [
     "E12 wave 40, wave 100, wave 300, and repeat wave 300 are already complete and are not repeated by targeted gap closure.",
@@ -423,7 +448,7 @@
     "Literal overlapping tracked edits are not certified as apply authority.",
     "Modern reply and resolve reopen remain typed limitations unless future physical readback proves them."
   ],
-  "nextStage": "EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS",
+  "nextStage": "EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

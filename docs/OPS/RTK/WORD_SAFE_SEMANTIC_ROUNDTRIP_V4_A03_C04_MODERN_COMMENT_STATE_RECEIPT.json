@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-c04-modern-comment-state-receipt.v1",
+  "taskId": "YALKEN_WORD_A03_C04_MODERN_COMMENT_STATE",
+  "contourId": "A03-C04",
+  "status": "WORD_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_TYPED_LIMITATION_NOT_PROMOTED",
+  "result": "PASS",
+  "headBinding": {
+    "headSha": "7fbb13065d05b3ca318a6b1da79feb84b1150df0",
+    "originMainSha": "7fbb13065d05b3ca318a6b1da79feb84b1150df0",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "targetedNativeUiReceipt": {
+      "id": "E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+      "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
+      "status": "BOUND"
+    },
+    "a02TerminalAuditReceipt": {
+      "id": "E12_A02_TERMINAL_AUDIT",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
+      "sha256": "fad174a5ce6719ca8792934005001aa44240259b0300904ac36ae41229a5f2cf",
+      "status": "BOUND"
+    },
+    "c01CommentShadowRuntimeReceipt": {
+      "id": "A03_C01_COMMENT_SHADOW_RUNTIME",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
+      "sha256": "346d9cfd683350bbcca3e66315799c8dabb7f0142f65085671ef7a4367cf39c3",
+      "status": "BOUND"
+    },
+    "c03AdjacentRangeNegativeOracleReceipt": {
+      "id": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_RECEIPT.json",
+      "sha256": "9ab2c96512efe3b64194df2526a9d4893e7ec3876c729ed177c75b0e8237940b",
+      "status": "BOUND"
+    }
+  },
+  "oracle": {
+    "activeRootCommentReadbackPass": true,
+    "activeRootCommentCaseCount": 9,
+    "commentDeletePhysicalPass": true,
+    "replyRemainsTypedLimitation": true,
+    "resolveDoneTrueReadbackOnly": true,
+    "resolveReopenFullPass": false,
+    "resolveAttemptStillLimited": true,
+    "c01RuntimeWired": true,
+    "c03KeepsApplyClosed": true,
+    "physicalEvidence": {
+      "rootCaseIds": [
+        "NCUI-C01",
+        "NCUI-C02",
+        "NCUI-C03",
+        "NCUI-C04",
+        "NCUI-C05",
+        "NCUI-C06",
+        "NCUI-C07",
+        "NCUI-C10",
+        "NCUI-C12"
+      ],
+      "replyCase": {
+        "id": "NCUI-C08",
+        "result": "TYPED_LIMITATION",
+        "commentCount": 2,
+        "parentLinkCount": 0
+      },
+      "resolveAttemptCase": {
+        "id": "NCUI-C09",
+        "result": "TYPED_LIMITATION",
+        "doneTrueCount": 0,
+        "doneFalseCount": 1
+      },
+      "deleteCase": {
+        "id": "NCUI-C11",
+        "result": "PASS",
+        "commentCount": 0
+      },
+      "a02ResolveMicroLab": {
+        "id": "A02-MC-RESOLVE-REOPEN",
+        "result": "TYPED_LIMITATION",
+        "deterministicSelectedThreadBinding": true,
+        "resolveStableControlBound": true,
+        "reopenStableControlBound": false,
+        "resolvedDoneTrueCount": 1,
+        "resolvedDoneFalseCount": 0,
+        "reopenedDoneTrueCount": 1,
+        "reopenedDoneFalseCount": 0
+      }
+    },
+    "decision": "BIND_STATE_READBACK_ONLY_DO_NOT_PROMOTE_RESOLVE_REOPEN_RUNTIME"
+  },
+  "implementedCapability": {
+    "capability": "modernCommentResolveReopenState",
+    "physicalWordProven": false,
+    "componentProven": true,
+    "productRuntimeWired": false,
+    "automaticApplyCertified": false,
+    "stateReadbackOnlyPhysicalWordProven": true,
+    "activeRootCommentReadbackPhysicalWordProven": true,
+    "commentDeletePhysicalWordProven": true,
+    "replyPhysicalWordProven": false,
+    "resolveReopenPhysicalWordProven": false,
+    "productCommentStateMutationWired": false,
+    "manuscriptApplyAuthority": false,
+    "decision": "BIND_STATE_READBACK_ONLY_DO_NOT_PROMOTE_RESOLVE_REOPEN_RUNTIME",
+    "stateReadbackScope": "commentsExtended done true readback only; no done false after reopen authority"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "falseSupport": 0,
+    "noOpPass": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0
+  },
+  "nonClaims": [
+    "MODERN_REPLY_NOT_CERTIFIED",
+    "MODERN_RESOLVE_REOPEN_NOT_CERTIFIED",
+    "COMMENT_DELETE_NOT_PRODUCT_RUNTIME_WIRED_IN_C04",
+    "NO_COMMENT_STATE_PRODUCT_MUTATION_ADDED",
+    "NO_MANUSCRIPT_APPLY_AUTHORITY_ADDED",
+    "GOOGLE_DOCS_NOT_OPENED",
+    "NO_GENERIC_WAVE_REPEATED"
+  ],
+  "nextStage": "EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR"
+}

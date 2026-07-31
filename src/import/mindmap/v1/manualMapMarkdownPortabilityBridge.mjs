@@ -167,7 +167,7 @@ export function parseManualMapMarkdownPortabilityBridge(input = {}) {
   const validation = validateManualMapExportPayload(payload);
   if (!validation.ok) return validation;
   const payloadHash = hashCanonicalValue(payload);
-  const declaredHashMatch = markdown.match(/<!--\s*payload-sha256:([a-f0-9]{64})\s*-->/u);
+  const declaredHashMatch = markdown.match(new RegExp('<!--\\s*payload-sha256:([a-f0-9]{64})\\s*-->', 'u'));
   const declaredPayloadHash = normalizeText(declaredHashMatch?.[1]);
   if (declaredPayloadHash && declaredPayloadHash !== payloadHash) {
     return typedFailure('E_MANUAL_MAP_MD_BRIDGE_PAYLOAD_HASH_MISMATCH', 'PAYLOAD_HASH_MISMATCH', {

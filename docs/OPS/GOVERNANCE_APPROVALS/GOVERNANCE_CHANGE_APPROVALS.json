@@ -3692,10 +3692,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C01_REAL_GRAPH_WORKBENCH_RECEIPT.json",
-      "sha256": "f2adef5d3434cdc5e47cc3376e45078645a2b3ac4cc4b4f5a3a93ba07c3c5cb0",
+      "sha256": "adfdb46f27b0b6604525c984aa67248f4dd002ffa0ff277d676b4510df3c8557",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
-      "approvedAtUtc": "2026-07-31T16:49:00.000Z",
-      "rationale": "Approve append-only R2 C01 real Manual Map Graph Workbench receipt: records central PLAN workspace, native SVG adapter, existing module reuse, selection-based command targeting, transient ViewState separation, local validation PASS results, and explicit NOT_READY status for remaining R2 C02-C06 and Program DoD; no false readiness or final certification claim is introduced."
+      "approvedAtUtc": "2026-07-31T17:05:00.000Z",
+      "rationale": "Approve bounded R2 C01 delivery receipt update after origin/main reconciliation: binds local validation target SHA, implementation commit, merge reconciliation commit, focused tests, renderer build, test:ops, Design OS doctrine, OSS policy, governance detection, and full runner PASS while keeping Program DoD NOT_READY and remote delivery fields pending."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",

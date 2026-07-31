@@ -208,7 +208,8 @@ test('E05 C05: renderer and main wire heatmap as explicit heavy surface only', (
   assert.match(editorSource, /async function refreshAtlasHeatmap/u);
   assert.match(editorSource, /if \(atlasHeatmapExplicitOpen !== true\) return/u);
   assert.match(editorSource, /explicitOpen: atlasHeatmapExplicitOpen === true/u);
-  assert.match(editorSource, /renderAtlasHeatmapState\(\);[\s\S]{0,80}refreshAtlasCurrentScene/u);
+  assert.match(editorSource, /function openAtlasHeatmapSurface\(\) \{[\s\S]*atlasHeatmapExplicitOpen = true;[\s\S]*renderAtlasHeatmapState\(\);[\s\S]*refreshAtlasHeatmap\(\);[\s\S]*\}/u);
+  assert.match(editorSource, /function applyRightTab\(tab\) \{[\s\S]*if \(tab === 'atlas'\) \{[\s\S]*renderAtlasHeatmapState\(\);[\s\S]*refreshAtlasCurrentScene\(\);[\s\S]*\}/u);
   assert.doesNotMatch(editorSource, /applyRightTab[\s\S]{0,700}refreshAtlasHeatmap/u);
   assert.doesNotMatch(editorSource, /PROJECT_APPLY_TEXT_EDIT[\s\S]{0,1200}refreshAtlasHeatmap/u);
   assert.doesNotMatch(editorSource, /ATLAS_HEATMAP_QUERY_ID[\s\S]{0,1000}dispatchUiCommand/u);

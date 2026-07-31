@@ -249,7 +249,9 @@ test('E06 C06: renderer and main wire temporal layout as explicit heavy surface 
   assert.match(editorSource, /if \(atlasTemporalLayoutExplicitOpen !== true\) return/u);
   assert.match(editorSource, /data-atlas-temporal-slider/u);
   assert.match(editorSource, /handleAtlasTemporalLayoutKeydown/u);
-  assert.match(editorSource, /renderAtlasTemporalLayoutState\(\);[\s\S]{0,80}refreshAtlasCurrentScene/u);
+  assert.match(editorSource, /function refreshActiveAtlasSurface\(\) \{[\s\S]*surface === 'temporal'[\s\S]*renderAtlasTemporalLayoutState\(\);[\s\S]*refreshAtlasTemporalLayout\(\);/u);
+  assert.match(editorSource, /function applyRightTab\(tab\) \{[\s\S]*if \(tab === 'atlas'\) \{[\s\S]*refreshActiveAtlasSurface\(\);[\s\S]*\}/u);
+  assert.doesNotMatch(editorSource, /function applyRightTab\(tab\) \{[\s\S]{0,900}refreshAtlasTemporalLayout/u);
   assert.doesNotMatch(editorSource, /PROJECT_APPLY_TEXT_EDIT[\s\S]{0,1200}refreshAtlasTemporalLayout/u);
   assert.doesNotMatch(editorSource, /ATLAS_TEMPORAL_LAYOUT_QUERY_ID[\s\S]{0,1000}dispatchUiCommand/u);
 

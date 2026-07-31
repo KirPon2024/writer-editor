@@ -5694,10 +5694,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js",
-      "sha256": "c167369a64ba7385ed62ec9941b31bee6d210684afe619f1053b89d661ebeb37",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 temporal layout contract rebind: verifies registry-bound temporal query id and handler-map route, preserving explicit-open heavy surface behavior, keyboard/list parity, no UI design change, no dependency, no network, and no project truth mutation."
+      "sha256": "b94675e46a48e5b4554a66cf349c8ff94a308e0e659abc6c1c05cef38736e57d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 temporal contract rebind: replaces stale tab-wide refresh regex with active-surface behavior binding while preserving explicit-open temporal query protection and no Command Kernel bypass."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js",
@@ -6020,6 +6020,90 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
       "approvedAtUtc": "2026-07-31T08:37:30.000Z",
       "rationale": "Approve ER C05 focused contract: proves compact transferable payload, real worker-thread execution, LOD and spatial index result, coalescing, cancellation, stale discard, typed fallback, measured 10k budget, old false worker label removal, and no storage, network, Electron, direct UI, or product truth bypass."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY_RECEIPT.json",
+      "sha256": "b695a013f5f02669b28d4df1a705bbb9bfd9eaa1fb4ed09ec682020f94548cf8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:24:52.000Z",
+      "rationale": "Approve final ER C06 receipt update: replaces pending full-runner state with actual logged PASS evidence, records sidebar control truth repair, binds artifact hash and byte count, and preserves no false readiness beyond ER C06 local scope."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-responsive-audit.json",
+      "sha256": "21df24d5eebea176b33659226a5dd3d7792f85902fa817a9809efda3dc319848",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 responsive audit proof JSON: binds real Electron renderer desktop tablet mobile measurements, one active shell assertions, scroll budget, contrast ratio, keyboard navigation, no network request count, and mobile hidden right-rail scope without claiming packaged platform certification."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-desktop.png",
+      "sha256": "498cc4fe1081c81be9c6d193b6f18d63d77cf0e7309d4dd7007f241620f3128b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 desktop screenshot evidence from the real Electron renderer audit; visual evidence only, no product truth mutation, no network, no dependency, and no platform certification expansion."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-tablet.png",
+      "sha256": "dae5477d644de3b5f07255f53ca047cbc96fc58af45b0722f38835a8b05bb9ec",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 tablet screenshot evidence from the real Electron renderer audit; visual evidence only, no product truth mutation, no network, no dependency, and no platform certification expansion."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-mobile.png",
+      "sha256": "34e4944e01e41a2280a698ae82735f08de99654e32795a6c2c413f65c5db8d22",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 mobile screenshot evidence from the real Electron renderer audit; records honest hidden right-rail scope at mobile width and makes no false Atlas accessibility PASS for an unavailable rail."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-er-c06-atlas-rail-responsive-audit.mjs",
+      "sha256": "27d36989e0557d29230269b2f30e8aac04bb772d69427350e43a8d5346428dfd",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 local responsive audit harness: launches the existing Electron app with isolated temp app data, captures desktop tablet mobile screenshots, checks active shell count, scroll budget, contrast, keyboard navigation and no-network assertions, and adds no runtime product entrypoint, dependency, cloud, account, or storage authority."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js",
+      "sha256": "d4927ea261612311925ed9dfdd0e308c4a1b35c9abcb1634508713124dd87cba",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 focused contract: proves Atlas local surface navigator, one active shell, active-only refresh, dependent action routing, CSS contrast and stacked-shell removal, audit script bindings, and no product truth or storage authority in the surface switcher."
+    },
+    {
+      "filePath": "src/renderer/index.html",
+      "sha256": "68a23780842bf3820567f2d8cf21061c70d00171e75570e86d1afcf1748e6809",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 Atlas rail markup: adds local tablist and typed tabpanels for thirteen existing Atlas, Manual Map and Projection Inspector surfaces, keeps inactive shells hidden, preserves toolbar and visual canon, and adds no storage, network, dependency, or product truth authority."
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "c23f14d632c67425f2044a152f17f24f279c59bfdaf17566520ceef62e8a1469",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 renderer behavior: routes Atlas rail through one active surface switcher, refreshes only the active query surface, preserves explicit-open heavy surfaces, adds keyboard navigation and ARIA state, and adds no direct Core, storage, network, dependency, or Command Kernel bypass."
+    },
+    {
+      "filePath": "src/renderer/styles.css",
+      "sha256": "5d2bb20aaf26e6d6627b74f77f12dd2a36b897657ba87ba7d06212a3270040d7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 Atlas rail CSS: removes stacked full-height shell behavior, adds local rail navigation, responsive overflow handling, and measured operational contrast improvements without changing the approved global visual language or adding dependencies."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "7909411617f82c4e0486308c503349d0f02f43515584429f8512dff3922d029b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:17:21.000Z",
+      "rationale": "Approve ER C06 generated renderer bundle corresponding to the approved ER C06 source changes; no independent source of truth or manual runtime edit claim."
+    },
+    {
+      "filePath": "test/unit/yalken-design-os-sidebar-control-truth.test.js",
+      "sha256": "70e4fc18f3739ebb7490852fc33eece1445aee2fb77fd29cf67e98e9b8599d33",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+      "approvedAtUtc": "2026-07-31T10:27:00.000Z",
+      "rationale": "Approve ER C06 sidebar control truth contract update: recognizes data-atlas-surface-button as a local tab binding for the Atlas rail tablist, avoiding fake data-action runtime bindings while preserving the requirement that sidebar buttons declare command or tab authority."
     }
   ]
 }

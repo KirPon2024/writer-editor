@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+  "programStage": "ER_AUDIT_REPAIR_2026_07_31",
+  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_READY_FOR_DELIVERY_CHAIN",
+  "readinessDefault": "NOT_READY_UNTIL_ER_C07_REVALIDATION_AND_E11_PLATFORM_CERTIFICATION",
+  "designToolRouter": "APPLIED_EXISTING_DESIGN_OS_ROUTE_NO_NEW_GENERAL_RESEARCH",
+  "generatedAtUtc": "2026-07-31T10:24:52.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-er-c06",
+    "baseSha": "0c6d8c269d7b8d5b905be4b7ff67f0c9e94d5c0d",
+    "originMainSha": "0c6d8c269d7b8d5b905be4b7ff67f0c9e94d5c0d",
+    "branchHeadShaAtValidation": "0c6d8c269d7b8d5b905be4b7ff67f0c9e94d5c0d",
+    "implementationCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "targetBinding": {
+    "sha": "0c6d8c269d7b8d5b905be4b7ff67f0c9e94d5c0d",
+    "platform": "macOS-local-dev",
+    "profile": "real-electron-renderer-responsive-validation",
+    "timestampUtc": "2026-07-31T10:24:52.000Z",
+    "responsiveAuditArtifactIdentity": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-responsive-audit.json",
+    "responsiveAuditArtifactSha256": "21df24d5eebea176b33659226a5dd3d7792f85902fa817a9809efda3dc319848",
+    "desktopScreenshotSha256": "498cc4fe1081c81be9c6d193b6f18d63d77cf0e7309d4dd7007f241620f3128b",
+    "tabletScreenshotSha256": "dae5477d644de3b5f07255f53ca047cbc96fc58af45b0722f38835a8b05bb9ec",
+    "mobileScreenshotSha256": "34e4944e01e41a2280a698ae82735f08de99654e32795a6c2c413f65c5db8d22",
+    "fullRunnerArtifactIdentity": "/tmp/yalken-er-c06-full-runner-20260731T102900.log",
+    "fullRunnerArtifactSha256": "e8e7e978adae5f4e1a47339a08e49da7fd094f4b7d1bc8099e83be735e859af4",
+    "fullRunnerArtifactBytes": 199538
+  },
+  "implementedBoundary": {
+    "scopeIn": [
+      "one active Atlas right-rail sub-surface at a time across the thirteen existing Atlas, Manual Map, and Projection Inspector surfaces",
+      "local Atlas sub-navigation with tablist semantics, aria-selected state, roving tab index, arrow key movement, Home and End key movement",
+      "active-surface-only query refresh so opening the Atlas tab does not render ten stacked shell surfaces",
+      "explicit heavy surface routing for heatmap, temporal layout, and continuity ledger through the same Atlas surface switcher",
+      "desktop and tablet Atlas rail scroll-height reduction with hidden inactive shells",
+      "mobile narrow viewport treated as honest hidden right-rail scope rather than false clipped Atlas proof",
+      "operational text contrast raised to machine-checked WCAG AA for the measured Atlas rail navigation state",
+      "real Electron renderer screenshot proof for desktop, tablet, and mobile viewports",
+      "legacy temporal explicit-heavy contract updated from brittle tab-wide refresh binding to active-surface behavior binding"
+    ],
+    "scopeOut": [
+      "Stage 11 platform certification",
+      "EFINAL Program DoD",
+      "packaged macOS physical proof",
+      "new visual language or toolbar redesign",
+      "new network adapter",
+      "new dependency",
+      "new product truth source",
+      "direct renderer storage writes",
+      "runtime payment, account, cloud, or paid-service path",
+      "readiness claim for invalidated Stage 01, 02, 03, 05, 10, or 11 outcomes"
+    ]
+  },
+  "runtimeFacts": {
+    "atlasSurfaceNavCount": 13,
+    "atlasSurfaceShellCount": 13,
+    "activeShellCountDesktop": 1,
+    "activeShellCountTablet": 1,
+    "hiddenShellCountDesktop": 12,
+    "hiddenShellCountTablet": 12,
+    "rightRailInternalScrollHeightDesktop": 573,
+    "rightRailInternalScrollHeightTablet": 559,
+    "previousReportedInternalScrollHeightPx": 7496,
+    "tabletClippingObserved": false,
+    "mobileRightRailHidden": true,
+    "mobileFalseAccessibilityPassClaim": false,
+    "navContrastDesktopRatio": 5.07,
+    "navContrastTabletRatio": 5.07,
+    "navContrastMobileRatio": 6.22,
+    "keyboardNavigationPass": true,
+    "focusVisibleDesktop": true,
+    "networkRequestCount": 0,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "commandKernelBypass": false,
+    "secondSourceOfTruth": false,
+    "stage11Started": false
+  },
+  "validations": [
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "status": "PASS",
+      "summary": "Renderer bundle rebuilt from current ER C06 sources."
+    },
+    {
+      "id": "focused-er-c06",
+      "command": "node --test test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js",
+      "status": "PASS",
+      "summary": "6 tests passed; proves one Atlas surface navigator, active-only refresh, dependent action routing, contrast/static CSS bindings, visual audit bindings, and no product truth/storage authority in the switcher."
+    },
+    {
+      "id": "live-electron-responsive-audit",
+      "command": "node scripts/ops/yalken-atlas-v5-er-c06-atlas-rail-responsive-audit.mjs --out /tmp/yalken-atlas-er-c06-responsive-audit-rerun",
+      "status": "PASS",
+      "summary": "Real Electron renderer audit passed desktop, tablet, and mobile checks with no network requests, one active shell, keyboard movement, visible screenshots, scroll budget, AA contrast, no tablet clipping, and honest mobile right-rail hidden scope.",
+      "artifactSha256": "21df24d5eebea176b33659226a5dd3d7792f85902fa817a9809efda3dc319848"
+    },
+    {
+      "id": "related-atlas-surface-contracts",
+      "command": "node --test test/contracts/yalken-atlas-v5-er-c04-product-vertical-journeys-graph-workbench.contract.test.js test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js",
+      "status": "PASS",
+      "summary": "23 tests passed after rebinding the temporal contract to active-surface refresh behavior."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "status": "PASS",
+      "summary": "No Tiptap Pro or private registry policy violation."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "status": "PASS",
+      "summary": "No whitespace errors."
+    },
+    {
+      "id": "test-ops-pre-governance",
+      "command": "npm run -s test:ops",
+      "status": "FAIL_EXPECTED_PENDING_GOVERNANCE_APPROVAL",
+      "summary": "Current wave guard correctly failed before governance approval with GOVERNANCE_CHANGE_APPROVAL_REQUIRED; this is not claimed as a pass."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js | tee /tmp/yalken-er-c06-full-runner-20260731T102900.log",
+      "status": "PASS",
+      "summary": "Full runner passed with 797 tests, 733 pass, 0 fail, 64 skipped; perf baseline, command namespace, menu checks, execution sequence, and release candidate verify all PASS.",
+      "artifactSha256": "e8e7e978adae5f4e1a47339a08e49da7fd094f4b7d1bc8099e83be735e859af4",
+      "artifactBytes": 199538
+    },
+    {
+      "id": "sidebar-control-truth-regression-repair",
+      "command": "node --test test/unit/yalken-design-os-sidebar-control-truth.test.js",
+      "status": "PASS",
+      "summary": "6 tests passed; data-atlas-surface-button is recognized as the Atlas rail local tab binding without adding fake runtime data-action attributes."
+    }
+  ],
+  "negativeAssertions": {
+    "noFalseAccessibilityPass": true,
+    "noStackedTenShellAtlasRail": true,
+    "noNetworkRuntime": true,
+    "noDependencyChange": true,
+    "noDirectStorageMutation": true,
+    "noCommandKernelBypass": true,
+    "noDesignSystemRewrite": true,
+    "noReadinessSelfAttestation": true
+  },
+  "nextRequiredContour": "ER_C07_STAGE_REVALIDATION_AND_HANDOFF"
+}

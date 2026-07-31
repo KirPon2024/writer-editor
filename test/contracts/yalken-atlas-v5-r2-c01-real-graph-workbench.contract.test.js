@@ -48,7 +48,9 @@ test('R2 C01 renders a hit-testable native SVG graph with list parity, selection
   assert.match(editor, /MANUAL_MAP_VIEW_INTENT\.PAN/u);
   assert.match(editor, /MANUAL_MAP_VIEW_INTENT\.ZOOM/u);
   assert.match(editor, /manualMap\.node\.update/u);
-  assert.match(editor, /position:\s*\{\s*x:\s*Math\.round\(drag\.startX \+ dx\)/u);
+  assert.match(editor, /title:\s*'Move node'/u);
+  assert.match(editor, /position:\s*nextPosition/u);
+  assert.match(editor, /openManualMapCommandDraft\(\{/u);
   assert.match(css, /\.manual-map-workspace__svg/u);
   assert.match(css, /\.manual-map-workspace__minimap/u);
   assert.match(css, /\.manual-map-workspace__node\.is-selected/u);

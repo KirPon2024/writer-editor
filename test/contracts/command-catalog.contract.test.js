@@ -7,12 +7,14 @@ async function loadModules() {
   const root = process.cwd();
   const catalog = await import(pathToFileURL(path.join(root, 'src', 'renderer', 'commands', 'command-catalog.v1.mjs')).href);
   const project = await import(pathToFileURL(path.join(root, 'src', 'renderer', 'commands', 'projectCommands.mjs')).href);
-  return { catalog, project };
+  const product = require(path.join(root, 'src', 'shared', 'productCommandRegistry.cjs'));
+  return { catalog, project, product };
 }
 
-test('command catalog v1: entries are deterministic and cmd-prefixed', async () => {
-  const { catalog } = await loadModules();
+test('command catalog v1: entries are deterministic and namespace-bound', async () => {
+  const { catalog, product } = await loadModules();
   const entries = catalog.listCommandCatalog();
+  const productIds = new Set(product.PRODUCT_COMMAND_ID_LIST);
 
   assert.equal(Array.isArray(entries), true);
   assert.equal(entries.length > 0, true);
@@ -22,7 +24,11 @@ test('command catalog v1: entries are deterministic and cmd-prefixed', async () 
   for (const entry of entries) {
     assert.equal(typeof entry.key, 'string');
     assert.equal(typeof entry.id, 'string');
-    assert.equal(entry.id.startsWith('cmd.'), true, `invalid command id prefix: ${entry.id}`);
+    assert.equal(
+      entry.id.startsWith('cmd.') || productIds.has(entry.id),
+      true,
+      `invalid command id namespace: ${entry.id}`,
+    );
     assert.equal(typeof entry.label, 'string');
     assert.equal(entry.label.length > 0, true);
     assert.equal(typeof entry.group, 'string');
@@ -48,5 +54,16 @@ test('command catalog v1: covers all runtime project command IDs', async () => {
   for (const commandId of runtimeCommandIds) {
     assert.equal(catalogIds.has(commandId), true, `missing command in catalog: ${commandId}`);
   }
-  assert.equal(catalogIds.size, runtimeCommandIds.length);
+});
+
+test('command catalog v1: covers all shared product command IDs', async () => {
+  const { catalog, product } = await loadModules();
+  const entries = catalog.listCommandCatalog();
+  const catalogIds = new Set(entries.map((entry) => entry.id));
+
+  for (const commandId of product.PRODUCT_COMMAND_ID_LIST) {
+    assert.equal(catalogIds.has(commandId), true, `missing product command in catalog: ${commandId}`);
+  }
+  assert.equal(product.PRODUCT_COMMAND_DOMAIN_STATUS.plot.status, 'degraded-no-runtime-mutating-command');
+  assert.deepEqual(product.PRODUCT_COMMAND_DOMAIN_STATUS.plot.commandIds, []);
 });

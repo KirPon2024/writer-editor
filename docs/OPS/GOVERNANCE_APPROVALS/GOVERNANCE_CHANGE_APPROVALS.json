@@ -5673,10 +5673,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
-      "sha256": "31a30555fd2b856aeec08d2adb8848a1d9ab7987d052a4ba85fe95efba92465f",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 relation dossier contract rebind: verifies registry-bound relation query id and handler-map route, preserving contextual action intents, command-boundary assertions, no renderer mutation bypass, no UI design change, no dependency, and no network."
+      "sha256": "3b2dbc478d29cf819ba6809efa8bdafbbe8b358028f3cffa592b28cac558981a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 relation dossier contract repair: updates the former intent-only assertion to require Command Kernel dispatch for relation review actions while preserving typed query host wiring, no direct storage write, no Core reducer bypass, no UI design change, no dependency, and no network."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
@@ -5777,88 +5777,116 @@
       "rationale": "Approve E11 platform-neutral multi-scene atomic coordinator component: validates same-root prepare records, unique scene request and effect identities, staged receipt matching, root-pointer commit preconditions and recovery states through injected crypto only, with no Node filesystem, Electron, renderer, network or writer authority."
     },
     {
+      "filePath": "test/contracts/capability-command-coverage.contract.test.js",
+      "sha256": "ab6c83291eafed4129ea36d668eb9fc46d983033780dc118cc0c089dd4a0869e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 capability coverage rebind: requires product command capability bindings from the shared product registry to match runtime policy and governance docs, preserving local-only execution, no dependency, no network, no UI design change, and no product readiness claim."
+    },
+    {
+      "filePath": "test/contracts/command-catalog.contract.test.js",
+      "sha256": "97fad53bf569ca86b444dff98a7493281ec37817d7a8623ef85460ffdfc06aa1",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 command catalog contract rebind: allows the existing cmd menu namespace and the shared product command namespace side by side, proves product catalog reachability and explicit Plot degraded status, and adds no menu namespace widening, dependency, network, UI design change, or readiness certification."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js",
+      "sha256": "83505c2858e7f82dfb7cb44bda3ec5b204c183838012a0a0a0a368f920b438c2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
+      "rationale": "Approve ER C03 focused contract: proves shared product command registry parity with Core Atlas Manual Map Idea and Meaning commands, renderer catalog and Command Kernel reachability, main bridge registry allowlist, fail-closed degraded adapter, relation action dispatch, explicit Plot no-mutating-command status, no direct UI storage mutation bypass, no dependency, and no network."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json",
+      "sha256": "a4e94e00fcb4856f22ffd4ed8f46f3f9972c5ecba105ee6495b35569564aa4cc",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+      "approvedAtUtc": "2026-07-31T07:10:42.000Z",
+      "rationale": "Approve ER C03 receipt after origin/main drift merge: records command reachability and Command Kernel authority repair, product command registry parity, explicit Plot degraded status, relation review dispatch route, Sector M exact scope-map rebind, focused 21 test pass, post-drift full runner pass, no Stage 01 02 03 05 or Stage 11 certification, no dependency, no network, and no release readiness claim."
+    },
+    {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
       "sha256": "80c2f876364d4152ebb2a48e9349904760e7e581350a34a28fb94279522d11d3",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
       "sha256": "af12676b57c46105fc561119af2ac8e6d221d4a16418bdeba095f458571e9419",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "1e3d9543c14f16c5873e5b9581b89719323ca7609abbb2de757870abc808c26f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 verifier: validates required evidence file hashes, wave sequence, not-saturated state, aggregate zero veto metrics, profile/program sequencing and negative false-saturation conditions without changing runtime, opening Google Docs, adding network, or running product writes."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "f9517d3416c4096817bfb5ec49192091c821e32b116ce1e92fdb0b4a27164f4f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "d2074f63b529f923ddb4815a9e85472e83937857ede1d2c39452d693d3d6e89c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "a39010f51c6ccfb2dbb7f1cd312aab6434c19076d1dec3511cdd7d83ba41e32a",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "b55fdf43668f16cdb6a49b95c103fe1618653d6c685d21cef93467137416f3e2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "17da33a78d941fdccb0fdd108276ca3411acc30880e0b7fdaa3e79f0c961e4ac",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "9c4d6a48bef571f56efb516caeeb2763596350b5e6c9407802c60c1a5dba0349",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "e57450cf69ef2b67c69da1cee70da613f1e74eb520ead281375327a103018208",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 governance-tracked update: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "cbf2ddd647865f53a80900a897082fd941b21a996e25774207f10b0214161f33",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:10:00.000Z",
-      "rationale": "Approve E12 contracts: prove the saturation ledger remains not saturated, binds Unicode hostile performance crash replay evidence, rejects false SATURATED claims, rejects premature Google sequencing, rejects missing evidence and profile overclaim, and keeps Word as current focus."
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
       "sha256": "97bde5c79d78445c4bce71b9f2231363b12b6ea70b47a7a4f397fd80f46a5b7e",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
-      "approvedAtUtc": "2026-07-31T15:21:00.000Z",
-      "rationale": "Approve final E12 saturation ledger receipt: binds local verifier, focused E06-E12 contracts, governance, OSS policy, ops suite, syntax and full test suite evidence; preserves not-saturated Word focus, zero-veto metrics, no Google Docs sequencing, no runtime apply expansion, no network and no dependency change."
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve final E12 saturation ledger receipt after Atlas main drift: binds local verifier, focused E06-E12 contracts, governance, OSS policy, ops suite, syntax and full test suite evidence; preserves not-saturated Word focus, zero-veto metrics, no Google Docs sequencing, no runtime apply expansion, no network and no dependency change."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "1e3d9543c14f16c5873e5b9581b89719323ca7609abbb2de757870abc808c26f",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 verifier after Atlas main drift: validates required evidence file hashes, wave sequence, not-saturated state, aggregate zero veto metrics, profile/program sequencing and negative false-saturation conditions without changing runtime, opening Google Docs, adding network, or running product writes."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "0247914e24a27fcad2c103170d875442ef4a155cd4cbbc5bd2a84dd85abd7d27",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "sha256": "d2074f63b529f923ddb4815a9e85472e83937857ede1d2c39452d693d3d6e89c",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "sha256": "a39010f51c6ccfb2dbb7f1cd312aab6434c19076d1dec3511cdd7d83ba41e32a",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "b55fdf43668f16cdb6a49b95c103fe1618653d6c685d21cef93467137416f3e2",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "sha256": "17da33a78d941fdccb0fdd108276ca3411acc30880e0b7fdaa3e79f0c961e4ac",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "sha256": "9c4d6a48bef571f56efb516caeeb2763596350b5e6c9407802c60c1a5dba0349",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+      "sha256": "e57450cf69ef2b67c69da1cee70da613f1e74eb520ead281375327a103018208",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 governance-tracked update after Atlas main drift: advances post-D1 Word V4 to a not-saturated saturation ledger, keeps existing Word evidence truthful, blocks premature Google Docs sequencing, preserves zero-veto invariants and makes no runtime apply, UI, network or dependency change."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "sha256": "cbf2ddd647865f53a80900a897082fd941b21a996e25774207f10b0214161f33",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
+      "approvedAtUtc": "2026-07-31T15:30:00.000Z",
+      "rationale": "Approve E12 contracts after Atlas main drift: prove the saturation ledger remains not saturated, binds Unicode hostile performance crash replay evidence, rejects false SATURATED claims, rejects premature Google sequencing, rejects missing evidence and profile overclaim, and keeps Word as current focus."
     }
   ]
 }

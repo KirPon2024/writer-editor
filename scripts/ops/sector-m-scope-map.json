@@ -284,6 +284,7 @@
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
       "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
       "test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js",
+      "src/derived/atlas/deriveAtlasDiagnosticsStageAcceptance.mjs",
       "src/io/revisionBridge/reviewTransportYrtk2Core.mjs",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2_RECEIPT.json",
       "test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",

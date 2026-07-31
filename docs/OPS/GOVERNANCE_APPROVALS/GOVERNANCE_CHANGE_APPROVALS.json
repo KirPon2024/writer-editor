@@ -6195,6 +6195,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION_RECEIPT.json",
+      "sha256": "da2afad3734ff5bef66a9ab5f82b5d54f5b5ee63d1e930596a24685c2047c9f8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION",
+      "approvedAtUtc": "2026-07-31T12:19:00.000Z",
+      "rationale": "Approve bounded E11 C00 active platform certification compilation: records macOS packaged Electron as the only active Stage 11 certification scope, keeps inactive Windows Linux web iOS Android as NOT_ACTIVATED without false HOLD or PASS, compiles C01-C04 queue, binds ER C07 handoff, and makes no physical package, signing, SAST, release readiness, or Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c00-active-platform-certification-compilation.contract.test.js",
+      "sha256": "5da3d26921e419b54ba8997df38b6d09bf92cdeaafd712cb66a974a486054070",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION",
+      "approvedAtUtc": "2026-07-31T12:19:00.000Z",
+      "rationale": "Approve bounded E11 C00 active platform certification compilation: records macOS packaged Electron as the only active Stage 11 certification scope, keeps inactive Windows Linux web iOS Android as NOT_ACTIVATED without false HOLD or PASS, compiles C01-C04 queue, binds ER C07 handoff, and makes no physical package, signing, SAST, release readiness, or Program DoD claim."
     }
   ]
 }

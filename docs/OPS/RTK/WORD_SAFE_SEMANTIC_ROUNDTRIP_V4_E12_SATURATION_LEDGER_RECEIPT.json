@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
+  "status": "WORD_SATURATION_A03_C02_COMPONENT_PROVEN_NOT_PRODUCT_PATH_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -158,7 +158,7 @@
     {
       "id": "E12_A03_PROMOTION_LIST",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "4e0598f7a00fca701b87f70295b333fe6fb977978ffdf0c21e7c7030814502ab",
+      "sha256": "80b3d3bd283ea370b68508b5b338ee7918e66f8a061d0b0fd0838958c7da8ad6",
       "status": "BOUND"
     },
     {
@@ -170,7 +170,7 @@
     {
       "id": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
-      "sha256": "cec7bee0c310e421c20306421373471c0a423759b9df4e55a21c91c1e7673908",
+      "sha256": "b1ee9b3db420af3554227d9a5c9deafdc86991e31b914e835c290dda54b452be",
       "status": "BOUND"
     }
   ],
@@ -284,7 +284,9 @@
     "a03C02NonOverlapTrackedReplacementRuntime": {
       "status": "BOUND",
       "sourceEvidence": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME",
-      "result": "WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED"
+      "result": "WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH",
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false
     }
   },
   "aggregateTotals": {
@@ -355,16 +357,18 @@
     "a03PromotionRows": 5,
     "a03PromotionPhysicalWordProvenRows": 2,
     "a03PromotionComponentProvenRows": 4,
-    "a03PromotionProductRuntimeWiredRows": 2,
-    "a03PromotionAutomaticApplyCertifiedRows": 1,
+    "a03PromotionProductRuntimeWiredRows": 1,
+    "a03PromotionAutomaticApplyCertifiedRows": 0,
     "a03C01CommentShadowRuntimeWired": 1,
     "a03C01CommentShadowRuntimeThreadProof": 2,
-    "a03C02NonOverlapTrackedReplacementRuntimeWired": 1,
-    "a03C02AutomaticApplyCertifiedRows": 1,
+    "a03C02NonOverlapTrackedReplacementRuntimeWired": 0,
+    "a03C02AutomaticApplyCertifiedRows": 0,
     "falseExact": 0,
     "wrongSceneRouting": 0,
     "silentApply": 0,
-    "replayFailure": 0
+    "replayFailure": 0,
+    "a03C02NonOverlapTrackedReplacementComponentProven": 1,
+    "a03C02NonOverlapTrackedReplacementProductCompositionRegistered": 1
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -385,14 +389,14 @@
   ],
   "runtimeClaims": {
     "productRuntimeChanged": true,
-    "automaticApplyExpanded": true,
-    "writerAuthorityAdded": true,
+    "automaticApplyExpanded": false,
+    "writerAuthorityAdded": false,
     "uiChanged": false,
     "dependencyAdded": false,
     "networkAdded": false,
     "googleDocsOpened": false,
     "wordSaturated": false,
-    "automaticApplyScope": "non-overlap tracked replacement pairs only"
+    "automaticApplyScope": "none; C02 component is registered but not user product path wired"
   },
   "nonClaims": [
     "E12 wave 40, wave 100, wave 300, and repeat wave 300 are already complete and are not repeated by targeted gap closure.",

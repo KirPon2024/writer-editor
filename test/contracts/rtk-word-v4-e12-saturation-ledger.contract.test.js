@@ -27,6 +27,7 @@ const MULTI_SCENE_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUND
 const MODERN_NATIVE_UI_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json';
 const A02_TERMINAL_AUDIT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json';
 const A03_C01_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json';
+const A03_C02_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json';
 const A03_PROMOTION_LIST_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json';
 const WAVE40_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json';
 const WAVE100_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json';
@@ -49,7 +50,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.status, 'WORD_SATURATION_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED');
+  assert.equal(receipt.status, 'WORD_SATURATION_A03_C02_COMPONENT_PROVEN_NOT_PRODUCT_PATH_NOT_SATURATED');
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
   assert.equal(receipt.saturationRule.lastCompletedWaveTarget, 300);
@@ -111,15 +112,17 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   assert.equal(receipt.aggregateTotals.a02ReopenDoneFalseReadback, 0);
   assert.equal(receipt.aggregateTotals.a02TripleAdjacentRebindPass, 0);
   assert.equal(receipt.aggregateTotals.a03PromotionRows, 5);
-  assert.equal(receipt.aggregateTotals.a03PromotionProductRuntimeWiredRows, 2);
-  assert.equal(receipt.aggregateTotals.a03PromotionAutomaticApplyCertifiedRows, 1);
+  assert.equal(receipt.aggregateTotals.a03PromotionProductRuntimeWiredRows, 1);
+  assert.equal(receipt.aggregateTotals.a03PromotionAutomaticApplyCertifiedRows, 0);
   assert.equal(receipt.aggregateTotals.a03C01CommentShadowRuntimeWired, 1);
-  assert.equal(receipt.aggregateTotals.a03C02NonOverlapTrackedReplacementRuntimeWired, 1);
-  assert.equal(receipt.aggregateTotals.a03C02AutomaticApplyCertifiedRows, 1);
+  assert.equal(receipt.aggregateTotals.a03C02NonOverlapTrackedReplacementComponentProven, 1);
+  assert.equal(receipt.aggregateTotals.a03C02NonOverlapTrackedReplacementProductCompositionRegistered, 1);
+  assert.equal(receipt.aggregateTotals.a03C02NonOverlapTrackedReplacementRuntimeWired, 0);
+  assert.equal(receipt.aggregateTotals.a03C02AutomaticApplyCertifiedRows, 0);
   assert.equal(receipt.runtimeClaims.productRuntimeChanged, true);
-  assert.equal(receipt.runtimeClaims.writerAuthorityAdded, true);
-  assert.equal(receipt.runtimeClaims.automaticApplyExpanded, true);
-  assert.equal(receipt.runtimeClaims.automaticApplyScope, 'non-overlap tracked replacement pairs only');
+  assert.equal(receipt.runtimeClaims.writerAuthorityAdded, false);
+  assert.equal(receipt.runtimeClaims.automaticApplyExpanded, false);
+  assert.equal(receipt.runtimeClaims.automaticApplyScope, 'none; C02 component is registered but not user product path wired');
   assert.equal(receipt.aggregateTotals.focusedE11CoordinatorContracts, 7);
 });
 
@@ -185,17 +188,20 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED');
+  assert.equal(profile.status, 'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED');
+  assert.equal(cell.currentCapability, 'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_NOT_SATURATED');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED');
+  assert.equal(program.status, 'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH');
   assert.equal(program.nextStep, 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE');
   assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR');
   assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE');
   assert.equal(program.v4ExecutionState.rootModernCommentShadowRuntimeWired, true);
-  assert.equal(program.v4ExecutionState.runtimeApplyAuthorityGranted, true);
-  assert.equal(program.v4ExecutionState.runtimeApplyAuthorityScope, 'NON_OVERLAP_TRACKED_REPLACEMENT_PAIRS_ONLY');
+  assert.equal(program.v4ExecutionState.nonOverlapTrackedReplacementComponentProven, true);
+  assert.equal(program.v4ExecutionState.nonOverlapTrackedReplacementProductCompositionRegistered, true);
+  assert.equal(program.v4ExecutionState.nonOverlapTrackedReplacementRuntimeWired, false);
+  assert.equal(program.v4ExecutionState.runtimeApplyAuthorityGranted, false);
+  assert.equal(program.v4ExecutionState.runtimeApplyAuthorityScope, 'NONE_C02_COMPONENT_ONLY');
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });
@@ -221,24 +227,31 @@ test('V4 A02 terminal audit separates physical proof from runtime and apply auth
   assert.equal(receipt.microLab.tripleAdjacentTrackedEdits.result, 'TYPED_LIMITATION');
   assert.equal(receipt.microLab.tripleAdjacentTrackedEdits.packageReadback.trackedTokensMissing.length, 3);
   assert.equal(promotionList.rows.length, 5);
-  assert.equal(promotionList.rows.filter((row) => row.authorityLevel.productRuntimeWired === true).length, 2);
+  assert.equal(promotionList.rows.filter((row) => row.authorityLevel.productRuntimeWired === true).length, 1);
   assert.equal(promotionList.rows.find((row) => row.capability === 'rootModernCommentShadowImport').authorityLevel.productRuntimeWired, true);
   assert.equal(promotionList.rows.find((row) => row.capability === 'rootModernCommentShadowImport').authorityLevel.automaticApplyCertified, false);
-  assert.equal(promotionList.rows.find((row) => row.capability === 'nonOverlapTrackedReplacementRuntimeApply').authorityLevel.automaticApplyCertified, true);
+  assert.equal(promotionList.rows.find((row) => row.capability === 'nonOverlapTrackedReplacementRuntimeApply').authorityLevel.productCompositionRegistered, true);
+  assert.equal(promotionList.rows.find((row) => row.capability === 'nonOverlapTrackedReplacementRuntimeApply').authorityLevel.productRuntimeWired, false);
+  assert.equal(promotionList.rows.find((row) => row.capability === 'nonOverlapTrackedReplacementRuntimeApply').authorityLevel.automaticApplyCertified, false);
 });
 
 test('V4 A03 C01 receipt proves comment shadow runtime wiring without apply promotion', async () => {
   const verifier = await import(pathToFileURL(path.join(REPO_ROOT, A03_C01_SCRIPT_PATH)).href);
   const receipt = readJson(A03_C01_RECEIPT_PATH);
+  const c02Receipt = readJson(A03_C02_RECEIPT_PATH);
   const promotionList = readJson(A03_PROMOTION_LIST_PATH);
   const result = await verifier.evaluateWordV4A03C01CommentShadowRuntime({ receipt, promotionList });
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(result.productRuntimeWiredRows, 2);
-  assert.equal(result.automaticApplyCertifiedRows, 1);
+  assert.equal(result.productRuntimeWiredRows, 1);
+  assert.equal(result.automaticApplyCertifiedRows, 0);
   assert.equal(receipt.implementedCapability.productRuntimeWired, true);
   assert.equal(receipt.implementedCapability.automaticApplyCertified, false);
+  assert.equal(c02Receipt.implementedCapability.componentProven, true);
+  assert.equal(c02Receipt.implementedCapability.productCompositionRegistered, true);
+  assert.equal(c02Receipt.implementedCapability.productRuntimeWired, false);
+  assert.equal(c02Receipt.implementedCapability.automaticApplyCertified, false);
   assert.equal(receipt.runtimeProof.writerCalled, false);
   assert.equal(receipt.runtimeProof.manuscriptApplyAuthority, false);
   assert.equal(receipt.nextStage, 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR');

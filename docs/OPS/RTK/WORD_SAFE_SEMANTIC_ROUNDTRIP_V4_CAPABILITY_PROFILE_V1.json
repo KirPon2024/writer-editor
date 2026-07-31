@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
+  "status": "WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,7 +388,7 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
+      "currentCapability": "A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_NOT_SATURATED",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_03 A03 safe portability improvements runtime contour",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
@@ -635,13 +635,14 @@
     {
       "capabilityId": "rtk.word.v4.nonOverlapTrackedReplacementRuntimeApply",
       "operationFamily": "TextRevision replacement-pair inside trusted single-scene block range",
-      "state": "AUTOMATIC_APPLY_CERTIFIED",
-      "currentCapability": "EXACT_AUTOMATIC_FOR_PHYSICALLY_PROVEN_NON_OVERLAP_TRACKED_REPLACEMENTS_ONLY",
+      "state": "COMPONENT_PROVEN",
+      "currentCapability": "COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED_FOR_PHYSICALLY_PROVEN_NON_OVERLAP_TRACKED_REPLACEMENTS",
       "physicalWordEvidence": true,
       "componentProven": true,
-      "productRuntimeWired": true,
-      "automaticApplyCertified": true,
-      "consumer": "Command Kernel RTK non-overlap tracked replacement apply command",
+      "productCompositionRegistered": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "consumer": "Command Kernel RTK non-overlap tracked replacement command registration and component handler",
       "acceptanceTest": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
       "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
       "guards": [
@@ -660,7 +661,7 @@
         "move revisions remain blocked",
         "structural changes remain blocked"
       ],
-      "killCriterion": "Any unsigned, stale, duplicate, ambiguous, overlapping, wrong-scene, reverse-verify-failing, or recovery-failing input applies."
+      "killCriterion": "Any receipt claims user automatic apply before a real Word-return preview/apply product path dispatches this command through existing ports and Command Kernel."
     }
   ]
 }

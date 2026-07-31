@@ -2,11 +2,11 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-c02-non-overlap-tracked-replacement-runtime-receipt.v1",
   "taskId": "YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
   "contourId": "A03-C02",
-  "status": "WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
+  "status": "WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH",
   "result": "PASS",
   "headBinding": {
-    "headSha": "97b671f28fad622eff3d56b086724e1aaf5bb4df",
-    "originMainSha": "97b671f28fad622eff3d56b086724e1aaf5bb4df",
+    "headSha": "2d6bb31e7b3d0c64467463bef0a9c093993c3714",
+    "originMainSha": "2d6bb31e7b3d0c64467463bef0a9c093993c3714",
     "mergedRemoteShaRequired": true
   },
   "truthCorrections": {
@@ -58,7 +58,7 @@
     "trustedBlockRangeDigestCount": 1,
     "writerBindingDigest": "sha256:f9f2421855429e231ba73fd9ceca270fd5c9ce16b7ec6f4eadd97e16d48230ea",
     "envelopeDigest": "sha256:83e86e56c1187b90ac0f623ba922b32eb7c8f32e5387bcd446babfca1878c975",
-    "outcomeDigest": "sha256:8e1e94fce31594c3df98b378ab3e9c9a90b1ee93f9149f406d5c7e8ae70fa4d4",
+    "outcomeDigest": "sha256:b885e2cb0d6f6b17b19c84d8e327219eaead3f0cd9c82e5536865d239528137e",
     "negativeRows": [
       {
         "id": "unsigned",
@@ -101,9 +101,13 @@
     "capability": "nonOverlapTrackedReplacementRuntimeApply",
     "physicalWordProven": true,
     "componentProven": true,
-    "productRuntimeWired": true,
-    "automaticApplyCertified": true,
+    "productCompositionRegistered": true,
+    "productRuntimeWired": false,
+    "endToEndProductPathWired": false,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
     "scope": "physically proven non-overlap tracked replacement pairs only",
+    "truthRepair": "Command Kernel registration plus component writer proof is not a user-reachable Word-return product apply path.",
     "notPromoted": [
       "adjacent triple edits",
       "literal overlap",
@@ -128,7 +132,7 @@
     },
     "contract": {
       "path": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
-      "sha256": "26245e2808380502b221af5a17948270572cb551747dde5beb2587003d97b93e"
+      "sha256": "9d0c76978d7af3e2ce7004d1132c0f7298a7a191f9ae7e4167ca3147420c5275"
     },
     "c01Receipt": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",

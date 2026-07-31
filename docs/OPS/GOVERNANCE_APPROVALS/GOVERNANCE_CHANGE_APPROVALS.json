@@ -1802,10 +1802,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "3a481e7138408aa8dacc64b8c1e12126eb046f88e25d7766efe04ac71ac87516",
+      "sha256": "6c97d33ba0919e3ad024c404bf5375fde2799a6d380d30633f80d59734d75e12",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.228Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -1921,17 +1921,17 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
-      "sha256": "cec7bee0c310e421c20306421373471c0a423759b9df4e55a21c91c1e7673908",
+      "sha256": "b1ee9b3db420af3554227d9a5c9deafdc86991e31b914e835c290dda54b452be",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.229Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "4e0598f7a00fca701b87f70295b333fe6fb977978ffdf0c21e7c7030814502ab",
+      "sha256": "80b3d3bd283ea370b68508b5b338ee7918e66f8a061d0b0fd0838958c7da8ad6",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.229Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
@@ -1949,10 +1949,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "8d6d99448df1d2cd2871a7f241756a7a53b847893085e72717ca981d7aefbdc8",
+      "sha256": "f82f8f4056d3bfa14ed8b4bdfdf04f953b88851165ec93b1e3cce4bb3b097f9e",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.229Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2089,10 +2089,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "6160384fdfc687c3bc1cb8ddd66c713dd545b92b726b4072da23767eece953a4",
+      "sha256": "c346b1318e21a11f7289fc4609463ff4f479433edb98ed72bbb63addd9d10b29",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.230Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -4329,24 +4329,24 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
-      "sha256": "23f9d70e830f4393d4062bd5ba80e93422a85d3b97bebfb8f17fdd58dea1bdbd",
+      "sha256": "179c77fa1f22d8b72c51a13e6e4bb0170d127fbdb032f7e429b09e1a8333453a",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.230Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "0e3da26eef9c23a2629805f4c4a1df1887c06f4e28d55ed418eae8c91036ea5f",
+      "sha256": "1764a8e8e90441668bf2dfbf0a4fd6471988395e3a135c1e412b520388483128",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.231Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
-      "sha256": "26d8f91314b6ff885adf67fd797e2f8e4f58fb7c45baa283535af933238d3c99",
+      "sha256": "8850be69a09144ca80cafb8c112e59417844a4c3549767a2144b0b3188a2b02f",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.231Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -4455,17 +4455,17 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "1471235b29e78029c6d663b2b3f096e9197b91a68c424e87e863aa03d2782103",
+      "sha256": "69a7087c88804f41fa6ac1c2f25dabb65066f5ae4e3341a18ba680e775fb98bf",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.232Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "cda2c81685eecf3694ee8059b2ab550330937d5c4ad0768c172bb0bc3383d1c7",
+      "sha256": "5508e9c460933db735cd2e873e839063e41fefe863c6bd8254cbe34f425ffc89",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.232Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -6023,10 +6023,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
-      "sha256": "26245e2808380502b221af5a17948270572cb551747dde5beb2587003d97b93e",
+      "sha256": "b4c224ccbd1558ec2e12727688f8fe4bc515210f2bfeb23fb40a80aeef904568",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.241Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
@@ -6135,10 +6135,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "a425612e4087002eee33ca0cb0addce21abcf8409e152a4f8478704d2db080bb",
+      "sha256": "d1d651cfd74c21d758975e96666c1923382e1c08a05da6ca74bd0dd912eb72ca",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.244Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",

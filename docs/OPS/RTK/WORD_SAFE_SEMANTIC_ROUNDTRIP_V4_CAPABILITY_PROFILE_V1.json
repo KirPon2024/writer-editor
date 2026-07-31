@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -268,7 +268,7 @@
       "state": "PHYSICAL_WORD_PROVEN",
       "currentCapability": "FORMATTING_DIAGNOSTIC_LANE_WITH_TYPED_LIMITATIONS",
       "physicalWordEvidence": true,
-      "consumer": "EXECUTION_09 typed structural edits",
+      "consumer": "EXECUTION_10 multi-round replay stale conflicts",
       "acceptanceTest": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
       "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING_RECEIPT.json",
       "physicalTotals": {
@@ -292,6 +292,36 @@
         "tables sections footnotes fields images headers footers and page layout are not certified by E08"
       ],
       "killCriterion": "any formatting diagnostic readback is claimed as automatic or destructive apply, writer authority is added, or typed limitation disappears"
+    },
+    {
+      "capabilityId": "rtk.word.v4.typedStructuralDiagnostics",
+      "operationFamily": "paragraph structure moves cross-scene topology tables sections footnotes endnotes fields Compare Combine",
+      "state": "PHYSICAL_WORD_PROVEN",
+      "currentCapability": "STRUCTURAL_DIAGNOSTIC_BLOCKING_WITH_TYPED_LIMITATIONS",
+      "physicalWordEvidence": true,
+      "consumer": "EXECUTION_10 multi-round replay stale conflicts",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS_RECEIPT.json",
+      "physicalTotals": {
+        "physicalStructuralCases": 30,
+        "totalStructureChanges": 31,
+        "selectedStructuralContractCases": 7,
+        "nativeMoveRevisions": 0,
+        "automaticStructuralApplyCertified": 0
+      },
+      "supportedNow": [
+        "paragraph split merge and paragraph mark delete typed diagnostic readback",
+        "move attempt and cross-scene move attempt rows remain manual or blocked",
+        "tables sections footnotes endnotes fields and breaks produce typed structural diagnostics plus opaque unsupported atoms",
+        "Compare and Combine generated revision topology remains manual or blocked",
+        "structural lane remains separate from text comments and formatting lanes"
+      ],
+      "limitations": [
+        "automatic structural apply is not certified by E09",
+        "native w:moveFrom and w:moveTo revisions were not observed in E09 physical corpus",
+        "table section footnote endnote field image header footer and layout mutation are not certified by E09"
+      ],
+      "killCriterion": "any structural diagnostic is claimed as automatic or destructive apply, native move revisions are claimed without evidence, cross-scene topology becomes EXACT, or writer authority is added"
     }
   ]
 }

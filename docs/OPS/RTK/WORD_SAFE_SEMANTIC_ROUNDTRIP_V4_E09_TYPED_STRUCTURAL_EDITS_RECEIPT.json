@@ -1,0 +1,303 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e09-typed-structural-edits-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_09_TYPED_STRUCTURAL_EDITS",
+  "status": "STRUCTURAL_DIAGNOSTIC_BLOCKING_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "createdAtUtc": "2026-07-31T11:20:00.000Z",
+  "base": {
+    "originMainSha": "a6ca1beefd14e3bf7cb2d2fd5c0cdb95df528e69",
+    "branch": "codex/rtk-v4-e09-typed-structural-edits",
+    "preserveOwnerDirtyMain": true,
+    "preserveAtlasWorktree": true,
+    "v6HistoryRewritten": false,
+    "d1EvidenceRewritten": false
+  },
+  "boundSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "blockId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4"
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "certifiedProfileId": "word-mac-latest-observed-16.111.x-semantic-v2-e09-structure",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
+    "versionByAppleScript": "16.111.2",
+    "openDocumentsBeforeLab": 1,
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "externalEvidence": {
+    "artifactRootKind": "T7_SECURE_SYNTHETIC_PHYSICAL_WORD_LAB",
+    "sourceStage": "EXECUTION_06_PHYSICAL_TEXT_CERTIFICATION",
+    "runId": "e06-physical-text-001",
+    "externalReceiptPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e06-physical-text-certification/e06-physical-text-001/b06-physical-certification-receipt.json",
+    "externalReceiptSha256": "f2bba49d7d026f7a31d2594116b8f224777196147c8aa63c4b48607e6a76951a",
+    "externalReceiptDigest": "sha256:1a66926a25f22ba7eb3417381a2515c639244941b5dd9b0b7cdb87f6d95a7a52",
+    "externalFileAvailableAtReceiptCreation": true,
+    "syntheticOnly": true,
+    "userDocumentsOpened": false,
+    "closeNonLabDocuments": false
+  },
+  "structuralTotals": {
+    "physicalStructuralCases": 30,
+    "totalStructureChanges": 31,
+    "selectedStructuralContractCases": 7,
+    "nativeMoveRevisionCases": 0,
+    "nativeMoveRevisions": 0,
+    "automaticStructuralApplyCertified": 0,
+    "destructiveStructuralApplyAdded": 0,
+    "productNetworkRequests": 0
+  },
+  "structuralCertificationBoundary": {
+    "proven": [
+      "paragraph split merge and deleted paragraph mark rows survive physical Word save close reopen and parser readback as typed structure diagnostics",
+      "move and cross-scene move attempt rows remain manual or blocked and do not become EXACT",
+      "tables sections footnotes endnotes fields and breaks row is represented as structural boundary diagnostic plus opaque unsupported atoms",
+      "Compare and Combine generated revision rows remain manual structural topology evidence without automatic apply",
+      "structural lane stays independent from manuscript text comments and formatting lanes"
+    ],
+    "notProven": [
+      "native w:moveFrom w:moveTo certification",
+      "automatic structural apply",
+      "table section footnote endnote field image header footer layout mutation",
+      "cross-scene structural routing as exact authority"
+    ]
+  },
+  "structuralCertificationCases": [
+    {
+      "caseId": "WL2-005",
+      "title": "paragraph split and merge",
+      "family": "paragraph split merge paragraph mark delete",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "structuralKinds": [
+        "paragraphSplitMerge"
+      ],
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "sourceDocxSha256": "sha256:b9d52871e053163b023bfe2834f909a07d4d57a6db609d57fe0b1820ac3b0edd",
+      "returnedDocxSha256": "sha256:baaab0b023457e27619e3e813466f34dba37a92e7d1263381c62a0e45decfad6",
+      "analysisDigest": "sha256:02b5d4d41708b14dfc0f0890a0d643dcca2b2f8a0d4f84c15ca2af94fbf7b29a",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-006",
+      "title": "deleted paragraph mark and empty line",
+      "family": "paragraph split merge paragraph mark delete",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "structuralKinds": [
+        "paragraphMarkDelete"
+      ],
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 1,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "sourceDocxSha256": "sha256:af40616a2458b09437845d02e18b357fab26533ff632fd7b23883b9919a0e118",
+      "returnedDocxSha256": "sha256:0c1dc324bd1871fa0bbc6d65a904b1068ed8eab460e5b46f49e7885153f7b91f",
+      "analysisDigest": "sha256:74477ef8e54b32184298fc5541d01a9e509e65ba9865cb3baab1e9204ef18172",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-007",
+      "title": "word and paragraph move",
+      "family": "moves and cross-scene moves",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "structuralKinds": [
+        "moveAttemptManualOnly"
+      ],
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "sourceDocxSha256": "sha256:11601e863e7681d4b714e27d451b2522f27d178a0fa7eeb9fbe27add19119586",
+      "returnedDocxSha256": "sha256:e6af2e04b22a27e0cc622e3eebbb86b34edbed561984d6874b3fa537b9790791",
+      "analysisDigest": "sha256:9239a371ca67c36a0b9fb52b00eb4e0239135910b638c7c3cdd1951acf6e50b9",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": [
+        "STRUCTURAL_MOVE_ATTEMPT_REMAINS_MANUAL_OR_BLOCKED"
+      ]
+    },
+    {
+      "caseId": "WL2-008",
+      "title": "attempted cross-scene move",
+      "family": "moves and cross-scene moves",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "structuralKinds": [
+        "crossSceneMoveBlocked"
+      ],
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 1,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "sourceDocxSha256": "sha256:32ebbf7173f42efaeaf228ae74034afd081274226a0f34ff0b6135a80098102a",
+      "returnedDocxSha256": "sha256:b77a3c197bde9c1659c8080ea3445ff73d6c7c311c07a34274572b86ca3ee57a",
+      "analysisDigest": "sha256:31657a41c3f1cea7be1b206772f6ca5eda032e67b3a1a8b2729b6f94e9f07392",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": [
+        "STRUCTURAL_MOVE_ATTEMPT_REMAINS_MANUAL_OR_BLOCKED"
+      ]
+    },
+    {
+      "caseId": "WL2-020",
+      "title": "tables sections footnotes endnotes fields and breaks",
+      "family": "tables sections footnotes endnotes fields and breaks",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "structuralKinds": [
+        "tableSectionFootnoteEndnoteFieldBoundary"
+      ],
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 2,
+        "commentThreads": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 9
+      },
+      "sourceDocxSha256": "sha256:1bb9835d8b6046fe7500dd9128508db44dfa3b47547c06649be857ad3179571a",
+      "returnedDocxSha256": "sha256:2947bb98a086ecf9fc609e1293713cf302625102cedcb22f7abc78adb5b1dc1b",
+      "analysisDigest": "sha256:45e1b8f95303290740bedb2ae35458108f5fe1972ebbb5e924831fab8aeeeace",
+      "parserProfileDigest": "sha256:b4ad50ca796f1690ca8f93f495bd591d2234ad9080274843af8e832500cf266a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-024",
+      "title": "Word Compare generated revisions",
+      "family": "Compare and Combine generated revisions",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "structuralKinds": [
+        "compareGeneratedTopologyManualOnly"
+      ],
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "sourceDocxSha256": "sha256:5ec87e0a5ded647014fea787e7f8752e7366ea9b9942748f79b2f2dbb681956a",
+      "returnedDocxSha256": "sha256:8f1e1868bf5fb94c3cf56318120f31934f52f26a0ffcc88596606ab5c0092dbe",
+      "analysisDigest": "sha256:9b07422fbf4f665cab22e80bd6e21b59e23b6e2549760733bc418fe59664c387",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-025",
+      "title": "Word Combine generated revisions",
+      "family": "Compare and Combine generated revisions",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "structuralKinds": [
+        "combineGeneratedTopologyManualOnly"
+      ],
+      "classificationAuthority": "MANUAL_OR_BLOCKED_ONLY",
+      "reviewIrSummary": {
+        "textRevisions": 2,
+        "moveRevisions": 0,
+        "propertyRevisions": 0,
+        "structureChanges": 1,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "sourceDocxSha256": "sha256:e3956b1f40d014297d744381d1147205d86fb997399c830915ccb0144a35dc2d",
+      "returnedDocxSha256": "sha256:b7c7df9e5fc82e3b4a5d6f398464f6b1511e22bea68249403c3c482238b909c6",
+      "analysisDigest": "sha256:e17b2e2f2c6999e50f6e07f949867a21820ba3d275d69052bb8a81ad67e19a50",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": []
+    }
+  ],
+  "typedLimitations": [
+    "STRUCTURAL_APPLY_NOT_CERTIFIED_IN_E09",
+    "NATIVE_MOVEFROM_MOVETO_NOT_OBSERVED_IN_E09",
+    "CROSS_SCENE_MOVE_REMAINS_BLOCKED",
+    "TABLE_SECTION_FOOTNOTE_ENDNOTE_FIELD_MUTATION_NOT_CERTIFIED",
+    "COMPARE_COMBINE_TOPOLOGY_REMAINS_MANUAL_OR_BLOCKED"
+  ],
+  "runtimeClaims": {
+    "structuralDiagnosticBlockingCertified": true,
+    "automaticStructuralApplyAdded": false,
+    "destructiveStructuralApplyAdded": false,
+    "writerAuthorityAdded": false,
+    "reviewSessionMutationAuthorityAdded": false,
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "dependencyAdded": false,
+    "networkAdded": false,
+    "fixtureOnlyPassClaimed": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentStructuralApply": 0,
+    "productNetworkRequests": 0
+  },
+  "testEvidence": {
+    "status": "PASS",
+    "focusedVerifier": "node scripts/ops/rtk-word-v4-e09-typed-structural-edits.mjs --json --require-external PASS",
+    "focusedContract": "node --test E06 E07 E08 E09 RTK V4 contracts PASS 21 pass 0 fail",
+    "adjacentContracts": "E06 physical text E07 comments E08 formatting contracts PASS",
+    "governance": "node scripts/ops/governance-change-detection.mjs PASS",
+    "ossPolicy": "npm run -s oss:policy PASS",
+    "opsSuite": "npm run -s test:ops PASS",
+    "syntax": "node --check scripts/ops/rtk-word-v4-e09-typed-structural-edits.mjs PASS",
+    "fullSuite": "npm test -- --runInBand PASS 795 tests 731 pass 64 skip 0 fail perf baseline PASS menu release checks PASS",
+    "verifiedAtUtc": "2026-07-31T11:55:00.000Z"
+  },
+  "nonClaims": [
+    "E09 does not certify automatic structural apply",
+    "E09 does not certify native Word moveFrom or moveTo revisions",
+    "E09 does not certify table section footnote endnote field or layout mutation",
+    "E09 does not change product runtime UI dependencies or network policy"
+  ],
+  "nextStage": "EXECUTION_10_MULTI_ROUND_REPLAY_STALE_CONFLICTS"
+}

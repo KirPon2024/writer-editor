@@ -306,7 +306,10 @@
       "src/core/contracts.ts",
       "src/core/runtime.mjs",
       "src/derived/atlas/atlasTextAnchorNormalization.mjs",
-      "src/derived/atlas/deriveAtlasEvidenceReattachmentInbox.mjs"
+      "src/derived/atlas/deriveAtlasEvidenceReattachmentInbox.mjs",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS_RECEIPT.json",
+      "scripts/ops/rtk-word-v4-e09-typed-structural-edits.mjs",
+      "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

@@ -102,7 +102,7 @@ test('V4 E07 updates capability profile and program state without runtime mutati
   assert.equal(cell.currentCapability, 'VISIBLE_ANCHORED_COMMENT_SHADOW_ANALYSIS_WITH_TYPED_LIMITATIONS');
   assert.equal(cell.physicalWordEvidence, true);
   assert.equal(cell.acceptanceTest, 'test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js');
-  assert.match(program.v4ExecutionState.status, /^EXECUTION_0[78]_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN$/u);
+  assert.match(program.v4ExecutionState.status, /^EXECUTION_0[789]_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN$/u);
   assert.equal(typeof program.v4ExecutionState.currentStage, 'string');
   assert.equal(typeof program.v4ExecutionState.nextStage, 'string');
   assert.equal(program.v4ExecutionState.commentShadowAnalysisCertified, true);

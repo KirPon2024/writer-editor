@@ -5862,10 +5862,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json",
-      "sha256": "41491308cde2809cc80a6166577c32f58197bfd3f449e5e6a499580753f122f0",
+      "sha256": "a4e94e00fcb4856f22ffd4ed8f46f3f9972c5ecba105ee6495b35569564aa4cc",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
-      "approvedAtUtc": "2026-07-31T06:58:33.000Z",
-      "rationale": "Approve ER C03 receipt: records command reachability and Command Kernel authority repair, product command registry parity, explicit Plot degraded status, relation review dispatch route, Sector M exact scope-map rebind, focused 21 test pass, full runner pass, no Stage 01 02 03 05 or Stage 11 certification, no dependency, no network, and no release readiness claim."
+      "approvedAtUtc": "2026-07-31T07:10:42.000Z",
+      "rationale": "Approve ER C03 receipt after origin/main drift merge: records command reachability and Command Kernel authority repair, product command registry parity, explicit Plot degraded status, relation review dispatch route, Sector M exact scope-map rebind, focused 21 test pass, post-drift full runner pass, no Stage 01 02 03 05 or Stage 11 certification, no dependency, no network, and no release readiness claim."
     }
   ]
 }

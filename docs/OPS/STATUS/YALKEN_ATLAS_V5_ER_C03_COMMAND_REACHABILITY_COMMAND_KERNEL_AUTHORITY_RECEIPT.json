@@ -3,27 +3,27 @@
   "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
   "contourId": "ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
   "programStage": "ER_AUDIT_REPAIR_2026_07_31",
-  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_READY_FOR_DELIVERY_CHAIN",
+  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_AFTER_ORIGIN_MAIN_DRIFT_READY_FOR_DELIVERY_CHAIN",
   "readinessDefault": "NOT_READY",
   "designToolRouter": "NOT_APPLICABLE",
-  "generatedAtUtc": "2026-07-31T06:57:39.000Z",
+  "generatedAtUtc": "2026-07-31T07:10:42.000Z",
   "git": {
     "branch": "codex/yalken-atlas-v5-er-c03",
-    "baseSha": "f6278ac386d48ab1f13187cdbc2f7c0fa737c5f8",
-    "originMainSha": "f6278ac386d48ab1f13187cdbc2f7c0fa737c5f8",
-    "branchHeadShaAtValidation": "0f7e35cfe07c48932555715d630f7c0378d2c748",
+    "baseSha": "b4d3f243dc9f531eab7ce9c56d3e6e9b499d4d4e",
+    "originMainSha": "b4d3f243dc9f531eab7ce9c56d3e6e9b499d4d4e",
+    "branchHeadShaAtValidation": "37f8ed6c0eebb6c3158ca5b93a5b000a9e752730",
     "implementationCommitSha": "cb9bdbc9e19a2248499a92d33a7b87b2bbd515ea",
     "scopeGuardCommitSha": "0f7e35cfe07c48932555715d630f7c0378d2c748",
     "receiptCommitSha": "PENDING_PRE_COMMIT",
     "remoteMergeSha": "PENDING_PRE_DELIVERY"
   },
   "targetBinding": {
-    "sha": "0f7e35cfe07c48932555715d630f7c0378d2c748",
+    "sha": "37f8ed6c0eebb6c3158ca5b93a5b000a9e752730",
     "platform": "macOS-local-dev",
     "profile": "release-local-validation",
-    "timestampUtc": "2026-07-31T06:57:39.000Z",
-    "artifactDigest": "cfe5a32c8d5024f9c276078c15821080c86cdd7bf28d642a1c9809cf6eedc836",
-    "artifactIdentity": "tmp:yalken-er-c03-full-after-scope.log"
+    "timestampUtc": "2026-07-31T07:10:42.000Z",
+    "artifactDigest": "3b8cebad46989306d157ef8f5f393b42ab995a5e28d5d0ed4184ecb4def99923",
+    "artifactIdentity": "tmp:yalken-er-c03-full-post-drift.log"
   },
   "implementedBoundary": {
     "scopeIn": [
@@ -181,8 +181,8 @@
       "command": "node scripts/run-tests.js",
       "result": "PASS",
       "exitCode": 0,
-      "artifactDigest": "cfe5a32c8d5024f9c276078c15821080c86cdd7bf28d642a1c9809cf6eedc836",
-      "summary": "Full runner after scope-map repair: ops strict preflight 3 tests, 3 pass, 0 fail; main suite 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
+      "artifactDigest": "3b8cebad46989306d157ef8f5f393b42ab995a5e28d5d0ed4184ecb4def99923",
+      "summary": "Full runner after origin/main b4d3f243 drift merge: ops strict preflight 3 tests, 3 pass, 0 fail; main suite 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
     }
   ],
   "nextExecutableContour": "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH"

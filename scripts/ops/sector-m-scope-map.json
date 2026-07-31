@@ -272,7 +272,15 @@
       "test/contracts/rtk-g0b-feasibility.contract.test.js",
       "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
       "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js",
-      "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C05_BLOCK_RANGE_WRITER_RECEIPT.json"
+      "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C05_BLOCK_RANGE_WRITER_RECEIPT.json",
+      "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
+      "docs/OPS/RTK/FEATURE_INTEGRATION_MANIFEST_RTK_WORD_V4_V1.json",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
+      "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "docs/OPS/STATUS/CANON_STATUS.json",
+      "test/contracts/rtk-word-v4-canonical-integration.contract.test.js"
     ]
   },
   "allowPrefixByPhase": {

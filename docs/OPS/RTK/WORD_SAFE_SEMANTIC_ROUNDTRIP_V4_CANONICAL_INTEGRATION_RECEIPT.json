@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.canonical-integration-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_01_CANONICAL_V4_INTEGRATION",
+  "status": "LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "createdAtUtc": "2026-07-31T04:30:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "343e6142c7a59822a5a6cc087c30d779c7f12dcd",
+    "precedingC05Pr": 1275,
+    "precedingC05MergeSha": "343e6142c7a59822a5a6cc087c30d779c7f12dcd"
+  },
+  "artifacts": {
+    "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "canonicalSpecSha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "bindingStatusPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
+    "featureIntegrationManifestPath": "docs/OPS/RTK/FEATURE_INTEGRATION_MANIFEST_RTK_WORD_V4_V1.json",
+    "capabilityProfilePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json"
+  },
+  "proofIntent": [
+    "bind V4 as active post-D1 Word extension without rewriting V6 D1 or C03-C05 evidence",
+    "materialize FEATURE_INTEGRATION_MANIFEST_V1 against existing seams only",
+    "declare capability profile status vector taint model and reason registry with immediate C05 consumer",
+    "keep Google Docs and other editors queued after Word saturation"
+  ],
+  "nonClaims": {
+    "physicalWordSaturationDone": false,
+    "yrtk2Implemented": false,
+    "hmacImplemented": false,
+    "locatorCarrierChosen": false,
+    "googleDocsOpened": false,
+    "uiChanged": false,
+    "runtimeRegistryAdded": false,
+    "productNetworkDependencyAdded": false
+  },
+  "nextStage": "EXECUTION_02_LOCATOR_STACK_SURVIVAL_LAB",
+  "testEvidence": {
+    "v4CanonicalIntegrationContract": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0
+    },
+    "governanceSector": {
+      "tests": 20,
+      "pass": 20,
+      "fail": 0
+    },
+    "jsonParse": "PASS",
+    "combinedFocusedContracts": {
+      "command": "node --test test/contracts/rtk-word-v4-canonical-integration.contract.test.js test/contracts/governance-approval-state.contract.test.js test/contracts/governance-change-detection.contract.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "tests": 22,
+      "pass": 22,
+      "fail": 0
+    },
+    "ossPolicy": "PASS",
+    "opsPolicy": "PASS",
+    "fullLocalRunner": {
+      "command": "npm test -- --runInBand",
+      "tests": 795,
+      "pass": 731,
+      "fail": 0,
+      "skipped": 64,
+      "perfBaseline": "PASS",
+      "menuAndReleaseChecks": "PASS"
+    },
+    "gitDiffCheck": "PASS"
+  }
+}

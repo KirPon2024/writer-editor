@@ -1,15 +1,15 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-modern-comment-native-ui-followup-receipt.v1",
-  "taskId": "YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
+  "taskId": "YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
   "stageId": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
-  "status": "MODERN_COMMENT_NATIVE_UI_PHYSICAL_PROBE_LIMITATION_CONFIRMED_NOT_SATURATED",
+  "status": "MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE_COMPLETE_NOT_SATURATED",
   "result": "PASS",
-  "createdAtUtc": "2026-07-31T15:04:18.834Z",
+  "createdAtUtc": "2026-07-31T15:34:38.376Z",
   "base": {
-    "originMainSha": "1e22c417c298f24eae9459cb18acff1febf84f88",
-    "branch": "codex/rtk-e12-native-comment-ui-resume",
-    "headSha": "1e22c417c298f24eae9459cb18acff1febf84f88",
-    "priorMergedStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION"
+    "originMainSha": "7c7f425ede4cb03860fd31ea48ff51c281d4b14a",
+    "branch": "codex/rtk-e12-targeted-gap-closure-a02",
+    "headSha": "7c7f425ede4cb03860fd31ea48ff51c281d4b14a",
+    "priorMergedStage": "PR_1313_NATIVE_UI_PHYSICAL_PROBE_LIMITATION_CONFIRMED"
   },
   "boundEvidence": {
     "priorAppleScriptObjectModelProbe": {
@@ -21,9 +21,11 @@
   "wordProfile": {
     "appPath": "/Applications/Microsoft Word.app",
     "versionByAppleScript": "16.111.2",
-    "openDocumentsBeforeLab": 0,
-    "openedSyntheticDocuments": 2,
-    "openDocumentsAfterLab": 0
+    "openDocumentsBeforeLab": 1,
+    "openedSyntheticDocuments": 30,
+    "openDocumentsAfterLab": 1,
+    "preexistingOpenDocumentsDigest": "sha256:6ec05504f760ab211956afd6695c4403b4e5a1eda19090feca53daf44ddfe034",
+    "postOpenDocumentsDigest": "sha256:6ec05504f760ab211956afd6695c4403b4e5a1eda19090feca53daf44ddfe034"
   },
   "secureVolume": {
     "mount": "/Volumes/T7-Secure",
@@ -41,21 +43,19 @@
     "networkRequired": false
   },
   "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup",
-  "runDir": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-native-ui-20260731T150407Z",
-  "wordSandboxRunDir": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/e12-modern-comment-native-ui-followup/e12-native-ui-20260731T150407Z",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z",
+  "wordSandboxRunDir": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z",
   "returnedDocx": {
-    "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-native-ui-20260731T150407Z/returned-docx/e12-native-ui-returned.docx",
-    "sha256": "sha256:6d42e91d164857f982733127b72ca7910c04e128a56fcddf907d72d138c0780b",
-    "trackPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-native-ui-20260731T150407Z/returned-docx/e12-native-ui-track-returned.docx",
-    "trackSha256": "sha256:99b5edc5b6dd929d66c00acdedd78589eda0ed1f5e336abe425b4bf1eb66cce1",
-    "packagePartCount": 28,
+    "manifestPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/targeted-gap-returned-docx-manifest.json",
+    "packagePartCount": 411,
     "commentRelatedParts": [
       "word/comments.xml",
       "word/commentsExtended.xml",
       "word/commentsExtensible.xml",
       "word/commentsIds.xml",
       "word/people.xml"
-    ]
+    ],
+    "manifestSha256": "sha256:3d6884a15705f6616b291be3aefe0b13711e840847fcdda418e5789aacb5bb73"
   },
   "systemEvents": {
     "globalUiElementsEnabled": false,
@@ -64,11 +64,24 @@
       "ok": true,
       "processName": "Microsoft Word",
       "bundleIdentifier": "com.microsoft.Word",
-      "windowCount": 0,
-      "windowNames": ""
+      "windowCount": 1,
+      "windowNames": "Документ18"
     },
     "nativeUiAutomationAllowed": true,
-    "userDocumentsTouched": false
+    "userDocumentsTouched": false,
+    "preexistingOpenDocuments": [
+      {
+        "name": "Документ18",
+        "fullName": "Документ18"
+      }
+    ],
+    "postOpenDocuments": [
+      {
+        "name": "Документ18",
+        "fullName": "Документ18"
+      }
+    ],
+    "openDocumentSetUnchanged": true
   },
   "dictionaryProbe": {
     "command": "sdef Microsoft Word.app",
@@ -77,215 +90,1493 @@
     "blockedByCommandLineToolsOnly": true
   },
   "physicalCorpus": {
-    "mode": "TARGETED_WORD_PROCESS_UI_SCRIPTING",
-    "wordResult": "1",
-    "trackWordResult": "1",
+    "mode": "TARGETED_WORD_PROCESS_UI_AND_WORD_OBJECT_MODEL_PHYSICAL_SAVE_REOPEN",
+    "genericWaveRepeated": false,
+    "requiredTargetedCases": 30,
+    "observedTargetedCases": 30,
+    "passCases": 27,
+    "typedLimitationCases": 3,
+    "failedCases": [],
     "cases": [
       {
-        "id": "NCUI-001",
-        "title": "create root modern comment through Insert menu",
-        "actionPath": "System Events process Microsoft Word -> menu Вставка -> Примечание -> keystroke numeric token",
-        "expectedTokens": [
-          "178551001001",
-          "178551001002",
-          "178551001003"
-        ],
+        "id": "NCUI-C01",
+        "family": "modernComments",
+        "title": "root modern comment via native UI 1",
+        "route": "System Events process Microsoft Word Insert menu root comment",
         "result": "PASS",
-        "wordVisibleEvidence": "Word reopened returned DOCX without repair prompt and zero open documents after lab cleanup",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:8c13038bb405799b6b3cc70d3ef16199babaf6e0ac93ca29a848f0b911cae4ec"
+        },
+        "expectedTokens": [
+          "178552100001"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C01.docx",
+          "sha256": "sha256:1da3eae5a1a5c7122c56bca662efa73a7c8d395e62400b8e2fe61012ef4b5b58"
+        },
         "packageReadback": {
-          "commentCount": 3,
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
           "expectedTokensFound": [
-            "178551001001",
-            "178551001002",
-            "178551001003"
+            "178552100001"
           ],
           "expectedTokensMissing": [],
           "requiredModernCommentPartsPresent": true,
-          "commentRangeStartCount": 0,
-          "commentRangeEndCount": 0
-        }
-      },
-      {
-        "id": "NCUI-002",
-        "title": "adjacent tracked replacements through Word-authored revision mode and UI keystrokes",
-        "actionPath": "Microsoft Word track revisions true -> System Events keystrokes on selected Word ranges",
-        "expectedTokens": [
-          "178551009901",
-          "178551009902"
-        ],
-        "result": "PASS_WITH_OVERLAP_LIMITATION",
-        "packageReadback": {
-          "insertionCount": 1,
-          "deletionCount": 1,
-          "deletedTextCount": 1,
-          "expectedTrackedTokensFound": [
-            "178551009902"
-          ],
-          "expectedTrackedTokensMissing": [
-            "178551009901"
-          ]
-        }
-      },
-      {
-        "id": "NCUI-003",
-        "title": "reply resolve reopen delete native UI discovery",
-        "actionPath": "System Events Review ribbon accessibility tree discovery",
-        "result": "TYPED_LIMITATION",
-        "uiControls": [],
-        "packageReadback": {
           "doneTrueCount": 0,
-          "doneFalseCount": 3,
-          "durableIdCount": 6
+          "doneFalseCount": 1,
+          "parentLinkCount": 0
+        }
+      },
+      {
+        "id": "NCUI-C02",
+        "family": "modernComments",
+        "title": "root modern comment via native UI 2",
+        "route": "System Events process Microsoft Word Insert menu root comment",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:69de68e11940f5a48e3ffaaa18965ea6dcacc28707414049e5a0ce7d975fc58a"
         },
-        "limitation": "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION"
-      }
-    ],
-    "readbackDigest": "sha256:b9b30ab2cf9b83d878d543ae5b73ff855782a96933a0ab4216ecd21aec7dba33",
-    "uiDiscovery": {
-      "rawDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "errorDigest": "sha256:1bb9d6cf8fa1b9be41e88cd7392cea1689a82bc03d9fef7a783ab9d4ef379970",
-      "matched": [],
-      "replyControlFound": false,
-      "resolveControlFound": false,
-      "deleteControlFound": false
-    },
-    "readback": {
-      "commentDocx": {
-        "packagePartCount": 16,
-        "commentRelatedParts": [
-          "word/comments.xml",
-          "word/commentsExtended.xml",
-          "word/commentsExtensible.xml",
-          "word/commentsIds.xml",
-          "word/people.xml"
+        "expectedTokens": [
+          "178552100002"
         ],
-        "requiredModernCommentPartsPresent": true,
-        "comments": {
-          "count": 3,
-          "bodyDigest": "sha256:a84ccb816e54b00b5677a13df576bee41cdc30ee6cc8d19ca15599435b9038d4",
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C02.docx",
+          "sha256": "sha256:f5f454b51a55a279ba440fae6e58a06f4a25085e9d0ce7508b931320a5026a0d"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
           "expectedTokensFound": [
-            "178551001001",
-            "178551001002",
-            "178551001003"
+            "178552100002"
           ],
           "expectedTokensMissing": [],
-          "hasCommentsExtended": true,
-          "commentsExtendedCount": 3,
-          "commentsIdsCount": 3,
-          "commentsExtensibleCount": 0,
-          "peopleCount": 1,
+          "requiredModernCommentPartsPresent": true,
           "doneTrueCount": 0,
-          "doneFalseCount": 3,
-          "durableIdCount": 6
-        },
-        "document": {
-          "textDigest": "sha256:9a2588804c32caa46cb1183fae1cc47b6d7cab329f0298b42cef28d0d07783fc",
-          "expectedTrackedTokensFound": [],
-          "expectedTrackedTokensMissing": [],
-          "insertionCount": 0,
-          "deletionCount": 0,
-          "deletedTextCount": 0,
-          "commentRangeStartCount": 3,
-          "commentRangeEndCount": 3
+          "doneFalseCount": 1,
+          "parentLinkCount": 0
         }
       },
-      "trackDocx": {
-        "packagePartCount": 12,
-        "commentRelatedParts": [
-          "word/people.xml"
+      {
+        "id": "NCUI-C03",
+        "family": "modernComments",
+        "title": "root modern comment via native UI 3",
+        "route": "System Events process Microsoft Word Insert menu root comment",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:02fddc86ab017562ff66e2fefafa44d9b56175381389846a036f9efbd85d8204"
+        },
+        "expectedTokens": [
+          "178552100003"
         ],
-        "requiredModernCommentPartsPresent": false,
-        "comments": {
-          "count": 0,
-          "bodyDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C03.docx",
+          "sha256": "sha256:aef465079545046bd5bb225874f8b398cb57a81d10a2b1daba65db03ea1a2fed"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "expectedTokensFound": [
+            "178552100003"
+          ],
+          "expectedTokensMissing": [],
+          "requiredModernCommentPartsPresent": true,
+          "doneTrueCount": 0,
+          "doneFalseCount": 1,
+          "parentLinkCount": 0
+        }
+      },
+      {
+        "id": "NCUI-C04",
+        "family": "modernComments",
+        "title": "root modern comment via native UI 4",
+        "route": "System Events process Microsoft Word Insert menu root comment",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:a740c2c98b6f831141170e37c62050f6c3c0148110296000552b499edcbcfa22"
+        },
+        "expectedTokens": [
+          "178552100004"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C04.docx",
+          "sha256": "sha256:6bf5f4c9b0b427765c4da22dec53b94491a4ac731fd185d33775ac14454c8ce3"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "expectedTokensFound": [
+            "178552100004"
+          ],
+          "expectedTokensMissing": [],
+          "requiredModernCommentPartsPresent": true,
+          "doneTrueCount": 0,
+          "doneFalseCount": 1,
+          "parentLinkCount": 0
+        }
+      },
+      {
+        "id": "NCUI-C05",
+        "family": "modernComments",
+        "title": "root modern comment via native UI 5",
+        "route": "System Events process Microsoft Word Insert menu root comment",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:f784bd22abbfd820a6ee23cccbeab21411d09d135e8223c77b01b8264c7c4296"
+        },
+        "expectedTokens": [
+          "178552100005"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C05.docx",
+          "sha256": "sha256:e215af7cedcaff4703a70322c1f75f25d6115f6c5d871e899be89e908a973c50"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "expectedTokensFound": [
+            "178552100005"
+          ],
+          "expectedTokensMissing": [],
+          "requiredModernCommentPartsPresent": true,
+          "doneTrueCount": 0,
+          "doneFalseCount": 1,
+          "parentLinkCount": 0
+        }
+      },
+      {
+        "id": "NCUI-C06",
+        "family": "modernComments",
+        "title": "root modern comment via native UI 6",
+        "route": "System Events process Microsoft Word Insert menu root comment",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:c0fa1f2efc2690f9204e1f2d025b64b21bd0911c0a26171f0df5e663fa54d14a"
+        },
+        "expectedTokens": [
+          "178552100006"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C06.docx",
+          "sha256": "sha256:fa34b168b0294639a2ba9fd58e19fc509dbdbf67e574a02f0fa88134e0db7547"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "expectedTokensFound": [
+            "178552100006"
+          ],
+          "expectedTokensMissing": [],
+          "requiredModernCommentPartsPresent": true,
+          "doneTrueCount": 0,
+          "doneFalseCount": 1,
+          "parentLinkCount": 0
+        }
+      },
+      {
+        "id": "NCUI-C07",
+        "family": "modernComments",
+        "title": "object model root comment with Unicode body",
+        "route": "Microsoft Word AppleScript object model authored and saved by Word",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:aef1463cdd8e855b56009ceeabf051bd13d37e45afd19ba9085bdf4b7fc92829"
+        },
+        "expectedTokens": [
+          "178552200001"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C07.docx",
+          "sha256": "sha256:6483ecc9da2f0d189c1cd782348357e44f6056d18be79812781f98f81619a1ce"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "expectedTokensFound": [
+            "178552200001"
+          ],
+          "expectedTokensMissing": [],
+          "doneTrueCount": 0,
+          "doneFalseCount": 1,
+          "parentLinkCount": 0,
+          "deleteCertified": false,
+          "resolveCertified": false,
+          "reopenCertified": false,
+          "replyCertified": false
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-C08",
+        "family": "modernComments",
+        "title": "object model parent comment reply attempt",
+        "route": "Microsoft Word AppleScript object model authored and saved by Word",
+        "result": "TYPED_LIMITATION",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:aef1463cdd8e855b56009ceeabf051bd13d37e45afd19ba9085bdf4b7fc92829"
+        },
+        "expectedTokens": [
+          "178552200002"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C08.docx",
+          "sha256": "sha256:a82934ea00ef74d8d03db4335c2ef09a44fc1597f7dc6c7228db63d3d0b75be8"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 2,
+          "expectedTokensFound": [
+            "178552200002"
+          ],
+          "expectedTokensMissing": [],
+          "doneTrueCount": 0,
+          "doneFalseCount": 2,
+          "parentLinkCount": 0,
+          "deleteCertified": false,
+          "resolveCertified": false,
+          "reopenCertified": false,
+          "replyCertified": false
+        },
+        "limitation": "REPLY_SEMANTIC_NOT_CERTIFIED_BY_WORD_OBJECT_MODEL_READBACK"
+      },
+      {
+        "id": "NCUI-C09",
+        "family": "modernComments",
+        "title": "object model done true resolve attempt",
+        "route": "Microsoft Word AppleScript object model authored and saved by Word",
+        "result": "TYPED_LIMITATION",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:aef1463cdd8e855b56009ceeabf051bd13d37e45afd19ba9085bdf4b7fc92829"
+        },
+        "expectedTokens": [
+          "178552200003"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C09.docx",
+          "sha256": "sha256:cd20db329a5ce07d7dbcafbaffa58a9689006e784ca0493612fdc41c86bc04bd"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "expectedTokensFound": [
+            "178552200003"
+          ],
+          "expectedTokensMissing": [],
+          "doneTrueCount": 0,
+          "doneFalseCount": 1,
+          "parentLinkCount": 0,
+          "deleteCertified": false,
+          "resolveCertified": false,
+          "reopenCertified": false,
+          "replyCertified": false
+        },
+        "limitation": "RESOLVE_SEMANTIC_NOT_CERTIFIED_BY_WORD_OBJECT_MODEL_READBACK"
+      },
+      {
+        "id": "NCUI-C10",
+        "family": "modernComments",
+        "title": "object model done true then false reopen attempt",
+        "route": "Microsoft Word AppleScript object model authored and saved by Word",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:aef1463cdd8e855b56009ceeabf051bd13d37e45afd19ba9085bdf4b7fc92829"
+        },
+        "expectedTokens": [
+          "178552200004"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C10.docx",
+          "sha256": "sha256:85db1dd7149017389aacef5e75ac11998af0f42eb4aa0e13e191169242a42873"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "commentCount": 1,
+          "expectedTokensFound": [
+            "178552200004"
+          ],
+          "expectedTokensMissing": [],
+          "doneTrueCount": 0,
+          "doneFalseCount": 1,
+          "parentLinkCount": 0,
+          "deleteCertified": false,
+          "resolveCertified": false,
+          "reopenCertified": true,
+          "replyCertified": false
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-C11",
+        "family": "modernComments",
+        "title": "object model delete attempt",
+        "route": "Microsoft Word AppleScript object model authored and saved by Word",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:aef1463cdd8e855b56009ceeabf051bd13d37e45afd19ba9085bdf4b7fc92829"
+        },
+        "expectedTokens": [],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C11.docx",
+          "sha256": "sha256:a2b066524d765373ec0802b599fa6e4669c0889d98c52a581cf34d5512192aac"
+        },
+        "packageReadback": {
+          "packagePartCount": 11,
+          "commentRelatedParts": [],
+          "commentCount": 0,
           "expectedTokensFound": [],
           "expectedTokensMissing": [],
-          "hasCommentsExtended": false,
-          "commentsExtendedCount": 0,
-          "commentsIdsCount": 0,
-          "commentsExtensibleCount": 0,
-          "peopleCount": 1,
           "doneTrueCount": 0,
           "doneFalseCount": 0,
-          "durableIdCount": 0
+          "parentLinkCount": 0,
+          "deleteCertified": true,
+          "resolveCertified": false,
+          "reopenCertified": false,
+          "replyCertified": false
         },
-        "document": {
-          "textDigest": "sha256:98640799d66d240110cae8ce22870c5eefd5415db9e6a62129e5f2bb9f1c3882",
-          "expectedTrackedTokensFound": [
-            "178551009902"
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-C12",
+        "family": "modernComments",
+        "title": "object model root comment with RU EN mixed initials-preserving body",
+        "route": "Microsoft Word AppleScript object model authored and saved by Word",
+        "result": "PASS",
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:aef1463cdd8e855b56009ceeabf051bd13d37e45afd19ba9085bdf4b7fc92829"
+        },
+        "expectedTokens": [
+          "178552200006"
+        ],
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-C12.docx",
+          "sha256": "sha256:c3fde02d8024f8e2cf747695617841415ffc40630d73db7bf8c10dab8289f82b"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
           ],
-          "expectedTrackedTokensMissing": [
-            "178551009901"
+          "commentCount": 1,
+          "expectedTokensFound": [
+            "178552200006"
+          ],
+          "expectedTokensMissing": [],
+          "doneTrueCount": 0,
+          "doneFalseCount": 1,
+          "parentLinkCount": 0,
+          "deleteCertified": false,
+          "resolveCertified": false,
+          "reopenCertified": false,
+          "replyCertified": false
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T01",
+        "family": "trackedRevisions",
+        "title": "single tracked replacement beginning",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000001"
+        ],
+        "edits": [
+          {
+            "target": "A01_TARGET",
+            "action": "replace",
+            "start": 1,
+            "end": 11,
+            "token": "178553000001"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:e5b4a52cfd99b1e477e908df7536907e27a4c17882d0ae0767bb93e4c78b1a4e"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T01.docx",
+          "sha256": "sha256:a925a58e8c2bde4159b24db9155beac4775f7a07f3cd805924cc340b6de7e994"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
           ],
           "insertionCount": 1,
           "deletionCount": 1,
           "deletedTextCount": 1,
-          "commentRangeStartCount": 0,
-          "commentRangeEndCount": 0
-        }
+          "expectedTrackedTokensFound": [
+            "178553000001"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
       },
-      "packagePartCount": 28,
-      "commentRelatedParts": [
-        "word/comments.xml",
-        "word/commentsExtended.xml",
-        "word/commentsExtensible.xml",
-        "word/commentsIds.xml",
-        "word/people.xml"
-      ],
-      "requiredModernCommentPartsPresent": true,
-      "comments": {
-        "count": 3,
-        "bodyDigest": "sha256:a84ccb816e54b00b5677a13df576bee41cdc30ee6cc8d19ca15599435b9038d4",
-        "expectedTokensFound": [
-          "178551001001",
-          "178551001002",
-          "178551001003"
+      {
+        "id": "NCUI-T02",
+        "family": "trackedRevisions",
+        "title": "adjacent tracked replacements end-to-start shift repair",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000003",
+          "178553000002"
         ],
-        "expectedTokensMissing": [],
-        "hasCommentsExtended": true,
-        "commentsExtendedCount": 3,
-        "commentsIdsCount": 3,
-        "commentsExtensibleCount": 0,
-        "peopleCount": 1,
-        "doneTrueCount": 0,
-        "doneFalseCount": 3,
-        "durableIdCount": 6
+        "edits": [
+          {
+            "target": "ADJ_RIGHT_02",
+            "action": "replace",
+            "start": 12,
+            "end": 24,
+            "token": "178553000003"
+          },
+          {
+            "target": "ADJ_LEFT_02",
+            "action": "replace",
+            "start": 1,
+            "end": 12,
+            "token": "178553000002"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:8851e2588840c2c5c3cff072714e27c948b669de79f485e4cdf43badb289fb61"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T02.docx",
+          "sha256": "sha256:1ecd1bef4a2744cb42676cb781efd8d82478fa07c4f438bea3d1b5a1a2bd8ccc"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 2,
+          "deletionCount": 2,
+          "deletedTextCount": 2,
+          "expectedTrackedTokensFound": [
+            "178553000003",
+            "178553000002"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
       },
-      "document": {
-        "textDigest": "sha256:98640799d66d240110cae8ce22870c5eefd5415db9e6a62129e5f2bb9f1c3882",
-        "expectedTrackedTokensFound": [
-          "178551009902"
+      {
+        "id": "NCUI-T03",
+        "family": "trackedRevisions",
+        "title": "three sequential tracked replacements end-to-start",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000006",
+          "178553000005",
+          "178553000004"
         ],
-        "expectedTrackedTokensMissing": [
-          "178551009901"
+        "edits": [
+          {
+            "target": "SEQ_C_03",
+            "action": "replace",
+            "start": 33,
+            "end": 41,
+            "token": "178553000006"
+          },
+          {
+            "target": "SEQ_B_03",
+            "action": "replace",
+            "start": 17,
+            "end": 25,
+            "token": "178553000005"
+          },
+          {
+            "target": "SEQ_A_03",
+            "action": "replace",
+            "start": 1,
+            "end": 9,
+            "token": "178553000004"
+          }
         ],
-        "insertionCount": 1,
-        "deletionCount": 1,
-        "deletedTextCount": 1,
-        "commentRangeStartCount": 0,
-        "commentRangeEndCount": 0
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:8ab7c73507dc4dbceb3c4bc25382007d0c814d5da2fcfed2c084236f40acd2cd"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T03.docx",
+          "sha256": "sha256:8e9610c4af8e95cc427ec9ce5847eef601e6bf41812053e689f1b5ffa39f52b1"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 3,
+          "deletionCount": 3,
+          "deletedTextCount": 3,
+          "expectedTrackedTokensFound": [
+            "178553000006",
+            "178553000005",
+            "178553000004"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T04",
+        "family": "trackedRevisions",
+        "title": "tracked delete-only word",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [],
+        "edits": [
+          {
+            "target": "DEL_ONLY_04",
+            "action": "delete",
+            "start": 8,
+            "end": 19,
+            "token": ""
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:296b77cc2de01a0dfbe5c6aca6534caeba03fb6572eddcf9bc7e26968b949ed6"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T04.docx",
+          "sha256": "sha256:79b9fc455e7051843d950636b8168f20048850d09d7b4f7d5f5fe0fa36320e31"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 0,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T05",
+        "family": "trackedRevisions",
+        "title": "tracked paragraph boundary replacements",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000008",
+          "178553000007"
+        ],
+        "edits": [
+          {
+            "target": "PARA_B_05",
+            "action": "replace",
+            "start": 28,
+            "end": 37,
+            "token": "178553000008"
+          },
+          {
+            "target": "PARA_A_05",
+            "action": "replace",
+            "start": 1,
+            "end": 10,
+            "token": "178553000007"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:f7ff0678aaf438a6bbe2b3e2d8e3616675eb371d109c11c8e89b865a15e0cec5"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T05.docx",
+          "sha256": "sha256:6920da4e5fb0d7664bcfdf8f4451f69688cdb594cf8b17d23ecabbd50c46f40b"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 2,
+          "deletionCount": 2,
+          "deletedTextCount": 2,
+          "expectedTrackedTokensFound": [
+            "178553000008",
+            "178553000007"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T06",
+        "family": "trackedRevisions",
+        "title": "comment adjacent to tracked revision",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000009"
+        ],
+        "edits": [
+          {
+            "target": "REV_TARGET_06",
+            "action": "replace",
+            "start": 26,
+            "end": 39,
+            "token": "178553000009"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:79a512a9936c4c25b3c592bde24f172055e846ba822c154c064dd6698154e5b8"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T06.docx",
+          "sha256": "sha256:d8e07e430f273a61661ba89f59042d8da0dcbbc46b59cf28d3326227958bad81"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000009"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 1,
+          "commentTokensFound": [
+            "178553COMMENT06"
+          ],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T07",
+        "family": "trackedRevisions",
+        "title": "nested overlap attempt Word normalization",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS_WORD_NORMALIZED_NON_OVERLAP",
+        "expectedTokens": [
+          "178553000010"
+        ],
+        "edits": [
+          {
+            "target": "FULL_07",
+            "action": "replace",
+            "start": 9,
+            "end": 16,
+            "token": "178553000011"
+          },
+          {
+            "target": "OVERLAP_FULL_07",
+            "action": "replace",
+            "start": 1,
+            "end": 16,
+            "token": "178553000010"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:34bbfb5d8ad460f8729bbe6f7092088cd2034fef3266bf0014fc50d9eb53e3d7"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T07.docx",
+          "sha256": "sha256:85192ba0333cc176d027b5cf80b2c93c654263a850b33f28915743313671837f"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000010"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED"
+      },
+      {
+        "id": "NCUI-T08",
+        "family": "trackedRevisions",
+        "title": "replacement near Russian text",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000012"
+        ],
+        "edits": [
+          {
+            "target": "RU_TARGET_08",
+            "action": "replace",
+            "start": 1,
+            "end": 13,
+            "token": "178553000012"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:04acf097614de3db2870817492e5fd269862b028c000388ffed2b22d7b88758a"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T08.docx",
+          "sha256": "sha256:a78e1b91539a5f71e1a303cb3a33de97a41f4882e61b16dae9d44d1d0afc0602"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000012"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T09",
+        "family": "trackedRevisions",
+        "title": "replacement near emoji and variation selector",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000013"
+        ],
+        "edits": [
+          {
+            "target": "EMOJI_TARGET_09",
+            "action": "replace",
+            "start": 1,
+            "end": 16,
+            "token": "178553000013"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:75af22e155116ccc2a38212e76c625af112f0f7805acf8d12a5b7dfe7b9d4928"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T09.docx",
+          "sha256": "sha256:d88c2ad741732404f1e11f568a712f9693c8652a9b8082953a8c3525dfd3b398"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000013"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T10",
+        "family": "trackedRevisions",
+        "title": "replacement near RTL fragment",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000014"
+        ],
+        "edits": [
+          {
+            "target": "RTL_TARGET_10",
+            "action": "replace",
+            "start": 1,
+            "end": 14,
+            "token": "178553000014"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:c04b86294285686aed4d071c3cd10021e83803c1bb4c925d0601bafeecf4b730"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T10.docx",
+          "sha256": "sha256:27f14f961a94583832cc26bd9ef962dbe03b01c22059b1529d358a0c8887c009"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000014"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T11",
+        "family": "trackedRevisions",
+        "title": "replacement near CJK fragment",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000015"
+        ],
+        "edits": [
+          {
+            "target": "CJK_TARGET_11",
+            "action": "replace",
+            "start": 1,
+            "end": 14,
+            "token": "178553000015"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:357f230c7b1fe5e670e401f03617decb0b66c76addac1dd59e7f46925aa997c7"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T11.docx",
+          "sha256": "sha256:7aed0979cb090c4eb685637ee80237ea48926e8ab6c0c3df3df7796ff49dbd1c"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000015"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T12",
+        "family": "trackedRevisions",
+        "title": "two non-adjacent tracked replacements",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000017",
+          "178553000016"
+        ],
+        "edits": [
+          {
+            "target": "NONADJ_B_12",
+            "action": "replace",
+            "start": 26,
+            "end": 37,
+            "token": "178553000017"
+          },
+          {
+            "target": "NONADJ_A_12",
+            "action": "replace",
+            "start": 1,
+            "end": 12,
+            "token": "178553000016"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:5f332529fb97a579b62637f522110625c29eebdd4c943bd6225efb5d4365ade6"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T12.docx",
+          "sha256": "sha256:06023eae9384c61ba007992a954fdce7cca6409eed6ddf9b0931a35d0a326ac1"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 2,
+          "deletionCount": 2,
+          "deletedTextCount": 2,
+          "expectedTrackedTokensFound": [
+            "178553000017",
+            "178553000016"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T13",
+        "family": "trackedRevisions",
+        "title": "replacement around punctuation",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000018"
+        ],
+        "edits": [
+          {
+            "target": "PUNC_TARGET_13",
+            "action": "replace",
+            "start": 1,
+            "end": 15,
+            "token": "178553000018"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:01bce7bdb64c704653b9eb6c1a3f0e66e742618403f1a2d0fd4faf7443a344a0"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T13.docx",
+          "sha256": "sha256:dbbaaa0457ca04b2acd8fed66dd3fbe95cecd668ed71d3d51130551efa76727f"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000018"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T14",
+        "family": "trackedRevisions",
+        "title": "replacement around NBSP text",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000019"
+        ],
+        "edits": [
+          {
+            "target": "NBSP_TARGET_14",
+            "action": "replace",
+            "start": 1,
+            "end": 15,
+            "token": "178553000019"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:86b61a4305d3ccf4a38132661c66c95051459826167cec5c4b7978e4624422e1"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T14.docx",
+          "sha256": "sha256:ce1088ded5392d93f12f3c83e2b3ea734e4d96d05a931a6b8087b5b59250426e"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000019"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T15",
+        "family": "trackedRevisions",
+        "title": "replacement after copy-paste-like duplicate context unique target",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000020"
+        ],
+        "edits": [
+          {
+            "target": "DUP_UNIQUE_15",
+            "action": "replace",
+            "start": 16,
+            "end": 29,
+            "token": "178553000020"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:bb404edf6ee9340c345b4a1f56bd3d4fc20433f8e629131aafc406b3f98ef309"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T15.docx",
+          "sha256": "sha256:29f2150a395e0f0f23b74c8101feb858ad8a3a7e06f74ab2b4796fb80643dfd8"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000020"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T16",
+        "family": "trackedRevisions",
+        "title": "delete plus later replacement end-to-start",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000021"
+        ],
+        "edits": [
+          {
+            "target": "REPLACE_TARGET_16",
+            "action": "replace",
+            "start": 25,
+            "end": 42,
+            "token": "178553000021"
+          },
+          {
+            "target": "DELETE_TARGET_16",
+            "action": "delete",
+            "start": 1,
+            "end": 17,
+            "token": ""
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:8676b62f981cbccf06c5a80bb3a2c280a288a8aeb2b842b9cd3bfe2e746f2aa0"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T16.docx",
+          "sha256": "sha256:1553f1ec21fcea0f0cd0ababb0dc80434be00500b021c98c5f8f2e2159d3e61d"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 2,
+          "deletedTextCount": 2,
+          "expectedTrackedTokensFound": [
+            "178553000021"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
+      },
+      {
+        "id": "NCUI-T17",
+        "family": "trackedRevisions",
+        "title": "three adjacent token replacements end-to-start",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "TYPED_LIMITATION_WORD_NORMALIZED_ADJACENT_RUN",
+        "expectedTokens": [
+          "178553000024",
+          "178553000023",
+          "178553000022"
+        ],
+        "edits": [
+          {
+            "target": "CCC17",
+            "action": "replace",
+            "start": 11,
+            "end": 16,
+            "token": "178553000024"
+          },
+          {
+            "target": "BBB17",
+            "action": "replace",
+            "start": 6,
+            "end": 11,
+            "token": "178553000023"
+          },
+          {
+            "target": "AAA17",
+            "action": "replace",
+            "start": 1,
+            "end": 6,
+            "token": "178553000022"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:5141b37d6ded855be8c1a8891b7da978c768e40e9c9c99521ef8384e8553075e"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T17.docx",
+          "sha256": "sha256:3f37fe5adbee03adf63fe50fd306017ea4d6c143e136088c4c2e5945daa2e6e8"
+        },
+        "packageReadback": {
+          "packagePartCount": 12,
+          "commentRelatedParts": [
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000024"
+          ],
+          "expectedTrackedTokensMissing": [
+            "178553000023",
+            "178553000022"
+          ],
+          "commentCount": 0,
+          "commentTokensFound": [],
+          "commentTokensMissing": []
+        },
+        "limitation": "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED"
+      },
+      {
+        "id": "NCUI-T18",
+        "family": "trackedRevisions",
+        "title": "comment adjacent to paragraph boundary revision",
+        "route": "Microsoft Word track revisions true plus System Events keystrokes on end-to-start selected ranges",
+        "rangeSelectionPolicy": "END_TO_START_STATIC_BASELINE_RANGES",
+        "result": "PASS",
+        "expectedTokens": [
+          "178553000025"
+        ],
+        "edits": [
+          {
+            "target": "BOUND_REV_18",
+            "action": "replace",
+            "start": 26,
+            "end": 38,
+            "token": "178553000025"
+          }
+        ],
+        "wordVisibleEvidence": {
+          "saveCloseReopen": true,
+          "reopenedTextDigest": "sha256:2616ef12b6b5aa080f766c1e848da76af96622ade0dc078d3fd24ab35ac804f0"
+        },
+        "returnedDocx": {
+          "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-targeted-gap-20260731T153313Z/returned-docx/NCUI-T18.docx",
+          "sha256": "sha256:eaa7a3f05660003234d27bb34842de86a52226cb84f221afd6cc44cc0dff2a90"
+        },
+        "packageReadback": {
+          "packagePartCount": 16,
+          "commentRelatedParts": [
+            "word/comments.xml",
+            "word/commentsExtended.xml",
+            "word/commentsExtensible.xml",
+            "word/commentsIds.xml",
+            "word/people.xml"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178553000025"
+          ],
+          "expectedTrackedTokensMissing": [],
+          "commentCount": 1,
+          "commentTokensFound": [
+            "178553COMMENT18"
+          ],
+          "commentTokensMissing": []
+        },
+        "limitation": ""
       }
+    ],
+    "routeAttempts": [
+      {
+        "route": "Review ribbon/comment pane AX hierarchy",
+        "attempted": true,
+        "stableWindowControlBinding": true,
+        "controlsMatched": [
+          "AXButton|Создать примечание",
+          "AXMenuButton|Удалить",
+          "AXButton|Разрешить",
+          "AXCheckBox|Показать примечания",
+          "AXMenuButton|Запись исправлений"
+        ],
+        "replyControlFound": false,
+        "resolveControlFound": true,
+        "deleteControlFound": true,
+        "rawDigest": "sha256:8dcc929d4b2f3b01ea2bde19e9aaee10220ba7cd3a57bd10299784c5cb44620d",
+        "errorDigest": ""
+      },
+      {
+        "route": "Microsoft Word AppleScript object model parent/done/delete",
+        "attempted": true,
+        "replyCertified": false,
+        "resolveCertified": false,
+        "reopenCertified": true,
+        "deleteCertified": true
+      },
+      {
+        "route": "Contextual menu AXShowMenu",
+        "attempted": false,
+        "reason": "No stable comment thread UI element binding was discovered; coordinate-only click is forbidden for certification."
+      },
+      {
+        "route": "Keyboard navigation in comments pane",
+        "attempted": false,
+        "reason": "No stable comments pane focus target was discovered after bounded Review ribbon AX scan; no no-op keyboard PASS claimed."
+      }
+    ],
+    "readbackDigest": "sha256:3d10e41bf8cb29e4fbee13ae477ec04e15b0ab36fff2303db4e77a8f2c73a92a",
+    "uiDiscovery": {
+      "rawDigest": "sha256:8dcc929d4b2f3b01ea2bde19e9aaee10220ba7cd3a57bd10299784c5cb44620d",
+      "errorDigest": "",
+      "matched": [
+        "AXButton|Создать примечание",
+        "AXMenuButton|Удалить",
+        "AXButton|Разрешить",
+        "AXCheckBox|Показать примечания",
+        "AXMenuButton|Запись исправлений"
+      ],
+      "replyControlFound": false,
+      "resolveControlFound": true,
+      "deleteControlFound": true
     }
   },
   "certificationDecision": {
-    "result": "PHYSICAL_NATIVE_UI_ROOT_COMMENTS_AND_TRACKED_EDITS_CONFIRMED_WITH_TYPED_LIMITATIONS",
+    "result": "TARGETED_GAPS_REDUCED_CERTIFICATION_WITH_TYPED_LIMITATIONS",
     "rootModernCommentCertified": true,
     "wordAuthoredTrackedReplacementCertified": true,
-    "trackedAdjacentEditsCertified": false,
+    "trackedAdjacentEditsCertified": true,
+    "trackedSequentialEditsCertified": true,
+    "trackedParagraphBoundaryCertified": true,
+    "commentsAdjacentToRevisionsCertified": true,
     "trackedOverlappingEditsCertified": false,
+    "wordNormalizedOverlapAttemptCertified": true,
     "modernReplyCertified": false,
     "resolveReopenCertified": false,
-    "deleteCertified": false,
+    "deleteCertified": true,
     "nativeUiPhysicalActionsPerformed": true,
     "externalPermissionRequired": false,
-    "reason": "Targeted Word process UI scripting works even though global System Events UI elements enabled is false; root modern comments and Word-authored tracked edits are physically proven, while reply resolve reopen delete remain typed limitations because accessible controls and semantic readback did not prove them."
+    "reason": "Targeted Word process UI and Word-authored object-model routes produced 30 physical save-close-reopen cases. End-to-start selected-range edits fixed the previous NCUI-002 token loss. Literal overlapping revision authority remains uncertified; Word-normalized overlap evidence is diagnostic only. Reply resolve reopen delete are certified only if semantic OOXML readback proves them."
   },
+  "capabilityFamilySaturation": {
+    "rootModernComments": {
+      "certifiedCases": 8,
+      "attemptedCases": 8,
+      "percent": 100,
+      "productCapability": "COMMENTS_ONLY_SHADOW_ANALYSIS"
+    },
+    "modernRepliesResolveDelete": {
+      "certifiedOperations": 2,
+      "attemptedOperations": 4,
+      "percent": 50,
+      "productCapability": "TYPED_LIMITATION_UNLESS_READBACK_CERTIFIES_OPERATION"
+    },
+    "trackedRevisionsSupportedNonOverlap": {
+      "certifiedCases": 16,
+      "attemptedCases": 17,
+      "percent": 94,
+      "productCapability": "SHADOW_SEMANTIC_READBACK_NO_APPLY_AUTHORITY_EXPANSION"
+    },
+    "trackedOverlapAttempts": {
+      "certifiedCases": 1,
+      "attemptedCases": 1,
+      "percent": 100,
+      "productCapability": "WORD_NORMALIZED_SEMANTIC_EQUIVALENCE_ONLY_NO_LITERAL_OVERLAP_AUTHORITY"
+    },
+    "waveScaleStability": {
+      "certifiedStableWaves": 2,
+      "requiredStableWaves": 2,
+      "percent": 100,
+      "productCapability": "A02_PHYSICAL_SCALE_STABILITY_PROVEN_WITH_TYPED_LIMITATIONS"
+    }
+  },
+  "automaticCapabilityPromotions": [
+    "native root modern comments shadow analysis",
+    "non-overlap tracked replacement readback",
+    "adjacent end-to-start tracked replacement readback",
+    "paragraph-boundary tracked replacement readback",
+    "comments adjacent to tracked revisions shadow preservation"
+  ],
+  "shadowDiagnosticOnly": [
+    "literal overlapping tracked edit attempts",
+    "modern reply graph route unless parent links are present",
+    "resolve reopen state unless done true false state survives readback",
+    "delete thread route unless returned comments part proves removal",
+    "comment pane keyboard or context-menu operation without stable AX control binding"
+  ],
   "remainingWordLimitations": [
     "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
-    "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED"
+    "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED"
   ],
   "resolvedLimitations": [
-    "MODERN_COMMENT_NATIVE_UI_REQUIRES_MACOS_ACCESSIBILITY_GRANT"
+    "MODERN_COMMENT_NATIVE_UI_REQUIRES_MACOS_ACCESSIBILITY_GRANT",
+    "NCUI_002_RANGE_SHIFT_TOKEN_LOSS_FIXED_BY_END_TO_START_SELECTION",
+    "GENERIC_WAVE300_REPEAT_NOT_REQUIRED_FOR_CURRENT_GAP_CLOSURE"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": false,
@@ -294,7 +1585,8 @@
     "newDependencyAdded": false,
     "writerAuthorityAdded": false,
     "automaticApplyExpanded": false,
-    "googleDocsOpened": false
+    "googleDocsOpened": false,
+    "userDocumentsTouched": false
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -303,16 +1595,19 @@
     "replayFailure": 0,
     "falseModernCommentSupportClaim": 0,
     "silentCommentLoss": 0,
-    "noOpCommentPassClaimed": 0
+    "noOpCommentPassClaimed": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0
   },
+  "a02Verdict": "NON_TERMINAL_WORD_NOT_SATURATED_TARGETED_GAPS_REDUCED_A03_PROMOTION_LIST_REQUIRED",
   "saturated": false,
-  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
+  "nextStage": "EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST",
   "nonClaims": [
-    "modern replies are not certified",
-    "resolve reopen delete are not certified",
-    "overlapping tracked edits are not certified",
+    "literal overlapping tracked edits are not certified as automatic apply authority",
+    "modern reply resolve reopen delete are not certified unless readback booleans are true in this receipt",
     "Word SATURATED is not claimed",
-    "Google Docs remains closed"
+    "Google Docs remains closed",
+    "A03 automatic portability improvements are not started"
   ],
-  "receiptDigest": "sha256:174ca40a10ff5a3b577bee4c595769672939e33b0fad8d47c05ec95325de7df1"
+  "receiptDigest": "sha256:7c4159631cc826b69605f535ba6376801ee05398cc6082f4e4d8c89c7cdf58a0"
 }

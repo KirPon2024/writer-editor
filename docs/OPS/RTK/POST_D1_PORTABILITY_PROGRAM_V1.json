@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED",
+  "status": "WORD_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -31,7 +31,7 @@
   "latestWordCandidate": {
     "profileId": "word-mac-latest-post-d1-v1",
     "observedSupplementalProfile": "Microsoft Word for Mac 16.111.2 supplemental runs after D1",
-    "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_REPLAY_CERTIFIED_WITH_TYPED_LIMITATIONS",
+    "status": "WORD_16_111_2_CERTIFIED_WITH_TYPED_LIMITATIONS_NOT_SATURATED",
     "certificationRequires": [
       "new settings capsule with exact Word version build channel architecture macOS locale and synthetic identity",
       "new frozen post-D1 corpus digest before first certification round",
@@ -43,12 +43,13 @@
       "comment bodies replies ordering resolved or typed unsupported outcomes",
       "writer-scale corpus including high page counts high comment density and formatting matrix"
     ],
-    "forbiddenShortcut": "Supplemental Word 16.111.2 ZIP and large-corpus fixes do not certify this profile without its own physical corpus and oracle chain.",
-    "currentCapability": "SATURATION_WAVE40_COMPLETE_NOT_SATURATED",
+    "forbiddenShortcut": "Supplemental ZIP and large-corpus fixes alone do not certify this profile; the current certification-with-typed-limitations is bound to physical Word receipts, targeted corpus readback, zero-veto metrics, and no saturation claim.",
+    "currentCapability": "TARGETED_GAP_CLOSURE_A02_RECONCILED_WITH_TYPED_LIMITATIONS",
     "certificationBoundary": [
       "D1 Word 16.42 remains immutable historical release evidence",
-      "post-D1 Word 16.111.2 text comments and formatting evidence is versioned separately",
-      "formatting evidence is diagnostic manual lane only until signed locator apply and re-export oracle are proven"
+      "post-D1 Word 16.111.2 is certified only for physically proven capability families with typed limitations",
+      "formatting evidence remains diagnostic manual lane until signed locator apply and re-export oracle are proven",
+      "literal overlapping tracked edits, modern reply graph, and resolve reopen remain outside automatic authority"
     ]
   },
   "capabilityProfileVocabulary": [
@@ -141,8 +142,8 @@
       "profileId": "word-mac-latest-post-d1-v1",
       "editor": "Microsoft Word Desktop for Mac latest",
       "authorityClass": "WORD_ORACLE_CANDIDATE",
-      "status": "SUPPLEMENTAL_EVIDENCE_NOT_CERTIFIED",
-      "currentCapability": "UNTESTED",
+      "status": "CERTIFIED_WITH_TYPED_LIMITATIONS_NOT_SATURATED",
+      "currentCapability": "TARGETED_GAP_CLOSURE_A02_RECONCILED_WITH_TYPED_LIMITATIONS",
       "physicalEvidenceRequired": true,
       "fixtureOnlyPassAllowed": false,
       "blocksPostD1DoneWhenActivated": true
@@ -301,9 +302,9 @@
     },
     {
       "stageId": "A02_WORD_MAC_LATEST_PROFILE",
-      "status": "IN_PROGRESS_WORD_PROFILE_CONTOUR_E10_REPLAY_STALE_CONFLICT_DONE_LOCALLY",
+      "status": "TARGETED_GAP_CLOSURE_COMPLETE_A02_TERMINAL_AUDIT_PENDING",
       "deliveryMode": "PR_AUTO",
-      "scope": "physical Word latest settings capsule, corpus, comments, format and scale matrix; E08 formatting diagnostic lane ready for delivery chain"
+      "scope": "physical Word latest profile is certified with typed limitations; targeted gap closure complete; terminal A02 audit and A03 promotion list remain next"
     },
     {
       "stageId": "A03_SAFE_PORTABILITY_IMPROVEMENTS",
@@ -339,7 +340,7 @@
   ],
   "nonClaims": [
     "No D1 F00 history is rewritten.",
-    "No Word 16.111.2 certification is claimed yet.",
+    "No Word SATURATED claim is made for Word 16.111.2.",
     "No Word Online support is claimed yet.",
     "No Google Docs support, import, sync, roundtrip, or parity is claimed yet.",
     "No LibreOffice, ONLYOFFICE, Pages, or WPS support is claimed yet.",
@@ -348,7 +349,8 @@
     "No user-facing UI, toolbar, layout, shell mode, or Design OS behavior is changed.",
     "No automatic apply authority is expanded.",
     "No fuzzy matching is introduced.",
-    "No manuscript or project truth write is performed by this program binding."
+    "No manuscript or project truth write is performed by this program binding.",
+    "No additional generic wave-300 repeat is required by current A02 truth."
   ],
   "designToolRouter": "NOT_APPLICABLE",
   "delivery": {
@@ -372,9 +374,9 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED",
+    "status": "EXECUTION_12_A02_TARGETED_GAP_CLOSURE_RECONCILED_NOT_SATURATED",
     "currentStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
-    "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
+    "nextStage": "EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST",
     "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
@@ -458,7 +460,6 @@
     "wordSandboxTmpHangRecovery": "WORD_QUIT_NO_DOCS_RESTORED_CONTAINER_TMP_MKDIR_BEFORE_REPAIR5",
     "wordStabilityLimitationAuditBound": true,
     "wordStabilityLimitationAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
-    "nextPhysicalStabilityWaveTarget": 300,
     "repeatWave300PhysicalOpenEditSaveCloseReopenPass": 300,
     "repeatWave300ParserPass": 299,
     "repeatWave300CommentThreads": 638,
@@ -482,9 +483,69 @@
     "modernCommentNativeUiFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
     "modernCommentNativeUiBlockedByExternalMacosAccessibility": false,
     "modernCommentNativeUiTargetedProbeAllowed": true,
-    "nativeUiRootModernCommentsCertified": 3,
+    "nativeUiRootModernCommentsCertified": 8,
     "nativeUiWordAuthoredTrackedReplacementCertified": true,
-    "nativeUiReplyResolveDeleteCertified": 0,
-    "nativeUiOverlappingTrackedEditsCertified": 0
+    "nativeUiReplyResolveDeleteCertified": 1,
+    "nativeUiOverlappingTrackedEditsCertified": 0,
+    "a02Verdict": "NON_TERMINAL_WORD_NOT_SATURATED_TARGETED_GAPS_REDUCED_A03_PROMOTION_LIST_REQUIRED",
+    "targetedGapClosureBound": true,
+    "targetedGapClosureReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+    "targetedGapClosureObservedCases": 30,
+    "targetedGapClosurePassCases": 27,
+    "targetedGapClosureTypedLimitations": 3,
+    "targetedGapClosureFailedCases": 0,
+    "nativeUiAdjacentTrackedEditsCertified": true,
+    "nativeUiSequentialTrackedEditsCertified": true,
+    "nativeUiParagraphBoundaryTrackedCertified": true,
+    "nativeUiCommentsAdjacentToRevisionsCertified": true,
+    "nativeUiReplyCertified": 0,
+    "nativeUiResolveReopenCertified": 0,
+    "nativeUiDeleteCertified": 1,
+    "wordSaturationPercentByCapabilityFamily": {
+      "rootModernComments": {
+        "certifiedCases": 8,
+        "attemptedCases": 8,
+        "percent": 100,
+        "productCapability": "COMMENTS_ONLY_SHADOW_ANALYSIS"
+      },
+      "modernRepliesResolveDelete": {
+        "certifiedOperations": 2,
+        "attemptedOperations": 4,
+        "percent": 50,
+        "productCapability": "TYPED_LIMITATION_UNLESS_READBACK_CERTIFIES_OPERATION"
+      },
+      "trackedRevisionsSupportedNonOverlap": {
+        "certifiedCases": 16,
+        "attemptedCases": 17,
+        "percent": 94,
+        "productCapability": "SHADOW_SEMANTIC_READBACK_NO_APPLY_AUTHORITY_EXPANSION"
+      },
+      "trackedOverlapAttempts": {
+        "certifiedCases": 1,
+        "attemptedCases": 1,
+        "percent": 100,
+        "productCapability": "WORD_NORMALIZED_SEMANTIC_EQUIVALENCE_ONLY_NO_LITERAL_OVERLAP_AUTHORITY"
+      },
+      "waveScaleStability": {
+        "certifiedStableWaves": 2,
+        "requiredStableWaves": 2,
+        "percent": 100,
+        "productCapability": "A02_PHYSICAL_SCALE_STABILITY_PROVEN_WITH_TYPED_LIMITATIONS"
+      }
+    },
+    "a03PromotionCandidates": [
+      "native root modern comments shadow analysis",
+      "non-overlap tracked replacement readback",
+      "adjacent end-to-start tracked replacement readback",
+      "paragraph-boundary tracked replacement readback",
+      "comments adjacent to tracked revisions shadow preservation"
+    ],
+    "shadowDiagnosticOnly": [
+      "literal overlapping tracked edit attempts",
+      "modern reply graph route unless parent links are present",
+      "resolve reopen state unless done true false state survives readback",
+      "delete thread route unless returned comments part proves removal",
+      "comment pane keyboard or context-menu operation without stable AX control binding"
+    ]
   }
 }

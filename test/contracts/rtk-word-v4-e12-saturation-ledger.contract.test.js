@@ -44,7 +44,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.status, 'WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED');
+  assert.equal(receipt.status, 'WORD_SATURATION_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED');
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
   assert.equal(receipt.saturationRule.lastCompletedWaveTarget, 300);
@@ -52,7 +52,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
   assert.equal(receipt.saturationRule.currentWaveObservedRounds, 300);
   assert.equal(receipt.saturationRule.consecutiveStableApprovedWaves, 2);
   assert.equal(receipt.saturationRule.stableHistogram, true);
-  assert.equal(receipt.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
+  assert.equal(receipt.nextStage, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
   assert.equal(receipt.saturationRule.saturated, false);
   assert.equal(receipt.saturationRule.googleDocsAllowedToOpen, false);
   assert.equal(receipt.notSaturatedReasons.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), false);
@@ -62,7 +62,7 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   const receipt = readJson(RECEIPT_PATH);
   const bindings = new Map(receipt.evidenceBindings.map((item) => [item.id, item]));
 
-  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK', 'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION', 'E12_CUSTOM_XML_AUTHORITY_REROUTE', 'E12_MULTI_SCENE_APPLY_LIMITATION', 'E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER']) {
+  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK', 'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION', 'E12_CUSTOM_XML_AUTHORITY_REROUTE', 'E12_MULTI_SCENE_APPLY_LIMITATION', 'E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE']) {
     assert.equal(bindings.get(id).status, 'BOUND');
     assert.match(bindings.get(id).sha256, /^[0-9a-f]{64}$/u);
   }
@@ -94,8 +94,12 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   assert.equal(receipt.aggregateTotals.automaticMultiSceneApplyCertified, 0);
   assert.equal(receipt.aggregateTotals.falseMultiSceneApplyCertification, 0);
   assert.equal(receipt.aggregateTotals.modernCommentNativeUiProbeCases, 1);
-  assert.equal(receipt.aggregateTotals.modernCommentNativeUiActionsPerformed, 1);
+  assert.equal(receipt.aggregateTotals.modernCommentNativeUiActionsPerformed, 30);
   assert.equal(receipt.aggregateTotals.falseModernCommentSupportClaim, 0);
+  assert.equal(receipt.aggregateTotals.targetedNativeUiGapCases, 30);
+  assert.equal(receipt.aggregateTotals.targetedNativeUiPassCases, 27);
+  assert.equal(receipt.aggregateTotals.targetedNativeUiTypedLimitationCases, 3);
+  assert.equal(receipt.aggregateTotals.targetedNativeUiFailedCases, 0);
   assert.equal(receipt.aggregateTotals.focusedE11CoordinatorContracts, 7);
 });
 
@@ -161,13 +165,13 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_NOT_SATURATED');
+  assert.equal(profile.status, 'WORD_16_111_2_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED');
+  assert.equal(cell.currentCapability, 'TARGETED_GAP_CLOSURE_A02_RECONCILED_WITH_TYPED_LIMITATIONS');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED');
+  assert.equal(program.status, 'WORD_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED');
   assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });
@@ -184,13 +188,13 @@ test('V4 E12 modern comment native UI followup binds physical root comments and 
   assert.equal(receipt.systemEvents.nativeUiAutomationAllowed, true);
   assert.equal(receipt.certificationDecision.rootModernCommentCertified, true);
   assert.equal(receipt.certificationDecision.wordAuthoredTrackedReplacementCertified, true);
-  assert.equal(receipt.certificationDecision.trackedAdjacentEditsCertified, false);
+  assert.equal(receipt.certificationDecision.trackedAdjacentEditsCertified, true);
   assert.equal(receipt.certificationDecision.trackedOverlappingEditsCertified, false);
   assert.equal(receipt.certificationDecision.modernReplyCertified, false);
   assert.equal(receipt.certificationDecision.resolveReopenCertified, false);
-  assert.equal(receipt.certificationDecision.deleteCertified, false);
+  assert.equal(receipt.certificationDecision.deleteCertified, true);
   assert.equal(receipt.remainingWordLimitations.includes('MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION'), true);
-  assert.equal(receipt.remainingWordLimitations.includes('NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED'), true);
+  assert.equal(receipt.remainingWordLimitations.includes('NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED'), true);
   assert.equal(receipt.saturated, false);
 });
 

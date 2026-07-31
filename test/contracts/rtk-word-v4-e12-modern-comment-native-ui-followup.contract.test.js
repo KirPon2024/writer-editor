@@ -20,7 +20,7 @@ async function loadVerifier() {
   return import(pathToFileURL(path.join(REPO_ROOT, SCRIPT_PATH)).href);
 }
 
-test('E12 modern comment native UI follow-up binds physical root comments and tracked replacement with typed limitations', async () => {
+test('E12 modern comment native UI follow-up binds targeted 30-case gap closure with typed limitations', async () => {
   const verifier = await loadVerifier();
   const receipt = readJson(RECEIPT_PATH);
   const result = verifier.evaluateWordV4E12ModernCommentNativeUiFollowup({ receipt, requireFiles: true });
@@ -28,22 +28,35 @@ test('E12 modern comment native UI follow-up binds physical root comments and tr
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
   assert.equal(receipt.result, 'PASS');
+  assert.equal(receipt.status, 'MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE_COMPLETE_NOT_SATURATED');
   assert.equal(receipt.systemEvents.targetedWordProcessProbe.ok, true);
   assert.equal(receipt.systemEvents.nativeUiAutomationAllowed, true);
+  assert.equal(receipt.systemEvents.openDocumentSetUnchanged, true);
+  assert.equal(receipt.physicalCorpus.genericWaveRepeated, false);
+  assert.equal(receipt.physicalCorpus.observedTargetedCases, 30);
+  assert.equal(receipt.physicalCorpus.failedCases.length, 0);
   assert.equal(receipt.certificationDecision.rootModernCommentCertified, true);
   assert.equal(receipt.certificationDecision.wordAuthoredTrackedReplacementCertified, true);
-  assert.equal(receipt.certificationDecision.trackedAdjacentEditsCertified, false);
+  assert.equal(receipt.certificationDecision.trackedAdjacentEditsCertified, true);
+  assert.equal(receipt.certificationDecision.trackedSequentialEditsCertified, true);
+  assert.equal(receipt.certificationDecision.trackedParagraphBoundaryCertified, true);
+  assert.equal(receipt.certificationDecision.commentsAdjacentToRevisionsCertified, true);
   assert.equal(receipt.certificationDecision.trackedOverlappingEditsCertified, false);
+  assert.equal(receipt.certificationDecision.wordNormalizedOverlapAttemptCertified, true);
   assert.equal(receipt.certificationDecision.modernReplyCertified, false);
   assert.equal(receipt.certificationDecision.resolveReopenCertified, false);
-  assert.equal(receipt.certificationDecision.deleteCertified, false);
+  assert.equal(receipt.certificationDecision.deleteCertified, true);
   assert.equal(receipt.certificationDecision.nativeUiPhysicalActionsPerformed, true);
   assert.equal(receipt.certificationDecision.externalPermissionRequired, false);
-  assert.equal(receipt.physicalCorpus.cases[0].result, 'PASS');
-  assert.equal(receipt.physicalCorpus.cases[1].result, 'PASS_WITH_OVERLAP_LIMITATION');
-  assert.equal(receipt.physicalCorpus.cases[2].result, 'TYPED_LIMITATION');
+  const adjacentCase = receipt.physicalCorpus.cases.find((item) => item.id === 'NCUI-T02');
+  assert.equal(adjacentCase.result, 'PASS');
+  assert.equal(adjacentCase.packageReadback.expectedTrackedTokensFound.includes('178553000002'), true);
+  assert.equal(adjacentCase.packageReadback.expectedTrackedTokensFound.includes('178553000003'), true);
+  assert.equal(adjacentCase.packageReadback.expectedTrackedTokensMissing.length, 0);
   assert.equal(receipt.remainingWordLimitations.includes('MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION'), true);
-  assert.equal(receipt.remainingWordLimitations.includes('NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED'), true);
+  assert.equal(receipt.remainingWordLimitations.includes('NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED'), true);
+  assert.equal(receipt.resolvedLimitations.includes('GENERIC_WAVE300_REPEAT_NOT_REQUIRED_FOR_CURRENT_GAP_CLOSURE'), true);
+  assert.equal(receipt.a02Verdict, 'NON_TERMINAL_WORD_NOT_SATURATED_TARGETED_GAPS_REDUCED_A03_PROMOTION_LIST_REQUIRED');
   assert.equal(receipt.saturated, false);
 });
 
@@ -62,7 +75,7 @@ test('E12 modern comment native UI follow-up rejects false support overclaims', 
   const result = verifier.evaluateWordV4E12ModernCommentNativeUiFollowup({ receipt: mutated });
 
   assert.equal(result.status, 'FAIL');
-  assert.equal(result.issues.some((item) => item.code === 'RTK_V4_E12_MODERN_NATIVE_UI_PHYSICAL_DECISION_INVALID'), true);
+  assert.equal(result.issues.some((item) => item.code === 'RTK_V4_E12_TARGETED_GAP_DECISION_INVALID'), true);
   assert.equal(result.issues.some((item) => item.code === 'RTK_V4_E12_MODERN_NATIVE_UI_RUNTIME_OVERCLAIM'), true);
   assert.equal(result.issues.some((item) => item.code === 'RTK_V4_E12_MODERN_NATIVE_UI_VETO_NONZERO'), true);
 });
@@ -78,16 +91,16 @@ test('E12 saturation ledger binds native UI physical limitation and keeps Word c
     program,
     requireFiles: true,
   });
-  const binding = ledger.evidenceBindings.find((item) => item.id === 'E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER');
+  const binding = ledger.evidenceBindings.find((item) => item.id === 'E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE');
 
   assert.equal(result.status, 'PASS');
   assert.equal(binding.status, 'BOUND');
   assert.equal(binding.path, RECEIPT_PATH);
   assert.equal(ledger.coverageLedger.modernCommentNativeUiFollowup.status, 'BOUND');
-  assert.equal(ledger.coverageLedger.modernCommentNativeUiFollowup.outcome, 'TARGETED_NATIVE_UI_ROOT_COMMENTS_AND_WORD_AUTHORED_TRACKED_REPLACEMENT_CONFIRMED_WITH_TYPED_LIMITATIONS');
+  assert.equal(ledger.coverageLedger.modernCommentNativeUiFollowup.outcome, 'TARGETED_30_CASE_NATIVE_UI_GAP_CLOSURE_CONFIRMED_WITH_TYPED_LIMITATIONS_NO_GENERIC_WAVE_REPEAT');
   assert.equal(ledger.notSaturatedReasons.includes('MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION'), true);
-  assert.equal(ledger.notSaturatedReasons.includes('NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED'), true);
+  assert.equal(ledger.notSaturatedReasons.includes('NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED'), true);
   assert.equal(ledger.saturationRule.saturated, false);
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });

@@ -6541,66 +6541,66 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "b4f837a543c0bc3504178551754e18ecc8c4a119cd5cf2461c63aab3f77ed1ed",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "da366ca0d2b589d5f63829ce07e844d81b5ba598207fed287650f1d5343c1810",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "37e03f6fdae33849fbde62b0b585bb58f7b66f5c19cd91aa9cbbcc12734d9b5f",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "2a71667f4ce2e0025c24650fd9a4835fd3f3edabba74f10503a42921dedbe30d",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
-      "sha256": "83f173e5614396dcf204ea9f2d6e11c1a705f42912a4bfdcf05b1d7e9be6f156",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "c2471ddf39f9347d14ff2f204636e81d6c4d8719d687a9800bc016ea37695a4f",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "3865ef09c155e8a3472339b1f38c343a3df1b526d03db1ebb0a81c0c2ceb3337",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-modern-comment-native-ui-followup.mjs",
-      "sha256": "2810caad91b6a4b8ce27a52ed6dfb941b33f6ddcb818c735531ae68d23eca563",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "10c109f9a45ebcf0baa56b5a5813394e9f792a3b0bfe737756580da287753fcd",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "c0bd21e626dda6b0c160407940dcde1b81f0cd57ec0ec54a542a8871a119f1d2",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "635fb994ec6fa1bc610c59b1d5aab66088fa8b4f91f10055800a2b4e8e3318ad",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "337a070c90d71a9954cdc96c88f4450a4b6c849eee77904c11fccaa24cc893f1",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "6e185dd00574419e9c469c00ddcc240e10a292301376ad00c595af2eb1e1f861",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
-      "sha256": "a700b427067dd4ee724cc39bfcd0d3658bf1b67dbd8a47e3099f49cd17c13bc7",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "735be046922ee46cf00095d48b6eec1c7f25656c9de2ca55f44c20396a95cf48",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "8a34bd46cf5715df9f5c817899331a5f690d2f44beb5ce8d08de3b99ba3dc6d9",
-      "approvedBy": "ticket:YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
-      "approvedAtUtc": "2026-07-31T15:20:00.000Z",
-      "rationale": "Approve bounded E12 native Word UI resume evidence: targeted System Events access works, physical root modern comments and Word-authored tracked replacement are proven, reply/resolve/delete and overlapping edits remain typed limitations, zero veto metrics, no Google/runtime/apply authority expansion."
+      "sha256": "42107158e0c5d5e37e40b99d249dccc1137bfdf43dab261e7087d7c1107dae6b",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
     }
   ]
 }

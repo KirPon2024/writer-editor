@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_NOT_SATURATED",
+  "status": "WORD_16_111_2_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,9 +388,9 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED",
+      "currentCapability": "TARGETED_GAP_CLOSURE_A02_RECONCILED_WITH_TYPED_LIMITATIONS",
       "physicalWordEvidence": true,
-      "consumer": "EXECUTION_12 Word limitation followup before Google Docs sequencing",
+      "consumer": "EXECUTION_12 A02 terminal Word audit before A03 promotion list",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
       "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
       "physicalTotals": {
@@ -430,9 +430,22 @@
         "modernCommentNativeUiProbeCases": 1,
         "modernCommentNativeUiActionsPerformed": 1,
         "falseModernCommentSupportClaim": 0,
-        "nativeUiRootModernCommentsCertified": 3,
-        "nativeUiTrackedReplacementCertified": 1,
-        "nativeUiReplyResolveDeleteCertified": 0
+        "nativeUiRootModernCommentsCertified": 8,
+        "nativeUiTrackedReplacementCertified": 16,
+        "nativeUiReplyResolveDeleteCertified": 1,
+        "targetedNativeUiGapCases": 30,
+        "targetedNativeUiPassCases": 27,
+        "targetedNativeUiTypedLimitationCases": 3,
+        "targetedNativeUiFailedCases": 0,
+        "nativeUiAdjacentTrackedEditsCertified": 1,
+        "nativeUiSequentialTrackedEditsCertified": 1,
+        "nativeUiParagraphBoundaryTrackedCertified": 1,
+        "nativeUiCommentsAdjacentToRevisionsCertified": 2,
+        "nativeUiWordNormalizedOverlapAttemptCases": 1,
+        "nativeUiOverlappingTrackedEditsCertified": 0,
+        "nativeUiReplyCertified": 0,
+        "nativeUiResolveReopenCertified": 0,
+        "nativeUiDeleteCertified": 1
       },
       "saturationRule": {
         "requiredWaveSequence": [
@@ -455,7 +468,7 @@
         "wordSaturationClaimAllowed": false,
         "googleDocsAllowedToOpen": false,
         "lastCompletedWaveTarget": 300,
-        "nextWaveTarget": "WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES"
+        "nextWaveTarget": "NO_GENERIC_WAVE_REPEAT_TARGETED_GAP_CLOSURE_DONE_A02_AUDIT_NEXT"
       },
       "supportedNow": [
         "Unicode bidi hostile performance crash and replay evidence is bound to merged receipts",
@@ -465,18 +478,21 @@
         "Google Docs and other editor profiles remain closed until Word saturation is proven",
         "customXml mutating-save loss is no longer an active saturation blocker because authority is explicitly rerouted to the C01/C02 customDocumentProperty carrier path",
         "multi-scene apply is explicitly kept shadow-only until a later writer-authority contour proves runtime apply with single-root-pointer crash safety",
-        "targeted native UI scripting physically creates root modern comments with body readback and Word-authored tracked replacement evidence"
+        "targeted 30-case native UI and Word object-model physical corpus is bound without repeating generic wave 300",
+        "NCUI-002 range-shift token loss is fixed by end-to-start selected ranges",
+        "native root modern comments survive save close reopen with commentsExtended commentsIds commentsExtensible people parts",
+        "non-overlap tracked replacements, adjacent replacements, sequential replacements, paragraph-boundary replacements, and comments adjacent to revisions survive semantic readback",
+        "Word object-model delete of a comment thread is physically read back as removed without granting manuscript apply authority"
       ],
       "limitations": [
         "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
         "WAVE300_REPEAT_STABLE_ZERO_VETO_PROVEN_BUT_NOT_SATURATED",
         "WORD_APPLESCRIPT_PARENT_COMMENT_DOES_NOT_PERSIST_AS_MODERN_REPLY_GRAPH",
         "WORD_APPLESCRIPT_DONE_PROPERTY_DOES_NOT_PERSIST_RESOLVE_REOPEN_STATE",
-        "WORD_APPLESCRIPT_DELETE_COMMENT_OBJECT_DID_NOT_REMOVE_RETURNED_COMMENT_BODY",
         "MULTI_SCENE_APPLY_REMAINS_SHADOW_ONLY_TYPED_LIMITATION",
-        "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED"
+        "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED"
       ],
-      "killCriterion": "Word SATURATED is claimed before waves 40 100 300 and two stable approved waves, any veto becomes nonzero, or Google Docs opens before Word saturation",
+      "killCriterion": "Word SATURATED is claimed while remaining typed limitations exist, any veto becomes nonzero, Google Docs opens before Word saturation, or targeted corpus evidence is replaced by a generic wave repeat.",
       "wave100EvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
       "wave300EvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json",
       "stabilityLimitationAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -485,7 +501,39 @@
       "modernCommentFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
       "customXmlAuthorityFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_FOLLOWUP_RECEIPT.json",
       "multiSceneApplyFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json",
-      "modernCommentNativeUiFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json"
+      "modernCommentNativeUiFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+      "capabilityFamilySaturation": {
+        "rootModernComments": {
+          "certifiedCases": 8,
+          "attemptedCases": 8,
+          "percent": 100,
+          "productCapability": "COMMENTS_ONLY_SHADOW_ANALYSIS"
+        },
+        "modernRepliesResolveDelete": {
+          "certifiedOperations": 2,
+          "attemptedOperations": 4,
+          "percent": 50,
+          "productCapability": "TYPED_LIMITATION_UNLESS_READBACK_CERTIFIES_OPERATION"
+        },
+        "trackedRevisionsSupportedNonOverlap": {
+          "certifiedCases": 16,
+          "attemptedCases": 17,
+          "percent": 94,
+          "productCapability": "SHADOW_SEMANTIC_READBACK_NO_APPLY_AUTHORITY_EXPANSION"
+        },
+        "trackedOverlapAttempts": {
+          "certifiedCases": 1,
+          "attemptedCases": 1,
+          "percent": 100,
+          "productCapability": "WORD_NORMALIZED_SEMANTIC_EQUIVALENCE_ONLY_NO_LITERAL_OVERLAP_AUTHORITY"
+        },
+        "waveScaleStability": {
+          "certifiedStableWaves": 2,
+          "requiredStableWaves": 2,
+          "percent": 100,
+          "productCapability": "A02_PHYSICAL_SCALE_STABILITY_PROVEN_WITH_TYPED_LIMITATIONS"
+        }
+      }
     }
   ]
 }

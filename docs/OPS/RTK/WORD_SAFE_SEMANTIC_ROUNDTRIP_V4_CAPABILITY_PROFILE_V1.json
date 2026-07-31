@@ -176,6 +176,22 @@
       "acceptanceTest": "test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",
       "provenTokenLength": 135,
       "killCriterion": "hash-cycle final DOCX digest, missing secret, tampered token, stale round, Word signal apply authority, or double self-parse mismatch passes"
+    },
+    {
+      "capabilityId": "rtk.word.v4.minimalSemanticKernel",
+      "operationFamily": "isolated parser output to Minimal Word Semantic Kernel lanes",
+      "state": "COMPONENT_PROVEN",
+      "currentCapability": "SEMANTIC_LANES_PROVEN_NOT_APPLY_AUTHORITY",
+      "physicalWordEvidence": false,
+      "consumer": "EXECUTION_05 SourceMap B/O/C/G projections UniqueDiff bounded text effects",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js",
+      "supportedNow": [
+        "tracked insert/delete/replacement-pair semantic support",
+        "comment shadow analysis",
+        "property/formatting manual lanes",
+        "move/structure/opaque typed blocking"
+      ],
+      "killCriterion": "parser reject, missing YRTK2, stale baseline, move/structure/opaque unsupported, or comment mutation overclaim passes"
     }
   ]
 }

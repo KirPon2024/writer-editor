@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e04-minimal-semantic-kernel-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_04_ISOLATED_PARSER_AND_MINIMAL_WORD_SEMANTIC_KERNEL",
+  "status": "LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "createdAtUtc": "2026-07-31T05:18:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "077420506bd2f9350b06ff8877092df4b6170dce",
+    "branch": "codex/rtk-v4-e04-minimal-word-semantic-kernel",
+    "headAtStageStart": "077420506bd2f9350b06ff8877092df4b6170dce",
+    "precedingE03Pr": 1278,
+    "precedingE03MergeSha": "077420506bd2f9350b06ff8877092df4b6170dce"
+  },
+  "canonicalSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4"
+  },
+  "precedingEvidence": {
+    "e03ReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2_RECEIPT.json",
+    "e03ReceiptSha256": "8d61040a25bf9dc99c5b7a637b3a090b203be6adf05fdf2992f8e708fa33b38b"
+  },
+  "implementedCore": {
+    "modulePath": "src/io/revisionBridge/reviewTransportWordSemanticKernelV4.mjs",
+    "schemaVersion": "yalken.rtk.word-v4.minimal-semantic-kernel.v1",
+    "consumes": [
+      "ReviewIRV2",
+      "YRTK2 verification",
+      "exactAuthority guards"
+    ],
+    "produces": [
+      "typed semantic lanes",
+      "comment shadow support",
+      "manual/blocked diagnostics"
+    ],
+    "isolatedParserBoundary": "parser output is input only; kernel does not parse ZIP or XML packages itself",
+    "hostilePackagePolicy": "parserResult.ok false blocks semantic certification",
+    "platformNeutralCore": true
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "automaticApplyExpanded": false,
+    "parserAuthorityIntegrated": false,
+    "writerAuthorityAdded": false,
+    "physicalWordCorpusExpanded": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0
+  },
+  "nextStage": "EXECUTION_05_SOURCEMAP_BOCG_PROJECTIONS_UNIQUEDIFF_BOUNDED_TEXT_EFFECTS",
+  "testEvidence": {
+    "e04FocusedContract": {
+      "command": "node --test test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0
+    },
+    "combinedFocusedContracts": {
+      "command": "node --test test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js test/contracts/governance-approval-state.contract.test.js test/contracts/governance-change-detection.contract.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "tests": 25,
+      "pass": 25,
+      "fail": 0
+    },
+    "governanceChangeDetection": "PASS",
+    "ossPolicy": "PASS",
+    "opsPolicy": "PASS",
+    "gitDiffCheck": "PASS",
+    "fullLocalRunner": {
+      "command": "npm test -- --runInBand",
+      "tests": 795,
+      "pass": 731,
+      "fail": 0,
+      "skipped": 64,
+      "perfBaseline": "PASS",
+      "menuAndReleaseChecks": "PASS"
+    }
+  }
+}

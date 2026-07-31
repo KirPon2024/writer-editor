@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+  "programStage": "ER_AUDIT_REPAIR_2026_07_31",
+  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_READY_FOR_DELIVERY_CHAIN",
+  "readinessDefault": "NOT_READY",
+  "designToolRouter": "NOT_APPLICABLE",
+  "generatedAtUtc": "2026-07-31T06:57:39.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-er-c03",
+    "baseSha": "f6278ac386d48ab1f13187cdbc2f7c0fa737c5f8",
+    "originMainSha": "f6278ac386d48ab1f13187cdbc2f7c0fa737c5f8",
+    "branchHeadShaAtValidation": "0f7e35cfe07c48932555715d630f7c0378d2c748",
+    "implementationCommitSha": "cb9bdbc9e19a2248499a92d33a7b87b2bbd515ea",
+    "scopeGuardCommitSha": "0f7e35cfe07c48932555715d630f7c0378d2c748",
+    "receiptCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "targetBinding": {
+    "sha": "0f7e35cfe07c48932555715d630f7c0378d2c748",
+    "platform": "macOS-local-dev",
+    "profile": "release-local-validation",
+    "timestampUtc": "2026-07-31T06:57:39.000Z",
+    "artifactDigest": "cfe5a32c8d5024f9c276078c15821080c86cdd7bf28d642a1c9809cf6eedc836",
+    "artifactIdentity": "tmp:yalken-er-c03-full-after-scope.log"
+  },
+  "implementedBoundary": {
+    "scopeIn": [
+      "shared product command registry for runtime-backed Atlas Manual Map Idea and Meaning commands",
+      "typed core registry parity for Atlas language tag and series portability command ids",
+      "renderer command catalog projection from shared product command registry",
+      "capability binding projection from shared product command registry",
+      "local capability provider free availability projection from shared product command registry",
+      "main ui command bridge allowlist projection from shared product command registry",
+      "fail-closed product command bridge adapter with no direct mutation",
+      "Atlas relation dossier review actions dispatch through Command Kernel authority",
+      "explicit Plot degraded no-runtime-mutating-command status",
+      "exact Sector M DONE scope-map rebind for the two command-registry source files"
+    ],
+    "scopeOut": [
+      "Stage 01 exact Atlas write journey recertification",
+      "Stage 02 graph workbench journey recertification",
+      "Stage 03 Plot Idea Meaning user surface recertification",
+      "Stage 05 full Atlas user outcome recertification",
+      "Stage 10 readiness certification",
+      "Stage 11 platform certification",
+      "new UI design contract",
+      "new dependency",
+      "network adapter",
+      "storage migration",
+      "worker implementation",
+      "release readiness claim",
+      "new Plot mutation command"
+    ]
+  },
+  "runtimeFacts": {
+    "sharedProductCommandRegistry": true,
+    "productRegistryMatchesCoreRuntimeProductCommands": true,
+    "typedCoreRegistryMatchesCoreRuntimeProductCommands": true,
+    "rendererCommandCatalogProjectsProductRegistry": true,
+    "capabilityPolicyProjectsProductRegistry": true,
+    "localAvailabilityProjectsProductRegistry": true,
+    "mainBridgeAllowlistProjectsProductRegistry": true,
+    "productCommandBridgeAuthority": "CommandKernel",
+    "productCommandBridgeMutationApplied": false,
+    "productCommandBridgeStorageWritten": false,
+    "unsupportedProductCommandFailsClosed": true,
+    "atlasRelationReviewActionsDispatchExistingCommands": true,
+    "atlasRelationReviewDirectStorageBypass": false,
+    "plotRuntimeMutatingCommandStatus": "degraded-no-runtime-mutating-command",
+    "stage11Started": false
+  },
+  "productCommandDomains": {
+    "atlas": "runtime-backed",
+    "manualMap": "runtime-backed",
+    "idea": "runtime-backed",
+    "meaning": "runtime-backed",
+    "plot": "degraded-no-runtime-mutating-command"
+  },
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "E01_STAGE_01_EXACT_ATLAS_USER_OUTCOME",
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME",
+    "E03_STAGE_03_PLOT_IDEA_MEANING_USER_OUTCOME",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E10_STAGE_10_ACCEPTANCE_READINESS",
+    "E11_STAGE_11_PLATFORM_CERTIFICATION_NOT_STARTED"
+  ],
+  "repairOrder": [
+    "ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+    "ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+    "ER_C02_SINGLE_QUERY_REGISTRY_AND_RUNTIME_PARITY",
+    "ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+    "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH",
+    "ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
+    "ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+    "ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+    "E11_ACTIVE_PLATFORM_CERTIFICATION",
+    "EFINAL"
+  ],
+  "negativeChecks": [
+    {
+      "id": "unknown-product-command-fail-closed",
+      "result": "PASS",
+      "summary": "Unknown product command ids are not admitted by the renderer registry or main bridge allowlist."
+    },
+    {
+      "id": "product-bridge-no-direct-mutation",
+      "result": "PASS",
+      "summary": "The main product command bridge returns a typed degraded Command Kernel adapter result and records mutationApplied false and storageWritten false."
+    },
+    {
+      "id": "relation-review-no-intent-only-logging",
+      "result": "PASS",
+      "summary": "Atlas relation review buttons now dispatch command ids through dispatchUiCommand with CommandKernel authority instead of only printing an intent status."
+    },
+    {
+      "id": "plot-not-silently-reachable",
+      "result": "PASS",
+      "summary": "Plot is explicitly reported as degraded-no-runtime-mutating-command and does not receive a fabricated runtime command."
+    },
+    {
+      "id": "sector-m-scope-no-wildcard",
+      "result": "PASS",
+      "summary": "Sector M scope-map rebind adds only exact DONE file paths for the two command-registry source files, with no wildcard prefix expansion."
+    }
+  ],
+  "validation": [
+    {
+      "id": "test-ops-clean-remote-bound-head",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Current wave guard PASS, strict doctor exit 0, boundary guard exit 0, strict lie classes OK."
+    },
+    {
+      "id": "focused-er-c03-and-sector-guard",
+      "command": "node --test test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js test/contracts/command-catalog.contract.test.js test/contracts/capability-command-coverage.contract.test.js test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused ER C03 and Sector M guard suite: 21 tests, 21 pass, 0 fail, 0 skipped."
+    },
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Renderer bundle rebuilt successfully after product command registry wiring."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Diff whitespace check completed with empty stdout and stderr."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1, references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Governance change detection ok true, missing approvals empty, approval registry valid."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "cfe5a32c8d5024f9c276078c15821080c86cdd7bf28d642a1c9809cf6eedc836",
+      "summary": "Full runner after scope-map repair: ops strict preflight 3 tests, 3 pass, 0 fail; main suite 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
+    }
+  ],
+  "nextExecutableContour": "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH"
+}

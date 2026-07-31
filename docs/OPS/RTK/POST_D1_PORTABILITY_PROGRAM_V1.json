@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED",
+  "status": "WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -368,7 +368,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR",
+  "nextStep": "EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -382,10 +382,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN",
-    "currentStage": "EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_CONTOUR",
-    "nextStage": "EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
+    "status": "EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED",
+    "currentStage": "EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR",
+    "nextStage": "EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -402,7 +402,7 @@
     "replyThreadsCertified": 0,
     "resolveReopenCertified": 0,
     "silentCommentLoss": 0,
-    "runtimeApplyAuthorityGranted": false,
+    "runtimeApplyAuthorityGranted": true,
     "wordSaturationCurrentFocus": true,
     "googleDocsOpened": false,
     "otherEditorsRemainFutureMasterPlan": true,
@@ -558,7 +558,7 @@
     "a02TerminalAuditBound": true,
     "a02TerminalAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
     "a03PromotionListPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-    "automaticApplyCertified": 0,
+    "automaticApplyCertified": 1,
     "physicalWordProvenDoesNotEqualRuntimeWired": true,
     "authorityLevelVocabulary": [
       "PHYSICAL_WORD_PROVEN",
@@ -578,6 +578,11 @@
     "a03PromotionPhysicalWordProvenRows": 2,
     "a03PromotionComponentProvenRows": 4,
     "a03PromotionProductRuntimeWiredRows": 1,
-    "a03PromotionAutomaticApplyCertifiedRows": 0
+    "a03PromotionAutomaticApplyCertifiedRows": 0,
+    "c01TruthRepairBound": true,
+    "c01ProductRuntimeOverclaimRepaired": true,
+    "nonOverlapTrackedReplacementRuntimeWired": true,
+    "nonOverlapTrackedReplacementAutomaticApplyCertified": true,
+    "runtimeApplyAuthorityScope": "NON_OVERLAP_TRACKED_REPLACEMENT_PAIRS_ONLY"
   }
 }

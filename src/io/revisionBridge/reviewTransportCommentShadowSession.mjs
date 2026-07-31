@@ -142,11 +142,14 @@ function normalizeAuthor(thread) {
 }
 
 function normalizeRootCommentThread(thread, index, reasons) {
+  const messages = Array.isArray(thread.messages) ? thread.messages.filter(isPlainObject) : [];
+  const rootMessage = messages[0] || {};
   const threadId = normalizeString(thread.threadId || `rtk-comment-${thread.commentId || index}`);
-  const commentId = normalizeString(thread.commentId || thread.rawId || thread.attributes?.id);
-  const status = normalizeString(thread.status) || 'ORPHAN';
-  const body = rawString(thread.body || thread.items?.[0]?.body);
-  const replies = list(thread.replies);
+  const commentId = normalizeString(thread.commentId || thread.rawId || thread.attributes?.id || rootMessage.messageId);
+  const rawStatus = normalizeString(thread.status) || 'ORPHAN';
+  const status = rawStatus === 'open' ? 'ANCHORED' : (rawStatus === 'resolved' ? 'RESOLVED' : rawStatus);
+  const body = rawString(thread.body || thread.items?.[0]?.body || rootMessage.body);
+  const replies = list(thread.replies).concat(messages.slice(1));
 
   if (!threadId || !commentId) {
     reasons.push(makeReason('RTK_COMMENT_UNSUPPORTED', `commentThreads.${index}`, 'Comment thread identity is required.'));
@@ -187,7 +190,30 @@ function normalizeRootCommentThread(thread, index, reasons) {
 
 function normalizeThreads(reviewIr) {
   const reasons = [];
-  const threads = list(reviewIr.commentThreads).map((thread, index) => normalizeRootCommentThread(thread, index, reasons));
+  const placements = new Map(list(reviewIr.commentPlacements).map((placement) => [
+    normalizeString(placement.threadId),
+    placement,
+  ]).filter(([threadId]) => Boolean(threadId)));
+  const threads = list(reviewIr.commentThreads).map((thread, index) => {
+    const threadId = normalizeString(thread.threadId);
+    const placement = placements.get(threadId);
+    return normalizeRootCommentThread({
+      ...thread,
+      quotedAnchorText: thread.quotedAnchorText || placement?.quote,
+      placement: isPlainObject(thread.placement)
+        ? thread.placement
+        : (placement ? {
+          outcome: placement.status === 'placed' ? 'ANCHORED' : 'ORPHAN',
+          anchored: placement.status === 'placed',
+          selectorStack: {
+            exactQuote: placement.quote,
+            prefix: placement.inlineRange?.prefix,
+            suffix: placement.inlineRange?.suffix,
+            utf16Position: placement.inlineRange?.start,
+          },
+        } : undefined),
+    }, index, reasons);
+  });
   if (threads.length === 0) {
     reasons.push(makeReason('RTK_COMMENT_UNSUPPORTED', 'reviewIr.commentThreads', 'A03-C01 requires at least one root comment thread.'));
   }

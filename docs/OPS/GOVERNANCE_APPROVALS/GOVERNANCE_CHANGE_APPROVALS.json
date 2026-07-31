@@ -1640,6 +1640,48 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-compact.png",
+      "sha256": "3eaa44c73bd99875c7c3474256131de10c1276dac09fec2c918f2b0ae8829d23",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-desktop.png",
+      "sha256": "862436edacde1942817b8aa137c9f0fe44239204f4b018c52abc8cf07e1b9ef6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-handset-advisory.png",
+      "sha256": "1e0b26e4e264de363109e346c8459bffc5923debc491c18d20387ac02cf76034",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-laptop.png",
+      "sha256": "42eae2c07511c3313d4c229cb710fcefa29c4bb9ff5d14afb869049e8e332564",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-responsive-audit.json",
+      "sha256": "4cb52c316f9e01f78b2d4f5ad7134dc09269da24343216df09fb77a52281bcfb",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-tablet.png",
+      "sha256": "460e17150cabf5ffb44dd721ea87c169f473a9fcfed6de8e18d0dbbcde8a73f4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
       "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
       "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
@@ -1760,10 +1802,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "2ed23a8d9b1db37c11e312b1ac8485ec52cd0726539bbb07b70df65c5ec416c1",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "3a481e7138408aa8dacc64b8c1e12126eb046f88e25d7766efe04ac71ac87516",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -1878,11 +1920,18 @@
       "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "58fab19813e5ea085db77053fd45e7c185537933812f15a74f3d8fcd3d79cd85",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
+      "sha256": "cec7bee0c310e421c20306421373471c0a423759b9df4e55a21c91c1e7673908",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+      "sha256": "4e0598f7a00fca701b87f70295b333fe6fb977978ffdf0c21e7c7030814502ab",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
@@ -1900,10 +1949,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "d0316e4d8e9cc743500d4ff9157e6522fcc0780f2ebbb9e6a54639f8e314b183",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "8d6d99448df1d2cd2871a7f241756a7a53b847893085e72717ca981d7aefbdc8",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2040,10 +2089,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "8b4fe95658a255d49075f9c19ba755e2466e6c0605f52946ad07c70ef432fdb4",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "6160384fdfc687c3bc1cb8ddd66c713dd545b92b726b4072da23767eece953a4",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -3712,6 +3761,13 @@
       "rationale": "Approve append-only R2 C02 safe semantic interactions receipt after local validation: focused suite, renderer build, test:ops, Design OS doctrine, OSS policy, governance detection, and full runner PASS while Program DoD remains NOT_READY and delivery fields remain pending."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json",
+      "sha256": "65110eef2dc8533493d19355c2e30952b90ae71723e5caa115f9bfb50a30a866",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_FINAL_RECEIPT_REBIND",
+      "approvedAtUtc": "2026-07-31T17:40:14.900Z",
+      "rationale": "Final R2 C03 receipt governance rebind after actual full-runner PASS evidence: approval hash matches current repo bytes; Program DoD remains NOT_READY pending R2 C04-C06."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
       "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -4266,17 +4322,24 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
-      "sha256": "1a290d9a7c7d49056e98a532deeee0797d433aefb7f98c95b4e00f2463d58078",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "23f9d70e830f4393d4062bd5ba80e93422a85d3b97bebfb8f17fdd58dea1bdbd",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "98e149f025d72f2b801324e5b73ebdb93f33bd107ced26e744af43001f52f066",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "0e3da26eef9c23a2629805f4c4a1df1887c06f4e28d55ed418eae8c91036ea5f",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
+      "sha256": "26d8f91314b6ff885adf67fd797e2f8e4f58fb7c45baa283535af933238d3c99",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -4385,17 +4448,17 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "a5c232169015acc583b31180de04f6535d8b4621de250b08d4228abad869fe4c",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "1471235b29e78029c6d663b2b3f096e9197b91a68c424e87e863aa03d2782103",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "f94df7df7e72d50d12baa1d03b3a090a2d47679c7c72167392843bd3ed9aef02",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "cda2c81685eecf3694ee8059b2ab550330937d5c4ad0768c172bb0bc3383d1c7",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -4489,6 +4552,13 @@
       "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
     },
     {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs",
+      "sha256": "f4f4f210f7fe7e4ebd4af802f25de5c4fa743fb028817970525b4a9c4a4c72e3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
       "filePath": "scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs",
       "sha256": "82d1d121f9fe2d74781cb6862dea5147645667e97b5eea5f7b04200781ef031a",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
@@ -4508,6 +4578,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
       "approvedAtUtc": "2026-07-31T08:37:30.000Z",
       "rationale": "Approve ER C05 measured 10k worker budget script: builds deterministic local corpus, runs real worker-thread iterations, measures wall time, input latency, frame delay, heap, transfer bytes, LOD nodes and edges, and spatial cells, and adds no network, dependency, storage writer, or readiness claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-er-c06-atlas-rail-responsive-audit.mjs",
+      "sha256": "4b3893a38696acad301b4431e7bd0bb18679cd9fba89c9d9bb1b9215ba2a3d7a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c07-stage-revalidation-handoff.mjs",
@@ -4536,6 +4613,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
       "approvedAtUtc": "2026-07-31T12:47:44.597Z",
       "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+    },
+    {
+      "filePath": "src/command/commandSurfaceKernel.js",
+      "sha256": "5de50f65ea11737f4288233a669c9b25b01f840881b36e3163bd949779e819f9",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -4609,10 +4693,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "d8235f1accd39743b4d5fda2aa9df515a68191a341f8d7de23f97f2f43ddcafe",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
-      "approvedAtUtc": "2026-07-31T12:47:44.597Z",
-      "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
+      "sha256": "acb12624931da2c4fb37713fffed72048d5e99a18d7486e11945eacafd3e5847",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -4655,6 +4739,13 @@
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
       "approvedAtUtc": "2026-07-30T15:45:00.000Z",
       "rationale": "Approve bounded B04 platform-neutral ReviewIRV2 classifier core: classifies text, replacement pairs, move revisions, property revisions, structure changes, formatting deltas, comments and opaque unsupported lanes through CryptoPort digests, requires signed locator and baseline guards for exact candidates, blocks moves and structure from exact, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not apply."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "eade832bf081f8fd41eda48817fcce94a721d264575b3c60ea28fd14cf8500f3",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
@@ -4706,6 +4797,13 @@
       "rationale": "Approve E11 platform-neutral multi-scene atomic coordinator component: validates same-root prepare records, unique scene request and effect identities, staged receipt matching, root-pointer commit preconditions and recovery states through injected crypto only, with no Node filesystem, Electron, renderer, network or writer authority."
     },
     {
+      "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
+      "sha256": "821cb6ccea60ebb4f1761cb19ee8294cd85893789dcbf692e77f3ba1076ef7cc",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
       "sha256": "84a6b7fc882b323e2b6d4125a34b794f0d57bc281b5b80e882e1a87f883e9232",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
@@ -4749,10 +4847,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "8db6907f1e68d35e245b1ec49a18341fc2a2351a63f398f61837578b608a3be4",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+      "sha256": "1293fd574e1862c4b7adea7eb206d51134df5b732098283ea62fc9cc84e424c6",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "src/preload.js",
@@ -5484,10 +5582,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "d0be567db82623b44061c2c2286ac0ad29d2e4010dc8400787c60231737c948a",
-      "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_REVIEW_V1_GATE_C_001",
-      "approvedAtUtc": "2026-07-12T23:44:36.000Z",
-      "rationale": "Approve command-surface coverage for manual text candidates, real target types, and blocked Apply."
+      "sha256": "db9c7ab920518c9e7a38b8431d8dc61844e38f2651b6b71104898e758c53f156",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
@@ -5847,6 +5945,13 @@
       "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "sha256": "26245e2808380502b221af5a17948270572cb551747dde5beb2587003d97b93e",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
       "sha256": "db85dee94158e54a8c22298eb532b474783dd4569658d841e098327621b743c6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -5883,80 +5988,80 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "7f76722f975e1ab6d3dc77ca37c54e13ff28147c95df28524de1bf1ba85293c9",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "69f8c0bd038910985f6ff4b08af4f8f4eba4a314a9efd8a6268b320f5c41e1e3",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "11d832f85428bf17c2285ac428a880d6dba89057fc3d4b38502823eaa0520f3e",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "f9c776161cd090c9bb62db6f51b342c735c55c8c1b662e3cdb4658a670181fac",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "fcd719e9f1827deed1850785f3ca1ab655375b1f621ec774350b8014970648ac",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "deee292f109df53619bb09fa6780229751f3001745bbaf6b28316d0f79569eec",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "f4bb2b779caefda34d6aeedcb9af72a31967a31c46194a8cfb005d882c024e70",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "5d7ecd3a4e64100710d54c17db267f48b15bfefb7f0b025d211d30899b01c0b5",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "2833c911c7406702ae50462c37cbde6b1269a4b384f73cd841b800287cf21adb",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "4c8ed29e0ab630a2502c80d27aa4ac2c2673d480e1141db7d144fcfed330693f",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "49f97d93e6befd0381a3654500215f8f8adaa7672ff7ac57aadd60ba9a3aa78a",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "986afda1594b1af3472f6b5313f97388a9dc7c970eb5ec8e4f988286170087e9",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
-      "sha256": "4de5084ccc5f6dbcd70e1e54548f330d84b91f750feb243eb19540bfc16b4770",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "4628e38a5204078960d3363fc14626996aa86ae701555c7c25f00b5fd122dd7d",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
-      "sha256": "647d4eb16b6641a49143aeeefd0dce35dc78450da2b9e1e976f7c08329fcf3c0",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "19f637e1b2da7ecb506d5aedd4cf98b4c7e8e7d8187f46dd30865c23d549b20f",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
-      "sha256": "ddcea2fe104569f1085eaa007f570f25b89d7590cbb1fb75ce54a4fcbf83d77c",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "2705e017dabc0e8a933a5e60cdf08524c2be1887b8d355d7a87507f29b98ce20",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
-      "sha256": "70f799587276c19a9fa28b4beb9e1d343414e055785d0b7df9a144f38caebdc3",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "5792cd7b310965c00d9ac60b95c931c1bc295b088f73a780401a070af6a2526e",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "2199053c9f51a44a305a68ff4842906c319dd0a1b721b1493de90b78519ba27e",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "sha256": "a425612e4087002eee33ca0cb0addce21abcf8409e152a4f8478704d2db080bb",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -6540,6 +6645,13 @@
       "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
+      "sha256": "eee9ad45f67f5a31e98734c47dafdd479e150325b0d55c2050ff3f84a729296d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.contract.test.js",
       "sha256": "a983099a70adeb435af71383192d8d88d43ceb3ac091011b582c62e54071e892",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
@@ -6589,6 +6701,13 @@
       "rationale": "Approve ER C05 focused contract: proves compact transferable payload, real worker-thread execution, LOD and spatial index result, coalescing, cancellation, stale discard, typed fallback, measured 10k budget, old false worker label removal, and no storage, network, Electron, direct UI, or product truth bypass."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js",
+      "sha256": "9b190a013c06691f53884d30e72d9c4146102303ecb889e40e5c0e669042fa87",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-er-c07-stage-revalidation-handoff.contract.test.js",
       "sha256": "f77df5c35769632042901baf293a763adde8a3243853855a613f4f8a8a116271",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
@@ -6615,6 +6734,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
       "approvedAtUtc": "2026-07-31T17:20:00.000Z",
       "rationale": "Approve R2 C02 focused contract: proves visible Manual Map command draft forms, impact preview, explicit target identity, risk confirmation, cancel/no-op proof, no first-object fallback, drag preview before apply, and no new UI dependency."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c03-responsive-accessible-reachability.contract.test.js",
+      "sha256": "231ad7bd98d33306b10a35e3b54af8465535e84f9177a31f6dd402ab9391afd2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",
@@ -6660,10 +6786,10 @@
     },
     {
       "filePath": "test/unit/sector-m-no-scope-leak.test.js",
-      "sha256": "e88905e86520843920daa965e3419b02c0bcbce686ee0ea89843440c0d292a73",
-      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01_SECTOR_M_GUARD_BOUNDARY_FIX",
+      "sha256": "83cb915be3d3847e09edeac24ae5bf967f59cfe8170eb3a26a7c28ada9f660d7",
+      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded Sector-M guard boundary repair so Sector-M diff allowlist enforces only on Sector-M or Atlas branches, or explicit forced scope guard, and no longer blocks RTK Word runtime contours with unrelated source diffs."
+      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
     },
     {
       "filePath": "test/unit/yalken-design-os-sidebar-control-truth.test.js",
@@ -6671,90 +6797,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-compact.png",
-      "sha256": "3eaa44c73bd99875c7c3474256131de10c1276dac09fec2c918f2b0ae8829d23",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-desktop.png",
-      "sha256": "862436edacde1942817b8aa137c9f0fe44239204f4b018c52abc8cf07e1b9ef6",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-handset-advisory.png",
-      "sha256": "1e0b26e4e264de363109e346c8459bffc5923debc491c18d20387ac02cf76034",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-laptop.png",
-      "sha256": "42eae2c07511c3313d4c229cb710fcefa29c4bb9ff5d14afb869049e8e332564",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-responsive-audit.json",
-      "sha256": "4cb52c316f9e01f78b2d4f5ad7134dc09269da24343216df09fb77a52281bcfb",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-tablet.png",
-      "sha256": "460e17150cabf5ffb44dd721ea87c169f473a9fcfed6de8e18d0dbbcde8a73f4",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json",
-      "sha256": "65110eef2dc8533493d19355c2e30952b90ae71723e5caa115f9bfb50a30a866",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_FINAL_RECEIPT_REBIND",
-      "approvedAtUtc": "2026-07-31T17:40:14.900Z",
-      "rationale": "Final R2 C03 receipt governance rebind after actual full-runner PASS evidence: approval hash matches current repo bytes; Program DoD remains NOT_READY pending R2 C04-C06."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs",
-      "sha256": "f4f4f210f7fe7e4ebd4af802f25de5c4fa743fb028817970525b4a9c4a4c72e3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-er-c06-atlas-rail-responsive-audit.mjs",
-      "sha256": "4b3893a38696acad301b4431e7bd0bb18679cd9fba89c9d9bb1b9215ba2a3d7a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
-      "sha256": "eee9ad45f67f5a31e98734c47dafdd479e150325b0d55c2050ff3f84a729296d",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js",
-      "sha256": "9b190a013c06691f53884d30e72d9c4146102303ecb889e40e5c0e669042fa87",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-r2-c03-responsive-accessible-reachability.contract.test.js",
-      "sha256": "231ad7bd98d33306b10a35e3b54af8465535e84f9177a31f6dd402ab9391afd2",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
-      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
-      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
     }
   ]
 }

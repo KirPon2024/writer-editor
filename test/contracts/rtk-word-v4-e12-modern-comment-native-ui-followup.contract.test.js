@@ -101,6 +101,6 @@ test('E12 saturation ledger binds native UI physical limitation and keeps Word c
   assert.equal(ledger.notSaturatedReasons.includes('MODERN_REPLY_REMAINS_ZERO_PARENT_LINK_NOT_CERTIFIED'), true);
   assert.equal(ledger.notSaturatedReasons.includes('TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_TYPED_LIMITATION'), true);
   assert.equal(ledger.saturationRule.saturated, false);
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR');
+  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_03_(A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR|A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE)$/u);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });

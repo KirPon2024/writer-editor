@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-c02-non-overlap-tracked-replacement-runtime-receipt.v1",
+  "taskId": "YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+  "contourId": "A03-C02",
+  "status": "WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
+  "result": "PASS",
+  "headBinding": {
+    "headSha": "97b671f28fad622eff3d56b086724e1aaf5bb4df",
+    "originMainSha": "97b671f28fad622eff3d56b086724e1aaf5bb4df",
+    "mergedRemoteShaRequired": true
+  },
+  "truthCorrections": {
+    "c01ProductRuntimeOverclaimRepaired": true,
+    "c01HandlerImportedByProductCompositionRoot": true,
+    "c01DocxReviewPreviewActivationInvokesCommentShadowCommand": true,
+    "detachedOriginMainFullSuiteSectorMRepair": true,
+    "priorPr1320FinalSummaryScopeWasIncomplete": true
+  },
+  "priorPr1320FullChangedBasenames": [
+    "GOVERNANCE_CHANGE_APPROVALS.json",
+    "POST_D1_PORTABILITY_PROGRAM_V1.json",
+    "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
+    "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+    "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+    "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+    "commandSurfaceKernel.js",
+    "reviewTransportCommentShadowSession.mjs",
+    "rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
+    "rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+    "rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+    "rtk-word-v4-e06-physical-text-certification.contract.test.js",
+    "rtk-word-v4-e07-comments-replies-states.contract.test.js",
+    "rtk-word-v4-e08-effective-formatting.contract.test.js",
+    "rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+    "rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+    "rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+    "rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
+    "rtk-word-v4-e12-modern-comment-followup.contract.test.js",
+    "rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
+    "rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
+    "rtk-word-v4-e12-saturation-ledger.contract.test.js",
+    "rtk-word-v4-e12-saturation-ledger.mjs",
+    "rtk-word-v4-e12-stability-limitation-audit.mjs",
+    "sector-m-no-scope-leak.test.js",
+    "sector-m-run.mjs"
+  ],
+  "runtimeProof": {
+    "previewStatus": "preview-ready",
+    "previewCanApply": true,
+    "appliedStatus": "applied",
+    "applied": true,
+    "writerCalled": true,
+    "textAfterApply": "Alpha delta gamma.\nOther beta phrase.",
+    "replayStatus": "replay",
+    "replayApplied": false,
+    "replayWriterCalled": false,
+    "replacementPairCount": 1,
+    "trustedBlockRangeDigestCount": 1,
+    "writerBindingDigest": "sha256:f9f2421855429e231ba73fd9ceca270fd5c9ce16b7ec6f4eadd97e16d48230ea",
+    "envelopeDigest": "sha256:83e86e56c1187b90ac0f623ba922b32eb7c8f32e5387bcd446babfca1878c975",
+    "outcomeDigest": "sha256:8e1e94fce31594c3df98b378ab3e9c9a90b1ee93f9149f406d5c7e8ae70fa4d4",
+    "negativeRows": [
+      {
+        "id": "unsigned",
+        "status": "blocked",
+        "reason": "RTK_MANUAL_DEGRADED_LOCATOR",
+        "writerCalled": false,
+        "textUnchanged": true
+      },
+      {
+        "id": "staleRawHash",
+        "status": "blocked",
+        "reason": "RTK_BLOCKED_STALE_REVISION",
+        "writerCalled": false,
+        "textUnchanged": true
+      },
+      {
+        "id": "duplicateAmbiguous",
+        "status": "blocked",
+        "reason": "RTK_BLOCKED_AMBIGUOUS_TEXT",
+        "writerCalled": false,
+        "textUnchanged": true
+      },
+      {
+        "id": "overlap",
+        "status": "blocked",
+        "reason": "RTK_BLOCKED_TOKEN_CONTRADICTION",
+        "writerCalled": false,
+        "textUnchanged": true
+      },
+      {
+        "id": "previewNotConfirmed",
+        "status": "blocked",
+        "reason": "RTK_WRITE_PRECONDITION_FAILED",
+        "writerCalled": false,
+        "textUnchanged": true
+      }
+    ]
+  },
+  "implementedCapability": {
+    "capability": "nonOverlapTrackedReplacementRuntimeApply",
+    "physicalWordProven": true,
+    "componentProven": true,
+    "productRuntimeWired": true,
+    "automaticApplyCertified": true,
+    "scope": "physically proven non-overlap tracked replacement pairs only",
+    "notPromoted": [
+      "adjacent triple edits",
+      "literal overlap",
+      "modern replies",
+      "resolve then reopen"
+    ]
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentLoss": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0
+  },
+  "evidenceFiles": {
+    "module": {
+      "path": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
+      "sha256": "821cb6ccea60ebb4f1761cb19ee8294cd85893789dcbf692e77f3ba1076ef7cc"
+    },
+    "contract": {
+      "path": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "sha256": "26245e2808380502b221af5a17948270572cb551747dde5beb2587003d97b93e"
+    },
+    "c01Receipt": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
+      "sha256": "346d9cfd683350bbcca3e66315799c8dabb7f0142f65085671ef7a4367cf39c3"
+    }
+  },
+  "nextStage": "EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE"
+}

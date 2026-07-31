@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-promotion-list.v1",
   "taskId": "YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-  "status": "A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT",
+  "status": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_C03_NEXT",
   "createdAtUtc": "2026-07-31T16:19:31.790Z",
   "sourceTerminalReceipt": {
     "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
@@ -50,19 +50,19 @@
       "runtimeReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json"
     },
     {
-      "capability": "nonOverlapTrackedReplacementShadowImport",
+      "capability": "nonOverlapTrackedReplacementRuntimeApply",
       "physicalEvidence": [
         "NCUI-T01 through NCUI-T06",
         "NCUI-T08 through NCUI-T16",
         "NCUI-T18"
       ],
       "parserComponentConsumer": "Minimal Word Semantic Kernel TextRevision lane",
-      "missingRuntimeWiring": "signed locator envelope, effect grouping, preview, Command Kernel apply envelope, reverse verification",
+      "missingRuntimeWiring": "none for physically proven non-overlap tracked replacement pairs; adjacent triple and overlap remain typed limitations",
       "authorityLevel": {
         "physicalWordProven": true,
         "componentProven": true,
-        "productRuntimeWired": false,
-        "automaticApplyCertified": false
+        "productRuntimeWired": true,
+        "automaticApplyCertified": true
       },
       "negativeTests": [
         "valid signed locator required before apply",
@@ -80,7 +80,9 @@
         "readback after write"
       ],
       "implementationContour": "A03-C02-NONOVERLAP-TRACKED-REPLACEMENT-RUNTIME-WIRING",
-      "killCriterion": "any duplicate, stale, overlap, wrong scene, unsigned, or reverse-verify-failing change applies"
+      "killCriterion": "any duplicate, stale, overlap, wrong scene, unsigned, or reverse-verify-failing change applies",
+      "runtimeContour": "A03-C02",
+      "runtimeReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json"
     },
     {
       "capability": "adjacentTrackedReplacementExactCandidate",
@@ -173,8 +175,8 @@
     "A03 list does not open Google Docs.",
     "A03 list does not remove future editor stages."
   ],
-  "latestRuntimeContour": "A03-C01",
-  "nextContour": "A03-C02",
+  "latestRuntimeContour": "A03-C02",
+  "nextContour": "A03-C03",
   "truthCorrection": {
     "finalSummaryPhysicalWordProvenRowsWasWrong": true,
     "a03PromotionList": {
@@ -195,5 +197,47 @@
       ]
     },
     "authorityCountsAreNotInterchangeable": true
+  },
+  "truthRepair": {
+    "c01ProductRuntimeOverclaimRepaired": true,
+    "c01HandlerImportedByProductCompositionRoot": true,
+    "c01DocxReviewPreviewActivationInvokesCommentShadowCommand": true,
+    "detachedOriginMainFullSuiteSectorMRepair": true,
+    "priorPr1320FinalSummaryScopeWasIncomplete": true
+  },
+  "priorPr1320FullChangedBasenames": [
+    "GOVERNANCE_CHANGE_APPROVALS.json",
+    "POST_D1_PORTABILITY_PROGRAM_V1.json",
+    "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
+    "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+    "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+    "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+    "commandSurfaceKernel.js",
+    "reviewTransportCommentShadowSession.mjs",
+    "rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
+    "rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+    "rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+    "rtk-word-v4-e06-physical-text-certification.contract.test.js",
+    "rtk-word-v4-e07-comments-replies-states.contract.test.js",
+    "rtk-word-v4-e08-effective-formatting.contract.test.js",
+    "rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+    "rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+    "rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+    "rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
+    "rtk-word-v4-e12-modern-comment-followup.contract.test.js",
+    "rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
+    "rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
+    "rtk-word-v4-e12-saturation-ledger.contract.test.js",
+    "rtk-word-v4-e12-saturation-ledger.mjs",
+    "rtk-word-v4-e12-stability-limitation-audit.mjs",
+    "sector-m-no-scope-leak.test.js",
+    "sector-m-run.mjs"
+  ],
+  "authorityCounts": {
+    "totalRows": 5,
+    "physicalWordProvenRows": 2,
+    "componentProvenRows": 4,
+    "productRuntimeWiredRows": 2,
+    "automaticApplyCertifiedRows": 1
   }
 }

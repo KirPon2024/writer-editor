@@ -36,6 +36,10 @@ const PROGRAM_STATUS = 'WORD_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED'
 const PROFILE_STATUS = 'WORD_16_111_2_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED';
 const LEDGER_STATUS = 'WORD_SATURATION_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED';
 const PROMOTION_STATUS = 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT';
+const C02_PROGRAM_STATUS = 'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED';
+const C02_PROFILE_STATUS = 'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED';
+const C02_LEDGER_STATUS = 'WORD_SATURATION_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED';
+const C02_PROMOTION_STATUS = 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_C03_NEXT';
 const STATE_STATUS = 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN';
 const CURRENT_STAGE = 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_CONTOUR';
 const NEXT_STAGE = 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR';
@@ -298,6 +302,42 @@ function countPromotionRows(promotionList) {
   };
 }
 
+function isC02SuccessorPromotionList(promotionList) {
+  const rows = list(promotionList.rows);
+  const rootRow = rows.find((row) => row.capability === 'rootModernCommentShadowImport');
+  const c02Row = rows.find((row) => row.capability === 'nonOverlapTrackedReplacementRuntimeApply');
+  return promotionList.status === C02_PROMOTION_STATUS
+    && rows.length === 5
+    && rootRow?.authorityLevel?.productRuntimeWired === true
+    && rootRow?.authorityLevel?.automaticApplyCertified === false
+    && c02Row?.authorityLevel?.productRuntimeWired === true
+    && c02Row?.authorityLevel?.automaticApplyCertified === true
+    && rows.filter((row) => row.authorityLevel?.productRuntimeWired === true).length === 2
+    && rows.filter((row) => row.authorityLevel?.automaticApplyCertified === true).length === 1;
+}
+
+function isC02SuccessorState(profile, program, ledger, promotionList) {
+  return isC02SuccessorPromotionList(promotionList)
+    && profile.status === C02_PROFILE_STATUS
+    && program.status === C02_PROGRAM_STATUS
+    && program.nextStep === 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE'
+    && program.v4ExecutionState?.status === 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED'
+    && program.v4ExecutionState?.rootModernCommentShadowRuntimeWired === true
+    && program.v4ExecutionState?.c01TruthRepairBound === true
+    && program.v4ExecutionState?.nonOverlapTrackedReplacementAutomaticApplyCertified === true
+    && program.v4ExecutionState?.runtimeApplyAuthorityScope === 'NON_OVERLAP_TRACKED_REPLACEMENT_PAIRS_ONLY'
+    && program.v4ExecutionState?.googleDocsOpened === false
+    && ledger.status === C02_LEDGER_STATUS
+    && ledger.coverageLedger?.a03C01CommentShadowRuntime?.status === 'BOUND'
+    && ledger.coverageLedger?.a03C02NonOverlapTrackedReplacementRuntime?.status === 'BOUND'
+    && ledger.runtimeClaims?.productRuntimeChanged === true
+    && ledger.runtimeClaims?.writerAuthorityAdded === true
+    && ledger.runtimeClaims?.automaticApplyExpanded === true
+    && ledger.runtimeClaims?.automaticApplyScope === 'non-overlap tracked replacement pairs only'
+    && ledger.runtimeClaims?.googleDocsOpened === false
+    && ledger.runtimeClaims?.wordSaturated === false;
+}
+
 function evaluateReceiptShape(receipt, promotionList, issues) {
   if (receipt.schemaVersion !== RECEIPT_SCHEMA) issues.push(issue('RTK_A03_C01_SCHEMA_INVALID', 'schemaVersion', 'A03-C01 receipt schema is invalid.'));
   if (receipt.status !== STATUS || receipt.result !== 'PASS') issues.push(issue('RTK_A03_C01_STATUS_INVALID', 'status', 'A03-C01 receipt must be PASS without saturation.'));
@@ -311,7 +351,12 @@ function evaluateReceiptShape(receipt, promotionList, issues) {
     || correction.automaticApplyCertifiedRows !== 0) {
     issues.push(issue('RTK_A03_C01_TRUTH_CORRECTION_INVALID', 'truthCorrection', 'A03-C01 must correct row, family, and authority counts explicitly.'));
   }
-  if (counts.totalRows !== 5 || counts.physicalWordProvenRows !== 2 || counts.componentProvenRows !== 4 || counts.productRuntimeWiredRows !== 1 || counts.automaticApplyCertifiedRows !== 0) {
+  const c01CurrentCounts = counts.totalRows === 5
+    && counts.physicalWordProvenRows === 2
+    && counts.componentProvenRows === 4
+    && counts.productRuntimeWiredRows === 1
+    && counts.automaticApplyCertifiedRows === 0;
+  if (!c01CurrentCounts && !isC02SuccessorPromotionList(promotionList)) {
     issues.push(issue('RTK_A03_C01_PROMOTION_COUNTS_INVALID', 'promotionList.rows', 'Promotion list must show only root modern comments runtime-wired after C01.'));
   }
   if (receipt.truthCorrection?.a02TerminalCapabilityFamilies?.physicalWordProvenFamilies !== 4) {
@@ -348,6 +393,7 @@ export async function evaluateWordV4A03C01CommentShadowRuntime(input = {}) {
   const program = input.program || readJson(PROGRAM_PATH);
   const ledger = input.ledger || readJson(LEDGER_PATH);
   const issues = [];
+  const c02SuccessorState = isC02SuccessorState(profile, program, ledger, promotionList);
 
   evaluateReceiptShape(receipt, promotionList, issues);
   evaluateRuntimeProof(receipt, issues);
@@ -369,25 +415,25 @@ export async function evaluateWordV4A03C01CommentShadowRuntime(input = {}) {
     || profileCell.authorityLevel?.automaticApplyCertified !== false) {
     issues.push(issue('RTK_A03_C01_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.rootModernCommentShadowSession', 'Capability profile must bind C01 runtime wiring without apply authority.'));
   }
-  if (profile.status !== PROFILE_STATUS) {
+  if (profile.status !== PROFILE_STATUS && !c02SuccessorState) {
     issues.push(issue('RTK_A03_C01_PROFILE_STATUS_INVALID', 'profile.status', 'Profile status must bind A03-C01.'));
   }
-  if (program.status !== PROGRAM_STATUS
+  if ((program.status !== PROGRAM_STATUS
     || program.nextStep !== NEXT_STAGE
     || program.v4ExecutionState?.status !== STATE_STATUS
     || program.v4ExecutionState?.currentStage !== CURRENT_STAGE
     || program.v4ExecutionState?.nextStage !== NEXT_STAGE
     || program.v4ExecutionState?.rootModernCommentShadowRuntimeWired !== true
     || program.v4ExecutionState?.runtimeApplyAuthorityGranted !== false
-    || program.v4ExecutionState?.googleDocsOpened !== false) {
+    || program.v4ExecutionState?.googleDocsOpened !== false) && !c02SuccessorState) {
     issues.push(issue('RTK_A03_C01_PROGRAM_STATE_INVALID', 'program.v4ExecutionState', 'Program state must advance to C01 complete and C02 next while keeping Google closed.'));
   }
-  if (ledger.status !== LEDGER_STATUS
+  if ((ledger.status !== LEDGER_STATUS
     || ledger.runtimeClaims?.productRuntimeChanged !== true
     || ledger.runtimeClaims?.writerAuthorityAdded !== false
     || ledger.runtimeClaims?.automaticApplyExpanded !== false
     || ledger.runtimeClaims?.googleDocsOpened !== false
-    || ledger.coverageLedger?.a03C01CommentShadowRuntime?.status !== 'BOUND') {
+    || ledger.coverageLedger?.a03C01CommentShadowRuntime?.status !== 'BOUND') && !c02SuccessorState) {
     issues.push(issue('RTK_A03_C01_LEDGER_STATE_INVALID', 'ledger', 'Ledger must bind C01 runtime wiring without saturation or apply authority.'));
   }
   return {

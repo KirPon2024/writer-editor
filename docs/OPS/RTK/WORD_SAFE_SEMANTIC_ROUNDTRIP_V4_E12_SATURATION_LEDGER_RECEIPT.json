@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED",
+  "status": "WORD_SATURATION_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -158,14 +158,19 @@
     {
       "id": "E12_A03_PROMOTION_LIST",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "58fab19813e5ea085db77053fd45e7c185537933812f15a74f3d8fcd3d79cd85",
-      "status": "BOUND",
-      "description": "A03 evidence-backed promotion list with authority levels, missing runtime wiring, negative tests, recovery requirements and kill criteria"
+      "sha256": "4e0598f7a00fca701b87f70295b333fe6fb977978ffdf0c21e7c7030814502ab",
+      "status": "BOUND"
     },
     {
       "id": "A03_C01_COMMENT_SHADOW_RUNTIME",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
       "sha256": "346d9cfd683350bbcca3e66315799c8dabb7f0142f65085671ef7a4367cf39c3",
+      "status": "BOUND"
+    },
+    {
+      "id": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
+      "sha256": "cec7bee0c310e421c20306421373471c0a423759b9df4e55a21c91c1e7673908",
       "status": "BOUND"
     }
   ],
@@ -275,6 +280,11 @@
       "status": "BOUND",
       "sourceEvidence": "A03_C01_COMMENT_SHADOW_RUNTIME",
       "result": "WORD_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED"
+    },
+    "a03C02NonOverlapTrackedReplacementRuntime": {
+      "status": "BOUND",
+      "sourceEvidence": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME",
+      "result": "WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED"
     }
   },
   "aggregateTotals": {
@@ -345,10 +355,16 @@
     "a03PromotionRows": 5,
     "a03PromotionPhysicalWordProvenRows": 2,
     "a03PromotionComponentProvenRows": 4,
-    "a03PromotionProductRuntimeWiredRows": 1,
-    "a03PromotionAutomaticApplyCertifiedRows": 0,
+    "a03PromotionProductRuntimeWiredRows": 2,
+    "a03PromotionAutomaticApplyCertifiedRows": 1,
     "a03C01CommentShadowRuntimeWired": 1,
-    "a03C01CommentShadowRuntimeThreadProof": 2
+    "a03C01CommentShadowRuntimeThreadProof": 2,
+    "a03C02NonOverlapTrackedReplacementRuntimeWired": 1,
+    "a03C02AutomaticApplyCertifiedRows": 1,
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -369,13 +385,14 @@
   ],
   "runtimeClaims": {
     "productRuntimeChanged": true,
-    "automaticApplyExpanded": false,
-    "writerAuthorityAdded": false,
+    "automaticApplyExpanded": true,
+    "writerAuthorityAdded": true,
     "uiChanged": false,
     "dependencyAdded": false,
     "networkAdded": false,
     "googleDocsOpened": false,
-    "wordSaturated": false
+    "wordSaturated": false,
+    "automaticApplyScope": "non-overlap tracked replacement pairs only"
   },
   "nonClaims": [
     "E12 wave 40, wave 100, wave 300, and repeat wave 300 are already complete and are not repeated by targeted gap closure.",
@@ -385,7 +402,7 @@
     "Literal overlapping tracked edits are not certified as apply authority.",
     "Modern reply and resolve reopen remain typed limitations unless future physical readback proves them."
   ],
-  "nextStage": "EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR",
+  "nextStage": "EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED",
+  "status": "WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,7 +388,7 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED",
+      "currentCapability": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_03 A03 safe portability improvements runtime contour",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
@@ -631,6 +631,36 @@
         "no manuscript apply authority"
       ],
       "killCriterion": "Any C01 path writes manuscript text, promotes replies or resolve-reopen, loses a supported root comment, or grants automatic apply authority."
+    },
+    {
+      "capabilityId": "rtk.word.v4.nonOverlapTrackedReplacementRuntimeApply",
+      "operationFamily": "TextRevision replacement-pair inside trusted single-scene block range",
+      "state": "AUTOMATIC_APPLY_CERTIFIED",
+      "currentCapability": "EXACT_AUTOMATIC_FOR_PHYSICALLY_PROVEN_NON_OVERLAP_TRACKED_REPLACEMENTS_ONLY",
+      "physicalWordEvidence": true,
+      "componentProven": true,
+      "productRuntimeWired": true,
+      "automaticApplyCertified": true,
+      "consumer": "Command Kernel RTK non-overlap tracked replacement apply command",
+      "acceptanceTest": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
+      "guards": [
+        "valid signed locator",
+        "unique scene mapping",
+        "scene revision and raw hash unchanged",
+        "trusted C05 block range digest from local C04 binding path",
+        "preview confirmation",
+        "per-scene atomic write",
+        "reverse verification",
+        "outcome ledger replay idempotence"
+      ],
+      "limitations": [
+        "adjacent triple edits remain not promoted",
+        "literal overlap remains blocked",
+        "move revisions remain blocked",
+        "structural changes remain blocked"
+      ],
+      "killCriterion": "Any unsigned, stale, duplicate, ambiguous, overlapping, wrong-scene, reverse-verify-failing, or recovery-failing input applies."
     }
   ]
 }

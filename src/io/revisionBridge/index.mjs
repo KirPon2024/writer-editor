@@ -76,6 +76,14 @@ export {
 } from './reviewTransportBlockExactWriterBindingV2.mjs';
 
 export {
+  RTK_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID,
+  RTK_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_SCHEMA,
+  applyNonOverlapTrackedReplacementRuntime,
+  buildNonOverlapTrackedReplacementRuntimePreview,
+  createRtkNonOverlapTrackedReplacementCommandHandler,
+} from './reviewTransportNonOverlapTrackedReplacementRuntime.mjs';
+
+export {
   RTK_WORD_V4_CORE_MANIFEST_SCHEMA,
   RTK_WORD_V4_EXPORT_MAP_SCHEMA,
   RTK_WORD_V4_YRTK2_MAC_DOMAIN,

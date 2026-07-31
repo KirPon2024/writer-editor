@@ -85,5 +85,5 @@ test('E12 saturation ledger binds modern comment follow-up without declaring Wor
   assert.equal(ledger.saturationRule.saturated, false);
   assert.equal(ledger.saturationRule.googleDocsAllowedToOpen, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
-  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_12_WORD_LIMITATION_FOLLOWUP_(CUSTOM_XML_MUTATION_AUTHORITY|MULTI_SCENE_APPLY_CERTIFICATION)$/u);
+  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_12_WORD_LIMITATION_FOLLOWUP_(CUSTOM_XML_MUTATION_AUTHORITY|MULTI_SCENE_APPLY_CERTIFICATION|MODERN_COMMENT_NATIVE_UI_CERTIFICATION)$/u);
 });

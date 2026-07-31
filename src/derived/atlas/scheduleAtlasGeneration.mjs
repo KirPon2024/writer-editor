@@ -11,7 +11,7 @@ import {
 } from './rebuildAtlasGeneration.mjs';
 
 const SCHEDULER_OP = 'derived.atlas.generationScheduler';
-const WORKER_ADAPTER_KIND = 'local-pure-derived-worker';
+const WORKER_ADAPTER_KIND = 'local-pure-derived-scheduler';
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);

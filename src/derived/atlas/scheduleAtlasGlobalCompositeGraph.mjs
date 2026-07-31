@@ -10,7 +10,7 @@ import {
 } from './atlasGlobalCompositeGraphTypes.mjs';
 
 const SCHEDULER_OP = 'derived.atlas.globalCompositeGraphScheduler';
-const ADAPTER_KIND = 'local-pure-derived-on-demand-idle-worker';
+const ADAPTER_KIND = 'local-pure-derived-on-demand-idle-scheduler';
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);

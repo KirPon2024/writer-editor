@@ -174,6 +174,30 @@ test('DONE scope admits ER C04 Atlas paths exactly without src wildcard prefixes
   }
 });
 
+test('DONE scope admits ER C05 real worker paths exactly without src wildcard prefixes', () => {
+  const scopeMap = readScopeMap();
+  const donePaths = Array.isArray(scopeMap.allowByPhase.DONE) ? scopeMap.allowByPhase.DONE : [];
+  const donePrefixes = Array.isArray(scopeMap.allowPrefixByPhase.DONE) ? scopeMap.allowPrefixByPhase.DONE : [];
+  const erC05Paths = [
+    'src/derived/atlas/atlasGraphLayoutWorker.mjs',
+    'src/derived/atlas/atlasGraphWorkerAdapter.mjs',
+    'src/derived/atlas/atlasGraphWorkerPayload.mjs',
+    'src/derived/atlas/index.mjs',
+    'src/derived/atlas/scheduleAtlasGeneration.mjs',
+    'src/derived/atlas/scheduleAtlasGlobalCompositeGraph.mjs',
+    'src/derived/index.mjs',
+    'src/derived/mindmap/manualMapLayoutScheduler.mjs',
+  ];
+
+  for (const filePath of erC05Paths) {
+    assert.equal(donePaths.includes(filePath), true, `missing ER C05 exact scope path: ${filePath}`);
+  }
+  for (const prefix of donePrefixes) {
+    assert.equal(prefix.includes('*'), false, `wildcard is forbidden in DONE prefixes: ${prefix}`);
+    assert.equal(prefix.startsWith('src/'), false, `src prefix is forbidden in DONE scope: ${prefix}`);
+  }
+});
+
 test('M5 overlay prefixes are allowed only from M5 and above', () => {
   const scopeMap = readScopeMap();
   for (const prefix of M5_OVERLAY_ALLOW_PREFIXES) {

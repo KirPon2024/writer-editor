@@ -369,6 +369,25 @@ export {
   buildAtlasGlobalCompositeGraphResourceBudgetProof,
 } from './atlasGlobalCompositeGraphLayoutPlanner.mjs';
 export {
+  ATLAS_GRAPH_WORKER_ADAPTER_KIND,
+  ATLAS_GRAPH_WORKER_PAYLOAD_SCHEMA_VERSION,
+  ATLAS_GRAPH_WORKER_PERF_REPORT_SCHEMA_VERSION,
+  ATLAS_GRAPH_WORKER_PORT_SCHEMA_VERSION,
+  ATLAS_GRAPH_WORKER_RESULT_SCHEMA_VERSION,
+  ATLAS_GRAPH_WORKER_SPATIAL_INDEX_SCHEMA_VERSION,
+  ATLAS_GRAPH_WORKER_SYNC_FALLBACK_KIND,
+  acceptAtlasGraphWorkerResult,
+  buildAtlasGraphWorkerPayload,
+  cloneAtlasGraphWorkerPayloadForFallback,
+  coalesceAtlasGraphWorkerPayloads,
+  getAtlasGraphWorkerTransferList,
+  runAtlasGraphWorkerPayload,
+} from './atlasGraphWorkerPayload.mjs';
+export {
+  buildAtlasGraphWorkerExecutionPort,
+  runAtlasGraphWorkerJob,
+} from './atlasGraphWorkerAdapter.mjs';
+export {
   buildAtlasGlobalCompositeBatchNavigationIntents,
   buildAtlasGlobalCompositeTrustFilter,
   deriveAtlasGlobalCompositeGraphNavigationPacket,

@@ -1911,6 +1911,7 @@ body {
   padding: 12px 14px 76px;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 }
 
 .literal-stage-a .app-layout {
@@ -3061,6 +3062,79 @@ body.dark-theme .toolbar__swatch::before {
 
 .left-rail-overlay-backdrop[hidden] {
   display: none;
+}
+
+.atlas-reachability-opener {
+  position: absolute;
+  top: 10px;
+  right: calc(var(--app-right-sidebar-width) + 14px);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--architecture-rail-border);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--page-bg) 82%, transparent);
+  color: var(--architecture-rail-ink-strong);
+  font: inherit;
+  font-size: 11px;
+  line-height: 14px;
+  box-shadow: 0 6px 16px rgba(65, 60, 52, 0.06);
+  cursor: pointer;
+}
+
+.atlas-reachability-opener:hover {
+  background: var(--hover-bg);
+  color: var(--foreground);
+}
+
+.atlas-reachability-opener:focus-visible {
+  outline: 2px solid var(--a11y-focus-outline);
+  outline-offset: 2px;
+  background: var(--a11y-focus-surface);
+}
+
+.atlas-reachability-opener__label {
+  font-weight: 500;
+}
+
+.atlas-reachability-opener__caption {
+  color: var(--text-secondary);
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.atlas-reachability-opener[data-atlas-reachability-mode="handset-advisory"] .atlas-reachability-opener__caption {
+  color: #7b5740;
+}
+
+.app-layout[data-sidebar-layout="single"] .atlas-reachability-opener,
+.app-layout[data-right-rail-mode="overlay"] .atlas-reachability-opener,
+.app-layout[data-sidebar-layout="dual"][data-right-rail-collapsed="true"] .atlas-reachability-opener {
+  right: 12px;
+}
+
+.app-layout[data-right-rail-overlay-open="true"] .atlas-reachability-opener {
+  pointer-events: none;
+}
+
+.app-layout[data-right-rail-mode="overlay"] .sidebar--right.is-overlay-mode.is-overlay-open {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: 5;
+  display: flex;
+  width: min(
+    var(--app-right-sidebar-expanded-width),
+    calc(100% - var(--app-left-sidebar-collapsed-width) - 16px)
+  );
+  max-width: calc(100% - var(--app-left-sidebar-collapsed-width) - 16px);
+  overflow: hidden;
+  background: var(--background);
+  box-shadow: -12px 0 28px rgba(29, 27, 25, 0.16);
+  transition: box-shadow 0.16s ease;
 }
 
 .sidebar--left .toolbar__row--secondary {

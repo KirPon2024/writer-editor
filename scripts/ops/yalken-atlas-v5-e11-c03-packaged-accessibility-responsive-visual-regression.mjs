@@ -17,8 +17,10 @@ const APP_ASAR = path.resolve('dist/mac-arm64/Yalken.app/Contents/Resources/app.
 const AUDIT_EVIDENCE_FILES = Object.freeze([
   'atlas-er-c06-responsive-audit.json',
   'atlas-er-c06-desktop.png',
+  'atlas-er-c06-laptop.png',
+  'atlas-er-c06-compact.png',
   'atlas-er-c06-tablet.png',
-  'atlas-er-c06-mobile.png',
+  'atlas-er-c06-handset-advisory.png',
 ]);
 
 const VISUAL_DELTA_LIMITS = Object.freeze({
@@ -223,17 +225,21 @@ export function evaluatePackagedAccessibilityResponsiveVisualRegression(input = 
   const assertions = audit?.result?.assertions || {};
   const auditAssertionsPass = [
     'noNetwork',
-    'desktopOneActiveShell',
-    'tabletOneActiveShell',
+    'supportedWidthMatrix',
+    'supportedOneActiveShell',
+    'externalOpenerReachable',
+    'openerNoToolbarCollision',
+    'noHorizontalOverflow',
     'keyboardNavigation',
+    'overlayFocusTrapAndEscape',
     'visibleAtlasScreenshots',
     'scrollBudget',
     'contrastAA',
-    'tabletNotClipped',
-    'mobileHonestOverlayScope',
+    'supportedWidthsNotClipped',
+    'handsetHonestAdvisory',
   ].every((key) => assertions[key] === true);
   const viewportIds = visualComparisons.map((row) => row.id).sort();
-  const allViewportsPresent = ['desktop', 'mobile', 'tablet'].every((id) => viewportIds.includes(id));
+  const allViewportsPresent = ['compact', 'desktop', 'handset-advisory', 'laptop', 'tablet'].every((id) => viewportIds.includes(id));
   const visualRegressionPass = allViewportsPresent && visualComparisons.every((row) => row.pass === true);
   const pass = packageBound
     && audit?.ok === true

@@ -34,26 +34,32 @@ function passingAudit() {
       networkRequestCount: 0,
       assertions: {
         noNetwork: true,
-        desktopOneActiveShell: true,
-        tabletOneActiveShell: true,
+        supportedWidthMatrix: true,
+        supportedOneActiveShell: true,
+        externalOpenerReachable: true,
+        openerNoToolbarCollision: true,
+        noHorizontalOverflow: true,
         keyboardNavigation: true,
+        overlayFocusTrapAndEscape: true,
         visibleAtlasScreenshots: true,
         scrollBudget: true,
         contrastAA: true,
-        tabletNotClipped: true,
-        mobileHonestOverlayScope: true,
+        supportedWidthsNotClipped: true,
+        handsetHonestAdvisory: true,
       },
       results: [
         { id: 'desktop', width: 1440, height: 900, activeShellCount: 1, focusVisible: true, keyboardMovedFocus: true, navContrast: 5, atlasPanelScrollHeight: 600, rightSidebarHidden: false, screenshotName: 'desktop.png', screenshotBytes: 2000, screenshotSha256: 'desktop-current' },
-        { id: 'tablet', width: 1024, height: 768, activeShellCount: 1, focusVisible: true, keyboardMovedFocus: true, navContrast: 5, atlasPanelScrollHeight: 600, rightSidebarHidden: false, screenshotName: 'tablet.png', screenshotBytes: 2000, screenshotSha256: 'tablet-current' },
-        { id: 'mobile', width: 390, height: 844, activeShellCount: 1, focusVisible: false, keyboardMovedFocus: true, navContrast: 6, atlasPanelScrollHeight: 0, rightSidebarHidden: true, screenshotName: 'mobile.png', screenshotBytes: 2000, screenshotSha256: 'mobile-current' },
+        { id: 'laptop', width: 1024, height: 768, activeShellCount: 1, focusVisible: true, keyboardMovedFocus: true, navContrast: 5, atlasPanelScrollHeight: 600, rightSidebarHidden: false, screenshotName: 'laptop.png', screenshotBytes: 2000, screenshotSha256: 'laptop-current' },
+        { id: 'compact', width: 900, height: 720, activeShellCount: 1, focusVisible: true, keyboardMovedFocus: true, navContrast: 5, atlasPanelScrollHeight: 600, rightSidebarHidden: false, screenshotName: 'compact.png', screenshotBytes: 2000, screenshotSha256: 'compact-current' },
+        { id: 'tablet', width: 768, height: 720, activeShellCount: 1, focusVisible: true, keyboardMovedFocus: true, navContrast: 5, atlasPanelScrollHeight: 600, rightSidebarHidden: false, screenshotName: 'tablet.png', screenshotBytes: 2000, screenshotSha256: 'tablet-current' },
+        { id: 'handset-advisory', width: 390, height: 844, activeShellCount: 1, focusVisible: false, keyboardMovedFocus: true, navContrast: 6, atlasPanelScrollHeight: 0, rightSidebarHidden: true, screenshotName: 'handset-advisory.png', screenshotBytes: 2000, screenshotSha256: 'handset-current' },
       ],
     },
   };
 }
 
 function passingVisualComparisons() {
-  return ['desktop', 'tablet', 'mobile'].map((id) => ({
+  return ['desktop', 'laptop', 'compact', 'tablet', 'handset-advisory'].map((id) => ({
     id,
     current: presentFile(`${id}.png`, `${id}-current`),
     baseline: presentFile(`${id}-baseline.png`, `${id}-baseline`),

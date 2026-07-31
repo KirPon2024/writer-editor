@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.c05-block-range-writer-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "C05_LOCALLY_BOUND_BLOCK_RANGE_WRITER_FROM_TRUSTED_C04_AUTHORITY",
+  "status": "C05_BLOCK_RANGE_WRITER_READY_NOT_YRTK2_HMAC_NOT_WORD_SATURATION",
+  "createdAtUtc": "2026-07-31T00:00:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "eeff60620dc485a5652dbb349832f84c0261883c",
+    "checkpointShaPreserved": "019482fe105a6f78147b9777b9d12098ce934fdf",
+    "v4DigestCandidate": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4"
+  },
+  "implementedSurface": {
+    "blockRangeAuthorityModule": "reviewTransportBlockRangeAuthorityV2.mjs",
+    "writerBindingAdapter": "reviewTransportBlockExactWriterBindingV2.mjs",
+    "exactSafeWriter": "exactTextMinSafeWrite.mjs",
+    "applyCore": "reviewTransportApplyCore.mjs",
+    "publicBarrel": "index.mjs",
+    "schemaVersion": "yalken.rtk.review-transport-block-range-writer-authority.v2",
+    "profileId": "locally-bound-c04-block-range-authority-v2-c05",
+    "authorityKind": "locallyBoundBlockRange",
+    "authorityProvenance": "C04_BLOCK_EXACT_WRITER_BINDING_V2",
+    "authorityModel": "local evidence binding only; SHA-256 digests are integrity checks and not signatures",
+    "trustedPath": [
+      "main-owned exact apply command authority",
+      "C03 block exact authority re-evaluation",
+      "ReviewIR source revision evidence",
+      "local baseline block text",
+      "current project snapshot",
+      "C04 generated blockRange",
+      "exact writer trustedBlockRangeDigests option"
+    ]
+  },
+  "positiveOracles": {
+    "duplicateSceneQuoteUniqueTrustedBlockRangeAppliesOnce": true,
+    "legacyNoBlockRangeSceneUniqueQuoteStillApplies": true,
+    "distinctTrustedBlockRangesHaveDistinctEffectIdentity": true,
+    "batchPermutationHasStableEffectIdentity": true,
+    "crashBeforeReceiptDoesNotReturnFalseSuccess": true,
+    "repeatedRequestAfterCrashDoesNotDoubleMutate": true
+  },
+  "negativeOracles": {
+    "callerCreatedSelfConsistentRangeRejected": true,
+    "duplicateQuoteInsideBlockBlocked": true,
+    "duplicateBlockTextBlocked": true,
+    "staleSceneStartBlocked": true,
+    "staleBlockTextBlocked": true,
+    "staleExpectedTextBlocked": true,
+    "wrongSceneIdBlocked": true,
+    "wrongBlockIdBlocked": true,
+    "wrongSchemaBlocked": true,
+    "tamperedRangeDigestBlocked": true,
+    "tamperedBlockTextDigestBlocked": true,
+    "invalidOffsetsBlocked": true,
+    "duplicateChangeIdsBlockedAtomically": true,
+    "overlappingRangesBlockedAtomically": true,
+    "invalidBlockRangeDoesNotFallbackToSceneWideMatching": true
+  },
+  "testEvidence": {
+    "focusedC05": {
+      "file": "rtk-word-saturation-c05-block-range-writer.contract.test.js",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0
+    },
+    "c04C05Adjacent": {
+      "files": [
+        "rtk-word-saturation-c04-block-writer-binding.contract.test.js",
+        "rtk-word-saturation-c05-block-range-writer.contract.test.js"
+      ],
+      "tests": 12,
+      "pass": 12,
+      "fail": 0
+    },
+    "rtkAdjacentAndExactWriter": {
+      "tests": 40,
+      "pass": 40,
+      "fail": 0
+    },
+    "governanceSectorAndOss": {
+      "governanceApprovalState": "PASS",
+      "governanceChangeDetection": "PASS",
+      "sectorScopeLeak": "PASS",
+      "sectorRunnerArtifact": "PASS",
+      "ossPolicy": "PASS",
+      "opsPolicy": "PASS"
+    },
+    "fullLocalRunner": {
+      "command": "npm test -- --runInBand",
+      "tests": 795,
+      "pass": 731,
+      "fail": 0,
+      "skipped": 64,
+      "perfBaseline": "PASS",
+      "menuAndReleaseChecks": "PASS"
+    }
+  },
+  "zeroFalseExactPolicy": {
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "noFuzzyApply": true,
+    "invalidBlockRangeFallbackToLegacyMatching": false
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "parserWriteAuthorityAdded": false,
+    "rendererAuthorityAdded": false,
+    "blockAuthoritySelfWriteAuthorityAdded": false,
+    "mainOwnedWriterBindingPreserved": true,
+    "canonicalWriterPreserved": true
+  },
+  "nonClaims": {
+    "hmacAuthorityImplemented": false,
+    "yrtk2Implemented": false,
+    "signedLocatorImplemented": false,
+    "wordCarrierChosen": false,
+    "physicalWordSaturationDone": false,
+    "standaloneInsertAutoApplyCertified": false,
+    "moveRevisionExactCertified": false,
+    "formattingAutoApplyCertified": false,
+    "commentApplyAuthority": false,
+    "googleDocsCertified": false,
+    "otherEditorsCertified": false,
+    "fixtureOnlyPass": false
+  },
+  "nextStage": "V4_CANONICAL_INTEGRATION_AFTER_C05_MERGE"
+}

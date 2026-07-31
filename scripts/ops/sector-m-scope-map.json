@@ -240,12 +240,14 @@
       "src/export/mindmap/v1/index.mjs",
       "src/export/mindmap/v1/lossReport.mjs",
       "src/export/mindmap/v1/serializeMindMapV1.mjs",
+      "src/io/revisionBridge/exactTextMinSafeWrite.mjs",
       "src/io/revisionBridge/index.mjs",
       "src/io/revisionBridge/reviewTransportContracts.mjs",
       "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "src/io/revisionBridge/reviewTransportApplyStore.mjs",
       "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
       "src/io/revisionBridge/reviewTransportBlockExactWriterBindingV2.mjs",
+      "src/io/revisionBridge/reviewTransportBlockRangeAuthorityV2.mjs",
       "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
       "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
       "src/io/revisionBridge/reviewTransportExactApply.mjs",
@@ -268,7 +270,9 @@
       "test/unit/markdown-import-product-parity-ui-flow.test.js",
       "src/io/revisionBridge/reviewTransportCore.mjs",
       "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js"
+      "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+      "test/contracts/rtk-word-saturation-c05-block-range-writer.contract.test.js",
+      "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C05_BLOCK_RANGE_WRITER_RECEIPT.json"
     ]
   },
   "allowPrefixByPhase": {

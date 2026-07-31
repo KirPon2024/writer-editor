@@ -4,6 +4,12 @@ import path from 'node:path';
 
 import { writeMarkdownWithTransactionRecovery } from '../markdown/index.mjs';
 import {
+  RTK_BLOCK_RANGE_WRITER_AUTHORITY_PROVENANCE,
+  RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA,
+  buildReviewTransportBlockRangeDigestV2,
+  buildReviewTransportBlockTextDigestV2,
+} from './reviewTransportBlockRangeAuthorityV2.mjs';
+import {
   prepareExactTextApplyJournal,
   reconcileExactTextApplyJournal,
   recordExactTextApplyJournalApplied,
@@ -20,8 +26,6 @@ export const REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_SCHEMA =
   'revision-bridge.exact-text-batch-min-safe-write.v1';
 export const REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_RECEIPT_SCHEMA =
   'revision-bridge.exact-text-batch-min-safe-write.receipt.v1';
-export const RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA =
-  'yalken.rtk.review-transport-block-range-writer-authority.v2';
 
 const READY_CODE = 'REVISION_BRIDGE_EXACT_TEXT_MIN_SAFE_WRITE_APPLIED';
 const BATCH_READY_CODE = 'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_APPLIED';
@@ -45,9 +49,12 @@ function sha256Text(text) {
   return crypto.createHash('sha256').update(Buffer.from(text, 'utf8')).digest('hex');
 }
 
-function sha256Json(value) {
-  return `sha256:${sha256Text(stableJson(value))}`;
-}
+const localCryptoPort = Object.freeze({
+  sha256Text,
+  sha256Json(value) {
+    return `sha256:${sha256Text(stableJson(value))}`;
+  },
+});
 
 function stableJson(value) {
   if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
@@ -272,29 +279,21 @@ function numberOrNull(value) {
   return Number.isSafeInteger(value) ? value : null;
 }
 
-function buildBlockRangeDigest(range) {
-  return sha256Json({
-    schemaVersion: RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA,
-    sceneId: rawString(range.sceneId),
-    blockId: rawString(range.blockId),
-    blockText: rawString(range.blockText),
-    sceneStart: numberOrNull(range.sceneStart),
-    blockLocalStart: numberOrNull(range.blockLocalStart),
-    blockLocalEnd: numberOrNull(range.blockLocalEnd),
-    expectedText: rawString(range.expectedText),
-  });
+function trustedBlockRangeDigestsFrom(options = {}) {
+  const digests = Array.isArray(options.trustedBlockRangeDigests)
+    ? options.trustedBlockRangeDigests
+    : [];
+  return new Set(digests.map(normalizeString).filter(Boolean));
 }
 
-function buildBlockTextDigest(range) {
-  return sha256Json({
-    schemaVersion: RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA,
-    sceneId: rawString(range.sceneId),
-    blockId: rawString(range.blockId),
-    blockText: rawString(range.blockText),
-  });
-}
-
-function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, replacementText }) {
+function resolveBlockRangeOperation({
+  item,
+  sceneId,
+  currentText,
+  expectedText,
+  replacementText,
+  trustedBlockRangeDigests,
+}) {
   const changeId = normalizeString(item?.changeId);
   const range = isPlainObject(item?.match?.blockRange) ? item.match.blockRange : null;
   if (!range) return null;
@@ -313,6 +312,21 @@ function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, 
         'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_INVALID',
         'reviewItems.match.blockRange.schemaVersion',
         'block range writer authority schema is invalid',
+        { changeId },
+      ),
+    };
+  }
+  if (
+    normalizeString(range.provenance) !== RTK_BLOCK_RANGE_WRITER_AUTHORITY_PROVENANCE
+    || normalizeString(range.authorityKind) !== 'locallyBoundBlockRange'
+    || !trustedBlockRangeDigests.has(normalizeString(range.rangeDigest))
+  ) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_UNTRUSTED',
+        'reviewItems.match.blockRange.provenance',
+        'block range writer authority must be provided by the local C04 binding path, not caller input',
         { changeId },
       ),
     };
@@ -345,8 +359,19 @@ function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, 
       reason: buildReason(
         'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_OFFSET_MISMATCH',
         'reviewItems.match.blockRange',
-        'block-local range is outside the signed block text',
+        'block-local range is outside the locally bound block text',
         { changeId, blockLocalStart, blockLocalEnd, blockLength: blockText.length },
+      ),
+    };
+  }
+  if (rawString(range.expectedText) !== expectedText) {
+    return {
+      ok: false,
+      reason: buildReason(
+        'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_EXPECTED_TEXT_MISMATCH',
+        'reviewItems.match.blockRange.expectedText',
+        'block range expected text must match the bound exact quote',
+        { changeId },
       ),
     };
   }
@@ -359,8 +384,12 @@ function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, 
     blockLocalEnd,
     expectedText,
   };
-  const expectedRangeDigest = buildBlockRangeDigest(expectedRange);
-  const expectedBlockTextDigest = buildBlockTextDigest(expectedRange);
+  const expectedRangeDigest = buildReviewTransportBlockRangeDigestV2(expectedRange, {
+    cryptoPort: localCryptoPort,
+  });
+  const expectedBlockTextDigest = buildReviewTransportBlockTextDigestV2(expectedRange, {
+    cryptoPort: localCryptoPort,
+  });
   if (normalizeString(range.rangeDigest) !== expectedRangeDigest) {
     return {
       ok: false,
@@ -389,7 +418,7 @@ function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, 
       reason: buildReason(
         'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_STALE',
         'reviewItems.match.blockRange.sceneStart',
-        'current scene text no longer contains the signed block text at the authorized range',
+        'current scene text no longer contains the locally bound block text at the authorized range',
         { changeId, sceneStart },
       ),
     };
@@ -401,7 +430,7 @@ function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, 
       reason: buildReason(
         'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_DUPLICATE_BLOCK',
         'reviewItems.match.blockRange.blockText',
-        'block-local apply requires the signed block text to be unique in the scene',
+        'block-local apply requires the locally bound block text to be unique in the scene',
         { changeId, blockOccurrenceCount },
       ),
     };
@@ -424,7 +453,7 @@ function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, 
       reason: buildReason(
         'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_BLOCK_RANGE_DUPLICATE_QUOTE',
         'reviewItems.match.quote',
-        'block-local apply requires the quote to be unique inside the signed block',
+        'block-local apply requires the quote to be unique inside the locally bound block',
         { changeId, blockQuoteOccurrenceCount },
       ),
     };
@@ -434,7 +463,7 @@ function resolveBlockRangeOperation({ item, sceneId, currentText, expectedText, 
     ok: true,
     from: sceneStart + blockLocalStart,
     to: sceneStart + blockLocalEnd,
-    operationAuthority: 'signedBlockRange',
+    operationAuthority: 'locallyBoundBlockRange',
     replacementText,
   };
 }
@@ -751,6 +780,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
   }
 
   const operations = [];
+  const trustedBlockRangeDigests = trustedBlockRangeDigestsFrom(options);
   for (const item of reviewItems) {
     const changeId = normalizeString(item?.changeId);
     const matchKind = normalizeString(item?.match?.kind);
@@ -797,6 +827,7 @@ export async function applyExactTextBatchMinSafeWrite(input = {}, options = {}) 
       currentText,
       expectedText,
       replacementText,
+      trustedBlockRangeDigests,
     });
     if (blockRangeOperation && !blockRangeOperation.ok) {
       return block(blockRangeOperation.reason);

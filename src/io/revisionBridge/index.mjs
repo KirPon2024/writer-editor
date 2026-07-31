@@ -53,6 +53,15 @@ export {
 } from './reviewTransportBlockExactAuthorityV2.mjs';
 
 export {
+  RTK_BLOCK_RANGE_WRITER_AUTHORITY_PROFILE,
+  RTK_BLOCK_RANGE_WRITER_AUTHORITY_PROVENANCE,
+  RTK_BLOCK_RANGE_WRITER_AUTHORITY_SCHEMA,
+  buildLocalReviewTransportBlockRangeAuthorityV2,
+  buildReviewTransportBlockRangeDigestV2,
+  buildReviewTransportBlockTextDigestV2,
+} from './reviewTransportBlockRangeAuthorityV2.mjs';
+
+export {
   RTK_REVIEW_TRANSPORT_EXACT_APPLY_ADAPTER_V2_PROFILE,
   RTK_REVIEW_TRANSPORT_EXACT_APPLY_ADMISSION_V2_SCHEMA,
   applyReviewTransportIrV2ExactText,

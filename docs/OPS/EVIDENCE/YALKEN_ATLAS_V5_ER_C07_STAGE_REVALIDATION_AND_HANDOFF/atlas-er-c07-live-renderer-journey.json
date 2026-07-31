@@ -1,0 +1,271 @@
+{
+  "schemaVersion": "yalken.atlas.v5.erC07.liveRendererJourney.v1",
+  "generatedAtUtc": "2026-07-31T11:14:17.664Z",
+  "repoRoot": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00",
+  "outputDir": "/tmp/yalken-atlas-er-c07-final",
+  "projectId": "er-c07-project",
+  "sceneNodeId": "tree-node-0b41bd08a1f522dbe3d6f0976f29148b",
+  "commandResults": [
+    {
+      "commandId": "atlas.entity.create",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "atlas.entity.create",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "atlas.alias.add",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "atlas.mention.confirm",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "atlas.observation.suppress",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "atlas.observation.reassign",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.create",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.node.add",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.node.add",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.edge.add",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.group.create",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.node.update",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.edge.update",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.group.update",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.edge.delete",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.node.delete",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.node.add",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "manualMap.group.delete",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "idea.create",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "idea.originLink.add",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    },
+    {
+      "commandId": "meaning.promote",
+      "ok": true,
+      "storageWritten": true,
+      "recoverySnapshotCreated": true,
+      "commandAuthority": "CommandKernel"
+    }
+  ],
+  "queryResults": [
+    {
+      "queryId": "query.atlasOverview",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "queryId": "query.atlasEntityDossier",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "queryId": "query.atlasRelationDossier",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "queryId": "query.atlasMatrices",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "queryId": "query.atlasHeatmap",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "queryId": "query.atlasTemporalLayout",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "queryId": "query.atlasContinuityLedgerSurface",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "queryId": "query.atlasReportsSavedQueries",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "queryId": "query.atlasDiagnosticsStageAcceptance",
+      "ok": true,
+      "state": "degraded"
+    },
+    {
+      "queryId": "query.atlasCurrentScene",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "queryId": "query.manualMapWorkbench",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "queryId": "query.projectionInspector",
+      "ok": true,
+      "state": ""
+    }
+  ],
+  "manifestFacts": {
+    "entityCount": 2,
+    "decisionCount": 1,
+    "suppressionCount": 1,
+    "reassignmentCount": 1,
+    "mapCount": 1,
+    "ideaCount": 1,
+    "originLinkCount": 1,
+    "meaningCount": 1,
+    "lastCommandId": 21,
+    "unicodeAnchorFutureFieldPreserved": true,
+    "unicodeAnchorOffsetDomainsPreserved": true
+  },
+  "uiFacts": {
+    "atlasButtonCount": 13,
+    "productCommandButtonCount": 17,
+    "visibleShellCount": 1,
+    "activeSurface": "currentScene"
+  },
+  "networkRequestCount": 0,
+  "networkRequests": [],
+  "screenshot": {
+    "basename": "atlas-er-c07-live-renderer.png",
+    "bytes": 537116,
+    "sha256": "e78e3b68969420ff92434b3c5e9456db83dac0223450aeb2ba4c136d1c62ad48"
+  },
+  "recovery": {
+    "fileCount": 110,
+    "sampleBasenames": [
+      "13d3174106b06cc3154ba9d5de64419a62fc962bd7ae7ef953970364f1520ed7",
+      "project-lifecycle-recovery",
+      "revision-bridge-apply-journal",
+      "1785496455882_project.craftsman.json",
+      "1785496456493_project.craftsman.json",
+      "1785496456522_project.craftsman.json",
+      "1785496456542_project.craftsman.json",
+      "1785496456564_project.craftsman.json"
+    ]
+  },
+  "assertions": {
+    "noNetwork": true,
+    "stage01ExactAtlasJourney": true,
+    "stage02ManualMapGraphWorkbench": true,
+    "stage03PlotIdeaMeaningSurfaces": true,
+    "stage05AllAtlasReadSurfacesReachable": true,
+    "commandKernelReceipts": true,
+    "reopenProof": true,
+    "recoveryProof": true,
+    "uiReachability": true,
+    "screenshotProof": true
+  },
+  "pass": true
+}

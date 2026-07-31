@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "yalken.atlas.v5.erC07.stageRevalidationHandoffReceipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+  "programStage": "ER_AUDIT_REPAIR_2026_07_31",
+  "generatedAtUtc": "2026-07-31T11:16:28.955Z",
+  "targetSha": "dbe67650465577a9c940dd8bba907ce40ef2dc84",
+  "status": "READY_FOR_E11_COMPILATION_AFTER_DELIVERY_CHAIN",
+  "stage11Started": false,
+  "designToolRouter": "NOT_APPLICABLE_REVALIDATION_NO_NEW_UI_DESIGN_CONTRACT",
+  "certifiedStageOutcomes": [
+    "E01_STAGE_01_EXACT_ATLAS_USER_OUTCOME",
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME",
+    "E03_STAGE_03_PLOT_IDEA_MEANING_USER_OUTCOME",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME"
+  ],
+  "unsatisfiedStageOutcomes": [
+    "E10_STAGE_10_READINESS_REMAINS_NOT_READY_UNTIL_ER_C07_DELIVERY_CHAIN",
+    "E11_ACTIVE_PLATFORM_CERTIFICATION_NOT_STARTED",
+    "EFINAL_PROGRAM_DOD_NOT_STARTED",
+    "GENERIC_SAST_SECURITY_CERTIFICATION_NOT_READY"
+  ],
+  "invalidatedEvidence": {
+    "rejectedAsReadinessEvidence": true,
+    "receiptIds": [
+      "YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_STAGE_ACCEPTANCE_RECEIPT",
+      "YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT"
+    ]
+  },
+  "facts": {
+    "erC00NoSelfReadiness": true,
+    "erC01UnicodeIntegrity": true,
+    "erC02QueryParity": true,
+    "erC03CommandAuthority": true,
+    "erC04Journeys": true,
+    "erC05MeasuredWorker": true,
+    "erC06Responsive": true
+  },
+  "negativeAssertions": {
+    "noFalseReadiness": true,
+    "noCompletedContourCountReadiness": true,
+    "invalidatedE05E06NotAccepted": true,
+    "lazywebAdvisoryOnly": true,
+    "stage11Started": false,
+    "secondSourceOfTruth": false,
+    "commandKernelBypass": false,
+    "directRendererStorageMutation": false
+  },
+  "validation": {
+    "rendererBuild": {
+      "status": "PASS",
+      "command": "npm run -s build:renderer",
+      "exitCode": 0
+    },
+    "focusedContracts": {
+      "status": "PASS",
+      "command": "node --test test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js test/contracts/yalken-atlas-v5-er-c01-unicode-anchor-schema-integrity.contract.test.js test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js test/contracts/yalken-atlas-v5-er-c04-product-vertical-journeys-graph-workbench.contract.test.js test/contracts/yalken-atlas-v5-er-c05-real-worker-measured-10k-budget.contract.test.js test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js test/contracts/yalken-atlas-v5-er-c07-stage-revalidation-handoff.contract.test.js",
+      "exitCode": 0,
+      "summary": "34 pass, 0 fail"
+    },
+    "testOps": {
+      "status": "PASS",
+      "command": "npm run -s test:ops",
+      "exitCode": 0
+    },
+    "doctrine": {
+      "status": "PASS",
+      "command": "npm run -s design-os:doctrine",
+      "exitCode": 0
+    },
+    "ossPolicy": {
+      "status": "PASS",
+      "command": "npm run -s oss:policy",
+      "exitCode": 0
+    },
+    "diffCheck": {
+      "status": "PASS",
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    "fullRunner": {
+      "status": "PASS",
+      "command": "node scripts/run-tests.js",
+      "exitCode": 0,
+      "summary": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "genericSast": {
+      "status": "NOT_READY",
+      "command": "npm run -s security:audit:generic-sast",
+      "exitCode": 3,
+      "findings": 0,
+      "timeouts": 7,
+      "nonTimeoutErrors": 2,
+      "reason": "GENERIC_SAST_PARSER_TIMEOUT_GAPS_NOT_SHIPPED_AS_STAGE_CERTIFICATION"
+    }
+  },
+  "evidence": {
+    "stageRevalidationReportPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-stage-revalidation-report.json",
+    "stageRevalidationReportSha256": "17f6781e15483f0d59a2f64e15332d0e44cd947135b50fbcdcfe4837a50ca3ca",
+    "liveRendererProofPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-live-renderer-journey.json",
+    "liveRendererProofSha256": "fd027f86f0f7a3c8748711edaf485630f962cf5faa940b458ba1b04494b557a7",
+    "liveRendererScreenshotPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-live-renderer.png",
+    "liveRendererScreenshotSha256": "e78e3b68969420ff92434b3c5e9456db83dac0223450aeb2ba4c136d1c62ad48",
+    "fullRunnerLogPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/run-tests.log",
+    "fullRunnerLogSha256": "680a02e00a52affe07efe835589189c37425244bac1e523638332dcfa045ac97",
+    "liveRendererProofHash": "fd027f86f0f7a3c8748711edaf485630f962cf5faa940b458ba1b04494b557a7"
+  },
+  "handoff": {
+    "nextProgramStage": "E11_ACTIVE_PLATFORM_CERTIFICATION",
+    "nextContour": "E11_C00_ACTIVE_PLATFORM_CERTIFICATION_COMPILATION",
+    "readyForE11CompilationAfterDeliveryChain": true,
+    "programDone": false,
+    "eFinalDone": false
+  }
+}

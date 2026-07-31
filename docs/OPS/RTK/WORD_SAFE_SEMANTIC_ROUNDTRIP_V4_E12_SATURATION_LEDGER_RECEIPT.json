@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED",
+  "status": "WORD_SATURATION_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -40,7 +40,7 @@
     "wordSaturationClaimAllowed": false,
     "googleDocsAllowedToOpen": false,
     "lastCompletedWaveTarget": 300,
-    "nextWaveTarget": "WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES"
+    "nextWaveTarget": "NO_GENERIC_WAVE_REPEAT_TARGETED_GAP_CLOSURE_DONE_A02_AUDIT_NEXT"
   },
   "evidenceBindings": [
     {
@@ -142,11 +142,11 @@
       "description": "multi-scene apply remains a typed shadow-only limitation until a later writer-authority contour proves runtime apply without false exact or partial canonical writes"
     },
     {
-      "id": "E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER",
+      "id": "E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
-      "sha256": "83f173e5614396dcf204ea9f2d6e11c1a705f42912a4bfdcf05b1d7e9be6f156",
+      "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
       "status": "BOUND",
-      "description": "targeted native UI physical corpus confirms root modern comments and Word-authored tracked replacement while reply resolve reopen delete and overlap remain typed limitations"
+      "description": "targeted 30-case physical Word 16.111.2 gap-closure corpus confirms root modern comments, non-overlap tracked revisions, adjacent end-to-start range repair, paragraph-boundary revisions, comment-adjacent revisions, and typed limitations without generic wave repetition"
     }
   ],
   "coverageLedger": {
@@ -232,8 +232,8 @@
     },
     "modernCommentNativeUiFollowup": {
       "status": "BOUND",
-      "sourceEvidence": "E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER",
-      "outcome": "TARGETED_NATIVE_UI_ROOT_COMMENTS_AND_WORD_AUTHORED_TRACKED_REPLACEMENT_CONFIRMED_WITH_TYPED_LIMITATIONS"
+      "sourceEvidence": "E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE",
+      "outcome": "TARGETED_30_CASE_NATIVE_UI_GAP_CLOSURE_CONFIRMED_WITH_TYPED_LIMITATIONS_NO_GENERIC_WAVE_REPEAT"
     }
   },
   "aggregateTotals": {
@@ -277,13 +277,25 @@
     "automaticMultiSceneApplyCertified": 0,
     "falseMultiSceneApplyCertification": 0,
     "modernCommentNativeUiProbeCases": 1,
-    "modernCommentNativeUiActionsPerformed": 1,
-    "modernCommentNativeUiExternalAccessBlocked": 1,
+    "modernCommentNativeUiActionsPerformed": 30,
+    "modernCommentNativeUiExternalAccessBlocked": 0,
     "falseModernCommentSupportClaim": 0,
-    "nativeUiRootModernCommentsCertified": 3,
-    "nativeUiTrackedReplacementCertified": 1,
-    "nativeUiReplyResolveDeleteCertified": 0,
-    "nativeUiOverlappingTrackedEditsCertified": 0
+    "nativeUiRootModernCommentsCertified": 8,
+    "nativeUiTrackedReplacementCertified": 16,
+    "nativeUiReplyResolveDeleteCertified": 1,
+    "nativeUiOverlappingTrackedEditsCertified": 0,
+    "targetedNativeUiGapCases": 30,
+    "targetedNativeUiPassCases": 27,
+    "targetedNativeUiTypedLimitationCases": 3,
+    "targetedNativeUiFailedCases": 0,
+    "nativeUiAdjacentTrackedEditsCertified": 1,
+    "nativeUiSequentialTrackedEditsCertified": 1,
+    "nativeUiParagraphBoundaryTrackedCertified": 1,
+    "nativeUiCommentsAdjacentToRevisionsCertified": 2,
+    "nativeUiWordNormalizedOverlapAttemptCases": 1,
+    "nativeUiReplyCertified": 0,
+    "nativeUiResolveReopenCertified": 0,
+    "nativeUiDeleteCertified": 1
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -297,7 +309,7 @@
   },
   "notSaturatedReasons": [
     "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
-    "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED"
+    "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": false,
@@ -310,12 +322,14 @@
     "wordSaturated": false
   },
   "nonClaims": [
-    "E12 wave 40 does not certify Word SATURATED",
-    "E12 wave 40 does not open Google Docs or any other editor profile",
-    "E12 wave 40 does not add automatic apply authority",
-    "E12 wave 40 binds physical Word evidence and advances the next target to wave 100"
+    "E12 wave 40, wave 100, wave 300, and repeat wave 300 are already complete and are not repeated by targeted gap closure.",
+    "Word SATURATED is not claimed.",
+    "Google Docs remains closed until Word saturation criteria permit sequencing.",
+    "A03 automatic portability improvements are not started by this receipt.",
+    "Literal overlapping tracked edits are not certified as apply authority.",
+    "Modern reply and resolve reopen remain typed limitations unless future physical readback proves them."
   ],
-  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
+  "nextStage": "EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

@@ -1,0 +1,29 @@
+
+> craftsman@1.0.2 prebuild:mac
+> npm run build:renderer
+
+
+> craftsman@1.0.2 build:renderer
+> node scripts/build-renderer.mjs
+
+
+> craftsman@1.0.2 build:mac
+> electron-builder --mac
+
+  • electron-builder  version=26.15.3 os=25.5.0
+  • loaded configuration  file=package.json ("build" field)
+  • executing @electron/rebuild  electronVersion=40.9.2 arch=arm64 buildFromSource=false workspaceRoot=/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00 projectDir=./ appDir=./
+  • installing native dependencies  arch=arm64
+  • completed installing native dependencies
+  • packaging       platform=darwin arch=arm64 electron=40.9.2 appOutDir=dist/mac-arm64
+  • downloaded      label=electron progress=100%
+  • downloaded electron zip extracted successfully  output=/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64
+  • searching for node modules  pm=npm searchDir=/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00
+  • duplicate dependency references  dependencies=["@tiptap/pm@3.22.3","@tiptap/pm@3.22.3","prosemirror-transform@1.11.0","prosemirror-state@1.4.4","prosemirror-model@1.25.4","prosemirror-state@1.4.4","prosemirror-transform@1.11.0","prosemirror-state@1.4.4","prosemirror-transform@1.11.0","prosemirror-view@1.41.5","prosemirror-keymap@1.2.3","prosemirror-model@1.25.4","prosemirror-state@1.4.4","prosemirror-view@1.41.5","prosemirror-state@1.4.4","prosemirror-transform@1.11.0","prosemirror-view@1.41.5","prosemirror-state@1.4.4","prosemirror-transform@1.11.0","prosemirror-state@1.4.4","prosemirror-model@1.25.4","prosemirror-commands@1.7.1","prosemirror-history@1.5.0","prosemirror-state@1.4.4","prosemirror-model@1.25.4","prosemirror-model@1.25.4","prosemirror-state@1.4.4","prosemirror-transform@1.11.0","prosemirror-model@1.25.4","prosemirror-transform@1.11.0","prosemirror-view@1.41.5","prosemirror-keymap@1.2.3","prosemirror-model@1.25.4","prosemirror-state@1.4.4","prosemirror-transform@1.11.0","prosemirror-view@1.41.5","prosemirror-model@1.25.4","prosemirror-state@1.4.4","prosemirror-view@1.41.5","prosemirror-model@1.25.4","prosemirror-model@1.25.4","prosemirror-state@1.4.4","prosemirror-transform@1.11.0","@tiptap/pm@3.22.3","@tiptap/pm@3.22.3","@tiptap/extension-link@3.22.3","@tiptap/pm@3.22.3","@tiptap/pm@3.22.3","@tiptap/pm@3.22.3"]
+  •   • skipped macOS application code signing  reason=Developer ID identity not available in local autonomous proof; local keychain identity details redacted
+• building block map  blockMapFile=dist/Yalken-1.0.2-arm64.dmg.blockmap
+  • building block map  blockMapFile=dist/Yalken-1.0.2-arm64-mac.zip.blockmap
+
+  dist/renderer/editor.bundle.js  1.0mb ⚠️
+
+⚡ Done in 97ms

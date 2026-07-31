@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "yalken.atlas.v5.e11.c01.macosPackageArtifactSecurity.v1",
+  "generatedAtUtc": "2026-07-31T11:45:43.188Z",
+  "contourId": "E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+  "platformId": "macos-packaged-electron",
+  "status": "PASS_UNSIGNED_LOCAL_ARTIFACT",
+  "pass": true,
+  "build": {
+    "command": "npm run build:mac",
+    "status": "PASS",
+    "exitCode": 0,
+    "durationMs": 31135
+  },
+  "artifacts": {
+    "appDir": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app",
+      "exists": true,
+      "bytes": 0,
+      "sha256": ""
+    },
+    "appAsar": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Resources/app.asar",
+      "exists": true,
+      "bytes": 72592764,
+      "sha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9"
+    },
+    "infoPlist": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Info.plist",
+      "exists": true,
+      "bytes": 3416,
+      "sha256": "e3ce6a0d97f85909d8578b1026b236a17858a053d9f51826cb9ac7f4c8746964"
+    },
+    "executable": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/MacOS/Yalken",
+      "exists": true,
+      "bytes": 33968,
+      "sha256": "f5212ea9181df95040385dfd04f512e983ed95394a96fb7c4b8ee838ea433caf"
+    },
+    "zip": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/Yalken-1.0.2-arm64-mac.zip",
+      "exists": true,
+      "bytes": 144452088,
+      "sha256": "2becfe76d195d0aad2ffb951e1303608f5b43395e524ed8b7b6447b4953e9c43"
+    },
+    "dmg": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/Yalken-1.0.2-arm64.dmg",
+      "exists": true,
+      "bytes": 147303688,
+      "sha256": "28322b5a4b3817a11e5104a099aff940436e99fcad4189951cc81634716a0178"
+    }
+  },
+  "bundleEntrypoint": {
+    "command": "node scripts/check-packaged-renderer-bundle.mjs /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Resources/app.asar",
+    "status": "PASS",
+    "stdoutTail": "BUNDLE_ENTRYPOINT_PROOF_MODE=packaged\nAPP_ASAR_BUNDLE_CHECK_PASS\n",
+    "stderrTail": ""
+  },
+  "infoPlist": {
+    "status": "PASS",
+    "bundleIdentifier": "com.kirpon.writereditor",
+    "bundleName": "Yalken",
+    "minimumSystemVersion": "12.0",
+    "sha256": "e3ce6a0d97f85909d8578b1026b236a17858a053d9f51826cb9ac7f4c8746964"
+  },
+  "atsPolicy": {
+    "ok": true,
+    "NSAllowsArbitraryLoads": false,
+    "NSAllowsLocalNetworking": false,
+    "localhostHttp": false,
+    "localhostHttps": false,
+    "loopbackHttp": false,
+    "loopbackHttps": false
+  },
+  "signing": {
+    "status": "NOT_READY_NO_DEVELOPER_ID",
+    "passClaim": false,
+    "reason": "codesign verification did not pass for a Developer ID distribution artifact; local unsigned package is allowed only as reversible development proof"
+  },
+  "notarization": {
+    "status": "NOT_READY_NO_NOTARYTOOL_PROFILE",
+    "passClaim": false,
+    "reason": "no paid Apple notarization credential or live notarization path is used in autonomous local proof"
+  },
+  "negativeAssertions": {
+    "physicalPackageProof": true,
+    "ciParityIsNotPhysicalPackageProof": true,
+    "runtimeNetworkActivated": false,
+    "appleSigningPassClaim": false,
+    "appleNotarizationPassClaim": false,
+    "inactivePlatformCertificationClaim": false,
+    "finalProgramDoDClaim": false
+  }
+}

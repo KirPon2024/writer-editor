@@ -15,6 +15,7 @@ const PARSER_GAP_FOLLOWUP_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-parser-gap-
 const CUSTOMXML_FOLLOWUP_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs';
 const MULTI_SCENE_FOLLOWUP_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs';
 const MODERN_NATIVE_UI_FOLLOWUP_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-modern-comment-native-ui-followup.mjs';
+const A02_TERMINAL_AUDIT_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs';
 const WORD_SANDBOX_HELPER_PATH = 'scripts/ops/rtk-word-sandbox-work-root.mjs';
 const RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json';
 const STABILITY_AUDIT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json';
@@ -23,6 +24,8 @@ const PARSER_GAP_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDT
 const CUSTOMXML_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_FOLLOWUP_RECEIPT.json';
 const MULTI_SCENE_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json';
 const MODERN_NATIVE_UI_FOLLOWUP_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json';
+const A02_TERMINAL_AUDIT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json';
+const A03_PROMOTION_LIST_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json';
 const WAVE40_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json';
 const WAVE100_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json';
 const WAVE300_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json';
@@ -44,7 +47,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.status, 'WORD_SATURATION_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED');
+  assert.equal(receipt.status, 'WORD_SATURATION_A02_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED');
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
   assert.equal(receipt.saturationRule.lastCompletedWaveTarget, 300);
@@ -52,7 +55,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
   assert.equal(receipt.saturationRule.currentWaveObservedRounds, 300);
   assert.equal(receipt.saturationRule.consecutiveStableApprovedWaves, 2);
   assert.equal(receipt.saturationRule.stableHistogram, true);
-  assert.equal(receipt.nextStage, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
+  assert.equal(receipt.nextStage, 'EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR');
   assert.equal(receipt.saturationRule.saturated, false);
   assert.equal(receipt.saturationRule.googleDocsAllowedToOpen, false);
   assert.equal(receipt.notSaturatedReasons.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), false);
@@ -62,11 +65,11 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   const receipt = readJson(RECEIPT_PATH);
   const bindings = new Map(receipt.evidenceBindings.map((item) => [item.id, item]));
 
-  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK', 'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION', 'E12_CUSTOM_XML_AUTHORITY_REROUTE', 'E12_MULTI_SCENE_APPLY_LIMITATION', 'E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE']) {
+  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01', 'E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK', 'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION', 'E12_CUSTOM_XML_AUTHORITY_REROUTE', 'E12_MULTI_SCENE_APPLY_LIMITATION', 'E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE', 'E12_A02_TERMINAL_AUDIT', 'E12_A03_PROMOTION_LIST']) {
     assert.equal(bindings.get(id).status, 'BOUND');
     assert.match(bindings.get(id).sha256, /^[0-9a-f]{64}$/u);
   }
-  for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300', 'physicalWave300Repeat', 'wave300ParserGapFollowup', 'modernCommentAppleScriptFollowup', 'customXmlAuthorityFollowup', 'multiSceneApplyFollowup', 'modernCommentNativeUiFollowup']) {
+  for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300', 'physicalWave300Repeat', 'wave300ParserGapFollowup', 'modernCommentAppleScriptFollowup', 'customXmlAuthorityFollowup', 'multiSceneApplyFollowup', 'modernCommentNativeUiFollowup', 'a02TerminalAudit', 'a03PromotionList']) {
     assert.equal(receipt.coverageLedger[key].status, 'BOUND');
   }
   assert.equal(receipt.aggregateTotals.physicalRoundTripsObserved, 300);
@@ -100,6 +103,12 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   assert.equal(receipt.aggregateTotals.targetedNativeUiPassCases, 27);
   assert.equal(receipt.aggregateTotals.targetedNativeUiTypedLimitationCases, 3);
   assert.equal(receipt.aggregateTotals.targetedNativeUiFailedCases, 0);
+  assert.equal(receipt.aggregateTotals.a02TerminalMicroLabCases, 2);
+  assert.equal(receipt.aggregateTotals.a02ResolveControlStableBound, 1);
+  assert.equal(receipt.aggregateTotals.a02ResolveDoneTrueReadback, 1);
+  assert.equal(receipt.aggregateTotals.a02ReopenDoneFalseReadback, 0);
+  assert.equal(receipt.aggregateTotals.a02TripleAdjacentRebindPass, 0);
+  assert.equal(receipt.aggregateTotals.a03PromotionRows, 5);
   assert.equal(receipt.aggregateTotals.focusedE11CoordinatorContracts, 7);
 });
 
@@ -165,16 +174,40 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED');
+  assert.equal(profile.status, 'WORD_16_111_2_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'TARGETED_GAP_CLOSURE_A02_RECONCILED_WITH_TYPED_LIMITATIONS');
+  assert.equal(cell.currentCapability, 'A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED');
-  assert.equal(program.nextStep, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
-  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
+  assert.equal(program.status, 'WORD_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED');
+  assert.equal(program.nextStep, 'EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR');
+  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR');
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
+});
+
+test('V4 A02 terminal audit separates physical proof from runtime and apply authority', async () => {
+  const verifier = await import(pathToFileURL(path.join(REPO_ROOT, A02_TERMINAL_AUDIT_SCRIPT_PATH)).href);
+  const receipt = readJson(A02_TERMINAL_AUDIT_RECEIPT_PATH);
+  const promotionList = readJson(A03_PROMOTION_LIST_PATH);
+  const result = verifier.evaluateWordA02TerminalAudit({ receipt, promotionList, requireFiles: true });
+
+  assert.equal(result.status, 'PASS');
+  assert.deepEqual(result.issues, []);
+  assert.equal(receipt.status, 'WORD_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED');
+  assert.equal(receipt.microLab.genericWaveRepeated, false);
+  assert.equal(receipt.wordProfile.openDocumentSetUnchanged, true);
+  assert.equal(receipt.capabilityFamilies.rootModernComments.physicalWordProven, true);
+  assert.equal(receipt.capabilityFamilies.rootModernComments.productRuntimeWired, false);
+  assert.equal(receipt.capabilityFamilies.rootModernComments.automaticApplyCertified, false);
+  assert.equal(receipt.capabilityFamilies.modernReplies.physicalWordProven, false);
+  assert.equal(receipt.microLab.modernCommentResolveReopen.controls.resolveStableControlBound, true);
+  assert.equal(receipt.microLab.modernCommentResolveReopen.packageReadback.resolved.doneTrueCount, 1);
+  assert.equal(receipt.microLab.modernCommentResolveReopen.packageReadback.reopened.doneFalseCount, 0);
+  assert.equal(receipt.microLab.tripleAdjacentTrackedEdits.result, 'TYPED_LIMITATION');
+  assert.equal(receipt.microLab.tripleAdjacentTrackedEdits.packageReadback.trackedTokensMissing.length, 3);
+  assert.equal(promotionList.rows.length, 5);
+  assert.equal(promotionList.rows.every((row) => row.authorityLevel.productRuntimeWired === false && row.authorityLevel.automaticApplyCertified === false), true);
 });
 
 test('V4 E12 modern comment native UI followup binds physical root comments and tracked replacement without overclaims', async () => {

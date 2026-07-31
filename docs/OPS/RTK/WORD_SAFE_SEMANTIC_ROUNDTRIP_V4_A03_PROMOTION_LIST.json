@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-promotion-list.v1",
+  "taskId": "YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
+  "status": "A03_PROMOTION_LIST_READY_AFTER_A02_TERMINAL_AUDIT",
+  "createdAtUtc": "2026-07-31T16:19:31.790Z",
+  "sourceTerminalReceipt": {
+    "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
+    "sha256": "fad174a5ce6719ca8792934005001aa44240259b0300904ac36ae41229a5f2cf",
+    "status": "BOUND_AFTER_WRITE"
+  },
+  "sourceTargetedReceipt": {
+    "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+    "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
+    "status": "MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE_COMPLETE_NOT_SATURATED"
+  },
+  "authorityLevels": [
+    "PHYSICAL_WORD_PROVEN",
+    "COMPONENT_PROVEN",
+    "PRODUCT_RUNTIME_WIRED",
+    "AUTOMATIC_APPLY_CERTIFIED"
+  ],
+  "rows": [
+    {
+      "capability": "rootModernCommentShadowImport",
+      "physicalEvidence": [
+        "NCUI-C01 through NCUI-C07 and NCUI-C12",
+        "A02-MC-RESOLVE-REOPEN root comment setup"
+      ],
+      "parserComponentConsumer": "ReviewIR comment lane and comment graph resolver",
+      "missingRuntimeWiring": "Review Session mutation command through Command Kernel plus receipt ledger",
+      "authorityLevel": {
+        "physicalWordProven": true,
+        "componentProven": true,
+        "productRuntimeWired": false,
+        "automaticApplyCertified": false
+      },
+      "negativeTests": [
+        "no-op comment save cannot PASS",
+        "silent comment loss must remain zero",
+        "comment lane cannot grant manuscript apply authority"
+      ],
+      "recoveryReplayRequirements": [
+        "comment session mutation receipt",
+        "idempotent reimport handling",
+        "orphan preservation"
+      ],
+      "implementationContour": "A03-C01-COMMENT-SHADOW-SESSION-COMMAND",
+      "killCriterion": "any comment import mutates manuscript text or loses a locatable thread silently"
+    },
+    {
+      "capability": "nonOverlapTrackedReplacementShadowImport",
+      "physicalEvidence": [
+        "NCUI-T01 through NCUI-T06",
+        "NCUI-T08 through NCUI-T16",
+        "NCUI-T18"
+      ],
+      "parserComponentConsumer": "Minimal Word Semantic Kernel TextRevision lane",
+      "missingRuntimeWiring": "signed locator envelope, effect grouping, preview, Command Kernel apply envelope, reverse verification",
+      "authorityLevel": {
+        "physicalWordProven": true,
+        "componentProven": true,
+        "productRuntimeWired": false,
+        "automaticApplyCertified": false
+      },
+      "negativeTests": [
+        "valid signed locator required before apply",
+        "unique mapping required",
+        "baseline guard required",
+        "reverse verification required",
+        "replay ledger required",
+        "crash recovery required",
+        "no fuzzy apply"
+      ],
+      "recoveryReplayRequirements": [
+        "checkpoint before apply",
+        "write-once outcome ledger",
+        "per-scene atomic write",
+        "readback after write"
+      ],
+      "implementationContour": "A03-C02-NONOVERLAP-TRACKED-REPLACEMENT-RUNTIME-WIRING",
+      "killCriterion": "any duplicate, stale, overlap, wrong scene, unsigned, or reverse-verify-failing change applies"
+    },
+    {
+      "capability": "adjacentTrackedReplacementExactCandidate",
+      "physicalEvidence": [
+        "NCUI-T02",
+        "A02-T17-REBIND-SAVE-REOPEN if PASS"
+      ],
+      "parserComponentConsumer": "UniqueDiff bounded text effects with block-local candidate gate",
+      "missingRuntimeWiring": "stable range rebinding policy plus exhaustive overlap and adjacent-token negative oracle",
+      "authorityLevel": {
+        "physicalWordProven": false,
+        "componentProven": true,
+        "productRuntimeWired": false,
+        "automaticApplyCertified": false
+      },
+      "negativeTests": [
+        "duplicate adjacent tokens",
+        "three-token adjacency",
+        "permutation determinism",
+        "overlap attempt",
+        "token identity loss"
+      ],
+      "recoveryReplayRequirements": [
+        "deterministic effect identity includes block range",
+        "no replay collapse for distinct ranges"
+      ],
+      "implementationContour": "A03-C03-ADJACENT-RANGE-NEGATIVE-ORACLE",
+      "killCriterion": "Word-normalized adjacent run drops an expected token or collapses identities under physical readback"
+    },
+    {
+      "capability": "modernCommentResolveReopenState",
+      "physicalEvidence": [
+        "A02-MC-RESOLVE-REOPEN"
+      ],
+      "parserComponentConsumer": "modern comment graph resolver commentsExtended done state",
+      "missingRuntimeWiring": "none allowed until done true then done false physical readback is deterministic",
+      "authorityLevel": {
+        "physicalWordProven": false,
+        "componentProven": false,
+        "productRuntimeWired": false,
+        "automaticApplyCertified": false
+      },
+      "negativeTests": [
+        "selected-thread ambiguity",
+        "missing done true",
+        "missing done false after reopen",
+        "empty AX tree cannot become false unsupported"
+      ],
+      "recoveryReplayRequirements": [
+        "comment state receipt per thread",
+        "idempotent state update",
+        "thread deletion separate from resolve"
+      ],
+      "implementationContour": "A03-C04-MODERN-COMMENT-STATE-ONLY-IF-PHYSICAL-PASS",
+      "killCriterion": "stable selected-thread binding is absent or OOXML done state fails save-close-reopen"
+    },
+    {
+      "capability": "literalOverlapTrackedEdits",
+      "physicalEvidence": [
+        "NCUI-T07",
+        "NCUI-T17",
+        "A02-T17-REBIND-SAVE-REOPEN"
+      ],
+      "parserComponentConsumer": "ReviewIR structure and text lanes with typed diagnostic output",
+      "missingRuntimeWiring": "not eligible for automatic apply unless Word produces exhaustive separable semantics",
+      "authorityLevel": {
+        "physicalWordProven": false,
+        "componentProven": true,
+        "productRuntimeWired": false,
+        "automaticApplyCertified": false
+      },
+      "negativeTests": [
+        "nested overlap",
+        "triple-adjacent no-separator overlap",
+        "missing expected token",
+        "identity collapse"
+      ],
+      "recoveryReplayRequirements": [
+        "manual diagnostic preservation",
+        "no destructive flattening",
+        "returned DOCX preserved"
+      ],
+      "implementationContour": "A03-NOT-PROMOTED-KEEP-TYPED-LIMITATION",
+      "killCriterion": "any normalized or missing-token overlap is promoted to automatic apply"
+    }
+  ],
+  "nonClaims": [
+    "A03 list does not implement product runtime wiring.",
+    "A03 list does not certify automatic apply.",
+    "A03 list does not open Google Docs.",
+    "A03 list does not remove future editor stages."
+  ]
+}

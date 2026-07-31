@@ -6274,29 +6274,8 @@
       "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "fe08c0ed90f327a5aae6b5647f7080d00437bd4f4e0c230851e86f7e4f4e7d8a",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "18e83a2cc621d0482742dc97d378a3cf05a768d3d30301dab1443be0dc417217",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
       "sha256": "a9e284e18629c7ea4cf87d69113fe11028330ba4b073df92facc0898fde98268",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "50dce82b2e47a2d98e24b4f05aa6cf6f92259e75a9183d06144ee8889beb8e56",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
       "approvedAtUtc": "2026-07-31T12:20:00.000Z",
       "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
@@ -6309,81 +6288,123 @@
       "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "45596c57aec87a072923164df91b44491a4e1ef48d9749bc88bd55d373bea9f1",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "a097dc5fd35d23979ca2967e082d512de4eb79a6400afc55620b652f2cb881b6",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_FOLLOWUP_RECEIPT.json",
+      "sha256": "18091c36f06ff85cbe6c013e61b3c9cb24d7207fbcd9feb013465ddfd03e9169",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "c1a64e0c3e3455f83927b9ae6efd5e0dcfb650d559a9966f3ef68fbc48ce0907",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs",
+      "sha256": "1537e79bb299beeddfe30f1a0f4640ff0dcca2b6dbe9a09a46233cbaf7aed7a7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "c4a96a796d787853bf8a66d760b1bd71ba8322ddf8b060615671313942ee4093",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "74ac9144338dff92990993c2abbf999f4b49ed8ad206e87a62060122bd14be3a",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "f8323999b81bcb28c888470a22ca527731e5e9cf2be031a082be465d129ce2b6",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "9663b5f2cc3250105b55908c876c208436653316d3e69181bec996e5cfbfcdd3",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "cb3484d48cb1a51d1f3c7f3be08a2d5ecc252b6a0e766c97fc5ffb5be24cbc59",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "68945baa5d982d8d628fd5688893e0d8eb9eac68352c81ae5ce8c095a2a9e029",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "8d082183b452fa1c5d27135302fd936b335463d42091025cd0aa0fe19270bd18",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "30f44acc2b6fb0d73b1c3ac21b9dff1f0180f3bd8a543015935fe91e8ed9bba0",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "ee7b7e28e940fb5bd913168de840446fa98c1216b3ee7507663825422d710ef4",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "c148f725448805bbfd6fb8e92412c4e9383290ef99c6ec55251cc5898d6a4ee1",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "c687d6a0e00fe77ad8eed2e266ea6dcb1c3e3c614504c2004cbdd07086bc4736",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "c16d9ed79de638e3961e94041033f615e7e5899084ebf9db41e2f67065c3a935",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "3ccc8105a7d0cf676b73cdc134c6177d839fd0efb8a36791bfb5026ac029fa39",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "66efa8129838d9026c8347f34774187c8a0a6d5d28403a757a102a0017153d69",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "8abd0f2bc3db6fbc1f706428d34146a2dad052825fff50c5dd56b0186fca5546",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "9e4f492c8d6e0dac881c87e1bcf787a315f745aacc64ffe45fbfec93eb2b10d8",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "fa0f2446e0a9c4b66550ec261249e6ddf070a108801f5793d5eff0747e84da38",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "ee1b2633a8458d5c82e25491b3e77b212f381de2006a0aa585b8b17c35996ef6",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
+      "sha256": "2b23fb38e630d4df15e71824d2e7a8d80e30e9a3f769fdcfcfd461074b11fc74",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
-      "sha256": "17f3a7ba164e4f582fbff90e93e88595fc72dff90072735b7457850b36399f57",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "d912bc2f689914acffaf9f7ed7fb27792ef1807a978081638c8ef413f781dc40",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "9ec2baf64573912fc0b911fd2fb103e077a331023cc17297bd7242f232abee84",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_FOLLOWUP",
-      "approvedAtUtc": "2026-07-31T12:20:00.000Z",
-      "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+      "sha256": "a350d36c3ed140189ebe1022efb115ff82d2564c76be27b7b5c7578ae4363956",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_REROUTE_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:36:00.000Z",
+      "rationale": "Approve bounded E12 customXml authority followup: closes customXml mutating-save authority loss only by rejecting customXml authority and binding the physically proven customDocumentProperty carrier plus C02 parser and E03 YRTK2 evidence; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     }
   ]
 }

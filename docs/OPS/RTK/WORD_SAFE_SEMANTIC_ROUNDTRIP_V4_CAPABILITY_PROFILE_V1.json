@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED",
+  "status": "WORD_16_111_2_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,7 +388,7 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED",
+      "currentCapability": "CUSTOM_XML_AUTHORITY_REROUTED_TO_CUSTOM_DOCUMENT_PROPERTY_NOT_SATURATED",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_12 Word limitation followup before Google Docs sequencing",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
@@ -421,7 +421,9 @@
         "repeatWave300DenseCommentThreads": 100,
         "repeatWave300ScaleReturnedBytesMax": 1239432,
         "consecutiveStableApprovedWaves": 2,
-        "wl2031HostilePackageTypedBlockedFollowupCases": 1
+        "wl2031HostilePackageTypedBlockedFollowupCases": 1,
+        "customXmlAuthorityFollowupCases": 1,
+        "customDocumentPropertyMutatingSurvivalCases": 4
       },
       "saturationRule": {
         "requiredWaveSequence": [
@@ -451,12 +453,12 @@
         "zero-veto aggregate is verified across bound receipts and ledger",
         "WL2-031 single parser BLOCKED row is confirmed as hostile package typed block, not a parser gap",
         "false Word SATURATED claim is blocked until wave criteria are satisfied",
-        "Google Docs and other editor profiles remain closed until Word saturation is proven"
+        "Google Docs and other editor profiles remain closed until Word saturation is proven",
+        "customXml mutating-save loss is no longer an active saturation blocker because authority is explicitly rerouted to the C01/C02 customDocumentProperty carrier path"
       ],
       "limitations": [
         "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
         "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED",
-        "CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY",
         "WAVE300_REPEAT_STABLE_ZERO_VETO_PROVEN_BUT_NOT_SATURATED",
         "WORD_APPLESCRIPT_PARENT_COMMENT_DOES_NOT_PERSIST_AS_MODERN_REPLY_GRAPH",
         "WORD_APPLESCRIPT_DONE_PROPERTY_DOES_NOT_PERSIST_RESOLVE_REOPEN_STATE",
@@ -468,7 +470,8 @@
       "stabilityLimitationAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
       "wave300RepeatEvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
       "parserGapFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
-      "modernCommentFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json"
+      "modernCommentFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
+      "customXmlAuthorityFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_FOLLOWUP_RECEIPT.json"
     }
   ]
 }

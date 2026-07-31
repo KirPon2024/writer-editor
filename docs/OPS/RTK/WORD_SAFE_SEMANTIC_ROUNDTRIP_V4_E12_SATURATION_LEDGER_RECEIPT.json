@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED",
+  "status": "WORD_SATURATION_A02_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -40,7 +40,7 @@
     "wordSaturationClaimAllowed": false,
     "googleDocsAllowedToOpen": false,
     "lastCompletedWaveTarget": 300,
-    "nextWaveTarget": "NO_GENERIC_WAVE_REPEAT_TARGETED_GAP_CLOSURE_DONE_A02_AUDIT_NEXT"
+    "nextWaveTarget": "NO_GENERIC_WAVE_REPEAT_A02_TERMINAL_AUDIT_COMPLETE_A03_NEXT"
   },
   "evidenceBindings": [
     {
@@ -147,6 +147,20 @@
       "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
       "status": "BOUND",
       "description": "targeted 30-case physical Word 16.111.2 gap-closure corpus confirms root modern comments, non-overlap tracked revisions, adjacent end-to-start range repair, paragraph-boundary revisions, comment-adjacent revisions, and typed limitations without generic wave repetition"
+    },
+    {
+      "id": "E12_A02_TERMINAL_AUDIT",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
+      "sha256": "fad174a5ce6719ca8792934005001aa44240259b0300904ac36ae41229a5f2cf",
+      "status": "BOUND",
+      "description": "terminal A02 Word audit separates physical evidence from runtime authority and binds bounded resolve/reopen plus triple-adjacent micro-labs"
+    },
+    {
+      "id": "E12_A03_PROMOTION_LIST",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+      "sha256": "7b89c7c912abd466cdc149665bc40f7e959928857de0050570674d38c02fd88d",
+      "status": "BOUND",
+      "description": "A03 evidence-backed promotion list with authority levels, missing runtime wiring, negative tests, recovery requirements and kill criteria"
     }
   ],
   "coverageLedger": {
@@ -234,6 +248,22 @@
       "status": "BOUND",
       "sourceEvidence": "E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE",
       "outcome": "TARGETED_30_CASE_NATIVE_UI_GAP_CLOSURE_CONFIRMED_WITH_TYPED_LIMITATIONS_NO_GENERIC_WAVE_REPEAT"
+    },
+    "a02TerminalAudit": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_A02_TERMINAL_AUDIT",
+      "outcome": "TERMINAL_A02_WORD_AUDIT_COMPLETE_NOT_SATURATED_A03_READY",
+      "physicalWordProvenOnly": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false
+    },
+    "a03PromotionList": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_A03_PROMOTION_LIST",
+      "outcome": "A03_PROMOTION_LIST_READY_AFTER_A02_TERMINAL_AUDIT",
+      "rows": 5,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false
     }
   },
   "aggregateTotals": {
@@ -295,7 +325,13 @@
     "nativeUiWordNormalizedOverlapAttemptCases": 1,
     "nativeUiReplyCertified": 0,
     "nativeUiResolveReopenCertified": 0,
-    "nativeUiDeleteCertified": 1
+    "nativeUiDeleteCertified": 1,
+    "a02TerminalMicroLabCases": 2,
+    "a02ResolveControlStableBound": 1,
+    "a02ResolveDoneTrueReadback": 1,
+    "a02ReopenDoneFalseReadback": 0,
+    "a02TripleAdjacentRebindPass": 0,
+    "a03PromotionRows": 5
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -308,8 +344,11 @@
     "falseSaturationClaim": 0
   },
   "notSaturatedReasons": [
-    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
-    "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_WORD_NORMALIZED_NOT_LITERAL_OVERLAP_CERTIFIED"
+    "MODERN_REPLY_REMAINS_ZERO_PARENT_LINK_NOT_CERTIFIED",
+    "MODERN_RESOLVE_REOPEN_ROUNDTRIP_REMAINS_TYPED_LIMITATION_UNTIL_DONE_FALSE_READBACK",
+    "TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_TYPED_LIMITATION",
+    "PRODUCT_RUNTIME_WIRING_NOT_STARTED_IN_A02",
+    "AUTOMATIC_APPLY_NOT_CERTIFIED_IN_A02"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": false,
@@ -329,7 +368,7 @@
     "Literal overlapping tracked edits are not certified as apply authority.",
     "Modern reply and resolve reopen remain typed limitations unless future physical readback proves them."
   ],
-  "nextStage": "EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST",
+  "nextStage": "EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
@@ -354,5 +393,11 @@
     "customXmlAuthorityFollowup": "PASS node scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs --json --require-files customXmlAuthorityAllowed=0 selectedCarrier=customDocumentProperty falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "multiSceneApplyFollowup": "PASS node scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs --json --require-files automaticMultiSceneApplyCertified=0 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "modernCommentNativeUiFollowup": "PASS node scripts/ops/rtk-word-v4-e12-modern-comment-native-ui-followup.mjs --json --require-files result=BLOCKED uiElementsEnabled=0 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0"
-  }
+  },
+  "clarifiedAuthorityLevels": [
+    "PHYSICAL_WORD_PROVEN",
+    "COMPONENT_PROVEN",
+    "PRODUCT_RUNTIME_WIRED",
+    "AUTOMATIC_APPLY_CERTIFIED"
+  ]
 }

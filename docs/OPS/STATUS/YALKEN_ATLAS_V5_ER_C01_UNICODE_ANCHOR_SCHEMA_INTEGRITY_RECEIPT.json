@@ -3,25 +3,25 @@
   "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
   "contourId": "ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
   "programStage": "ER_AUDIT_REPAIR_2026_07_31",
-  "status": "DELIVERED_CODE_VALIDATED_LOCALLY_READY_FOR_DELIVERY_CHAIN",
+  "status": "POST_MERGE_SCOPE_REPAIR_VALIDATED_LOCALLY_READY_FOR_DELIVERY_CHAIN",
   "readinessDefault": "NOT_READY",
   "designToolRouter": "NOT_APPLICABLE",
   "generatedAtUtc": "2026-07-31T06:02:00.000Z",
   "git": {
     "branch": "codex/yalken-atlas-v5-er-c01",
-    "baseSha": "d1349c5ff93994242f8932380732154b65767ef7",
-    "originMainSha": "d1349c5ff93994242f8932380732154b65767ef7",
-    "branchHeadSha": "d1349c5ff93994242f8932380732154b65767ef7",
+    "baseSha": "ebb8da38fff0b75f9cdb4b71dae9608be7140ba3",
+    "originMainSha": "ebb8da38fff0b75f9cdb4b71dae9608be7140ba3",
+    "branchHeadSha": "PENDING_FINAL_ER_C01_SCOPE_REPAIR_COMMIT",
     "deliveryCommitSha": "PENDING_PRE_COMMIT",
     "remoteMergeSha": "PENDING_PRE_DELIVERY"
   },
   "targetBinding": {
-    "sha": "d1349c5ff93994242f8932380732154b65767ef7",
+    "sha": "PENDING_FINAL_ER_C01_SCOPE_REPAIR_COMMIT",
     "platform": "macOS-local-dev",
     "profile": "release-local-validation",
     "timestampUtc": "2026-07-31T06:02:00.000Z",
-    "artifactDigest": "c77ac8fc54b7d8808299ab664d43de25ea15288db77558b47e9111fe605ad7db",
-    "artifactIdentity": "tmp:yalken-er-c01-full-runner.log"
+    "artifactDigest": "4d56e637a83a9bcc5c8976b4035ca993c7a8f508d900f723a780ee9082dc5650",
+    "artifactIdentity": "tmp:yalken-er-c01-post-scope-full-runner.log"
   },
   "implementedBoundary": {
     "scopeIn": [
@@ -31,7 +31,8 @@
       "reattachment candidate Unicode anchor metadata",
       "Core-internal AtlasEvidenceAnchorState extension",
       "negative contract tests for field loss and legacy no-invention",
-      "heatmap explicit-open behavioral contract repair"
+      "heatmap explicit-open behavioral contract repair",
+      "Sector-M exact DONE allowlist rebind for four ER C01 runtime source paths after origin/main drift"
     ],
     "scopeOut": [
       "Stage 11 platform certification",
@@ -54,6 +55,7 @@
     "reattachmentPreservesStaleAndNewExtendedAnchors": true,
     "commentsHistoryAnchorIntegrityFailuresRemaining": 0,
     "heatmapContractNoLongerUsesBrittleSourceProximityRegex": true,
+    "sectorMScopeMapExactErC01PathsOnly": true,
     "stage11Started": false
   },
   "preservedEvidenceAnchorFields": [
@@ -117,6 +119,11 @@
       "id": "heatmap-source-regex-staleness",
       "result": "PASS",
       "summary": "Heatmap contract binds explicit-open behavior and closed-shell refresh routing instead of a brittle source-proximity regex."
+    },
+    {
+      "id": "sector-m-cumulative-allowlist-drift",
+      "result": "PASS",
+      "summary": "Post-merge Sector-M scope-map repair adds only four exact ER C01 runtime source paths, with no wildcard prefix or broad runtime source allowance."
     }
   ],
   "validation": [
@@ -181,8 +188,15 @@
       "command": "node scripts/run-tests.js",
       "result": "PASS",
       "exitCode": 0,
-      "artifactDigest": "c77ac8fc54b7d8808299ab664d43de25ea15288db77558b47e9111fe605ad7db",
+      "artifactDigest": "4d56e637a83a9bcc5c8976b4035ca993c7a8f508d900f723a780ee9082dc5650",
       "summary": "Full runner: 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
+    },
+    {
+      "id": "sector-m-scope-recovery",
+      "command": "node --test test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Post-merge recovery checks: 8 tests, 8 pass, 0 fail, 0 skipped; previous full-runner allowlist violation removed."
     }
   ],
   "nextExecutableContour": "ER_C02_SINGLE_QUERY_REGISTRY_AND_RUNTIME_PARITY"

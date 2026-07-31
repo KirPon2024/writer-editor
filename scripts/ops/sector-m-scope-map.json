@@ -296,7 +296,11 @@
       "test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js",
       "scripts/ops/rtk-word-v4-e06-physical-text-certification.mjs",
       "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
-      "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js"
+      "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "src/core/contracts.ts",
+      "src/core/runtime.mjs",
+      "src/derived/atlas/atlasTextAnchorNormalization.mjs",
+      "src/derived/atlas/deriveAtlasEvidenceReattachmentInbox.mjs"
     ]
   },
   "allowPrefixByPhase": {

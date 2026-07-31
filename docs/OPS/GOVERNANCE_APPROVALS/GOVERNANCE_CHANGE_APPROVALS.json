@@ -5687,10 +5687,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "80bbd42da479a0dec939f7a919f3d34c8f6c32954a2ad235acbf9578a2046f56",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
-      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
-      "rationale": "Approve Sector-M scope-map E06 exact allowlist update: adds only the E06 ops verifier, E06 receipt, and E06 contract paths; no wildcard prefix, UI, dependency, network, runtime source, or non-Word editor execution is introduced."
+      "sha256": "53fd4af73f1c95601bd1a52db1c89a4feb90bdd5574b02f83f92669422c1df07",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+      "approvedAtUtc": "2026-07-31T06:44:00.000Z",
+      "rationale": "Approve combined Sector-M scope-map rebind after origin/main drift: preserves the E06 exact RTK allowlist additions and adds only four exact ER C01 runtime source paths required by the no-loss Unicode anchor schema repair; no wildcard prefix, UI route, dependency, network, storage adapter, Word runtime expansion, or broad source allowance is introduced."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
@@ -5701,10 +5701,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY_RECEIPT.json",
-      "sha256": "ea72b5a3d5685955bb2ad7bd5150ac144a89a7ae6e27a6c7ae689307e51b0f5e",
+      "sha256": "7ff759a87cab2684ed27651fe3029cadedb52346ab353de3c46de2c5213b291c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
-      "approvedAtUtc": "2026-07-31T06:02:00.000Z",
-      "rationale": "Approve ER C01 receipt: records no-loss Unicode evidence anchor schema preservation through Core confirm, suppression, reassignment, reattachment, JSON reopen, ExportIR adjacent preservation, and reattachment inbox candidate paths; records legacy minimal no-invention, stale heatmap contract repair, focused 30/30 PASS, diff, doctrine, OSS, governance, test:ops, renderer build, and full runner PASS evidence, with no Stage 11 start, no user-outcome recertification, no UI design change, no storage adapter, no network dependency, and no release readiness claim."
+      "approvedAtUtc": "2026-07-31T05:45:00.000Z",
+      "rationale": "Approve ER C01 receipt rebind after origin/main drift: records no-loss Unicode evidence anchor schema preservation through Core confirm, suppression, reassignment, reattachment, JSON reopen, ExportIR adjacent preservation, reattachment inbox candidate paths, stale heatmap contract repair, post-merge Sector-M exact allowlist recovery, focused 30/30 PASS, test:ops PASS, renderer build PASS, and full runner PASS; no Stage 11 start, no user-outcome recertification, no UI design change, no storage adapter, no network dependency, and no release readiness claim."
     }
   ]
 }

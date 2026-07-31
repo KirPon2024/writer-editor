@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_COMMENT_SHADOW_AND_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -162,7 +162,7 @@
       "state": "PHYSICAL_WORD_PROVEN",
       "currentCapability": "VISIBLE_ANCHORED_COMMENT_SHADOW_ANALYSIS_WITH_TYPED_LIMITATIONS",
       "physicalWordEvidence": true,
-      "consumer": "EXECUTION_08 effective formatting",
+      "consumer": "EXECUTION_09 typed structural edits",
       "acceptanceTest": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
       "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
       "physicalTotals": {
@@ -261,6 +261,37 @@
         "modern comments replies resolve reopen move Compare Combine table section footnote and field semantics remain later typed contours"
       ],
       "killCriterion": "any physical Word row is counted as exact authority, hostile package passes, veto metric is nonzero, or runtime writer authority is added"
+    },
+    {
+      "capabilityId": "rtk.word.v4.effectiveFormattingDiagnostics",
+      "operationFamily": "effective formatting headings lists hyperlinks and typography deltas",
+      "state": "PHYSICAL_WORD_PROVEN",
+      "currentCapability": "FORMATTING_DIAGNOSTIC_LANE_WITH_TYPED_LIMITATIONS",
+      "physicalWordEvidence": true,
+      "consumer": "EXECUTION_09 typed structural edits",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING_RECEIPT.json",
+      "physicalTotals": {
+        "physicalFormattingCases": 17,
+        "totalFormattingDeltas": 117,
+        "writerFormattingCases": 11,
+        "writerFormattingDeltas": 26,
+        "commentAnchorFormattingDeltas": 91,
+        "automaticFormattingApplyCertified": 0
+      },
+      "supportedNow": [
+        "inline rPr bold italic underline strike color highlight font and size diagnostic readback",
+        "paragraph property style alignment indent list metadata diagnostic readback",
+        "inert hyperlink relationship and anchor inventory diagnostic readback",
+        "Unicode and writer-scale formatting delta readback",
+        "formatting lane remains separate from manuscript text and comment lanes"
+      ],
+      "limitations": [
+        "automatic formatting apply is not certified by E08",
+        "style list hyperlink semantics remain manual readback in E08",
+        "tables sections footnotes fields images headers footers and page layout are not certified by E08"
+      ],
+      "killCriterion": "any formatting diagnostic readback is claimed as automatic or destructive apply, writer authority is added, or typed limitation disappears"
     }
   ]
 }

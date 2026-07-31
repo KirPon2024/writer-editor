@@ -6134,6 +6134,41 @@
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/build-mac-output.txt",
+      "sha256": "a25078148baf4c861f23c1071023adbfbb623fe242632e8b33c3c67bfb8015b7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY/macos-package-artifact-security-report.json",
+      "sha256": "b50487ed3dd19a371b4c198358ac1514dd44c6c24d6efc537b198939a4a733b3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY_RECEIPT.json",
+      "sha256": "06f8330f763d21a00bff4b689218b0b13a8b4d5e327ca52ee59f44c6ed93f947",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs",
+      "sha256": "70516dc7f9d6e728620e7ce4f812e0310d57a36b1a26f6c939c5202bf2766610",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js",
+      "sha256": "14d745ebf89cf5472193e5e38f9f1355d742943e9480718f3548412149dbacd5",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
+      "approvedAtUtc": "2026-07-31T11:47:00.000Z",
+      "rationale": "Approve bounded Stage 11 C01 final macOS packaged Electron physical artifact entrypoint and offline security evidence with sanitized build transcript, unsigned local artifact classification, explicit no signing or notarization PASS, no inactive platform certification, no runtime network activation, no raw keychain detail in committed evidence, and no final Program DoD claim."
+    },
+    {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
       "sha256": "2386a01efc9c04b5fb9509468c42b328b79ee5883db489080c9680503c27a33b",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",

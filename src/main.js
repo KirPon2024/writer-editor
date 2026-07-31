@@ -9318,7 +9318,7 @@ async function buildProductCoreStateForCurrentProject() {
   const projectRoot = path.dirname(manifestPath);
   const envelopeModule = await loadDocumentContentEnvelopeModule();
   const scenes = {};
-  for (const node of collectAtlasOverviewSceneNodes(roots).slice(0, 500)) {
+  for (const node of collectAtlasOverviewSceneNodes(roots)) {
     let documentTarget;
     try {
       documentTarget = getResolvedTreeDocumentTarget({

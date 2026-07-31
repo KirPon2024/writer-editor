@@ -916,6 +916,29 @@ let atlasJourneyDraft = {
   restoreOperationId: '',
   reattachmentId: '',
 };
+let atlasTemporalAuthorDraft = {
+  calendarId: 'calendar-r3-c02-story',
+  calendarName: 'R3 C02 story calendar',
+  storyDate: '2026-07-31',
+  narrativeDay: '0',
+  note: 'R3 C02 visible temporal anchor',
+  anchorId: '',
+};
+let atlasContinuityAuthorDraft = {
+  ledgerKind: 'promise',
+  promiseState: 'open',
+  entityId: '',
+  mentionId: '',
+  factLabel: 'R3 C02 continuity promise',
+  factValue: 'visible UI command path',
+  note: 'R3 C02 visible continuity fact',
+  factId: '',
+};
+let atlasReportsAuthorDraft = {
+  savedQueryId: 'saved-query-r3-c02-visible',
+  name: 'R3 C02 visible saved query',
+  reportType: 'overview',
+};
 let manualMapWorkbenchState = {
   state: 'empty',
   projectId: '',
@@ -12982,6 +13005,41 @@ function makeAtlasCommandButton(label, commandId, payload, options = {}) {
   return button;
 }
 
+async function runAtlasSurfaceProductCommand(commandId, payload = {}, options = {}) {
+  const result = await dispatchUiCommand(commandId, {
+    ...payload,
+    projectId: currentProjectId,
+  });
+  const statusLabel = options.statusLabel || commandId;
+  updateStatusText(result && result.ok ? `${statusLabel} persisted` : (result?.reason || result?.error?.reason || `${statusLabel} failed`));
+  await refreshAtlasCurrentScene({ force: true });
+  void refreshAtlasProductSurfaces({ currentScene: false }).catch((error) => {
+    console.warn('Atlas surface command refresh failed', error);
+  });
+  return result;
+}
+
+function makeAtlasSurfaceCommandButton(label, commandId, payload, options = {}) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'right-rail-atlas-action';
+  button.textContent = label;
+  button.dataset.productCommandId = commandId;
+  if (options.actionDatasetName && options.actionId) {
+    button.dataset[options.actionDatasetName] = options.actionId;
+  }
+  button.disabled = options.disabled === true;
+  if (typeof options.reason === 'string' && options.reason) {
+    button.title = options.reason;
+    button.setAttribute('aria-label', `${label}. ${options.reason}`);
+  }
+  button.addEventListener('click', () => {
+    const nextPayload = typeof payload === 'function' ? payload() : payload;
+    void runAtlasSurfaceProductCommand(commandId, nextPayload, options);
+  });
+  return button;
+}
+
 function getAtlasJourneyEntities() {
   const entities = Array.isArray(atlasCurrentSceneState.entities) ? atlasCurrentSceneState.entities : [];
   return entities.filter((entity) => entity && typeof entity.entityId === 'string' && entity.entityId);
@@ -13125,6 +13183,159 @@ function appendAtlasJourneySelect(parent, config = {}) {
   return select;
 }
 
+function appendAtlasSurfaceField(parent, config = {}, draftRef, assignDraft) {
+  const field = document.createElement('label');
+  field.className = 'right-rail-atlas-journey-field';
+  const caption = document.createElement('span');
+  caption.className = 'right-rail-atlas-journey-field__label';
+  caption.textContent = config.label || '';
+  const input = document.createElement('input');
+  input.type = config.type || 'text';
+  input.className = 'right-rail-atlas-journey-field__control';
+  input.value = draftRef?.[config.fieldName] || config.value || '';
+  input.placeholder = config.placeholder || '';
+  input.dataset[config.datasetName || 'atlasSurfaceField'] = config.fieldName || '';
+  input.addEventListener('input', () => {
+    assignDraft(config.fieldName, input.value);
+  });
+  field.append(caption, input);
+  parent.appendChild(field);
+  return input;
+}
+
+function appendAtlasSurfaceSelect(parent, config = {}, draftRef, assignDraft) {
+  const field = document.createElement('label');
+  field.className = 'right-rail-atlas-journey-field';
+  const caption = document.createElement('span');
+  caption.className = 'right-rail-atlas-journey-field__label';
+  caption.textContent = config.label || '';
+  const select = document.createElement('select');
+  select.className = 'right-rail-atlas-journey-field__control';
+  select.dataset[config.datasetName || 'atlasSurfaceField'] = config.fieldName || '';
+  const emptyOption = document.createElement('option');
+  emptyOption.value = '';
+  emptyOption.textContent = config.emptyLabel || 'Select';
+  select.appendChild(emptyOption);
+  for (const option of Array.isArray(config.options) ? config.options : []) {
+    const element = document.createElement('option');
+    element.value = option.value || '';
+    element.textContent = option.label || option.value || '';
+    select.appendChild(element);
+  }
+  select.value = draftRef?.[config.fieldName] || '';
+  select.addEventListener('change', () => {
+    assignDraft(config.fieldName, select.value);
+    if (typeof config.onChange === 'function') config.onChange(select.value);
+    if (typeof config.render === 'function') config.render();
+  });
+  field.append(caption, select);
+  parent.appendChild(field);
+  return select;
+}
+
+function ensureAtlasSurfaceDraftId(draftRef, fieldName, prefix, assignDraft) {
+  if (draftRef[fieldName]) return draftRef[fieldName];
+  const id = makeStableUiId(prefix);
+  assignDraft({
+    ...draftRef,
+    [fieldName]: id,
+  });
+  return id;
+}
+
+function exactAtlasCalendarRange(calendarId, dateValue) {
+  const value = (dateValue || '').trim() || '2026-07-31';
+  return {
+    rangeKind: 'exact',
+    start: { pointKind: 'calendarDate', calendarId, value },
+    end: { pointKind: 'calendarDate', calendarId, value },
+  };
+}
+
+function exactAtlasNarrativeRange(dayValue) {
+  const dayIndex = Number.parseInt(String(dayValue || '0'), 10);
+  const safeDay = Number.isSafeInteger(dayIndex) ? dayIndex : 0;
+  return {
+    rangeKind: 'exact',
+    start: { pointKind: 'ordinalDay', dayIndex: safeDay },
+    end: { pointKind: 'ordinalDay', dayIndex: safeDay },
+  };
+}
+
+function getAtlasTemporalCalendarPayload() {
+  return {
+    calendarId: atlasTemporalAuthorDraft.calendarId || 'calendar-r3-c02-story',
+    name: atlasTemporalAuthorDraft.calendarName || 'R3 C02 story calendar',
+    calendarKind: 'fictional',
+    calendarSystem: 'r3-c02-local-story',
+    dayZeroLabel: 'R3 C02 day zero',
+    conversionRules: [
+      {
+        ruleId: 'rule-r3-c02-story-to-narrative',
+        ruleKind: 'dayOffset',
+        sourceScale: 'story-day',
+        targetScale: 'narrative-day',
+        offsetDays: 0,
+        precision: 'approximate',
+      },
+    ],
+  };
+}
+
+function getAtlasTemporalAnchorPayload() {
+  const calendarId = atlasTemporalAuthorDraft.calendarId || 'calendar-r3-c02-story';
+  return {
+    sceneId: atlasCurrentSceneState.sceneId || currentDocumentId || '',
+    anchorId: ensureAtlasSurfaceDraftId(
+      atlasTemporalAuthorDraft,
+      'anchorId',
+      'atlas-temporal-anchor',
+      (next) => { atlasTemporalAuthorDraft = next; },
+    ),
+    storyRange: exactAtlasCalendarRange(calendarId, atlasTemporalAuthorDraft.storyDate),
+    narrativeRange: exactAtlasNarrativeRange(atlasTemporalAuthorDraft.narrativeDay),
+    note: atlasTemporalAuthorDraft.note || 'R3 C02 visible temporal anchor',
+  };
+}
+
+function getAtlasContinuityFactPayload() {
+  const mention = findAtlasJourneyMention(atlasContinuityAuthorDraft.mentionId);
+  const ledgerKind = atlasContinuityAuthorDraft.ledgerKind || 'promise';
+  return {
+    ledgerKind,
+    factId: ensureAtlasSurfaceDraftId(
+      atlasContinuityAuthorDraft,
+      'factId',
+      'atlas-continuity-fact',
+      (next) => { atlasContinuityAuthorDraft = next; },
+    ),
+    sceneId: mention?.sceneId || atlasCurrentSceneState.sceneId || currentDocumentId || '',
+    subjectEntityId: atlasContinuityAuthorDraft.entityId || '',
+    factLabel: atlasContinuityAuthorDraft.factLabel || 'R3 C02 continuity fact',
+    factValue: atlasContinuityAuthorDraft.factValue || 'visible UI command path',
+    promiseState: ledgerKind === 'promise' ? (atlasContinuityAuthorDraft.promiseState || 'open') : '',
+    evidenceAnchor: mention?.evidenceAnchor || null,
+    note: atlasContinuityAuthorDraft.note || 'R3 C02 visible continuity fact',
+  };
+}
+
+function getAtlasSavedQueryPayload() {
+  return {
+    savedQueryId: atlasReportsAuthorDraft.savedQueryId || 'saved-query-r3-c02-visible',
+    name: atlasReportsAuthorDraft.name || 'R3 C02 visible saved query',
+    reportType: atlasReportsAuthorDraft.reportType || 'overview',
+    sourceHash: atlasReportsState.summary?.sourceHash
+      || atlasOverviewState.summary?.overviewHash
+      || atlasCurrentSceneState.summary?.sceneTextHash
+      || currentProjectId,
+    filter: {
+      entityIds: atlasContinuityAuthorDraft.entityId ? [atlasContinuityAuthorDraft.entityId] : [],
+      sceneIds: atlasCurrentSceneState.sceneId ? [atlasCurrentSceneState.sceneId] : [],
+      relationPairIds: [],
+    },
+  };
+}
+
 function formatAtlasJourneyEntityOption(entity) {
   return `${entity.name || entity.entityId} · ${entity.entityKind || 'entity'}`;
 }
@@ -13133,6 +13344,208 @@ function formatAtlasJourneyMentionOption(mention) {
   const entity = findAtlasJourneyEntity(mention.entityId);
   const quote = mention.context?.quote || mention.matchedText || mention.mentionId;
   return `${entity?.name || mention.entityId} · ${quote}`;
+}
+
+function setAtlasTemporalDraftField(fieldName, value) {
+  atlasTemporalAuthorDraft = {
+    ...atlasTemporalAuthorDraft,
+    [fieldName]: value,
+  };
+}
+
+function setAtlasContinuityDraftField(fieldName, value) {
+  atlasContinuityAuthorDraft = {
+    ...atlasContinuityAuthorDraft,
+    [fieldName]: value,
+  };
+}
+
+function setAtlasReportsDraftField(fieldName, value) {
+  atlasReportsAuthorDraft = {
+    ...atlasReportsAuthorDraft,
+    [fieldName]: value,
+  };
+}
+
+function appendAtlasTemporalAuthorControls(parent) {
+  const section = appendAtlasOverviewSection(parent, 'Author controls', { open: true });
+  const fields = document.createElement('div');
+  fields.className = 'right-rail-atlas-journey-fields';
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasTemporalField',
+    fieldName: 'calendarId',
+    label: 'Calendar id',
+    placeholder: 'calendar-story',
+  }, atlasTemporalAuthorDraft, setAtlasTemporalDraftField);
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasTemporalField',
+    fieldName: 'calendarName',
+    label: 'Calendar name',
+    placeholder: 'Story calendar',
+  }, atlasTemporalAuthorDraft, setAtlasTemporalDraftField);
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasTemporalField',
+    fieldName: 'storyDate',
+    label: 'Story date',
+    placeholder: '2026-07-31',
+  }, atlasTemporalAuthorDraft, setAtlasTemporalDraftField);
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasTemporalField',
+    fieldName: 'narrativeDay',
+    label: 'Narrative day',
+    placeholder: '0',
+  }, atlasTemporalAuthorDraft, setAtlasTemporalDraftField);
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasTemporalField',
+    fieldName: 'note',
+    label: 'Note',
+    placeholder: 'Anchor note',
+  }, atlasTemporalAuthorDraft, setAtlasTemporalDraftField);
+  section.appendChild(fields);
+
+  const actions = document.createElement('div');
+  actions.className = 'right-rail-atlas-action-bar';
+  actions.appendChild(makeAtlasSurfaceCommandButton('Define calendar', 'atlas.calendar.define', getAtlasTemporalCalendarPayload, {
+    actionDatasetName: 'atlasTemporalAction',
+    actionId: 'define-calendar',
+    statusLabel: 'Atlas calendar',
+    disabled: !currentProjectId,
+    reason: currentProjectId ? '' : 'Project is not open',
+  }));
+  actions.appendChild(makeAtlasSurfaceCommandButton('Set scene time', 'atlas.sceneTemporalAnchor.set', getAtlasTemporalAnchorPayload, {
+    actionDatasetName: 'atlasTemporalAction',
+    actionId: 'set-scene-time',
+    statusLabel: 'Atlas temporal anchor',
+    disabled: !currentProjectId || !(atlasCurrentSceneState.sceneId || currentDocumentId),
+    reason: (atlasCurrentSceneState.sceneId || currentDocumentId) ? '' : 'Open a scene first',
+  }));
+  section.appendChild(actions);
+}
+
+function appendAtlasContinuityAuthorControls(parent) {
+  const entities = getAtlasJourneyEntities();
+  const mentions = getAtlasJourneyMentions();
+  const section = appendAtlasOverviewSection(parent, 'Author fact', { open: true });
+  const fields = document.createElement('div');
+  fields.className = 'right-rail-atlas-journey-fields';
+  appendAtlasSurfaceSelect(fields, {
+    datasetName: 'atlasContinuityField',
+    fieldName: 'ledgerKind',
+    label: 'Ledger',
+    emptyLabel: 'Ledger',
+    options: [
+      { value: 'promise', label: 'Promise' },
+      { value: 'location', label: 'Location' },
+      { value: 'knowledge', label: 'Knowledge' },
+      { value: 'object', label: 'Object' },
+    ],
+    render: renderAtlasContinuityLedgerState,
+  }, atlasContinuityAuthorDraft, setAtlasContinuityDraftField);
+  appendAtlasSurfaceSelect(fields, {
+    datasetName: 'atlasContinuityField',
+    fieldName: 'promiseState',
+    label: 'Promise state',
+    emptyLabel: 'State',
+    options: [
+      { value: 'open', label: 'Open' },
+      { value: 'fulfilled', label: 'Fulfilled' },
+      { value: 'broken', label: 'Broken' },
+      { value: 'unknown', label: 'Unknown' },
+    ],
+  }, atlasContinuityAuthorDraft, setAtlasContinuityDraftField);
+  appendAtlasSurfaceSelect(fields, {
+    datasetName: 'atlasContinuityField',
+    fieldName: 'entityId',
+    label: 'Subject',
+    emptyLabel: 'Select entity',
+    options: entities.map((entity) => ({ value: entity.entityId, label: formatAtlasJourneyEntityOption(entity) })),
+  }, atlasContinuityAuthorDraft, setAtlasContinuityDraftField);
+  appendAtlasSurfaceSelect(fields, {
+    datasetName: 'atlasContinuityField',
+    fieldName: 'mentionId',
+    label: 'Evidence mention',
+    emptyLabel: 'Select mention',
+    options: mentions.map((mention) => ({ value: mention.mentionId, label: formatAtlasJourneyMentionOption(mention) })),
+    onChange: (mentionId) => {
+      const mention = findAtlasJourneyMention(mentionId);
+      if (mention?.entityId) {
+        atlasContinuityAuthorDraft = {
+          ...atlasContinuityAuthorDraft,
+          mentionId,
+          entityId: mention.entityId,
+        };
+      }
+    },
+    render: renderAtlasContinuityLedgerState,
+  }, atlasContinuityAuthorDraft, setAtlasContinuityDraftField);
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasContinuityField',
+    fieldName: 'factLabel',
+    label: 'Fact label',
+    placeholder: 'Promise',
+  }, atlasContinuityAuthorDraft, setAtlasContinuityDraftField);
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasContinuityField',
+    fieldName: 'factValue',
+    label: 'Fact value',
+    placeholder: 'What changes',
+  }, atlasContinuityAuthorDraft, setAtlasContinuityDraftField);
+  section.appendChild(fields);
+
+  const mention = findAtlasJourneyMention(atlasContinuityAuthorDraft.mentionId);
+  const canRecord = Boolean(currentProjectId && atlasContinuityAuthorDraft.entityId && mention?.evidenceAnchor);
+  const actions = document.createElement('div');
+  actions.className = 'right-rail-atlas-action-bar right-rail-atlas-continuity-actions';
+  actions.appendChild(makeAtlasSurfaceCommandButton('Record fact', 'atlas.continuityFact.record', getAtlasContinuityFactPayload, {
+    actionDatasetName: 'atlasContinuityAction',
+    actionId: 'record-fact',
+    statusLabel: 'Atlas continuity fact',
+    disabled: !canRecord,
+    reason: canRecord ? '' : 'Select subject and evidence mention',
+  }));
+  section.appendChild(actions);
+}
+
+function appendAtlasSavedQueryControls(parent) {
+  const section = appendAtlasOverviewSection(parent, 'Save query', { open: true });
+  const fields = document.createElement('div');
+  fields.className = 'right-rail-atlas-journey-fields';
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasReportsField',
+    fieldName: 'savedQueryId',
+    label: 'Query id',
+    placeholder: 'saved-query',
+  }, atlasReportsAuthorDraft, setAtlasReportsDraftField);
+  appendAtlasSurfaceField(fields, {
+    datasetName: 'atlasReportsField',
+    fieldName: 'name',
+    label: 'Query name',
+    placeholder: 'Saved query name',
+  }, atlasReportsAuthorDraft, setAtlasReportsDraftField);
+  appendAtlasSurfaceSelect(fields, {
+    datasetName: 'atlasReportsField',
+    fieldName: 'reportType',
+    label: 'Report type',
+    emptyLabel: 'Report',
+    options: [
+      { value: 'overview', label: 'Overview' },
+      { value: 'entity', label: 'Entity' },
+      { value: 'relation', label: 'Relation' },
+      { value: 'matrix', label: 'Matrix' },
+      { value: 'heatmap', label: 'Heatmap' },
+    ],
+  }, atlasReportsAuthorDraft, setAtlasReportsDraftField);
+  section.appendChild(fields);
+  const actions = document.createElement('div');
+  actions.className = 'right-rail-atlas-action-bar';
+  actions.appendChild(makeAtlasSurfaceCommandButton('Save query', 'atlas.savedQuery.save', getAtlasSavedQueryPayload, {
+    actionDatasetName: 'atlasReportsAction',
+    actionId: 'save-query',
+    statusLabel: 'Atlas saved query',
+    disabled: !currentProjectId,
+    reason: currentProjectId ? '' : 'Project is not open',
+  }));
+  section.appendChild(actions);
 }
 
 async function refreshAtlasProductSurfaces(options = {}) {
@@ -14877,6 +15290,7 @@ function renderAtlasTemporalLayoutState() {
   closeButton.textContent = 'Close';
   actionBar.appendChild(closeButton);
   atlasTemporalLayoutHost.appendChild(actionBar);
+  appendAtlasTemporalAuthorControls(atlasTemporalLayoutHost);
 
   if (state.state === 'unavailable') {
     const unavailable = document.createElement('div');
@@ -15034,10 +15448,16 @@ function focusAtlasContinuityLedgerEvidence(button) {
   updateStatusText('Atlas continuity evidence открыт в тексте');
 }
 
-function announceAtlasContinuityCorrectionRoute(button) {
+function focusAtlasContinuityAuthorRoute(button) {
   if (!(button instanceof HTMLElement)) return;
   const commandId = button.dataset.commandId || 'atlas.continuityFact.record';
-  updateStatusText(`Atlas correction route: ${commandId}`);
+  const target = atlasContinuityLedgerHost?.querySelector('[data-atlas-continuity-field="mentionId"]')
+    || atlasContinuityLedgerHost?.querySelector('[data-atlas-continuity-field="entityId"]')
+    || button;
+  if (target instanceof HTMLElement) {
+    target.focus({ preventScroll: false });
+  }
+  updateStatusText(`Atlas author controls ready for ${commandId}`);
 }
 
 function handleAtlasContinuityLedgerClick(event) {
@@ -15053,7 +15473,7 @@ function handleAtlasContinuityLedgerClick(event) {
   }
   const route = event.target instanceof Element ? event.target.closest('[data-atlas-continuity-correction-route]') : null;
   if (route instanceof HTMLElement && atlasContinuityLedgerHost instanceof HTMLElement && atlasContinuityLedgerHost.contains(route)) {
-    announceAtlasContinuityCorrectionRoute(route);
+    focusAtlasContinuityAuthorRoute(route);
   }
 }
 
@@ -15165,6 +15585,7 @@ function renderAtlasContinuityLedgerState() {
   closeButton.textContent = 'Close';
   actionBar.appendChild(closeButton);
   atlasContinuityLedgerHost.appendChild(actionBar);
+  appendAtlasContinuityAuthorControls(atlasContinuityLedgerHost);
 
   if (state.state === 'unavailable') {
     const unavailable = document.createElement('div');
@@ -15315,6 +15736,7 @@ function renderAtlasReportsSavedQueriesState() {
     atlasReportsHost.appendChild(loading);
     return;
   }
+  appendAtlasSavedQueryControls(atlasReportsHost);
 
   const metrics = document.createElement('div');
   metrics.className = 'right-rail-atlas-overview-metrics right-rail-atlas-matrices-metrics';

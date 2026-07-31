@@ -7150,17 +7150,17 @@
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "e298dff9709cd79f992bd5e028082a0055447cc30509909452a29ef23042868f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+      "sha256": "1c32abeca490a6098cc235a535da524af04412c3610c1511eb4dfb8a35967e53",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 runtime source and bundle after origin/main reconcile; adds Atlas temporal, continuity, and saved-query visible command controls plus removes silent source-scene slicing; preserves Command Kernel path, Design OS visual canon, local-only runtime, and no release-ready overclaim."
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "1e252779f39ac8d391b6a2304544b71d5ef478455f301341c25a09e1a13fda0f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+      "sha256": "6ff86ee1eb5bf6199541727e9a544c6e18078f7d273671e8b7905b608abcf128",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 runtime source and bundle after origin/main reconcile; adds Atlas temporal, continuity, and saved-query visible command controls plus removes silent source-scene slicing; preserves Command Kernel path, Design OS visual canon, local-only runtime, and no release-ready overclaim."
     },
     {
       "filePath": "src/renderer/styles.css",
@@ -7178,10 +7178,52 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "055d575e0ebef7c68fbf872001750a67f22cb22c6675c784b9a4b2606fc60c9a",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR+YALKEN_ATLAS_V5_R3_C01",
+      "sha256": "5610bcfcc327e4317105fcfb72cb4bf24d645aaf56f3e034b587cc90264903fc",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve combined current src/main.js after merging C05 RTK non-overlap product review path with Atlas R3_C01 entity relation UI journey; preserves both command-kernel paths, no dependency, no network, and no release-ready or saturation overclaim."
+      "rationale": "Approve bounded R3_C02 runtime source and bundle after origin/main reconcile; adds Atlas temporal, continuity, and saved-query visible command controls plus removes silent source-scene slicing; preserves Command Kernel path, Design OS visual canon, local-only runtime, and no release-ready overclaim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-journey.png",
+      "sha256": "d14564b786bee8548627cb7703553d60e36e2a34d4781734adf81e8e0123ebdd",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-journeys-report.json",
+      "sha256": "ad4405e6de7d33b47bb97929d30eead99bd579646bdcb661af7098d70d8ae10d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-reopen.png",
+      "sha256": "6c8c2f4867c968bc415ec0105611d0aea6c994cc45e1a60c283e197f1e1319d7",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS_RECEIPT.json",
+      "sha256": "7a42c1c312aeff4e0c7d47c6aaee75f66dc0c9452a4f4233e6d7c70ef33f039c",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Bind R3_C02 receipt after actual physical Electron journey, focused contracts, doctrine, OSS, governance, test:ops, and full runner PASS; Program DoD remains NOT_DONE and Night_01/R3 queue continues."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c02-temporal-continuity-saved-query-journeys.mjs",
+      "sha256": "d30575eac2bb6b7ae5ce38792a99cf73e2504e0c370f7949476d70e0b177579a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c02-temporal-continuity-saved-query-journeys.contract.test.js",
+      "sha256": "07d6be6643a4d369e644e760983e21c4ae8107a94b79ec3706637bf942d297e0",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
     }
   ]
 }

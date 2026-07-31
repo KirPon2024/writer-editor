@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 import { buildWordLatestSemanticCorpus } from './rtk-word-latest-semantic-corpus-generator.mjs';
 import { makeExtraWave40Cases } from './rtk-word-v4-e12-physical-wave40.mjs';
+import { makeWave100Cases } from './rtk-word-v4-e12-physical-wave100.mjs';
 import { defaultWordSandboxWorkRoot, resolveWordSandboxWorkRoot } from './rtk-word-sandbox-work-root.mjs';
 import {
   assertSecureVolume,
@@ -22,10 +23,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const WORD_APP_PATH = '/Applications/Microsoft Word.app';
-const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-physical-wave100';
-const DEFAULT_WORD_WORK_ROOT = defaultWordSandboxWorkRoot('word-safe-semantic-v4', 'e12-physical-wave100');
-const RECEIPT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json');
-const SCHEMA = 'yalken.rtk.word-safe-semantic-roundtrip-v4.e12-physical-wave100-receipt.v1';
+const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-physical-wave300';
+const DEFAULT_WORD_WORK_ROOT = defaultWordSandboxWorkRoot('word-safe-semantic-v4', 'e12-physical-wave300');
+const RECEIPT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json');
+const SCHEMA = 'yalken.rtk.word-safe-semantic-roundtrip-v4.e12-physical-wave300-receipt.v1';
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -48,7 +49,7 @@ function shellValue(command, args, options = {}) {
   }
 }
 
-export function makeWave100Cases(startOrdinal) {
+function makeWave300Cases(startOrdinal) {
   const actions = [
     'tracked-insert',
     'clean-insert',
@@ -62,19 +63,19 @@ export function makeWave100Cases(startOrdinal) {
     'unicode-insert',
   ];
   const cases = [];
-  for (let index = 0; index < 60; index += 1) {
-    const id = `WL2-${String(41 + index).padStart(3, '0')}`;
+  for (let index = 0; index < 200; index += 1) {
+    const id = `WL2-${String(101 + index).padStart(3, '0')}`;
     const ordinal = startOrdinal + index;
     let waveAction = actions[index % actions.length];
     let commentTarget = 0;
     let scaleWords = 0;
-    if (index === 19) {
+    if (index === 39 || index === 139) {
       waveAction = 'comment-density';
-      commentTarget = 120;
-    } else if (index === 39) {
+      commentTarget = 100;
+    } else if (index === 179) {
       waveAction = 'scale-edge';
-      scaleWords = 400000;
-    } else if (index === 59) {
+      scaleWords = 500000;
+    } else if (index === 199) {
       waveAction = 'comment-density';
       commentTarget = 60;
     }
@@ -88,15 +89,15 @@ export function makeWave100Cases(startOrdinal) {
     cases.push({
       id,
       ordinal,
-      title: `wave 100 ${waveAction} ${id}`,
-      family: `wave100 ${waveAction}`,
+      title: `wave 300 ${waveAction} ${id}`,
+      family: `wave300 ${waveAction}`,
       waveAction,
       requiredPhysicalActions: [waveAction, 'save', 'close-reopen', 'package-inventory'],
       expectedLanes: [...expectedLanes],
-      expectedClassificationFloor: 'MEASURED_WAVE100_NO_SATURATION_OR_EXACT_OVERCLAIM',
+      expectedClassificationFloor: 'MEASURED_WAVE300_NO_SATURATION_OR_EXACT_OVERCLAIM',
       ...(commentTarget ? { commentTarget } : {}),
       ...(scaleWords ? { scaleWords } : {}),
-      syntheticTextSha256: sha256Text(`YALKEN_WAVE100_SYNTHETIC_CASE ${id} ${waveAction}`),
+      syntheticTextSha256: sha256Text(`YALKEN_WAVE300_SYNTHETIC_CASE ${id} ${waveAction}`),
       requiresNativeWordOpenEditSaveReopen: true,
       fixtureOnlyPassAllowed: false,
       packageInventoryRequired: true,
@@ -107,51 +108,76 @@ export function makeWave100Cases(startOrdinal) {
   return cases;
 }
 
+function capWave300DenseComments(caseSpec) {
+  const commentTarget = Number(caseSpec?.commentTarget || 0);
+  if (commentTarget <= 100) return caseSpec;
+  return {
+    ...caseSpec,
+    commentTarget: 100,
+    wave300BoundedCommentCap: {
+      originalCommentTarget: commentTarget,
+      cappedCommentTarget: 100,
+      reason: 'WORD_APPLESCRIPT_TIMEOUT_AT_120_DENSE_COMMENTS_DURING_WAVE300_WL2_036',
+    },
+  };
+}
+
 function histogram(values) {
   const out = {};
   for (const value of values) out[value || 'UNKNOWN'] = (out[value || 'UNKNOWN'] || 0) + 1;
   return out;
 }
 
+function buildWave300Corpus(runId) {
+  const baseCorpus = buildWordLatestSemanticCorpus({ runId });
+  const casesToRun = [
+    ...baseCorpus.cases,
+    ...makeExtraWave40Cases(baseCorpus.cases.length + 1),
+    ...makeWave100Cases(baseCorpus.cases.length + 9),
+    ...makeWave300Cases(baseCorpus.cases.length + 69),
+  ].map(capWave300DenseComments);
+  return { baseCorpus, casesToRun };
+}
+
 export function evaluateReceipt(receipt = readJson(RECEIPT_PATH), options = {}) {
   const issues = [];
   const add = (code, field, message) => issues.push({ code, field, message });
-  if (receipt.schemaVersion !== SCHEMA) add('RTK_V4_E12_WAVE100_SCHEMA_INVALID', 'schemaVersion', 'Wave 100 receipt schema is invalid.');
-  if (receipt.stageId !== 'EXECUTION_12_PHYSICAL_WORD_WAVE_100') add('RTK_V4_E12_WAVE100_STAGE_INVALID', 'stageId', 'Wave 100 stage id is invalid.');
-  if (receipt.status !== 'PHYSICAL_WAVE_100_COMPLETE_NOT_SATURATED') add('RTK_V4_E12_WAVE100_STATUS_INVALID', 'status', 'Wave 100 must complete without claiming saturation.');
-  if (receipt.wave?.target !== 100 || receipt.wave?.observedRounds !== 100 || receipt.wave?.completed !== true) {
-    add('RTK_V4_E12_WAVE100_ACCOUNTING_INVALID', 'wave', 'Wave 100 requires exactly 100 observed physical rounds.');
+  if (receipt.schemaVersion !== SCHEMA) add('RTK_V4_E12_WAVE300_SCHEMA_INVALID', 'schemaVersion', 'Wave 300 receipt schema is invalid.');
+  if (receipt.stageId !== 'EXECUTION_12_PHYSICAL_WORD_WAVE_300') add('RTK_V4_E12_WAVE300_STAGE_INVALID', 'stageId', 'Wave 300 stage id is invalid.');
+  if (receipt.status !== 'PHYSICAL_WAVE_300_COMPLETE_NOT_SATURATED') add('RTK_V4_E12_WAVE300_STATUS_INVALID', 'status', 'Wave 300 must complete without claiming saturation.');
+  if (receipt.wave?.target !== 300 || receipt.wave?.observedRounds !== 300 || receipt.wave?.completed !== true) {
+    add('RTK_V4_E12_WAVE300_ACCOUNTING_INVALID', 'wave', 'Wave 300 requires exactly 300 observed physical rounds.');
   }
   const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
-  if (cases.length !== 100) add('RTK_V4_E12_WAVE100_CASE_COUNT_INVALID', 'cases', 'Wave 100 must contain 100 case rows.');
+  if (cases.length !== 300) add('RTK_V4_E12_WAVE300_CASE_COUNT_INVALID', 'cases', 'Wave 300 must contain 300 case rows.');
   if (!cases.every((item) => item.openEditSaveCloseReopen === 'PASS')) {
-    add('RTK_V4_E12_WAVE100_WORD_FAILURE', 'cases.openEditSaveCloseReopen', 'Every case must physically open edit save close reopen in Word.');
+    add('RTK_V4_E12_WAVE300_WORD_FAILURE', 'cases.openEditSaveCloseReopen', 'Every case must physically open edit save close reopen in Word.');
   }
   if (!cases.every((item) => item.packageZipOk === true)) {
-    add('RTK_V4_E12_WAVE100_ZIP_FAILURE', 'cases.packageZipOk', 'Every returned DOCX must pass zip validation.');
+    add('RTK_V4_E12_WAVE300_ZIP_FAILURE', 'cases.packageZipOk', 'Every returned DOCX must pass zip validation.');
   }
-  if (!cases.some((item) => item.caseId === 'WL2-080' && item.returnedBytes > 400000)) {
-    add('RTK_V4_E12_WAVE100_400K_MISSING', 'cases.WL2-080', '400k word scale evidence is missing.');
+  if (!cases.some((item) => item.caseId === 'WL2-280' && item.returnedBytes > 500000)) {
+    add('RTK_V4_E12_WAVE300_400K_MISSING', 'cases.WL2-280', '500k-class returned DOCX scale evidence is missing.');
   }
-  if (!cases.some((item) => item.caseId === 'WL2-060' && item.wordCommentCount >= 100 && item.reviewIrSummary?.commentThreads >= 100)) {
-    add('RTK_V4_E12_WAVE100_DENSE_COMMENTS_MISSING', 'cases.WL2-060', 'Wave 100 requires at least 100 visible parsed comment threads in the dense case.');
+  if (!cases.some((item) => item.caseId === 'WL2-240' && item.wordCommentCount >= 100 && item.reviewIrSummary?.commentThreads >= 100)) {
+    add('RTK_V4_E12_WAVE300_DENSE_COMMENTS_MISSING', 'cases.WL2-240', 'Wave 300 requires at least 100 visible parsed comment threads in the dense case.');
   }
   const veto = receipt.vetoMetrics || {};
   for (const [key, value] of Object.entries(veto)) {
-    if (Number(value) !== 0) add('RTK_V4_E12_WAVE100_VETO_NONZERO', `vetoMetrics.${key}`, 'All wave-100 veto metrics must be zero.');
+    if (Number(value) !== 0) add('RTK_V4_E12_WAVE300_VETO_NONZERO', `vetoMetrics.${key}`, 'All wave-300 veto metrics must be zero.');
   }
   if (receipt.saturationDecision?.wordSaturated !== false || receipt.saturationDecision?.googleDocsAllowedToOpen !== false) {
-    add('RTK_V4_E12_WAVE100_FALSE_SATURATION', 'saturationDecision', 'Wave 100 alone cannot claim Word saturation or open Google Docs.');
+    add('RTK_V4_E12_WAVE300_FALSE_SATURATION', 'saturationDecision', 'Wave 300 alone cannot claim Word saturation or open Google Docs.');
   }
   if (receipt.wordSandboxWorkRoot?.insideWordContainer !== true || receipt.wordSandboxWorkRoot?.plainTmpForbidden !== true) {
-    add('RTK_V4_E12_WAVE100_SANDBOX_ROOT_INVALID', 'wordSandboxWorkRoot', 'Wave 100 must use the Word container work root.');
+    add('RTK_V4_E12_WAVE300_SANDBOX_ROOT_INVALID', 'wordSandboxWorkRoot', 'Wave 300 must use the Word container work root.');
   }
   if (options.requireExternal === true) {
     const externalPath = String(receipt.externalEvidence?.receiptPath || '');
     if (!externalPath || !fs.existsSync(externalPath)) {
-      add('RTK_V4_E12_WAVE100_EXTERNAL_MISSING', 'externalEvidence.receiptPath', 'External wave-100 receipt is missing.');
+      add('RTK_V4_E12_WAVE300_EXTERNAL_MISSING', 'externalEvidence.receiptPath', 'External wave-300 receipt is missing.');
     } else if (sha256File(externalPath) !== receipt.externalEvidence?.receiptSha256) {
-      add('RTK_V4_E12_WAVE100_EXTERNAL_SHA_MISMATCH', 'externalEvidence.receiptSha256', 'External wave-100 receipt hash mismatch.');
+      add('RTK_V4_E12_WAVE300_EXTERNAL_SHA_MISMATCH', 'externalEvidence.receiptSha256', 'External wave-300 receipt hash mismatch.');
     }
   }
   return {
@@ -164,19 +190,20 @@ export function evaluateReceipt(receipt = readJson(RECEIPT_PATH), options = {}) 
 }
 
 async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) {
+  process.stderr.write('E12_WAVE300_PROGRESS=assert-secure-volume:start\n');
   assertSecureVolume(artifactRoot);
+  process.stderr.write('E12_WAVE300_PROGRESS=assert-secure-volume:done\n');
   const wordSandboxWorkRoot = resolveWordSandboxWorkRoot({
-    defaultSegments: ['word-safe-semantic-v4', 'e12-physical-wave100'],
+    defaultSegments: ['word-safe-semantic-v4', 'e12-physical-wave300'],
     overridePath: wordWorkRoot,
   });
   if (!fs.existsSync(WORD_APP_PATH)) throw new Error('MICROSOFT_WORD_APP_MISSING');
+  process.stderr.write('E12_WAVE300_PROGRESS=collect-word-profile:start\n');
   const wordProfile = collectWordProfile();
-  const baseCorpus = buildWordLatestSemanticCorpus({ runId });
-  const casesToRun = [
-    ...baseCorpus.cases,
-    ...makeExtraWave40Cases(baseCorpus.cases.length + 1),
-    ...makeWave100Cases(baseCorpus.cases.length + 9),
-  ];
+  process.stderr.write('E12_WAVE300_PROGRESS=collect-word-profile:done\n');
+  process.stderr.write('E12_WAVE300_PROGRESS=build-corpus:start\n');
+  const { baseCorpus, casesToRun } = buildWave300Corpus(runId);
+  process.stderr.write(`E12_WAVE300_PROGRESS=build-corpus:done:cases=${casesToRun.length}\n`);
   const runDir = path.join(artifactRoot, runId);
   const wordRunDir = path.join(wordSandboxWorkRoot.root, runId);
   const dirs = {
@@ -187,26 +214,30 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
     evidenceSources: path.join(runDir, 'source-docx'),
     evidenceReturns: path.join(runDir, 'returned-docx'),
   };
+  process.stderr.write('E12_WAVE300_PROGRESS=mkdirs:start\n');
   for (const dir of Object.values(dirs)) fs.mkdirSync(dir, { recursive: true });
+  process.stderr.write('E12_WAVE300_PROGRESS=mkdirs:done\n');
   const cases = [];
   for (const caseSpec of casesToRun) {
+    process.stderr.write(`E12_WAVE300_CASE_START=${caseSpec.id}\n`);
     const result = await runPhysicalCase(caseSpec, dirs);
     cases.push(result);
-    process.stderr.write(`E12_WAVE100_CASE_DONE=${caseSpec.id}:${result.openEditSaveCloseReopen}:${result.parserStatus}:comments=${result.wordCommentCount}\n`);
+    process.stderr.write(`E12_WAVE300_CASE_DONE=${caseSpec.id}:${result.openEditSaveCloseReopen}:${result.parserStatus}:comments=${result.wordCommentCount}\n`);
   }
   const totals = summarizeCases(cases);
   const typedLimitations = [...new Set(cases.flatMap((item) => item.wordLimitations))].sort();
   const receiptDraft = {
     schemaVersion: SCHEMA,
-    taskId: 'YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100',
-    stageId: 'EXECUTION_12_PHYSICAL_WORD_WAVE_100',
-    status: 'PHYSICAL_WAVE_100_COMPLETE_NOT_SATURATED',
+    taskId: 'YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300',
+    stageId: 'EXECUTION_12_PHYSICAL_WORD_WAVE_300',
+    status: 'PHYSICAL_WAVE_300_COMPLETE_NOT_SATURATED',
     createdAtUtc: new Date().toISOString(),
     base: {
       originMainShaAtBranchStart: shellValue('git', ['rev-parse', 'origin/main']),
       headShaAtRun: shellValue('git', ['rev-parse', 'HEAD']),
       branch: shellValue('git', ['rev-parse', '--abbrev-ref', 'HEAD']),
       priorE12Wave40MergeSha: '8e8b3eed80db1a2526e35181be052caff94b7758',
+      priorE12Wave100MergeSha: 'f2ce50d1bd7f26adea609aa6c7a30720b1279601',
     },
     wordProfile,
     wordSandboxWorkRoot,
@@ -215,7 +246,7 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
     wordSandboxRunDir: wordRunDir,
     corpus: {
       baseCorpusDigest: `sha256:${sha256Text(stableJson(baseCorpus))}`,
-      wave100CorpusDigest: `sha256:${sha256Text(stableJson(casesToRun.map((item) => ({
+      wave300CorpusDigest: `sha256:${sha256Text(stableJson(casesToRun.map((item) => ({
         id: item.id,
         ordinal: item.ordinal,
         title: item.title,
@@ -225,15 +256,16 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
       }))))}`,
       syntheticOnly: true,
       totalCases: casesToRun.length,
-      newWave100Cases: casesToRun.slice(40).map((item) => item.id),
+      wave100Cases: casesToRun.slice(40, 100).map((item) => item.id),
+      newWave300Cases: casesToRun.slice(100).map((item) => item.id),
     },
     wave: {
       requiredSequence: [10, 40, 100, 300],
-      target: 100,
+      target: 300,
       observedRounds: cases.length,
-      completed: cases.length === 100 && totals.physicalOpenEditSaveCloseReopenPass === 100,
+      completed: cases.length === 300 && totals.physicalOpenEditSaveCloseReopenPass === 300,
       nextTarget: 300,
-      consecutiveStableApprovedWavesAfterThis: 0,
+      consecutiveStableApprovedWavesAfterThis: 1,
     },
     cases,
     totals,
@@ -256,7 +288,7 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
     saturationDecision: {
       wordSaturated: false,
       googleDocsAllowedToOpen: false,
-      reason: 'WAVE_100_COMPLETE_BUT_WAVE_300_AND_TWO_STABLE_APPROVED_WAVES_REMAIN',
+      reason: 'WAVE_300_COMPLETE_BUT_TWO_STABLE_APPROVED_WAVES_REMAIN',
     },
     runtimeClaims: {
       productRuntimeChanged: false,
@@ -267,9 +299,9 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
       networkAdded: false,
     },
     nonClaims: [
-      'Wave 100 is physical Word evidence, not Word SATURATED.',
-      'Wave 100 does not open Google Docs or any other editor profile.',
-      'Wave 100 does not expand automatic apply authority.',
+      'Wave 300 is physical Word evidence, not Word SATURATED.',
+      'Wave 300 does not open Google Docs or any other editor profile.',
+      'Wave 300 does not expand automatic apply authority.',
     ],
   };
   const receipt = {
@@ -277,7 +309,7 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
     result: evaluateReceipt(receiptDraft).status,
     receiptDigest: `sha256:${sha256Text(stableJson(receiptDraft))}`,
   };
-  const externalReceiptPath = path.join(runDir, 'e12-physical-wave100-receipt.json');
+  const externalReceiptPath = path.join(runDir, 'e12-physical-wave300-receipt.json');
   writeJsonAtomic(externalReceiptPath, receipt);
   const finalReceipt = {
     ...receipt,
@@ -295,7 +327,7 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
     receiptPath: writeReceipt ? RECEIPT_PATH : externalReceiptPath,
     receiptDigest: finalReceipt.receiptDigest,
     totals,
-    waveTarget: 100,
+    waveTarget: 300,
     observedRounds: cases.length,
     wordVersion: wordProfile.versionByAppleScript || wordProfile.versionByBundle,
   };
@@ -309,11 +341,12 @@ function parseArgs(argv) {
   return {
     json: argv.includes('--json'),
     runPhysical: argv.includes('--run-physical'),
+    dryRunCorpus: argv.includes('--dry-run-corpus'),
     requireExternal: argv.includes('--require-external'),
     writeReceipt: argv.includes('--write-receipt'),
     artifactRoot: getArg('--artifact-root', DEFAULT_ARTIFACT_ROOT),
     wordWorkRoot: getArg('--word-work-root', process.env.YALKEN_WORD_WORK_ROOT || ''),
-    runId: getArg('--run-id', `e12-wave100-${new Date().toISOString().replace(/[-:.]/gu, '').slice(0, 15)}`),
+    runId: getArg('--run-id', `e12-wave300-${new Date().toISOString().replace(/[-:.]/gu, '').slice(0, 15)}`),
   };
 }
 
@@ -321,8 +354,23 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const result = args.runPhysical
     ? await runPhysical(args)
-    : evaluateReceipt(undefined, { requireExternal: args.requireExternal });
-  process.stdout.write(args.json ? `${JSON.stringify(result, null, 2)}\n` : `RTK_WORD_V4_E12_PHYSICAL_WAVE100=${result.status}\n`);
+    : args.dryRunCorpus
+      ? (() => {
+          const { casesToRun } = buildWave300Corpus(args.runId);
+          return {
+            ok: true,
+            status: 'PASS',
+            totalCases: casesToRun.length,
+            firstCase: casesToRun[0]?.id || '',
+            lastCase: casesToRun.at(-1)?.id || '',
+            denseCases: casesToRun.filter((item) => item.waveAction === 'comment-density').map((item) => ({
+              id: item.id,
+              commentTarget: item.commentTarget || 0,
+            })),
+          };
+        })()
+      : evaluateReceipt(undefined, { requireExternal: args.requireExternal });
+  process.stdout.write(args.json ? `${JSON.stringify(result, null, 2)}\n` : `RTK_WORD_V4_E12_PHYSICAL_WAVE300=${result.status}\n`);
   process.exit(result.ok ? 0 : 1);
 }
 

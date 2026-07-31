@@ -44,8 +44,11 @@ function normalizeCanonDoc(input) {
   const aliasPolicy = source.aliasPolicy && typeof source.aliasPolicy === 'object' && !Array.isArray(source.aliasPolicy)
     ? source.aliasPolicy
     : {};
+  const canonicalPrefixes = normalizePrefixList(source.canonicalPrefixes);
+  const canonicalPrefix = normalizeString(source.canonicalPrefix);
   return Object.freeze({
-    canonicalPrefix: normalizeString(source.canonicalPrefix),
+    canonicalPrefix,
+    canonicalPrefixes: Object.freeze(canonicalPrefixes.length > 0 ? canonicalPrefixes : (canonicalPrefix ? [canonicalPrefix] : [])),
     deprecatedPrefixes: Object.freeze(normalizePrefixList(source.deprecatedPrefixes)),
     aliasPolicy: Object.freeze({
       allowDeprecatedInConfigsUntil: normalizeDateString(aliasPolicy.allowDeprecatedInConfigsUntil),
@@ -133,7 +136,7 @@ export function resolveCommandId(inputId, options = {}) {
     return makeNamespaceError('E_COMMAND_NOT_FOUND', 'COMMAND_ID_INVALID');
   }
 
-  if (COMMAND_NAMESPACE_CANON.canonicalPrefix && rawId.startsWith(COMMAND_NAMESPACE_CANON.canonicalPrefix)) {
+  if (COMMAND_NAMESPACE_CANON.canonicalPrefixes.some((prefix) => rawId.startsWith(prefix))) {
     return {
       ok: true,
       commandId: rawId,

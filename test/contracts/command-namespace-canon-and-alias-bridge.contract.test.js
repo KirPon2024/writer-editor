@@ -98,6 +98,14 @@ test('command namespace canon-and-alias-bridge: ssot file exists and shape is va
   assert.equal(fs.existsSync(CANON_PATH), true, 'missing docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json');
   const doc = readJson(CANON_PATH);
   assert.equal(doc.canonicalPrefix, 'cmd.project.');
+  assert.deepEqual(doc.canonicalPrefixes, [
+    'cmd.project.',
+    'cmd.ui.',
+    'atlas.',
+    'manualMap.',
+    'idea.',
+    'meaning.',
+  ]);
   assert.deepEqual(doc.deprecatedPrefixes, ['cmd.file.']);
   assert.equal(doc.aliasPolicy.noNewDeprecatedCommandIds, true);
   assert.match(String(doc.aliasPolicy.allowDeprecatedInConfigsUntil || ''), /^\d{4}-\d{2}-\d{2}$/u);

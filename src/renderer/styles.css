@@ -7539,6 +7539,10 @@ body.dark-theme .project-search-workspace__mass-replace {
   padding: 24px;
 }
 
+.main-content--manual-map .editor-panel-wrapper {
+  display: none;
+}
+
 .manual-map-workspace {
   width: min(100%, 1180px);
   min-height: min(720px, calc(100vh - 144px));

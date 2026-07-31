@@ -2,10 +2,10 @@
   "schemaVersion": "yalken.rtk.word-latest-semantic-roundtrip-v2.b01-locator-survival-receipt.v1",
   "taskId": "YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
   "stageId": "B01_SIGNED_LOCATOR_PRESERVATION",
-  "createdAtUtc": "2026-07-30T14:38:00.198Z",
+  "createdAtUtc": "2026-07-31T10:41:07.690Z",
   "base": {
-    "originMainShaAtBranchStart": "1dfb3d8f6f2243114445a8f7f66de809a390358d",
-    "branch": "codex/rtk-word-latest-semantic-b01",
+    "originMainShaAtBranchStart": "99fb336947580738dcd8d610fc068e6714ca403c",
+    "branch": "codex/rtk-v4-e12-word-container-work-root",
     "worktree": "/Volumes/T7-Secure/worktrees/yalken/post-d1-portability",
     "precedingB00MergeSha": "08a79d005f93b1afbe088ee669b6ad0ebcac2ca0"
   },
@@ -26,11 +26,11 @@
     "appPath": "/Applications/Microsoft Word.app",
     "targetProfileId": "word-mac-latest-16.111.2-semantic-v2",
     "targetVersion": "16.111.2",
-    "versionByBundle": "16.111.1",
-    "buildByBundle": "16.111.26071913",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
     "versionByAppleScript": "NOT_QUERIED_BEFORE_PHYSICAL_CASES_TO_AVOID_WORD_SANDBOX_MODAL_STATE",
     "buildByAppleScript": "NOT_QUERIED_BEFORE_PHYSICAL_CASES_TO_AVOID_WORD_SANDBOX_MODAL_STATE",
-    "targetVersionMatched": false,
+    "targetVersionMatched": true,
     "macosVersion": "26.5.2",
     "macosBuild": "25F84",
     "locale": "ru_FI"
@@ -42,14 +42,22 @@
     "writable": true
   },
   "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator",
-  "runDir": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008",
-  "wordSandboxWorkRoot": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator",
-  "wordSandboxRunDir": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z",
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": true,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false
+  },
+  "wordSandboxRunDir": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z",
   "evidenceMirrorPolicy": {
-    "wordWorksInsideTransientLocalStaging": true,
+    "wordWorksInsideWordContainerTmp": true,
     "evidenceMirroredToT7Secure": true,
     "localWordWorkCleanupAfterSuccess": true,
-    "reason": "Microsoft Word for Mac 16.111.2 displays Grant File Access prompts for direct T7 AppleScript open/save paths; /tmp staging is mirrored to T7 before receipt."
+    "reason": "Microsoft Word for Mac 16.111.2 works on synthetic DOCX inside its sandbox container tmp; evidence is mirrored to T7 before receipt."
   },
   "signedLocatorAuthority": {
     "transportManifestSchema": "yalken.rtk.transport-manifest.v2",
@@ -77,15 +85,15 @@
     {
       "caseId": "b01-no-edit-save-reopen",
       "title": "no edit save reopen preserves carriers",
-      "sourceDocxSha256": "sha256:f94eade1ae50f1a3b985d8e278857a3b4f7395f2081e74382dccc3e6eab519aa",
-      "returnedDocxSha256": "sha256:f94eade1ae50f1a3b985d8e278857a3b4f7395f2081e74382dccc3e6eab519aa",
+      "sourceDocxSha256": "sha256:d90cc287dff4cd63e9bd6d906ee7b06251328aa4900bc2b869642889f614e045",
+      "returnedDocxSha256": "sha256:d90cc287dff4cd63e9bd6d906ee7b06251328aa4900bc2b869642889f614e045",
       "sourceBytes": 9766,
       "returnedBytes": 9766,
       "wordActions": [],
       "openSaveCloseReopen": "PASS",
       "scriptPaths": {
-        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-no-edit-save-reopen-edit.applescript",
-        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-no-edit-save-reopen-readback.applescript"
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-no-edit-save-reopen-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-no-edit-save-reopen-readback.applescript"
       },
       "wordReadbackSha256": "sha256:8cf3c3ca2beec0381c352f955c40c0a66afc0b9d3596e51fac6025056854af8e",
       "revisionCount": 0,
@@ -130,7 +138,7 @@
             "word/comments.xml": "sha256:e9c1345b801ebf34998237f318fa70ea8daa543a28fb7fe66a8d8fbdf0befa9c",
             "word/commentsExtended.xml": "sha256:a9b232abd1ab24c9aa2b0e7386498adc40c2ded58f8d7ad6f0c1e1c36500242c",
             "word/people.xml": "sha256:565892fa557f73a6253885f52ba968056705a9288e2b544b052fac084c8c8369",
-            "customXml/item1.xml": "sha256:501fcd33e173aa1a4128aeb03c624987765444cee56869fcc6de0f831aa557e0"
+            "customXml/item1.xml": "sha256:b4ff81bd765dfe2192bf2c184fd4a17a9f6060afc1cea722b5d1525c7d271f45"
           }
         },
         "signals": {
@@ -197,26 +205,26 @@
         }
       },
       "paths": {
-        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-no-edit-save-reopen-source.docx",
-        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-no-edit-save-reopen-returned.docx",
-        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-no-edit-save-reopen-source.docx",
-        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-no-edit-save-reopen-returned.docx"
+        "wordWorkingSourceDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-no-edit-save-reopen-source.docx",
+        "wordWorkingReturnedDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-no-edit-save-reopen-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-no-edit-save-reopen-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-no-edit-save-reopen-returned.docx"
       }
     },
     {
       "caseId": "b01-tracked-insert",
       "title": "tracked insert near locator carriers",
-      "sourceDocxSha256": "sha256:2f87bb59786f5079c27003b72bb0140f2b0a32240e54dbee47e3a778b64ea76d",
-      "returnedDocxSha256": "sha256:989d9523665ee6e4291efc69b2887b8a1a818e07338da25a9490cfe4930042e3",
+      "sourceDocxSha256": "sha256:a81586646f5b6d6bd8b281b93d75468948a301b98eb242962d1069c787ea89a7",
+      "returnedDocxSha256": "sha256:9432eeef6fede484c1ee4321462b68659b43e17c5cec0ebab066186c05f862ba",
       "sourceBytes": 9751,
-      "returnedBytes": 16050,
+      "returnedBytes": 16055,
       "wordActions": [
         "insert"
       ],
       "openSaveCloseReopen": "PASS",
       "scriptPaths": {
-        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-tracked-insert-edit.applescript",
-        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-tracked-insert-readback.applescript"
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-tracked-insert-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-tracked-insert-readback.applescript"
       },
       "wordReadbackSha256": "sha256:07653f66d1d7f36869760a17c93a1cec705049f59c8f1c3d521ce268e1e36d18",
       "revisionCount": 1,
@@ -262,8 +270,8 @@
             "peopleXml": true
           },
           "entryDigests": {
-            "word/document.xml": "sha256:5f9c69cebffe937ddc785e9e93187fd5abd7245aec2a1efbb72b86947e38f2fe",
-            "word/comments.xml": "sha256:baa043416f44f3dc126f2f3ec50c62c4f43fd6518dd0808f8d0d41cdc183438e",
+            "word/document.xml": "sha256:a5449a71f64938e6f5d98ada156f1504ef2b020a5609117af8539b1de232b892",
+            "word/comments.xml": "sha256:fdd427667286f03c5fc517f124dbc76de67c612bc1069370c7218aea67c11414",
             "word/commentsExtended.xml": "sha256:081dc04575d741295057473ed9723867b82c9953741b9022fcf7633e9774b244",
             "word/people.xml": "sha256:f3e5d545c02cedd5087c84e12bf943f501060f97aabfbe05d3237107d4aa83e7"
           }
@@ -336,26 +344,26 @@
         }
       },
       "paths": {
-        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-tracked-insert-source.docx",
-        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-tracked-insert-returned.docx",
-        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-tracked-insert-source.docx",
-        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-tracked-insert-returned.docx"
+        "wordWorkingSourceDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-tracked-insert-source.docx",
+        "wordWorkingReturnedDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-tracked-insert-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-tracked-insert-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-tracked-insert-returned.docx"
       }
     },
     {
       "caseId": "b01-tracked-delete",
       "title": "tracked delete near locator carriers",
-      "sourceDocxSha256": "sha256:9bcb126d55e0addd9c69809d0dcd71c2c68847ac73d7acad1e1b1455a5b912b7",
-      "returnedDocxSha256": "sha256:895a40548dbce3246236647a51036fe002f825dffb23e3926b9fada49f67d539",
+      "sourceDocxSha256": "sha256:1b8deff1b23bb43940d42793dbed7ca5f3b8fd1cc6dd7db8c2ab65d3bfb850b0",
+      "returnedDocxSha256": "sha256:516fc517ff2843e2e978c6644345e84c5f3cc46af1fc66ea4735f29ce7314f5e",
       "sourceBytes": 9751,
-      "returnedBytes": 16053,
+      "returnedBytes": 16051,
       "wordActions": [
         "delete"
       ],
       "openSaveCloseReopen": "PASS",
       "scriptPaths": {
-        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-tracked-delete-edit.applescript",
-        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-tracked-delete-readback.applescript"
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-tracked-delete-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-tracked-delete-readback.applescript"
       },
       "wordReadbackSha256": "sha256:20bb9bf0b1e560a606b2afe666c45aab40062c174d8ea3a98601df34e384fbd3",
       "revisionCount": 1,
@@ -401,8 +409,8 @@
             "peopleXml": true
           },
           "entryDigests": {
-            "word/document.xml": "sha256:2368e2b2b3dd01d28a75b265137a79e069b1d1a59c9e75f88459e4f93254214a",
-            "word/comments.xml": "sha256:f7c5044b514c32bd76d4e6f8203c4fde69af1d784d917649d164605108cddedb",
+            "word/document.xml": "sha256:e5d8c1d61c6bec45485624b2772bd3d4356ced3b44f12ae7cbb9c304cc0f6001",
+            "word/comments.xml": "sha256:ef3e56919ba73f2916c4c06497f194da854de7db44363bcfa9bdadecea5b4d85",
             "word/commentsExtended.xml": "sha256:081dc04575d741295057473ed9723867b82c9953741b9022fcf7633e9774b244",
             "word/people.xml": "sha256:f3e5d545c02cedd5087c84e12bf943f501060f97aabfbe05d3237107d4aa83e7"
           }
@@ -475,26 +483,26 @@
         }
       },
       "paths": {
-        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-tracked-delete-source.docx",
-        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-tracked-delete-returned.docx",
-        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-tracked-delete-source.docx",
-        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-tracked-delete-returned.docx"
+        "wordWorkingSourceDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-tracked-delete-source.docx",
+        "wordWorkingReturnedDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-tracked-delete-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-tracked-delete-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-tracked-delete-returned.docx"
       }
     },
     {
       "caseId": "b01-paragraph-split",
       "title": "tracked paragraph split near locator carriers",
-      "sourceDocxSha256": "sha256:c88fc6c1184805d16c54019ab92cb1d42e790499cee9dca5f23b26e0f4b417b0",
-      "returnedDocxSha256": "sha256:7b64e5dc5aa8aedf34e9616cce027500a717b265586ec97dea0f9ae219b2891c",
+      "sourceDocxSha256": "sha256:03a54059a9f8486f45bbfa79cd34fa57c04f5ff4540e9731bfd299b5d5a1debd",
+      "returnedDocxSha256": "sha256:872d308e72c121b0e57bf03649f5de1ff2fcfe1ccd2650c01e485dc026f22952",
       "sourceBytes": 9754,
-      "returnedBytes": 16094,
+      "returnedBytes": 16096,
       "wordActions": [
         "insert"
       ],
       "openSaveCloseReopen": "PASS",
       "scriptPaths": {
-        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-paragraph-split-edit.applescript",
-        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-paragraph-split-readback.applescript"
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-paragraph-split-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-paragraph-split-readback.applescript"
       },
       "wordReadbackSha256": "sha256:08a2ebfeba8f5891c05e6aafa49aac2b0263990df022b10809eae326cfd82a6c",
       "revisionCount": 1,
@@ -540,8 +548,8 @@
             "peopleXml": true
           },
           "entryDigests": {
-            "word/document.xml": "sha256:a73c01292f17efbb834ed154f56c3b4b3fbb85346e71cc4339f8505b0fc2c6e6",
-            "word/comments.xml": "sha256:1fb333ee2afa4e60b9966997292c6ebe05e68085be0cd8410f71e6d4372c420b",
+            "word/document.xml": "sha256:d7c18b69db7f5567fc7e0901e2066e89eb3d7a82235642e316fac628a172b1b0",
+            "word/comments.xml": "sha256:9b9bf53e39f381f9bba4b966caf9fe01177e5d35e3d593b4a5fe5d32948781f1",
             "word/commentsExtended.xml": "sha256:081dc04575d741295057473ed9723867b82c9953741b9022fcf7633e9774b244",
             "word/people.xml": "sha256:f3e5d545c02cedd5087c84e12bf943f501060f97aabfbe05d3237107d4aa83e7"
           }
@@ -614,26 +622,26 @@
         }
       },
       "paths": {
-        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-paragraph-split-source.docx",
-        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-paragraph-split-returned.docx",
-        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-paragraph-split-source.docx",
-        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-paragraph-split-returned.docx"
+        "wordWorkingSourceDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-paragraph-split-source.docx",
+        "wordWorkingReturnedDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-paragraph-split-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-paragraph-split-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-paragraph-split-returned.docx"
       }
     },
     {
       "caseId": "b01-word-native-comment",
       "title": "Word-native classic comment adds semantic readback evidence",
-      "sourceDocxSha256": "sha256:8869f848d823d69554a270c8813aa06ad29d71d8e72257e63923912d220a0c2e",
-      "returnedDocxSha256": "sha256:fcce36db3b1621ad2564b5c8d1e3af39429524f95946abf98ac5269718063b07",
+      "sourceDocxSha256": "sha256:1f78e5c3866eda8e6264c32311655b32e976b37f02a48f76e105c331545c5634",
+      "returnedDocxSha256": "sha256:4bf7eff03ca5f9082f91dad812f66b7fc57e0ae74ecc0c84288d9f189a6dfa88",
       "sourceBytes": 9766,
-      "returnedBytes": 16997,
+      "returnedBytes": 17000,
       "wordActions": [
         "wordComment"
       ],
       "openSaveCloseReopen": "PASS",
       "scriptPaths": {
-        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-word-native-comment-edit.applescript",
-        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/applescripts/b01-word-native-comment-readback.applescript"
+        "edit": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-word-native-comment-edit.applescript",
+        "readback": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/applescripts/b01-word-native-comment-readback.applescript"
       },
       "wordReadbackSha256": "sha256:8cf3c3ca2beec0381c352f955c40c0a66afc0b9d3596e51fac6025056854af8e",
       "revisionCount": 0,
@@ -681,9 +689,9 @@
             "peopleXml": true
           },
           "entryDigests": {
-            "word/document.xml": "sha256:f85486e715470db1818e9b7ed1b6fbe0b9e192c61bb5febf3d40a437fabff8cb",
-            "word/comments.xml": "sha256:08a3362c1898393dc00fc409397b931b4e94a80ea3b6108e445b69fed593b4a1",
-            "word/commentsExtended.xml": "sha256:e9d9622b0ecc491390cdcc11391ae9f5d5881a88a71af0d37314e6511ab2fba2",
+            "word/document.xml": "sha256:d43fb14753a346bb056d9fd8a3947d613f7d63e7893b63d2d6295612b87a44dc",
+            "word/comments.xml": "sha256:d89246702857bca18ccb1d74182347596e1ba933e16f4f9e52077a5a80046786",
+            "word/commentsExtended.xml": "sha256:d00337275f1472cdbf2652c0c7783de95caab30e1ad1301233d79c2c446bc9b4",
             "word/people.xml": "sha256:f3e5d545c02cedd5087c84e12bf943f501060f97aabfbe05d3237107d4aa83e7"
           }
         },
@@ -756,10 +764,10 @@
         }
       },
       "paths": {
-        "wordWorkingSourceDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/source-docx/b01-word-native-comment-source.docx",
-        "wordWorkingReturnedDocx": "/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-physical-008/returned-docx/b01-word-native-comment-returned.docx",
-        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/source-docx/b01-word-native-comment-source.docx",
-        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-physical-008/returned-docx/b01-word-native-comment-returned.docx"
+        "wordWorkingSourceDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-word-native-comment-source.docx",
+        "wordWorkingReturnedDocx": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-word-native-comment-returned.docx",
+        "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/source-docx/b01-word-native-comment-source.docx",
+        "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator/b01-container-root-20260731T1040Z/returned-docx/b01-word-native-comment-returned.docx"
       }
     }
   ],
@@ -790,5 +798,5 @@
   },
   "nextStage": "B02_REVIEW_TRANSPORT_IR_V2_PARSER_CONTRACTS",
   "result": "PASS",
-  "receiptDigest": "sha256:0d94f20e73ac3bc49d524f734065fea331edb7bb2d364d913a22b92013250c83"
+  "receiptDigest": "sha256:53f80c573474cd416689bfb75ae24bc3a2ba8230c3a2db3a5723a434614b7b90"
 }

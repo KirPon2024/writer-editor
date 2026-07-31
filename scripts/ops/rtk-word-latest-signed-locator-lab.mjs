@@ -13,6 +13,9 @@ import {
   stableTransportManifestJson,
   verifyReviewTransportManifestV2,
 } from '../../src/io/revisionBridge/reviewTransportManifestCore.mjs';
+import {
+  resolveWordSandboxWorkRoot,
+} from './rtk-word-sandbox-work-root.mjs';
 
 const require = createRequire(import.meta.url);
 const { buildStoredZip, escapeXml } = require('../../src/export/docx/docxMinBuilder.js');
@@ -24,12 +27,6 @@ const SECURE_MOUNT = '/Volumes/T7-Secure';
 const SECURE_UUID = 'D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2';
 const WORD_APP_PATH = '/Applications/Microsoft Word.app';
 const DEFAULT_ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-latest-semantic-v2/current/b01-signed-locator';
-const DEFAULT_WORD_WORK_ROOT = path.join(
-  '/tmp',
-  'YalkenWordLab',
-  'word-latest-semantic-v2',
-  'b01-signed-locator',
-);
 const RECEIPT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B01_LOCATOR_SURVIVAL_RECEIPT.json');
 const TARGET_PROFILE_ID = 'word-mac-latest-16.111.2-semantic-v2';
 const TARGET_WORD_VERSION = '16.111.2';
@@ -788,6 +785,15 @@ export function evaluateB01LocatorReceipt(receipt = readJson(RECEIPT_PATH)) {
   if (receipt.runtimeClaims?.productRuntimeChanged !== false || receipt.runtimeClaims?.networkDependencyAdded !== false || receipt.runtimeClaims?.uiChanged !== false) {
     issues.push({ code: 'B01_RUNTIME_SCOPE_EXPANDED', field: 'runtimeClaims' });
   }
+  if (receipt.wordSandboxWorkRoot?.insideWordContainer !== true || receipt.wordSandboxWorkRoot?.plainTmpForbidden !== true) {
+    issues.push({ code: 'B01_WORD_SANDBOX_ROOT_INVALID', field: 'wordSandboxWorkRoot' });
+  }
+  if (typeof receipt.wordSandboxWorkRoot?.root !== 'string' || !/Library[/\\]Containers[/\\]com\.microsoft\.Word[/\\]Data[/\\]tmp[/\\]YalkenWordLab/u.test(receipt.wordSandboxWorkRoot.root)) {
+    issues.push({ code: 'B01_WORD_SANDBOX_ROOT_NOT_CONTAINER_TMP', field: 'wordSandboxWorkRoot.root' });
+  }
+  if (typeof receipt.artifactRoot !== 'string' || !receipt.artifactRoot.startsWith('/Volumes/T7-Secure/')) {
+    issues.push({ code: 'B01_ARTIFACT_ROOT_NOT_T7_SECURE', field: 'artifactRoot' });
+  }
   const cases = Array.isArray(receipt.cases) ? receipt.cases : [];
   if (cases.length < 5) issues.push({ code: 'B01_PHYSICAL_CASES_INSUFFICIENT', field: 'cases' });
   if (!cases.every((item) => item.packageInspection?.packageZipOk === true)) issues.push({ code: 'B01_ZIP_VALIDATION_FAILED', field: 'cases.packageInspection.packageZipOk' });
@@ -826,8 +832,12 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
   const secureVolume = assertSecureVolume(artifactRoot);
   process.stderr.write('B01_PREFLIGHT_SECURE_VOLUME_PASS\n');
   if (!fs.existsSync(WORD_APP_PATH)) throw new Error('MICROSOFT_WORD_APP_MISSING');
+  const wordSandboxWorkRoot = resolveWordSandboxWorkRoot({
+    defaultSegments: ['word-latest-semantic-v2', 'b01-signed-locator'],
+    overridePath: wordWorkRoot,
+  });
   const runDir = path.join(artifactRoot, runId);
-  const wordRunDir = path.join(wordWorkRoot, runId);
+  const wordRunDir = path.join(wordSandboxWorkRoot.root, runId);
   const dirs = {
     evidenceRunDir: runDir,
     wordRunDir,
@@ -883,13 +893,13 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
     secureVolume,
     artifactRoot,
     runDir,
-    wordSandboxWorkRoot: wordWorkRoot,
+    wordSandboxWorkRoot,
     wordSandboxRunDir: wordRunDir,
     evidenceMirrorPolicy: {
-      wordWorksInsideTransientLocalStaging: true,
+      wordWorksInsideWordContainerTmp: true,
       evidenceMirroredToT7Secure: true,
       localWordWorkCleanupAfterSuccess: true,
-      reason: 'Microsoft Word for Mac 16.111.2 displays Grant File Access prompts for direct T7 AppleScript open/save paths; /tmp staging is mirrored to T7 before receipt.',
+      reason: 'Microsoft Word for Mac 16.111.2 works on synthetic DOCX inside its sandbox container tmp; evidence is mirrored to T7 before receipt.',
     },
     signedLocatorAuthority: {
       transportManifestSchema: 'yalken.rtk.transport-manifest.v2',
@@ -976,7 +986,7 @@ async function main() {
     ? `b01-${new Date().toISOString().replace(/[-:.]/gu, '').slice(0, 15)}`
     : rawString(process.argv[runIdArgIndex + 1]);
   const artifactRoot = rootArgIndex === -1 ? DEFAULT_ARTIFACT_ROOT : rawString(process.argv[rootArgIndex + 1]);
-  const wordWorkRoot = wordRootArgIndex === -1 ? DEFAULT_WORD_WORK_ROOT : rawString(process.argv[wordRootArgIndex + 1]);
+  const wordWorkRoot = wordRootArgIndex === -1 ? (process.env.YALKEN_WORD_WORK_ROOT || '') : rawString(process.argv[wordRootArgIndex + 1]);
 
   if (runPhysicalFlag) {
     const result = await runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt });

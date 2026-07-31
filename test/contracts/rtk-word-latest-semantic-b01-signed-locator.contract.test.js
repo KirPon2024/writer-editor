@@ -10,6 +10,7 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MANIFEST_CORE_PATH = path.join(REPO_ROOT, 'src/io/revisionBridge/reviewTransportManifestCore.mjs');
 const BRIDGE_INDEX_PATH = path.join(REPO_ROOT, 'src/io/revisionBridge/index.mjs');
 const LAB_PATH = path.join(REPO_ROOT, 'scripts/ops/rtk-word-latest-signed-locator-lab.mjs');
+const WORD_SANDBOX_HELPER_PATH = path.join(REPO_ROOT, 'scripts/ops/rtk-word-sandbox-work-root.mjs');
 const RECEIPT_PATH = path.join(REPO_ROOT, 'docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B01_LOCATOR_SURVIVAL_RECEIPT.json');
 
 function stableJson(value) {
@@ -192,6 +193,10 @@ test('B01 physical receipt records survival evidence only and never certifies la
   assert.equal(receipt.runtimeClaims.uiChanged, false);
   assert.equal(receipt.runtimeClaims.networkDependencyAdded, false);
   assert.ok(receipt.cases.length >= 5);
+  assert.equal(receipt.wordSandboxWorkRoot.insideWordContainer, true);
+  assert.equal(receipt.wordSandboxWorkRoot.plainTmpForbidden, true);
+  assert.match(receipt.wordSandboxWorkRoot.root, /Library[/\\]Containers[/\\]com\.microsoft\.Word[/\\]Data[/\\]tmp[/\\]YalkenWordLab/u);
+  assert.equal(receipt.artifactRoot.startsWith('/Volumes/T7-Secure/'), true);
   assert.equal(receipt.totals.falseExact, 0);
   assert.equal(receipt.totals.silentApply, 0);
   assert.equal(receipt.totals.wrongSceneRouting, 0);
@@ -230,12 +235,32 @@ test('B01 verifier rejects false certification no-op comment support and user do
   risky.wordDocumentSafety.closeNonLabDocuments = true;
   const falseCustomXml = JSON.parse(JSON.stringify(receipt));
   falseCustomXml.signedLocatorAuthority.customXmlUsableForMutatingWordReturn = true;
+  const plainTmp = JSON.parse(JSON.stringify(receipt));
+  plainTmp.wordSandboxWorkRoot.root = '/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator';
+  plainTmp.wordSandboxWorkRoot.insideWordContainer = false;
 
   assert.equal(lab.evaluateB01LocatorReceipt(certified).ok, false);
   assert.equal(lab.evaluateB01LocatorReceipt(certified).issues.some((issue) => issue.code === 'B01_FALSE_CERTIFICATION'), true);
   assert.equal(lab.evaluateB01LocatorReceipt(noOp).issues.some((issue) => issue.code === 'B01_COMMENT_NOOP_FALSE_PASS'), true);
   assert.equal(lab.evaluateB01LocatorReceipt(risky).issues.some((issue) => issue.code === 'B01_USER_DOC_RISK'), true);
   assert.equal(lab.evaluateB01LocatorReceipt(falseCustomXml).issues.some((issue) => issue.code === 'B01_CUSTOM_XML_MUTATION_LIMITATION_NOT_BOUND'), true);
+  assert.equal(lab.evaluateB01LocatorReceipt(plainTmp).issues.some((issue) => issue.code === 'B01_WORD_SANDBOX_ROOT_INVALID'), true);
+});
+
+test('B01 physical runner uses Word container tmp by default and rejects plain tmp diagnostic override', async () => {
+  const helper = await import(pathToFileURL(WORD_SANDBOX_HELPER_PATH).href);
+  const resolved = helper.resolveWordSandboxWorkRoot({
+    defaultSegments: ['word-latest-semantic-v2', 'b01-signed-locator-contract'],
+  });
+
+  assert.equal(resolved.insideWordContainer, true);
+  assert.equal(resolved.plainTmpForbidden, true);
+  assert.equal(resolved.networkRequired, false);
+  assert.match(resolved.root, /Library[/\\]Containers[/\\]com\.microsoft\.Word[/\\]Data[/\\]tmp[/\\]YalkenWordLab/u);
+  assert.throws(
+    () => helper.resolveWordSandboxWorkRoot({ overridePath: '/tmp/YalkenWordLab/word-latest-semantic-v2/b01-signed-locator' }),
+    /WORD_SANDBOX_WORK_ROOT_PLAIN_TMP_FORBIDDEN/u,
+  );
 });
 
 test('B01 verifier CLI is CI-safe and manifest core remains platform-neutral', () => {

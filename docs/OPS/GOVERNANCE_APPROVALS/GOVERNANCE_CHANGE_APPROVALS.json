@@ -1606,10 +1606,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B01_LOCATOR_SURVIVAL_RECEIPT.json",
-      "sha256": "133a66225736f09816b8a0e6ba9a9c4a3424c76f8172eb78e4ea52db45dc3a6d",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
-      "rationale": "Approve bounded B01 locator-survival receipt: records five synthetic Microsoft Word for Mac physical open-save-close-reopen cases, preserves returned DOCX evidence on T7-Secure, proves no-edit customXml HMAC survival, records customXml loss after tracked/commented Word saves as a typed limitation, confirms bookmarks, SDT tags, w14 paraId/textId and classic comment readback as placement or comment signals without apply authority, observes local Word bundle 16.111.1 rather than claiming 16.111.2, and makes no latest-Word certification, modern reply/resolve support, automatic apply, UI, runtime, dependency, network, or manuscript mutation claim."
+      "sha256": "6c53c871b0375ed58e0065933b53c2dbc39eca302e06a95c076482b1a43cf058",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WORD_CONTAINER_WORK_ROOT",
+      "approvedAtUtc": "2026-07-31T10:45:00.000Z",
+      "rationale": "Approve bounded B01 physical Word locator survival receipt refresh: reruns five synthetic Word 16.111.2 cases from Word container tmp, mirrors evidence to T7 Secure, keeps B01 survival-only not certification, records zero falseExact, zero silentApply, zero wrongSceneRouting, and adds no product runtime, UI, dependency, or network scope."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B02_PACKAGE_PARSER_RECEIPT.json",
@@ -3916,10 +3916,10 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-latest-signed-locator-lab.mjs",
-      "sha256": "2d7847e7a3ec20a807ada2d19c447f53c8861237e0481b548f88cea0686b9a90",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
-      "rationale": "Approve bounded B01 signed locator lab: generates synthetic DOCX packets with customXml/HMAC, bookmarks, SDT, w14 paraId/textId and classic comments, opens returned working copies through macOS LaunchServices for real Word save/readback, mirrors evidence to T7-Secure, writes a receipt atomically, closes only lab documents by target handle, records Grant File Access and customXml mutation limitations truthfully, and adds no product runtime entrypoint, UI, network, dependency, user document access, or profile certification."
+      "sha256": "bae4d712117168be9792d4268ea7cde9f902761ca8b539f5a1eaea9d51dada27",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WORD_CONTAINER_WORK_ROOT",
+      "approvedAtUtc": "2026-07-31T10:45:00.000Z",
+      "rationale": "Approve bounded B01 Word sandbox repair: routes physical Word working DOCX through the shared com.microsoft.Word container tmp resolver, forbids plain tmp fallback, preserves diagnostic override validation, keeps T7 evidence destination, and adds no product runtime, UI, dependency, or network scope."
     },
     {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
@@ -5302,10 +5302,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
-      "sha256": "5807d3d43bf8a827642075541350f6ae451a0888d2c8521250e48c0c79802e60",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T14:31:00.000Z",
-      "rationale": "Approve focused B01 contract coverage: proves manifest HMAC creation and verification through CryptoPort, tamper and missing-secret blocking, public barrel export, receipt non-certification, no-op comment false-pass rejection, user-document safety, customXml no-edit survival with mutating-save limitation, placement signals remaining non-authoritative, Word-native classic comment visibility, and platform-neutral core without Node/Electron/Buffer/network imports."
+      "sha256": "5dc01df64d6169c0e6edb7ee1e738a4e03fed14d87fae4b6b0ed2cc2a47d6219",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WORD_CONTAINER_WORK_ROOT",
+      "approvedAtUtc": "2026-07-31T10:45:00.000Z",
+      "rationale": "Approve bounded B01 sandbox contracts: verify default Word work root is inside com.microsoft.Word container tmp, T7 artifact root is preserved, plain tmp override is rejected, and survival-only certification boundaries remain enforced without UI, dependency, or network expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",

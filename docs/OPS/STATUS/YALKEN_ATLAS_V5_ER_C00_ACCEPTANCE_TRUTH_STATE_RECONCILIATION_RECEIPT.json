@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+  "programStage": "ER_AUDIT_REPAIR_2026_07_31",
+  "status": "DELIVERED_CODE_VALIDATED_LOCALLY_READY_FOR_DELIVERY_CHAIN",
+  "readinessDefault": "NOT_READY",
+  "designToolRouter": "NOT_APPLICABLE",
+  "generatedAtUtc": "2026-07-31T04:46:03.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-er-c00",
+    "baseSha": "56f37e19c92d36e29d67fa97e7ecd6098578c568",
+    "originMainSha": "56f37e19c92d36e29d67fa97e7ecd6098578c568",
+    "deliveryCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "targetBinding": {
+    "sha": "56f37e19c92d36e29d67fa97e7ecd6098578c568",
+    "platform": "macOS-local-dev",
+    "profile": "release-local-validation",
+    "timestampUtc": "2026-07-31T04:46:03.000Z",
+    "artifactDigest": "e442a627058d3efbfc7f057da6224b59f9bc469b5169f4787f44f78ef7c4fc26",
+    "artifactIdentity": "tmp:yalken-er-c00-validation:full-runner.log"
+  },
+  "runtimeFacts": {
+    "stage10RuntimeSelfAttestationRemoved": true,
+    "diagnosticsRuntimeCannotSelfCertifyReadiness": true,
+    "missingExternalEvidenceDefaultsNotReady": true,
+    "stage11Started": false,
+    "lazywebReadinessToken": false,
+    "heuristicReadinessToken": false,
+    "quietWritePassPassTernaryRemoved": true,
+    "accessibilityResponsivePerformanceRequireExternalArtifacts": true,
+    "completedContoursMeanDeliveredCodeOnly": true
+  },
+  "externalEvidencePolicy": {
+    "requiredArtifacts": [
+      "visualCaptureArtifact",
+      "accessibilityAuditArtifact",
+      "responsiveAuditArtifact",
+      "performanceMeasurementArtifact",
+      "packagedRunArtifact"
+    ],
+    "missingArtifactOutcome": "NOT_READY",
+    "lazywebReportRole": "ADVISORY_DESIGN_EVIDENCE_ONLY",
+    "derivedSurfaceStateRole": "NOT_READINESS_TOKEN"
+  },
+  "invalidatedAcceptanceEvidence": [
+    "YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_STAGE_ACCEPTANCE_RECEIPT",
+    "YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT",
+    "E10_C07_SELF_ATTESTING_ACCEPTANCE_WIP"
+  ],
+  "invalidatedContours": [
+    "E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE",
+    "E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_AND_HANDOFF"
+  ],
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "E01_STAGE_01_EXACT_ATLAS_USER_OUTCOME",
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME",
+    "E03_STAGE_03_PLOT_IDEA_MEANING_USER_OUTCOME",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E10_STAGE_10_ACCEPTANCE_READINESS",
+    "E11_STAGE_11_PLATFORM_CERTIFICATION_NOT_STARTED"
+  ],
+  "repairOrder": [
+    "ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+    "ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+    "ER_C02_SINGLE_QUERY_REGISTRY_AND_RUNTIME_PARITY",
+    "ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+    "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH",
+    "ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
+    "ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+    "ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+    "E11_ACTIVE_PLATFORM_CERTIFICATION",
+    "EFINAL"
+  ],
+  "negativeChecks": [
+    {
+      "id": "runtime-stage10-self-attestation-export",
+      "result": "PASS",
+      "summary": "deriveStage10Acceptance is absent from derived runtime exports and commentsHistory exports."
+    },
+    {
+      "id": "diagnostics-default-readiness",
+      "result": "PASS",
+      "summary": "Atlas diagnostics defaults to not_ready without required external machine evidence."
+    },
+    {
+      "id": "quiet-write-pass-pass-ternary",
+      "result": "PASS",
+      "summary": "Source rejects a PASS/PASS ternary and uses a degraded branch when quiet-write evidence is missing."
+    },
+    {
+      "id": "advisory-design-evidence",
+      "result": "PASS",
+      "summary": "Lazyweb and heuristic receipts are advisory and not readiness tokens."
+    }
+  ],
+  "validation": [
+    {
+      "id": "syntax-atlas-diagnostics",
+      "command": "node --check src/derived/atlas/deriveAtlasDiagnosticsStageAcceptance.mjs",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "Syntax check completed with empty stdout and stderr."
+    },
+    {
+      "id": "focused-er-c00-e05-e06",
+      "command": "node --test test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "c7ff7b5c48b921dd1f07b8c3a9bd4117d62dbb16efec155223fb741c12efa0e2",
+      "summary": "Focused contracts: 12 tests, 12 pass, 0 fail, 0 skipped."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "Diff whitespace check completed with empty stdout and stderr."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "2e702b9459d20e209ece95ae7f810b0f5ec1b51e16de7d1fb6e5bdb282ec95ad",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1, references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "00483fad927a30ec13ba21105295daef9c4d9cfbc56e0566ea8087a9c1a7fb4c",
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "d1634aa350e31eac331c06db8a0d9f13707c29abc9f056c514641a39ff80c36e",
+      "summary": "Current wave guard PASS, strict doctor exit 0, boundary guard exit 0, strict lie classes OK."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "e442a627058d3efbfc7f057da6224b59f9bc469b5169f4787f44f78ef7c4fc26",
+      "summary": "Full runner: 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
+    }
+  ],
+  "nextExecutableContour": "ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY"
+}

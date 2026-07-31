@@ -66,7 +66,7 @@ function capabilitySnapshot(overrides = {}) {
   };
 }
 
-test('E05 C07: diagnostics packet closes Stage 05 acceptance with honest local audit and heuristic receipts', async () => {
+test('E05 C07: diagnostics packet is invalidated for Stage 05 readiness without external machine evidence', async () => {
   const { derived, projectId, state } = await buildDiagnosticsFixture();
   const diagnostics = derived.deriveAtlasDiagnosticsStageAcceptance({
     coreState: state,
@@ -87,12 +87,21 @@ test('E05 C07: diagnostics packet closes Stage 05 acceptance with honest local a
   assert.equal(diagnostics.value.stageAcceptanceProof.schemaVersion, derived.ATLAS_STAGE_ACCEPTANCE_PROOF_SCHEMA_VERSION);
   assert.equal(diagnostics.value.finalUiAuditReceipt.schemaVersion, derived.ATLAS_FINAL_UI_AUDIT_RECEIPT_SCHEMA_VERSION);
   assert.equal(diagnostics.value.heuristicReviewReceipt.schemaVersion, derived.ATLAS_HEURISTIC_REVIEW_RECEIPT_SCHEMA_VERSION);
-  assert.equal(diagnostics.value.summary.stageAcceptance, 'pass');
-  assert.equal(diagnostics.value.stageAcceptanceProof.pass, true);
-  assert.equal(diagnostics.value.summary.passedAcceptanceGateCount, diagnostics.value.summary.acceptanceGateCount);
+  assert.equal(diagnostics.value.summary.stageAcceptance, 'not_ready');
+  assert.equal(diagnostics.value.stageAcceptanceProof.pass, false);
+  assert.ok(diagnostics.value.summary.passedAcceptanceGateCount < diagnostics.value.summary.acceptanceGateCount);
   assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'quiet-write' && gate.status === 'PASS'));
   assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'explicit-heavy-surfaces' && gate.status === 'PASS'));
   assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'large-project-ui-guards' && gate.status === 'PASS'));
+  assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'external-machine-evidence' && gate.status === 'NOT_READY'));
+  assert.equal(diagnostics.value.finalUiAuditReceipt.visualCapture, 'NOT_READY_MISSING_EXTERNAL_VISUAL_CAPTURE');
+  assert.equal(diagnostics.value.finalUiAuditReceipt.accessibility.status, 'NOT_READY');
+  assert.equal(diagnostics.value.finalUiAuditReceipt.responsive.status, 'NOT_READY');
+  assert.equal(diagnostics.value.finalUiAuditReceipt.performance.status, 'NOT_READY');
+  assert.equal(diagnostics.value.finalUiAuditReceipt.finalBar.status, 'NOT_READY');
+  assert.equal(diagnostics.value.finalUiAuditReceipt.externalEvidence.lazywebAdvisoryOnly, true);
+  assert.equal(diagnostics.value.heuristicReviewReceipt.readinessToken, false);
+  assert.equal(diagnostics.value.evidence.lazyweb.readinessToken, false);
   assert.ok(diagnostics.value.heuristicReviewReceipt.usabilityScoreJudged >= 80);
   assert.match(diagnostics.value.summary.diagnosticsHash, /^[0-9a-f]{64}$/u);
 });
@@ -110,6 +119,7 @@ test('E05 C07: disabled Atlas capability becomes degraded report row without fai
   assert.equal(diagnostics.ok, true);
   assert.equal(diagnostics.value.state, 'degraded');
   assert.equal(diagnostics.value.stageAcceptanceProof.pass, false);
+  assert.equal(diagnostics.value.summary.stageAcceptance, 'not_ready');
   assert.ok(diagnostics.value.summary.degradedCapabilityCount > 0);
   assert.ok(diagnostics.value.degradedCapabilityReport.rows.some((row) => row.code === 'CAPABILITY_DEGRADED' && row.label === 'atlas.savedQuery.save'));
   assert.ok(diagnostics.value.degradedCapabilityReport.rows.some((row) => row.surfaceId === 'surface.atlas.heatmap'));

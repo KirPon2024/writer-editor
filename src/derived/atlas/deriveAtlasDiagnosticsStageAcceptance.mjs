@@ -36,6 +36,41 @@ function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function normalizeEvidenceArtifacts(value) {
+  const source = isPlainObject(value) ? value : {};
+  return {
+    targetSha: normalizeString(source.targetSha),
+    platformProfile: normalizeString(source.platformProfile),
+    visualCaptureArtifact: normalizeString(source.visualCaptureArtifact),
+    accessibilityAuditArtifact: normalizeString(source.accessibilityAuditArtifact),
+    responsiveAuditArtifact: normalizeString(source.responsiveAuditArtifact),
+    performanceMeasurementArtifact: normalizeString(source.performanceMeasurementArtifact),
+    packagedRunArtifact: normalizeString(source.packagedRunArtifact),
+    artifactDigest: normalizeString(source.artifactDigest),
+  };
+}
+
+function hasEvidenceArtifact(value) {
+  return Boolean(normalizeString(value));
+}
+
+function missingEvidenceRows(evidenceArtifacts) {
+  const rows = [];
+  if (!hasEvidenceArtifact(evidenceArtifacts.visualCaptureArtifact)) rows.push('visualCaptureArtifact');
+  if (!hasEvidenceArtifact(evidenceArtifacts.accessibilityAuditArtifact)) rows.push('accessibilityAuditArtifact');
+  if (!hasEvidenceArtifact(evidenceArtifacts.responsiveAuditArtifact)) rows.push('responsiveAuditArtifact');
+  if (!hasEvidenceArtifact(evidenceArtifacts.performanceMeasurementArtifact)) rows.push('performanceMeasurementArtifact');
+  if (!hasEvidenceArtifact(evidenceArtifacts.packagedRunArtifact)) rows.push('packagedRunArtifact');
+  return rows;
+}
+
+function externalMachineEvidenceReady(evidenceArtifacts) {
+  return missingEvidenceRows(evidenceArtifacts).length === 0
+    && hasEvidenceArtifact(evidenceArtifacts.targetSha)
+    && hasEvidenceArtifact(evidenceArtifacts.platformProfile)
+    && hasEvidenceArtifact(evidenceArtifacts.artifactDigest);
+}
+
 function capabilityMap(snapshot) {
   return isPlainObject(snapshot?.capabilities) ? snapshot.capabilities : {};
 }
@@ -237,44 +272,57 @@ function buildCapabilityRows({ snapshot, surfaceRuns, inventory }) {
   return rows.sort(sortAtlasDiagnosticsRows);
 }
 
-function buildAuditReceipt({ inventory, surfaceRuns }) {
+function buildAuditReceipt({ inventory, surfaceRuns, externalEvidence }) {
+  const evidenceArtifacts = normalizeEvidenceArtifacts(externalEvidence);
+  const missingArtifacts = missingEvidenceRows(evidenceArtifacts);
+  const externalEvidenceReady = externalMachineEvidenceReady(evidenceArtifacts);
   const hasExplicitHeavy = inventory.rows.some((row) => row.heavySurface && row.explicitOpenRequired);
   const allRowsHaveTextState = inventory.rows.every((row) => row.state && row.fallback);
   const matrix = surfaceRuns.find((run) => run.surfaceId === 'surface.atlas.matrices')?.value;
   const heatmap = surfaceRuns.find((run) => run.surfaceId === 'surface.atlas.heatmap')?.value;
+  const projectedPerformanceReady = Boolean(matrix?.largeProjectBudgetProof?.clippingHonest || heatmap?.viewportBudgetProof?.typingHotPathNonblocking);
+  const finalBarReady = externalEvidenceReady && hasExplicitHeavy && allRowsHaveTextState && projectedPerformanceReady;
   return {
     schemaVersion: ATLAS_FINAL_UI_AUDIT_RECEIPT_SCHEMA_VERSION,
-    reviewMode: 'repoNativeCodeAndContractAudit',
-    visualCapture: 'notCapturedInThisDerivedPacket',
+    reviewMode: 'repoNativeReadinessRepairAudit',
+    visualCapture: evidenceArtifacts.visualCaptureArtifact || 'NOT_READY_MISSING_EXTERNAL_VISUAL_CAPTURE',
+    externalEvidence: {
+      ...evidenceArtifacts,
+      allRequiredArtifactsPresent: externalEvidenceReady,
+      missingArtifacts,
+      lazywebAdvisoryOnly: true,
+      derivedSurfaceStateIsNotReadinessToken: true,
+    },
     accessibility: {
-      status: 'PASS',
+      status: evidenceArtifacts.accessibilityAuditArtifact ? 'PASS' : 'NOT_READY',
       evidence: [
-        'matrix table role grid with roving gridcell tabindex',
-        'right-rail sections use native details summary focus-visible CSS',
-        'diagnostics rows include text labels and do not rely on color alone',
+        evidenceArtifacts.accessibilityAuditArtifact || 'missing external accessibility audit artifact',
       ],
     },
     performance: {
-      status: matrix?.largeProjectBudgetProof?.clippingHonest || heatmap?.viewportBudgetProof?.typingHotPathNonblocking ? 'PASS' : 'DEGRADED',
+      status: evidenceArtifacts.performanceMeasurementArtifact && projectedPerformanceReady ? 'PASS' : 'NOT_READY',
       evidence: [
-        'matrices expose clipped list parity and row column limits',
-        'heatmap exposes explicit open and viewport tile budget proof',
-        'diagnostics query reads bounded derived packets without scheduling a worker or daemon',
+        evidenceArtifacts.performanceMeasurementArtifact || 'missing external performance measurement artifact',
+        projectedPerformanceReady ? 'derived projection exposes bounded guards' : 'derived projection performance guard incomplete',
       ],
     },
     responsive: {
-      status: 'PASS',
+      status: evidenceArtifacts.responsiveAuditArtifact ? 'PASS' : 'NOT_READY',
       evidence: [
-        'right rail surfaces use constrained grids and overflow auto only on tabular matrices',
-        'diagnostics rows use wrapping text and pathless labels',
+        evidenceArtifacts.responsiveAuditArtifact || 'missing external responsive visual artifact',
       ],
     },
     finalBar: {
-      status: hasExplicitHeavy && allRowsHaveTextState ? 'READY' : 'NOT_READY',
-      blockShipFindings: [],
-      majorFindings: hasExplicitHeavy && allRowsHaveTextState ? [] : ['missing explicit heavy-surface proof or text fallback inventory'],
+      status: finalBarReady ? 'READY' : 'NOT_READY',
+      blockShipFindings: finalBarReady ? [] : ['missing external machine evidence for readiness'],
+      majorFindings: finalBarReady ? [] : [
+        ...missingArtifacts.map((name) => `missing ${name}`),
+        ...(hasExplicitHeavy ? [] : ['missing explicit heavy-surface proof']),
+        ...(allRowsHaveTextState ? [] : ['missing text fallback inventory']),
+        ...(projectedPerformanceReady ? [] : ['missing derived performance guard']),
+      ],
       skippedTools: [
-        'Finalize skill strict mode requires .ui-craft/brief.md, which is absent; C08 uses equivalent repo-native acceptance proof bound to V5 canon instead.',
+        'Static repo-native rows are advisory until backed by external machine artifacts.',
       ],
     },
   };
@@ -300,7 +348,9 @@ function buildHeuristicReceipt({ inventory, capabilityRows }) {
   const score = Math.max(0, Math.min(100, Math.round(((mean - 1) / 4) * 100) - (5 * failedLaws.length)));
   return {
     schemaVersion: ATLAS_HEURISTIC_REVIEW_RECEIPT_SCHEMA_VERSION,
-    reviewMode: 'repoNativeHeuristicReceipt',
+    reviewMode: 'repoNativeHeuristicAdvisory',
+    readinessToken: false,
+    externalMachineEvidenceRequired: true,
     usabilityScoreJudged: score,
     grade: score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : score >= 60 ? 'D' : 'F',
     nielsenScorecard: nielsenScores.map(([heuristic, rowScore, finding, impact]) => ({
@@ -389,7 +439,15 @@ function buildStage06HotPathProof({ heatmap, temporalLayout, continuityLedger, m
   };
 }
 
-function buildStage06AcceptanceProof({ calendarAssumptionAudit, evidenceBackedFindingAudit, hotPathProof, inventory }) {
+function buildStage06AcceptanceProof({
+  calendarAssumptionAudit,
+  evidenceBackedFindingAudit,
+  hotPathProof,
+  inventory,
+  externalEvidence,
+}) {
+  const evidenceArtifacts = normalizeEvidenceArtifacts(externalEvidence);
+  const externalEvidenceReady = externalMachineEvidenceReady(evidenceArtifacts);
   const gates = [
     {
       id: 'stage06-calendar-assumption-audit',
@@ -421,6 +479,14 @@ function buildStage06AcceptanceProof({ calendarAssumptionAudit, evidenceBackedFi
       status: 'PASS',
       evidence: 'Diagnostics claims Stage 06 acceptance only; Stage 07 language expansion, global graph, series atlas, platform certification, and release readiness remain outside scope.',
     },
+    {
+      id: 'stage06-external-machine-evidence',
+      label: 'External machine evidence',
+      status: externalEvidenceReady ? 'PASS' : 'NOT_READY',
+      evidence: externalEvidenceReady
+        ? evidenceArtifacts.artifactDigest
+        : `Missing external evidence: ${missingEvidenceRows(evidenceArtifacts).join(', ') || 'targetSha/platformProfile/artifactDigest'}`,
+    },
   ];
   return {
     schemaVersion: ATLAS_STAGE_06_ACCEPTANCE_PROOF_SCHEMA_VERSION,
@@ -431,20 +497,30 @@ function buildStage06AcceptanceProof({ calendarAssumptionAudit, evidenceBackedFi
       calendarAssumptionAudit,
       evidenceBackedFindingAudit,
       hotPathProof,
+      externalEvidence: evidenceArtifacts,
       gates,
     }),
   };
 }
 
-function buildAcceptanceProof({ inventory, surfaceRuns, auditReceipt, heuristicReceipt, stage06AcceptanceProof = null }) {
+function buildAcceptanceProof({
+  inventory,
+  surfaceRuns,
+  auditReceipt,
+  heuristicReceipt,
+  stage06AcceptanceProof = null,
+  externalEvidence,
+}) {
   const matrices = surfaceRuns.find((run) => run.surfaceId === 'surface.atlas.matrices')?.value;
   const heatmap = surfaceRuns.find((run) => run.surfaceId === 'surface.atlas.heatmap')?.value;
   const reports = surfaceRuns.find((run) => run.surfaceId === 'surface.atlas.reportsSavedQueries')?.value;
+  const evidenceArtifacts = normalizeEvidenceArtifacts(externalEvidence);
+  const externalEvidenceReady = externalMachineEvidenceReady(evidenceArtifacts);
   const gates = [
     {
       id: 'quiet-write',
       label: 'Quiet WRITE',
-      status: inventory.rows.every((row) => row.surfaceId !== SURFACE_ID || row.state === 'ready') ? 'PASS' : 'PASS',
+      status: inventory.rows.every((row) => row.surfaceId !== SURFACE_ID || row.state === 'ready') ? 'PASS' : 'DEGRADED',
       evidence: 'Diagnostics is a query-only projection with no product, storage, network, renderer, worker, daemon, or command mutation.',
     },
     {
@@ -469,13 +545,21 @@ function buildAcceptanceProof({ inventory, surfaceRuns, auditReceipt, heuristicR
       id: 'stage-close-audit-heuristic',
       label: 'Final audit and heuristic receipts',
       status: auditReceipt.finalBar.status === 'READY' && heuristicReceipt.usabilityScoreJudged >= 80 ? 'PASS' : 'DEGRADED',
-      evidence: 'Repo-native audit and heuristic receipts are embedded in this packet and receipt.',
+      evidence: 'Repo-native audit and heuristic rows are advisory unless the final bar has external machine evidence.',
     },
     {
       id: 'stage06-time-calendar-continuity-acceptance',
       label: 'Stage 06 time calendar continuity acceptance',
       status: stage06AcceptanceProof?.pass === true ? 'PASS' : 'DEGRADED',
       evidence: 'Stage 06 acceptance proof covers calendar assumptions, temporal degraded report, evidence-backed findings, and hot-path budget.',
+    },
+    {
+      id: 'external-machine-evidence',
+      label: 'External machine evidence',
+      status: externalEvidenceReady ? 'PASS' : 'NOT_READY',
+      evidence: externalEvidenceReady
+        ? evidenceArtifacts.artifactDigest
+        : `Missing external evidence: ${missingEvidenceRows(evidenceArtifacts).join(', ') || 'targetSha/platformProfile/artifactDigest'}`,
     },
   ];
   return {
@@ -488,6 +572,7 @@ function buildAcceptanceProof({ inventory, surfaceRuns, auditReceipt, heuristicR
       gates,
       auditReceipt,
       heuristicReceipt,
+      externalEvidence: evidenceArtifacts,
       reportsHash: reports?.summary?.reportHash || '',
     }),
   };
@@ -540,6 +625,7 @@ function emptyDiagnostics(projectId, reason = '') {
     evidenceBackedFindingAudit,
     hotPathProof: stage06HotPathProof,
     inventory,
+    externalEvidence: {},
   });
   const acceptanceProof = buildAcceptanceProof({
     inventory,
@@ -547,6 +633,7 @@ function emptyDiagnostics(projectId, reason = '') {
     auditReceipt,
     heuristicReceipt,
     stage06AcceptanceProof,
+    externalEvidence: {},
   });
   return {
     schemaVersion: ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_SCHEMA_VERSION,
@@ -561,7 +648,7 @@ function emptyDiagnostics(projectId, reason = '') {
       degradedCapabilityCount: capabilityRows.filter((row) => row.severity === 'degraded').length,
       acceptanceGateCount: acceptanceProof.gates.length,
       passedAcceptanceGateCount: acceptanceProof.gates.filter((gate) => gate.status === 'PASS').length,
-      stageAcceptance: acceptanceProof.pass ? 'pass' : 'degraded',
+      stageAcceptance: acceptanceProof.pass ? 'pass' : 'not_ready',
       diagnosticsHash: '',
       invalidationKey: '',
     },
@@ -586,6 +673,8 @@ function buildEvidence() {
     schemaVersion: 'derived.atlas.diagnosticsStageAcceptance.evidence.v1',
     lazyweb: {
       applied: true,
+      advisoryOnly: true,
+      readinessToken: false,
       query: 'diagnostics dashboard',
       coverageStrength: 'moderate',
       topSimilarity: 0.539,
@@ -595,12 +684,15 @@ function buildEvidence() {
     },
     uiCraft: {
       applied: true,
+      advisoryOnly: true,
+      readinessToken: false,
       references: ['accessibility', 'dashboard', 'dataviz', 'responsive', 'motion rendering performance', 'heuristics', 'finish-bar', 'review feedback hierarchy'],
     },
   };
 }
 
 function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta }) {
+  const externalEvidence = normalizeEvidenceArtifacts(params.externalEvidence);
   const surfaceCapabilitySnapshot = {
     ...capabilitySnapshot,
     capabilities: {
@@ -670,7 +762,7 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
   ];
   const inventory = buildFallbackInventory(surfaceRuns);
   const capabilityRows = buildCapabilityRows({ snapshot: capabilitySnapshot, surfaceRuns, inventory });
-  const auditReceipt = buildAuditReceipt({ inventory, surfaceRuns });
+  const auditReceipt = buildAuditReceipt({ inventory, surfaceRuns, externalEvidence });
   const heuristicReceipt = buildHeuristicReceipt({ inventory, capabilityRows });
   const calendarAssumptionAudit = buildCalendarAssumptionAudit({
     calendarDefinitions: surfaceValue(surfaceRuns, 'surface.atlas.calendarDefinitions'),
@@ -691,6 +783,7 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
     evidenceBackedFindingAudit,
     hotPathProof: stage06HotPathProof,
     inventory,
+    externalEvidence,
   });
   const acceptanceProof = buildAcceptanceProof({
     inventory,
@@ -698,6 +791,7 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
     auditReceipt,
     heuristicReceipt,
     stage06AcceptanceProof,
+    externalEvidence,
   });
   const degradedSurfaceCount = inventory.rows.filter((row) => row.state === 'unavailable' || row.state === 'degraded').length;
   const degradedCapabilityCount = capabilityRows.filter((row) => row.severity === 'degraded').length;
@@ -711,6 +805,7 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
     evidenceBackedFindingAudit,
     stage06HotPathProof,
     stage06AcceptanceProof,
+    externalEvidence,
   });
   return {
     schemaVersion: ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_SCHEMA_VERSION,
@@ -725,7 +820,7 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
       degradedCapabilityCount,
       acceptanceGateCount: acceptanceProof.gates.length,
       passedAcceptanceGateCount: acceptanceProof.gates.filter((gate) => gate.status === 'PASS').length,
-      stageAcceptance: acceptanceProof.pass ? 'pass' : 'degraded',
+      stageAcceptance: acceptanceProof.pass ? 'pass' : 'not_ready',
       diagnosticsHash,
       invalidationKey: meta.invalidationKey,
     },
@@ -748,6 +843,7 @@ function buildDiagnostics({ project, coreState, params, capabilitySnapshot, meta
 export function deriveAtlasDiagnosticsStageAcceptance(input = {}) {
   const projectId = normalizeString(input?.params?.projectId);
   const languageCode = normalizeString(input?.params?.languageCode);
+  const externalEvidence = normalizeEvidenceArtifacts(input?.params?.externalEvidence || input.externalEvidence);
   if (!projectId) {
     return {
       ok: false,
@@ -761,7 +857,7 @@ export function deriveAtlasDiagnosticsStageAcceptance(input = {}) {
   return deriveView({
     viewId: VIEW_ID,
     coreState: input.coreState,
-    params: { ...input.params, projectId, languageCode },
+    params: { ...input.params, projectId, languageCode, externalEvidence },
     capabilitySnapshot: input.capabilitySnapshot,
     derive: ({ coreState, params, capabilitySnapshot, meta }) => {
       if (!isCapabilityEnabled(capabilitySnapshot, ['atlasDiagnosticsStageAcceptance'])) {

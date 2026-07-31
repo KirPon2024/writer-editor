@@ -198,6 +198,7 @@ const perfHintElement = document.querySelector('[data-perf-hint]');
 const appLayout = document.querySelector('.app-layout');
 const emptyState = document.querySelector('.empty-state');
 const editorPanel = document.querySelector('.editor-panel');
+const editorPanelWrapper = document.querySelector('.editor-panel-wrapper');
 const sidebar = document.querySelector('.sidebar');
 const sidebarResizer = document.querySelector('[data-sidebar-resizer]');
 const leftRailCollapseButton = document.querySelector('[data-left-rail-collapse]');
@@ -10789,6 +10790,7 @@ function showManualMapPlanWorkspace() {
   manualMapPlanWorkspace.removeAttribute('hidden');
   manualMapPlanWorkspace.classList.add('is-active');
   editorPanel?.classList.remove('active');
+  editorPanelWrapper?.setAttribute('hidden', '');
   mainContent?.classList.remove('main-content--editor');
   mainContent?.classList.add('main-content--manual-map');
   emptyState?.classList.add('hidden');
@@ -10807,6 +10809,7 @@ function showManualMapPlanWorkspace() {
 function hideManualMapPlanWorkspace() {
   manualMapPlanWorkspace?.setAttribute('hidden', '');
   manualMapPlanWorkspace?.classList.remove('is-active');
+  editorPanelWrapper?.removeAttribute('hidden');
   mainContent?.classList.remove('main-content--manual-map');
 }
 
@@ -12247,14 +12250,18 @@ async function applyManualMapCommandDraft() {
   renderManualMapWorkbenchState();
   const result = await runProductJourneyCommand(commandId, payload);
   await refreshManualMapWorkbench({ force: true });
+  const commandApplied = result && result.ok === true;
+  const commandReason = commandApplied
+    ? ''
+    : manualMapText(result?.reason || result?.error?.reason || result?.error || 'NO_COMMAND_RESULT');
   manualMapCommandDraft = {
     ...draft,
-    state: result && result.ok === false ? 'failed' : 'applied',
+    state: commandApplied ? 'applied' : 'failed',
     result: {
-      status: result && result.ok === false ? 'FAILED' : 'APPLIED',
-      mutationDispatched: true,
+      status: commandApplied ? 'APPLIED' : 'FAILED',
+      mutationDispatched: commandApplied,
       commandId,
-      reason: manualMapText(result?.reason || result?.error || ''),
+      reason: commandReason,
     },
   };
   renderManualMapWorkbenchState();
@@ -12999,6 +13006,7 @@ async function runProductJourneyCommand(commandId, payload = {}) {
   };
   renderAtlasJourneyState();
   await refreshAtlasProductSurfaces();
+  return result;
 }
 
 function renderAtlasJourneyState() {
@@ -13077,15 +13085,22 @@ function getManualMapEventGraph() {
   return buildManualMapWorkbenchRuntimeModel(normalizeManualMapWorkbench(manualMapWorkbenchState)).presentationGraph;
 }
 
-function applyManualMapSelectionForRow(rowElement) {
+function applyManualMapSelectionForRow(rowElement, event = null) {
   if (!(rowElement instanceof HTMLElement)) return;
   const runtime = buildManualMapWorkbenchRuntimeModel(normalizeManualMapWorkbench(manualMapWorkbenchState));
   const rowId = manualMapText(rowElement.dataset.manualMapRowId);
   const row = runtime.listParity.rows.find((item) => item.rowId === rowId);
   if (!row?.selectionIntent) return;
+  const selectionIntent = {
+    ...row.selectionIntent,
+    payload: {
+      ...(row.selectionIntent.payload || {}),
+      additive: event && event.shiftKey === true,
+    },
+  };
   manualMapTransientViewState = reduceManualMapViewIntent(
     manualMapTransientViewState,
-    row.selectionIntent,
+    selectionIntent,
     runtime.presentationGraph,
   );
   manualMapListState = {
@@ -13120,7 +13135,7 @@ function handleManualMapWorkbenchClick(event) {
   }
   const rowElement = target.closest('[data-manual-map-row-id]');
   if (rowElement instanceof HTMLElement) {
-    applyManualMapSelectionForRow(rowElement);
+    applyManualMapSelectionForRow(rowElement, event);
   }
 }
 

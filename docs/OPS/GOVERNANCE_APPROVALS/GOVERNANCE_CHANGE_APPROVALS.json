@@ -1682,6 +1682,27 @@
       "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE/r2-c05-black-box-journey.png",
+      "sha256": "dfa02f1718ab0229b10b02f2e9dd6666ffd4461d358a202c88294498b8b9204d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE/r2-c05-black-box-reopen.png",
+      "sha256": "11cbe4f10596542e42db4bc66adf889f918026f32cbd32ba46dbdb0bcf0ee791",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "3f8452390e9f30448fadbf75ab584da8a4d42de5fa4d767b871ca6013c6d4b2f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
+    },
+    {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
       "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
       "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
@@ -1799,6 +1820,13 @@
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
       "approvedAtUtc": "2026-07-30T13:19:11.000Z",
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "de2222a414377e6cb123b05c180c473d0e1ddbf5baa95b50e4e7c0402a075377",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -1920,6 +1948,20 @@
       "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_RECEIPT.json",
+      "sha256": "9ab2c96512efe3b64194df2526a9d4893e7ec3876c729ed177c75b0e8237940b",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+      "sha256": "d38b7092143470ff8f738c5d6d28ba4f5bc96f2cdea177ac62b5b59d8ac68733",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
       "sha256": "3c54d847fb41af0b0eb7f43dfb8a3a8b1a9739e16357d94e08880de0f8e81746",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -1932,6 +1974,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "c8af9829212c14cb6dfee5b3df60187f95d9bd03ea07f4b26b279d0da221aaa8",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2067,6 +2116,13 @@
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "e3d8e02f0a80976d9896209501e981fbe578339c77af627b92c212ab9de85ec7",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
       "sha256": "2d914a5e62785d12b5191b796d4c5d26badf9a885fa6b42e881103382ac0ced6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
@@ -2180,10 +2236,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json",
-      "sha256": "1603e6a6728fcc259cdef384be532f983d27fad00632926401f1cdca5778309d",
-      "approvedBy": "ticket:DOCX_IMPORT_PREVIEW_ACCEPT_FLOW_001",
-      "approvedAtUtc": "2026-07-01T12:22:27.000Z",
-      "rationale": "Approve bounded command namespace alias for file import DOCX v1 to the canonical project command id; no new command namespace authority, dependency, network, cloud, release, or DOCX full-fidelity claim is introduced."
+      "sha256": "96bdb773f2be2b189b4ea9cd8237dd25b4bb467c60564b51fd62f50e5f7fa47b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_SURFACE_CALLER_TRUST_PHASE_2_v3.json",
@@ -3747,6 +3803,13 @@
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json",
+      "sha256": "63f2aa83908058c4249f9feb947ce14bb83807fa909e5e32fe0b6bdea4dbc5d0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
       "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -4300,11 +4363,32 @@
       "rationale": "Approve bounded C01 locator carrier lab: creates synthetic Word base DOCX through desktop Word, injects candidate carriers into a Word-created package, runs five physical Word edit/save/GUI-close/reopen cases, stores durable evidence on T7-Secure while using Word container-local scratch to avoid macOS file-access prompts, writes receipts atomically, verifies HMAC carriers, uses stdlib zipfile only for literal ops extraction, closes only saved active lab windows, records limitations truthfully, and adds no product runtime entrypoint, UI, network, dependency, user document close, parser authority integration, or automatic apply expansion."
     },
     {
+      "filePath": "scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
+      "sha256": "37cee9514bfbffd49b89aa4833ed421b9d357ae8d15f532ed6c2b880fc6d78e9",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+      "sha256": "940e7c32442429015875b57928bb8fd33f4393aa07d4261792f359b436d46bcb",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
       "sha256": "8850be69a09144ca80cafb8c112e59417844a4c3549767a2144b0b3188a2b02f",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
+      "sha256": "8517fc58360e5f3ba1aa946cc8505060065398484806f89537a0d220136c981f",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -4410,6 +4494,20 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100",
       "approvedAtUtc": "2026-07-31T09:45:00.000Z",
       "rationale": "Approve bounded E12 physical Word wave-100 contour: records 100 synthetic Word 16.111.2 physical open edit save close reopen round trips, 398 visible Word comment threads, 400k-class large returned DOCX, zero falseExact silentApply wrongSceneRouting replayFailure, Word sandbox work root inside Microsoft Word container, T7-Secure evidence retention, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "711bcb23ec6267fe479007a2cb354be3a50a7563bde94720099ba9fb61af5a6b",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "f357f6aee39a5a5b31ce56aa8f61fb7e182f9b7dfce9ae5bf65e12309b52c2c6",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -4550,6 +4648,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
       "approvedAtUtc": "2026-07-31T15:56:30.000Z",
       "rationale": "Approve R2 C00 detector: source-bound negative detector reproduces six post-final false-green findings and defines supported viewport and black-box acceptance requirements without mutating runtime truth, adding dependencies, widening readiness, or creating a second tracker."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r2-c05-honest-black-box-acceptance.mjs",
+      "sha256": "92f2962c6f5b453fc7157f1c394564a560816d6c11fbed2d0641201b0f777456",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
     },
     {
       "filePath": "scripts/sector-m-run.mjs",
@@ -4875,17 +4980,17 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "b5f5d89185834e736fbf37cbeceb130a89340320ba38825492ffdb9151c0f9da",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
-      "approvedAtUtc": "2026-07-31T18:48:00.000Z",
-      "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
+      "sha256": "79db168aff8d45d56f1561d8aa4ee1c2f79f7b3e07dbc6e664a9a59e9587a974",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 current-state renderer bundle and governed black-box acceptance artifact rebind after local renderer rebuild: visible Electron Manual Map journey PASS, graph hit-testability restored, no dependency, no network, no product truth expansion, and Program DoD remains NOT_READY until R2 C06."
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "54b9fb21333a08c173eddcc8ccf3edead7a5a6a6c13c116b6791ccaa417086ff",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
-      "approvedAtUtc": "2026-07-31T18:48:00.000Z",
-      "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
+      "sha256": "d95e49e95636116445ab3efb4f54683494305ade34fe6eed19b43b90cda26dd3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 current-state renderer source and style rebind: Manual Map PLAN workspace owns main surface, editor wrapper hidden only in manual-map mode, visible Electron black-box PASS, no dependency, no network, no product truth expansion, and Program DoD remains NOT_READY until R2 C06."
     },
     {
       "filePath": "src/renderer/index.html",
@@ -4896,10 +5001,10 @@
     },
     {
       "filePath": "src/renderer/styles.css",
-      "sha256": "f8aed86b201868c685206a6cb0fbd84dc2bfdc4c24f57821c4e4d1886645e97c",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
-      "approvedAtUtc": "2026-07-31T18:48:00.000Z",
-      "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
+      "sha256": "915fc0845e7c1048023ff47f150b73c92e931020417182c959ef6ad95df37964",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 current-state renderer source and style rebind: Manual Map PLAN workspace owns main surface, editor wrapper hidden only in manual-map mode, visible Electron black-box PASS, no dependency, no network, no product truth expansion, and Program DoD remains NOT_READY until R2 C06."
     },
     {
       "filePath": "src/shared/commandCapabilityAuthority.cjs",
@@ -4963,6 +5068,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
       "approvedAtUtc": "2026-07-31T09:55:00.000Z",
       "rationale": "Approve ER C03 command catalog contract rebind: allows the existing cmd menu namespace and the shared product command namespace side by side, proves product catalog reachability and explicit Plot degraded status, and adds no menu namespace widening, dependency, network, UI design change, or readiness certification."
+    },
+    {
+      "filePath": "test/contracts/command-namespace-canon-and-alias-bridge.contract.test.js",
+      "sha256": "f4f7a2dff447f8a5c79280b5a961f97aee8804e86434233fb08cbf176cd25410",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
     },
     {
       "filePath": "test/contracts/command-surface-caller-trust.contract.test.js",
@@ -5973,6 +6085,13 @@
       "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.contract.test.js",
+      "sha256": "c399e3e87657043bcba85c1812f1520eddf95c1a28d02ee54f1afccc88406cc6",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
       "sha256": "db85dee94158e54a8c22298eb532b474783dd4569658d841e098327621b743c6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -6064,11 +6183,25 @@
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
+      "sha256": "bfd4946605c98c7121489843f74f6d5d488ab45d6c6086ee1e7751bc7edf8cc1",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
       "sha256": "5792cd7b310965c00d9ac60b95c931c1bc295b088f73a780401a070af6a2526e",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T18:23:22.243Z",
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "sha256": "fd33a6d6065f6bdd2a7a7f585edb8ec9435e696516a39a1dfb7dac9a7d59de47",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -6757,6 +6890,13 @@
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c05-honest-black-box-acceptance.contract.test.js",
+      "sha256": "993c6286f6e94150814b3a3e08071ddfc2c334c6c7a07b95d7e265c9ea296f60",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",
       "sha256": "792deeab574395469beb7d435468970480be0a9a6cd1a435d1fcb9c0f3472197",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -6811,97 +6951,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "de2222a414377e6cb123b05c180c473d0e1ddbf5baa95b50e4e7c0402a075377",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_RECEIPT.json",
-      "sha256": "9ab2c96512efe3b64194df2526a9d4893e7ec3876c729ed177c75b0e8237940b",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "d38b7092143470ff8f738c5d6d28ba4f5bc96f2cdea177ac62b5b59d8ac68733",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "c8af9829212c14cb6dfee5b3df60187f95d9bd03ea07f4b26b279d0da221aaa8",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "e3d8e02f0a80976d9896209501e981fbe578339c77af627b92c212ab9de85ec7",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
-      "sha256": "37cee9514bfbffd49b89aa4833ed421b9d357ae8d15f532ed6c2b880fc6d78e9",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "940e7c32442429015875b57928bb8fd33f4393aa07d4261792f359b436d46bcb",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
-      "sha256": "8517fc58360e5f3ba1aa946cc8505060065398484806f89537a0d220136c981f",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "711bcb23ec6267fe479007a2cb354be3a50a7563bde94720099ba9fb61af5a6b",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "f357f6aee39a5a5b31ce56aa8f61fb7e182f9b7dfce9ae5bf65e12309b52c2c6",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.contract.test.js",
-      "sha256": "c399e3e87657043bcba85c1812f1520eddf95c1a28d02ee54f1afccc88406cc6",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
-      "sha256": "bfd4946605c98c7121489843f74f6d5d488ab45d6c6086ee1e7751bc7edf8cc1",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "fd33a6d6065f6bdd2a7a7f585edb8ec9435e696516a39a1dfb7dac9a7d59de47",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NO_PRODUCT_APPLY_PROMOTION"
     }
   ]
 }

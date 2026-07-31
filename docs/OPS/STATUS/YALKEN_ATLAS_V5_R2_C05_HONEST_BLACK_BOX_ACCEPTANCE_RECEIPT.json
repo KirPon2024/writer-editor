@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001",
+  "contourId": "R2_C05_HONEST_BLACK_BOX_ACCEPTANCE",
+  "programStage": "R2_POST_FINAL_PRODUCT_OUTCOME_REPAIR_2026_07_31",
+  "status": "LOCAL_VALIDATION_PASS_DELIVERY_PENDING",
+  "programDodVerdict": "NOT_READY_R2_REPAIR_IN_PROGRESS",
+  "generatedAtUtc": "2026-07-31T21:14:28.308Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r2-c05",
+    "baseSha": "c721638682fd2c402badb2559e23b4c0f0cd9ec3",
+    "originMainShaAtStart": "2d6bb31e7b3d0c64467463bef0a9c093993c3714",
+    "reconciledOriginMainSha": "c721638682fd2c402badb2559e23b4c0f0cd9ec3",
+    "implementationCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "deliveredScope": {
+    "visibleElectronBlackBoxJourney": true,
+    "directIpcJourneyAccepted": false,
+    "manualMapCreateOpenVisible": true,
+    "nodeCreateRenameDeleteVisible": true,
+    "edgeCreateVisible": true,
+    "cancelDestructiveNoopVisible": true,
+    "hitTestableNonblankGraph": true,
+    "keyboardListParity": true,
+    "saveQuitReopenRecovery": true,
+    "jsonMarkdownImagePdfRepeatImportEvidence": true,
+    "noNetworkNoDialogs": true,
+    "wrongTargetSilentMutation": false,
+    "viewStatePersistedToDomainTruth": false,
+    "noHorizontalOverflow": true,
+    "productCommandNamespacesReachCommandBus": true,
+    "manualMapVisibleResultRequiresAuthorityOk": true,
+    "planWorkspaceOwnsMainSurface": true,
+    "designToolRouter": "NOT_APPLICABLE_STRUCTURAL_REPAIR_USING_EXISTING_VISUAL_CANON"
+  },
+  "blackBoxAcceptance": {
+    "reportPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE/r2-c05-honest-black-box-acceptance-report.json",
+    "reportSha256": "3f8452390e9f30448fadbf75ab584da8a4d42de5fa4d767b871ca6013c6d4b2f",
+    "status": "PASS_VISIBLE_UI_BLACK_BOX_ACCEPTANCE",
+    "accepted": {
+      "visibleInputRuntime": true,
+      "pointerAndKeyboardUsed": true,
+      "createRenameConnectMoveSearchDelete": true,
+      "cancelNoop": true,
+      "hitTestableNonblankGraph": true,
+      "listKeyboardParity": true,
+      "saveQuitReopenRecovery": true,
+      "exportRepeatImport": true,
+      "noNetworkNoDialogs": true,
+      "noWrongTargetOrViewStatePersistence": true,
+      "noOverflow": true
+    },
+    "evidenceFiles": {
+      "journeyScreenshotSha256": "dfa02f1718ab0229b10b02f2e9dd6666ffd4461d358a202c88294498b8b9204d",
+      "reopenScreenshotSha256": "11cbe4f10596542e42db4bc66adf889f918026f32cbd32ba46dbdb0bcf0ee791",
+      "manualMapGraphHash": "3dec0b8925613e2cf00250d40c6cd7dfeabe379b59b2e2e82e3f8bd1045a527a",
+      "manifestHash": "dcad0d65898a1767a1ebcadca24705db04beb616e6847f670cc99b7b426bb985",
+      "exportJsonSha256": "38dcc718ea0255f689361eae31c27ccc121ae9f5199f44a82e7a2d0f5eb0d5fe",
+      "imageEvidenceHash": "bedaa8e42753584a3d9ba831394579dd8ab68658017dd0c64a7f3288fa9a3f0d"
+    }
+  },
+  "sourceBindings": {
+    "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json": "96bdb773f2be2b189b4ea9cd8237dd25b4bb467c60564b51fd62f50e5f7fa47b",
+    "src/renderer/commands/commandNamespaceCanon.mjs": "67cff640f3d45db12790d581656a0b7d9b5fea55c040b79e70ed76859861f7e6",
+    "src/renderer/editor.js": "d95e49e95636116445ab3efb4f54683494305ade34fe6eed19b43b90cda26dd3",
+    "src/renderer/editor.bundle.js": "79db168aff8d45d56f1561d8aa4ee1c2f79f7b3e07dbc6e664a9a59e9587a974",
+    "src/renderer/styles.css": "915fc0845e7c1048023ff47f150b73c92e931020417182c959ef6ad95df37964",
+    "scripts/ops/yalken-atlas-v5-r2-c05-honest-black-box-acceptance.mjs": "92f2962c6f5b453fc7157f1c394564a560816d6c11fbed2d0641201b0f777456",
+    "test/contracts/command-namespace-canon-and-alias-bridge.contract.test.js": "f4f7a2dff447f8a5c79280b5a961f97aee8804e86434233fb08cbf176cd25410",
+    "test/contracts/yalken-atlas-v5-r2-c05-honest-black-box-acceptance.contract.test.js": "993c6286f6e94150814b3a3e08071ddfc2c334c6c7a07b95d7e265c9ea296f60"
+  },
+  "validation": [
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Renderer bundle rebuilt successfully on reconciled origin/main c7216386."
+    },
+    {
+      "id": "focused-contracts",
+      "command": "node --test test/contracts/yalken-atlas-v5-r2-c05-honest-black-box-acceptance.contract.test.js test/contracts/command-namespace-canon-and-alias-bridge.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused contracts PASS: 12 tests, 12 pass, 0 fail."
+    },
+    {
+      "id": "black-box-runner",
+      "command": "node scripts/ops/yalken-atlas-v5-r2-c05-honest-black-box-acceptance.mjs",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Visible local Electron black-box acceptance PASS; all 11 acceptance booleans true; no direct IPC accepted."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "No Tiptap Pro and no private registry."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "GOVERNANCE_CHANGE_OK=1; missing approvals empty after current-state approval binding."
+    },
+    {
+      "id": "test-ops-pre-pr",
+      "command": "OPS_CONTEXT_MODE=dev HEAD_STRICT_MODE=dev npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; boundary guard exit 0; strict lie classes OK; release head-strict remains for post-merge remote verification."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Full runner PASS: 798 tests, 734 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace/menu/law/execution/release candidate guards PASS."
+    }
+  ],
+  "notYetCertifiedByThisContour": [
+    "R2_C06_FINAL_REVALIDATION Program DoD"
+  ],
+  "certifiedStageOutcomes": [
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME_BLACK_BOX_CERTIFIED"
+  ],
+  "unsatisfiedStageOutcomes": [
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E11_STAGE_11_ACTIVE_MACOS_PACKAGED_ELECTRON_CERTIFIED",
+    "EFINAL_PROGRAM_DOD_CERTIFIED"
+  ],
+  "receiptDigestExcludingSelf": "037f4bc249e6119ac994bd3ec3a492d94ae00e5874471a605e91e5aadd3bffe6",
+  "nextContour": "R2_C06_FINAL_REVALIDATION",
+  "readiness": "NOT_READY",
+  "delivery": {
+    "commit": "PENDING_PRE_COMMIT",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  }
+}

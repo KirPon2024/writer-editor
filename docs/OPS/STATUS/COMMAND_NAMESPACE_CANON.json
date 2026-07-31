@@ -1,6 +1,14 @@
 {
   "schemaVersion": 1,
   "canonicalPrefix": "cmd.project.",
+  "canonicalPrefixes": [
+    "cmd.project.",
+    "cmd.ui.",
+    "atlas.",
+    "manualMap.",
+    "idea.",
+    "meaning."
+  ],
   "deprecatedPrefixes": [
     "cmd.file."
   ],

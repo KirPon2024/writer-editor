@@ -1,5 +1,6 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import { ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION } from './atlasMentionTypes.mjs';
+import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
 import {
   ATLAS_EVIDENCE_REATTACHMENT_CANDIDATE_SCHEMA_VERSION,
   ATLAS_EVIDENCE_REATTACHMENT_INBOX_SCHEMA_VERSION,
@@ -53,7 +54,15 @@ function normalizeEvidenceAnchor(value) {
   const quoteHash = normalizeString(value.quoteHash);
   const sceneTextHash = normalizeString(value.sceneTextHash);
   if (!anchorId || !sceneId || !Number.isInteger(startOffset) || !Number.isInteger(endOffset) || endOffset < startOffset || !quoteHash || !sceneTextHash) return null;
+  let preserved = {};
+  try {
+    const cloned = JSON.parse(JSON.stringify(value));
+    preserved = isPlainObject(cloned) ? cloned : {};
+  } catch {
+    preserved = {};
+  }
   return {
+    ...preserved,
     schemaVersion: normalizeString(value.schemaVersion) || ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION,
     anchorId,
     projectId: normalizeString(value.projectId),
@@ -144,7 +153,16 @@ function buildEvidenceAnchor({ projectId, sceneId, entityId, startOffset, endOff
     quoteHash,
     sceneTextHash,
   })}`;
+  const anchorPacket = buildAtlasTextAnchorPacket({
+    projectId,
+    sceneId,
+    entityId,
+    startOffset,
+    endOffset,
+    sceneText,
+  });
   return {
+    ...anchorPacket.evidenceAnchor,
     schemaVersion: ATLAS_EVIDENCE_ANCHOR_SCHEMA_VERSION,
     anchorId,
     projectId,

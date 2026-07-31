@@ -59,6 +59,15 @@ export type AtlasEvidenceAnchorState = {
   quote: string
   quoteHash: string
   sceneTextHash: string
+  adapterOffsetDomain?: string
+  offsetDomains?: string[]
+  canonicalOffsetDomains?: string[]
+  codePointRange?: Record<string, unknown>
+  graphemeRange?: Record<string, unknown>
+  normalizationMap?: Record<string, unknown>
+  prefixSelector?: string
+  suffixSelector?: string
+  [futureEvidenceAnchorField: string]: unknown
 }
 
 export type AtlasDecisionState = {

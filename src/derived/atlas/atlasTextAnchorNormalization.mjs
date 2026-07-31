@@ -176,6 +176,7 @@ export function buildAtlasTextAnchorPacket(input = {}) {
       quoteHash,
       sceneTextHash,
       adapterOffsetDomain: ATLAS_TEXT_OFFSET_DOMAIN.UTF16_JS_CODE_UNIT,
+      offsetDomains: offsetMap.offsetDomains,
       canonicalOffsetDomains: offsetMap.offsetDomains,
       codePointRange,
       graphemeRange,

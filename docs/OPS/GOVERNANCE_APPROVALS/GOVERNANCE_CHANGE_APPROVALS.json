@@ -1507,6 +1507,83 @@
       "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
+      "sha256": "085be4f8a8d81e473027de7d74908242dbed1a6f9640fac1e29ead14e042113d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
+      "sha256": "6e96d170ef954fc265991205283890c989cb8d106e10996cf1b19778b933f4d4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c02-packaged-critical-journey/packaged-critical-journey-report.json",
+      "sha256": "2be8183ced1ca737eba88b4808607157aab017bb8ea96ae7c21deb37f5c8bfbf",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-desktop.png",
+      "sha256": "b75a6e22f1880b89ada53960532671dd7d230f98270570170fa9114fea8939ed",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-mobile.png",
+      "sha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-responsive-audit.json",
+      "sha256": "1e8bf7caaf7bf14b9107cf0a8aed12cbefeea7475b728ffff793fca93d9b5268",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-tablet.png",
+      "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/packaged-accessibility-responsive-visual-regression-report.json",
+      "sha256": "7e06cde975cc8acab1647b81556ff6494d9b0edc1a89f212c367f71b10e5cea3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/er-c05-10k-worker-budget.json",
+      "sha256": "dc05a834bd0798a892160fd457787fd449b638bb982a39509c4f78c7afe3579c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/generic-sast-output.txt",
+      "sha256": "7ab06dc13e31a7f129053d69cde22f522550d6bf68d82fd2efa150dd695ca0a8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/packaged-performance-security-final-platform-handoff-report.json",
+      "sha256": "4473b4eb311d5708765538c1a616ffd03a098edefc05b77cacad7d4a9f4e2300",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-desktop.png",
       "sha256": "498cc4fe1081c81be9c6d193b6f18d63d77cf0e7309d4dd7007f241620f3128b",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
@@ -1682,6 +1759,13 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "2ed23a8d9b1db37c11e312b1ac8485ec52cd0726539bbb07b70df65c5ec416c1",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -1780,6 +1864,27 @@
       "rationale": "Approve bounded C05 receipt: records locally bound block-range writer authority from trusted C04 evidence, numerator and denominator for focused, adjacent, governance, sector, OSS, ops, and full local runner checks, zero false exact, zero silent apply, zero wrong-scene routing, zero replay failure, preservation of canonical writer and nonclaims for HMAC, YRTK2, signed locator, Word carrier selection, Google Docs, other editors, and full Word saturation."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
+      "sha256": "fad174a5ce6719ca8792934005001aa44240259b0300904ac36ae41229a5f2cf",
+      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
+      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
+      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
+      "sha256": "346d9cfd683350bbcca3e66315799c8dabb7f0142f65085671ef7a4367cf39c3",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+      "sha256": "58fab19813e5ea085db77053fd45e7c185537933812f15a74f3d8fcd3d79cd85",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
       "sha256": "3c54d847fb41af0b0eb7f43dfb8a3a8b1a9739e16357d94e08880de0f8e81746",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -1792,6 +1897,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "d0316e4d8e9cc743500d4ff9157e6522fcc0780f2ebbb9e6a54639f8e314b183",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -1878,6 +1990,13 @@
       "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+      "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json",
       "sha256": "756088df415249ed87a037f53fb6dc0b4044a5ee97ff1245a1dcf97f37db4362",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
@@ -1918,6 +2037,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "8b4fe95658a255d49075f9c19ba755e2466e6c0605f52946ad07c70ef432fdb4",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -3502,6 +3628,13 @@
       "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
+      "sha256": "10c33909198d5a80b80550906ff10e2a8659df06402766a5f6bb4861d5446767",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",
       "sha256": "5a277d00ca94bd8b0492ebf9ba552175f559ba58cef3ae0b40eb8311eb8318d0",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
@@ -3556,6 +3689,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C00_TRUTH_RECONCILIATION_RECEIPT.json",
+      "sha256": "489bbfefce6ecb70e14d9472798775b732896667d71ac95a453c517c96ccdd20",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
+      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
+      "rationale": "Approve append-only R2 C00 truth reconciliation receipt: post-final false green is machine-reproduced, Program DoD is reset to NOT_READY, only overclaimed Atlas product outcomes are invalidated, valid lower-layer kernel/recovery evidence is retained, no runtime behavior, network, dependency, storage writer, UI redesign, or readiness PASS is introduced."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
@@ -4111,6 +4251,20 @@
       "rationale": "Approve bounded C01 locator carrier lab: creates synthetic Word base DOCX through desktop Word, injects candidate carriers into a Word-created package, runs five physical Word edit/save/GUI-close/reopen cases, stores durable evidence on T7-Secure while using Word container-local scratch to avoid macOS file-access prompts, writes receipts atomically, verifies HMAC carriers, uses stdlib zipfile only for literal ops extraction, closes only saved active lab windows, records limitations truthfully, and adds no product runtime entrypoint, UI, network, dependency, user document close, parser authority integration, or automatic apply expansion."
     },
     {
+      "filePath": "scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
+      "sha256": "1a290d9a7c7d49056e98a532deeee0797d433aefb7f98c95b4e00f2463d58078",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+      "sha256": "98e149f025d72f2b801324e5b73ebdb93f33bd107ced26e744af43001f52f066",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
       "sha256": "a7e1023568c6ab01a8e97144f6f2e15ebc521ba0179a7c643353a25d02725c32",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
@@ -4174,6 +4328,13 @@
       "rationale": "Approve bounded E12 modern comment AppleScript limitation followup: physically probes Word 16.111.2 root comment, parent, done and delete automation; binds returned DOCX package readback showing parent, done and delete do not persist as semantic modern reply, resolve, reopen or delete support; preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     },
     {
+      "filePath": "scripts/ops/rtk-word-v4-e12-modern-comment-native-ui-followup.mjs",
+      "sha256": "10c109f9a45ebcf0baa56b5a5813394e9f792a3b0bfe737756580da287753fcd",
+      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
+      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs",
       "sha256": "7b02d890ba65ace0c1780c78dd4cba9f9270d5534f3033f9edba7015e69ee534",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_FOLLOWUP",
@@ -4209,11 +4370,32 @@
       "rationale": "Approve bounded E12 physical Word wave-100 contour: records 100 synthetic Word 16.111.2 physical open edit save close reopen round trips, 398 visible Word comment threads, 400k-class large returned DOCX, zero falseExact silentApply wrongSceneRouting replayFailure, Word sandbox work root inside Microsoft Word container, T7-Secure evidence retention, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "a5c232169015acc583b31180de04f6535d8b4621de250b08d4228abad869fe4c",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "f94df7df7e72d50d12baa1d03b3a090a2d47679c7c72167392843bd3ed9aef02",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
       "sha256": "ccca8807ad552967f51d686f0e16df4754fded531b7bbe4ad811164c79f2fb83",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
       "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "75f8f11d53d11ae73b5b142b0ea0aa8c6e23d6af6e60e71d28e6654636ab3776",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
+      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
+      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -4307,6 +4489,13 @@
       "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
     },
     {
+      "filePath": "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs",
+      "sha256": "2b48140b1cb5c2b1745738f5f6ab6f4faf580bf7cc927467d118fc7f020bebb3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c05-10k-worker-budget.mjs",
       "sha256": "76f9a373904dd7016051cfc989dd79ca360be55a3dbc34cd44376e6df23a19de",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
@@ -4326,6 +4515,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r2-c00-truth-reconciliation.mjs",
+      "sha256": "7863572f6eccb6f5e4d0c7f01b55fa03fc77e14d6a539d2826de9b96fb8c8fd6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
+      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
+      "rationale": "Approve R2 C00 detector: source-bound negative detector reproduces six post-final false-green findings and defines supported viewport and black-box acceptance requirements without mutating runtime truth, adding dependencies, widening readiness, or creating a second tracker."
     },
     {
       "filePath": "semgrep-generic-sast.mjs",
@@ -5637,6 +5833,13 @@
       "rationale": "Approve focused C05 contract coverage: proves duplicate scene quote applies only through trusted locally bound C04 block-range authority, caller-forged self-consistent ranges are rejected, duplicate quote, duplicate block, stale, wrong scene, wrong block, wrong schema, tampered digest, invalid offset, duplicate id, and overlapping ranges block atomically, legacy no-blockRange path remains compatible, effect identity distinguishes distinct ranges, batch permutation remains deterministic, crash recovery prevents double apply, and source adds no HMAC signing, UI, renderer, or network authority."
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+      "sha256": "e429ba1137fb2e023e8c5a7316c7208bd6a3fe97109eea46cac3f2711967741d",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
       "sha256": "db85dee94158e54a8c22298eb532b474783dd4569658d841e098327621b743c6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -5672,25 +5875,81 @@
       "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "sha256": "7f76722f975e1ab6d3dc77ca37c54e13ff28147c95df28524de1bf1ba85293c9",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "sha256": "11d832f85428bf17c2285ac428a880d6dba89057fc3d4b38502823eaa0520f3e",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "fcd719e9f1827deed1850785f3ca1ab655375b1f621ec774350b8014970648ac",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "sha256": "f4bb2b779caefda34d6aeedcb9af72a31967a31c46194a8cfb005d882c024e70",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "sha256": "2833c911c7406702ae50462c37cbde6b1269a4b384f73cd841b800287cf21adb",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+      "sha256": "49f97d93e6befd0381a3654500215f8f8adaa7672ff7ac57aadd60ba9a3aa78a",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
-      "sha256": "3fe0ed69dc92cceca55e82c93486a44fe57fddcd5e169cef1dd3b8c445dd7880",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
+      "sha256": "4de5084ccc5f6dbcd70e1e54548f330d84b91f750feb243eb19540bfc16b4770",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
-      "sha256": "6db68273c9cb2b66043f951c129bb1e859d453fa08a6ccf1fd9722f541cbe680",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
+      "sha256": "647d4eb16b6641a49143aeeefd0dce35dc78450da2b9e1e976f7c08329fcf3c0",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
+      "sha256": "ddcea2fe104569f1085eaa007f570f25b89d7590cbb1fb75ce54a4fcbf83d77c",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
-      "sha256": "3d95032165e37599ba8cbbffc3d6c0cb0c343fd292d7614b7abfa209cee2746b",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
+      "sha256": "70f799587276c19a9fa28b4beb9e1d343414e055785d0b7df9a144f38caebdc3",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "sha256": "2199053c9f51a44a305a68ff4842906c319dd0a1b721b1493de90b78519ba27e",
+      "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
+      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
+      "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -6288,6 +6547,13 @@
       "rationale": "Approve bounded E11 C04 active macOS packaged Electron performance/security/final platform handoff: binds C01-C03 package receipts, ER_C05 measured 10k worker budget, hardened generic SAST with zero findings/timeouts/parser gaps, inactive platforms recorded as no-pass-no-hold, and no live production/signing/notarization claim."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
+      "sha256": "3b249a93d015f28e307a8a3876fedeff9d9aa652822d02b7ab0dfe46a4c5312d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
+      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
       "sha256": "b2f7c5c990ee07d29088d76d14783c40fff7f024c26d698a701266fdd4baf27a",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
@@ -6335,6 +6601,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",
+      "sha256": "9bfeb492d0c05f9e42d41c94457986005e4fd19f74026c8d422773afbfba011e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
+      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
+      "rationale": "Approve R2 C00 focused contract: asserts false-green reproduction, append-only NOT_READY receipt semantics, invalidated contour list, retained lower-layer evidence, supported desktop viewport matrix, and black-box acceptance requirements without certifying Program DoD."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",
@@ -6391,258 +6664,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
-      "sha256": "085be4f8a8d81e473027de7d74908242dbed1a6f9640fac1e29ead14e042113d",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
-      "sha256": "6e96d170ef954fc265991205283890c989cb8d106e10996cf1b19778b933f4d4",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c02-packaged-critical-journey/packaged-critical-journey-report.json",
-      "sha256": "2be8183ced1ca737eba88b4808607157aab017bb8ea96ae7c21deb37f5c8bfbf",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-desktop.png",
-      "sha256": "b75a6e22f1880b89ada53960532671dd7d230f98270570170fa9114fea8939ed",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-mobile.png",
-      "sha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-responsive-audit.json",
-      "sha256": "1e8bf7caaf7bf14b9107cf0a8aed12cbefeea7475b728ffff793fca93d9b5268",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-tablet.png",
-      "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/packaged-accessibility-responsive-visual-regression-report.json",
-      "sha256": "7e06cde975cc8acab1647b81556ff6494d9b0edc1a89f212c367f71b10e5cea3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/er-c05-10k-worker-budget.json",
-      "sha256": "dc05a834bd0798a892160fd457787fd449b638bb982a39509c4f78c7afe3579c",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/generic-sast-output.txt",
-      "sha256": "7ab06dc13e31a7f129053d69cde22f522550d6bf68d82fd2efa150dd695ca0a8",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/packaged-performance-security-final-platform-handoff-report.json",
-      "sha256": "4473b4eb311d5708765538c1a616ffd03a098edefc05b77cacad7d4a9f4e2300",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
-      "sha256": "10c33909198d5a80b80550906ff10e2a8659df06402766a5f6bb4861d5446767",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs",
-      "sha256": "2b48140b1cb5c2b1745738f5f6ab6f4faf580bf7cc927467d118fc7f020bebb3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
-      "sha256": "3b249a93d015f28e307a8a3876fedeff9d9aa652822d02b7ab0dfe46a4c5312d",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "75f8f11d53d11ae73b5b142b0ea0aa8c6e23d6af6e60e71d28e6654636ab3776",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "ed3ac8d522b37cef32cb2c3ebd13f6544b8879d6556481e795fad4895279db2a",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "3b90df48b0b5bffd46a6de3375535ddc20841b827d0d20c97544444f9d094359",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "3db28643f2625e828eaec4030d3c9d4acab6f5d49fd9e466897ae84840ec2828",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "4bd668158de50abdbd95364718b2359ec9753aac5a54664fa6dba4ef0a5968dd",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "df45d5063f7e9bd5ca611228292590be8aba216a86be4656e7be2b168db4e47e",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "05ad0dc7ebc67531d6a184386be31b5f7ce6d4702fd9ab2b812851a0c8311b99",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "1fabe5d00d47a257efe97d3d613181a204e38f1bdb53f71590368f2ff5308d85",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "e61a7223f175c61a8a46fff0dd75f0eb1aec270876ec3d40e742f4c5706be50c",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
-      "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
-      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
-      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "fbdda0ee38f44087d6c95c96931a7d3d19679faa0e85a0539768915190e3aafd",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-modern-comment-native-ui-followup.mjs",
-      "sha256": "10c109f9a45ebcf0baa56b5a5813394e9f792a3b0bfe737756580da287753fcd",
-      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
-      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "609a4aeca0022c6b8f37411d4e78735aa2f92a040ac0d0b51611d087b4154139",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "1b6fdbf12959d377a682aa114d17beb17f6a52a3c601b10783d21fd857945808",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
-      "sha256": "2657a479ebc99d73357508d114f134e59912be20ada7a8849818b0153fb75da1",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "b8b307120a84e4ea8d49a75a0c9153b8333deb6fe86d58ed01c9e8ccee8c773a",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C00_TRUTH_RECONCILIATION_RECEIPT.json",
-      "sha256": "489bbfefce6ecb70e14d9472798775b732896667d71ac95a453c517c96ccdd20",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
-      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
-      "rationale": "Approve append-only R2 C00 truth reconciliation receipt: post-final false green is machine-reproduced, Program DoD is reset to NOT_READY, only overclaimed Atlas product outcomes are invalidated, valid lower-layer kernel/recovery evidence is retained, no runtime behavior, network, dependency, storage writer, UI redesign, or readiness PASS is introduced."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-r2-c00-truth-reconciliation.mjs",
-      "sha256": "7863572f6eccb6f5e4d0c7f01b55fa03fc77e14d6a539d2826de9b96fb8c8fd6",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
-      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
-      "rationale": "Approve R2 C00 detector: source-bound negative detector reproduces six post-final false-green findings and defines supported viewport and black-box acceptance requirements without mutating runtime truth, adding dependencies, widening readiness, or creating a second tracker."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",
-      "sha256": "9bfeb492d0c05f9e42d41c94457986005e4fd19f74026c8d422773afbfba011e",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
-      "approvedAtUtc": "2026-07-31T15:56:30.000Z",
-      "rationale": "Approve R2 C00 focused contract: asserts false-green reproduction, append-only NOT_READY receipt semantics, invalidated contour list, retained lower-layer evidence, supported desktop viewport matrix, and black-box acceptance requirements without certifying Program DoD."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
-      "sha256": "fad174a5ce6719ca8792934005001aa44240259b0300904ac36ae41229a5f2cf",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "7b89c7c912abd466cdc149665bc40f7e959928857de0050570674d38c02fd88d",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
-      "sha256": "471017da81615fd40d0cc652a6332fe83181911deb90339461bed05c49269e15",
-      "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-      "approvedAtUtc": "2026-07-31T16:31:00.000Z",
-      "rationale": "Approve A02 terminal Word audit and A03 promotion list: reconciles post-D1 program truth after native UI gap closure without generic wave repetition, separates PHYSICAL_WORD_PROVEN and COMPONENT_PROVEN from PRODUCT_RUNTIME_WIRED and AUTOMATIC_APPLY_CERTIFIED, preserves Word not saturated and Google closed, records reply/resolve and triple-adjacent tracked-edit typed limitations, keeps runtime apply authority false, adds no UI, dependency, network, or product writer path, and preserves zero falseExact, wrongSceneRouting, silentApply, replayFailure, silentCommentLoss, noOpPass, falseSupport, and userDocumentTouch."
     }
   ]
 }

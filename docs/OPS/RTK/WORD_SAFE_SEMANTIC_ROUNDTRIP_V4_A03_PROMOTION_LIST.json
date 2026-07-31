@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-promotion-list.v1",
   "taskId": "YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-  "status": "A03_PROMOTION_LIST_READY_AFTER_A02_TERMINAL_AUDIT",
+  "status": "A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT",
   "createdAtUtc": "2026-07-31T16:19:31.790Z",
   "sourceTerminalReceipt": {
     "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
@@ -31,7 +31,7 @@
       "authorityLevel": {
         "physicalWordProven": true,
         "componentProven": true,
-        "productRuntimeWired": false,
+        "productRuntimeWired": true,
         "automaticApplyCertified": false
       },
       "negativeTests": [
@@ -45,7 +45,9 @@
         "orphan preservation"
       ],
       "implementationContour": "A03-C01-COMMENT-SHADOW-SESSION-COMMAND",
-      "killCriterion": "any comment import mutates manuscript text or loses a locatable thread silently"
+      "killCriterion": "any comment import mutates manuscript text or loses a locatable thread silently",
+      "runtimeContour": "A03-C01",
+      "runtimeReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json"
     },
     {
       "capability": "nonOverlapTrackedReplacementShadowImport",
@@ -170,5 +172,28 @@
     "A03 list does not certify automatic apply.",
     "A03 list does not open Google Docs.",
     "A03 list does not remove future editor stages."
-  ]
+  ],
+  "latestRuntimeContour": "A03-C01",
+  "nextContour": "A03-C02",
+  "truthCorrection": {
+    "finalSummaryPhysicalWordProvenRowsWasWrong": true,
+    "a03PromotionList": {
+      "totalRows": 5,
+      "physicalWordProvenRows": 2,
+      "componentProvenRows": 4,
+      "productRuntimeWiredRowsBeforeC01": 0,
+      "productRuntimeWiredRowsAfterC01": 1,
+      "automaticApplyCertifiedRows": 0
+    },
+    "a02TerminalCapabilityFamilies": {
+      "physicalWordProvenFamilies": 4,
+      "families": [
+        "rootModernComments",
+        "modernResolveSaveCloseReopenDoneTrueReadbackOnly",
+        "commentDelete",
+        "trackedNonOverlapRevisions"
+      ]
+    },
+    "authorityCountsAreNotInterchangeable": true
+  }
 }

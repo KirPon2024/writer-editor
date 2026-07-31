@@ -78,6 +78,6 @@ test('E12 saturation ledger binds multi-scene typed limitation without saturatio
   assert.equal(ledger.coverageLedger.multiSceneApplyFollowup.status, 'BOUND');
   assert.equal(ledger.notSaturatedReasons.includes('AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED'), false);
   assert.equal(ledger.saturationRule.saturated, false);
-  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_(12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION|12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST|03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR)$/u);
+  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_(12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION|12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST|03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR|03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR)$/u);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });

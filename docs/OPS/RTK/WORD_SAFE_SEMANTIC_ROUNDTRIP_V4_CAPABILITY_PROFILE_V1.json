@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED",
+  "status": "WORD_16_111_2_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -597,6 +597,40 @@
           "status": "WORD_NORMALIZED_DIAGNOSTIC_ONLY_NOT_AUTOMATIC"
         }
       }
+    },
+    {
+      "capabilityId": "rtk.word.v4.rootModernCommentShadowSession",
+      "operationFamily": "root modern comments shadow session import through Command Kernel",
+      "state": "PRODUCT_RUNTIME_WIRED",
+      "currentCapability": "ROOT_MODERN_COMMENT_SHADOW_SESSION_RUNTIME_WIRED_NO_APPLY_AUTHORITY",
+      "physicalWordEvidence": true,
+      "componentProven": true,
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "authorityLevel": {
+        "capability": "rootModernCommentShadowImport",
+        "physicalWordProven": true,
+        "componentProven": true,
+        "productRuntimeWired": true,
+        "automaticApplyCertified": false,
+        "manuscriptApplyAuthority": false,
+        "reviewSessionMutation": "comment-shadow-session-only"
+      },
+      "consumer": "A03-C02 non-overlap tracked replacements runtime contour",
+      "acceptanceTest": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
+      "supportedNow": [
+        "root modern comment shadow session import",
+        "thread identity body author anchor and orphan outcome preservation",
+        "idempotent reimport replay",
+        "write-once receipt recovery after receipt crash window"
+      ],
+      "limitations": [
+        "modern replies remain typed limitation",
+        "resolve then reopen remains typed limitation",
+        "no manuscript apply authority"
+      ],
+      "killCriterion": "Any C01 path writes manuscript text, promotes replies or resolve-reopen, loses a supported root comment, or grants automatic apply authority."
     }
   ]
 }

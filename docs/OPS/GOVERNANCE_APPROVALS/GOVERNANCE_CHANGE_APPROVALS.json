@@ -3705,6 +3705,13 @@
       "rationale": "Approve bounded R2 C01 delivery receipt update after origin/main reconciliation: binds local validation target SHA, implementation commit, merge reconciliation commit, focused tests, renderer build, test:ops, Design OS doctrine, OSS policy, governance detection, and full runner PASS while keeping Program DoD NOT_READY and remote delivery fields pending."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C02_SAFE_SEMANTIC_INTERACTIONS_RECEIPT.json",
+      "sha256": "ec9729c7a7e818307d03afd428770291adb4451393a81d703e574ee0bffaf548",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
+      "approvedAtUtc": "2026-07-31T17:35:00.000Z",
+      "rationale": "Approve append-only R2 C02 safe semantic interactions receipt after local validation: focused suite, renderer build, test:ops, Design OS doctrine, OSS policy, governance detection, and full runner PASS while Program DoD remains NOT_READY and delivery fields remain pending."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
       "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -4763,17 +4770,17 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "857975538e6f9116a0a656fc17bd5c0964ad960e703f96b97aa6c168939b3edc",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
-      "approvedAtUtc": "2026-07-31T16:42:00.000Z",
-      "rationale": "Approve bounded R2 C01 renderer bundle rebuild from approved renderer source after S19 routing-order compatibility repair; generated artifact only, no independent product authority, dependency, network, storage bypass, or Program DoD readiness claim is introduced."
+      "sha256": "6682f454c3b8e4ddaaaece7cafc9eca5ca4d474e61d3a57a1866b9ef0e03d490",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
+      "approvedAtUtc": "2026-07-31T17:20:00.000Z",
+      "rationale": "Approve bounded R2 C02 rebuilt renderer bundle for safe Manual Map semantic interaction draft forms and Command Kernel apply path; no dependency, network, or product readiness claim is introduced."
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "a2ffc895c66e7b2e6fc3929b86fdde3cc365b3930d45ef00c14aa4765453199d",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
-      "approvedAtUtc": "2026-07-31T16:42:00.000Z",
-      "rationale": "Approve bounded R2 C01 renderer source change after S19 routing-order compatibility repair: real Manual Map central PLAN workspace, native SVG graph adapter, existing interaction viewport layout scheduler and list parity reuse, explicit selection targeting, transient ViewState, and Command Kernel-only drag position writes; no dependency, network, storage bypass, product truth duplication, or Program DoD readiness claim is introduced."
+      "sha256": "c06e802cae5f5f4fed173488fd237020e048cfb8890232b62943241213fee6b7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
+      "approvedAtUtc": "2026-07-31T17:20:00.000Z",
+      "rationale": "Approve bounded R2 C02 renderer update: Manual Map semantic actions now open explicit command draft forms with target identity, impact preview, risk confirmation, cancel/no-op proof, and apply-only Command Kernel dispatch; no new source of truth, dependency, network, or direct storage mutation is introduced."
     },
     {
       "filePath": "src/renderer/index.html",
@@ -4784,10 +4791,10 @@
     },
     {
       "filePath": "src/renderer/styles.css",
-      "sha256": "7535a8b5701039ecf80d8cead55f833acc7c59a4824b075d05cf56e5c9bd20e0",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
-      "approvedAtUtc": "2026-07-31T16:42:00.000Z",
-      "rationale": "Approve bounded R2 C01 Manual Map workspace styling: canonical Yalken operational layout for central SVG graph, list parity, inspector and bounded minimap with responsive constraints; no visual canon rewrite, dependency, network, storage bypass, or Program DoD readiness claim is introduced."
+      "sha256": "24e60364b448955a0f837cb940e748cb50f5a5e8d351add77935935dea1b8229",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
+      "approvedAtUtc": "2026-07-31T17:20:00.000Z",
+      "rationale": "Approve bounded R2 C02 Manual Map command form styling in existing Yalken visual language with focus and dark-theme parity; no UI framework or visual canon redesign is introduced."
     },
     {
       "filePath": "test/contracts/agent-bootstrap-spec.contract.test.js",
@@ -6618,10 +6625,17 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c01-real-graph-workbench.contract.test.js",
-      "sha256": "cf2230f7e17da874a852e731b5dbe4fa80b9820af34914406f3f2ca2fa2e86f9",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
-      "approvedAtUtc": "2026-07-31T16:30:00.000Z",
-      "rationale": "Approve bounded R2 C01 real Manual Map Graph Workbench focused contract: proves central PLAN workspace host, native SVG graph adapter, reuse of existing Manual Map interaction viewport layout scheduler and list parity modules, explicit selection targeting instead of first-object fallback, drag position writes only through Command Kernel, and transient ViewState non-persistence; no dependency, network, storage bypass, Design OS redesign, or Program DoD readiness claim is introduced."
+      "sha256": "fd3b77e0eba48195e0bc1d8bc7167f15d8956a62c1b3fa06ebafebaa8942d7f7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
+      "approvedAtUtc": "2026-07-31T17:20:00.000Z",
+      "rationale": "Approve R2 C01 compatibility contract update under R2 C02: drag remains a graph workbench affordance but persistence is now previewed through command draft before Apply instead of direct pointer-up mutation."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c02-safe-semantic-interactions.contract.test.js",
+      "sha256": "de33819048ffb32682e29cea9a264c21b4a5e228ad78769b69e69f643f400f4d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
+      "approvedAtUtc": "2026-07-31T17:20:00.000Z",
+      "rationale": "Approve R2 C02 focused contract: proves visible Manual Map command draft forms, impact preview, explicit target identity, risk confirmation, cancel/no-op proof, no first-object fallback, drag preview before apply, and no new UI dependency."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",

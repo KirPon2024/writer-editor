@@ -99,6 +99,22 @@ const ATLAS_SURFACE_CONTRACTS = Object.freeze([
     refreshName: 'refreshAtlasCurrentScene',
     htmlProvider: 'data-atlas-current-scene-provider="query.atlasCurrentScene"',
   }),
+  Object.freeze({
+    surface: 'manualMapWorkbench',
+    registryKey: 'MANUAL_MAP_WORKBENCH',
+    constName: 'MANUAL_MAP_WORKBENCH_QUERY_ID',
+    handlerName: 'handleWorkspaceManualMapWorkbenchQuery',
+    refreshName: 'refreshManualMapWorkbench',
+    htmlProvider: 'data-manual-map-workbench-provider="query.manualMapWorkbench"',
+  }),
+  Object.freeze({
+    surface: 'projectionInspector',
+    registryKey: 'PROJECTION_INSPECTOR',
+    constName: 'PROJECTION_INSPECTOR_QUERY_ID',
+    handlerName: 'handleWorkspaceProjectionInspectorQuery',
+    refreshName: 'refreshProjectionInspector',
+    htmlProvider: 'data-projection-inspector-provider="query.projectionInspector"',
+  }),
 ]);
 
 function readText(filePath) {
@@ -141,7 +157,7 @@ test('ER C02: main, preload and renderer consume the same registry projection', 
   assert.match(editorSource, /const COLLAB_SCOPE_LOCAL_QUERY_ID = WORKSPACE_QUERY_IDS\.COLLAB_SCOPE_LOCAL;/u);
 });
 
-test('ER C02: all ten Atlas surfaces have main handlers and renderer bridge reachability', () => {
+test('ER C02: Atlas and product journey surfaces have main handlers and renderer bridge reachability', () => {
   const mainSource = readText(MAIN_PATH);
   const editorSource = readText(EDITOR_PATH);
   const htmlSource = readText(HTML_PATH);

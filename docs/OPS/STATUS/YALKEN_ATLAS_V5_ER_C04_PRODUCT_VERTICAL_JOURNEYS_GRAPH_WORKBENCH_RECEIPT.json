@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH",
+  "programStage": "ER_AUDIT_REPAIR_2026_07_31",
+  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_READY_FOR_DELIVERY_CHAIN",
+  "readinessDefault": "NOT_READY_UNTIL_ER_C07_REVALIDATION_AND_E11_PLATFORM_CERTIFICATION",
+  "designToolRouter": "APPLIED_EXISTING_DESIGN_OS_ROUTE_NO_NEW_GENERAL_RESEARCH",
+  "generatedAtUtc": "2026-07-31T07:55:18.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-er-c04",
+    "baseSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
+    "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
+    "branchHeadShaAtValidation": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
+    "implementationCommitSha": "PENDING_PRE_COMMIT",
+    "receiptCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "targetBinding": {
+    "sha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
+    "platform": "macOS-local-dev",
+    "profile": "release-local-validation",
+    "timestampUtc": "2026-07-31T07:55:18.000Z",
+    "fullRunnerArtifactIdentity": "/tmp/yalken-er-c04-full-runner-tty-20260731T0758.log",
+    "fullRunnerArtifactSha256": "ca615ef207099fce37c6f1bbac8d4ec56d301c268336b874d77d69628c5831a0",
+    "fullRunnerArtifactBytes": 89215
+  },
+  "implementedBoundary": {
+    "scopeIn": [
+      "Stage 01 Atlas create entity, add alias, confirm mention, suppress, and reassign journey controls in the existing Atlas rail",
+      "Stage 02 Manual Map Workbench query surface for create, edit, delete node, edge, and group operations",
+      "Manual Map scene and entity node target validation through Core command reducers",
+      "Manual Map derived graph and keyboard-list fallback projection including group rows",
+      "Stage 03 Projection Inspector query surface for Plot, Idea, and Meaning read projections with explicit promotion boundary",
+      "Stage 05 Atlas/product query surface reachability through the shared workspace query registry",
+      "main-owned product command bridge that reduces through Product Core and persists via existing project lifecycle recovery and atomic manifest write path",
+      "shared product command registry coverage for new Manual Map update/delete/group commands",
+      "renderer UI actions that dispatch only through the existing Command Kernel bridge"
+    ],
+    "scopeOut": [
+      "Stage 11 platform certification",
+      "EFINAL Program DoD",
+      "packaged macOS physical proof",
+      "new visual direction or toolbar redesign",
+      "new network adapter",
+      "new dependency",
+      "second command bus",
+      "second Manual Map source of truth",
+      "direct renderer storage writes",
+      "automatic cross-book merge",
+      "runtime payment, account, cloud, or paid-service path"
+    ]
+  },
+  "runtimeFacts": {
+    "productCommandBridgeAuthority": "CommandKernel",
+    "productCommandBridgeUsesCoreReducer": true,
+    "productCommandBridgePersistsProjectManifest": true,
+    "productCommandBridgeRecoveryBeforeWrite": true,
+    "rendererDirectProjectStorageMutation": false,
+    "rendererDirectCoreMutation": false,
+    "manualMapGroupAuthorTruthPersistedInCore": true,
+    "manualMapGraphProjectionIncludesGroups": true,
+    "manualMapKeyboardListFallbackIncludesGroups": true,
+    "manualMapSceneTargetValidation": true,
+    "manualMapEntityTargetValidation": true,
+    "workspaceQueryRegistrySingleSource": true,
+    "manualMapWorkbenchQueryRegistered": true,
+    "projectionInspectorQueryRegistered": true,
+    "plotIdeaMeaningPromotionBoundaryVisible": true,
+    "stage11Started": false
+  },
+  "journeyOutcomes": [
+    {
+      "stage": "E01_STAGE_01_EXACT_ATLAS_USER_OUTCOME",
+      "status": "LOCAL_JOURNEY_SURFACE_IMPLEMENTED_AND_CONTRACT_VALIDATED",
+      "evidence": "Atlas rail exposes Command Kernel controls for entity create, alias add, mention confirm, suppress, and reassign; ER C04 focused contract verifies bridge-only dispatch and no direct storage mutation."
+    },
+    {
+      "stage": "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME",
+      "status": "LOCAL_JOURNEY_SURFACE_IMPLEMENTED_AND_CONTRACT_VALIDATED",
+      "evidence": "Manual Map Workbench exposes create, edit, delete node edge group controls, scene/entity links, graph hash, keyboard-list fallback, and Core reducer persistence path."
+    },
+    {
+      "stage": "E03_STAGE_03_PLOT_IDEA_MEANING_USER_OUTCOME",
+      "status": "LOCAL_READ_SURFACE_IMPLEMENTED_AND_CONTRACT_VALIDATED",
+      "evidence": "Projection Inspector exposes Plot, Idea, and Meaning read projection states with explicit meaning.promote via CommandKernel-only boundary."
+    },
+    {
+      "stage": "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+      "status": "LOCAL_QUERY_REACHABILITY_IMPLEMENTED_AND_CONTRACT_VALIDATED",
+      "evidence": "Shared workspace query registry now covers the ten Atlas surfaces plus Manual Map Workbench and Projection Inspector with main handler and renderer bridge reachability."
+    }
+  ],
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "ER_C07_STAGE_REVALIDATION_AND_HANDOFF_PENDING",
+    "E11_STAGE_11_PLATFORM_CERTIFICATION_NOT_STARTED",
+    "EFINAL_PROGRAM_DOD_NOT_STARTED"
+  ],
+  "negativeChecks": [
+    {
+      "id": "renderer-no-direct-storage",
+      "result": "PASS",
+      "summary": "Focused ER C04 contract rejects writeFile, persistProjectManifestAtPath, localStorage.setItem, and reduceCoreState inside the renderer journey section."
+    },
+    {
+      "id": "manual-map-target-fail-closed",
+      "result": "PASS",
+      "summary": "Manual Map scene/entity target validation rejects missing author-truth targets before mutation."
+    },
+    {
+      "id": "manual-map-group-fail-closed",
+      "result": "PASS",
+      "summary": "Manual Map group reducers reject missing nodes and nonexistent group ids without mutating Core state."
+    },
+    {
+      "id": "query-registry-no-private-allowlist",
+      "result": "PASS",
+      "summary": "ER C02 parity contract verifies main, preload, and renderer consume the shared workspace query registry and unknown queries fail closed."
+    },
+    {
+      "id": "command-bridge-no-degraded-placeholder",
+      "result": "PASS",
+      "summary": "ER C03 contract now rejects the old PRODUCT_COMMAND_REQUIRES_PROJECT_KERNEL_ADAPTER marker and requires Core reducer plus manifest persistence path in main."
+    }
+  ],
+  "validation": [
+    {
+      "id": "focused-er-c04",
+      "command": "node --test test/contracts/yalken-atlas-v5-er-c04-product-vertical-journeys-graph-workbench.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused ER C04 contract: 5 tests, 5 pass, 0 fail."
+    },
+    {
+      "id": "focused-related-suite",
+      "command": "node --test test/contracts/yalken-atlas-v5-e02a-c01-manual-map-core-command-boundary.contract.test.js test/contracts/yalken-atlas-v5-e02a-c02-manual-map-derived-graph-projection.contract.test.js test/contracts/yalken-atlas-v5-e02b-c03-selection-keyboard-list-parity.contract.test.js test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js test/contracts/yalken-atlas-v5-er-c04-product-vertical-journeys-graph-workbench.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Related focused suite: 28 tests, 28 pass, 0 fail."
+    },
+    {
+      "id": "main-syntax",
+      "command": "node -c src/main.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Main process syntax check passed."
+    },
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Renderer bundle rebuilt successfully after ER C04 UI and registry updates."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Diff whitespace check completed with empty stdout and stderr."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; boundary guard exit 0; strict lie classes OK."
+    },
+    {
+      "id": "full-runner",
+      "command": "script -q /tmp/yalken-er-c04-full-runner-tty-20260731T0758.log node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "ca615ef207099fce37c6f1bbac8d4ec56d301c268336b874d77d69628c5831a0",
+      "summary": "Full runner transcript: ops synth 3 tests pass; main suite 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
+    }
+  ],
+  "nextExecutableContour": "ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET"
+}

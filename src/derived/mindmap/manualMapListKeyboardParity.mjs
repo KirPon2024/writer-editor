@@ -13,6 +13,7 @@ export const MANUAL_MAP_KEYBOARD_INTENT_SCHEMA_VERSION = 'manualMap.keyboardInte
 export const MANUAL_MAP_LIST_ROW_KIND = Object.freeze({
   NODE: 'node',
   EDGE: 'edge',
+  GROUP: 'group',
 });
 
 export const MANUAL_MAP_LIST_KEY_ACTION = Object.freeze({
@@ -72,6 +73,19 @@ function normalizeEdge(rawEdge, index) {
   };
 }
 
+function normalizeGroup(rawGroup, index) {
+  const id = normalizeText(rawGroup?.id) || `group:${index + 1}`;
+  const nodeIds = Array.isArray(rawGroup?.nodeIds)
+    ? [...new Set(rawGroup.nodeIds.map(normalizeText).filter(Boolean))].sort(compareText)
+    : [];
+  return {
+    id,
+    label: normalizeText(rawGroup?.label) || id,
+    colorTag: normalizeText(rawGroup?.colorTag),
+    nodeIds,
+  };
+}
+
 function compareNodeForList(a, b) {
   if (a.y !== b.y) return a.y - b.y;
   if (a.x !== b.x) return a.x - b.x;
@@ -86,6 +100,12 @@ function compareEdgeForList(a, b) {
   return compareText(a.id, b.id);
 }
 
+function compareGroupForList(a, b) {
+  const label = compareText(a.label, b.label);
+  if (label !== 0) return label;
+  return compareText(a.id, b.id);
+}
+
 function normalizeGraph(graph = {}) {
   const source = isPlainObject(graph) ? graph : {};
   const nodes = (Array.isArray(source.nodes) ? source.nodes : [])
@@ -96,10 +116,19 @@ function normalizeGraph(graph = {}) {
     .map((edge, index) => normalizeEdge(edge, index))
     .filter((edge) => edge.from && edge.to && nodeIds.has(edge.from) && nodeIds.has(edge.to))
     .sort(compareEdgeForList);
+  const groups = (Array.isArray(source.groups) ? source.groups : [])
+    .map((group, index) => normalizeGroup(group, index))
+    .map((group) => ({
+      ...group,
+      nodeIds: group.nodeIds.filter((nodeId) => nodeIds.has(nodeId)),
+    }))
+    .filter((group) => group.nodeIds.length > 0)
+    .sort(compareGroupForList);
   return {
     source,
     nodes,
     edges,
+    groups,
   };
 }
 
@@ -111,6 +140,12 @@ function rowIntent(kind, id) {
   if (kind === MANUAL_MAP_LIST_ROW_KIND.NODE) {
     return {
       type: MANUAL_MAP_VIEW_INTENT.SELECT_NODE,
+      payload: { nodeId: id },
+    };
+  }
+  if (kind === MANUAL_MAP_LIST_ROW_KIND.GROUP) {
+    return {
+      type: MANUAL_MAP_VIEW_INTENT.FOCUS_NODE,
       payload: { nodeId: id },
     };
   }
@@ -153,7 +188,19 @@ function buildRows(graph, viewState) {
     primary: false,
     selectionIntent: rowIntent(MANUAL_MAP_LIST_ROW_KIND.EDGE, edge.id),
   }));
-  return [...nodeRows, ...edgeRows];
+  const groupRows = graph.groups.map((group) => ({
+    rowId: rowIdFor(MANUAL_MAP_LIST_ROW_KIND.GROUP, group.id),
+    rowKind: MANUAL_MAP_LIST_ROW_KIND.GROUP,
+    itemId: group.id,
+    label: group.label,
+    kind: group.colorTag || 'group',
+    nodeIds: group.nodeIds,
+    selected: group.nodeIds.some((nodeId) => selectedNodeIds.has(nodeId)),
+    focused: group.nodeIds.includes(viewState.selection.focusedNodeId),
+    primary: group.nodeIds.includes(viewState.selection.primaryNodeId),
+    selectionIntent: rowIntent(MANUAL_MAP_LIST_ROW_KIND.GROUP, group.nodeIds[0] || ''),
+  }));
+  return [...nodeRows, ...edgeRows, ...groupRows];
 }
 
 function normalizeActiveRowId(listState, rows, viewState) {
@@ -223,6 +270,7 @@ export function buildManualMapListParityModel(input = {}) {
       rows: rows.length,
       nodes: graph.nodes.length,
       edges: graph.edges.length,
+      groups: graph.groups.length,
       selectedRows: rows.filter((row) => row.selected).length,
     },
   };

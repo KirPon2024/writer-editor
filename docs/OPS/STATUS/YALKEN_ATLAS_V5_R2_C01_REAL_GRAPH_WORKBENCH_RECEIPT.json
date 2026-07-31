@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_R2_C01_REAL_GRAPH_WORKBENCH_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001",
+  "contourId": "R2_C01_REAL_GRAPH_WORKBENCH",
+  "programStage": "R2_POST_FINAL_PRODUCT_OUTCOME_REPAIR_2026_07_31",
+  "status": "LOCAL_VALIDATION_PASS_PR_DELIVERY_PENDING",
+  "programDodVerdict": "NOT_READY_R2_REPAIR_IN_PROGRESS",
+  "generatedAtUtc": "2026-07-31T17:05:00.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r2-c01",
+    "baseSha": "936838c77238c344d72a67dd5761214efa4e9f45",
+    "originMainShaAtStart": "936838c77238c344d72a67dd5761214efa4e9f45",
+    "implementationCommitSha": "b0e7a732b361f4cf0be87e1e6a3975c5cdb9ac46",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY",
+    "originMainShaAtReconcile": "ebe5f9efceca53cd1a4e5b1753025597b82bd923",
+    "reconciliationMergeCommitSha": "ce19311b787814564e2749f86f9273b3dbf27737",
+    "localValidationTargetSha": "ce19311b787814564e2749f86f9273b3dbf27737",
+    "prHeadSha": "PENDING_PRE_PUSH"
+  },
+  "deliveredScope": {
+    "centralPlanWorkspace": true,
+    "rightRailRole": "contextual-inspector-and-open-workspace-entry",
+    "nativeRendererAdapter": "SVG_DOM_NO_NEW_RUNTIME_DEPENDENCY",
+    "reusedExistingModules": [
+      "manualMapInteraction.mjs",
+      "manualMapViewportPlanner.mjs",
+      "manualMapLayoutScheduler.mjs",
+      "manualMapListKeyboardParity.mjs"
+    ],
+    "visibleGraphCapabilities": [
+      "visible nodes edges and groups read model",
+      "node and edge hit testing",
+      "pointer selection",
+      "keyboard list parity",
+      "search and filter",
+      "manual and presentation-only hierarchy layout mode",
+      "zoom",
+      "keyboard pan",
+      "fit",
+      "double-click pin marker",
+      "bounded minimap",
+      "selection inspector",
+      "drag persisted node position through manualMap.node.update"
+    ],
+    "semanticTargeting": {
+      "firstNodeFallbackRemoved": true,
+      "firstEdgeFallbackRemoved": true,
+      "firstGroupFallbackRemoved": true,
+      "selectionRequiredForEditDelete": true,
+      "edgeCreateRequiresTwoSelectedNodes": true
+    },
+    "truthSeparation": {
+      "viewStatePersistentTruth": false,
+      "layoutModePersistentTruth": false,
+      "dragPositionWritePath": "Command Kernel manualMap.node.update",
+      "newSourceOfTruthIntroduced": false
+    }
+  },
+  "notYetCertifiedByThisContour": [
+    "R2_C02_SAFE_SEMANTIC_INTERACTIONS explicit forms impact preview risk confirmation cancel/no-op proof",
+    "R2_C03_RESPONSIVE_AND_ACCESSIBLE_REACHABILITY supported-width opener and overlay proof",
+    "R2_C04_AUTHORITY_AND_RUNTIME_HYGIENE authority-side capability revalidation and metadata leak cleanup",
+    "R2_C05_HONEST_BLACK_BOX_ACCEPTANCE packaged/local Electron visible UI journey",
+    "R2_C06_FINAL_REVALIDATION Program DoD"
+  ],
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME_BLACK_BOX_NOT_YET_CERTIFIED",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E11_STAGE_11_ACTIVE_MACOS_PACKAGED_ELECTRON_CERTIFIED",
+    "EFINAL_PROGRAM_DOD_CERTIFIED"
+  ],
+  "validation": [
+    {
+      "id": "focused-r2-c01-and-s19",
+      "command": "node --test test/unit/sector-m-s19-notes-ui-inbox.test.js test/contracts/yalken-atlas-v5-r2-c01-real-graph-workbench.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Post-reconcile focused R2 C01 plus S19 routing compatibility: 8 tests, 8 pass, 0 fail."
+    },
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Renderer bundle rebuilt successfully after origin/main reconciliation."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Post-reconcile CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; lie classes OK."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "No Tiptap Pro and no private registry."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Post-reconcile GOVERNANCE_CHANGE_OK=1; missing approvals empty; registry valid."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Post-reconcile full runner: 797 tests, 733 pass, 0 fail, 64 skipped; perf baseline PASS."
+    }
+  ],
+  "nextContour": "R2_C02_SAFE_SEMANTIC_INTERACTIONS",
+  "readiness": "NOT_READY",
+  "delivery": {
+    "commit": "LOCAL_PENDING_RECEIPT_UPDATE_COMMIT",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  }
+}

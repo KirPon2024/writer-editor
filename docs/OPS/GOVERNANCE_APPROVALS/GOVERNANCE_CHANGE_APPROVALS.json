@@ -3698,6 +3698,13 @@
       "rationale": "Approve append-only R2 C00 truth reconciliation receipt: post-final false green is machine-reproduced, Program DoD is reset to NOT_READY, only overclaimed Atlas product outcomes are invalidated, valid lower-layer kernel/recovery evidence is retained, no runtime behavior, network, dependency, storage writer, UI redesign, or readiness PASS is introduced."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C01_REAL_GRAPH_WORKBENCH_RECEIPT.json",
+      "sha256": "adfdb46f27b0b6604525c984aa67248f4dd002ffa0ff277d676b4510df3c8557",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
+      "approvedAtUtc": "2026-07-31T17:05:00.000Z",
+      "rationale": "Approve bounded R2 C01 delivery receipt update after origin/main reconciliation: binds local validation target SHA, implementation commit, merge reconciliation commit, focused tests, renderer build, test:ops, Design OS doctrine, OSS policy, governance detection, and full runner PASS while keeping Program DoD NOT_READY and remote delivery fields pending."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
       "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -4756,31 +4763,31 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "7909411617f82c4e0486308c503349d0f02f43515584429f8512dff3922d029b",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "857975538e6f9116a0a656fc17bd5c0964ad960e703f96b97aa6c168939b3edc",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
+      "approvedAtUtc": "2026-07-31T16:42:00.000Z",
+      "rationale": "Approve bounded R2 C01 renderer bundle rebuild from approved renderer source after S19 routing-order compatibility repair; generated artifact only, no independent product authority, dependency, network, storage bypass, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "c23f14d632c67425f2044a152f17f24f279c59bfdaf17566520ceef62e8a1469",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "a2ffc895c66e7b2e6fc3929b86fdde3cc365b3930d45ef00c14aa4765453199d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
+      "approvedAtUtc": "2026-07-31T16:42:00.000Z",
+      "rationale": "Approve bounded R2 C01 renderer source change after S19 routing-order compatibility repair: real Manual Map central PLAN workspace, native SVG graph adapter, existing interaction viewport layout scheduler and list parity reuse, explicit selection targeting, transient ViewState, and Command Kernel-only drag position writes; no dependency, network, storage bypass, product truth duplication, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "src/renderer/index.html",
-      "sha256": "68a23780842bf3820567f2d8cf21061c70d00171e75570e86d1afcf1748e6809",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "96fbe88db09101e770598359775ebe38c98d64500e9746237d66680f687355e9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
+      "approvedAtUtc": "2026-07-31T16:42:00.000Z",
+      "rationale": "Approve bounded R2 C01 central PLAN workspace host addition for Manual Map Graph Workbench; right rail remains contextual inspector, no Design OS redesign, dependency, network, storage bypass, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "src/renderer/styles.css",
-      "sha256": "5d2bb20aaf26e6d6627b74f77f12dd2a36b897657ba87ba7d06212a3270040d7",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "7535a8b5701039ecf80d8cead55f833acc7c59a4824b075d05cf56e5c9bd20e0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
+      "approvedAtUtc": "2026-07-31T16:42:00.000Z",
+      "rationale": "Approve bounded R2 C01 Manual Map workspace styling: canonical Yalken operational layout for central SVG graph, list parity, inspector and bounded minimap with responsive constraints; no visual canon rewrite, dependency, network, storage bypass, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "test/contracts/agent-bootstrap-spec.contract.test.js",
@@ -6608,6 +6615,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
       "approvedAtUtc": "2026-07-31T15:56:30.000Z",
       "rationale": "Approve R2 C00 focused contract: asserts false-green reproduction, append-only NOT_READY receipt semantics, invalidated contour list, retained lower-layer evidence, supported desktop viewport matrix, and black-box acceptance requirements without certifying Program DoD."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c01-real-graph-workbench.contract.test.js",
+      "sha256": "cf2230f7e17da874a852e731b5dbe4fa80b9820af34914406f3f2ca2fa2e86f9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
+      "approvedAtUtc": "2026-07-31T16:30:00.000Z",
+      "rationale": "Approve bounded R2 C01 real Manual Map Graph Workbench focused contract: proves central PLAN workspace host, native SVG graph adapter, reuse of existing Manual Map interaction viewport layout scheduler and list parity modules, explicit selection targeting instead of first-object fallback, drag position writes only through Command Kernel, and transient ViewState non-persistence; no dependency, network, storage bypass, Design OS redesign, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",

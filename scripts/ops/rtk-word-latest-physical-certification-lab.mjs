@@ -353,7 +353,45 @@ function actionLinesForCase(caseSpec) {
     lines.push('set track revisions of yDoc to false');
     lines.push(`make new Word comment at (create range yDoc start ${start} end ${end}) with properties {comment text:${appleLiteral(body)}}`);
   };
-  if (caseSpec.id === 'WL2-001') addTrackedInsert(' INSERTED_BEGIN_MID_END');
+  if (caseSpec.waveAction === 'tracked-insert') {
+    addTrackedInsert(` ${caseSpec.id}_TRACKED_INSERT`);
+  } else if (caseSpec.waveAction === 'clean-insert') {
+    lines.push('set track revisions of yDoc to false');
+    lines.push(`set content of (create range yDoc start ${insertAt} end ${insertAt}) to ${appleLiteral(` ${caseSpec.id}_CLEAN_INSERT`)}`);
+  } else if (caseSpec.waveAction === 'unicode-insert') {
+    lines.push('set track revisions of yDoc to true');
+    lines.push(`set content of (create range yDoc start ${unicodeAt} end ${unicodeAt}) to ${appleLiteral(` ${caseSpec.id}_ё_NBSP\u00a0soft\u00adhyphen_emoji_${String.fromCodePoint(0x1f4da)}${String.fromCodePoint(0xfe0f)}_ZWJ_\u200d_ZWNJ_\u200c_ZWSP_\u200b_RTL_\u202bאבג\u202c_CJK_短文`)}`);
+  } else if (caseSpec.waveAction === 'comment-density') {
+    const count = Math.min(180, Number(caseSpec.commentTarget || 40));
+    for (let i = 0; i < count; i += 1) {
+      addComment(commentStart, commentEnd, `${caseSpec.id} visible wave comment ${i + 1}`);
+    }
+    limitations.push(`${caseSpec.id}_COMMENT_DENSITY_BOUNDED_TO_${count}`);
+  } else if (caseSpec.waveAction === 'formatting') {
+    addTrackedInsert(` ${caseSpec.id}_FORMAT_TRACKED`);
+    lines.push('try');
+    lines.push(`  set bold of font object of (create range yDoc start ${commentStart} end ${commentEnd}) to true`);
+    lines.push(`  set italic of font object of (create range yDoc start ${commentStart} end ${commentEnd}) to true`);
+    lines.push(`  set underline of font object of (create range yDoc start ${commentStart} end ${commentEnd}) to true`);
+    lines.push('on error errMsg number errNo');
+    lines.push(`  set yLimitations to yLimitations & ${appleLiteral(`${caseSpec.id}_FORMATTING_APPLESCRIPT_UNSUPPORTED:`)} & errNo & "|"`);
+    lines.push('end try');
+  } else if (caseSpec.waveAction === 'paragraph-split') {
+    addTrackedInsert(`\n${caseSpec.id} split paragraph pressure.`);
+    limitations.push(`${caseSpec.id}_STRUCTURE_LANE_PARAGRAPH_SPLIT`);
+  } else if (caseSpec.waveAction === 'scale-edge') {
+    lines.push('set track revisions of yDoc to true');
+    lines.push(`set content of (create range yDoc start 1 end 1) to ${appleLiteral(`${caseSpec.id}_SCALE_EDGE_START `)}`);
+    limitations.push(`${caseSpec.id}_SCALE_EDGE_MEASURED_NOT_SATURATION`);
+  } else if (caseSpec.waveAction === 'no-edit') {
+    lines.push('set yNoEdit to true');
+    limitations.push(`${caseSpec.id}_NO_EDIT_CONSERVATION_REPEAT`);
+  } else if (caseSpec.waveAction === 'comment-adjacent-delete') {
+    addComment(commentStart, commentEnd, `${caseSpec.id} comment beside tracked deletion`);
+    lines.push('set track revisions of yDoc to true');
+    lines.push(`set content of (create range yDoc start ${oldStart} end ${oldEnd}) to ""`);
+    limitations.push(`${caseSpec.id}_COMMENT_ON_DELETED_ANCHOR_REMAINS_TYPED_LIMITATION`);
+  } else if (caseSpec.id === 'WL2-001') addTrackedInsert(' INSERTED_BEGIN_MID_END');
   else if (caseSpec.id === 'WL2-002') addTrackedDelete();
   else if (caseSpec.id === 'WL2-003') {
     lines.push('set track revisions of yDoc to true');

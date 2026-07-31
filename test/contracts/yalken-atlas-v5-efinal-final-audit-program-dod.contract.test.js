@@ -32,6 +32,13 @@ test('EFINAL: final audit maps Program DoD and all 20 invariants to versioned ev
   assert.equal(result.criticalInvariants.every((row) => row.pass), true);
   assert.equal(result.activePlatformScope.macosPackagedElectron.includes('CERTIFIED'), true);
   assert.equal(result.activePlatformScope.windows, 'NOT_ACTIVATED_NO_PASS_NO_HOLD');
+  assert.equal(result.falseReadinessGuards.invalidatedErC04CanCertifyProgramDoD, false);
+  assert.equal(result.falseReadinessGuards.invalidatedErC06CanCertifyProgramDoD, false);
+  assert.equal(result.falseReadinessGuards.invalidatedErC07CanCertifyProgramDoD, false);
+  assert.equal(result.falseReadinessGuards.staleSelfFinalReceiptCanCertifyProgramDoD, false);
+  assert.ok(result.programDodEvidenceMap.some((row) => row.requiredEvidence.some((evidence) => evidence.key === 'r2C05')));
+  assert.ok(result.programDodEvidenceMap.some((row) => row.requiredEvidence.some((evidence) => evidence.key === 'r2C06')));
+  assert.ok(result.programDodEvidenceMap.some((row) => row.requiredEvidence.some((evidence) => evidence.key === 'e11Aggregate')));
   assert.equal(result.finalAuditChecklist.finalSuitesRequiredInReceipt, true);
   assert.equal(result.finalAuditChecklist.noPlanOwnedWipRequiredAfterMerge, true);
 });
@@ -69,6 +76,22 @@ test('EFINAL: non-passing receipt cannot be used as readiness token', async () =
   assert.equal(result.pass, false);
   assert.equal(result.finalProgramDoDClaim, false);
   assert.ok(result.failures.some((failure) => failure.code === 'RECEIPT_NOT_PASSING'));
+});
+
+test('EFINAL: invalidated historical readiness receipts are rejected even if their status says PASS', async () => {
+  const { evaluateFinalAudit } = await loadModule();
+  const result = evaluateFinalAudit({
+    repoRoot: ROOT,
+    requiredReceipts: {
+      staleErC04: 'docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json',
+    },
+    dodMap: [['DOD_NEGATIVE_STALE', ['staleErC04']]],
+    invariantMap: [['INV_NEGATIVE_STALE', ['staleErC04']]],
+  });
+
+  assert.equal(result.pass, false);
+  assert.equal(result.finalProgramDoDClaim, false);
+  assert.ok(result.failures.some((failure) => failure.code === 'FORBIDDEN_STALE_READINESS_RECEIPT'));
 });
 
 test('EFINAL: final audit source does not certify inactive platforms or bypass final delivery', () => {

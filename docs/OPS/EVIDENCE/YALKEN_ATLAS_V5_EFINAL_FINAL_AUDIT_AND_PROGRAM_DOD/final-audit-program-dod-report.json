@@ -1,20 +1,20 @@
 {
   "schemaVersion": "yalken.atlas.v5.efinal.finalAuditProgramDod.v1",
-  "generatedAtUtc": "2026-07-31T12:57:20.432Z",
+  "generatedAtUtc": "2026-07-31T22:09:42.112Z",
   "contourId": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
   "status": "PASS_EFINAL_READY_FOR_DELIVERY",
   "pass": true,
   "finalProgramDoDClaim": true,
   "finalProgramDoDClaimScope": "READY_FOR_DELIVERY_PENDING_PR_MERGE_REMOTE_SHA_VERIFICATION_AND_CLEAN_WORKTREE",
   "gitIdentity": {
-    "headSha": "66d51430725257e7501ab58a2f761fac5a908b6e",
-    "originMainSha": "66d51430725257e7501ab58a2f761fac5a908b6e",
-    "branch": "codex/yalken-atlas-v5-efinal",
-    "headEqualsOriginMain": true,
-    "localDirtyFileCount": 3,
+    "headSha": "2c9dceb9125ef44064195edae13d92a0b0a548c7",
+    "originMainSha": "cefe359e99348af99744f0b8e7bf393b2c3f244b",
+    "branch": "codex/yalken-atlas-v5-efinal-revalidation",
+    "headEqualsOriginMain": false,
+    "localDirtyFileCount": 0,
     "remoteBranchExists": false
   },
-  "receiptCount": 22,
+  "receiptCount": 26,
   "receiptFailures": [],
   "programDodEvidenceMap": [
     {
@@ -27,9 +27,15 @@
           "pass": true
         },
         {
-          "key": "stage05",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json",
-          "sha256": "18b840babe92a0a1b2c19f99f31c7d887fd48fddab9cb5a2102fdd7809cbcec8",
+          "key": "r2C05",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json",
+          "sha256": "63f2aa83908058c4249f9feb947ce14bb83807fa909e5e32fe0b6bdea4dbc5d0",
+          "pass": true
+        },
+        {
+          "key": "r2C06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION_RECEIPT.json",
+          "sha256": "35178fba716c8f5e8c9a7c66b939e5d1a3b4096b4f027392329fed8b721491fd",
           "pass": true
         }
       ],
@@ -46,15 +52,15 @@
           "pass": true
         },
         {
-          "key": "stage05",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json",
-          "sha256": "18b840babe92a0a1b2c19f99f31c7d887fd48fddab9cb5a2102fdd7809cbcec8",
+          "key": "r2C05",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json",
+          "sha256": "63f2aa83908058c4249f9feb947ce14bb83807fa909e5e32fe0b6bdea4dbc5d0",
           "pass": true
         },
         {
-          "key": "erC03",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json",
-          "sha256": "a4e94e00fcb4856f22ffd4ed8f46f3f9972c5ecba105ee6495b35569564aa4cc",
+          "key": "r2C04",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT.json",
+          "sha256": "3f4acbfa9bab181c075026e7a9faa17c12f2699891221a0d7d4e0e124ae9aab4",
           "pass": true
         }
       ],
@@ -71,15 +77,15 @@
           "pass": true
         },
         {
-          "key": "erC03",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json",
-          "sha256": "a4e94e00fcb4856f22ffd4ed8f46f3f9972c5ecba105ee6495b35569564aa4cc",
+          "key": "r2C04",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT.json",
+          "sha256": "3f4acbfa9bab181c075026e7a9faa17c12f2699891221a0d7d4e0e124ae9aab4",
           "pass": true
         },
         {
-          "key": "stage10",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
-          "sha256": "d85b4d49a70863d3acab9f00c5cd4d024d71436b2682764ccf8dce317ed9b7c3",
+          "key": "stage10c06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_RECEIPT.json",
+          "sha256": "9c30708f732d8db9654c9ce3e07ed10521579cff20a76962535dee295dc9ab47",
           "pass": true
         }
       ],
@@ -90,9 +96,9 @@
       "id": "DOD_04_COMMAND_KERNEL_SINGLE_WRITE_PATH",
       "requiredEvidence": [
         {
-          "key": "erC03",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json",
-          "sha256": "a4e94e00fcb4856f22ffd4ed8f46f3f9972c5ecba105ee6495b35569564aa4cc",
+          "key": "r2C04",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT.json",
+          "sha256": "3f4acbfa9bab181c075026e7a9faa17c12f2699891221a0d7d4e0e124ae9aab4",
           "pass": true
         },
         {
@@ -102,9 +108,9 @@
           "pass": true
         },
         {
-          "key": "stage05",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json",
-          "sha256": "18b840babe92a0a1b2c19f99f31c7d887fd48fddab9cb5a2102fdd7809cbcec8",
+          "key": "r2C05",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json",
+          "sha256": "63f2aa83908058c4249f9feb947ce14bb83807fa909e5e32fe0b6bdea4dbc5d0",
           "pass": true
         }
       ],
@@ -115,15 +121,15 @@
       "id": "DOD_05_DESIGN_OS_MANIFEST_TYPED_SLOTS",
       "requiredEvidence": [
         {
-          "key": "stage05",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json",
-          "sha256": "18b840babe92a0a1b2c19f99f31c7d887fd48fddab9cb5a2102fdd7809cbcec8",
+          "key": "r2C05",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json",
+          "sha256": "63f2aa83908058c4249f9feb947ce14bb83807fa909e5e32fe0b6bdea4dbc5d0",
           "pass": true
         },
         {
-          "key": "erC06",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY_RECEIPT.json",
-          "sha256": "b695a013f5f02669b28d4df1a705bbb9bfd9eaa1fb4ed09ec682020f94548cf8",
+          "key": "r2C03",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json",
+          "sha256": "65110eef2dc8533493d19355c2e30952b90ae71723e5caa115f9bfb50a30a866",
           "pass": true
         }
       ],
@@ -162,6 +168,12 @@
           "key": "stage06",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C08_ATLAS_STAGE_06_ACCEPTANCE_DIAGNOSTICS_HANDOFF_RECEIPT.json",
           "sha256": "960ad980ee7496265aac4e300d3faedbfd50417b93dbdf173b6b202d054574be",
+          "pass": true
+        },
+        {
+          "key": "r2C06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION_RECEIPT.json",
+          "sha256": "35178fba716c8f5e8c9a7c66b939e5d1a3b4096b4f027392329fed8b721491fd",
           "pass": true
         }
       ],
@@ -239,6 +251,12 @@
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E09_C05_SAVED_VIEWS_BATCH_OPERATIONS_STAGE_09_ACCEPTANCE_RECEIPT.json",
           "sha256": "5cb93694820a26534a7013ed41fb6347d793e97ea085dae21e06e191764f85d0",
           "pass": true
+        },
+        {
+          "key": "r2C05",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json",
+          "sha256": "63f2aa83908058c4249f9feb947ce14bb83807fa909e5e32fe0b6bdea4dbc5d0",
+          "pass": true
         }
       ],
       "pass": true,
@@ -256,7 +274,7 @@
         {
           "key": "stage11c02",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-          "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+          "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
           "pass": true
         }
       ],
@@ -267,9 +285,21 @@
       "id": "DOD_13_HISTORY_COMMENTS_COLLAB_NO_SECOND_TRUTH",
       "requiredEvidence": [
         {
-          "key": "stage10",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
-          "sha256": "d85b4d49a70863d3acab9f00c5cd4d024d71436b2682764ccf8dce317ed9b7c3",
+          "key": "stage10c01",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C01_STABLE_COMMENT_ANCHORS_DECISION_SURVIVAL_RECEIPT.json",
+          "sha256": "fc2410814878002ad91fa3ebf17f42180a94fb103e9cd6fe64ac437886abc796",
+          "pass": true
+        },
+        {
+          "key": "stage10c02",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C02_REVISION_HISTORY_PROJECTION_AUTHOR_TRUTH_RECEIPT.json",
+          "sha256": "28f535f8290db5559881bfd488aff6b018cd18927a988d6e70880db5fc95a4f2",
+          "pass": true
+        },
+        {
+          "key": "stage10c06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_RECEIPT.json",
+          "sha256": "9c30708f732d8db9654c9ce3e07ed10521579cff20a76962535dee295dc9ab47",
           "pass": true
         }
       ],
@@ -288,7 +318,7 @@
         {
           "key": "stage11c02",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-          "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+          "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
           "pass": true
         }
       ],
@@ -313,7 +343,7 @@
         {
           "key": "stage11c04",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json",
-          "sha256": "8441832b90e1ed0cead9d46689b76be6c4a6d07cc84fcaa081f95c66682e1f5d",
+          "sha256": "f4631b1e723a20e02bb900faf3acdcb7b9b83234ed10b91aef21437ebd1d3e5a",
           "pass": true
         }
       ],
@@ -330,15 +360,15 @@
           "pass": true
         },
         {
-          "key": "erC06",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY_RECEIPT.json",
-          "sha256": "b695a013f5f02669b28d4df1a705bbb9bfd9eaa1fb4ed09ec682020f94548cf8",
+          "key": "r2C03",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json",
+          "sha256": "65110eef2dc8533493d19355c2e30952b90ae71723e5caa115f9bfb50a30a866",
           "pass": true
         },
         {
           "key": "stage11c03",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
-          "sha256": "cbf545e406a80ff3dce60bd64be0b5fd5df9fed2e6f2a128ff9881a238ae356e",
+          "sha256": "5506a917212a22c5f22bb9624cd30b2f8adf43d75e40a6cf457f67fcd2af0c35",
           "pass": true
         }
       ],
@@ -351,25 +381,31 @@
         {
           "key": "stage11c01",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C01_MACOS_PACKAGE_ARTIFACT_SECURITY_RECEIPT.json",
-          "sha256": "06f8330f763d21a00bff4b689218b0b13a8b4d5e327ca52ee59f44c6ed93f947",
+          "sha256": "6487424ba6b5e76e9af5d32b6806e199d42669489ce22b02ccbccc1b62ca6e9e",
           "pass": true
         },
         {
           "key": "stage11c02",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-          "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+          "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
           "pass": true
         },
         {
           "key": "stage11c03",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
-          "sha256": "cbf545e406a80ff3dce60bd64be0b5fd5df9fed2e6f2a128ff9881a238ae356e",
+          "sha256": "5506a917212a22c5f22bb9624cd30b2f8adf43d75e40a6cf457f67fcd2af0c35",
           "pass": true
         },
         {
           "key": "stage11c04",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json",
-          "sha256": "8441832b90e1ed0cead9d46689b76be6c4a6d07cc84fcaa081f95c66682e1f5d",
+          "sha256": "f4631b1e723a20e02bb900faf3acdcb7b9b83234ed10b91aef21437ebd1d3e5a",
+          "pass": true
+        },
+        {
+          "key": "e11Aggregate",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION_RECEIPT.json",
+          "sha256": "c7d55d5141120ef54f72e6ef25d9a2da4228d0ad1280eeccbbdbcc3aa8ae46a4",
           "pass": true
         }
       ],
@@ -386,15 +422,15 @@
           "pass": true
         },
         {
-          "key": "erC07",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
-          "sha256": "d85b4d49a70863d3acab9f00c5cd4d024d71436b2682764ccf8dce317ed9b7c3",
+          "key": "r2C06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION_RECEIPT.json",
+          "sha256": "35178fba716c8f5e8c9a7c66b939e5d1a3b4096b4f027392329fed8b721491fd",
           "pass": true
         },
         {
           "key": "stage11c04",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json",
-          "sha256": "8441832b90e1ed0cead9d46689b76be6c4a6d07cc84fcaa081f95c66682e1f5d",
+          "sha256": "f4631b1e723a20e02bb900faf3acdcb7b9b83234ed10b91aef21437ebd1d3e5a",
           "pass": true
         }
       ],
@@ -411,9 +447,9 @@
           "pass": true
         },
         {
-          "key": "erC07",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
-          "sha256": "d85b4d49a70863d3acab9f00c5cd4d024d71436b2682764ccf8dce317ed9b7c3",
+          "key": "r2C06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION_RECEIPT.json",
+          "sha256": "35178fba716c8f5e8c9a7c66b939e5d1a3b4096b4f027392329fed8b721491fd",
           "pass": true
         }
       ],
@@ -430,9 +466,15 @@
           "pass": true
         },
         {
-          "key": "stage11c04",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF_RECEIPT.json",
-          "sha256": "8441832b90e1ed0cead9d46689b76be6c4a6d07cc84fcaa081f95c66682e1f5d",
+          "key": "r2C06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION_RECEIPT.json",
+          "sha256": "35178fba716c8f5e8c9a7c66b939e5d1a3b4096b4f027392329fed8b721491fd",
+          "pass": true
+        },
+        {
+          "key": "e11Aggregate",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION_RECEIPT.json",
+          "sha256": "c7d55d5141120ef54f72e6ef25d9a2da4228d0ad1280eeccbbdbcc3aa8ae46a4",
           "pass": true
         }
       ],
@@ -575,7 +617,7 @@
         {
           "key": "stage11c02",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-          "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+          "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
           "pass": true
         }
       ],
@@ -617,9 +659,9 @@
           "pass": true
         },
         {
-          "key": "stage10",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
-          "sha256": "d85b4d49a70863d3acab9f00c5cd4d024d71436b2682764ccf8dce317ed9b7c3",
+          "key": "stage10c06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_RECEIPT.json",
+          "sha256": "9c30708f732d8db9654c9ce3e07ed10521579cff20a76962535dee295dc9ab47",
           "pass": true
         }
       ],
@@ -632,7 +674,7 @@
         {
           "key": "stage11c02",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-          "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+          "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
           "pass": true
         }
       ],
@@ -649,9 +691,9 @@
           "pass": true
         },
         {
-          "key": "stage10",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
-          "sha256": "d85b4d49a70863d3acab9f00c5cd4d024d71436b2682764ccf8dce317ed9b7c3",
+          "key": "stage10c06",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C06_TRANSPORT_NEUTRAL_OPERATION_EXCHANGE_RECEIPT.json",
+          "sha256": "9c30708f732d8db9654c9ce3e07ed10521579cff20a76962535dee295dc9ab47",
           "pass": true
         }
       ],
@@ -675,15 +717,15 @@
       "id": "INV_15_DESIGN_OS_FORM_NOT_DOMAIN_SEMANTICS",
       "requiredEvidence": [
         {
-          "key": "stage05",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json",
-          "sha256": "18b840babe92a0a1b2c19f99f31c7d887fd48fddab9cb5a2102fdd7809cbcec8",
+          "key": "r2C05",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json",
+          "sha256": "63f2aa83908058c4249f9feb947ce14bb83807fa909e5e32fe0b6bdea4dbc5d0",
           "pass": true
         },
         {
-          "key": "erC06",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY_RECEIPT.json",
-          "sha256": "b695a013f5f02669b28d4df1a705bbb9bfd9eaa1fb4ed09ec682020f94548cf8",
+          "key": "r2C03",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json",
+          "sha256": "65110eef2dc8533493d19355c2e30952b90ae71723e5caa115f9bfb50a30a866",
           "pass": true
         }
       ],
@@ -694,9 +736,9 @@
       "id": "INV_16_CAPABILITY_REVALIDATED_AT_DISPATCH",
       "requiredEvidence": [
         {
-          "key": "erC03",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_COMMAND_KERNEL_AUTHORITY_RECEIPT.json",
-          "sha256": "a4e94e00fcb4856f22ffd4ed8f46f3f9972c5ecba105ee6495b35569564aa4cc",
+          "key": "r2C04",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT.json",
+          "sha256": "3f4acbfa9bab181c075026e7a9faa17c12f2699891221a0d7d4e0e124ae9aab4",
           "pass": true
         },
         {
@@ -721,7 +763,7 @@
         {
           "key": "stage11c02",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-          "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+          "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
           "pass": true
         }
       ],
@@ -757,9 +799,9 @@
           "pass": true
         },
         {
-          "key": "erC06",
-          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY_RECEIPT.json",
-          "sha256": "b695a013f5f02669b28d4df1a705bbb9bfd9eaa1fb4ed09ec682020f94548cf8",
+          "key": "r2C03",
+          "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json",
+          "sha256": "65110eef2dc8533493d19355c2e30952b90ae71723e5caa115f9bfb50a30a866",
           "pass": true
         }
       ],
@@ -778,7 +820,7 @@
         {
           "key": "stage11c02",
           "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_RECEIPT.json",
-          "sha256": "5ec9cb3ce28d91dcaba0acb2c854de7bdeb232bf6779d52042ec3806ac0d9339",
+          "sha256": "6bf3e14124356f4411d27360a826c30b1f73dd275abed3a7327d4f3a9dbd5e54",
           "pass": true
         }
       ],
@@ -794,8 +836,20 @@
     "ios": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
     "android": "NOT_ACTIVATED_NO_PASS_NO_HOLD"
   },
+  "falseReadinessGuards": {
+    "forbiddenReadinessReceipts": [
+      "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json",
+      "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY_RECEIPT.json",
+      "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
+      "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json"
+    ],
+    "invalidatedErC04CanCertifyProgramDoD": false,
+    "invalidatedErC06CanCertifyProgramDoD": false,
+    "invalidatedErC07CanCertifyProgramDoD": false,
+    "staleSelfFinalReceiptCanCertifyProgramDoD": false
+  },
   "finalAuditChecklist": {
-    "frozenMergedRemoteIdentity": true,
+    "frozenMergedRemoteIdentity": false,
     "programDodEvidenceMapPass": true,
     "criticalInvariantsPass": true,
     "finalSuitesRequiredInReceipt": true,

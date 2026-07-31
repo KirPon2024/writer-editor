@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_MEASURED_10K_BUDGET_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
+  "programStage": "ER_AUDIT_REPAIR_2026_07_31",
+  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_READY_FOR_DELIVERY_CHAIN",
+  "readinessDefault": "NOT_READY_UNTIL_ER_C07_REVALIDATION_AND_E11_PLATFORM_CERTIFICATION",
+  "designToolRouter": "NOT_APPLICABLE_BACKEND_DERIVED_WORKER_AND_PERFORMANCE_CONTOUR",
+  "generatedAtUtc": "2026-07-31T08:49:00.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-er-c05",
+    "baseSha": "f2ce50d1bd7f26adea609aa6c7a30720b1279601",
+    "originMainSha": "f2ce50d1bd7f26adea609aa6c7a30720b1279601",
+    "branchHeadShaAtValidation": "f2ce50d1bd7f26adea609aa6c7a30720b1279601",
+    "implementationCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "targetBinding": {
+    "sha": "f2ce50d1bd7f26adea609aa6c7a30720b1279601",
+    "platform": "macOS-local-dev",
+    "profile": "release-local-validation",
+    "timestampUtc": "2026-07-31T08:49:00.000Z",
+    "workerBudgetArtifactIdentity": "/tmp/yalken-er-c05-10k-worker-budget-f2ce50d-20260731T084900.log",
+    "workerBudgetArtifactSha256": "80347e08dc21d050324dc80211f246026142af5cf36de5c656763be8fd1dc598",
+    "workerBudgetArtifactBytes": 3667,
+    "fullRunnerArtifactIdentity": "/tmp/yalken-er-c05-full-runner-tty-f2ce50d-20260731T085500.log",
+    "fullRunnerArtifactSha256": "cea7d0350cfa6cf48507054f156d1212d4147bac6c67668f923a5c584da0669d",
+    "fullRunnerArtifactBytes": 89310
+  },
+  "implementedBoundary": {
+    "scopeIn": [
+      "real Node worker_threads adapter for Atlas global graph LOD and spatial index work",
+      "versioned worker execution port descriptor with no filesystem, network, writer, storage, project truth, manuscript, renderer, or persistent derived truth authority",
+      "compact transferable payload with typed edge endpoint and score buffers, string identity tables, no Core state, no full graph clone, and no node or edge object clone",
+      "cancellable worker execution with abort and timeout typed failures",
+      "coalesced latest-generation payload queue",
+      "stale result discard by requestId, projectId, sourceRevision, and generation before publication",
+      "typed worker failure fallback marked sync-fallback rather than worker-thread",
+      "spatial index and LOD plan with measured 10k corpus budget",
+      "measured p50/p95 wall time, input latency, frame delay, heap delta, transfer bytes, worker thread ids, planned nodes, planned edges, and spatial cells",
+      "renamed previous synchronous scheduler adapterKind values so sync helpers are no longer labeled workers",
+      "exact Sector-M DONE scope entries for ER C05 runtime files with negative no-src-wildcard contract coverage"
+    ],
+    "scopeOut": [
+      "Stage 11 platform certification",
+      "EFINAL Program DoD",
+      "packaged macOS physical proof",
+      "renderer UI redesign",
+      "new network adapter",
+      "new dependency",
+      "second source of truth",
+      "persistent layout truth",
+      "project truth mutation",
+      "direct UI or storage mutation",
+      "runtime payment, account, cloud, or paid-service path"
+    ]
+  },
+  "runtimeFacts": {
+    "realWorkerThreadAdapter": true,
+    "adapterKind": "node-worker-thread-atlas-graph-layout-v1",
+    "syncSchedulersStillExist": true,
+    "syncSchedulersLabeledWorker": false,
+    "payloadCoreStateIncluded": false,
+    "payloadFullGraphIncluded": false,
+    "payloadNodeObjectCloneIncluded": false,
+    "payloadEdgeObjectCloneIncluded": false,
+    "transferableArrayBuffers": true,
+    "cancellable": true,
+    "coalescedByProjectGeneration": true,
+    "staleDiscardBeforePublication": true,
+    "typedWorkerFailureFallback": true,
+    "spatialIndex": true,
+    "lodPlan": true,
+    "projectTruthMutation": false,
+    "storageMutation": false,
+    "networkMutation": false,
+    "rendererMutation": false,
+    "persistentDerivedTruth": false,
+    "sectorMExactScopeNoWildcard": true,
+    "stage11Started": false
+  },
+  "measured10kBudget": {
+    "schemaVersion": "atlas.graphWorker.perfReport.v1",
+    "status": "PASS",
+    "performanceProofKind": "measured-worker-runtime-not-element-count",
+    "nodeCount": 10000,
+    "edgeCount": 10908,
+    "iterations": 5,
+    "p50WallTimeMs": 111.226,
+    "p95WallTimeMs": 119.261,
+    "p50InputLatencyMs": 0.025,
+    "p95InputLatencyMs": 0.03,
+    "p50FrameDelayMs": 0.025,
+    "p95FrameDelayMs": 0.03,
+    "maxHeapDeltaBytes": 5077688,
+    "maxFrameOverrunCount": 1,
+    "maxPlannedNodes": 640,
+    "maxPlannedEdges": 370,
+    "minSpatialIndexCells": 155,
+    "minTransferableByteLength": 147264,
+    "workerThreadIds": [1, 2, 3, 4, 5],
+    "executionModes": ["worker-thread"]
+  },
+  "validations": [
+    {
+      "id": "focused-er-c05",
+      "command": "node --test test/contracts/yalken-atlas-v5-er-c05-real-worker-measured-10k-budget.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "5 tests pass: minimal transferable payload, real worker-thread LOD/spatial index, coalescing cancellation stale discard fallback, measured 10k budget, Node-local source guard."
+    },
+    {
+      "id": "related-worker-scheduler-suite",
+      "command": "node --test test/contracts/yalken-atlas-v5-e01-c05-scheduler-worker-stale-result-discard.contract.test.js test/contracts/yalken-atlas-v5-e08-c02-global-graph-on-demand-idle-scheduler-stale-discard.contract.test.js test/contracts/yalken-atlas-v5-e08-c03-advanced-lod-stable-positions-large-graph-budget.contract.test.js test/contracts/yalken-atlas-v5-e08-c05-renderer-adapter-profiling-stage-08-acceptance.contract.test.js test/contracts/yalken-atlas-v5-e02b-c04-layout-resource-budget-proof.contract.test.js test/contracts/yalken-atlas-v5-er-c05-real-worker-measured-10k-budget.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "30 tests pass across prior scheduler, LOD, renderer adapter profile, manual map layout budget, and ER C05 real worker contract."
+    },
+    {
+      "id": "worker-10k-budget-default",
+      "command": "node scripts/ops/yalken-atlas-v5-er-c05-10k-worker-budget.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "80347e08dc21d050324dc80211f246026142af5cf36de5c656763be8fd1dc598",
+      "summary": "5 measured worker-thread iterations on 10k nodes and 10908 edges after origin/main f2ce50d1 drift reconciliation; p95 wall 119.261ms; p95 input latency 0.03ms; p95 frame delay 0.03ms; max heap delta 5077688 bytes; planned 640 nodes and 370 edges; spatial index cells 155; transfer bytes 147264."
+    },
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Renderer bundle rebuilt successfully."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Diff whitespace check completed with empty stdout and stderr."
+    },
+    {
+      "id": "sector-m-exact-scope",
+      "command": "node --test test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "10 tests pass; ER C05 runtime paths are admitted exactly and DONE prefixes still reject src wildcard expansion."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "cea7d0350cfa6cf48507054f156d1212d4147bac6c67668f923a5c584da0669d",
+      "summary": "Full runner PASS after origin/main f2ce50d1 drift reconciliation: 797 tests, 733 pass, 64 skipped, 0 fail; release perf baseline, command namespace, menu, law path, execution sequence, and release candidate checks PASS."
+    }
+  ],
+  "nextExecutableContour": "ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY"
+}

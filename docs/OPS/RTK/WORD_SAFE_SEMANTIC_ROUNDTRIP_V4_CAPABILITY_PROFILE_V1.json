@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "DECLARED_WITH_C05_COMPONENT_PROVEN_NOT_PHYSICAL_WORD_PROVEN",
+  "status": "WORD_16_111_2_PHYSICAL_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -208,6 +208,38 @@
         "typed manual blocking for multi-hunk ambiguity and O-to-C divergence"
       ],
       "killCriterion": "missing/tampered/stale SourceMap, duplicate/overlapping footprint, quote-only fallback, multi-hunk ambiguity, or writer authority passes"
+    },
+    {
+      "capabilityId": "rtk.word.v4.physicalTextCertification",
+      "operationFamily": "Word 16.111.2 physical text roundtrip corpus",
+      "state": "PHYSICAL_WORD_PROVEN",
+      "currentCapability": "WORD_16_111_2_TEXT_CORPUS_PHYSICAL_PASS_NO_EXACT_AUTHORITY_EXPANSION",
+      "physicalWordEvidence": true,
+      "consumer": "EXECUTION_07 comments replies states",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
+      "physicalTotals": {
+        "roundTrips": 32,
+        "wordOpenEditSaveCloseReopenPass": 32,
+        "parserPass": 31,
+        "falseExact": 0,
+        "silentApply": 0,
+        "wrongSceneRouting": 0,
+        "replayFailure": 0
+      },
+      "supportedNow": [
+        "basic physical insert delete replace text return parsing",
+        "repeated text ambiguity pressure with zero exact overclaim",
+        "paragraph split merge and deleted paragraph mark typed parsing",
+        "Track Changes on off mixed source modes",
+        "RU EN Unicode bidi and CJK text corpus",
+        "100k and 250k word synthetic writer-scale corpus"
+      ],
+      "limitations": [
+        "automatic EXACT authority remains closed without full signed locator apply re-export proof",
+        "modern comments replies resolve reopen move Compare Combine table section footnote and field semantics remain later typed contours"
+      ],
+      "killCriterion": "any physical Word row is counted as exact authority, hostile package passes, veto metric is nonzero, or runtime writer authority is added"
     }
   ]
 }

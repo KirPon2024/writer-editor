@@ -5701,10 +5701,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY_RECEIPT.json",
-      "sha256": "7ff759a87cab2684ed27651fe3029cadedb52346ab353de3c46de2c5213b291c",
+      "sha256": "cc79dde77ba9e9377929eececea340b43093f9efd5e1f47ac1f4acf03345cadb",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
-      "approvedAtUtc": "2026-07-31T05:45:00.000Z",
-      "rationale": "Approve ER C01 receipt rebind after origin/main drift: records no-loss Unicode evidence anchor schema preservation through Core confirm, suppression, reassignment, reattachment, JSON reopen, ExportIR adjacent preservation, reattachment inbox candidate paths, stale heatmap contract repair, post-merge Sector-M exact allowlist recovery, focused 30/30 PASS, test:ops PASS, renderer build PASS, and full runner PASS; no Stage 11 start, no user-outcome recertification, no UI design change, no storage adapter, no network dependency, and no release readiness claim."
+      "approvedAtUtc": "2026-07-31T06:06:00.000Z",
+      "rationale": "Approve ER C01 receipt rebind after RTK E07 origin/main drift: records no-loss Unicode evidence anchor schema preservation through Core confirm, suppression, reassignment, reattachment, JSON reopen, ExportIR adjacent preservation, reattachment inbox candidate paths, stale heatmap contract repair, combined Sector-M exact allowlist recovery, focused 30/30 PASS, test:ops PASS, renderer build PASS, and final full runner PASS; no Stage 11 start, no user-outcome recertification, no UI design change, no storage adapter, no network dependency, and no release readiness claim."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e07-comments-replies-states.mjs",

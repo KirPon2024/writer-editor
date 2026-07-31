@@ -9,8 +9,8 @@
   "generatedAtUtc": "2026-07-31T06:02:00.000Z",
   "git": {
     "branch": "codex/yalken-atlas-v5-er-c01",
-    "baseSha": "ebb8da38fff0b75f9cdb4b71dae9608be7140ba3",
-    "originMainSha": "ebb8da38fff0b75f9cdb4b71dae9608be7140ba3",
+    "baseSha": "cf9347c19270420d43e1baf826d0d0ece75bbedf",
+    "originMainSha": "cf9347c19270420d43e1baf826d0d0ece75bbedf",
     "branchHeadSha": "PENDING_FINAL_ER_C01_SCOPE_REPAIR_COMMIT",
     "deliveryCommitSha": "PENDING_PRE_COMMIT",
     "remoteMergeSha": "PENDING_PRE_DELIVERY"
@@ -20,8 +20,8 @@
     "platform": "macOS-local-dev",
     "profile": "release-local-validation",
     "timestampUtc": "2026-07-31T06:02:00.000Z",
-    "artifactDigest": "4d56e637a83a9bcc5c8976b4035ca993c7a8f508d900f723a780ee9082dc5650",
-    "artifactIdentity": "tmp:yalken-er-c01-post-scope-full-runner.log"
+    "artifactDigest": "cf8f939096c1a7c73e5090b5644288e0ea05f6c433e9f4a0c3455f23c5cc4a5d",
+    "artifactIdentity": "tmp:yalken-er-c01-final-full-runner.log"
   },
   "implementedBoundary": {
     "scopeIn": [
@@ -32,7 +32,7 @@
       "Core-internal AtlasEvidenceAnchorState extension",
       "negative contract tests for field loss and legacy no-invention",
       "heatmap explicit-open behavioral contract repair",
-      "Sector-M exact DONE allowlist rebind for four ER C01 runtime source paths after origin/main drift"
+      "Sector-M exact DONE allowlist rebind for four ER C01 runtime source paths after origin/main drift, preserved through RTK E07 drift reconciliation"
     ],
     "scopeOut": [
       "Stage 11 platform certification",
@@ -123,7 +123,7 @@
     {
       "id": "sector-m-cumulative-allowlist-drift",
       "result": "PASS",
-      "summary": "Post-merge Sector-M scope-map repair adds only four exact ER C01 runtime source paths, with no wildcard prefix or broad runtime source allowance."
+      "summary": "Post-merge Sector-M scope-map repair preserves RTK E06 and E07 exact entries and adds only four exact ER C01 runtime source paths, with no wildcard prefix or broad runtime source allowance."
     }
   ],
   "validation": [
@@ -188,7 +188,7 @@
       "command": "node scripts/run-tests.js",
       "result": "PASS",
       "exitCode": 0,
-      "artifactDigest": "4d56e637a83a9bcc5c8976b4035ca993c7a8f508d900f723a780ee9082dc5650",
+      "artifactDigest": "cf8f939096c1a7c73e5090b5644288e0ea05f6c433e9f4a0c3455f23c5cc4a5d",
       "summary": "Full runner: 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
     },
     {

@@ -5659,17 +5659,17 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "409ab8ccc81b01cf6a2741df9abafabeb7e1905ebb93c9253225d92625f11f8c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
-      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
-      "rationale": "Approve post-D1 RTK program E06 state update: records Word 16.111.2 physical text certification with typed limitations, 32 physical round trips, zero veto metrics, no runtime apply authority, no Google execution, and next E07 comments replies states."
+      "sha256": "3c2b6b353d581592c613489d07e7fadc0837f1c87807f1ec514513943c3f6456",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
+      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
+      "rationale": "Approve post-D1 RTK program E07 state update: records visible anchored comment shadow analysis certification with typed limitations, 91 visible anchored threads, 2 unsupported blocked threads, no runtime apply authority, no Google execution, and next E08 effective formatting."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "920a60fd8a52944cd8f6ab5e40620894ee216e96f862b15a593cb37bd0405340",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
-      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
-      "rationale": "Approve V4 capability profile E06 update: adds physical Word 16.111.2 text certification cell with 32 physical open-edit-save-reopen passes, 31 parser PASS rows plus hostile typed BLOCKED, writer-scale text evidence, and no automatic exact authority expansion."
+      "sha256": "8c66023a4c91a128c8bb33b65cdd3c024b455387cdcae81a9219ed64a233900d",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
+      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
+      "rationale": "Approve V4 capability profile E07 update: promotes comments shadow analysis to physical Word proven with typed limitations for visible anchored comments and high-density comment corpus, while replies, resolve, reopen, delete and Review Session mutation remain uncertified."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
@@ -5687,17 +5687,38 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "80bbd42da479a0dec939f7a919f3d34c8f6c32954a2ad235acbf9578a2046f56",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
-      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
-      "rationale": "Approve Sector-M scope-map E06 exact allowlist update: adds only the E06 ops verifier, E06 receipt, and E06 contract paths; no wildcard prefix, UI, dependency, network, runtime source, or non-Word editor execution is introduced."
+      "sha256": "69c7bc32cc5b637494c10d0a9fdf0765b0a9c4bdb3bde52f55715683e6cdd5f4",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
+      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
+      "rationale": "Approve Sector-M scope-map E07 exact allowlist update: adds only the E07 ops verifier, E07 receipt, and E07 contract paths; no wildcard prefix, UI, dependency, network, runtime source, or non-Word editor execution is introduced."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "98051c64075faba908c7a4ab57d3d45b9cec28fc30f93334f181138f842137ce",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
-      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
-      "rationale": "Approve V4 E06 contract coverage: proves committed physical Word 16.111.2 text corpus truth, required text scale ambiguity hostile and locator survival rows, false green mutation rejection, optional external T7 digest verification, capability state update, no Google execution, and no runtime writer expansion."
+      "sha256": "01fa52d2b22a39632e1e365c125bd93be1262a54ad3ace80c36f525e6d57641f",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
+      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
+      "rationale": "Approve V4 E06 contract forward-compatible rebind during E07: preserves physical text certification proof while allowing the post-D1 program currentStage to advance to E07, and keeps no Google execution, no runtime writer expansion, and no automatic apply authority."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e07-comments-replies-states.mjs",
+      "sha256": "624d716be10246c66b5da1007b8d5d5201e762a014c54194c35f7e92ab0c7c0a",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
+      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
+      "rationale": "Approve V4 E07 ops-only verifier: validates committed comments replies states receipt, Word 16.111.2 identity, external evidence digest, required visible anchored and unsupported blocked cases, high-density comment evidence, no reply or resolve overclaim, and optional T7 evidence hash without launching Word in CI."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
+      "sha256": "6671d10aa0c9ae5c2c8c039ce2c450f464f00cbfc464c9a294f933024ba17caa",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
+      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
+      "rationale": "Approve V4 E07 comments replies states receipt: binds physical Word 16.111.2 comment corpus evidence, 6 visible parsed comment cases, 91 anchored threads, 2 unsupported blocked threads, high-density comments, no no-op pass claim, typed limitations, and no Review Session mutation or writer authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "sha256": "0c157937756181ec10934efe43dd4c5ee71ebc7b55ae9c5485d86f3dc7b2905f",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
+      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
+      "rationale": "Approve V4 E07 contract coverage: proves visible anchored comment shadow analysis, high-density package inventory, typed reply resolve reopen delete limitations, false green rejection, optional external T7 digest verification, capability state update, no Google execution, and no runtime mutation authority."
     }
   ]
 }

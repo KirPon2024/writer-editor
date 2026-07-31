@@ -1,0 +1,428 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e07-comments-replies-states-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_07_COMMENTS_REPLIES_STATES",
+  "status": "COMMENT_SHADOW_ANALYSIS_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "createdAtUtc": "2026-07-31T08:55:00.000Z",
+  "base": {
+    "originMainSha": "ebb8da38fff0b75f9cdb4b71dae9608be7140ba3",
+    "branch": "codex/rtk-v4-e07-comments-replies-states",
+    "preserveOwnerDirtyMain": true,
+    "preserveAtlasWorktree": true,
+    "v6HistoryRewritten": false,
+    "d1EvidenceRewritten": false
+  },
+  "boundSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "blockId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4"
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "certifiedProfileId": "word-mac-latest-observed-16.111.x-semantic-v2-e07-comments",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
+    "versionByAppleScript": "16.111.2",
+    "openDocumentsBeforeLab": 1,
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "externalEvidence": {
+    "artifactRootKind": "T7_SECURE_SYNTHETIC_PHYSICAL_WORD_LAB",
+    "sourceStage": "EXECUTION_06_PHYSICAL_TEXT_CERTIFICATION",
+    "runId": "e06-physical-text-001",
+    "externalReceiptPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e06-physical-text-certification/e06-physical-text-001/b06-physical-certification-receipt.json",
+    "externalReceiptSha256": "f2bba49d7d026f7a31d2594116b8f224777196147c8aa63c4b48607e6a76951a",
+    "externalReceiptDigest": "sha256:1a66926a25f22ba7eb3417381a2515c639244941b5dd9b0b7cdb87f6d95a7a52",
+    "externalFileAvailableAtReceiptCreation": true,
+    "syntheticOnly": true,
+    "userDocumentsOpened": false,
+    "closeNonLabDocuments": false
+  },
+  "commentTotals": {
+    "declaredCommentCases": 8,
+    "visibleAndParsedCommentCases": 6,
+    "visibleAnchoredThreads": 91,
+    "unsupportedBlockedThreads": 2,
+    "highDensityThreadCount": 80,
+    "replyThreadsCertified": 0,
+    "resolveReopenCertified": 0,
+    "deleteCertified": 0,
+    "silentCommentLoss": 0,
+    "noOpCommentPassClaimed": 0,
+    "productNetworkRequests": 0
+  },
+  "commentCertificationBoundary": {
+    "proven": [
+      "classic Word comment bodies on point range and paragraph anchors survive Word save close reopen and parser readback",
+      "multiple and overlapping comment anchors survive as independent comment shadow records",
+      "comments alongside tracked text changes remain independent from manuscript apply authority",
+      "modern comment package inventory includes comments.xml commentsExtended.xml commentsExtensible.xml commentsIds.xml and people.xml when Word writes visible comments",
+      "high comment density corpus with 80 visible anchored comments survives physical Word reopen and parser readback"
+    ],
+    "notProven": [
+      "modern reply chain certification",
+      "resolve reopen and delete certification",
+      "durable ID preservation beyond observed package inventory",
+      "Review Session mutation authority",
+      "manuscript apply authority from comments"
+    ]
+  },
+  "commentCertificationCases": [
+    {
+      "caseId": "WL2-012",
+      "title": "point range and paragraph comments",
+      "family": "comments point range paragraph overlap replies resolve reopen delete",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordCommentCount": 3,
+      "declaredCommentCase": true,
+      "commentPass": true,
+      "reviewIrSummary": {
+        "commentThreads": 3,
+        "textRevisions": 0,
+        "formattingDeltas": 3,
+        "opaqueUnsupported": 9
+      },
+      "commentGraphCapability": {
+        "status": "SEMANTIC_READBACK_READY_PHYSICAL_VISIBILITY_PROVIDED",
+        "commentPassAllowed": true,
+        "noOpSaveCountsAsPass": false,
+        "physicalWordReopenVisibility": true,
+        "packageParts": [
+          "word/comments.xml",
+          "word/commentsExtended.xml",
+          "word/commentsExtensible.xml",
+          "word/commentsIds.xml",
+          "word/people.xml"
+        ],
+        "threadCount": 3,
+        "replyCount": 0,
+        "durableIdCount": 0,
+        "statusCounts": {
+          "ANCHORED": 3
+        }
+      },
+      "sourceDocxSha256": "sha256:cbbfdd287c6476ee3c4f462362a0ff7c84374153df7ed3394a1b36b5fd369dcd",
+      "returnedDocxSha256": "sha256:e6392a422ec2e287d92934bc6af898cd98582b89213611fd2bd2573e512b3aae",
+      "analysisDigest": "sha256:b0a5e0d01568eef59922b5b9263a464ea17d7ece70f0db0d7deae1fa08997c5f",
+      "parserProfileDigest": "sha256:b0b1f937229b8caf5a5ff3c375a5ff3e35db25ac0fdaf9bbcbd73fbb9cb86c83"
+    },
+    {
+      "caseId": "WL2-013",
+      "title": "multiple and overlapping comment anchors",
+      "family": "comments point range paragraph overlap replies resolve reopen delete",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordCommentCount": 3,
+      "declaredCommentCase": true,
+      "commentPass": true,
+      "reviewIrSummary": {
+        "commentThreads": 3,
+        "textRevisions": 0,
+        "formattingDeltas": 3,
+        "opaqueUnsupported": 9
+      },
+      "commentGraphCapability": {
+        "status": "SEMANTIC_READBACK_READY_PHYSICAL_VISIBILITY_PROVIDED",
+        "commentPassAllowed": true,
+        "noOpSaveCountsAsPass": false,
+        "physicalWordReopenVisibility": true,
+        "packageParts": [
+          "word/comments.xml",
+          "word/commentsExtended.xml",
+          "word/commentsExtensible.xml",
+          "word/commentsIds.xml",
+          "word/people.xml"
+        ],
+        "threadCount": 3,
+        "replyCount": 0,
+        "durableIdCount": 0,
+        "statusCounts": {
+          "ANCHORED": 3
+        }
+      },
+      "sourceDocxSha256": "sha256:fa20d231890c770758dcffe832bca513b840dbe472df183d3b3514a39b46b786",
+      "returnedDocxSha256": "sha256:cd3cdf5303ef27c3dedcb0c86d24092e32f6de0f32696f12749c893a2ca2a8dd",
+      "analysisDigest": "sha256:3cdef7a0f10cfc22577b9d832b514484a63dfb6a9238b27f47ded8d68ecc66bd",
+      "parserProfileDigest": "sha256:b0b1f937229b8caf5a5ff3c375a5ff3e35db25ac0fdaf9bbcbd73fbb9cb86c83"
+    },
+    {
+      "caseId": "WL2-014",
+      "title": "three-level reply chain with participant identities",
+      "family": "comments point range paragraph overlap replies resolve reopen delete",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordCommentCount": 1,
+      "declaredCommentCase": true,
+      "commentPass": true,
+      "reviewIrSummary": {
+        "commentThreads": 1,
+        "textRevisions": 0,
+        "formattingDeltas": 1,
+        "opaqueUnsupported": 9
+      },
+      "commentGraphCapability": {
+        "status": "SEMANTIC_READBACK_READY_PHYSICAL_VISIBILITY_PROVIDED",
+        "commentPassAllowed": true,
+        "noOpSaveCountsAsPass": false,
+        "physicalWordReopenVisibility": true,
+        "packageParts": [
+          "word/comments.xml",
+          "word/commentsExtended.xml",
+          "word/commentsExtensible.xml",
+          "word/commentsIds.xml",
+          "word/people.xml"
+        ],
+        "threadCount": 1,
+        "replyCount": 0,
+        "durableIdCount": 0,
+        "statusCounts": {
+          "ANCHORED": 1
+        }
+      },
+      "sourceDocxSha256": "sha256:02fb79b9e4e0dbba8b23ea10df5ac2794144c0e88ac0025df6d3686bf230e20a",
+      "returnedDocxSha256": "sha256:0ed1c20afb413bd5433a4b9a0add8f2e66fc62bc88572940fa58eee053405666",
+      "analysisDigest": "sha256:4b3d040a1c562d953a74f09adab642abdc391d09864586be2b325643544dd590",
+      "parserProfileDigest": "sha256:b0b1f937229b8caf5a5ff3c375a5ff3e35db25ac0fdaf9bbcbd73fbb9cb86c83",
+      "limitations": [
+        "MODERN_REPLY_UI_NOT_AVAILABLE_IN_APPLESCRIPT_DICTIONARY_PROBE"
+      ]
+    },
+    {
+      "caseId": "WL2-015",
+      "title": "resolve reopen and delete comment",
+      "family": "comments point range paragraph overlap replies resolve reopen delete",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordCommentCount": 0,
+      "declaredCommentCase": true,
+      "commentPass": false,
+      "reviewIrSummary": {
+        "commentThreads": 1,
+        "textRevisions": 0,
+        "formattingDeltas": 0,
+        "opaqueUnsupported": 8
+      },
+      "commentGraphCapability": {
+        "status": "PARSER_ONLY_NOT_CERTIFIED",
+        "commentPassAllowed": false,
+        "noOpSaveCountsAsPass": false,
+        "physicalWordReopenVisibility": false,
+        "packageParts": [],
+        "threadCount": 1,
+        "replyCount": 0,
+        "durableIdCount": 0,
+        "statusCounts": {
+          "UNSUPPORTED_BLOCKED": 1
+        }
+      },
+      "sourceDocxSha256": "sha256:a5ec44bd60248d8fae4b30cf11c8b4599535d5281036042bf9c2161f1b6b511f",
+      "returnedDocxSha256": "sha256:e71031225cdf3e3bfdb01608ccc30ea520976d68e90df8c6cb260a668119a8e9",
+      "analysisDigest": "sha256:e94fb22cadef1d24b09c66b111c6ce2e18e0badd4c3a5bce7e73db00f10c253d",
+      "parserProfileDigest": "sha256:b4ad50ca796f1690ca8f93f495bd591d2234ad9080274843af8e832500cf266a",
+      "limitations": [
+        "COMMENT_RESOLVE_REOPEN_APPLESCRIPT_UNSUPPORTED"
+      ]
+    },
+    {
+      "caseId": "WL2-016",
+      "title": "comments on inserted deleted and moved text",
+      "family": "comment on inserted deleted and moved text",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordCommentCount": 1,
+      "declaredCommentCase": true,
+      "commentPass": true,
+      "reviewIrSummary": {
+        "commentThreads": 1,
+        "textRevisions": 1,
+        "formattingDeltas": 1,
+        "opaqueUnsupported": 9
+      },
+      "commentGraphCapability": {
+        "status": "SEMANTIC_READBACK_READY_PHYSICAL_VISIBILITY_PROVIDED",
+        "commentPassAllowed": true,
+        "noOpSaveCountsAsPass": false,
+        "physicalWordReopenVisibility": true,
+        "packageParts": [
+          "word/comments.xml",
+          "word/commentsExtended.xml",
+          "word/commentsExtensible.xml",
+          "word/commentsIds.xml",
+          "word/people.xml"
+        ],
+        "threadCount": 1,
+        "replyCount": 0,
+        "durableIdCount": 0,
+        "statusCounts": {
+          "ANCHORED": 1
+        }
+      },
+      "sourceDocxSha256": "sha256:c2d29488395daf7231285d98bf07bcec9d7513dfb8e6bee298b0f0270ae8b69e",
+      "returnedDocxSha256": "sha256:a828cd10e84f26dea10eea729686ae740436792d6ccc67204ba5dde7ad28445e",
+      "analysisDigest": "sha256:10d7fe9741c110e03975fbaf0811e8294fc4cefd399b9eca809555868a7360d8",
+      "parserProfileDigest": "sha256:b0b1f937229b8caf5a5ff3c375a5ff3e35db25ac0fdaf9bbcbd73fbb9cb86c83"
+    },
+    {
+      "caseId": "WL2-017",
+      "title": "modern comments package inventory and failed no-op probe guard",
+      "family": "modern comments package inventory",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordCommentCount": 3,
+      "declaredCommentCase": true,
+      "commentPass": true,
+      "reviewIrSummary": {
+        "commentThreads": 3,
+        "textRevisions": 0,
+        "formattingDeltas": 3,
+        "opaqueUnsupported": 9
+      },
+      "commentGraphCapability": {
+        "status": "SEMANTIC_READBACK_READY_PHYSICAL_VISIBILITY_PROVIDED",
+        "commentPassAllowed": true,
+        "noOpSaveCountsAsPass": false,
+        "physicalWordReopenVisibility": true,
+        "packageParts": [
+          "word/comments.xml",
+          "word/commentsExtended.xml",
+          "word/commentsExtensible.xml",
+          "word/commentsIds.xml",
+          "word/people.xml"
+        ],
+        "threadCount": 3,
+        "replyCount": 0,
+        "durableIdCount": 0,
+        "statusCounts": {
+          "ANCHORED": 3
+        }
+      },
+      "sourceDocxSha256": "sha256:c9007eb466923076dcd34fe4bbd969713d16a43dae69efc76ccc210f40f0a4e7",
+      "returnedDocxSha256": "sha256:eb73d4d52169ac3f3f65d806fcdb3113aac937f42dead98f678105cd7d12c03f",
+      "analysisDigest": "sha256:9b143a6f0f84cf786f51c34971994148fc5ff9068b4a0e6f63a1212afa171b51",
+      "parserProfileDigest": "sha256:b0b1f937229b8caf5a5ff3c375a5ff3e35db25ac0fdaf9bbcbd73fbb9cb86c83"
+    },
+    {
+      "caseId": "WL2-023",
+      "title": "repeated import idempotence",
+      "family": "stale tampered stripped duplicate and replay negatives",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "MIXED",
+      "wordCommentCount": 0,
+      "declaredCommentCase": true,
+      "commentPass": false,
+      "reviewIrSummary": {
+        "commentThreads": 1,
+        "textRevisions": 2,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 8
+      },
+      "commentGraphCapability": {
+        "status": "PARSER_ONLY_NOT_CERTIFIED",
+        "commentPassAllowed": false,
+        "noOpSaveCountsAsPass": false,
+        "physicalWordReopenVisibility": false,
+        "packageParts": [
+          "word/people.xml"
+        ],
+        "threadCount": 1,
+        "replyCount": 0,
+        "durableIdCount": 0,
+        "statusCounts": {
+          "UNSUPPORTED_BLOCKED": 1
+        }
+      },
+      "sourceDocxSha256": "sha256:5eb0c081eeeda654126872d05a6b379446cd2d43473aa9f07960ef3d0e62696f",
+      "returnedDocxSha256": "sha256:6d0113dd3f574dfabf616f8441bc5033eacbce9fc48ffcd85cc9313c43f6af18",
+      "analysisDigest": "sha256:96cdc94ce03a8bb56301879445df73fadd5810fd3d90073cbcc6f725cc100c63",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a"
+    },
+    {
+      "caseId": "WL2-028",
+      "title": "high comment density corpus",
+      "family": "high comment density",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "wordCommentCount": 80,
+      "declaredCommentCase": true,
+      "commentPass": true,
+      "reviewIrSummary": {
+        "commentThreads": 80,
+        "textRevisions": 0,
+        "formattingDeltas": 80,
+        "opaqueUnsupported": 9
+      },
+      "commentGraphCapability": {
+        "status": "SEMANTIC_READBACK_READY_PHYSICAL_VISIBILITY_PROVIDED",
+        "commentPassAllowed": true,
+        "noOpSaveCountsAsPass": false,
+        "physicalWordReopenVisibility": true,
+        "packageParts": [
+          "word/comments.xml",
+          "word/commentsExtended.xml",
+          "word/commentsExtensible.xml",
+          "word/commentsIds.xml",
+          "word/people.xml"
+        ],
+        "threadCount": 80,
+        "replyCount": 0,
+        "durableIdCount": 0,
+        "statusCounts": {
+          "ANCHORED": 80
+        }
+      },
+      "sourceDocxSha256": "sha256:5d207f12290e140d9afeb25010943164fa32cfe23a009b566710c9fbab47fa26",
+      "returnedDocxSha256": "sha256:3b6d9cd27d1ac5aa8e19f69cb19d884f1867c2b7066f65ca44c020b55465d827",
+      "analysisDigest": "sha256:94fc96d485fed19764459403fa9cd057fc9bc72aeba1b615612a08e25292b037",
+      "parserProfileDigest": "sha256:b0b1f937229b8caf5a5ff3c375a5ff3e35db25ac0fdaf9bbcbd73fbb9cb86c83",
+      "limitations": [
+        "HIGH_COMMENT_DENSITY_BOUNDED_TO_80_COMMENTS_IN_B06"
+      ]
+    }
+  ],
+  "typedLimitations": [
+    "COMMENT_RESOLVE_REOPEN_APPLESCRIPT_UNSUPPORTED",
+    "MODERN_REPLY_UI_NOT_AVAILABLE_IN_APPLESCRIPT_DICTIONARY_PROBE",
+    "NO_DURABLE_COMMENT_ID_CERTIFICATION_IN_E07",
+    "REVIEW_SESSION_MUTATION_COMMAND_REMAINS_FUTURE_CONTOUR"
+  ],
+  "runtimeClaims": {
+    "commentShadowAnalysisCertified": true,
+    "reviewSessionMutationAdded": false,
+    "writerAuthorityAdded": false,
+    "automaticApplyExpanded": false,
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "dependencyAdded": false,
+    "networkAdded": false,
+    "fixtureOnlyPassClaimed": false,
+    "noOpCommentPassClaimed": false
+  },
+  "testEvidence": {
+    "localVerifierRequireExternal": "PASS node scripts/ops/rtk-word-v4-e07-comments-replies-states.mjs --json --require-external",
+    "focusedContracts": "PASS node --test test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js test/contracts/governance-approval-state.contract.test.js test/contracts/governance-change-detection.contract.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+    "governanceChangeDetection": "PASS node scripts/ops/governance-change-detection.mjs",
+    "ossPolicy": "PASS npm run -s oss:policy",
+    "opsPolicy": "PASS npm run -s test:ops",
+    "fullSuite": "PASS npm test -- --runInBand; tests 795 pass 731 fail 0 skipped 64; perf baseline PASS; menu and release candidate gates PASS"
+  },
+  "nextStage": "EXECUTION_08_EFFECTIVE_FORMATTING",
+  "nonClaims": [
+    "E07 does not certify reply chain preservation.",
+    "E07 does not certify resolve reopen or delete behavior.",
+    "E07 does not mutate Review Session state.",
+    "E07 does not give comments manuscript apply authority.",
+    "E07 does not certify Google Docs or any non-Word editor."
+  ]
+}

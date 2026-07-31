@@ -170,6 +170,7 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   assert.equal(cell.currentCapability, 'TARGETED_GAP_CLOSURE_A02_RECONCILED_WITH_TYPED_LIMITATIONS');
   assert.equal(cell.physicalWordEvidence, true);
   assert.equal(program.status, 'WORD_E12_TARGETED_GAP_CLOSURE_A02_RECONCILED_NOT_SATURATED');
+  assert.equal(program.nextStep, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
   assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
   assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST');
   assert.equal(program.v4ExecutionState.wordSaturated, false);

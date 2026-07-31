@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "yalken.atlas.v5.e11.c02.packagedCriticalJourney.v1",
+  "generatedAtUtc": "2026-07-31T12:57:43.414Z",
+  "contourId": "E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
+  "platformId": "macos-packaged-electron",
+  "status": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY",
+  "pass": true,
+  "packageBinding": {
+    "packageBound": true,
+    "c01ReceiptStatus": "PASS_UNSIGNED_LOCAL_ARTIFACT",
+    "appAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
+    "c01AppAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
+    "ciParityIsNotPackageProof": true
+  },
+  "journey": {
+    "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog",
+    "first": {
+      "ok": true,
+      "runtimeKind": "production-app-runtime-harness",
+      "timedOut": false,
+      "exitCode": 0,
+      "networkRequests": 0,
+      "dialogCalls": 0,
+      "rendererProbe": {
+        "ok": 1,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog",
+        "createdNodeId": "tree-node-ed090c49418c2ff8385d48bef178f52b",
+        "docxPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog/journey-out/e11-c02-journey.docx",
+        "importScenePath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog/documents/craftsman/Роман/roman/Imported/91_E11_C02_IMPORTED_SCENE.txt",
+        "commandKernelRoute": true,
+        "createOk": true,
+        "saveOk": true,
+        "sameLaunchReopenOk": true,
+        "docxExportOk": true,
+        "markdownImportSafeCreateOk": true,
+        "exportValue": {
+          "ok": 1,
+          "outPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog/journey-out/e11-c02-journey.docx",
+          "bytesWritten": 1693
+        },
+        "importValue": {
+          "ok": 1,
+          "safeCreate": true,
+          "created": true,
+          "createdSceneIds": [
+            "scene-e11-c02-imported"
+          ],
+          "receipt": {
+            "schemaVersion": "markdown-import-safe-create-receipt.v1",
+            "type": "markdown.import.safeCreate.receipt",
+            "reason": "MARKDOWN_IMPORT_SAFE_CREATE_APPLIED",
+            "projectId": "project-9e6c02dd-5e41-4cf4-b6f3-86bf97646afc",
+            "batchId": "flow-batch-1785502662376-50762277",
+            "inputHash": "32fadff9b23b259ac73514c8e40c6d98423dcb1ab7495534dd3b7168da37b5fe",
+            "outputHash": "1f7c2c85bdb003e81f9642255f3fbb0c744b38db5ea2c57c4eca34d8eb96e739",
+            "createdSceneIds": [
+              "scene-e11-c02-imported"
+            ],
+            "createdScenes": [
+              {
+                "sceneId": "scene-e11-c02-imported",
+                "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog/documents/craftsman/Роман/roman/Imported/91_E11_C02_IMPORTED_SCENE.txt",
+                "kind": "chapter-file",
+                "bytesWritten": 39,
+                "outputHash": "60099eea89dfbef36941f6d35cddbdabbfd4190d234ed1833e4df77072a73265"
+              }
+            ]
+          }
+        },
+        "markers": {
+          "start": true,
+          "end": true
+        },
+        "networkRuntimeActivated": false
+      }
+    },
+    "second": {
+      "ok": true,
+      "runtimeKind": "production-app-runtime-harness",
+      "timedOut": false,
+      "exitCode": 0,
+      "networkRequests": 0,
+      "dialogCalls": 0,
+      "rendererProbe": {
+        "ok": 1,
+        "freshProcessReopenOk": true,
+        "createdNodeId": "tree-node-ed090c49418c2ff8385d48bef178f52b",
+        "textHash": "sha256:202",
+        "markerStart": true,
+        "markerEnd": true
+      }
+    },
+    "fileProofs": {
+      "docxExport": {
+        "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog/journey-out/e11-c02-journey.docx",
+        "exists": true,
+        "bytes": 1693,
+        "sha256": "da4b42d879b9d17c74c7e2b0873b3067e46876ebe3bf29a4b34c0cdb5a519109"
+      },
+      "importedScene": {
+        "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog/documents/craftsman/Роман/roman/Imported/91_E11_C02_IMPORTED_SCENE.txt",
+        "exists": true,
+        "bytes": 39,
+        "sha256": "60099eea89dfbef36941f6d35cddbdabbfd4190d234ed1833e4df77072a73265"
+      },
+      "projectManifest": {
+        "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-6Mewog/documents/craftsman/Роман/project.craftsman.json",
+        "exists": true,
+        "bytes": 5404,
+        "sha256": "47c806124ed8da0921b5f28732e68a5719d3914c15e1f701e447c33fd8e2b514"
+      }
+    }
+  },
+  "negativeAssertions": {
+    "ciParityCanSubstitutePackagedJourney": false,
+    "directRendererStorageMutation": false,
+    "secondProjectTruth": false,
+    "runtimeNetworkActivated": false,
+    "inactivePlatformCertificationClaim": false,
+    "finalProgramDoDClaim": false
+  }
+}

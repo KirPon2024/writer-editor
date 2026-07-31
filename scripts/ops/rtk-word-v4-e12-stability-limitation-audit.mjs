@@ -63,6 +63,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     || ledger.status === 'WORD_SATURATION_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED'
     || ledger.status === 'WORD_SATURATION_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED'
     || ledger.status === 'WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED'
+    || ledger.status === 'WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED'
   )
     && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
     && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
@@ -129,6 +130,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_16_111_2_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED',
     'WORD_16_111_2_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_NOT_SATURATED',
     'WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED',
+    'WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_NOT_SATURATED',
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_STABILITY_PROFILE_STATUS_INVALID', 'profile.status', 'Profile must bind the stability audit as complete not saturated.');
@@ -141,6 +143,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'CUSTOM_XML_AUTHORITY_REROUTED_TO_CUSTOM_DOCUMENT_PROPERTY_NOT_SATURATED',
     'MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED',
     'MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_ACCESSIBILITY_NOT_SATURATED',
+    'MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED',
   ]);
   if (!cell || !allowedCapabilities.has(cell.currentCapability) || cell.state !== 'PHYSICAL_WORD_PROVEN') {
     add('RTK_V4_E12_STABILITY_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability cell must bind stability audit without saturation.');
@@ -155,6 +158,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED',
     'WORD_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED',
     'WORD_E12_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED',
+    'WORD_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED',
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must bind the stability audit.');
@@ -167,6 +171,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_12_CUSTOM_XML_AUTHORITY_REROUTED_CONTINUE_MULTI_SCENE_APPLY_CERTIFICATION',
     'EXECUTION_12_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_CONTINUE_MODERN_COMMENT_NATIVE_UI',
     'EXECUTION_12_MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_ACCESSIBILITY_WAITING',
+    'EXECUTION_12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED',
   ]);
   const allowedCurrentStages = new Set([
     'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',

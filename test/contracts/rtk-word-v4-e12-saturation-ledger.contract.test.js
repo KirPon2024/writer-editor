@@ -44,7 +44,7 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.status, 'WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED');
+  assert.equal(receipt.status, 'WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED');
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
   assert.equal(receipt.saturationRule.lastCompletedWaveTarget, 300);
@@ -94,7 +94,7 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   assert.equal(receipt.aggregateTotals.automaticMultiSceneApplyCertified, 0);
   assert.equal(receipt.aggregateTotals.falseMultiSceneApplyCertification, 0);
   assert.equal(receipt.aggregateTotals.modernCommentNativeUiProbeCases, 1);
-  assert.equal(receipt.aggregateTotals.modernCommentNativeUiActionsPerformed, 0);
+  assert.equal(receipt.aggregateTotals.modernCommentNativeUiActionsPerformed, 1);
   assert.equal(receipt.aggregateTotals.falseModernCommentSupportClaim, 0);
   assert.equal(receipt.aggregateTotals.focusedE11CoordinatorContracts, 7);
 });
@@ -161,30 +161,36 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED');
+  assert.equal(profile.status, 'WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_NOT_SATURATED');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_ACCESSIBILITY_NOT_SATURATED');
+  assert.equal(cell.currentCapability, 'MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_E12_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED');
+  assert.equal(program.status, 'WORD_E12_MODERN_COMMENT_NATIVE_UI_PHYSICAL_LIMITATION_CONFIRMED_NOT_SATURATED');
   assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
   assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION');
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });
 
-test('V4 E12 modern comment native UI followup binds external Accessibility blocker without support PASS', async () => {
+test('V4 E12 modern comment native UI followup binds physical root comments and tracked replacement without overclaims', async () => {
   const verifier = await import(pathToFileURL(path.join(REPO_ROOT, MODERN_NATIVE_UI_FOLLOWUP_SCRIPT_PATH)).href);
   const receipt = readJson(MODERN_NATIVE_UI_FOLLOWUP_RECEIPT_PATH);
   const result = verifier.evaluateWordV4E12ModernCommentNativeUiFollowup({ receipt, requireFiles: true });
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.result, 'BLOCKED');
-  assert.equal(receipt.systemEvents.uiElementsEnabled, false);
+  assert.equal(receipt.result, 'PASS');
+  assert.equal(receipt.systemEvents.targetedWordProcessProbe.ok, true);
+  assert.equal(receipt.systemEvents.nativeUiAutomationAllowed, true);
+  assert.equal(receipt.certificationDecision.rootModernCommentCertified, true);
+  assert.equal(receipt.certificationDecision.wordAuthoredTrackedReplacementCertified, true);
+  assert.equal(receipt.certificationDecision.trackedAdjacentEditsCertified, false);
+  assert.equal(receipt.certificationDecision.trackedOverlappingEditsCertified, false);
   assert.equal(receipt.certificationDecision.modernReplyCertified, false);
   assert.equal(receipt.certificationDecision.resolveReopenCertified, false);
   assert.equal(receipt.certificationDecision.deleteCertified, false);
   assert.equal(receipt.remainingWordLimitations.includes('MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION'), true);
+  assert.equal(receipt.remainingWordLimitations.includes('NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED'), true);
   assert.equal(receipt.saturated, false);
 });
 

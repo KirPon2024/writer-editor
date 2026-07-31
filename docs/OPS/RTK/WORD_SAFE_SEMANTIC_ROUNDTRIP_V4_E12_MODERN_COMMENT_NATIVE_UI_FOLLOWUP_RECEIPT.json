@@ -1,14 +1,15 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-modern-comment-native-ui-followup-receipt.v1",
-  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP",
+  "taskId": "YALKEN_WORD_E12_NATIVE_COMMENT_UI_RESUME",
   "stageId": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
-  "status": "MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_MACOS_ACCESSIBILITY_NOT_SATURATED",
-  "result": "BLOCKED",
-  "createdAtUtc": "2026-07-31T13:01:00.000Z",
+  "status": "MODERN_COMMENT_NATIVE_UI_PHYSICAL_PROBE_LIMITATION_CONFIRMED_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-07-31T15:04:18.834Z",
   "base": {
-    "originMainSha": "66d51430725257e7501ab58a2f761fac5a908b6e",
-    "branch": "codex/rtk-v4-e12-modern-comment-native-ui",
-    "priorMergedStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION"
+    "originMainSha": "1e22c417c298f24eae9459cb18acff1febf84f88",
+    "branch": "codex/rtk-e12-native-comment-ui-resume",
+    "headSha": "1e22c417c298f24eae9459cb18acff1febf84f88",
+    "priorMergedStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION"
   },
   "boundEvidence": {
     "priorAppleScriptObjectModelProbe": {
@@ -20,12 +21,53 @@
   "wordProfile": {
     "appPath": "/Applications/Microsoft Word.app",
     "versionByAppleScript": "16.111.2",
-    "openDocumentsBeforeLab": 0
+    "openDocumentsBeforeLab": 0,
+    "openedSyntheticDocuments": 2,
+    "openDocumentsAfterLab": 0
+  },
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true
+  },
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/e12-modern-comment-native-ui-followup",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": true,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false
+  },
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-native-ui-20260731T150407Z",
+  "wordSandboxRunDir": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/e12-modern-comment-native-ui-followup/e12-native-ui-20260731T150407Z",
+  "returnedDocx": {
+    "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-native-ui-20260731T150407Z/returned-docx/e12-native-ui-returned.docx",
+    "sha256": "sha256:6d42e91d164857f982733127b72ca7910c04e128a56fcddf907d72d138c0780b",
+    "trackPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-modern-comment-native-ui-followup/e12-native-ui-20260731T150407Z/returned-docx/e12-native-ui-track-returned.docx",
+    "trackSha256": "sha256:99b5edc5b6dd929d66c00acdedd78589eda0ed1f5e336abe425b4bf1eb66cce1",
+    "packagePartCount": 28,
+    "commentRelatedParts": [
+      "word/comments.xml",
+      "word/commentsExtended.xml",
+      "word/commentsExtensible.xml",
+      "word/commentsIds.xml",
+      "word/people.xml"
+    ]
   },
   "systemEvents": {
-    "uiElementsEnabled": false,
-    "rawValue": "false",
-    "nativeUiAutomationAllowed": false,
+    "globalUiElementsEnabled": false,
+    "globalRawValue": "false",
+    "targetedWordProcessProbe": {
+      "ok": true,
+      "processName": "Microsoft Word",
+      "bundleIdentifier": "com.microsoft.Word",
+      "windowCount": 0,
+      "windowNames": ""
+    },
+    "nativeUiAutomationAllowed": true,
     "userDocumentsTouched": false
   },
   "dictionaryProbe": {
@@ -34,17 +76,216 @@
     "stderrDigest": "sha256:f82defd7d44d2909d202abec32356016a605a59794bf85d1d2b6266afde649c9",
     "blockedByCommandLineToolsOnly": true
   },
+  "physicalCorpus": {
+    "mode": "TARGETED_WORD_PROCESS_UI_SCRIPTING",
+    "wordResult": "1",
+    "trackWordResult": "1",
+    "cases": [
+      {
+        "id": "NCUI-001",
+        "title": "create root modern comment through Insert menu",
+        "actionPath": "System Events process Microsoft Word -> menu Вставка -> Примечание -> keystroke numeric token",
+        "expectedTokens": [
+          "178551001001",
+          "178551001002",
+          "178551001003"
+        ],
+        "result": "PASS",
+        "wordVisibleEvidence": "Word reopened returned DOCX without repair prompt and zero open documents after lab cleanup",
+        "packageReadback": {
+          "commentCount": 3,
+          "expectedTokensFound": [
+            "178551001001",
+            "178551001002",
+            "178551001003"
+          ],
+          "expectedTokensMissing": [],
+          "requiredModernCommentPartsPresent": true,
+          "commentRangeStartCount": 0,
+          "commentRangeEndCount": 0
+        }
+      },
+      {
+        "id": "NCUI-002",
+        "title": "adjacent tracked replacements through Word-authored revision mode and UI keystrokes",
+        "actionPath": "Microsoft Word track revisions true -> System Events keystrokes on selected Word ranges",
+        "expectedTokens": [
+          "178551009901",
+          "178551009902"
+        ],
+        "result": "PASS_WITH_OVERLAP_LIMITATION",
+        "packageReadback": {
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "expectedTrackedTokensFound": [
+            "178551009902"
+          ],
+          "expectedTrackedTokensMissing": [
+            "178551009901"
+          ]
+        }
+      },
+      {
+        "id": "NCUI-003",
+        "title": "reply resolve reopen delete native UI discovery",
+        "actionPath": "System Events Review ribbon accessibility tree discovery",
+        "result": "TYPED_LIMITATION",
+        "uiControls": [],
+        "packageReadback": {
+          "doneTrueCount": 0,
+          "doneFalseCount": 3,
+          "durableIdCount": 6
+        },
+        "limitation": "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION"
+      }
+    ],
+    "readbackDigest": "sha256:b9b30ab2cf9b83d878d543ae5b73ff855782a96933a0ab4216ecd21aec7dba33",
+    "uiDiscovery": {
+      "rawDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "errorDigest": "sha256:1bb9d6cf8fa1b9be41e88cd7392cea1689a82bc03d9fef7a783ab9d4ef379970",
+      "matched": [],
+      "replyControlFound": false,
+      "resolveControlFound": false,
+      "deleteControlFound": false
+    },
+    "readback": {
+      "commentDocx": {
+        "packagePartCount": 16,
+        "commentRelatedParts": [
+          "word/comments.xml",
+          "word/commentsExtended.xml",
+          "word/commentsExtensible.xml",
+          "word/commentsIds.xml",
+          "word/people.xml"
+        ],
+        "requiredModernCommentPartsPresent": true,
+        "comments": {
+          "count": 3,
+          "bodyDigest": "sha256:a84ccb816e54b00b5677a13df576bee41cdc30ee6cc8d19ca15599435b9038d4",
+          "expectedTokensFound": [
+            "178551001001",
+            "178551001002",
+            "178551001003"
+          ],
+          "expectedTokensMissing": [],
+          "hasCommentsExtended": true,
+          "commentsExtendedCount": 3,
+          "commentsIdsCount": 3,
+          "commentsExtensibleCount": 0,
+          "peopleCount": 1,
+          "doneTrueCount": 0,
+          "doneFalseCount": 3,
+          "durableIdCount": 6
+        },
+        "document": {
+          "textDigest": "sha256:9a2588804c32caa46cb1183fae1cc47b6d7cab329f0298b42cef28d0d07783fc",
+          "expectedTrackedTokensFound": [],
+          "expectedTrackedTokensMissing": [],
+          "insertionCount": 0,
+          "deletionCount": 0,
+          "deletedTextCount": 0,
+          "commentRangeStartCount": 3,
+          "commentRangeEndCount": 3
+        }
+      },
+      "trackDocx": {
+        "packagePartCount": 12,
+        "commentRelatedParts": [
+          "word/people.xml"
+        ],
+        "requiredModernCommentPartsPresent": false,
+        "comments": {
+          "count": 0,
+          "bodyDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedTokensFound": [],
+          "expectedTokensMissing": [],
+          "hasCommentsExtended": false,
+          "commentsExtendedCount": 0,
+          "commentsIdsCount": 0,
+          "commentsExtensibleCount": 0,
+          "peopleCount": 1,
+          "doneTrueCount": 0,
+          "doneFalseCount": 0,
+          "durableIdCount": 0
+        },
+        "document": {
+          "textDigest": "sha256:98640799d66d240110cae8ce22870c5eefd5415db9e6a62129e5f2bb9f1c3882",
+          "expectedTrackedTokensFound": [
+            "178551009902"
+          ],
+          "expectedTrackedTokensMissing": [
+            "178551009901"
+          ],
+          "insertionCount": 1,
+          "deletionCount": 1,
+          "deletedTextCount": 1,
+          "commentRangeStartCount": 0,
+          "commentRangeEndCount": 0
+        }
+      },
+      "packagePartCount": 28,
+      "commentRelatedParts": [
+        "word/comments.xml",
+        "word/commentsExtended.xml",
+        "word/commentsExtensible.xml",
+        "word/commentsIds.xml",
+        "word/people.xml"
+      ],
+      "requiredModernCommentPartsPresent": true,
+      "comments": {
+        "count": 3,
+        "bodyDigest": "sha256:a84ccb816e54b00b5677a13df576bee41cdc30ee6cc8d19ca15599435b9038d4",
+        "expectedTokensFound": [
+          "178551001001",
+          "178551001002",
+          "178551001003"
+        ],
+        "expectedTokensMissing": [],
+        "hasCommentsExtended": true,
+        "commentsExtendedCount": 3,
+        "commentsIdsCount": 3,
+        "commentsExtensibleCount": 0,
+        "peopleCount": 1,
+        "doneTrueCount": 0,
+        "doneFalseCount": 3,
+        "durableIdCount": 6
+      },
+      "document": {
+        "textDigest": "sha256:98640799d66d240110cae8ce22870c5eefd5415db9e6a62129e5f2bb9f1c3882",
+        "expectedTrackedTokensFound": [
+          "178551009902"
+        ],
+        "expectedTrackedTokensMissing": [
+          "178551009901"
+        ],
+        "insertionCount": 1,
+        "deletionCount": 1,
+        "deletedTextCount": 1,
+        "commentRangeStartCount": 0,
+        "commentRangeEndCount": 0
+      }
+    }
+  },
   "certificationDecision": {
-    "result": "BLOCKED_EXTERNAL_MACOS_ACCESSIBILITY",
+    "result": "PHYSICAL_NATIVE_UI_ROOT_COMMENTS_AND_TRACKED_EDITS_CONFIRMED_WITH_TYPED_LIMITATIONS",
+    "rootModernCommentCertified": true,
+    "wordAuthoredTrackedReplacementCertified": true,
+    "trackedAdjacentEditsCertified": false,
+    "trackedOverlappingEditsCertified": false,
     "modernReplyCertified": false,
     "resolveReopenCertified": false,
     "deleteCertified": false,
-    "nativeUiPhysicalActionsPerformed": false,
-    "externalPermissionRequired": true,
-    "reason": "Word 16.111.2 is available with zero open documents, but System Events UI scripting is disabled for this agent, so native modern comment UI actions cannot be physically performed without an external macOS Accessibility grant."
+    "nativeUiPhysicalActionsPerformed": true,
+    "externalPermissionRequired": false,
+    "reason": "Targeted Word process UI scripting works even though global System Events UI elements enabled is false; root modern comments and Word-authored tracked edits are physically proven, while reply resolve reopen delete remain typed limitations because accessible controls and semantic readback did not prove them."
   },
   "remainingWordLimitations": [
-    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION"
+    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
+    "NATIVE_UI_OVERLAPPING_TRACKED_EDITS_NOT_CERTIFIED"
+  ],
+  "resolvedLimitations": [
+    "MODERN_COMMENT_NATIVE_UI_REQUIRES_MACOS_ACCESSIBILITY_GRANT"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": false,
@@ -52,22 +293,26 @@
     "networkDependencyAdded": false,
     "newDependencyAdded": false,
     "writerAuthorityAdded": false,
-    "automaticApplyExpanded": false
+    "automaticApplyExpanded": false,
+    "googleDocsOpened": false
   },
   "vetoMetrics": {
     "falseExact": 0,
     "wrongSceneRouting": 0,
     "silentApply": 0,
     "replayFailure": 0,
-    "falseModernCommentSupportClaim": 0
+    "falseModernCommentSupportClaim": 0,
+    "silentCommentLoss": 0,
+    "noOpCommentPassClaimed": 0
   },
   "saturated": false,
   "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
   "nonClaims": [
     "modern replies are not certified",
     "resolve reopen delete are not certified",
-    "no native UI physical PASS is claimed",
+    "overlapping tracked edits are not certified",
     "Word SATURATED is not claimed",
     "Google Docs remains closed"
-  ]
+  ],
+  "receiptDigest": "sha256:174ca40a10ff5a3b577bee4c595769672939e33b0fad8d47c05ec95325de7df1"
 }

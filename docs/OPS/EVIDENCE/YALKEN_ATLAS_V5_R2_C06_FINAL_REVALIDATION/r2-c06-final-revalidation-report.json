@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r2.c06.finalRevalidation.v1",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001",
+  "contourId": "R2_C06_FINAL_REVALIDATION",
+  "programStage": "R2_POST_FINAL_PRODUCT_OUTCOME_REPAIR_2026_07_31",
+  "status": "PASS_READY_FOR_E11_REVALIDATION",
+  "pass": true,
+  "programDodVerdict": "NOT_READY_E11_AND_EFINAL_REVALIDATION_REQUIRED",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r2-c05",
+    "headSha": "cfa4983db6b5bb2af12f7bac8d116fabacabb5af",
+    "originMainSha": "cfa4983db6b5bb2af12f7bac8d116fabacabb5af",
+    "headEqualsOriginMain": true,
+    "originMainAncestorOfHead": true,
+    "remoteIdentityMode": "EXACT_ORIGIN_MAIN",
+    "dirtyFileCount": 5
+  },
+  "r2ReceiptReadiness": [
+    {
+      "key": "c00",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C00_TRUTH_RECONCILIATION_RECEIPT.json",
+      "sha256": "489bbfefce6ecb70e14d9472798775b732896667d71ac95a453c517c96ccdd20",
+      "status": "NOT_READY_FALSE_GREEN_REPRODUCED",
+      "ready": true
+    },
+    {
+      "key": "c01",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C01_REAL_GRAPH_WORKBENCH_RECEIPT.json",
+      "sha256": "adfdb46f27b0b6604525c984aa67248f4dd002ffa0ff277d676b4510df3c8557",
+      "status": "LOCAL_VALIDATION_PASS_PR_DELIVERY_PENDING",
+      "ready": true
+    },
+    {
+      "key": "c02",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C02_SAFE_SEMANTIC_INTERACTIONS_RECEIPT.json",
+      "sha256": "ec9729c7a7e818307d03afd428770291adb4451393a81d703e574ee0bffaf548",
+      "status": "LOCAL_VALIDATION_PASS_DELIVERY_PENDING",
+      "ready": true
+    },
+    {
+      "key": "c03",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json",
+      "sha256": "65110eef2dc8533493d19355c2e30952b90ae71723e5caa115f9bfb50a30a866",
+      "status": "LOCAL_VALIDATION_PASS_DELIVERY_PENDING",
+      "ready": true
+    },
+    {
+      "key": "c04",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT.json",
+      "sha256": "3f4acbfa9bab181c075026e7a9faa17c12f2699891221a0d7d4e0e124ae9aab4",
+      "status": "LOCAL_VALIDATION_PASS_DELIVERY_PENDING",
+      "ready": true
+    },
+    {
+      "key": "c05",
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C05_HONEST_BLACK_BOX_ACCEPTANCE_RECEIPT.json",
+      "sha256": "63f2aa83908058c4249f9feb947ce14bb83807fa909e5e32fe0b6bdea4dbc5d0",
+      "status": "LOCAL_VALIDATION_PASS_DELIVERY_PENDING",
+      "ready": true
+    }
+  ],
+  "repairedFacts": {
+    "r2C00FalseGreenInvalidationAnchor": true,
+    "r2C01RealGraphWorkbench": true,
+    "r2C02SafeSemanticInteractions": true,
+    "r2C03ResponsiveReachability": true,
+    "r2C04AuthorityRuntimeHygiene": true,
+    "r2C05HonestBlackBoxAcceptance": true,
+    "r2C05FullRunnerPass": true,
+    "r2C05TestOpsPass": true
+  },
+  "staleFinalReceipts": {
+    "e11c03": {
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
+      "proof": {
+        "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
+        "exists": true,
+        "bytes": 10904,
+        "sha256": "cbf545e406a80ff3dce60bd64be0b5fd5df9fed2e6f2a128ff9881a238ae356e"
+      },
+      "receiptHead": "4c0b4bad373ac765fa50b87e4d48283663f62e53",
+      "staleAgainstCurrentHead": true,
+      "rejectedAsCurrentReadiness": true
+    },
+    "efinal": {
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
+      "proof": {
+        "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
+        "exists": true,
+        "bytes": 6917,
+        "sha256": "10c33909198d5a80b80550906ff10e2a8659df06402766a5f6bb4861d5446767"
+      },
+      "receiptHead": "66d51430725257e7501ab58a2f761fac5a908b6e",
+      "staleAgainstCurrentHead": true,
+      "rejectedAsCurrentReadiness": true
+    }
+  },
+  "certifiedStageOutcomes": [
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME_BLACK_BOX_CERTIFIED",
+    "R2_REPAIR_MACRO_STAGE_READY_FOR_E11_REVALIDATION"
+  ],
+  "unsatisfiedStageOutcomes": [
+    "E11_STAGE_11_ACTIVE_MACOS_PACKAGED_ELECTRON_REVALIDATION",
+    "EFINAL_PROGRAM_DOD_REVALIDATION"
+  ],
+  "deliveredVersusAdvisory": {
+    "delivered": [
+      "R2_C01_REAL_GRAPH_WORKBENCH_STRUCTURAL_REPAIR",
+      "R2_C02_SAFE_SEMANTIC_INTERACTIONS",
+      "R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY",
+      "R2_C04_AUTHORITY_RUNTIME_HYGIENE",
+      "R2_C05_VISIBLE_UI_BLACK_BOX_MANUAL_MAP_JOURNEY"
+    ],
+    "advisoryOnly": [
+      "old_E11_C03_receipt_until_revalidated_on_current_head",
+      "old_EFINAL_program_dod_receipt_until_revalidated_on_current_head",
+      "inactive_windows_linux_web_ios_android_platform_claims"
+    ]
+  },
+  "negativeAssertions": {
+    "completedContourCountCanCertifyProgramDod": false,
+    "staleFinalReceiptCanCertifyCurrentHead": false,
+    "directIpcJourneyCanSatisfyBlackBoxAcceptance": false,
+    "hiddenOpenerCanPassResponsiveAcceptance": false,
+    "canceledDestructiveActionCanMutate": false,
+    "deniedCapabilityCanReachReducerOrPersistence": false,
+    "lazywebOrUiCraftCanBecomeRuntimeReadinessToken": false,
+    "inactivePlatformCanCreateHoldOrPass": false,
+    "programDoneClaim": false
+  },
+  "nextContour": "E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION"
+}

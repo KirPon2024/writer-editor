@@ -1703,6 +1703,13 @@
       "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION/r2-c06-final-revalidation-report.json",
+      "sha256": "f48a3ce951651a5cac864b36f8cb1ade83ba51fecbdee06ead8b4e0fe3abfee8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C06",
+      "approvedAtUtc": "2026-07-31T21:30:30.700Z",
+      "rationale": "Approve R2 C06 final repair revalidation governed files: binds R2 C00 false-green invalidation anchor, R2 C01-C05 repaired facts, visible black-box acceptance, stale E11 and EFINAL rejection, PR-head remote identity descent, no Program DoD claim, no runtime dependency, and no network expansion."
+    },
+    {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
       "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
       "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
@@ -3810,6 +3817,13 @@
       "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION_RECEIPT.json",
+      "sha256": "35178fba716c8f5e8c9a7c66b939e5d1a3b4096b4f027392329fed8b721491fd",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C06",
+      "approvedAtUtc": "2026-07-31T21:30:30.700Z",
+      "rationale": "Approve R2 C06 final repair revalidation governed files: binds R2 C00 false-green invalidation anchor, R2 C01-C05 repaired facts, visible black-box acceptance, stale E11 and EFINAL rejection, PR-head remote identity descent, no Program DoD claim, no runtime dependency, and no network expansion."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
       "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -4655,6 +4669,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r2-c06-final-revalidation.mjs",
+      "sha256": "47daf23ed5f551fa063016647a1b22d30dc4b4195c69619867f3e363060323b8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C06",
+      "approvedAtUtc": "2026-07-31T21:30:30.700Z",
+      "rationale": "Approve R2 C06 final repair revalidation governed files: binds R2 C00 false-green invalidation anchor, R2 C01-C05 repaired facts, visible black-box acceptance, stale E11 and EFINAL rejection, PR-head remote identity descent, no Program DoD claim, no runtime dependency, and no network expansion."
     },
     {
       "filePath": "scripts/sector-m-run.mjs",
@@ -6895,6 +6916,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C05",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "Approve R2 C05 final local-validation governed files after current origin/main reconciliation: visible Electron black-box Manual Map journey PASS, full runner PASS, governance/test ops PASS, command result false-green repaired, no direct IPC acceptance, no dependency, no network, and Program DoD remains NOT_READY until R2 C06."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c06-final-revalidation.contract.test.js",
+      "sha256": "6803eb9f79361143b60f6f8498295b1861e2aeb97cc4f0eaa8a3f9a2317ecf76",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C06",
+      "approvedAtUtc": "2026-07-31T21:30:30.700Z",
+      "rationale": "Approve R2 C06 final repair revalidation governed files: binds R2 C00 false-green invalidation anchor, R2 C01-C05 repaired facts, visible black-box acceptance, stale E11 and EFINAL rejection, PR-head remote identity descent, no Program DoD claim, no runtime dependency, and no network expansion."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",

@@ -1,0 +1,154 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001",
+  "contourId": "R2_C06_FINAL_REVALIDATION",
+  "programStage": "R2_POST_FINAL_PRODUCT_OUTCOME_REPAIR_2026_07_31",
+  "status": "LOCAL_VALIDATION_PASS_DELIVERY_PENDING",
+  "programDodVerdict": "NOT_READY_E11_AND_EFINAL_REVALIDATION_REQUIRED",
+  "generatedAtUtc": "2026-07-31T21:30:30.700Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r2-c06",
+    "baseSha": "cfa4983db6b5bb2af12f7bac8d116fabacabb5af",
+    "originMainShaAtStart": "cfa4983db6b5bb2af12f7bac8d116fabacabb5af",
+    "reconciledOriginMainSha": "cfa4983db6b5bb2af12f7bac8d116fabacabb5af",
+    "implementationCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "report": {
+    "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION/r2-c06-final-revalidation-report.json",
+    "sha256": "f48a3ce951651a5cac864b36f8cb1ade83ba51fecbdee06ead8b4e0fe3abfee8",
+    "status": "PASS_READY_FOR_E11_REVALIDATION",
+    "pass": true
+  },
+  "repairedFacts": {
+    "r2C00FalseGreenInvalidationAnchor": true,
+    "r2C01RealGraphWorkbench": true,
+    "r2C02SafeSemanticInteractions": true,
+    "r2C03ResponsiveReachability": true,
+    "r2C04AuthorityRuntimeHygiene": true,
+    "r2C05HonestBlackBoxAcceptance": true,
+    "r2C05FullRunnerPass": true,
+    "r2C05TestOpsPass": true
+  },
+  "staleFinalReceiptPolicy": {
+    "e11c03": {
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
+      "proof": {
+        "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
+        "exists": true,
+        "bytes": 10904,
+        "sha256": "cbf545e406a80ff3dce60bd64be0b5fd5df9fed2e6f2a128ff9881a238ae356e"
+      },
+      "receiptHead": "4c0b4bad373ac765fa50b87e4d48283663f62e53",
+      "staleAgainstCurrentHead": true,
+      "rejectedAsCurrentReadiness": true
+    },
+    "efinal": {
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
+      "proof": {
+        "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
+        "exists": true,
+        "bytes": 6917,
+        "sha256": "10c33909198d5a80b80550906ff10e2a8659df06402766a5f6bb4861d5446767"
+      },
+      "receiptHead": "66d51430725257e7501ab58a2f761fac5a908b6e",
+      "staleAgainstCurrentHead": true,
+      "rejectedAsCurrentReadiness": true
+    }
+  },
+  "certifiedStageOutcomes": [
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME_BLACK_BOX_CERTIFIED",
+    "R2_REPAIR_MACRO_STAGE_READY_FOR_E11_REVALIDATION"
+  ],
+  "unsatisfiedStageOutcomes": [
+    "E11_STAGE_11_ACTIVE_MACOS_PACKAGED_ELECTRON_REVALIDATION",
+    "EFINAL_PROGRAM_DOD_REVALIDATION"
+  ],
+  "deliveredVersusAdvisory": {
+    "delivered": [
+      "R2_C01_REAL_GRAPH_WORKBENCH_STRUCTURAL_REPAIR",
+      "R2_C02_SAFE_SEMANTIC_INTERACTIONS",
+      "R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY",
+      "R2_C04_AUTHORITY_RUNTIME_HYGIENE",
+      "R2_C05_VISIBLE_UI_BLACK_BOX_MANUAL_MAP_JOURNEY"
+    ],
+    "advisoryOnly": [
+      "old_E11_C03_receipt_until_revalidated_on_current_head",
+      "old_EFINAL_program_dod_receipt_until_revalidated_on_current_head",
+      "inactive_windows_linux_web_ios_android_platform_claims"
+    ]
+  },
+  "negativeAssertions": {
+    "completedContourCountCanCertifyProgramDod": false,
+    "staleFinalReceiptCanCertifyCurrentHead": false,
+    "directIpcJourneyCanSatisfyBlackBoxAcceptance": false,
+    "hiddenOpenerCanPassResponsiveAcceptance": false,
+    "canceledDestructiveActionCanMutate": false,
+    "deniedCapabilityCanReachReducerOrPersistence": false,
+    "lazywebOrUiCraftCanBecomeRuntimeReadinessToken": false,
+    "inactivePlatformCanCreateHoldOrPass": false,
+    "programDoneClaim": false
+  },
+  "validation": [
+    {
+      "id": "focused-r2-c06",
+      "command": "node --test test/contracts/yalken-atlas-v5-r2-c06-final-revalidation.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused R2 C06 contract PASS: 4 tests, 4 pass, 0 fail."
+    },
+    {
+      "id": "r2-c06-report-generator",
+      "command": "node scripts/ops/yalken-atlas-v5-r2-c06-final-revalidation.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C06_FINAL_REVALIDATION",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Report PASS: PASS_READY_FOR_E11_REVALIDATION; Program DoD remains NOT_READY_E11_AND_EFINAL_REVALIDATION_REQUIRED."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Design OS doctrine gate PASS on R2 C06 final validation form."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "OSS dependency policy PASS; no new dependency or network runtime added."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Governance change detection PASS after R2 C06 approval hash rebinding; missing approvals empty."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Release test:ops PASS; CURRENT_WAVE_STOP_CONDITION_OK=1."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Full runner PASS on final R2 C06 validation form: 798 tests, 734 pass, 0 fail, 64 skipped."
+    }
+  ],
+  "nextContour": "E11_ACTIVE_PLATFORM_CERTIFICATION_REVALIDATION",
+  "readiness": "READY_FOR_E11_REVALIDATION_NOT_PROGRAM_DOD",
+  "delivery": {
+    "commit": "PENDING_PRE_COMMIT",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  },
+  "receiptDigestExcludingSelf": "515f8c774f07569fefaef7980dd3d76075147498b4248920b26c7d3442b79ae4"
+}

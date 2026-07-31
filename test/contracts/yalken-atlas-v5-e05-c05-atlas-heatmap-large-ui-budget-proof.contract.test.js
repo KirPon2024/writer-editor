@@ -191,18 +191,18 @@ test('E05 C05: renderer and main wire heatmap as explicit heavy surface only', (
   const htmlSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'index.html'), 'utf8');
   const cssSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'styles.css'), 'utf8');
 
-  assert.match(mainSource, /const ATLAS_HEATMAP_QUERY_ID = 'query\.atlasHeatmap'/u);
+  assert.match(mainSource, /const ATLAS_HEATMAP_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_HEATMAP/u);
   assert.match(mainSource, /loadAtlasHeatmapModule/u);
   assert.match(mainSource, /handleWorkspaceAtlasHeatmapQuery/u);
   assert.match(mainSource, /safePayload\.explicitOpen !== true[\s\S]{0,500}ATLAS_HEATMAP_EXPLICIT_OPEN_REQUIRED/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_HEATMAP_QUERY_ID/u);
+  assert.match(mainSource, /\[ATLAS_HEATMAP_QUERY_ID,\s*handleWorkspaceAtlasHeatmapQuery\]/u);
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasHeatmapQuery[\s\S]{0,3200}writeFileAtomic/u);
 
   assert.match(htmlSource, /data-atlas-heatmap-shell[\s\S]{0,80}hidden/u);
   assert.match(htmlSource, /data-atlas-heatmap-host/u);
   assert.match(htmlSource, /data-atlas-heatmap-provider="query\.atlasHeatmap"/u);
 
-  assert.match(editorSource, /const ATLAS_HEATMAP_QUERY_ID = 'query\.atlasHeatmap'/u);
+  assert.match(editorSource, /const ATLAS_HEATMAP_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_HEATMAP/u);
   assert.match(editorSource, /dataset\.atlasHeatmapOpen = 'true'/u);
   assert.match(editorSource, /function openAtlasHeatmapSurface/u);
   assert.match(editorSource, /async function refreshAtlasHeatmap/u);

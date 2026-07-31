@@ -53,6 +53,10 @@ const {
   runProjectArchiveExport,
 } = require('./export/archive/projectArchiveExportHandler');
 const { createCommandSurfaceKernel } = require('./command/commandSurfaceKernel');
+const {
+  WORKSPACE_QUERY_IDS,
+  WORKSPACE_QUERY_ID_LIST,
+} = require('./shared/workspaceQueryRegistry.cjs');
 
 const launchT0 = performance.now();
 let mainWindow;
@@ -349,7 +353,14 @@ const REPLACE_SINGLE_SAFE_COMMAND_ID = 'cmd.project.edit.replaceSingleSafe';
 const REPLACE_MASS_PREVIEW_COMMAND_ID = 'cmd.project.edit.replaceMassPreview';
 const REPLACE_MASS_APPLY_COMMAND_ID = 'cmd.project.edit.replaceMassApply';
 const REPLACE_MASS_ROLLBACK_COMMAND_ID = 'cmd.project.edit.replaceMassRollback';
-const PROJECT_LIBRARY_QUERY_ID = 'query.projectLibrary';
+const PROJECT_TREE_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_TREE;
+const PROJECT_LIBRARY_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_LIBRARY;
+const SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID = WORKSPACE_QUERY_IDS.SELECTED_SCENES_TXT_EXPORT_SCOPE;
+const COLLAB_SCOPE_LOCAL_QUERY_ID = WORKSPACE_QUERY_IDS.COLLAB_SCOPE_LOCAL;
+const REVIEW_SURFACE_QUERY_ID = WORKSPACE_QUERY_IDS.REVIEW_SURFACE;
+const METADATA_INSPECTOR_QUERY_ID = WORKSPACE_QUERY_IDS.METADATA_INSPECTOR;
+const NOTES_WORKSPACE_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_NOTES;
+const PROJECT_SEARCH_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_SEARCH;
 const PROJECT_LIFECYCLE_CREATE_COMMAND_ID = 'cmd.project.lifecycle.create';
 const PROJECT_LIFECYCLE_OPEN_COMMAND_ID = 'cmd.project.lifecycle.open';
 const PROJECT_LIFECYCLE_CONTINUE_COMMAND_ID = 'cmd.project.lifecycle.continue';
@@ -362,17 +373,17 @@ const PROJECT_LIFECYCLE_RESTORE_COMMAND_ID = 'cmd.project.lifecycle.restore';
 const PROJECT_LIFECYCLE_BACKUP_COMMAND_ID = 'cmd.project.lifecycle.createBackup';
 const PROJECT_LIFECYCLE_INTEGRITY_COMMAND_ID = 'cmd.project.lifecycle.inspectIntegrity';
 const PROJECT_LIFECYCLE_PERMANENT_DELETE_COMMAND_ID = 'cmd.project.lifecycle.permanentDelete';
-const SCENE_HISTORY_QUERY_ID = 'query.sceneHistory';
-const ATLAS_OVERVIEW_QUERY_ID = 'query.atlasOverview';
-const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
-const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
-const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
-const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
-const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = 'query.atlasTemporalLayout';
-const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = 'query.atlasContinuityLedgerSurface';
-const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query.atlasReportsSavedQueries';
-const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = 'query.atlasDiagnosticsStageAcceptance';
-const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
+const SCENE_HISTORY_QUERY_ID = WORKSPACE_QUERY_IDS.SCENE_HISTORY;
+const ATLAS_OVERVIEW_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_OVERVIEW;
+const ATLAS_ENTITY_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_ENTITY_DOSSIER;
+const ATLAS_RELATION_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_RELATION_DOSSIER;
+const ATLAS_MATRICES_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_MATRICES;
+const ATLAS_HEATMAP_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_HEATMAP;
+const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_TEMPORAL_LAYOUT;
+const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_CONTINUITY_LEDGER_SURFACE;
+const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_REPORTS_SAVED_QUERIES;
+const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE;
+const ATLAS_CURRENT_SCENE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_CURRENT_SCENE;
 const HISTORY_CREATE_CHECKPOINT_COMMAND_ID = 'cmd.project.history.createCheckpoint';
 const HISTORY_RESTORE_PREVIEW_COMMAND_ID = 'cmd.project.history.restorePreview';
 const HISTORY_RESTORE_APPLY_COMMAND_ID = 'cmd.project.history.restoreApply';
@@ -19043,6 +19054,28 @@ ipcMain.handle('ui:command-bridge', async (_, request) => {
   }
 });
 
+const WORKSPACE_QUERY_BRIDGE_HANDLERS = new Map([
+  [PROJECT_TREE_QUERY_ID, handleWorkspaceProjectTreeQuery],
+  [PROJECT_LIBRARY_QUERY_ID, handleWorkspaceProjectLibraryQuery],
+  [SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID, handleWorkspaceSelectedScenesTxtExportScopeQuery],
+  [COLLAB_SCOPE_LOCAL_QUERY_ID, handleWorkspaceCollabScopeLocalQuery],
+  [REVIEW_SURFACE_QUERY_ID, handleWorkspaceReviewSurfaceQuery],
+  [METADATA_INSPECTOR_QUERY_ID, handleWorkspaceMetadataInspectorQuery],
+  [NOTES_WORKSPACE_QUERY_ID, handleWorkspaceProjectNotesQuery],
+  [PROJECT_SEARCH_QUERY_ID, handleWorkspaceProjectSearchQuery],
+  [SCENE_HISTORY_QUERY_ID, handleWorkspaceSceneHistoryQuery],
+  [ATLAS_OVERVIEW_QUERY_ID, handleWorkspaceAtlasOverviewQuery],
+  [ATLAS_ENTITY_DOSSIER_QUERY_ID, handleWorkspaceAtlasEntityDossierQuery],
+  [ATLAS_RELATION_DOSSIER_QUERY_ID, handleWorkspaceAtlasRelationDossierQuery],
+  [ATLAS_MATRICES_QUERY_ID, handleWorkspaceAtlasMatricesQuery],
+  [ATLAS_HEATMAP_QUERY_ID, handleWorkspaceAtlasHeatmapQuery],
+  [ATLAS_TEMPORAL_LAYOUT_QUERY_ID, handleWorkspaceAtlasTemporalLayoutQuery],
+  [ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID, handleWorkspaceAtlasContinuityLedgerSurfaceQuery],
+  [ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID, handleWorkspaceAtlasReportsSavedQueriesQuery],
+  [ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID, handleWorkspaceAtlasDiagnosticsStageAcceptanceQuery],
+  [ATLAS_CURRENT_SCENE_QUERY_ID, handleWorkspaceAtlasCurrentSceneQuery],
+]);
+
 ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
   const safeRequest = request && typeof request === 'object' && !Array.isArray(request)
     ? request
@@ -19056,64 +19089,11 @@ ipcMain.handle('ui:workspace-query-bridge', async (_, request) => {
     return { ok: false, error: 'QUERY_ID_NOT_ALLOWED' };
   }
 
-  if (queryId === 'query.projectTree') {
-    return handleWorkspaceProjectTreeQuery(payload);
+  const handler = WORKSPACE_QUERY_BRIDGE_HANDLERS.get(queryId);
+  if (typeof handler !== 'function') {
+    return { ok: false, error: 'QUERY_HANDLER_UNAVAILABLE' };
   }
-  if (queryId === PROJECT_LIBRARY_QUERY_ID) {
-    return handleWorkspaceProjectLibraryQuery(payload);
-  }
-  if (queryId === 'query.selectedScenesTxtExportScope') {
-    return handleWorkspaceSelectedScenesTxtExportScopeQuery();
-  }
-  if (queryId === 'query.collabScopeLocal') {
-    return handleWorkspaceCollabScopeLocalQuery();
-  }
-  if (queryId === 'query.reviewSurface') {
-    return handleWorkspaceReviewSurfaceQuery();
-  }
-  if (queryId === 'query.metadataInspector') {
-    return handleWorkspaceMetadataInspectorQuery(payload);
-  }
-  if (queryId === 'query.projectNotes') {
-    return handleWorkspaceProjectNotesQuery(payload);
-  }
-  if (queryId === 'query.projectSearch') {
-    return handleWorkspaceProjectSearchQuery(payload);
-  }
-  if (queryId === SCENE_HISTORY_QUERY_ID) {
-    return handleWorkspaceSceneHistoryQuery(payload);
-  }
-  if (queryId === ATLAS_OVERVIEW_QUERY_ID) {
-    return handleWorkspaceAtlasOverviewQuery(payload);
-  }
-  if (queryId === ATLAS_ENTITY_DOSSIER_QUERY_ID) {
-    return handleWorkspaceAtlasEntityDossierQuery(payload);
-  }
-  if (queryId === ATLAS_RELATION_DOSSIER_QUERY_ID) {
-    return handleWorkspaceAtlasRelationDossierQuery(payload);
-  }
-  if (queryId === ATLAS_MATRICES_QUERY_ID) {
-    return handleWorkspaceAtlasMatricesQuery(payload);
-  }
-  if (queryId === ATLAS_HEATMAP_QUERY_ID) {
-    return handleWorkspaceAtlasHeatmapQuery(payload);
-  }
-  if (queryId === ATLAS_TEMPORAL_LAYOUT_QUERY_ID) {
-    return handleWorkspaceAtlasTemporalLayoutQuery(payload);
-  }
-  if (queryId === ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID) {
-    return handleWorkspaceAtlasContinuityLedgerSurfaceQuery(payload);
-  }
-  if (queryId === ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID) {
-    return handleWorkspaceAtlasReportsSavedQueriesQuery(payload);
-  }
-  if (queryId === ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID) {
-    return handleWorkspaceAtlasDiagnosticsStageAcceptanceQuery(payload);
-  }
-  if (queryId === ATLAS_CURRENT_SCENE_QUERY_ID) {
-    return handleWorkspaceAtlasCurrentSceneQuery(payload);
-  }
-  return { ok: false, error: 'QUERY_ID_NOT_ALLOWED' };
+  return handler(payload);
 });
 
 ipcMain.handle('ui:save-lifecycle-signal-bridge', async (_, request) => {
@@ -20995,27 +20975,7 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.ui.font.set',
   'cmd.ui.fontSize.set',
 ]);
-const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set([
-  'query.projectTree',
-  PROJECT_LIBRARY_QUERY_ID,
-  'query.selectedScenesTxtExportScope',
-  'query.collabScopeLocal',
-  'query.reviewSurface',
-  'query.metadataInspector',
-  'query.projectNotes',
-  'query.projectSearch',
-  SCENE_HISTORY_QUERY_ID,
-  ATLAS_OVERVIEW_QUERY_ID,
-  ATLAS_ENTITY_DOSSIER_QUERY_ID,
-  ATLAS_CURRENT_SCENE_QUERY_ID,
-  ATLAS_RELATION_DOSSIER_QUERY_ID,
-  ATLAS_MATRICES_QUERY_ID,
-  ATLAS_HEATMAP_QUERY_ID,
-  ATLAS_TEMPORAL_LAYOUT_QUERY_ID,
-  ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID,
-  ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,
-  ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID,
-]);
+const WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS = new Set(WORKSPACE_QUERY_ID_LIST);
 const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.plan.switchMode',
   'cmd.project.review.switchMode',

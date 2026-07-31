@@ -239,7 +239,7 @@ test('S23 history: renderer has separate History tab and no file path authority'
 
   assert.match(html, /data-right-tab="history"/u);
   assert.match(html, /data-scene-history-host/u);
-  assert.match(renderer, /const SCENE_HISTORY_QUERY_ID = 'query\.sceneHistory'/u);
+  assert.match(renderer, /const SCENE_HISTORY_QUERY_ID = WORKSPACE_QUERY_IDS\.SCENE_HISTORY/u);
   assert.match(renderer, /EXTRA_COMMAND_IDS\.HISTORY_CREATE_CHECKPOINT/u);
   assert.doesNotMatch(renderer, /data-scene-history-path/u);
   assert.doesNotMatch(renderer, /selectedSnapshot\.snapshotPath|snapshot\.snapshotPath/u);

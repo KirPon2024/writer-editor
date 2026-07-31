@@ -36,7 +36,7 @@ test('post-mvp selected scenes TXT export: file menu exposes one bounded command
   assert.equal(matches[0].id, 'file-export-selected-scenes-txt');
   assert.equal(matches[0].actionId, undefined);
   assert.equal(matches[0].labelKey, 'menu.file.exportSelectedScenesTxt');
-  assert.deepEqual(matches[0].profile, ['pro', 'guru']);
+  assert.deepEqual(matches[0].profile, ['minimal', 'pro', 'guru']);
 
   assert.deepEqual(locale.entries['menu.file.exportSelectedScenesTxt'], {
     base: 'Экспорт TXT выбранных сцен',
@@ -52,8 +52,8 @@ test('post-mvp selected scenes TXT export: main surface opens transient picker f
     source,
     /\[EXPORT_SELECTED_SCENES_TXT_COMMAND_ID\]: async \(payload = \{\}\) => \{\s*const confirmed = payload && payload\.confirmed === true;[\s\S]*sendCanonicalRuntimeCommand\(\s*EXPORT_SELECTED_SCENES_TXT_COMMAND_ID,[\s\S]*preview:\s*true[\s\S]*dispatchCommandSurfaceKernel\(\s*COMMAND_SURFACE_KERNEL_COMMAND_IDS\.PROJECT_EXPORT_SELECTED_SCENES_TXT_V1,\s*payload,\s*\)/mu,
   );
-  assert.match(source, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS\s*=\s*new Set\(\[[\s\S]*'query\.selectedScenesTxtExportScope'/mu);
-  assert.match(source, /if \(queryId === 'query\.selectedScenesTxtExportScope'\) \{\s*return handleWorkspaceSelectedScenesTxtExportScopeQuery\(\);\s*\}/mu);
+  assert.match(source, /SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID\s*=\s*WORKSPACE_QUERY_IDS\.SELECTED_SCENES_TXT_EXPORT_SCOPE/u);
+  assert.match(source, /\[SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID,\s*handleWorkspaceSelectedScenesTxtExportScopeQuery\]/u);
 });
 
 test('post-mvp selected scenes TXT export: kernel and handler stay bounded to scene ids and external TXT write', () => {

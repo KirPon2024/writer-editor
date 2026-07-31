@@ -218,8 +218,8 @@ test('S26 project lifecycle UI bridge and renderer wiring are explicit', () => {
   assert.match(main, /handleProjectLifecycleCreateCommand,/u);
   assert.match(main, /handleProjectLifecycleOpenCommand,/u);
   assert.match(main, /handleProjectLifecycleContinueCommand,/u);
-  assert.match(renderer, /const PROJECT_LIBRARY_QUERY_ID = 'query\.projectLibrary'/u);
-  assert.match(renderer, /queryId !== PROJECT_LIBRARY_QUERY_ID/u);
+  assert.match(renderer, /const PROJECT_LIBRARY_QUERY_ID = WORKSPACE_QUERY_IDS\.PROJECT_LIBRARY/u);
+  assert.match(renderer, /WORKSPACE_QUERY_ID_SET\.has\(queryId\)/u);
   assert.match(renderer, /selectionRange: getSelectionOffsets\(\)/u);
   assert.match(renderer, /setSelectionRange\(incomingSelectionRange\.start, incomingSelectionRange\.end\)/u);
   assert.match(renderer, /function openProjectLibraryModal\(\)/u);

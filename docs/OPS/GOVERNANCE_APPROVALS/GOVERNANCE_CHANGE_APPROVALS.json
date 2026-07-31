@@ -46,9 +46,9 @@
     {
       "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
       "sha256": "31b194da169db5406e71a30c40183bb907f9492180a3f7d5bb2d43f6292d37cf",
-      "rationale": "Approve bounded C02 extension of the platform-neutral package-aware ReviewIRV2 parser core: semantically parses docProps/custom.xml as the C01-physically-proven custom document property authority carrier, verifies the carrier through CryptoPort hmacSha256Json plus local hmacSecret without embedded secret, binds expected scene, sceneRevision, rawSha256, block, round, and export identity, exports immutable exactAuthority inputs while deliberately leaving target uniqueness, overlap, and full XML semantic accounting false until later negative oracles, preserves customXml and docVar non-authority, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not expand automatic apply.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
-      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
+      "approvedAtUtc": "2026-07-30T17:12:04.000Z",
+      "rationale": "Approve bounded C02 extension of the platform-neutral package-aware ReviewIRV2 parser core: semantically parses docProps/custom.xml as the C01-physically-proven custom document property authority carrier, verifies the carrier through CryptoPort hmacSha256Json plus local hmacSecret without embedded secret, binds expected scene, sceneRevision, rawSha256, block, round, and export identity, exports immutable exactAuthority inputs while deliberately leaving target uniqueness, overlap, and full XML semantic accounting false until later negative oracles, preserves customXml and docVar non-authority, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not expand automatic apply."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",
@@ -541,25 +541,11 @@
       "rationale": "Approve bounded Yalken Atlas V5 E06 C07 delivery receipt: records local verified implementation of the explicit-open Atlas continuity ledger surface, SURFACE_MANIFEST_V1 rightRail.context.atlas.continuityLedger slot, query.atlasContinuityLedgerSurface read-only projection, finding rows with evidence anchors, jump-to-evidence intent-only behavior, author correction route disclosure through existing atlas.continuityFact.record command authority, degraded and empty states, Lazyweb search and unavailable create-report fallback, UI Craft and heuristic review, no automatic manuscript edits, no cross-scene apply, no project truth mutation, no storage, no network, no new dependency, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js",
-      "sha256": "163fefefc56010433922aa0c88e68b8d74128a4f443e5959b9d815fde34090c6",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C07_ATLAS_CONTINUITY_LEDGER_SURFACE_AND_AUTHOR_CORRECTION_ROUTE",
-      "approvedAtUtc": "2026-07-30T05:10:18.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E06 C07 contract: proves continuity ledger surface derives finding rows with evidence jump intents and correction route disclosure from existing continuity findings and fact ledgers, exposes empty and disabled capability states, exports through derived barrels, wires renderer and main query bridge only behind explicitOpen and query allowlist, keeps correction route intent-only with no dispatchUiCommand bypass, and keeps derived continuity ledger surface sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, automatic correction, automatic apply, cross-scene apply, manuscript mutation, project truth mutation, or hidden UI bypasses."
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_TIME_SLIDER_SURFACE_RECEIPT.json",
       "sha256": "4f949870c6b8a64958c1f50b80dae7f4a1c5f49cb3a140f107d8e4091c75de7f",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_AND_TIME_SLIDER_SURFACE",
       "approvedAtUtc": "2026-07-30T04:40:02.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E06 C06 delivery receipt: records local verified implementation of the explicit-open Atlas temporal layout and time slider surface, SURFACE_MANIFEST_V1 rightRail.context.atlas.temporalLayout slot, query.atlasTemporalLayout read-only heavy projection, temporal layout packet, time slider state model, keyboard and list parity, large-project UI budget proof, Lazyweb health plus strong timeline dashboard search and recorded create-report unavailable fallback, UI Craft implementation route, no Core command, no project truth mutation, no manuscript mutation, no storage, no network, no new dependency, no background daemon, focused and adjacent pass evidence, and governance/full runner rerun requirement before merge."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js",
-      "sha256": "f4270fb701650816f07b507c9e80c2b8f8f84a72745caf71abd4fbb308949eff",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E06_C06_ATLAS_TEMPORAL_LAYOUT_AND_TIME_SLIDER_SURFACE",
-      "approvedAtUtc": "2026-07-30T04:40:02.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E06 C06 contract: proves Atlas temporal layout derives an explicit heavy timeline, slider state, keyboard contract, list fallback parity, and large-project budget proof from existing temporal anchors and relation segments without mutation, records unknown-time degraded state honestly, fails closed when atlas.temporalLayout capability is disabled, exports through derived barrels, wires renderer and main query bridge only behind explicitOpen and query allowlist, and keeps derived temporal layout sources free of storage, network, DOM, platform, renderer, worker, daemon, command dispatch, automatic correction, automatic apply, manuscript mutation, project truth mutation, or hidden UI bypasses."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E06_C05_ATLAS_CONTINUITY_FINDINGS_PROMISES_DISAPPEARANCE_CHECKS_RECEIPT.json",
@@ -639,13 +625,6 @@
       "rationale": "Approve bounded Yalken Atlas V5 E06 C00 Stage 06 compilation receipt: records read-only canon and runtime reconciliation, existing ordinal temporal continuity seam, missing real and fictional calendar capabilities, Stage 06 queue for calendar definitions, temporal ranges, relation segments, perspective, continuity fact ledgers, promise and disappearance findings, temporal layout, time slider, Continuity Ledger, acceptance diagnostics, Lazyweb timeline calendar dashboard quick-search evidence with report-unavailable fallback, fresh full runner pass evidence, and no runtime, UI, storage, command, dependency, network, cloud, account, release readiness, or external service mutation in this compilation contour."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
-      "sha256": "892fbd6c81fe8dd4403b1409e8641de4a5a1d2a36456c2e23da3cf79a6e9fe3b",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T04:18:37.000Z",
-      "rationale": "Approve ER C00 repair to invalidate the previous E05 C07 Stage 05 readiness assertion: diagnostics remains read-only and side-effect closed, but missing external visual, accessibility, responsive, performance, and packaged machine artifacts force summary.stageAcceptance not_ready, finalBar NOT_READY, Lazyweb and heuristic rows advisory only, and no static repo-native row can close Stage 05 readiness."
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_STAGE_ACCEPTANCE_RECEIPT.json",
       "sha256": "3db6a2e21860072f09eb5e7e594026340ff108f42853b524fae232cd3bdb820f",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C07_ATLAS_DIAGNOSTICS_DEGRADED_CAPABILITY_AND_STAGE_ACCEPTANCE",
@@ -653,25 +632,11 @@
       "rationale": "Approve bounded Yalken Atlas V5 E05 C07 delivery receipt: records local verified implementation of the Atlas diagnostics and Stage 05 acceptance surface, degraded capability report, fallback inventory, Stage 05 acceptance proof, Lazyweb diagnostics dashboard quick-search evidence with current-session report-unavailable fallback, UI Craft application with repo-native final audit and heuristic receipt fallback, no project truth mutation, no storage write, no network runtime, no hidden renderer mutation, no worker or daemon, no new dependency, focused and full runner pass evidence, and Stage 06 contour compilation handoff without widening release readiness."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js",
-      "sha256": "ebb6d6d1a2ac477753c91dba987fa25c565aee42ce92a210a3eae00d90a8c5fe",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_AND_SAVED_QUERIES_BOUNDARY",
-      "approvedAtUtc": "2026-07-30T02:35:46.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E05 C06 reports and saved queries contract: proves atlas.savedQuery.save Core command boundary, saved query author truth save/reopen, stale-source detection, local report packet, export-safe pathless summary, typed right-rail reports surface, main query bridge allowlist, capability revalidation, and side-effect boundaries while preserving no cloud sync, no account sync, no paid service, no network runtime, no hidden mutation, no renderer command bypass, no new dependency, and no release readiness widening."
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_SAVED_QUERIES_BOUNDARY_RECEIPT.json",
       "sha256": "1c805597d54384f304a8d4c1174da1ccd30a9f57db30c00c2d23eae65acef734",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C06_ATLAS_REPORTS_AND_SAVED_QUERIES_BOUNDARY",
       "approvedAtUtc": "2026-07-30T02:39:32.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E05 C06 delivery receipt: records local verified implementation of Atlas reports and saved queries boundary, Lazyweb saved-reports search evidence with create-report redirect fallback, UI Craft application, no Leonardo trigger, no Project Wallace trigger, Core command atlas.savedQuery.save, node-only capability cap.atlas.savedQuery.save, local report packet, saved query readback, stale-source detection, export-safe pathless summary, no cloud sync, no account sync, no network runtime, no hidden renderer mutation, no new dependency, focused and full runner pass evidence, and next contour handoff without widening release readiness."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
-      "sha256": "c9bfb5ac5dfb63f03d5d89cf36e092b1d2b3bc80bb853566464a247ec3f04b69",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
-      "approvedAtUtc": "2026-07-31T05:46:00.000Z",
-      "rationale": "Approve ER C01 heatmap contract repair over the E05 C05 base: replaces stale proximity/source-regex assertion with behavior-bound explicit-open evidence, proving derived Atlas heatmap packet, explicit heavy-surface open requirement, viewport tile budget proof, typing hot-path nonblocking guard, legend/list degraded fallback, applyRightTab renders the closed heatmap shell without querying, openAtlasHeatmapSurface is the only path that flips explicit open and invokes refresh, renderer/main typed host wiring, and side-effect boundaries while preserving no project truth mutation, no storage write, no network service, no background daemon, no command bypass, no semantic heatmap palette dependency, no product runtime dependency, and no release readiness widening."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C05_ATLAS_HEATMAP_LARGE_UI_BUDGET_PROOF_RECEIPT.json",
@@ -942,9 +907,9 @@
     {
       "filePath": "test/contracts/revision-bridge-word-evidence-check.contract.test.js",
       "sha256": "5dd5a8764c3441e8a5104851dbc3c896447930a4c79efa2f16f71f5f0a641ae9",
-      "rationale": "Approve evidence-check allowlist extension for C03 only: adds the C03 block exact authority module, C03 receipt, and focused contract test to the bounded revision bridge Word evidence change scope while preserving existing parser, classifier, exact apply, governance detection, release claim checks, and no product runtime or UI expansion.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
-      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z",
+      "rationale": "Approve evidence-check allowlist extension for C03 only: adds the C03 block exact authority module, C03 receipt, and focused contract test to the bounded revision bridge Word evidence change scope while preserving existing parser, classifier, exact apply, governance detection, release claim checks, and no product runtime or UI expansion."
     },
     {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_APPLY_LANE_PRODUCT_CLOSEOUT_REBIND_001_STATUS.json",
@@ -1116,10 +1081,10 @@
     },
     {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
-      "approvedBy": "ticket:RECOVERY_READABILITY_CENTRAL_BINDING_001",
-      "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the bounded OPS governance baseline regeneration required after the new recovery readability token and claim rows changed canonical governed-file hashes.",
       "sha256": "055515c2dec5f4544243b7436d35c8ba180298255d0cd4feab0b13036e9c9b4e",
-      "approvedAtUtc": "2026-04-28T00:00:00.000Z"
+      "approvedBy": "ticket:RECOVERY_READABILITY_CENTRAL_BINDING_001",
+      "approvedAtUtc": "2026-04-28T00:00:00.000Z",
+      "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the bounded OPS governance baseline regeneration required after the new recovery readability token and claim rows changed canonical governed-file hashes."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_01/advisory-blocking-drift-cases.json",
@@ -2560,7 +2525,7 @@
       "filePath": "docs/OPS/STATUS/COMMENT_HISTORY_SCOPE_FLAG_BINDING_V1.json",
       "sha256": "d1b9b92c9dbb43c0017cfeb27d1c770feb4aae0042497c8f0be6ab5506073740",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -2595,7 +2560,7 @@
       "filePath": "docs/OPS/STATUS/DESKTOP_FIRST_ORDER_ENFORCEMENT_V1.json",
       "sha256": "2548e8d99ae751824ee32e8c1e7c7f54f93dcca5c32c47d4f77bd8f19aea0472",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -2630,7 +2595,7 @@
       "filePath": "docs/OPS/STATUS/EXECUTION_GLOSSARY_V1.json",
       "sha256": "7dd0822218edeab911f959770d920b852848ac91c5d2af5378a9cd7d51f8fbd4",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -2658,14 +2623,14 @@
       "filePath": "docs/OPS/STATUS/EXECUTION_PACKAGE_02_ALLOWLIST_V1.json",
       "sha256": "d899f894c6531ea09aebb253cd57d65c49d2832db6d7f4a764b28441ce95a53b",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
       "filePath": "docs/OPS/STATUS/EXECUTION_PACKAGE_02_PREEXISTING_DIRTY_SNAPSHOT_V1.json",
       "sha256": "775252183272f209b7e4cb6fe64e68ae3e82cd577b35f916c40deb5e7d3efbb7",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -2707,7 +2672,7 @@
       "filePath": "docs/OPS/STATUS/FREEZE_ESCAPE_POLICY_V1.json",
       "sha256": "a4c2b3f94d120565bbb5d5499a9d4aabbd88cee9b19bdba0efb26131bf68e40e",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -2721,7 +2686,7 @@
       "filePath": "docs/OPS/STATUS/GATE_DEPENDENCY_DECLARATION_V1.json",
       "sha256": "9e07adc88db48961d31f0aa36e4c9cf8e96ce77e6ad997c8d0c730ce923e9baf",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -2763,7 +2728,7 @@
       "filePath": "docs/OPS/STATUS/MACHINE_CHECK_REGISTRY_V1.json",
       "sha256": "97907b94ad0dfae7b232a9fc8f2a9bb84e5ebb0f4d65749f5df389ac3773a2f3",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -2917,14 +2882,14 @@
       "filePath": "docs/OPS/STATUS/REQUIRED_SET_PHASE_1_V1.json",
       "sha256": "a1d05fab637b43aa9da847df88429a8d56587b8bde8bbb13df958a1bc1797055",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
       "filePath": "docs/OPS/STATUS/REQUIRED_SET_PHASE_2_V1.json",
       "sha256": "1c14f4066d2e78642a261fd25cfe17721025238b02bf3df4694a47e3a0201c99",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -2987,7 +2952,7 @@
       "filePath": "docs/OPS/STATUS/THRESHOLD_SYSTEM_NORMALIZATION_V1.json",
       "sha256": "ae3a958dd6ef8af50fd0c48b883cbc0f359a9568a28e0d2b8a43b06c9ffc0da5",
       "approvedBy": "ticket:TZ_EXEC_PKG_02_A02_COMMIT_GATE_AND_PR_CREATE",
-      "approvedAtUtc": "2026-02-28T00:15:00Z",
+      "approvedAtUtc": "2026-02-28T00:15:00.000Z",
       "rationale": "EXECUTION_PACKAGE_02_COMMIT_GATE_REBIND"
     },
     {
@@ -4328,13 +4293,6 @@
       "rationale": "Approve the Phase 04 authority harness rebind proving canonical saved-scene export with zero renderer snapshot reads, cancel-before-write loss confirmation, pathless receipts, token-only accept, preview zero writes, and unchanged rejection of renderer paths and content authority."
     },
     {
-      "filePath": "test/contracts/revision-bridge-review-mutate-port.contract.test.js",
-      "sha256": "8e8f2ed631a0b32eb86efb08f59882d235a698bac59befaa550de794fb2b0598",
-      "approvedBy": "ticket:REVIEW_BRIDGE_FILE_AUTHORITY_HARDENING_001",
-      "approvedAtUtc": "2026-07-12T20:06:32.000Z",
-      "rationale": "Approve the existing Review mutate contract update binding local packet intake to the shared bounded reader and proving export target revalidation before write, while preserving canonical packet validation, exact apply authority, recovery, receipt, structural manual-only behavior, and all prior crash-reconciliation coverage."
-    },
-    {
       "filePath": "docs/OPS/STATUS/REVIEW_BRIDGE_MARKDOWN_PRODUCT_COMPLETION_001_STATUS.json",
       "sha256": "cda388f04fcbd202c5f6dd919e3b8209724595da792b2347a950d00d84e17fbf",
       "approvedBy": "ticket:REVIEW_BRIDGE_MARKDOWN_PRODUCT_COMPLETION_001_DELIVERY_REBIND",
@@ -4860,13 +4818,6 @@
       "rationale": "Approve bounded Yalken Atlas V5 E01 C03 current-scene Atlas projection and dossier surface change: adds a read-only derived current-scene dossier, query.atlasCurrentScene main bridge, rightRail.context.atlas surface manifest, and Atlas right-rail UI tab with local text-selection focus intents while preserving no project truth write, no command dispatch authority, no storage adapter, no network, no paid service, no new dependency, no private renderer storage, and no release readiness widening. Receipt records Design OS route, Lazyweb quick-search evidence, local syntax checks, focused contracts, renderer build after existing lockfile dependency install, critical audit gate, doctrine, perf lite, OSS policy, and governance detection."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e01-c03-current-scene-dossier-surface.contract.test.js",
-      "sha256": "0375b787ab796a56596300d5c0a884c5c7d8edfeaefdb447a3e54d83650382b4",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C03_CURRENT_SCENE_ATLAS_PROJECTION_AND_DOSSIER_SURFACE",
-      "approvedAtUtc": "2026-07-29T18:21:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E01 C03 current-scene dossier contract: proves read-only surface manifest authority, current-scene filtering, evidence anchor focus intents, empty and unavailable fallback states, query bridge wiring, main path-boundary sanitation, and negative filesystem, network, Electron, storage, and command-dispatch bypass checks while preserving no mutation, dependency, network, cloud, paid service, or release readiness widening."
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_REBUILD_RECOVERY_RECEIPT.json",
       "sha256": "d601366c35cdfa7eac99d619bfee5d079adf09bd760e61414850c82ee9d9c6c5",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E01_C04_ATLAS_CONFIRMATION_AND_REBUILD_RECOVERY_BOUNDARY",
@@ -5273,25 +5224,11 @@
       "rationale": "Approve bounded Yalken Atlas V5 E05 C01 receipt: records the Atlas overview read model, read-only surface manifest, workspace query bridge provider, right-rail typed slot contribution, progressive disclosure sections, deterministic unavailable and empty fallbacks, Lazyweb and UI Craft design-route evidence, synchronized renderer bundle, and no product-truth, storage, network, command-bypass, worker, dependency, or external-service expansion."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
-      "sha256": "7510238320c90d0b1b47ca074fa7e800166f12171c45aeca87390d1dd2f02997",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C01_ATLAS_OVERVIEW_SURFACE_MANIFEST_PROGRESSIVE_DISCLOSURE",
-      "approvedAtUtc": "2026-07-30T00:49:56.000Z",
-      "rationale": "Approve E05 C01 contract test coverage for the Atlas overview surface: proves deterministic overview derivation and surface manifest metadata, unavailable and empty states without mutation, public barrel exports and side-effect boundaries, renderer and main-process query-bridge wiring through a typed host, progressive disclosure presence, and no storage, network, command bypass, or renderer-side product mutation."
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C02_ENTITY_DOSSIER_EVIDENCE_LEDGER_READ_SURFACE_RECEIPT.json",
       "sha256": "e8f62f04ee201f933ccb8e852571b8dab67b6cd223df0d281f5f3afb6e1107f8",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C02_ENTITY_DOSSIER_AND_EVIDENCE_LEDGER_READ_SURFACE",
       "approvedAtUtc": "2026-07-30T01:10:48.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E05 C02 receipt: records the entity dossier read model, read-only evidence ledger, surface manifest, query bridge provider, right-rail typed slot, transient renderer entity selection, keyboard-accessible evidence list, Lazyweb and UI Craft design-route evidence, synchronized renderer bundle, and no product-truth, storage, network, command-bypass, worker, dependency, or external-service expansion."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-e05-c02-entity-dossier-evidence-ledger-read-surface.contract.test.js",
-      "sha256": "4dbaa847e8dd4258d9a45aa98800a276dea2342f4d68e01c7c66ec7af113476c",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C02_ENTITY_DOSSIER_AND_EVIDENCE_LEDGER_READ_SURFACE",
-      "approvedAtUtc": "2026-07-30T01:10:48.000Z",
-      "rationale": "Approve E05 C02 contract test coverage for the Atlas entity dossier and evidence ledger read surface: proves deterministic entity selection, read-only surface manifest, evidence ledger rows for current observations and review-required source records, unavailable and empty states without mutation, public barrel exports, renderer and main-process query bridge wiring through a typed host, keyboard-selectable entity rows, and no storage, network, command bypass, or renderer-side product mutation."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS_RECEIPT.json",
@@ -5301,25 +5238,11 @@
       "rationale": "Approve bounded Yalken Atlas V5 E05 C03 receipt: records the relation dossier read model, read-only pair evidence packet, co-occurrence timeline, absence context, contextual review action intents bound to existing Atlas command ids, query bridge provider, right-rail typed slot, transient renderer relation selection, Lazyweb and UI Craft design-route evidence, synchronized renderer bundle, and no product-truth, storage, network, command-bypass, worker, dependency, or external-service expansion."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
-      "sha256": "1b940b19cfb058a66304132dbf65034f50a4430d814f87b996225094b7630a7c",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C03_RELATION_DOSSIER_CONTEXTUAL_REVIEW_ACTIONS",
-      "approvedAtUtc": "2026-07-30T01:30:32.000Z",
-      "rationale": "Approve E05 C03 contract test coverage for the Atlas relation dossier and contextual review action surface: proves deterministic relation selection, pair evidence and timeline rows, absence context, existing Command Kernel action-intent ids, unavailable and empty states without mutation, public barrel exports, renderer and main-process query bridge wiring through a typed host, keyboard-selectable relation rows, and no storage, network, command bypass, direct dispatch, or renderer-side product mutation."
-    },
-    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_ACCESSIBILITY_PARITY_RECEIPT.json",
       "sha256": "dcff39042931b7fa6bac4d918b971ac530deb7be8fb4982951c66b5eacdb01e0",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_AND_ACCESSIBILITY_PARITY",
       "approvedAtUtc": "2026-07-30T01:51:00.000Z",
       "rationale": "Approve bounded Yalken Atlas V5 E05 C04 receipt: records the Atlas matrices read model, entity-scene and relation matrix packets, table-first and equivalent list parity accessibility contract, workspace query bridge provider, right-rail typed slot, keyboard grid navigation, honest large-project clipping proof, Lazyweb and UI Craft design-route evidence, synchronized renderer bundle, and no product-truth, storage, network, command-bypass, worker, dependency, heatmap color-system, or external-service expansion."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
-      "sha256": "da90d8e514d86d582e93304e24c84bf3c87bc8d72e88ebe7a1926ce8e52c11e3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E05_C04_ATLAS_MATRICES_AND_ACCESSIBILITY_PARITY",
-      "approvedAtUtc": "2026-07-30T01:51:00.000Z",
-      "rationale": "Approve E05 C04 contract test coverage for the Atlas matrices accessibility parity surface: proves deterministic entity-scene and relation matrix derivation, clipped table and list parity budgets, keyboard navigation and table-first accessibility contract, unavailable and empty states without mutation, public barrel exports, renderer and main-process query bridge wiring through a typed host, and no storage, network, command bypass, direct dispatch, heatmap color-system, or renderer-side product mutation."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E10_C00_STAGE_10_COMMENTS_HISTORY_COLLAB_CONTOUR_COMPILATION_RECEIPT.json",
@@ -5380,58 +5303,58 @@
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C01_LOCATOR_CARRIER_RECEIPT.json",
       "sha256": "10ae30f52121c84e3f6e8f780a47c124d6796e0349a9b576ec7c8551ebaad34b",
-      "rationale": "Approve bounded C01 locator authority carrier receipt: records five physical Microsoft Word for Mac 16.111.x Word-created base DOCX round trips with carrier injection, save, GUI-close, reopen, and package readback; proves custom document property HMAC survives every mutating save as a non-visible authority carrier candidate, confirms customXml and docVar are not mutating authority carriers on the observed profile, keeps zero false EXACT, silent apply, wrong scene routing, and replay counters at zero, preserves durable synthetic evidence on T7-Secure, keeps Word-only WIP sequencing without reducing the master plan, and makes no automatic apply, parser integration, UI, runtime, network, dependency, Google Docs, other editor, Windows, Linux, or broad saturation claim.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
-      "approvedAtUtc": "2026-07-30T17:00:09.000Z"
+      "approvedAtUtc": "2026-07-30T17:00:09.000Z",
+      "rationale": "Approve bounded C01 locator authority carrier receipt: records five physical Microsoft Word for Mac 16.111.x Word-created base DOCX round trips with carrier injection, save, GUI-close, reopen, and package readback; proves custom document property HMAC survives every mutating save as a non-visible authority carrier candidate, confirms customXml and docVar are not mutating authority carriers on the observed profile, keeps zero false EXACT, silent apply, wrong scene routing, and replay counters at zero, preserves durable synthetic evidence on T7-Secure, keeps Word-only WIP sequencing without reducing the master plan, and makes no automatic apply, parser integration, UI, runtime, network, dependency, Google Docs, other editor, Windows, Linux, or broad saturation claim."
     },
     {
       "filePath": "scripts/ops/rtk-word-saturation-c01-locator-carrier-lab.mjs",
       "sha256": "81c078bdea41feafb32597ffb668ba0157bf8ad84271dacc7753d800dc33506e",
-      "rationale": "Approve bounded C01 locator carrier lab: creates synthetic Word base DOCX through desktop Word, injects candidate carriers into a Word-created package, runs five physical Word edit/save/GUI-close/reopen cases, stores durable evidence on T7-Secure while using Word container-local scratch to avoid macOS file-access prompts, writes receipts atomically, verifies HMAC carriers, uses stdlib zipfile only for literal ops extraction, closes only saved active lab windows, records limitations truthfully, and adds no product runtime entrypoint, UI, network, dependency, user document close, parser authority integration, or automatic apply expansion.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
-      "approvedAtUtc": "2026-07-30T17:00:09.000Z"
+      "approvedAtUtc": "2026-07-30T17:00:09.000Z",
+      "rationale": "Approve bounded C01 locator carrier lab: creates synthetic Word base DOCX through desktop Word, injects candidate carriers into a Word-created package, runs five physical Word edit/save/GUI-close/reopen cases, stores durable evidence on T7-Secure while using Word container-local scratch to avoid macOS file-access prompts, writes receipts atomically, verifies HMAC carriers, uses stdlib zipfile only for literal ops extraction, closes only saved active lab windows, records limitations truthfully, and adds no product runtime entrypoint, UI, network, dependency, user document close, parser authority integration, or automatic apply expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-saturation-c01-locator-carrier.contract.test.js",
       "sha256": "6434426b112f104b073f11017316e3e34fce749de580d8e8b38e1452f9fa3db1",
-      "rationale": "Approve focused C01 contract coverage: verifies the physical locator carrier receipt, selected custom document property authority candidate, customXml and docVar non-authority on mutating saves, Word-created source construction, GUI-close saved-lab-only policy, zero false EXACT counters, Word-only sequencing with Google Docs next after saturation and no master-plan reduction, CLI receipt evaluation without Word in CI, no product UI/network/runtime overclaim, and no broad compatibility certification.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
-      "approvedAtUtc": "2026-07-30T17:00:09.000Z"
+      "approvedAtUtc": "2026-07-30T17:00:09.000Z",
+      "rationale": "Approve focused C01 contract coverage: verifies the physical locator carrier receipt, selected custom document property authority candidate, customXml and docVar non-authority on mutating saves, Word-created source construction, GUI-close saved-lab-only policy, zero false EXACT counters, Word-only sequencing with Google Docs next after saturation and no master-plan reduction, CLI receipt evaluation without Word in CI, no product UI/network/runtime overclaim, and no broad compatibility certification."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C02_AUTHORITY_CARRIER_RECEIPT.json",
       "sha256": "945438c6c4b32b2f9ee06505071b9eef500ed203725ab2bc8534475ac706c3df",
-      "rationale": "Approve bounded C02 authority carrier receipt: records parser integration of the C01 selected customDocumentProperty carrier, binds to physical C01 evidence, records HMAC verification and expected baseline checks, proves missing secret, tampered HMAC, stale scene revision, stale raw hash, duplicate carrier, and verified-carrier-without-uniqueness negatives, keeps falseExact, silentApply, wrongSceneRouting, and replayFailure at zero, preserves Word-only WIP sequencing with Google Docs next after saturation and no master-plan reduction, and makes no automatic apply, block-local exact certification, UI, runtime, network, dependency, other editor, or broad Word saturation claim.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
-      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
+      "approvedAtUtc": "2026-07-30T17:12:04.000Z",
+      "rationale": "Approve bounded C02 authority carrier receipt: records parser integration of the C01 selected customDocumentProperty carrier, binds to physical C01 evidence, records HMAC verification and expected baseline checks, proves missing secret, tampered HMAC, stale scene revision, stale raw hash, duplicate carrier, and verified-carrier-without-uniqueness negatives, keeps falseExact, silentApply, wrongSceneRouting, and replayFailure at zero, preserves Word-only WIP sequencing with Google Docs next after saturation and no master-plan reduction, and makes no automatic apply, block-local exact certification, UI, runtime, network, dependency, other editor, or broad Word saturation claim."
     },
     {
       "filePath": "test/contracts/rtk-word-saturation-c02-authority-carrier.contract.test.js",
       "sha256": "939802ff078d5bd795d1adf5d54e522500c2c4ad4123b1c2963cb98e08214dc9",
-      "rationale": "Approve focused C02 contract coverage: proves custom document property authority carrier extraction, HMAC verification, expected baseline binding, docProps/custom.xml semantic inventory, classifier non-exact behavior until target uniqueness and semantic accounting are proven, tampered HMAC and missing-secret blocking, stale baseline blocking, duplicate-carrier ambiguity blocking, public export, receipt nonclaims, and parser core absence of Node, Buffer, child process, network, regex parser, UI, and writer authority.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
-      "approvedAtUtc": "2026-07-30T17:12:04.000Z"
+      "approvedAtUtc": "2026-07-30T17:12:04.000Z",
+      "rationale": "Approve focused C02 contract coverage: proves custom document property authority carrier extraction, HMAC verification, expected baseline binding, docProps/custom.xml semantic inventory, classifier non-exact behavior until target uniqueness and semantic accounting are proven, tampered HMAC and missing-secret blocking, stale baseline blocking, duplicate-carrier ambiguity blocking, public export, receipt nonclaims, and parser core absence of Node, Buffer, child process, network, regex parser, UI, and writer authority."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
       "sha256": "ba13521aade53a940e9fa4f88c93054155cb50cf81952c8ae01220ac5d5817c8",
-      "rationale": "Approve bounded C03 platform-neutral block-local exact authority evaluator: consumes ReviewIRV2, C02 verified authority carrier, C02 baseline guards, and local Yalken baseline block text to prove uniqueTarget, nonOverlapping, and allRelevantXmlSemanticsAccounted for supported delete and replacement-pair text groups; blocks duplicate text, duplicate block identities, overlapping ranges, standalone inserts without anchors, move and structural changes, cross-scene drift, stale baseline guards, and opaque unsupported OOXML; imports no Node, Electron, filesystem, Buffer, picker, network, UI, renderer, parser write, or writer authority; keeps canApply false and only feeds classifier authority inputs.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
-      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z",
+      "rationale": "Approve bounded C03 platform-neutral block-local exact authority evaluator: consumes ReviewIRV2, C02 verified authority carrier, C02 baseline guards, and local Yalken baseline block text to prove uniqueTarget, nonOverlapping, and allRelevantXmlSemanticsAccounted for supported delete and replacement-pair text groups; blocks duplicate text, duplicate block identities, overlapping ranges, standalone inserts without anchors, move and structural changes, cross-scene drift, stale baseline guards, and opaque unsupported OOXML; imports no Node, Electron, filesystem, Buffer, picker, network, UI, renderer, parser write, or writer authority; keeps canApply false and only feeds classifier authority inputs."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C03_BLOCK_EXACT_AUTHORITY_RECEIPT.json",
       "sha256": "6cf50b02f60d86006fef5d043c3f6f9c187933af20a6bb73148fe47cee3ec57e",
-      "rationale": "Approve bounded C03 receipt: records block-local exact authority evaluator, C02 carrier binding, supported delete and replacement-pair scope, negative oracles for duplicate text, duplicate block id, overlap, standalone insert, move, structure, cross-scene drift and stale guards, zero false counters, Word-only sequencing with Google Docs next after saturation, and nonclaims for writer call, automatic apply expansion, broad Word portability, Google Docs, other editors, and latest Word saturation done.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
-      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z",
+      "rationale": "Approve bounded C03 receipt: records block-local exact authority evaluator, C02 carrier binding, supported delete and replacement-pair scope, negative oracles for duplicate text, duplicate block id, overlap, standalone insert, move, structure, cross-scene drift and stale guards, zero false counters, Word-only sequencing with Google Docs next after saturation, and nonclaims for writer call, automatic apply expansion, broad Word portability, Google Docs, other editors, and latest Word saturation done."
     },
     {
       "filePath": "test/contracts/rtk-word-saturation-c03-block-exact-authority.contract.test.js",
       "sha256": "64d36562d7b310e5228474c350387cb03d62a89b75a24a838d237d091fead3ce",
-      "rationale": "Approve focused C03 contract coverage: proves block-local exact authority from the C02 custom property carrier without global duplicate text authority, classifier exact candidate generation with canApply false, independent comments and formatting lanes, duplicate text and duplicate block blocking, overlapping range blocking, standalone insert blocking, move and structure blocking, cross-scene and stale baseline blocking, receipt nonclaims, and source absence of Node, Buffer, child process, network, regex parser, UI, and writer authority.",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
-      "approvedAtUtc": "2026-07-30T17:31:00.000Z"
+      "approvedAtUtc": "2026-07-30T17:31:00.000Z",
+      "rationale": "Approve focused C03 contract coverage: proves block-local exact authority from the C02 custom property carrier without global duplicate text authority, classifier exact candidate generation with canApply false, independent comments and formatting lanes, duplicate text and duplicate block blocking, overlapping range blocking, standalone insert blocking, move and structure blocking, cross-scene and stale baseline blocking, receipt nonclaims, and source absence of Node, Buffer, child process, network, regex parser, UI, and writer authority."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e10-c04-actor-causal-offline-queue.contract.test.js",
@@ -5721,74 +5644,172 @@
       "rationale": "Owner-approved V4 E09 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
     },
     {
+      "filePath": "test/contracts/post-mvp-selected-scenes-txt-export.contract.test.js",
+      "sha256": "4e97a75362834ee13b6423c4e6ea9708688e0206f9aa8833703dcf236f1ebfc8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 adjacent selected-scenes contract rebind: updates query bridge assertions to the shared workspace query registry and current canonical menu profile truth, while preserving main-owned export execution, read-only scope query, no UI design change, no dependency, no network, and no writer authority expansion."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-review-mutate-port.contract.test.js",
+      "sha256": "f0920ce2519c4970adbcbdf59ed15c84b9d3f9340bba71e0617175c907608d42",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 adjacent review mutate port harness rebind: updates the workspace query bridge marker and supplies existing main computed-key constants to the VM harness only, preserving review mutation authority, local packet safety, no product runtime change, no UI design change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e01-c03-current-scene-dossier-surface.contract.test.js",
+      "sha256": "a9e7d92771e0d86301c4ba99ba9e4017ffe471f2dabae27e22813569596f71d0",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 current-scene Atlas contract rebind: asserts registry-bound query id and main handler-map reachability instead of literal manual allowlist wiring, preserving read-only surface semantics, no storage bypass, no UI design change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
+      "sha256": "6d308dcbe48d06ec09669227874d8eb484302a21f398c5a16258cf41d5a53dfb",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 overview contract rebind: verifies Atlas overview query id from shared registry and main handler-map reachability, preserving read-only derived projection, typed host, no direct mutation, no UI design change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c02-entity-dossier-evidence-ledger-read-surface.contract.test.js",
+      "sha256": "7f03b373470c5f8ffce74a2b6a1786344a0ffe82d13888fb803f582ee669b0a6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 entity dossier contract rebind: verifies registry-bound entity query id and handler-map route instead of manual allowlist order, preserving evidence-ledger read-only semantics, no renderer write path, no UI design change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
+      "sha256": "31a30555fd2b856aeec08d2adb8848a1d9ab7987d052a4ba85fe95efba92465f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 relation dossier contract rebind: verifies registry-bound relation query id and handler-map route, preserving contextual action intents, command-boundary assertions, no renderer mutation bypass, no UI design change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
+      "sha256": "2ef0fd154199301e0411e8f2cacc2a98743f43d6b0cce03f346c9115122171dc",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 matrices contract rebind: verifies registry-bound matrices query id and handler-map reachability so the surface cannot be hidden by stale renderer allowlists, preserving keyboard parity, no mutation bypass, no UI design change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
+      "sha256": "66d58b06067ec120ed28dcb2c077b7f8909a9d15e4bb7b380b329b591a78dde2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 heatmap contract rebind: verifies registry-bound heatmap query id and handler-map route while preserving explicit-open heavy surface gating, viewport budget contract, no UI design change, no dependency, no network, and no project truth mutation."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js",
+      "sha256": "43c799a11369f4dfed7517a8121fff48b23471896d3153f1e44be9be3b02d17b",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 reports contract rebind: verifies registry-bound saved-query report query id and handler-map route, preserving read-only report surface, stale source detection, capability boundary, no UI design change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
+      "sha256": "4b32df22663c8f2e87c6b3fa08a933215d44fb7cd97c5002dd9978307a9f5e35",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 diagnostics contract rebind: verifies registry-bound diagnostics query id and handler-map route while preserving NOT_READY external-evidence discipline, degraded capability rows, no false readiness, no UI design change, no dependency, and no network."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js",
+      "sha256": "c167369a64ba7385ed62ec9941b31bee6d210684afe619f1053b89d661ebeb37",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 temporal layout contract rebind: verifies registry-bound temporal query id and handler-map route, preserving explicit-open heavy surface behavior, keyboard/list parity, no UI design change, no dependency, no network, and no project truth mutation."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js",
+      "sha256": "85ce2925652ef6accf016e5ca111e14d270cb4391cadcff62ce5024e973b97aa",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 continuity ledger contract rebind: verifies registry-bound continuity query id and handler-map route, preserving explicit-open read surface, intent-only correction route, no UI design change, no dependency, no network, and no direct author-truth mutation."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js",
+      "sha256": "6a356263b48012f7eb021ddb1d3fecde0ea8154e8f4566ea4c17ccba2c6d5caf",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
+      "rationale": "Approve ER C02 focused contract: proves one shared workspace query registry, ten Atlas surface ids, main/preload/renderer registry consumption, handler-map reachability, renderer fail-closed unknown query behavior, stale Atlas unavailable gate removal, no UI design change, no dependency, no network, and no runtime mutation authority expansion."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY_RECEIPT.json",
+      "sha256": "f14200598e5db467ef2bee59eecea7bfcff16e745ea15244a5b16c6027da940e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
+      "approvedAtUtc": "2026-07-31T06:26:00.000Z",
+      "rationale": "Approve ER C02 receipt: records single workspace query registry runtime parity repair, post-drift full runner artifact digest, focused 167 test pass, governance reconciliation, no Stage 11 start, no readiness certification, no UI design change, no dependency, no network, no storage migration, and no product mutation authority widening."
+    },
+    {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
       "sha256": "6bc2a77d39de180a25da2b84fb7b9fac7acf27809a148fe03efbc8f88907bb2c",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
       "sha256": "d5ba4746cda0e8535089c734a81b37bc1ad8516b31adecd2618d0506466dc1a8",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "abe397c67b51d3e69a027ba25959ad2739dcb860dc986e18e0b3906768f91202",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "2c3d2b72bb81bb577fed6469078a9cd7295e33859495cac74a80878988aef5c2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "18d1b6bb915f376be6537f84d422ac01adb6a1d8abffb6f5364647a8d5224fd2",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "54484ff02dfe6f40227a6639769fcaa92b9aaeb03a0824dec38678e5b451ff68",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "c07102954356810799fa2b1eeca37974380217fd06d39840117cf11b02db6cfd",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
       "sha256": "432fc735479233d8af036e2cf00ba3f28f1e28f4a3833f9c439574ef96865c16",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e10-multi-round-replay-conflicts.mjs",
       "sha256": "641854636d7f8b9c3ba8cb14462fd6736c3c90137fa61ec901963196a3ec7e18",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "abe397c67b51d3e69a027ba25959ad2739dcb860dc986e18e0b3906768f91202",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "sha256": "2c3d2b72bb81bb577fed6469078a9cd7295e33859495cac74a80878988aef5c2",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "sha256": "18d1b6bb915f376be6537f84d422ac01adb6a1d8abffb6f5364647a8d5224fd2",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "54484ff02dfe6f40227a6639769fcaa92b9aaeb03a0824dec38678e5b451ff68",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "sha256": "c07102954356810799fa2b1eeca37974380217fd06d39840117cf11b02db6cfd",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
       "sha256": "dca2986c2a2a1805731deea86ea3884177e878e5ad00f581c91985659b9b3bc4",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS",
-      "approvedAtUtc": "2026-07-31T12:40:00.000Z",
-      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
+      "approvedAtUtc": "2026-07-31T12:50:00.000Z",
+      "rationale": "Owner-approved V4 E10 multi-round replay stale conflict contour after origin/main drift merge: physical Word guard diagnostics with typed limitations, zero false exact, zero second mutation, and no apply authority expansion."
     }
   ]
 }

@@ -231,18 +231,18 @@ test('E06 C06: renderer and main wire temporal layout as explicit heavy surface 
   const htmlSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'index.html'), 'utf8');
   const cssSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'styles.css'), 'utf8');
 
-  assert.match(mainSource, /const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = 'query\.atlasTemporalLayout'/u);
+  assert.match(mainSource, /const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_TEMPORAL_LAYOUT/u);
   assert.match(mainSource, /loadAtlasTemporalLayoutModule/u);
   assert.match(mainSource, /handleWorkspaceAtlasTemporalLayoutQuery/u);
   assert.match(mainSource, /safePayload\.explicitOpen !== true[\s\S]{0,500}ATLAS_TEMPORAL_LAYOUT_EXPLICIT_OPEN_REQUIRED/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_TEMPORAL_LAYOUT_QUERY_ID/u);
+  assert.match(mainSource, /\[ATLAS_TEMPORAL_LAYOUT_QUERY_ID,\s*handleWorkspaceAtlasTemporalLayoutQuery\]/u);
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasTemporalLayoutQuery[\s\S]{0,3200}writeFileAtomic/u);
 
   assert.match(htmlSource, /data-atlas-temporal-layout-shell[\s\S]{0,80}hidden/u);
   assert.match(htmlSource, /data-atlas-temporal-layout-host/u);
   assert.match(htmlSource, /data-atlas-temporal-layout-provider="query\.atlasTemporalLayout"/u);
 
-  assert.match(editorSource, /const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = 'query\.atlasTemporalLayout'/u);
+  assert.match(editorSource, /const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_TEMPORAL_LAYOUT/u);
   assert.match(editorSource, /dataset\.atlasTemporalLayoutOpen = 'true'/u);
   assert.match(editorSource, /function openAtlasTemporalLayoutSurface/u);
   assert.match(editorSource, /async function refreshAtlasTemporalLayout/u);

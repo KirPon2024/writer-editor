@@ -158,15 +158,15 @@ test('E05 C07: renderer and main wire diagnostics through typed read-only surfac
   const htmlSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'index.html'), 'utf8');
   const cssSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'styles.css'), 'utf8');
 
-  assert.match(mainSource, /const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = 'query\.atlasDiagnosticsStageAcceptance'/u);
+  assert.match(mainSource, /const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE/u);
   assert.match(mainSource, /loadAtlasDiagnosticsStageAcceptanceModule/u);
   assert.match(mainSource, /handleWorkspaceAtlasDiagnosticsStageAcceptanceQuery/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID/u);
+  assert.match(mainSource, /\[ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID,\s*handleWorkspaceAtlasDiagnosticsStageAcceptanceQuery\]/u);
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasDiagnosticsStageAcceptanceQuery[\s\S]{0,3600}writeFileAtomic/u);
 
   assert.match(htmlSource, /data-atlas-diagnostics-host/u);
   assert.match(htmlSource, /data-atlas-diagnostics-provider="query\.atlasDiagnosticsStageAcceptance"/u);
-  assert.match(editorSource, /const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = 'query\.atlasDiagnosticsStageAcceptance'/u);
+  assert.match(editorSource, /const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE/u);
   assert.match(editorSource, /refreshAtlasDiagnosticsStageAcceptance/u);
   assert.match(editorSource, /Stage 05 acceptance/u);
   assert.doesNotMatch(editorSource, /ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID[\s\S]{0,1000}dispatchUiCommand/u);

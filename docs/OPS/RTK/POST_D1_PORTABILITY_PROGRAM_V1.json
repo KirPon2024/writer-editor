@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED",
+  "status": "WORD_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -368,7 +368,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS",
+  "nextStep": "EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -382,10 +382,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND",
-    "currentStage": "EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
-    "nextStage": "EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_RECEIPT.json",
+    "status": "EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_BOUND",
+    "currentStage": "EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS",
+    "nextStage": "EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C04_MODERN_COMMENT_STATE_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -566,7 +566,7 @@
       "PRODUCT_RUNTIME_WIRED",
       "AUTOMATIC_APPLY_CERTIFIED"
     ],
-    "modernReplyCertified": 0,
+    "modernReplyCertified": false,
     "resolveSaveCloseReopenDoneTrueReadback": 1,
     "resolveThenReopenDoneFalseReadback": 0,
     "tripleAdjacentRebindPass": 0,
@@ -583,13 +583,18 @@
     "c01ProductRuntimeOverclaimRepaired": true,
     "nonOverlapTrackedReplacementRuntimeWired": false,
     "nonOverlapTrackedReplacementAutomaticApplyCertified": false,
-    "runtimeApplyAuthorityScope": "NONE_C03_NEGATIVE_ORACLE_ONLY",
+    "runtimeApplyAuthorityScope": "NONE_C04_STATE_READBACK_ONLY",
     "nonOverlapTrackedReplacementComponentProven": true,
     "nonOverlapTrackedReplacementProductCompositionRegistered": true,
     "nonOverlapTrackedReplacementEndToEndProductPathWired": false,
     "adjacentRangeNegativeOracleBound": true,
     "adjacentTwoTokenPhysicalReadbackPass": true,
     "adjacentTripleTokenIdentityLossTypedLimitation": true,
-    "adjacentRangeAutomaticApplyCertified": false
+    "adjacentRangeAutomaticApplyCertified": false,
+    "modernCommentStateReadbackOnlyBound": true,
+    "modernCommentDoneTrueReadbackPhysicalWordProven": true,
+    "modernCommentDeletePhysicalWordProven": true,
+    "modernResolveReopenCertified": false,
+    "productCommentStateMutationWired": false
   }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED",
+  "status": "WORD_16_111_2_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,7 +388,7 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED",
+      "currentCapability": "A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_NOT_PROMOTED",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_03 A03 safe portability improvements runtime contour",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
@@ -695,6 +695,48 @@
         "triple adjacent tracked edits remain typed limitation"
       ],
       "killCriterion": "Any adjacent range evidence is promoted to automatic apply while triple-adjacent Word identity loss remains present."
+    },
+    {
+      "capabilityId": "rtk.word.v4.modernCommentStateReadbackGate",
+      "operationFamily": "modern comment done state and thread lifecycle readback",
+      "state": "COMPONENT_PROVEN_STATE_READBACK_ONLY_TYPED_LIMITATION",
+      "currentCapability": "DONE_TRUE_READBACK_ONLY_BOUND_NO_RESOLVE_REOPEN_RUNTIME_PROMOTION",
+      "physicalWordEvidence": true,
+      "componentProven": true,
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "authorityLevel": {
+        "capability": "modernCommentResolveReopenState",
+        "physicalWordProven": false,
+        "componentProven": true,
+        "productRuntimeWired": false,
+        "automaticApplyCertified": false,
+        "stateReadbackOnlyPhysicalWordProven": true,
+        "activeRootCommentReadbackPhysicalWordProven": true,
+        "commentDeletePhysicalWordProven": true,
+        "replyPhysicalWordProven": false,
+        "resolveReopenPhysicalWordProven": false,
+        "productCommentStateMutationWired": false,
+        "manuscriptApplyAuthority": false,
+        "decision": "BIND_STATE_READBACK_ONLY_DO_NOT_PROMOTE_RESOLVE_REOPEN_RUNTIME",
+        "stateReadbackScope": "commentsExtended done true readback only; no done false after reopen authority"
+      },
+      "consumer": "A03-C05 product runtime contour gate",
+      "acceptanceTest": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C04_MODERN_COMMENT_STATE_RECEIPT.json",
+      "supportedNow": [
+        "active root modern comments preserve commentsExtended commentsIds and people parts after Word save-close-reopen",
+        "single-thread resolve control produces done true OOXML readback",
+        "Word-authored comment delete is physically read back as zero comments",
+        "C01 root modern comments remain product-runtime wired as shadow-only review session import"
+      ],
+      "limitations": [
+        "modern replies remain not certified because no parent link is read back",
+        "resolve then reopen remains not certified because done false after reopen is not read back",
+        "comment delete is physical evidence only until a later product runtime shadow-state contour",
+        "C04 adds no manuscript apply authority"
+      ],
+      "killCriterion": "Any modern comment state is promoted to product mutation or automatic apply without deterministic physical Word readback and Command Kernel receipt."
     }
   ]
 }

@@ -122,6 +122,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_SATURATION_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
     'WORD_SATURATION_A03_C02_COMPONENT_PROVEN_NOT_PRODUCT_PATH_NOT_SATURATED',
     'WORD_SATURATION_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_SATURATED',
+    'WORD_SATURATION_A03_C04_MODERN_COMMENT_STATE_BOUND_NOT_SATURATED',
   ]);
   if (!allowedReceiptStatuses.has(receipt.status)) {
     add('RTK_V4_E12_STATUS_INVALID', 'status', 'E12 must bind wave 300 complete while staying not-saturated until all wave criteria are proven.');
@@ -380,12 +381,28 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
           && row.authorityLevel?.productRuntimeWired === false
           && row.authorityLevel?.automaticApplyCertified === false)
         : [];
+      const c04CommentStateRows = Array.isArray(e12A03PromotionList.rows)
+        ? e12A03PromotionList.rows.filter((row) => row.capability === 'modernCommentResolveReopenState'
+          && row.authorityLevel?.componentProven === true
+          && row.authorityLevel?.stateReadbackOnlyPhysicalWordProven === true
+          && row.authorityLevel?.commentDeletePhysicalWordProven === true
+          && row.authorityLevel?.replyPhysicalWordProven === false
+          && row.authorityLevel?.resolveReopenPhysicalWordProven === false
+          && row.authorityLevel?.productRuntimeWired === false
+          && row.authorityLevel?.automaticApplyCertified === false)
+        : [];
       const promotionIsC03NegativeOracle = e12A03PromotionList.status === 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT'
         && rootRuntimeWiredRows.length === 1
         && c02ComponentOnlyRows.length === 1
         && c03NegativeOracleRows.length === 1
         && nonRootRuntimeWiredRows.length === 0;
-      if ((!promotionIsA02Ready && !promotionIsC01Wired && !promotionIsC02ComponentOnly && !promotionIsC03NegativeOracle)
+      const promotionIsC04CommentState = e12A03PromotionList.status === 'A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT'
+        && rootRuntimeWiredRows.length === 1
+        && c02ComponentOnlyRows.length === 1
+        && c03NegativeOracleRows.length === 1
+        && c04CommentStateRows.length === 1
+        && nonRootRuntimeWiredRows.length === 0;
+      if ((!promotionIsA02Ready && !promotionIsC01Wired && !promotionIsC02ComponentOnly && !promotionIsC03NegativeOracle && !promotionIsC04CommentState)
         || !Array.isArray(e12A03PromotionList.rows)
         || e12A03PromotionList.rows.length < 5
         || e12A03PromotionList.rows.some((row) => row.authorityLevel?.automaticApplyCertified !== false)) {
@@ -485,6 +502,14 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
       || coverage.a03C03AdjacentRangeNegativeOracle?.sourceEvidence !== 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE')) {
     add('RTK_V4_E12_A03_C03_COVERAGE_MISSING', 'coverageLedger.a03C03AdjacentRangeNegativeOracle', 'A03-C03 adjacent range negative-oracle coverage must be bound after C02.');
   }
+  if (receipt.status === 'WORD_SATURATION_A03_C04_MODERN_COMMENT_STATE_BOUND_NOT_SATURATED'
+    && (coverage.a03C01CommentShadowRuntime?.status !== 'BOUND'
+      || coverage.a03C02NonOverlapTrackedReplacementRuntime?.status !== 'BOUND'
+      || coverage.a03C03AdjacentRangeNegativeOracle?.status !== 'BOUND'
+      || coverage.a03C04ModernCommentState?.status !== 'BOUND_STATE_READBACK_ONLY'
+      || coverage.a03C04ModernCommentState?.sourceEvidence !== 'A03_C04_MODERN_COMMENT_STATE')) {
+    add('RTK_V4_E12_A03_C04_COVERAGE_MISSING', 'coverageLedger.a03C04ModernCommentState', 'A03-C04 modern comment state readback coverage must be bound after C03.');
+  }
 
   const veto = receipt.vetoMetrics || {};
   if (!allZero(veto)) {
@@ -525,7 +550,14 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     && receipt.runtimeClaims?.automaticApplyScope === 'none; C03 negative oracle only'
     && receipt.runtimeClaims?.googleDocsOpened === false
     && receipt.runtimeClaims?.wordSaturated === false;
-  if (!c01RuntimeOnly && !c02ComponentOnly && !c03NegativeOracleOnly && (receipt.runtimeClaims?.productRuntimeChanged !== false || receipt.runtimeClaims?.automaticApplyExpanded !== false || receipt.runtimeClaims?.googleDocsOpened !== false)) {
+  const c04StateReadbackOnly = receipt.status === 'WORD_SATURATION_A03_C04_MODERN_COMMENT_STATE_BOUND_NOT_SATURATED'
+    && receipt.runtimeClaims?.productRuntimeChanged === true
+    && receipt.runtimeClaims?.writerAuthorityAdded === false
+    && receipt.runtimeClaims?.automaticApplyExpanded === false
+    && receipt.runtimeClaims?.automaticApplyScope === 'none; C04 modern comment state readback gate only'
+    && receipt.runtimeClaims?.googleDocsOpened === false
+    && receipt.runtimeClaims?.wordSaturated === false;
+  if (!c01RuntimeOnly && !c02ComponentOnly && !c03NegativeOracleOnly && !c04StateReadbackOnly && (receipt.runtimeClaims?.productRuntimeChanged !== false || receipt.runtimeClaims?.automaticApplyExpanded !== false || receipt.runtimeClaims?.googleDocsOpened !== false)) {
     add('RTK_V4_E12_RUNTIME_SCOPE_OVERCLAIM', 'runtimeClaims', 'E12 must not change runtime apply authority or open Google Docs outside bounded delivered A03 contours.');
   }
 
@@ -545,6 +577,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
     'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_NOT_SATURATED',
     'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
+    'A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_NOT_PROMOTED',
   ]);
   if (!cell || cell.state !== 'PHYSICAL_WORD_PROVEN' || !allowedProfileCapabilities.has(cell.currentCapability) || cell.physicalWordEvidence !== true) {
     add('RTK_V4_E12_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability profile must bind E12 wave 300 as physical evidence proven but not saturated.');
@@ -564,6 +597,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_16_111_2_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
     'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH',
     'WORD_16_111_2_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
+    'WORD_16_111_2_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED',
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_PROFILE_STATUS_INVALID', 'profile.status', 'Profile status must reflect E12 wave 300 complete not-saturated ledger.');
@@ -585,6 +619,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
     'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH',
     'WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
+    'WORD_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED',
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must reflect E12 physical wave 300 completion.');
@@ -604,6 +639,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN',
     'EXECUTION_03_A03_C02_COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED',
     'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND',
+    'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_BOUND',
   ]);
   if (!allowedStateStatuses.has(state.status)) {
     add('RTK_V4_E12_PROGRAM_STATE_INVALID', 'program.v4ExecutionState.status', 'Program state must keep E12 active and advance to the Word stability limitation audit.');
@@ -621,6 +657,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR',
     'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE',
     'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS',
+    'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
   ]);
   if (!allowedNextStages.has(state.nextStage)) {
     add('RTK_V4_E12_NEXT_STAGE_INVALID', 'program.v4ExecutionState.nextStage', 'Next stage must continue the Word stability limitation audit, not Google Docs.');

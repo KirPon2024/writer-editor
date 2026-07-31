@@ -27,6 +27,11 @@ const LEDGER_STATUS = 'WORD_SATURATION_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BO
 const PROFILE_STATUS = 'WORD_16_111_2_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED';
 const PROGRAM_STATUS = 'WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED';
 const PROMOTION_STATUS = 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT';
+const C04_LEDGER_STATUS = 'WORD_SATURATION_A03_C04_MODERN_COMMENT_STATE_BOUND_NOT_SATURATED';
+const C04_PROFILE_STATUS = 'WORD_16_111_2_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED';
+const C04_PROGRAM_STATUS = 'WORD_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED';
+const C04_PROMOTION_STATUS = 'A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT';
+const C04_NEXT_STAGE = 'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR';
 const CURRENT_STAGE = 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE';
 const NEXT_STAGE = 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS';
 const EVIDENCE_ID = 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE';
@@ -311,6 +316,35 @@ function updateState() {
   return receipt;
 }
 
+function isC04SuccessorState(profile, program, ledger, promotionList) {
+  const adjacentRow = list(promotionList.rows).find((item) => item.capability === 'adjacentTrackedReplacementExactCandidate');
+  const commentRow = list(promotionList.rows).find((item) => item.capability === 'modernCommentResolveReopenState');
+  return promotionList.status === C04_PROMOTION_STATUS
+    && promotionList.nextContour === 'A03-C05'
+    && adjacentRow?.authorityLevel?.negativeOracleBound === true
+    && adjacentRow?.authorityLevel?.productRuntimeWired === false
+    && adjacentRow?.authorityLevel?.automaticApplyCertified === false
+    && commentRow?.authorityLevel?.stateReadbackOnlyPhysicalWordProven === true
+    && commentRow?.authorityLevel?.resolveReopenPhysicalWordProven === false
+    && commentRow?.authorityLevel?.productRuntimeWired === false
+    && commentRow?.authorityLevel?.automaticApplyCertified === false
+    && profile.status === C04_PROFILE_STATUS
+    && program.status === C04_PROGRAM_STATUS
+    && program.nextStep === C04_NEXT_STAGE
+    && program.v4ExecutionState?.status === 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_BOUND'
+    && program.v4ExecutionState?.adjacentRangeNegativeOracleBound === true
+    && program.v4ExecutionState?.modernResolveReopenCertified === false
+    && program.v4ExecutionState?.runtimeApplyAuthorityGranted === false
+    && program.v4ExecutionState?.googleDocsOpened === false
+    && ledger.status === C04_LEDGER_STATUS
+    && ledger.coverageLedger?.a03C03AdjacentRangeNegativeOracle?.status === 'BOUND'
+    && ledger.coverageLedger?.a03C04ModernCommentState?.status === 'BOUND_STATE_READBACK_ONLY'
+    && ledger.runtimeClaims?.writerAuthorityAdded === false
+    && ledger.runtimeClaims?.automaticApplyExpanded === false
+    && ledger.runtimeClaims?.googleDocsOpened === false
+    && ledger.runtimeClaims?.wordSaturated === false;
+}
+
 export function evaluateWordV4A03C03AdjacentRangeNegativeOracle(input = {}) {
   const receipt = input.receipt || (fs.existsSync(RECEIPT_PATH) ? readJson(RECEIPT_PATH) : buildReceipt());
   const promotionList = input.promotionList || readJson(PROMOTION_LIST_PATH);
@@ -321,6 +355,7 @@ export function evaluateWordV4A03C03AdjacentRangeNegativeOracle(input = {}) {
   const add = (code, field, message) => issues.push(issue(code, field, message));
   const row = list(promotionList.rows).find((item) => item.capability === 'adjacentTrackedReplacementExactCandidate');
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.v4.adjacentRangeNegativeOracle');
+  const c04SuccessorState = isC04SuccessorState(profile, program, ledger, promotionList);
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_A03_C03_RECEIPT_INVALID', 'receipt', 'C03 receipt must bind a passing negative oracle without promotion.');
   if (receipt.oracle?.twoAdjacentPass !== true || receipt.oracle?.tripleIdentityLoss !== true || receipt.oracle?.a02TripleBlocked !== true || receipt.oracle?.c02NoProductAuthority !== true) add('RTK_A03_C03_ORACLE_INVALID', 'oracle', 'C03 oracle requires two-adjacent pass plus triple-adjacent typed identity loss and no C02 product authority.');
@@ -330,23 +365,27 @@ export function evaluateWordV4A03C03AdjacentRangeNegativeOracle(input = {}) {
     || receipt.implementedCapability?.automaticApplyCertified !== false
     || receipt.implementedCapability?.negativeOracleBound !== true) add('RTK_A03_C03_AUTHORITY_OVERCLAIM', 'implementedCapability', 'C03 cannot promote adjacent range apply authority.');
   if (Object.values(receipt.vetoMetrics || {}).some((value) => Number(value) !== 0)) add('RTK_A03_C03_VETO_NONZERO', 'vetoMetrics', 'C03 veto metrics must remain zero.');
-  if (promotionList.status !== PROMOTION_STATUS || promotionList.nextContour !== 'A03-C04') add('RTK_A03_C03_PROMOTION_STATUS_INVALID', 'promotionList', 'Promotion list must advance to C04 without promoting C03.');
+  if ((promotionList.status !== PROMOTION_STATUS || promotionList.nextContour !== 'A03-C04') && !c04SuccessorState) add('RTK_A03_C03_PROMOTION_STATUS_INVALID', 'promotionList', 'Promotion list must advance to C04 without promoting C03, or remain valid after a bounded C04 successor.');
   if (!row
     || row.authorityLevel?.physicalWordProven !== false
     || row.authorityLevel?.negativeOracleBound !== true
     || row.authorityLevel?.productRuntimeWired !== false
     || row.authorityLevel?.automaticApplyCertified !== false) add('RTK_A03_C03_PROMOTION_ROW_INVALID', 'promotionList.rows.adjacentTrackedReplacementExactCandidate', 'C03 promotion row must stay not wired and not certified.');
-  if (profile.status !== PROFILE_STATUS || !cell || cell.state !== 'TYPED_LIMITATION' || cell.automaticApplyCertified !== false) add('RTK_A03_C03_PROFILE_INVALID', 'profile', 'Profile must bind C03 as a typed limitation negative oracle.');
+  if ((profile.status !== PROFILE_STATUS && !c04SuccessorState) || !cell || cell.state !== 'TYPED_LIMITATION' || cell.automaticApplyCertified !== false) add('RTK_A03_C03_PROFILE_INVALID', 'profile', 'Profile must bind C03 as a typed limitation negative oracle.');
   if (program.status !== PROGRAM_STATUS
     || program.nextStep !== NEXT_STAGE
     || program.v4ExecutionState?.status !== 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND'
     || program.v4ExecutionState?.runtimeApplyAuthorityGranted !== false
-    || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_A03_C03_PROGRAM_INVALID', 'program', 'Program must advance to C04 with no apply authority and Google closed.');
+    || program.v4ExecutionState?.googleDocsOpened !== false) {
+    if (!c04SuccessorState) add('RTK_A03_C03_PROGRAM_INVALID', 'program', 'Program must advance to C04 with no apply authority and Google closed, or remain valid after a bounded C04 successor.');
+  }
   if (ledger.status !== LEDGER_STATUS
     || ledger.coverageLedger?.a03C03AdjacentRangeNegativeOracle?.status !== 'BOUND'
     || ledger.runtimeClaims?.automaticApplyExpanded !== false
     || ledger.runtimeClaims?.writerAuthorityAdded !== false
-    || ledger.runtimeClaims?.googleDocsOpened !== false) add('RTK_A03_C03_LEDGER_INVALID', 'ledger', 'Ledger must bind C03 without runtime or Google expansion.');
+    || ledger.runtimeClaims?.googleDocsOpened !== false) {
+    if (!c04SuccessorState) add('RTK_A03_C03_LEDGER_INVALID', 'ledger', 'Ledger must bind C03 without runtime or Google expansion, or remain valid after a bounded C04 successor.');
+  }
 
   return {
     ok: issues.length === 0,

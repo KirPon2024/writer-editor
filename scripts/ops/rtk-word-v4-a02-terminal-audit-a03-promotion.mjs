@@ -936,7 +936,8 @@ export function evaluateWordA02TerminalAudit(input = {}) {
   const promotionStatusAllowed = promotionList.status === 'A03_PROMOTION_LIST_READY_AFTER_A02_TERMINAL_AUDIT'
     || promotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT'
     || promotionList.status === 'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_C03_NEXT'
-    || promotionList.status === 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT';
+    || promotionList.status === 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT'
+    || promotionList.status === 'A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT';
   if (promotionList.schemaVersion !== PROMOTION_SCHEMA || !promotionStatusAllowed) add('RTK_WORD_A03_PROMOTION_SCHEMA_INVALID', 'promotionList', 'A03 promotion list must be ready after A02 terminal audit or advanced by bounded A03 contours.');
   if (!Array.isArray(promotionList.rows) || promotionList.rows.length < 5) add('RTK_WORD_A03_PROMOTION_ROWS_MISSING', 'promotionList.rows', 'Promotion list must contain capability rows.');
   for (const row of promotionList.rows || []) {
@@ -945,7 +946,8 @@ export function evaluateWordA02TerminalAudit(input = {}) {
     }
     const successorRuntimeWiringAllowed = promotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT'
       || promotionList.status === 'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_C03_NEXT'
-      || promotionList.status === 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT';
+      || promotionList.status === 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT'
+      || promotionList.status === 'A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT';
     const allowedC01RuntimeWiring = successorRuntimeWiringAllowed
       && row.capability === 'rootModernCommentShadowImport'
       && row.authorityLevel?.productRuntimeWired === true;

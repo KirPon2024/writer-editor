@@ -31,10 +31,10 @@
     },
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "cecade3292668b7c3226ad33a5b8cf87f37d63dfa525b716fbafc2782a330d82",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY",
-      "approvedAtUtc": "2026-07-29T19:05:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E02A C01 capability matrix update: adds cap.manualMap.edit enabled only for node desktop and disabled for web and mobile-wrapper, preserving local-only manual map command authority, no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
+      "sha256": "9f502303896301f0807031b7eadafe30c74cc7309ff5cc7bf8881d206caf2154",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
@@ -2138,10 +2138,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "0add4c417d66d258c8899fb07e6b9810f3d94ef725c4aceadf09dcf0f43eec08",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY",
-      "approvedAtUtc": "2026-07-30T13:56:41.000Z",
-      "rationale": "Approve bounded command capability binding update for E09 C02: preserves existing Atlas, Idea, Meaning, Manual Map, project and UI bindings while adding atlas.seriesPortability.apply to cap.atlas.seriesPortability.apply and atlas.seriesPortability.rollback to cap.atlas.seriesPortability.rollback so series identity and vocabulary writes are admitted only through Command Kernel capability revalidation, preserving local node execution and denying web/mobile wrappers."
+      "sha256": "404b2c39368162fdb8d70e9ffe8123922d717c56e56825e92249e99cf699d7be",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_ID_COMPAT_MAP_V1.json",
@@ -4749,10 +4749,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "8db6907f1e68d35e245b1ec49a18341fc2a2351a63f398f61837578b608a3be4",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+      "sha256": "b5a2ca85eecf8fb57962d70e6df210c21d34ebd7825cbfd44f3ef966a426086f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:40:00.000Z",
+      "rationale": "Approve bounded R2 C04 main-process authority repair: product command bridge revalidates the canonical capability matrix authority-side before project binding, reducer execution, recovery, and persistence; denied direct IPC capability attempts report mutationApplied false and storageWritten false; no UI redesign, dependency, network, second command registry, or second write path."
     },
     {
       "filePath": "src/preload.js",
@@ -6219,38 +6219,38 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
-      "sha256": "6d308dcbe48d06ec09669227874d8eb484302a21f398c5a16258cf41d5a53dfb",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 overview contract rebind: verifies Atlas overview query id from shared registry and main handler-map reachability, preserving read-only derived projection, typed host, no direct mutation, no UI design change, no dependency, and no network."
+      "sha256": "77f2a24354e31a7920bb967ee46c07607187008da34691a933097bd4609e6b93",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c02-entity-dossier-evidence-ledger-read-surface.contract.test.js",
-      "sha256": "7f03b373470c5f8ffce74a2b6a1786344a0ffe82d13888fb803f582ee669b0a6",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 entity dossier contract rebind: verifies registry-bound entity query id and handler-map route instead of manual allowlist order, preserving evidence-ledger read-only semantics, no renderer write path, no UI design change, no dependency, and no network."
+      "sha256": "b625cd9d6a4dc3d5369db75a928b55687aca046e82c9ef5bd684ba472a455b1d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
-      "sha256": "3b2dbc478d29cf819ba6809efa8bdafbbe8b358028f3cffa592b28cac558981a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
-      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
-      "rationale": "Approve ER C03 relation dossier contract repair: updates the former intent-only assertion to require Command Kernel dispatch for relation review actions while preserving typed query host wiring, no direct storage write, no Core reducer bypass, no UI design change, no dependency, and no network."
+      "sha256": "6f579db01f58b85dd4fcbcbde2337a30782443240451640382d33fbda8d3f3e9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
-      "sha256": "2ef0fd154199301e0411e8f2cacc2a98743f43d6b0cce03f346c9115122171dc",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 matrices contract rebind: verifies registry-bound matrices query id and handler-map reachability so the surface cannot be hidden by stale renderer allowlists, preserving keyboard parity, no mutation bypass, no UI design change, no dependency, and no network."
+      "sha256": "ca162c7d9eac1186c3ec6240a67a8e86a461d9496fb6e3de5ef246407fcc0784",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
-      "sha256": "66d58b06067ec120ed28dcb2c077b7f8909a9d15e4bb7b380b329b591a78dde2",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 heatmap contract rebind: verifies registry-bound heatmap query id and handler-map route while preserving explicit-open heavy surface gating, viewport budget contract, no UI design change, no dependency, no network, and no project truth mutation."
+      "sha256": "669f778e74e7f5fabbec4df5a9f4f2c8d77462e2f4df2d52442f7350a22a405e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js",
@@ -6261,10 +6261,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
-      "sha256": "4b32df22663c8f2e87c6b3fa08a933215d44fb7cd97c5002dd9978307a9f5e35",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 diagnostics contract rebind: verifies registry-bound diagnostics query id and handler-map route while preserving NOT_READY external-evidence discipline, degraded capability rows, no false readiness, no UI design change, no dependency, and no network."
+      "sha256": "27adb7e720733f25827f12312b9d0a35d0c56ef355c420606006e46b488d119c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c01-atlas-calendar-definition-conversion-command-boundary.contract.test.js",
@@ -6303,17 +6303,17 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js",
-      "sha256": "b94675e46a48e5b4554a66cf349c8ff94a308e0e659abc6c1c05cef38736e57d",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "149006e14aaa4e3a879ebf736280bf35aaeea1a489f671270a920d4f31fefc78",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js",
-      "sha256": "85ce2925652ef6accf016e5ca111e14d270cb4391cadcff62ce5024e973b97aa",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 continuity ledger contract rebind: verifies registry-bound continuity query id and handler-map route, preserving explicit-open read surface, intent-only correction route, no UI design change, no dependency, no network, and no direct author-truth mutation."
+      "sha256": "fba463c971fd598dde222117e2d18d0aded3a90d1d7c976c32b433c7587703f9",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
@@ -6555,10 +6555,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
-      "sha256": "b2f7c5c990ee07d29088d76d14783c40fff7f024c26d698a701266fdd4baf27a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T04:18:37.000Z",
-      "rationale": "Approve ER C00 false-green guard coverage: proves Stage 10 readiness is not exposed as a runtime-derived self-attestation, Atlas diagnostics defaults to NOT_READY without external machine evidence, quiet-write no longer uses a PASS/PASS ternary, Lazyweb and heuristic rows are advisory only, and the repair receipt must bind target SHA, artifact digest, invalidated evidence, unsatisfied outcomes, and non-pending PASS validation rows."
+      "sha256": "f528c42a5e2fea10278b6d7f2775b235e4913a7184b96b38a12948bc49e7d38d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04",
+      "approvedAtUtc": "2026-07-31T19:34:00.000Z",
+      "rationale": "Approve bounded R2 C04 authority and runtime hygiene governed changes: command capability matrix is revalidated authority-side before reducer and persistence, direct unsupported platform dispatch fails closed without mutation or storage writes, command binding stays single-source aligned with product registry, external design-tool and product-reference metadata are removed from runtime derived projections and hashes, no UI redesign, no dependency, no network, no second registry, and Program DoD remains NOT_READY pending R2 C05-C06."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js",
@@ -6755,6 +6755,20 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
       "approvedAtUtc": "2026-07-31T18:42:00.000Z",
       "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c04-authority-runtime-hygiene.contract.test.js",
+      "sha256": "d588957934a136cbce6545ec62a6a10689946c4ec84821062ae013b389a09c36",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04_FINAL_RECEIPT",
+      "approvedAtUtc": "2026-07-31T19:53:00.000Z",
+      "rationale": "Approve final R2 C04 contract and receipt binding after adding receipt honesty checks: local validation PASS is recorded without Program DoD overclaim, delivery remains pending until commit/push/PR/CI/merge, and runtime hygiene/authority assertions remain bounded."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT.json",
+      "sha256": "3f4acbfa9bab181c075026e7a9faa17c12f2699891221a0d7d4e0e124ae9aab4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C04_FINAL_FULL_RUNNER_REBIND",
+      "approvedAtUtc": "2026-07-31T20:08:00.000Z",
+      "rationale": "Final R2 C04 receipt rebind after final full runner PASS: 797 tests, 733 pass, 64 skipped, 0 fail; Program DoD remains NOT_READY pending R2 C05-C06 and delivery remains pending until commit/push/PR/CI/merge."
     }
   ]
 }

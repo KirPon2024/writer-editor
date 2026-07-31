@@ -119,13 +119,12 @@ function buildEvidence({ dossierHash, sourceHashes }) {
     schemaVersion: 'derived.atlas.relationDossier.evidence.v1',
     sourceHashes,
     dossierHash,
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      query: 'relationship evidence dashboard',
-      coverageStrength: 'strong',
-      referenceCompanies: ['dock', 'docusign', 'mixpanel', 'google-analytics', 'relativity'],
-      resultUse: 'reference-only dense relation detail, metric header, timeline list, and action row signal',
-      fullReport: 'greenfield-create-redirected-and-workflow-fetch-unavailable',
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
+      readinessToken: false,
+      externalReportAvailable: false,
     },
   };
 }

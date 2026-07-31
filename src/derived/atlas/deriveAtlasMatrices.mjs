@@ -185,16 +185,12 @@ function buildEvidence({ matrixHash, sourceHashes, fullReport }) {
     schemaVersion: 'derived.atlas.matrices.evidence.v1',
     sourceHashes,
     matrixHash,
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      query: 'matrix analytics dashboard',
-      coverageStrength: 'moderate',
-      referenceCompanies: ['google-analytics', 'hashnode', 'navattic', 'mixpanel', 'hex'],
-      resultUse: 'reference-only density, toolbar restraint, and table/list parity signal',
-      fullReport,
-      fullReportUnavailableReason: fullReport === 'unavailable'
-        ? 'CLIENT_RESTART_REQUIRED_AFTER_LAZYWEB_UPDATE'
-        : '',
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
+      readinessToken: false,
+      externalReportAvailable: fullReport !== 'unavailable',
     },
   };
 }

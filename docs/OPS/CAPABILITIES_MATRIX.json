@@ -20,58 +20,124 @@
     {
       "surfaceId": "desktop-local-writing-core",
       "status": "LIVE",
-      "platforms": ["node"],
-      "evidence": ["S02-S28 merged", "npm test passed through S41", "test:electron passed through S41"],
-      "limits": ["desktop-first local project truth only", "scene remains the atomic text and recovery unit"]
+      "platforms": [
+        "node"
+      ],
+      "evidence": [
+        "S02-S28 merged",
+        "npm test passed through S41",
+        "test:electron passed through S41"
+      ],
+      "limits": [
+        "desktop-first local project truth only",
+        "scene remains the atomic text and recovery unit"
+      ]
     },
     {
       "surfaceId": "import-export-free-v1",
       "status": "LIVE",
-      "platforms": ["node"],
-      "evidence": ["S29-S33 merged", "CAPABILITY_MATRIX.json Gate A/B/C evidence", "full archive roundtrip proof in S38"],
-      "limits": ["bounded DOCX and Markdown fidelity", "PDF and full archive are local desktop lanes", "no EPUB, HTML, cloud, or sync claim"]
+      "platforms": [
+        "node"
+      ],
+      "evidence": [
+        "S29-S33 merged",
+        "CAPABILITY_MATRIX.json Gate A/B/C evidence",
+        "full archive roundtrip proof in S38"
+      ],
+      "limits": [
+        "bounded DOCX and Markdown fidelity",
+        "PDF and full archive are local desktop lanes",
+        "no EPUB, HTML, cloud, or sync claim"
+      ]
     },
     {
       "surfaceId": "flow-derived-projection",
       "status": "PARTIAL",
-      "platforms": ["node"],
-      "evidence": ["S14-S16 merged", "S40 longform flow-provider stress proof"],
-      "limits": ["Flow is a derived scene projection, not a second manuscript truth", "unsupported rich or boundary-damaging edits fail closed", "no semantic merge claim"]
+      "platforms": [
+        "node"
+      ],
+      "evidence": [
+        "S14-S16 merged",
+        "S40 longform flow-provider stress proof"
+      ],
+      "limits": [
+        "Flow is a derived scene projection, not a second manuscript truth",
+        "unsupported rich or boundary-damaging edits fail closed",
+        "no semantic merge claim"
+      ]
     },
     {
       "surfaceId": "free-pro-local-entitlement",
       "status": "LIVE",
-      "platforms": ["node"],
-      "evidence": ["S37 merged", "S38 Pro-Free-Pro archive roundtrip proof"],
-      "limits": ["local entitlement only", "no account, license server, subscription state, network, or profile-to-tier coupling"]
+      "platforms": [
+        "node"
+      ],
+      "evidence": [
+        "S37 merged",
+        "S38 Pro-Free-Pro archive roundtrip proof"
+      ],
+      "limits": [
+        "local entitlement only",
+        "no account, license server, subscription state, network, or profile-to-tier coupling"
+      ]
     },
     {
       "surfaceId": "pro-complexity-in-free",
       "status": "BLOCKED",
-      "platforms": ["node"],
-      "evidence": ["S37 entitlement tests", "S38 unknown-field preservation proof"],
-      "limits": ["Free can read and preserve Pro data but does not run Pro-only review or world-model surfaces"]
+      "platforms": [
+        "node"
+      ],
+      "evidence": [
+        "S37 entitlement tests",
+        "S38 unknown-field preservation proof"
+      ],
+      "limits": [
+        "Free can read and preserve Pro data but does not run Pro-only review or world-model surfaces"
+      ]
     },
     {
       "surfaceId": "web-and-mobile-wrapper-local-filesystem",
       "status": "BLOCKED",
-      "platforms": ["web", "mobile-wrapper"],
-      "evidence": ["CAPABILITIES_MATRIX disabledCommands rows", "capability unsupported contract"],
-      "limits": ["local file project commands are disabled outside node desktop; editor-only command subsets remain available where declared true"]
+      "platforms": [
+        "web",
+        "mobile-wrapper"
+      ],
+      "evidence": [
+        "CAPABILITIES_MATRIX disabledCommands rows",
+        "capability unsupported contract"
+      ],
+      "limits": [
+        "local file project commands are disabled outside node desktop; editor-only command subsets remain available where declared true"
+      ]
     },
     {
       "surfaceId": "safe-reset-last-stable-recovery-proof",
       "status": "LIVE",
-      "platforms": ["node"],
-      "evidence": ["S41 merged", "test:toolbar-closeout passed in S41", "storage and recovery contract matrix passed in S41"],
-      "limits": ["proof evaluator hardening only", "no recovery behavior widening"]
+      "platforms": [
+        "node"
+      ],
+      "evidence": [
+        "S41 merged",
+        "test:toolbar-closeout passed in S41",
+        "storage and recovery contract matrix passed in S41"
+      ],
+      "limits": [
+        "proof evaluator hardening only",
+        "no recovery behavior widening"
+      ]
     },
     {
       "surfaceId": "editor-specific-word-google-claims",
       "status": "PLANNED",
-      "platforms": ["node"],
-      "evidence": ["Gate D remains post-v1 not claimed in CAPABILITY_MATRIX.json"],
-      "limits": ["no Word support, Google Docs support, roundtrip, layout parity, or cloud integration"]
+      "platforms": [
+        "node"
+      ],
+      "evidence": [
+        "Gate D remains post-v1 not claimed in CAPABILITY_MATRIX.json"
+      ],
+      "limits": [
+        "no Word support, Google Docs support, roundtrip, layout parity, or cloud integration"
+      ]
     }
   ],
   "items": [
@@ -180,7 +246,21 @@
         "cap.ui.font.set": true,
         "cap.ui.fontSize.set": true,
         "cap.atlas.mention.confirm": true,
-        "cap.manualMap.edit": true
+        "cap.manualMap.edit": true,
+        "cap.atlas.calendar.define": true,
+        "cap.atlas.continuityFact.record": true,
+        "cap.atlas.entity.merge": true,
+        "cap.atlas.entity.splitRestore": true,
+        "cap.atlas.evidence.reattach": true,
+        "cap.atlas.languageTag.edit": true,
+        "cap.atlas.observation.reassign": true,
+        "cap.atlas.observation.suppress": true,
+        "cap.atlas.savedQuery.save": true,
+        "cap.atlas.sceneTemporalAnchor.set": true,
+        "cap.atlas.seriesPortability.apply": true,
+        "cap.atlas.seriesPortability.rollback": true,
+        "cap.idea.edit": true,
+        "cap.meaning.edit": true
       },
       "disabledCommands": [],
       "degradedFeatures": []
@@ -290,7 +370,21 @@
         "cap.ui.font.set": false,
         "cap.ui.fontSize.set": false,
         "cap.atlas.mention.confirm": false,
-        "cap.manualMap.edit": false
+        "cap.manualMap.edit": false,
+        "cap.atlas.calendar.define": false,
+        "cap.atlas.continuityFact.record": false,
+        "cap.atlas.entity.merge": false,
+        "cap.atlas.entity.splitRestore": false,
+        "cap.atlas.evidence.reattach": false,
+        "cap.atlas.languageTag.edit": false,
+        "cap.atlas.observation.reassign": false,
+        "cap.atlas.observation.suppress": false,
+        "cap.atlas.savedQuery.save": false,
+        "cap.atlas.sceneTemporalAnchor.set": false,
+        "cap.atlas.seriesPortability.apply": false,
+        "cap.atlas.seriesPortability.rollback": false,
+        "cap.idea.edit": false,
+        "cap.meaning.edit": false
       },
       "disabledCommands": [
         "cmd.project.document.open",
@@ -464,7 +558,21 @@
         "cap.ui.font.set": false,
         "cap.ui.fontSize.set": false,
         "cap.atlas.mention.confirm": false,
-        "cap.manualMap.edit": false
+        "cap.manualMap.edit": false,
+        "cap.atlas.calendar.define": false,
+        "cap.atlas.continuityFact.record": false,
+        "cap.atlas.entity.merge": false,
+        "cap.atlas.entity.splitRestore": false,
+        "cap.atlas.evidence.reattach": false,
+        "cap.atlas.languageTag.edit": false,
+        "cap.atlas.observation.reassign": false,
+        "cap.atlas.observation.suppress": false,
+        "cap.atlas.savedQuery.save": false,
+        "cap.atlas.sceneTemporalAnchor.set": false,
+        "cap.atlas.seriesPortability.apply": false,
+        "cap.atlas.seriesPortability.rollback": false,
+        "cap.idea.edit": false,
+        "cap.meaning.edit": false
       },
       "disabledCommands": [
         "cmd.project.document.open",

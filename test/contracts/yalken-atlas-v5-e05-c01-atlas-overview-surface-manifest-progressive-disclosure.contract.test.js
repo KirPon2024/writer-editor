@@ -124,8 +124,9 @@ test('E05 C01: Atlas overview derives a read-only surface manifest and bounded p
   );
   assert.equal(first.value.topRelations.length, 3);
   assert.equal(first.value.sceneCoverage.length, 3);
-  assert.equal(first.value.evidence.lazyweb.applied, true);
-  assert.equal(first.value.evidence.lazyweb.coverageStrength, 'strong');
+  assert.equal(first.value.evidence.designAdvisory.applied, true);
+  assert.equal(first.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(first.value.evidence.designAdvisory.readinessToken, false);
 });
 
 test('E05 C01: Atlas overview returns empty and unavailable states without product mutation', async () => {

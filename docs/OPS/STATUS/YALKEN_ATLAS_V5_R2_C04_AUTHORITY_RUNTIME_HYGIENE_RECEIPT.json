@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001",
+  "contourId": "R2_C04_AUTHORITY_AND_RUNTIME_HYGIENE",
+  "programStage": "R2_POST_FINAL_PRODUCT_OUTCOME_REPAIR_2026_07_31",
+  "status": "LOCAL_VALIDATION_PASS_DELIVERY_PENDING",
+  "programDodVerdict": "NOT_READY_R2_REPAIR_IN_PROGRESS",
+  "generatedAtUtc": "2026-07-31T20:08:00.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r2-c04",
+    "baseSha": "97b671f28fad622eff3d56b086724e1aaf5bb4df",
+    "originMainShaAtStart": "97b671f28fad622eff3d56b086724e1aaf5bb4df",
+    "reconciledOriginMainSha": "97b671f28fad622eff3d56b086724e1aaf5bb4df",
+    "implementationCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "deliveredScope": {
+    "authoritySideCapabilityRevalidationBeforeReducer": true,
+    "authoritySideCapabilityRevalidationBeforePersistence": true,
+    "directIpcCapabilityDenialFailClosed": true,
+    "deniedMutationApplied": false,
+    "deniedStorageWritten": false,
+    "commandCapabilityMatrixSingleSource": true,
+    "productCommandBindingRegistryAligned": true,
+    "runtimeDesignToolMetadataRemoved": true,
+    "runtimeProductReferenceMetadataRemoved": true,
+    "lazywebAndUiCraftKeptToDocsEvidenceOnly": true,
+    "noSecondRegistry": true,
+    "noSecondWritePath": true,
+    "noRuntimeNetwork": true,
+    "designToolRouter": "NOT_APPLICABLE"
+  },
+  "sourceBindings": {
+    "src/shared/commandCapabilityAuthority.cjs": "8b2bfada47ed6599ad307e9eb5efda3df4363ee10be52c482e5f0a9e86fb759e",
+    "src/main.js": "b5a2ca85eecf8fb57962d70e6df210c21d34ebd7825cbfd44f3ef966a426086f",
+    "docs/OPS/CAPABILITIES_MATRIX.json": "9f502303896301f0807031b7eadafe30c74cc7309ff5cc7bf8881d206caf2154",
+    "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json": "404b2c39368162fdb8d70e9ffe8123922d717c56e56825e92249e99cf699d7be",
+    "src/derived/atlas/deriveAtlasOverview.mjs": "2430cfacdea970059bca484bea646c3bd2e66b3bf08fcd12c587d0d7abf54d14",
+    "src/derived/atlas/deriveAtlasEntityDossier.mjs": "72cef263f0e3d317318628a37e4a9be4c843ab56af561e1119feb8e526712f63",
+    "src/derived/atlas/deriveAtlasRelationDossier.mjs": "4ba45750b90409f3507b9f6aecf4ac9fcdf1bbc8e842d90023c34a91dfe6deb9",
+    "src/derived/atlas/deriveAtlasMatrices.mjs": "a6dee81160e0ffa09179c0cacb845b68b131bd4198988d8c323b0592590c9b64",
+    "src/derived/atlas/deriveAtlasHeatmap.mjs": "9d67e738300ea2b27c3135a5343def06976af390547ee225895bf21d279d4c06",
+    "src/derived/atlas/deriveAtlasReportsSavedQueries.mjs": "215785826ca72e5e26f99e3473f832d1e9a68f243eed46c3397d5c992f1e4835",
+    "src/derived/atlas/deriveAtlasTemporalLayout.mjs": "27053d3ab345b1409de26732e1a083758e064e0417e791aa9d17c03a3615f8b4",
+    "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs": "bb3e175ad9a3c608421df1ebf3f6e0a9c6143c4b744077bdeb71d3812f950112",
+    "src/derived/atlas/deriveAtlasDiagnosticsStageAcceptance.mjs": "f62385f3895dd0e84c8dd5b014ee37bb584f8a33a16e7aafa49de1243dacf24c",
+    "test/contracts/yalken-atlas-v5-r2-c04-authority-runtime-hygiene.contract.test.js": "d588957934a136cbce6545ec62a6a10689946c4ec84821062ae013b389a09c36"
+  },
+  "runtimeHygieneEvidence": {
+    "productRuntimeLeakScan": "PASS_EMPTY_RG_RESULT",
+    "forbiddenRuntimeMetadata": [
+      "lazyweb",
+      "uiCraft",
+      "referenceCompanies",
+      "designRoute",
+      "tool-failure",
+      "product-reference",
+      "external-product",
+      "external product names from advisory receipts"
+    ],
+    "genericRuntimeAdvisoryPacket": "designAdvisory.runtimeMetadataIncluded=false.readinessToken=false",
+    "capabilityDeniedErrorCode": "E_CAPABILITY_DISABLED_FOR_COMMAND",
+    "missingMatrixErrorCode": "E_CAPABILITY_MATRIX_UNAVAILABLE"
+  },
+  "notYetCertifiedByThisContour": [
+    "R2_C05_HONEST_BLACK_BOX_ACCEPTANCE packaged/local Electron visible UI journey",
+    "R2_C06_FINAL_REVALIDATION Program DoD"
+  ],
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME_BLACK_BOX_NOT_YET_CERTIFIED",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E11_STAGE_11_ACTIVE_MACOS_PACKAGED_ELECTRON_CERTIFIED",
+    "EFINAL_PROGRAM_DOD_CERTIFIED"
+  ],
+  "validation": [
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Renderer bundle rebuilt successfully; runtime leak scan across derived/shared/main/bundle returned empty."
+    },
+    {
+      "id": "focused-r2-c04",
+      "command": "node --test R2_C04 plus affected Atlas derived contracts",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused R2 C04 affected suite PASS: 43 tests, 43 pass, 0 fail, including receipt honesty contract.",
+      "artifactIdentity": "tmp:yalken-r2-c04-focused-final.log",
+      "artifactDigest": "1e4ae3387253d44878f661ad019014e5da1891da0eca11736471d47c8540cdff"
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "GOVERNANCE_CHANGE_OK=1; GOVERNANCE_APPROVAL_REGISTRY_VALID_OK=1; missing approvals empty after current-state approval binding."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; boundary guard exit 0; strict lie classes OK."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Final full runner PASS before commit: 797 tests, 733 pass, 64 skipped, 0 fail; perf baseline, command namespace, menu, law path, execution sequence, and release candidate guards PASS.",
+      "artifactIdentity": "tmp:yalken-r2-c04-full-runner-final.log",
+      "artifactDigest": "5b3f5e00949c012845614235c1561dadf61b5b9867de46072e12b62d4ed1b464"
+    }
+  ],
+  "fullRunnerEvidence": {
+    "artifactIdentity": "tmp:yalken-r2-c04-full-runner-final.log",
+    "artifactSha256": "5b3f5e00949c012845614235c1561dadf61b5b9867de46072e12b62d4ed1b464",
+    "tests": 797,
+    "pass": 733,
+    "fail": 0,
+    "skipped": 64
+  },
+  "focusedEvidence": {
+    "artifactIdentity": "tmp:yalken-r2-c04-focused-final.log",
+    "artifactSha256": "1e4ae3387253d44878f661ad019014e5da1891da0eca11736471d47c8540cdff",
+    "tests": 43,
+    "pass": 43,
+    "fail": 0
+  },
+  "receiptDigestExcludingSelf": "6ffebbe0550b3950cba0d80c354eed7b2f52e155ebed6f1f8a5f5551b45fb35c",
+  "nextContour": "R2_C05_HONEST_BLACK_BOX_ACCEPTANCE",
+  "readiness": "NOT_READY",
+  "delivery": {
+    "commit": "PENDING_PRE_COMMIT",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  }
+}

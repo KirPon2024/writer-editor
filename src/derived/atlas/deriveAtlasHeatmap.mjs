@@ -181,20 +181,12 @@ function buildEvidence({ heatmapHash = '', matrixHash = '' } = {}) {
     schemaVersion: 'derived.atlas.heatmap.evidence.v1',
     heatmapHash,
     matrixHash,
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      query: 'analytics heatmap dashboard',
-      coverageStrength: 'strong',
-      topSimilarity: 0.636,
-      referenceCompanies: ['pop', 'mapbox', 'amplitude', 'atom-mobility', 'hotjar', 'squarespace', 'cloudflare', 'google-analytics'],
-      resultUse: 'reference-only density legend, explicit heavy analytic surface, and nonblocking dashboard budget signal',
-      fullReport: 'unavailable',
-      fullReportUnavailableReason: 'LAZYWEB_LEGACY_PATH_RESTART_REQUIRED_AFTER_UPDATE',
-    },
-    designRoute: {
-      lazyweb: 'search-applied',
-      leonardo: 'not-applicable-no-semantic-heatmap-color-change',
-      projectWallace: 'not-applicable-css-change-is-contained-to-existing-right-rail-surface',
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
+      readinessToken: false,
+      externalReportAvailable: false,
     },
   };
 }

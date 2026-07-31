@@ -129,14 +129,12 @@ function buildEvidence({ reportHash = '', sourceHash = '' } = {}) {
     schemaVersion: 'derived.atlas.reportsSavedQueries.evidence.v1',
     reportHash,
     sourceHash,
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      query: 'saved reports dashboard',
-      coverageStrength: 'strong',
-      topSimilarity: 0.683,
-      referenceCompanies: ['freshdesk', 'docusign', 'attio', 'google-analytics', 'dock', 'mixpanel', 'intercom', 'steep'],
-      fullReport: 'unavailable',
-      fullReportUnavailableReason: 'LAZYWEB_CREATE_OBJECTIVE_REDIRECTED_TO_DEEP_RESEARCH_FLOW',
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
+      readinessToken: false,
+      externalReportAvailable: false,
     },
   };
 }

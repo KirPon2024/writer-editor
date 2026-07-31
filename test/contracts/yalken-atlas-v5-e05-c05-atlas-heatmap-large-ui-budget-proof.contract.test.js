@@ -116,9 +116,10 @@ test('E05 C05: Atlas heatmap derives an explicit heavy tile packet with viewport
   assert.ok(result.value.viewportBudgetProof.omittedTotalTileCount > 0);
   assert.match(result.value.summary.heatmapHash, /^[0-9a-f]{64}$/u);
   assert.match(result.value.summary.matrixHash, /^[0-9a-f]{64}$/u);
-  assert.equal(result.value.evidence.lazyweb.query, 'analytics heatmap dashboard');
-  assert.equal(result.value.evidence.lazyweb.coverageStrength, 'strong');
-  assert.equal(result.value.evidence.designRoute.leonardo, 'not-applicable-no-semantic-heatmap-color-change');
+  assert.equal(result.value.evidence.designAdvisory.applied, true);
+  assert.equal(result.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(result.value.evidence.designAdvisory.readinessToken, false);
+  assert.equal(result.value.evidence.designAdvisory.externalReportAvailable, false);
 });
 
 test('E05 C05: Atlas heatmap fails closed and exports through derived barrels', async () => {

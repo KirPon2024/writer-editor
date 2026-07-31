@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001",
+  "contourId": "R2_C03_RESPONSIVE_AND_ACCESSIBLE_REACHABILITY",
+  "programStage": "R2_POST_FINAL_PRODUCT_OUTCOME_REPAIR_2026_07_31",
+  "status": "LOCAL_VALIDATION_PASS_DELIVERY_PENDING",
+  "programDodVerdict": "NOT_READY_R2_REPAIR_IN_PROGRESS",
+  "generatedAtUtc": "2026-07-31T17:40:02.879Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r2-c03",
+    "baseSha": "2dcae8d5ff9b1911934073a4430543d1219da597",
+    "originMainShaAtStart": "3acfc89b00a06ab55ff762fc9c04c40e9c025594",
+    "reconciledOriginMainSha": "2dcae8d5ff9b1911934073a4430543d1219da597",
+    "implementationCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "deliveredScope": {
+    "atlasOpenerOutsideRightRail": true,
+    "supportedDesktopWidths": [
+      1440,
+      1024,
+      900,
+      768
+    ],
+    "handset390Classification": "ADVISORY_FALLBACK_NOT_RESPONSIVE_PASS",
+    "overlayFocusTrapAndEscapeRequired": true,
+    "escapeReturnsFocusToOpener": true,
+    "horizontalOverflowRejected": true,
+    "toolbarCollisionRejected": true,
+    "e11ThreeScreenshotProofRejected": true,
+    "electronProfileKeptOutOfGovernedEvidence": true
+  },
+  "rendererAuditEvidence": {
+    "proofPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-responsive-audit.json",
+    "proofSha256": "4cb52c316f9e01f78b2d4f5ad7134dc09269da24343216df09fb77a52281bcfb",
+    "assertions": {
+      "noNetwork": true,
+      "supportedWidthMatrix": true,
+      "supportedOneActiveShell": true,
+      "externalOpenerReachable": true,
+      "openerNoToolbarCollision": true,
+      "noHorizontalOverflow": true,
+      "keyboardNavigation": true,
+      "overlayFocusTrapAndEscape": true,
+      "visibleAtlasScreenshots": true,
+      "scrollBudget": true,
+      "contrastAA": true,
+      "supportedWidthsNotClipped": true,
+      "handsetHonestAdvisory": true
+    },
+    "screenshots": [
+      {
+        "id": "desktop",
+        "width": 1440,
+        "height": 900,
+        "screenshotName": "atlas-er-c06-desktop.png",
+        "screenshotBytes": 539126,
+        "screenshotSha256": "862436edacde1942817b8aa137c9f0fe44239204f4b018c52abc8cf07e1b9ef6"
+      },
+      {
+        "id": "laptop",
+        "width": 1024,
+        "height": 768,
+        "screenshotName": "atlas-er-c06-laptop.png",
+        "screenshotBytes": 431278,
+        "screenshotSha256": "42eae2c07511c3313d4c229cb710fcefa29c4bb9ff5d14afb869049e8e332564"
+      },
+      {
+        "id": "compact",
+        "width": 900,
+        "height": 720,
+        "screenshotName": "atlas-er-c06-compact.png",
+        "screenshotBytes": 329584,
+        "screenshotSha256": "3eaa44c73bd99875c7c3474256131de10c1276dac09fec2c918f2b0ae8829d23"
+      },
+      {
+        "id": "tablet",
+        "width": 768,
+        "height": 720,
+        "screenshotName": "atlas-er-c06-tablet.png",
+        "screenshotBytes": 213656,
+        "screenshotSha256": "460e17150cabf5ffb44dd721ea87c169f473a9fcfed6de8e18d0dbbcde8a73f4"
+      },
+      {
+        "id": "handset-advisory",
+        "width": 390,
+        "height": 844,
+        "screenshotName": "atlas-er-c06-handset-advisory.png",
+        "screenshotBytes": 103731,
+        "screenshotSha256": "1e0b26e4e264de363109e346c8459bffc5923debc491c18d20387ac02cf76034"
+      }
+    ]
+  },
+  "notYetCertifiedByThisContour": [
+    "R2_C04_AUTHORITY_AND_RUNTIME_HYGIENE authority-side capability revalidation and metadata leak cleanup",
+    "R2_C05_HONEST_BLACK_BOX_ACCEPTANCE packaged/local Electron visible UI journey",
+    "R2_C06_FINAL_REVALIDATION Program DoD"
+  ],
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME_BLACK_BOX_NOT_YET_CERTIFIED",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E11_STAGE_11_ACTIVE_MACOS_PACKAGED_ELECTRON_CERTIFIED",
+    "EFINAL_PROGRAM_DOD_CERTIFIED"
+  ],
+  "validation": [
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Renderer bundle rebuilt successfully on reconciled origin/main 2dcae8d5."
+    },
+    {
+      "id": "focused-r2-c03",
+      "command": "node --test test/contracts/yalken-atlas-v5-r2-c03-responsive-accessible-reachability.contract.test.js test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js test/unit/sector-m-design-os-layout-commit-sync.test.js test/unit/yalken-design-os-sidebar-control-truth.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused R2 C03 plus ER C06/E11 compatibility and sidebar layout truth: 32 tests, 32 pass, 0 fail."
+    },
+    {
+      "id": "responsive-a11y-renderer-audit",
+      "command": "node scripts/ops/yalken-atlas-v5-er-c06-atlas-rail-responsive-audit.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Electron renderer audit PASS: no network; supported widths 1440 1024 900 768 reachable and unclipped; external opener; no horizontal overflow; overlay focus trap and Escape focus return; 390 handset advisory only."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "No Tiptap Pro and no private registry."
+    },
+    {
+      "id": "pre-approval-full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "FAIL_EXPECTED_PRE_GOVERNANCE_APPROVAL",
+      "exitCode": 1,
+      "summary": "Pre-approval full runner: 797 tests, 725 pass, 8 fail, 64 skipped; fail class was governance/head strict and sector-m scope drift before governance/base reconciliation, not focused R2 C03 runtime."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "GOVERNANCE_CHANGE_OK=1; GOVERNANCE_APPROVAL_REGISTRY_VALID_OK=1; missing approvals empty after current-state approval binding."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "CURRENT_WAVE_GUARD_RAN=1; CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; CURRENT_WAVE_STOP_CONDITION_GUARD_OK=1."
+    },
+    {
+      "id": "post-governance-regression-subset",
+      "command": "node --test test/unit/doctor-no-dup-sector-m-phase.test.js test/unit/ops-global-delivery-standard.test.js test/unit/ops-p0-sector-m-prep.test.js test/unit/sector-m-no-scope-leak.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Targeted recovered subset after origin/main merge and governance binding: 20 tests, 20 pass, 0 fail."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Full runner PASS before final exact-tree recheck: 797 tests, 733 pass, 64 skipped, 0 fail; perf baseline PASS; command/menu/law/execution/release candidate guards PASS; does not certify Program DoD before R2 C04-C06."
+    }
+  ],
+  "nextContour": "R2_C04_AUTHORITY_AND_RUNTIME_HYGIENE",
+  "readiness": "NOT_READY",
+  "delivery": {
+    "commit": "PENDING_PRE_COMMIT",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  },
+  "fullRunnerEvidence": {
+    "artifactIdentity": "tmp:yalken-r2-c03-full-runner-first-20260731.log",
+    "artifactSha256": "1025a437c4740f53c9af19b9ae260475363724111ad0c2d1c8b9bf2dbb9a6dc6",
+    "exactTreeRecheckRequiredBeforeCommit": true
+  }
+}

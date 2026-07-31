@@ -108,15 +108,25 @@ test('ER C06: CSS removes stacked full-height Atlas shells and raises operationa
 test('ER C06: visual audit script binds machine screenshots and negative assertions', () => {
   const script = read(path.join('scripts', 'ops', 'yalken-atlas-v5-er-c06-atlas-rail-responsive-audit.mjs'));
   assert.match(script, /id: 'desktop'/u);
+  assert.match(script, /id: 'laptop'/u);
+  assert.match(script, /id: 'compact'/u);
   assert.match(script, /id: 'tablet'/u);
-  assert.match(script, /id: 'mobile'/u);
+  assert.match(script, /id: 'handset-advisory'/u);
+  assert.match(script, /width: 768/u);
+  assert.match(script, /width: 900/u);
+  assert.match(script, /width: 1024/u);
   assert.match(script, /atlas-er-c06-' \+ viewport\.id \+ '\.png'/u);
-  assert.match(script, /desktopOneActiveShell/u);
-  assert.match(script, /tabletOneActiveShell/u);
+  assert.match(script, /supportedWidthMatrix/u);
+  assert.match(script, /supportedOneActiveShell/u);
+  assert.match(script, /externalOpenerReachable/u);
+  assert.match(script, /openerNoToolbarCollision/u);
+  assert.match(script, /noHorizontalOverflow/u);
   assert.match(script, /keyboardNavigation/u);
+  assert.match(script, /overlayFocusTrapAndEscape/u);
   assert.match(script, /scrollBudget/u);
   assert.match(script, /contrastAA/u);
-  assert.match(script, /mobileHonestOverlayScope/u);
+  assert.match(script, /supportedWidthsNotClipped/u);
+  assert.match(script, /handsetHonestAdvisory/u);
   assert.match(script, /networkRequests\.length === 0/u);
 });
 

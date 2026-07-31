@@ -9,9 +9,11 @@ const RESULT_PREFIX = 'YALKEN_ATLAS_ER_C06_RESPONSIVE_AUDIT_RESULT:';
 const repoRoot = path.resolve(new URL('../..', import.meta.url).pathname);
 
 const VIEWPORTS = Object.freeze([
-  Object.freeze({ id: 'desktop', width: 1440, height: 900, expectAtlasVisible: true }),
-  Object.freeze({ id: 'tablet', width: 1024, height: 768, expectAtlasVisible: true }),
-  Object.freeze({ id: 'mobile', width: 390, height: 844, expectAtlasVisible: false }),
+  Object.freeze({ id: 'desktop', width: 1440, height: 900, expectAtlasVisible: true, supported: true }),
+  Object.freeze({ id: 'laptop', width: 1024, height: 768, expectAtlasVisible: true, supported: true }),
+  Object.freeze({ id: 'compact', width: 900, height: 720, expectAtlasVisible: true, supported: true }),
+  Object.freeze({ id: 'tablet', width: 768, height: 720, expectAtlasVisible: true, supported: true }),
+  Object.freeze({ id: 'handset-advisory', width: 390, height: 844, expectAtlasVisible: false, supported: false }),
 ]);
 
 function sha256Buffer(buffer) {
@@ -26,6 +28,7 @@ function createChildSource(outputDir) {
   return `\
 const fs = require('node:fs/promises');
 const fsSync = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 
@@ -53,20 +56,21 @@ async function waitUntil(predicate, label, timeoutMs = 10000) {
   throw new Error('WAIT_TIMEOUT:' + label);
 }
 
-fsSync.mkdirSync(path.join(outputDir, 'user-data'), { recursive: true });
-fsSync.mkdirSync(path.join(outputDir, 'app-data'), { recursive: true });
-fsSync.mkdirSync(path.join(outputDir, 'documents'), { recursive: true });
-fsSync.mkdirSync(path.join(outputDir, 'documents', 'craftsman', 'Роман', 'roman'), { recursive: true });
-fsSync.mkdirSync(path.join(outputDir, 'documents', 'craftsman', '.autosave'), { recursive: true });
+const profileRoot = fsSync.mkdtempSync(path.join(os.tmpdir(), 'yalken-atlas-er-c06-profile-'));
+fsSync.mkdirSync(path.join(profileRoot, 'user-data'), { recursive: true });
+fsSync.mkdirSync(path.join(profileRoot, 'app-data'), { recursive: true });
+fsSync.mkdirSync(path.join(profileRoot, 'documents'), { recursive: true });
+fsSync.mkdirSync(path.join(profileRoot, 'documents', 'craftsman', 'Роман', 'roman'), { recursive: true });
+fsSync.mkdirSync(path.join(profileRoot, 'documents', 'craftsman', '.autosave'), { recursive: true });
 fsSync.writeFileSync(
-  path.join(outputDir, 'documents', 'craftsman', 'Роман', 'roman', 'atlas-er-c06.txt'),
+  path.join(profileRoot, 'documents', 'craftsman', 'Роман', 'roman', 'atlas-er-c06.txt'),
   'Ada met Bruno in the archive. Bruno carried the atlas ledger.',
   'utf8',
 );
-fsSync.writeFileSync(path.join(outputDir, 'documents', 'craftsman', '.autosave', 'autosave.txt'), '', 'utf8');
-app.setPath('appData', path.join(outputDir, 'app-data'));
-app.setPath('userData', path.join(outputDir, 'user-data'));
-app.setPath('documents', path.join(outputDir, 'documents'));
+fsSync.writeFileSync(path.join(profileRoot, 'documents', 'craftsman', '.autosave', 'autosave.txt'), '', 'utf8');
+app.setPath('appData', path.join(profileRoot, 'app-data'));
+app.setPath('userData', path.join(profileRoot, 'user-data'));
+app.setPath('documents', path.join(profileRoot, 'documents'));
 app.disableHardwareAcceleration();
 app.commandLine.appendSwitch('force-device-scale-factor', '1');
 app.commandLine.appendSwitch('disable-features', 'UseSkiaRenderer');
@@ -105,18 +109,13 @@ app.whenReady().then(async () => {
   }, 'ATLAS_UI_NOT_READY', 15000);
 
   const results = [];
-  for (const viewport of viewports) {
-    win.setSize(viewport.width, viewport.height);
-    await sleep(250);
-    await win.webContents.executeJavaScript(\`(() => {
-      const tab = document.querySelector('[data-right-tab="atlas"]');
-      if (tab) tab.click();
-    })()\`, true);
-    await sleep(250);
-    const metrics = await win.webContents.executeJavaScript(\`(() => {
-      const parseRgb = (value) => {
-        const match = String(value || '').match(/rgba?\\\\(([^)]+)\\\\)/);
-        if (!match) return null;
+	  for (const viewport of viewports) {
+	    win.setSize(viewport.width, viewport.height);
+	    await sleep(250);
+	    const metrics = await win.webContents.executeJavaScript(\`(async () => {
+	      const parseRgb = (value) => {
+	        const match = String(value || '').match(/rgba?\\\\(([^)]+)\\\\)/);
+	        if (!match) return null;
         const parts = match[1].split(',').map((part) => Number(part.trim()));
         if (parts.length < 3 || parts.some((part, index) => index < 3 && !Number.isFinite(part))) return null;
         return { r: parts[0], g: parts[1], b: parts[2], a: Number.isFinite(parts[3]) ? parts[3] : 1 };
@@ -136,11 +135,23 @@ app.whenReady().then(async () => {
         const dark = Math.min(a, b);
         return Number(((light + 0.05) / (dark + 0.05)).toFixed(2));
       };
-      const atlasPanel = document.querySelector('[data-right-panel-atlas]');
-      const rightSidebar = document.querySelector('[data-right-sidebar]');
-      const nav = document.querySelector('[data-atlas-surface-nav]');
-      const activeShells = Array.from(document.querySelectorAll('[data-atlas-surface-shell]'))
-        .filter((shell) => !shell.hidden && getComputedStyle(shell).display !== 'none');
+	      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+	      const atlasPanel = document.querySelector('[data-right-panel-atlas]');
+	      const rightSidebar = document.querySelector('[data-right-sidebar]');
+	      const appLayout = document.querySelector('.app-layout');
+	      const nav = document.querySelector('[data-atlas-surface-nav]');
+	      const opener = document.querySelector('[data-atlas-reachability-opener]');
+	      const toolbar = document.querySelector('[data-toolbar]');
+	      const openerInsideRightRail = Boolean(opener && rightSidebar && rightSidebar.contains(opener));
+	      const openerBeforeRect = opener ? opener.getBoundingClientRect() : null;
+	      if (opener) {
+	        opener.focus({ preventScroll: true });
+	        opener.click();
+	      }
+	      await sleep(120);
+	      const overlayOpenBeforeEscape = appLayout?.dataset?.rightRailOverlayOpen === 'true';
+	      const activeShells = Array.from(document.querySelectorAll('[data-atlas-surface-shell]'))
+	        .filter((shell) => !shell.hidden && getComputedStyle(shell).display !== 'none');
       const visibleButtons = Array.from(document.querySelectorAll('[data-atlas-surface-button]'))
         .filter((button) => !button.hidden && getComputedStyle(button).display !== 'none');
       const selectedButtons = visibleButtons.filter((button) => button.getAttribute('aria-selected') === 'true');
@@ -151,63 +162,116 @@ app.whenReady().then(async () => {
       const keyboardEvent = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true });
       activeButton?.dispatchEvent(keyboardEvent);
       const afterSelected = document.querySelector('[data-atlas-surface-button][aria-selected="true"]')?.getAttribute('data-atlas-surface-button') || '';
-      const navStyle = nav ? getComputedStyle(nav) : null;
-      const buttonStyle = activeButton ? getComputedStyle(activeButton) : null;
-      const rightRect = rightSidebar ? rightSidebar.getBoundingClientRect() : null;
-      const atlasRect = atlasPanel ? atlasPanel.getBoundingClientRect() : null;
-      return {
-        activeAtlasSurface: atlasPanel?.dataset?.activeAtlasSurface || '',
-        activeAtlasProvider: atlasPanel?.dataset?.activeAtlasProvider || '',
+	      const navStyle = nav ? getComputedStyle(nav) : null;
+	      const buttonStyle = activeButton ? getComputedStyle(activeButton) : null;
+	      const rightRect = rightSidebar ? rightSidebar.getBoundingClientRect() : null;
+	      const atlasRect = atlasPanel ? atlasPanel.getBoundingClientRect() : null;
+	      const openerAfterRect = opener ? opener.getBoundingClientRect() : null;
+	      const toolbarRect = toolbar ? toolbar.getBoundingClientRect() : null;
+	      const rectsOverlap = (a, b) => Boolean(a && b && a.width > 0 && b.width > 0 && a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top);
+	      const focusable = rightSidebar
+	        ? Array.from(rightSidebar.querySelectorAll('button, input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+	          .filter((element) => !element.hidden && !element.disabled && element.getClientRects().length > 0)
+	        : [];
+	      const firstFocusable = focusable[0] || null;
+	      const lastFocusable = focusable[focusable.length - 1] || null;
+	      let overlayTabWrapped = false;
+	      if (overlayOpenBeforeEscape && firstFocusable && lastFocusable) {
+	        lastFocusable.focus({ preventScroll: true });
+	        lastFocusable.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+	        overlayTabWrapped = document.activeElement === firstFocusable;
+	      }
+	      return {
+	        activeAtlasSurface: atlasPanel?.dataset?.activeAtlasSurface || '',
+	        activeAtlasProvider: atlasPanel?.dataset?.activeAtlasProvider || '',
         activeShellCount: activeShells.length,
         hiddenShellCount: document.querySelectorAll('[data-atlas-surface-shell][hidden]').length,
         surfaceButtonCount: visibleButtons.length,
         selectedButtonCount: selectedButtons.length,
         focusVisible,
-        keyboardMovedFocus: beforeSelected !== afterSelected && Boolean(afterSelected),
-        atlasPanelHidden: atlasPanel ? atlasPanel.hidden : true,
-        rightSidebarHidden: rightSidebar ? rightSidebar.hidden : true,
-        rightSidebarDisplay: rightSidebar ? getComputedStyle(rightSidebar).display : '',
-        rightSidebarWidth: rightRect ? Math.round(rightRect.width) : 0,
-        atlasPanelHeight: atlasRect ? Math.round(atlasRect.height) : 0,
-        atlasPanelScrollHeight: atlasPanel ? atlasPanel.scrollHeight : 0,
-        navOverflowX: nav ? nav.scrollWidth > nav.clientWidth : false,
-        navPosition: navStyle ? navStyle.position : '',
-        navContrast: contrastRatio(parseRgb(buttonStyle?.color), parseRgb(navStyle?.backgroundColor)),
-        viewportWidth: window.innerWidth,
-        viewportHeight: window.innerHeight,
-      };
-    })()\`, true);
-    const screenshot = await win.webContents.capturePage();
-    const png = screenshot.toPNG();
-    const screenshotName = 'atlas-er-c06-' + viewport.id + '.png';
-    const screenshotPath = path.join(outputDir, screenshotName);
-    await fs.writeFile(screenshotPath, png);
-    results.push({
-      ...viewport,
-      ...metrics,
-      screenshotName,
+	        keyboardMovedFocus: beforeSelected !== afterSelected && Boolean(afterSelected),
+	        atlasPanelHidden: atlasPanel ? atlasPanel.hidden : true,
+	        rightSidebarHidden: rightSidebar ? rightSidebar.hidden : true,
+	        rightSidebarDisplay: rightSidebar ? getComputedStyle(rightSidebar).display : '',
+	        rightSidebarWidth: rightRect ? Math.round(rightRect.width) : 0,
+	        atlasPanelHeight: atlasRect ? Math.round(atlasRect.height) : 0,
+	        atlasPanelScrollHeight: atlasPanel ? atlasPanel.scrollHeight : 0,
+	        navOverflowX: nav ? nav.scrollWidth > nav.clientWidth : false,
+	        navPosition: navStyle ? navStyle.position : '',
+	        navContrast: contrastRatio(parseRgb(buttonStyle?.color), parseRgb(navStyle?.backgroundColor)),
+	        openerVisible: opener ? !opener.hidden && getComputedStyle(opener).display !== 'none' && openerAfterRect.width >= 44 && openerAfterRect.height >= 32 : false,
+	        openerInsideRightRail,
+	        openerMode: opener?.dataset?.atlasReachabilityMode || '',
+	        openerSupported: opener?.dataset?.atlasReachabilitySupported === 'true',
+	        openerRailMode: opener?.dataset?.atlasReachabilityRailMode || '',
+	        openerAriaExpanded: opener?.getAttribute('aria-expanded') || '',
+	        openerToolbarCollision: rectsOverlap(openerAfterRect, toolbarRect),
+	        openerMovedAfterClick: openerBeforeRect && openerAfterRect
+	          ? Math.abs(openerBeforeRect.left - openerAfterRect.left) + Math.abs(openerBeforeRect.top - openerAfterRect.top) > 1
+	          : false,
+	        documentOverflowX: document.documentElement.scrollWidth > window.innerWidth || document.body.scrollWidth > window.innerWidth,
+	        rightRailOverlayOpenBeforeEscape: overlayOpenBeforeEscape,
+	        overlayFocusInside: overlayOpenBeforeEscape ? rightSidebar?.contains(document.activeElement) === true : true,
+	        overlayTabWrapped: overlayOpenBeforeEscape ? overlayTabWrapped : true,
+	        viewportWidth: window.innerWidth,
+	        viewportHeight: window.innerHeight,
+	      };
+	    })()\`, true);
+	    const screenshot = await win.webContents.capturePage();
+	    const png = screenshot.toPNG();
+	    const screenshotName = 'atlas-er-c06-' + viewport.id + '.png';
+	    const screenshotPath = path.join(outputDir, screenshotName);
+	    await fs.writeFile(screenshotPath, png);
+	    const escapeMetrics = await win.webContents.executeJavaScript(\`(async () => {
+	      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+	      const appLayout = document.querySelector('.app-layout');
+	      const opener = document.querySelector('[data-atlas-reachability-opener]');
+	      const overlayOpenBeforeEscape = appLayout?.dataset?.rightRailOverlayOpen === 'true';
+	      if (!overlayOpenBeforeEscape) {
+	        return { escapeClosedOverlay: true, escapeReturnedFocus: true };
+	      }
+	      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+	      await sleep(80);
+	      return {
+	        escapeClosedOverlay: appLayout?.dataset?.rightRailOverlayOpen !== 'true',
+	        escapeReturnedFocus: document.activeElement === opener,
+	      };
+	    })()\`, true);
+	    results.push({
+	      ...viewport,
+	      ...metrics,
+	      ...escapeMetrics,
+	      screenshotName,
       screenshotBytes: png.length,
       screenshotSha256: require('node:crypto').createHash('sha256').update(png).digest('hex'),
     });
   }
 
-  const assertions = {
-    noNetwork: networkRequests.length === 0,
-    desktopOneActiveShell: results.find((item) => item.id === 'desktop')?.activeShellCount === 1,
-    tabletOneActiveShell: results.find((item) => item.id === 'tablet')?.activeShellCount === 1,
-    keyboardNavigation: results.filter((item) => item.expectAtlasVisible).every((item) => item.focusVisible && item.keyboardMovedFocus),
-    visibleAtlasScreenshots: results.every((item) => item.screenshotBytes > 1000),
-    scrollBudget: results.filter((item) => item.expectAtlasVisible).every((item) => item.atlasPanelScrollHeight < 2400),
-    contrastAA: results.filter((item) => item.expectAtlasVisible).every((item) => item.navContrast >= 4.5),
-    tabletNotClipped: (() => {
-      const tablet = results.find((item) => item.id === 'tablet');
-      return tablet && tablet.rightSidebarWidth >= 240 && tablet.atlasPanelHeight > 300;
-    })(),
-    mobileHonestOverlayScope: (() => {
-      const mobile = results.find((item) => item.id === 'mobile');
-      return mobile && mobile.expectAtlasVisible === false && mobile.rightSidebarHidden === true;
-    })(),
-  };
+	  const assertions = {
+	    noNetwork: networkRequests.length === 0,
+	    supportedWidthMatrix: results.filter((item) => item.supported).map((item) => item.width).join(',') === '1440,1024,900,768',
+	    supportedOneActiveShell: results.filter((item) => item.supported).every((item) => item.activeShellCount === 1),
+	    externalOpenerReachable: results.every((item) => item.openerVisible && item.openerInsideRightRail === false),
+	    openerNoToolbarCollision: results.every((item) => item.openerToolbarCollision === false && item.openerMovedAfterClick === false),
+	    noHorizontalOverflow: results.every((item) => item.documentOverflowX === false),
+	    keyboardNavigation: results.filter((item) => item.supported).every((item) => item.focusVisible && item.keyboardMovedFocus),
+	    overlayFocusTrapAndEscape: results
+	      .filter((item) => item.supported && item.openerRailMode === 'overlay')
+	      .every((item) => item.rightRailOverlayOpenBeforeEscape && item.overlayFocusInside && item.overlayTabWrapped && item.escapeClosedOverlay && item.escapeReturnedFocus),
+	    visibleAtlasScreenshots: results.every((item) => item.screenshotBytes > 1000),
+	    scrollBudget: results.filter((item) => item.supported).every((item) => item.atlasPanelScrollHeight < 2400),
+	    contrastAA: results.filter((item) => item.supported).every((item) => item.navContrast >= 4.5),
+	    supportedWidthsNotClipped: results.filter((item) => item.supported).every((item) => item.rightSidebarHidden === false && item.rightSidebarWidth >= 240 && item.atlasPanelHeight > 300),
+	    handsetHonestAdvisory: (() => {
+	      const handset = results.find((item) => item.id === 'handset-advisory');
+	      return handset
+	        && handset.supported === false
+	        && handset.expectAtlasVisible === false
+	        && handset.openerVisible === true
+	        && handset.openerSupported === false
+	        && handset.openerMode === 'handset-advisory';
+	    })(),
+	  };
   const proof = {
     schemaVersion: 'yalken.atlas.v5.erC06.responsiveAudit.v1',
     generatedAtUtc: new Date().toISOString(),

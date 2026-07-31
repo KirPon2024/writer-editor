@@ -4489,13 +4489,6 @@
       "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
     },
     {
-      "filePath": "scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs",
-      "sha256": "0d153be6ea3bb03950dbe55153fc7674eaf8c782ac6e1b3969f1a77f4c27c86a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
       "filePath": "scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs",
       "sha256": "82d1d121f9fe2d74781cb6862dea5147645667e97b5eea5f7b04200781ef031a",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
@@ -4515,13 +4508,6 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
       "approvedAtUtc": "2026-07-31T08:37:30.000Z",
       "rationale": "Approve ER C05 measured 10k worker budget script: builds deterministic local corpus, runs real worker-thread iterations, measures wall time, input latency, frame delay, heap, transfer bytes, LOD nodes and edges, and spatial cells, and adds no network, dependency, storage writer, or readiness claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-er-c06-atlas-rail-responsive-audit.mjs",
-      "sha256": "27d36989e0557d29230269b2f30e8aac04bb772d69427350e43a8d5346428dfd",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c07-stage-revalidation-handoff.mjs",
@@ -4777,31 +4763,31 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "6682f454c3b8e4ddaaaece7cafc9eca5ca4d474e61d3a57a1866b9ef0e03d490",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
-      "approvedAtUtc": "2026-07-31T17:20:00.000Z",
-      "rationale": "Approve bounded R2 C02 rebuilt renderer bundle for safe Manual Map semantic interaction draft forms and Command Kernel apply path; no dependency, network, or product readiness claim is introduced."
+      "sha256": "b5f5d89185834e736fbf37cbeceb130a89340320ba38825492ffdb9151c0f9da",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
+      "approvedAtUtc": "2026-07-31T18:48:00.000Z",
+      "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "c06e802cae5f5f4fed173488fd237020e048cfb8890232b62943241213fee6b7",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
-      "approvedAtUtc": "2026-07-31T17:20:00.000Z",
-      "rationale": "Approve bounded R2 C02 renderer update: Manual Map semantic actions now open explicit command draft forms with target identity, impact preview, risk confirmation, cancel/no-op proof, and apply-only Command Kernel dispatch; no new source of truth, dependency, network, or direct storage mutation is introduced."
+      "sha256": "54b9fb21333a08c173eddcc8ccf3edead7a5a6a6c13c116b6791ccaa417086ff",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
+      "approvedAtUtc": "2026-07-31T18:48:00.000Z",
+      "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "src/renderer/index.html",
-      "sha256": "96fbe88db09101e770598359775ebe38c98d64500e9746237d66680f687355e9",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C01",
-      "approvedAtUtc": "2026-07-31T16:42:00.000Z",
-      "rationale": "Approve bounded R2 C01 central PLAN workspace host addition for Manual Map Graph Workbench; right rail remains contextual inspector, no Design OS redesign, dependency, network, storage bypass, or Program DoD readiness claim is introduced."
+      "sha256": "eb120716e8d7fb73d4f3c2faf6c655915d5234c635436fd57231d3ef3ff98e5c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
+      "approvedAtUtc": "2026-07-31T18:48:00.000Z",
+      "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "src/renderer/styles.css",
-      "sha256": "24e60364b448955a0f837cb940e748cb50f5a5e8d351add77935935dea1b8229",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C02",
-      "approvedAtUtc": "2026-07-31T17:20:00.000Z",
-      "rationale": "Approve bounded R2 C02 Manual Map command form styling in existing Yalken visual language with focus and dark-theme parity; no UI framework or visual canon redesign is introduced."
+      "sha256": "f8aed86b201868c685206a6cb0fbd84dc2bfdc4c24f57821c4e4d1886645e97c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
+      "approvedAtUtc": "2026-07-31T18:48:00.000Z",
+      "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
     },
     {
       "filePath": "test/contracts/agent-bootstrap-spec.contract.test.js",
@@ -6554,13 +6540,6 @@
       "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
-      "sha256": "ea60af52fa7190b7e488a5b0780f9458f5d19a11fb3222b3a5407169346c6825",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
-      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
-    },
-    {
       "filePath": "test/contracts/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.contract.test.js",
       "sha256": "a983099a70adeb435af71383192d8d88d43ceb3ac091011b582c62e54071e892",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
@@ -6608,13 +6587,6 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
       "approvedAtUtc": "2026-07-31T08:37:30.000Z",
       "rationale": "Approve ER C05 focused contract: proves compact transferable payload, real worker-thread execution, LOD and spatial index result, coalescing, cancellation, stale discard, typed fallback, measured 10k budget, old false worker label removal, and no storage, network, Electron, direct UI, or product truth bypass."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js",
-      "sha256": "d4927ea261612311925ed9dfdd0e308c4a1b35c9abcb1634508713124dd87cba",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c07-stage-revalidation-handoff.contract.test.js",
@@ -6699,6 +6671,90 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-compact.png",
+      "sha256": "3eaa44c73bd99875c7c3474256131de10c1276dac09fec2c918f2b0ae8829d23",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-desktop.png",
+      "sha256": "862436edacde1942817b8aa137c9f0fe44239204f4b018c52abc8cf07e1b9ef6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-handset-advisory.png",
+      "sha256": "1e0b26e4e264de363109e346c8459bffc5923debc491c18d20387ac02cf76034",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-laptop.png",
+      "sha256": "42eae2c07511c3313d4c229cb710fcefa29c4bb9ff5d14afb869049e8e332564",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-responsive-audit.json",
+      "sha256": "4cb52c316f9e01f78b2d4f5ad7134dc09269da24343216df09fb77a52281bcfb",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-tablet.png",
+      "sha256": "460e17150cabf5ffb44dd721ea87c169f473a9fcfed6de8e18d0dbbcde8a73f4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY_RECEIPT.json",
+      "sha256": "65110eef2dc8533493d19355c2e30952b90ae71723e5caa115f9bfb50a30a866",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_FINAL_RECEIPT_REBIND",
+      "approvedAtUtc": "2026-07-31T17:40:14.900Z",
+      "rationale": "Final R2 C03 receipt governance rebind after actual full-runner PASS evidence: approval hash matches current repo bytes; Program DoD remains NOT_READY pending R2 C04-C06."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs",
+      "sha256": "f4f4f210f7fe7e4ebd4af802f25de5c4fa743fb028817970525b4a9c4a4c72e3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-er-c06-atlas-rail-responsive-audit.mjs",
+      "sha256": "4b3893a38696acad301b4431e7bd0bb18679cd9fba89c9d9bb1b9215ba2a3d7a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
+      "sha256": "eee9ad45f67f5a31e98734c47dafdd479e150325b0d55c2050ff3f84a729296d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js",
+      "sha256": "9b190a013c06691f53884d30e72d9c4146102303ecb889e40e5c0e669042fa87",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c03-responsive-accessible-reachability.contract.test.js",
+      "sha256": "231ad7bd98d33306b10a35e3b54af8465535e84f9177a31f6dd402ab9391afd2",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03",
+      "approvedAtUtc": "2026-07-31T18:42:00.000Z",
+      "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
     }
   ]
 }

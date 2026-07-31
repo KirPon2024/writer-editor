@@ -289,6 +289,8 @@ const manualMapPlanHost = document.querySelector('[data-manual-map-plan-host]');
 const rightSidebar = document.querySelector('[data-right-sidebar]');
 const rightTabsHost = document.querySelector('[data-right-tabs]');
 const rightTabButtons = Array.from(document.querySelectorAll('[data-right-tab]'));
+const atlasReachabilityOpener = document.querySelector('[data-atlas-reachability-opener]');
+const atlasReachabilityCaption = document.querySelector('[data-atlas-reachability-caption]');
 const rightInspectorPanel = document.querySelector('[data-right-panel-inspector]');
 const rightCommentsPanel = document.querySelector('[data-right-panel-comments]');
 const rightHistoryPanel = document.querySelector('[data-right-panel-history]');
@@ -8101,6 +8103,37 @@ function clampSpatialSidebarWidth(value, min, max) {
   return Math.max(min, Math.min(max, Math.round(nextValue)));
 }
 
+function isAtlasSupportedViewportWidth(viewportWidth = getSpatialLayoutViewportWidth()) {
+  return Math.max(0, Math.floor(Number(viewportWidth) || 0)) >= 768;
+}
+
+function syncAtlasReachabilityOpenerState({
+  viewportWidth = getSpatialLayoutViewportWidth(),
+  rightOverlayMode = getSpatialLayoutConstraintsForViewport(viewportWidth).rightRailMode === 'overlay',
+  rightOverlayActive = rightRailOverlayOpen === true,
+  rightCollapsed = false,
+} = {}) {
+  if (!(atlasReachabilityOpener instanceof HTMLElement)) return;
+  const supported = isAtlasSupportedViewportWidth(viewportWidth);
+  const atlasActive = currentRightTab === 'atlas';
+  const expanded = atlasActive && (rightOverlayActive || (!rightOverlayMode && rightCollapsed !== true));
+  atlasReachabilityOpener.hidden = false;
+  atlasReachabilityOpener.disabled = false;
+  atlasReachabilityOpener.dataset.atlasReachabilitySupported = supported ? 'true' : 'false';
+  atlasReachabilityOpener.dataset.atlasReachabilityMode = supported ? 'supported' : 'handset-advisory';
+  atlasReachabilityOpener.dataset.atlasReachabilityRailMode = rightOverlayMode ? 'overlay' : 'docked';
+  atlasReachabilityOpener.dataset.atlasReachabilitySurface = currentAtlasSurface;
+  atlasReachabilityOpener.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  const label = supported
+    ? 'Открыть Atlas'
+    : 'Atlas доступен как компактный просмотр; сертификация начинается с ширины 768';
+  atlasReachabilityOpener.setAttribute('aria-label', label);
+  atlasReachabilityOpener.title = label;
+  if (atlasReachabilityCaption instanceof HTMLElement) {
+    atlasReachabilityCaption.textContent = supported ? 'Контекст' : '768+';
+  }
+}
+
 function normalizeSpatialLayoutState(rawState, viewportWidth = getSpatialLayoutViewportWidth()) {
   const fallback = getSpatialLayoutBaselineForViewport(viewportWidth);
   const constraints = getSpatialLayoutConstraintsForViewport(viewportWidth);
@@ -8269,6 +8302,12 @@ function applySpatialLayoutState(state, { persist = false, projectId = currentPr
     rightRailCollapseButton.setAttribute('aria-label', label);
     rightRailCollapseButton.title = label;
   }
+  syncAtlasReachabilityOpenerState({
+    viewportWidth,
+    rightOverlayMode,
+    rightOverlayActive,
+    rightCollapsed: effectiveRightCollapsed,
+  });
   if (rightSidebarResizer) {
     rightSidebarResizer.hidden = !rightVisible || effectiveRightCollapsed;
   }
@@ -8411,6 +8450,33 @@ function toggleRightRailCollapsed() {
   }
   const currentState = spatialLayoutState || getSpatialLayoutBaselineForViewport();
   return setRightRailCollapsed(currentState.rightCollapsed !== true);
+}
+
+function openAtlasRailFromReachabilityOpener({ surfaceId = currentAtlasSurface } = {}) {
+  const viewportWidth = getSpatialLayoutViewportWidth();
+  const supported = isAtlasSupportedViewportWidth(viewportWidth);
+  applyRightTab('atlas');
+  setCurrentAtlasSurface(surfaceId, { refresh: true });
+  const constraints = getSpatialLayoutConstraintsForViewport(viewportWidth);
+  if (constraints.rightRailMode === 'overlay') {
+    setRightRailOverlayOpen(true);
+  } else {
+    const currentState = spatialLayoutState || getSpatialLayoutBaselineForViewport(viewportWidth);
+    if (currentState.rightCollapsed === true) {
+      setRightRailCollapsed(false);
+    } else {
+      syncAtlasReachabilityOpenerState({
+        viewportWidth,
+        rightOverlayMode: false,
+        rightOverlayActive: false,
+        rightCollapsed: false,
+      });
+    }
+  }
+  updateStatusText(supported
+    ? 'Atlas context открыт'
+    : 'Atlas открыт в компактном режиме; сертификация интерфейса начинается с 768px');
+  return spatialLayoutState;
 }
 
 function toggleLeftRailCollapsed() {
@@ -11397,6 +11463,7 @@ function syncAtlasSurfaceCompositionState() {
     shell.hidden = !active;
     shell.dataset.atlasSurfaceActive = active ? 'true' : 'false';
   }
+  syncAtlasReachabilityOpenerState();
 }
 
 function refreshActiveAtlasSurface() {
@@ -11562,6 +11629,7 @@ function syncRightRailCompositionState(tab) {
     atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
   }
   syncAtlasSurfaceCompositionState();
+  syncAtlasReachabilityOpenerState();
 }
 
 function applyRightTab(tab) {
@@ -18569,6 +18637,9 @@ function handleUiAction(action) {
       return true;
     case 'toggle-right-rail':
       toggleRightRailCollapsed();
+      return true;
+    case 'open-atlas-rail':
+      openAtlasRailFromReachabilityOpener();
       return true;
     case 'close-right-rail-overlay':
       setRightRailOverlayOpen(false);

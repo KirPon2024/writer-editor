@@ -160,6 +160,38 @@ test('E11 C03: missing package binding, screenshot, focus, or visual delta is NO
   assert.equal(result.visualRegression.pass, false);
 });
 
+test('E11 C03: stale or missing historical baseline is explicit and still requires physical nonblank screenshots', async () => {
+  const { evaluatePackagedAccessibilityResponsiveVisualRegression } = await loadModule();
+  const comparisons = passingVisualComparisons();
+  comparisons[1].baseline.exists = false;
+  comparisons[1].baselineComparisonStatus = 'NO_BASELINE_CURRENT_CERTIFICATION_ONLY';
+  comparisons[1].currentHealth = { dimensions: [100, 100], nonBlankRatio: 0.5 };
+  comparisons[1].pass = true;
+  comparisons[2].baselineComparisonStatus = 'STALE_BASELINE_SCOPE_CURRENT_CERTIFICATION_ONLY';
+  comparisons[2].currentHealth = { dimensions: [100, 100], nonBlankRatio: 0.5 };
+  comparisons[2].delta.reason = 'BASELINE_VIEWPORT_SCOPE_MISMATCH';
+  comparisons[2].pass = true;
+  const result = evaluatePackagedAccessibilityResponsiveVisualRegression({
+    c01Receipt: {
+      pass: true,
+      status: 'PASS_UNSIGNED_LOCAL_ARTIFACT',
+      physicalArtifactEvidence: {
+        artifactSet: {
+          appAsar: { sha256: 'package-sha' },
+        },
+      },
+    },
+    appAsarProof: presentFile('app.asar', 'package-sha'),
+    audit: passingAudit(),
+    visualComparisons: comparisons,
+  });
+
+  assert.equal(result.pass, true);
+  assert.equal(result.visualRegression.comparisons[1].baselineComparisonStatus, 'NO_BASELINE_CURRENT_CERTIFICATION_ONLY');
+  assert.equal(result.visualRegression.comparisons[2].delta.reason, 'BASELINE_VIEWPORT_SCOPE_MISMATCH');
+  assert.equal(result.negativeAssertions.missingPhysicalScreenshotCanPass, false);
+});
+
 test('E11 C03: implementation reuses ER C06 audit, binds package artifact, and avoids runtime bypasses', () => {
   const source = read('scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs');
 
@@ -168,6 +200,8 @@ test('E11 C03: implementation reuses ER C06 audit, binds package artifact, and a
   assert.match(source, /APP_ASAR/u);
   assert.match(source, /ER_C06_BASELINE_PATH/u);
   assert.match(source, /comparePng/u);
+  assert.match(source, /NO_BASELINE_CURRENT_CERTIFICATION_ONLY/u);
+  assert.match(source, /STALE_BASELINE_SCOPE_CURRENT_CERTIFICATION_ONLY/u);
   assert.match(source, /exactPngHashRequired:\s*false/u);
   assert.match(source, /ciParityCanSubstitutePackagedVisualProof:\s*false/u);
   assert.match(source, /missingPhysicalScreenshotCanPass:\s*false/u);

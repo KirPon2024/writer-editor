@@ -1,11 +1,11 @@
 {
   "schemaVersion": "yalken.atlas.v5.e11.c04.packagedPerformanceSecurityFinalPlatformHandoff.receipt.v1",
-  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
   "contourId": "E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
   "programStage": "E11_ACTIVE_PLATFORM_CERTIFICATION",
-  "baseSha": "11b485c7a3f08cf7bfa03770f7b7e323db8ae7fe",
-  "headShaAtReceiptGeneration": "11b485c7a3f08cf7bfa03770f7b7e323db8ae7fe",
-  "generatedAtUtc": "2026-07-31T12:47:44.592Z",
+  "baseSha": "336b5e1981ed40f2fed052bc1b56bc403b297d01",
+  "headShaAtReceiptGeneration": "336b5e1981ed40f2fed052bc1b56bc403b297d01",
+  "generatedAtUtc": "2026-07-31T21:42:53.459Z",
   "designToolRouter": "NOT_APPLICABLE_CERTIFICATION_AND_SECURITY_RUNNER_ONLY_NO_UI_DESIGN_CONTRACT_CHANGE",
   "status": "PASS_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
   "pass": true,
@@ -15,17 +15,18 @@
     "c01Status": "PASS_UNSIGNED_LOCAL_ARTIFACT",
     "c02Status": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY",
     "c03Status": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
-    "appAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
-    "c01AppAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
+    "appAsarSha256": "39382c67ffa427a8e4604399a74337570695d6c88d7db8b44fa948a6d273ccca",
+    "c01AppAsarSha256": "39382c67ffa427a8e4604399a74337570695d6c88d7db8b44fa948a6d273ccca",
     "c02PackageBound": true,
     "c03PackageBound": true
   },
   "performanceEvidence": {
     "report": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/er-c05-10k-worker-budget.json",
-      "sha256": "0d7f963030c0beb0dc641af4e5a85f163f303fcb8ffc65668e10662e00fbb946",
-      "bytes": 2667
+      "sha256": "2da94062088aa5f4a743bfe58ca5e87cbc93cde9f4ced996a07ab664b2fc0674",
+      "bytes": 2651
     },
+    "pass": true,
     "status": "PASS",
     "corpus": {
       "nodeCount": 10000,
@@ -42,15 +43,15 @@
       "maxPlannedEdges": 960
     },
     "metrics": {
-      "p50WallTimeMs": 98.485,
-      "p95WallTimeMs": 100.089,
-      "p50InputLatencyMs": 0.017,
-      "p95InputLatencyMs": 0.018,
-      "p50FrameDelayMs": 0.017,
-      "p95FrameDelayMs": 0.018,
-      "maxHeapDeltaBytes": 4803848,
+      "p50WallTimeMs": 102.653,
+      "p95WallTimeMs": 128.572,
+      "p50InputLatencyMs": 0.015,
+      "p95InputLatencyMs": 0.017,
+      "p50FrameDelayMs": 0.015,
+      "p95FrameDelayMs": 0.017,
+      "maxHeapDeltaBytes": 0,
       "maxFrameOverrunCount": 0,
-      "minInputSampleCount": 5808,
+      "minInputSampleCount": 6071,
       "maxPlannedNodes": 640,
       "maxPlannedEdges": 370,
       "minSpatialIndexCells": 155,
@@ -106,8 +107,8 @@
   },
   "handoffReport": {
     "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF/packaged-performance-security-final-platform-handoff-report.json",
-    "sha256": "e66683526b99b6769ad75286df7f90318e1c39fc38fce0d862bf43feff57a0f4",
-    "bytes": 3914
+    "sha256": "59633f971508bf65b29fc176ae4376b42c43f0b85e778e4a309a38404b07dbfe",
+    "bytes": 3909
   },
   "inactivePlatformScope": {
     "macosPackagedElectron": "CERTIFIED_BY_E11_C01_C02_C03_C04",
@@ -133,54 +134,9 @@
   },
   "validation": [
     {
-      "command": "node --test test/contracts/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.contract.test.js",
-      "result": "PASS",
-      "summary": "4 pass, 0 fail"
-    },
-    {
       "command": "node scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
       "result": "PASS",
-      "summary": "PASS_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF; reportSha256=e66683526b99b6769ad75286df7f90318e1c39fc38fce0d862bf43feff57a0f4; ER_C05 p95WallTimeMs=100.089; p95InputLatencyMs=0.018; p95FrameDelayMs=0.018; workerThreadIds=1,2,3"
-    },
-    {
-      "command": "node --check src/import/mindmap/v1/manualMapMarkdownPortabilityBridge.mjs && node --test test/contracts/yalken-atlas-v5-e02d-c03-manual-map-markdown-portability-bridge.contract.test.js",
-      "result": "PASS",
-      "summary": "manual map markdown bridge parser-compatible regex behavior preserved; 4 pass, 0 fail"
-    },
-    {
-      "command": "node --check src/io/revisionBridge/index.mjs && node --test --test-name-pattern \"W2 (malformed XML|parser is namespace|parser bake-off)\" test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js && node --test --test-name-pattern \"RB-03 (builds|returns|preserves|preview builder)|RB-04 (converts|carries|reports|defaults|preserves|is deterministic|final adapter)\" test/contracts/revision-bridge-parsed-review-surface-adapter.contract.test.js test/contracts/revision-bridge-review-packet-preview-contract.contract.test.js",
-      "result": "PASS",
-      "summary": "revision bridge parser-compatible regex behavior preserved; W2 3 pass and RB behavioral 15 pass"
-    },
-    {
-      "command": "npm run -s security:audit:generic-sast",
-      "result": "PASS",
-      "summary": "GENERIC_SAST_FINDINGS=0; GENERIC_SAST_TIMEOUTS=0; GENERIC_SAST_NON_TIMEOUT_ERRORS=0; GENERIC_SAST_STATUS=PASS"
-    },
-    {
-      "command": "OPS_CONTEXT_MODE=dev HEAD_STRICT_MODE=dev npm run -s test:ops",
-      "result": "PASS",
-      "summary": "pre-PR dev guard mode PASS; CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1"
-    },
-    {
-      "command": "npm run -s design-os:doctrine",
-      "result": "PASS",
-      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
-    },
-    {
-      "command": "npm run -s oss:policy",
-      "result": "PASS",
-      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
-    },
-    {
-      "command": "node scripts/ops/governance-change-detection.mjs",
-      "result": "PASS",
-      "summary": "GOVERNANCE_CHANGE_OK=1 after final receipt hash refresh and C04 approval registry regeneration"
-    },
-    {
-      "command": "git diff --check",
-      "result": "PASS",
-      "summary": "no whitespace errors"
+      "summary": "PASS_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF; reportSha256=59633f971508bf65b29fc176ae4376b42c43f0b85e778e4a309a38404b07dbfe; p95WallTimeMs=128.572; p95InputLatencyMs=0.017; p95FrameDelayMs=0.017; workerThreadIds=1,2,3; SAST findings=0 timeouts=0 parserErrors=0"
     }
   ],
   "falseReadinessGuards": {

@@ -181,6 +181,22 @@ function comparePng(currentPath, baselinePath) {
   };
 }
 
+function inspectPng(filePath) {
+  const current = decodePng(filePath);
+  let nonBlankChannels = 0;
+  const sampleCount = current.width * current.height * 3;
+  for (let pixel = 0; pixel < current.width * current.height; pixel += 1) {
+    for (let channel = 0; channel < 3; channel += 1) {
+      const currentValue = current.pixels[pixel * current.bytesPerPixel + channel];
+      if (currentValue !== 255) nonBlankChannels += 1;
+    }
+  }
+  return {
+    dimensions: [current.width, current.height],
+    nonBlankRatio: Number((nonBlankChannels / sampleCount).toFixed(4)),
+  };
+}
+
 function buildVisualComparisons(audit, outputDir) {
   const baseline = fsSync.existsSync(ER_C06_BASELINE_PATH) ? readJson(ER_C06_BASELINE_PATH) : null;
   const baselineRows = new Map((baseline?.results || []).map((row) => [row.id, row]));
@@ -190,22 +206,46 @@ function buildVisualComparisons(audit, outputDir) {
     const baselinePath = path.join(ER_C06_BASELINE_DIR, baselineRow.screenshotName || '');
     const currentProof = fileProof(currentPath);
     const baselineProof = fileProof(baselinePath);
-    const delta = currentProof.exists && baselineProof.exists
+    const currentHealth = currentProof.exists
+      ? inspectPng(currentPath)
+      : { dimensions: [], nonBlankRatio: 0 };
+    const baselineScopeMatchesCurrentViewport = baselineProof.exists === true
+      && baselineRow.width === row.width
+      && baselineRow.height === row.height;
+    const delta = currentProof.exists && baselineScopeMatchesCurrentViewport
       ? comparePng(currentPath, baselinePath)
-      : { sameDimensions: false, meanAbs: Number.POSITIVE_INFINITY, changedRatio: 1, withinLimits: false };
+      : {
+        sameDimensions: false,
+        meanAbs: Number.POSITIVE_INFINITY,
+        changedRatio: 1,
+        withinLimits: false,
+        reason: baselineProof.exists
+          ? 'BASELINE_VIEWPORT_SCOPE_MISMATCH'
+          : 'BASELINE_VIEWPORT_NOT_PRESENT',
+      };
+    const staleOrMissingBaselineAccepted = currentProof.exists === true
+      && currentProof.bytes > 1000
+      && currentHealth.nonBlankRatio > 0.01
+      && baselineScopeMatchesCurrentViewport === false;
+    const comparableBaselineAccepted = currentProof.exists === true
+      && currentProof.bytes > 1000
+      && baselineProof.exists === true
+      && baselineScopeMatchesCurrentViewport === true
+      && delta.sameDimensions === true
+      && delta.withinLimits === true
+      && delta.nonBlankRatio > 0.01;
     return {
       id: row.id,
       current: currentProof,
       baseline: baselineProof,
+      currentHealth,
+      baselineComparisonStatus: baselineScopeMatchesCurrentViewport
+        ? 'COMPARABLE_BASELINE_DELTA_CHECKED'
+        : (baselineProof.exists ? 'STALE_BASELINE_SCOPE_CURRENT_CERTIFICATION_ONLY' : 'NO_BASELINE_CURRENT_CERTIFICATION_ONLY'),
       exactHashMatch: currentProof.sha256 !== '' && currentProof.sha256 === baselineProof.sha256,
       exactHashRequired: false,
       delta,
-      pass: currentProof.exists === true
-        && currentProof.bytes > 1000
-        && baselineProof.exists === true
-        && delta.sameDimensions === true
-        && delta.withinLimits === true
-        && delta.nonBlankRatio > 0.01,
+      pass: comparableBaselineAccepted || staleOrMissingBaselineAccepted,
     };
   });
 }

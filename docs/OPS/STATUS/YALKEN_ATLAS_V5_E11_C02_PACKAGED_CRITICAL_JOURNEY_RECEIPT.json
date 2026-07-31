@@ -1,11 +1,11 @@
 {
   "schemaVersion": "yalken.atlas.v5.e11.c02.packagedCriticalJourney.receipt.v1",
-  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_E11_REVALIDATION",
   "contourId": "E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
   "programStage": "E11_ACTIVE_PLATFORM_CERTIFICATION",
-  "baseSha": "dc1944fb82ab9eba19af51c6b22b741a634b4adb",
-  "headShaAtReceiptGeneration": "dc1944fb82ab9eba19af51c6b22b741a634b4adb",
-  "generatedAtUtc": "2026-07-31T12:05:34.079Z",
+  "baseSha": "336b5e1981ed40f2fed052bc1b56bc403b297d01",
+  "headShaAtReceiptGeneration": "336b5e1981ed40f2fed052bc1b56bc403b297d01",
+  "generatedAtUtc": "2026-07-31T21:39:03.139Z",
   "designToolRouter": "NOT_APPLICABLE_NO_UI_DESIGN_CONTRACT_CHANGE",
   "status": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY",
   "pass": true,
@@ -13,8 +13,8 @@
   "packageBinding": {
     "packageBound": true,
     "c01ReceiptStatus": "PASS_UNSIGNED_LOCAL_ARTIFACT",
-    "appAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
-    "c01AppAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
+    "appAsarSha256": "39382c67ffa427a8e4604399a74337570695d6c88d7db8b44fa948a6d273ccca",
+    "c01AppAsarSha256": "39382c67ffa427a8e4604399a74337570695d6c88d7db8b44fa948a6d273ccca",
     "ciParityIsNotPackageProof": true
   },
   "runtimeJourney": {
@@ -31,7 +31,7 @@
       "sameLaunchReopenOk": true,
       "docxExportOk": true,
       "markdownImportSafeCreateOk": true,
-      "createdNodeId": "tree-node-584cdd88e001abd4cf175717948da1c8",
+      "createdNodeId": "tree-node-a34d151aa159440d7581e6cf3555ac99",
       "createdSceneIds": [
         "scene-e11-c02-imported"
       ]
@@ -51,26 +51,26 @@
   "evidence": {
     "report": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY/packaged-critical-journey-report.json",
-      "sha256": "a4a0c4a7f77779f055d7e85d8e662fc5311ade72bbda604633320b360efc8729",
+      "sha256": "9d757ac992629da3d486afd548c81bf4ae57b2e09c32db5603faaee8d9c1fc4b",
       "bytes": 5218
     },
     "docxExport": {
-      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-qIHuAH/journey-out/e11-c02-journey.docx",
+      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-7pmqVd/journey-out/e11-c02-journey.docx",
       "exists": true,
       "bytes": 1693,
       "sha256": "da4b42d879b9d17c74c7e2b0873b3067e46876ebe3bf29a4b34c0cdb5a519109"
     },
     "importedScene": {
-      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-qIHuAH/documents/craftsman/Роман/roman/Imported/91_E11_C02_IMPORTED_SCENE.txt",
+      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-7pmqVd/documents/craftsman/Роман/roman/Imported/91_E11_C02_IMPORTED_SCENE.txt",
       "exists": true,
       "bytes": 39,
       "sha256": "60099eea89dfbef36941f6d35cddbdabbfd4190d234ed1833e4df77072a73265"
     },
     "projectManifest": {
-      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-qIHuAH/documents/craftsman/Роман/project.craftsman.json",
+      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-e11-c02-packaged-critical-journey-7pmqVd/documents/craftsman/Роман/project.craftsman.json",
       "exists": true,
       "bytes": 5404,
-      "sha256": "22d67ee8290b9f4cf052d7a737d6318051041e57238d0f27f10c358dc22ed7a1"
+      "sha256": "6f38c6279d08c674a2587805d951d08baf0d49418d7fe6f0ef82154e62f08990"
     }
   },
   "negativeAssertions": {
@@ -91,39 +91,9 @@
   },
   "validation": [
     {
-      "command": "node --test test/contracts/yalken-atlas-v5-e11-c02-packaged-critical-journey.contract.test.js",
-      "result": "PASS",
-      "summary": "4 pass, 0 fail after current-base reconciliation"
-    },
-    {
       "command": "node scripts/ops/yalken-atlas-v5-e11-c02-packaged-critical-journey.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY",
       "result": "PASS",
-      "summary": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY; two packaged launches; command-kernel route; DOCX export and Markdown safe-create import physical proofs recorded"
-    },
-    {
-      "command": "npm run -s test:ops",
-      "result": "PASS",
-      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; boundary guard exit 0; strict lie classes OK"
-    },
-    {
-      "command": "npm run -s design-os:doctrine",
-      "result": "PASS",
-      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references 17"
-    },
-    {
-      "command": "npm run -s oss:policy",
-      "result": "PASS",
-      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
-    },
-    {
-      "command": "node scripts/ops/governance-change-detection.mjs",
-      "result": "PASS",
-      "summary": "terminal proof after final receipt approval: GOVERNANCE_CHANGE_OK=1; missing approvals 0"
-    },
-    {
-      "command": "git diff --check",
-      "result": "PASS",
-      "summary": "no whitespace errors"
+      "summary": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY; two package-bound launches; create/save/reopen; DOCX export; Markdown safe-create import; networkRequests=0"
     }
   ],
   "falseReadinessGuards": {

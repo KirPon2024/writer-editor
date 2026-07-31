@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "53a683062a09a1736f482f4ebcf385384f9fc43e4b00d58c654f0a53c93b0a4b",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
-      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
-      "rationale": "Approve bounded public barrel export for V4 E03 CoreManifest/YRTK2 constants and helpers through the existing revisionBridge module surface; no runtime entrypoint, UI, network, dependency, parser authority, writer authority, or automatic apply expansion is introduced."
+      "sha256": "11a5ed2f89a79dc59a9a69acf6732c83ac315e7173b3295301578a685c3652dd",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
+      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
+      "rationale": "Approve bounded public barrel export for V4 E04 Minimal Word Semantic Kernel constants and evaluator through the existing revisionBridge module surface; no runtime entrypoint, UI, network, dependency, parser write authority, writer authority, or automatic apply expansion is introduced."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -171,10 +171,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "11ef7383f26817f793ad3a9ffbbb82ca5f42718465ecd02b1c65a9d85f91218b",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
-      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
-      "rationale": "Approve post-D1 RTK program E03 state update: records CoreManifest/YRTK2 local verification, next E04 isolated parser contour, no runtime apply authority, Word-current focus, no Google Docs execution, and no V6/D1 rewrite."
+      "sha256": "387d927d648fd71f7d2139547f3a74deddb0de4450feb76777beb812c8cca11b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
+      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
+      "rationale": "Approve post-D1 RTK program E04 state update: records semantic kernel local verification, next E05 SourceMap/UniqueDiff contour, no runtime apply authority, Word-current focus, no Google Docs execution, and no V6/D1 rewrite."
     },
     {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "17295431db6c2e2a9aad5f91743d55eafc423bfe0ffc11c9cca081dc306d3809",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
-      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
-      "rationale": "Approve bounded V4 E03 Sector-M scope-map update: adds only CoreManifest/YRTK2 core, existing revisionBridge barrel, E03 receipt, and contract to exact RTK DONE allowlist; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, and no Google execution."
+      "sha256": "ec0748292bfd85638763ecf8a3533d1cbff5363f3110334a96efafebb3ec2838",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
+      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
+      "rationale": "Approve bounded V4 E04 Sector-M scope-map update: adds only Minimal Semantic Kernel core, existing revisionBridge barrel, E04 receipt, and contract to exact RTK DONE allowlist; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, and no Google execution."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -5561,10 +5561,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "815c0ed2287a5160bd80ede117dd50f9e742aa077739c4bfd9f35607faacb61f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
-      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
-      "rationale": "Approve V4 capability profile E03 update: adds CoreManifest/YRTK2 component-proven cell with fixed 135-character token and double self-parse contract while physical Word saturation and runtime apply authority remain closed."
+      "sha256": "f9cef083cd6fe73b5ed68b52e729cb459a6d9f136f1f31fcfed498d1c6f49e3c",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
+      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
+      "rationale": "Approve V4 capability profile E04 update: adds Minimal Semantic Kernel component-proven cell with tracked text/comment/manual/blocking semantics while runtime apply and physical saturation remain closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
@@ -5621,6 +5621,27 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
       "approvedAtUtc": "2026-07-31T05:05:00.000Z",
       "rationale": "Approve V4 E03 contract coverage: proves CoreManifest and fixed-length YRTK2 creation/verification, double self-parse pass, hash-cycle blocking, Word signal apply-authority blocking, missing secret, tamper, stale round, digest mismatch, public barrel exports, receipt truth, and platform-neutral source boundaries."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportWordSemanticKernelV4.mjs",
+      "sha256": "2e453028e206fdea76bd38b27773a3a3493836211ae7185585b76d28f8896f9f",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
+      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
+      "rationale": "Approve V4 E04 platform-neutral Minimal Word Semantic Kernel: consumes ReviewIR/YRTK2/authority guards, emits typed semantic lanes and diagnostics, keeps comments as shadow analysis, blocks parser reject, missing YRTK2, stale guards, moves, structure, and opaque unsupported from exact semantics, imports no Node/Electron/filesystem/renderer/network, and adds no writer, UI, dependency, or automatic apply authority."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL_RECEIPT.json",
+      "sha256": "c05659fb676be7a014866b20681e2362e37f148658064ba6dcd3a6554a1c6c47",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
+      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
+      "rationale": "Approve V4 E04 Minimal Word Semantic Kernel receipt: records isolated parser boundary, semantic lane outputs, hostile parser rejection, comment shadow independence, no runtime apply, no UI, no network, no dependency, no writer authority, and next E05 SourceMap/UniqueDiff contour."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js",
+      "sha256": "04d42e6271d083d3a03f6e7a11dc935ce8d9a8a40cfda480ae0451fe7b24e31d",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
+      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
+      "rationale": "Approve V4 E04 contract coverage: proves minimal tracked text semantics with YRTK2 and guards, comments independent under manual text, move/structure/opaque blocking, parser reject, missing YRTK2, stale baseline, missing CryptoPort, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E12_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED",
+  "status": "WORD_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -358,7 +358,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT",
+  "nextStep": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -372,10 +372,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_12_STABILITY_LIMITATION_AUDIT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_WAVE",
-    "currentStage": "EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT",
-    "nextStage": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
+    "status": "EXECUTION_12_STABILITY_WAVE300_REPEAT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_LIMITATION_FOLLOWUP",
+    "currentStage": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT",
+    "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -438,8 +438,8 @@
     ],
     "currentPhysicalWaveTarget": 300,
     "currentPhysicalWaveObservedRounds": 300,
-    "consecutiveStableApprovedWaves": 1,
-    "latestPhysicalWaveReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json",
+    "consecutiveStableApprovedWaves": 2,
+    "latestPhysicalWaveReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
     "wave40PhysicalOpenEditSaveCloseReopenPass": 40,
     "wave40ParserPass": 39,
     "wave40DenseCommentThreads": 120,
@@ -458,6 +458,14 @@
     "wordSandboxTmpHangRecovery": "WORD_QUIT_NO_DOCS_RESTORED_CONTAINER_TMP_MKDIR_BEFORE_REPAIR5",
     "wordStabilityLimitationAuditBound": true,
     "wordStabilityLimitationAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
-    "nextPhysicalStabilityWaveTarget": 300
+    "nextPhysicalStabilityWaveTarget": 300,
+    "repeatWave300PhysicalOpenEditSaveCloseReopenPass": 300,
+    "repeatWave300ParserPass": 299,
+    "repeatWave300CommentThreads": 638,
+    "repeatWave300DenseCommentThreads": 100,
+    "repeatWave300ScaleReturnedBytesMax": 1239432,
+    "wordStabilityWave300RepeatBound": true,
+    "wordStabilityWave300RepeatReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+    "wordLimitationFollowupRequired": true
   }
 }

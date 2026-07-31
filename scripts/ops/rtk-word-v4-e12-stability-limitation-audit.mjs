@@ -15,6 +15,7 @@ const PROGRAM_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'POST_D1_PORTABI
 const SCHEMA = 'yalken.rtk.word-safe-semantic-roundtrip-v4.e12-stability-limitation-audit-receipt.v1';
 const STATUS = 'WORD_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED';
 const NEXT_STAGE = 'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT';
+const SUCCESSOR_STAGE = 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES';
 const REQUIRED_LIMITATIONS = Object.freeze([
   'SECOND_CONSECUTIVE_STABLE_APPROVED_WAVE_REQUIRED',
   'MODERN_REPLY_RESOLVE_REOPEN_REMAINS_TYPED_LIMITATION',
@@ -46,6 +47,12 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
   const program = input.program || readJson(PROGRAM_PATH);
   const issues = [];
   const add = (code, field, message) => issues.push(issue(code, field, message));
+  const ledgerRule = ledger.saturationRule || {};
+  const ledgerIsRepeatSuccessor = ledger.status === 'WORD_SATURATION_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED'
+    && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
+    && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
+    && ledgerRule.saturated === false
+    && ledgerRule.googleDocsAllowedToOpen === false;
 
   if (receipt.schemaVersion !== SCHEMA) add('RTK_V4_E12_STABILITY_SCHEMA_INVALID', 'schemaVersion', 'Stability limitation audit schema is invalid.');
   if (receipt.stageId !== 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT') add('RTK_V4_E12_STABILITY_STAGE_INVALID', 'stageId', 'Audit stage id is invalid.');
@@ -54,7 +61,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     add('RTK_V4_E12_STABILITY_LEDGER_PATH_INVALID', 'boundLedger.path', 'Audit must bind the E12 saturation ledger.');
   }
   if (!isHex64(receipt.boundLedger?.sha256)) add('RTK_V4_E12_STABILITY_LEDGER_SHA_INVALID', 'boundLedger.sha256', 'Bound ledger SHA-256 is invalid.');
-  if (input.requireFiles === true && receipt.boundLedger?.sha256 !== sha256File(LEDGER_PATH)) {
+  if (input.requireFiles === true && !ledgerIsRepeatSuccessor && receipt.boundLedger?.sha256 !== sha256File(LEDGER_PATH)) {
     add('RTK_V4_E12_STABILITY_LEDGER_SHA_MISMATCH', 'boundLedger.sha256', 'Bound ledger SHA-256 does not match current bytes.');
   }
 
@@ -89,30 +96,51 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     add('RTK_V4_E12_STABILITY_TOTALS_INVALID', 'observedTotals', 'Audit totals must bind wave-300 physical evidence and exact candidate count.');
   }
 
-  const ledgerRule = ledger.saturationRule || {};
-  if (ledger.status !== 'WORD_SATURATION_WAVE300_COMPLETE_NOT_SATURATED'
-    || JSON.stringify(ledgerRule.completedWaves) !== JSON.stringify([10, 40, 100, 300])
-    || Number(ledgerRule.consecutiveStableApprovedWaves) !== 1
-    || ledgerRule.saturated !== false
-    || ledgerRule.googleDocsAllowedToOpen !== false) {
+  const ledgerIsAuditState = ledger.status === 'WORD_SATURATION_WAVE300_COMPLETE_NOT_SATURATED'
+    && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
+    && Number(ledgerRule.consecutiveStableApprovedWaves) === 1
+    && ledgerRule.saturated === false
+    && ledgerRule.googleDocsAllowedToOpen === false;
+  if (!ledgerIsAuditState && !ledgerIsRepeatSuccessor) {
     add('RTK_V4_E12_STABILITY_LEDGER_STATE_INVALID', 'ledger.saturationRule', 'Source ledger must remain wave300 complete not saturated.');
   }
 
   const cell = Array.isArray(profile.cells) ? profile.cells.find((item) => item.capabilityId === 'rtk.word.v4.saturationLedger') : null;
-  if (profile.status !== 'WORD_16_111_2_E12_STABILITY_AUDIT_COMPLETE_NOT_SATURATED') {
+  const allowedProfileStatuses = new Set([
+    'WORD_16_111_2_E12_STABILITY_AUDIT_COMPLETE_NOT_SATURATED',
+    'WORD_16_111_2_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED',
+  ]);
+  if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_STABILITY_PROFILE_STATUS_INVALID', 'profile.status', 'Profile must bind the stability audit as complete not saturated.');
   }
-  if (!cell || cell.currentCapability !== 'STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED' || cell.state !== 'PHYSICAL_WORD_PROVEN') {
+  const allowedCapabilities = new Set([
+    'STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED',
+    'STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED',
+  ]);
+  if (!cell || !allowedCapabilities.has(cell.currentCapability) || cell.state !== 'PHYSICAL_WORD_PROVEN') {
     add('RTK_V4_E12_STABILITY_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability cell must bind stability audit without saturation.');
   }
 
   const state = program.v4ExecutionState || {};
-  if (program.status !== 'WORD_E12_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED') {
+  const allowedProgramStatuses = new Set([
+    'WORD_E12_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED',
+    'WORD_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED',
+  ]);
+  if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must bind the stability audit.');
   }
-  if (state.status !== 'EXECUTION_12_STABILITY_LIMITATION_AUDIT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_WAVE'
-    || state.currentStage !== 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT'
-    || state.nextStage !== NEXT_STAGE
+  const allowedStateStatuses = new Set([
+    'EXECUTION_12_STABILITY_LIMITATION_AUDIT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_STABILITY_WAVE',
+    'EXECUTION_12_STABILITY_WAVE300_REPEAT_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_LIMITATION_FOLLOWUP',
+  ]);
+  const allowedCurrentStages = new Set([
+    'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',
+    'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT',
+  ]);
+  const allowedNextStages = new Set([NEXT_STAGE, SUCCESSOR_STAGE]);
+  if (!allowedStateStatuses.has(state.status)
+    || !allowedCurrentStages.has(state.currentStage)
+    || !allowedNextStages.has(state.nextStage)
     || state.wordSaturated !== false
     || state.googleDocsOpened !== false) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATE_INVALID', 'program.v4ExecutionState', 'Program must continue Word-only stability wave sequencing.');

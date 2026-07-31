@@ -10,9 +10,11 @@ const WAVE40_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-physical-wave40.mjs';
 const WAVE100_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-physical-wave100.mjs';
 const WAVE300_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-physical-wave300.mjs';
 const STABILITY_AUDIT_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs';
+const STABILITY_REPEAT_SCRIPT_PATH = 'scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs';
 const WORD_SANDBOX_HELPER_PATH = 'scripts/ops/rtk-word-sandbox-work-root.mjs';
 const RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json';
 const STABILITY_AUDIT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json';
+const STABILITY_REPEAT_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json';
 const WAVE40_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json';
 const WAVE100_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json';
 const WAVE300_RECEIPT_PATH = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json';
@@ -34,14 +36,15 @@ test('V4 E12 binds saturation ledger without claiming Word SATURATED', async () 
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(receipt.status, 'WORD_SATURATION_WAVE300_COMPLETE_NOT_SATURATED');
+  assert.equal(receipt.status, 'WORD_SATURATION_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED');
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
   assert.equal(receipt.saturationRule.lastCompletedWaveTarget, 300);
   assert.equal(receipt.saturationRule.currentWaveTarget, 300);
   assert.equal(receipt.saturationRule.currentWaveObservedRounds, 300);
-  assert.equal(receipt.saturationRule.consecutiveStableApprovedWaves, 1);
-  assert.equal(receipt.nextStage, 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT');
+  assert.equal(receipt.saturationRule.consecutiveStableApprovedWaves, 2);
+  assert.equal(receipt.saturationRule.stableHistogram, true);
+  assert.equal(receipt.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES');
   assert.equal(receipt.saturationRule.saturated, false);
   assert.equal(receipt.saturationRule.googleDocsAllowedToOpen, false);
 });
@@ -50,11 +53,11 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   const receipt = readJson(RECEIPT_PATH);
   const bindings = new Map(receipt.evidenceBindings.map((item) => [item.id, item]));
 
-  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300']) {
+  for (const id of ['E06_PHYSICAL_TEXT', 'E07_COMMENTS', 'E08_FORMATTING', 'E09_STRUCTURE', 'E10_REPLAY_HOSTILE', 'E11_MULTI_SCENE_COORDINATOR', 'E12_PHYSICAL_WAVE40', 'E12_PHYSICAL_WAVE100', 'E12_PHYSICAL_WAVE300', 'E12_PHYSICAL_WAVE300_REPEAT_01']) {
     assert.equal(bindings.get(id).status, 'BOUND');
     assert.match(bindings.get(id).sha256, /^[0-9a-f]{64}$/u);
   }
-  for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300']) {
+  for (const key of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100', 'physicalWave300', 'physicalWave300Repeat']) {
     assert.equal(receipt.coverageLedger[key].status, 'BOUND');
   }
   assert.equal(receipt.aggregateTotals.physicalRoundTripsObserved, 300);
@@ -70,6 +73,10 @@ test('V4 E12 binds Unicode hostile performance crash replay evidence families', 
   assert.equal(receipt.aggregateTotals.wave300ParserPass, 299);
   assert.equal(receipt.aggregateTotals.wave300DenseCommentThreads, 100);
   assert.equal(receipt.aggregateTotals.wave300ScaleReturnedBytesMax, 1239432);
+  assert.equal(receipt.aggregateTotals.repeatWave300PhysicalOpenEditSaveCloseReopenPass, 300);
+  assert.equal(receipt.aggregateTotals.repeatWave300ParserPass, 299);
+  assert.equal(receipt.aggregateTotals.repeatWave300DenseCommentThreads, 100);
+  assert.equal(receipt.aggregateTotals.consecutiveStableApprovedWaves, 2);
   assert.equal(receipt.aggregateTotals.focusedE11CoordinatorContracts, 7);
 });
 
@@ -135,13 +142,13 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   const result = verifier.evaluateWordV4E12SaturationLedger({ receipt, profile, program });
 
   assert.equal(result.status, 'PASS');
-  assert.equal(profile.status, 'WORD_16_111_2_E12_STABILITY_AUDIT_COMPLETE_NOT_SATURATED');
+  assert.equal(profile.status, 'WORD_16_111_2_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED');
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
-  assert.equal(cell.currentCapability, 'STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED');
+  assert.equal(cell.currentCapability, 'STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED');
   assert.equal(cell.physicalWordEvidence, true);
-  assert.equal(program.status, 'WORD_E12_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED');
-  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT');
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT');
+  assert.equal(program.status, 'WORD_E12_STABILITY_WAVE300_REPEAT_COMPLETE_NOT_SATURATED');
+  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT');
+  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES');
   assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });
@@ -166,6 +173,30 @@ test('V4 E12 stability limitation audit binds Word-only next wave without satura
   assert.equal(limitationIds.has('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), true);
   assert.equal(receipt.nonClaims.includes('WORD_SATURATED_NOT_CLAIMED'), true);
   assert.equal(receipt.nonClaims.includes('GOOGLE_DOCS_NOT_OPENED'), true);
+});
+
+test('V4 E12 repeat stability wave binds second 300-round physical run without saturation or Google', async () => {
+  const verifier = await import(pathToFileURL(path.join(REPO_ROOT, STABILITY_REPEAT_SCRIPT_PATH)).href);
+  const receipt = readJson(STABILITY_REPEAT_RECEIPT_PATH);
+  const result = verifier.evaluateWordV4E12StabilityWave300Repeat({ receipt, requireExternal: true });
+
+  assert.equal(result.status, 'PASS');
+  assert.deepEqual(result.issues, []);
+  assert.equal(receipt.status, 'PHYSICAL_STABILITY_WAVE_300_REPEAT_COMPLETE_NOT_SATURATED');
+  assert.equal(receipt.totals.physicalOpenEditSaveCloseReopenPass, 300);
+  assert.equal(receipt.totals.parserPass, 299);
+  assert.equal(receipt.totals.falseExact, 0);
+  assert.equal(receipt.totals.silentApply, 0);
+  assert.equal(receipt.totals.wrongSceneRouting, 0);
+  assert.equal(receipt.totals.replayFailure, 0);
+  assert.equal(receipt.saturationDecision.consecutiveStableApprovedWaves, 2);
+  assert.equal(receipt.saturationDecision.stableHistogram, true);
+  assert.equal(receipt.saturationDecision.wordSaturated, false);
+  assert.equal(receipt.saturationDecision.googleDocsAllowedToOpen, false);
+  assert.equal(receipt.saturationDecision.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES');
+  assert.equal(receipt.wordSandboxWorkRoot.insideWordContainer, true);
+  assert.equal(receipt.wordSandboxWorkRoot.plainTmpForbidden, true);
+  assert.equal(receipt.artifactRoot.startsWith('/Volumes/T7-Secure/'), true);
 });
 
 test('V4 E12 wave 40 receipt proves physical Word rounds without saturation claim', async () => {

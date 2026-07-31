@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-physical-wave300-repeat-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_01",
+  "stageId": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT",
+  "status": "PHYSICAL_STABILITY_WAVE_300_REPEAT_COMPLETE_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T11:27:28.232Z",
+  "base": {
+    "originMainShaAtPhysicalRunStart": "dbe67650465577a9c940dd8bba907ce40ef2dc84",
+    "originMainShaAtBinding": "18deb5cd05c0d8aa64fc96aedaa1e9669cef16d1",
+    "branch": "codex/rtk-v4-e12-word-stability-wave-300-repeat",
+    "physicalRunHeadSha": "dbe67650465577a9c940dd8bba907ce40ef2dc84",
+    "physicalRunBranch": "codex/rtk-v4-e12-word-stability-wave-300-repeat",
+    "driftReconciledBeforeBinding": true,
+    "driftScope": "ATLAS_C07_REVALIDATION_HANDOFF_NON_RTK_RUNNER_DRIFT"
+  },
+  "externalEvidence": {
+    "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-physical-wave300-repeat/e12-wave300-repeat-20260731T1100Z/e12-physical-wave300-receipt.json",
+    "sha256": "93f4583a5e5f439aa097c3e4a61a0dc5cfc2096203053a15592ba637f1a56ab4",
+    "receiptDigest": "sha256:935d9fe51bd214f6c4693b01026d8202e2e2a61cbd837b3b42393fa2b6c73fa3",
+    "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-physical-wave300-receipt.v1",
+    "stageId": "EXECUTION_12_PHYSICAL_WORD_WAVE_300",
+    "status": "PHYSICAL_WAVE_300_COMPLETE_NOT_SATURATED",
+    "fileAvailableAtBinding": true
+  },
+  "wordProfile": {
+    "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
+    "observedWordVersion": "16.111.2",
+    "profileAuthority": "WORD_FOR_MAC_CURRENT_PROFILE_ONLY"
+  },
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/word-safe-semantic-v4/e12-physical-wave300",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": true,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false
+  },
+  "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-physical-wave300-repeat",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-physical-wave300-repeat/e12-wave300-repeat-20260731T1100Z",
+  "wave": {
+    "target": 300,
+    "observedRounds": 300,
+    "completed": true,
+    "previousStableApprovedWaves": 1,
+    "consecutiveStableApprovedWavesAfterThis": 2
+  },
+  "totals": {
+    "physicalRoundTrips": 300,
+    "physicalOpenEditSaveCloseReopenPass": 300,
+    "parserPass": 299,
+    "commentDeclaredCases": 41,
+    "commentVisibleAndParsedCases": 39,
+    "exactAutomaticCandidates": 0,
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "productNetworkRequests": 0,
+    "unsupportedTypedCases": 300,
+    "sourceModes": {
+      "MIXED": 197,
+      "CLEAN": 103
+    }
+  },
+  "histograms": {
+    "parserStatus": {
+      "PASS": 299,
+      "BLOCKED": 1
+    },
+    "sourceMode": {
+      "MIXED": 197,
+      "CLEAN": 103
+    },
+    "families": {
+      "basic text insert delete replace": 3,
+      "repeated text locator ambiguity": 1,
+      "paragraph split merge paragraph mark delete": 2,
+      "moves and cross-scene moves": 2,
+      "Track Changes on off mixed accept reject": 3,
+      "comments point range paragraph overlap replies resolve reopen delete": 4,
+      "comment on inserted deleted and moved text": 1,
+      "modern comments package inventory": 2,
+      "formatting marks style paragraph and list deltas": 2,
+      "tables sections footnotes endnotes fields and breaks": 1,
+      "Unicode locale and bidi": 1,
+      "stale tampered stripped duplicate and replay negatives": 3,
+      "Compare and Combine generated revisions": 2,
+      "100k and 250k word scale": 2,
+      "high comment density": 1,
+      "no-edit conservation and re-export reopen oracle": 2,
+      "wave40 duplicate block locator ambiguity": 1,
+      "wave40 writer scale performance": 1,
+      "wave40 formatting mixed text": 1,
+      "wave40 high comment density": 1,
+      "wave40 comment orphan recovery": 1,
+      "wave40 Unicode locale and bidi": 1,
+      "wave40 structure paragraph pressure": 1,
+      "wave40 no edit conservation": 1,
+      "wave100 tracked-insert": 12,
+      "wave100 clean-insert": 12,
+      "wave100 unicode-insert": 9,
+      "wave100 formatting": 6,
+      "wave100 paragraph-split": 6,
+      "wave100 no-edit": 6,
+      "wave100 comment-adjacent-delete": 6,
+      "wave100 comment-density": 2,
+      "wave100 scale-edge": 1,
+      "wave300 tracked-insert": 40,
+      "wave300 clean-insert": 40,
+      "wave300 unicode-insert": 36,
+      "wave300 formatting": 20,
+      "wave300 paragraph-split": 20,
+      "wave300 no-edit": 20,
+      "wave300 comment-adjacent-delete": 20,
+      "wave300 comment-density": 3,
+      "wave300 scale-edge": 1
+    },
+    "waveAction": {
+      "base": 300
+    }
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetworkRequests": 0,
+    "prematureGoogleDocsOpen": 0,
+    "falseSaturationClaim": 0
+  },
+  "saturationDecision": {
+    "wordSaturated": false,
+    "wordSaturationClaimAllowed": false,
+    "googleDocsAllowedToOpen": false,
+    "consecutiveStableApprovedWaves": 2,
+    "stableHistogram": true,
+    "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES",
+    "reason": "TWO_STABLE_APPROVED_WAVES_PROVEN_BUT_TYPED_LIMITATIONS_STILL_BLOCK_WORD_SATURATION"
+  },
+  "remainingLimitations": [
+    "MODERN_REPLY_RESOLVE_REOPEN_REMAINS_TYPED_LIMITATION",
+    "CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY",
+    "AUTOMATIC_MULTI_SCENE_APPLY_REMAINS_SHADOW_ONLY",
+    "WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP"
+  ],
+  "nonClaims": [
+    "WORD_SATURATED_NOT_CLAIMED",
+    "GOOGLE_DOCS_NOT_OPENED",
+    "NO_AUTOMATIC_APPLY_EXPANSION",
+    "NO_UI_CHANGE",
+    "NO_NETWORK_OR_DEPENDENCY_ADDED"
+  ]
+}

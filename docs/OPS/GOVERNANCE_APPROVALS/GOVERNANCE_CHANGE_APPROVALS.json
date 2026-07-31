@@ -1458,6 +1458,34 @@
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-live-renderer-journey.json",
+      "sha256": "fd027f86f0f7a3c8748711edaf485630f962cf5faa940b458ba1b04494b557a7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-live-renderer.png",
+      "sha256": "e78e3b68969420ff92434b3c5e9456db83dac0223450aeb2ba4c136d1c62ad48",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-stage-revalidation-report.json",
+      "sha256": "17f6781e15483f0d59a2f64e15332d0e44cd947135b50fbcdcfe4837a50ca3ca",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/run-tests.log",
+      "sha256": "680a02e00a52affe07efe835589189c37425244bac1e523638332dcfa045ac97",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
       "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
       "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
@@ -1578,10 +1606,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "bcfa077dd4e247d35b95cab9c2129de692b6256d000a3f3fa09dc681d196ca7c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve E12 program/profile state transition to stability-audit-complete-not-saturated: preserves Word-only focus, no Google Docs, no saturation claim, no runtime apply expansion, and records next physical Word stability wave."
+      "sha256": "73cddfb5ccc12d826d246d1d5a1e67d02ad2c34a0d2979a7b50be16f22800b90",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -1697,10 +1725,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "c696ccd1e7db4469f38b005217c69735b8743eb2f72142e1cb7c32f33670b52c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve E12 program/profile state transition to stability-audit-complete-not-saturated: preserves Word-only focus, no Google Docs, no saturation claim, no runtime apply expansion, and records next physical Word stability wave."
+      "sha256": "0894e16c6cbc4d095f1c0865ca513569e0e681e3f71066ea798de85f83b04ced",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -1787,6 +1815,13 @@
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+      "sha256": "108f475c0776795f1f36fca710ec88529c2f88dc0e2de97be0ebabee54439623",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json",
       "sha256": "d87f04655f94b595951e3a73c524b6be9d731808abf6ea6945f3ea4e40348a35",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
@@ -1795,10 +1830,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "6ec521bbb8d966d1d10a5f4b4946ea2ccc5ebd68dffa9bde1d7296116690aa43",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "fc9429a3acbe8162d6b3764383254cce90bde72ddc8e29ec4c1670bb07f0decf",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -3397,6 +3432,13 @@
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
+      "sha256": "d85b4d49a70863d3acab9f00c5cd4d024d71436b2682764ccf8dce317ed9b7c3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
       "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -4014,24 +4056,31 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "163b9904d0a22a40e1261054b9545e5d537b80ca8187cd462c6ece7c8952ef11",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve narrow E12 saturation ledger verifier successor-state repair: permits only the audited not-saturated Word stability-wave successor while still blocking SATURATED, Google Docs, nonzero veto, profile overclaim, and broken sequence states."
+      "sha256": "35b4d9675a57d61361e653b72fbd857b378d94f2eb92e2cf51612ec556059a23",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "ce60d27850f0dc35162ac39e74343b3628c291d5161ad68f1b3a01241972d472",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve E12 stability limitation audit verifier: validates ledger binding, zero veto, one-stable-wave state, active limitation classes, no false saturation, no Google sequencing, and post-audit program/profile state."
+      "sha256": "29862b73e8a4003b074484f520090493e27f99c3f89f01f586f99631e5227f4e",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
+      "sha256": "ccca8807ad552967f51d686f0e16df4754fded531b7bbe4ad811164c79f2fb83",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "a9ec20ed7fa71faa3ec12f8e64c17d04916bec2ab6c7be643177688af380362b",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve Sector-M scope allowlist extension for the bounded E12 stability limitation audit verifier and receipt only; no wildcard scope, product runtime, UI, dependency, or network expansion."
+      "sha256": "10bd2dd944ad35d144f4a844ff46bad5e57af854dd6cf4fe91f1d7bfcce668a7",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -4109,6 +4158,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-er-c07-stage-revalidation-handoff.mjs",
+      "sha256": "abe099f1a65aaa5b2b98bcbcd5535ce376f2e0aac90bcd3843d753755a1db15a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -4312,6 +4368,20 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
       "approvedAtUtc": "2026-07-31T05:05:00.000Z",
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "8db6907f1e68d35e245b1ec49a18341fc2a2351a63f398f61837578b608a3be4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "src/preload.js",
+      "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
@@ -5428,52 +5498,52 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "6dbc13ca91080e783b4d80f14ff68d15962308c69e67b96cea4c99d8f8b823a0",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
+      "sha256": "1838779d7fc8499cfc4fa501a83a4b0cc7c47aa0e87d5e4a46fcf557643f4573",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "c18a11f5700e56ee24b01cc46decc43c615910ce3c12dad8a1d36c1bcadffa67",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
+      "sha256": "cc38952b98c462c98ce033623207a610ade4bb405182449dab8cdd0f7f69a9e5",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "ec89ccfc2a28c3c0b24b793a573c32fe4317bd9746a98456983f3ee02a4cd509",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
+      "sha256": "a29ce873e82c719231d230c0035f8d14fadce41e89adf928b7ecf8ecbcb4c895",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "f74dedc96ca7abf62eaf1e9162bfda98d2dd15c179ebb10d1d422fa54d9a8562",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
+      "sha256": "2aa831586769899365729ad92dd22953b55c6be3b2863ece93f1bc81c1bbafb3",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "6f3105d1c722d51fe601fe5c958a32ac90540685889a0bd91df83027133abdee",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
+      "sha256": "820a3ec59691c46e10147e38a6f87173b8989046d6fac03df5ff0fd0af6c75d8",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "390a4300d69049a6071da6c64afd723934a1fb9d19e0c5185001cca64edb6d3c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
+      "sha256": "4e685366c8e121122c76eca7b09e7d0273ee4f0a9d964e342fe44ff3839021ac",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "9da5672d0b235c090a9ef955a041cb12bb84c08663a6a58b7c093631bbdd5445",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
-      "approvedAtUtc": "2026-07-31T11:00:00.000Z",
-      "rationale": "Approve adjacent E06-E12 contract compatibility update for the bounded post-wave300 stability-audit state only; preserves no Google Docs sequencing, no SATURATED claim, and no runtime apply authority expansion."
+      "sha256": "99ff3944ec3604bf7f0ad8628bd794f49707d04e91f39e960ec0c931f7a5a681",
+      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
+      "approvedAtUtc": "2026-07-31T11:30:51.654Z",
+      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -6043,6 +6113,13 @@
       "rationale": "Approve ER C00 false-green guard coverage: proves Stage 10 readiness is not exposed as a runtime-derived self-attestation, Atlas diagnostics defaults to NOT_READY without external machine evidence, quiet-write no longer uses a PASS/PASS ternary, Lazyweb and heuristic rows are advisory only, and the repair receipt must bind target SHA, artifact digest, invalidated evidence, unsatisfied outcomes, and non-pending PASS validation rows."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js",
+      "sha256": "cf19c026c92611f77ffe2acc0c72ac8ebcf770e73a3de83f1ea6afaee3cd12f8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-er-c03-command-reachability-command-kernel-authority.contract.test.js",
       "sha256": "f81614471733409e0969afc557aae23ab7912ce8602e2b45ecb91ab144485aee",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
@@ -6069,6 +6146,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-er-c07-stage-revalidation-handoff.contract.test.js",
+      "sha256": "f77df5c35769632042901baf293a763adde8a3243853855a613f4f8a8a116271",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
+      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",
@@ -6125,76 +6209,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "8db6907f1e68d35e245b1ec49a18341fc2a2351a63f398f61837578b608a3be4",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "src/preload.js",
-      "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-er-c07-stage-revalidation-handoff.mjs",
-      "sha256": "abe099f1a65aaa5b2b98bcbcd5535ce376f2e0aac90bcd3843d753755a1db15a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js",
-      "sha256": "cf19c026c92611f77ffe2acc0c72ac8ebcf770e73a3de83f1ea6afaee3cd12f8",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-er-c07-stage-revalidation-handoff.contract.test.js",
-      "sha256": "f77df5c35769632042901baf293a763adde8a3243853855a613f4f8a8a116271",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-stage-revalidation-report.json",
-      "sha256": "17f6781e15483f0d59a2f64e15332d0e44cd947135b50fbcdcfe4837a50ca3ca",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-live-renderer-journey.json",
-      "sha256": "fd027f86f0f7a3c8748711edaf485630f962cf5faa940b458ba1b04494b557a7",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/atlas-er-c07-live-renderer.png",
-      "sha256": "e78e3b68969420ff92434b3c5e9456db83dac0223450aeb2ba4c136d1c62ad48",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF/run-tests.log",
-      "sha256": "680a02e00a52affe07efe835589189c37425244bac1e523638332dcfa045ac97",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_HANDOFF_RECEIPT.json",
-      "sha256": "d85b4d49a70863d3acab9f00c5cd4d024d71436b2682764ccf8dce317ed9b7c3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
-      "approvedAtUtc": "2026-07-31T11:45:00.000Z",
-      "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     }
   ]
 }

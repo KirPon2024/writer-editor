@@ -123,7 +123,9 @@
     "test/fixtures/simulation-min/S1_COLLAB_INTRO.json",
     "test/fixtures/simulation-min/S2_DERIVED_MINDMAP.json",
     "test/fixtures/simulation-min/S3_COMMENTS_HISTORY.json",
-    "test/fixtures/simulation-min/S4_RECOVERY_REPLAY.json"
+    "test/fixtures/simulation-min/S4_RECOVERY_REPLAY.json",
+    "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+    "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs"
   ],
   "allowByPhase": {
     "M0": [

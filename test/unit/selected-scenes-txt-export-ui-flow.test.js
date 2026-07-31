@@ -13,7 +13,7 @@ test('selected scenes TXT export UI flow: renderer owns only transient picker an
   const editor = read('src/renderer/editor.js');
 
   for (const marker of [
-    "const SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID = 'query.selectedScenesTxtExportScope';",
+    'const SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID = WORKSPACE_QUERY_IDS.SELECTED_SCENES_TXT_EXPORT_SCOPE;',
     'const selectedScenesTxtExportModal = document.querySelector(\'[data-selected-scenes-txt-export-modal]\');',
     'function normalizeSelectedScenesTxtExportScope(scope)',
     'function getSelectedScenesTxtExportCheckedSceneIds()',

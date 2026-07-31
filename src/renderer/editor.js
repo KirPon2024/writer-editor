@@ -109,6 +109,12 @@ import {
   resolveToolbarProfileStateForProjectSwitch,
   writeToolbarProfileState,
 } from './toolbar/toolbarProfileState.mjs';
+import workspaceQueryRegistry from '../shared/workspaceQueryRegistry.cjs';
+
+const {
+  WORKSPACE_QUERY_IDS,
+  WORKSPACE_QUERY_ID_SET,
+} = workspaceQueryRegistry;
 import * as toolbarRuntimeProjectionModule from './toolbar/toolbarRuntimeProjection.mjs';
 import uiErrorMapDoc from '../../docs/OPS/STATUS/UI_ERROR_MAP.json';
 
@@ -435,9 +441,11 @@ const SAFE_RESET_BASELINE_FONT_WEIGHT = 'light';
 const SAFE_RESET_BASELINE_LINE_HEIGHT = '1.0';
 const SAFE_RESET_BASELINE_VIEW_MODE = 'default';
 const PROJECT_WORKSPACE_RESET_TABS = Object.freeze(['project', 'outline', 'search', 'roman']);
-const PROJECT_LIBRARY_QUERY_ID = 'query.projectLibrary';
-const NOTES_WORKSPACE_QUERY_ID = 'query.projectNotes';
-const PROJECT_SEARCH_QUERY_ID = 'query.projectSearch';
+const PROJECT_TREE_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_TREE;
+const PROJECT_LIBRARY_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_LIBRARY;
+const COLLAB_SCOPE_LOCAL_QUERY_ID = WORKSPACE_QUERY_IDS.COLLAB_SCOPE_LOCAL;
+const NOTES_WORKSPACE_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_NOTES;
+const PROJECT_SEARCH_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_SEARCH;
 const TOOLBAR_CONFIGURATOR_LIBRARY_COLUMN_COUNT = 4;
 const TOOLBAR_CONFIGURATOR_LIBRARY_MIN_SLOT_COUNT = 20;
 const TOOLBAR_CONFIGURATOR_LIBRARY_PLACEHOLDER_TEXT = 'New Slot';
@@ -957,19 +965,19 @@ function isPlainObject(value) {
 
 // REVIEW_SURFACE_PRESENTATION_START
 const REVIEW_SURFACE_RECEIPT_SCHEMA = 'revision-bridge.exact-text-min-safe-write.receipt.v1';
-const REVIEW_SURFACE_QUERY_ID = 'query.reviewSurface';
-const METADATA_INSPECTOR_QUERY_ID = 'query.metadataInspector';
-const SCENE_HISTORY_QUERY_ID = 'query.sceneHistory';
-const ATLAS_OVERVIEW_QUERY_ID = 'query.atlasOverview';
-const ATLAS_ENTITY_DOSSIER_QUERY_ID = 'query.atlasEntityDossier';
-const ATLAS_RELATION_DOSSIER_QUERY_ID = 'query.atlasRelationDossier';
-const ATLAS_MATRICES_QUERY_ID = 'query.atlasMatrices';
-const ATLAS_HEATMAP_QUERY_ID = 'query.atlasHeatmap';
-const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = 'query.atlasTemporalLayout';
-const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = 'query.atlasContinuityLedgerSurface';
-const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query.atlasReportsSavedQueries';
-const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = 'query.atlasDiagnosticsStageAcceptance';
-const ATLAS_CURRENT_SCENE_QUERY_ID = 'query.atlasCurrentScene';
+const REVIEW_SURFACE_QUERY_ID = WORKSPACE_QUERY_IDS.REVIEW_SURFACE;
+const METADATA_INSPECTOR_QUERY_ID = WORKSPACE_QUERY_IDS.METADATA_INSPECTOR;
+const SCENE_HISTORY_QUERY_ID = WORKSPACE_QUERY_IDS.SCENE_HISTORY;
+const ATLAS_OVERVIEW_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_OVERVIEW;
+const ATLAS_ENTITY_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_ENTITY_DOSSIER;
+const ATLAS_RELATION_DOSSIER_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_RELATION_DOSSIER;
+const ATLAS_MATRICES_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_MATRICES;
+const ATLAS_HEATMAP_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_HEATMAP;
+const ATLAS_TEMPORAL_LAYOUT_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_TEMPORAL_LAYOUT;
+const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_CONTINUITY_LEDGER_SURFACE;
+const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_REPORTS_SAVED_QUERIES;
+const ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE;
+const ATLAS_CURRENT_SCENE_QUERY_ID = WORKSPACE_QUERY_IDS.ATLAS_CURRENT_SCENE;
 const RIGHT_RAIL_SURFACE_PROVIDERS = Object.freeze({
   inspector: METADATA_INSPECTOR_QUERY_ID,
   comments: REVIEW_SURFACE_QUERY_ID,
@@ -6610,7 +6618,7 @@ const MARKDOWN_EXPORT_SAVE_FAILED_STATUS_MESSAGE = 'Export Markdown save failed'
 const MARKDOWN_IMPORT_LOCAL_FILE_PREVIEW_COMMAND_ID = 'cmd.project.markdown.previewLocalFile';
 const MARKDOWN_IMPORT_LOCAL_FILE_ACCEPT_COMMAND_ID = 'cmd.project.markdown.acceptLocalPreview';
 const MARKDOWN_EXPORT_LOCAL_FILE_COMMAND_ID = 'cmd.project.markdown.exportLocalFile';
-const SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID = 'query.selectedScenesTxtExportScope';
+const SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID = WORKSPACE_QUERY_IDS.SELECTED_SCENES_TXT_EXPORT_SCOPE;
 const LINK_PROMPT_TITLE = 'Insert link';
 const FLOW_OPEN_ERROR_MESSAGE = 'Flow mode unavailable';
 const FLOW_SAVE_ERROR_MESSAGE = 'Flow mode save failed';
@@ -6721,21 +6729,7 @@ async function invokePreloadUiCommandBridge(commandId, payload = {}) {
 }
 
 async function invokeWorkspaceQueryBridge(queryId, payload = {}) {
-  if (
-    queryId !== 'query.projectTree'
-    && queryId !== PROJECT_LIBRARY_QUERY_ID
-    && queryId !== SELECTED_SCENES_TXT_EXPORT_SCOPE_QUERY_ID
-    && queryId !== 'query.collabScopeLocal'
-    && queryId !== REVIEW_SURFACE_QUERY_ID
-    && queryId !== METADATA_INSPECTOR_QUERY_ID
-    && queryId !== NOTES_WORKSPACE_QUERY_ID
-    && queryId !== PROJECT_SEARCH_QUERY_ID
-    && queryId !== SCENE_HISTORY_QUERY_ID
-    && queryId !== ATLAS_OVERVIEW_QUERY_ID
-    && queryId !== ATLAS_ENTITY_DOSSIER_QUERY_ID
-    && queryId !== ATLAS_RELATION_DOSSIER_QUERY_ID
-    && queryId !== ATLAS_CURRENT_SCENE_QUERY_ID
-  ) {
+  if (!WORKSPACE_QUERY_ID_SET.has(queryId)) {
     return null;
   }
   if (!window.electronAPI || typeof window.electronAPI.invokeWorkspaceQueryBridge !== 'function') {
@@ -9315,7 +9309,7 @@ function renderTree({ revealActive = false, restoreEditorFocus = false } = {}) {
 async function loadTree() {
   if (!window.electronAPI || typeof window.electronAPI.invokeWorkspaceQueryBridge !== 'function') return;
   try {
-    const result = await invokeWorkspaceQueryBridge('query.projectTree', { tab: activeTab });
+    const result = await invokeWorkspaceQueryBridge(PROJECT_TREE_QUERY_ID, { tab: activeTab });
     if (!result || result.ok === false) {
       updateStatusText('Ошибка');
       return;
@@ -15254,7 +15248,7 @@ function applyCollabGate() {
 async function initializeCollabScopeLocal() {
   try {
     if (window.electronAPI && typeof window.electronAPI.invokeWorkspaceQueryBridge === 'function') {
-      collabScopeLocal = (await invokeWorkspaceQueryBridge('query.collabScopeLocal')) === true;
+      collabScopeLocal = (await invokeWorkspaceQueryBridge(COLLAB_SCOPE_LOCAL_QUERY_ID)) === true;
     } else {
       collabScopeLocal = localStorage.getItem('COLLAB_SCOPE_LOCAL') === 'true';
     }

@@ -198,16 +198,16 @@ test('E05 C06: renderer and main wire reports through typed read-only surface wi
   const cssSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'styles.css'), 'utf8');
   const capabilitySource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'commands', 'capabilityPolicy.mjs'), 'utf8');
 
-  assert.match(mainSource, /const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query\.atlasReportsSavedQueries'/u);
+  assert.match(mainSource, /const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_REPORTS_SAVED_QUERIES/u);
   assert.match(mainSource, /loadAtlasReportsSavedQueriesModule/u);
   assert.match(mainSource, /handleWorkspaceAtlasReportsSavedQueriesQuery/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID/u);
+  assert.match(mainSource, /\[ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,\s*handleWorkspaceAtlasReportsSavedQueriesQuery\]/u);
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasReportsSavedQueriesQuery[\s\S]{0,3200}writeFileAtomic/u);
   assert.match(mainSource, /savedQueries: \{\}/u);
 
   assert.match(htmlSource, /data-atlas-reports-host/u);
   assert.match(htmlSource, /data-atlas-reports-provider="query\.atlasReportsSavedQueries"/u);
-  assert.match(editorSource, /const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = 'query\.atlasReportsSavedQueries'/u);
+  assert.match(editorSource, /const ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_REPORTS_SAVED_QUERIES/u);
   assert.match(editorSource, /refreshAtlasReportsSavedQueries/u);
   assert.match(editorSource, /Command boundary: atlas\.savedQuery\.save/u);
   assert.doesNotMatch(editorSource, /ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID[\s\S]{0,1000}dispatchUiCommand/u);

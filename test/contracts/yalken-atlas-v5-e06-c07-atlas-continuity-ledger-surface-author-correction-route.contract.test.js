@@ -211,18 +211,18 @@ test('E06 C07: renderer and main wire continuity ledger as explicit-open surface
   const htmlSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'index.html'), 'utf8');
   const cssSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'styles.css'), 'utf8');
 
-  assert.match(mainSource, /const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = 'query\.atlasContinuityLedgerSurface'/u);
+  assert.match(mainSource, /const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_CONTINUITY_LEDGER_SURFACE/u);
   assert.match(mainSource, /loadAtlasContinuityLedgerSurfaceModule/u);
   assert.match(mainSource, /handleWorkspaceAtlasContinuityLedgerSurfaceQuery/u);
   assert.match(mainSource, /safePayload\.explicitOpen !== true[\s\S]{0,500}ATLAS_CONTINUITY_LEDGER_EXPLICIT_OPEN_REQUIRED/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID/u);
+  assert.match(mainSource, /\[ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID,\s*handleWorkspaceAtlasContinuityLedgerSurfaceQuery\]/u);
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasContinuityLedgerSurfaceQuery[\s\S]{0,3600}writeFileAtomic/u);
 
   assert.match(htmlSource, /data-atlas-continuity-ledger-shell[\s\S]{0,80}hidden/u);
   assert.match(htmlSource, /data-atlas-continuity-ledger-host/u);
   assert.match(htmlSource, /data-atlas-continuity-ledger-provider="query\.atlasContinuityLedgerSurface"/u);
 
-  assert.match(editorSource, /const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = 'query\.atlasContinuityLedgerSurface'/u);
+  assert.match(editorSource, /const ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID = WORKSPACE_QUERY_IDS\.ATLAS_CONTINUITY_LEDGER_SURFACE/u);
   assert.match(editorSource, /dataset\.atlasContinuityLedgerOpen = 'true'/u);
   assert.match(editorSource, /function openAtlasContinuityLedgerSurface/u);
   assert.match(editorSource, /async function refreshAtlasContinuityLedgerSurface/u);

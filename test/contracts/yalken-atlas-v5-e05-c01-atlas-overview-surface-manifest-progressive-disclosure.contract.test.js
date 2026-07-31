@@ -198,8 +198,8 @@ test('E05 C01: Atlas overview exports through barrels and keeps side-effect boun
 
 test('E05 C01: renderer and main wire Atlas overview through query bridge and typed host only', () => {
   const mainSource = fs.readFileSync(path.join(process.cwd(), 'src', 'main.js'), 'utf8');
-  assert.match(mainSource, /ATLAS_OVERVIEW_QUERY_ID\s*=\s*'query\.atlasOverview'/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_OVERVIEW_QUERY_ID/u);
+  assert.match(mainSource, /ATLAS_OVERVIEW_QUERY_ID\s*=\s*WORKSPACE_QUERY_IDS\.ATLAS_OVERVIEW/u);
+  assert.match(mainSource, /\[ATLAS_OVERVIEW_QUERY_ID,\s*handleWorkspaceAtlasOverviewQuery\]/u);
   assert.match(mainSource, /function loadAtlasOverviewModule/u);
   assert.match(mainSource, /function makeAtlasOverviewFallback/u);
   assert.match(mainSource, /async function buildAtlasOverviewCoreState/u);
@@ -209,7 +209,7 @@ test('E05 C01: renderer and main wire Atlas overview through query bridge and ty
   assert.doesNotMatch(mainSource, /handleWorkspaceAtlasOverviewQuery[\s\S]{0,2000}writeFileAtomic/u);
 
   const rendererSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'editor.js'), 'utf8');
-  assert.match(rendererSource, /ATLAS_OVERVIEW_QUERY_ID\s*=\s*'query\.atlasOverview'/u);
+  assert.match(rendererSource, /ATLAS_OVERVIEW_QUERY_ID\s*=\s*WORKSPACE_QUERY_IDS\.ATLAS_OVERVIEW/u);
   assert.match(rendererSource, /atlasOverviewHost/u);
   assert.match(rendererSource, /normalizeAtlasOverview/u);
   assert.match(rendererSource, /renderAtlasOverviewState/u);

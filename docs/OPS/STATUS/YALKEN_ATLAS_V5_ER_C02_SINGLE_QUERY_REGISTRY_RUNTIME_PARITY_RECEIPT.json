@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "ER_C02_SINGLE_QUERY_REGISTRY_AND_RUNTIME_PARITY",
+  "programStage": "ER_AUDIT_REPAIR_2026_07_31",
+  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_READY_FOR_DELIVERY_CHAIN",
+  "readinessDefault": "NOT_READY",
+  "designToolRouter": "NOT_APPLICABLE",
+  "generatedAtUtc": "2026-07-31T06:25:28.000Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-er-c02",
+    "baseSha": "54b9d1f35a360c6d2ff037a0718596710bee300e",
+    "originMainSha": "54b9d1f35a360c6d2ff037a0718596710bee300e",
+    "branchHeadSha": "PENDING_FINAL_ER_C02_SCOPE_REPAIR_COMMIT",
+    "deliveryCommitSha": "PENDING_PRE_COMMIT",
+    "remoteMergeSha": "PENDING_PRE_DELIVERY"
+  },
+  "targetBinding": {
+    "sha": "PENDING_FINAL_ER_C02_SCOPE_REPAIR_COMMIT",
+    "platform": "macOS-local-dev",
+    "profile": "release-local-validation",
+    "timestampUtc": "2026-07-31T06:25:28.000Z",
+    "artifactDigest": "272bf169d449c2d12034e4487b9436eaf5b41a99d64c697120a141257b523f7b",
+    "artifactIdentity": "tmp:yalken-er-c02-full-runner-post-drift.log"
+  },
+  "implementedBoundary": {
+    "scopeIn": [
+      "shared workspace query registry",
+      "main workspace query bridge allowlist and handler map",
+      "preload project tree and project library query registry binding",
+      "renderer query bridge fail-closed registry gate",
+      "ten Atlas surface query ids",
+      "Atlas matrices heatmap temporal continuity reports diagnostics reachability",
+      "stale static contract rebinds to registry behavior"
+    ],
+    "scopeOut": [
+      "Stage 01 exact Atlas write journey recertification",
+      "Stage 02 graph workbench journey recertification",
+      "Stage 03 Plot Idea Meaning user surface recertification",
+      "Stage 05 full Atlas user outcome recertification",
+      "Stage 10 readiness certification",
+      "Stage 11 platform certification",
+      "new UI design contract",
+      "new dependency",
+      "network adapter",
+      "storage migration",
+      "worker implementation",
+      "release readiness claim"
+    ]
+  },
+  "runtimeFacts": {
+    "singleWorkspaceQueryRegistry": true,
+    "mainPreloadRendererConsumeRegistry": true,
+    "rendererUnknownQueryFailClosed": true,
+    "mainUnknownQueryFailClosed": true,
+    "atlasSurfacesReachableThroughRegistryCount": 10,
+    "atlasMatricesRendererFalseUnavailableGateRemoved": true,
+    "atlasHeatmapRendererFalseUnavailableGateRemoved": true,
+    "atlasTemporalRendererFalseUnavailableGateRemoved": true,
+    "atlasContinuityRendererFalseUnavailableGateRemoved": true,
+    "atlasReportsRendererFalseUnavailableGateRemoved": true,
+    "atlasDiagnosticsRendererFalseUnavailableGateRemoved": true,
+    "productMutationsIntroduced": false,
+    "stage11Started": false
+  },
+  "atlasSurfaceQueries": [
+    "atlasOverview",
+    "atlasEntityDossier",
+    "atlasRelationDossier",
+    "atlasMatrices",
+    "atlasHeatmap",
+    "atlasTemporalLayout",
+    "atlasContinuityLedgerSurface",
+    "atlasReportsSavedQueries",
+    "atlasDiagnosticsStageAcceptance",
+    "atlasCurrentScene"
+  ],
+  "certifiedStageOutcomes": [],
+  "unsatisfiedStageOutcomes": [
+    "E01_STAGE_01_EXACT_ATLAS_USER_OUTCOME",
+    "E02_STAGE_02_MANUAL_MAP_GRAPH_WORKBENCH_USER_OUTCOME",
+    "E03_STAGE_03_PLOT_IDEA_MEANING_USER_OUTCOME",
+    "E05_STAGE_05_FULL_ATLAS_READ_SURFACES_USER_OUTCOME",
+    "E10_STAGE_10_ACCEPTANCE_READINESS",
+    "E11_STAGE_11_PLATFORM_CERTIFICATION_NOT_STARTED"
+  ],
+  "repairOrder": [
+    "ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
+    "ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY",
+    "ER_C02_SINGLE_QUERY_REGISTRY_AND_RUNTIME_PARITY",
+    "ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
+    "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH",
+    "ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
+    "ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY",
+    "ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
+    "E11_ACTIVE_PLATFORM_CERTIFICATION",
+    "EFINAL"
+  ],
+  "negativeChecks": [
+    {
+      "id": "unknown-query-fail-closed",
+      "result": "PASS",
+      "summary": "Unknown workspace query ids are rejected by the renderer registry gate and main bridge allowlist instead of falling through to a partial handler."
+    },
+    {
+      "id": "stale-renderer-atlas-allowlist",
+      "result": "PASS",
+      "summary": "Renderer no longer maintains a manual Atlas subset allowlist that blocks matrices, heatmap, temporal, continuity, reports, or diagnostics queries."
+    },
+    {
+      "id": "handler-map-parity",
+      "result": "PASS",
+      "summary": "Each registered Atlas query id has a main bridge handler and a renderer query invocation path."
+    },
+    {
+      "id": "query-registry-no-product-write",
+      "result": "PASS",
+      "summary": "Registry extraction does not introduce storage writes, command dispatch, network, DOM, worker, or project truth mutation authority."
+    }
+  ],
+  "validation": [
+    {
+      "id": "focused-er-c02-registry-and-adjacent",
+      "command": "node --test test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js test/unit/sector-m-preload-workspace-query-bridge.test.js test/unit/sector-m-command-kernel-tree-document-adoption.test.js test/unit/sector-m-s20-search-read-projection.test.js test/contracts/yalken-atlas-v5-e01-c03-current-scene-dossier-surface.contract.test.js test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js test/contracts/yalken-atlas-v5-e05-c02-entity-dossier-evidence-ledger-read-surface.contract.test.js test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js test/contracts/post-mvp-selected-scenes-txt-export.contract.test.js test/contracts/revision-bridge-review-mutate-port.contract.test.js test/unit/sector-m-review-surface-ui.test.js test/unit/selected-scenes-txt-export-ui-flow.test.js test/unit/yalken-design-os-sidebar-control-truth.test.js test/unit/sector-m-s19-notes-ui-inbox.test.js test/unit/sector-m-s23-history-snapshots-diff.test.js test/unit/sector-m-s25-project-library-index.test.js test/unit/sector-m-s26-project-create-open-continue.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused post-drift suite: 167 tests, 167 pass, 0 fail, 0 skipped."
+    },
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Renderer bundle rebuilt successfully after query registry extraction."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Diff whitespace check completed with empty stdout and stderr."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1, references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Governance change detection ok true, missing approvals empty, approval registry valid after RTK E09 drift reconciliation."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "artifactDigest": "272bf169d449c2d12034e4487b9436eaf5b41a99d64c697120a141257b523f7b",
+      "summary": "Full runner post-drift: 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
+    }
+  ],
+  "nextExecutableContour": "ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY"
+}

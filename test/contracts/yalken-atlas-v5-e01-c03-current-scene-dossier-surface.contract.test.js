@@ -217,8 +217,8 @@ test('E01 C03: surface wiring uses query bridge and does not bypass command or s
   }
 
   const mainSource = fs.readFileSync(path.join(process.cwd(), 'src', 'main.js'), 'utf8');
-  assert.match(mainSource, /ATLAS_CURRENT_SCENE_QUERY_ID\s*=\s*'query\.atlasCurrentScene'/u);
-  assert.match(mainSource, /WORKSPACE_QUERY_BRIDGE_ALLOWED_QUERY_IDS[\s\S]*ATLAS_CURRENT_SCENE_QUERY_ID/u);
+  assert.match(mainSource, /ATLAS_CURRENT_SCENE_QUERY_ID\s*=\s*WORKSPACE_QUERY_IDS\.ATLAS_CURRENT_SCENE/u);
+  assert.match(mainSource, /\[ATLAS_CURRENT_SCENE_QUERY_ID,\s*handleWorkspaceAtlasCurrentSceneQuery\]/u);
   assert.match(mainSource, /function handleWorkspaceAtlasCurrentSceneQuery/u);
   assert.match(mainSource, /resolveProjectTreeNodeIdentity/u);
   assert.match(mainSource, /sanitizePayloadWithinProjectRoot/u);
@@ -226,7 +226,7 @@ test('E01 C03: surface wiring uses query bridge and does not bypass command or s
   assert.match(mainSource, /atlasCurrentScene/u);
 
   const rendererSource = fs.readFileSync(path.join(process.cwd(), 'src', 'renderer', 'editor.js'), 'utf8');
-  assert.match(rendererSource, /ATLAS_CURRENT_SCENE_QUERY_ID\s*=\s*'query\.atlasCurrentScene'/u);
+  assert.match(rendererSource, /ATLAS_CURRENT_SCENE_QUERY_ID\s*=\s*WORKSPACE_QUERY_IDS\.ATLAS_CURRENT_SCENE/u);
   assert.match(rendererSource, /RIGHT_RAIL_SURFACE_PROVIDERS[\s\S]*atlas:\s*ATLAS_CURRENT_SCENE_QUERY_ID/u);
   assert.match(rendererSource, /refreshAtlasCurrentScene/u);
   assert.match(rendererSource, /focusAtlasMention/u);

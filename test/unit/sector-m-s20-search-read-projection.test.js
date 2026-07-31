@@ -171,8 +171,8 @@ test('S20 search UI: workspace, query bridge, source jump and pathless renderer 
   assert.ok(html.includes('data-project-search-workspace'));
   assert.ok(html.includes('data-project-search-scope'));
   assert.ok(html.includes('data-project-search-results'));
-  assert.ok(editor.includes("const PROJECT_SEARCH_QUERY_ID = 'query.projectSearch';"));
-  assert.ok(editor.includes('queryId !== PROJECT_SEARCH_QUERY_ID'));
+  assert.ok(editor.includes('const PROJECT_SEARCH_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_SEARCH;'));
+  assert.ok(editor.includes('if (!WORKSPACE_QUERY_ID_SET.has(queryId)) {'));
   assert.ok(editor.includes('invokeWorkspaceQueryBridge(PROJECT_SEARCH_QUERY_ID'));
   assert.ok(editor.includes('pendingProjectSearchJump'));
   assert.ok(editor.includes('setSelectionRange(jump.from, jump.to);'));
@@ -192,9 +192,8 @@ test('S20 search UI: workspace, query bridge, source jump and pathless renderer 
 test('S20 search bridge: main exposes read-only query and no write path in search handler', () => {
   const main = read('src/main.js');
 
-  assert.ok(main.includes("'query.projectSearch'"));
-  assert.ok(main.includes("if (queryId === 'query.projectSearch') {"));
-  assert.ok(main.includes('return handleWorkspaceProjectSearchQuery(payload);'));
+  assert.ok(main.includes('const PROJECT_SEARCH_QUERY_ID = WORKSPACE_QUERY_IDS.PROJECT_SEARCH;'));
+  assert.ok(main.includes('[PROJECT_SEARCH_QUERY_ID, handleWorkspaceProjectSearchQuery]'));
   assert.ok(main.includes('async function handleWorkspaceProjectSearchQuery(payload = {})'));
   assert.ok(main.includes('async function buildProjectTreeRootsWithIdentitiesReadOnly()'));
   assert.ok(main.includes('buildProjectSearchReadModel({'));

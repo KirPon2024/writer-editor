@@ -238,12 +238,10 @@ test('S25 project library bridge: query is allowlisted and zero-network', () => 
   const preload = read('src/preload.js');
   const provider = read('src/derived/projectLibraryReadModel.mjs');
 
-  assert.match(main, /const PROJECT_LIBRARY_QUERY_ID = 'query\.projectLibrary'/u);
-  assert.match(main, /if \(queryId === PROJECT_LIBRARY_QUERY_ID\) \{/u);
-  assert.match(main, /return handleWorkspaceProjectLibraryQuery\(payload\);/u);
-  assert.match(main, /PROJECT_LIBRARY_QUERY_ID,/u);
-  assert.match(main, /handleWorkspaceProjectLibraryQuery,/u);
+  assert.match(main, /const PROJECT_LIBRARY_QUERY_ID = WORKSPACE_QUERY_IDS\.PROJECT_LIBRARY/u);
+  assert.match(main, /\[PROJECT_LIBRARY_QUERY_ID,\s*handleWorkspaceProjectLibraryQuery\]/u);
+  assert.match(main, /WORKSPACE_QUERY_BRIDGE_HANDLERS\.get\(queryId\)/u);
   assert.match(preload, /getProjectLibrary: \(payload\) => \{/u);
-  assert.match(preload, /queryId: 'query\.projectLibrary'/u);
+  assert.match(preload, /queryId: WORKSPACE_QUERY_IDS\.PROJECT_LIBRARY/u);
   assert.doesNotMatch(provider, /\bfetch\b|https?:|XMLHttpRequest|net\.request/u);
 });

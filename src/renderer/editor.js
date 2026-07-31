@@ -110,6 +110,21 @@ import {
   writeToolbarProfileState,
 } from './toolbar/toolbarProfileState.mjs';
 import workspaceQueryRegistry from '../shared/workspaceQueryRegistry.cjs';
+import {
+  MANUAL_MAP_VIEW_INTENT,
+  normalizeManualMapViewState,
+  reduceManualMapViewIntent,
+} from '../derived/mindmap/manualMapInteraction.mjs';
+import { buildManualMapViewportPlan } from '../derived/mindmap/manualMapViewportPlanner.mjs';
+import {
+  acceptManualMapLayoutResult,
+  createManualMapLayoutJob,
+  runManualMapLayoutJob,
+} from '../derived/mindmap/manualMapLayoutScheduler.mjs';
+import {
+  buildManualMapListParityModel,
+  reduceManualMapListKeyboardIntent,
+} from '../derived/mindmap/manualMapListKeyboardParity.mjs';
 
 const {
   WORKSPACE_QUERY_IDS,
@@ -121,6 +136,25 @@ import uiErrorMapDoc from '../../docs/OPS/STATUS/UI_ERROR_MAP.json';
 const {
   resolveCentralSheetStripProofDecision,
 } = centralSheetStripProofDecision;
+
+const MANUAL_MAP_SVG_NS = 'http://www.w3.org/2000/svg';
+const MANUAL_MAP_VIEWPORT_LIMITS = Object.freeze({
+  overscanPx: 220,
+  maxNodes: 600,
+  maxEdges: 900,
+  labelZoomThreshold: 0.55,
+});
+const MANUAL_MAP_DEFAULT_VIEWPORT = Object.freeze({
+  x: -420,
+  y: -260,
+  width: 840,
+  height: 520,
+  zoom: 1,
+});
+const MANUAL_MAP_LAYOUT_MODES = Object.freeze({
+  MANUAL: 'manual-fixed-position',
+  HIERARCHY: 'hierarchy-derived-presentation',
+});
 
 const isTiptapMode = window.__USE_TIPTAP === true;
 const editor = document.getElementById('editor');
@@ -250,6 +284,8 @@ const projectSearchScopeSelect = document.querySelector('[data-project-search-sc
 const projectSearchCaseCheckbox = document.querySelector('[data-project-search-case]');
 const projectSearchWholeWordCheckbox = document.querySelector('[data-project-search-whole-word]');
 const projectSearchResultsElement = document.querySelector('[data-project-search-results]');
+const manualMapPlanWorkspace = document.querySelector('[data-manual-map-plan-workspace]');
+const manualMapPlanHost = document.querySelector('[data-manual-map-plan-host]');
 const rightSidebar = document.querySelector('[data-right-sidebar]');
 const rightTabsHost = document.querySelector('[data-right-tabs]');
 const rightTabButtons = Array.from(document.querySelectorAll('[data-right-tab]'));
@@ -873,6 +909,15 @@ let manualMapWorkbenchState = {
   summary: { mapCount: 0, nodeCount: 0, edgeCount: 0, groupCount: 0, listRowCount: 0 },
   unavailableReason: '',
 };
+let manualMapTransientViewState = normalizeManualMapViewState({
+  viewport: MANUAL_MAP_DEFAULT_VIEWPORT,
+}, {});
+let manualMapListState = { activeRowId: '' };
+let manualMapLayoutMode = MANUAL_MAP_LAYOUT_MODES.MANUAL;
+let manualMapLayoutGeneration = 0;
+let manualMapSearchQuery = '';
+let manualMapPinnedNodeIds = new Set();
+let manualMapDragState = null;
 let projectionInspectorState = {
   state: 'empty',
   projectId: '',
@@ -8382,6 +8427,7 @@ function updateSpatialLayoutForViewportChange() {
 }
 
 function showEditorPanelFor(title) {
+  hideManualMapPlanWorkspace();
   hideNotesWorkspace();
   hideProjectSearchWorkspace();
   editorPanel?.classList.add('active');
@@ -8412,6 +8458,7 @@ function showEditorPanelFor(title) {
 
 function collapseSelection() {
   clearFlowModeState();
+  hideManualMapPlanWorkspace();
   hideNotesWorkspace();
   hideProjectSearchWorkspace();
   editorPanel?.classList.remove('active');
@@ -10626,6 +10673,7 @@ async function refreshNotesWorkspace(options = {}) {
 }
 
 function showNotesWorkspace() {
+  hideManualMapPlanWorkspace();
   notesWorkspace?.removeAttribute('hidden');
   notesWorkspace?.classList.add('is-active');
   editorPanel?.classList.remove('active');
@@ -10646,6 +10694,7 @@ function hideNotesWorkspace() {
 }
 
 function showProjectSearchWorkspace() {
+  hideManualMapPlanWorkspace();
   projectSearchWorkspace?.removeAttribute('hidden');
   projectSearchWorkspace?.classList.add('is-active');
   editorPanel?.classList.remove('active');
@@ -10664,6 +10713,34 @@ function hideProjectSearchWorkspace() {
   projectSearchWorkspace?.setAttribute('hidden', '');
   projectSearchWorkspace?.classList.remove('is-active');
   mainContent?.classList.remove('main-content--search');
+}
+
+function showManualMapPlanWorkspace() {
+  if (!(manualMapPlanWorkspace instanceof HTMLElement)) return;
+  hideNotesWorkspace();
+  hideProjectSearchWorkspace();
+  manualMapPlanWorkspace.removeAttribute('hidden');
+  manualMapPlanWorkspace.classList.add('is-active');
+  editorPanel?.classList.remove('active');
+  mainContent?.classList.remove('main-content--editor');
+  mainContent?.classList.add('main-content--manual-map');
+  emptyState?.classList.add('hidden');
+  metaPanel?.classList.add('is-hidden');
+  applyLeftTab('outline');
+  if (currentRightTab !== 'atlas') {
+    applyRightTab('atlas');
+  }
+  setCurrentAtlasSurface('manualMap', { refresh: false });
+  void refreshManualMapWorkbench({ force: true });
+  requestAnimationFrame(() => {
+    manualMapPlanHost?.querySelector('input, button, [tabindex]')?.focus({ preventScroll: true });
+  });
+}
+
+function hideManualMapPlanWorkspace() {
+  manualMapPlanWorkspace?.setAttribute('hidden', '');
+  manualMapPlanWorkspace?.classList.remove('is-active');
+  mainContent?.classList.remove('main-content--manual-map');
 }
 
 async function runNotesMutation(commandId, payload, successStatus) {
@@ -11767,6 +11844,685 @@ function normalizeManualMapWorkbench(result = {}) {
   };
 }
 
+function manualMapText(value, fallback = '') {
+  return typeof value === 'string' && value.trim() ? value.trim() : fallback;
+}
+
+function manualMapNumber(value, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function cloneManualMapJson(value) {
+  try {
+    return JSON.parse(JSON.stringify(value));
+  } catch {
+    return {};
+  }
+}
+
+function getManualMapGraph(state = manualMapWorkbenchState) {
+  const normalized = normalizeManualMapWorkbench(state);
+  return normalized.graph || { nodes: [], edges: [], groups: [] };
+}
+
+function buildManualMapHierarchyPresentationGraph(graph) {
+  const source = graph && typeof graph === 'object' && !Array.isArray(graph) ? graph : {};
+  const nodes = Array.isArray(source.nodes) ? source.nodes : [];
+  const edges = Array.isArray(source.edges) ? source.edges : [];
+  if (manualMapLayoutMode !== MANUAL_MAP_LAYOUT_MODES.HIERARCHY || nodes.length < 1) {
+    return cloneManualMapJson(source);
+  }
+  const nodeIds = new Set(nodes.map((node) => manualMapText(node?.id)).filter(Boolean));
+  const childrenByNode = new Map();
+  const incoming = new Map();
+  for (const node of nodes) {
+    const nodeId = manualMapText(node?.id);
+    if (!nodeId) continue;
+    childrenByNode.set(nodeId, []);
+    incoming.set(nodeId, 0);
+  }
+  for (const edge of edges) {
+    const from = manualMapText(edge?.from);
+    const to = manualMapText(edge?.to);
+    if (!nodeIds.has(from) || !nodeIds.has(to)) continue;
+    childrenByNode.get(from)?.push(to);
+    incoming.set(to, (incoming.get(to) || 0) + 1);
+  }
+  const roots = nodes
+    .map((node) => manualMapText(node?.id))
+    .filter((nodeId) => nodeId && (incoming.get(nodeId) || 0) === 0);
+  const orderedRoots = roots.length ? roots : nodes.map((node) => manualMapText(node?.id)).filter(Boolean).slice(0, 1);
+  const depthByNode = new Map();
+  const visited = new Set();
+  const queue = orderedRoots.map((nodeId, index) => ({ nodeId, depth: 0, order: index }));
+  const orderByNode = new Map(queue.map((entry) => [entry.nodeId, entry.order]));
+  while (queue.length > 0) {
+    const entry = queue.shift();
+    if (!entry || visited.has(entry.nodeId)) continue;
+    visited.add(entry.nodeId);
+    depthByNode.set(entry.nodeId, entry.depth);
+    orderByNode.set(entry.nodeId, orderByNode.has(entry.nodeId) ? orderByNode.get(entry.nodeId) : orderByNode.size);
+    const children = childrenByNode.get(entry.nodeId) || [];
+    children.forEach((childId) => {
+      if (!visited.has(childId)) {
+        queue.push({ nodeId: childId, depth: entry.depth + 1, order: orderByNode.size });
+      }
+    });
+  }
+  nodes.forEach((node) => {
+    const nodeId = manualMapText(node?.id);
+    if (nodeId && !depthByNode.has(nodeId)) {
+      depthByNode.set(nodeId, 0);
+      orderByNode.set(nodeId, orderByNode.size);
+    }
+  });
+  const rowsByDepth = new Map();
+  for (const nodeId of depthByNode.keys()) {
+    const depth = depthByNode.get(nodeId) || 0;
+    if (!rowsByDepth.has(depth)) rowsByDepth.set(depth, []);
+    rowsByDepth.get(depth).push(nodeId);
+  }
+  for (const row of rowsByDepth.values()) {
+    row.sort((a, b) => (orderByNode.get(a) || 0) - (orderByNode.get(b) || 0));
+  }
+  const positionByNode = new Map();
+  const depthKeys = [...rowsByDepth.keys()].sort((a, b) => a - b);
+  depthKeys.forEach((depth) => {
+    const row = rowsByDepth.get(depth) || [];
+    const startY = -((row.length - 1) * 92) / 2;
+    row.forEach((nodeId, index) => {
+      positionByNode.set(nodeId, {
+        x: depth * 210,
+        y: startY + index * 92,
+      });
+    });
+  });
+  return {
+    ...cloneManualMapJson(source),
+    nodes: nodes.map((node) => {
+      const nodeId = manualMapText(node?.id);
+      return {
+        ...cloneManualMapJson(node),
+        position: positionByNode.get(nodeId) || node?.position || { x: 0, y: 0 },
+      };
+    }),
+  };
+}
+
+function filterManualMapGraphForWorkbench(graph) {
+  const query = manualMapSearchQuery.trim().toLowerCase();
+  if (!query) return graph;
+  const nodes = Array.isArray(graph.nodes) ? graph.nodes : [];
+  const edges = Array.isArray(graph.edges) ? graph.edges : [];
+  const groups = Array.isArray(graph.groups) ? graph.groups : [];
+  const matchingNodeIds = new Set(nodes
+    .filter((node) => {
+      const haystack = `${manualMapText(node?.label)} ${manualMapText(node?.id)} ${manualMapText(node?.kind)} ${manualMapText(node?.target?.kind)} ${manualMapText(node?.target?.id)}`.toLowerCase();
+      return haystack.includes(query);
+    })
+    .map((node) => manualMapText(node?.id))
+    .filter(Boolean));
+  const matchingEdgeIds = new Set(edges
+    .filter((edge) => `${manualMapText(edge?.label)} ${manualMapText(edge?.id)} ${manualMapText(edge?.kind)} ${manualMapText(edge?.from)} ${manualMapText(edge?.to)}`.toLowerCase().includes(query))
+    .map((edge) => manualMapText(edge?.id))
+    .filter(Boolean));
+  const matchingGroups = groups.filter((group) => `${manualMapText(group?.label)} ${manualMapText(group?.id)} ${manualMapText(group?.colorTag)}`.toLowerCase().includes(query));
+  matchingGroups.forEach((group) => {
+    (Array.isArray(group.nodeIds) ? group.nodeIds : []).forEach((nodeId) => matchingNodeIds.add(manualMapText(nodeId)));
+  });
+  edges.forEach((edge) => {
+    const edgeId = manualMapText(edge?.id);
+    if (matchingEdgeIds.has(edgeId)) {
+      matchingNodeIds.add(manualMapText(edge?.from));
+      matchingNodeIds.add(manualMapText(edge?.to));
+    }
+  });
+  return {
+    ...graph,
+    nodes: nodes.filter((node) => matchingNodeIds.has(manualMapText(node?.id))),
+    edges: edges.filter((edge) => matchingEdgeIds.has(manualMapText(edge?.id))
+      || (matchingNodeIds.has(manualMapText(edge?.from)) && matchingNodeIds.has(manualMapText(edge?.to)))),
+    groups: groups
+      .map((group) => ({
+        ...group,
+        nodeIds: (Array.isArray(group.nodeIds) ? group.nodeIds : []).filter((nodeId) => matchingNodeIds.has(manualMapText(nodeId))),
+      }))
+      .filter((group) => group.nodeIds.length > 0),
+  };
+}
+
+function buildManualMapWorkbenchRuntimeModel(state) {
+  const sourceGraph = getManualMapGraph(state);
+  const presentationGraph = filterManualMapGraphForWorkbench(buildManualMapHierarchyPresentationGraph(sourceGraph));
+  manualMapTransientViewState = normalizeManualMapViewState({
+    ...manualMapTransientViewState,
+    viewport: {
+      ...MANUAL_MAP_DEFAULT_VIEWPORT,
+      ...(manualMapTransientViewState.viewport || {}),
+    },
+  }, presentationGraph);
+  const layoutJob = createManualMapLayoutJob({
+    graph: presentationGraph,
+    viewState: manualMapTransientViewState,
+    sequence: manualMapLayoutGeneration + 1,
+    layoutKind: manualMapLayoutMode,
+    limits: MANUAL_MAP_VIEWPORT_LIMITS,
+  });
+  let viewportPlan = buildManualMapViewportPlan({
+    graph: presentationGraph,
+    viewState: manualMapTransientViewState,
+    limits: MANUAL_MAP_VIEWPORT_LIMITS,
+  });
+  let resourceBudgetProof = null;
+  if (layoutJob.ok === true) {
+    const layoutResult = runManualMapLayoutJob(layoutJob.value);
+    const accepted = layoutResult.ok === true
+      ? acceptManualMapLayoutResult({
+        activeJob: layoutJob.value,
+        result: layoutResult.value,
+        currentGraph: presentationGraph,
+      })
+      : null;
+    if (accepted?.ok === true) {
+      manualMapLayoutGeneration = layoutJob.value.generation;
+      viewportPlan = layoutResult.value.viewportPlan || viewportPlan;
+      resourceBudgetProof = layoutResult.value.resourceBudgetProof || null;
+    }
+  }
+  const listParity = buildManualMapListParityModel({
+    graph: presentationGraph,
+    viewState: manualMapTransientViewState,
+    listState: manualMapListState,
+  });
+  manualMapListState = listParity.listState || manualMapListState;
+  return {
+    sourceGraph,
+    presentationGraph,
+    viewportPlan,
+    resourceBudgetProof,
+    listParity,
+  };
+}
+
+function getManualMapNodeById(graph, nodeId) {
+  return (Array.isArray(graph?.nodes) ? graph.nodes : []).find((node) => manualMapText(node?.id) === nodeId) || null;
+}
+
+function getManualMapEdgeById(graph, edgeId) {
+  return (Array.isArray(graph?.edges) ? graph.edges : []).find((edge) => manualMapText(edge?.id) === edgeId) || null;
+}
+
+function getManualMapGroupByNodeId(graph, nodeId) {
+  return (Array.isArray(graph?.groups) ? graph.groups : []).find((group) => {
+    const nodeIds = Array.isArray(group?.nodeIds) ? group.nodeIds : [];
+    return nodeIds.map(manualMapText).includes(nodeId);
+  }) || null;
+}
+
+function manualMapNodePosition(node) {
+  const position = node && typeof node.position === 'object' && !Array.isArray(node.position) ? node.position : {};
+  return {
+    x: manualMapNumber(position.x),
+    y: manualMapNumber(position.y),
+  };
+}
+
+function setManualMapViewIntent(intent, graph) {
+  manualMapTransientViewState = reduceManualMapViewIntent(manualMapTransientViewState, intent, graph);
+  renderManualMapWorkbenchState();
+}
+
+function getManualMapSelectedNodeId() {
+  return manualMapText(manualMapTransientViewState.selection?.primaryNodeId)
+    || manualMapText(manualMapTransientViewState.selection?.nodeIds?.[0]);
+}
+
+function getManualMapSelectedEdgeId() {
+  return manualMapText(manualMapTransientViewState.selection?.edgeIds?.[0]);
+}
+
+function makeManualMapCommandButton(label, commandId, payload, options = {}) {
+  const button = makeAtlasCommandButton(label, commandId, payload, options);
+  button.classList.add('manual-map-workspace__action');
+  return button;
+}
+
+async function runManualMapWorkbenchCommand(commandId, payload = {}) {
+  await runProductJourneyCommand(commandId, payload);
+  await refreshManualMapWorkbench({ force: true });
+}
+
+function makeManualMapRuntimeCommandButton(label, commandId, payloadFactory, optionsFactory = () => ({})) {
+  const options = optionsFactory();
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'right-rail-atlas-action manual-map-workspace__action';
+  button.textContent = label;
+  button.dataset.productCommandId = commandId;
+  button.disabled = options.disabled === true;
+  if (options.reason) {
+    button.title = options.reason;
+    button.setAttribute('aria-label', `${label}. ${options.reason}`);
+  }
+  button.addEventListener('click', () => {
+    if (button.disabled) return;
+    void runManualMapWorkbenchCommand(commandId, payloadFactory());
+  });
+  return button;
+}
+
+function renderManualMapToolbar(parent, state, runtime, options = {}) {
+  const actionBar = document.createElement('div');
+  actionBar.className = options.compact
+    ? 'right-rail-atlas-action-bar'
+    : 'manual-map-workspace__toolbar';
+  const graph = runtime.presentationGraph;
+  const sourceGraph = runtime.sourceGraph;
+  const nodes = Array.isArray(sourceGraph.nodes) ? sourceGraph.nodes : [];
+  const edges = Array.isArray(sourceGraph.edges) ? sourceGraph.edges : [];
+  const groups = Array.isArray(sourceGraph.groups) ? sourceGraph.groups : [];
+  const selectedNodeId = getManualMapSelectedNodeId();
+  const selectedEdgeId = getManualMapSelectedEdgeId();
+  const selectedNode = getManualMapNodeById(sourceGraph, selectedNodeId);
+  const selectedEdge = getManualMapEdgeById(sourceGraph, selectedEdgeId);
+  const selectedGroup = getManualMapGroupByNodeId(sourceGraph, selectedNodeId);
+  const mapId = state.mapId || makeStableUiId('manual-map');
+  actionBar.appendChild(makeManualMapCommandButton('Create map', 'manualMap.create', {
+    mapId: makeStableUiId('manual-map'),
+    title: currentDocumentTitle || 'Manual map',
+  }, { disabled: !currentProjectId, reason: currentProjectId ? '' : 'Project is not open' }));
+  actionBar.appendChild(makeManualMapCommandButton('Add node', 'manualMap.node.add', {
+    mapId,
+    nodeId: makeStableUiId('manual-node'),
+    label: currentDocumentTitle || 'Node',
+    nodeKind: 'note',
+    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
+  }, { disabled: !state.mapId, reason: state.mapId ? '' : 'Create a map first' }));
+  actionBar.appendChild(makeManualMapCommandButton('Scene node', 'manualMap.node.add', {
+    mapId,
+    nodeId: makeStableUiId('manual-scene-node'),
+    label: currentDocumentTitle || 'Scene',
+    nodeKind: 'scene',
+    targetKind: 'scene',
+    targetId: currentDocumentId || '',
+    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
+  }, { disabled: !state.mapId || !currentDocumentId, reason: currentDocumentId ? '' : 'No scene selected' }));
+  actionBar.appendChild(makeManualMapCommandButton('Entity node', 'manualMap.node.add', {
+    mapId,
+    nodeId: makeStableUiId('manual-entity-node'),
+    label: firstAtlasEntity()?.name || firstAtlasEntity()?.entityId || 'Entity',
+    nodeKind: 'entity',
+    targetKind: 'entity',
+    targetId: firstAtlasEntity()?.entityId || '',
+    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
+  }, { disabled: !state.mapId || !firstAtlasEntity(), reason: firstAtlasEntity() ? '' : 'No Atlas entity available' }));
+  actionBar.appendChild(makeManualMapRuntimeCommandButton('Add edge', 'manualMap.edge.add', () => {
+    const selectedIds = manualMapTransientViewState.selection?.nodeIds || [];
+    return {
+      mapId,
+      edgeId: makeStableUiId('manual-edge'),
+      fromNodeId: selectedIds[0] || '',
+      toNodeId: selectedIds[1] || '',
+      edgeKind: 'link',
+      label: 'Link',
+    };
+  }, () => ({
+    disabled: (manualMapTransientViewState.selection?.nodeIds || []).length < 2,
+    reason: 'Select two nodes',
+  })));
+  actionBar.appendChild(makeManualMapRuntimeCommandButton('Edit node', 'manualMap.node.update', () => ({
+    mapId,
+    nodeId: selectedNodeId,
+    label: `${selectedNode?.label || 'Node'} updated`,
+  }), () => ({
+    disabled: !selectedNode,
+    reason: 'Select a node',
+  })));
+  actionBar.appendChild(makeManualMapRuntimeCommandButton('Delete node', 'manualMap.node.delete', () => ({
+    mapId,
+    nodeId: selectedNodeId,
+  }), () => ({
+    disabled: !selectedNode,
+    reason: 'Select a node',
+  })));
+  actionBar.appendChild(makeManualMapRuntimeCommandButton('Edit edge', 'manualMap.edge.update', () => ({
+    mapId,
+    edgeId: selectedEdgeId,
+    label: `${selectedEdge?.label || 'Edge'} updated`,
+  }), () => ({
+    disabled: !selectedEdge,
+    reason: 'Select an edge',
+  })));
+  actionBar.appendChild(makeManualMapRuntimeCommandButton('Delete edge', 'manualMap.edge.delete', () => ({
+    mapId,
+    edgeId: selectedEdgeId,
+  }), () => ({
+    disabled: !selectedEdge,
+    reason: 'Select an edge',
+  })));
+  actionBar.appendChild(makeManualMapRuntimeCommandButton('Create group', 'manualMap.group.create', () => ({
+    mapId,
+    groupId: makeStableUiId('manual-group'),
+    label: 'Group',
+    colorTag: 'neutral',
+    nodeIds: manualMapTransientViewState.selection?.nodeIds || [],
+  }), () => ({
+    disabled: (manualMapTransientViewState.selection?.nodeIds || []).length < 2,
+    reason: 'Select at least two nodes',
+  })));
+  actionBar.appendChild(makeManualMapRuntimeCommandButton('Edit group', 'manualMap.group.update', () => ({
+    mapId,
+    groupId: manualMapText(selectedGroup?.id),
+    label: `${selectedGroup?.label || 'Group'} updated`,
+    colorTag: selectedGroup?.colorTag || 'neutral',
+    nodeIds: selectedGroup?.nodeIds || nodes.slice(0, 3).map((node) => node.id),
+  }), () => ({
+    disabled: !selectedGroup,
+    reason: 'Select a grouped node',
+  })));
+  actionBar.appendChild(makeManualMapRuntimeCommandButton('Delete group', 'manualMap.group.delete', () => ({
+    mapId,
+    groupId: manualMapText(selectedGroup?.id),
+  }), () => ({
+    disabled: !selectedGroup,
+    reason: 'Select a grouped node',
+  })));
+  if (!options.compact) {
+    const layoutToggle = document.createElement('button');
+    layoutToggle.type = 'button';
+    layoutToggle.className = 'manual-map-workspace__chip';
+    layoutToggle.textContent = manualMapLayoutMode === MANUAL_MAP_LAYOUT_MODES.HIERARCHY ? 'Hierarchy' : 'Manual';
+    layoutToggle.setAttribute('aria-pressed', manualMapLayoutMode === MANUAL_MAP_LAYOUT_MODES.HIERARCHY ? 'true' : 'false');
+    layoutToggle.addEventListener('click', () => {
+      manualMapLayoutMode = manualMapLayoutMode === MANUAL_MAP_LAYOUT_MODES.HIERARCHY
+        ? MANUAL_MAP_LAYOUT_MODES.MANUAL
+        : MANUAL_MAP_LAYOUT_MODES.HIERARCHY;
+      renderManualMapWorkbenchState();
+    });
+    actionBar.appendChild(layoutToggle);
+  }
+  parent.appendChild(actionBar);
+}
+
+function renderManualMapGraphCanvas(parent, state, runtime) {
+  const graph = runtime.presentationGraph;
+  const viewState = runtime.viewportPlan.viewState || manualMapTransientViewState;
+  const viewport = viewState.viewport || MANUAL_MAP_DEFAULT_VIEWPORT;
+  const canvas = document.createElement('div');
+  canvas.className = 'manual-map-workspace__canvas';
+  canvas.dataset.manualMapCanvas = 'true';
+  const svg = document.createElementNS(MANUAL_MAP_SVG_NS, 'svg');
+  svg.classList.add('manual-map-workspace__svg');
+  svg.setAttribute('viewBox', `0 0 ${viewport.width} ${viewport.height}`);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', `Manual map graph: ${state.summary.nodeCount} nodes, ${state.summary.edgeCount} edges`);
+  const worldToSvg = (position) => ({
+    x: (manualMapNumber(position.x) - viewport.x) * viewport.zoom,
+    y: (manualMapNumber(position.y) - viewport.y) * viewport.zoom,
+  });
+  const nodesById = new Map((Array.isArray(graph.nodes) ? graph.nodes : []).map((node) => [manualMapText(node?.id), node]));
+  const selectedNodeIds = new Set(viewState.selection?.nodeIds || []);
+  const selectedEdgeIds = new Set(viewState.selection?.edgeIds || []);
+  const edgeLayer = document.createElementNS(MANUAL_MAP_SVG_NS, 'g');
+  edgeLayer.classList.add('manual-map-workspace__edge-layer');
+  for (const edge of runtime.viewportPlan.edges || []) {
+    const sourceEdge = getManualMapEdgeById(graph, manualMapText(edge.id));
+    const fromNode = nodesById.get(edge.from);
+    const toNode = nodesById.get(edge.to);
+    if (!fromNode || !toNode) continue;
+    const from = worldToSvg(manualMapNodePosition(fromNode));
+    const to = worldToSvg(manualMapNodePosition(toNode));
+    const line = document.createElementNS(MANUAL_MAP_SVG_NS, 'line');
+    line.classList.add('manual-map-workspace__edge');
+    if (selectedEdgeIds.has(edge.id)) line.classList.add('is-selected');
+    line.dataset.manualMapEdgeId = edge.id;
+    line.setAttribute('x1', String(from.x));
+    line.setAttribute('y1', String(from.y));
+    line.setAttribute('x2', String(to.x));
+    line.setAttribute('y2', String(to.y));
+    line.setAttribute('tabindex', '0');
+    line.setAttribute('role', 'button');
+    line.setAttribute('aria-label', sourceEdge?.label || `${edge.from} to ${edge.to}`);
+    edgeLayer.appendChild(line);
+  }
+  svg.appendChild(edgeLayer);
+  const nodeLayer = document.createElementNS(MANUAL_MAP_SVG_NS, 'g');
+  nodeLayer.classList.add('manual-map-workspace__node-layer');
+  for (const node of runtime.viewportPlan.nodes || []) {
+    const sourceNode = nodesById.get(node.id);
+    if (!sourceNode) continue;
+    const position = worldToSvg(manualMapNodePosition(sourceNode));
+    const group = document.createElementNS(MANUAL_MAP_SVG_NS, 'g');
+    group.classList.add('manual-map-workspace__node');
+    if (selectedNodeIds.has(node.id)) group.classList.add('is-selected');
+    if (manualMapPinnedNodeIds.has(node.id)) group.classList.add('is-pinned');
+    group.dataset.manualMapNodeId = node.id;
+    group.setAttribute('transform', `translate(${position.x} ${position.y})`);
+    group.setAttribute('tabindex', '0');
+    group.setAttribute('role', 'button');
+    group.setAttribute('aria-label', sourceNode.label || node.id);
+    const rect = document.createElementNS(MANUAL_MAP_SVG_NS, 'rect');
+    rect.setAttribute('x', '-58');
+    rect.setAttribute('y', '-19');
+    rect.setAttribute('width', '116');
+    rect.setAttribute('height', '38');
+    rect.setAttribute('rx', '8');
+    const text = document.createElementNS(MANUAL_MAP_SVG_NS, 'text');
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dominant-baseline', 'middle');
+    text.textContent = (sourceNode.label || node.id).slice(0, 26);
+    group.append(rect, text);
+    nodeLayer.appendChild(group);
+  }
+  svg.appendChild(nodeLayer);
+  canvas.appendChild(svg);
+
+  const minimap = document.createElement('div');
+  minimap.className = 'manual-map-workspace__minimap';
+  minimap.setAttribute('aria-hidden', 'true');
+  const bounds = runtime.viewportPlan.worldBounds || { minX: 0, minY: 0, width: 1, height: 1 };
+  const width = Math.max(1, bounds.width || 1);
+  const height = Math.max(1, bounds.height || 1);
+  for (const node of graph.nodes || []) {
+    const dot = document.createElement('span');
+    dot.className = 'manual-map-workspace__minimap-dot';
+    const position = manualMapNodePosition(node);
+    dot.style.left = `${Math.max(0, Math.min(100, ((position.x - bounds.minX) / width) * 100))}%`;
+    dot.style.top = `${Math.max(0, Math.min(100, ((position.y - bounds.minY) / height) * 100))}%`;
+    minimap.appendChild(dot);
+  }
+  canvas.appendChild(minimap);
+  parent.appendChild(canvas);
+}
+
+function renderManualMapList(parent, runtime, options = {}) {
+  const list = document.createElement('div');
+  list.className = options.compact
+    ? 'right-rail-atlas-matrix-list right-rail-manual-map-list'
+    : 'manual-map-workspace__list';
+  list.setAttribute('role', 'listbox');
+  list.setAttribute('aria-label', 'Manual map graph list');
+  list.tabIndex = 0;
+  for (const row of runtime.listParity.rows.slice(0, options.compact ? 12 : 80)) {
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.className = options.compact
+      ? 'right-rail-atlas-matrix-list-row right-rail-manual-map-row'
+      : 'manual-map-workspace__row';
+    item.dataset.manualMapRowId = row.rowId || '';
+    item.dataset.rowKind = row.rowKind || '';
+    item.dataset.itemId = row.itemId || '';
+    item.setAttribute('role', 'option');
+    item.setAttribute('aria-selected', row.selected ? 'true' : 'false');
+    if (row.active) item.classList.add('is-active');
+    const main = document.createElement('span');
+    main.className = options.compact ? 'right-rail-atlas-matrix-list-row__main' : 'manual-map-workspace__row-main';
+    main.textContent = row.label || row.itemId || 'row';
+    const meta = document.createElement('span');
+    meta.className = options.compact ? 'right-rail-atlas-matrix-list-row__meta' : 'manual-map-workspace__row-meta';
+    meta.textContent = row.rowKind === 'edge'
+      ? `${row.endpoints?.from || ''} -> ${row.endpoints?.to || ''}`
+      : row.rowKind === 'group'
+        ? `${Array.isArray(row.nodeIds) ? row.nodeIds.length : 0} nodes`
+        : `${row.kind || 'node'} ${row.target?.kind || ''}`.trim();
+    item.append(main, meta);
+    list.appendChild(item);
+  }
+  if (runtime.listParity.rows.length < 1) {
+    appendAtlasReportsRow(list, 'No graph rows yet', 'Create a manual map node to populate the fallback.');
+  }
+  parent.appendChild(list);
+}
+
+function renderManualMapInspector(parent, state, runtime) {
+  const panel = document.createElement('aside');
+  panel.className = 'manual-map-workspace__inspector';
+  const selectedNodeId = getManualMapSelectedNodeId();
+  const selectedEdgeId = getManualMapSelectedEdgeId();
+  const selectedNode = getManualMapNodeById(runtime.sourceGraph, selectedNodeId);
+  const selectedEdge = getManualMapEdgeById(runtime.sourceGraph, selectedEdgeId);
+  const title = document.createElement('strong');
+  title.className = 'manual-map-workspace__inspector-title';
+  title.textContent = selectedNode?.label || selectedEdge?.label || selectedEdge?.id || state.graph.title || 'Selection';
+  const meta = document.createElement('div');
+  meta.className = 'manual-map-workspace__inspector-meta';
+  if (selectedNode) {
+    const position = manualMapNodePosition(selectedNode);
+    meta.textContent = `${selectedNode.kind || 'node'} · ${selectedNode.id} · ${Math.round(position.x)}, ${Math.round(position.y)}`;
+  } else if (selectedEdge) {
+    meta.textContent = `${selectedEdge.kind || 'edge'} · ${selectedEdge.from} -> ${selectedEdge.to}`;
+  } else {
+    meta.textContent = 'Select a node, edge, or list row.';
+  }
+  const status = document.createElement('div');
+  status.className = 'manual-map-workspace__inspector-meta';
+  status.textContent = `ViewState transient · ${manualMapLayoutMode === MANUAL_MAP_LAYOUT_MODES.HIERARCHY ? 'hierarchy' : 'manual'} · ${runtime.resourceBudgetProof?.planned?.nodes || 0}/${runtime.resourceBudgetProof?.input?.nodes || 0}`;
+  panel.append(title, meta, status);
+  parent.appendChild(panel);
+}
+
+function renderManualMapWorkbenchInto(host, options = {}) {
+  if (!(host instanceof HTMLElement)) return;
+  const state = normalizeManualMapWorkbench(manualMapWorkbenchState);
+  const compact = options.compact === true;
+  host.innerHTML = '';
+  host.dataset.manualMapWorkbenchProvider = MANUAL_MAP_WORKBENCH_QUERY_ID;
+  host.dataset.manualMapWorkbenchStatus = state.state;
+  host.dataset.manualMapWorkbenchPlacement = compact ? 'right-rail-inspector' : 'plan-workspace';
+
+  const header = document.createElement('div');
+  header.className = compact ? 'right-rail-atlas-matrices-head' : 'manual-map-workspace__header';
+  const headerText = document.createElement('div');
+  const label = document.createElement('div');
+  label.className = compact ? 'right-rail-section__label' : 'manual-map-workspace__eyebrow';
+  label.textContent = compact ? 'Graph inspector' : 'Manual Map';
+  const title = document.createElement(compact ? 'strong' : 'h2');
+  title.className = compact ? 'right-rail-atlas-matrices-title' : 'manual-map-workspace__title';
+  title.textContent = state.graph.title || state.mapId || 'Graph workbench';
+  headerText.append(label, title);
+  const hash = document.createElement('span');
+  hash.className = compact ? 'right-rail-atlas-overview-hash' : 'manual-map-workspace__status';
+  hash.textContent = state.summary.workbenchHash ? state.summary.workbenchHash.slice(0, 8) : state.state;
+  header.append(headerText, hash);
+  host.appendChild(header);
+
+  if (state.state === 'unavailable') {
+    const unavailable = document.createElement('div');
+    unavailable.className = compact ? 'right-rail-atlas-state right-rail-atlas-state--blocked' : 'manual-map-workspace__empty';
+    unavailable.textContent = state.unavailableReason || 'MANUAL_MAP_WORKBENCH_UNAVAILABLE';
+    host.appendChild(unavailable);
+    return;
+  }
+  if (state.state === 'loading') {
+    const loading = document.createElement('div');
+    loading.className = compact ? 'right-rail-atlas-state' : 'manual-map-workspace__empty';
+    loading.textContent = 'Graph workbench обновляется.';
+    host.appendChild(loading);
+    return;
+  }
+
+  const runtime = buildManualMapWorkbenchRuntimeModel(state);
+  const metrics = document.createElement('div');
+  metrics.className = compact
+    ? 'right-rail-atlas-overview-metrics right-rail-atlas-matrices-metrics'
+    : 'manual-map-workspace__metrics';
+  appendAtlasOverviewMetric(metrics, 'maps', state.summary.mapCount);
+  appendAtlasOverviewMetric(metrics, 'nodes', state.summary.nodeCount);
+  appendAtlasOverviewMetric(metrics, 'edges', state.summary.edgeCount);
+  appendAtlasOverviewMetric(metrics, 'groups', state.summary.groupCount);
+  host.appendChild(metrics);
+
+  renderManualMapToolbar(host, state, runtime, { compact });
+  if (compact) {
+    const openButton = document.createElement('button');
+    openButton.type = 'button';
+    openButton.className = 'right-rail-atlas-action';
+    openButton.textContent = 'Open workspace';
+    openButton.addEventListener('click', () => showManualMapPlanWorkspace());
+    host.appendChild(openButton);
+    const listSection = appendAtlasOverviewSection(host, 'Keyboard list fallback', { open: true });
+    renderManualMapList(listSection, runtime, { compact: true });
+    return;
+  }
+
+  const controls = document.createElement('div');
+  controls.className = 'manual-map-workspace__controls';
+  const search = document.createElement('input');
+  search.className = 'manual-map-workspace__search';
+  search.type = 'search';
+  search.value = manualMapSearchQuery;
+  search.placeholder = 'Search map';
+  search.setAttribute('aria-label', 'Search manual map');
+  search.addEventListener('input', () => {
+    manualMapSearchQuery = search.value;
+    renderManualMapWorkbenchState();
+  });
+  const zoomOut = document.createElement('button');
+  zoomOut.type = 'button';
+  zoomOut.className = 'manual-map-workspace__chip';
+  zoomOut.textContent = '-';
+  zoomOut.setAttribute('aria-label', 'Zoom out');
+  zoomOut.addEventListener('click', () => setManualMapViewIntent({ type: MANUAL_MAP_VIEW_INTENT.ZOOM, payload: { factor: 0.85 } }, runtime.presentationGraph));
+  const zoomIn = document.createElement('button');
+  zoomIn.type = 'button';
+  zoomIn.className = 'manual-map-workspace__chip';
+  zoomIn.textContent = '+';
+  zoomIn.setAttribute('aria-label', 'Zoom in');
+  zoomIn.addEventListener('click', () => setManualMapViewIntent({ type: MANUAL_MAP_VIEW_INTENT.ZOOM, payload: { factor: 1.18 } }, runtime.presentationGraph));
+  const fit = document.createElement('button');
+  fit.type = 'button';
+  fit.className = 'manual-map-workspace__chip';
+  fit.textContent = 'Fit';
+  fit.addEventListener('click', () => {
+    const bounds = runtime.viewportPlan.worldBounds || { minX: -420, minY: -260 };
+    manualMapTransientViewState = normalizeManualMapViewState({
+      ...manualMapTransientViewState,
+      viewport: {
+        ...MANUAL_MAP_DEFAULT_VIEWPORT,
+        x: manualMapNumber(bounds.minX, -420) - 80,
+        y: manualMapNumber(bounds.minY, -260) - 80,
+        zoom: 1,
+      },
+    }, runtime.presentationGraph);
+    renderManualMapWorkbenchState();
+  });
+  controls.append(search, zoomOut, zoomIn, fit);
+  host.appendChild(controls);
+
+  const body = document.createElement('div');
+  body.className = 'manual-map-workspace__body';
+  const graphColumn = document.createElement('div');
+  graphColumn.className = 'manual-map-workspace__graph-column';
+  renderManualMapGraphCanvas(graphColumn, state, runtime);
+  const listColumn = document.createElement('div');
+  listColumn.className = 'manual-map-workspace__list-column';
+  renderManualMapList(listColumn, runtime);
+  renderManualMapInspector(listColumn, state, runtime);
+  body.append(graphColumn, listColumn);
+  host.appendChild(body);
+}
+
 function normalizeProjectionInspector(result = {}) {
   const source = result && typeof result === 'object' && !Array.isArray(result) ? result : {};
   const summary = source.summary && typeof source.summary === 'object' && !Array.isArray(source.summary) ? source.summary : {};
@@ -11916,163 +12672,170 @@ function renderAtlasJourneyState() {
 }
 
 function renderManualMapWorkbenchState() {
-  if (!(manualMapWorkbenchHost instanceof HTMLElement)) return;
-  const state = normalizeManualMapWorkbench(manualMapWorkbenchState);
-  manualMapWorkbenchHost.innerHTML = '';
-  manualMapWorkbenchHost.dataset.manualMapWorkbenchProvider = MANUAL_MAP_WORKBENCH_QUERY_ID;
-  manualMapWorkbenchHost.dataset.manualMapWorkbenchStatus = state.state;
-
-  const header = document.createElement('div');
-  header.className = 'right-rail-atlas-matrices-head';
-  const label = document.createElement('div');
-  label.className = 'right-rail-section__label';
-  label.textContent = 'Graph workbench';
-  const title = document.createElement('strong');
-  title.className = 'right-rail-atlas-matrices-title';
-  title.textContent = state.graph.title || state.mapId || 'Manual map';
-  const hash = document.createElement('span');
-  hash.className = 'right-rail-atlas-overview-hash';
-  hash.textContent = state.summary.workbenchHash ? state.summary.workbenchHash.slice(0, 8) : state.state;
-  header.append(label, title, hash);
-  manualMapWorkbenchHost.appendChild(header);
-
-  if (state.state === 'unavailable') {
-    const unavailable = document.createElement('div');
-    unavailable.className = 'right-rail-atlas-state right-rail-atlas-state--blocked';
-    unavailable.textContent = state.unavailableReason || 'MANUAL_MAP_WORKBENCH_UNAVAILABLE';
-    manualMapWorkbenchHost.appendChild(unavailable);
-    return;
+  renderManualMapWorkbenchInto(manualMapWorkbenchHost, { compact: true });
+  if (manualMapPlanWorkspace instanceof HTMLElement && manualMapPlanWorkspace.hidden !== true) {
+    renderManualMapWorkbenchInto(manualMapPlanHost, { compact: false });
   }
-  if (state.state === 'loading') {
-    const loading = document.createElement('div');
-    loading.className = 'right-rail-atlas-state';
-    loading.textContent = 'Graph workbench обновляется.';
-    manualMapWorkbenchHost.appendChild(loading);
-    return;
-  }
-
-  const metrics = document.createElement('div');
-  metrics.className = 'right-rail-atlas-overview-metrics right-rail-atlas-matrices-metrics';
-  appendAtlasOverviewMetric(metrics, 'maps', state.summary.mapCount);
-  appendAtlasOverviewMetric(metrics, 'nodes', state.summary.nodeCount);
-  appendAtlasOverviewMetric(metrics, 'edges', state.summary.edgeCount);
-  appendAtlasOverviewMetric(metrics, 'groups', state.summary.groupCount);
-  manualMapWorkbenchHost.appendChild(metrics);
-
-  const nodes = state.graph.nodes;
-  const edges = state.graph.edges;
-  const groups = state.graph.groups;
-  const actionBar = document.createElement('div');
-  actionBar.className = 'right-rail-atlas-action-bar';
-  const mapId = state.mapId || makeStableUiId('manual-map');
-  actionBar.appendChild(makeAtlasCommandButton('Create map', 'manualMap.create', {
-    mapId: makeStableUiId('manual-map'),
-    title: currentDocumentTitle || 'Manual map',
-  }, { disabled: !currentProjectId, reason: currentProjectId ? '' : 'Project is not open' }));
-  actionBar.appendChild(makeAtlasCommandButton('Add node', 'manualMap.node.add', {
-    mapId,
-    nodeId: makeStableUiId('manual-node'),
-    label: currentDocumentTitle || 'Node',
-    nodeKind: 'note',
-    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
-  }, { disabled: !state.mapId, reason: state.mapId ? '' : 'Create a map first' }));
-  actionBar.appendChild(makeAtlasCommandButton('Scene node', 'manualMap.node.add', {
-    mapId,
-    nodeId: makeStableUiId('manual-scene-node'),
-    label: currentDocumentTitle || 'Scene',
-    nodeKind: 'scene',
-    targetKind: 'scene',
-    targetId: currentDocumentId || '',
-    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
-  }, { disabled: !state.mapId || !currentDocumentId, reason: currentDocumentId ? '' : 'No scene selected' }));
-  actionBar.appendChild(makeAtlasCommandButton('Entity node', 'manualMap.node.add', {
-    mapId,
-    nodeId: makeStableUiId('manual-entity-node'),
-    label: firstAtlasEntity()?.name || firstAtlasEntity()?.entityId || 'Entity',
-    nodeKind: 'entity',
-    targetKind: 'entity',
-    targetId: firstAtlasEntity()?.entityId || '',
-    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
-  }, { disabled: !state.mapId || !firstAtlasEntity(), reason: firstAtlasEntity() ? '' : 'No Atlas entity available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Add edge', 'manualMap.edge.add', {
-    mapId,
-    edgeId: makeStableUiId('manual-edge'),
-    fromNodeId: nodes[0]?.id || '',
-    toNodeId: nodes[1]?.id || '',
-    edgeKind: 'link',
-    label: 'Link',
-  }, { disabled: nodes.length < 2, reason: nodes.length >= 2 ? '' : 'Needs two nodes' }));
-  actionBar.appendChild(makeAtlasCommandButton('Edit node', 'manualMap.node.update', {
-    mapId,
-    nodeId: nodes[0]?.id || '',
-    label: `${nodes[0]?.label || 'Node'} updated`,
-  }, { disabled: nodes.length < 1, reason: nodes.length ? '' : 'No node available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Delete node', 'manualMap.node.delete', {
-    mapId,
-    nodeId: nodes[0]?.id || '',
-  }, { disabled: nodes.length < 1, reason: nodes.length ? '' : 'No node available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Edit edge', 'manualMap.edge.update', {
-    mapId,
-    edgeId: edges[0]?.id || '',
-    label: `${edges[0]?.label || 'Edge'} updated`,
-  }, { disabled: edges.length < 1, reason: edges.length ? '' : 'No edge available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Delete edge', 'manualMap.edge.delete', {
-    mapId,
-    edgeId: edges[0]?.id || '',
-  }, { disabled: edges.length < 1, reason: edges.length ? '' : 'No edge available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Create group', 'manualMap.group.create', {
-    mapId,
-    groupId: makeStableUiId('manual-group'),
-    label: 'Group',
-    colorTag: 'neutral',
-    nodeIds: nodes.slice(0, 3).map((node) => node.id),
-  }, { disabled: nodes.length < 2, reason: nodes.length >= 2 ? '' : 'Needs two nodes' }));
-  actionBar.appendChild(makeAtlasCommandButton('Edit group', 'manualMap.group.update', {
-    mapId,
-    groupId: groups[0]?.id || '',
-    label: `${groups[0]?.label || 'Group'} updated`,
-    colorTag: groups[0]?.colorTag || 'neutral',
-    nodeIds: groups[0]?.nodeIds || nodes.slice(0, 3).map((node) => node.id),
-  }, { disabled: groups.length < 1, reason: groups.length ? '' : 'No group available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Delete group', 'manualMap.group.delete', {
-    mapId,
-    groupId: groups[0]?.id || '',
-  }, { disabled: groups.length < 1, reason: groups.length ? '' : 'No group available' }));
-  manualMapWorkbenchHost.appendChild(actionBar);
-
-  const listSection = appendAtlasOverviewSection(manualMapWorkbenchHost, 'Keyboard list fallback', { open: true });
-  const list = document.createElement('div');
-  list.className = 'right-rail-atlas-matrix-list right-rail-manual-map-list';
-  list.setAttribute('role', 'listbox');
-  list.setAttribute('aria-label', 'Manual map graph list');
-  for (const row of state.listParity.rows.slice(0, 16)) {
-    const item = document.createElement('button');
-    item.type = 'button';
-    item.className = 'right-rail-atlas-matrix-list-row right-rail-manual-map-row';
-    item.dataset.rowKind = row.rowKind || '';
-    item.setAttribute('role', 'option');
-    item.setAttribute('aria-selected', row.selected ? 'true' : 'false');
-    const main = document.createElement('span');
-    main.className = 'right-rail-atlas-matrix-list-row__main';
-    main.textContent = row.label || row.itemId || 'row';
-    const meta = document.createElement('span');
-    meta.className = 'right-rail-atlas-matrix-list-row__meta';
-    meta.textContent = row.rowKind === 'edge'
-      ? `${row.endpoints?.from || ''} -> ${row.endpoints?.to || ''}`
-      : row.rowKind === 'group'
-        ? `${Array.isArray(row.nodeIds) ? row.nodeIds.length : 0} nodes`
-        : `${row.kind || 'node'} ${row.target?.kind || ''}`.trim();
-    item.append(main, meta);
-    list.appendChild(item);
-  }
-  if (state.listParity.rows.length < 1) {
-    appendAtlasReportsRow(list, 'No graph rows yet', 'Create a manual map node to populate the fallback.');
-  }
-  listSection.appendChild(list);
 }
 
-async function refreshManualMapWorkbench() {
-  if (currentRightTab !== 'atlas') return;
+function getManualMapEventGraph() {
+  return buildManualMapWorkbenchRuntimeModel(normalizeManualMapWorkbench(manualMapWorkbenchState)).presentationGraph;
+}
+
+function applyManualMapSelectionForRow(rowElement) {
+  if (!(rowElement instanceof HTMLElement)) return;
+  const runtime = buildManualMapWorkbenchRuntimeModel(normalizeManualMapWorkbench(manualMapWorkbenchState));
+  const rowId = manualMapText(rowElement.dataset.manualMapRowId);
+  const row = runtime.listParity.rows.find((item) => item.rowId === rowId);
+  if (!row?.selectionIntent) return;
+  manualMapTransientViewState = reduceManualMapViewIntent(
+    manualMapTransientViewState,
+    row.selectionIntent,
+    runtime.presentationGraph,
+  );
+  manualMapListState = {
+    ...manualMapListState,
+    activeRowId: rowId,
+  };
+  renderManualMapWorkbenchState();
+}
+
+function handleManualMapWorkbenchClick(event) {
+  const target = event.target instanceof Element ? event.target : null;
+  if (!target) return;
+  const host = target.closest('[data-manual-map-plan-host], [data-manual-map-workbench-host]');
+  if (!(host instanceof HTMLElement)) return;
+  const nodeElement = target.closest('[data-manual-map-node-id]');
+  if (nodeElement instanceof Element) {
+    const nodeId = manualMapText(nodeElement.getAttribute('data-manual-map-node-id'));
+    setManualMapViewIntent({
+      type: MANUAL_MAP_VIEW_INTENT.SELECT_NODE,
+      payload: { nodeId, additive: event.shiftKey === true },
+    }, getManualMapEventGraph());
+    return;
+  }
+  const edgeElement = target.closest('[data-manual-map-edge-id]');
+  if (edgeElement instanceof Element) {
+    const edgeId = manualMapText(edgeElement.getAttribute('data-manual-map-edge-id'));
+    setManualMapViewIntent({
+      type: MANUAL_MAP_VIEW_INTENT.SELECT_EDGE,
+      payload: { edgeId, additive: event.shiftKey === true },
+    }, getManualMapEventGraph());
+    return;
+  }
+  const rowElement = target.closest('[data-manual-map-row-id]');
+  if (rowElement instanceof HTMLElement) {
+    applyManualMapSelectionForRow(rowElement);
+  }
+}
+
+function handleManualMapWorkbenchDoubleClick(event) {
+  const target = event.target instanceof Element ? event.target : null;
+  const nodeElement = target?.closest('[data-manual-map-node-id]');
+  if (!(nodeElement instanceof Element)) return;
+  const nodeId = manualMapText(nodeElement.getAttribute('data-manual-map-node-id'));
+  if (!nodeId) return;
+  if (manualMapPinnedNodeIds.has(nodeId)) {
+    manualMapPinnedNodeIds.delete(nodeId);
+  } else {
+    manualMapPinnedNodeIds.add(nodeId);
+  }
+  renderManualMapWorkbenchState();
+}
+
+function handleManualMapWorkbenchKeydown(event) {
+  const target = event.target instanceof Element ? event.target : null;
+  if (!target?.closest('[data-manual-map-plan-host], [data-manual-map-workbench-host]')) return;
+  const graph = getManualMapEventGraph();
+  const rowScope = target.closest('[role="listbox"], [data-manual-map-row-id]');
+  if (rowScope) {
+    const result = reduceManualMapListKeyboardIntent({
+      graph,
+      viewState: manualMapTransientViewState,
+      listState: manualMapListState,
+      key: event.key,
+      additive: event.shiftKey === true,
+    });
+    if (result.action !== 'noop') {
+      event.preventDefault();
+      manualMapTransientViewState = result.viewState || manualMapTransientViewState;
+      manualMapListState = result.listState || manualMapListState;
+      renderManualMapWorkbenchState();
+    }
+    return;
+  }
+  const panByKey = {
+    ArrowLeft: { dx: -64, dy: 0 },
+    ArrowRight: { dx: 64, dy: 0 },
+    ArrowUp: { dx: 0, dy: -64 },
+    ArrowDown: { dx: 0, dy: 64 },
+  };
+  if (panByKey[event.key]) {
+    event.preventDefault();
+    setManualMapViewIntent({
+      type: MANUAL_MAP_VIEW_INTENT.PAN,
+      payload: panByKey[event.key],
+    }, graph);
+  }
+}
+
+function handleManualMapWorkbenchWheel(event) {
+  const target = event.target instanceof Element ? event.target : null;
+  if (!target?.closest('[data-manual-map-canvas="true"]')) return;
+  event.preventDefault();
+  const graph = getManualMapEventGraph();
+  const factor = event.deltaY > 0 ? 0.92 : 1.08;
+  setManualMapViewIntent({
+    type: MANUAL_MAP_VIEW_INTENT.ZOOM,
+    payload: { factor },
+  }, graph);
+}
+
+function handleManualMapWorkbenchPointerDown(event) {
+  const target = event.target instanceof Element ? event.target : null;
+  const nodeElement = target?.closest('[data-manual-map-node-id]');
+  if (!(nodeElement instanceof Element)) return;
+  const nodeId = manualMapText(nodeElement.getAttribute('data-manual-map-node-id'));
+  const graph = getManualMapEventGraph();
+  const node = getManualMapNodeById(graph, nodeId);
+  if (!node) return;
+  const position = manualMapNodePosition(node);
+  manualMapDragState = {
+    nodeId,
+    startClientX: event.clientX,
+    startClientY: event.clientY,
+    startX: position.x,
+    startY: position.y,
+    zoom: manualMapNumber(manualMapTransientViewState.viewport?.zoom, 1) || 1,
+  };
+  setManualMapViewIntent({
+    type: MANUAL_MAP_VIEW_INTENT.SELECT_NODE,
+    payload: { nodeId, additive: event.shiftKey === true },
+  }, graph);
+}
+
+function handleManualMapWorkbenchPointerUp(event) {
+  if (!manualMapDragState) return;
+  const drag = manualMapDragState;
+  manualMapDragState = null;
+  const dx = (event.clientX - drag.startClientX) / drag.zoom;
+  const dy = (event.clientY - drag.startClientY) / drag.zoom;
+  if (Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
+  const state = normalizeManualMapWorkbench(manualMapWorkbenchState);
+  if (!state.mapId || manualMapLayoutMode === MANUAL_MAP_LAYOUT_MODES.HIERARCHY) return;
+  void runManualMapWorkbenchCommand('manualMap.node.update', {
+    mapId: state.mapId,
+    nodeId: drag.nodeId,
+    position: {
+      x: Math.round(drag.startX + dx),
+      y: Math.round(drag.startY + dy),
+    },
+  });
+}
+
+async function refreshManualMapWorkbench(options = {}) {
+  const workspaceVisible = manualMapPlanWorkspace instanceof HTMLElement && manualMapPlanWorkspace.hidden !== true;
+  if (currentRightTab !== 'atlas' && workspaceVisible !== true && options.force !== true) return;
   manualMapWorkbenchState = {
     ...manualMapWorkbenchState,
     state: currentProjectId ? 'loading' : 'empty',
@@ -14654,6 +15417,11 @@ function applyMode(mode) {
   syncLayoutPreviewVisibility();
   updateInspectorSnapshot();
   syncToolbarShellState();
+  if (mode === 'plan') {
+    showManualMapPlanWorkspace();
+  } else if (manualMapPlanWorkspace instanceof HTMLElement && manualMapPlanWorkspace.hidden !== true) {
+    showEditorPanelFor(currentDocumentTitle || 'Yalken');
+  }
 }
 
 function resolveSafeResetFontFamily() {
@@ -17666,6 +18434,12 @@ initializeLeftToolbarSpacingMenu();
 initializeLeftToolbarButtonOffsetTuning();
 initializeLeftToolbarActionButtons();
 initializeLeftFloatingToolbarDragFoundation();
+document.addEventListener('click', handleManualMapWorkbenchClick);
+document.addEventListener('dblclick', handleManualMapWorkbenchDoubleClick);
+document.addEventListener('keydown', handleManualMapWorkbenchKeydown);
+document.addEventListener('wheel', handleManualMapWorkbenchWheel, { passive: false });
+document.addEventListener('pointerdown', handleManualMapWorkbenchPointerDown);
+document.addEventListener('pointerup', handleManualMapWorkbenchPointerUp);
 
 loadTree();
 syncFlowViewModeButtons();

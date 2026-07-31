@@ -358,7 +358,15 @@
       "scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs",
       "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
       "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js"
+      "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "test/unit/sector-m-close-mutation.test.js",
+      "test/unit/sector-m-close.test.js",
+      "test/unit/sector-u-close.test.js",
+      "test/unit/sector-u-closed-mutation.test.js",
+      "test/unit/sector-u-doctor-tokens.test.js",
+      "test/unit/sector-u-run-artifacts.test.js",
+      "test/unit/sector-u-u2-doctor-tokens.test.js",
+      "test/unit/sector-u-u4-doctor-tokens.test.js"
     ]
   },
   "allowPrefixByPhase": {

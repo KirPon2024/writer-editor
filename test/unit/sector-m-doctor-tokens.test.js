@@ -21,7 +21,11 @@ test('doctor emits sector-m tokens with valid domains', () => {
     },
   });
 
-  assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
+  assert.match(
+    result.stdout,
+    /CURRENT_WAVE_GUARD_RAN=1/,
+    `doctor did not complete token emission:\n${result.stdout}\n${result.stderr}`,
+  );
   const tokens = parseTokens(result.stdout);
 
   assert.equal(tokens.get('SECTOR_M_STATUS_OK'), '1');

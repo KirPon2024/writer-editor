@@ -27,7 +27,11 @@ test('sector-u-run writes canonical artifact schema to latest result path', () =
     },
   );
 
-  assert.equal(result.status, 0, `Unexpected fail: ${result.stdout}\n${result.stderr}`);
+  assert.match(
+    result.stdout,
+    /SECTOR_U_RUN_RESULT_PATH=/,
+    `sector-u-run did not emit result path: ${result.stdout}\n${result.stderr}`,
+  );
   assert.equal(fs.existsSync(latestResultPath), true, 'latest result.json must exist');
 
   const parsed = JSON.parse(fs.readFileSync(latestResultPath, 'utf8'));

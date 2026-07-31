@@ -26,6 +26,7 @@ const REQUIRED_EVIDENCE = [
   'E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION',
   'E12_CUSTOM_XML_AUTHORITY_REROUTE',
   'E12_MULTI_SCENE_APPLY_LIMITATION',
+  'E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER',
 ];
 
 function readJson(filePath) {
@@ -108,6 +109,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_SATURATION_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED',
     'WORD_SATURATION_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED',
     'WORD_SATURATION_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED',
+    'WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED',
   ]);
   if (!allowedReceiptStatuses.has(receipt.status)) {
     add('RTK_V4_E12_STATUS_INVALID', 'status', 'E12 must bind wave 300 complete while staying not-saturated until all wave criteria are proven.');
@@ -156,6 +158,9 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
       : null;
     const e12MultiSceneFollowup = getById(bindings, 'E12_MULTI_SCENE_APPLY_LIMITATION')
       ? verifyEvidenceBinding(getById(bindings, 'E12_MULTI_SCENE_APPLY_LIMITATION'), issues, { requireFiles: true })
+      : null;
+    const e12ModernNativeUiFollowup = getById(bindings, 'E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER')
+      ? verifyEvidenceBinding(getById(bindings, 'E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER'), issues, { requireFiles: true })
       : null;
     if (e06?.physicalTextTotals?.physicalRoundTrips !== 32 || e06?.vetoMetrics?.falseExact !== 0) {
       add('RTK_V4_E12_E06_TOTALS_INVALID', 'evidenceBindings.E06_PHYSICAL_TEXT', 'E06 must bind 32 physical text round trips with zero false exact.');
@@ -267,6 +272,21 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
         add('RTK_V4_E12_MULTI_SCENE_FOLLOWUP_INVALID', 'evidenceBindings.E12_MULTI_SCENE_APPLY_LIMITATION', 'E12 must bind multi-scene apply as a shadow-only typed limitation without runtime writer authority.');
       }
     }
+    if (e12ModernNativeUiFollowup) {
+      if (e12ModernNativeUiFollowup.status !== 'MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_MACOS_ACCESSIBILITY_NOT_SATURATED'
+        || e12ModernNativeUiFollowup.result !== 'BLOCKED'
+        || e12ModernNativeUiFollowup.systemEvents?.uiElementsEnabled !== false
+        || e12ModernNativeUiFollowup.certificationDecision?.modernReplyCertified !== false
+        || e12ModernNativeUiFollowup.certificationDecision?.resolveReopenCertified !== false
+        || e12ModernNativeUiFollowup.certificationDecision?.deleteCertified !== false
+        || e12ModernNativeUiFollowup.certificationDecision?.nativeUiPhysicalActionsPerformed !== false
+        || e12ModernNativeUiFollowup.certificationDecision?.externalPermissionRequired !== true
+        || !e12ModernNativeUiFollowup.remainingWordLimitations?.includes('MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION')
+        || e12ModernNativeUiFollowup.vetoMetrics?.falseModernCommentSupportClaim !== 0
+        || e12ModernNativeUiFollowup.saturated !== false) {
+        add('RTK_V4_E12_MODERN_NATIVE_UI_FOLLOWUP_INVALID', 'evidenceBindings.E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER', 'E12 must bind native UI certification as blocked by external macOS Accessibility without a support PASS.');
+      }
+    }
   }
 
   const coverage = receipt.coverageLedger || {};
@@ -293,6 +313,10 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
   if (receipt.status === 'WORD_SATURATION_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED'
     && coverage.multiSceneApplyFollowup?.status !== 'BOUND') {
     add('RTK_V4_E12_MULTI_SCENE_FOLLOWUP_COVERAGE_MISSING', 'coverageLedger.multiSceneApplyFollowup', 'multi-scene apply limitation coverage must be bound.');
+  }
+  if (receipt.status === 'WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED'
+    && coverage.modernCommentNativeUiFollowup?.status !== 'BOUND') {
+    add('RTK_V4_E12_MODERN_NATIVE_UI_FOLLOWUP_COVERAGE_MISSING', 'coverageLedger.modernCommentNativeUiFollowup', 'modern comment native UI blocker coverage must be bound.');
   }
 
   const veto = receipt.vetoMetrics || {};
@@ -328,6 +352,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED',
     'CUSTOM_XML_AUTHORITY_REROUTED_TO_CUSTOM_DOCUMENT_PROPERTY_NOT_SATURATED',
     'MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED',
+    'MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_ACCESSIBILITY_NOT_SATURATED',
   ]);
   if (!cell || cell.state !== 'PHYSICAL_WORD_PROVEN' || !allowedProfileCapabilities.has(cell.currentCapability) || cell.physicalWordEvidence !== true) {
     add('RTK_V4_E12_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability profile must bind E12 wave 300 as physical evidence proven but not saturated.');
@@ -340,6 +365,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_16_111_2_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED',
     'WORD_16_111_2_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED',
     'WORD_16_111_2_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_NOT_SATURATED',
+    'WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED',
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_PROFILE_STATUS_INVALID', 'profile.status', 'Profile status must reflect E12 wave 300 complete not-saturated ledger.');
@@ -354,6 +380,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_E12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_NOT_SATURATED',
     'WORD_E12_CUSTOM_XML_AUTHORITY_REROUTED_NOT_SATURATED',
     'WORD_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED',
+    'WORD_E12_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED',
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must reflect E12 physical wave 300 completion.');
@@ -366,6 +393,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'EXECUTION_12_MODERN_COMMENT_APPLESCRIPT_LIMITATION_CONFIRMED_CONTINUE_CUSTOM_XML_AUTHORITY',
     'EXECUTION_12_CUSTOM_XML_AUTHORITY_REROUTED_CONTINUE_MULTI_SCENE_APPLY_CERTIFICATION',
     'EXECUTION_12_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_CONTINUE_MODERN_COMMENT_NATIVE_UI',
+    'EXECUTION_12_MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_ACCESSIBILITY_WAITING',
   ]);
   if (!allowedStateStatuses.has(state.status)) {
     add('RTK_V4_E12_PROGRAM_STATE_INVALID', 'program.v4ExecutionState.status', 'Program state must keep E12 active and advance to the Word stability limitation audit.');

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_E12_MULTI_SCENE_APPLY_TYPED_LIMITATION_NOT_SATURATED",
+  "status": "WORD_16_111_2_E12_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,7 +388,7 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED",
+      "currentCapability": "MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_ACCESSIBILITY_NOT_SATURATED",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_12 Word limitation followup before Google Docs sequencing",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
@@ -426,7 +426,10 @@
         "customDocumentPropertyMutatingSurvivalCases": 4,
         "multiSceneApplyFollowupCases": 1,
         "automaticMultiSceneApplyCertified": 0,
-        "falseMultiSceneApplyCertification": 0
+        "falseMultiSceneApplyCertification": 0,
+        "modernCommentNativeUiProbeCases": 1,
+        "modernCommentNativeUiActionsPerformed": 0,
+        "falseModernCommentSupportClaim": 0
       },
       "saturationRule": {
         "requiredWaveSequence": [
@@ -458,7 +461,8 @@
         "false Word SATURATED claim is blocked until wave criteria are satisfied",
         "Google Docs and other editor profiles remain closed until Word saturation is proven",
         "customXml mutating-save loss is no longer an active saturation blocker because authority is explicitly rerouted to the C01/C02 customDocumentProperty carrier path",
-        "multi-scene apply is explicitly kept shadow-only until a later writer-authority contour proves runtime apply with single-root-pointer crash safety"
+        "multi-scene apply is explicitly kept shadow-only until a later writer-authority contour proves runtime apply with single-root-pointer crash safety",
+        "native modern comment UI certification is blocked by disabled macOS System Events UI scripting without claiming support"
       ],
       "limitations": [
         "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
@@ -466,7 +470,8 @@
         "WORD_APPLESCRIPT_PARENT_COMMENT_DOES_NOT_PERSIST_AS_MODERN_REPLY_GRAPH",
         "WORD_APPLESCRIPT_DONE_PROPERTY_DOES_NOT_PERSIST_RESOLVE_REOPEN_STATE",
         "WORD_APPLESCRIPT_DELETE_COMMENT_OBJECT_DID_NOT_REMOVE_RETURNED_COMMENT_BODY",
-        "MULTI_SCENE_APPLY_REMAINS_SHADOW_ONLY_TYPED_LIMITATION"
+        "MULTI_SCENE_APPLY_REMAINS_SHADOW_ONLY_TYPED_LIMITATION",
+        "MODERN_COMMENT_NATIVE_UI_REQUIRES_MACOS_ACCESSIBILITY_GRANT"
       ],
       "killCriterion": "Word SATURATED is claimed before waves 40 100 300 and two stable approved waves, any veto becomes nonzero, or Google Docs opens before Word saturation",
       "wave100EvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
@@ -476,7 +481,8 @@
       "parserGapFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
       "modernCommentFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
       "customXmlAuthorityFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_CUSTOMXML_AUTHORITY_FOLLOWUP_RECEIPT.json",
-      "multiSceneApplyFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json"
+      "multiSceneApplyFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MULTI_SCENE_APPLY_FOLLOWUP_RECEIPT.json",
+      "modernCommentNativeUiFollowupReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json"
     }
   ]
 }

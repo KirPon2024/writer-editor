@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_MULTI_SCENE_APPLY_TYPED_LIMITATION_CONFIRMED_NOT_SATURATED",
+  "status": "WORD_SATURATION_MODERN_COMMENT_NATIVE_UI_BLOCKED_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -140,6 +140,13 @@
       "sha256": "756088df415249ed87a037f53fb6dc0b4044a5ee97ff1245a1dcf97f37db4362",
       "status": "BOUND",
       "description": "multi-scene apply remains a typed shadow-only limitation until a later writer-authority contour proves runtime apply without false exact or partial canonical writes"
+    },
+    {
+      "id": "E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+      "sha256": "11ede02ea6368b7690aa3c465d1c63ece6506e0d5e02686593d9adda93373777",
+      "status": "BOUND",
+      "description": "native modern comment UI certification is blocked by disabled macOS System Events UI scripting; no reply resolve reopen delete PASS is claimed"
     }
   ],
   "coverageLedger": {
@@ -222,6 +229,11 @@
       "status": "BOUND",
       "sourceEvidence": "E12_MULTI_SCENE_APPLY_LIMITATION",
       "outcome": "MULTI_SCENE_APPLY_REMAINS_SHADOW_ONLY_TYPED_LIMITATION_WITH_ZERO_VETO"
+    },
+    "modernCommentNativeUiFollowup": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_MODERN_COMMENT_NATIVE_UI_ACCESSIBILITY_BLOCKER",
+      "outcome": "BLOCKED_EXTERNAL_MACOS_ACCESSIBILITY_NO_FALSE_SUPPORT_CLAIM"
     }
   },
   "aggregateTotals": {
@@ -263,7 +275,11 @@
     "customXmlMutatingAuthorityAllowed": 0,
     "multiSceneApplyFollowupCases": 1,
     "automaticMultiSceneApplyCertified": 0,
-    "falseMultiSceneApplyCertification": 0
+    "falseMultiSceneApplyCertification": 0,
+    "modernCommentNativeUiProbeCases": 1,
+    "modernCommentNativeUiActionsPerformed": 0,
+    "modernCommentNativeUiExternalAccessBlocked": 1,
+    "falseModernCommentSupportClaim": 0
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -317,6 +333,7 @@
     "parserGapFollowupVerifier": "PASS node scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs --json --require-files",
     "modernCommentFollowup": "PASS node scripts/ops/rtk-word-v4-e12-modern-comment-followup.mjs --run-physical --write-receipt --json commentsAfterReopen=5 replyThreadsCertified=0 resolveReopenCertified=0 deleteCertified=0 limitationConfirmed=1",
     "customXmlAuthorityFollowup": "PASS node scripts/ops/rtk-word-v4-e12-customxml-authority-followup.mjs --json --require-files customXmlAuthorityAllowed=0 selectedCarrier=customDocumentProperty falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
-    "multiSceneApplyFollowup": "PASS node scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs --json --require-files automaticMultiSceneApplyCertified=0 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0"
+    "multiSceneApplyFollowup": "PASS node scripts/ops/rtk-word-v4-e12-multi-scene-apply-followup.mjs --json --require-files automaticMultiSceneApplyCertified=0 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
+    "modernCommentNativeUiFollowup": "PASS node scripts/ops/rtk-word-v4-e12-modern-comment-native-ui-followup.mjs --json --require-files result=BLOCKED uiElementsEnabled=0 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0"
   }
 }

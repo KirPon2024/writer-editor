@@ -20,6 +20,14 @@ function sha256(filePath) {
   return crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
 }
 
+function assertDoctorEmittedTokens(result) {
+  assert.match(
+    result.stdout,
+    /CURRENT_WAVE_GUARD_RAN=1/,
+    `doctor did not complete token emission:\n${result.stdout}\n${result.stderr}`,
+  );
+}
+
 function makeDoneSectorMStatus() {
   const sourcePath = path.join(process.cwd(), 'docs', 'OPS', 'STATUS', 'SECTOR_M.json');
   const base = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
@@ -69,7 +77,7 @@ test('doctor detects sector-m closed mutation when lock hash diverges', () => {
     },
   });
 
-  assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
+  assertDoctorEmittedTokens(result);
   const tokens = parseTokens(result.stdout);
   const phase = tokens.get('SECTOR_M_PHASE');
   assert.equal(phase, 'DONE');

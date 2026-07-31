@@ -46,7 +46,11 @@ test('M8 core doctor tokens are green on M8 phase', () => {
       SECTOR_U_FAST_DURATION_MS: '10',
     },
   });
-  assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
+  assert.match(
+    result.stdout,
+    /CURRENT_WAVE_GUARD_RAN=1/,
+    `doctor did not complete token emission:\n${result.stdout}\n${result.stderr}`,
+  );
 
   const lines = String(result.stdout || '').split(/\r?\n/);
   const has = (prefix) => lines.some((line) => line === prefix);

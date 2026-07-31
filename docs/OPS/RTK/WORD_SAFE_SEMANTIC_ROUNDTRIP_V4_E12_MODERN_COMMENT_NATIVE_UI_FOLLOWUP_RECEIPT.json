@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-modern-comment-native-ui-followup-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP",
+  "stageId": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
+  "status": "MODERN_COMMENT_NATIVE_UI_BLOCKED_EXTERNAL_MACOS_ACCESSIBILITY_NOT_SATURATED",
+  "result": "BLOCKED",
+  "createdAtUtc": "2026-07-31T13:01:00.000Z",
+  "base": {
+    "originMainSha": "66d51430725257e7501ab58a2f761fac5a908b6e",
+    "branch": "codex/rtk-v4-e12-modern-comment-native-ui",
+    "priorMergedStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION"
+  },
+  "boundEvidence": {
+    "priorAppleScriptObjectModelProbe": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_FOLLOWUP_RECEIPT.json",
+      "sha256": "a9e284e18629c7ea4cf87d69113fe11028330ba4b073df92facc0898fde98268",
+      "status": "BOUND"
+    }
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "versionByAppleScript": "16.111.2",
+    "openDocumentsBeforeLab": 0
+  },
+  "systemEvents": {
+    "uiElementsEnabled": false,
+    "rawValue": "false",
+    "nativeUiAutomationAllowed": false,
+    "userDocumentsTouched": false
+  },
+  "dictionaryProbe": {
+    "command": "sdef Microsoft Word.app",
+    "exitCode": 1,
+    "stderrDigest": "sha256:f82defd7d44d2909d202abec32356016a605a59794bf85d1d2b6266afde649c9",
+    "blockedByCommandLineToolsOnly": true
+  },
+  "certificationDecision": {
+    "result": "BLOCKED_EXTERNAL_MACOS_ACCESSIBILITY",
+    "modernReplyCertified": false,
+    "resolveReopenCertified": false,
+    "deleteCertified": false,
+    "nativeUiPhysicalActionsPerformed": false,
+    "externalPermissionRequired": true,
+    "reason": "Word 16.111.2 is available with zero open documents, but System Events UI scripting is disabled for this agent, so native modern comment UI actions cannot be physically performed without an external macOS Accessibility grant."
+  },
+  "remainingWordLimitations": [
+    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION"
+  ],
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "writerAuthorityAdded": false,
+    "automaticApplyExpanded": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "falseModernCommentSupportClaim": 0
+  },
+  "saturated": false,
+  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
+  "nonClaims": [
+    "modern replies are not certified",
+    "resolve reopen delete are not certified",
+    "no native UI physical PASS is claimed",
+    "Word SATURATED is not claimed",
+    "Google Docs remains closed"
+  ]
+}

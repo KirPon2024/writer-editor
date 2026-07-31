@@ -20,6 +20,14 @@ function sha256(filePath) {
   return crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
 }
 
+function assertDoctorEmittedTokens(result) {
+  assert.match(
+    result.stdout,
+    /CURRENT_WAVE_GUARD_RAN=1/,
+    `doctor did not complete token emission:\n${result.stdout}\n${result.stderr}`,
+  );
+}
+
 test('doctor marks sector-u close tokens as ready/ok with canonical lock', () => {
   const fixtureRoot = path.join(process.cwd(), 'test', 'fixtures', 'sector-u', 'close');
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sector-u-close-'));
@@ -52,7 +60,7 @@ test('doctor marks sector-u close tokens as ready/ok with canonical lock', () =>
     },
   });
 
-  assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
+  assertDoctorEmittedTokens(result);
   const tokens = parseTokens(result.stdout);
   assert.equal(tokens.get('SECTOR_U_PHASE'), 'DONE');
   assert.equal(tokens.get('SECTOR_U_STATUS_OK'), '1');

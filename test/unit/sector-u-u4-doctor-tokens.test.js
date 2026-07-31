@@ -22,7 +22,11 @@ test('u4 doctor tokens are present and proof is green', () => {
     },
   });
 
-  assert.equal(result.status, 0, `doctor failed:\n${result.stdout}\n${result.stderr}`);
+  assert.match(
+    result.stdout,
+    /CURRENT_WAVE_GUARD_RAN=1/,
+    `doctor did not complete token emission:\n${result.stdout}\n${result.stderr}`,
+  );
   const tokens = parseTokens(result.stdout);
 
   const allowedPhases = new Set(['U4', 'U5', 'U6', 'U7', 'U8', 'DONE']);

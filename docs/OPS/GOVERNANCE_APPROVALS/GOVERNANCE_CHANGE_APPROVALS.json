@@ -171,10 +171,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "b71123c5c161a2bbaba8b8ed2486ac5e6a1992eb4b63018244bf803f681232fe",
-      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
-      "rationale": "Approve bounded post-D1 portability program: creates versioned matrix, profile vocabulary, queue A00 through A08, writer formatting and scale requirements, locator-survival research queue, explicit nonclaims, and latest Word candidate boundary while preserving D1 history and making no Word 16.111.2, Word Online, Google Docs, LibreOffice, ONLYOFFICE, Pages, WPS, automatic apply, fuzzy matching, UI, runtime, network, dependency, project truth, or manuscript support claim."
+      "sha256": "d4a7213ce4e9e2711c92ad91a4e6d57b644c429d29f24d15a99711c83e21bb44",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve post-D1 RTK program state update: binds V4 canonical integration paths and digest after C05 merge, records current focus as Word saturation before Google Docs, and preserves V6 history, D1 evidence, old Word profile, and future external-editor queue without claiming physical Word saturation."
     },
     {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "a9cdcddfef849e5992879747f8e8e7cc01b8792bfa935831d90812a3a3472385",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded C05 Sector-M cumulative scope-map hygiene update: adds only the exact writer, locally bound block-range authority helper, C05 contract, and C05 receipt to existing RTK DONE allowlists; preserves exact scope enforcement, no wildcard prefix, no UI, no runtime dependency, no network, no renderer authority, no parser authority, no HMAC/YRTK2 claim, and no full Word saturation claim."
+      "sha256": "5e7bc01a3c1cbb3cfa8e6e3701093484fb8f798f6c3c823451268e3085c730fe",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve bounded V4 Sector-M scope-map update: adds exact V4 canonical integration artifacts, binding status, feature manifest, capability profile, receipt, CANON_STATUS, post-D1 program state, and contract test to existing RTK DONE allowlist; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, no parser or renderer authority, and no Google execution."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -2523,10 +2523,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
-      "sha256": "940cf8723fca98898debba1351d0932edc3c1289faadd8c8eef18db4a5fd1b79",
-      "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
-      "approvedAtUtc": "2026-02-18T12:05:00.000Z",
-      "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+      "sha256": "a710f82905bde0a4e4599b9ffdeae731da3f26806eccb3f4c1c08350a4820f96",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve narrow canon resolver extension: preserves ACTIVE_CANON v3.13a and canonicalDocPath while adding one activeFeatureExtensions entry for the V4 post-D1 Word semantic roundtrip extension; global canon is not replaced and no runtime, UI, network, dependency, or Google execution authority is introduced."
     },
     {
       "filePath": "docs/OPS/STATUS/CHECK_DEDUP_CANON_v3.json",
@@ -5537,6 +5537,48 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+      "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve byte-exact canonical V4 spec artifact copied from the owner-supplied YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4 block with digest b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4; this activates only the post-D1 Word semantic roundtrip extension through separate binding status and does not rewrite V6, D1, C03, C04, C05, global canon, UI, runtime, dependencies, network, or Google Docs execution."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
+      "sha256": "3c54d847fb41af0b0eb7f43dfb8a3a8b1a9739e16357d94e08880de0f8e81746",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve V4 canonical binding status: binds the exact V4 spec digest as an active post-D1 Word extension after C05 merge, preserves global v3.13a canon, V6 history, D1 evidence, and C03-C05 receipts, records Google Docs as not opened before Word saturation, and adds no runtime, UI, network, dependency, or physical Word saturation claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/FEATURE_INTEGRATION_MANIFEST_RTK_WORD_V4_V1.json",
+      "sha256": "295a31365de75b29e3a85b8cb0cdfa8a260bc61f262494d7524af0e6968487e9",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve RTK FEATURE_INTEGRATION_MANIFEST_V1 for V4: maps product and Design OS ports to existing seams, keeps Command Kernel authority for manuscript and review-session mutations, declares no UI surface, no slot requirement, no runtime registry, no parser or renderer write authority, no network dependency, and no Google execution before Word saturation."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "b168e223c9f969c6f15037e32b2f9a72d6c946ba0ad3f26f7f0b3451135b3f07",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve V4 capability profile: declares status vector, taint model, versioned reason registry, and capability cells with C05 component-proven exact text as the only immediate consumer, while physical Word proof remains pending, fixture-only PASS is forbidden, user claims wait for PHYSICAL_WORD_PROVEN, and zero false exact, wrong-scene, silent apply, replay, comment-loss, and network vetoes remain enforced."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
+      "sha256": "8e3afdb080a2bdbec9da39a64086c7340e6825f9e15cba44b7f21daae0d0935b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
+      "sha256": "db85dee94158e54a8c22298eb532b474783dd4569658d841e098327621b743c6",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
+      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
+      "rationale": "Approve V4 canonical integration contract: proves exact owner artifact digest, active binding through CANON_STATUS and RTK program state, complete Feature Integration Manifest fields, capability status vector, taint model, reason registry, C05 immediate consumer cell, and negative red cases for digest drift, missing manifest field, premature physical Word claim, premature Google execution, and missing consumer."
     }
   ]
 }

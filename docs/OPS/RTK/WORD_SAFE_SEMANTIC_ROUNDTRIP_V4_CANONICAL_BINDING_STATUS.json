@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.canonical-binding-status.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "status": "ACTIVE_POST_D1_WORD_EXTENSION_AFTER_C05_MERGE",
+  "createdAtUtc": "2026-07-31T04:30:00.000Z",
+  "remoteHeadAtStart": "343e6142c7a59822a5a6cc087c30d779c7f12dcd",
+  "canonicalSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "byteExactCopyOfOwnerAttachment": true,
+    "blockId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4"
+  },
+  "canonResolverBinding": {
+    "canonStatusPath": "docs/OPS/STATUS/CANON_STATUS.json",
+    "bindingField": "activeFeatureExtensions",
+    "globalCanonReplaced": false,
+    "xplatCanonVersionPreserved": "v3.13a-final"
+  },
+  "supersession": {
+    "v4Scope": "post-D1 Word semantic roundtrip extension only",
+    "v6HistoryRewritten": false,
+    "d1EvidenceRewritten": false,
+    "v2v3ResearchHistoryOnly": true,
+    "googleDocsExecutionOpened": false
+  },
+  "executionQueue": [
+    {
+      "order": "EXECUTION_00",
+      "status": "COMPLETE_BY_C05_PR_1275",
+      "mergeSha": "343e6142c7a59822a5a6cc087c30d779c7f12dcd"
+    },
+    {
+      "order": "EXECUTION_01",
+      "status": "IN_THIS_CONTOUR_CANONICAL_INTEGRATION"
+    },
+    {
+      "order": "EXECUTION_02",
+      "status": "NEXT_AFTER_THIS_CONTOUR_DELIVERY"
+    },
+    {
+      "order": "EXECUTION_13",
+      "status": "NOT_OPEN_UNTIL_WORD_SATURATION"
+    }
+  ],
+  "artifacts": {
+    "featureIntegrationManifest": "docs/OPS/RTK/FEATURE_INTEGRATION_MANIFEST_RTK_WORD_V4_V1.json",
+    "capabilityProfile": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+    "integrationReceipt": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json"
+  },
+  "vetoCounters": {
+    "falseExact": 0,
+    "wrongScene": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetworkRequests": 0
+  }
+}

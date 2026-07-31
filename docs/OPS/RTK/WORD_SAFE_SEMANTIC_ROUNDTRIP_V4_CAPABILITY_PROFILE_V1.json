@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
+  "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
+  "status": "DECLARED_WITH_C05_COMPONENT_PROVEN_NOT_PHYSICAL_WORD_PROVEN",
+  "boundSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "blockId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4"
+  },
+  "capabilityStates": [
+    "DECLARED",
+    "COMPONENT_PROVEN",
+    "PHYSICAL_WORD_PROVEN",
+    "SATURATED",
+    "INVALIDATED",
+    "RETIRED"
+  ],
+  "capabilityClaimPolicy": {
+    "userPromiseAllowedFrom": "PHYSICAL_WORD_PROVEN",
+    "fixtureOnlyPassAllowed": false,
+    "falseExactVeto": 0,
+    "wrongSceneVeto": 0,
+    "silentApplyVeto": 0,
+    "replayFailureVeto": 0,
+    "silentCommentLossVeto": 0,
+    "productNetworkRequestsVeto": 0
+  },
+  "statusVector": {
+    "intakeStatus": [
+      "RAW_UNTRUSTED",
+      "PACKAGE_REJECT",
+      "RETURN_QUARANTINED"
+    ],
+    "authorityStatus": [
+      "ROUND_AUTHENTIC",
+      "AUTHORITY_REJECT_READ_ONLY",
+      "AUTHORITY_REJECT_TAMPERED"
+    ],
+    "semanticStatus": [
+      "SEMANTIC_CERTIFIED",
+      "UNKNOWN",
+      "OPAQUE_UNSUPPORTED"
+    ],
+    "mappingStatus": [
+      "UNIQUE_MAPPING",
+      "MANUAL_AMBIGUOUS",
+      "BLOCKED_WRONG_SCENE"
+    ],
+    "conflictStatus": [
+      "NO_CONFLICT",
+      "STALE_BASELINE",
+      "DIVERGENT_ROUND"
+    ],
+    "applyStatus": [
+      "SHADOW_UNAPPLIED",
+      "APPLY_AUTHORIZED",
+      "CANONICAL_COMMITTED",
+      "ALREADY_APPLIED"
+    ],
+    "verificationStatus": [
+      "REVERSE_VERIFY_PASS",
+      "REVERSE_VERIFY_FAIL",
+      "PHYSICAL_WORD_PENDING"
+    ]
+  },
+  "taintModel": {
+    "orderedStates": [
+      "RAW_UNTRUSTED",
+      "PARSED_UNTRUSTED",
+      "ROUND_AUTHENTIC",
+      "SEMANTIC_CERTIFIED",
+      "APPLY_AUTHORIZED",
+      "CANONICAL_COMMITTED"
+    ],
+    "parentAuthorityRule": "derived artifact cannot gain authority stronger than every proven parent",
+    "unknownRule": "UNKNOWN cannot become EMPTY FALSE SAFE or UNSUPPORTED without evidence",
+    "commentShadowRule": "comment parsing and shadow analysis never mutate Review Session without Command Kernel receipt"
+  },
+  "reasonRegistry": {
+    "registryId": "RTK_WORD_V4_REASON_REGISTRY_V1",
+    "version": "v1",
+    "stableCodes": [
+      {
+        "code": "RTK_V4_PACKAGE_REJECT",
+        "outcome": "BLOCKED",
+        "source": "package integrity or container policy failure"
+      },
+      {
+        "code": "RTK_V4_MANUAL_RESOURCE_LIMIT",
+        "outcome": "MANUAL",
+        "source": "analysis or diff budget exhausted without package integrity failure"
+      },
+      {
+        "code": "RTK_V4_AUTHORITY_REJECT_READ_ONLY",
+        "outcome": "BLOCKED",
+        "source": "lost or verify-only key prevents automatic apply while preserving preview"
+      },
+      {
+        "code": "RTK_V4_AUTHORITY_REJECT_TAMPERED",
+        "outcome": "BLOCKED",
+        "source": "locator manifest, HMAC, baseline, or local authority mismatch"
+      },
+      {
+        "code": "RTK_V4_MANUAL_AMBIGUOUS_LOCATOR",
+        "outcome": "MANUAL",
+        "source": "multiple plausible mappings or duplicate footprint"
+      },
+      {
+        "code": "RTK_V4_BLOCKED_WRONG_SCENE",
+        "outcome": "BLOCKED",
+        "source": "scene binding conflict or cross-scene topology"
+      },
+      {
+        "code": "RTK_V4_OPAQUE_UNSUPPORTED",
+        "outcome": "MANUAL",
+        "source": "known unsupported or unknown OOXML semantic element retained as diagnostic"
+      },
+      {
+        "code": "RTK_V4_ALREADY_APPLIED",
+        "outcome": "BLOCKED",
+        "source": "write-once outcome ledger prevents replay mutation"
+      },
+      {
+        "code": "RTK_V4_SHADOW_COMMENT_ONLY",
+        "outcome": "MANUAL",
+        "source": "comment parsed and preserved but not authorized as manuscript apply"
+      },
+      {
+        "code": "RTK_V4_PHYSICAL_WORD_EVIDENCE_PENDING",
+        "outcome": "UNKNOWN",
+        "source": "declared profile cell lacks editor-native physical roundtrip evidence"
+      }
+    ]
+  },
+  "cells": [
+    {
+      "capabilityId": "rtk.word.v4.locallyBoundBlockRangeExactText",
+      "operationFamily": "TextRevision replacement-pair or delete inside trusted block range",
+      "state": "COMPONENT_PROVEN",
+      "currentCapability": "EXACT_AUTOMATIC_COMPONENT_ONLY",
+      "physicalWordEvidence": false,
+      "consumer": "exactTextMinSafeWrite.mjs via reviewTransportBlockExactWriterBindingV2.mjs",
+      "acceptanceTest": "rtk-word-saturation-c05-block-range-writer.contract.test.js",
+      "killCriterion": "any forged, tampered, stale, duplicate, overlap, wrong scene, silent apply, or replay failure case applies"
+    },
+    {
+      "capabilityId": "rtk.word.v4.locatorSurvivalLab",
+      "operationFamily": "Word carrier survival and placement signal selection",
+      "state": "DECLARED",
+      "currentCapability": "UNTESTED",
+      "physicalWordEvidence": false,
+      "consumer": "EXECUTION_02 next contour",
+      "acceptanceTest": "future physical Word survival contract and receipt",
+      "killCriterion": "carrier loss duplication or conflict is claimed as authority"
+    },
+    {
+      "capabilityId": "rtk.word.v4.commentsShadowAnalysis",
+      "operationFamily": "classic and modern comments replies resolve reopen delete",
+      "state": "DECLARED",
+      "currentCapability": "UNTESTED",
+      "physicalWordEvidence": false,
+      "consumer": "EXECUTION_07 later contour",
+      "acceptanceTest": "future physical comments corpus",
+      "killCriterion": "silent comment reply state or anchor loss"
+    }
+  ]
+}

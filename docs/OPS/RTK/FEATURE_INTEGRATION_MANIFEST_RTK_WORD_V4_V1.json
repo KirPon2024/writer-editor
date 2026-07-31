@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "featureId": "yalken.rtk.word.safeSemanticRoundtrip.v4",
+  "featureVersion": "v4.0.0-post-d1",
+  "domainOwner": "Yalken Review Transport Kernel",
+  "integrationMode": "EXISTING_SEAM: BOUND_TO_CURRENT_APPROVED_ENTRYPOINTS",
+  "authoritativeData": [
+    "local Yalken project manuscript store",
+    "Review round immutable evidence stores",
+    "main-owned command outcome ledger",
+    "canonical V4 spec artifact digest"
+  ],
+  "derivedData": [
+    "Review Transport IR v2 projections",
+    "shadow comments analysis",
+    "capability diagnostics",
+    "physical Word evidence capsules"
+  ],
+  "commandIds": [
+    "rtk.exactApply",
+    "future:rtk.reviewSession.importComments",
+    "future:rtk.reviewSession.resolveThread",
+    "future:rtk.reviewSession.reopenThread",
+    "future:rtk.reviewSession.deleteThread"
+  ],
+  "eventTypes": [
+    "rtk.roundPrepared",
+    "rtk.returnAnalyzed",
+    "rtk.previewPrepared",
+    "rtk.applyPrepared",
+    "rtk.applyCommitted",
+    "rtk.applyBlocked"
+  ],
+  "queryIds": [
+    "rtk.capabilityProfile.current",
+    "rtk.reviewDiagnostics.byRound",
+    "rtk.wordProfileEvidence.byBuild"
+  ],
+  "productProjectionIds": [
+    "ReviewTransportIRV2",
+    "ReturnedReviewAnalysisV2",
+    "WordSafeSemanticRoundtripV4CapabilityProfileV1"
+  ],
+  "capabilityIds": [
+    "rtk.word.v4.locallyBoundBlockRangeExactText",
+    "rtk.word.v4.locatorSurvivalLab",
+    "rtk.word.v4.coreManifestYrtk2",
+    "rtk.word.v4.commentsShadowAnalysis",
+    "rtk.word.v4.formattingDiagnostics",
+    "rtk.word.v4.structureDiagnostics"
+  ],
+  "authorityMap": {
+    "manuscriptMutation": "Command Kernel only",
+    "reviewSessionMutation": "Command Kernel only with explicit receipt",
+    "parserAuthority": "analysis only",
+    "rendererAuthority": "intent and immutable projection only",
+    "docxAuthority": "untrusted transport only",
+    "fuzzyAuthority": "none"
+  },
+  "identityKeys": [
+    "exportArtifactId",
+    "returnArtifactId",
+    "semanticReturnId",
+    "effectId",
+    "applyId",
+    "roundId",
+    "sceneId",
+    "blockId"
+  ],
+  "revisionPolicy": "Review IR is immutable derived analysis; project manuscript and scene revisions remain in the project store only.",
+  "writePath": "parser -> ReviewIR -> classifier -> main-owned command envelope -> existing exact safe writer or future typed command",
+  "readPath": "FileAuthorityPort or ArchivePort -> package gate -> parser port -> immutable projections -> diagnostics",
+  "requiredProductPorts": [
+    "ReviewCryptoPort",
+    "ReviewSecretStorePort",
+    "ReviewDocxPackagePort",
+    "ReviewParserPort",
+    "ReviewRoundStorePort",
+    "ReviewEvidenceStorePort",
+    "ProjectPersistencePort",
+    "RecoveryPort"
+  ],
+  "requiredDesignOsPorts": [
+    "CommandCatalogPort",
+    "CommandDispatchPort",
+    "DomainProjectionPort",
+    "DiagnosticsPort",
+    "ShellProjectionPort"
+  ],
+  "adapterRequirements": {
+    "wordLabAdapter": "test-only physical Word for Mac adapter; never product runtime dependency",
+    "parserAdapter": "isolated and budgeted parser port in later contour",
+    "storageAdapter": "existing atomic writer and outcome ledger only until explicit extension"
+  },
+  "surfaceManifests": "NOT_APPLICABLE: this contour adds no UI surface and no toolbar or layout behavior.",
+  "slotRequirements": "NOT_APPLICABLE: no product UI slot is added in canonical integration.",
+  "supportedWorkspaces": [
+    "workspace:REVIEW existing surfaces only when later commands are exposed"
+  ],
+  "platformAvailability": {
+    "currentActiveCertificationTarget": "macOS Word for Mac latest profile after physical proof",
+    "historicalD1Profile": "Word for Mac 16.42 immutable evidence",
+    "googleDocsAndOtherEditors": "future profiles after Word saturation"
+  },
+  "accessibilityRequirements": "NOT_APPLICABLE: no UI mutation in this contour.",
+  "fallbacks": {
+    "noTrustedLocator": "MANUAL or BLOCKED typed outcome",
+    "lostKey": "AUTHORITY_REJECT_READ_ONLY with preview and evidence retained",
+    "resourceLimit": "MANUAL_RESOURCE_LIMIT",
+    "packageIntegrityFailure": "PACKAGE_REJECT",
+    "unsupportedSemanticElement": "typed diagnostic plus non-silent loss report"
+  },
+  "stateClasses": [
+    "RAW_UNTRUSTED",
+    "PARSED_UNTRUSTED",
+    "ROUND_AUTHENTIC",
+    "SEMANTIC_CERTIFIED",
+    "APPLY_AUTHORIZED",
+    "CANONICAL_COMMITTED"
+  ],
+  "persistenceClass": "local-first project and review evidence stores only; no network, cloud, account, or second database.",
+  "migrations": "No existing shipped receipt is rewritten; V4 applies only to post-D1 Word semantic roundtrip after this binding.",
+  "recovery": "Existing checkpoint, journal, atomic write, readback, outcome ledger, and crash reconciliation remain mandatory.",
+  "rollback": "Revert this binding artifacts and disable V4 extension; historical V6, D1, and C03-C05 receipts remain valid evidence.",
+  "performanceBudget": {
+    "typingHotPath": "no parsing, diffing, hashing, Word automation, or evidence generation",
+    "packageGateWallTimeMs": 30000,
+    "packageInputMiB": 50,
+    "xmlDepth": 64,
+    "memoryMiB": 512
+  },
+  "securityBoundary": {
+    "productNetworkRequests": 0,
+    "externalDocxTrust": "always untrusted",
+    "forbiddenPackageContent": [
+      "macros",
+      "OLE",
+      "ActiveX",
+      "DTD",
+      "external entities",
+      "executable embedding",
+      "network fetch"
+    ],
+    "secretEmbedding": "forbidden; HMAC secret remains local in later ReviewSecretStorePort contour"
+  },
+  "lifecycle": [
+    "DECLARED",
+    "COMPONENT_PROVEN",
+    "PHYSICAL_WORD_PROVEN",
+    "SATURATED",
+    "INVALIDATED",
+    "RETIRED"
+  ],
+  "negativeBypassChecks": [
+    "no direct parser write",
+    "no renderer authority",
+    "no fuzzy apply",
+    "no comment mutation without command",
+    "no silent unknown normalization",
+    "no HMAC claim before YRTK2 contour",
+    "no Google Docs execution before Word saturation"
+  ],
+  "evidenceBindings": {
+    "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "canonicalSpecSha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "c05MergeSha": "343e6142c7a59822a5a6cc087c30d779c7f12dcd",
+    "bindingStatusPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
+    "capabilityProfilePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+    "integrationReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json"
+  },
+  "currentReality": "V4 canonical integration only; C05 component proof is merged, physical Word saturation remains next contours."
+}

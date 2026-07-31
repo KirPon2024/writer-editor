@@ -192,6 +192,22 @@
         "move/structure/opaque typed blocking"
       ],
       "killCriterion": "parser reject, missing YRTK2, stale baseline, move/structure/opaque unsupported, or comment mutation overclaim passes"
+    },
+    {
+      "capabilityId": "rtk.word.v4.sourceMapUniqueDiff",
+      "operationFamily": "SourceMap B/O/C/G projections UniqueDiff and bounded text effects",
+      "state": "COMPONENT_PROVEN",
+      "currentCapability": "IMMUTABLE_EFFECT_PROJECTION_PROVEN_NOT_APPLY_AUTHORITY",
+      "physicalWordEvidence": false,
+      "consumer": "EXECUTION_06 physical text certification",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js",
+      "supportedNow": [
+        "canonical SourceMap digest and bijective source segment footprint",
+        "accepted and untracked B-to-O single-hunk bounded text effects",
+        "pending G text revision effects only through SourceMap and Minimal Semantic Kernel support",
+        "typed manual blocking for multi-hunk ambiguity and O-to-C divergence"
+      ],
+      "killCriterion": "missing/tampered/stale SourceMap, duplicate/overlapping footprint, quote-only fallback, multi-hunk ambiguity, or writer authority passes"
     }
   ]
 }

@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "11a5ed2f89a79dc59a9a69acf6732c83ac315e7173b3295301578a685c3652dd",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
-      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
-      "rationale": "Approve bounded public barrel export for V4 E04 Minimal Word Semantic Kernel constants and evaluator through the existing revisionBridge module surface; no runtime entrypoint, UI, network, dependency, parser write authority, writer authority, or automatic apply expansion is introduced."
+      "sha256": "2c0a7565c72b06d9104ab608ac35b90e1caa93a08166f037ec64f06291052881",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
+      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
+      "rationale": "Approve bounded public barrel export for V4 E05 SourceMap UniqueDiff constants and evaluators through the existing revisionBridge module surface, preserving E04 exports; no runtime entrypoint, UI, network, dependency, parser write authority, writer authority, or automatic apply expansion is introduced."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -171,10 +171,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "387d927d648fd71f7d2139547f3a74deddb0de4450feb76777beb812c8cca11b",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
-      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
-      "rationale": "Approve post-D1 RTK program E04 state update: records semantic kernel local verification, next E05 SourceMap/UniqueDiff contour, no runtime apply authority, Word-current focus, no Google Docs execution, and no V6/D1 rewrite."
+      "sha256": "da089ef319a230f173b80de6c937dec4cb50f848ce2dc5d4d0d7a1940490d240",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
+      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
+      "rationale": "Approve post-D1 RTK program E05 state update: records SourceMap UniqueDiff local verification, next E06 physical text certification, no runtime apply authority, Word-current focus, no Google Docs execution, and no V6/D1 rewrite."
     },
     {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "9650200207d58abe14ef4f96c75d2ee7b99d8f886cdbc7ff66f13e28a0297b13",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T07:58:00.000Z",
-      "rationale": "Approve bounded ER C00 Sector-M scope-map rebind after RTK E04 merge: preserves exact RTK E03 and E04 DONE allowlist additions and adds only src/derived/atlas/deriveAtlasDiagnosticsStageAcceptance.mjs as an exact allowed path for the false-readiness audit repair; no wildcard prefix, no UI, no dependency, no network, no phase widening, and no runtime readiness claim is introduced."
+      "sha256": "1ddd9e8d8eac22869c3cf5b3aa4e30b80783f73001a5d32a5606bede564ae82e",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_AND_YALKEN_ATLAS_V5_ER_C00_MERGE_RECONCILIATION",
+      "approvedAtUtc": "2026-07-31T08:05:00.000Z",
+      "rationale": "Approve merged Sector-M scope-map rebind after origin/main drift: preserves Atlas ER C00 exact diagnostics-stage path and RTK E05 exact SourceMap UniqueDiff core, receipt, and contract additions; no wildcard prefix, UI, dependency, network, phase widening, Google execution, or runtime readiness claim is introduced."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -5561,10 +5561,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "f9cef083cd6fe73b5ed68b52e729cb459a6d9f136f1f31fcfed498d1c6f49e3c",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
-      "approvedAtUtc": "2026-07-31T05:18:00.000Z",
-      "rationale": "Approve V4 capability profile E04 update: adds Minimal Semantic Kernel component-proven cell with tracked text/comment/manual/blocking semantics while runtime apply and physical saturation remain closed."
+      "sha256": "f64b4812bc1894ec809762add6daf58a267ad50f61c38c14a69e33141689c3f7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
+      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
+      "rationale": "Approve V4 capability profile E05 update: adds SourceMap UniqueDiff component-proven cell with canonical SourceMap, B/O/C/G projections, bounded text effects, and typed manual blocking while runtime apply and physical saturation remain closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
@@ -5656,6 +5656,27 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL",
       "approvedAtUtc": "2026-07-31T05:18:00.000Z",
       "rationale": "Approve V4 E04 contract coverage: proves minimal tracked text semantics with YRTK2 and guards, comments independent under manual text, move/structure/opaque blocking, parser reject, missing YRTK2, stale baseline, missing CryptoPort, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportSourceMapUniqueDiffV4.mjs",
+      "sha256": "7fb508b75452ea85c5f88f98848bd56c05c6aa2c3a4499e56b7a660fff7e90b7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
+      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
+      "rationale": "Approve V4 E05 platform-neutral SourceMap UniqueDiff core: validates canonical SourceMap digest, word segment uniqueness, block identity, expected block and slice hashes, non-overlapping bijective footprints, B/O/C/G projections, accepted/untracked single-hunk text effects, pending G revision effects through SourceMap and Minimal Semantic Kernel support, and adds no Node/Electron/filesystem/renderer/network, writer, UI, dependency, or automatic apply authority."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF_RECEIPT.json",
+      "sha256": "9e34141f6bc1100c236b2c8ff327eed4ebae4e4ec1a934b24f7971148656dbf7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
+      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
+      "rationale": "Approve V4 E05 SourceMap UniqueDiff receipt: records SourceMap gate, B/O/C/G projections, accepted/untracked and pending revision bounded text effect scope, runtime nonclaims, zero veto metrics, and next E06 physical text certification."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js",
+      "sha256": "c55dd6b9c4856a2e8e6d9de39e5495a06b90ec7694a53cbb3fbbadbee79514b3",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
+      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
+      "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
     }
   ]
 }

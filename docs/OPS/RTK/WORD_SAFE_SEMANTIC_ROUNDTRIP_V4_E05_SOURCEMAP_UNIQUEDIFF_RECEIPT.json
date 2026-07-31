@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e05-sourcemap-uniquediff-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_05_SOURCEMAP_BOCG_PROJECTIONS_UNIQUEDIFF_BOUNDED_TEXT_EFFECTS",
+  "status": "LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "createdAtUtc": "2026-07-31T05:10:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "0b31dc30eb2cb0e7fb488ae7bd56e1e9fb72c3e3",
+    "branch": "codex/rtk-v4-e05-sourcemap-uniquediff",
+    "headAtStageStart": "0b31dc30eb2cb0e7fb488ae7bd56e1e9fb72c3e3",
+    "precedingE04Pr": 1280,
+    "precedingE04MergeSha": "0b31dc30eb2cb0e7fb488ae7bd56e1e9fb72c3e3"
+  },
+  "canonicalSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4"
+  },
+  "precedingEvidence": {
+    "e04ReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E04_MINIMAL_SEMANTIC_KERNEL_RECEIPT.json",
+    "e04ReceiptSha256": "c05659fb676be7a014866b20681e2362e37f148658064ba6dcd3a6554a1c6c47"
+  },
+  "implementedCore": {
+    "modulePath": "src/io/revisionBridge/reviewTransportSourceMapUniqueDiffV4.mjs",
+    "schemaVersions": [
+      "yalken.rtk.word-v4.source-map.v1",
+      "yalken.rtk.word-v4.sourcemap-uniquediff.v1"
+    ],
+    "projections": [
+      "B baseline",
+      "O original",
+      "C current",
+      "G revision graph"
+    ],
+    "sourceMapGate": [
+      "canonical sourceMapDigest",
+      "word segment identity uniqueness",
+      "block identity uniqueness",
+      "expected block text digest",
+      "expected slice digest",
+      "non-overlapping bijective footprint"
+    ],
+    "uniqueDiffScope": [
+      "accepted and untracked B-to-O single-hunk text effects",
+      "pending G text revision effects only through SourceMap and Minimal Semantic Kernel support"
+    ],
+    "platformNeutralCore": true
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "automaticApplyExpanded": false,
+    "parserAuthorityIntegrated": false,
+    "writerAuthorityAdded": false,
+    "physicalWordCorpusExpanded": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0
+  },
+  "nextStage": "EXECUTION_06_PHYSICAL_TEXT_CERTIFICATION",
+  "testEvidence": {
+    "e05FocusedContract": {
+      "command": "node --test test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js",
+      "tests": 6,
+      "pass": 6,
+      "fail": 0
+    },
+    "combinedFocusedContracts": {
+      "command": "node --test test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js test/contracts/rtk-word-v4-e04-minimal-semantic-kernel.contract.test.js test/contracts/rtk-word-v4-e05-sourcemap-uniquediff.contract.test.js test/contracts/governance-approval-state.contract.test.js test/contracts/governance-change-detection.contract.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "tests": 35,
+      "pass": 35,
+      "fail": 0
+    },
+    "governanceChangeDetection": "PASS",
+    "ossPolicy": "PASS",
+    "opsPolicy": "PASS",
+    "gitDiffCheck": "PASS",
+    "fullLocalRunner": {
+      "command": "npm test -- --runInBand",
+      "tests": 795,
+      "pass": 731,
+      "fail": 0,
+      "skipped": 64,
+      "perfBaseline": "PASS",
+      "menuAndReleaseChecks": "PASS"
+    }
+  }
+}

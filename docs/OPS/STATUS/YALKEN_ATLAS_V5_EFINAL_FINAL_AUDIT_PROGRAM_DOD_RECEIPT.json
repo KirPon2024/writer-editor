@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "yalken.atlas.v5.efinal.finalAuditProgramDod.receipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+  "programStage": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+  "baseSha": "66d51430725257e7501ab58a2f761fac5a908b6e",
+  "headShaAtReceiptGeneration": "66d51430725257e7501ab58a2f761fac5a908b6e",
+  "generatedAtUtc": "2026-07-31T13:04:40.464Z",
+  "designToolRouter": "NOT_APPLICABLE_FINAL_AUDIT_AND_CERTIFICATION_EVIDENCE_ONLY_NO_UI_DESIGN_CONTRACT_CHANGE",
+  "status": "PASS_EFINAL_READY_FOR_DELIVERY",
+  "pass": true,
+  "finalProgramDoDClaim": true,
+  "finalProgramDoDClaimScope": "READY_FOR_DELIVERY_PENDING_PR_MERGE_REMOTE_SHA_VERIFICATION_AND_CLEAN_WORKTREE",
+  "evidence": {
+    "finalAuditReport": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
+      "bytes": 29513,
+      "sha256": "085be4f8a8d81e473027de7d74908242dbed1a6f9640fac1e29ead14e042113d"
+    },
+    "revalidatedC01PackageArtifact": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
+      "bytes": 3511,
+      "sha256": "6e96d170ef954fc265991205283890c989cb8d106e10996cf1b19778b933f4d4"
+    },
+    "revalidatedC02PackagedCriticalJourney": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c02-packaged-critical-journey/packaged-critical-journey-report.json",
+      "bytes": 5218,
+      "sha256": "2be8183ced1ca737eba88b4808607157aab017bb8ea96ae7c21deb37f5c8bfbf"
+    },
+    "revalidatedC03PackagedAccessibilityResponsiveVisual": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/packaged-accessibility-responsive-visual-regression-report.json",
+      "bytes": 7283,
+      "sha256": "7e06cde975cc8acab1647b81556ff6494d9b0edc1a89f212c367f71b10e5cea3"
+    },
+    "revalidatedC04PackagedPerformanceSecurity": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/packaged-performance-security-final-platform-handoff-report.json",
+      "bytes": 3914,
+      "sha256": "4473b4eb311d5708765538c1a616ffd03a098edefc05b77cacad7d4a9f4e2300"
+    }
+  },
+  "programDodEvidence": {
+    "mappedItems": 20,
+    "mappedItemsPass": 20,
+    "criticalInvariants": 20,
+    "criticalInvariantsPass": 20,
+    "activePlatform": "macos-packaged-electron",
+    "inactivePlatforms": {
+      "windows": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+      "linux": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+      "web": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+      "ios": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+      "android": "NOT_ACTIVATED_NO_PASS_NO_HOLD"
+    }
+  },
+  "validation": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
+      "result": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+      "result": "PASS",
+      "summary": "PASS_EFINAL_READY_FOR_DELIVERY; Program DoD map 20/20; critical invariants 20/20; finalProgramDoDClaim scoped to pending PR merge and remote SHA verification"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs --skip-build --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact",
+      "result": "PASS",
+      "summary": "PASS_UNSIGNED_LOCAL_ARTIFACT; app.asar sha256 71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9; local unsigned/not-notarized limitation preserved"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c02-packaged-critical-journey.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c02-packaged-critical-journey",
+      "result": "PASS",
+      "summary": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY; create/save/reopen/recovery/export/import through packaged runtime; networkRequests=0"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual",
+      "result": "PASS",
+      "summary": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION; desktop/tablet/mobile screenshots, keyboard/focus, contrast, scroll and visual delta budgets pass"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security",
+      "result": "PASS",
+      "summary": "PASS_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF; ER_C05 10k p95 wall 108.933ms; SAST 0 findings, 0 timeouts, 0 parser gaps"
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "797 tests; 733 pass; 0 fail; 64 skipped; perf baseline and release checks PASS"
+    },
+    {
+      "command": "OPS_CONTEXT_MODE=dev HEAD_STRICT_MODE=dev npm run -s test:ops",
+      "result": "PASS",
+      "summary": "pre-PR dev guard mode expected after final approval refresh; will be verified after receipt approval"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "npm run -s security:audit:generic-sast",
+      "result": "PASS",
+      "summary": "GENERIC_SAST_FINDINGS=0; GENERIC_SAST_TIMEOUTS=0; GENERIC_SAST_NON_TIMEOUT_ERRORS=0; GENERIC_SAST_STATUS=PASS"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "GOVERNANCE_CHANGE_OK=1 after final receipt approval refresh"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    }
+  ],
+  "falseReadinessGuards": {
+    "missingReceiptCanPass": false,
+    "nonPassingReceiptCanPass": false,
+    "inactivePlatformCanBeCertified": false,
+    "ciParityCanSubstitutePackagedProof": false,
+    "finalDoneBeforeMergeCanPass": false
+  },
+  "deliveryBinding": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "ciRequired": true,
+    "mergeRequired": true,
+    "remoteShaVerificationRequired": true,
+    "branchCleanupRequired": true,
+    "mutableStateDoneUpdateRequiredAfterMerge": true
+  }
+}

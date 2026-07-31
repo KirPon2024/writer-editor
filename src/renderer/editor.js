@@ -918,6 +918,7 @@ let manualMapLayoutGeneration = 0;
 let manualMapSearchQuery = '';
 let manualMapPinnedNodeIds = new Set();
 let manualMapDragState = null;
+let manualMapCommandDraft = null;
 let projectionInspectorState = {
   state: 'empty',
   projectId: '',
@@ -12082,24 +12083,122 @@ function getManualMapSelectedEdgeId() {
   return manualMapText(manualMapTransientViewState.selection?.edgeIds?.[0]);
 }
 
-function makeManualMapCommandButton(label, commandId, payload, options = {}) {
-  const button = makeAtlasCommandButton(label, commandId, payload, options);
-  button.classList.add('manual-map-workspace__action');
-  return button;
-}
-
 async function runManualMapWorkbenchCommand(commandId, payload = {}) {
   await runProductJourneyCommand(commandId, payload);
   await refreshManualMapWorkbench({ force: true });
 }
 
-function makeManualMapRuntimeCommandButton(label, commandId, payloadFactory, optionsFactory = () => ({})) {
+function createManualMapCommandDraft(config = {}) {
+  const payload = config.payload && typeof config.payload === 'object' && !Array.isArray(config.payload)
+    ? { ...config.payload }
+    : {};
+  return {
+    schemaVersion: 'manualMap.commandDraft.v1',
+    state: 'draft',
+    commandId: manualMapText(config.commandId),
+    title: manualMapText(config.title, manualMapText(config.commandId, 'Manual Map command')),
+    targetKind: manualMapText(config.targetKind, 'manualMap'),
+    targetId: manualMapText(config.targetId || payload.nodeId || payload.edgeId || payload.groupId || payload.mapId),
+    risk: manualMapText(config.risk, 'semantic'),
+    payload,
+    fields: Array.isArray(config.fields) ? config.fields.map((field) => ({ ...field })) : [],
+    impactPreview: manualMapText(config.impactPreview, 'Preview unavailable'),
+    confirmChecked: false,
+    result: null,
+  };
+}
+
+function openManualMapCommandDraft(config = {}) {
+  manualMapCommandDraft = createManualMapCommandDraft(config);
+  renderManualMapWorkbenchState();
+}
+
+function cancelManualMapCommandDraft() {
+  if (!manualMapCommandDraft) return;
+  manualMapCommandDraft = {
+    ...manualMapCommandDraft,
+    state: 'cancelled',
+    result: {
+      status: 'CANCELLED_NOOP',
+      mutationDispatched: false,
+    },
+  };
+  renderManualMapWorkbenchState();
+}
+
+function updateManualMapCommandDraftField(fieldName, fieldValue) {
+  if (!manualMapCommandDraft) return;
+  const name = manualMapText(fieldName);
+  if (!name) return;
+  manualMapCommandDraft = {
+    ...manualMapCommandDraft,
+    payload: {
+      ...manualMapCommandDraft.payload,
+      [name]: fieldValue,
+    },
+    fields: manualMapCommandDraft.fields.map((field) => (field.name === name ? { ...field, value: fieldValue } : field)),
+    result: null,
+  };
+  renderManualMapWorkbenchState();
+}
+
+function setManualMapCommandDraftConfirmation(checked) {
+  if (!manualMapCommandDraft) return;
+  manualMapCommandDraft = {
+    ...manualMapCommandDraft,
+    confirmChecked: checked === true,
+    result: null,
+  };
+  renderManualMapWorkbenchState();
+}
+
+async function applyManualMapCommandDraft() {
+  const draft = manualMapCommandDraft;
+  if (!draft || draft.state !== 'draft') return;
+  const commandId = manualMapText(draft.commandId);
+  const payload = draft.payload && typeof draft.payload === 'object' && !Array.isArray(draft.payload)
+    ? { ...draft.payload }
+    : {};
+  if (!commandId || !manualMapText(payload.mapId) && commandId !== 'manualMap.create') {
+    manualMapCommandDraft = {
+      ...draft,
+      result: { status: 'NOT_APPLIED', reason: 'MANUAL_MAP_TARGET_REQUIRED', mutationDispatched: false },
+    };
+    renderManualMapWorkbenchState();
+    return;
+  }
+  if ((draft.risk === 'destructive' || draft.risk === 'structural') && draft.confirmChecked !== true) {
+    manualMapCommandDraft = {
+      ...draft,
+      result: { status: 'NOT_APPLIED', reason: 'CONFIRMATION_REQUIRED', mutationDispatched: false },
+    };
+    renderManualMapWorkbenchState();
+    return;
+  }
+  manualMapCommandDraft = { ...draft, state: 'applying', result: null };
+  renderManualMapWorkbenchState();
+  const result = await runProductJourneyCommand(commandId, payload);
+  await refreshManualMapWorkbench({ force: true });
+  manualMapCommandDraft = {
+    ...draft,
+    state: result && result.ok === false ? 'failed' : 'applied',
+    result: {
+      status: result && result.ok === false ? 'FAILED' : 'APPLIED',
+      mutationDispatched: true,
+      commandId,
+      reason: manualMapText(result?.reason || result?.error || ''),
+    },
+  };
+  renderManualMapWorkbenchState();
+}
+
+function makeManualMapDraftButton(label, draftFactory, optionsFactory = () => ({})) {
   const options = optionsFactory();
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'right-rail-atlas-action manual-map-workspace__action';
   button.textContent = label;
-  button.dataset.productCommandId = commandId;
+  button.dataset.manualMapCommandDraft = 'true';
   button.disabled = options.disabled === true;
   if (options.reason) {
     button.title = options.reason;
@@ -12107,7 +12206,7 @@ function makeManualMapRuntimeCommandButton(label, commandId, payloadFactory, opt
   }
   button.addEventListener('click', () => {
     if (button.disabled) return;
-    void runManualMapWorkbenchCommand(commandId, payloadFactory());
+    openManualMapCommandDraft(draftFactory());
   });
   return button;
 }
@@ -12128,102 +12227,244 @@ function renderManualMapToolbar(parent, state, runtime, options = {}) {
   const selectedEdge = getManualMapEdgeById(sourceGraph, selectedEdgeId);
   const selectedGroup = getManualMapGroupByNodeId(sourceGraph, selectedNodeId);
   const mapId = state.mapId || makeStableUiId('manual-map');
-  actionBar.appendChild(makeManualMapCommandButton('Create map', 'manualMap.create', {
-    mapId: makeStableUiId('manual-map'),
-    title: currentDocumentTitle || 'Manual map',
-  }, { disabled: !currentProjectId, reason: currentProjectId ? '' : 'Project is not open' }));
-  actionBar.appendChild(makeManualMapCommandButton('Add node', 'manualMap.node.add', {
-    mapId,
-    nodeId: makeStableUiId('manual-node'),
-    label: currentDocumentTitle || 'Node',
-    nodeKind: 'note',
-    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
-  }, { disabled: !state.mapId, reason: state.mapId ? '' : 'Create a map first' }));
-  actionBar.appendChild(makeManualMapCommandButton('Scene node', 'manualMap.node.add', {
-    mapId,
-    nodeId: makeStableUiId('manual-scene-node'),
-    label: currentDocumentTitle || 'Scene',
-    nodeKind: 'scene',
-    targetKind: 'scene',
-    targetId: currentDocumentId || '',
-    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
-  }, { disabled: !state.mapId || !currentDocumentId, reason: currentDocumentId ? '' : 'No scene selected' }));
-  actionBar.appendChild(makeManualMapCommandButton('Entity node', 'manualMap.node.add', {
-    mapId,
-    nodeId: makeStableUiId('manual-entity-node'),
-    label: firstAtlasEntity()?.name || firstAtlasEntity()?.entityId || 'Entity',
-    nodeKind: 'entity',
-    targetKind: 'entity',
-    targetId: firstAtlasEntity()?.entityId || '',
-    position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
-  }, { disabled: !state.mapId || !firstAtlasEntity(), reason: firstAtlasEntity() ? '' : 'No Atlas entity available' }));
-  actionBar.appendChild(makeManualMapRuntimeCommandButton('Add edge', 'manualMap.edge.add', () => {
+  actionBar.appendChild(makeManualMapDraftButton('Create map', () => {
+    const draftMapId = makeStableUiId('manual-map');
+    return {
+      commandId: 'manualMap.create',
+      title: 'Create map',
+      targetKind: 'map',
+      targetId: draftMapId,
+      risk: 'structural',
+      payload: {
+        mapId: draftMapId,
+        title: currentDocumentTitle || 'Manual map',
+      },
+      fields: [
+        { name: 'title', label: 'Map title', type: 'text', value: currentDocumentTitle || 'Manual map' },
+      ],
+      impactPreview: 'Creates one Manual Map inside the current project. No scene text is changed.',
+    };
+  }, () => ({ disabled: !currentProjectId, reason: currentProjectId ? '' : 'Project is not open' })));
+  actionBar.appendChild(makeManualMapDraftButton('Add node', () => {
+    const nodeId = makeStableUiId('manual-node');
+    return {
+      commandId: 'manualMap.node.add',
+      title: 'Add node',
+      targetKind: 'node',
+      targetId: nodeId,
+      risk: 'semantic',
+      payload: {
+        mapId,
+        nodeId,
+        label: currentDocumentTitle || 'Node',
+        nodeKind: 'note',
+        position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
+      },
+      fields: [
+        { name: 'label', label: 'Node label', type: 'text', value: currentDocumentTitle || 'Node' },
+      ],
+      impactPreview: `Adds one note node to ${mapId}. Existing nodes and scene text stay unchanged.`,
+    };
+  }, () => ({ disabled: !state.mapId, reason: state.mapId ? '' : 'Create a map first' })));
+  actionBar.appendChild(makeManualMapDraftButton('Scene node', () => {
+    const nodeId = makeStableUiId('manual-scene-node');
+    return {
+      commandId: 'manualMap.node.add',
+      title: 'Add scene node',
+      targetKind: 'node',
+      targetId: nodeId,
+      risk: 'semantic',
+      payload: {
+        mapId,
+        nodeId,
+        label: currentDocumentTitle || 'Scene',
+        nodeKind: 'scene',
+        targetKind: 'scene',
+        targetId: currentDocumentId || '',
+        position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
+      },
+      fields: [
+        { name: 'label', label: 'Node label', type: 'text', value: currentDocumentTitle || 'Scene' },
+      ],
+      impactPreview: `Adds one node linked to scene ${currentDocumentId || 'none'}. The scene body is not edited.`,
+    };
+  }, () => ({ disabled: !state.mapId || !currentDocumentId, reason: currentDocumentId ? '' : 'No scene selected' })));
+  actionBar.appendChild(makeManualMapDraftButton('Entity node', () => {
+    const entity = firstAtlasEntity();
+    const nodeId = makeStableUiId('manual-entity-node');
+    return {
+      commandId: 'manualMap.node.add',
+      title: 'Add entity node',
+      targetKind: 'node',
+      targetId: nodeId,
+      risk: 'semantic',
+      payload: {
+        mapId,
+        nodeId,
+        label: entity?.name || entity?.entityId || 'Entity',
+        nodeKind: 'entity',
+        targetKind: 'entity',
+        targetId: entity?.entityId || '',
+        position: { x: state.summary.nodeCount * 40, y: state.summary.nodeCount * 24 },
+      },
+      fields: [
+        { name: 'label', label: 'Node label', type: 'text', value: entity?.name || entity?.entityId || 'Entity' },
+      ],
+      impactPreview: `Adds one node linked to Atlas entity ${entity?.entityId || 'none'}. Atlas entity truth is not rewritten.`,
+    };
+  }, () => ({ disabled: !state.mapId || !firstAtlasEntity(), reason: firstAtlasEntity() ? '' : 'No Atlas entity available' })));
+  actionBar.appendChild(makeManualMapDraftButton('Add edge', () => {
     const selectedIds = manualMapTransientViewState.selection?.nodeIds || [];
     return {
-      mapId,
-      edgeId: makeStableUiId('manual-edge'),
-      fromNodeId: selectedIds[0] || '',
-      toNodeId: selectedIds[1] || '',
-      edgeKind: 'link',
-      label: 'Link',
+      commandId: 'manualMap.edge.add',
+      title: 'Add edge',
+      targetKind: 'edge',
+      targetId: `${selectedIds[0] || ''}->${selectedIds[1] || ''}`,
+      risk: 'semantic',
+      payload: {
+        mapId,
+        edgeId: makeStableUiId('manual-edge'),
+        fromNodeId: selectedIds[0] || '',
+        toNodeId: selectedIds[1] || '',
+        edgeKind: 'link',
+        label: 'Link',
+      },
+      fields: [
+        { name: 'label', label: 'Edge label', type: 'text', value: 'Link' },
+      ],
+      impactPreview: `Connects selected nodes ${selectedIds[0] || 'none'} and ${selectedIds[1] || 'none'}.`,
     };
   }, () => ({
     disabled: (manualMapTransientViewState.selection?.nodeIds || []).length < 2,
     reason: 'Select two nodes',
   })));
-  actionBar.appendChild(makeManualMapRuntimeCommandButton('Edit node', 'manualMap.node.update', () => ({
-    mapId,
-    nodeId: selectedNodeId,
-    label: `${selectedNode?.label || 'Node'} updated`,
+  actionBar.appendChild(makeManualMapDraftButton('Edit node', () => ({
+    commandId: 'manualMap.node.update',
+    title: 'Edit node',
+    targetKind: 'node',
+    targetId: selectedNodeId,
+    risk: 'semantic',
+    payload: {
+      mapId,
+      nodeId: selectedNodeId,
+      label: selectedNode?.label || 'Node',
+    },
+    fields: [
+      { name: 'label', label: 'Node label', type: 'text', value: selectedNode?.label || 'Node' },
+    ],
+    impactPreview: `Renames selected node ${selectedNodeId}. No other node is targeted.`,
   }), () => ({
     disabled: !selectedNode,
     reason: 'Select a node',
   })));
-  actionBar.appendChild(makeManualMapRuntimeCommandButton('Delete node', 'manualMap.node.delete', () => ({
-    mapId,
-    nodeId: selectedNodeId,
+  actionBar.appendChild(makeManualMapDraftButton('Delete node', () => ({
+    commandId: 'manualMap.node.delete',
+    title: 'Delete node',
+    targetKind: 'node',
+    targetId: selectedNodeId,
+    risk: 'destructive',
+    payload: {
+      mapId,
+      nodeId: selectedNodeId,
+    },
+    impactPreview: `Deletes selected node ${selectedNodeId}. Command Kernel owns any related edge or group cleanup.`,
   }), () => ({
     disabled: !selectedNode,
     reason: 'Select a node',
   })));
-  actionBar.appendChild(makeManualMapRuntimeCommandButton('Edit edge', 'manualMap.edge.update', () => ({
-    mapId,
-    edgeId: selectedEdgeId,
-    label: `${selectedEdge?.label || 'Edge'} updated`,
+  actionBar.appendChild(makeManualMapDraftButton('Edit edge', () => ({
+    commandId: 'manualMap.edge.update',
+    title: 'Edit edge',
+    targetKind: 'edge',
+    targetId: selectedEdgeId,
+    risk: 'semantic',
+    payload: {
+      mapId,
+      edgeId: selectedEdgeId,
+      label: selectedEdge?.label || 'Edge',
+    },
+    fields: [
+      { name: 'label', label: 'Edge label', type: 'text', value: selectedEdge?.label || 'Edge' },
+    ],
+    impactPreview: `Renames selected edge ${selectedEdgeId}. No first-edge fallback is allowed.`,
   }), () => ({
     disabled: !selectedEdge,
     reason: 'Select an edge',
   })));
-  actionBar.appendChild(makeManualMapRuntimeCommandButton('Delete edge', 'manualMap.edge.delete', () => ({
-    mapId,
-    edgeId: selectedEdgeId,
+  actionBar.appendChild(makeManualMapDraftButton('Delete edge', () => ({
+    commandId: 'manualMap.edge.delete',
+    title: 'Delete edge',
+    targetKind: 'edge',
+    targetId: selectedEdgeId,
+    risk: 'destructive',
+    payload: {
+      mapId,
+      edgeId: selectedEdgeId,
+    },
+    impactPreview: `Deletes selected edge ${selectedEdgeId}. Nodes remain unchanged.`,
   }), () => ({
     disabled: !selectedEdge,
     reason: 'Select an edge',
   })));
-  actionBar.appendChild(makeManualMapRuntimeCommandButton('Create group', 'manualMap.group.create', () => ({
-    mapId,
-    groupId: makeStableUiId('manual-group'),
-    label: 'Group',
-    colorTag: 'neutral',
-    nodeIds: manualMapTransientViewState.selection?.nodeIds || [],
-  }), () => ({
+  actionBar.appendChild(makeManualMapDraftButton('Create group', () => {
+    const selectedIds = manualMapTransientViewState.selection?.nodeIds || [];
+    const groupId = makeStableUiId('manual-group');
+    return {
+      commandId: 'manualMap.group.create',
+      title: 'Create group',
+      targetKind: 'group',
+      targetId: groupId,
+      risk: 'structural',
+      payload: {
+        mapId,
+        groupId,
+        label: 'Group',
+        colorTag: 'neutral',
+        nodeIds: selectedIds,
+      },
+      fields: [
+        { name: 'label', label: 'Group label', type: 'text', value: 'Group' },
+        { name: 'colorTag', label: 'Color tag', type: 'text', value: 'neutral' },
+      ],
+      impactPreview: `Groups selected nodes: ${selectedIds.join(', ')}.`,
+    };
+  }, () => ({
     disabled: (manualMapTransientViewState.selection?.nodeIds || []).length < 2,
     reason: 'Select at least two nodes',
   })));
-  actionBar.appendChild(makeManualMapRuntimeCommandButton('Edit group', 'manualMap.group.update', () => ({
-    mapId,
-    groupId: manualMapText(selectedGroup?.id),
-    label: `${selectedGroup?.label || 'Group'} updated`,
-    colorTag: selectedGroup?.colorTag || 'neutral',
-    nodeIds: selectedGroup?.nodeIds || nodes.slice(0, 3).map((node) => node.id),
+  actionBar.appendChild(makeManualMapDraftButton('Edit group', () => ({
+    commandId: 'manualMap.group.update',
+    title: 'Edit group',
+    targetKind: 'group',
+    targetId: manualMapText(selectedGroup?.id),
+    risk: 'structural',
+    payload: {
+      mapId,
+      groupId: manualMapText(selectedGroup?.id),
+      label: selectedGroup?.label || 'Group',
+      colorTag: selectedGroup?.colorTag || 'neutral',
+      nodeIds: selectedGroup?.nodeIds || [],
+    },
+    fields: [
+      { name: 'label', label: 'Group label', type: 'text', value: selectedGroup?.label || 'Group' },
+      { name: 'colorTag', label: 'Color tag', type: 'text', value: selectedGroup?.colorTag || 'neutral' },
+    ],
+    impactPreview: `Updates selected group ${manualMapText(selectedGroup?.id)}. Group membership is preserved from the selected group only.`,
   }), () => ({
     disabled: !selectedGroup,
     reason: 'Select a grouped node',
   })));
-  actionBar.appendChild(makeManualMapRuntimeCommandButton('Delete group', 'manualMap.group.delete', () => ({
-    mapId,
-    groupId: manualMapText(selectedGroup?.id),
+  actionBar.appendChild(makeManualMapDraftButton('Delete group', () => ({
+    commandId: 'manualMap.group.delete',
+    title: 'Delete group',
+    targetKind: 'group',
+    targetId: manualMapText(selectedGroup?.id),
+    risk: 'destructive',
+    payload: {
+      mapId,
+      groupId: manualMapText(selectedGroup?.id),
+    },
+    impactPreview: `Deletes selected group ${manualMapText(selectedGroup?.id)}. Nodes are not deleted.`,
   }), () => ({
     disabled: !selectedGroup,
     reason: 'Select a grouped node',
@@ -12375,6 +12616,91 @@ function renderManualMapList(parent, runtime, options = {}) {
   parent.appendChild(list);
 }
 
+function renderManualMapCommandDraft(parent) {
+  if (!manualMapCommandDraft) return;
+  const draft = manualMapCommandDraft;
+  const panel = document.createElement('form');
+  panel.className = 'manual-map-workspace__command-form';
+  panel.dataset.manualMapCommandForm = 'true';
+  panel.dataset.manualMapCommandId = draft.commandId || '';
+  panel.dataset.manualMapCommandRisk = draft.risk || '';
+  panel.addEventListener('submit', (event) => {
+    event.preventDefault();
+    void applyManualMapCommandDraft();
+  });
+
+  const title = document.createElement('strong');
+  title.className = 'manual-map-workspace__command-title';
+  title.textContent = draft.title || draft.commandId || 'Manual Map command';
+  const target = document.createElement('div');
+  target.className = 'manual-map-workspace__command-meta';
+  target.dataset.manualMapSelectionTarget = draft.targetId || '';
+  target.textContent = `${draft.targetKind || 'target'}: ${draft.targetId || 'none'} · ${draft.commandId || 'command'}`;
+  const impact = document.createElement('div');
+  impact.className = 'manual-map-workspace__impact-preview';
+  impact.dataset.manualMapImpactPreview = 'true';
+  impact.textContent = draft.impactPreview || 'Preview unavailable';
+  panel.append(title, target, impact);
+
+  for (const field of draft.fields || []) {
+    const label = document.createElement('label');
+    label.className = 'manual-map-workspace__field';
+    const labelText = document.createElement('span');
+    labelText.textContent = field.label || field.name || 'Field';
+    const input = document.createElement('input');
+    input.type = field.type || 'text';
+    input.value = manualMapText(draft.payload?.[field.name], manualMapText(field.value));
+    input.dataset.manualMapCommandField = field.name || '';
+    input.addEventListener('input', () => updateManualMapCommandDraftField(field.name, input.value));
+    label.append(labelText, input);
+    panel.appendChild(label);
+  }
+
+  if (draft.risk === 'destructive' || draft.risk === 'structural') {
+    const confirmLabel = document.createElement('label');
+    confirmLabel.className = 'manual-map-workspace__confirm';
+    const confirm = document.createElement('input');
+    confirm.type = 'checkbox';
+    confirm.checked = draft.confirmChecked === true;
+    confirm.dataset.manualMapConfirmRisk = draft.risk;
+    confirm.addEventListener('change', () => setManualMapCommandDraftConfirmation(confirm.checked));
+    const text = document.createElement('span');
+    text.textContent = draft.risk === 'destructive'
+      ? 'Confirm destructive change'
+      : 'Confirm structural change';
+    confirmLabel.append(confirm, text);
+    panel.appendChild(confirmLabel);
+  }
+
+  if (draft.result) {
+    const result = document.createElement('div');
+    result.className = 'manual-map-workspace__command-result';
+    result.dataset.manualMapOperationResult = draft.result.status || '';
+    result.textContent = draft.result.reason
+      ? `${draft.result.status}: ${draft.result.reason}`
+      : draft.result.status || 'READY';
+    panel.appendChild(result);
+  }
+
+  const actions = document.createElement('div');
+  actions.className = 'manual-map-workspace__command-actions';
+  const cancel = document.createElement('button');
+  cancel.type = 'button';
+  cancel.className = 'manual-map-workspace__chip';
+  cancel.dataset.manualMapCommandCancel = 'true';
+  cancel.textContent = 'Cancel';
+  cancel.addEventListener('click', () => cancelManualMapCommandDraft());
+  const apply = document.createElement('button');
+  apply.type = 'submit';
+  apply.className = 'manual-map-workspace__action';
+  apply.dataset.manualMapCommandApply = 'true';
+  apply.textContent = draft.state === 'applying' ? 'Applying' : 'Apply';
+  apply.disabled = draft.state === 'applying';
+  actions.append(cancel, apply);
+  panel.appendChild(actions);
+  parent.appendChild(panel);
+}
+
 function renderManualMapInspector(parent, state, runtime) {
   const panel = document.createElement('aside');
   panel.className = 'manual-map-workspace__inspector';
@@ -12454,6 +12780,7 @@ function renderManualMapWorkbenchInto(host, options = {}) {
   host.appendChild(metrics);
 
   renderManualMapToolbar(host, state, runtime, { compact });
+  renderManualMapCommandDraft(host);
   if (compact) {
     const openButton = document.createElement('button');
     openButton.type = 'button';
@@ -12823,13 +13150,22 @@ function handleManualMapWorkbenchPointerUp(event) {
   if (Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
   const state = normalizeManualMapWorkbench(manualMapWorkbenchState);
   if (!state.mapId || manualMapLayoutMode === MANUAL_MAP_LAYOUT_MODES.HIERARCHY) return;
-  void runManualMapWorkbenchCommand('manualMap.node.update', {
-    mapId: state.mapId,
-    nodeId: drag.nodeId,
-    position: {
-      x: Math.round(drag.startX + dx),
-      y: Math.round(drag.startY + dy),
+  const nextPosition = {
+    x: Math.round(drag.startX + dx),
+    y: Math.round(drag.startY + dy),
+  };
+  openManualMapCommandDraft({
+    commandId: 'manualMap.node.update',
+    title: 'Move node',
+    targetKind: 'node',
+    targetId: drag.nodeId,
+    risk: 'semantic',
+    payload: {
+      mapId: state.mapId,
+      nodeId: drag.nodeId,
+      position: nextPosition,
     },
+    impactPreview: `Moves selected node ${drag.nodeId} to ${nextPosition.x}, ${nextPosition.y}. ViewState remains transient; only node position is written after Apply.`,
   });
 }
 

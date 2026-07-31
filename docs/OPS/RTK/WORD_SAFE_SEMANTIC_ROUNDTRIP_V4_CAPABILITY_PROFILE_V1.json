@@ -165,6 +165,17 @@
       "consumer": "EXECUTION_07 later contour",
       "acceptanceTest": "future physical comments corpus",
       "killCriterion": "silent comment reply state or anchor loss"
+    },
+    {
+      "capabilityId": "rtk.word.v4.coreManifestYrtk2",
+      "operationFamily": "CoreManifest ExportMap hash tree YRTK2 token and double self-parse",
+      "state": "COMPONENT_PROVEN",
+      "currentCapability": "LOCAL_CORE_PROVEN_NOT_PHYSICAL_CORPUS_SATURATED",
+      "physicalWordEvidence": false,
+      "consumer": "EXECUTION_04 isolated parser and Minimal Word Semantic Kernel",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",
+      "provenTokenLength": 135,
+      "killCriterion": "hash-cycle final DOCX digest, missing secret, tampered token, stale round, Word signal apply authority, or double self-parse mismatch passes"
     }
   ]
 }

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e03-coremanifest-yrtk2-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_03_COREMANIFEST_EXPORTMAP_HASHTREE_YRTK2",
+  "status": "LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "createdAtUtc": "2026-07-31T05:05:00.000Z",
+  "base": {
+    "originMainShaAtStageStart": "56f37e19c92d36e29d67fa97e7ecd6098578c568",
+    "branch": "codex/rtk-v4-e03-coremanifest-yrtk2",
+    "headAtStageStart": "56f37e19c92d36e29d67fa97e7ecd6098578c568",
+    "precedingE02Pr": 1277,
+    "precedingE02MergeSha": "56f37e19c92d36e29d67fa97e7ecd6098578c568"
+  },
+  "canonicalSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4"
+  },
+  "precedingEvidence": {
+    "e02ReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
+    "e02ReceiptSha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
+    "selectedPayloadCarrier": "customDocumentProperty"
+  },
+  "implementedCore": {
+    "modulePath": "src/io/revisionBridge/reviewTransportYrtk2Core.mjs",
+    "schemaVersions": [
+      "yalken.rtk.word-v4.core-manifest.v1",
+      "yalken.rtk.word-v4.export-map.v1",
+      "yalken.rtk.word-v4.yrtk2-token.v1"
+    ],
+    "yrtk2Layout": {
+      "magicBytes": 4,
+      "tokenVersionBytes": 1,
+      "keyIdBytes": 16,
+      "roundIdBytes": 16,
+      "coreManifestDigestBytes": 32,
+      "hmacBytes": 32,
+      "totalBytes": 101,
+      "base64urlLength": 135,
+      "padding": false
+    },
+    "macInput": "domain label plus payload bytes without MAC",
+    "hashCycleForbidden": true,
+    "doubleSelfParseGate": true,
+    "platformNeutralCore": true
+  },
+  "artifactIdentitySeparation": {
+    "exportArtifactId": "separate identity in CoreManifest",
+    "returnArtifactId": "separate future return identity",
+    "semanticReturnId": "separate semantic return identity",
+    "effectIds": "separate sorted effect identities",
+    "applyId": "separate future apply identity"
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "automaticApplyExpanded": false,
+    "parserAuthorityIntegrated": false,
+    "wordPhysicalCorpusExpanded": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0
+  },
+  "nextStage": "EXECUTION_04_ISOLATED_PARSER_AND_MINIMAL_WORD_SEMANTIC_KERNEL",
+  "testEvidence": {
+    "e03FocusedContract": {
+      "command": "node --test test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",
+      "tests": 4,
+      "pass": 4,
+      "fail": 0
+    },
+    "combinedFocusedContracts": {
+      "command": "node --test test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js test/contracts/governance-approval-state.contract.test.js test/contracts/governance-change-detection.contract.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "tests": 24,
+      "pass": 24,
+      "fail": 0
+    },
+    "governanceChangeDetection": "PASS",
+    "ossPolicy": "PASS",
+    "opsPolicy": "PASS",
+    "gitDiffCheck": "PASS",
+    "fullLocalRunner": {
+      "command": "npm test -- --runInBand",
+      "tests": 795,
+      "pass": 731,
+      "fail": 0,
+      "skipped": 64,
+      "perfBaseline": "PASS",
+      "menuAndReleaseChecks": "PASS"
+    }
+  }
+}

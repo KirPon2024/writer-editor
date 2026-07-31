@@ -24,10 +24,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "55e706ae13a3c8ba12af349f52ff6e82b8227e49f823c3a4ca92158c8c510114",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded public barrel export for C05 locally bound block-range authority constants and digest builders through the existing revisionBridge module surface; no UI, renderer, network, dependency, product claim expansion, HMAC/YRTK2 claim, or direct writer authority is introduced."
+      "sha256": "53a683062a09a1736f482f4ebcf385384f9fc43e4b00d58c654f0a53c93b0a4b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
+      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
+      "rationale": "Approve bounded public barrel export for V4 E03 CoreManifest/YRTK2 constants and helpers through the existing revisionBridge module surface; no runtime entrypoint, UI, network, dependency, parser authority, writer authority, or automatic apply expansion is introduced."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b01-signed-locator.contract.test.js",
@@ -171,10 +171,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "f4e284bc7f68880c10596d59ac2e26aa504e062cf52a408e960ce44732f82758",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
-      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
-      "rationale": "Approve post-D1 RTK program E02 state update: records locator stack survival local verification, selected custom document property payload carrier, no block placement authority, no runtime apply authority, next E03 YRTK2/CoreManifest contour, and no Google Docs execution before Word saturation."
+      "sha256": "11ef7383f26817f793ad3a9ffbbb82ca5f42718465ecd02b1c65a9d85f91218b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
+      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
+      "rationale": "Approve post-D1 RTK program E03 state update: records CoreManifest/YRTK2 local verification, next E04 isolated parser contour, no runtime apply authority, Word-current focus, no Google Docs execution, and no V6/D1 rewrite."
     },
     {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
@@ -1018,10 +1018,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "31e05eed2573e0a8cbc118c7ca4c4c62f06fb67e8e1cc306e798517f29f810e9",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
-      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
-      "rationale": "Approve bounded V4 E02 Sector-M scope-map update: adds only the E02 receipt, ops verifier, and contract to exact RTK DONE allowlist; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, and no Google execution."
+      "sha256": "17295431db6c2e2a9aad5f91743d55eafc423bfe0ffc11c9cca081dc306d3809",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
+      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
+      "rationale": "Approve bounded V4 E03 Sector-M scope-map update: adds only CoreManifest/YRTK2 core, existing revisionBridge barrel, E03 receipt, and contract to exact RTK DONE allowlist; preserves exact paths, no wildcard prefix, no UI, no runtime dependency, no network, and no Google execution."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -5561,10 +5561,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "88eb2e89e54444b15804bb2b7a47c4fad7f24186affa0ecfc2c056a7d66492df",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
-      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
-      "rationale": "Approve V4 capability profile E02 update: upgrades locatorSurvivalLab cell to PHYSICAL_WORD_PROVEN for customDocumentProperty signed payload carrier only, keeps runtime apply and placement authority pending YRTK2/CoreManifest, and preserves no fixture-only, no false exact, no UI, no network, and Word-current-focus gates."
+      "sha256": "815c0ed2287a5160bd80ede117dd50f9e742aa077739c4bfd9f35607faacb61f",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
+      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
+      "rationale": "Approve V4 capability profile E03 update: adds CoreManifest/YRTK2 component-proven cell with fixed 135-character token and double self-parse contract while physical Word saturation and runtime apply authority remain closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
@@ -5610,10 +5610,31 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",
-      "sha256": "4d6e0755c7ef36cab021f65f351b1fd504b7f4320c62aea9fbccdb0a4a58524f",
+      "sha256": "fc1d13bbe7f4a748690bd496028b5ff6b621541edff714594909e759d8c1daea",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T04:46:03.000Z",
-      "rationale": "Approve ER C00 receipt: records the audit repair macro-stage, base SHA 56f37e19c92d36e29d67fa97e7ecd6098578c568, NOT_READY default for missing external machine evidence, invalidated E05/E06/E10 readiness evidence, unsatisfied Stage 01/02/03/05 outcomes, Stage 11 NOT_STARTED, advisory-only Lazyweb and heuristic evidence, and local PASS validation artifacts including full-runner digest e442a627058d3efbfc7f057da6224b59f9bc469b5169f4787f44f78ef7c4fc26 without pending PASS rows."
+      "approvedAtUtc": "2026-07-31T04:51:38.000Z",
+      "rationale": "Approve ER C00 receipt: records the audit repair macro-stage, base SHA 077420506bd2f9350b06ff8877092df4b6170dce, NOT_READY default for missing external machine evidence, invalidated E05/E06/E10 readiness evidence, unsatisfied Stage 01/02/03/05 outcomes, Stage 11 NOT_STARTED, advisory-only Lazyweb and heuristic evidence, and local PASS validation artifacts including full-runner digest e442a627058d3efbfc7f057da6224b59f9bc469b5169f4787f44f78ef7c4fc26 without pending PASS rows."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportYrtk2Core.mjs",
+      "sha256": "e0cf41090074f0c0941bf640665ca343a908f88aaf546e0fe10445a43fc5d4e5",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
+      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
+      "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2_RECEIPT.json",
+      "sha256": "8d61040a25bf9dc99c5b7a637b3a090b203be6adf05fdf2992f8e708fa33b38b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
+      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
+      "rationale": "Approve V4 E03 CoreManifest/YRTK2 receipt: records CoreManifest, ExportMap, hash tree, artifact identity separation, fixed YRTK2 binary layout and double self-parse gate, binds preceding E02 carrier evidence, keeps runtime apply closed, adds no UI, network, dependency, physical Word saturation, or product runtime change, and records local focused/governance/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",
+      "sha256": "9ae3084f529091138616df3c40a4757b4629c76c18d861cea17f24cc281ff981",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
+      "approvedAtUtc": "2026-07-31T05:05:00.000Z",
+      "rationale": "Approve V4 E03 contract coverage: proves CoreManifest and fixed-length YRTK2 creation/verification, double self-parse pass, hash-cycle blocking, Word signal apply-authority blocking, missing secret, tamper, stale round, digest mismatch, public barrel exports, receipt truth, and platform-neutral source boundaries."
     }
   ]
 }

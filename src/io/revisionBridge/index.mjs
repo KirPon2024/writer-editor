@@ -75,6 +75,22 @@ export {
   buildReviewTransportBlockExactWriterBindingV2,
 } from './reviewTransportBlockExactWriterBindingV2.mjs';
 
+export {
+  RTK_WORD_V4_CORE_MANIFEST_SCHEMA,
+  RTK_WORD_V4_EXPORT_MAP_SCHEMA,
+  RTK_WORD_V4_YRTK2_MAC_DOMAIN,
+  RTK_WORD_V4_YRTK2_MAGIC_ASCII,
+  RTK_WORD_V4_YRTK2_PAYLOAD_BYTES,
+  RTK_WORD_V4_YRTK2_TOKEN_LENGTH,
+  RTK_WORD_V4_YRTK2_TOKEN_SCHEMA,
+  RTK_WORD_V4_YRTK2_TOTAL_BYTES,
+  RTK_WORD_V4_YRTK2_VERSION,
+  createWordV4CoreManifest,
+  createYrtk2RoundLocatorToken,
+  evaluateWordV4DoubleSelfParse,
+  verifyYrtk2RoundLocatorToken,
+} from './reviewTransportYrtk2Core.mjs';
+
 export const REVISION_BRIDGE_P0_PACKET_SCHEMA = 'revision-bridge-p0.packet.v1';
 export const REVISION_BRIDGE_REVISION_SESSION_SCHEMA = 'revision-bridge.revision-session.v1';
 export const REVISION_BRIDGE_COMMENT_THREAD_SCHEMA = 'revision-bridge.comment-thread.v1';

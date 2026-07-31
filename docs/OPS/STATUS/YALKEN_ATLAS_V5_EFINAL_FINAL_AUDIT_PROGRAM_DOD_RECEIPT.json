@@ -1,11 +1,11 @@
 {
-  "schemaVersion": "yalken.atlas.v5.efinal.finalAuditProgramDod.receipt.v1",
-  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
-  "contourId": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
+  "schemaVersion": "yalken.atlas.v5.efinal.finalAuditProgramDod.receipt.v2",
+  "taskId": "YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_EFINAL_REVALIDATION",
+  "contourId": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD_REVALIDATION",
   "programStage": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-  "baseSha": "66d51430725257e7501ab58a2f761fac5a908b6e",
-  "headShaAtReceiptGeneration": "66d51430725257e7501ab58a2f761fac5a908b6e",
-  "generatedAtUtc": "2026-07-31T13:04:40.464Z",
+  "baseSha": "cefe359e99348af99744f0b8e7bf393b2c3f244b",
+  "headShaAtReceiptGeneration": "309e24e7cc64320e086b3e935bfc7c4c3054f3e9",
+  "generatedAtUtc": "2026-07-31T22:11:27.540Z",
   "designToolRouter": "NOT_APPLICABLE_FINAL_AUDIT_AND_CERTIFICATION_EVIDENCE_ONLY_NO_UI_DESIGN_CONTRACT_CHANGE",
   "status": "PASS_EFINAL_READY_FOR_DELIVERY",
   "pass": true,
@@ -14,28 +14,38 @@
   "evidence": {
     "finalAuditReport": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
-      "bytes": 29513,
-      "sha256": "085be4f8a8d81e473027de7d74908242dbed1a6f9640fac1e29ead14e042113d"
+      "bytes": 31891,
+      "sha256": "80744a52dadb6879145f62becda5e0413686070aa439ef392bfbdeb68cbdf5b7"
     },
     "revalidatedC01PackageArtifact": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
       "bytes": 3511,
-      "sha256": "6e96d170ef954fc265991205283890c989cb8d106e10996cf1b19778b933f4d4"
+      "sha256": "318a6d8c385d6faabff721806e227f13ead26e29ad06e6a1f9a57dd617e9d27d"
     },
     "revalidatedC02PackagedCriticalJourney": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c02-packaged-critical-journey/packaged-critical-journey-report.json",
       "bytes": 5218,
-      "sha256": "2be8183ced1ca737eba88b4808607157aab017bb8ea96ae7c21deb37f5c8bfbf"
+      "sha256": "b26fa6a9f3ec4e3785809b26d4351d5da4c178b25f8a5448e659da493e3c359c"
     },
     "revalidatedC03PackagedAccessibilityResponsiveVisual": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/packaged-accessibility-responsive-visual-regression-report.json",
-      "bytes": 7283,
-      "sha256": "7e06cde975cc8acab1647b81556ff6494d9b0edc1a89f212c367f71b10e5cea3"
+      "bytes": 11103,
+      "sha256": "1bfa3957297fb98d0437f82a36c384ad91c03dbbfb7ee440835fdc9b2bd86996"
     },
     "revalidatedC04PackagedPerformanceSecurity": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/packaged-performance-security-final-platform-handoff-report.json",
-      "bytes": 3914,
-      "sha256": "4473b4eb311d5708765538c1a616ffd03a098edefc05b77cacad7d4a9f4e2300"
+      "bytes": 3906,
+      "sha256": "f52dcaf8f74819802acd34cf79a62555b950bfe81a9acda1d3cb688ac9b699c6"
+    },
+    "revalidatedC04WorkerBudget": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/er-c05-10k-worker-budget.json",
+      "bytes": 2643,
+      "sha256": "8973e9a859d720785624ae025000124b7b4ce837b2a7bb7fcdf11d5e25bcc5ec"
+    },
+    "revalidatedC04GenericSastOutput": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/generic-sast-output.txt",
+      "bytes": 201,
+      "sha256": "7ab06dc13e31a7f129053d69cde22f522550d6bf68d82fd2efa150dd695ca0a8"
     }
   },
   "programDodEvidence": {
@@ -52,46 +62,43 @@
       "android": "NOT_ACTIVATED_NO_PASS_NO_HOLD"
     }
   },
+  "falseReadinessGuards": {
+    "invalidatedErC04CanCertifyProgramDoD": false,
+    "invalidatedErC06CanCertifyProgramDoD": false,
+    "invalidatedErC07CanCertifyProgramDoD": false,
+    "staleSelfFinalReceiptCanCertifyProgramDoD": false,
+    "fullRunnerFailureCanBeMarkedPass": false
+  },
   "validation": [
     {
       "command": "node --test test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
       "result": "PASS",
-      "summary": "4 pass, 0 fail"
+      "summary": "5 pass, 0 fail"
     },
     {
       "command": "node scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
       "result": "PASS",
-      "summary": "PASS_EFINAL_READY_FOR_DELIVERY; Program DoD map 20/20; critical invariants 20/20; finalProgramDoDClaim scoped to pending PR merge and remote SHA verification"
+      "summary": "PASS_EFINAL_READY_FOR_DELIVERY; Program DoD map 20/20; critical invariants 20/20; stale invalidated receipts rejected; report bound to clean implementation commit 309e24e7cc64320e086b3e935bfc7c4c3054f3e9 with final delivery commit and remote merge pending."
     },
     {
       "command": "node scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs --skip-build --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact",
       "result": "PASS",
-      "summary": "PASS_UNSIGNED_LOCAL_ARTIFACT; app.asar sha256 71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9; local unsigned/not-notarized limitation preserved"
+      "summary": "PASS_UNSIGNED_LOCAL_ARTIFACT; app.asar sha256 39382c67ffa427a8e4604399a74337570695d6c88d7db8b44fa948a6d273ccca"
     },
     {
       "command": "node scripts/ops/yalken-atlas-v5-e11-c02-packaged-critical-journey.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c02-packaged-critical-journey",
       "result": "PASS",
-      "summary": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY; create/save/reopen/recovery/export/import through packaged runtime; networkRequests=0"
+      "summary": "PASS_PACKAGE_BOUND_RUNTIME_JOURNEY; fresh-process reopen; export/import; networkRequests=0"
     },
     {
       "command": "node scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual",
       "result": "PASS",
-      "summary": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION; desktop/tablet/mobile screenshots, keyboard/focus, contrast, scroll and visual delta budgets pass"
+      "summary": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION; 1440/1024/900/768 plus 390 advisory; stale baselines explicit"
     },
     {
       "command": "node scripts/ops/yalken-atlas-v5-e11-c04-packaged-performance-security-final-platform-handoff.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security",
       "result": "PASS",
-      "summary": "PASS_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF; ER_C05 10k p95 wall 108.933ms; SAST 0 findings, 0 timeouts, 0 parser gaps"
-    },
-    {
-      "command": "node scripts/run-tests.js",
-      "result": "PASS",
-      "summary": "797 tests; 733 pass; 0 fail; 64 skipped; perf baseline and release checks PASS"
-    },
-    {
-      "command": "OPS_CONTEXT_MODE=dev HEAD_STRICT_MODE=dev npm run -s test:ops",
-      "result": "PASS",
-      "summary": "pre-PR dev guard mode expected after final approval refresh; will be verified after receipt approval"
+      "summary": "PASS_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF; p95WallTimeMs=118.034; SAST findings=0 timeouts=0 parserErrors=0"
     },
     {
       "command": "npm run -s design-os:doctrine",
@@ -104,28 +111,21 @@
       "summary": "OSS policy OK: no Tiptap Pro / no private registry"
     },
     {
-      "command": "npm run -s security:audit:generic-sast",
-      "result": "PASS",
-      "summary": "GENERIC_SAST_FINDINGS=0; GENERIC_SAST_TIMEOUTS=0; GENERIC_SAST_NON_TIMEOUT_ERRORS=0; GENERIC_SAST_STATUS=PASS"
-    },
-    {
-      "command": "node scripts/ops/governance-change-detection.mjs",
-      "result": "PASS",
-      "summary": "GOVERNANCE_CHANGE_OK=1 after final receipt approval refresh"
-    },
-    {
       "command": "git diff --check",
       "result": "PASS",
       "summary": "no whitespace errors"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1 after EFINAL governance approval binding."
+    },
+    {
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "summary": "Full runner PASS on approved EFINAL validation form: 798 tests, 734 pass, 0 fail, 64 skipped; perf baseline and release checks PASS."
     }
   ],
-  "falseReadinessGuards": {
-    "missingReceiptCanPass": false,
-    "nonPassingReceiptCanPass": false,
-    "inactivePlatformCanBeCertified": false,
-    "ciParityCanSubstitutePackagedProof": false,
-    "finalDoneBeforeMergeCanPass": false
-  },
   "deliveryBinding": {
     "commitRequired": true,
     "pushRequired": true,
@@ -135,5 +135,8 @@
     "remoteShaVerificationRequired": true,
     "branchCleanupRequired": true,
     "mutableStateDoneUpdateRequiredAfterMerge": true
-  }
+  },
+  "receiptDigestExcludingSelf": "a4ef2fd5540de0fd5fa346902834b4a84297c663975008622ae9e14f8258eec4",
+  "validatedImplementationSha": "309e24e7cc64320e086b3e935bfc7c4c3054f3e9",
+  "finalDeliveryHeadSha": "PENDING_EVIDENCE_BINDING_COMMIT_AND_PR_MERGE"
 }

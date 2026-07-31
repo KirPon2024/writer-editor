@@ -19,15 +19,15 @@
     "maxPlannedEdges": 960
   },
   "metrics": {
-    "p50WallTimeMs": 96.157,
-    "p95WallTimeMs": 108.933,
-    "p50InputLatencyMs": 0.016,
-    "p95InputLatencyMs": 0.017,
-    "p50FrameDelayMs": 0.016,
-    "p95FrameDelayMs": 0.017,
-    "maxHeapDeltaBytes": 4596944,
+    "p50WallTimeMs": 100.82,
+    "p95WallTimeMs": 118.034,
+    "p50InputLatencyMs": 0.017,
+    "p95InputLatencyMs": 0.02,
+    "p50FrameDelayMs": 0.017,
+    "p95FrameDelayMs": 0.02,
+    "maxHeapDeltaBytes": 0,
     "maxFrameOverrunCount": 0,
-    "minInputSampleCount": 5713,
+    "minInputSampleCount": 5671,
     "maxPlannedNodes": 640,
     "maxPlannedEdges": 370,
     "minSpatialIndexCells": 155,
@@ -43,11 +43,11 @@
   },
   "runs": [
     {
-      "wallTimeMs": 108.933,
-      "inputLatencyP95Ms": 0.015,
-      "frameDelayP95Ms": 0.015,
+      "wallTimeMs": 118.034,
+      "inputLatencyP95Ms": 0.016,
+      "frameDelayP95Ms": 0.016,
       "frameOverrunCount": 0,
-      "sampleCount": 6860,
+      "sampleCount": 7292,
       "heapDeltaBytes": 0,
       "workerThreadId": 1,
       "executionMode": "worker-thread",
@@ -55,14 +55,14 @@
       "plannedEdges": 370,
       "spatialIndexCells": 155,
       "transferableByteLength": 147264,
-      "workerComputeMs": 42.047
+      "workerComputeMs": 44.01
     },
     {
-      "wallTimeMs": 96.157,
+      "wallTimeMs": 97.89,
       "inputLatencyP95Ms": 0.017,
       "frameDelayP95Ms": 0.017,
       "frameOverrunCount": 0,
-      "sampleCount": 5713,
+      "sampleCount": 5671,
       "heapDeltaBytes": 0,
       "workerThreadId": 2,
       "executionMode": "worker-thread",
@@ -70,22 +70,22 @@
       "plannedEdges": 370,
       "spatialIndexCells": 155,
       "transferableByteLength": 147264,
-      "workerComputeMs": 42.514
+      "workerComputeMs": 42.598
     },
     {
-      "wallTimeMs": 92.862,
-      "inputLatencyP95Ms": 0.016,
-      "frameDelayP95Ms": 0.016,
+      "wallTimeMs": 100.82,
+      "inputLatencyP95Ms": 0.02,
+      "frameDelayP95Ms": 0.02,
       "frameOverrunCount": 0,
-      "sampleCount": 6144,
-      "heapDeltaBytes": 4596944,
+      "sampleCount": 5965,
+      "heapDeltaBytes": 0,
       "workerThreadId": 3,
       "executionMode": "worker-thread",
       "plannedNodes": 640,
       "plannedEdges": 370,
       "spatialIndexCells": 155,
       "transferableByteLength": 147264,
-      "workerComputeMs": 41.575
+      "workerComputeMs": 44.769
     }
   ],
   "failures": [],

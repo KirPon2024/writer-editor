@@ -1536,31 +1536,31 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
-      "sha256": "085be4f8a8d81e473027de7d74908242dbed1a6f9640fac1e29ead14e042113d",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "80744a52dadb6879145f62becda5e0413686070aa439ef392bfbdeb68cbdf5b7",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:11:27.548Z",
+      "rationale": "Approve EFINAL evidence-binding update: final audit report and receipt are generated from clean implementation commit 309e24e7, Program DoD evidence remains PASS, and final delivery remote SHA remains pending PR merge verification."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
-      "sha256": "6e96d170ef954fc265991205283890c989cb8d106e10996cf1b19778b933f4d4",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "318a6d8c385d6faabff721806e227f13ead26e29ad06e6a1f9a57dd617e9d27d",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c02-packaged-critical-journey/packaged-critical-journey-report.json",
-      "sha256": "2be8183ced1ca737eba88b4808607157aab017bb8ea96ae7c21deb37f5c8bfbf",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "b26fa6a9f3ec4e3785809b26d4351d5da4c178b25f8a5448e659da493e3c359c",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-desktop.png",
-      "sha256": "b75a6e22f1880b89ada53960532671dd7d230f98270570170fa9114fea8939ed",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "c4c31ec93533c4e2fcc91e8ba66912d2e648a52c6a40b57846a7815ec77d2936",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-mobile.png",
@@ -1571,31 +1571,31 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-responsive-audit.json",
-      "sha256": "1e8bf7caaf7bf14b9107cf0a8aed12cbefeea7475b728ffff793fca93d9b5268",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "a588e370ace5e9a2aa871ce6276197d9642a679ad46639ec8ce4ac207544f4e1",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-tablet.png",
-      "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "460e17150cabf5ffb44dd721ea87c169f473a9fcfed6de8e18d0dbbcde8a73f4",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/packaged-accessibility-responsive-visual-regression-report.json",
-      "sha256": "7e06cde975cc8acab1647b81556ff6494d9b0edc1a89f212c367f71b10e5cea3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "1bfa3957297fb98d0437f82a36c384ad91c03dbbfb7ee440835fdc9b2bd86996",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/er-c05-10k-worker-budget.json",
-      "sha256": "dc05a834bd0798a892160fd457787fd449b638bb982a39509c4f78c7afe3579c",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "8973e9a859d720785624ae025000124b7b4ce837b2a7bb7fcdf11d5e25bcc5ec",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/generic-sast-output.txt",
@@ -1606,10 +1606,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c04-performance-security/packaged-performance-security-final-platform-handoff-report.json",
-      "sha256": "4473b4eb311d5708765538c1a616ffd03a098edefc05b77cacad7d4a9f4e2300",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "f52dcaf8f74819802acd34cf79a62555b950bfe81a9acda1d3cb688ac9b699c6",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-desktop.png",
@@ -3748,10 +3748,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
-      "sha256": "10c33909198d5a80b80550906ff10e2a8659df06402766a5f6bb4861d5446767",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "4587d498a19ece340f455b61d35b5c567fd48513ec5d64b6700d8b53824b1635",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:11:27.548Z",
+      "rationale": "Approve EFINAL evidence-binding update: final audit report and receipt are generated from clean implementation commit 309e24e7, Program DoD evidence remains PASS, and final delivery remote SHA remains pending PR merge verification."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",
@@ -4672,10 +4672,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs",
-      "sha256": "2b48140b1cb5c2b1745738f5f6ab6f4faf580bf7cc927467d118fc7f020bebb3",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "263b2f468140a36914716c38fed85b71e4463b9283b36c1f1d4a29ee4024e940",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c05-10k-worker-budget.mjs",
@@ -6870,10 +6870,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
-      "sha256": "3b249a93d015f28e307a8a3876fedeff9d9aa652822d02b7ab0dfe46a4c5312d",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-      "approvedAtUtc": "2026-07-31T13:04:40.469Z",
-      "rationale": "Approve bounded EFINAL final audit and receipt artifacts: Program DoD evidence map 20/20, critical invariants 20/20, macOS packaged Electron C01-C04 revalidation, full runner 797 total 733 pass 0 fail 64 skipped, doctrine OSS SAST diff governance gates, inactive platforms no-pass-no-hold, and final DONE still bound to PR merge remote SHA verification and clean worktree."
+      "sha256": "413864703c91c9293cb756579aac868faf509b6df7c822e4e3672185975a4d2f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
@@ -7028,6 +7028,27 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-compact.png",
+      "sha256": "06cecc06baedba84837e1ddd262e20eb9030b2082e30de74376dbce6b0a0b2b3",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-handset-advisory.png",
+      "sha256": "84956b363690a1bdeb4db4d1d209a454f57aaa0df417a1cf97182c83a312e059",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c03-accessibility-responsive-visual/atlas-er-c06-laptop.png",
+      "sha256": "3e3c22d7da45791bc19cc0c65c3c9e087a542d912731f83bed4b76fdb5facc95",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
+      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
+      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
     }
   ]
 }

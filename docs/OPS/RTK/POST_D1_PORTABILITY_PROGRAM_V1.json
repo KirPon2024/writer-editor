@@ -360,7 +360,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MODERN_COMMENT_NATIVE_UI_CERTIFICATION",
+  "nextStep": "EXECUTION_12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",

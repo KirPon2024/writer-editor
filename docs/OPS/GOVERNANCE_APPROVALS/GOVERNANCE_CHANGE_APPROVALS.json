@@ -6541,10 +6541,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "da366ca0d2b589d5f63829ce07e844d81b5ba598207fed287650f1d5343c1810",
-      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
-      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
+      "sha256": "5ffa3a8c6394258765f6229a0815464d8e8432e07748943c3bb31c7f00c2b664",
+      "approvedBy": "ticket:YALKEN_WORD_E12_A02_NEXTSTEP_REPAIR",
+      "approvedAtUtc": "2026-07-31T15:50:00.000Z",
+      "rationale": "Approve narrow post-merge A02 truth repair: active program nextStep now matches the terminal A02 Word audit and A03 promotion-list stage already bound in v4ExecutionState and saturation ledger; no corpus rerun, runtime authority, UI, network, apply, Google, or Word SATURATED claim is introduced."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
@@ -6597,10 +6597,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "42107158e0c5d5e37e40b99d249dccc1137bfdf43dab261e7087d7c1107dae6b",
-      "approvedBy": "ticket:YALKEN_WORD_E12_TARGETED_GAP_CLOSURE_AND_A02_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T15:40:00.000Z",
-      "rationale": "Approve bounded A02 targeted Word gap closure and reconciliation: no generic wave-300 repeat, 30 physical Word 16.111.2 targeted save-close-reopen cases, NCUI-002 range-shift repaired by end-to-start selection, stale program truth removed, reply/resolve and literal overlap remain typed limitations, zero veto metrics, Google closed, no runtime/apply/UI/network authority expansion."
+      "sha256": "8d20fb3a97c891184c7e9faa80011a056b2738669d90b40aa02cf58a7c24ef17",
+      "approvedBy": "ticket:YALKEN_WORD_E12_A02_NEXTSTEP_REPAIR",
+      "approvedAtUtc": "2026-07-31T15:50:00.000Z",
+      "rationale": "Approve narrow post-merge A02 truth repair contract: ledger contract now asserts program nextStep agrees with the A02 terminal audit and A03 promotion-list stage; no corpus rerun, runtime authority, UI, network, apply, Google, or Word SATURATED claim is introduced."
     }
   ]
 }

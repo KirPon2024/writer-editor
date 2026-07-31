@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-promotion-list.v1",
   "taskId": "YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-  "status": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_C03_NEXT",
+  "status": "A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_C03_NEXT",
   "createdAtUtc": "2026-07-31T16:19:31.790Z",
   "sourceTerminalReceipt": {
     "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
@@ -57,12 +57,13 @@
         "NCUI-T18"
       ],
       "parserComponentConsumer": "Minimal Word Semantic Kernel TextRevision lane",
-      "missingRuntimeWiring": "none for physically proven non-overlap tracked replacement pairs; adjacent triple and overlap remain typed limitations",
+      "missingRuntimeWiring": "Word-return preview/apply flow does not yet dispatch the RTK non-overlap tracked replacement command from user confirmation.",
       "authorityLevel": {
         "physicalWordProven": true,
         "componentProven": true,
-        "productRuntimeWired": true,
-        "automaticApplyCertified": true
+        "productRuntimeWired": false,
+        "automaticApplyCertified": false,
+        "productCompositionRegistered": true
       },
       "negativeTests": [
         "valid signed locator required before apply",
@@ -237,7 +238,7 @@
     "totalRows": 5,
     "physicalWordProvenRows": 2,
     "componentProvenRows": 4,
-    "productRuntimeWiredRows": 2,
-    "automaticApplyCertifiedRows": 1
+    "productRuntimeWiredRows": 1,
+    "automaticApplyCertifiedRows": 0
   }
 }

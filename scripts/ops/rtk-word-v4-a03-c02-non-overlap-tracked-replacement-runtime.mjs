@@ -26,7 +26,7 @@ const LEDGER_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANT
 const PROMOTION_LIST_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json');
 
 const RECEIPT_SCHEMA = 'yalken.rtk.word-safe-semantic-roundtrip-v4.a03-c02-non-overlap-tracked-replacement-runtime-receipt.v1';
-const STATUS = 'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED';
+const STATUS = 'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH';
 const NEXT_STAGE = 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE';
 const C02_RECEIPT_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json';
 const C01_RECEIPT_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json';
@@ -347,9 +347,13 @@ async function buildReceipt() {
       capability: 'nonOverlapTrackedReplacementRuntimeApply',
       physicalWordProven: true,
       componentProven: true,
-      productRuntimeWired: true,
-      automaticApplyCertified: true,
+      productCompositionRegistered: true,
+      productRuntimeWired: false,
+      endToEndProductPathWired: false,
+      automaticApplyCertified: false,
+      userAutomaticApplyCertified: false,
       scope: 'physically proven non-overlap tracked replacement pairs only',
+      truthRepair: 'Command Kernel registration plus component writer proof is not a user-reachable Word-return product apply path.',
       notPromoted: [
         'adjacent triple edits',
         'literal overlap',
@@ -412,17 +416,26 @@ function upsertBinding(ledger, id, receiptPath) {
 
 function updateStateFiles(receipt) {
   const promotionList = readJson(PROMOTION_LIST_PATH);
-  promotionList.status = 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_C03_NEXT';
+  promotionList.status = 'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_C03_NEXT';
   promotionList.latestRuntimeContour = CONTOUR_ID;
   promotionList.nextContour = 'A03-C03';
   promotionList.truthRepair = receipt.truthCorrections;
   promotionList.priorPr1320FullChangedBasenames = PRIOR_PR_1320_FULL_BASENAMES;
   for (const row of Array.isArray(promotionList.rows) ? promotionList.rows : []) {
-    if (row.capability === 'nonOverlapTrackedReplacementShadowImport') {
+    if (
+      row.capability === 'nonOverlapTrackedReplacementShadowImport'
+      || row.capability === 'nonOverlapTrackedReplacementRuntimeApply'
+    ) {
       row.capability = 'nonOverlapTrackedReplacementRuntimeApply';
-      row.missingRuntimeWiring = 'none for physically proven non-overlap tracked replacement pairs; adjacent triple and overlap remain typed limitations';
-      row.authorityLevel.productRuntimeWired = true;
-      row.authorityLevel.automaticApplyCertified = true;
+      row.missingRuntimeWiring = 'Word-return preview/apply flow does not yet dispatch the RTK non-overlap tracked replacement command from user confirmation.';
+      row.authorityLevel = row.authorityLevel && typeof row.authorityLevel === 'object'
+        ? row.authorityLevel
+        : {};
+      row.authorityLevel.physicalWordProven = true;
+      row.authorityLevel.componentProven = true;
+      row.authorityLevel.productRuntimeWired = false;
+      row.authorityLevel.automaticApplyCertified = false;
+      row.authorityLevel.productCompositionRegistered = true;
       row.runtimeContour = CONTOUR_ID;
       row.runtimeReceiptPath = C02_RECEIPT_REF;
     }
@@ -431,23 +444,24 @@ function updateStateFiles(receipt) {
   writeJson(PROMOTION_LIST_PATH, promotionList);
 
   const profile = readJson(PROFILE_PATH);
-  profile.status = 'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED';
+  profile.status = 'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH';
   const cells = Array.isArray(profile.cells) ? profile.cells : [];
   const saturationCell = cells.find((item) => item.capabilityId === 'rtk.word.v4.saturationLedger');
   if (saturationCell) {
-    saturationCell.currentCapability = 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED';
+    saturationCell.currentCapability = 'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_NOT_SATURATED';
     saturationCell.physicalWordEvidence = true;
   }
   const cell = {
     capabilityId: 'rtk.word.v4.nonOverlapTrackedReplacementRuntimeApply',
     operationFamily: 'TextRevision replacement-pair inside trusted single-scene block range',
-    state: 'AUTOMATIC_APPLY_CERTIFIED',
-    currentCapability: 'EXACT_AUTOMATIC_FOR_PHYSICALLY_PROVEN_NON_OVERLAP_TRACKED_REPLACEMENTS_ONLY',
+    state: 'COMPONENT_PROVEN',
+    currentCapability: 'COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED_FOR_PHYSICALLY_PROVEN_NON_OVERLAP_TRACKED_REPLACEMENTS',
     physicalWordEvidence: true,
     componentProven: true,
-    productRuntimeWired: true,
-    automaticApplyCertified: true,
-    consumer: 'Command Kernel RTK non-overlap tracked replacement apply command',
+    productCompositionRegistered: true,
+    productRuntimeWired: false,
+    automaticApplyCertified: false,
+    consumer: 'Command Kernel RTK non-overlap tracked replacement command registration and component handler',
     acceptanceTest: 'test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js',
     evidenceReceiptPath: C02_RECEIPT_REF,
     guards: [
@@ -466,7 +480,7 @@ function updateStateFiles(receipt) {
       'move revisions remain blocked',
       'structural changes remain blocked',
     ],
-    killCriterion: 'Any unsigned, stale, duplicate, ambiguous, overlapping, wrong-scene, reverse-verify-failing, or recovery-failing input applies.',
+    killCriterion: 'Any receipt claims user automatic apply before a real Word-return preview/apply product path dispatches this command through existing ports and Command Kernel.',
   };
   const cellIndex = cells.findIndex((item) => item.capabilityId === cell.capabilityId);
   if (cellIndex >= 0) cells[cellIndex] = cell;
@@ -479,31 +493,34 @@ function updateStateFiles(receipt) {
   program.nextStep = NEXT_STAGE;
   program.v4ExecutionState = {
     ...(program.v4ExecutionState && typeof program.v4ExecutionState === 'object' ? program.v4ExecutionState : {}),
-    status: 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED',
+    status: 'EXECUTION_03_A03_C02_COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED',
     currentStage: 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR',
     nextStage: NEXT_STAGE,
     latestReceiptPath: C02_RECEIPT_REF,
     c01TruthRepairBound: true,
     c01ProductRuntimeOverclaimRepaired: true,
-    nonOverlapTrackedReplacementRuntimeWired: true,
-    nonOverlapTrackedReplacementAutomaticApplyCertified: true,
-    runtimeApplyAuthorityGranted: true,
-    runtimeApplyAuthorityScope: 'NON_OVERLAP_TRACKED_REPLACEMENT_PAIRS_ONLY',
-    automaticApplyCertified: 1,
+    nonOverlapTrackedReplacementComponentProven: true,
+    nonOverlapTrackedReplacementProductCompositionRegistered: true,
+    nonOverlapTrackedReplacementRuntimeWired: false,
+    nonOverlapTrackedReplacementEndToEndProductPathWired: false,
+    nonOverlapTrackedReplacementAutomaticApplyCertified: false,
+    runtimeApplyAuthorityGranted: false,
+    runtimeApplyAuthorityScope: 'NONE_C02_COMPONENT_ONLY',
+    automaticApplyCertified: 0,
     wordSaturated: false,
     googleDocsOpened: false,
   };
   writeJson(PROGRAM_PATH, program);
 
   const ledger = readJson(LEDGER_PATH);
-  ledger.status = 'WORD_SATURATION_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_CERTIFIED_NOT_SATURATED';
+  ledger.status = 'WORD_SATURATION_A03_C02_COMPONENT_PROVEN_NOT_PRODUCT_PATH_NOT_SATURATED';
   ledger.nextStage = NEXT_STAGE;
   ledger.runtimeClaims = {
     ...(ledger.runtimeClaims && typeof ledger.runtimeClaims === 'object' ? ledger.runtimeClaims : {}),
     productRuntimeChanged: true,
-    writerAuthorityAdded: true,
-    automaticApplyExpanded: true,
-    automaticApplyScope: 'non-overlap tracked replacement pairs only',
+    writerAuthorityAdded: false,
+    automaticApplyExpanded: false,
+    automaticApplyScope: 'none; C02 component is registered but not user product path wired',
     uiChanged: false,
     dependencyAdded: false,
     networkAdded: false,
@@ -512,10 +529,12 @@ function updateStateFiles(receipt) {
   };
   ledger.aggregateTotals = {
     ...(ledger.aggregateTotals && typeof ledger.aggregateTotals === 'object' ? ledger.aggregateTotals : {}),
-    a03PromotionProductRuntimeWiredRows: 2,
-    a03PromotionAutomaticApplyCertifiedRows: 1,
-    a03C02NonOverlapTrackedReplacementRuntimeWired: 1,
-    a03C02AutomaticApplyCertifiedRows: 1,
+    a03PromotionProductRuntimeWiredRows: 1,
+    a03PromotionAutomaticApplyCertifiedRows: 0,
+    a03C02NonOverlapTrackedReplacementComponentProven: 1,
+    a03C02NonOverlapTrackedReplacementProductCompositionRegistered: 1,
+    a03C02NonOverlapTrackedReplacementRuntimeWired: 0,
+    a03C02AutomaticApplyCertifiedRows: 0,
     falseExact: 0,
     wrongSceneRouting: 0,
     silentApply: 0,
@@ -527,6 +546,8 @@ function updateStateFiles(receipt) {
       status: 'BOUND',
       sourceEvidence: 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME',
       result: STATUS,
+      productRuntimeWired: false,
+      automaticApplyCertified: false,
     },
   };
   upsertBinding(ledger, 'A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME', C02_RECEIPT_REF);

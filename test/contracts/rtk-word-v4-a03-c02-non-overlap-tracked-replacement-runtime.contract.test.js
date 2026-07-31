@@ -10,7 +10,16 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MODULE_PATH = path.join(REPO_ROOT, 'src', 'io', 'revisionBridge', 'reviewTransportNonOverlapTrackedReplacementRuntime.mjs');
 const COMMAND_KERNEL_PATH = path.join(REPO_ROOT, 'src', 'command', 'commandSurfaceKernel.js');
 const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
+const C01_COMMAND_ID = 'cmd.rtk.reviewSession.importComments';
 const COMMAND_ID = 'cmd.rtk.review.applyNonOverlapTrackedReplacements';
+const RECEIPT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json');
+const PROMOTION_LIST_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json');
+const PROFILE_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json');
+const LEDGER_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json');
+
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+}
 
 function stableJson(value) {
   if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
@@ -31,6 +40,10 @@ const cryptoPort = {
 
 function sha256Text(value) {
   return `sha256:${cryptoPort.sha256Text(value)}`;
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
 }
 
 async function loadModule() {
@@ -300,4 +313,40 @@ test('A03 C02 product command kernel is allowlisted and no UI or renderer author
   assert.equal(mainSource.includes('handleRtkNonOverlapTrackedReplacementCommandSurface'), true);
   assert.equal(mainSource.includes('cmd.rtk.review.applyNonOverlapTrackedReplacements'), true);
   assert.equal(mainSource.includes('rendererWriteAuthority: true'), false);
+});
+
+test('A03 C02 command registration alone cannot claim user product apply wiring', () => {
+  const { ALLOWED_COMMAND_IDS } = require(COMMAND_KERNEL_PATH);
+  const mainSource = fs.readFileSync(MAIN_PATH, 'utf8');
+  const receipt = readJson(RECEIPT_PATH);
+  const promotionList = readJson(PROMOTION_LIST_PATH);
+  const profile = readJson(PROFILE_PATH);
+  const ledger = readJson(LEDGER_PATH);
+
+  const c02ProductDispatch = new RegExp(`dispatchCommandSurfaceKernel\\(\\s*['"]${escapeRegExp(COMMAND_ID)}['"]`, 'u');
+  const c01ProductDispatch = new RegExp(`dispatchCommandSurfaceKernel\\(\\s*['"]${escapeRegExp(C01_COMMAND_ID)}['"]`, 'u');
+  const c02Row = promotionList.rows.find((row) => row.capability === 'nonOverlapTrackedReplacementRuntimeApply');
+  const c02ProfileCell = profile.cells.find((cell) => cell.capabilityId === 'rtk.word.v4.nonOverlapTrackedReplacementRuntimeApply');
+
+  assert.equal(ALLOWED_COMMAND_IDS.includes(COMMAND_ID), true);
+  assert.equal(mainSource.includes('handleRtkNonOverlapTrackedReplacementCommandSurface'), true);
+  assert.equal(c01ProductDispatch.test(mainSource), true);
+  assert.equal(c02ProductDispatch.test(mainSource), false);
+
+  assert.equal(receipt.implementedCapability.componentProven, true);
+  assert.equal(receipt.implementedCapability.productCompositionRegistered, true);
+  assert.equal(receipt.implementedCapability.productRuntimeWired, false);
+  assert.equal(receipt.implementedCapability.endToEndProductPathWired, false);
+  assert.equal(receipt.implementedCapability.automaticApplyCertified, false);
+  assert.equal(receipt.implementedCapability.userAutomaticApplyCertified, false);
+
+  assert.equal(c02Row.authorityLevel.componentProven, true);
+  assert.equal(c02Row.authorityLevel.productCompositionRegistered, true);
+  assert.equal(c02Row.authorityLevel.productRuntimeWired, false);
+  assert.equal(c02Row.authorityLevel.automaticApplyCertified, false);
+  assert.equal(c02ProfileCell.state, 'COMPONENT_PROVEN');
+  assert.equal(c02ProfileCell.productRuntimeWired, false);
+  assert.equal(c02ProfileCell.automaticApplyCertified, false);
+  assert.equal(ledger.runtimeClaims.writerAuthorityAdded, false);
+  assert.equal(ledger.runtimeClaims.automaticApplyExpanded, false);
 });

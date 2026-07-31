@@ -5659,17 +5659,17 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "3c2b6b353d581592c613489d07e7fadc0837f1c87807f1ec514513943c3f6456",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
-      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
-      "rationale": "Approve post-D1 RTK program E07 state update: records visible anchored comment shadow analysis certification with typed limitations, 91 visible anchored threads, 2 unsupported blocked threads, no runtime apply authority, no Google execution, and next E08 effective formatting."
+      "sha256": "012475cd75887432850b4c617a23112fcf0f693a96dec6845e6986bcb6c8e502",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
+      "approvedAtUtc": "2026-07-31T10:20:00.000Z",
+      "rationale": "Owner-approved V4 E08 effective formatting contour: physical Word formatting diagnostic lane with typed limitations and no apply authority."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "8c66023a4c91a128c8bb33b65cdd3c024b455387cdcae81a9219ed64a233900d",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
-      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
-      "rationale": "Approve V4 capability profile E07 update: promotes comments shadow analysis to physical Word proven with typed limitations for visible anchored comments and high-density comment corpus, while replies, resolve, reopen, delete and Review Session mutation remain uncertified."
+      "sha256": "6a5517da6eeae47cee8467648d13f2dfa1944a26e71446ea00742ddf0c0f1112",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
+      "approvedAtUtc": "2026-07-31T10:20:00.000Z",
+      "rationale": "Owner-approved V4 E08 effective formatting contour: physical Word formatting diagnostic lane with typed limitations and no apply authority."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
@@ -5687,17 +5687,17 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "69c7bc32cc5b637494c10d0a9fdf0765b0a9c4bdb3bde52f55715683e6cdd5f4",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
-      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
-      "rationale": "Approve Sector-M scope-map E07 exact allowlist update: adds only the E07 ops verifier, E07 receipt, and E07 contract paths; no wildcard prefix, UI, dependency, network, runtime source, or non-Word editor execution is introduced."
+      "sha256": "12c0c3faedd025bce3c8f68d1dd13980f9c90bd72a0009e247b6e3061cfe5bdd",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
+      "approvedAtUtc": "2026-07-31T10:20:00.000Z",
+      "rationale": "Owner-approved V4 E08 effective formatting contour: physical Word formatting diagnostic lane with typed limitations and no apply authority."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "01fa52d2b22a39632e1e365c125bd93be1262a54ad3ace80c36f525e6d57641f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
-      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
-      "rationale": "Approve V4 E06 contract forward-compatible rebind during E07: preserves physical text certification proof while allowing the post-D1 program currentStage to advance to E07, and keeps no Google execution, no runtime writer expansion, and no automatic apply authority."
+      "sha256": "9751e818ed86ddc634da0854012f2d8758aabb93e43f788a920c650ea4c36c55",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
+      "approvedAtUtc": "2026-07-31T10:20:00.000Z",
+      "rationale": "Owner-approved V4 E08 effective formatting contour: physical Word formatting diagnostic lane with typed limitations and no apply authority."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e07-comments-replies-states.mjs",
@@ -5715,10 +5715,31 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "0c157937756181ec10934efe43dd4c5ee71ebc7b55ae9c5485d86f3dc7b2905f",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES",
-      "approvedAtUtc": "2026-07-31T08:55:00.000Z",
-      "rationale": "Approve V4 E07 contract coverage: proves visible anchored comment shadow analysis, high-density package inventory, typed reply resolve reopen delete limitations, false green rejection, optional external T7 digest verification, capability state update, no Google execution, and no runtime mutation authority."
+      "sha256": "63db98955b64f5e3326cda0a1f0a17e2bee011b4311d7a8abe8893f3ad2a5a39",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
+      "approvedAtUtc": "2026-07-31T10:20:00.000Z",
+      "rationale": "Owner-approved V4 E08 effective formatting contour: physical Word formatting diagnostic lane with typed limitations and no apply authority."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e08-effective-formatting.mjs",
+      "sha256": "476b83e5319d0a4b6973fe726b3b412fb77768e065e9a9641f1f82e90700247a",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
+      "approvedAtUtc": "2026-07-31T10:20:00.000Z",
+      "rationale": "Owner-approved V4 E08 effective formatting contour: physical Word formatting diagnostic lane with typed limitations and no apply authority."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING_RECEIPT.json",
+      "sha256": "abdfd069304caedf0ae50e2325b8fe5884c0e3cc528f99c59d340138687c2356",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
+      "approvedAtUtc": "2026-07-31T10:36:00.000Z",
+      "rationale": "Owner-approved V4 E08 final receipt update after focused verifier, contracts, governance, OSS, ops, and full suite PASS."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "963a4b36da2831185413e2cabc5fa9b2ed4e6eb3b4d9f4ed50d2301c6aa20774",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING",
+      "approvedAtUtc": "2026-07-31T10:20:00.000Z",
+      "rationale": "Owner-approved V4 E08 effective formatting contour: physical Word formatting diagnostic lane with typed limitations and no apply authority."
     }
   ]
 }

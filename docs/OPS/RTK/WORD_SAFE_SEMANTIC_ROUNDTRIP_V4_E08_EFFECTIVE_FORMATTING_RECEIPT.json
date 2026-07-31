@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e08-effective-formatting-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_08_EFFECTIVE_FORMATTING",
+  "status": "FORMATTING_DIAGNOSTIC_LANE_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "createdAtUtc": "2026-07-31T10:05:00.000Z",
+  "base": {
+    "originMainSha": "cf9347c19270420d43e1baf826d0d0ece75bbedf",
+    "branch": "codex/rtk-v4-e08-effective-formatting",
+    "preserveOwnerDirtyMain": true,
+    "preserveAtlasWorktree": true,
+    "v6HistoryRewritten": false,
+    "d1EvidenceRewritten": false
+  },
+  "boundSpec": {
+    "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+    "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
+    "blockId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4"
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedProfileId": "word-mac-latest-16.111.2-semantic-v2",
+    "certifiedProfileId": "word-mac-latest-observed-16.111.x-semantic-v2-e08-formatting",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
+    "versionByAppleScript": "16.111.2",
+    "openDocumentsBeforeLab": 1,
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "externalEvidence": {
+    "artifactRootKind": "T7_SECURE_SYNTHETIC_PHYSICAL_WORD_LAB",
+    "sourceStage": "EXECUTION_06_PHYSICAL_TEXT_CERTIFICATION",
+    "runId": "e06-physical-text-001",
+    "externalReceiptPath": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e06-physical-text-certification/e06-physical-text-001/b06-physical-certification-receipt.json",
+    "externalReceiptSha256": "f2bba49d7d026f7a31d2594116b8f224777196147c8aa63c4b48607e6a76951a",
+    "externalReceiptDigest": "sha256:1a66926a25f22ba7eb3417381a2515c639244941b5dd9b0b7cdb87f6d95a7a52",
+    "externalFileAvailableAtReceiptCreation": true,
+    "syntheticOnly": true,
+    "userDocumentsOpened": false,
+    "closeNonLabDocuments": false
+  },
+  "formattingTotals": {
+    "physicalFormattingCases": 17,
+    "totalFormattingDeltas": 117,
+    "writerFormattingCases": 11,
+    "writerFormattingDeltas": 26,
+    "commentAnchorFormattingDeltas": 91,
+    "automaticFormattingApplyCertified": 0,
+    "destructiveFormattingApplyAdded": 0,
+    "productNetworkRequests": 0
+  },
+  "formattingCertificationBoundary": {
+    "proven": [
+      "inline rPr formatting deltas survive physical Word save close reopen and parser readback",
+      "paragraph property style list alignment and inert hyperlink inventory survive as diagnostic manual lane evidence",
+      "formatting deltas are parsed independently from manuscript text apply authority",
+      "formatting deltas survive RU EN Unicode and writer-scale physical Word corpus rows",
+      "comment-anchor formatting markers remain diagnostic and do not grant comment or manuscript mutation authority"
+    ],
+    "notProven": [
+      "automatic destructive formatting apply",
+      "full style list hyperlink semantic normalization",
+      "tables sections footnotes endnotes fields headers footers page numbers images captions and layout fidelity as exact authority",
+      "formatting authority without signed locator and explicit command envelope"
+    ]
+  },
+  "formattingCertificationCases": [
+    {
+      "caseId": "WL2-018",
+      "title": "inline formatting marks",
+      "family": "formatting typography hyperlink and style corpus",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "provenKinds": [
+        "rPr"
+      ],
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 4,
+        "opaqueUnsupported": 6
+      },
+      "sourceDocxSha256": "sha256:9dece372f1d31d49638929e44711470a702b4d8fa9a6e7bb55d4b6e3deb0356a",
+      "returnedDocxSha256": "sha256:46afa3adfc71de946658964b26683043c15c4a306d6fab10e9ea3710b0c4a807",
+      "analysisDigest": "sha256:de877b313f1e3795ac92f1b9e71bc38b5ee659861568645bc98ed5a7720e8837",
+      "parserProfileDigest": "sha256:b4ad50ca796f1690ca8f93f495bd591d2234ad9080274843af8e832500cf266a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-019",
+      "title": "styles alignment lists tabs and hyperlinks",
+      "family": "formatting typography hyperlink and style corpus",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "provenKinds": [
+        "pPr",
+        "hyperlink"
+      ],
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 1,
+        "opaqueUnsupported": 7
+      },
+      "sourceDocxSha256": "sha256:4dcf32cc26709cfb35f1c5f58bca785697a45eea5b732f90dc63ede9de61f01e",
+      "returnedDocxSha256": "sha256:99d247fcbff95d95fe8bad15c9a5d6f478718a8603db190fd405a4b00a24771c",
+      "analysisDigest": "sha256:adf416af18121608b80ef4bf8f81e85b63163c5a7f59de96907b0c7a6ffed58a",
+      "parserProfileDigest": "sha256:7546a0bf71cc242c37cb87173081a0219d86b683cc81e2883dd075020bb3f450",
+      "limitations": [
+        "STYLE_LIST_HYPERLINK_SEMANTICS_SEE_PACKAGE_READBACK_MANUAL"
+      ]
+    },
+    {
+      "caseId": "WL2-021",
+      "title": "unicode locale and bidi corpus",
+      "family": "unicode locale text and formatting corpus",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "provenKinds": [
+        "rPr"
+      ],
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 5,
+        "opaqueUnsupported": 6
+      },
+      "sourceDocxSha256": "sha256:33a02aaf5d4127f09c57ae7c45f2a204b47016b3d4d370eaae1be3baedc6e99c",
+      "returnedDocxSha256": "sha256:448ffbf236ca3f58e78d656507ef9911b07547e476bc2b20bda6c194589f3dd0",
+      "analysisDigest": "sha256:df4c6c89c81bc02627930d6b9f26b8ecefbd844fc9ca700a2cdc4a1500a3af61",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-026",
+      "title": "100k word writer scale text",
+      "family": "writer scale text and formatting corpus",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "provenKinds": [
+        "rPr"
+      ],
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 6
+      },
+      "sourceDocxSha256": "sha256:aead46bb662099a56b9aa69c81e3be21aa80d83ddabc063dd64861283ac16354",
+      "returnedDocxSha256": "sha256:1bd066eda62baeccf9474a2bf3fa35995dd213ba1651f1b5d1addb1e5c4f5635",
+      "analysisDigest": "sha256:c4235f641068c0d594a4024d107d2f2c8d0856a50584c5cb0f1efa56b544706b",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": []
+    },
+    {
+      "caseId": "WL2-030",
+      "title": "supported apply re-export no-edit oracle",
+      "family": "re-export no-edit oracle and locator-drop boundary",
+      "wordStatus": "PASS",
+      "parserStatus": "PASS",
+      "sourceMode": "CLEAN",
+      "provenKinds": [
+        "rPr"
+      ],
+      "reviewIrSummary": {
+        "textRevisions": 0,
+        "commentThreads": 0,
+        "formattingDeltas": 2,
+        "opaqueUnsupported": 6
+      },
+      "sourceDocxSha256": "sha256:8517e46737a08df3a9f9e28ba6499774156cedd41f1f5f73e4defb3112755b35",
+      "returnedDocxSha256": "sha256:2317a9ead4fcb9725d0ef6bfde09bf7a119194e58bea4c04c7b259b1ae2c40cf",
+      "analysisDigest": "sha256:3c9737977125bd43878f2c59dbd1dbec7ef0e18e545ab3dabbf3c4b55c6e75c2",
+      "parserProfileDigest": "sha256:dfc58e5c0a59f7d88a3255043e602de7a4f9ce118d830120e3b27d618949838a",
+      "limitations": [
+        "SUPPORTED_APPLY_REEXPORT_ORACLE_REMAINS_BLOCKED_WHEN_SIGNED_LOCATOR_DROPS"
+      ]
+    }
+  ],
+  "typedLimitations": [
+    "FORMAT_APPLY_NOT_CERTIFIED_IN_E08",
+    "STYLE_LIST_HYPERLINK_SEMANTICS_SEE_PACKAGE_READBACK_MANUAL",
+    "LAYOUT_FIDELITY_NOT_EXACT_AUTHORITY_IN_E08",
+    "TABLE_SECTION_FOOTNOTE_FIELD_AUTOMATION_NOT_CERTIFIED",
+    "SUPPORTED_APPLY_REEXPORT_ORACLE_REMAINS_BLOCKED_WHEN_SIGNED_LOCATOR_DROPS"
+  ],
+  "runtimeClaims": {
+    "formattingDiagnosticLaneCertified": true,
+    "automaticFormattingApplyAdded": false,
+    "destructiveFormattingApplyAdded": false,
+    "writerAuthorityAdded": false,
+    "reviewSessionMutationAuthorityAdded": false,
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "dependencyAdded": false,
+    "networkAdded": false,
+    "fixtureOnlyPassClaimed": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentFormattingApply": 0,
+    "productNetworkRequests": 0
+  },
+  "testEvidence": {
+    "status": "PASS",
+    "focusedVerifier": "node scripts/ops/rtk-word-v4-e08-effective-formatting.mjs --json --require-external PASS",
+    "focusedContract": "node --test E06 E07 E08 RTK V4 contracts PASS 16 pass 0 fail",
+    "adjacentContracts": "E06 physical text and E07 comments replies states contracts PASS",
+    "governance": "node scripts/ops/governance-change-detection.mjs PASS",
+    "ossPolicy": "npm run -s oss:policy PASS",
+    "opsSuite": "npm run -s test:ops PASS",
+    "syntax": "node --check scripts/ops/rtk-word-v4-e08-effective-formatting.mjs PASS",
+    "fullSuite": "npm test -- --runInBand PASS 795 tests 731 pass 64 skip 0 fail perf baseline PASS menu release checks PASS",
+    "verifiedAtUtc": "2026-07-31T10:35:00.000Z"
+  },
+  "nonClaims": [
+    "E08 does not certify automatic formatting apply",
+    "E08 does not certify layout fidelity as exact authority",
+    "E08 does not certify tables sections footnotes fields images headers or footers",
+    "E08 does not change product runtime UI dependencies or network policy"
+  ],
+  "nextStage": "EXECUTION_09_TYPED_STRUCTURAL_EDITS"
+}

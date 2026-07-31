@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E07_COMMENT_SHADOW_CERTIFIED_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_E08_FORMATTING_DIAGNOSTIC_CERTIFIED_WITH_TYPED_LIMITATIONS",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -31,7 +31,7 @@
   "latestWordCandidate": {
     "profileId": "word-mac-latest-post-d1-v1",
     "observedSupplementalProfile": "Microsoft Word for Mac 16.111.2 supplemental runs after D1",
-    "status": "SUPPLEMENTAL_EVIDENCE_NOT_CERTIFIED",
+    "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_CERTIFIED_WITH_TYPED_LIMITATIONS",
     "certificationRequires": [
       "new settings capsule with exact Word version build channel architecture macOS locale and synthetic identity",
       "new frozen post-D1 corpus digest before first certification round",
@@ -43,7 +43,13 @@
       "comment bodies replies ordering resolved or typed unsupported outcomes",
       "writer-scale corpus including high page counts high comment density and formatting matrix"
     ],
-    "forbiddenShortcut": "Supplemental Word 16.111.2 ZIP and large-corpus fixes do not certify this profile without its own physical corpus and oracle chain."
+    "forbiddenShortcut": "Supplemental Word 16.111.2 ZIP and large-corpus fixes do not certify this profile without its own physical corpus and oracle chain.",
+    "currentCapability": "FORMATTING_DIAGNOSTIC_LANE_WITH_TYPED_LIMITATIONS",
+    "certificationBoundary": [
+      "D1 Word 16.42 remains immutable historical release evidence",
+      "post-D1 Word 16.111.2 text comments and formatting evidence is versioned separately",
+      "formatting evidence is diagnostic manual lane only until signed locator apply and re-export oracle are proven"
+    ]
   },
   "capabilityProfileVocabulary": [
     "EXACT_AUTOMATIC",
@@ -295,9 +301,9 @@
     },
     {
       "stageId": "A02_WORD_MAC_LATEST_PROFILE",
-      "status": "READY_NEXT_AFTER_MERGED_A00_A01",
+      "status": "IN_PROGRESS_WORD_PROFILE_CONTOUR_E08_FORMATTING_DONE_LOCALLY",
       "deliveryMode": "PR_AUTO",
-      "scope": "physical Word latest settings capsule, corpus, modern comments, format and scale matrix"
+      "scope": "physical Word latest settings capsule, corpus, comments, format and scale matrix; E08 formatting diagnostic lane ready for delivery chain"
     },
     {
       "stageId": "A03_SAFE_PORTABILITY_IMPROVEMENTS",
@@ -366,10 +372,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_07_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "currentStage": "EXECUTION_07_COMMENTS_REPLIES_STATES",
-    "nextStage": "EXECUTION_08_EFFECTIVE_FORMATTING",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
+    "status": "EXECUTION_08_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "currentStage": "EXECUTION_08_EFFECTIVE_FORMATTING",
+    "nextStage": "EXECUTION_09_TYPED_STRUCTURAL_EDITS",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -391,6 +397,15 @@
     "googleDocsOpened": false,
     "otherEditorsRemainFutureMasterPlan": true,
     "v6HistoryRewritten": false,
-    "d1EvidenceRewritten": false
+    "d1EvidenceRewritten": false,
+    "effectiveFormattingCertified": true,
+    "formattingDiagnosticLaneStatus": "FORMATTING_DIAGNOSTIC_LANE_WITH_TYPED_LIMITATIONS",
+    "physicalFormattingCases": 17,
+    "totalFormattingDeltas": 117,
+    "writerFormattingDeltas": 26,
+    "commentAnchorFormattingDeltas": 91,
+    "automaticFormattingApplyCertified": 0,
+    "destructiveFormattingApplyAdded": 0,
+    "productRuntimeChanged": false
   }
 }

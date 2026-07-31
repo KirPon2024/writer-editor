@@ -170,13 +170,6 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "da089ef319a230f173b80de6c937dec4cb50f848ce2dc5d4d0d7a1940490d240",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
-      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
-      "rationale": "Approve post-D1 RTK program E05 state update: records SourceMap UniqueDiff local verification, next E06 physical text certification, no runtime apply authority, Word-current focus, no Google Docs execution, and no V6/D1 rewrite."
-    },
-    {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
       "sha256": "1fef5c09ca0499d00762db5f8b53a070aafcb1d5c8a7c88848b0ef7d2c31a239",
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
@@ -1015,13 +1008,6 @@
       "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_PREFLIGHT_001",
       "approvedAtUtc": "2026-07-01T20:35:39.000Z",
       "rationale": "Approve bounded command-surface contract proof for DOCX review preflight preserving pathless bufferSource input, no review session, apply, receipt, recovery, project truth write, importDocxV1 routing, dependency, network, UI, release, Word parity, or full DOCX review import claim."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "1ddd9e8d8eac22869c3cf5b3aa4e30b80783f73001a5d32a5606bede564ae82e",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_AND_YALKEN_ATLAS_V5_ER_C00_MERGE_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T08:05:00.000Z",
-      "rationale": "Approve merged Sector-M scope-map rebind after origin/main drift: preserves Atlas ER C00 exact diagnostics-stage path and RTK E05 exact SourceMap UniqueDiff core, receipt, and contract additions; no wildcard prefix, UI, dependency, network, phase widening, Google execution, or runtime readiness claim is introduced."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-local-file-preview.contract.test.js",
@@ -5560,13 +5546,6 @@
       "rationale": "Approve RTK FEATURE_INTEGRATION_MANIFEST_V1 for V4: maps product and Design OS ports to existing seams, keeps Command Kernel authority for manuscript and review-session mutations, declares no UI surface, no slot requirement, no runtime registry, no parser or renderer write authority, no network dependency, and no Google execution before Word saturation."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "f64b4812bc1894ec809762add6daf58a267ad50f61c38c14a69e33141689c3f7",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
-      "approvedAtUtc": "2026-07-31T05:10:00.000Z",
-      "rationale": "Approve V4 capability profile E05 update: adds SourceMap UniqueDiff component-proven cell with canonical SourceMap, B/O/C/G projections, bounded text effects, and typed manual blocking while runtime apply and physical saturation remain closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
       "sha256": "8e3afdb080a2bdbec9da39a64086c7340e6825f9e15cba44b7f21daae0d0935b",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -5677,6 +5656,48 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
       "approvedAtUtc": "2026-07-31T05:10:00.000Z",
       "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "409ab8ccc81b01cf6a2741df9abafabeb7e1905ebb93c9253225d92625f11f8c",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
+      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
+      "rationale": "Approve post-D1 RTK program E06 state update: records Word 16.111.2 physical text certification with typed limitations, 32 physical round trips, zero veto metrics, no runtime apply authority, no Google execution, and next E07 comments replies states."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "920a60fd8a52944cd8f6ab5e40620894ee216e96f862b15a593cb37bd0405340",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
+      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
+      "rationale": "Approve V4 capability profile E06 update: adds physical Word 16.111.2 text certification cell with 32 physical open-edit-save-reopen passes, 31 parser PASS rows plus hostile typed BLOCKED, writer-scale text evidence, and no automatic exact authority expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
+      "sha256": "ebd1065afbac5f4a585b46727147b0498f95660d9f1d982ab5420328db2717b7",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
+      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
+      "rationale": "Approve V4 E06 physical text certification receipt: binds T7 secure synthetic physical Word 16.111.2 corpus evidence, selected text scale and negative cases, zero false exact, zero silent apply, zero wrong scene routing, zero replay failure, typed limitations, and no UI runtime dependency or writer authority expansion."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e06-physical-text-certification.mjs",
+      "sha256": "fb82dc45f791b469d6feeaaf7b303e6783fae742937c2f222a81317b1f1141cf",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
+      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
+      "rationale": "Approve V4 E06 ops-only verifier: validates committed physical text receipt, latest Word profile identity, external receipt digest, required text and scale cases, hostile typed BLOCKED negative, zero veto metrics, no exact overclaim, and optional local T7 evidence hash without launching Word in CI."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "80bbd42da479a0dec939f7a919f3d34c8f6c32954a2ad235acbf9578a2046f56",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
+      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
+      "rationale": "Approve Sector-M scope-map E06 exact allowlist update: adds only the E06 ops verifier, E06 receipt, and E06 contract paths; no wildcard prefix, UI, dependency, network, runtime source, or non-Word editor execution is introduced."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "sha256": "98051c64075faba908c7a4ab57d3d45b9cec28fc30f93334f181138f842137ce",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION",
+      "approvedAtUtc": "2026-07-31T08:35:00.000Z",
+      "rationale": "Approve V4 E06 contract coverage: proves committed physical Word 16.111.2 text corpus truth, required text scale ambiguity hostile and locator survival rows, false green mutation rejection, optional external T7 digest verification, capability state update, no Google execution, and no runtime writer expansion."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C01_UNICODE_ANCHOR_SCHEMA_INTEGRITY_RECEIPT.json",

@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_WAVE40_COMPLETE_NOT_SATURATED",
+  "status": "WORD_SATURATION_WAVE100_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T07:47:17.080Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -28,17 +28,18 @@
     ],
     "completedWaves": [
       10,
-      40
+      40,
+      100
     ],
-    "currentWaveTarget": 100,
-    "currentWaveObservedRounds": 40,
+    "currentWaveTarget": 300,
+    "currentWaveObservedRounds": 100,
     "consecutiveStableApprovedWaves": 0,
     "stableHistogram": false,
     "saturated": false,
     "wordSaturationClaimAllowed": false,
     "googleDocsAllowedToOpen": false,
-    "lastCompletedWaveTarget": 40,
-    "nextWaveTarget": 100
+    "lastCompletedWaveTarget": 100,
+    "nextWaveTarget": 300
   },
   "evidenceBindings": [
     {
@@ -89,6 +90,13 @@
       "sha256": "d87f04655f94b595951e3a73c524b6be9d731808abf6ea6945f3ea4e40348a35",
       "status": "BOUND",
       "description": "40 physical Word 16.111.2 open edit save close reopen wave with 300k scale and 120 comment density"
+    },
+    {
+      "id": "E12_PHYSICAL_WAVE100",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
+      "sha256": "caa7fcdeec3b5f935f210fc4c1ddfeab81fd09aaf797118caffb97c499f8fd3b",
+      "status": "BOUND",
+      "description": "100 physical Word 16.111.2 open edit save close reopen wave with 400k scale and dense comment cases"
     }
   ],
   "coverageLedger": {
@@ -136,11 +144,16 @@
       "status": "BOUND",
       "sourceEvidence": "E12_PHYSICAL_WAVE40",
       "outcome": "PHYSICAL_WAVE_40_COMPLETE_WITH_ZERO_VETO_NOT_SATURATED"
+    },
+    "physicalWave100": {
+      "status": "BOUND",
+      "sourceEvidence": "E12_PHYSICAL_WAVE100",
+      "outcome": "PHYSICAL_WAVE_100_COMPLETE_WITH_ZERO_VETO_NOT_SATURATED"
     }
   },
   "aggregateTotals": {
-    "physicalRoundTripsObserved": 40,
-    "visibleAnchoredCommentThreads": 212,
+    "physicalRoundTripsObserved": 100,
+    "visibleAnchoredCommentThreads": 398,
     "physicalFormattingCases": 17,
     "physicalStructuralCases": 30,
     "replayHostileGuardCases": 5,
@@ -149,7 +162,12 @@
     "wave40PhysicalOpenEditSaveCloseReopenPass": 40,
     "wave40ParserPass": 39,
     "wave40DenseCommentThreads": 120,
-    "wave40ScaleWordsMax": 300000
+    "wave40ScaleWordsMax": 300000,
+    "wave100PhysicalOpenEditSaveCloseReopenPass": 100,
+    "wave100ParserPass": 99,
+    "wave100CommentThreads": 398,
+    "wave100DenseCommentThreads": 120,
+    "wave100ScaleReturnedBytesMax": 994079
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -162,7 +180,6 @@
     "falseSaturationClaim": 0
   },
   "notSaturatedReasons": [
-    "WAVE_100_NOT_STARTED",
     "WAVE_300_NOT_STARTED",
     "TWO_CONSECUTIVE_STABLE_APPROVED_WAVES_NOT_PROVEN",
     "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
@@ -184,9 +201,9 @@
     "E12 wave 40 does not add automatic apply authority",
     "E12 wave 40 binds physical Word evidence and advances the next target to wave 100"
   ],
-  "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_100",
+  "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_300",
   "testEvidence": {
-    "status": "PASS_LOCAL_VERIFICATION_AFTER_WAVE40_REBIND",
+    "status": "PASS_LOCAL_VERIFICATION_AFTER_WAVE100_REBIND",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
     "wave40Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --json --require-external",
     "saturationVerifier": "PASS node scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs --json --require-files",
@@ -197,6 +214,8 @@
     "syntax": "PASS node --check word sandbox helper latest physical runner e12 wave40 runner e12 ledger verifier",
     "fullSuite": "PASS npm test -- --runInBand outerOpsTests=3 outerOpsPass=3 runnerTests=795 runnerPass=731 runnerSkip=64 runnerFail=0 perf=PASS menu=PASS releaseCandidate=PASS",
     "grantPromptRepair": "PASS default Word work root is inside Library Containers com.microsoft.Word Data tmp YalkenWordLab and plain tmp fallback is contract-blocked",
-    "verifiedAtUtc": "2026-07-31T08:00:17.652Z"
+    "verifiedAtUtc": "2026-07-31T08:00:17.652Z",
+    "physicalWave100": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave100.mjs --run-physical --write-receipt --json rounds=100 wordPass=100 parserPass=99 comments=398 scaleReturnedBytesMax=994079 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
+    "wave100Verifier": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave100.mjs --json --require-external"
   }
 }

@@ -19,6 +19,7 @@ const REQUIRED_EVIDENCE = [
   'E10_REPLAY_HOSTILE',
   'E11_MULTI_SCENE_COORDINATOR',
   'E12_PHYSICAL_WAVE40',
+  'E12_PHYSICAL_WAVE100',
 ];
 
 function readJson(filePath) {
@@ -94,8 +95,8 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
   if (receipt.stageId !== 'EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES') {
     add('RTK_V4_E12_STAGE_INVALID', 'stageId', 'E12 stage id is invalid.');
   }
-  if (receipt.status !== 'WORD_SATURATION_WAVE40_COMPLETE_NOT_SATURATED') {
-    add('RTK_V4_E12_STATUS_INVALID', 'status', 'E12 must bind wave 40 complete while staying not-saturated until all wave criteria are proven.');
+  if (receipt.status !== 'WORD_SATURATION_WAVE100_COMPLETE_NOT_SATURATED') {
+    add('RTK_V4_E12_STATUS_INVALID', 'status', 'E12 must bind wave 100 complete while staying not-saturated until all wave criteria are proven.');
   }
 
   const wave = receipt.saturationRule || {};
@@ -105,11 +106,11 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
   if (JSON.stringify(wave.requiredWaveSequence) !== JSON.stringify([10, 40, 100, 300])) {
     add('RTK_V4_E12_WAVE_SEQUENCE_INVALID', 'saturationRule.requiredWaveSequence', 'Required physical wave sequence must be 10, 40, 100, 300.');
   }
-  if (JSON.stringify(wave.completedWaves) !== JSON.stringify([10, 40])
-    || Number(wave.lastCompletedWaveTarget) !== 40
-    || Number(wave.currentWaveTarget) !== 100
-    || Number(wave.currentWaveObservedRounds) !== 40) {
-    add('RTK_V4_E12_WAVE_ACCOUNTING_INVALID', 'saturationRule', 'E12 must bind completed waves 10 and 40, then advance to the 100-round target.');
+  if (JSON.stringify(wave.completedWaves) !== JSON.stringify([10, 40, 100])
+    || Number(wave.lastCompletedWaveTarget) !== 100
+    || Number(wave.currentWaveTarget) !== 300
+    || Number(wave.currentWaveObservedRounds) !== 100) {
+    add('RTK_V4_E12_WAVE_ACCOUNTING_INVALID', 'saturationRule', 'E12 must bind completed waves 10, 40, and 100, then advance to the 300-round target.');
   }
   if (Number(wave.consecutiveStableApprovedWaves) !== 0) {
     add('RTK_V4_E12_STABLE_WAVE_OVERCLAIM', 'saturationRule.consecutiveStableApprovedWaves', 'Stable wave count must remain zero until two approved no-new-class waves exist.');
@@ -125,6 +126,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     const e07 = verifyEvidenceBinding(getById(bindings, 'E07_COMMENTS'), issues, { requireFiles: true });
     const e10 = verifyEvidenceBinding(getById(bindings, 'E10_REPLAY_HOSTILE'), issues, { requireFiles: true });
     const e12Wave40 = verifyEvidenceBinding(getById(bindings, 'E12_PHYSICAL_WAVE40'), issues, { requireFiles: true });
+    const e12Wave100 = verifyEvidenceBinding(getById(bindings, 'E12_PHYSICAL_WAVE100'), issues, { requireFiles: true });
     if (e06?.physicalTextTotals?.physicalRoundTrips !== 32 || e06?.vetoMetrics?.falseExact !== 0) {
       add('RTK_V4_E12_E06_TOTALS_INVALID', 'evidenceBindings.E06_PHYSICAL_TEXT', 'E06 must bind 32 physical text round trips with zero false exact.');
     }
@@ -142,10 +144,21 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
       || e12Wave40?.saturationDecision?.wordSaturated !== false) {
       add('RTK_V4_E12_WAVE40_INVALID', 'evidenceBindings.E12_PHYSICAL_WAVE40', 'E12 must bind a complete 40-round physical Word wave without a saturation claim.');
     }
+    if (e12Wave100?.wave?.target !== 100
+      || e12Wave100?.wave?.observedRounds !== 100
+      || e12Wave100?.wave?.completed !== true
+      || e12Wave100?.totals?.physicalOpenEditSaveCloseReopenPass !== 100
+      || e12Wave100?.totals?.parserPass !== 99
+      || e12Wave100?.vetoMetrics?.falseExact !== 0
+      || e12Wave100?.saturationDecision?.wordSaturated !== false
+      || e12Wave100?.wordSandboxWorkRoot?.insideWordContainer !== true
+      || e12Wave100?.wordSandboxWorkRoot?.plainTmpForbidden !== true) {
+      add('RTK_V4_E12_WAVE100_INVALID', 'evidenceBindings.E12_PHYSICAL_WAVE100', 'E12 must bind a complete 100-round physical Word wave in the Word sandbox work root without a saturation claim.');
+    }
   }
 
   const coverage = receipt.coverageLedger || {};
-  for (const required of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40']) {
+  for (const required of ['unicodeAndBidi', 'hostilePackage', 'performanceScale', 'crashRecovery', 'replayIdempotence', 'physicalWave40', 'physicalWave100']) {
     if (coverage[required]?.status !== 'BOUND') {
       add('RTK_V4_E12_COVERAGE_MISSING', `coverageLedger.${required}`, `${required} coverage must be bound.`);
     }
@@ -164,22 +177,22 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
   }
 
   const cell = Array.isArray(profile.cells) ? profile.cells.find((item) => item.capabilityId === 'rtk.word.v4.saturationLedger') : null;
-  if (!cell || cell.state !== 'PHYSICAL_WORD_PROVEN' || cell.currentCapability !== 'SATURATION_WAVE40_COMPLETE_NOT_SATURATED' || cell.physicalWordEvidence !== true) {
-    add('RTK_V4_E12_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability profile must bind E12 wave 40 as physical evidence proven but not saturated.');
+  if (!cell || cell.state !== 'PHYSICAL_WORD_PROVEN' || cell.currentCapability !== 'SATURATION_WAVE100_COMPLETE_NOT_SATURATED' || cell.physicalWordEvidence !== true) {
+    add('RTK_V4_E12_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability profile must bind E12 wave 100 as physical evidence proven but not saturated.');
   }
-  if (profile.status !== 'WORD_16_111_2_E12_WAVE40_COMPLETE_NOT_SATURATED') {
-    add('RTK_V4_E12_PROFILE_STATUS_INVALID', 'profile.status', 'Profile status must reflect E12 wave 40 complete not-saturated ledger.');
+  if (profile.status !== 'WORD_16_111_2_E12_WAVE100_COMPLETE_NOT_SATURATED') {
+    add('RTK_V4_E12_PROFILE_STATUS_INVALID', 'profile.status', 'Profile status must reflect E12 wave 100 complete not-saturated ledger.');
   }
 
   const state = program.v4ExecutionState || {};
-  if (program.status !== 'WORD_E12_PHYSICAL_WAVE40_COMPLETE_NOT_SATURATED') {
-    add('RTK_V4_E12_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must reflect E12 physical wave 40 completion.');
+  if (program.status !== 'WORD_E12_PHYSICAL_WAVE100_COMPLETE_NOT_SATURATED') {
+    add('RTK_V4_E12_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must reflect E12 physical wave 100 completion.');
   }
-  if (state.status !== 'EXECUTION_12_WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100') {
-    add('RTK_V4_E12_PROGRAM_STATE_INVALID', 'program.v4ExecutionState.status', 'Program state must keep E12 active and advance to wave 100.');
+  if (state.status !== 'EXECUTION_12_WAVE100_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_300') {
+    add('RTK_V4_E12_PROGRAM_STATE_INVALID', 'program.v4ExecutionState.status', 'Program state must keep E12 active and advance to wave 300.');
   }
-  if (state.nextStage !== 'EXECUTION_12_NEXT_PHYSICAL_WAVE_100') {
-    add('RTK_V4_E12_NEXT_STAGE_INVALID', 'program.v4ExecutionState.nextStage', 'Next stage must continue the 100-round Word wave, not Google Docs.');
+  if (state.nextStage !== 'EXECUTION_12_NEXT_PHYSICAL_WAVE_300') {
+    add('RTK_V4_E12_NEXT_STAGE_INVALID', 'program.v4ExecutionState.nextStage', 'Next stage must continue the 300-round Word wave, not Google Docs.');
   }
   if (state.googleDocsOpened !== false || state.wordSaturated !== false || state.wordSaturationCurrentFocus !== true) {
     add('RTK_V4_E12_SEQUENCE_BROKEN', 'program.v4ExecutionState', 'Word must remain current focus and Google Docs must stay closed until saturation.');

@@ -113,7 +113,7 @@ function histogram(values) {
   return out;
 }
 
-function evaluateReceipt(receipt = readJson(RECEIPT_PATH), options = {}) {
+export function evaluateReceipt(receipt = readJson(RECEIPT_PATH), options = {}) {
   const issues = [];
   const add = (code, field, message) => issues.push({ code, field, message });
   if (receipt.schemaVersion !== SCHEMA) add('RTK_V4_E12_WAVE100_SCHEMA_INVALID', 'schemaVersion', 'Wave 100 receipt schema is invalid.');

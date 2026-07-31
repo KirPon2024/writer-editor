@@ -3,27 +3,28 @@
   "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
   "contourId": "ER_C04_PRODUCT_VERTICAL_JOURNEYS_AND_GRAPH_WORKBENCH",
   "programStage": "ER_AUDIT_REPAIR_2026_07_31",
-  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_READY_FOR_DELIVERY_CHAIN",
+  "status": "LOCAL_SCOPE_REPAIR_VALIDATED_AFTER_ORIGIN_MAIN_DRIFT_READY_FOR_DELIVERY_CHAIN",
   "readinessDefault": "NOT_READY_UNTIL_ER_C07_REVALIDATION_AND_E11_PLATFORM_CERTIFICATION",
   "designToolRouter": "APPLIED_EXISTING_DESIGN_OS_ROUTE_NO_NEW_GENERAL_RESEARCH",
-  "generatedAtUtc": "2026-07-31T07:55:18.000Z",
+  "generatedAtUtc": "2026-07-31T08:16:30.000Z",
   "git": {
     "branch": "codex/yalken-atlas-v5-er-c04",
-    "baseSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
-    "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
-    "branchHeadShaAtValidation": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
-    "implementationCommitSha": "PENDING_PRE_COMMIT",
-    "receiptCommitSha": "PENDING_PRE_COMMIT",
+    "baseSha": "8e8b3eed80db1a2526e35181be052caff94b7758",
+    "originMainSha": "8e8b3eed80db1a2526e35181be052caff94b7758",
+    "branchHeadShaAtValidation": "df9fdccd4689eb5d66f3756cffa85d630a051d2c",
+    "implementationCommitSha": "0a8ecd3dbaf6cc0402fdf28315ad67e5b266c9dc",
+    "driftMergeCommitSha": "df9fdccd4689eb5d66f3756cffa85d630a051d2c",
+    "receiptRebindCommitSha": "PENDING_PRE_COMMIT",
     "remoteMergeSha": "PENDING_PRE_DELIVERY"
   },
   "targetBinding": {
-    "sha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
+    "sha": "df9fdccd4689eb5d66f3756cffa85d630a051d2c",
     "platform": "macOS-local-dev",
     "profile": "release-local-validation",
-    "timestampUtc": "2026-07-31T07:55:18.000Z",
-    "fullRunnerArtifactIdentity": "/tmp/yalken-er-c04-full-runner-tty-20260731T0758.log",
-    "fullRunnerArtifactSha256": "ca615ef207099fce37c6f1bbac8d4ec56d301c268336b874d77d69628c5831a0",
-    "fullRunnerArtifactBytes": 89215
+    "timestampUtc": "2026-07-31T08:16:30.000Z",
+    "fullRunnerArtifactIdentity": "/tmp/yalken-er-c04-full-runner-post-drift-green-20260731T081337.log",
+    "fullRunnerArtifactSha256": "53ba7541fe578022c0a77dc7b99006d601e2d71439a118ab3c89aada930253bd",
+    "fullRunnerArtifactBytes": 89247
   },
   "implementedBoundary": {
     "scopeIn": [
@@ -183,11 +184,11 @@
     },
     {
       "id": "full-runner",
-      "command": "script -q /tmp/yalken-er-c04-full-runner-tty-20260731T0758.log node scripts/run-tests.js",
+      "command": "script -q /tmp/yalken-er-c04-full-runner-post-drift-green-20260731T081337.log node scripts/run-tests.js",
       "result": "PASS",
       "exitCode": 0,
-      "artifactDigest": "ca615ef207099fce37c6f1bbac8d4ec56d301c268336b874d77d69628c5831a0",
-      "summary": "Full runner transcript: ops synth 3 tests pass; main suite 795 tests, 731 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
+      "artifactDigest": "53ba7541fe578022c0a77dc7b99006d601e2d71439a118ab3c89aada930253bd",
+      "summary": "Full runner transcript after origin/main drift and Sector-M exact-scope repair: ops synth 3 tests pass; main suite 796 tests, 732 pass, 0 fail, 64 skipped; perf baseline PASS; release candidate verify PASS."
     }
   ],
   "nextExecutableContour": "ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET"

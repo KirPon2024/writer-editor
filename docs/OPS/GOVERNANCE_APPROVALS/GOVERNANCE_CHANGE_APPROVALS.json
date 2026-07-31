@@ -5834,10 +5834,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "005c76743ebded3877b7b4a625302dfbc407e9581673092fb01f7959fd443ba6",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
-      "approvedAtUtc": "2026-07-31T08:00:17.774Z",
-      "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+      "sha256": "89665af5e0370ebc40909f45b0914f1123d007a22532f41d0be7ea7dc4b38c96",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T16:15:00.000Z",
+      "rationale": "Approve ER C04 Sector-M scope-map repair: admits exactly four Atlas Manual Map and query projection paths already delivered by the contour, preserves fail-closed diff scope enforcement, adds no src wildcard or prefix, no runtime authority, no dependency, no network, and no readiness claim."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
@@ -5889,6 +5889,13 @@
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "test/unit/sector-m-no-scope-leak.test.js",
+      "sha256": "b2846bfffe2315ddec4dbebd18b11ab559f761cc4a68a7bbdb360584679952b8",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
+      "approvedAtUtc": "2026-07-31T16:15:00.000Z",
+      "rationale": "Approve ER C04 Sector-M scope regression coverage: verifies the Atlas scope additions are exact DONE entries, rejects wildcard or src-prefix expansion, keeps M8 and M9 exactness checks intact, and adds no runtime authority, dependency, network, or product readiness claim."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-e02b-c03-selection-keyboard-list-parity.contract.test.js",
       "sha256": "ca2292811f8e0b4341a3c4c09736087e53a6e4d88815a91e4099ad29ba0dcd7a",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
@@ -5918,10 +5925,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH_RECEIPT.json",
-      "sha256": "7831bd952539ef04a00b42e3928b9338cee206904318caa8ccc25a7d3f903f37",
+      "sha256": "18b840babe92a0a1b2c19f99f31c7d887fd48fddab9cb5a2102fdd7809cbcec8",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C04_PRODUCT_VERTICAL_JOURNEYS_GRAPH_WORKBENCH",
-      "approvedAtUtc": "2026-07-31T15:55:18.000Z",
-      "rationale": "Approve ER C04 receipt: records product vertical journey and graph workbench implementation, Command Kernel-only mutation path, shared query and command registry reachability, local focused and full runner PASS with hashed transcript evidence, keeps ER C07 E11 and EFINAL readiness pending, adds no dependency, no network, no second source of truth, and no direct renderer storage mutation."
+      "approvedAtUtc": "2026-07-31T16:16:30.000Z",
+      "rationale": "Approve ER C04 receipt rebind after origin/main drift: records implementation commit, drift merge validation SHA, green post-drift full runner transcript hash, Sector-M exact-scope repair, Command Kernel-only mutation path, shared query and command registry reachability, keeps ER C07 E11 and EFINAL readiness pending, adds no dependency, no network, no second source of truth, and no direct renderer storage mutation."
     }
   ]
 }

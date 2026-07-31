@@ -6307,6 +6307,62 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C02_PACKAGED_CRITICAL_JOURNEY_CREATE_SAVE_REOPEN_RECOVERY_EXPORT_IMPORT",
       "approvedAtUtc": "2026-07-31T12:04:38.638Z",
       "rationale": "Approve bounded E11 C02 macOS packaged Electron critical journey certification: binds runtime proof to the C01 physical app.asar artifact, exercises create, save, same-process reopen, fresh-process reopen, recovery-backed local project persistence, DOCX export and Markdown safe-create import through the production app runtime harness and Command Kernel route, records physical artifact hashes, keeps CI parity and inactive platforms from substituting for packaged proof, adds no dependency, network runtime, second source of truth, UI design contract change, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-desktop.png",
+      "sha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-mobile.png",
+      "sha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-responsive-audit.json",
+      "sha256": "617767c1a03159bd5d60dd574a6277fecb283540a773a18db6e6cd8b55eec113",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-tablet.png",
+      "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/packaged-accessibility-responsive-visual-regression-report.json",
+      "sha256": "73121a0f045e8a5931d147871a95d07b9dd891bc85d83deeee2967f1cc8f9a21",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION_RECEIPT.json",
+      "sha256": "cbf545e406a80ff3dce60bd64be0b5fd5df9fed2e6f2a128ff9881a238ae356e",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:59.640Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs",
+      "sha256": "0d153be6ea3bb03950dbe55153fc7674eaf8c782ac6e1b3969f1a77f4c27c86a",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
+      "sha256": "ea60af52fa7190b7e488a5b0780f9458f5d19a11fb3222b3a5407169346c6825",
+      "approvedBy": "ticket:YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "approvedAtUtc": "2026-07-31T12:17:04.963Z",
+      "rationale": "Approve bounded E11 C03 macOS packaged Electron accessibility, responsive, and visual-regression certification: binds proof to the C01 app.asar artifact, reuses ER C06 machine audit from a temp runtime directory, records only whitelisted desktop tablet mobile PNG evidence plus audit/report JSON, checks one active Atlas shell, keyboard and focus visibility, contrast, scroll and clipping budgets, zero network, and bounded pixel delta against ER C06 baseline without requiring brittle exact PNG hash equality. Adds no UI design contract change, dependency, network runtime, product write path, inactive platform claim, or final Program DoD claim."
     }
   ]
 }

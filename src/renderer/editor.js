@@ -902,6 +902,20 @@ let atlasJourneyState = {
   lastCommandId: '',
   lastResult: '',
 };
+let atlasJourneyDraft = {
+  entityName: '',
+  aliasValue: '',
+  sourceEntityId: '',
+  targetEntityId: '',
+  mentionId: '',
+  decisionId: '',
+  decisionEvidenceAnchor: null,
+  suppressionId: '',
+  reassignmentId: '',
+  mergeOperationId: '',
+  restoreOperationId: '',
+  reattachmentId: '',
+};
 let manualMapWorkbenchState = {
   state: 'empty',
   projectId: '',
@@ -11475,6 +11489,7 @@ function refreshActiveAtlasSurface() {
   syncAtlasSurfaceCompositionState();
   if (surface === 'journey') {
     renderAtlasJourneyState();
+    void refreshAtlasCurrentScene({ force: true }).finally(() => renderAtlasJourneyState());
     return;
   }
   if (surface === 'manualMap') {
@@ -12365,7 +12380,7 @@ function renderManualMapToolbar(parent, state, runtime, options = {}) {
     };
   }, () => ({ disabled: !state.mapId || !currentDocumentId, reason: currentDocumentId ? '' : 'No scene selected' })));
   actionBar.appendChild(makeManualMapDraftButton('Entity node', () => {
-    const entity = firstAtlasEntity();
+    const entity = findAtlasJourneyEntity(atlasJourneyDraft.sourceEntityId);
     const nodeId = makeStableUiId('manual-entity-node');
     return {
       commandId: 'manualMap.node.add',
@@ -12387,7 +12402,10 @@ function renderManualMapToolbar(parent, state, runtime, options = {}) {
       ],
       impactPreview: `Adds one node linked to Atlas entity ${entity?.entityId || 'none'}. Atlas entity truth is not rewritten.`,
     };
-  }, () => ({ disabled: !state.mapId || !firstAtlasEntity(), reason: firstAtlasEntity() ? '' : 'No Atlas entity available' })));
+  }, () => {
+    const entity = findAtlasJourneyEntity(atlasJourneyDraft.sourceEntityId);
+    return { disabled: !state.mapId || !entity, reason: entity ? '' : 'Select an Atlas entity first' };
+  }));
   actionBar.appendChild(makeManualMapDraftButton('Add edge', () => {
     const selectedIds = manualMapTransientViewState.selection?.nodeIds || [];
     return {
@@ -12951,41 +12969,187 @@ function makeAtlasCommandButton(label, commandId, payload, options = {}) {
   button.className = 'right-rail-atlas-action';
   button.textContent = label;
   button.dataset.productCommandId = commandId;
+  button.dataset.atlasJourneyAction = options.actionId || commandId;
   button.disabled = options.disabled === true;
   if (typeof options.reason === 'string' && options.reason) {
     button.title = options.reason;
     button.setAttribute('aria-label', `${label}. ${options.reason}`);
   }
   button.addEventListener('click', () => {
-    void runProductJourneyCommand(commandId, payload);
+    const nextPayload = typeof payload === 'function' ? payload() : payload;
+    void runProductJourneyCommand(commandId, nextPayload);
   });
   return button;
 }
 
-function firstAtlasEntity() {
+function getAtlasJourneyEntities() {
   const entities = Array.isArray(atlasCurrentSceneState.entities) ? atlasCurrentSceneState.entities : [];
-  return entities.find((entity) => entity && typeof entity.entityId === 'string' && entity.entityId) || null;
+  return entities.filter((entity) => entity && typeof entity.entityId === 'string' && entity.entityId);
 }
 
-function firstAtlasMention() {
+function getAtlasJourneyMentions() {
   const mentions = Array.isArray(atlasCurrentSceneState.mentions) ? atlasCurrentSceneState.mentions : [];
-  return mentions.find((mention) => mention && mention.evidenceAnchor && mention.mentionId) || null;
+  return mentions.filter((mention) => mention && mention.evidenceAnchor && mention.mentionId);
+}
+
+function findAtlasJourneyEntity(entityId = '') {
+  return getAtlasJourneyEntities().find((entity) => entity.entityId === entityId) || null;
+}
+
+function findAtlasJourneyMention(mentionId = '') {
+  return getAtlasJourneyMentions().find((mention) => mention.mentionId === mentionId) || null;
 }
 
 function makeStableUiId(prefix) {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-async function refreshAtlasProductSurfaces() {
-  refreshAtlasOverview();
-  refreshAtlasEntityDossier();
-  refreshAtlasRelationDossier();
-  refreshAtlasMatrices();
-  refreshAtlasCurrentScene();
-  refreshAtlasReportsSavedQueries();
-  refreshAtlasDiagnosticsStageAcceptance();
-  refreshManualMapWorkbench();
-  refreshProjectionInspector();
+function ensureAtlasJourneyDraftId(fieldName, prefix) {
+  if (!atlasJourneyDraft[fieldName]) {
+    atlasJourneyDraft = {
+      ...atlasJourneyDraft,
+      [fieldName]: makeStableUiId(prefix),
+    };
+  }
+  return atlasJourneyDraft[fieldName];
+}
+
+function getAtlasJourneyEntityName() {
+  return (atlasJourneyDraft.entityName || '').trim()
+    || currentDocumentTitle
+    || atlasCurrentSceneState.sceneTitle
+    || 'Entity';
+}
+
+function getAtlasJourneyAliasValue() {
+  const sourceEntity = findAtlasJourneyEntity(atlasJourneyDraft.sourceEntityId);
+  return (atlasJourneyDraft.aliasValue || '').trim()
+    || `${sourceEntity?.name || 'Alias'} alias`;
+}
+
+function reconcileAtlasJourneyDraft() {
+  const entities = getAtlasJourneyEntities();
+  const entityIds = new Set(entities.map((entity) => entity.entityId));
+  let sourceEntityId = entityIds.has(atlasJourneyDraft.sourceEntityId)
+    ? atlasJourneyDraft.sourceEntityId
+    : (entities[0]?.entityId || '');
+  let targetEntityId = entityIds.has(atlasJourneyDraft.targetEntityId)
+    ? atlasJourneyDraft.targetEntityId
+    : '';
+  if (!targetEntityId || targetEntityId === sourceEntityId) {
+    targetEntityId = entities.find((entity) => entity.entityId !== sourceEntityId)?.entityId || '';
+  }
+  const mentions = getAtlasJourneyMentions();
+  const mentionIds = new Set(mentions.map((mention) => mention.mentionId));
+  let mentionId = mentionIds.has(atlasJourneyDraft.mentionId)
+    ? atlasJourneyDraft.mentionId
+    : '';
+  if (!mentionId) {
+    mentionId = mentions.find((mention) => !sourceEntityId || mention.entityId === sourceEntityId)?.mentionId
+      || mentions[0]?.mentionId
+      || '';
+  }
+  const selectedMention = mentions.find((mention) => mention.mentionId === mentionId);
+  if (selectedMention?.entityId && entityIds.has(selectedMention.entityId)) {
+    sourceEntityId = selectedMention.entityId;
+    if (!targetEntityId || targetEntityId === sourceEntityId) {
+      targetEntityId = entities.find((entity) => entity.entityId !== sourceEntityId)?.entityId || '';
+    }
+  }
+  atlasJourneyDraft = {
+    ...atlasJourneyDraft,
+    sourceEntityId,
+    targetEntityId,
+    mentionId,
+  };
+}
+
+function appendAtlasJourneyField(parent, config = {}) {
+  const field = document.createElement('label');
+  field.className = 'right-rail-atlas-journey-field';
+  const caption = document.createElement('span');
+  caption.className = 'right-rail-atlas-journey-field__label';
+  caption.textContent = config.label || '';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'right-rail-atlas-journey-field__control';
+  input.value = config.value || '';
+  input.placeholder = config.placeholder || '';
+  input.dataset.atlasJourneyField = config.fieldName || '';
+  input.addEventListener('input', () => {
+    atlasJourneyDraft = {
+      ...atlasJourneyDraft,
+      [config.fieldName]: input.value,
+    };
+  });
+  field.append(caption, input);
+  parent.appendChild(field);
+  return input;
+}
+
+function appendAtlasJourneySelect(parent, config = {}) {
+  const field = document.createElement('label');
+  field.className = 'right-rail-atlas-journey-field';
+  const caption = document.createElement('span');
+  caption.className = 'right-rail-atlas-journey-field__label';
+  caption.textContent = config.label || '';
+  const select = document.createElement('select');
+  select.className = 'right-rail-atlas-journey-field__control';
+  select.dataset.atlasJourneyField = config.fieldName || '';
+  const emptyOption = document.createElement('option');
+  emptyOption.value = '';
+  emptyOption.textContent = config.emptyLabel || 'Unavailable';
+  select.appendChild(emptyOption);
+  for (const option of Array.isArray(config.options) ? config.options : []) {
+    const element = document.createElement('option');
+    element.value = option.value || '';
+    element.textContent = option.label || option.value || '';
+    select.appendChild(element);
+  }
+  select.value = config.value || '';
+  select.addEventListener('change', () => {
+    atlasJourneyDraft = {
+      ...atlasJourneyDraft,
+      [config.fieldName]: select.value,
+    };
+    if (config.fieldName === 'mentionId') {
+      const mention = findAtlasJourneyMention(select.value);
+      if (mention?.entityId) {
+        atlasJourneyDraft.sourceEntityId = mention.entityId;
+      }
+    }
+    renderAtlasJourneyState();
+  });
+  field.append(caption, select);
+  parent.appendChild(field);
+  return select;
+}
+
+function formatAtlasJourneyEntityOption(entity) {
+  return `${entity.name || entity.entityId} · ${entity.entityKind || 'entity'}`;
+}
+
+function formatAtlasJourneyMentionOption(mention) {
+  const entity = findAtlasJourneyEntity(mention.entityId);
+  const quote = mention.context?.quote || mention.matchedText || mention.mentionId;
+  return `${entity?.name || mention.entityId} · ${quote}`;
+}
+
+async function refreshAtlasProductSurfaces(options = {}) {
+  const refreshes = [
+    refreshAtlasOverview(),
+    refreshAtlasEntityDossier(),
+    refreshAtlasRelationDossier(),
+    refreshAtlasMatrices(),
+    refreshAtlasReportsSavedQueries(),
+    refreshAtlasDiagnosticsStageAcceptance(),
+    refreshManualMapWorkbench(),
+    refreshProjectionInspector(),
+  ];
+  if (options.currentScene !== false) {
+    refreshes.push(refreshAtlasCurrentScene({ force: true }));
+  }
+  await Promise.all(refreshes);
 }
 
 async function runProductJourneyCommand(commandId, payload = {}) {
@@ -12999,21 +13163,36 @@ async function runProductJourneyCommand(commandId, payload = {}) {
     ...payload,
     projectId: currentProjectId,
   });
+  if (commandId === 'atlas.mention.confirm' && result && result.ok) {
+    atlasJourneyDraft = {
+      ...atlasJourneyDraft,
+      decisionId: payload?.decisionId || atlasJourneyDraft.decisionId,
+      decisionEvidenceAnchor: payload?.evidenceAnchor || atlasJourneyDraft.decisionEvidenceAnchor || null,
+    };
+  }
   atlasJourneyState = {
     status: result && result.ok ? 'applied' : 'failed',
     lastCommandId: commandId,
     lastResult: result && result.ok ? 'persisted' : (result?.reason || result?.error?.reason || 'failed'),
   };
   renderAtlasJourneyState();
-  await refreshAtlasProductSurfaces();
+  await refreshAtlasCurrentScene({ force: true });
+  renderAtlasJourneyState();
+  void refreshAtlasProductSurfaces({ currentScene: false }).catch((error) => {
+    console.warn('Atlas background surface refresh failed', error);
+  });
   return result;
 }
 
 function renderAtlasJourneyState() {
   if (!(atlasJourneyHost instanceof HTMLElement)) return;
+  reconcileAtlasJourneyDraft();
   atlasJourneyHost.innerHTML = '';
   atlasJourneyHost.dataset.atlasJourneyProvider = ATLAS_CURRENT_SCENE_QUERY_ID;
   atlasJourneyHost.dataset.atlasJourneyStatus = atlasJourneyState.status;
+  atlasJourneyHost.dataset.atlasJourneySourceEntityId = atlasJourneyDraft.sourceEntityId || '';
+  atlasJourneyHost.dataset.atlasJourneyTargetEntityId = atlasJourneyDraft.targetEntityId || '';
+  atlasJourneyHost.dataset.atlasJourneyMentionId = atlasJourneyDraft.mentionId || '';
 
   const header = document.createElement('div');
   header.className = 'right-rail-atlas-matrices-head';
@@ -13029,49 +13208,123 @@ function renderAtlasJourneyState() {
   header.append(label, title, status);
   atlasJourneyHost.appendChild(header);
 
-  const entity = firstAtlasEntity();
-  const mention = firstAtlasMention();
-  const entities = Array.isArray(atlasCurrentSceneState.entities) ? atlasCurrentSceneState.entities : [];
-  const targetEntity = entities.find((item) => item?.entityId && item.entityId !== entity?.entityId) || null;
+  const entities = getAtlasJourneyEntities();
+  const mentions = getAtlasJourneyMentions();
+  const sourceEntity = findAtlasJourneyEntity(atlasJourneyDraft.sourceEntityId);
+  const targetEntity = findAtlasJourneyEntity(atlasJourneyDraft.targetEntityId);
+  const mention = findAtlasJourneyMention(atlasJourneyDraft.mentionId);
+
+  const fields = document.createElement('div');
+  fields.className = 'right-rail-atlas-journey-fields';
+  appendAtlasJourneyField(fields, {
+    fieldName: 'entityName',
+    label: 'Entity name',
+    value: atlasJourneyDraft.entityName,
+    placeholder: currentDocumentTitle || atlasCurrentSceneState.sceneTitle || 'Name',
+  });
+  appendAtlasJourneyField(fields, {
+    fieldName: 'aliasValue',
+    label: 'Alias',
+    value: atlasJourneyDraft.aliasValue,
+    placeholder: sourceEntity?.name ? `${sourceEntity.name} alias` : 'Alias',
+  });
+  appendAtlasJourneySelect(fields, {
+    fieldName: 'sourceEntityId',
+    label: 'Source entity',
+    value: atlasJourneyDraft.sourceEntityId,
+    emptyLabel: 'No entity',
+    options: entities.map((entity) => ({
+      value: entity.entityId,
+      label: formatAtlasJourneyEntityOption(entity),
+    })),
+  });
+  appendAtlasJourneySelect(fields, {
+    fieldName: 'targetEntityId',
+    label: 'Target entity',
+    value: atlasJourneyDraft.targetEntityId,
+    emptyLabel: 'No target',
+    options: entities
+      .filter((entity) => entity.entityId !== atlasJourneyDraft.sourceEntityId)
+      .map((entity) => ({
+        value: entity.entityId,
+        label: formatAtlasJourneyEntityOption(entity),
+      })),
+  });
+  appendAtlasJourneySelect(fields, {
+    fieldName: 'mentionId',
+    label: 'Evidence mention',
+    value: atlasJourneyDraft.mentionId,
+    emptyLabel: 'No mention',
+    options: mentions.map((item) => ({
+      value: item.mentionId,
+      label: formatAtlasJourneyMentionOption(item),
+    })),
+  });
+  atlasJourneyHost.appendChild(fields);
+
   const actionBar = document.createElement('div');
   actionBar.className = 'right-rail-atlas-action-bar';
-  actionBar.appendChild(makeAtlasCommandButton('Create entity', 'atlas.entity.create', {
+  actionBar.appendChild(makeAtlasCommandButton('Create entity', 'atlas.entity.create', () => ({
     entityId: makeStableUiId('atlas-entity'),
-    name: currentDocumentTitle || atlasCurrentSceneState.sceneTitle || 'Entity',
+    name: getAtlasJourneyEntityName(),
     entityKind: 'character',
-  }, { disabled: !currentProjectId, reason: currentProjectId ? '' : 'Project is not open' }));
-  actionBar.appendChild(makeAtlasCommandButton('Add alias', 'atlas.alias.add', {
-    entityId: entity?.entityId || '',
+  }), { actionId: 'create-entity', disabled: !currentProjectId, reason: currentProjectId ? '' : 'Project is not open' }));
+  actionBar.appendChild(makeAtlasCommandButton('Add alias', 'atlas.alias.add', () => ({
+    entityId: atlasJourneyDraft.sourceEntityId || '',
     aliasId: makeStableUiId('atlas-alias'),
-    value: `${entity?.name || 'Alias'} alias`,
+    value: getAtlasJourneyAliasValue(),
     scope: atlasCurrentSceneState.sceneId ? 'scene' : 'project',
     sceneId: atlasCurrentSceneState.sceneId || '',
-  }, { disabled: !entity, reason: entity ? '' : 'No entity available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Confirm mention', 'atlas.mention.confirm', {
+  }), { actionId: 'add-alias', disabled: !sourceEntity, reason: sourceEntity ? '' : 'Select an entity' }));
+  actionBar.appendChild(makeAtlasCommandButton('Confirm mention', 'atlas.mention.confirm', () => ({
     sceneId: mention?.sceneId || atlasCurrentSceneState.sceneId || '',
-    entityId: mention?.entityId || entity?.entityId || '',
+    entityId: mention?.entityId || atlasJourneyDraft.sourceEntityId || '',
     mentionId: mention?.mentionId || '',
     evidenceAnchor: mention?.evidenceAnchor || null,
-    decisionId: makeStableUiId('atlas-decision'),
-  }, { disabled: !mention, reason: mention ? '' : 'No exact mention available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Suppress', 'atlas.observation.suppress', {
+    decisionId: ensureAtlasJourneyDraftId('decisionId', 'atlas-decision'),
+  }), { actionId: 'confirm-mention', disabled: !mention, reason: mention ? '' : 'Select an exact mention' }));
+  actionBar.appendChild(makeAtlasCommandButton('Suppress', 'atlas.observation.suppress', () => ({
     sceneId: mention?.sceneId || atlasCurrentSceneState.sceneId || '',
-    entityId: mention?.entityId || entity?.entityId || '',
+    entityId: mention?.entityId || atlasJourneyDraft.sourceEntityId || '',
     mentionId: mention?.mentionId || '',
     evidenceAnchor: mention?.evidenceAnchor || null,
-    suppressionId: makeStableUiId('atlas-suppression'),
+    suppressionId: ensureAtlasJourneyDraftId('suppressionId', 'atlas-suppression'),
     reason: 'author-reviewed',
-  }, { disabled: !mention, reason: mention ? '' : 'No exact mention available' }));
-  actionBar.appendChild(makeAtlasCommandButton('Reassign', 'atlas.observation.reassign', {
+  }), { actionId: 'suppress-observation', disabled: !mention, reason: mention ? '' : 'Select an exact mention' }));
+  actionBar.appendChild(makeAtlasCommandButton('Reassign', 'atlas.observation.reassign', () => ({
     sceneId: mention?.sceneId || atlasCurrentSceneState.sceneId || '',
-    sourceEntityId: mention?.entityId || entity?.entityId || '',
-    targetEntityId: targetEntity?.entityId || '',
+    sourceEntityId: mention?.entityId || atlasJourneyDraft.sourceEntityId || '',
+    targetEntityId: atlasJourneyDraft.targetEntityId || '',
     mentionId: mention?.mentionId || '',
     evidenceAnchor: mention?.evidenceAnchor || null,
-    reassignmentId: makeStableUiId('atlas-reassign'),
+    reassignmentId: ensureAtlasJourneyDraftId('reassignmentId', 'atlas-reassign'),
     reason: 'author-reviewed',
-  }, { disabled: !mention || !targetEntity, reason: targetEntity ? '' : 'Needs a second entity' }));
+  }), { actionId: 'reassign-observation', disabled: !mention || !targetEntity, reason: targetEntity ? '' : 'Select a different target entity' }));
+  actionBar.appendChild(makeAtlasCommandButton('Merge', 'atlas.entity.merge', () => ({
+    sourceEntityId: atlasJourneyDraft.sourceEntityId || '',
+    targetEntityId: atlasJourneyDraft.targetEntityId || '',
+    operationId: ensureAtlasJourneyDraftId('mergeOperationId', 'atlas-merge'),
+    reason: 'author-reviewed',
+  }), { actionId: 'merge-entities', disabled: !sourceEntity || !targetEntity, reason: targetEntity ? '' : 'Select source and target entities' }));
+  actionBar.appendChild(makeAtlasCommandButton('Split restore', 'atlas.entity.splitRestore', () => ({
+    operationId: atlasJourneyDraft.mergeOperationId || '',
+    restoreOperationId: ensureAtlasJourneyDraftId('restoreOperationId', 'atlas-split-restore'),
+  }), { actionId: 'split-restore', disabled: !atlasJourneyDraft.mergeOperationId, reason: atlasJourneyDraft.mergeOperationId ? '' : 'Merge first' }));
+  actionBar.appendChild(makeAtlasCommandButton('Reattach evidence', 'atlas.evidence.reattach', () => ({
+    sourceRecordKind: 'decision',
+    sourceRecordId: atlasJourneyDraft.decisionId || '',
+    staleEvidenceAnchor: atlasJourneyDraft.decisionEvidenceAnchor || mention?.evidenceAnchor || null,
+    newEvidenceAnchor: mention?.evidenceAnchor || null,
+    reattachmentId: ensureAtlasJourneyDraftId('reattachmentId', 'atlas-reattach'),
+    reason: 'author-reviewed',
+  }), { actionId: 'reattach-evidence', disabled: !mention || !atlasJourneyDraft.decisionId, reason: atlasJourneyDraft.decisionId ? '' : 'Confirm a mention first' }));
   atlasJourneyHost.appendChild(actionBar);
+
+  const targetSummary = document.createElement('div');
+  targetSummary.className = 'right-rail-atlas-journey-targets';
+  targetSummary.dataset.atlasJourneyTargetSummary = 'true';
+  targetSummary.textContent = `Target: ${sourceEntity?.name || 'none'} -> ${targetEntity?.name || 'none'} · mention ${mention ? 'selected' : 'none'}`;
+  atlasJourneyHost.appendChild(targetSummary);
 }
 
 function renderManualMapWorkbenchState() {
@@ -15412,8 +15665,8 @@ function renderAtlasCurrentSceneState() {
   atlasCurrentSceneHost.appendChild(list);
 }
 
-async function refreshAtlasCurrentScene() {
-  if (currentRightTab !== 'atlas') return;
+async function refreshAtlasCurrentScene(options = {}) {
+  if (currentRightTab !== 'atlas' && options.force !== true) return;
   atlasCurrentSceneState = {
     ...atlasCurrentSceneState,
     state: currentDocumentId ? 'loading' : 'empty',

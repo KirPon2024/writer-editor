@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r3.c00.saturationAudit.v1",
+  "taskId": "YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION",
+  "contourId": "R3_C00_SATURATION_AUDIT_AND_CONTOUR_COMPILATION",
+  "programStage": "R3_MAXIMUM_PRODUCT_RELEASE_SATURATION_2026_07_31",
+  "status": "PASS_AUDIT_READY_FOR_R3_REPAIR_QUEUE",
+  "pass": true,
+  "generatedAtUtc": "2026-07-31T22:26:26.415Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r3-c00-saturation-audit",
+    "headSha": "7fbb13065d05b3ca318a6b1da79feb84b1150df0",
+    "originMainSha": "7fbb13065d05b3ca318a6b1da79feb84b1150df0",
+    "headEqualsOriginMain": true,
+    "dirtyFileCount": 3
+  },
+  "designToolRouter": {
+    "status": "APPLIED",
+    "question": "desktop graph workbench inspector density without changing approved Yalken visual canon",
+    "lazywebAdvisory": {
+      "query": "graph workbench inspector",
+      "platform": "desktop",
+      "coverage": "weak",
+      "runtimeReadinessToken": false
+    }
+  },
+  "physicalEvidence": {
+    "report": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/physical-black-box/r2-c05-honest-black-box-acceptance-report.json",
+      "exists": true,
+      "bytes": 81532,
+      "sha256": "7ff2b4e30ab9abc886ca15bc0d2ce506724f49e12e6e241f88158bc92c8ac08e"
+    },
+    "acceptedAsCapabilityEvidence": true,
+    "requiredAcceptance": [
+      "visibleInputRuntime",
+      "pointerAndKeyboardUsed",
+      "createRenameConnectMoveSearchDelete",
+      "cancelNoop",
+      "hitTestableNonblankGraph",
+      "listKeyboardParity",
+      "saveQuitReopenRecovery",
+      "exportRepeatImport",
+      "noNetworkNoDialogs",
+      "noWrongTargetOrViewStatePersistence",
+      "noOverflow"
+    ],
+    "mouseDownCount": 36,
+    "charCount": 86
+  },
+  "sourceReachability": {
+    "atlasMutationCommandsPresent": true,
+    "manualMapCommandsPresent": true,
+    "atlasReadQueriesPresent": true,
+    "commandRegistryProof": {
+      "path": "src/shared/productCommandRegistry.cjs",
+      "exists": true,
+      "bytes": 9317,
+      "sha256": "34941ba7e1124bfb4d44274d3607769fe06412af43bb81afc2fb76de803b7c6d"
+    },
+    "queryRegistryProof": {
+      "path": "src/shared/workspaceQueryRegistry.cjs",
+      "exists": true,
+      "bytes": 5340,
+      "sha256": "96dcf1f1e1d1de037509217a857bdd9cf81062f83aacf6ae031d8181944b818f"
+    }
+  },
+  "capabilityRows": [
+    {
+      "id": "manual-map-core-visible-journey",
+      "authority": "manual-map-product-authority",
+      "status": "PHYSICALLY_PROVEN_THIS_CONTOUR",
+      "evidence": "7ff2b4e30ab9abc886ca15bc0d2ce506724f49e12e6e241f88158bc92c8ac08e"
+    },
+    {
+      "id": "atlas-entity-alias-mention-evidence-journey",
+      "authority": "atlas-product-authority",
+      "status": "SOURCE_REACHABLE_REQUIRES_R3_PHYSICAL_JOURNEY",
+      "evidence": "34941ba7e1124bfb4d44274d3607769fe06412af43bb81afc2fb76de803b7c6d"
+    },
+    {
+      "id": "atlas-read-surfaces-overview-dossier-matrices-heatmap-reports",
+      "authority": "atlas-projection-authority",
+      "status": "SOURCE_REACHABLE_REQUIRES_R3_PHYSICAL_JOURNEY",
+      "evidence": "96dcf1f1e1d1de037509217a857bdd9cf81062f83aacf6ae031d8181944b818f"
+    },
+    {
+      "id": "atlas-temporal-calendar-continuity-saved-query-flow",
+      "authority": "atlas-command-and-projection-authority",
+      "status": "SOURCE_REACHABLE_REQUIRES_R3_PHYSICAL_JOURNEY",
+      "evidence": "34941ba7e1124bfb4d44274d3607769fe06412af43bb81afc2fb76de803b7c6d:96dcf1f1e1d1de037509217a857bdd9cf81062f83aacf6ae031d8181944b818f"
+    },
+    {
+      "id": "manual-map-attachments-portals-templates",
+      "authority": "manual-map-product-authority",
+      "status": "SOURCE_REACHABLE_REQUIRES_R3_PHYSICAL_JOURNEY",
+      "evidence": "34941ba7e1124bfb4d44274d3607769fe06412af43bb81afc2fb76de803b7c6d"
+    },
+    {
+      "id": "multilingual-grapheme-worker-staleness-large-graph-stress",
+      "authority": "derived-worker-and-anchor-authority",
+      "status": "REQUIRES_R3_PHYSICAL_STRESS_MATRIX",
+      "evidence": "NO_CURRENT_R3_PHYSICAL_STRESS_MATRIX"
+    }
+  ],
+  "releaseVetoes": {
+    "generatedArtifactsAloneAccepted": false,
+    "screenshotsAloneAccepted": false,
+    "directIpcAccepted": false,
+    "staleProjectionAcceptedAsTruth": false,
+    "designToolMetadataAcceptedAsRuntimeReadiness": false,
+    "programDoneClaim": false
+  },
+  "certifiedByThisContour": [
+    "manual-map-core-visible-journey-fresh-r3-proof"
+  ],
+  "notCertifiedByThisContour": [
+    "atlas-entity-alias-mention-evidence-journey",
+    "atlas-read-surfaces-overview-dossier-matrices-heatmap-reports",
+    "atlas-temporal-calendar-continuity-saved-query-flow",
+    "manual-map-attachments-portals-templates",
+    "multilingual-grapheme-worker-staleness-large-graph-stress"
+  ],
+  "nextContours": [
+    "R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS",
+    "R3_C02_ATLAS_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS",
+    "R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_SATURATION",
+    "R3_C04_MULTILINGUAL_WORKER_STRESS_AND_STALE_RESULT_SATURATION",
+    "R3_C05_RELEASE_SATURATION_REVALIDATION_AND_INDEPENDENT_AUDIT"
+  ],
+  "programDodVerdict": "NOT_DONE_R3_SATURATION_REPAIRS_REQUIRED"
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_TEXT_COMMENTS_FORMATTING_STRUCTURE_REPLAY_E11_COMPONENT_PROVEN_WITH_TYPED_LIMITATIONS",
+  "status": "WORD_16_111_2_E12_SATURATION_LEDGER_BOUND_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -383,6 +383,58 @@
         "NO_RUNTIME_WRITER_SWITCH_IN_E11"
       ],
       "killCriterion": "any partial canonical write before root pointer is allowed, runtime writer authority is granted, or stale duplicate mismatched receipts commit"
+    },
+    {
+      "capabilityId": "rtk.word.v4.saturationLedger",
+      "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
+      "state": "PHYSICAL_WORD_PROVEN",
+      "currentCapability": "SATURATION_LEDGER_BOUND_NOT_SATURATED",
+      "physicalWordEvidence": true,
+      "consumer": "EXECUTION_12 next physical Word wave 40",
+      "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "physicalTotals": {
+        "physicalRoundTripsObserved": 32,
+        "visibleAnchoredCommentThreads": 91,
+        "physicalFormattingCases": 17,
+        "physicalStructuralCases": 30,
+        "replayHostileGuardCases": 5,
+        "focusedE11CoordinatorContracts": 7,
+        "exactAutomaticCandidates": 0
+      },
+      "saturationRule": {
+        "requiredWaveSequence": [
+          10,
+          40,
+          100,
+          300
+        ],
+        "completedWaves": [
+          10
+        ],
+        "currentWaveTarget": 40,
+        "currentWaveObservedRounds": 32,
+        "consecutiveStableApprovedWaves": 0,
+        "stableHistogram": false,
+        "saturated": false,
+        "wordSaturationClaimAllowed": false,
+        "googleDocsAllowedToOpen": false
+      },
+      "supportedNow": [
+        "Unicode bidi hostile performance crash and replay evidence is bound to merged receipts",
+        "zero-veto aggregate is verified across bound receipts and ledger",
+        "false Word SATURATED claim is blocked until wave criteria are satisfied",
+        "Google Docs and other editor profiles remain closed until Word saturation is proven"
+      ],
+      "limitations": [
+        "WAVE_40_HAS_32_OF_40_OBSERVED_ROUNDS",
+        "WAVE_100_NOT_STARTED",
+        "WAVE_300_NOT_STARTED",
+        "TWO_CONSECUTIVE_STABLE_APPROVED_WAVES_NOT_PROVEN",
+        "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
+        "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
+      ],
+      "killCriterion": "Word SATURATED is claimed before waves 40 100 300 and two stable approved waves, any veto becomes nonzero, or Google Docs opens before Word saturation"
     }
   ]
 }

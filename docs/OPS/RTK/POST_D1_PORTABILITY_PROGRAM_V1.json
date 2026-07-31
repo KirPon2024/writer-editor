@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_E12_PHYSICAL_WAVE40_COMPLETE_NOT_SATURATED",
+  "status": "WORD_E12_PHYSICAL_WAVE100_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -358,7 +358,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "EXECUTION_12_NEXT_PHYSICAL_WAVE_100_AFTER_WAVE40_PR_MERGE",
+  "nextStep": "EXECUTION_12_NEXT_PHYSICAL_WAVE_300_AFTER_WAVE100_PR_MERGE",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -372,22 +372,22 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_12_WAVE40_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_100",
+    "status": "EXECUTION_12_WAVE100_LOCAL_VERIFIED_NOT_SATURATED_CONTINUE_WORD_WAVE_300",
     "currentStage": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-    "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_100",
+    "nextStage": "EXECUTION_12_NEXT_PHYSICAL_WAVE_300",
     "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
     "physicalTextCertificationStatus": "PHYSICAL_TEXT_CERTIFIED_WITH_TYPED_LIMITATIONS",
-    "physicalWordRoundTrips": 40,
+    "physicalWordRoundTrips": 100,
     "physicalWordFalseExact": 0,
     "physicalWordWrongSceneRouting": 0,
     "physicalWordSilentApply": 0,
     "physicalWordReplayFailure": 0,
     "commentShadowAnalysisCertified": true,
     "commentShadowAnalysisStatus": "COMMENT_SHADOW_ANALYSIS_CERTIFIED_WITH_TYPED_LIMITATIONS",
-    "visibleAnchoredCommentThreads": 212,
+    "visibleAnchoredCommentThreads": 398,
     "unsupportedBlockedCommentThreads": 2,
     "replyThreadsCertified": 0,
     "resolveReopenCertified": 0,
@@ -432,16 +432,22 @@
     "wordSaturated": false,
     "completedPhysicalWaves": [
       10,
-      40
+      40,
+      100
     ],
-    "currentPhysicalWaveTarget": 100,
-    "currentPhysicalWaveObservedRounds": 40,
+    "currentPhysicalWaveTarget": 300,
+    "currentPhysicalWaveObservedRounds": 100,
     "consecutiveStableApprovedWaves": 0,
-    "latestPhysicalWaveReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40_RECEIPT.json",
+    "latestPhysicalWaveReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
     "wave40PhysicalOpenEditSaveCloseReopenPass": 40,
     "wave40ParserPass": 39,
     "wave40DenseCommentThreads": 120,
     "wave40ScaleWordsMax": 300000,
-    "wordSandboxGrantPromptRepair": "DEFAULT_WORK_ROOT_MOVED_TO_WORD_CONTAINER_DATA_TMP"
+    "wordSandboxGrantPromptRepair": "DEFAULT_WORK_ROOT_MOVED_TO_WORD_CONTAINER_DATA_TMP",
+    "wave100PhysicalOpenEditSaveCloseReopenPass": 100,
+    "wave100ParserPass": 99,
+    "wave100CommentThreads": 398,
+    "wave100DenseCommentThreads": 120,
+    "wave100ScaleReturnedBytesMax": 994079
   }
 }

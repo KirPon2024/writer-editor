@@ -50,7 +50,7 @@ function shellValue(command, args, options = {}) {
   }
 }
 
-function makeExtraWave40Cases(startOrdinal) {
+export function makeExtraWave40Cases(startOrdinal) {
   return [
     {
       id: 'WL2-033',

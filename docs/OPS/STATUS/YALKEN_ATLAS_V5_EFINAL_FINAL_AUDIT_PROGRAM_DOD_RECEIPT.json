@@ -4,8 +4,8 @@
   "contourId": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD_REVALIDATION",
   "programStage": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
   "baseSha": "cefe359e99348af99744f0b8e7bf393b2c3f244b",
-  "headShaAtReceiptGeneration": "2c9dceb9125ef44064195edae13d92a0b0a548c7",
-  "generatedAtUtc": "2026-07-31T22:10:01.011Z",
+  "headShaAtReceiptGeneration": "309e24e7cc64320e086b3e935bfc7c4c3054f3e9",
+  "generatedAtUtc": "2026-07-31T22:11:27.540Z",
   "designToolRouter": "NOT_APPLICABLE_FINAL_AUDIT_AND_CERTIFICATION_EVIDENCE_ONLY_NO_UI_DESIGN_CONTRACT_CHANGE",
   "status": "PASS_EFINAL_READY_FOR_DELIVERY",
   "pass": true,
@@ -15,7 +15,7 @@
     "finalAuditReport": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
       "bytes": 31891,
-      "sha256": "87850348fc1ebe65947329105302eeaf226a9c124da3a0b60f61f8e266069b1d"
+      "sha256": "80744a52dadb6879145f62becda5e0413686070aa439ef392bfbdeb68cbdf5b7"
     },
     "revalidatedC01PackageArtifact": {
       "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
@@ -78,7 +78,7 @@
     {
       "command": "node scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
       "result": "PASS",
-      "summary": "PASS_EFINAL_READY_FOR_DELIVERY; Program DoD map 20/20; critical invariants 20/20; stale invalidated receipts rejected; report bound to clean commit head with remote freeze pending PR merge."
+      "summary": "PASS_EFINAL_READY_FOR_DELIVERY; Program DoD map 20/20; critical invariants 20/20; stale invalidated receipts rejected; report bound to clean implementation commit 309e24e7cc64320e086b3e935bfc7c4c3054f3e9 with final delivery commit and remote merge pending."
     },
     {
       "command": "node scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs --skip-build --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact",
@@ -136,5 +136,7 @@
     "branchCleanupRequired": true,
     "mutableStateDoneUpdateRequiredAfterMerge": true
   },
-  "receiptDigestExcludingSelf": "7abd2347cf5103e8d0aec52d8766bcbc1af4bb7e1ec4854a0773cc9dc84438f5"
+  "receiptDigestExcludingSelf": "a4ef2fd5540de0fd5fa346902834b4a84297c663975008622ae9e14f8258eec4",
+  "validatedImplementationSha": "309e24e7cc64320e086b3e935bfc7c4c3054f3e9",
+  "finalDeliveryHeadSha": "PENDING_EVIDENCE_BINDING_COMMIT_AND_PR_MERGE"
 }

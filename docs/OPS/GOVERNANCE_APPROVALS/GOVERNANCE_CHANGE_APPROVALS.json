@@ -1536,10 +1536,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
-      "sha256": "87850348fc1ebe65947329105302eeaf226a9c124da3a0b60f61f8e266069b1d",
+      "sha256": "80744a52dadb6879145f62becda5e0413686070aa439ef392bfbdeb68cbdf5b7",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:10:12.238Z",
-      "rationale": "Approve EFINAL final audit report and receipt rebound to clean commit head after actual approved-state full runner PASS; final remote identity remains explicitly pending PR merge and post-merge remote SHA verification."
+      "approvedAtUtc": "2026-07-31T22:11:27.548Z",
+      "rationale": "Approve EFINAL evidence-binding update: final audit report and receipt are generated from clean implementation commit 309e24e7, Program DoD evidence remains PASS, and final delivery remote SHA remains pending PR merge verification."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
@@ -3748,10 +3748,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
-      "sha256": "3f10f6a5f5bd918472dbf6e7ecc229fe1e3559f98ab306de4d22711e46acb05c",
+      "sha256": "4587d498a19ece340f455b61d35b5c567fd48513ec5d64b6700d8b53824b1635",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:10:12.238Z",
-      "rationale": "Approve EFINAL final audit report and receipt rebound to clean commit head after actual approved-state full runner PASS; final remote identity remains explicitly pending PR merge and post-merge remote SHA verification."
+      "approvedAtUtc": "2026-07-31T22:11:27.548Z",
+      "rationale": "Approve EFINAL evidence-binding update: final audit report and receipt are generated from clean implementation commit 309e24e7, Program DoD evidence remains PASS, and final delivery remote SHA remains pending PR merge verification."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",

@@ -1878,13 +1878,6 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "91ad909c365c832ac2d6f0925f23c064583db47289535d61e0c7c505154944a4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -2018,13 +2011,6 @@
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "7074cb0c0d704be6eb6d1f3e96c9ba8709bf4b5d58b8397b0aabfaf261d5a9c5",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
       "sha256": "3c54d847fb41af0b0eb7f43dfb8a3a8b1a9739e16357d94e08880de0f8e81746",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -2037,13 +2023,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "a9f46d17734b02f751eac9dbccc71e2947fb07e5d8317a520550c9b1ff1f689e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2177,13 +2156,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "61bd2cd942ec3f01878bc8056962acb2553de3b3fbcc8c975c8561ce03828b23",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -4447,32 +4419,11 @@
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "0308012d8f972f57e3c72921e0e498dfe7518b7b8217812f09138e0d498e4a24",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
       "sha256": "8850be69a09144ca80cafb8c112e59417844a4c3549767a2144b0b3188a2b02f",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
-      "sha256": "b84825561080e1d483bc7cc3c1a6fbfbe17656bfaaa65e2b68b209fa204e3fea",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
-      "sha256": "093d1a5b8e3517e8c9f4aadb02d63a83035d745fd78de2bee4c92d285a0c9e0f",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -4909,13 +4860,6 @@
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
     },
     {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "acb12624931da2c4fb37713fffed72048d5e99a18d7486e11945eacafd3e5847",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.237Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "sha256": "3cc6794dd7acf034b33c0c2bf9ef3706d48b6105f4baef40c09eaa684d1b0e33",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -5061,13 +5005,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
       "approvedAtUtc": "2026-07-31T05:05:00.000Z",
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "55401ba74b1957f84eb8437143807591cef55f7528338b16f794bfa9f1e749de",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.240Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "src/preload.js",
@@ -5812,13 +5749,6 @@
       "rationale": "Approve bounded contract proof for DOCX review preflight diagnostic-only report preserving no review session, apply, receipt, recovery, project truth write, importDocxV1 routing, dependency, network, UI, release, Word parity, or full DOCX review import claim."
     },
     {
-      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "db9c7ab920518c9e7a38b8431d8dc61844e38f2651b6b71104898e758c53f156",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.240Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
       "sha256": "b54a9b5feb12ab3942b32017bf39868db54b86925f7fbce56456b4a5b2103398",
       "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_REVIEW_V1_GATE_C_001",
@@ -6174,13 +6104,6 @@
       "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
-      "sha256": "b4c224ccbd1558ec2e12727688f8fe4bc515210f2bfeb23fb40a80aeef904568",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.contract.test.js",
@@ -7119,6 +7042,104 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
       "approvedAtUtc": "2026-07-31T22:27:26.981Z",
       "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "5e18318e747e89a8395f2dfa75341878f86e25a86b45ac5eb3ab21b058985f9a",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
+      "sha256": "519ee66e2742fb913d155ee084f8707734c72ae7f5082ce5dcec8fc41de0e2b6",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+      "sha256": "0f4d3c4cbab44dd2ec9fe06825c032646969179dfd556f695cc935923c9bd355",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "efea06b63daacbf554dd0ca51fa818cb39386a8de33f9e55e314978af6fe6935",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "9b13b027a1c812e5e2987352d0a771733c25169193dec6db3f57d3711b290a02",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+      "sha256": "d4297567872f46fd97afbefb6b3dc9cb534d4a8a2caf97760b2df6fc9d8b367e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
+      "sha256": "fe0711b3f874219a257d964b777eef9a1513b52e87fee33806477d4798d4ffab",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
+      "sha256": "3b3a492b18e8196ad5733510d8992267994c91f4935ab43f978b9ffa61c46545",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c05-non-overlap-product-path.mjs",
+      "sha256": "44b64d8dfcd5d37a6f53fd34ab17d15f48b37f2449b4e684b0b51487973c6eb4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "e8f913d401427a37388117c55a9b9791e2916139c6937c9c4cdc8c035161ef58",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "713f0541bda07d4177b60b9e96951a8d72a57993a37e95b2db0d767ef977d891",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "80e733cb822c5b3fb007643f7d4880f585d65e7779c2bf5aa372a5752dc7dd31",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "sha256": "a64ad9e0e43fd6b49520268d574f5df35d846ca874efe07b8fb18864bf3eaa38",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c05-non-overlap-product-path.contract.test.js",
+      "sha256": "dd04e3876f09f2f503c15b0a168051934ab662ae1696f9c4d3fde3c73c42ad02",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
     }
   ]
 }

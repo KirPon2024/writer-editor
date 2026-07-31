@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-c05-non-overlap-product-path-receipt.v1",
+  "taskId": "YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+  "contourId": "A03-C05",
+  "status": "WORD_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_WIRED_NOT_SATURATED",
+  "result": "PASS",
+  "headBinding": {
+    "headSha": "235bcdd17f7e7719fc67f2b1e54ffa59b94f186b",
+    "originMainSha": "fd9ca9053b2bfcc4a722e350c9809143e79ab6c9",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "c02RuntimeReceipt": {
+      "id": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
+      "sha256": "b1ee9b3db420af3554227d9a5c9deafdc86991e31b914e835c290dda54b452be",
+      "status": "BOUND"
+    },
+    "c04ModernCommentStateReceipt": {
+      "id": "A03_C04_MODERN_COMMENT_STATE",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C04_MODERN_COMMENT_STATE_RECEIPT.json",
+      "sha256": "abf76d9256a1d3cadb8fe2db681adeb536776be5a7d766c42f58bb5c4f7a3614",
+      "status": "BOUND"
+    },
+    "main": {
+      "id": "MAIN_PRODUCT_COMPOSITION_ROOT",
+      "path": "src/main.js",
+      "sha256": "713f0541bda07d4177b60b9e96951a8d72a57993a37e95b2db0d767ef977d891",
+      "status": "BOUND"
+    },
+    "bridgeIndex": {
+      "id": "REVISION_BRIDGE_ZIP_TO_REVIEW_TRANSPORT_ANALYSIS",
+      "path": "src/io/revisionBridge/index.mjs",
+      "sha256": "e8f913d401427a37388117c55a9b9791e2916139c6937c9c4cdc8c035161ef58",
+      "status": "BOUND"
+    },
+    "commandSurfaceContract": {
+      "id": "A03_C05_DOCX_PREVIEW_TO_APPLY_CONTRACT",
+      "path": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "80e733cb822c5b3fb007643f7d4880f585d65e7779c2bf5aa372a5752dc7dd31",
+      "status": "BOUND"
+    },
+    "c02RuntimeContract": {
+      "id": "A03_C02_RUNTIME_CONTRACT_PRESERVED",
+      "path": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "sha256": "b4c224ccbd1558ec2e12727688f8fe4bc515210f2bfeb23fb40a80aeef904568",
+      "status": "BOUND"
+    }
+  },
+  "sourceProof": {
+    "markers": {
+      "hiddenMainApplyStore": true,
+      "activationPreparesProductPath": true,
+      "exactApplyDispatchesRtkCommand": true,
+      "rendererAuthorityBlocked": true,
+      "noSilentFallbackFromRtkProductPath": true,
+      "cryptoPortPassedToRtkHandler": true,
+      "zipBytesToReviewTransportAnalysis": true,
+      "productPathContract": true,
+      "forgedRendererContract": true,
+      "c02HistoryPreserved": true
+    },
+    "allPresent": true,
+    "mainSha256": "713f0541bda07d4177b60b9e96951a8d72a57993a37e95b2db0d767ef977d891",
+    "bridgeIndexSha256": "e8f913d401427a37388117c55a9b9791e2916139c6937c9c4cdc8c035161ef58",
+    "commandSurfaceContractSha256": "80e733cb822c5b3fb007643f7d4880f585d65e7779c2bf5aa372a5752dc7dd31",
+    "c02ContractSha256": "b4c224ccbd1558ec2e12727688f8fe4bc515210f2bfeb23fb40a80aeef904568"
+  },
+  "implementedCapability": {
+    "capability": "nonOverlapTrackedReplacementProductPath",
+    "physicalWordProven": true,
+    "componentProven": true,
+    "productCompositionRegistered": true,
+    "productRuntimeWired": true,
+    "endToEndProductPathWired": true,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "componentAutomaticApplyCertified": true,
+    "authorityScope": "returned DOCX preview session to explicit exact text apply command for physically proven non-overlap tracked replacement pairs",
+    "pendingReleaseAuthority": "product-originated Review DOCX export identity and physical Yalken export Word return reopen replay certification",
+    "notPromoted": [
+      "adjacent triple edits",
+      "literal overlap",
+      "modern replies",
+      "resolve then reopen",
+      "multi-scene automatic apply",
+      "formatting automatic apply",
+      "structural automatic apply"
+    ]
+  },
+  "productPathProof": {
+    "activationPath": "cmd.project.review.activateDocxReviewPreviewSession",
+    "visibleApplyPath": "cmd.project.review.applyExactTextChange",
+    "runtimeApplyCommand": "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+    "rendererSeesWriterAuthority": false,
+    "directRendererAuthorityFieldsAccepted": false,
+    "noLegacyFallbackWhenRtkProductPathMissingMainEnvelope": true,
+    "commentShadowStillIndependent": true
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentLoss": 0,
+    "silentCommentLoss": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "falseReleaseClaim": 0
+  },
+  "nonClaims": [
+    "C05 does not certify Word SATURATED.",
+    "C05 does not start Google Docs.",
+    "C05 does not claim release-ready product loop.",
+    "C05 does not replace the Product Review DOCX exporter P0 audit item.",
+    "C05 does not widen automatic apply beyond physically proven non-overlap tracked replacement component semantics.",
+    "C05 does not grant parser renderer or returned DOCX writer authority."
+  ],
+  "nextStage": "RELEASE_AUDIT_REBIND_AFTER_C05"
+}

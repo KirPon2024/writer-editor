@@ -166,10 +166,10 @@ test('E06 C07: continuity ledger surface derives finding rows with evidence jump
   assert.equal(row.correctionRoutes[0].intentOnly, true);
   assert.equal(row.correctionRoutes[0].automaticCorrection, false);
   assert.equal(row.correctionRoutes[0].automaticApply, false);
-  assert.equal(result.value.evidence.lazyweb.applied, true);
-  assert.equal(result.value.evidence.lazyweb.fullReport, 'unavailable');
-  assert.equal(result.value.evidence.uiCraft.applied, true);
-  assert.equal(result.value.evidence.heuristic.applied, true);
+  assert.equal(result.value.evidence.designAdvisory.applied, true);
+  assert.equal(result.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(result.value.evidence.designAdvisory.readinessToken, false);
+  assert.equal(result.value.evidence.designAdvisory.externalReportAvailable, false);
 });
 
 test('E06 C07: continuity ledger surface handles empty and disabled capability states', async () => {

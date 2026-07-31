@@ -99,9 +99,10 @@ test('E05 C07: diagnostics packet is invalidated for Stage 05 readiness without 
   assert.equal(diagnostics.value.finalUiAuditReceipt.responsive.status, 'NOT_READY');
   assert.equal(diagnostics.value.finalUiAuditReceipt.performance.status, 'NOT_READY');
   assert.equal(diagnostics.value.finalUiAuditReceipt.finalBar.status, 'NOT_READY');
-  assert.equal(diagnostics.value.finalUiAuditReceipt.externalEvidence.lazywebAdvisoryOnly, true);
+  assert.equal(diagnostics.value.finalUiAuditReceipt.externalEvidence.designAdvisoryOnly, true);
   assert.equal(diagnostics.value.heuristicReviewReceipt.readinessToken, false);
-  assert.equal(diagnostics.value.evidence.lazyweb.readinessToken, false);
+  assert.equal(diagnostics.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(diagnostics.value.evidence.designAdvisory.readinessToken, false);
   assert.ok(diagnostics.value.heuristicReviewReceipt.usabilityScoreJudged >= 80);
   assert.match(diagnostics.value.summary.diagnosticsHash, /^[0-9a-f]{64}$/u);
 });

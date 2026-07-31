@@ -31,10 +31,10 @@
     },
     {
       "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "cecade3292668b7c3226ad33a5b8cf87f37d63dfa525b716fbafc2782a330d82",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E02A_C01_MANUAL_MAP_CORE_COMMAND_BOUNDARY",
-      "approvedAtUtc": "2026-07-29T19:05:00.000Z",
-      "rationale": "Approve bounded Yalken Atlas V5 E02A C01 capability matrix update: adds cap.manualMap.edit enabled only for node desktop and disabled for web and mobile-wrapper, preserving local-only manual map command authority, no UI surface, no network, no cloud, no paid service, no dependency, no private storage adapter, and no release readiness widening."
+      "sha256": "9f502303896301f0807031b7eadafe30c74cc7309ff5cc7bf8881d206caf2154",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.223Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
@@ -1803,9 +1803,9 @@
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
       "sha256": "3a481e7138408aa8dacc64b8c1e12126eb046f88e25d7766efe04ac71ac87516",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.228Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -1922,16 +1922,16 @@
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
       "sha256": "cec7bee0c310e421c20306421373471c0a423759b9df4e55a21c91c1e7673908",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.229Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
       "sha256": "4e0598f7a00fca701b87f70295b333fe6fb977978ffdf0c21e7c7030814502ab",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.229Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
@@ -1950,9 +1950,9 @@
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
       "sha256": "8d6d99448df1d2cd2871a7f241756a7a53b847893085e72717ca981d7aefbdc8",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.229Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2090,9 +2090,9 @@
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
       "sha256": "6160384fdfc687c3bc1cb8ddd66c713dd545b92b726b4072da23767eece953a4",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.230Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -2187,10 +2187,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "0add4c417d66d258c8899fb07e6b9810f3d94ef725c4aceadf09dcf0f43eec08",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E09_C02_CROSS_BOOK_IDENTITY_AND_VOCABULARY_PORTABILITY",
-      "approvedAtUtc": "2026-07-30T13:56:41.000Z",
-      "rationale": "Approve bounded command capability binding update for E09 C02: preserves existing Atlas, Idea, Meaning, Manual Map, project and UI bindings while adding atlas.seriesPortability.apply to cap.atlas.seriesPortability.apply and atlas.seriesPortability.rollback to cap.atlas.seriesPortability.rollback so series identity and vocabulary writes are admitted only through Command Kernel capability revalidation, preserving local node execution and denying web/mobile wrappers."
+      "sha256": "404b2c39368162fdb8d70e9ffe8123922d717c56e56825e92249e99cf699d7be",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.230Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_ID_COMPAT_MAP_V1.json",
@@ -3768,6 +3768,13 @@
       "rationale": "Final R2 C03 receipt governance rebind after actual full-runner PASS evidence: approval hash matches current repo bytes; Program DoD remains NOT_READY pending R2 C04-C06."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C04_AUTHORITY_RUNTIME_HYGIENE_RECEIPT.json",
+      "sha256": "3f4acbfa9bab181c075026e7a9faa17c12f2699891221a0d7d4e0e124ae9aab4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.230Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
       "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -4323,23 +4330,23 @@
     {
       "filePath": "scripts/ops/rtk-word-v4-a02-terminal-audit-a03-promotion.mjs",
       "sha256": "23f9d70e830f4393d4062bd5ba80e93422a85d3b97bebfb8f17fdd58dea1bdbd",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.230Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
       "sha256": "0e3da26eef9c23a2629805f4c4a1df1887c06f4e28d55ed418eae8c91036ea5f",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.231Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
       "sha256": "26d8f91314b6ff885adf67fd797e2f8e4f58fb7c45baa283535af933238d3c99",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.231Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -4449,16 +4456,16 @@
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
       "sha256": "1471235b29e78029c6d663b2b3f096e9197b91a68c424e87e863aa03d2782103",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.232Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
       "sha256": "cda2c81685eecf3694ee8059b2ab550330937d5c4ad0768c172bb0bc3383d1c7",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.232Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -4617,9 +4624,9 @@
     {
       "filePath": "src/command/commandSurfaceKernel.js",
       "sha256": "5de50f65ea11737f4288233a669c9b25b01f840881b36e3163bd949779e819f9",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.233Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -4641,6 +4648,69 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
       "approvedAtUtc": "2026-07-31T08:37:30.000Z",
       "rationale": "Approve ER C05 worker payload and acceptance core: creates compact transferable typed-array payloads, excludes Core state and full graph clones, computes LOD and spatial index, discards stale results before publication, and adds no storage, network, dependency, UI mutation, or persistent truth."
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "bb3e175ad9a3c608421df1ebf3f6e0a9c6143c4b744077bdeb71d3812f950112",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.233Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasDiagnosticsStageAcceptance.mjs",
+      "sha256": "f62385f3895dd0e84c8dd5b014ee37bb584f8a33a16e7aafa49de1243dacf24c",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.233Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasEntityDossier.mjs",
+      "sha256": "72cef263f0e3d317318628a37e4a9be4c843ab56af561e1119feb8e526712f63",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.234Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasHeatmap.mjs",
+      "sha256": "9d67e738300ea2b27c3135a5343def06976af390547ee225895bf21d279d4c06",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.234Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasMatrices.mjs",
+      "sha256": "a6dee81160e0ffa09179c0cacb845b68b131bd4198988d8c323b0592590c9b64",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.234Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasOverview.mjs",
+      "sha256": "2430cfacdea970059bca484bea646c3bd2e66b3bf08fcd12c587d0d7abf54d14",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.234Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasRelationDossier.mjs",
+      "sha256": "4ba45750b90409f3507b9f6aecf4ac9fcdf1bbc8e842d90023c34a91dfe6deb9",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.235Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasReportsSavedQueries.mjs",
+      "sha256": "215785826ca72e5e26f99e3473f832d1e9a68f243eed46c3397d5c992f1e4835",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.235Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasTemporalLayout.mjs",
+      "sha256": "27053d3ab345b1409de26732e1a083758e064e0417e791aa9d17c03a3615f8b4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.235Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "src/derived/atlas/index.mjs",
@@ -4694,9 +4764,9 @@
     {
       "filePath": "src/io/revisionBridge/index.mjs",
       "sha256": "acb12624931da2c4fb37713fffed72048d5e99a18d7486e11945eacafd3e5847",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.237Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -4743,9 +4813,9 @@
     {
       "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
       "sha256": "eade832bf081f8fd41eda48817fcce94a721d264575b3c60ea28fd14cf8500f3",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.237Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
@@ -4799,9 +4869,9 @@
     {
       "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
       "sha256": "821cb6ccea60ebb4f1761cb19ee8294cd85893789dcbf692e77f3ba1076ef7cc",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.238Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
@@ -4847,10 +4917,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "1293fd574e1862c4b7adea7eb206d51134df5b732098283ea62fc9cc84e424c6",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "sha256": "55401ba74b1957f84eb8437143807591cef55f7528338b16f794bfa9f1e749de",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.240Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "src/preload.js",
@@ -4886,6 +4956,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
       "approvedAtUtc": "2026-07-31T18:48:00.000Z",
       "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
+    },
+    {
+      "filePath": "src/shared/commandCapabilityAuthority.cjs",
+      "sha256": "8b2bfada47ed6599ad307e9eb5efda3df4363ee10be52c482e5f0a9e86fb759e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.240Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/agent-bootstrap-spec.contract.test.js",
@@ -5583,9 +5660,9 @@
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
       "sha256": "db9c7ab920518c9e7a38b8431d8dc61844e38f2651b6b71104898e758c53f156",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.240Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
@@ -5947,9 +6024,9 @@
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
       "sha256": "26245e2808380502b221af5a17948270572cb551747dde5beb2587003d97b93e",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.241Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
@@ -5989,79 +6066,79 @@
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
       "sha256": "69f8c0bd038910985f6ff4b08af4f8f4eba4a314a9efd8a6268b320f5c41e1e3",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.241Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
       "sha256": "f9c776161cd090c9bb62db6f51b342c735c55c8c1b662e3cdb4658a670181fac",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.242Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
       "sha256": "deee292f109df53619bb09fa6780229751f3001745bbaf6b28316d0f79569eec",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.242Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
       "sha256": "5d7ecd3a4e64100710d54c17db267f48b15bfefb7f0b025d211d30899b01c0b5",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.242Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
       "sha256": "4c8ed29e0ab630a2502c80d27aa4ac2c2673d480e1141db7d144fcfed330693f",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.242Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
       "sha256": "986afda1594b1af3472f6b5313f97388a9dc7c970eb5ec8e4f988286170087e9",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
       "sha256": "4628e38a5204078960d3363fc14626996aa86ae701555c7c25f00b5fd122dd7d",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
       "sha256": "19f637e1b2da7ecb506d5aedd4cf98b4c7e8e7d8187f46dd30865c23d549b20f",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
       "sha256": "2705e017dabc0e8a933a5e60cdf08524c2be1887b8d355d7a87507f29b98ce20",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
       "sha256": "5792cd7b310965c00d9ac60b95c931c1bc295b088f73a780401a070af6a2526e",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.243Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
       "sha256": "a425612e4087002eee33ca0cb0addce21abcf8409e152a4f8478704d2db080bb",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.244Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -6324,38 +6401,38 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js",
-      "sha256": "6d308dcbe48d06ec09669227874d8eb484302a21f398c5a16258cf41d5a53dfb",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 overview contract rebind: verifies Atlas overview query id from shared registry and main handler-map reachability, preserving read-only derived projection, typed host, no direct mutation, no UI design change, no dependency, and no network."
+      "sha256": "77f2a24354e31a7920bb967ee46c07607187008da34691a933097bd4609e6b93",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.244Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c02-entity-dossier-evidence-ledger-read-surface.contract.test.js",
-      "sha256": "7f03b373470c5f8ffce74a2b6a1786344a0ffe82d13888fb803f582ee669b0a6",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 entity dossier contract rebind: verifies registry-bound entity query id and handler-map route instead of manual allowlist order, preserving evidence-ledger read-only semantics, no renderer write path, no UI design change, no dependency, and no network."
+      "sha256": "b625cd9d6a4dc3d5369db75a928b55687aca046e82c9ef5bd684ba472a455b1d",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.244Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js",
-      "sha256": "3b2dbc478d29cf819ba6809efa8bdafbbe8b358028f3cffa592b28cac558981a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C03_COMMAND_REACHABILITY_AND_COMMAND_KERNEL_AUTHORITY",
-      "approvedAtUtc": "2026-07-31T09:55:00.000Z",
-      "rationale": "Approve ER C03 relation dossier contract repair: updates the former intent-only assertion to require Command Kernel dispatch for relation review actions while preserving typed query host wiring, no direct storage write, no Core reducer bypass, no UI design change, no dependency, and no network."
+      "sha256": "6f579db01f58b85dd4fcbcbde2337a30782443240451640382d33fbda8d3f3e9",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.245Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c04-atlas-matrices-accessibility-parity.contract.test.js",
-      "sha256": "2ef0fd154199301e0411e8f2cacc2a98743f43d6b0cce03f346c9115122171dc",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 matrices contract rebind: verifies registry-bound matrices query id and handler-map reachability so the surface cannot be hidden by stale renderer allowlists, preserving keyboard parity, no mutation bypass, no UI design change, no dependency, and no network."
+      "sha256": "ca162c7d9eac1186c3ec6240a67a8e86a461d9496fb6e3de5ef246407fcc0784",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.245Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c05-atlas-heatmap-large-ui-budget-proof.contract.test.js",
-      "sha256": "66d58b06067ec120ed28dcb2c077b7f8909a9d15e4bb7b380b329b591a78dde2",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 heatmap contract rebind: verifies registry-bound heatmap query id and handler-map route while preserving explicit-open heavy surface gating, viewport budget contract, no UI design change, no dependency, no network, and no project truth mutation."
+      "sha256": "669f778e74e7f5fabbec4df5a9f4f2c8d77462e2f4df2d52442f7350a22a405e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.245Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c06-atlas-reports-saved-queries-boundary.contract.test.js",
@@ -6366,10 +6443,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e05-c07-atlas-diagnostics-degraded-capability-stage-acceptance.contract.test.js",
-      "sha256": "4b32df22663c8f2e87c6b3fa08a933215d44fb7cd97c5002dd9978307a9f5e35",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 diagnostics contract rebind: verifies registry-bound diagnostics query id and handler-map route while preserving NOT_READY external-evidence discipline, degraded capability rows, no false readiness, no UI design change, no dependency, and no network."
+      "sha256": "27adb7e720733f25827f12312b9d0a35d0c56ef355c420606006e46b488d119c",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.245Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c01-atlas-calendar-definition-conversion-command-boundary.contract.test.js",
@@ -6408,17 +6485,17 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c06-atlas-temporal-layout-time-slider-surface.contract.test.js",
-      "sha256": "b94675e46a48e5b4554a66cf349c8ff94a308e0e659abc6c1c05cef38736e57d",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+      "sha256": "149006e14aaa4e3a879ebf736280bf35aaeea1a489f671270a920d4f31fefc78",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.245Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c07-atlas-continuity-ledger-surface-author-correction-route.contract.test.js",
-      "sha256": "85ce2925652ef6accf016e5ca111e14d270cb4391cadcff62ce5024e973b97aa",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C02_SINGLE_QUERY_REGISTRY_RUNTIME_PARITY",
-      "approvedAtUtc": "2026-07-31T09:30:00.000Z",
-      "rationale": "Approve ER C02 continuity ledger contract rebind: verifies registry-bound continuity query id and handler-map route, preserving explicit-open read surface, intent-only correction route, no UI design change, no dependency, no network, and no direct author-truth mutation."
+      "sha256": "fba463c971fd598dde222117e2d18d0aded3a90d1d7c976c32b433c7587703f9",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.246Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e06-c08-atlas-stage-06-acceptance-diagnostics-handoff.contract.test.js",
@@ -6667,10 +6744,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
-      "sha256": "b2f7c5c990ee07d29088d76d14783c40fff7f024c26d698a701266fdd4baf27a",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_AND_STATE_RECONCILIATION",
-      "approvedAtUtc": "2026-07-31T04:18:37.000Z",
-      "rationale": "Approve ER C00 false-green guard coverage: proves Stage 10 readiness is not exposed as a runtime-derived self-attestation, Atlas diagnostics defaults to NOT_READY without external machine evidence, quiet-write no longer uses a PASS/PASS ternary, Lazyweb and heuristic rows are advisory only, and the repair receipt must bind target SHA, artifact digest, invalidated evidence, unsatisfied outcomes, and non-pending PASS validation rows."
+      "sha256": "f528c42a5e2fea10278b6d7f2775b235e4913a7184b96b38a12948bc49e7d38d",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.246Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c02-single-query-registry-runtime-parity.contract.test.js",
@@ -6743,6 +6820,13 @@
       "rationale": "Approve current-state R2 C03 responsive accessible reachability governed files: external Atlas opener outside right rail, supported desktop viewport matrix 1440 1024 900 768, honest 390 advisory fallback, overlay focus trap and Escape focus return, no horizontal overflow, no toolbar collision, clean governed renderer evidence, updated E11 proof requirements, no dependency, no network, no new product truth, and Program DoD remains NOT_READY."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-r2-c04-authority-runtime-hygiene.contract.test.js",
+      "sha256": "d588957934a136cbce6545ec62a6a10689946c4ec84821062ae013b389a09c36",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.246Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",
       "sha256": "792deeab574395469beb7d435468970480be0a9a6cd1a435d1fcb9c0f3472197",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -6787,9 +6871,9 @@
     {
       "filePath": "test/unit/sector-m-no-scope-leak.test.js",
       "sha256": "83cb915be3d3847e09edeac24ae5bf967f59cfe8170eb3a26a7c28ada9f660d7",
-      "approvedBy": "ticket:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T00:00:00.000Z",
-      "rationale": "Approve bounded A03 C01 truth repair and C02 non-overlap tracked replacement runtime contour with successor-aware receipts, exact detached audit semantics, full PR 1320 scope correction, no Google Docs, no UI change, no dependency change, and scoped automatic apply only for physically proven non-overlap tracked replacement pairs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
+      "approvedAtUtc": "2026-07-31T18:23:22.246Z",
+      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "test/unit/yalken-design-os-sidebar-control-truth.test.js",

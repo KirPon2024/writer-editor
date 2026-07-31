@@ -229,24 +229,12 @@ function buildListParity(rows, omittedRowCount = 0) {
 function buildEvidence({ surfaceHash, sourceHash }) {
   return {
     schemaVersion: 'derived.atlas.continuityLedgerSurface.evidence.v1',
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      health: 'healthy',
-      leadSearch: 'issue review dashboard',
-      coverageStrength: 'moderate',
-      references: ['jobber', 'sentry', 'jira'],
-      fullReport: 'unavailable',
-      unavailableReason: 'lazyweb_generate_report objective=create redirected to lazyweb-deep-design-research; lazyweb_get_workflows returned WORKFLOW_NOT_FOUND.',
-      skillPackUpdated: true,
-    },
-    uiCraft: {
-      applied: true,
-      craftRead: 'Desktop authoring review workflow, dashboard density 7, variance 4, signature bet: evidence-first rows with compact intent buttons and no hidden write affordance.',
-    },
-    heuristic: {
-      applied: true,
-      reviewMode: 'static-contract',
-      findingWorkflowChecks: ['recognition over recall', 'error prevention', 'user control and freedom', 'keyboard parity'],
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
+      readinessToken: false,
+      externalReportAvailable: false,
     },
     guarantees: {
       localOnly: true,

@@ -116,8 +116,10 @@ test('E05 C04: Atlas matrices derive entity-scene and relation matrix packets wi
   assert.equal(result.value.largeProjectBudgetProof.listLimit, 3);
   assert.equal(result.value.largeProjectBudgetProof.clippingHonest, true);
   assert.match(result.value.summary.matrixHash, /^[0-9a-f]{64}$/u);
-  assert.equal(result.value.evidence.lazyweb.query, 'matrix analytics dashboard');
-  assert.equal(result.value.evidence.lazyweb.fullReport, 'unavailable');
+  assert.equal(result.value.evidence.designAdvisory.applied, true);
+  assert.equal(result.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(result.value.evidence.designAdvisory.readinessToken, false);
+  assert.equal(result.value.evidence.designAdvisory.externalReportAvailable, false);
 });
 
 test('E05 C04: Atlas matrices fail closed and export through derived barrels', async () => {

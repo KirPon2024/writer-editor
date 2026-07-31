@@ -116,8 +116,9 @@ test('ER C00: Atlas diagnostics default to NOT_READY without external machine ev
   ]);
   assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'quiet-write' && gate.status === 'PASS'));
   assert.ok(diagnostics.value.stageAcceptanceProof.gates.some((gate) => gate.id === 'external-machine-evidence' && gate.status === 'NOT_READY'));
-  assert.equal(diagnostics.value.evidence.lazyweb.advisoryOnly, true);
-  assert.equal(diagnostics.value.evidence.lazyweb.readinessToken, false);
+  assert.equal(diagnostics.value.evidence.designAdvisory.advisoryOnly, true);
+  assert.equal(diagnostics.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(diagnostics.value.evidence.designAdvisory.readinessToken, false);
   assert.equal(diagnostics.value.heuristicReviewReceipt.readinessToken, false);
 });
 
@@ -128,7 +129,7 @@ test('ER C00: diagnostics source rejects PASS/PASS quiet-write and static readin
   assert.doesNotMatch(source, /accessibility:\s*\{[\s\S]{0,120}status:\s*'PASS'/u);
   assert.doesNotMatch(source, /responsive:\s*\{[\s\S]{0,120}status:\s*'PASS'/u);
   assert.match(source, /\bexternalMachineEvidenceReady\b/u);
-  assert.match(source, /lazywebAdvisoryOnly:\s*true/u);
+  assert.match(source, /designAdvisoryOnly:\s*true/u);
   assert.match(source, /readinessToken:\s*false/u);
 });
 

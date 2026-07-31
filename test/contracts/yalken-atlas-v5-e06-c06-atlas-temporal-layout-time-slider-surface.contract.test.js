@@ -181,9 +181,10 @@ test('E06 C06: Atlas temporal layout derives explicit heavy timeline, slider, ke
   assert.equal(result.value.largeProjectBudgetProof.renderAllScenes, false);
   assert.ok(result.value.largeProjectBudgetProof.omittedSceneCount > 0);
   assert.match(result.value.summary.layoutHash, /^[0-9a-f]{64}$/u);
-  assert.equal(result.value.evidence.lazyweb.applied, true);
-  assert.equal(result.value.evidence.lazyweb.fullReport, 'unavailable');
-  assert.equal(result.value.evidence.uiCraft.applied, true);
+  assert.equal(result.value.evidence.designAdvisory.applied, true);
+  assert.equal(result.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(result.value.evidence.designAdvisory.readinessToken, false);
+  assert.equal(result.value.evidence.designAdvisory.externalReportAvailable, false);
 });
 
 test('E06 C06: Atlas temporal layout returns unknown-time degraded state without inventing writes', async () => {

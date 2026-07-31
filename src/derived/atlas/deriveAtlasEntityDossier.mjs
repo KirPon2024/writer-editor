@@ -118,12 +118,11 @@ function buildEvidence({ dossierHash, sourceHashes }) {
     schemaVersion: 'derived.atlas.entityDossier.evidence.v1',
     sourceHashes,
     dossierHash,
-    lazyweb: {
+    designAdvisory: {
       applied: true,
-      query: 'entity evidence dashboard',
-      coverageStrength: 'moderate',
-      referenceCompanies: ['logicgate', 'esg-book', 'mixpanel', 'dock'],
-      resultUse: 'reference-only evidence list and dashboard density signal',
+      source: 'design-receipts',
+      runtimeMetadataIncluded: false,
+      readinessToken: false,
     },
   };
 }

@@ -119,7 +119,9 @@ test('E05 C03: relation dossier derives pair evidence timeline and contextual ac
   assert.equal(result.value.contextualReviewActions.directDispatch, false);
   assert.ok(result.value.contextualReviewActions.actions.some((action) => action.commandId === 'atlas.observation.suppress' && action.availability === 'available'));
   assert.ok(result.value.contextualReviewActions.actions.some((action) => action.commandId === 'atlas.evidence.reattach' && action.availability === 'available'));
-  assert.equal(result.value.evidence.lazyweb.query, 'relationship evidence dashboard');
+  assert.equal(result.value.evidence.designAdvisory.applied, true);
+  assert.equal(result.value.evidence.designAdvisory.runtimeMetadataIncluded, false);
+  assert.equal(result.value.evidence.designAdvisory.readinessToken, false);
 });
 
 test('E05 C03: relation dossier chooses deterministic relation and fails closed without mutation', async () => {

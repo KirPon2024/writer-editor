@@ -509,6 +509,34 @@
     {
       "commandId": "cmd.ui.fontSize.set",
       "capabilityId": "cap.ui.fontSize.set"
+    },
+    {
+      "commandId": "manualMap.node.update",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.node.delete",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.edge.update",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.edge.delete",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.group.create",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.group.update",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.group.delete",
+      "capabilityId": "cap.manualMap.edit"
     }
   ]
 }

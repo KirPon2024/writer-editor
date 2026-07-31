@@ -62,6 +62,10 @@ const {
   PRODUCT_COMMAND_ID_SET,
   getProductCommandRecord,
 } = require('./shared/productCommandRegistry.cjs');
+const {
+  DEFAULT_AUTHORITY_PLATFORM_ID,
+  evaluateCommandCapabilityAuthority,
+} = require('./shared/commandCapabilityAuthority.cjs');
 
 const launchT0 = performance.now();
 let mainWindow;
@@ -22518,6 +22522,16 @@ function makeProductCommandBridgeError(commandId, code, reason, details = undefi
   return { ok: false, error };
 }
 
+function readAuthorityCapabilityMatrixDoc() {
+  const matrixPath = path.join(__dirname, '..', 'docs', 'OPS', 'CAPABILITIES_MATRIX.json');
+  try {
+    const parsed = JSON.parse(fsSync.readFileSync(matrixPath, 'utf8'));
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
 async function dispatchProductCommandBridge(commandId, payload = {}) {
   const record = getProductCommandRecord(commandId);
   if (!record) {
@@ -22541,6 +22555,29 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
         payloadAccepted: false,
         mutationApplied: false,
         storageWritten: false,
+      },
+    );
+  }
+
+  const capability = evaluateCommandCapabilityAuthority({
+    commandId,
+    capabilityId: record.capabilityId,
+    platformId: DEFAULT_AUTHORITY_PLATFORM_ID,
+    matrixDoc: readAuthorityCapabilityMatrixDoc(),
+  });
+  if (!capability.ok) {
+    return makeProductCommandBridgeError(
+      commandId,
+      capability.error?.code || 'E_CAPABILITY_ENFORCEMENT_FAILED',
+      capability.error?.reason || 'CAPABILITY_ENFORCEMENT_FAILED',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        platformId: DEFAULT_AUTHORITY_PLATFORM_ID,
+        mutationApplied: false,
+        storageWritten: false,
+        capabilityError: capability.error || null,
       },
     );
   }

@@ -128,6 +128,17 @@ function histogram(values) {
   return out;
 }
 
+function buildWave300Corpus(runId) {
+  const baseCorpus = buildWordLatestSemanticCorpus({ runId });
+  const casesToRun = [
+    ...baseCorpus.cases,
+    ...makeExtraWave40Cases(baseCorpus.cases.length + 1),
+    ...makeWave100Cases(baseCorpus.cases.length + 9),
+    ...makeWave300Cases(baseCorpus.cases.length + 69),
+  ].map(capWave300DenseComments);
+  return { baseCorpus, casesToRun };
+}
+
 export function evaluateReceipt(receipt = readJson(RECEIPT_PATH), options = {}) {
   const issues = [];
   const add = (code, field, message) => issues.push({ code, field, message });
@@ -179,20 +190,20 @@ export function evaluateReceipt(receipt = readJson(RECEIPT_PATH), options = {}) 
 }
 
 async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) {
+  process.stderr.write('E12_WAVE300_PROGRESS=assert-secure-volume:start\n');
   assertSecureVolume(artifactRoot);
+  process.stderr.write('E12_WAVE300_PROGRESS=assert-secure-volume:done\n');
   const wordSandboxWorkRoot = resolveWordSandboxWorkRoot({
     defaultSegments: ['word-safe-semantic-v4', 'e12-physical-wave300'],
     overridePath: wordWorkRoot,
   });
   if (!fs.existsSync(WORD_APP_PATH)) throw new Error('MICROSOFT_WORD_APP_MISSING');
+  process.stderr.write('E12_WAVE300_PROGRESS=collect-word-profile:start\n');
   const wordProfile = collectWordProfile();
-  const baseCorpus = buildWordLatestSemanticCorpus({ runId });
-  const casesToRun = [
-    ...baseCorpus.cases,
-    ...makeExtraWave40Cases(baseCorpus.cases.length + 1),
-    ...makeWave100Cases(baseCorpus.cases.length + 9),
-    ...makeWave300Cases(baseCorpus.cases.length + 69),
-  ].map(capWave300DenseComments);
+  process.stderr.write('E12_WAVE300_PROGRESS=collect-word-profile:done\n');
+  process.stderr.write('E12_WAVE300_PROGRESS=build-corpus:start\n');
+  const { baseCorpus, casesToRun } = buildWave300Corpus(runId);
+  process.stderr.write(`E12_WAVE300_PROGRESS=build-corpus:done:cases=${casesToRun.length}\n`);
   const runDir = path.join(artifactRoot, runId);
   const wordRunDir = path.join(wordSandboxWorkRoot.root, runId);
   const dirs = {
@@ -203,9 +214,12 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
     evidenceSources: path.join(runDir, 'source-docx'),
     evidenceReturns: path.join(runDir, 'returned-docx'),
   };
+  process.stderr.write('E12_WAVE300_PROGRESS=mkdirs:start\n');
   for (const dir of Object.values(dirs)) fs.mkdirSync(dir, { recursive: true });
+  process.stderr.write('E12_WAVE300_PROGRESS=mkdirs:done\n');
   const cases = [];
   for (const caseSpec of casesToRun) {
+    process.stderr.write(`E12_WAVE300_CASE_START=${caseSpec.id}\n`);
     const result = await runPhysicalCase(caseSpec, dirs);
     cases.push(result);
     process.stderr.write(`E12_WAVE300_CASE_DONE=${caseSpec.id}:${result.openEditSaveCloseReopen}:${result.parserStatus}:comments=${result.wordCommentCount}\n`);
@@ -327,6 +341,7 @@ function parseArgs(argv) {
   return {
     json: argv.includes('--json'),
     runPhysical: argv.includes('--run-physical'),
+    dryRunCorpus: argv.includes('--dry-run-corpus'),
     requireExternal: argv.includes('--require-external'),
     writeReceipt: argv.includes('--write-receipt'),
     artifactRoot: getArg('--artifact-root', DEFAULT_ARTIFACT_ROOT),
@@ -339,7 +354,22 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const result = args.runPhysical
     ? await runPhysical(args)
-    : evaluateReceipt(undefined, { requireExternal: args.requireExternal });
+    : args.dryRunCorpus
+      ? (() => {
+          const { casesToRun } = buildWave300Corpus(args.runId);
+          return {
+            ok: true,
+            status: 'PASS',
+            totalCases: casesToRun.length,
+            firstCase: casesToRun[0]?.id || '',
+            lastCase: casesToRun.at(-1)?.id || '',
+            denseCases: casesToRun.filter((item) => item.waveAction === 'comment-density').map((item) => ({
+              id: item.id,
+              commentTarget: item.commentTarget || 0,
+            })),
+          };
+        })()
+      : evaluateReceipt(undefined, { requireExternal: args.requireExternal });
   process.stdout.write(args.json ? `${JSON.stringify(result, null, 2)}\n` : `RTK_WORD_V4_E12_PHYSICAL_WAVE300=${result.status}\n`);
   process.exit(result.ok ? 0 : 1);
 }

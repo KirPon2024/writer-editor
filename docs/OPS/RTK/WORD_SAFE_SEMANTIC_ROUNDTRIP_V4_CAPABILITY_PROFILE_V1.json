@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_E12_WAVE100_COMPLETE_NOT_SATURATED",
+  "status": "WORD_16_111_2_E12_WAVE300_COMPLETE_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -388,14 +388,14 @@
       "capabilityId": "rtk.word.v4.saturationLedger",
       "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "SATURATION_WAVE100_COMPLETE_NOT_SATURATED",
+      "currentCapability": "SATURATION_WAVE300_COMPLETE_NOT_SATURATED",
       "physicalWordEvidence": true,
-      "consumer": "EXECUTION_12 next physical Word wave 300",
+      "consumer": "EXECUTION_12 Word stability limitation audit before any Google Docs sequencing",
       "acceptanceTest": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
       "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
       "physicalTotals": {
-        "physicalRoundTripsObserved": 100,
-        "visibleAnchoredCommentThreads": 398,
+        "physicalRoundTripsObserved": 300,
+        "visibleAnchoredCommentThreads": 638,
         "physicalFormattingCases": 17,
         "physicalStructuralCases": 30,
         "replayHostileGuardCases": 5,
@@ -409,7 +409,12 @@
         "wave100ParserPass": 99,
         "wave100CommentThreads": 398,
         "wave100DenseCommentThreads": 120,
-        "wave100ScaleReturnedBytesMax": 994079
+        "wave100ScaleReturnedBytesMax": 994079,
+        "wave300PhysicalOpenEditSaveCloseReopenPass": 300,
+        "wave300ParserPass": 299,
+        "wave300CommentThreads": 638,
+        "wave300DenseCommentThreads": 100,
+        "wave300ScaleReturnedBytesMax": 1239432
       },
       "saturationRule": {
         "requiredWaveSequence": [
@@ -421,17 +426,18 @@
         "completedWaves": [
           10,
           40,
-          100
+          100,
+          300
         ],
         "currentWaveTarget": 300,
-        "currentWaveObservedRounds": 100,
-        "consecutiveStableApprovedWaves": 0,
+        "currentWaveObservedRounds": 300,
+        "consecutiveStableApprovedWaves": 1,
         "stableHistogram": false,
         "saturated": false,
         "wordSaturationClaimAllowed": false,
         "googleDocsAllowedToOpen": false,
-        "lastCompletedWaveTarget": 100,
-        "nextWaveTarget": 300
+        "lastCompletedWaveTarget": 300,
+        "nextWaveTarget": "STABILITY_LIMITATION_AUDIT"
       },
       "supportedNow": [
         "Unicode bidi hostile performance crash and replay evidence is bound to merged receipts",
@@ -440,13 +446,13 @@
         "Google Docs and other editor profiles remain closed until Word saturation is proven"
       ],
       "limitations": [
-        "WAVE_300_NOT_STARTED",
         "TWO_CONSECUTIVE_STABLE_APPROVED_WAVES_NOT_PROVEN",
         "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
         "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
       ],
       "killCriterion": "Word SATURATED is claimed before waves 40 100 300 and two stable approved waves, any veto becomes nonzero, or Google Docs opens before Word saturation",
-      "wave100EvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json"
+      "wave100EvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100_RECEIPT.json",
+      "wave300EvidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json"
     }
   ]
 }

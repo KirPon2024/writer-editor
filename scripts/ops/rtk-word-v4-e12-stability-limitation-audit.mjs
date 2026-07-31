@@ -68,6 +68,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     || ledger.status === 'WORD_SATURATION_A02_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED'
     || ledger.status === 'WORD_SATURATION_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED'
     || ledger.status === 'WORD_SATURATION_A03_C02_COMPONENT_PROVEN_NOT_PRODUCT_PATH_NOT_SATURATED'
+    || ledger.status === 'WORD_SATURATION_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_SATURATED'
   )
     && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
     && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
@@ -139,6 +140,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_16_111_2_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED',
     'WORD_16_111_2_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
     'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH',
+    'WORD_16_111_2_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_STABILITY_PROFILE_STATUS_INVALID', 'profile.status', 'Profile must bind the stability audit as complete not saturated.');
@@ -157,6 +159,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_RUNTIME_WIRED',
     'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
     'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_NOT_SATURATED',
+    'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
   ]);
   if (!cell || !allowedCapabilities.has(cell.currentCapability) || cell.state !== 'PHYSICAL_WORD_PROVEN') {
     add('RTK_V4_E12_STABILITY_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability cell must bind stability audit without saturation.');
@@ -176,6 +179,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_SATURATED',
     'WORD_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_NOT_SATURATED',
     'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH',
+    'WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must bind the stability audit.');
@@ -193,6 +197,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_12_A02_TERMINAL_AUDIT_COMPLETE_A03_READY',
     'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN',
     'EXECUTION_03_A03_C02_COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED',
+    'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND',
   ]);
   const allowedCurrentStages = new Set([
     'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',
@@ -206,6 +211,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR',
     'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_CONTOUR',
     'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR',
+    'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE',
   ]);
   const allowedNextStages = new Set([
     NEXT_STAGE,
@@ -218,6 +224,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR',
     'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR',
     'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE',
+    'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS',
   ]);
   if (!allowedStateStatuses.has(state.status)
     || !allowedCurrentStages.has(state.currentStage)
@@ -230,6 +237,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
   const currentNextStage = state.status === 'EXECUTION_12_A02_TERMINAL_AUDIT_COMPLETE_A03_READY'
     || state.status === 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN'
     || state.status === 'EXECUTION_03_A03_C02_COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED'
+    || state.status === 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND'
     ? state.nextStage
     : decision.nextStage || '';
 

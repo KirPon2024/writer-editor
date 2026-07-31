@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-customxml-authority-followup-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
+  "stageId": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_CUSTOM_XML_MUTATION_AUTHORITY",
+  "status": "CUSTOM_XML_AUTHORITY_REROUTED_TO_CUSTOM_DOCUMENT_PROPERTY_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T12:32:00.000Z",
+  "base": {
+    "originMainSha": "66d2a7526c63ececee7ceb30bd28a378dfa1c0dd",
+    "branch": "codex/rtk-v4-e12-customxml-authority",
+    "headSha": "66d2a7526c63ececee7ceb30bd28a378dfa1c0dd"
+  },
+  "boundEvidence": {
+    "e02LocatorSurvival": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
+      "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
+      "status": "BOUND"
+    },
+    "c01PhysicalCarrierLab": {
+      "path": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C01_LOCATOR_CARRIER_RECEIPT.json",
+      "sha256": "10ae30f52121c84e3f6e8f780a47c124d6796e0349a9b576ec7c8551ebaad34b",
+      "status": "BOUND"
+    },
+    "c02ParserCarrier": {
+      "path": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_C02_AUTHORITY_CARRIER_RECEIPT.json",
+      "sha256": "945438c6c4b32b2f9ee06505071b9eef500ed203725ab2bc8534475ac706c3df",
+      "status": "BOUND"
+    },
+    "e03Yrtk2Core": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2_RECEIPT.json",
+      "sha256": "8d61040a25bf9dc99c5b7a637b3a090b203be6adf05fdf2992f8e708fa33b38b",
+      "status": "BOUND"
+    }
+  },
+  "authorityDecision": {
+    "result": "REROUTE_AWAY_FROM_CUSTOM_XML_TO_CUSTOM_DOCUMENT_PROPERTY",
+    "customXmlAuthorityAllowed": false,
+    "customXmlResolvedByAllowlist": false,
+    "customXmlNoEditSurvivalIsInsufficient": true,
+    "selectedAuthorityCarrier": "customDocumentProperty",
+    "selectedPropertyName": "YRTK_C01_AUTH",
+    "physicalCarrierSurvivedAllMutatingCases": true,
+    "parserAuthorityIntegrated": true,
+    "yrtk2CoreImplemented": true,
+    "runtimeApplyAuthorityExpanded": false,
+    "placementAuthorityExpanded": false
+  },
+  "physicalEvidenceSummary": {
+    "wordProfileFamily": "word-mac-latest-observed-16.111.x-semantic-v2-c01",
+    "physicalCaseCount": 5,
+    "mutatingCaseCount": 4,
+    "customDocumentPropertySurvivedAllMutatingCases": true,
+    "customDocumentPropertyVerifiedAllMutatingCases": true,
+    "customXmlSurvivedAllMutatingCases": false,
+    "customXmlMutationLimitationObserved": "CUSTOM_XML_DROPPED_AFTER_TRACKED_OR_COMMENTED_WORD_SAVE_ON_OBSERVED_WORD_PROFILE"
+  },
+  "parserAuthoritySummary": {
+    "parserCarrier": "customDocumentProperty",
+    "parserPropertyName": "YRTK_C01_AUTH",
+    "hmacSecretEmbeddedInDocx": false,
+    "tamperedHmacBlocksAuthority": true,
+    "missingSecretBlocksAuthority": true,
+    "staleBaselineBlocksAuthority": true,
+    "duplicateCarrierBlocksAuthority": true,
+    "verifiedCarrierStillRequiresUniquenessAndSemanticAccounting": true
+  },
+  "resolvedLimitations": [
+    "CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY"
+  ],
+  "remainingWordLimitations": [
+    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
+    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
+  ],
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "uiChanged": false,
+    "networkDependencyAdded": false,
+    "newDependencyAdded": false,
+    "writerAuthorityAdded": false,
+    "automaticApplyExpanded": false,
+    "customXmlAuthorityAllowed": false,
+    "googleDocsOpened": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "silentApply": 0,
+    "wrongSceneRouting": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "falseSaturationClaim": 0,
+    "prematureGoogleDocsOpen": 0
+  },
+  "saturated": false,
+  "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_MULTI_SCENE_APPLY_CERTIFICATION",
+  "result": "PASS",
+  "receiptDigest": "sha256:a5b97bebdfc7800ca9b66a1805231e06d91c4387a96c8b345e6fe8755d92dbee"
+}

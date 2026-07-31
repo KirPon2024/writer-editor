@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-parser-gap-followup-receipt.v1",
+  "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP",
+  "stageId": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES",
+  "status": "WORD_E12_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED_NOT_SATURATED",
+  "createdAtUtc": "2026-07-31T12:05:00.000Z",
+  "base": {
+    "originMainSha": "b3e458423a801d4f1570a1da508be2c4f7b365a7",
+    "branch": "codex/rtk-v4-e12-word-limitation-followup",
+    "priorMergedStage": "EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT",
+    "priorMergedPr": 1302
+  },
+  "boundEvidence": {
+    "wave300": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_RECEIPT.json",
+      "sha256": "1431aea0c1cc68d119e24e373003c4c297b70214623a67d4c0da8d57cc821fb3",
+      "status": "BOUND"
+    },
+    "wave300RepeatWrapper": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300_REPEAT_RECEIPT.json",
+      "sha256": "108f475c0776795f1f36fca710ec88529c2f88dc0e2de97be0ebabee54439623",
+      "status": "BOUND"
+    },
+    "wave300RepeatExternal": {
+      "path": "/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/e12-physical-wave300-repeat/e12-wave300-repeat-20260731T1100Z/e12-physical-wave300-receipt.json",
+      "sha256": "93f4583a5e5f439aa097c3e4a61a0dc5cfc2096203053a15592ba637f1a56ab4",
+      "status": "BOUND"
+    }
+  },
+  "caseAssessment": {
+    "caseId": "WL2-031",
+    "title": "hostile and active content negative package",
+    "physicalRunsAssessed": 2,
+    "wave300ParserStatus": "BLOCKED",
+    "wave300RepeatParserStatus": "BLOCKED",
+    "wordOpenEditSaveCloseReopenPass": 2,
+    "externalRelationshipDetected": true,
+    "postWordHostilePackageNegative": true,
+    "parserPassExpected": false,
+    "parserBlockedExpected": true,
+    "exactAutomaticCandidateAllowed": false,
+    "hostilePackageBlockedBeforePreviewOrApply": true,
+    "reclassification": "HOSTILE_PACKAGE_TYPED_BLOCK_NOT_PARSER_GAP",
+    "reasonCode": "RTK_HOSTILE_PACKAGE_BLOCKED",
+    "typedOutcome": "BLOCKED_HOSTILE_PACKAGE_EXTERNAL_RELATIONSHIP",
+    "evidenceNote": "WL2-031 is a hostile negative corpus row. The single parser BLOCKED row is correct security behavior, not an untyped semantic parser gap."
+  },
+  "resolvedLimitations": [
+    "WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP",
+    "WAVE300_WL2_031_HOSTILE_PACKAGE_TYPED_BLOCK_CONFIRMED"
+  ],
+  "remainingLimitations": [
+    "MODERN_REPLY_RESOLVE_REOPEN_STILL_TYPED_LIMITATION",
+    "CUSTOM_XML_MUTATING_WORD_SAVE_DROPS_AUTHORITY",
+    "AUTOMATIC_MULTI_SCENE_APPLY_NOT_PHYSICAL_WORD_CERTIFIED"
+  ],
+  "saturationDecision": {
+    "wordSaturated": false,
+    "wordSaturationClaimAllowed": false,
+    "googleDocsAllowedToOpen": false,
+    "nextStage": "EXECUTION_12_WORD_LIMITATION_FOLLOWUP_REMAINING_TYPED_LIMITATIONS"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetworkRequests": 0,
+    "falseSaturationClaim": 0,
+    "prematureGoogleDocsOpen": 0
+  },
+  "runtimeClaims": {
+    "productRuntimeChanged": false,
+    "automaticApplyExpanded": false,
+    "writerAuthorityAdded": false,
+    "uiChanged": false,
+    "dependencyAdded": false,
+    "networkAdded": false,
+    "googleDocsOpened": false,
+    "wordSaturated": false
+  },
+  "nonClaims": [
+    "WL2-031 is not converted to PASS",
+    "No automatic apply authority is added",
+    "Word saturation is not claimed",
+    "Google Docs remains unopened"
+  ]
+}

@@ -1605,13 +1605,6 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "73cddfb5ccc12d826d246d1d5a1e67d02ad2c34a0d2979a7b50be16f22800b90",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -1724,13 +1717,6 @@
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "0894e16c6cbc4d095f1c0865ca513569e0e681e3f71066ea798de85f83b04ced",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
       "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
@@ -1827,13 +1813,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "fc9429a3acbe8162d6b3764383254cce90bde72ddc8e29ec4c1670bb07f0decf",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -4062,29 +4041,8 @@
       "rationale": "Approve bounded E12 physical Word wave-100 contour: records 100 synthetic Word 16.111.2 physical open edit save close reopen round trips, 398 visible Word comment threads, 400k-class large returned DOCX, zero falseExact silentApply wrongSceneRouting replayFailure, Word sandbox work root inside Microsoft Word container, T7-Secure evidence retention, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "35b4d9675a57d61361e653b72fbd857b378d94f2eb92e2cf51612ec556059a23",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "29862b73e8a4003b074484f520090493e27f99c3f89f01f586f99631e5227f4e",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
       "sha256": "ccca8807ad552967f51d686f0e16df4754fded531b7bbe4ad811164c79f2fb83",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "10bd2dd944ad35d144f4a844ff46bad5e57af854dd6cf4fe91f1d7bfcce668a7",
       "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
       "approvedAtUtc": "2026-07-31T11:32:57.112Z",
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
@@ -5504,55 +5462,6 @@
       "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
     },
     {
-      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "1838779d7fc8499cfc4fa501a83a4b0cc7c47aa0e87d5e4a46fcf557643f4573",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "cc38952b98c462c98ce033623207a610ade4bb405182449dab8cdd0f7f69a9e5",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "a29ce873e82c719231d230c0035f8d14fadce41e89adf928b7ecf8ecbcb4c895",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "2aa831586769899365729ad92dd22953b55c6be3b2863ece93f1bc81c1bbafb3",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "820a3ec59691c46e10147e38a6f87173b8989046d6fac03df5ff0fd0af6c75d8",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "4e685366c8e121122c76eca7b09e7d0273ee4f0a9d964e342fe44ff3839021ac",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "99ff3944ec3604bf7f0ad8628bd794f49707d04e91f39e960ec0c931f7a5a681",
-      "approvedBy": "owner-approved-autonomous-rtk-v4-word-contour",
-      "approvedAtUtc": "2026-07-31T11:32:57.112Z",
-      "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
-    },
-    {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
       "sha256": "bc6c83361298c49f195644f18960de0628839b458e1ff2854932cd454e7fef16",
       "approvedBy": "ticket:TZ-24E-P1-AUTOPUSH-WORKFLOW-SCOPE-CREDENTIAL-AUTOFIX-011",
@@ -6223,6 +6132,111 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "2386a01efc9c04b5fb9509468c42b328b79ee5883db489080c9680503c27a33b",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "ae7be713ec7db0676d46ec95a99b83f59a0f7498f1e0817ce9737fa8804e2e95",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PARSER_GAP_FOLLOWUP_RECEIPT.json",
+      "sha256": "da19b595d0a30441cfe51d2540b5227f50062f4fa3a17429cd4c3a4f158edfd2",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "fdf7a6089b5cc7e83f63cc5cc17d453e4655e42a68d1c0fe407a9e8d1c023822",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-parser-gap-followup.mjs",
+      "sha256": "8ab124c725973e9926ed3467b7d23e644efa24f54eeac3e90aac60da1afd2c59",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "5f3fc7ad494643a628d3d9d39f3c5f65874cfe925f946d6d0545d16fc78e6754",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "07b63bb873772504ee6673778fa1fe7055c0461324ec52af0e95bbb5959f9ef3",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "c6da8aff4a341864ec49eb2444d6e3ca1e035e3ca6d6effab821770408e5d772",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "sha256": "d6f1b34ab570b26720a25c8853559304cefd33fa8b5a96598961efb7c12ee38c",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "sha256": "529d8b301d4532d20652247aed69077fcc427847b7c7d04a3d17131202516f40",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "8d3a3340359942db188915515eeb7019083fca331b2173fb344a6a8eac2db797",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "sha256": "9bfe34ccff20027179ed5c57e2773ea11b664662f8c285d81bd11e68c86681d9",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "sha256": "65b45efa7e112886bce53b32d976e7da978d4b8e9f842ef901a93d41d90f1114",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+      "sha256": "d083e01690fcf0646a89dca9502a6fa46dbdca420a27aaaab1055e810bb0c6c0",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "sha256": "f10bd8691e12b899b05e99ce7dbd44795496bdec0eb0e7b8fe18baf0d954a592",
+      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WL2_031_PARSER_GAP_FOLLOWUP",
+      "approvedAtUtc": "2026-07-31T12:05:00.000Z",
+      "rationale": "Approve bounded E12 WL2-031 parser gap followup: binds existing physical Word 16.111.2 wave300 and repeat evidence, reclassifies the single BLOCKED parser row as hostile package typed block, preserves zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, keeps Word not saturated, keeps Google closed, adds no runtime authority, UI, dependency, network, or product write path."
     }
   ]
 }

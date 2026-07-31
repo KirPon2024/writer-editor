@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "yalken.atlas.v5.e11.c03.packagedAccessibilityResponsiveVisualRegression.receipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_AUDIT_REPAIR_AND_AUTONOMOUS_RESUME_2026_07_31",
+  "contourId": "E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+  "programStage": "E11_ACTIVE_PLATFORM_CERTIFICATION",
+  "baseSha": "4c0b4bad373ac765fa50b87e4d48283663f62e53",
+  "headShaAtReceiptGeneration": "4c0b4bad373ac765fa50b87e4d48283663f62e53",
+  "generatedAtUtc": "2026-07-31T12:17:59.628Z",
+  "designToolRouter": "NOT_APPLICABLE_CERTIFICATION_ONLY_NO_UI_DESIGN_CONTRACT_CHANGE",
+  "status": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+  "pass": true,
+  "platformId": "macos-packaged-electron",
+  "packageBinding": {
+    "packageBound": true,
+    "c01ReceiptStatus": "PASS_UNSIGNED_LOCAL_ARTIFACT",
+    "appAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
+    "c01AppAsarSha256": "71949f44dbe86963f463a8df8d965d65dd024e62adbd0ece3ddf0743b283c8e9",
+    "ciParityIsNotPackageProof": true
+  },
+  "accessibilityResponsiveEvidence": {
+    "audit": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-responsive-audit.json",
+      "sha256": "617767c1a03159bd5d60dd574a6277fecb283540a773a18db6e6cd8b55eec113",
+      "bytes": 3484
+    },
+    "assertions": {
+      "noNetwork": true,
+      "desktopOneActiveShell": true,
+      "tabletOneActiveShell": true,
+      "keyboardNavigation": true,
+      "visibleAtlasScreenshots": true,
+      "scrollBudget": true,
+      "contrastAA": true,
+      "tabletNotClipped": true,
+      "mobileHonestOverlayScope": true
+    },
+    "networkRequestCount": 0,
+    "viewports": [
+      {
+        "id": "desktop",
+        "width": 1440,
+        "height": 900,
+        "activeShellCount": 1,
+        "focusVisible": true,
+        "keyboardMovedFocus": true,
+        "navContrast": 6.22,
+        "atlasPanelScrollHeight": 573,
+        "rightSidebarHidden": false,
+        "screenshotName": "atlas-er-c06-desktop.png",
+        "screenshotBytes": 538673,
+        "screenshotSha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f"
+      },
+      {
+        "id": "tablet",
+        "width": 1024,
+        "height": 768,
+        "activeShellCount": 1,
+        "focusVisible": true,
+        "keyboardMovedFocus": true,
+        "navContrast": 6.22,
+        "atlasPanelScrollHeight": 559,
+        "rightSidebarHidden": false,
+        "screenshotName": "atlas-er-c06-tablet.png",
+        "screenshotBytes": 422999,
+        "screenshotSha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a"
+      },
+      {
+        "id": "mobile",
+        "width": 390,
+        "height": 844,
+        "activeShellCount": 1,
+        "focusVisible": false,
+        "keyboardMovedFocus": true,
+        "navContrast": 6.22,
+        "atlasPanelScrollHeight": 0,
+        "rightSidebarHidden": true,
+        "screenshotName": "atlas-er-c06-mobile.png",
+        "screenshotBytes": 93114,
+        "screenshotSha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e"
+      }
+    ]
+  },
+  "visualRegressionEvidence": {
+    "report": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/packaged-accessibility-responsive-visual-regression-report.json",
+      "sha256": "73121a0f045e8a5931d147871a95d07b9dd891bc85d83deeee2967f1cc8f9a21",
+      "bytes": 7190
+    },
+    "baselineArtifact": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-responsive-audit.json",
+    "exactPngHashRequired": false,
+    "limits": {
+      "meanAbsMax": 1,
+      "changedRatioMax": 0.02
+    },
+    "comparisons": [
+      {
+        "id": "desktop",
+        "exactHashMatch": false,
+        "exactHashRequired": false,
+        "delta": {
+          "sameDimensions": true,
+          "currentDimensions": [
+            2880,
+            1564
+          ],
+          "baselineDimensions": [
+            2880,
+            1564
+          ],
+          "meanAbs": 0.346,
+          "changedRatio": 0.0082,
+          "nonBlankRatio": 0.9617,
+          "withinLimits": true
+        },
+        "pass": true,
+        "current": {
+          "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-desktop.png",
+          "sha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f",
+          "bytes": 538673
+        },
+        "baseline": {
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-desktop.png",
+          "exists": true,
+          "bytes": 495184,
+          "sha256": "498cc4fe1081c81be9c6d193b6f18d63d77cf0e7309d4dd7007f241620f3128b"
+        }
+      },
+      {
+        "id": "tablet",
+        "exactHashMatch": false,
+        "exactHashRequired": false,
+        "delta": {
+          "sameDimensions": true,
+          "currentDimensions": [
+            2048,
+            1536
+          ],
+          "baselineDimensions": [
+            2048,
+            1536
+          ],
+          "meanAbs": 0.4509,
+          "changedRatio": 0.0093,
+          "nonBlankRatio": 0.9464,
+          "withinLimits": true
+        },
+        "pass": true,
+        "current": {
+          "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-tablet.png",
+          "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
+          "bytes": 422999
+        },
+        "baseline": {
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-tablet.png",
+          "exists": true,
+          "bytes": 395064,
+          "sha256": "dae5477d644de3b5f07255f53ca047cbc96fc58af45b0722f38835a8b05bb9ec"
+        }
+      },
+      {
+        "id": "mobile",
+        "exactHashMatch": false,
+        "exactHashRequired": false,
+        "delta": {
+          "sameDimensions": true,
+          "currentDimensions": [
+            780,
+            1564
+          ],
+          "baselineDimensions": [
+            780,
+            1564
+          ],
+          "meanAbs": 0.014,
+          "changedRatio": 0.0002,
+          "nonBlankRatio": 0.8646,
+          "withinLimits": true
+        },
+        "pass": true,
+        "current": {
+          "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-mobile.png",
+          "sha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e",
+          "bytes": 93114
+        },
+        "baseline": {
+          "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_ER_C06_ATLAS_RAIL_RESPONSIVE_ACCESSIBILITY/atlas-er-c06-mobile.png",
+          "exists": true,
+          "bytes": 92957,
+          "sha256": "34e4944e01e41a2280a698ae82735f08de99654e32795a6c2c413f65c5db8d22"
+        }
+      }
+    ],
+    "screenshotFiles": [
+      {
+        "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-desktop.png",
+        "sha256": "b9f60bde5362dfe7e8770c1b0e339138b33ac706d0432a126b494d45c4cea31f",
+        "bytes": 538673
+      },
+      {
+        "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-tablet.png",
+        "sha256": "29c059cb98eee4a253e01671383042984ca002425b270853c3921b2a97420f8a",
+        "bytes": 422999
+      },
+      {
+        "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION/atlas-er-c06-mobile.png",
+        "sha256": "f52bc0da5253dd6d62ce73cd5e0a225bb34a6e7f043f9e25f693fa0dbe76b04e",
+        "bytes": 93114
+      }
+    ]
+  },
+  "negativeAssertions": {
+    "ciParityCanSubstitutePackagedVisualProof": false,
+    "exactHashMismatchIsAutomaticFailure": false,
+    "missingPhysicalScreenshotCanPass": false,
+    "directRendererStorageMutation": false,
+    "runtimeNetworkActivated": false,
+    "inactivePlatformCertificationClaim": false,
+    "finalProgramDoDClaim": false
+  },
+  "inactivePlatformScope": {
+    "macosPackagedElectron": "CERTIFIED_BY_THIS_CONTOUR_FOR_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+    "windows": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+    "linux": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+    "web": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+    "ios": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
+    "android": "NOT_ACTIVATED_NO_PASS_NO_HOLD"
+  },
+  "validation": [
+    {
+      "command": "node --test test/contracts/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.contract.test.js",
+      "result": "PASS",
+      "summary": "4 pass, 0 fail"
+    },
+    {
+      "command": "node scripts/ops/yalken-atlas-v5-e11-c03-packaged-accessibility-responsive-visual-regression.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+      "result": "PASS",
+      "summary": "PASS_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION; package bound; desktop/tablet/mobile whitelisted screenshots; keyboard/focus/contrast/scroll/clip assertions; bounded visual delta"
+    },
+    {
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; boundary guard exit 0; strict lie classes OK"
+    },
+    {
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references 17"
+    },
+    {
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry"
+    },
+    {
+      "command": "node scripts/ops/governance-change-detection.mjs",
+      "result": "PASS",
+      "summary": "terminal proof after final receipt approval: GOVERNANCE_CHANGE_OK=1; missing approvals 0"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS",
+      "summary": "no whitespace errors"
+    }
+  ],
+  "falseReadinessGuards": {
+    "ciParityCanSubstitutePackagedVisualProof": false,
+    "exactPngHashRequired": false,
+    "exactHashMismatchIsAutomaticFailure": false,
+    "missingPhysicalScreenshotCanPass": false,
+    "missingPackageBindingCanPass": false,
+    "inactivePlatformCertificationClaim": false,
+    "finalProgramDoDClaim": false
+  },
+  "handoffBinding": {
+    "completedContour": "E11_C03_PACKAGED_ACCESSIBILITY_RESPONSIVE_VISUAL_REGRESSION",
+    "nextContour": "E11_C04_PACKAGED_PERFORMANCE_SECURITY_FINAL_PLATFORM_HANDOFF",
+    "mutableStateUpdateRequiredAfterMerge": true,
+    "stage11CompletionClaim": "NOT_MADE",
+    "programDoneClaim": "NOT_MADE"
+  }
+}

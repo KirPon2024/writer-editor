@@ -40,6 +40,10 @@ const C02_PROGRAM_STATUS = 'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONE
 const C02_PROFILE_STATUS = 'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH';
 const C02_LEDGER_STATUS = 'WORD_SATURATION_A03_C02_COMPONENT_PROVEN_NOT_PRODUCT_PATH_NOT_SATURATED';
 const C02_PROMOTION_STATUS = 'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_C03_NEXT';
+const C03_PROGRAM_STATUS = 'WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED';
+const C03_PROFILE_STATUS = 'WORD_16_111_2_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED';
+const C03_LEDGER_STATUS = 'WORD_SATURATION_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_SATURATED';
+const C03_PROMOTION_STATUS = 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT';
 const STATE_STATUS = 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN';
 const CURRENT_STAGE = 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_CONTOUR';
 const NEXT_STAGE = 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR';
@@ -306,7 +310,11 @@ function isC02SuccessorPromotionList(promotionList) {
   const rows = list(promotionList.rows);
   const rootRow = rows.find((row) => row.capability === 'rootModernCommentShadowImport');
   const c02Row = rows.find((row) => row.capability === 'nonOverlapTrackedReplacementRuntimeApply');
-  return promotionList.status === C02_PROMOTION_STATUS
+  const c03Row = rows.find((row) => row.capability === 'adjacentTrackedReplacementExactCandidate');
+  const allowedStatus = promotionList.status === C02_PROMOTION_STATUS || promotionList.status === C03_PROMOTION_STATUS;
+  const c03OracleOk = promotionList.status !== C03_PROMOTION_STATUS
+    || c03Row?.authorityLevel?.negativeOracleBound === true;
+  return allowedStatus
     && rows.length === 5
     && rootRow?.authorityLevel?.productRuntimeWired === true
     && rootRow?.authorityLevel?.automaticApplyCertified === false
@@ -314,16 +322,18 @@ function isC02SuccessorPromotionList(promotionList) {
     && c02Row?.authorityLevel?.productCompositionRegistered === true
     && c02Row?.authorityLevel?.productRuntimeWired === false
     && c02Row?.authorityLevel?.automaticApplyCertified === false
+    && c03OracleOk
     && rows.filter((row) => row.authorityLevel?.productRuntimeWired === true).length === 1
     && rows.filter((row) => row.authorityLevel?.automaticApplyCertified === true).length === 0;
 }
 
 function isC02SuccessorState(profile, program, ledger, promotionList) {
+  const c03Successor = promotionList.status === C03_PROMOTION_STATUS;
   return isC02SuccessorPromotionList(promotionList)
-    && profile.status === C02_PROFILE_STATUS
-    && program.status === C02_PROGRAM_STATUS
-    && program.nextStep === 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE'
-    && program.v4ExecutionState?.status === 'EXECUTION_03_A03_C02_COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED'
+    && profile.status === (c03Successor ? C03_PROFILE_STATUS : C02_PROFILE_STATUS)
+    && program.status === (c03Successor ? C03_PROGRAM_STATUS : C02_PROGRAM_STATUS)
+    && program.nextStep === (c03Successor ? 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS' : 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE')
+    && program.v4ExecutionState?.status === (c03Successor ? 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND' : 'EXECUTION_03_A03_C02_COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED')
     && program.v4ExecutionState?.rootModernCommentShadowRuntimeWired === true
     && program.v4ExecutionState?.c01TruthRepairBound === true
     && program.v4ExecutionState?.nonOverlapTrackedReplacementComponentProven === true
@@ -331,15 +341,15 @@ function isC02SuccessorState(profile, program, ledger, promotionList) {
     && program.v4ExecutionState?.nonOverlapTrackedReplacementRuntimeWired === false
     && program.v4ExecutionState?.nonOverlapTrackedReplacementAutomaticApplyCertified === false
     && program.v4ExecutionState?.runtimeApplyAuthorityGranted === false
-    && program.v4ExecutionState?.runtimeApplyAuthorityScope === 'NONE_C02_COMPONENT_ONLY'
+    && program.v4ExecutionState?.runtimeApplyAuthorityScope === (c03Successor ? 'NONE_C03_NEGATIVE_ORACLE_ONLY' : 'NONE_C02_COMPONENT_ONLY')
     && program.v4ExecutionState?.googleDocsOpened === false
-    && ledger.status === C02_LEDGER_STATUS
+    && ledger.status === (c03Successor ? C03_LEDGER_STATUS : C02_LEDGER_STATUS)
     && ledger.coverageLedger?.a03C01CommentShadowRuntime?.status === 'BOUND'
     && ledger.coverageLedger?.a03C02NonOverlapTrackedReplacementRuntime?.status === 'BOUND'
     && ledger.runtimeClaims?.productRuntimeChanged === true
     && ledger.runtimeClaims?.writerAuthorityAdded === false
     && ledger.runtimeClaims?.automaticApplyExpanded === false
-    && ledger.runtimeClaims?.automaticApplyScope === 'none; C02 component is registered but not user product path wired'
+    && ledger.runtimeClaims?.automaticApplyScope === (c03Successor ? 'none; C03 negative oracle only' : 'none; C02 component is registered but not user product path wired')
     && ledger.runtimeClaims?.googleDocsOpened === false
     && ledger.runtimeClaims?.wordSaturated === false;
 }

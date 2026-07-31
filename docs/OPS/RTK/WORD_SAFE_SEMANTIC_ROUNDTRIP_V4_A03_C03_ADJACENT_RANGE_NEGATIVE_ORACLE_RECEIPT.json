@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-c03-adjacent-range-negative-oracle-receipt.v1",
+  "taskId": "YALKEN_WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE",
+  "contourId": "A03-C03",
+  "status": "WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED",
+  "result": "PASS",
+  "headBinding": {
+    "headSha": "58d4832305a52da79c647e1b860ac27901f97741",
+    "originMainSha": "58d4832305a52da79c647e1b860ac27901f97741",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "targetedNativeUiReceipt": {
+      "id": "E12_MODERN_COMMENT_NATIVE_UI_TARGETED_GAP_CLOSURE",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_FOLLOWUP_RECEIPT.json",
+      "sha256": "dcfa54f504a5f33edff357025a230f988f33f181ccb169ae8bf994df200bea2b",
+      "status": "BOUND"
+    },
+    "a02TerminalAuditReceipt": {
+      "id": "E12_A02_TERMINAL_AUDIT",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
+      "sha256": "fad174a5ce6719ca8792934005001aa44240259b0300904ac36ae41229a5f2cf",
+      "status": "BOUND"
+    },
+    "c02Receipt": {
+      "id": "A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_RECEIPT.json",
+      "sha256": "b1ee9b3db420af3554227d9a5c9deafdc86991e31b914e835c290dda54b452be",
+      "status": "BOUND"
+    }
+  },
+  "oracle": {
+    "twoAdjacentPass": true,
+    "tripleIdentityLoss": true,
+    "a02TripleBlocked": true,
+    "c02NoProductAuthority": true,
+    "physicalEvidence": {
+      "twoAdjacentCaseId": "NCUI-T02",
+      "twoAdjacentResult": "PASS",
+      "twoAdjacentTokensFound": 2,
+      "twoAdjacentTokensMissing": 0,
+      "tripleAdjacentCaseId": "NCUI-T17",
+      "tripleAdjacentResult": "TYPED_LIMITATION_WORD_NORMALIZED_ADJACENT_RUN",
+      "tripleTokensFound": 1,
+      "tripleTokensMissing": 2,
+      "a02TripleResult": "TYPED_LIMITATION"
+    },
+    "decision": "DO_NOT_PROMOTE_ADJACENT_RANGE_AUTOMATIC_APPLY"
+  },
+  "implementedCapability": {
+    "capability": "adjacentTrackedReplacementExactCandidate",
+    "physicalWordProven": false,
+    "componentProven": true,
+    "productRuntimeWired": false,
+    "automaticApplyCertified": false,
+    "negativeOracleBound": true,
+    "decision": "DO_NOT_PROMOTE_ADJACENT_RANGE_AUTOMATIC_APPLY",
+    "supportedNarrowEvidence": "two adjacent tracked replacements survive Word save-close-reopen readback",
+    "blockingEvidence": "three adjacent replacements lose native revision token identity after physical Word save-close-reopen"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentLoss": 0,
+    "automaticApplyOverclaim": 0
+  },
+  "nonClaims": [
+    "ADJACENT_RANGE_AUTOMATIC_APPLY_NOT_CERTIFIED",
+    "TRIPLE_ADJACENT_TRACKED_EDITS_REMAIN_TYPED_LIMITATION",
+    "NO_PRODUCT_RUNTIME_WIRING_ADDED",
+    "GOOGLE_DOCS_NOT_OPENED"
+  ],
+  "nextStage": "EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS"
+}

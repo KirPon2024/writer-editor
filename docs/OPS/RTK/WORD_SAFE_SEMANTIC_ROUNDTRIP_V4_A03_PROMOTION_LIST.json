@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.a03-promotion-list.v1",
   "taskId": "YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
-  "status": "A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_C03_NEXT",
+  "status": "A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT",
   "createdAtUtc": "2026-07-31T16:19:31.790Z",
   "sourceTerminalReceipt": {
     "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
@@ -92,12 +92,13 @@
         "A02-T17-REBIND-SAVE-REOPEN if PASS"
       ],
       "parserComponentConsumer": "UniqueDiff bounded text effects with block-local candidate gate",
-      "missingRuntimeWiring": "stable range rebinding policy plus exhaustive overlap and adjacent-token negative oracle",
+      "missingRuntimeWiring": "not eligible for runtime wiring; C03 negative oracle binds triple-adjacent identity loss",
       "authorityLevel": {
         "physicalWordProven": false,
         "componentProven": true,
         "productRuntimeWired": false,
-        "automaticApplyCertified": false
+        "automaticApplyCertified": false,
+        "negativeOracleBound": true
       },
       "negativeTests": [
         "duplicate adjacent tokens",
@@ -111,7 +112,9 @@
         "no replay collapse for distinct ranges"
       ],
       "implementationContour": "A03-C03-ADJACENT-RANGE-NEGATIVE-ORACLE",
-      "killCriterion": "Word-normalized adjacent run drops an expected token or collapses identities under physical readback"
+      "killCriterion": "Word-normalized adjacent run drops an expected token or collapses identities under physical readback",
+      "runtimeContour": "A03-C03",
+      "runtimeReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_RECEIPT.json"
     },
     {
       "capability": "modernCommentResolveReopenState",
@@ -176,8 +179,8 @@
     "A03 list does not open Google Docs.",
     "A03 list does not remove future editor stages."
   ],
-  "latestRuntimeContour": "A03-C02",
-  "nextContour": "A03-C03",
+  "latestRuntimeContour": "A03-C03",
+  "nextContour": "A03-C04",
   "truthCorrection": {
     "finalSummaryPhysicalWordProvenRowsWasWrong": true,
     "a03PromotionList": {
@@ -235,6 +238,13 @@
     "sector-m-run.mjs"
   ],
   "authorityCounts": {
+    "totalRows": 5,
+    "physicalWordProvenRows": 2,
+    "componentProvenRows": 4,
+    "productRuntimeWiredRows": 1,
+    "automaticApplyCertifiedRows": 0
+  },
+  "summary": {
     "totalRows": 5,
     "physicalWordProvenRows": 2,
     "componentProvenRows": 4,

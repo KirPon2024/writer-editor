@@ -7707,6 +7707,20 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
       "approvedAtUtc": "2026-08-01T02:36:00.000Z",
       "rationale": "Approve Night-01 C01 negative contracts for physical-rerun requirement, runtime-dirty rejection, stale EFINAL advisory-only handling and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION_RECEIPT.json",
+      "sha256": "7f85b7fcae6a51302492c75b229be301caa2bcd129cc25e34323af674048bf12",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION",
+      "approvedAtUtc": "2026-08-01T02:03:30.000Z",
+      "rationale": "Approve append-only Night-01 C01 remote merge verification receipt binding PR 1344, merge commit e2cb9389c38f17da2dd3481443bcfdb21af47c31, successful CI, ops-vector-close, exact-head temp physical rerun PASS, zero open findings, and no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-night01-c01-remote-merge-verification.contract.test.js",
+      "sha256": "7d486ba3aa0d6c1aacb2cc8655076df01d1289bec01bce2b8dec44e753cbcbd5",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION",
+      "approvedAtUtc": "2026-08-01T02:03:30.000Z",
+      "rationale": "Approve Night-01 C01 remote verification contract enforcing merged SHA equality, exact-head rerun PASS, zero runtime dirty files, zero open findings, advisory-only stale EFINAL aggregation, and no Program DONE claim."
     }
   ]
 }

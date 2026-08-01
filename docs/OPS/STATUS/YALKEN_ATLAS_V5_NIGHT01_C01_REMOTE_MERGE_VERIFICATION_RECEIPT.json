@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "yalken.atlas.v5.night01.c01.remoteMergeVerification.receipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_RELEASE_AUDIT_NIGHT_01_C01_REMOTE_MERGE_VERIFICATION",
+  "contourId": "NIGHT_01_C01_REMOTE_MERGE_VERIFICATION_RECEIPT",
+  "generatedAtUtc": "2026-08-01T02:02:30.000Z",
+  "status": "PASS_NIGHT01_C01_REMOTE_MERGE_AND_EXACT_HEAD_RERUN_VERIFIED",
+  "pass": true,
+  "programDoneClaim": false,
+  "independentAuditNoOpenP0": true,
+  "delivery": {
+    "prNumber": 1344,
+    "prState": "MERGED",
+    "prHeadSha": "89636374c7bb460ddfaed2e1f3390a28813e1dde",
+    "mergeCommitSha": "e2cb9389c38f17da2dd3481443bcfdb21af47c31",
+    "verifiedOriginMainSha": "e2cb9389c38f17da2dd3481443bcfdb21af47c31",
+    "remoteBranchDeleted": true,
+    "opsVectorCloseRunId": 30679032592,
+    "opsVectorCloseConclusion": "success",
+    "ci": {
+      "ossPolicy": "PASS",
+      "x1RuntimeParityUbuntu": "PASS",
+      "x1RuntimeParityWindows": "PASS"
+    }
+  },
+  "postMergeChecks": {
+    "headSha": "e2cb9389c38f17da2dd3481443bcfdb21af47c31",
+    "originMainSha": "e2cb9389c38f17da2dd3481443bcfdb21af47c31",
+    "focusedNight01C01Contract": "PASS_3_OF_3",
+    "governanceChangeDetection": "PASS",
+    "testOps": "PASS",
+    "designOsDoctrine": "PASS",
+    "ossPolicy": "PASS",
+    "tempExactHeadIndependentRerun": {
+      "status": "PASS_NIGHT01_C01_INDEPENDENT_FINAL_RERUN_NO_OPEN_P0",
+      "pass": true,
+      "headSha": "e2cb9389c38f17da2dd3481443bcfdb21af47c31",
+      "originMainSha": "e2cb9389c38f17da2dd3481443bcfdb21af47c31",
+      "runtimeDirtyFiles": [],
+      "independentAuditNoOpenP0": true,
+      "reportSha256": "56ca8d61bb3d678535bc758c809708241c133e645195fed72e0fb96f568002b5",
+      "receiptSha256": "996661dfc8bc2fab156b38bc51bde93c7a4c164b60d045d7c0a5ba459b8a5713",
+      "openFindings": []
+    }
+  },
+  "releaseTruth": {
+    "legacyEfinalAggregationAcceptedAsProgramDone": false,
+    "generatedScreenshotsAcceptedAlone": false,
+    "exactMergedRemoteHeadRerunCompleted": true,
+    "noOpenNight01P0OnMergedRemoteHead": true,
+    "nextGate": "FINAL_DISPOSITION_OR_TARGETED_ADVISORY_GAP_RECONCILIATION"
+  }
+}

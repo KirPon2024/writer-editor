@@ -869,6 +869,41 @@
         "comments and other lanes remain separate P0/P1 follow-up surfaces"
       ],
       "killCriterion": "Any writer operation can be built from a returned DOCX without authenticated parser IR, any renderer payload can expose writer authority, or any preview bypass can execute the writer."
+    },
+    {
+      "capabilityId": "rtk.word.releaseAudit.p0.commentShadowAuthenticatedSessionStorageEffects",
+      "operationFamily": "Authenticated product comment shadow session identity and storage effects",
+      "state": "PRODUCT_RUNTIME_WIRED_SHADOW_ONLY_NOT_RELEASE_CERTIFIED",
+      "currentCapability": "COMMENT_SHADOW_AUTHENTICATED_SESSION_KEYS_STORAGE_EFFECTS_WIRED_PHYSICAL_PRODUCT_WAVE_PENDING",
+      "physicalWordEvidence": false,
+      "componentProven": true,
+      "productCompositionRegistered": true,
+      "productRuntimeWired": true,
+      "returnIntakeWired": true,
+      "commentShadowAuthenticatedSessionKeysWired": true,
+      "persistentCommentShadowRequiresAuthenticatedReturn": true,
+      "projectSceneRoundBaselineIdentityBound": true,
+      "commentShadowStorageEffectsReported": true,
+      "manuscriptApplyAuthority": false,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "wordSaturated": false,
+      "consumer": "DOCX Review preview activation comment shadow import command surface",
+      "acceptanceTest": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_RECEIPT.json",
+      "supportedNow": [
+        "authenticated returned comments enter persistent shadow session storage only after return-intake HMAC and baseline verification",
+        "comment shadow request and effect keys include project, scene, round, baseline and returned artifact identity",
+        "legacy unbound comment preview does not write persistent comment shadow storage",
+        "runtime result reports session and receipt storage effects without manuscript bytes"
+      ],
+      "limitations": [
+        "comment shadow storage is not manuscript apply authority",
+        "modern replies and resolve reopen remain typed limitations until later contours",
+        "product-originated physical Word smoke and varied waves remain pending",
+        "Word SATURATED remains false"
+      ],
+      "killCriterion": "Any unbound returned DOCX comment can create persistent project comment shadow storage, any forged identity can reuse a shadow key, or any comment shadow result hides storage effects or claims manuscript apply authority."
     }
   ]
 }

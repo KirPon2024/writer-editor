@@ -310,6 +310,7 @@ export function evaluateWordReleaseAuditP0ParsedIrPreviewApplyReplay(input = {})
   const add = (code, field, message) => issues.push(issue(code, field, message));
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.releaseAudit.p0.parsedIrPreviewApplyReplay');
   const coverage = ledger.coverageLedger?.releaseAuditNight01P0ParsedIrPreviewApplyReplay;
+  const activeProgramStage = program.releaseAuditNight01?.currentStage;
 
   if (receipt.schemaVersion !== RECEIPT_SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_RELEASE_AUDIT_P0_PARSED_IR_LOOP_RECEIPT_INVALID', 'receipt', 'Parsed-IR preview/apply/replay receipt must PASS with canonical schema and status.');
   if (receipt.sourceProof?.allPresent !== true || Object.values(receipt.sourceProof?.markers || {}).some((value) => value !== true)) add('RTK_RELEASE_AUDIT_P0_PARSED_IR_LOOP_SOURCE_INVALID', 'sourceProof', 'Source proof must bind authenticated parser IR to preview and explicit main-owned apply/replay.');
@@ -322,12 +323,21 @@ export function evaluateWordReleaseAuditP0ParsedIrPreviewApplyReplay(input = {})
     || receipt.implementedCapability?.wordSaturated !== false
     || receipt.implementedCapability?.releaseReady !== false) add('RTK_RELEASE_AUDIT_P0_PARSED_IR_LOOP_OVERCLAIM', 'implementedCapability', 'P0 loop must not claim automatic apply certification, saturation, or release readiness.');
   if (Object.values(receipt.vetoMetrics || {}).some((value) => Number(value) !== 0)) add('RTK_RELEASE_AUDIT_P0_PARSED_IR_LOOP_VETO_NONZERO', 'vetoMetrics', 'Veto metrics must remain zero.');
-  if (program.releaseAuditNight01?.status !== STATUS
-    || program.releaseAuditNight01?.currentStage !== CONTOUR_ID
-    || program.releaseAuditNight01?.nextStage !== NEXT_STAGE
-    || program.releaseAuditNight01?.parsedWordIrSoleWriterOperationSource !== true
+  if (activeProgramStage === CONTOUR_ID) {
+    if (program.releaseAuditNight01?.status !== STATUS
+      || program.releaseAuditNight01?.nextStage !== NEXT_STAGE
+      || program.releaseAuditNight01?.parsedWordIrSoleWriterOperationSource !== true
+      || program.releaseAuditNight01?.automaticApplyCertified !== false
+      || program.releaseAuditNight01?.googleDocsOpened !== false) add('RTK_RELEASE_AUDIT_P0_PARSED_IR_LOOP_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must bind current P0 loop without opening saturation or Google Docs.');
+  } else if (program.releaseAuditNight01?.parsedWordIrSoleWriterOperationSource !== true
+    || program.releaseAuditNight01?.visibleExactPreviewWired !== true
+    || program.releaseAuditNight01?.explicitUserConfirmedCommandApplyWired !== true
+    || program.releaseAuditNight01?.atomicWriterAndReplayWired !== true
     || program.releaseAuditNight01?.automaticApplyCertified !== false
-    || program.releaseAuditNight01?.googleDocsOpened !== false) add('RTK_RELEASE_AUDIT_P0_PARSED_IR_LOOP_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must bind current P0 loop without opening saturation or Google Docs.');
+    || program.releaseAuditNight01?.googleDocsOpened !== false
+    || program.releaseAuditNight01?.wordSaturated !== false) {
+    add('RTK_RELEASE_AUDIT_P0_PARSED_IR_LOOP_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Later active program stages must preserve parsed-IR loop and no-saturation/no-Google truth.');
+  }
   if (!cell
     || cell.productRuntimeWired !== true
     || cell.parsedWordIrSoleWriterOperationSource !== true

@@ -49,6 +49,10 @@ function sha256Json(value) {
   return `sha256:${sha256Text(stableJson(value))}`;
 }
 
+function isSha256Identity(value) {
+  return /^sha256:[a-f0-9]{64}$/u.test(normalizeString(value).toLowerCase());
+}
+
 function portableHashName(value) {
   const match = normalizeString(value).toLowerCase().match(/^sha256:([a-f0-9]{64})$/u);
   if (!match) throw new Error('RTK comment shadow key must be a sha256 identity');
@@ -252,13 +256,99 @@ function summarizeThreads(threads) {
   };
 }
 
+function normalizeAuthenticatedReturnIdentity(input, reviewIr, roundId, returnArtifactId, semanticReturnId) {
+  const source = isPlainObject(input.authenticatedReturnIdentity) ? input.authenticatedReturnIdentity : null;
+  if (!source) {
+    return {
+      ok: true,
+      binding: {
+        schemaVersion: 'yalken.rtk.comment-shadow-authenticated-return-binding.v1',
+        authenticated: false,
+        bindingLevel: 'legacy-component-or-unbound-preview',
+      },
+    };
+  }
+
+  const binding = {
+    schemaVersion: 'yalken.rtk.comment-shadow-authenticated-return-binding.v1',
+    authenticated: source.authenticated === true,
+    projectId: normalizeString(source.projectId),
+    sceneId: normalizeString(source.sceneId),
+    sceneRevision: normalizeString(source.sceneRevision),
+    rawSha256: normalizeString(source.rawSha256).toLowerCase(),
+    baselineHash: normalizeString(source.baselineHash).toLowerCase(),
+    currentBaselineHash: normalizeString(source.currentBaselineHash).toLowerCase(),
+    roundId: normalizeString(source.roundId),
+    exportId: normalizeString(source.exportId),
+    exportArtifactId: normalizeString(source.exportArtifactId),
+    returnArtifactId: normalizeString(source.returnArtifactId),
+    semanticReturnId: normalizeString(source.semanticReturnId),
+    parserProfileDigest: normalizeString(source.parserProfileDigest),
+    analysisDigest: normalizeString(source.analysisDigest),
+  };
+  const reasons = [];
+  for (const field of [
+    'projectId',
+    'sceneId',
+    'sceneRevision',
+    'rawSha256',
+    'baselineHash',
+    'roundId',
+    'exportId',
+    'returnArtifactId',
+    'semanticReturnId',
+  ]) {
+    if (!binding[field]) {
+      reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_REQUIRED', `authenticatedReturnIdentity.${field}`, 'Authenticated comment shadow identity must bind project, scene, baseline, round and return artifact.'));
+    }
+  }
+  if (binding.authenticated !== true) {
+    reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_REQUIRED', 'authenticatedReturnIdentity.authenticated', 'Authenticated product return binding is required for persistent product comment shadow storage.'));
+  }
+  if (binding.rawSha256 && !isSha256Identity(binding.rawSha256)) {
+    reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_INVALID', 'authenticatedReturnIdentity.rawSha256', 'rawSha256 must be a full lowercase sha256 identity.'));
+  }
+  if (binding.returnArtifactId && !isSha256Identity(binding.returnArtifactId)) {
+    reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_INVALID', 'authenticatedReturnIdentity.returnArtifactId', 'returnArtifactId must be the full returned DOCX sha256 identity.'));
+  }
+  const reviewRoundId = normalizeString(reviewIr.roundId);
+  const reviewReturnArtifactId = normalizeString(reviewIr.returnArtifactId);
+  const reviewSemanticReturnId = normalizeString(reviewIr.semanticReturnId);
+  const mismatches = [
+    ['roundId', binding.roundId, roundId, reviewRoundId],
+    ['returnArtifactId', binding.returnArtifactId, returnArtifactId, reviewReturnArtifactId],
+    ['semanticReturnId', binding.semanticReturnId, semanticReturnId, reviewSemanticReturnId],
+  ].filter(([, expected, topLevel, irValue]) => (
+    expected
+    && ((topLevel && expected !== topLevel) || (irValue && expected !== irValue))
+  ));
+  for (const [field] of mismatches) {
+    reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_MISMATCH', `authenticatedReturnIdentity.${field}`, 'Authenticated product return binding must match command envelope and ReviewIR identities.'));
+  }
+
+  return {
+    ok: reasons.length === 0,
+    reasons,
+    binding: {
+      ...binding,
+      bindingLevel: 'authenticated-product-return',
+      bindingDigest: sha256Json(binding),
+    },
+  };
+}
+
 function buildSessionRecord(input = {}) {
   const reviewIr = reviewIrFrom(input);
   const normalized = normalizeThreads(reviewIr);
-  if (!normalized.ok) return { ok: false, reasons: normalized.reasons };
   const roundId = normalizeString(input.roundId || reviewIr.roundId);
   const returnArtifactId = normalizeString(input.returnArtifactId || reviewIr.returnArtifactId);
   const semanticReturnId = normalizeString(input.semanticReturnId || reviewIr.semanticReturnId);
+  const identity = normalizeAuthenticatedReturnIdentity(input, reviewIr, roundId, returnArtifactId, semanticReturnId);
+  const reasons = [
+    ...(normalized.ok ? [] : normalized.reasons),
+    ...(identity.ok ? [] : identity.reasons),
+  ];
+  if (reasons.length > 0) return { ok: false, reasons };
   if (!roundId || !semanticReturnId) {
     return {
       ok: false,
@@ -272,12 +362,14 @@ function buildSessionRecord(input = {}) {
     roundId,
     returnArtifactId,
     semanticReturnId,
+    authenticatedReturnIdentity: identity.binding,
     commentShadowDigest,
   };
   const requestKey = sha256Json(identityPayload);
   const effectKey = sha256Json({
     roundId,
     semanticReturnId,
+    authenticatedReturnIdentity: identity.binding,
     commentShadowDigest,
     lane: 'comments-shadow',
   });
@@ -293,6 +385,7 @@ function buildSessionRecord(input = {}) {
     roundId,
     returnArtifactId,
     semanticReturnId,
+    authenticatedReturnIdentity: identity.binding,
     requestKey,
     effectKey,
     reviewIrDigest: sha256Json(reviewIr),
@@ -307,12 +400,24 @@ function buildSessionRecord(input = {}) {
       reviewSessionMutation: 'comment-shadow-session-only',
       modernRepliesPromoted: false,
       resolveReopenPromoted: false,
+      authenticatedProjectSceneBaselineBinding: identity.binding.authenticated === true,
     },
   };
   return { ok: true, record };
 }
 
 function buildReceipt(record, writeState = {}) {
+  const storageEffects = isPlainObject(writeState.storageEffects)
+    ? cloneJsonSafe(writeState.storageEffects)
+    : {
+      sessionRecordCreated: writeState.sessionRecordCreated === true,
+      sessionRecordExisting: writeState.sessionRecordExisting === true,
+      receiptCreated: writeState.receiptCreated === true,
+      receiptExisting: writeState.receiptExisting === true,
+      receiptRecovered: writeState.recoveredReceipt === true,
+      bytesWritten: Number.isSafeInteger(Number(writeState.bytesWritten)) ? Number(writeState.bytesWritten) : 0,
+      manuscriptBytesWritten: 0,
+    };
   return {
     schemaVersion: RTK_COMMENT_SHADOW_SESSION_RECEIPT_V1_SCHEMA,
     commandId: RTK_COMMENT_SHADOW_IMPORT_COMMAND_ID,
@@ -323,6 +428,8 @@ function buildReceipt(record, writeState = {}) {
     requestKey: record.requestKey,
     effectKey: record.effectKey,
     commentShadowDigest: record.commentShadowDigest,
+    authenticatedReturnIdentity: cloneJsonSafe(record.authenticatedReturnIdentity),
+    authenticatedReturnIdentityDigest: record.authenticatedReturnIdentity?.bindingDigest || '',
     threadCount: record.summary.threadCount,
     outcomeCounts: {
       anchored: record.summary.anchored,
@@ -343,6 +450,7 @@ function buildReceipt(record, writeState = {}) {
     writeOnce: true,
     idempotentReplay: writeState.replay === true,
     recoveredReceipt: writeState.recoveredReceipt === true,
+    storageEffects,
     sessionRecordSha256: sha256Json(record),
   };
 }
@@ -389,21 +497,46 @@ export async function importRtkCommentShadowSession(input = {}, options = {}) {
     if (stableJson(existingSession) !== stableJson(record)) {
       return block(makeReason('RTK_COMMAND_ENVELOPE_TAMPERED', 'requestKey', 'Existing comment shadow session does not match rebuilt record.'));
     }
-    const receipt = buildReceipt(record, { status: 'replay', code: 'RTK_ALREADY_ANALYZED', replay: true });
+    let receipt = buildReceipt(record, {
+      status: 'replay',
+      code: 'RTK_ALREADY_ANALYZED',
+      replay: true,
+      storageEffects: {
+        sessionRecordCreated: false,
+        sessionRecordExisting: true,
+        receiptCreated: false,
+        receiptExisting: true,
+        receiptRecovered: false,
+        bytesWritten: 0,
+        manuscriptBytesWritten: 0,
+      },
+    });
     const receiptExists = await readJsonFile(receiptPath).catch((error) => {
       if (error?.code === 'ENOENT') return null;
       throw error;
     });
     let recoveredReceipt = false;
     if (!receiptExists) {
-      await writeJsonOnce(receiptPath, buildReceipt(record, {
+      receipt = buildReceipt(record, {
         status: 'recovered-replay-receipt',
         code: 'RTK_WRITE_RECOVERED',
         replay: true,
         recoveredReceipt: true,
-      }));
+        storageEffects: {
+          sessionRecordCreated: false,
+          sessionRecordExisting: true,
+          receiptCreated: true,
+          receiptExisting: false,
+          receiptRecovered: true,
+          bytesWritten: 0,
+          manuscriptBytesWritten: 0,
+        },
+      });
+      const receiptWrite = await writeJsonOnce(receiptPath, receipt);
+      receipt.storageEffects.bytesWritten = receiptWrite.bytesWritten;
       recoveredReceipt = true;
     }
+    const storageEffects = cloneJsonSafe(receipt.storageEffects);
     return {
       ok: true,
       type: 'yalken.rtk.commentShadowSession',
@@ -416,23 +549,45 @@ export async function importRtkCommentShadowSession(input = {}, options = {}) {
       reviewSessionMutation: 'comment-shadow-session-only',
       session: cloneJsonSafe(record),
       receipt,
+      storageEffects,
       sessionPath,
       receiptPath,
     };
   }
 
+  let sessionWrite = null;
+  let receiptWrite = null;
   try {
-    await writeJsonOnce(sessionPath, record, {
+    sessionWrite = await writeJsonOnce(sessionPath, record, {
       afterTempWrite: options.simulateCrashAfterSessionTempWrite
         ? () => { throw new Error('A03_C01_SIMULATED_SESSION_TEMP_CRASH'); }
         : undefined,
     });
-    const receipt = buildReceipt(record);
-    await writeJsonOnce(receiptPath, receipt, {
+    const receipt = buildReceipt(record, {
+      status: 'committed',
+      code: 'RTK_COMMENT_SHADOW_SESSION_COMMITTED',
+      storageEffects: {
+        sessionRecordCreated: sessionWrite.existing !== true,
+        sessionRecordExisting: sessionWrite.existing === true,
+        receiptCreated: true,
+        receiptExisting: false,
+        receiptRecovered: false,
+        bytesWritten: sessionWrite.bytesWritten,
+        manuscriptBytesWritten: 0,
+      },
+    });
+    receiptWrite = await writeJsonOnce(receiptPath, receipt, {
       afterTempWrite: options.simulateCrashAfterReceiptTempWrite
         ? () => { throw new Error('A03_C01_SIMULATED_RECEIPT_TEMP_CRASH'); }
         : undefined,
     });
+    const storageEffects = {
+      ...receipt.storageEffects,
+      receiptCreated: receiptWrite.existing !== true,
+      receiptExisting: receiptWrite.existing === true,
+      bytesWritten: sessionWrite.bytesWritten + receiptWrite.bytesWritten,
+      manuscriptBytesWritten: 0,
+    };
     return {
       ok: true,
       type: 'yalken.rtk.commentShadowSession',
@@ -445,6 +600,7 @@ export async function importRtkCommentShadowSession(input = {}, options = {}) {
       reviewSessionMutation: 'comment-shadow-session-only',
       session: cloneJsonSafe(record),
       receipt,
+      storageEffects,
       sessionPath,
       receiptPath,
     };
@@ -455,6 +611,15 @@ export async function importRtkCommentShadowSession(input = {}, options = {}) {
       requestKey: record.requestKey,
       sessionPath,
       receiptPath,
+      storageEffects: {
+        sessionRecordCreated: sessionWrite?.existing === false,
+        sessionRecordExisting: sessionWrite?.existing === true,
+        receiptCreated: receiptWrite?.existing === false,
+        receiptExisting: receiptWrite?.existing === true,
+        receiptRecovered: false,
+        bytesWritten: Number(sessionWrite?.bytesWritten || 0) + Number(receiptWrite?.bytesWritten || 0),
+        manuscriptBytesWritten: 0,
+      },
     });
   }
 }

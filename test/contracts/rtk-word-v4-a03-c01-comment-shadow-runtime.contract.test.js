@@ -98,6 +98,44 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
+function authenticatedReturnIdentity(overrides = {}) {
+  return {
+    schemaVersion: 'yalken.rtk.comment-shadow-authenticated-return-binding.v1',
+    authenticated: true,
+    projectId: 'project-a03-c01',
+    sceneId: 'roman/imported/scene-1.txt',
+    sceneRevision: 'sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    rawSha256: 'sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    baselineHash: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    currentBaselineHash: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    roundId: 'round-a03-c01',
+    exportId: 'export-a03-c01',
+    exportArtifactId: 'export-artifact-a03-c01',
+    returnArtifactId: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    semanticReturnId: 'semantic-a03-c01',
+    parserProfileDigest: 'sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+    analysisDigest: 'sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+    ...overrides,
+  };
+}
+
+function authenticatedPayload(projectRoot, overrides = {}) {
+  const identity = authenticatedReturnIdentity(overrides.authenticatedReturnIdentity);
+  const reviewIr = reviewIrFixture();
+  reviewIr.roundId = identity.roundId;
+  reviewIr.returnArtifactId = identity.returnArtifactId;
+  reviewIr.semanticReturnId = identity.semanticReturnId;
+  return {
+    projectRoot,
+    roundId: identity.roundId,
+    returnArtifactId: identity.returnArtifactId,
+    semanticReturnId: identity.semanticReturnId,
+    authenticatedReturnIdentity: identity,
+    reviewIr,
+    ...overrides.payload,
+  };
+}
+
 test('A03 C01 imports root modern comments through Command Kernel into a shadow session only', async () => {
   const projectRoot = makeProjectRoot();
   const mod = await loadModule();
@@ -129,6 +167,9 @@ test('A03 C01 imports root modern comments through Command Kernel into a shadow 
   assert.equal(result.session.threads[1].orphanOutcome, true);
   assert.equal(fs.existsSync(result.sessionPath), true);
   assert.equal(fs.existsSync(result.receiptPath), true);
+  assert.equal(result.storageEffects.sessionRecordCreated, true);
+  assert.equal(result.storageEffects.receiptCreated, true);
+  assert.equal(result.storageEffects.manuscriptBytesWritten, 0);
 
   const receipt = readJson(result.receiptPath);
   assert.equal(receipt.schemaVersion, mod.RTK_COMMENT_SHADOW_SESSION_RECEIPT_V1_SCHEMA);
@@ -136,6 +177,41 @@ test('A03 C01 imports root modern comments through Command Kernel into a shadow 
   assert.equal(receipt.vetoMetrics.silentCommentLoss, 0);
   assert.equal(receipt.vetoMetrics.replyPromotion, 0);
   assert.equal(receipt.vetoMetrics.resolveReopenPromotion, 0);
+});
+
+test('A03 C01 authenticated return identity binds project scene baseline storage keys and blocks forged mismatches', async () => {
+  const projectRoot = makeProjectRoot();
+  const mod = await loadModule();
+  const first = await mod.importRtkCommentShadowSession(authenticatedPayload(projectRoot));
+  const second = await mod.importRtkCommentShadowSession(authenticatedPayload(projectRoot, {
+    authenticatedReturnIdentity: {
+      sceneId: 'roman/imported/scene-2.txt',
+      sceneRevision: 'sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      rawSha256: 'sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      baselineHash: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      currentBaselineHash: 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    },
+  }));
+
+  assert.equal(first.ok, true, JSON.stringify(first, null, 2));
+  assert.equal(second.ok, true, JSON.stringify(second, null, 2));
+  assert.equal(first.session.authenticatedReturnIdentity.authenticated, true);
+  assert.equal(first.session.authenticatedReturnIdentity.bindingLevel, 'authenticated-product-return');
+  assert.equal(first.session.authenticatedReturnIdentity.projectId, 'project-a03-c01');
+  assert.equal(first.session.authenticatedReturnIdentity.sceneId, 'roman/imported/scene-1.txt');
+  assert.equal(first.receipt.authenticatedReturnIdentityDigest, first.session.authenticatedReturnIdentity.bindingDigest);
+  assert.notEqual(first.session.requestKey, second.session.requestKey);
+  assert.notEqual(first.session.effectKey, second.session.effectKey);
+  assert.equal(first.storageEffects.manuscriptBytesWritten, 0);
+
+  const blockedRoot = makeProjectRoot();
+  const blocked = await mod.importRtkCommentShadowSession(authenticatedPayload(blockedRoot, {
+    payload: { roundId: 'caller-forged-round' },
+  }));
+  assert.equal(blocked.ok, false);
+  assert.equal(blocked.writerCalled, false);
+  assert.equal(blocked.reasons.some((item) => item.code === 'RTK_COMMENT_SHADOW_AUTHORITY_MISMATCH'), true);
+  assert.equal(fs.existsSync(path.join(blockedRoot, 'backups', 'revision-bridge-rtk-comment-shadow-sessions')), false);
 });
 
 test('A03 C01 repeated import is idempotent and does not rewrite a committed shadow session', async () => {

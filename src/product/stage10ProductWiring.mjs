@@ -6,6 +6,7 @@ import {
   buildTransportNeutralExchangePacket,
   createEmptyEventLog,
   hashEventLog,
+  appendEventLogEntry,
   applyCommandWithEventLog,
   applyEventLog,
 } from '../collab/index.mjs';
@@ -33,13 +34,19 @@ import {
   createInitialCommandReceiptAuthorityStore,
   validateCommandReceiptAuthorityStore,
 } from './stage10CommandReceiptAuthorityHead.mjs';
+import {
+  STAGE10_INTEGRITY_ANCHOR_SCHEMA,
+  createStage10IntegrityAnchor,
+  validateStage10IntegrityAnchor,
+} from './stage10IntegrityAnchor.mjs';
 
-export const STAGE10_PRODUCT_SESSION_SCHEMA = 'yalken.stage10.localProductSession.v1';
+export const STAGE10_PRODUCT_SESSION_SCHEMA = 'yalken.stage10.localProductSession.v2';
 export const STAGE10_PRODUCT_SURFACE_SCHEMA = 'yalken.stage10.localProductSurface.v1';
 export {
   STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA,
   STAGE10_COMMAND_RECEIPT_AUTHORITY_STORE_SCHEMA,
   STAGE10_COMMAND_RECEIPT_AUTHORITY_REF_SCHEMA,
+  STAGE10_INTEGRITY_ANCHOR_SCHEMA,
 };
 
 export const STAGE10_ACTIVATION_MODES = Object.freeze({
@@ -117,7 +124,6 @@ function createDefaultSession(input = {}) {
     operationExchangeAdapterPreviews: {},
     collabApplyReports: {},
     uiEvents: [],
-    storageWrites: [],
     recoverySnapshotRefs: [],
     shadowOnly: false,
     shadowAcceptedAsComplete: false,
@@ -151,7 +157,6 @@ function normalizeSession(input = {}, options = {}) {
       : {},
     collabApplyReports: isPlainObject(session.collabApplyReports) ? session.collabApplyReports : {},
     uiEvents: Array.isArray(session.uiEvents) ? session.uiEvents : [],
-    storageWrites: Array.isArray(session.storageWrites) ? session.storageWrites : [],
     recoverySnapshotRefs: Array.isArray(session.recoverySnapshotRefs) ? session.recoverySnapshotRefs : [],
   };
   delete normalized.commandReceiptAuthority;
@@ -196,7 +201,7 @@ function buildSurface(session) {
     authority: {
       visibleUiIntentOnly: true,
       commandKernelDispatchRequired: true,
-      storagePortRequired: true,
+      transactionalPersistencePortRequired: true,
       projectTruthOwnedByCore: true,
       commentTruthDuplicated: false,
       operationLogTruthDuplicated: false,
@@ -271,26 +276,18 @@ function nextOpId(authorityStore, commandId) {
   return `stage10:${String((authorityStore?.currentHead?.receiptCount || 0) + 1).padStart(4, '0')}:${shortCommand}`;
 }
 
-function ensureStoragePort(storagePort) {
-  if (!isPlainObject(storagePort) || typeof storagePort.writeSession !== 'function' || typeof storagePort.readSession !== 'function') {
+function ensurePersistencePort(persistencePort) {
+  if (
+    !isPlainObject(persistencePort)
+    || typeof persistencePort.readStage10State !== 'function'
+    || typeof persistencePort.commitStage10State !== 'function'
+    || typeof persistencePort.writeRecoverySnapshot !== 'function'
+    || typeof persistencePort.readRecoverySnapshot !== 'function'
+  ) {
     throw typedError(
       'E_STAGE10_STORAGE_PORT_REQUIRED',
       'stage10.productWiring.createRuntime',
-      'STORAGE_PORT_READ_WRITE_REQUIRED',
-    );
-  }
-}
-
-function ensureAuthorityHeadPort(authorityHeadPort) {
-  if (
-    !isPlainObject(authorityHeadPort)
-    || typeof authorityHeadPort.readAuthorityHead !== 'function'
-    || typeof authorityHeadPort.writeAuthorityHead !== 'function'
-  ) {
-    throw typedError(
-      'E_STAGE10_RECEIPT_AUTHORITY_HEAD_PORT_REQUIRED',
-      'stage10.productWiring.createRuntime',
-      'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_PORT_REQUIRED',
+      'STAGE10_TRANSACTIONAL_PERSISTENCE_PORT_REQUIRED',
     );
   }
 }
@@ -299,38 +296,15 @@ async function maybeAwait(value) {
   return value && typeof value.then === 'function' ? await value : value;
 }
 
-async function persistSession(session, storagePort, reason) {
-  const snapshot = cloneJson(session);
-  const result = await maybeAwait(storagePort.writeSession(session.projectId, snapshot, { reason }));
-  const storageWrite = {
-    reason,
-    sessionHash: hashCanonicalValue(snapshot),
-    writtenAtUtc: new Date(0).toISOString(),
-    ok: result?.ok !== false,
-  };
-  session.storageWrites.push(storageWrite);
-  return storageWrite;
-}
-
-async function readAuthorityStore(authorityHeadPort, session, { requireExisting = false } = {}) {
-  const persisted = await maybeAwait(authorityHeadPort.readAuthorityHead(session.projectId));
-  if (!persisted) {
-    if (requireExisting) {
-      throw typedError(
-        'E_STAGE10_RECEIPT_AUTHORITY_HEAD_MISSING',
-        'stage10.commandReceiptAuthorityHead',
-        'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_MISSING',
-      );
-    }
-    const initialStore = createInitialCommandReceiptAuthorityStore({
-      projectId: session.projectId,
-      eventLog: session.eventLog,
-    });
-    session.commandReceiptAuthorityHeadRef = createCommandReceiptAuthorityHeadRef(initialStore.currentHead);
-    await maybeAwait(authorityHeadPort.writeAuthorityHead(session.projectId, cloneJson(initialStore), { reason: 'stage10.authorityHead.initial' }));
-    return initialStore;
+function validatePersistedBundle(bundleInput, projectId) {
+  if (!isPlainObject(bundleInput)) {
+    throw typedError('E_STAGE10_PERSISTED_BUNDLE_MISSING', 'stage10.productWiring.reopen', 'STAGE10_PERSISTED_BUNDLE_REQUIRED');
   }
-  const verified = validateCommandReceiptAuthorityStore(persisted, {
+  const session = normalizeSession(bundleInput.session, { requireReceiptAuthority: true });
+  if (session.projectId !== projectId) {
+    throw typedError('E_STAGE10_PERSISTED_PROJECT_MISMATCH', 'stage10.productWiring.reopen', 'STAGE10_PERSISTED_PROJECT_MISMATCH');
+  }
+  const verified = validateCommandReceiptAuthorityStore(bundleInput.authorityStore, {
     projectId: session.projectId,
     eventLog: session.eventLog,
     sessionRef: session.commandReceiptAuthorityHeadRef,
@@ -338,10 +312,43 @@ async function readAuthorityStore(authorityHeadPort, session, { requireExisting 
   });
   if (!verified.ok) throw verified.error;
   session.commandReceiptAuthorityHeadRef = verified.headRef;
-  return verified.store;
+  const anchor = validateStage10IntegrityAnchor(bundleInput.integrityAnchor, {
+    projectId: session.projectId,
+    session,
+    authorityStore: verified.store,
+    previousAnchor: bundleInput.previousIntegrityAnchor,
+  });
+  if (!anchor.ok) throw anchor.error;
+  const replay = buildOperationReplayReport({
+    projectId: session.projectId,
+    eventLog: session.eventLog,
+    domainEventPort: createCoreDomainEventProductPort(),
+    commandReceiptAuthorityPort: createCommandKernelReceiptAuthorityPort(verified.store, session),
+    initialStateHash: session.eventLog.events[0]?.preStateHash || hashCoreState(createInitialCoreState()),
+    expectedFinalStateHash: hashCoreState(session.coreState),
+    requireCommandKernelReceipt: true,
+    requireCapabilityRevalidation: true,
+  });
+  if (!replay.ok) {
+    throw typedError(
+      'E_STAGE10_REOPEN_REPLAY_INVALID',
+      'stage10.productWiring.reopen',
+      replay.rejected[0]?.reason || 'STAGE10_REOPEN_REPLAY_INVALID',
+      { replayHash: replay.replayHash },
+    );
+  }
+  return {
+    session,
+    authorityStore: verified.store,
+    integrityAnchor: anchor.anchor,
+    previousIntegrityAnchor: isPlainObject(bundleInput.previousIntegrityAnchor)
+      ? deepFreeze(cloneJson(bundleInput.previousIntegrityAnchor))
+      : null,
+    replay,
+  };
 }
 
-async function appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason }) {
+function prepareCommandReceiptExternal({ session, authorityState, receipt }) {
   const nextStore = appendCommandReceiptAuthorityHead({
     store: authorityState.store,
     projectId: session.projectId,
@@ -349,19 +356,40 @@ async function appendCommandReceiptExternal({ session, authorityState, authority
     receipt,
   });
   session.commandReceiptAuthorityHeadRef = createCommandReceiptAuthorityHeadRef(nextStore.currentHead);
-  await maybeAwait(authorityHeadPort.writeAuthorityHead(session.projectId, cloneJson(nextStore), { reason }));
-  authorityState.store = nextStore;
   return nextStore;
 }
 
-async function writeRecoverySnapshot(session, storagePort, snapshotId, reason) {
-  if (typeof storagePort.writeRecoverySnapshot !== 'function') {
-    throw typedError(
-      'E_STAGE10_RECOVERY_PORT_REQUIRED',
-      'stage10.productWiring.recovery',
-      'RECOVERY_SNAPSHOT_PORT_REQUIRED',
-    );
+async function commitCommandState({ session, authorityState, persistencePort, receipt, reason }) {
+  const nextStore = prepareCommandReceiptExternal({ session, authorityState, receipt });
+  const nextAnchor = createStage10IntegrityAnchor({
+    projectId: session.projectId,
+    session,
+    authorityStore: nextStore,
+    previousAnchor: authorityState.integrityAnchor,
+  });
+  const committed = await maybeAwait(persistencePort.commitStage10State(
+    session.projectId,
+    {
+      session: cloneJson(session),
+      authorityStore: cloneJson(nextStore),
+      integrityAnchor: cloneJson(nextAnchor),
+    },
+    {
+      reason,
+      expectedPreviousIntegrityAnchorDigest: authorityState.integrityAnchor.integrityAnchorDigest,
+    },
+  ));
+  if (committed?.ok !== true || committed.storageWritten !== true || committed.readbackVerified !== true) {
+    throw typedError('E_STAGE10_TRANSACTION_COMMIT_FAILED', 'stage10.productWiring.commit', 'STAGE10_TRANSACTION_COMMIT_NOT_ACKNOWLEDGED');
   }
+  const verified = validatePersistedBundle(committed.bundle, session.projectId);
+  authorityState.store = verified.authorityStore;
+  authorityState.integrityAnchor = verified.integrityAnchor;
+  authorityState.previousIntegrityAnchor = verified.previousIntegrityAnchor;
+  return verified;
+}
+
+async function writeRecoverySnapshot(session, persistencePort, snapshotId, reason) {
   const snapshot = {
     schemaVersion: 'yalken.stage10.recoverySnapshot.v1',
     snapshotId,
@@ -372,7 +400,14 @@ async function writeRecoverySnapshot(session, storagePort, snapshotId, reason) {
     eventLogHash: hashEventLog(session.eventLog),
     session: cloneJson(session),
   };
-  await maybeAwait(storagePort.writeRecoverySnapshot(session.projectId, snapshotId, snapshot, { reason }));
+  const writeResult = await maybeAwait(persistencePort.writeRecoverySnapshot(session.projectId, snapshotId, snapshot, { reason }));
+  if (writeResult?.ok !== true || writeResult.readbackVerified !== true) {
+    throw typedError('E_STAGE10_RECOVERY_WRITE_FAILED', 'stage10.productWiring.recovery', 'RECOVERY_SNAPSHOT_WRITE_NOT_ACKNOWLEDGED');
+  }
+  const readback = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, snapshotId));
+  if (hashCanonicalValue(readback) !== hashCanonicalValue(snapshot)) {
+    throw typedError('E_STAGE10_RECOVERY_READBACK_MISMATCH', 'stage10.productWiring.recovery', 'RECOVERY_SNAPSHOT_READBACK_MISMATCH');
+  }
   const ref = {
     snapshotId,
     sessionId: session.sessionId,
@@ -496,7 +531,7 @@ function updateCommentDecisionRows(packet, payload) {
   };
 }
 
-async function dispatchCoreCommand({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchCoreCommand({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const preStateHash = hashCoreState(session.coreState);
   const applied = applyCommandWithEventLog({
     eventLog: session.eventLog,
@@ -532,12 +567,11 @@ async function dispatchCoreCommand({ session, storagePort, authorityState, autho
       commandKernel: true,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, receipt, session: cloneJson(session) };
 }
 
-async function dispatchCommentImport({ session, storagePort, authorityState, authorityHeadPort, capabilitySnapshot, commandId, payload, activation, opId, ts }) {
+async function dispatchCommentImport({ session, persistencePort, authorityState, capabilitySnapshot, commandId, payload, activation, opId, ts }) {
   const packet = buildStableCommentAnchorPacketFromReviewIr({
     projectId: session.projectId,
     sceneId: normalizeString(payload.sceneId) || 'scene-1',
@@ -567,12 +601,11 @@ async function dispatchCommentImport({ session, storagePort, authorityState, aut
       commentTruthDuplicated: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, packet, views, receipt, session: cloneJson(session) };
 }
 
-async function dispatchCommentDecision({ session, storagePort, authorityState, authorityHeadPort, capabilitySnapshot, commandId, payload, activation, opId, ts }) {
+async function dispatchCommentDecision({ session, persistencePort, authorityState, capabilitySnapshot, commandId, payload, activation, opId, ts }) {
   const packetHash = normalizeString(payload.packetHash) || Object.keys(session.commentPackets).at(-1);
   const packet = session.commentPackets[packetHash];
   if (!packet) {
@@ -611,14 +644,13 @@ async function dispatchCommentDecision({ session, storagePort, authorityState, a
       commentTruthDuplicated: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, packet: nextPacket, views, receipt, session: cloneJson(session) };
 }
 
-async function dispatchHistoryCheckpoint({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchHistoryCheckpoint({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const snapshotId = normalizeString(payload.snapshotId) || `history-checkpoint-${opId}`;
-  const { ref } = await writeRecoverySnapshot(session, storagePort, snapshotId, commandId);
+  const { ref } = await writeRecoverySnapshot(session, persistencePort, snapshotId, commandId);
   session.historyCheckpoints[snapshotId] = {
     snapshotId,
     createdByCommandReceiptId: opId,
@@ -641,14 +673,13 @@ async function dispatchHistoryCheckpoint({ session, storagePort, authorityState,
       projectTruthMutation: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, snapshotRef: ref, receipt, session: cloneJson(session) };
 }
 
-async function dispatchHistoryRestorePreview({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchHistoryRestorePreview({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const snapshotId = normalizeString(payload.snapshotId);
-  const snapshot = await maybeAwait(storagePort.readRecoverySnapshot(session.projectId, snapshotId));
+  const snapshot = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, snapshotId));
   if (!isPlainObject(snapshot) || !isPlainObject(snapshot.session)) {
     return {
       ok: false,
@@ -683,12 +714,11 @@ async function dispatchHistoryRestorePreview({ session, storagePort, authoritySt
       mutationApplied: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, preview: session.historyRestorePreviews[previewId], receipt, session: cloneJson(session) };
 }
 
-async function dispatchHistoryRestoreApply({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchHistoryRestoreApply({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const previewId = normalizeString(payload.previewId);
   const preview = session.historyRestorePreviews[previewId];
   if (!preview || payload.confirmed !== true) {
@@ -715,13 +745,12 @@ async function dispatchHistoryRestoreApply({ session, storagePort, authorityStat
     };
   }
   const undoSnapshotId = `history-restore-undo-${hashCanonicalValue({ opId, currentStateHash }).slice(0, 16)}`;
-  await writeRecoverySnapshot(session, storagePort, undoSnapshotId, 'cmd.project.history.restoreApply.preimage');
-  const targetSnapshot = await maybeAwait(storagePort.readRecoverySnapshot(session.projectId, preview.snapshotId));
+  await writeRecoverySnapshot(session, persistencePort, undoSnapshotId, 'cmd.project.history.restoreApply.preimage');
+  const targetSnapshot = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, preview.snapshotId));
   const restoredSession = normalizeSession(targetSnapshot.session);
   session.historyRestoreUndoSnapshots[previewId] = { previewId, snapshotId: undoSnapshotId };
   session.coreState = cloneJson(restoredSession.coreState);
   session.eventLog = cloneJson(restoredSession.eventLog);
-  session.commandReceiptAuthorityHeadRef = cloneJson(restoredSession.commandReceiptAuthorityHeadRef);
   const receipt = createReceipt({
     session,
     commandId,
@@ -740,12 +769,11 @@ async function dispatchHistoryRestoreApply({ session, storagePort, authorityStat
       authorDataLoss: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, receipt, session: cloneJson(session) };
 }
 
-async function dispatchHistoryRestoreUndo({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchHistoryRestoreUndo({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const previewId = normalizeString(payload.previewId);
   const undo = session.historyRestoreUndoSnapshots[previewId];
   if (!undo) {
@@ -755,11 +783,10 @@ async function dispatchHistoryRestoreUndo({ session, storagePort, authorityState
     };
   }
   const currentStateHash = hashCoreState(session.coreState);
-  const undoSnapshot = await maybeAwait(storagePort.readRecoverySnapshot(session.projectId, undo.snapshotId));
+  const undoSnapshot = await maybeAwait(persistencePort.readRecoverySnapshot(session.projectId, undo.snapshotId));
   const restoredSession = normalizeSession(undoSnapshot.session);
   session.coreState = cloneJson(restoredSession.coreState);
   session.eventLog = cloneJson(restoredSession.eventLog);
-  session.commandReceiptAuthorityHeadRef = cloneJson(restoredSession.commandReceiptAuthorityHeadRef);
   const receipt = createReceipt({
     session,
     commandId,
@@ -777,12 +804,11 @@ async function dispatchHistoryRestoreUndo({ session, storagePort, authorityState
       authorDataLoss: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, receipt, session: cloneJson(session) };
 }
 
-async function dispatchConflictPreview({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchConflictPreview({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const report = buildLocalMultiSessionRecoveryReport({
     projectId: session.projectId,
     initialState: payload.initialState || session.coreState,
@@ -809,12 +835,11 @@ async function dispatchConflictPreview({ session, storagePort, authorityState, a
       silentProjectRewrite: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, reportId, report, receipt, session: cloneJson(session) };
 }
 
-async function dispatchConflictDecision({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchConflictDecision({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const reportId = normalizeString(payload.reportId);
   const conflictId = normalizeString(payload.conflictId);
   const report = session.conflictReports[reportId];
@@ -850,12 +875,11 @@ async function dispatchConflictDecision({ session, storagePort, authorityState, 
     storageWritten: true,
     details: cloneJson(session.conflictDecisions[conflictId]),
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: true, decision: session.conflictDecisions[conflictId], receipt, session: cloneJson(session) };
 }
 
-async function dispatchExchangePrepare({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchExchangePrepare({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const events = session.eventLog.events.map((event, index) => ({
     opId: event.opId,
     actorId: event.actorId,
@@ -876,13 +900,26 @@ async function dispatchExchangePrepare({ session, storagePort, authorityState, a
     networkAdapterEnabled: payload.networkAdapterEnabled === true,
   });
   const packetId = `exchange-packet:${hashCanonicalValue(packet).slice(0, 24)}`;
+  if (!packet.ok) {
+    return {
+      ok: false,
+      packetId,
+      packet,
+      error: typedError(
+        'E_STAGE10_OPERATION_EXCHANGE_REJECTED',
+        commandId,
+        packet.reason || 'OPERATION_EXCHANGE_REJECTED',
+        { networkAdapterEnabled: payload.networkAdapterEnabled === true },
+      ),
+    };
+  }
   session.operationExchangePackets[packetId] = packet;
   const receipt = createReceipt({
     session,
     commandId,
     opId,
     ts,
-    status: packet.ok ? 'PREVIEW_READY' : 'PREVIEW_DIAGNOSTICS',
+    status: 'PREVIEW_READY',
     activation,
     preStateHash: hashCoreState(session.coreState),
     postStateHash: hashCoreState(session.coreState),
@@ -894,12 +931,11 @@ async function dispatchExchangePrepare({ session, storagePort, authorityState, a
       networkAdapterEnabled: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: packet.ok, packetId, packet, receipt, session: cloneJson(session) };
 }
 
-async function dispatchExchangePreview({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchExchangePreview({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const packetId = normalizeString(payload.packetId) || Object.keys(session.operationExchangePackets).at(-1);
   const packet = session.operationExchangePackets[packetId];
   const report = buildLocalFixtureExchangeAdapterReport({
@@ -925,12 +961,11 @@ async function dispatchExchangePreview({ session, storagePort, authorityState, a
       networkDispatch: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return { ok: report.ok, reportId, report, receipt, session: cloneJson(session) };
 }
 
-async function dispatchCollabApplyEventLog({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts }) {
+async function dispatchCollabApplyEventLog({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts }) {
   const preStateHash = hashCoreState(session.coreState);
   const domainEventPort = createCoreDomainEventProductPort();
   const report = applyEventLog({
@@ -955,7 +990,26 @@ async function dispatchCollabApplyEventLog({ session, storagePort, authorityStat
     };
   }
 
+  const provenance = appendEventLogEntry({
+    eventLog: session.eventLog,
+    entry: {
+      opId,
+      ts,
+      actorId: session.actorId,
+      commandId,
+      payloadHash: hashCanonicalValue(Array.isArray(payload.events) ? payload.events : []),
+      preStateHash,
+      postStateHash: report.stateHash,
+      domainEvents: report.domainEvents,
+      domainEventDigest: report.domainEventDigest,
+    },
+    domainEventPort,
+  });
+  if (!provenance.ok) {
+    return { ok: false, error: provenance.error };
+  }
   session.coreState = cloneJson(report.nextState);
+  session.eventLog = provenance.eventLog;
   session.collabApplyReports[reportId] = {
     schemaVersion: 'yalken.stage10.collabApply.reportRef.v1',
     reportId,
@@ -987,8 +1041,7 @@ async function dispatchCollabApplyEventLog({ session, storagePort, authorityStat
       secondJournal: false,
     },
   });
-  await appendCommandReceiptExternal({ session, authorityState, authorityHeadPort, receipt, reason: commandId });
-  await persistSession(session, storagePort, commandId);
+  await commitCommandState({ session, authorityState, persistencePort, receipt, reason: commandId });
   return {
     ok: true,
     reportId,
@@ -1008,6 +1061,13 @@ export function buildStage10ProductReadModels(sessionInput, capabilitySnapshot =
     requireSessionRef: true,
   });
   if (!verified.ok) throw verified.error;
+  const anchor = validateStage10IntegrityAnchor(options.integrityAnchor, {
+    projectId: session.projectId,
+    session,
+    authorityStore: verified.store,
+    previousAnchor: options.previousIntegrityAnchor,
+  });
+  if (!anchor.ok) throw anchor.error;
   const views = deriveViews(session, capabilitySnapshot, verified.store);
   const replay = buildOperationReplayReport({
     projectId: session.projectId,
@@ -1015,6 +1075,7 @@ export function buildStage10ProductReadModels(sessionInput, capabilitySnapshot =
     domainEventPort: createCoreDomainEventProductPort(),
     commandReceiptAuthorityPort: createCommandKernelReceiptAuthorityPort(verified.store, session),
     initialStateHash: session.eventLog.events[0]?.preStateHash || hashCoreState(createInitialCoreState()),
+    expectedFinalStateHash: hashCoreState(session.coreState),
     requireCommandKernelReceipt: true,
     requireCapabilityRevalidation: true,
   });
@@ -1028,22 +1089,61 @@ export function buildStage10ProductReadModels(sessionInput, capabilitySnapshot =
 }
 
 export async function createStage10ProductRuntime(input = {}) {
-  const storagePort = input.storagePort;
-  ensureStoragePort(storagePort);
-  const authorityHeadPort = input.authorityHeadPort;
-  ensureAuthorityHeadPort(authorityHeadPort);
+  const persistencePort = input.persistencePort;
+  ensurePersistencePort(persistencePort);
   const capabilitySnapshot = isPlainObject(input.capabilitySnapshot) ? cloneJson(input.capabilitySnapshot) : {
     platformId: 'local',
     capabilities: { stage10LocalProductWiring: true },
   };
   const uiPort = isPlainObject(input.uiPort) ? input.uiPort : {};
   const now = typeof input.now === 'function' ? input.now : () => new Date().toISOString();
-  let session = normalizeSession(input.initialSession || createDefaultSession(input));
+  const projectId = normalizeString(input.projectId);
+  if (!projectId) {
+    throw typedError('E_STAGE10_PROJECT_ID_REQUIRED', 'stage10.productWiring.createRuntime', 'PROJECT_ID_REQUIRED');
+  }
+  const persisted = await maybeAwait(persistencePort.readStage10State(projectId));
+  let verifiedBundle;
+  if (persisted) {
+    verifiedBundle = validatePersistedBundle(persisted, projectId);
+  } else {
+    if (input.requireExistingState === true) {
+      throw typedError('E_STAGE10_PERSISTED_BUNDLE_MISSING', 'stage10.productWiring.reopen', 'STAGE10_PERSISTED_BUNDLE_REQUIRED');
+    }
+    const initialSession = normalizeSession(createDefaultSession({ ...input, projectId }));
+    const initialStore = createInitialCommandReceiptAuthorityStore({
+      projectId,
+      eventLog: initialSession.eventLog,
+    });
+    initialSession.commandReceiptAuthorityHeadRef = createCommandReceiptAuthorityHeadRef(initialStore.currentHead);
+    const initialAnchor = createStage10IntegrityAnchor({
+      projectId,
+      session: initialSession,
+      authorityStore: initialStore,
+    });
+    const committed = await maybeAwait(persistencePort.commitStage10State(
+      projectId,
+      {
+        session: initialSession,
+        authorityStore: initialStore,
+        integrityAnchor: initialAnchor,
+      },
+      {
+        reason: 'stage10.initial-state',
+        expectedPreviousIntegrityAnchorDigest: '',
+      },
+    ));
+    if (committed?.ok !== true || committed.storageWritten !== true || committed.readbackVerified !== true) {
+      throw typedError('E_STAGE10_INITIAL_PERSISTENCE_FAILED', 'stage10.productWiring.createRuntime', 'STAGE10_INITIAL_PERSISTENCE_NOT_ACKNOWLEDGED');
+    }
+    verifiedBundle = validatePersistedBundle(committed.bundle, projectId);
+  }
+  let session = verifiedBundle.session;
   const authorityState = {
-    store: await readAuthorityStore(authorityHeadPort, session, {
-      requireExisting: input.requireExistingAuthorityHead === true,
-    }),
+    store: verifiedBundle.authorityStore,
+    integrityAnchor: verifiedBundle.integrityAnchor,
+    previousIntegrityAnchor: verifiedBundle.previousIntegrityAnchor,
   };
+  let transactionFailed = false;
 
   async function publishSurface() {
     const surface = buildSurface(session);
@@ -1054,6 +1154,9 @@ export async function createStage10ProductRuntime(input = {}) {
   await publishSurface();
 
   async function dispatchVisibleCommand(commandIdInput, payloadInput = {}, activationInput = {}) {
+    if (transactionFailed) {
+      throw typedError('E_STAGE10_RUNTIME_REOPEN_REQUIRED', 'stage10.productWiring.dispatch', 'FAILED_TRANSACTION_REQUIRES_FRESH_REOPEN');
+    }
     const commandId = normalizeString(commandIdInput);
     const activation = normalizeActivation(commandId, activationInput);
     const visible = assertVisibleCommand(commandId, activation);
@@ -1070,40 +1173,60 @@ export async function createStage10ProductRuntime(input = {}) {
     const payload = isPlainObject(payloadInput) ? cloneJson(payloadInput) : {};
     const opId = normalizeString(payload.opId) || nextOpId(authorityState.store, commandId);
     const ts = normalizeString(payload.ts) || now();
-    session.uiEvents.push({
+    const sessionBefore = cloneJson(session);
+    const authorityBefore = authorityState.store;
+    const anchorBefore = authorityState.integrityAnchor;
+    const previousAnchorBefore = authorityState.previousIntegrityAnchor;
+    session.uiEvents = [...session.uiEvents.slice(-63), {
       opId,
       commandId,
       activationMode: activation.mode,
       controlId: activation.controlId,
       visibleControl: activation.visibleControl,
       directBridge: false,
-    });
+    }];
 
     let result;
-    if (isCoreCommand(commandId)) {
-      result = await dispatchCoreCommand({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COMMENT_IMPORT_STABLE_PACKET) {
-      result = await dispatchCommentImport({ session, storagePort, authorityState, authorityHeadPort, capabilitySnapshot, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COMMENT_DECISION_RECORD) {
-      result = await dispatchCommentDecision({ session, storagePort, authorityState, authorityHeadPort, capabilitySnapshot, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_CREATE_CHECKPOINT) {
-      result = await dispatchHistoryCheckpoint({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_PREVIEW) {
-      result = await dispatchHistoryRestorePreview({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY) {
-      result = await dispatchHistoryRestoreApply({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_UNDO) {
-      result = await dispatchHistoryRestoreUndo({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_PREVIEW) {
-      result = await dispatchConflictPreview({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_DECISION_RECORD) {
-      result = await dispatchConflictDecision({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_PREPARE) {
-      result = await dispatchExchangePrepare({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_LOCAL_FIXTURE_PREVIEW) {
-      result = await dispatchExchangePreview({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
-    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY) {
-      result = await dispatchCollabApplyEventLog({ session, storagePort, authorityState, authorityHeadPort, commandId, payload, activation, opId, ts });
+    try {
+      if (isCoreCommand(commandId)) {
+        result = await dispatchCoreCommand({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COMMENT_IMPORT_STABLE_PACKET) {
+        result = await dispatchCommentImport({ session, persistencePort, authorityState, capabilitySnapshot, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COMMENT_DECISION_RECORD) {
+        result = await dispatchCommentDecision({ session, persistencePort, authorityState, capabilitySnapshot, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_CREATE_CHECKPOINT) {
+        result = await dispatchHistoryCheckpoint({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_PREVIEW) {
+        result = await dispatchHistoryRestorePreview({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY) {
+        result = await dispatchHistoryRestoreApply({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_UNDO) {
+        result = await dispatchHistoryRestoreUndo({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_PREVIEW) {
+        result = await dispatchConflictPreview({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_DECISION_RECORD) {
+        result = await dispatchConflictDecision({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_PREPARE) {
+        result = await dispatchExchangePrepare({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_LOCAL_FIXTURE_PREVIEW) {
+        result = await dispatchExchangePreview({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY) {
+        result = await dispatchCollabApplyEventLog({ session, persistencePort, authorityState, commandId, payload, activation, opId, ts });
+      }
+    } catch (error) {
+      session = sessionBefore;
+      authorityState.store = authorityBefore;
+      authorityState.integrityAnchor = anchorBefore;
+      authorityState.previousIntegrityAnchor = previousAnchorBefore;
+      transactionFailed = true;
+      throw error;
+    }
+    if (!result?.ok) {
+      session = sessionBefore;
+      authorityState.store = authorityBefore;
+      authorityState.integrityAnchor = anchorBefore;
+      authorityState.previousIntegrityAnchor = previousAnchorBefore;
+      return result;
     }
 
     await publishSurface();
@@ -1113,20 +1236,22 @@ export async function createStage10ProductRuntime(input = {}) {
   return {
     dispatchVisibleCommand,
     getSession: () => cloneJson(session),
-    getReadModels: () => buildStage10ProductReadModels(session, capabilitySnapshot, { authorityStore: authorityState.store }),
+    getReadModels: () => buildStage10ProductReadModels(session, capabilitySnapshot, {
+      authorityStore: authorityState.store,
+      integrityAnchor: authorityState.integrityAnchor,
+      previousIntegrityAnchor: authorityState.previousIntegrityAnchor,
+    }),
     getCommandReceiptAuthorityHead: () => cloneJson(authorityState.store.currentHead),
+    getIntegrityAnchor: () => cloneJson(authorityState.integrityAnchor),
     getVisibleSurface: () => buildSurface(session),
   };
 }
 
 export async function reopenStage10ProductRuntime(input = {}) {
-  const storagePort = input.storagePort;
-  ensureStoragePort(storagePort);
   const projectId = normalizeString(input.projectId);
-  const persisted = await maybeAwait(storagePort.readSession(projectId));
   return createStage10ProductRuntime({
     ...input,
-    initialSession: normalizeSession(persisted, { requireReceiptAuthority: true }),
-    requireExistingAuthorityHead: true,
+    projectId,
+    requireExistingState: true,
   });
 }

@@ -106,31 +106,58 @@ function cloneJson(value) {
 function createStage10MemoryPorts() {
   const sessions = new Map();
   const authorityHeads = new Map();
+  const integrityAnchors = new Map();
+  const previousIntegrityAnchors = new Map();
+  const recoverySnapshots = new Map();
+  const persistencePort = {
+    async commitStage10State(projectId, bundle, options = {}) {
+      const current = integrityAnchors.get(projectId);
+      assert.equal(options.expectedPreviousIntegrityAnchorDigest || '', current?.integrityAnchorDigest || '');
+      previousIntegrityAnchors.set(projectId, current ? cloneJson(current) : null);
+      sessions.set(projectId, cloneJson(bundle.session));
+      authorityHeads.set(projectId, cloneJson(bundle.authorityStore));
+      integrityAnchors.set(projectId, cloneJson(bundle.integrityAnchor));
+      return {
+        ok: true,
+        storageWritten: true,
+        readbackVerified: true,
+        bundle: {
+          session: cloneJson(bundle.session),
+          authorityStore: cloneJson(bundle.authorityStore),
+          integrityAnchor: cloneJson(bundle.integrityAnchor),
+          previousIntegrityAnchor: current ? cloneJson(current) : null,
+        },
+      };
+    },
+    async readStage10State(projectId) {
+      const session = sessions.get(projectId);
+      const authorityStore = authorityHeads.get(projectId);
+      const integrityAnchor = integrityAnchors.get(projectId);
+      if (!session && !authorityStore && !integrityAnchor) return null;
+      return {
+        session: session ? cloneJson(session) : null,
+        authorityStore: authorityStore ? cloneJson(authorityStore) : null,
+        integrityAnchor: integrityAnchor ? cloneJson(integrityAnchor) : null,
+        previousIntegrityAnchor: previousIntegrityAnchors.get(projectId)
+          ? cloneJson(previousIntegrityAnchors.get(projectId))
+          : null,
+      };
+    },
+    async writeRecoverySnapshot(projectId, snapshotId, snapshot) {
+      recoverySnapshots.set(`${projectId}:${snapshotId}`, cloneJson(snapshot));
+      return { ok: true, readbackVerified: true };
+    },
+    async readRecoverySnapshot(projectId, snapshotId) {
+      const snapshot = recoverySnapshots.get(`${projectId}:${snapshotId}`);
+      return snapshot ? cloneJson(snapshot) : null;
+    },
+  };
   return {
     sessions,
     authorityHeads,
-    storagePort: {
-      writeSession: async (projectId, session) => {
-        sessions.set(projectId, cloneJson(session));
-        return { ok: true };
-      },
-      readSession: async (projectId) => {
-        const session = sessions.get(projectId);
-        return session ? cloneJson(session) : null;
-      },
-      writeRecoverySnapshot: async () => ({ ok: true }),
-      readRecoverySnapshot: async () => null,
-    },
-    authorityHeadPort: {
-      writeAuthorityHead: async (projectId, head) => {
-        authorityHeads.set(projectId, cloneJson(head));
-        return { ok: true };
-      },
-      readAuthorityHead: async (projectId) => {
-        const head = authorityHeads.get(projectId);
-        return head ? cloneJson(head) : null;
-      },
-    },
+    integrityAnchors,
+    previousIntegrityAnchors,
+    persistencePort,
   };
 }
 
@@ -612,12 +639,11 @@ test('Atlas V5 P1 domain events: tree reorder Command Kernel result carries real
 test('Atlas V5 P1 domain events: Stage10 replay requires independent authority head outside the mutable session', async () => {
   const runtime = await importRepoModule('src/product/stage10ProductWiring.mjs');
   const domainEvents = await importRepoModule('src/core/domainEvents.mjs');
-  const { storagePort, authorityHeadPort, sessions, authorityHeads } = createStage10MemoryPorts();
+  const { persistencePort, sessions, authorityHeads, integrityAnchors, previousIntegrityAnchors } = createStage10MemoryPorts();
   const product = await runtime.createStage10ProductRuntime({
     projectId: 'stage10-domain-events',
     now: () => '2026-08-01T00:00:00.000Z',
-    storagePort,
-    authorityHeadPort,
+    persistencePort,
   });
   const initialAuthority = cloneJson(authorityHeads.get('stage10-domain-events'));
 
@@ -658,42 +684,64 @@ test('Atlas V5 P1 domain events: Stage10 replay requires independent authority h
   assert.throws(
     () => runtime.buildStage10ProductReadModels(missingReceiptSession, {}, {
       authorityStore: { ...externalAuthority, receipts: [], currentHead: { ...externalAuthority.currentHead, receiptCount: 0 } },
+      integrityAnchor: integrityAnchors.get(session.projectId),
+      previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
     }),
-    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HISTORY_STALE_OR_ROLLED_BACK',
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_COMPACTION_INVALID',
   );
 
   const missingAuthoritySession = product.getSession();
   delete missingAuthoritySession.commandReceiptAuthorityHeadRef;
   assert.throws(
-    () => runtime.buildStage10ProductReadModels(missingAuthoritySession, {}, { authorityStore: externalAuthority }),
+    () => runtime.buildStage10ProductReadModels(missingAuthoritySession, {}, {
+      authorityStore: externalAuthority,
+      integrityAnchor: integrityAnchors.get(session.projectId),
+      previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
+    }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_SESSION_HEAD_MISMATCH',
   );
 
   const wrongVersionAuthority = cloneJson(externalAuthority);
   wrongVersionAuthority.schemaVersion = 'yalken.stage10.commandReceiptAuthorityStore.future';
   assert.throws(
-    () => runtime.buildStage10ProductReadModels(product.getSession(), {}, { authorityStore: wrongVersionAuthority }),
+    () => runtime.buildStage10ProductReadModels(product.getSession(), {}, {
+      authorityStore: wrongVersionAuthority,
+      integrityAnchor: integrityAnchors.get(session.projectId),
+      previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
+    }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_STORE_VERSION_INVALID',
   );
 
   const staleDigestSession = product.getSession();
   staleDigestSession.eventLog.events[0].domainEvents[0].payload.projectId = 'mutated-event-fact';
   assert.throws(
-    () => runtime.buildStage10ProductReadModels(staleDigestSession, {}, { authorityStore: externalAuthority }),
+    () => runtime.buildStage10ProductReadModels(staleDigestSession, {}, {
+      authorityStore: externalAuthority,
+      integrityAnchor: integrityAnchors.get(session.projectId),
+      previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
+    }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_EVENT_LOG_DIGEST_MISMATCH',
   );
 
   const missingEventDigestSession = product.getSession();
   delete missingEventDigestSession.eventLog.events[0].domainEventDigest;
   assert.throws(
-    () => runtime.buildStage10ProductReadModels(missingEventDigestSession, {}, { authorityStore: externalAuthority }),
+    () => runtime.buildStage10ProductReadModels(missingEventDigestSession, {}, {
+      authorityStore: externalAuthority,
+      integrityAnchor: integrityAnchors.get(session.projectId),
+      previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
+    }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_EVENT_LOG_DIGEST_MISMATCH',
   );
 
   const strippedReceiptDigestAuthority = cloneJson(externalAuthority);
   delete strippedReceiptDigestAuthority.receipts[0].domainEventDigest;
   assert.throws(
-    () => runtime.buildStage10ProductReadModels(product.getSession(), {}, { authorityStore: strippedReceiptDigestAuthority }),
+    () => runtime.buildStage10ProductReadModels(product.getSession(), {}, {
+      authorityStore: strippedReceiptDigestAuthority,
+      integrityAnchor: integrityAnchors.get(session.projectId),
+      previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
+    }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_EVENT_DIGEST_REQUIRED',
   );
 
@@ -703,7 +751,11 @@ test('Atlas V5 P1 domain events: Stage10 replay requires independent authority h
   const jointMutationAuthority = cloneJson(externalAuthority);
   jointMutationAuthority.receipts[0].domainEventDigest = jointMutationSession.eventLog.events[0].domainEventDigest;
   assert.throws(
-    () => runtime.buildStage10ProductReadModels(jointMutationSession, {}, { authorityStore: jointMutationAuthority }),
+    () => runtime.buildStage10ProductReadModels(jointMutationSession, {}, {
+      authorityStore: jointMutationAuthority,
+      integrityAnchor: integrityAnchors.get(session.projectId),
+      previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
+    }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_ROOT_MISMATCH'
       || error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_EVENT_LOG_DIGEST_MISMATCH',
   );
@@ -711,7 +763,11 @@ test('Atlas V5 P1 domain events: Stage10 replay requires independent authority h
   const receiptFactsAuthority = cloneJson(externalAuthority);
   receiptFactsAuthority.receipts[0].domainEvents = product.getSession().eventLog.events[0].domainEvents;
   assert.throws(
-    () => runtime.buildStage10ProductReadModels(product.getSession(), {}, { authorityStore: receiptFactsAuthority }),
+    () => runtime.buildStage10ProductReadModels(product.getSession(), {}, {
+      authorityStore: receiptFactsAuthority,
+      integrityAnchor: integrityAnchors.get(session.projectId),
+      previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
+    }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_FACTS_MUST_NOT_DUPLICATE_EVENT_LOG',
   );
 
@@ -720,7 +776,11 @@ test('Atlas V5 P1 domain events: Stage10 replay requires independent authority h
     ...externalAuthority.receipts[0],
     domainEventDigest: 'f'.repeat(64),
   }];
-  assert.equal(runtime.buildStage10ProductReadModels(forgedReceiptSession, {}, { authorityStore: externalAuthority }).replay.ok, true);
+  assert.equal(runtime.buildStage10ProductReadModels(forgedReceiptSession, {}, {
+    authorityStore: externalAuthority,
+    integrityAnchor: integrityAnchors.get(session.projectId),
+    previousIntegrityAnchor: previousIntegrityAnchors.get(session.projectId),
+  }).replay.ok, true);
 
   const persisted = product.getSession();
   const missingAuthorityPorts = createStage10MemoryPorts();
@@ -728,20 +788,20 @@ test('Atlas V5 P1 domain events: Stage10 replay requires independent authority h
   await assert.rejects(
     () => runtime.reopenStage10ProductRuntime({
       projectId: persisted.projectId,
-      storagePort: missingAuthorityPorts.storagePort,
-      authorityHeadPort: missingAuthorityPorts.authorityHeadPort,
+      persistencePort: missingAuthorityPorts.persistencePort,
     }),
-    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_MISSING',
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_STORE_MISSING',
   );
 
   const rollbackPorts = createStage10MemoryPorts();
   rollbackPorts.sessions.set(persisted.projectId, persisted);
   rollbackPorts.authorityHeads.set(persisted.projectId, initialAuthority);
+  rollbackPorts.integrityAnchors.set(persisted.projectId, integrityAnchors.get(persisted.projectId));
+  rollbackPorts.previousIntegrityAnchors.set(persisted.projectId, previousIntegrityAnchors.get(persisted.projectId));
   await assert.rejects(
     () => runtime.reopenStage10ProductRuntime({
       projectId: persisted.projectId,
-      storagePort: rollbackPorts.storagePort,
-      authorityHeadPort: rollbackPorts.authorityHeadPort,
+      persistencePort: rollbackPorts.persistencePort,
     }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_SESSION_HEAD_MISMATCH'
       || error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_STALE_OR_ROLLED_BACK'
@@ -759,12 +819,11 @@ test('Atlas V5 P1 domain events: Stage10 exposes the typed offline collab apply 
   assert.match(source, /COLLAB_EVENT_LOG_APPLY/u);
   assert.doesNotMatch(applySource, /from\s+['"][^'"]*\/core\/[^'"]*['"]/u);
 
-  const { storagePort, authorityHeadPort, authorityHeads } = createStage10MemoryPorts();
+  const { persistencePort, authorityHeads } = createStage10MemoryPorts();
   const product = await stage10.createStage10ProductRuntime({
     projectId: 'stage10-collab-apply',
     now: () => '2026-08-01T00:00:00.000Z',
-    storagePort,
-    authorityHeadPort,
+    persistencePort,
   });
   const initialState = core.createInitialCoreState();
   const result = await product.dispatchVisibleCommand(
@@ -794,8 +853,7 @@ test('Atlas V5 P1 domain events: Stage10 exposes the typed offline collab apply 
 
   const reopened = await stage10.reopenStage10ProductRuntime({
     projectId: 'stage10-collab-apply',
-    storagePort,
-    authorityHeadPort,
+    persistencePort,
   });
   const reopenedSession = reopened.getSession();
   assert.equal(Object.keys(reopenedSession.collabApplyReports).length, 1);
@@ -805,10 +863,9 @@ test('Atlas V5 P1 domain events: Stage10 exposes the typed offline collab apply 
 test('Atlas V5 P1 domain events: application bootstrap reaches create, command, persist, reopen and replay through authority head', async () => {
   const bootstrapModule = await importRepoModule('src/product/stage10ApplicationBootstrap.mjs');
   const stage10 = await importRepoModule('src/product/stage10ProductWiring.mjs');
-  const { storagePort, authorityHeadPort, sessions, authorityHeads } = createStage10MemoryPorts();
+  const { persistencePort, sessions, authorityHeads } = createStage10MemoryPorts();
   const bootstrap = bootstrapModule.createStage10ApplicationBootstrap({
-    storagePort,
-    authorityHeadPort,
+    persistencePort,
     now: () => '2026-08-01T00:00:00.000Z',
   });
 
@@ -830,8 +887,7 @@ test('Atlas V5 P1 domain events: application bootstrap reaches create, command, 
   sessions.set('stage10-app-bootstrap', staleSession);
   await assert.rejects(
     () => bootstrapModule.createStage10ApplicationBootstrap({
-      storagePort,
-      authorityHeadPort,
+      persistencePort,
     }).reopenProjectRuntime({ projectId: 'stage10-app-bootstrap' }),
     (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_SESSION_HEAD_MISMATCH',
   );
@@ -840,11 +896,10 @@ test('Atlas V5 P1 domain events: application bootstrap reaches create, command, 
   assert.match(source, /loadStage10ApplicationBootstrapModule/u);
   assert.match(source, /bootstrapStage10ApplicationForProject\(created\.projectRoot,\s*created\.manifest,\s*'create'\)/u);
   assert.match(source, /bootstrapStage10ApplicationForProject\(binding\.projectRoot,\s*binding\.manifest,\s*'reopen'\)/u);
-  assert.match(source, /createStage10MainStoragePort/u);
-  assert.match(source, /createStage10MainCommandReceiptAuthorityHeadPort/u);
-  assert.match(source, /fileManager\.writeFileAtomic\(authorityPath/u);
-  assert.match(source, /fileManager\.writeFileAtomic\(recoveryPath/u);
-  assert.equal(stage10.STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA, 'yalken.stage10.commandReceiptAuthorityHead.v1');
+  assert.match(source, /createStage10MainPersistenceAdapter/u);
+  assert.match(source, /stage10-integrity-anchors/u);
+  assert.match(source, /writeFileAtomic:\s*\(targetPath, content\)/u);
+  assert.equal(stage10.STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA, 'yalken.stage10.commandReceiptAuthorityHead.v2');
 });
 
 test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event contracts and helper has no UI or storage side channel', () => {
@@ -881,7 +936,7 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
   assert.match(productPortSource, /secondJournal:\s*false/u);
   assert.match(editorSource, /createCoreDomainEventProductPort/u);
   assert.match(editorSource, /domainEventPort:\s*createCoreDomainEventProductPort\(\)/u);
-  assert.match(stage10Source, /authorityHeadPort/u);
+  assert.match(stage10Source, /persistencePort/u);
   assert.match(stage10Source, /commandReceiptAuthorityHeadRef/u);
   assert.doesNotMatch(stage10Source, /commandReceiptAuthority:\s*create/u);
   assert.doesNotMatch(stage10Source, /commandReceipts:\s*\[/u);
@@ -890,9 +945,9 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
   assert.match(stage10AuthoritySource, /COMMAND_KERNEL_RECEIPT_AUTHORITY_SESSION_HEAD_MISMATCH/u);
   assert.match(stage10BootstrapSource, /createStage10ProductRuntime/u);
   assert.match(stage10BootstrapSource, /reopenStage10ProductRuntime/u);
-  assert.match(mainSource, /createStage10MainCommandReceiptAuthorityHeadPort/u);
-  assert.match(mainSource, /fileManager\.writeFileAtomic\(authorityPath/u);
-  assert.match(mainSource, /STAGE10_RECEIPT_AUTHORITY_RECOVERY_FILENAME/u);
+  assert.match(mainSource, /createStage10MainPersistenceAdapter/u);
+  assert.match(mainSource, /stage10-integrity-anchors/u);
+  assert.match(mainSource, /loadStage10ApplicationCommandRouteModule/u);
   assert.match(mainSource, /bootstrapStage10ApplicationForProject/u);
   assert.match(stage10Source, /COLLAB_EVENT_LOG_APPLY/u);
   assert.match(stage10Source, /applyEventLog/u);
@@ -902,6 +957,7 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
   assert.match(packageJson.scripts['test:atlas-event-contract'], /yalken-atlas-v5-p1-domain-event-contract-repair\.contract\.test\.js/u);
   assert.match(packageJson.scripts['test:atlas-event-contract'], /collab-apply-no-network-wiring\.contract\.test\.js/u);
   assert.match(packageJson.scripts['test:atlas-event-contract'], /collab-apply-pipeline-deterministic\.contract\.test\.js/u);
+  assert.match(packageJson.scripts['test:atlas-event-contract'], /yalken-atlas-v5-stage10-pr1391-audit-repair\.contract\.test\.js/u);
   assert.match(packageJson.scripts['test:atlas-event-contract'], /yalken-atlas-v5-e10-c03-operation-replay-command-event-log\.contract\.test\.js/u);
 });
 

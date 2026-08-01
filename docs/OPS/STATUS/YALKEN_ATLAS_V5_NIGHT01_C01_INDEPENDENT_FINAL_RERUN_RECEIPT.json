@@ -2,27 +2,27 @@
   "schemaVersion": "yalken.atlas.v5.night01.c01.independentFinalRerun.receipt.v1",
   "taskId": "YALKEN_ATLAS_V5_RELEASE_AUDIT_NIGHT_01_INDEPENDENT_FINAL_RERUN",
   "contourId": "NIGHT_01_C01_INDEPENDENT_FINAL_RERUN_ON_EXACT_REMOTE_HEAD",
-  "generatedAtUtc": "2026-08-01T01:52:23.513Z",
+  "generatedAtUtc": "2026-08-01T11:37:33.859Z",
   "status": "PASS_NIGHT01_C01_INDEPENDENT_FINAL_RERUN_NO_OPEN_P0",
   "pass": true,
   "independentAuditNoOpenP0": true,
   "programDoneClaim": false,
-  "headSha": "fd092ff854c926cd9c45bbd264216cf996c268ca",
-  "originMainSha": "fd092ff854c926cd9c45bbd264216cf996c268ca",
+  "headSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+  "originMainSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
   "runtimeDirtyFiles": [],
   "report": {
     "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/night01-c01-independent-final-rerun-report.json",
     "exists": true,
-    "bytes": 3467,
-    "sha256": "a82932079930d3e3c47869d429a0ca24d0979728d876b380b1e1f6cd702ffcd6"
+    "bytes": 7559,
+    "sha256": "bde9158295fe1c9f3908269c91ca3c0d5bbafe70194fd260a6e6a74fe8e626f8"
   },
   "executableRerun": {
     "status": "PASS_R3_C05_RELEASE_SATURATION_REVALIDATED",
     "pass": true,
     "reportPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/r3-c05-release-saturation-revalidation-report.json",
-    "reportSha256": "1af27aa7e30b4b64afef02568e3104ec8fe597cf930e689b05d9b2f7352232f9",
+    "reportSha256": "68162765c8ed824f6576168881576c9ad4e2244797e85e6ff2c18a7291a4124b",
     "receiptPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun-receipt.json",
-    "receiptSha256": "5056c2e8ccf3dfeac77d8a18d77b756c307a37c470db9c5bd06a3f7869784513",
+    "receiptSha256": "80a77f7e1e4d17015efd1400884804023e79d864d0c6992c53340526eb534976",
     "p0Rows": [
       {
         "id": "NIGHT01_P0_01_EXECUTABLE_DOD_ROWS",
@@ -60,8 +60,8 @@
     "openP0": []
   },
   "legacyFinalAudit": {
-    "schemaVersion": "yalken.atlas.v5.efinal.finalAuditProgramDod.v1",
-    "status": "PASS_EFINAL_READY_FOR_DELIVERY",
+    "schemaVersion": "yalken.atlas.v5.efinal.finalAuditProgramDod.v2",
+    "status": "PASS_EFINAL_READY_FOR_INDEPENDENT_AUDIT",
     "pass": true,
     "advisoryOnly": true,
     "acceptedAsProgramDoneToken": false,

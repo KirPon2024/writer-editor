@@ -1536,10 +1536,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
-      "sha256": "712eaee3517ed5824b0116b3fca6f86af1d29f65dee1161fe2b754057cea047d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T04:06:00.000Z",
-      "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
+      "sha256": "9e2a3c83deb64c80427572e2e5e0380ae055696398ceab282b1ee104cb6ba2cf",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
@@ -1704,38 +1704,38 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-first-launch.png",
-      "sha256": "8b34e05aac371b2cd9ca4744ffa8c2e6da394405490f47b40cdbf130d5901de1",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+      "sha256": "f6d6d6a709157e72bce6fe4fdf73440f7f2c93bf42e6f696f0554b921df49dc7",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-journey-report.json",
-      "sha256": "a6d99d4c6ee019acd9495df262fd6170b8e817a1c5b4f86cff7418b2ae262e20",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+      "sha256": "c7ff5469340113e83af409caa850e133c26b1684f6dbcb6e62c95aa671ade895",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-reopen.png",
-      "sha256": "15512a38641327c616a4889495732660011568a8230ed44631e634479a4a931e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+      "sha256": "4e17358b63cf7d3a834d64cd2203995f97697ed3d0d1fb36ee736c3ebb62414f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/build-mac-output.txt",
-      "sha256": "6101e196e81746b111bf15c0eae843db680ff9c879f8975c869905411919391d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+      "sha256": "dbde608642d92da5354dcc730762e2473171ae8332f2fa49c76bace9f2fc57ed",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/macos-package-artifact-security-report.json",
-      "sha256": "d9fc5d36db4ba244000c9a513162135f93d6d2d34154f019dea723768389043c",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+      "sha256": "f3a6396e5563d6875fbce14b859a3c973b736cb5a600ba31d2ad418ff0a61776",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING/p0-04-design-os-binding-report.json",
@@ -1865,10 +1865,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/p0-08-stage10-product-wiring-report.json",
-      "sha256": "7fa2d0b7ef9e7a99e3874213ed045add2df5507929c4667944cb860c321228e1",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "sha256": "ed6e71449332f508fae8a2245afcf1e66230f5532da04bea7e20da51b66f31f5",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/p0-08-stage10-product.session.json",
@@ -1914,115 +1914,115 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/night01-c01-independent-final-rerun-report.json",
-      "sha256": "a82932079930d3e3c47869d429a0ca24d0979728d876b380b1e1f6cd702ffcd6",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 independent executable final rerun report: exact origin/main fd092ff854c926cd9c45bbd264216cf996c268ca, runtime dirty files zero, executable R3 physical rows PASS, open P0 zero, Program DONE not claimed from stale aggregation."
+      "sha256": "bde9158295fe1c9f3908269c91ca3c0d5bbafe70194fd260a6e6a74fe8e626f8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun-receipt.json",
-      "sha256": "5056c2e8ccf3dfeac77d8a18d77b756c307a37c470db9c5bd06a3f7869784513",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested R3_C05 physical rerun receipt as executable evidence only; it rebases audit P0 closure to exact remote runtime and does not claim Program DONE."
+      "sha256": "80a77f7e1e4d17015efd1400884804023e79d864d0c6992c53340526eb534976",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
       "sha256": "14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 executable Atlas entity/relation UI journey screenshot as supporting evidence for the physical rerun, not screenshot-only readiness."
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:38:50.937Z",
+      "rationale": "Approve current Atlas V5 Night01 physical rerun image evidence hash after origin/main 31897c6 rebind; screenshot remains supporting evidence and not standalone proof."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
-      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 Atlas entity/relation reopen screenshot as supporting evidence paired with executable UI state checks."
+      "sha256": "543fc8936583b0810bb595f0df77733dc90f179e11b0a65b51aaafec8b34b9fd",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
-      "sha256": "f1fda7c456c7d40e2db6c6ef671492c2d6c2ff948726b602103111d46ffbaa0e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 Atlas entity/relation executable UI journey report for visible commands, persistence and reopen proof."
+      "sha256": "1148bc02b22ccb99b5aa43dcea167aa4d97aca5cf5464037aed0837826fabed3",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journey.png",
-      "sha256": "5f834b334c0c23f25fc1b382f90ff7b15afa5837f61fe97fd0e9ee4423682ac5",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 temporal/continuity/saved-query journey screenshot as supporting evidence for executable UI commands."
+      "sha256": "5765eadd9f8cff336200efb1a9f86c2778f019a4bee03b35ae20244b5232448a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
-      "sha256": "5fa683a60f097182de7820fa6d30cd7b4c61f9796b382a7a92f45eaf93b62352",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 temporal, continuity and saved-query executable UI journey report with reopen proof."
+      "sha256": "b0314ecd55e10fef5f69d6b30b28714ef8a9d8c42f1815e9c47f161189651329",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-reopen.png",
-      "sha256": "11f4e48ad01b687b99a3a6bced440929f0ab409867c769973c998c35dc2acfb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 temporal/continuity reopen screenshot as supporting evidence paired with executable persistence checks."
+      "sha256": "1fae5e003d8278b3d4db594903becd996d22d60b708c9920167a04bbe44170a2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
-      "sha256": "9cb13a3e0009e40e88bb38810f1ebda90641f0c1dffc2b4883a90824eba16d5b",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 manual-map attachments, portals and templates executable journey report with export/import and reopen evidence."
+      "sha256": "6e5fbc911e78728928477f9ac36b28eb0785c671dceffd7bb8c0ad3bc5cf1dd2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
-      "sha256": "541e705fb2eae082f0cc9dc917716a572ab8603a5b82eeadcdae7538c57ca40e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 manual-map portability journey screenshot as supporting evidence, not standalone readiness proof."
+      "sha256": "c592617e1c5913808b810d03e97e25e31d8fb49fa19d2a36d801d419baedaf13",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
-      "sha256": "964a438eef4463fc06bad9003f9d2eeed9212e4040f44422865b48d266e395db",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 manual-map reopen screenshot as supporting evidence paired with persisted model checks."
+      "sha256": "2e57ce56ca741898c5152ab3b53cf402e079a732ee26e757434b5d6f8be0cab4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
-      "sha256": "ac7c215a068a90a2cb0649f540c6f157b43596e68ac4f4a23f61cff7353f7414",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested seed black-box journey screenshot reused by the manual-map physical rerun evidence path."
+      "sha256": "5456e53c25ec11f6310a28da11c4970bb095a486ab47b8b5c9b06a014a8b75a4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
-      "sha256": "65541faaf2347ce5cd60307c5360db8a1de01d69ffacb5681842f3b8a4281484",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested seed black-box reopen screenshot reused by the manual-map physical rerun evidence path."
+      "sha256": "66798a25c887d145919874c83e964cf1e8c5201ff7ccdb44364a71d1097d2fff",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
-      "sha256": "dfbce6952a67fb8584998f909b565d0e93530a83d5d549dce28bc41cfdba8868",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested seed R2_C05 black-box report as supporting evidence for the manual-map physical rerun."
+      "sha256": "a3ce92c3aa2ec2af3fc07401525b88babe4994b022ed56cc7764a6eba20516fa",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
-      "sha256": "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 multilingual, grapheme, worker stress and stale-result executable report."
+      "sha256": "858ea5665d93051d8e2bc5e5768f191f44da4b30bfc226c30e76a949e08609b5",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/r3-c05-release-saturation-revalidation-report.json",
-      "sha256": "1af27aa7e30b4b64afef02568e3104ec8fe597cf930e689b05d9b2f7352232f9",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested R3_C05 release saturation rerun report: all executable P0 rows closed and Program DONE remains unclaimed."
+      "sha256": "68162765c8ed824f6576168881576c9ad4e2244797e85e6ff2c18a7291a4124b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION/night01-c02-final-disposition-report.json",
@@ -2445,6 +2445,13 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "cb1138f16d49f73e4ffbeb9e6b4a61bd96b04d1bfcbe10267618b471230a80e3",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
+      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -2543,6 +2550,13 @@
       "rationale": "Approve bounded C05 receipt: records locally bound block-range writer authority from trusted C04 evidence, numerator and denominator for focused, adjacent, governance, sector, OSS, ops, and full local runner checks, zero false exact, zero silent apply, zero wrong-scene routing, zero replay failure, preservation of canonical writer and nonclaims for HMAC, YRTK2, signed locator, Word carrier selection, Google Docs, other editors, and full Word saturation."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT.json",
+      "sha256": "1ae66b21b300c50241f81b420e9330d2516b1fc5f52fb92b3b17702d08ecc341",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_RECEIPT.json",
       "sha256": "d8fdc46b75d415203e1d0c20bc5b3c6d5d9d8147b677fcd6e12c1a9b215e3f44",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
@@ -2611,6 +2625,13 @@
       "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
       "approvedAtUtc": "2026-08-01T03:35:00.000Z",
       "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT.json",
+      "sha256": "7b4089dac3bd07fce0d3e38d511904bcc9291cd80fba7da8fdda082c55124082",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
+      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
@@ -2695,6 +2716,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "fc6c3afe658a55a74c65bd2c802318cd30bd130df28d98d14a03c38e2c3d2017",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
+      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2830,11 +2858,32 @@
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "00d7e1e7deaae10842d650ad60df6fc2df0b138218eda860af9b7c846bfe2e99",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
+      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
       "sha256": "2d914a5e62785d12b5191b796d4c5d26badf9a885fa6b42e881103382ac0ced6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
       "approvedAtUtc": "2026-07-31T11:00:00.000Z",
       "rationale": "Approve bounded E12 stability limitation audit receipt: binds wave300 complete evidence, keeps all veto metrics zero, explicitly denies Word SATURATED and Google Docs opening, classifies five active limitations, and advances only to the next physical Word stability wave."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
+      "sha256": "e57e12366f7baa168313ae32dca7ac7bf11553a9c3ef6cd69fa115f46877efc7",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
+      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+      "sha256": "9ad7f1cf6e0324a13b443903da317555f4d747746e22f30d0713fa2cd862df9d",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
+      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -4434,10 +4483,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_RECEIPT.json",
-      "sha256": "4587d498a19ece340f455b61d35b5c567fd48513ec5d64b6700d8b53824b1635",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:11:27.548Z",
-      "rationale": "Approve EFINAL evidence-binding update: final audit report and receipt are generated from clean implementation commit 309e24e7, Program DoD evidence remains PASS, and final delivery remote SHA remains pending PR merge verification."
+      "sha256": "033a061669c43be28aba9950402a04a740306ef903ed0c97276427dab23f38b3",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_ER_C00_ACCEPTANCE_TRUTH_STATE_RECONCILIATION_RECEIPT.json",
@@ -4511,10 +4560,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE_RECEIPT.json",
-      "sha256": "6397e8b0bdb89d89ac0cee1a3a8b56603c56c8ecbe186d287f62e23cafd8f226",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+      "sha256": "55377ca72970f6de0edddd1dc7d8d20e4fbfcebb144d024cb49245b620ef12a3",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING_RECEIPT.json",
@@ -4546,10 +4595,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING_RECEIPT.json",
-      "sha256": "03a179f981f7341591dc3ff6ad0b1365644b5998b4bf95029bf0108b32c33cab",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "sha256": "3dc991b695875326890c68af7e2527caa8ab06cd0ae592866ce57f74a45c3ee2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_PLAN_CONTRACT_DIGEST_RECEIPT.json",
@@ -4574,10 +4623,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN_RECEIPT.json",
-      "sha256": "dd0e5d5aa217582a74092aeda383ead06e1d3f17c2b0e0327345703f92279422",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 receipt binding exact remote head, zero runtime dirty files, executable rerun PASS, open P0 zero, and no Program DONE claim."
+      "sha256": "aa6f38dd3e4128a6eda9b4cb94044000f3d136ff7e651c0716defe74b281c059",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION_RECEIPT.json",
@@ -5238,6 +5287,20 @@
       "rationale": "Approve bounded B01 Word sandbox repair: routes physical Word working DOCX through the shared com.microsoft.Word container tmp resolver, forbids plain tmp fallback, preserves diagnostic override validation, keeps T7 evidence destination, and adds no product runtime, UI, dependency, or network scope."
     },
     {
+      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
+      "sha256": "1bdf21b093c4765d592d726806dda0c5f676e42fea5614268a2b631403e26cbe",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
+      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-500k-terminal-audit.mjs",
+      "sha256": "9b55758ca929a1ef75e89c93e6a59210fc108c80032e0f2da862c3f2ea2c58ac",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-comment-shadow-authenticated-session.mjs",
       "sha256": "8e65bef290a62ea9ed60037bfed28d6cb99c538b44bad88f06cc214fec8a1ef1",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
@@ -5292,6 +5355,13 @@
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-repeat-high-density-stress.mjs",
+      "sha256": "ae502d7ca0d590b0cb8a0f6b2db13b2fb7253c5f99770b4a6bebe951c6c46f33",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
+      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-return-intake-v2.mjs",
@@ -5610,10 +5680,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs",
-      "sha256": "663d6d0464b38db5013374c52a37f585190fb649506b7425cae31119ba7103c2",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T04:06:00.000Z",
-      "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
+      "sha256": "728c5268fe543c4f96662947089dafa81772887d7b953c85164a594ad37814fd",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c05-10k-worker-budget.mjs",
@@ -5638,10 +5708,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs",
-      "sha256": "f23fe22e20d3750283b73d548ad0e6880791088eeb4b58554191bd49d016d47e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
-      "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+      "sha256": "c5a4cdd161177ee6773fed9c28f3e66fa04e9da97b102b738d8254406fa99af3",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
@@ -5929,6 +5999,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
+    },
+    {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "717ae0f559158cad8d1d74025120d80c6e72793cc65b7d026702265ca5e03cf5",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
+      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
@@ -7184,11 +7261,25 @@
       "rationale": "Approve focused B06 contract coverage: proves the committed physical Word receipt has 30-plus native round trips, comment PASS requires package inventory, semantic readback and Word reopen visibility, high-comment and scale rows are physical, hostile package stays BLOCKED, unsupported modern semantics are typed limitations, D1 is not rebound, no fixture-only PASS is allowed, and exact/apply/UI/network claims are not widened."
     },
     {
+      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
+      "sha256": "da3fcfaac8d0d42eede5ab57c206cc418b47117d6833c293ba6d517b67f57107",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
+      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
+    },
+    {
       "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
       "sha256": "e6c60aff0db434749cac163fa0cffaa1432734c8e1e5c0ec0de55fa87d77d021",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-08-01T02:20:36.749Z",
       "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-500k-terminal-audit.contract.test.js",
+      "sha256": "8b130af541ffdba13657806b9951c553b12557dbf463b94e5035262af799d6aa",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-comment-shadow-authenticated-session.contract.test.js",
@@ -7203,6 +7294,20 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-08-01T02:59:28.553Z",
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
+      "sha256": "da4e1b2a036b0052e3b012a77df4d246d96082b94e8b012590b64048a846337d",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
+      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
+      "sha256": "71f9f7aac9f7b65009c2d422a956b4cc287f74fef712c145d11b32386b965de4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:29:47.362Z",
+      "rationale": "Refresh stale governance approval entry to current origin/main-bound file bytes after safe EFINAL drift reconciliation; no product runtime readiness is inferred from this approval."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
@@ -7245,6 +7350,13 @@
       "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
       "approvedAtUtc": "2026-08-01T03:35:00.000Z",
       "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-repeat-high-density-stress.contract.test.js",
+      "sha256": "6c7f47cf72a17819bc3a0018c164897d4b5141df20c2d4da4fae0c904000be03",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:29:47.362Z",
+      "rationale": "Refresh stale governance approval entry to current origin/main-bound file bytes after safe EFINAL drift reconciliation; no product runtime readiness is inferred from this approval."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-return-intake-v2.contract.test.js",
@@ -8053,10 +8165,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
-      "sha256": "74f27c679966788a67baaafbf73db50c64829958898cc44c8e0aa6bf57edcfbf",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T04:06:00.000Z",
-      "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
+      "sha256": "7fc8ff45c04a992c9c9ab6e1fc161d8ee435a9ce40ff709155fc71527adbe18d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
+      "approvedAtUtc": "2026-08-01T11:41:32.026Z",
+      "rationale": "Approve final Atlas V5 EFINAL exact-head WIP bytes after focused, ops, doctrine, OSS, build and full runner PASS on origin/main 31897c6; independent exact-head audit remains required before Program DONE."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
@@ -8358,118 +8470,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT.json",
-      "sha256": "7b4089dac3bd07fce0d3e38d511904bcc9291cd80fba7da8fdda082c55124082",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "717ae0f559158cad8d1d74025120d80c6e72793cc65b7d026702265ca5e03cf5",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-repeat-high-density-stress.mjs",
-      "sha256": "ae502d7ca0d590b0cb8a0f6b2db13b2fb7253c5f99770b4a6bebe951c6c46f33",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
-      "sha256": "da4e1b2a036b0052e3b012a77df4d246d96082b94e8b012590b64048a846337d",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT.json",
-      "sha256": "1ae66b21b300c50241f81b420e9330d2516b1fc5f52fb92b3b17702d08ecc341",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
-      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-500k-terminal-audit.mjs",
-      "sha256": "9b55758ca929a1ef75e89c93e6a59210fc108c80032e0f2da862c3f2ea2c58ac",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
-      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-500k-terminal-audit.contract.test.js",
-      "sha256": "8b130af541ffdba13657806b9951c553b12557dbf463b94e5035262af799d6aa",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
-      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-repeat-high-density-stress.contract.test.js",
-      "sha256": "6c7f47cf72a17819bc3a0018c164897d4b5141df20c2d4da4fae0c904000be03",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
-      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
-      "sha256": "71f9f7aac9f7b65009c2d422a956b4cc287f74fef712c145d11b32386b965de4",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
-      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "fc6c3afe658a55a74c65bd2c802318cd30bd130df28d98d14a03c38e2c3d2017",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
-      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "cb1138f16d49f73e4ffbeb9e6b4a61bd96b04d1bfcbe10267618b471230a80e3",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
-      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "00d7e1e7deaae10842d650ad60df6fc2df0b138218eda860af9b7c846bfe2e99",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
-      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-      "sha256": "9ad7f1cf6e0324a13b443903da317555f4d747746e22f30d0713fa2cd862df9d",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
-      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
-      "sha256": "e57e12366f7baa168313ae32dca7ac7bf11553a9c3ef6cd69fa115f46877efc7",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
-      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
-      "sha256": "1bdf21b093c4765d592d726806dda0c5f676e42fea5614268a2b631403e26cbe",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
-      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
-      "sha256": "da3fcfaac8d0d42eede5ab57c206cc418b47117d6833c293ba6d517b67f57107",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T10:20:00.000Z",
-      "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
     }
   ]
 }

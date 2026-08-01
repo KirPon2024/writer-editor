@@ -100,6 +100,40 @@ const FILE_NAVIGATION_FAIL_SIGNAL = 'E_RUNTIME_WIRING_BEFORE_STAGE';
 const CORRESPONDING_SOURCE_BASE_URL = 'https://github.com/KirPon2024/writer-editor';
 const ABOUT_LICENSE_TEXT_FALLBACK = 'Yalken is licensed under AGPL-3.0-or-later.';
 const EDITOR_PASTE_FOCUS_STATE_CHANNEL = 'editor:paste-focus-state';
+function isPathInsideLaunchBoundary(parentPath, childPath) {
+  const parent = path.resolve(parentPath);
+  const child = path.resolve(childPath);
+  const relative = path.relative(parent, child);
+  return relative === '' || (!!relative && !relative.startsWith('..') && !path.isAbsolute(relative));
+}
+
+function getAutonomousAppPathRoot() {
+  const rawRoot = typeof process.env.YALKEN_AUTONOMOUS_APP_PATH_ROOT === 'string'
+    ? process.env.YALKEN_AUTONOMOUS_APP_PATH_ROOT.trim()
+    : '';
+  if (!rawRoot) return '';
+  const resolvedRoot = path.resolve(rawRoot);
+  const tmpRoot = path.resolve(os.tmpdir());
+  if (!isPathInsideLaunchBoundary(tmpRoot, resolvedRoot)) return '';
+  return resolvedRoot;
+}
+
+function applyAutonomousAppPathRoot() {
+  const root = getAutonomousAppPathRoot();
+  if (!root) return;
+  const documentsRoot = path.join(root, 'Documents');
+  const appDataRoot = path.join(root, 'appData');
+  const userDataRoot = path.join(root, 'userData');
+  [documentsRoot, appDataRoot, userDataRoot].forEach((dir) => {
+    fsSync.mkdirSync(dir, { recursive: true });
+  });
+  app.setPath('documents', documentsRoot);
+  app.setPath('appData', appDataRoot);
+  app.setPath('userData', userDataRoot);
+}
+
+applyAutonomousAppPathRoot();
+
 const singleInstanceLockAcquired = typeof app.requestSingleInstanceLock === 'function'
   ? app.requestSingleInstanceLock()
   : true;
@@ -16849,6 +16883,46 @@ function buildProjectArchiveExportDefaultPath() {
   );
 }
 
+function getAutonomousFileDialogRoot() {
+  const rawRoot = typeof process.env.YALKEN_AUTONOMOUS_FILE_DIALOG_ROOT === 'string'
+    ? process.env.YALKEN_AUTONOMOUS_FILE_DIALOG_ROOT.trim()
+    : '';
+  if (!rawRoot) return '';
+  const resolvedRoot = path.resolve(rawRoot);
+  const documentsRoot = path.resolve(app.getPath('documents'));
+  if (resolvedRoot !== documentsRoot && !isPathInside(documentsRoot, resolvedRoot)) return '';
+  return resolvedRoot;
+}
+
+function normalizeAutonomousDialogFilePath(value, root) {
+  const rawValue = typeof value === 'string' ? value.trim() : '';
+  if (!rawValue || !root) return '';
+  const resolved = path.resolve(rawValue);
+  return resolved === root || isPathInside(root, resolved) ? resolved : '';
+}
+
+async function showSaveDialogWithAutonomousPath(windowRef, options = {}, fallbackName = 'export.txt') {
+  const root = getAutonomousFileDialogRoot();
+  if (!root) return dialog.showSaveDialog(windowRef, options);
+  await fs.mkdir(root, { recursive: true });
+  const defaultPath = typeof options.defaultPath === 'string' && options.defaultPath.trim()
+    ? options.defaultPath.trim()
+    : fallbackName;
+  const basename = sanitizeFilename(path.basename(defaultPath)) || fallbackName;
+  return {
+    canceled: false,
+    filePath: path.join(root, basename),
+  };
+}
+
+async function showOpenDialogWithAutonomousPath(windowRef, options = {}, envKey = '') {
+  const root = getAutonomousFileDialogRoot();
+  if (!root || !envKey) return dialog.showOpenDialog(windowRef, options);
+  const filePath = normalizeAutonomousDialogFilePath(process.env[envKey], root);
+  if (!filePath) return { canceled: true, filePaths: [] };
+  return { canceled: false, filePaths: [filePath] };
+}
+
 async function resolveCurrentSceneTxtExportPath(payload) {
   const fromPayload = normalizeCurrentSceneTxtExportPath(payload.outPath);
   if (fromPayload) {
@@ -16958,14 +17032,14 @@ async function resolveAllScenesTxtExportPath(payload) {
     };
   }
 
-  const result = await dialog.showSaveDialog(mainWindow, {
+  const result = await showSaveDialogWithAutonomousPath(mainWindow, {
     title: 'Экспорт TXT всех сцен',
     defaultPath: buildAllScenesTxtExportDefaultPath(),
     filters: [
       { name: 'Plain Text', extensions: ['txt'] },
       { name: 'Все файлы', extensions: ['*'] },
     ],
-  });
+  }, 'all-scenes.txt');
   if (result.canceled) {
     return { canceled: true, outPath: '' };
   }
@@ -17570,14 +17644,14 @@ async function resolveMarkdownExportPath(payload) {
     };
   }
 
-  const result = await dialog.showSaveDialog(mainWindow, {
+  const result = await showSaveDialogWithAutonomousPath(mainWindow, {
     title: 'Экспорт Markdown v1',
     defaultPath: buildMarkdownExportDefaultPath(payload),
     filters: [
       { name: 'Markdown', extensions: ['md'] },
       { name: 'Все файлы', extensions: ['*'] },
     ],
-  });
+  }, 'export.md');
   if (result.canceled) return { canceled: true, outPath: '' };
 
   const outPath = normalizeMarkdownExportPath(result.filePath);
@@ -18829,14 +18903,14 @@ function validateMarkdownLocalFileIntentPayload(payload, allowedKeys, commandId)
 }
 
 async function pickMarkdownLocalFile() {
-  const result = await dialog.showOpenDialog(mainWindow, {
+  const result = await showOpenDialogWithAutonomousPath(mainWindow, {
     title: 'Импорт Markdown',
     defaultPath: fileManager.getDocumentsPath(),
     filters: [
       { name: 'Markdown', extensions: ['md', 'markdown'] },
     ],
     properties: ['openFile'],
-  });
+  }, 'YALKEN_AUTONOMOUS_FILE_DIALOG_OPEN_MARKDOWN');
   if (!result || result.canceled === true) return { canceled: true };
   const filePath = Array.isArray(result.filePaths) && typeof result.filePaths[0] === 'string'
     ? result.filePaths[0].trim()
@@ -21175,9 +21249,10 @@ ipcMain.handle('ui:command-bridge', async (_, request) => {
     if (result && result.ok === true) {
       return { ok: true, value: result };
     }
+    const reason = findCommandBridgeFailureReason(result) || 'COMMAND_EXECUTION_FAILED';
     return {
       ok: false,
-      reason: 'COMMAND_EXECUTION_FAILED',
+      reason,
       value: result && typeof result === 'object' ? result : null,
     };
   } catch (error) {
@@ -24088,6 +24163,25 @@ function normalizeUiBridgeMenuResult(result) {
     ...result,
     ok: true,
   };
+}
+
+function findCommandBridgeFailureReason(value, depth = 0) {
+  if (!isPlainObjectValue(value) || depth > 4) return '';
+  if (typeof value.reason === 'string' && value.reason) return value.reason;
+  if (isPlainObjectValue(value.error)) {
+    const errorReason = findCommandBridgeFailureReason(value.error, depth + 1);
+    if (errorReason) return errorReason;
+  }
+  if (isPlainObjectValue(value.value)) {
+    const valueReason = findCommandBridgeFailureReason(value.value, depth + 1);
+    if (valueReason) return valueReason;
+  }
+  if (isPlainObjectValue(value.details)) {
+    const detailReason = findCommandBridgeFailureReason(value.details, depth + 1);
+    if (detailReason) return detailReason;
+  }
+  if (typeof value.error === 'string' && value.error) return value.error;
+  return '';
 }
 
 function makeProductCommandBridgeError(commandId, code, reason, details = undefined) {

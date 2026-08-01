@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p0_07.receipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+  "contourId": "P0_07_STRESS_PRODUCT_PROOF",
+  "status": "PASS_P0_07_STRESS_PRODUCT_PROOF",
+  "pass": true,
+  "programDoneClaim": false,
+  "sourceBinding": {
+    "baseSha": "fc8f1bd871c0d3a86e24952dcd9c8a163c7d1ca8",
+    "headSha": "fc8f1bd871c0d3a86e24952dcd9c8a163c7d1ca8",
+    "branch": "codex/yalken-atlas-v5-final-audit-p0-07-stress-product-proof",
+    "generatedAtUtc": "2026-08-01T07:52:18.542Z"
+  },
+  "report": {
+    "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/p0-07-stress-product-proof-report.json",
+    "sha256": "bde17b8a35bad63b23a7e03e03761431440a2170a189fbaf3f07e984b76ecf9c"
+  },
+  "acceptance": {
+    "persistedLargeProjects": true,
+    "rendered10k50kGraphs": true,
+    "measuredLimitsNoSilentCap": true,
+    "staleWorkerRejected": true,
+    "cancellableWorkerRejected": true,
+    "workerOnlyRejectedAsProductProof": true,
+    "noProgramDoneClaim": true
+  },
+  "checks": {
+    "focused": {
+      "status": "PASS",
+      "command": "node --test test/contracts/yalken-atlas-v5-final-audit-p0-07-stress-product-proof.contract.test.js test/contracts/yalken-atlas-v5-er-c05-real-worker-measured-10k-budget.contract.test.js test/contracts/yalken-atlas-v5-r3-c04-multilingual-worker-stress.contract.test.js",
+      "summary": "12 total, 12 pass, 0 fail; includes negative --skip-electron-render proof."
+    },
+    "testOps": {
+      "status": "PASS",
+      "command": "npm run -s test:ops",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0."
+    },
+    "doctrine": {
+      "status": "PASS",
+      "command": "npm run -s design-os:doctrine",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    "ossPolicy": {
+      "status": "PASS",
+      "command": "npm run -s oss:policy",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry."
+    },
+    "buildRenderer": {
+      "status": "PASS",
+      "command": "npm run -s build:renderer",
+      "summary": "dist/renderer/editor.bundle.js built successfully."
+    },
+    "fullRunner": {
+      "status": "PASS",
+      "command": "node scripts/run-tests.js",
+      "summary": "799 total, 735 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS."
+    }
+  },
+  "delivery": {
+    "commit": "PENDING_DELIVERY_CHAIN",
+    "push": "PENDING_DELIVERY_CHAIN",
+    "pr": "PENDING_DELIVERY_CHAIN",
+    "ci": "PENDING_DELIVERY_CHAIN",
+    "merge": "PENDING_DELIVERY_CHAIN",
+    "remoteShaVerification": "PENDING_DELIVERY_CHAIN"
+  },
+  "nextContour": "P0_08_STAGE10_PRODUCT_WIRING",
+  "notes": [
+    "P0_07 closes only persisted stress project, worker LOD, stale discard, and rendered graph proof.",
+    "Screenshots and worker outputs are supporting evidence; receipt alone is not readiness proof.",
+    "Program DoD remains IN_PROGRESS until P0_08, P1 repairs, EFINAL exact-head self-check and independent audit are complete."
+  ],
+  "postCheckRebind": {
+    "reportSha256": "bde17b8a35bad63b23a7e03e03761431440a2170a189fbaf3f07e984b76ecf9c",
+    "receiptDeliveryState": "PRE_COMMIT_PRE_PR_DELIVERY_PENDING",
+    "programDoneClaim": false
+  }
+}

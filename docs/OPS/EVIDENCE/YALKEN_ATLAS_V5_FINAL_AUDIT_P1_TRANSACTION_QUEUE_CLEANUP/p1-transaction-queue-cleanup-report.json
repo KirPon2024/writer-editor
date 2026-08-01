@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p1.transactionQueueCleanup.report.v1",
+  "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+  "contourId": "P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+  "generatedAtUtc": "2026-08-01T08:39:02.815Z",
+  "sourceBinding": {
+    "headSha": "6feeef758c63c308011fdab55a7cebde1a2fb56d",
+    "originMainSha": "6feeef758c63c308011fdab55a7cebde1a2fb56d",
+    "branch": "codex/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup",
+    "exactSourceHashes": {
+      "src/main.js": "f51069abf0b70fe7d7b1cb6c6c9109972577965d1c93671434a4691e14212af6",
+      "scripts/ops/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.mjs": "6838dc0360f2944c787be0dcbe760d5e87c8f557ef08b8286a151d9d6c71030c"
+    }
+  },
+  "pass": true,
+  "status": "PASS_P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+  "failures": [],
+  "sourceChecks": {
+    "functionFound": true,
+    "storesQueuedTail": true,
+    "cleanupComparesQueuedTail": true,
+    "cleanupDoesNotCompareCurrent": true
+  },
+  "scenarios": {
+    "current": {
+      "useStoredTailIdentity": true,
+      "failed": true,
+      "concurrent": [
+        "one",
+        "two"
+      ],
+      "finalQueueSize": 0,
+      "events": [
+        {
+          "key": "project-a",
+          "useStoredTailIdentity": true,
+          "queueSizeAfterFinally": 0
+        },
+        {
+          "key": "project-a",
+          "useStoredTailIdentity": true,
+          "queueSizeAfterFinally": 0
+        },
+        {
+          "key": "project-b",
+          "useStoredTailIdentity": true,
+          "queueSizeAfterFinally": 1
+        },
+        {
+          "key": "project-b",
+          "useStoredTailIdentity": true,
+          "queueSizeAfterFinally": 0
+        }
+      ],
+      "leaked": false
+    },
+    "oldLeak": {
+      "useStoredTailIdentity": false,
+      "failed": true,
+      "concurrent": [
+        "one",
+        "two"
+      ],
+      "finalQueueSize": 2,
+      "events": [
+        {
+          "key": "project-a",
+          "useStoredTailIdentity": false,
+          "queueSizeAfterFinally": 1
+        },
+        {
+          "key": "project-a",
+          "useStoredTailIdentity": false,
+          "queueSizeAfterFinally": 1
+        },
+        {
+          "key": "project-b",
+          "useStoredTailIdentity": false,
+          "queueSizeAfterFinally": 2
+        },
+        {
+          "key": "project-b",
+          "useStoredTailIdentity": false,
+          "queueSizeAfterFinally": 2
+        }
+      ],
+      "leaked": true
+    }
+  },
+  "acceptance": {
+    "sourceUsesStoredTailIdentity": true,
+    "queueCleansAfterSuccessFailureAndConcurrency": true,
+    "oldIdentityLeakReproduced": true,
+    "noCommandSemanticsChanged": true,
+    "noStorageBypassIntroduced": true,
+    "noNetworkIntroduced": true,
+    "noProgramDoneClaim": true
+  },
+  "checks": {
+    "focused": {
+      "status": "PASS",
+      "command": "node --test test/contracts/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.contract.test.js",
+      "summary": "3_total_3_pass_0_fail"
+    },
+    "testOps": {
+      "status": "PASS",
+      "command": "npm run -s test:ops",
+      "summary": "PASS"
+    },
+    "doctrine": {
+      "status": "PASS",
+      "command": "npm run -s design-os:doctrine",
+      "summary": "PASS"
+    },
+    "ossPolicy": {
+      "status": "PASS",
+      "command": "npm run -s oss:policy",
+      "summary": "PASS"
+    },
+    "buildRenderer": {
+      "status": "PASS",
+      "command": "npm run -s build:renderer",
+      "summary": "PASS"
+    },
+    "fullRunner": {
+      "status": "PASS",
+      "command": "node scripts/run-tests.js",
+      "summary": "799_total_735_pass_0_fail_64_skipped_perf_PASS"
+    }
+  },
+  "authority": {
+    "queueScope": "project-scoped-product-command-transaction-serializer",
+    "commandSemanticsChanged": false,
+    "persistenceSemanticsChanged": false,
+    "networkAdapterRuntimeDependency": false,
+    "programDoneClaim": false
+  }
+}

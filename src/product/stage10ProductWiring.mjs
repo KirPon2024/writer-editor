@@ -1,0 +1,917 @@
+import {
+  buildLocalFixtureExchangeAdapterReport,
+  buildLocalMultiSessionRecoveryReport,
+  buildOperationReplayReport,
+  buildTransportNeutralExchangePacket,
+  createEmptyEventLog,
+  hashEventLog,
+  applyCommandWithEventLog,
+} from '../collab/index.mjs';
+import {
+  buildRevisionHistoryProjectionPacket,
+  deriveComments,
+  deriveHistory,
+} from '../derived/commentsHistory/index.mjs';
+import { buildStableCommentAnchorPacketFromReviewIr } from '../io/revisionBridge/index.mjs';
+import {
+  CORE_COMMAND_IDS,
+  createInitialCoreState,
+  hashCoreState,
+  reduceCoreState,
+} from '../core/runtime.mjs';
+import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
+
+export const STAGE10_PRODUCT_SESSION_SCHEMA = 'yalken.stage10.localProductSession.v1';
+export const STAGE10_PRODUCT_SURFACE_SCHEMA = 'yalken.stage10.localProductSurface.v1';
+
+export const STAGE10_ACTIVATION_MODES = Object.freeze({
+  PHYSICAL_POINTER_OR_KEYBOARD: 'PHYSICAL_POINTER_OR_KEYBOARD',
+  DOM_VISIBLE_CONTROL_LISTENER_FALLBACK: 'DOM_VISIBLE_CONTROL_LISTENER_FALLBACK',
+  FORBIDDEN_DIRECT_BRIDGE: 'FORBIDDEN_DIRECT_BRIDGE',
+});
+
+export const STAGE10_PRODUCT_COMMAND_IDS = Object.freeze({
+  COMMENT_IMPORT_STABLE_PACKET: 'cmd.comments.importStablePacket',
+  COMMENT_DECISION_RECORD: 'cmd.comments.decision.record',
+  HISTORY_CREATE_CHECKPOINT: 'cmd.project.history.createCheckpoint',
+  HISTORY_RESTORE_PREVIEW: 'cmd.project.history.restorePreview',
+  HISTORY_RESTORE_APPLY: 'cmd.project.history.restoreApply',
+  HISTORY_RESTORE_UNDO: 'cmd.project.history.restoreUndo',
+  CONFLICT_PREVIEW: 'cmd.collab.conflict.preview',
+  CONFLICT_DECISION_RECORD: 'cmd.collab.conflict.decision.record',
+  OPERATION_EXCHANGE_PREPARE: 'cmd.collab.operationExchange.prepare',
+  OPERATION_EXCHANGE_LOCAL_FIXTURE_PREVIEW: 'cmd.collab.operationExchange.localFixturePreview',
+});
+
+const DEFAULT_STAGE10_COMMANDS = Object.freeze([
+  ...Object.values(CORE_COMMAND_IDS),
+  ...Object.values(STAGE10_PRODUCT_COMMAND_IDS),
+]);
+
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function normalizeString(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function typedError(code, op, reason, details) {
+  const error = { code, op, reason };
+  if (isPlainObject(details)) error.details = cloneJson(details);
+  return error;
+}
+
+function createDefaultSession(input = {}) {
+  const projectId = normalizeString(input.projectId) || 'stage10-project';
+  return {
+    schemaVersion: STAGE10_PRODUCT_SESSION_SCHEMA,
+    projectId,
+    actorId: normalizeString(input.actorId) || 'local-author',
+    sessionId: normalizeString(input.sessionId) || 'stage10-local-session',
+    coreState: isPlainObject(input.initialCoreState) ? cloneJson(input.initialCoreState) : createInitialCoreState(),
+    eventLog: createEmptyEventLog(),
+    commandReceipts: [],
+    commentPackets: {},
+    commentDecisions: {},
+    historyCheckpoints: {},
+    historyRestorePreviews: {},
+    historyRestoreUndoSnapshots: {},
+    conflictReports: {},
+    conflictDecisions: {},
+    operationExchangePackets: {},
+    operationExchangeAdapterPreviews: {},
+    uiEvents: [],
+    storageWrites: [],
+    recoverySnapshotRefs: [],
+    shadowOnly: false,
+    shadowAcceptedAsComplete: false,
+    programDoneClaim: false,
+    networkAdapterEnabled: false,
+  };
+}
+
+function normalizeSession(input = {}) {
+  const session = isPlainObject(input) && input.schemaVersion === STAGE10_PRODUCT_SESSION_SCHEMA
+    ? cloneJson(input)
+    : createDefaultSession(input);
+  return {
+    ...createDefaultSession(session),
+    ...session,
+    coreState: isPlainObject(session.coreState) ? session.coreState : createInitialCoreState(),
+    eventLog: isPlainObject(session.eventLog) ? session.eventLog : createEmptyEventLog(),
+    commandReceipts: Array.isArray(session.commandReceipts) ? session.commandReceipts : [],
+    commentPackets: isPlainObject(session.commentPackets) ? session.commentPackets : {},
+    commentDecisions: isPlainObject(session.commentDecisions) ? session.commentDecisions : {},
+    historyCheckpoints: isPlainObject(session.historyCheckpoints) ? session.historyCheckpoints : {},
+    historyRestorePreviews: isPlainObject(session.historyRestorePreviews) ? session.historyRestorePreviews : {},
+    historyRestoreUndoSnapshots: isPlainObject(session.historyRestoreUndoSnapshots) ? session.historyRestoreUndoSnapshots : {},
+    conflictReports: isPlainObject(session.conflictReports) ? session.conflictReports : {},
+    conflictDecisions: isPlainObject(session.conflictDecisions) ? session.conflictDecisions : {},
+    operationExchangePackets: isPlainObject(session.operationExchangePackets) ? session.operationExchangePackets : {},
+    operationExchangeAdapterPreviews: isPlainObject(session.operationExchangeAdapterPreviews)
+      ? session.operationExchangeAdapterPreviews
+      : {},
+    uiEvents: Array.isArray(session.uiEvents) ? session.uiEvents : [],
+    storageWrites: Array.isArray(session.storageWrites) ? session.storageWrites : [],
+    recoverySnapshotRefs: Array.isArray(session.recoverySnapshotRefs) ? session.recoverySnapshotRefs : [],
+  };
+}
+
+function buildVisibleControls() {
+  return [
+    { controlId: 'stage10-comment-import', commandId: STAGE10_PRODUCT_COMMAND_IDS.COMMENT_IMPORT_STABLE_PACKET },
+    { controlId: 'stage10-comment-decision', commandId: STAGE10_PRODUCT_COMMAND_IDS.COMMENT_DECISION_RECORD },
+    { controlId: 'stage10-history-checkpoint', commandId: STAGE10_PRODUCT_COMMAND_IDS.HISTORY_CREATE_CHECKPOINT },
+    { controlId: 'stage10-history-restore-preview', commandId: STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_PREVIEW },
+    { controlId: 'stage10-history-restore-apply', commandId: STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY },
+    { controlId: 'stage10-history-restore-undo', commandId: STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_UNDO },
+    { controlId: 'stage10-conflict-preview', commandId: STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_PREVIEW },
+    { controlId: 'stage10-conflict-decision', commandId: STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_DECISION_RECORD },
+    { controlId: 'stage10-exchange-prepare', commandId: STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_PREPARE },
+    { controlId: 'stage10-exchange-preview', commandId: STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_LOCAL_FIXTURE_PREVIEW },
+  ];
+}
+
+function buildSurface(session) {
+  return {
+    schemaVersion: STAGE10_PRODUCT_SURFACE_SCHEMA,
+    projectId: session.projectId,
+    controls: buildVisibleControls(),
+    derivedViews: {
+      commentsReady: Object.keys(session.commentPackets).length > 0,
+      historyReady: session.eventLog.events.length > 0,
+      conflictsReady: Object.keys(session.conflictReports).length > 0,
+      operationExchangeReady: Object.keys(session.operationExchangePackets).length > 0,
+    },
+    authority: {
+      visibleUiIntentOnly: true,
+      commandKernelDispatchRequired: true,
+      storagePortRequired: true,
+      projectTruthOwnedByCore: true,
+      commentTruthDuplicated: false,
+      operationLogTruthDuplicated: false,
+      networkAdapterEnabled: false,
+    },
+  };
+}
+
+function normalizeActivation(commandId, activation = {}) {
+  const mode = normalizeString(activation.mode);
+  const controlId = normalizeString(activation.controlId);
+  return {
+    mode,
+    controlId,
+    commandId,
+    visibleControl: mode === STAGE10_ACTIVATION_MODES.PHYSICAL_POINTER_OR_KEYBOARD
+      || mode === STAGE10_ACTIVATION_MODES.DOM_VISIBLE_CONTROL_LISTENER_FALLBACK,
+    forbiddenDirectBridge: mode === STAGE10_ACTIVATION_MODES.FORBIDDEN_DIRECT_BRIDGE,
+  };
+}
+
+function capabilityEnabled(capabilitySnapshot, commandId) {
+  const capabilities = isPlainObject(capabilitySnapshot?.capabilities) ? capabilitySnapshot.capabilities : {};
+  if (capabilities.stage10LocalProductWiring === false) return false;
+  if (capabilities[commandId] === false) return false;
+  if (Array.isArray(capabilitySnapshot?.disabledCommands) && capabilitySnapshot.disabledCommands.includes(commandId)) {
+    return false;
+  }
+  return true;
+}
+
+function createReceipt({ session, commandId, opId, ts, status, activation, preStateHash, postStateHash, storageWritten, details }) {
+  return {
+    receiptId: opId,
+    operationId: opId,
+    commandId,
+    status,
+    appliedAt: ts,
+    actorId: session.actorId,
+    sessionId: session.sessionId,
+    preStateHash,
+    postStateHash,
+    capabilityRevalidated: true,
+    activationMode: activation.mode,
+    controlId: activation.controlId,
+    visibleUiCommand: activation.visibleControl === true,
+    directBridge: false,
+    storageWritten: storageWritten === true,
+    details: isPlainObject(details) ? cloneJson(details) : {},
+  };
+}
+
+function nextOpId(session, commandId) {
+  const shortCommand = commandId.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '');
+  return `stage10:${String(session.commandReceipts.length + 1).padStart(4, '0')}:${shortCommand}`;
+}
+
+function ensureStoragePort(storagePort) {
+  if (!isPlainObject(storagePort) || typeof storagePort.writeSession !== 'function' || typeof storagePort.readSession !== 'function') {
+    throw typedError(
+      'E_STAGE10_STORAGE_PORT_REQUIRED',
+      'stage10.productWiring.createRuntime',
+      'STORAGE_PORT_READ_WRITE_REQUIRED',
+    );
+  }
+}
+
+async function maybeAwait(value) {
+  return value && typeof value.then === 'function' ? await value : value;
+}
+
+async function persistSession(session, storagePort, reason) {
+  const snapshot = cloneJson(session);
+  const result = await maybeAwait(storagePort.writeSession(session.projectId, snapshot, { reason }));
+  const storageWrite = {
+    reason,
+    sessionHash: hashCanonicalValue(snapshot),
+    writtenAtUtc: new Date(0).toISOString(),
+    ok: result?.ok !== false,
+  };
+  session.storageWrites.push(storageWrite);
+  return storageWrite;
+}
+
+async function writeRecoverySnapshot(session, storagePort, snapshotId, reason) {
+  if (typeof storagePort.writeRecoverySnapshot !== 'function') {
+    throw typedError(
+      'E_STAGE10_RECOVERY_PORT_REQUIRED',
+      'stage10.productWiring.recovery',
+      'RECOVERY_SNAPSHOT_PORT_REQUIRED',
+    );
+  }
+  const snapshot = {
+    schemaVersion: 'yalken.stage10.recoverySnapshot.v1',
+    snapshotId,
+    reason,
+    sessionId: session.sessionId,
+    projectId: session.projectId,
+    stateHash: hashCoreState(session.coreState),
+    eventLogHash: hashEventLog(session.eventLog),
+    session: cloneJson(session),
+  };
+  await maybeAwait(storagePort.writeRecoverySnapshot(session.projectId, snapshotId, snapshot, { reason }));
+  const ref = {
+    snapshotId,
+    sessionId: session.sessionId,
+    stateHash: snapshot.stateHash,
+    eventLogHash: snapshot.eventLogHash,
+    createdAtUtc: new Date(0).toISOString(),
+    readableRecovery: true,
+    destructiveRewrite: false,
+  };
+  session.recoverySnapshotRefs.push(ref);
+  return { snapshot, ref };
+}
+
+function deriveViews(session, capabilitySnapshot) {
+  const latestPacket = Object.values(session.commentPackets).at(-1) || null;
+  const comments = deriveComments({
+    coreState: session.coreState,
+    params: {
+      projectId: session.projectId,
+      filter: 'all',
+      stableCommentAnchorPacket: latestPacket,
+    },
+    capabilitySnapshot,
+  });
+  const historyPacket = buildRevisionHistoryProjectionPacket({
+    projectId: session.projectId,
+    eventLog: session.eventLog,
+    commandReceipts: session.commandReceipts,
+    authorTruthRefs: [{
+      refId: `core-state:${session.projectId}`,
+      truthDomain: 'productCore.authorTruth',
+      sourceHash: hashCoreState(session.coreState),
+      valueIncluded: false,
+    }],
+  });
+  const history = deriveHistory({
+    coreState: session.coreState,
+    params: {
+      projectId: session.projectId,
+      filter: 'all',
+      historyProjectionPacket: historyPacket,
+    },
+    capabilitySnapshot,
+  });
+  return { comments, history, historyPacket };
+}
+
+function assertVisibleCommand(commandId, activation) {
+  if (activation.forbiddenDirectBridge) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_DIRECT_BRIDGE_DENIED',
+        commandId,
+        'FORBIDDEN_DIRECT_BRIDGE',
+        { activationMode: activation.mode },
+      ),
+    };
+  }
+  if (!activation.visibleControl) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_VISIBLE_CONTROL_REQUIRED',
+        commandId,
+        'VISIBLE_UI_CONTROL_ACTIVATION_REQUIRED',
+        { activationMode: activation.mode },
+      ),
+    };
+  }
+  return { ok: true };
+}
+
+function assertCommandCapability(commandId, capabilitySnapshot) {
+  if (!capabilityEnabled(capabilitySnapshot, commandId)) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_CAPABILITY_DENIED',
+        commandId,
+        'COMMAND_CAPABILITY_REVALIDATION_FAILED',
+      ),
+    };
+  }
+  return { ok: true };
+}
+
+function isCoreCommand(commandId) {
+  return Object.values(CORE_COMMAND_IDS).includes(commandId);
+}
+
+function updateCommentDecisionRows(packet, payload) {
+  const decisionId = normalizeString(payload.decisionId);
+  const decisionState = normalizeString(payload.state) || 'acknowledged';
+  const rows = packet.decisionRows.map((row) => (
+    row.decisionId === decisionId
+      ? {
+          ...row,
+          state: decisionState,
+          productCommandRecorded: true,
+          mutationAuthority: 'command-kernel-reviewed-comment-decision',
+          canAutoApply: false,
+          canWriteManuscript: false,
+        }
+      : row
+  ));
+  const next = {
+    ...packet,
+    decisionRows: rows,
+  };
+  return {
+    ...next,
+    packetHash: `sha256:${hashCanonicalValue({
+      projectId: next.projectId,
+      sceneId: next.sceneId,
+      revisionId: next.revisionId,
+      anchorRecords: next.anchorRecords,
+      decisionRows: next.decisionRows,
+      survivalPreviewHash: next.survivalPreviewHash,
+    })}`,
+  };
+}
+
+async function dispatchCoreCommand({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const preStateHash = hashCoreState(session.coreState);
+  const applied = applyCommandWithEventLog({
+    eventLog: session.eventLog,
+    currentState: session.coreState,
+    currentStateHash: preStateHash,
+    commandId,
+    payload,
+    opId,
+    ts,
+    actorId: session.actorId,
+    applyCommand: (state, command) => reduceCoreState(state, command),
+  });
+  if (!applied.ok) return applied;
+
+  session.coreState = applied.state;
+  session.eventLog = applied.eventLog;
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: 'APPLIED',
+    activation,
+    preStateHash,
+    postStateHash: applied.stateHash,
+    storageWritten: true,
+    details: {
+      eventLogHash: applied.eventLogHash,
+      projectTruthMutation: true,
+      commandKernel: true,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, receipt, session: cloneJson(session) };
+}
+
+async function dispatchCommentImport({ session, storagePort, capabilitySnapshot, commandId, payload, activation, opId, ts }) {
+  const packet = buildStableCommentAnchorPacketFromReviewIr({
+    projectId: session.projectId,
+    sceneId: normalizeString(payload.sceneId) || 'scene-1',
+    revisionId: normalizeString(payload.revisionId) || opId,
+    reviewIr: payload.reviewIr,
+    context: payload.context,
+    placementHints: payload.placementHints,
+  });
+  const preStateHash = hashCoreState(session.coreState);
+  session.commentPackets[packet.packetHash] = packet;
+  const views = deriveViews(session, capabilitySnapshot);
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: packet.status === 'ready' ? 'APPLIED' : 'DIAGNOSTICS',
+    activation,
+    preStateHash,
+    postStateHash: hashCoreState(session.coreState),
+    storageWritten: true,
+    details: {
+      packetHash: packet.packetHash,
+      commentItemCount: views.comments.value?.items?.length || 0,
+      projectTruthMutation: false,
+      manuscriptMutation: false,
+      commentTruthDuplicated: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, packet, views, receipt, session: cloneJson(session) };
+}
+
+async function dispatchCommentDecision({ session, storagePort, capabilitySnapshot, commandId, payload, activation, opId, ts }) {
+  const packetHash = normalizeString(payload.packetHash) || Object.keys(session.commentPackets).at(-1);
+  const packet = session.commentPackets[packetHash];
+  if (!packet) {
+    return {
+      ok: false,
+      error: typedError('E_STAGE10_COMMENT_PACKET_NOT_FOUND', commandId, 'COMMENT_PACKET_NOT_FOUND', { packetHash }),
+    };
+  }
+  const nextPacket = updateCommentDecisionRows(packet, payload);
+  delete session.commentPackets[packetHash];
+  session.commentPackets[nextPacket.packetHash] = nextPacket;
+  const decisionId = normalizeString(payload.decisionId);
+  session.commentDecisions[decisionId] = {
+    decisionId,
+    packetHash: nextPacket.packetHash,
+    state: normalizeString(payload.state) || 'acknowledged',
+    commandReceiptId: opId,
+    automaticApply: false,
+    manuscriptMutation: false,
+  };
+  const views = deriveViews(session, capabilitySnapshot);
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: 'APPLIED',
+    activation,
+    preStateHash: hashCoreState(session.coreState),
+    postStateHash: hashCoreState(session.coreState),
+    storageWritten: true,
+    details: {
+      packetHash: nextPacket.packetHash,
+      decisionId,
+      commentItemCount: views.comments.value?.items?.length || 0,
+      commentTruthDuplicated: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, packet: nextPacket, views, receipt, session: cloneJson(session) };
+}
+
+async function dispatchHistoryCheckpoint({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const snapshotId = normalizeString(payload.snapshotId) || `history-checkpoint-${opId}`;
+  const { ref } = await writeRecoverySnapshot(session, storagePort, snapshotId, commandId);
+  session.historyCheckpoints[snapshotId] = {
+    snapshotId,
+    createdByCommandReceiptId: opId,
+    stateHash: ref.stateHash,
+    eventLogHash: ref.eventLogHash,
+  };
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: 'APPLIED',
+    activation,
+    preStateHash: ref.stateHash,
+    postStateHash: ref.stateHash,
+    storageWritten: true,
+    details: {
+      snapshotId,
+      readableRecovery: true,
+      projectTruthMutation: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, snapshotRef: ref, receipt, session: cloneJson(session) };
+}
+
+async function dispatchHistoryRestorePreview({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const snapshotId = normalizeString(payload.snapshotId);
+  const snapshot = await maybeAwait(storagePort.readRecoverySnapshot(session.projectId, snapshotId));
+  if (!isPlainObject(snapshot) || !isPlainObject(snapshot.session)) {
+    return {
+      ok: false,
+      error: typedError('E_STAGE10_HISTORY_SNAPSHOT_NOT_FOUND', commandId, 'HISTORY_SNAPSHOT_NOT_FOUND', { snapshotId }),
+    };
+  }
+  const previewId = `history-restore-preview:${hashCanonicalValue({ opId, snapshotId }).slice(0, 24)}`;
+  const currentStateHash = hashCoreState(session.coreState);
+  const targetStateHash = hashCoreState(snapshot.session.coreState);
+  session.historyRestorePreviews[previewId] = {
+    previewId,
+    snapshotId,
+    currentStateHash,
+    targetStateHash,
+    requiresConfirmation: true,
+    mutationApplied: false,
+  };
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: 'PREVIEW_READY',
+    activation,
+    preStateHash: currentStateHash,
+    postStateHash: currentStateHash,
+    storageWritten: true,
+    details: {
+      previewId,
+      snapshotId,
+      requiresConfirmation: true,
+      mutationApplied: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, preview: session.historyRestorePreviews[previewId], receipt, session: cloneJson(session) };
+}
+
+async function dispatchHistoryRestoreApply({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const previewId = normalizeString(payload.previewId);
+  const preview = session.historyRestorePreviews[previewId];
+  if (!preview || payload.confirmed !== true) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_HISTORY_RESTORE_CONFIRMATION_REQUIRED',
+        commandId,
+        'RESTORE_PREVIEW_CONFIRMATION_REQUIRED',
+        { previewId },
+      ),
+    };
+  }
+  const currentStateHash = hashCoreState(session.coreState);
+  if (currentStateHash !== preview.currentStateHash) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_HISTORY_RESTORE_REVISION_CONFLICT',
+        commandId,
+        'CURRENT_STATE_HASH_DRIFTED_AFTER_PREVIEW',
+        { previewId, expected: preview.currentStateHash, actual: currentStateHash },
+      ),
+    };
+  }
+  const undoSnapshotId = `history-restore-undo-${hashCanonicalValue({ opId, currentStateHash }).slice(0, 16)}`;
+  await writeRecoverySnapshot(session, storagePort, undoSnapshotId, 'cmd.project.history.restoreApply.preimage');
+  const targetSnapshot = await maybeAwait(storagePort.readRecoverySnapshot(session.projectId, preview.snapshotId));
+  session.historyRestoreUndoSnapshots[previewId] = { previewId, snapshotId: undoSnapshotId };
+  session.coreState = cloneJson(targetSnapshot.session.coreState);
+  session.eventLog = cloneJson(targetSnapshot.session.eventLog);
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: 'APPLIED',
+    activation,
+    preStateHash: currentStateHash,
+    postStateHash: hashCoreState(session.coreState),
+    storageWritten: true,
+    details: {
+      previewId,
+      snapshotId: preview.snapshotId,
+      undoSnapshotId,
+      restoreApplied: true,
+      authorDataLoss: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, receipt, session: cloneJson(session) };
+}
+
+async function dispatchHistoryRestoreUndo({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const previewId = normalizeString(payload.previewId);
+  const undo = session.historyRestoreUndoSnapshots[previewId];
+  if (!undo) {
+    return {
+      ok: false,
+      error: typedError('E_STAGE10_HISTORY_UNDO_SNAPSHOT_NOT_FOUND', commandId, 'UNDO_SNAPSHOT_NOT_FOUND', { previewId }),
+    };
+  }
+  const currentStateHash = hashCoreState(session.coreState);
+  const undoSnapshot = await maybeAwait(storagePort.readRecoverySnapshot(session.projectId, undo.snapshotId));
+  session.coreState = cloneJson(undoSnapshot.session.coreState);
+  session.eventLog = cloneJson(undoSnapshot.session.eventLog);
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: 'APPLIED',
+    activation,
+    preStateHash: currentStateHash,
+    postStateHash: hashCoreState(session.coreState),
+    storageWritten: true,
+    details: {
+      previewId,
+      undoSnapshotId: undo.snapshotId,
+      undoApplied: true,
+      authorDataLoss: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, receipt, session: cloneJson(session) };
+}
+
+async function dispatchConflictPreview({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const report = buildLocalMultiSessionRecoveryReport({
+    projectId: session.projectId,
+    initialState: payload.initialState || session.coreState,
+    reopenedState: payload.reopenedState || session.coreState,
+    recoverySnapshots: session.recoverySnapshotRefs,
+    sessions: payload.sessions,
+  });
+  const reportId = `conflict-report:${hashCanonicalValue(report).slice(0, 24)}`;
+  session.conflictReports[reportId] = report;
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: report.ok ? 'PREVIEW_READY' : 'PREVIEW_DIAGNOSTICS',
+    activation,
+    preStateHash: hashCoreState(session.coreState),
+    postStateHash: hashCoreState(session.coreState),
+    storageWritten: true,
+    details: {
+      reportId,
+      conflictCount: report.summary?.conflictCount || 0,
+      automaticMerge: false,
+      silentProjectRewrite: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, reportId, report, receipt, session: cloneJson(session) };
+}
+
+async function dispatchConflictDecision({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const reportId = normalizeString(payload.reportId);
+  const conflictId = normalizeString(payload.conflictId);
+  const report = session.conflictReports[reportId];
+  const conflict = report?.conflicts?.find((item) => item.conflictId === conflictId);
+  if (!conflict || normalizeString(payload.decision) === 'autoMerge') {
+    return {
+      ok: false,
+      error: typedError('E_STAGE10_CONFLICT_MANUAL_DECISION_REQUIRED', commandId, 'MANUAL_CONFLICT_DECISION_REQUIRED', {
+        reportId,
+        conflictId,
+      }),
+    };
+  }
+  session.conflictDecisions[conflictId] = {
+    conflictId,
+    reportId,
+    decision: normalizeString(payload.decision) || 'keepLocal',
+    commandReceiptId: opId,
+    manualDecision: true,
+    automaticMerge: false,
+    silentProjectRewrite: false,
+    projectTruthMutation: false,
+  };
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: 'APPLIED',
+    activation,
+    preStateHash: hashCoreState(session.coreState),
+    postStateHash: hashCoreState(session.coreState),
+    storageWritten: true,
+    details: cloneJson(session.conflictDecisions[conflictId]),
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: true, decision: session.conflictDecisions[conflictId], receipt, session: cloneJson(session) };
+}
+
+async function dispatchExchangePrepare({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const events = session.eventLog.events.map((event, index) => ({
+    opId: event.opId,
+    actorId: event.actorId,
+    sessionId: session.sessionId,
+    seq: index + 1,
+    ts: event.ts,
+    commandId: event.commandId,
+    payloadHash: event.payloadHash,
+    dependsOn: index === 0 ? [] : [session.eventLog.events[index - 1].opId],
+  }));
+  const packet = buildTransportNeutralExchangePacket({
+    projectId: session.projectId,
+    events,
+    transportCapabilityEnabled: payload.transportCapabilityEnabled !== false,
+    adapterKind: normalizeString(payload.adapterKind) || 'localFixture',
+    networkAdapterEnabled: payload.networkAdapterEnabled === true,
+  });
+  const packetId = `exchange-packet:${hashCanonicalValue(packet).slice(0, 24)}`;
+  session.operationExchangePackets[packetId] = packet;
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: packet.ok ? 'PREVIEW_READY' : 'PREVIEW_DIAGNOSTICS',
+    activation,
+    preStateHash: hashCoreState(session.coreState),
+    postStateHash: hashCoreState(session.coreState),
+    storageWritten: true,
+    details: {
+      packetId,
+      exchangeHash: packet.exchangeHash,
+      entryCount: packet.entries.length,
+      networkAdapterEnabled: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: packet.ok, packetId, packet, receipt, session: cloneJson(session) };
+}
+
+async function dispatchExchangePreview({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const packetId = normalizeString(payload.packetId) || Object.keys(session.operationExchangePackets).at(-1);
+  const packet = session.operationExchangePackets[packetId];
+  const report = buildLocalFixtureExchangeAdapterReport({
+    packet,
+    expectedExchangeHash: packet?.exchangeHash,
+  });
+  const reportId = `exchange-preview:${hashCanonicalValue(report).slice(0, 24)}`;
+  session.operationExchangeAdapterPreviews[reportId] = report;
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: report.ok ? 'PREVIEW_READY' : 'PREVIEW_DIAGNOSTICS',
+    activation,
+    preStateHash: hashCoreState(session.coreState),
+    postStateHash: hashCoreState(session.coreState),
+    storageWritten: true,
+    details: {
+      reportId,
+      packetId,
+      appliedCount: report.summary?.appliedCount || 0,
+      networkDispatch: false,
+    },
+  });
+  session.commandReceipts.push(receipt);
+  await persistSession(session, storagePort, commandId);
+  return { ok: report.ok, reportId, report, receipt, session: cloneJson(session) };
+}
+
+export function buildStage10ProductReadModels(sessionInput, capabilitySnapshot = {}) {
+  const session = normalizeSession(sessionInput);
+  const views = deriveViews(session, capabilitySnapshot);
+  const replay = buildOperationReplayReport({
+    projectId: session.projectId,
+    eventLog: session.eventLog,
+    commandReceipts: session.commandReceipts,
+    initialStateHash: session.eventLog.events[0]?.preStateHash || hashCoreState(createInitialCoreState()),
+    requireCommandReceipt: true,
+    requireCapabilityRevalidation: true,
+  });
+  return {
+    surface: buildSurface(session),
+    comments: views.comments,
+    history: views.history,
+    historyPacket: views.historyPacket,
+    replay,
+  };
+}
+
+export async function createStage10ProductRuntime(input = {}) {
+  const storagePort = input.storagePort;
+  ensureStoragePort(storagePort);
+  const capabilitySnapshot = isPlainObject(input.capabilitySnapshot) ? cloneJson(input.capabilitySnapshot) : {
+    platformId: 'local',
+    capabilities: { stage10LocalProductWiring: true },
+  };
+  const uiPort = isPlainObject(input.uiPort) ? input.uiPort : {};
+  const now = typeof input.now === 'function' ? input.now : () => new Date().toISOString();
+  let session = normalizeSession(input.initialSession || createDefaultSession(input));
+
+  async function publishSurface() {
+    const surface = buildSurface(session);
+    if (typeof uiPort.publishSurface === 'function') await maybeAwait(uiPort.publishSurface(surface));
+    return surface;
+  }
+
+  await publishSurface();
+
+  async function dispatchVisibleCommand(commandIdInput, payloadInput = {}, activationInput = {}) {
+    const commandId = normalizeString(commandIdInput);
+    const activation = normalizeActivation(commandId, activationInput);
+    const visible = assertVisibleCommand(commandId, activation);
+    if (!visible.ok) return visible;
+    const capability = assertCommandCapability(commandId, capabilitySnapshot);
+    if (!capability.ok) return capability;
+    if (!DEFAULT_STAGE10_COMMANDS.includes(commandId)) {
+      return {
+        ok: false,
+        error: typedError('E_STAGE10_COMMAND_NOT_REGISTERED', commandId, 'COMMAND_NOT_REGISTERED'),
+      };
+    }
+
+    const payload = isPlainObject(payloadInput) ? cloneJson(payloadInput) : {};
+    const opId = normalizeString(payload.opId) || nextOpId(session, commandId);
+    const ts = normalizeString(payload.ts) || now();
+    session.uiEvents.push({
+      opId,
+      commandId,
+      activationMode: activation.mode,
+      controlId: activation.controlId,
+      visibleControl: activation.visibleControl,
+      directBridge: false,
+    });
+
+    let result;
+    if (isCoreCommand(commandId)) {
+      result = await dispatchCoreCommand({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COMMENT_IMPORT_STABLE_PACKET) {
+      result = await dispatchCommentImport({ session, storagePort, capabilitySnapshot, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COMMENT_DECISION_RECORD) {
+      result = await dispatchCommentDecision({ session, storagePort, capabilitySnapshot, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_CREATE_CHECKPOINT) {
+      result = await dispatchHistoryCheckpoint({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_PREVIEW) {
+      result = await dispatchHistoryRestorePreview({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_APPLY) {
+      result = await dispatchHistoryRestoreApply({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.HISTORY_RESTORE_UNDO) {
+      result = await dispatchHistoryRestoreUndo({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_PREVIEW) {
+      result = await dispatchConflictPreview({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_DECISION_RECORD) {
+      result = await dispatchConflictDecision({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_PREPARE) {
+      result = await dispatchExchangePrepare({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_LOCAL_FIXTURE_PREVIEW) {
+      result = await dispatchExchangePreview({ session, storagePort, commandId, payload, activation, opId, ts });
+    }
+
+    await publishSurface();
+    return result;
+  }
+
+  return {
+    dispatchVisibleCommand,
+    getSession: () => cloneJson(session),
+    getReadModels: () => buildStage10ProductReadModels(session, capabilitySnapshot),
+    getVisibleSurface: () => buildSurface(session),
+  };
+}
+
+export async function reopenStage10ProductRuntime(input = {}) {
+  const storagePort = input.storagePort;
+  ensureStoragePort(storagePort);
+  const projectId = normalizeString(input.projectId);
+  const persisted = await maybeAwait(storagePort.readSession(projectId));
+  return createStage10ProductRuntime({
+    ...input,
+    initialSession: normalizeSession(persisted),
+  });
+}

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p1.planContractDigest.receipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+  "contourId": "P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+  "status": "PASS_P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+  "pass": true,
+  "programDoneClaim": false,
+  "sourceBinding": {
+    "headSha": "f998da624080443f3c8ce964a0cd34f377ff9f4a",
+    "originMainSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
+    "branch": "codex/yalken-atlas-v5-final-audit-p1-plan-digest",
+    "exactSourceHashes": {
+      "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
+      "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json": "57f97fc901a7d5cf5ba9195f6cf0d69f0abbc3af4774d0cfa843c4111de7981d",
+      "docs/OPS/STATUS/CANON_STATUS.json": "0c73f3d0ed99adab897b841a8471733572e6c78970371eba751e4fe2418192be",
+      "scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs": "8c91558c02fae3a810ffaa6317f6f9cb4347924c21a1cc52c9e6e1f10703df44"
+    }
+  },
+  "masterPlanSnapshot": {
+    "path": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md",
+    "sha256": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
+    "bytes": 124038,
+    "stateRevision": "147",
+    "executionStatus": "IN_PROGRESS",
+    "currentContour": "P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+    "nextContour": "EFINAL_EXACT_ORIGIN_MAIN_SELF_CHECK_PENDING_INDEPENDENT_AUDIT",
+    "reconciledOriginMainSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
+    "lastMergedSha": "8824a8dc923aa8bf13a426f8bcc278280da7cc67"
+  },
+  "canonStatusEntry": {
+    "extensionId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+    "status": "ACTIVE_ATLAS_V5_REPO_DIGEST_BINDING",
+    "scope": "Atlas and Mind Maps V5 master-plan contract digest binding only; repository snapshot is read-only evidence, not a second executable plan.",
+    "canonicalDocPath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md",
+    "sha256": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
+    "bindingStatusPath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json",
+    "activatedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+    "activatedAtUtc": "2026-08-01T10:10:00.000Z",
+    "globalCanonReplaced": false
+  },
+  "report": {
+    "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_PLAN_CONTRACT_DIGEST/p1-plan-contract-digest-report.json",
+    "sha256": "accca9ccf7616afb42f4025534bca9c4cf4c4174243fdd58edfaf5be574afd91"
+  },
+  "acceptance": {
+    "snapshotExists": true,
+    "bindingSchemaValid": true,
+    "bindingSnapshotHashMatches": true,
+    "stateRevisionBound": true,
+    "currentContourBound": true,
+    "remoteHeadBound": true,
+    "canonStatusBindsExtension": true,
+    "repoSnapshotIsNonExecutable": true,
+    "noSecondTracker": true,
+    "noProgramDoneClaim": true
+  },
+  "checks": {
+    "focused": {
+      "status": "PASS",
+      "command": "node --test test/contracts/yalken-atlas-v5-final-audit-p1-plan-contract-digest.contract.test.js",
+      "summary": "3_total_3_pass_0_fail"
+    },
+    "testOps": {
+      "status": "PASS",
+      "command": "npm run -s test:ops",
+      "summary": "PASS"
+    },
+    "doctrine": {
+      "status": "PASS",
+      "command": "npm run -s design-os:doctrine",
+      "summary": "PASS"
+    },
+    "ossPolicy": {
+      "status": "PASS",
+      "command": "npm run -s oss:policy",
+      "summary": "PASS"
+    },
+    "buildRenderer": {
+      "status": "PASS",
+      "command": "npm run -s build:renderer",
+      "summary": "PASS"
+    },
+    "fullRunner": {
+      "status": "PASS",
+      "command": "HEAD_STRICT_MODE=repo_execution node scripts/run-tests.js",
+      "summary": "PR_HEAD_REPO_EXECUTION_MODE_799_total_735_pass_0_fail_64_skipped_perf_PASS"
+    }
+  },
+  "delivery": {
+    "commit": "PENDING_DELIVERY_CHAIN",
+    "push": "PENDING_DELIVERY_CHAIN",
+    "pr": "PENDING_DELIVERY_CHAIN",
+    "ci": "PENDING_DELIVERY_CHAIN",
+    "merge": "PENDING_DELIVERY_CHAIN",
+    "remoteShaVerification": "PENDING_DELIVERY_CHAIN"
+  },
+  "nextContour": "EFINAL_EXACT_ORIGIN_MAIN_SELF_CHECK_PENDING_INDEPENDENT_AUDIT"
+}

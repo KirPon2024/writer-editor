@@ -28,6 +28,17 @@
       "activatedBy": "owner:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
       "activatedAtUtc": "2026-07-31T04:30:00.000Z",
       "globalCanonReplaced": false
+    },
+    {
+      "extensionId": "YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5",
+      "status": "ACTIVE_ATLAS_V5_REPO_DIGEST_BINDING",
+      "scope": "Atlas and Mind Maps V5 master-plan contract digest binding only; repository snapshot is read-only evidence, not a second executable plan.",
+      "canonicalDocPath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md",
+      "sha256": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
+      "bindingStatusPath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json",
+      "activatedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+      "activatedAtUtc": "2026-08-01T10:10:00.000Z",
+      "globalCanonReplaced": false
     }
   ]
 }

@@ -1536,10 +1536,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
-      "sha256": "e7211c3333dd99b33fcb2dc1c6dec56fa78458a93e48a906eb98beb8de8e4387",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
-      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
-      "rationale": "Approve refreshed EFINAL final audit report on exact origin/main 84f10f656bcd3352a406b06bf1b3f87d545d1c14; used as corroborating Program DoD evidence behind Night01 executable no-open-P0 proof, not as a standalone stale aggregation token."
+      "sha256": "712eaee3517ed5824b0116b3fca6f86af1d29f65dee1161fe2b754057cea047d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T04:06:00.000Z",
+      "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
@@ -1687,6 +1687,146 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS/p0-01-future-schema-loss-report.json",
+      "sha256": "f280259031cd801d23f383920959ee3d75e681109559fa69ee0b644af990e89a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
+      "rationale": "Approve P0_01 future Atlas schema loss repair evidence after full runner PASS: focused product command bridge journey, adjacent R3_C04 proof, governance, test ops, doctrine, OSS policy, and release full runner pass; no UI design change, network, dependency, or release DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_02_EFINAL_FALSE_GREEN/p0-02-efinal-false-green-report.json",
+      "sha256": "d255a3dbeee454c21250bc9df098b96269bfaf4e65cf003ec0be7618d7332c67",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T04:06:00.000Z",
+      "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND/night01-c00-audit-rebind-report.json",
+      "sha256": "a8828964efd79b9816091021ced6e03320477178a96444f55b511f4c9655bf44",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
+      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
+      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/night01-c01-independent-final-rerun-report.json",
+      "sha256": "a82932079930d3e3c47869d429a0ca24d0979728d876b380b1e1f6cd702ffcd6",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 independent executable final rerun report: exact origin/main fd092ff854c926cd9c45bbd264216cf996c268ca, runtime dirty files zero, executable R3 physical rows PASS, open P0 zero, Program DONE not claimed from stale aggregation."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun-receipt.json",
+      "sha256": "5056c2e8ccf3dfeac77d8a18d77b756c307a37c470db9c5bd06a3f7869784513",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested R3_C05 physical rerun receipt as executable evidence only; it rebases audit P0 closure to exact remote runtime and does not claim Program DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
+      "sha256": "14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 executable Atlas entity/relation UI journey screenshot as supporting evidence for the physical rerun, not screenshot-only readiness."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
+      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 Atlas entity/relation reopen screenshot as supporting evidence paired with executable UI state checks."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
+      "sha256": "f1fda7c456c7d40e2db6c6ef671492c2d6c2ff948726b602103111d46ffbaa0e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 Atlas entity/relation executable UI journey report for visible commands, persistence and reopen proof."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journey.png",
+      "sha256": "5f834b334c0c23f25fc1b382f90ff7b15afa5837f61fe97fd0e9ee4423682ac5",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 temporal/continuity/saved-query journey screenshot as supporting evidence for executable UI commands."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
+      "sha256": "5fa683a60f097182de7820fa6d30cd7b4c61f9796b382a7a92f45eaf93b62352",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 temporal, continuity and saved-query executable UI journey report with reopen proof."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-reopen.png",
+      "sha256": "11f4e48ad01b687b99a3a6bced440929f0ab409867c769973c998c35dc2acfb4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 temporal/continuity reopen screenshot as supporting evidence paired with executable persistence checks."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "sha256": "9cb13a3e0009e40e88bb38810f1ebda90641f0c1dffc2b4883a90824eba16d5b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 manual-map attachments, portals and templates executable journey report with export/import and reopen evidence."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
+      "sha256": "541e705fb2eae082f0cc9dc917716a572ab8603a5b82eeadcdae7538c57ca40e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 manual-map portability journey screenshot as supporting evidence, not standalone readiness proof."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
+      "sha256": "964a438eef4463fc06bad9003f9d2eeed9212e4040f44422865b48d266e395db",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 manual-map reopen screenshot as supporting evidence paired with persisted model checks."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
+      "sha256": "ac7c215a068a90a2cb0649f540c6f157b43596e68ac4f4a23f61cff7353f7414",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested seed black-box journey screenshot reused by the manual-map physical rerun evidence path."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "sha256": "65541faaf2347ce5cd60307c5360db8a1de01d69ffacb5681842f3b8a4281484",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested seed black-box reopen screenshot reused by the manual-map physical rerun evidence path."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "dfbce6952a67fb8584998f909b565d0e93530a83d5d549dce28bc41cfdba8868",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested seed R2_C05 black-box report as supporting evidence for the manual-map physical rerun."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
+      "sha256": "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 multilingual, grapheme, worker stress and stale-result executable report."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/r3-c05-release-saturation-revalidation-report.json",
+      "sha256": "1af27aa7e30b4b64afef02568e3104ec8fe597cf930e689b05d9b2f7352232f9",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested R3_C05 release saturation rerun report: all executable P0 rows closed and Program DONE remains unclaimed."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION/night01-c02-final-disposition-report.json",
+      "sha256": "3c5c8886e59e95af84610a1b6d10218ee75605216bc0b8dbfe069903d1adb9ff",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve Night-01 C02 final disposition report: exact origin/main 84f10f65, C01 executable no-open-P0 proof, no product runtime delta since physical rerun, refreshed EFINAL pass, and Program DONE claim scoped to PR merge plus remote verification."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R2_C03_RESPONSIVE_ACCESSIBLE_REACHABILITY/atlas-er-c06-compact.png",
@@ -1871,6 +2011,111 @@
       "rationale": "Approve bounded R3_C03 seed project evidence rerun after origin/main merge drift; seed proves setup only and is not counted as R3_C03 completion without the visible portability journey."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS/r3-c04-multilingual-worker-stress-report.json",
+      "sha256": "b909ca8dc21dcc89df347e0fe9f524349adcb0d3c8511b0a6981f2627918e628",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
+      "sha256": "14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
+      "approvedAtUtc": "2026-08-01T01:21:51.543Z",
+      "rationale": "Approve R3_C05 release saturation revalidation artifacts after rebinding to fresh origin/main; evidence is generated by executable packaged/UI journey runners and explicitly does not claim Program DONE from receipt aggregation."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
+      "sha256": "bbda1fd8508f9dd5dc8dbba104bc96c082bc5d0c3abe0d961a85622bcee7f603",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
+      "approvedAtUtc": "2026-08-01T01:21:51.543Z",
+      "rationale": "Approve R3_C05 release saturation revalidation artifacts after rebinding to fresh origin/main; evidence is generated by executable packaged/UI journey runners and explicitly does not claim Program DONE from receipt aggregation."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
+      "sha256": "a822a5185de9c6c652722009ec4fe2b49665d1a06440b26dc0b26228026ea90a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journey.png",
+      "sha256": "6e7aa58c9f87478bd5b35e4532bc0ef1ef27411b9ac380aa18d944d6151ba15e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
+      "sha256": "a8fc983919cd07968ed96b1b9ae65d2c0173852b3a1a1fb88ed1cf9c981e098b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-reopen.png",
+      "sha256": "1fae5e003d8278b3d4db594903becd996d22d60b708c9920167a04bbe44170a2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "sha256": "1064c54641083a67712a094a8888f512f02154d3cebce5c6027d6ef5dc16e0f2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
+      "sha256": "01d7839585b279fb05e6ffa2c5ae06966e3329985f8695ea07066aef1d6a6a3a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
+      "sha256": "598b8f210f09cac1699382b086e4989348802e3bce1cd2159bfa1494dd1a644b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
+      "sha256": "4e73e491a7da2d052e93073d60271cc40aae1e1955edc1e383e8fdde111032aa",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "sha256": "7fdcb03c1524417de9fbac5d83c915db6175db6c13d37eaabd5f64b57455039b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "9f7ea113132df1a107c171d0be8955567c8e4fc4beab8bfc616537def061bee1",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
+      "sha256": "e5ed81c16bb21270392b197149172b226f2120bf41965e1ec9e67e47da7df756",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/r3-c05-release-saturation-revalidation-report.json",
+      "sha256": "7240190d781474fe8a161f7a65ee9d7e48c1424c60419ff4971610a3b6d5df94",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
       "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
       "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
@@ -1990,6 +2235,13 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "f26670b4814506d0ffd1001c5395c75519b270ffdb6e9578c3e49536a31a9cf3",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -2088,6 +2340,41 @@
       "rationale": "Approve bounded C05 receipt: records locally bound block-range writer authority from trusted C04 evidence, numerator and denominator for focused, adjacent, governance, sector, OSS, ops, and full local runner checks, zero false exact, zero silent apply, zero wrong-scene routing, zero replay failure, preservation of canonical writer and nonclaims for HMAC, YRTK2, signed locator, Word carrier selection, Google Docs, other editors, and full Word saturation."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_RECEIPT.json",
+      "sha256": "d8fdc46b75d415203e1d0c20bc5b3c6d5d9d8147b677fcd6e12c1a9b215e3f44",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
+      "sha256": "3c9c5f073fafcad02196127d380bebcc78f52e71d9f48927441153ece10bde72",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:34:01.000Z",
+      "rationale": "Approve bounded controlled Word grant probe receipt and contract: confirms macOS Word sandbox grant prompt as ENVIRONMENT_PERMISSION, same raw Product Review DOCX SHA unchanged, Word-owned Save As copy not created, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT.json",
+      "sha256": "2a670667ca28daca1ee9389a668370a17c4125e9573663c9dcfcec816f173abc",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
+      "sha256": "331aa00db7c71faf7d688468f56401c6eadc3280816ff48453e3366c3593bdcb",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
+      "sha256": "c4b94b3cf989ef6e684a0a68004d17bd5a72eec34dad49829ee166d257baa04b",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
       "sha256": "3711763b462e69f5b5a23e881c961eac82aff1d4715a9c8831fcacad30290437",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
@@ -2156,6 +2443,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "751ae3e6a3e50f69edf9d912b9777bd32262b2123b1c9ab500e945f3b8cc56aa",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2289,6 +2583,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "3553d04f6ffe5f1fa6f4a57c5cc7e77fea0851cfbc13f5f33cc6454f1b070cb4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -3943,6 +4244,48 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS_RECEIPT.json",
+      "sha256": "beaf9d18ec610adb5afb8e6f41b4fcff021a2226eba8742f950dff293a89cc0c",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
+      "rationale": "Approve P0_01 future Atlas schema loss receipt after full-runner rebind; binds report hash, focused and adjacent checks, governance, test ops, doctrine, OSS policy, full runner, delivery requirements, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_02_EFINAL_FALSE_GREEN_RECEIPT.json",
+      "sha256": "da754c37b57d40027ccf4165041e6836d21fa281a2f1a435b472d961ea96d0aa",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T04:06:00.000Z",
+      "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND_RECEIPT.json",
+      "sha256": "36a4aede8c9db58be06bdcc4161819cbdecfd37704418c26f088ea5cdcde323d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
+      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
+      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN_RECEIPT.json",
+      "sha256": "dd0e5d5aa217582a74092aeda383ead06e1d3f17c2b0e0327345703f92279422",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 receipt binding exact remote head, zero runtime dirty files, executable rerun PASS, open P0 zero, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION_RECEIPT.json",
+      "sha256": "7f85b7fcae6a51302492c75b229be301caa2bcd129cc25e34323af674048bf12",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION",
+      "approvedAtUtc": "2026-08-01T02:03:30.000Z",
+      "rationale": "Approve append-only Night-01 C01 remote merge verification receipt binding PR 1344, merge commit e2cb9389c38f17da2dd3481443bcfdb21af47c31, successful CI, ops-vector-close, exact-head temp physical rerun PASS, zero open findings, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION_RECEIPT.json",
+      "sha256": "de930baf73f8bd96eec3606ec56e9f27ecde7ba60eb4716d593e6212d423b160",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve Night-01 C02 final disposition receipt with open findings zero, runtime-delta negative check, executable no-open-P0 dependency, and delivery-chain requirement before final DONE."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C00_TRUTH_RECONCILIATION_RECEIPT.json",
       "sha256": "489bbfefce6ecb70e14d9472798775b732896667d71ac95a453c517c96ccdd20",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
@@ -4018,6 +4361,27 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
       "approvedAtUtc": "2026-08-01T00:14:30.000Z",
       "rationale": "Bind R3_C03 receipt after origin/main merge drift, physical Electron Manual Map portability journey rerun, focused contracts, doctrine, OSS, governance, test:ops, and full runner PASS; Program DoD remains NOT_DONE and Night_01/R3 queue continues."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS_RECEIPT.json",
+      "sha256": "8de6442451ef4355bc74c2ec9253d5d77978aed889c304c2997395e6cce8f8bf",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_RECEIPT.json",
+      "sha256": "b63ec34125723c29b5758b11e739df59268f185c3c29d2e74c3dc965a25b21cc",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
+      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
+      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C05_REMOTE_MERGE_VERIFICATION_RECEIPT.json",
+      "sha256": "1aeeee8447e45ce89232edddbad920e49b8425e2dbb7e43d6847b53c529e9f58",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_REMOTE_MERGE_VERIFICATION",
+      "approvedAtUtc": "2026-08-01T01:40:00.000Z",
+      "rationale": "Approve append-only R3_C05 remote merge verification receipt binding PR 1341, merge commit 08e0f9085c20c9c5ecb7db506f2a4236677b015e, post-merge checks, and explicit no Program DONE claim; does not rewrite prior physical evidence receipt."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
@@ -4559,6 +4923,41 @@
       "rationale": "Approve bounded B01 Word sandbox repair: routes physical Word working DOCX through the shared com.microsoft.Word container tmp resolver, forbids plain tmp fallback, preserves diagnostic override validation, keeps T7 evidence destination, and adds no product runtime, UI, dependency, or network scope."
     },
     {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-comment-shadow-authenticated-session.mjs",
+      "sha256": "8e65bef290a62ea9ed60037bfed28d6cb99c538b44bad88f06cc214fec8a1ef1",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
+      "sha256": "c240ab83aff4ec2b13d7ffdfac4a483d16a8f45ced005f3e66653dde07882993",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
+      "sha256": "50c4467c7c81144355ec9919d2dcc9c3c752dcf188abe2a6beaad0f4f77c1171",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-return-intake-v2.mjs",
+      "sha256": "4e89a81fd2a87caf4cc87288117a49b8d5d97ed7d025b6b452e34c6c521198a9",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-review-docx-exporter.mjs",
+      "sha256": "d9feba164bd55401f05e20933ba211981129ae71309c35a9e1762f792ad9b6d1",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
       "sha256": "d4942252fa70307deb2eece720e318bc446a56bf0688572b3ad061f1469edf58",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
@@ -4741,6 +5140,13 @@
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "efc3e5c1f2ff8c2614e50636ba1ba6c0afc72bb5e85286c1fa2aa58ebc0a0608",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
       "sha256": "2a5b4d10eea5e13b42adb6426f19fb06e1f10b472bca1b43fed3ce5e6220d689",
       "approvedBy": "DOCS_OPERATOR",
@@ -4840,10 +5246,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs",
-      "sha256": "263b2f468140a36914716c38fed85b71e4463b9283b36c1f1d4a29ee4024e940",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
-      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
+      "sha256": "663d6d0464b38db5013374c52a37f585190fb649506b7425cae31119ba7103c2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T04:06:00.000Z",
+      "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-er-c05-10k-worker-budget.mjs",
@@ -4865,6 +5271,27 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-night01-c00-audit-rebind.mjs",
+      "sha256": "2cb0f460767636936c39a10b0792044259d9e2cdf4a8417c11135b04015dd9ad",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
+      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
+      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-night01-c01-independent-final-rerun.mjs",
+      "sha256": "8f6e8915fa4dbab50df50570dbb927b9ee196f126477c4f05c6e51ad5b434f81",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 executable audit wrapper: reruns R3 physical rows, requires exact origin/main and runtime-clean state, rejects legacy EFINAL aggregation as advisory."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-night01-c02-final-disposition.mjs",
+      "sha256": "04805bed8a28707f18f1e266aeb1b7d8d88162a4c3003a967fc99753ad75b467",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve Night-01 C02 executable final-disposition checker: requires current origin/main, refreshed final audit, C01 executable no-open-P0 receipt, stale aggregation rejection, and no product runtime delta since exact physical rerun."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-r2-c00-truth-reconciliation.mjs",
@@ -4916,6 +5343,20 @@
       "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
     },
     {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c04-multilingual-worker-stress.mjs",
+      "sha256": "6a0f926827fa5cb6ba5e33afea06ac518d101305c0d68df34449bab3caf4fd44",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c05-release-saturation-revalidation.mjs",
+      "sha256": "e5c76865437ee7d66623a8759fa31428c43173e417d3b885a0aa347cdef3d62b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
+      "approvedAtUtc": "2026-08-01T01:21:51.543Z",
+      "rationale": "Approve R3_C05 release saturation revalidation artifacts after rebinding to fresh origin/main; evidence is generated by executable packaged/UI journey runners and explicitly does not claim Program DONE from receipt aggregation."
+    },
+    {
       "filePath": "scripts/sector-m-run.mjs",
       "sha256": "9d631b8e759cc7340485bd8026f25df3a9a05c1b4cb662d584bba1789abdbd1f",
       "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01_SECTOR_M_GUARD_BOUNDARY_FIX",
@@ -4935,6 +5376,13 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T18:23:22.233Z",
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/core/runtime.mjs",
+      "sha256": "80372f28b826cea64b5bd671820db789d3614a140f68a9bf483ee66e86b2489e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -4991,6 +5439,13 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T18:23:22.234Z",
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasMentionIndex.mjs",
+      "sha256": "ebe1d8ee0ee3b1864ea74a2950824005db3e9a1fcfc4a3c829642c58b23cb5da",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "src/derived/atlas/deriveAtlasOverview.mjs",
@@ -5070,6 +5525,13 @@
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
     },
     {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "191df123fb8078ed986b78bdb320177c2fdfeca64c09e1df9b5f457fa34ee58a",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "sha256": "3cc6794dd7acf034b33c0c2bf9ef3706d48b6105f4baef40c09eaa684d1b0e33",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -5110,6 +5572,13 @@
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
       "approvedAtUtc": "2026-07-30T15:45:00.000Z",
       "rationale": "Approve bounded B04 platform-neutral ReviewIRV2 classifier core: classifies text, replacement pairs, move revisions, property revisions, structure changes, formatting deltas, comments and opaque unsupported lanes through CryptoPort digests, requires signed locator and baseline guards for exact candidates, blocks moves and structure from exact, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not apply."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "63e910cbd9f1b728de0f449bb28d8abe1d4737a33441a39b12d3dd6eca35c9a4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
@@ -5210,11 +5679,25 @@
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
     },
     {
+      "filePath": "src/main.js",
+      "sha256": "c17f953847da93d41f174d9e37412be4ba29dd2a123c6b43fcfd91f706a9d633",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
+      "rationale": "Approve P0_01 future Atlas schema loss production adapter repair in main.js: product command bridge binds raw Atlas author payload into Core quarantine path before persistence, while read-only projection fallback remains non-authoritative; no UI visual change, network, dependency, or Program DONE claim."
+    },
+    {
       "filePath": "src/preload.js",
       "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "58dad704cf08ad502faa20b42c3ab5e2a1ddd4cee9aea49a943e8660cc06bbf8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
+      "approvedAtUtc": "2026-08-01T01:22:18.257Z",
+      "rationale": "Rebind R3_C05 runtime approval after fresh origin/main RTK drift merge; preserves command-kernel transaction serialization, relation payloadPreview dispatch, renderer bundle rebuild, and no direct UI-to-storage bypass."
     },
     {
       "filePath": "src/renderer/editor.js",
@@ -5903,6 +6386,13 @@
       "rationale": "DOCX_INTAKE_PREFLIGHT_CLASSIFICATION_002 approves the bounded DOCX intake preflight command-surface contract update for hostile gate plus package and part-policy classification; no UI, storage write, import mutation, semantic parser execution, export rewrite, network, dependency, or release claim is introduced."
     },
     {
+      "filePath": "test/contracts/revision-bridge-docx-intake-preflight-report.contract.test.js",
+      "sha256": "6b57af4bea60d0c6d040946db684e60972fd57a1c04c6065edaeb353664197a0",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
       "filePath": "test/contracts/revision-bridge-docx-package-boundary.contract.test.js",
       "sha256": "bc0e7be09ab2d34bdc7c4727563fc0469d658e3807193c26de4977e0396f2cf5",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -5917,6 +6407,13 @@
       "rationale": "Approve part-policy coverage for diagnostics-only relationship, story, directory, and media categories as text parser candidates while retaining zero mutation authority and unknown-part rejection."
     },
     {
+      "filePath": "test/contracts/revision-bridge-docx-review-local-file-entry-command-surface.contract.test.js",
+      "sha256": "e317ccd227f61f5e6a92f3640a4a4e67ab33f144863df40242f48f4a73bc1a0a",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
       "filePath": "test/contracts/revision-bridge-docx-review-preflight-command-surface.contract.test.js",
       "sha256": "161fd059ce57d03bc7f001b386028705c9f255aca86622c4df29ef096ce93b34",
       "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_PREFLIGHT_001",
@@ -5929,6 +6426,13 @@
       "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_PREFLIGHT_001",
       "approvedAtUtc": "2026-07-01T20:35:39.000Z",
       "rationale": "Approve bounded contract proof for DOCX review preflight diagnostic-only report preserving no review session, apply, receipt, recovery, project truth write, importDocxV1 routing, dependency, network, UI, release, Word parity, or full DOCX review import claim."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "e2305ec0b49052fd54e979573a6b33200b9e9433cbfde5ec36a346f71aacb835",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
@@ -6246,6 +6750,48 @@
       "rationale": "Approve focused B06 contract coverage: proves the committed physical Word receipt has 30-plus native round trips, comment PASS requires package inventory, semantic readback and Word reopen visibility, high-comment and scale rows are physical, hostile package stays BLOCKED, unsupported modern semantics are typed limitations, D1 is not rebound, no fixture-only PASS is allowed, and exact/apply/UI/network claims are not widened."
     },
     {
+      "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
+      "sha256": "e6c60aff0db434749cac163fa0cffaa1432734c8e1e5c0ec0de55fa87d77d021",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-comment-shadow-authenticated-session.contract.test.js",
+      "sha256": "746bdd3303264c199aa4a04ad065a9e958292a0397c69dbdd642e9e0c953f4ec",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-controlled-grant-probe.contract.test.js",
+      "sha256": "d5999277a7b4e57ca0f64c232d9a96ff7e0d717d07680518a6b13fab7fb296bd",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.contract.test.js",
+      "sha256": "5ad674a2f9cd85127d244635d3d31e3df44e4cc3afce18aaeff7d0f2c9e0d060",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-product-originated-smoke-wave12.contract.test.js",
+      "sha256": "503d2d54ac5cf34d9854e082cc8b202f8ebe107f6567a1d626f194355b9145a0",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-return-intake-v2.contract.test.js",
+      "sha256": "3dd78178e5fff3ab8efa67bc342ab9fb291df2331448fb070a9e3a985c746013",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
+    },
+    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-review-docx-exporter.contract.test.js",
       "sha256": "5f1cdcdf70da6eba9a5a45f03e022bc8546cd68fd606df9a97eecdce90b0f7df",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
@@ -6286,6 +6832,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Approve focused C05 contract coverage: proves duplicate scene quote applies only through trusted locally bound C04 block-range authority, caller-forged self-consistent ranges are rejected, duplicate quote, duplicate block, stale, wrong scene, wrong block, wrong schema, tampered digest, invalid offset, duplicate id, and overlapping ranges block atomically, legacy no-blockRange path remains compatible, effect identity distinguishes distinct ranges, batch permutation remains deterministic, crash recovery prevents double apply, and source adds no HMAC signing, UI, renderer, or network authority."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+      "sha256": "b6e721dc741365fdb1e3b4c9240b7bba69279be08235940ab787c4c12f4c6eb6",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
@@ -7031,10 +7584,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
-      "sha256": "413864703c91c9293cb756579aac868faf509b6df7c822e4e3672185975a4d2f",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:06:11.513Z",
-      "rationale": "Approve bounded EFINAL revalidation: Program DoD map 20/20 and critical invariants 20/20 use R2/E11 repair evidence, stale ER_C04/ER_C06/ER_C07/self-EFINAL readiness receipts fail closed, macOS packaged Electron C01-C04 revalidated on current remote identity, inactive platforms no-pass-no-hold, no UI design contract change, no new dependency, no runtime network."
+      "sha256": "74f27c679966788a67baaafbf73db50c64829958898cc44c8e0aa6bf57edcfbf",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T04:06:00.000Z",
+      "rationale": "Approve bounded P0_02 EFINAL false-green repair: Program DoD gate now rejects PASS/DONE/DELIVERED receipt aggregation, requires exact source-bound machine capability proof, persisted/reopen/readback evidence, negative controls, and open P0 repair queue closure before any final done claim."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-er-c00-acceptance-truth-state-reconciliation.contract.test.js",
@@ -7084,6 +7637,41 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
+      "sha256": "3f8d1504d2c0acaa65211229efa92d10d0127fe306ae9d494a35427ab6559f4f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
+      "rationale": "Approve P0_01 future Atlas schema loss contract test: Electron-stub UI command bridge journey proves migration negative, quarantine persistence, reopen, and recovery preimage preservation."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-night01-c00-audit-rebind.contract.test.js",
+      "sha256": "45834766a468efdec66826ef4cb3f733b775bfe9d26d5793b8acd03e36749f91",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
+      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
+      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-night01-c01-independent-final-rerun.contract.test.js",
+      "sha256": "65b30dec6debf1f08f57013e897689121bb675c87fd1abcc7c2a992c4264cbbc",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 negative contracts for physical-rerun requirement, runtime-dirty rejection, stale EFINAL advisory-only handling and no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-night01-c01-remote-merge-verification.contract.test.js",
+      "sha256": "7d486ba3aa0d6c1aacb2cc8655076df01d1289bec01bce2b8dec44e753cbcbd5",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION",
+      "approvedAtUtc": "2026-08-01T02:03:30.000Z",
+      "rationale": "Approve Night-01 C01 remote verification contract enforcing merged SHA equality, exact-head rerun PASS, zero runtime dirty files, zero open findings, advisory-only stale EFINAL aggregation, and no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-night01-c02-final-disposition.contract.test.js",
+      "sha256": "3b11e1ec01a2c8941bae05ebb23202b8766ffdef0e4bf57c46ddad53689f74a8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve Night-01 C02 contracts that block final disposition on product runtime delta or missing executable no-open-P0 proof and prevent legacy EFINAL pass from acting alone."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",
@@ -7163,6 +7751,20 @@
       "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c04-multilingual-worker-stress.contract.test.js",
+      "sha256": "1285f4cc7aa613f90256b55246c351979887a0d47c63a551ea3667ee348f9d75",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c05-release-saturation-revalidation.contract.test.js",
+      "sha256": "5e2cb43da0c0fcf22ae2be2424dae15df146498e94649d0e32ca94a81d86a9a4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
+      "approvedAtUtc": "2026-08-01T01:21:51.543Z",
+      "rationale": "Approve R3_C05 release saturation revalidation artifacts after rebinding to fresh origin/main; evidence is generated by executable packaged/UI journey runners and explicitly does not claim Program DONE from receipt aggregation."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",
       "sha256": "792deeab574395469beb7d435468970480be0a9a6cd1a435d1fcb9c0f3472197",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -7217,594 +7819,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
-      "sha256": "c4b94b3cf989ef6e684a0a68004d17bd5a72eec34dad49829ee166d257baa04b",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-review-docx-exporter.mjs",
-      "sha256": "d9feba164bd55401f05e20933ba211981129ae71309c35a9e1762f792ad9b6d1",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-docx-intake-preflight-report.contract.test.js",
-      "sha256": "6b57af4bea60d0c6d040946db684e60972fd57a1c04c6065edaeb353664197a0",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-docx-review-local-file-entry-command-surface.contract.test.js",
-      "sha256": "e317ccd227f61f5e6a92f3640a4a4e67ab33f144863df40242f48f4a73bc1a0a",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-return-intake-v2.contract.test.js",
-      "sha256": "3dd78178e5fff3ab8efa67bc342ab9fb291df2331448fb070a9e3a985c746013",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "191df123fb8078ed986b78bdb320177c2fdfeca64c09e1df9b5f457fa34ee58a",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT.json",
-      "sha256": "2a670667ca28daca1ee9389a668370a17c4125e9573663c9dcfcec816f173abc",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-return-intake-v2.mjs",
-      "sha256": "4e89a81fd2a87caf4cc87288117a49b8d5d97ed7d025b6b452e34c6c521198a9",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.contract.test.js",
-      "sha256": "5ad674a2f9cd85127d244635d3d31e3df44e4cc3afce18aaeff7d0f2c9e0d060",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS/r3-c04-multilingual-worker-stress-report.json",
-      "sha256": "b909ca8dc21dcc89df347e0fe9f524349adcb0d3c8511b0a6981f2627918e628",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_RECEIPT.json",
-      "sha256": "d8fdc46b75d415203e1d0c20bc5b3c6d5d9d8147b677fcd6e12c1a9b215e3f44",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS_RECEIPT.json",
-      "sha256": "8de6442451ef4355bc74c2ec9253d5d77978aed889c304c2997395e6cce8f8bf",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-comment-shadow-authenticated-session.mjs",
-      "sha256": "8e65bef290a62ea9ed60037bfed28d6cb99c538b44bad88f06cc214fec8a1ef1",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
-      "sha256": "c240ab83aff4ec2b13d7ffdfac4a483d16a8f45ced005f3e66653dde07882993",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "efc3e5c1f2ff8c2614e50636ba1ba6c0afc72bb5e85286c1fa2aa58ebc0a0608",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-r3-c04-multilingual-worker-stress.mjs",
-      "sha256": "6a0f926827fa5cb6ba5e33afea06ac518d101305c0d68df34449bab3caf4fd44",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "src/core/runtime.mjs",
-      "sha256": "80372f28b826cea64b5bd671820db789d3614a140f68a9bf483ee66e86b2489e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "src/derived/atlas/deriveAtlasMentionIndex.mjs",
-      "sha256": "ebe1d8ee0ee3b1864ea74a2950824005db3e9a1fcfc4a3c829642c58b23cb5da",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
-      "sha256": "63e910cbd9f1b728de0f449bb28d8abe1d4737a33441a39b12d3dd6eca35c9a4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "c17f953847da93d41f174d9e37412be4ba29dd2a123c6b43fcfd91f706a9d633",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
-      "rationale": "Approve P0_01 future Atlas schema loss production adapter repair in main.js: product command bridge binds raw Atlas author payload into Core quarantine path before persistence, while read-only projection fallback remains non-authoritative; no UI visual change, network, dependency, or Program DONE claim."
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "58dad704cf08ad502faa20b42c3ab5e2a1ddd4cee9aea49a943e8660cc06bbf8",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
-      "approvedAtUtc": "2026-08-01T01:22:18.257Z",
-      "rationale": "Rebind R3_C05 runtime approval after fresh origin/main RTK drift merge; preserves command-kernel transaction serialization, relation payloadPreview dispatch, renderer bundle rebuild, and no direct UI-to-storage bypass."
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "e2305ec0b49052fd54e979573a6b33200b9e9433cbfde5ec36a346f71aacb835",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-comment-shadow-authenticated-session.contract.test.js",
-      "sha256": "746bdd3303264c199aa4a04ad065a9e958292a0397c69dbdd642e9e0c953f4ec",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
-      "sha256": "b6e721dc741365fdb1e3b4c9240b7bba69279be08235940ab787c4c12f4c6eb6",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-r3-c04-multilingual-worker-stress.contract.test.js",
-      "sha256": "1285f4cc7aa613f90256b55246c351979887a0d47c63a551ea3667ee348f9d75",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
-      "sha256": "14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
-      "approvedAtUtc": "2026-08-01T01:21:51.543Z",
-      "rationale": "Approve R3_C05 release saturation revalidation artifacts after rebinding to fresh origin/main; evidence is generated by executable packaged/UI journey runners and explicitly does not claim Program DONE from receipt aggregation."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
-      "sha256": "bbda1fd8508f9dd5dc8dbba104bc96c082bc5d0c3abe0d961a85622bcee7f603",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
-      "approvedAtUtc": "2026-08-01T01:21:51.543Z",
-      "rationale": "Approve R3_C05 release saturation revalidation artifacts after rebinding to fresh origin/main; evidence is generated by executable packaged/UI journey runners and explicitly does not claim Program DONE from receipt aggregation."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
-      "sha256": "a822a5185de9c6c652722009ec4fe2b49665d1a06440b26dc0b26228026ea90a",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journey.png",
-      "sha256": "6e7aa58c9f87478bd5b35e4532bc0ef1ef27411b9ac380aa18d944d6151ba15e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
-      "sha256": "a8fc983919cd07968ed96b1b9ae65d2c0173852b3a1a1fb88ed1cf9c981e098b",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-reopen.png",
-      "sha256": "1fae5e003d8278b3d4db594903becd996d22d60b708c9920167a04bbe44170a2",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
-      "sha256": "1064c54641083a67712a094a8888f512f02154d3cebce5c6027d6ef5dc16e0f2",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
-      "sha256": "01d7839585b279fb05e6ffa2c5ae06966e3329985f8695ea07066aef1d6a6a3a",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
-      "sha256": "598b8f210f09cac1699382b086e4989348802e3bce1cd2159bfa1494dd1a644b",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
-      "sha256": "4e73e491a7da2d052e93073d60271cc40aae1e1955edc1e383e8fdde111032aa",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
-      "sha256": "7fdcb03c1524417de9fbac5d83c915db6175db6c13d37eaabd5f64b57455039b",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
-      "sha256": "9f7ea113132df1a107c171d0be8955567c8e4fc4beab8bfc616537def061bee1",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
-      "sha256": "e5ed81c16bb21270392b197149172b226f2120bf41965e1ec9e67e47da7df756",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/r3-c05-release-saturation-revalidation-report.json",
-      "sha256": "7240190d781474fe8a161f7a65ee9d7e48c1424c60419ff4971610a3b6d5df94",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_RECEIPT.json",
-      "sha256": "b63ec34125723c29b5758b11e739df59268f185c3c29d2e74c3dc965a25b21cc",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_FRESH_ORIGIN_MAIN_REBIND",
-      "approvedAtUtc": "2026-08-01T01:25:57.873Z",
-      "rationale": "Rebind R3_C05 evidence approval after rerunning physical release saturation revalidation on fresh origin/main; openP0 remains empty and Program DONE is still not claimed from generated receipts alone."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-r3-c05-release-saturation-revalidation.mjs",
-      "sha256": "e5c76865437ee7d66623a8759fa31428c43173e417d3b885a0aa347cdef3d62b",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
-      "approvedAtUtc": "2026-08-01T01:21:51.543Z",
-      "rationale": "Approve R3_C05 release saturation revalidation artifacts after rebinding to fresh origin/main; evidence is generated by executable packaged/UI journey runners and explicitly does not claim Program DONE from receipt aggregation."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-r3-c05-release-saturation-revalidation.contract.test.js",
-      "sha256": "5e2cb43da0c0fcf22ae2be2424dae15df146498e94649d0e32ca94a81d86a9a4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
-      "approvedAtUtc": "2026-08-01T01:21:51.543Z",
-      "rationale": "Approve R3_C05 release saturation revalidation artifacts after rebinding to fresh origin/main; evidence is generated by executable packaged/UI journey runners and explicitly does not claim Program DONE from receipt aggregation."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C05_REMOTE_MERGE_VERIFICATION_RECEIPT.json",
-      "sha256": "1aeeee8447e45ce89232edddbad920e49b8425e2dbb7e43d6847b53c529e9f58",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_REMOTE_MERGE_VERIFICATION",
-      "approvedAtUtc": "2026-08-01T01:40:00.000Z",
-      "rationale": "Approve append-only R3_C05 remote merge verification receipt binding PR 1341, merge commit 08e0f9085c20c9c5ecb7db506f2a4236677b015e, post-merge checks, and explicit no Program DONE claim; does not rewrite prior physical evidence receipt."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND/night01-c00-audit-rebind-report.json",
-      "sha256": "a8828964efd79b9816091021ced6e03320477178a96444f55b511f4c9655bf44",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
-      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
-      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND_RECEIPT.json",
-      "sha256": "36a4aede8c9db58be06bdcc4161819cbdecfd37704418c26f088ea5cdcde323d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
-      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
-      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-night01-c00-audit-rebind.mjs",
-      "sha256": "2cb0f460767636936c39a10b0792044259d9e2cdf4a8417c11135b04015dd9ad",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
-      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
-      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-night01-c00-audit-rebind.contract.test.js",
-      "sha256": "45834766a468efdec66826ef4cb3f733b775bfe9d26d5793b8acd03e36749f91",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
-      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
-      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/night01-c01-independent-final-rerun-report.json",
-      "sha256": "a82932079930d3e3c47869d429a0ca24d0979728d876b380b1e1f6cd702ffcd6",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 independent executable final rerun report: exact origin/main fd092ff854c926cd9c45bbd264216cf996c268ca, runtime dirty files zero, executable R3 physical rows PASS, open P0 zero, Program DONE not claimed from stale aggregation."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun-receipt.json",
-      "sha256": "5056c2e8ccf3dfeac77d8a18d77b756c307a37c470db9c5bd06a3f7869784513",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested R3_C05 physical rerun receipt as executable evidence only; it rebases audit P0 closure to exact remote runtime and does not claim Program DONE."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
-      "sha256": "14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 executable Atlas entity/relation UI journey screenshot as supporting evidence for the physical rerun, not screenshot-only readiness."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
-      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 Atlas entity/relation reopen screenshot as supporting evidence paired with executable UI state checks."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
-      "sha256": "f1fda7c456c7d40e2db6c6ef671492c2d6c2ff948726b602103111d46ffbaa0e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 Atlas entity/relation executable UI journey report for visible commands, persistence and reopen proof."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journey.png",
-      "sha256": "5f834b334c0c23f25fc1b382f90ff7b15afa5837f61fe97fd0e9ee4423682ac5",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 temporal/continuity/saved-query journey screenshot as supporting evidence for executable UI commands."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
-      "sha256": "5fa683a60f097182de7820fa6d30cd7b4c61f9796b382a7a92f45eaf93b62352",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 temporal, continuity and saved-query executable UI journey report with reopen proof."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-reopen.png",
-      "sha256": "11f4e48ad01b687b99a3a6bced440929f0ab409867c769973c998c35dc2acfb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 temporal/continuity reopen screenshot as supporting evidence paired with executable persistence checks."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
-      "sha256": "9cb13a3e0009e40e88bb38810f1ebda90641f0c1dffc2b4883a90824eba16d5b",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 manual-map attachments, portals and templates executable journey report with export/import and reopen evidence."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
-      "sha256": "541e705fb2eae082f0cc9dc917716a572ab8603a5b82eeadcdae7538c57ca40e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 manual-map portability journey screenshot as supporting evidence, not standalone readiness proof."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
-      "sha256": "964a438eef4463fc06bad9003f9d2eeed9212e4040f44422865b48d266e395db",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 manual-map reopen screenshot as supporting evidence paired with persisted model checks."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
-      "sha256": "ac7c215a068a90a2cb0649f540c6f157b43596e68ac4f4a23f61cff7353f7414",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested seed black-box journey screenshot reused by the manual-map physical rerun evidence path."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
-      "sha256": "65541faaf2347ce5cd60307c5360db8a1de01d69ffacb5681842f3b8a4281484",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested seed black-box reopen screenshot reused by the manual-map physical rerun evidence path."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
-      "sha256": "dfbce6952a67fb8584998f909b565d0e93530a83d5d549dce28bc41cfdba8868",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested seed R2_C05 black-box report as supporting evidence for the manual-map physical rerun."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
-      "sha256": "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 multilingual, grapheme, worker stress and stale-result executable report."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/r3-c05-release-saturation-revalidation-report.json",
-      "sha256": "1af27aa7e30b4b64afef02568e3104ec8fe597cf930e689b05d9b2f7352232f9",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 nested R3_C05 release saturation rerun report: all executable P0 rows closed and Program DONE remains unclaimed."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN_RECEIPT.json",
-      "sha256": "dd0e5d5aa217582a74092aeda383ead06e1d3f17c2b0e0327345703f92279422",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 receipt binding exact remote head, zero runtime dirty files, executable rerun PASS, open P0 zero, and no Program DONE claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-night01-c01-independent-final-rerun.mjs",
-      "sha256": "8f6e8915fa4dbab50df50570dbb927b9ee196f126477c4f05c6e51ad5b434f81",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 executable audit wrapper: reruns R3 physical rows, requires exact origin/main and runtime-clean state, rejects legacy EFINAL aggregation as advisory."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-night01-c01-independent-final-rerun.contract.test.js",
-      "sha256": "65b30dec6debf1f08f57013e897689121bb675c87fd1abcc7c2a992c4264cbbc",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
-      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
-      "rationale": "Approve Night-01 C01 negative contracts for physical-rerun requirement, runtime-dirty rejection, stale EFINAL advisory-only handling and no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION_RECEIPT.json",
-      "sha256": "7f85b7fcae6a51302492c75b229be301caa2bcd129cc25e34323af674048bf12",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION",
-      "approvedAtUtc": "2026-08-01T02:03:30.000Z",
-      "rationale": "Approve append-only Night-01 C01 remote merge verification receipt binding PR 1344, merge commit e2cb9389c38f17da2dd3481443bcfdb21af47c31, successful CI, ops-vector-close, exact-head temp physical rerun PASS, zero open findings, and no Program DONE claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-night01-c01-remote-merge-verification.contract.test.js",
-      "sha256": "7d486ba3aa0d6c1aacb2cc8655076df01d1289bec01bce2b8dec44e753cbcbd5",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION",
-      "approvedAtUtc": "2026-08-01T02:03:30.000Z",
-      "rationale": "Approve Night-01 C01 remote verification contract enforcing merged SHA equality, exact-head rerun PASS, zero runtime dirty files, zero open findings, advisory-only stale EFINAL aggregation, and no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION/night01-c02-final-disposition-report.json",
-      "sha256": "3c5c8886e59e95af84610a1b6d10218ee75605216bc0b8dbfe069903d1adb9ff",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
-      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
-      "rationale": "Approve Night-01 C02 final disposition report: exact origin/main 84f10f65, C01 executable no-open-P0 proof, no product runtime delta since physical rerun, refreshed EFINAL pass, and Program DONE claim scoped to PR merge plus remote verification."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION_RECEIPT.json",
-      "sha256": "de930baf73f8bd96eec3606ec56e9f27ecde7ba60eb4716d593e6212d423b160",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
-      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
-      "rationale": "Approve Night-01 C02 final disposition receipt with open findings zero, runtime-delta negative check, executable no-open-P0 dependency, and delivery-chain requirement before final DONE."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-night01-c02-final-disposition.mjs",
-      "sha256": "04805bed8a28707f18f1e266aeb1b7d8d88162a4c3003a967fc99753ad75b467",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
-      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
-      "rationale": "Approve Night-01 C02 executable final-disposition checker: requires current origin/main, refreshed final audit, C01 executable no-open-P0 receipt, stale aggregation rejection, and no product runtime delta since exact physical rerun."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-night01-c02-final-disposition.contract.test.js",
-      "sha256": "3b11e1ec01a2c8941bae05ebb23202b8766ffdef0e4bf57c46ddad53689f74a8",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
-      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
-      "rationale": "Approve Night-01 C02 contracts that block final disposition on product runtime delta or missing executable no-open-P0 proof and prevent legacy EFINAL pass from acting alone."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "f26670b4814506d0ffd1001c5395c75519b270ffdb6e9578c3e49536a31a9cf3",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
-      "sha256": "331aa00db7c71faf7d688468f56401c6eadc3280816ff48453e3366c3593bdcb",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "751ae3e6a3e50f69edf9d912b9777bd32262b2123b1c9ab500e945f3b8cc56aa",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "3553d04f6ffe5f1fa6f4a57c5cc7e77fea0851cfbc13f5f33cc6454f1b070cb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
-      "sha256": "50c4467c7c81144355ec9919d2dcc9c3c752dcf188abe2a6beaad0f4f77c1171",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
-      "sha256": "e6c60aff0db434749cac163fa0cffaa1432734c8e1e5c0ec0de55fa87d77d021",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-product-originated-smoke-wave12.contract.test.js",
-      "sha256": "503d2d54ac5cf34d9854e082cc8b202f8ebe107f6567a1d626f194355b9145a0",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
-      "sha256": "3c9c5f073fafcad02196127d380bebcc78f52e71d9f48927441153ece10bde72",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:34:01.000Z",
-      "rationale": "Approve bounded controlled Word grant probe receipt and contract: confirms macOS Word sandbox grant prompt as ENVIRONMENT_PERMISSION, same raw Product Review DOCX SHA unchanged, Word-owned Save As copy not created, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-controlled-grant-probe.contract.test.js",
-      "sha256": "d5999277a7b4e57ca0f64c232d9a96ff7e0d717d07680518a6b13fab7fb296bd",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS/p0-01-future-schema-loss-report.json",
-      "sha256": "f280259031cd801d23f383920959ee3d75e681109559fa69ee0b644af990e89a",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
-      "rationale": "Approve P0_01 future Atlas schema loss repair evidence after full runner PASS: focused product command bridge journey, adjacent R3_C04 proof, governance, test ops, doctrine, OSS policy, and release full runner pass; no UI design change, network, dependency, or release DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS_RECEIPT.json",
-      "sha256": "beaf9d18ec610adb5afb8e6f41b4fcff021a2226eba8742f950dff293a89cc0c",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
-      "rationale": "Approve P0_01 future Atlas schema loss receipt after full-runner rebind; binds report hash, focused and adjacent checks, governance, test ops, doctrine, OSS policy, full runner, delivery requirements, and no Program DONE claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-      "sha256": "3f8d1504d2c0acaa65211229efa92d10d0127fe306ae9d494a35427ab6559f4f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
-      "rationale": "Approve P0_01 future Atlas schema loss contract test: Electron-stub UI command bridge journey proves migration negative, quarantine persistence, reopen, and recovery preimage preservation."
     }
   ]
 }

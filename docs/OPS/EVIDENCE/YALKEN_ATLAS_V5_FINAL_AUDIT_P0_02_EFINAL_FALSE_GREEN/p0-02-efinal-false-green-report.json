@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p0_02.efinalFalseGreen.report.v1",
+  "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+  "contourId": "P0_02_EFINAL_FALSE_GREEN",
+  "generatedAtUtc": "2026-08-01T03:57:00.000Z",
+  "baseSha": "022d462d2696679fc18994d9f65924962fd4a7f0",
+  "originMainSha": "022d462d2696679fc18994d9f65924962fd4a7f0",
+  "status": "PASS_P0_02_EFINAL_FALSE_GREEN_GATE_REPAIRED_READY_FOR_DELIVERY",
+  "pass": true,
+  "programDoneClaim": false,
+  "designToolRouter": "NOT_APPLICABLE",
+  "designToolRouterReason": "Ops final gate repair only; no product UI composition or visual contract change.",
+  "implementedBoundary": {
+    "legacyReceiptStatusRejected": true,
+    "machineCapabilityGateInstalled": true,
+    "exactSourceBindingRequired": true,
+    "runtimeCommandUiPathRequired": true,
+    "persistedOutputRequired": true,
+    "reopenReadbackRequired": true,
+    "negativeControlsRequired": true,
+    "allP0RepairsRequiredBeforeProgramDone": true,
+    "receiptAloneIsNotReadinessProof": true,
+    "noNewDependency": true,
+    "networkMutation": false
+  },
+  "currentEfinalResult": {
+    "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
+    "sha256": "712eaee3517ed5824b0116b3fca6f86af1d29f65dee1161fe2b754057cea047d",
+    "status": "NOT_READY_EFINAL_MACHINE_CAPABILITY_GAPS",
+    "pass": false,
+    "finalProgramDoDClaim": false,
+    "failureCodes": [
+      "MACHINE_SOURCE_BINDING_FAILED",
+      "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
+      "FINAL_AUDIT_REPAIR_QUEUE_OPEN"
+    ],
+    "failureCount": 28
+  },
+  "evidence": {
+    "focusedContract": {
+      "command": "node --test test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js",
+      "status": "PASS",
+      "tests": {
+        "total": 6,
+        "pass": 6,
+        "fail": 0
+      },
+      "proves": [
+        "current repo EFINAL is NOT_READY while physical capability proof is stale and P0 queue remains open",
+        "status-only receipts cannot satisfy Program DoD",
+        "exact sourceBinding is mandatory even when capability reports say PASS",
+        "negative controls are required for capability proof",
+        "machine-ready fixture passes only with exact source, persisted/reopen proof, negative controls and closed repair queue",
+        "legacy PASS/DELIVERED/DONE status matching is absent from EFINAL source"
+      ]
+    },
+    "cliNegative": {
+      "command": "node scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs --json",
+      "expectedExitCode": 1,
+      "status": "PASS_NEGATIVE_NOT_READY_EXIT_NONZERO",
+      "observedStatus": "NOT_READY_EFINAL_MACHINE_CAPABILITY_GAPS",
+      "observedPass": false,
+      "observedFinalProgramDoDClaim": false
+    }
+  },
+  "negativeChecks": {
+    "legacyReceiptPassDoneDeliveredAccepted": false,
+    "finalReceiptSelfCertificationAccepted": false,
+    "generatedScreenshotsAcceptedAlone": false,
+    "stalePhysicalProofAccepted": false,
+    "openRepairQueueAcceptedAsDone": false
+  },
+  "changedSourceBindings": {
+    "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs": "663d6d0464b38db5013374c52a37f585190fb649506b7425cae31119ba7103c2",
+    "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js": "74f27c679966788a67baaafbf73db50c64829958898cc44c8e0aa6bf57edcfbf",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json": "712eaee3517ed5824b0116b3fca6f86af1d29f65dee1161fe2b754057cea047d"
+  },
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "mergeRequired": true,
+    "remoteHeadVerificationRequired": true,
+    "independentAuditRequiredAfterQueue": true
+  },
+  "nextContour": "P0_03_PACKAGED_JOURNEY_STALE"
+}

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-comment-shadow-authenticated-session-receipt.v1",
+  "taskId": "YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+  "contourId": "P0-COMMENT-SHADOW-AUTHENTICATED-SESSION-STORAGE-EFFECTS",
+  "status": "WORD_RELEASE_AUDIT_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_STORAGE_EFFECTS_WIRED_NOT_SATURATED",
+  "result": "PASS",
+  "headBinding": {
+    "headSha": "9dcbd76a2584611a78bbc314b5aefd5684fa7ee1",
+    "originMainSha": "9dcbd76a2584611a78bbc314b5aefd5684fa7ee1",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "main": {
+      "id": "MAIN_COMMENT_SHADOW_AUTHENTICATED_PAYLOAD",
+      "path": "src/main.js",
+      "sha256": "0e41aedf75c0928b436e3a35c11fc710f3c1269fd09f2110d1e1797adb33bad2",
+      "status": "BOUND"
+    },
+    "commentModule": {
+      "id": "COMMENT_SHADOW_AUTHENTICATED_SESSION_MODULE",
+      "path": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "63e910cbd9f1b728de0f449bb28d8abe1d4737a33441a39b12d3dd6eca35c9a4",
+      "status": "BOUND"
+    },
+    "previewContract": {
+      "id": "PRODUCT_PREVIEW_COMMENT_SHADOW_AUTHENTICATED_CONTRACT",
+      "path": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "54e05236339a39ab6ebd51184fe94e310345da05babf08bd81221382630e3353",
+      "status": "BOUND"
+    },
+    "c01Contract": {
+      "id": "COMMENT_SHADOW_AUTHENTICATED_STORAGE_EFFECTS_CONTRACT",
+      "path": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+      "sha256": "b6e721dc741365fdb1e3b4c9240b7bba69279be08235940ab787c4c12f4c6eb6",
+      "status": "BOUND"
+    },
+    "previousParsedIrReceipt": {
+      "id": "PREVIOUS_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT.json",
+      "sha256": "2a670667ca28daca1ee9389a668370a17c4125e9573663c9dcfcec816f173abc",
+      "status": "BOUND"
+    }
+  },
+  "sourceProof": {
+    "markers": {
+      "legacyUnboundCommentsDoNotPersistShadowStorage": true,
+      "mainPassesAuthenticatedReturnIdentity": true,
+      "moduleNormalizesAuthenticatedIdentity": true,
+      "durableKeysIncludeAuthenticatedBinding": true,
+      "receiptsExposeIdentityAndStorageEffects": true,
+      "previewContractCoversLegacyNoStorageAndAuthenticatedBinding": true,
+      "moduleContractCoversDistinctBindingAndForgery": true
+    },
+    "allPresent": true,
+    "mainSha256": "0e41aedf75c0928b436e3a35c11fc710f3c1269fd09f2110d1e1797adb33bad2",
+    "commentModuleSha256": "63e910cbd9f1b728de0f449bb28d8abe1d4737a33441a39b12d3dd6eca35c9a4",
+    "previewContractSha256": "54e05236339a39ab6ebd51184fe94e310345da05babf08bd81221382630e3353",
+    "c01ContractSha256": "b6e721dc741365fdb1e3b4c9240b7bba69279be08235940ab787c4c12f4c6eb6"
+  },
+  "implementedCapability": {
+    "capability": "commentShadowAuthenticatedSessionKeysStorageEffects",
+    "productReviewDocxExporterWired": true,
+    "returnIntakeWired": true,
+    "parsedWordIrConsumerWired": true,
+    "productRuntimeWired": true,
+    "commentShadowAuthenticatedSessionKeysWired": true,
+    "persistentCommentShadowRequiresAuthenticatedReturn": true,
+    "legacyUnboundCommentPreviewStorageBlocked": true,
+    "projectSceneRoundBaselineIdentityBound": true,
+    "commentShadowStorageEffectsReported": true,
+    "manuscriptApplyAuthority": false,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "productOriginatedPhysicalLoopCertified": false,
+    "releaseReady": false,
+    "wordSaturated": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "unboundCommentStorageWrite": 0,
+    "forgedCommentShadowAuthorityAccepted": 0,
+    "manuscriptMutation": 0,
+    "productStorageWriteBeforeGate": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "falseReleaseClaim": 0
+  },
+  "nonClaims": [
+    "Authenticated comment shadow session storage is not manuscript apply authority.",
+    "Legacy unbound DOCX comments remain preview/manual only and do not get persistent product comment shadow storage.",
+    "Product-originated physical Word waves are still pending after this P0 identity binding.",
+    "Word SATURATED remains false.",
+    "Google Docs remains closed."
+  ],
+  "nextStage": "P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12"
+}

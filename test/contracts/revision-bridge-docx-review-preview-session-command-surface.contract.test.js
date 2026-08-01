@@ -1151,25 +1151,12 @@ test('DOCX review preview session command: forged renderer fields cannot manufac
   assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
 });
 
-test('DOCX review preview session command: rooted comments enter product comment shadow command path', async () => {
+test('DOCX review preview session command: legacy rooted comments stay preview-only without persistent comment shadow storage', async () => {
   const calls = [];
   const port = instantiateDocxReviewPreviewSessionPort({
-    dispatchCommandSurfaceKernel: async (commandId, payload = {}) => {
-      calls.push({ commandId, payload });
-      return {
-        ok: true,
-        status: 'committed',
-        code: 'RTK_COMMENT_SHADOW_SESSION_COMMITTED',
-        writerCalled: false,
-        manuscriptApplyAuthority: false,
-        session: {
-          authorityLevel: {
-            productRuntimeWired: true,
-            automaticApplyCertified: false,
-          },
-          summary: { threadCount: payload.reviewIr.commentThreads.length },
-        },
-      };
+    dispatchCommandSurfaceKernel: async () => {
+      calls.push({});
+      throw new Error('legacy unbound comments must not reach persistent comment shadow import');
     },
   });
   const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
@@ -1180,15 +1167,11 @@ test('DOCX review preview session command: rooted comments enter product comment
   );
 
   assert.equal(result.ok, true, JSON.stringify(result, null, 2));
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].commandId, 'cmd.rtk.reviewSession.importComments');
-  assert.equal(calls[0].payload.projectRoot, '/project');
-  assert.equal(calls[0].payload.reviewIr.commentThreads.length, 1);
-  assert.equal(calls[0].payload.reviewIr.commentPlacements.length, 1);
-  assert.equal(result.commentShadowResult.ok, true);
-  assert.equal(result.commentShadowResult.writerCalled, false);
-  assert.equal(result.commentShadowResult.manuscriptApplyAuthority, false);
-  assert.equal(result.commentShadowSession.summary.threadCount, 1);
+  assert.equal(calls.length, 0);
+  assert.equal(result.returnIntake.authenticated, false);
+  assert.equal(result.commentShadowResult, null);
+  assert.equal(result.commentShadowSession, null);
+  assert.equal(result.reviewSurface.revisionSession.reviewGraph.commentThreads.length, 1);
   assertNoWriteReceiptsOrApplyAuthority(result);
 });
 
@@ -1209,9 +1192,15 @@ test('DOCX review preview session command: authenticated product return intake g
             productRuntimeWired: true,
             automaticApplyCertified: false,
           },
+          authenticatedReturnIdentity: payload.authenticatedReturnIdentity,
           roundId: payload.roundId,
           semanticReturnId: payload.semanticReturnId,
           summary: { threadCount: payload.reviewIr.commentThreads.length },
+        },
+        storageEffects: {
+          sessionRecordCreated: true,
+          receiptCreated: true,
+          manuscriptBytesWritten: 0,
         },
       };
     },
@@ -1241,8 +1230,18 @@ test('DOCX review preview session command: authenticated product return intake g
   assert.equal(calls[0].payload.roundId, docx.payload.roundId);
   assert.equal(calls[0].payload.returnArtifactId, result.returnIntake.returnedArtifactSha256);
   assert.equal(calls[0].payload.semanticReturnId, docx.payload.semanticReturnId);
+  assert.equal(calls[0].payload.authenticatedReturnIdentity.authenticated, true);
+  assert.equal(calls[0].payload.authenticatedReturnIdentity.projectId, 'project-1');
+  assert.equal(calls[0].payload.authenticatedReturnIdentity.sceneId, docx.payload.sceneId);
+  assert.equal(calls[0].payload.authenticatedReturnIdentity.sceneRevision, docx.payload.sceneRevision);
+  assert.equal(calls[0].payload.authenticatedReturnIdentity.rawSha256, docx.payload.rawSha256);
+  assert.equal(calls[0].payload.authenticatedReturnIdentity.exportId, docx.payload.exportId);
+  assert.equal(calls[0].payload.authenticatedReturnIdentity.returnArtifactId, result.returnIntake.returnedArtifactSha256);
   assert.equal(calls[0].payload.reviewIr.roundId, docx.payload.roundId);
   assert.equal(calls[0].payload.reviewIr.commentThreads.length, 1);
+  assert.equal(result.commentShadowSession.authenticatedReturnIdentity.sceneId, docx.payload.sceneId);
+  assert.equal(result.commentShadowResult.storageEffects.sessionRecordCreated, true);
+  assert.equal(result.commentShadowResult.storageEffects.manuscriptBytesWritten, 0);
   assert.equal(port.getState().activeReviewSessionLifecycle, 'active');
   assertNoWriteReceiptsOrApplyAuthority(result);
 });

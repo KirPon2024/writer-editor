@@ -4183,11 +4183,14 @@ async function buildDocxReviewPreviewSessionMainContext(options = {}) {
 }
 
 function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, requestId) {
-  const reviewPacket = isPlainObjectValue(candidate?.reviewPacket)
-    ? cloneJsonSafe(candidate.reviewPacket)
-    : {};
   const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
     ? context.reviewTransportReturnIntake
+    : {};
+  if (intake.authenticated !== true) {
+    return null;
+  }
+  const reviewPacket = isPlainObjectValue(candidate?.reviewPacket)
+    ? cloneJsonSafe(candidate.reviewPacket)
     : {};
   const intakeReviewIr = isPlainObjectValue(intake.parserResult?.reviewIr)
     ? intake.parserResult.reviewIr
@@ -4211,21 +4214,34 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
   const intakePayload = isPlainObjectValue(intake.parserResult?.authorityCarrier?.selectedCarrier?.payload)
     ? intake.parserResult.authorityCarrier.selectedCarrier.payload
     : {};
-  const roundId = intake.authenticated === true
-    ? docxReviewPreviewSessionDetailString(intakePayload.roundId)
-    : '';
-  const returnArtifactId = intake.authenticated === true
-    ? docxReviewPreviewSessionDetailString(intake.returnedArtifactSha256)
-    : '';
-  const semanticReturnId = intake.authenticated === true
-    ? docxReviewPreviewSessionDetailString(intakePayload.semanticReturnId)
-    : '';
+  const roundId = docxReviewPreviewSessionDetailString(intakePayload.roundId);
+  const returnArtifactId = docxReviewPreviewSessionDetailString(intake.returnedArtifactSha256);
+  const semanticReturnId = docxReviewPreviewSessionDetailString(intakePayload.semanticReturnId);
+  const authenticatedReturnIdentity = {
+    schemaVersion: 'yalken.rtk.comment-shadow-authenticated-return-binding.v1',
+    authenticated: true,
+    projectId: docxReviewPreviewSessionDetailString(context.projectId),
+    sceneId: docxReviewPreviewSessionDetailString(intakePayload.sceneId)
+      || docxReviewPreviewSessionDetailString(context.targetScope?.id),
+    sceneRevision: docxReviewPreviewSessionDetailString(intakePayload.sceneRevision),
+    rawSha256: docxReviewPreviewSessionDetailString(intakePayload.rawSha256),
+    baselineHash: docxReviewPreviewSessionDetailString(context.baselineHash),
+    currentBaselineHash: docxReviewPreviewSessionDetailString(context.currentBaselineHash),
+    roundId,
+    exportId: docxReviewPreviewSessionDetailString(intakePayload.exportId),
+    exportArtifactId: docxReviewPreviewSessionDetailString(intakePayload.exportArtifactId),
+    returnArtifactId,
+    semanticReturnId,
+    parserProfileDigest: docxReviewPreviewSessionDetailString(intake.parserResult?.parserProfileDigest),
+    analysisDigest: docxReviewPreviewSessionDetailString(intake.parserResult?.analysisDigest),
+  };
   return {
     projectRoot: docxReviewPreviewSessionDetailString(context.projectRoot),
     roundId: roundId || docxReviewPreviewSessionDetailString(sourceViewState.revisionToken) || `docx-review-preview-${packetHash}`,
     requestId,
     returnArtifactId: returnArtifactId || packetHash,
     semanticReturnId: semanticReturnId || `semantic:${packetHash}`,
+    authenticatedReturnIdentity,
     reviewIr: {
       schemaVersion: 'yalken.rtk.review-ir.v2',
       roundId: roundId || docxReviewPreviewSessionDetailString(sourceViewState.revisionToken) || `docx-review-preview-${packetHash}`,
@@ -5244,6 +5260,9 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
         reason: docxReviewPreviewSessionDetailString(commentShadowResult.reason || commentShadowResult.error?.reason),
         writerCalled: commentShadowResult.writerCalled === true,
         manuscriptApplyAuthority: commentShadowResult.manuscriptApplyAuthority === true,
+        storageEffects: isPlainObjectValue(commentShadowResult.storageEffects)
+          ? cloneJsonSafe(commentShadowResult.storageEffects)
+          : null,
       }
       : null,
     nonOverlapTrackedReplacementProductPath: isPlainObjectValue(nonOverlapTrackedReplacementProductPath)

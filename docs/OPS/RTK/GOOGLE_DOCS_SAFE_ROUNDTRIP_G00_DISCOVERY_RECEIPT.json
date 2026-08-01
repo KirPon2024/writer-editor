@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "yalken.rtk.google-docs.safe-roundtrip.g00-discovery-receipt.v1",
+  "taskId": "YALKEN_GOOGLE_DOCS_G00_DISCOVERY_BINDING",
+  "status": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T16:05:00.000Z",
+  "headBinding": {
+    "originMainSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
+    "localHeadSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
+    "branch": "codex/rtk-google-g00-discovery-binding"
+  },
+  "sourceBindings": [
+    {
+      "id": "WORD_STAGE_FORMAL_CLOSURE",
+      "path": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
+      "sha256": "0c26cf0a3665f0587e152f6bc89f676c825bcbf5f8b332db794829e9c8420b05",
+      "status": "BOUND"
+    },
+    {
+      "id": "GOOGLE_G00_MATRIX",
+      "path": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "4bf89840755d10b71dd0be43107ccdb0cc04ac0788f44e61cd636c2e29be358c",
+      "status": "BOUND"
+    },
+    {
+      "id": "GOOGLE_EVIDENCE_CLAIM_BINDING_STATUS",
+      "path": "docs/OPS/STATUS/REVIEW_BRIDGE_GOOGLE_DOCS_EVIDENCE_CLAIM_BINDING_001_STATUS.json",
+      "sha256": "0afd161f9a66604e22a1bd722e099034324cfc0dfd04d9458b8b226325c1bc97",
+      "status": "BOUND"
+    },
+    {
+      "id": "GOOGLE_EVIDENCE_CLAIM_CONTRACT",
+      "path": "test/contracts/review-bridge-google-docs-evidence-claim-binding.contract.test.js",
+      "sha256": "8664e8444d7ca0c8b562806fbed2062739e9c15c6a7a22fc8e295e615226e5f8",
+      "status": "BOUND"
+    },
+    {
+      "id": "GOOGLE_EVIDENCE_GATE_CONTRACT",
+      "path": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
+      "sha256": "9390d84376107e1994b8629e6f1b20cb70a78e4968918ed359d72cbb36a8ff51",
+      "status": "BOUND"
+    },
+    {
+      "id": "REVISION_BRIDGE_INDEX",
+      "path": "src/io/revisionBridge/index.mjs",
+      "sha256": "717ae0f559158cad8d1d74025120d80c6e72793cc65b7d026702265ca5e03cf5",
+      "status": "BOUND"
+    }
+  ],
+  "wordClosure": {
+    "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
+    "auditVerdict": "PASS",
+    "supportedExplicitUserTrackedReplacementWordsMax": 100000,
+    "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
+    "automaticApplyCertified": false
+  },
+  "googleCurrentState": {
+    "existingEvidenceClaimGateOnly": true,
+    "physicalGoogleEvidence": 0,
+    "productRuntimeWired": 0,
+    "automaticApplyCertified": 0,
+    "blockers": 12,
+    "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY"
+  },
+  "gapMap": [
+    {
+      "cellId": "google.g00.existingEvidenceClaimGate",
+      "currentTerminalClass": "COMPONENT_PROVEN",
+      "userFacingAuthority": "EVIDENCE_CLAIM_GATE_ONLY",
+      "reasonCode": "G00_EXISTING_GOOGLE_EVIDENCE_CLAIM_GATE_ONLY",
+      "requiredNextContour": "NONE",
+      "blocksGoogleStage": false
+    },
+    {
+      "cellId": "google.g00.externalActivationBoundary",
+      "currentTerminalClass": "EXTERNAL_ACTIVATION_REQUIRED",
+      "userFacingAuthority": "NO_PRODUCT_AUTHORITY",
+      "reasonCode": "G00_GOOGLE_SESSION_NOT_BOUND_IN_THIS_CONTOUR",
+      "requiredNextContour": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.productUiExport",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_GOOGLE_EXPORT_CLAIM",
+      "reasonCode": "G00_NO_GOOGLE_PRODUCT_EXPORT_PATH",
+      "requiredNextContour": "GOOGLE_G01_PRODUCT_EXPORT_PACKET_DESIGN",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.officeModePhysicalRoundtrip",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_GOOGLE_ROUNDTRIP_CLAIM",
+      "reasonCode": "G00_NO_PHYSICAL_OFFICE_MODE_ROUNDTRIP",
+      "requiredNextContour": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.nativeConversionPhysicalRoundtrip",
+      "currentTerminalClass": "UNTESTED_MANUAL_LOSSY_BY_DEFAULT",
+      "userFacingAuthority": "NO_NATIVE_CONVERSION_CLAIM",
+      "reasonCode": "G00_NATIVE_CONVERSION_DEFAULTS_LOSSY_UNTIL_EVIDENCE",
+      "requiredNextContour": "GOOGLE_G02_NATIVE_CONVERSION_PHYSICAL_DISCOVERY",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.authenticatedReturnIntakeQuarantine",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_RETURN_INTAKE_AUTHORITY",
+      "reasonCode": "G00_NO_GOOGLE_RETURN_INTAKE",
+      "requiredNextContour": "GOOGLE_G03_RETURN_INTAKE_AND_QUARANTINE",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.suggestionsLane",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_SUGGESTION_APPLY_AUTHORITY",
+      "reasonCode": "G00_SUGGESTIONS_NOT_PARSED_OR_CLASSIFIED",
+      "requiredNextContour": "GOOGLE_G04_SUGGESTIONS_IR_AND_CLASSIFIER",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.commentsLane",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_COMMENT_IMPORT_CLAIM",
+      "reasonCode": "G00_DRIVE_COMMENTS_NOT_IMPORTED",
+      "requiredNextContour": "GOOGLE_G05_COMMENTS_REPLIES_STATUS_LANE",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.formattingLane",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_FORMATTING_TRANSFER_CLAIM",
+      "reasonCode": "G00_FORMATTING_UNMEASURED",
+      "requiredNextContour": "GOOGLE_G06_FORMATTING_STRUCTURE_UNICODE_MATRIX",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.structureLane",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_STRUCTURE_TRANSFER_CLAIM",
+      "reasonCode": "G00_STRUCTURE_UNMEASURED",
+      "requiredNextContour": "GOOGLE_G06_FORMATTING_STRUCTURE_UNICODE_MATRIX",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.previewDecisionCommandApply",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_APPLY_AUTHORITY",
+      "reasonCode": "G00_NO_GOOGLE_PREVIEW_OR_COMMAND_APPLY",
+      "requiredNextContour": "GOOGLE_G07_PREVIEW_EXPLICIT_DECISION_COMMAND_KERNEL",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.recoveryReopenReplay",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_RECOVERY_REPLAY_CLAIM",
+      "reasonCode": "G00_NO_GOOGLE_RECOVERY_OR_REPLAY_LEDGER",
+      "requiredNextContour": "GOOGLE_G08_RECOVERY_REOPEN_REPLAY",
+      "blocksGoogleStage": true
+    },
+    {
+      "cellId": "google.scaleEnvelope",
+      "currentTerminalClass": "UNTESTED",
+      "userFacingAuthority": "NO_GOOGLE_SCALE_ENVELOPE",
+      "reasonCode": "G00_SCALE_UNMEASURED",
+      "requiredNextContour": "GOOGLE_G09_SCALE_ENVELOPE",
+      "blocksGoogleStage": true
+    }
+  ],
+  "safetyInvariants": {
+    "noCredentialsHandling": true,
+    "noPrivateUserDocuments": true,
+    "noPayments": true,
+    "noAccountCreation": true,
+    "noProductNetworkOutsideExplicitGoogleAdapterBoundary": true,
+    "noSilentApply": true,
+    "noSilentLoss": true,
+    "noFalseExact": true,
+    "noWrongSceneRouting": true,
+    "noReplayFailure": true
+  },
+  "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
+  "nonClaims": [
+    "No Google Docs support is claimed.",
+    "No Google Docs import is claimed.",
+    "No Google Docs roundtrip is claimed.",
+    "No Google API runtime dependency is introduced.",
+    "No Google Drive integration is introduced.",
+    "No automatic apply is certified.",
+    "No Google stage DONE is claimed."
+  ]
+}

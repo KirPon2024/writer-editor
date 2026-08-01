@@ -1,78 +1,29 @@
 {
   "schemaVersion": "yalken.atlas.v5.efinal.finalAuditProgramDod.v2",
-  "generatedAtUtc": "2026-08-01T03:30:22.079Z",
+  "generatedAtUtc": "2026-08-01T11:37:40.318Z",
   "contourId": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
-  "status": "NOT_READY_EFINAL_MACHINE_CAPABILITY_GAPS",
-  "pass": false,
-  "finalProgramDoDClaim": false,
-  "finalProgramDoDClaimScope": "NOT_READY_RECEIPTS_ARE_DIAGNOSTIC_ONLY_MACHINE_CAPABILITY_GATE_REQUIRED",
+  "status": "PASS_EFINAL_READY_FOR_INDEPENDENT_AUDIT",
+  "pass": true,
+  "finalProgramDoDClaim": true,
+  "finalProgramDoDClaimScope": "READY_FOR_INDEPENDENT_AUDIT_PENDING_EXTERNAL_NO_OPEN_P0_VERDICT",
   "gitIdentity": {
-    "headSha": "022d462d2696679fc18994d9f65924962fd4a7f0",
-    "originMainSha": "022d462d2696679fc18994d9f65924962fd4a7f0",
-    "branch": "codex/yalken-atlas-v5-final-audit-p0-02",
+    "headSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+    "originMainSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+    "branch": "codex/yalken-atlas-v5-efinal-exact-head",
     "headEqualsOriginMain": true,
-    "localDirtyFileCount": 6,
+    "localDirtyFileCount": 31,
     "remoteBranchExists": false
   },
   "machineCapabilityGate": {
-    "pass": false,
-    "status": "NOT_READY_EFINAL_MACHINE_CAPABILITY_GAPS",
+    "pass": true,
+    "status": "PASS_EFINAL_MACHINE_CAPABILITY_GATE_READY_FOR_INDEPENDENT_AUDIT",
     "sourceBinding": {
       "r3C05PhysicalRerunReport": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/r3-c05-release-saturation-revalidation-report.json",
-      "r3SourceHeadSha": "fd092ff854c926cd9c45bbd264216cf996c268ca",
-      "currentHeadSha": "022d462d2696679fc18994d9f65924962fd4a7f0",
-      "currentOriginMainSha": "022d462d2696679fc18994d9f65924962fd4a7f0",
-      "sourceDeltaFiles": [
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS/p0-01-future-schema-loss-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/night01-c01-independent-final-rerun-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun-receipt.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journey.png",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-reopen.png",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/r3-c05-release-saturation-revalidation-report.json",
-        "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION/night01-c02-final-disposition-report.json",
-        "docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
-        "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-        "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
-        "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
-        "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-        "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-        "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS_RECEIPT.json",
-        "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN_RECEIPT.json",
-        "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION_RECEIPT.json",
-        "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION_RECEIPT.json",
-        "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
-        "scripts/ops/yalken-atlas-v5-night01-c01-independent-final-rerun.mjs",
-        "scripts/ops/yalken-atlas-v5-night01-c02-final-disposition.mjs",
-        "src/export/docx/docxReviewPacketBuilder.js",
-        "src/io/revisionBridge/index.mjs",
-        "src/main.js",
-        "test/contracts/revision-bridge-docx-hostile-file-gate.contract.test.js",
-        "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
-        "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
-        "test/contracts/rtk-word-release-audit-p0-controlled-grant-probe.contract.test.js",
-        "test/contracts/rtk-word-release-audit-p0-product-originated-smoke-wave12.contract.test.js",
-        "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
-        "test/contracts/yalken-atlas-v5-night01-c01-independent-final-rerun.contract.test.js",
-        "test/contracts/yalken-atlas-v5-night01-c01-remote-merge-verification.contract.test.js",
-        "test/contracts/yalken-atlas-v5-night01-c02-final-disposition.contract.test.js"
-      ],
-      "productRuntimeDeltaFiles": [
-        "src/export/docx/docxReviewPacketBuilder.js",
-        "src/io/revisionBridge/index.mjs",
-        "src/main.js"
-      ],
+      "r3SourceHeadSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+      "currentHeadSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+      "currentOriginMainSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+      "sourceDeltaFiles": [],
+      "productRuntimeDeltaFiles": [],
       "checks": [
         {
           "key": "r3PhysicalReportExists",
@@ -88,9 +39,9 @@
         },
         {
           "key": "exactHeadBinding",
-          "expected": "022d462d2696679fc18994d9f65924962fd4a7f0",
-          "actual": "fd092ff854c926cd9c45bbd264216cf996c268ca",
-          "pass": false
+          "expected": "31897c6ab0d24151fc69509c63438922c481a0b4 or ancestor with zero product-runtime delta",
+          "actual": "31897c6ab0d24151fc69509c63438922c481a0b4",
+          "pass": true
         },
         {
           "key": "currentHeadEqualsOriginMain",
@@ -101,18 +52,18 @@
         {
           "key": "noProductRuntimeDeltaSincePhysicalProof",
           "expected": 0,
-          "actual": 3,
-          "pass": false
+          "actual": 0,
+          "pass": true
         }
       ],
-      "pass": false
+      "pass": true
     },
     "capabilities": {
       "atlasEntityRelationUi": {
         "id": "atlasEntityRelationUi",
         "pass": true,
         "evidencePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
-        "evidenceSha256": "f1fda7c456c7d40e2db6c6ef671492c2d6c2ff948726b602103111d46ffbaa0e",
+        "evidenceSha256": "1148bc02b22ccb99b5aa43dcea167aa4d97aca5cf5464037aed0837826fabed3",
         "checks": [
           {
             "key": "summaryPass",
@@ -210,7 +161,7 @@
         "id": "atlasTemporalContinuityUi",
         "pass": true,
         "evidencePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
-        "evidenceSha256": "5fa683a60f097182de7820fa6d30cd7b4c61f9796b382a7a92f45eaf93b62352",
+        "evidenceSha256": "b0314ecd55e10fef5f69d6b30b28714ef8a9d8c42f1815e9c47f161189651329",
         "checks": [
           {
             "key": "summaryPass",
@@ -332,7 +283,7 @@
         "id": "manualMapPortabilityUi",
         "pass": true,
         "evidencePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
-        "evidenceSha256": "9cb13a3e0009e40e88bb38810f1ebda90641f0c1dffc2b4883a90824eba16d5b",
+        "evidenceSha256": "6e5fbc911e78728928477f9ac36b28eb0785c671dceffd7bb8c0ad3bc5cf1dd2",
         "checks": [
           {
             "key": "summaryPass",
@@ -460,7 +411,7 @@
         "id": "multilingualWorkerStress",
         "pass": true,
         "evidencePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
-        "evidenceSha256": "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4",
+        "evidenceSha256": "858ea5665d93051d8e2bc5e5768f191f44da4b30bfc226c30e76a949e08609b5",
         "checks": [
           {
             "key": "summaryPass",
@@ -556,7 +507,7 @@
           "atlasEntityRelationUi",
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -565,7 +516,7 @@
         "requiredCapabilities": [
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -575,7 +526,7 @@
           "atlasEntityRelationUi",
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -585,7 +536,7 @@
           "atlasEntityRelationUi",
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -594,7 +545,7 @@
         "requiredCapabilities": [
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -603,7 +554,7 @@
         "requiredCapabilities": [
           "atlasEntityRelationUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -612,7 +563,7 @@
         "requiredCapabilities": [
           "atlasTemporalContinuityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -621,7 +572,7 @@
         "requiredCapabilities": [
           "multilingualWorkerStress"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -630,7 +581,7 @@
         "requiredCapabilities": [
           "multilingualWorkerStress"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -639,7 +590,7 @@
         "requiredCapabilities": [
           "multilingualWorkerStress"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -649,7 +600,7 @@
           "atlasEntityRelationUi",
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -658,7 +609,7 @@
         "requiredCapabilities": [
           "multilingualWorkerStress"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -667,7 +618,7 @@
         "requiredCapabilities": [
           "atlasEntityRelationUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -676,7 +627,7 @@
         "requiredCapabilities": [
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -685,7 +636,7 @@
         "requiredCapabilities": [
           "multilingualWorkerStress"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -694,7 +645,7 @@
         "requiredCapabilities": [
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -705,7 +656,7 @@
           "atlasTemporalContinuityUi",
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -717,7 +668,7 @@
           "manualMapPortabilityUi",
           "multilingualWorkerStress"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -727,7 +678,7 @@
           "atlasEntityRelationUi",
           "manualMapPortabilityUi"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       },
@@ -739,7 +690,7 @@
           "manualMapPortabilityUi",
           "multilingualWorkerStress"
         ],
-        "pass": false,
+        "pass": true,
         "missing": [],
         "sourceBindingRequired": true
       }
@@ -829,7 +780,7 @@
         "id": "P0_02_EFINAL_FALSE_GREEN",
         "pass": true,
         "receiptPath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_02_EFINAL_FALSE_GREEN_RECEIPT.json",
-        "receiptSha256": "fc5b032be219df68cd7b185887839f88c098b386dae91a848fb8041e9cf55a7f",
+        "receiptSha256": "da754c37b57d40027ccf4165041e6836d21fa281a2f1a435b472d961ea96d0aa",
         "checks": [
           {
             "key": "receiptExists",
@@ -895,455 +846,342 @@
       },
       {
         "id": "P0_03_PACKAGED_JOURNEY_STALE",
-        "pass": false,
+        "pass": true,
         "receiptPath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE_RECEIPT.json",
-        "receiptSha256": "",
+        "receiptSha256": "55377ca72970f6de0edddd1dc7d8d20e4fbfcebb144d024cb49245b620ef12a3",
         "checks": [
           {
             "key": "receiptExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptParseOk",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptPassFlag",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportShaMatchesReceipt",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "packagedJourneyFreshOnCurrentRuntimeSha",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "visibleControlsOnly",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "persistReopenRecoveryImportExportProof",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           }
         ]
       },
       {
         "id": "P0_04_DESIGN_OS_BINDING",
-        "pass": false,
+        "pass": true,
         "receiptPath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING_RECEIPT.json",
-        "receiptSha256": "",
+        "receiptSha256": "2a190a45adac16990624995c30a0b6c564956db995e50605ff90aa5ecc819b31",
         "checks": [
           {
             "key": "receiptExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptParseOk",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptPassFlag",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportShaMatchesReceipt",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "featureIntegrationManifestBound",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "slotResolverBound",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "negativeBypassTested",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           }
         ]
       },
       {
         "id": "P0_05_MANUAL_MAP_PORTABILITY",
-        "pass": false,
+        "pass": true,
         "receiptPath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY_RECEIPT.json",
-        "receiptSha256": "",
+        "receiptSha256": "bf564d291b9dd717592fd0c3173f6e895a62ac9cf30585603fff6fe3de8b8dfc",
         "checks": [
           {
             "key": "receiptExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptParseOk",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptPassFlag",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportShaMatchesReceipt",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "runtimeUiPathConnected",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "repeatImportTested",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "pdfProofOrTypedLoss",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           }
         ]
       },
       {
         "id": "P0_06_MULTILINGUAL_MATCHER",
-        "pass": false,
+        "pass": true,
         "receiptPath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_06_MULTILINGUAL_MATCHER_RECEIPT.json",
-        "receiptSha256": "",
+        "receiptSha256": "51e27407db118950f6e978ecc0e46580ebeface0cefdb421e35c024f758971d0",
         "checks": [
           {
             "key": "receiptExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptParseOk",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptPassFlag",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportShaMatchesReceipt",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "languagePolicyBeforeMatching",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "graphemeAwareMatching",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "unicodeMatrixProductEvidence",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           }
         ]
       },
       {
         "id": "P0_07_STRESS_PRODUCT_PROOF",
-        "pass": false,
+        "pass": true,
         "receiptPath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF_RECEIPT.json",
-        "receiptSha256": "",
+        "receiptSha256": "246b5279f3bc5d589c5a9406786375d29e1d56370b34b10cefebb6b50ed5d20f",
         "checks": [
           {
             "key": "receiptExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptParseOk",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptPassFlag",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportShaMatchesReceipt",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "persistedLargeProjects",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "rendered10k50kGraphs",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "measuredLimitsNoSilentCap",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           }
         ]
       },
       {
         "id": "P0_08_STAGE10_PRODUCT_WIRING",
-        "pass": false,
+        "pass": true,
         "receiptPath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING_RECEIPT.json",
-        "receiptSha256": "",
+        "receiptSha256": "3dc991b695875326890c68af7e2527caa8ab06cd0ae592866ce57f74a45c3ee2",
         "checks": [
           {
             "key": "receiptExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptParseOk",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "receiptPassFlag",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportExists",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "reportShaMatchesReceipt",
             "expected": true,
-            "actual": false,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "localProductPathsConnected",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "persistenceReopenRecoveryUndoConflicts",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           },
           {
             "key": "shadowDeclaredShadow",
             "expected": true,
-            "pass": false
+            "actual": true,
+            "pass": true
           }
         ]
       }
     ],
-    "failures": [
-      {
-        "code": "MACHINE_SOURCE_BINDING_FAILED",
-        "id": "exactHeadBinding",
-        "actual": "fd092ff854c926cd9c45bbd264216cf996c268ca",
-        "expected": "022d462d2696679fc18994d9f65924962fd4a7f0"
-      },
-      {
-        "code": "MACHINE_SOURCE_BINDING_FAILED",
-        "id": "noProductRuntimeDeltaSincePhysicalProof",
-        "actual": 3,
-        "expected": 0
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_01_FOUR_CANONICAL_PROJECTIONS_AND_MANUAL_MAPS",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_02_SHARED_GRAPH_WORKBENCH_DISTINCT_AUTHORITY",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_03_PRODUCT_CORE_SINGLE_DOMAIN_TRUTH",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_04_COMMAND_KERNEL_SINGLE_WRITE_PATH",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_05_DESIGN_OS_MANIFEST_TYPED_SLOTS",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_06_ATLAS_EVIDENTIAL_REVERSIBLE_NO_MANUSCRIPT_REWRITE",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_07_TIME_CALENDAR_CONTINUITY_WORKS",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_08_GLOBAL_LANGUAGE_BASELINE_UNICODE",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_09_BASIC_DEEP_LANGUAGES_CERTIFIED",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_10_MIXED_CJK_RTL_IME_UNICODE_EDGES",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_11_MANUAL_MAPS_ATLAS_DECISIONS_AUTHOR_DATA_RECOVERY",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_12_DERIVED_CACHE_REBUILDABLE",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_13_HISTORY_COMMENTS_COLLAB_NO_SECOND_TRUTH",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_14_IMPORT_EXPORT_ROUNDTRIP_FULL_ARCHIVE",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_15_PERFORMANCE_BUDGETS_APPROVED_CORPORA_HARDWARE",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_16_GRAPH_ACCESSIBILITY_FALLBACK_PARITY",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_17_ACTIVE_PLATFORMS_PACKAGED_VERIFICATION",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_18_FACTUAL_DOCS_MATCH_RUNTIME",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_19_NO_CAPABILITY_SILENTLY_LOST",
-        "missing": []
-      },
-      {
-        "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-        "id": "DOD_20_PROGRAM_ORDER_AND_DELIVERY_COMPLETE",
-        "missing": []
-      },
-      {
-        "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-        "id": "P0_03_PACKAGED_JOURNEY_STALE"
-      },
-      {
-        "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-        "id": "P0_04_DESIGN_OS_BINDING"
-      },
-      {
-        "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-        "id": "P0_05_MANUAL_MAP_PORTABILITY"
-      },
-      {
-        "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-        "id": "P0_06_MULTILINGUAL_MATCHER"
-      },
-      {
-        "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-        "id": "P0_07_STRESS_PRODUCT_PROOF"
-      },
-      {
-        "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-        "id": "P0_08_STAGE10_PRODUCT_WIRING"
-      }
-    ]
+    "failures": []
   },
   "programDodEvidenceMap": [
     {
@@ -1352,7 +1190,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1361,7 +1199,7 @@
       "requiredCapabilities": [
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1371,7 +1209,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1381,7 +1219,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1390,7 +1228,7 @@
       "requiredCapabilities": [
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1399,7 +1237,7 @@
       "requiredCapabilities": [
         "atlasEntityRelationUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1408,7 +1246,7 @@
       "requiredCapabilities": [
         "atlasTemporalContinuityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1417,7 +1255,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1426,7 +1264,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1435,7 +1273,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1445,7 +1283,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1454,7 +1292,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1463,7 +1301,7 @@
       "requiredCapabilities": [
         "atlasEntityRelationUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1472,7 +1310,7 @@
       "requiredCapabilities": [
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1481,7 +1319,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1490,7 +1328,7 @@
       "requiredCapabilities": [
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1501,7 +1339,7 @@
         "atlasTemporalContinuityUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1513,7 +1351,7 @@
         "manualMapPortabilityUi",
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1523,7 +1361,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1535,7 +1373,7 @@
         "manualMapPortabilityUi",
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     }
@@ -1547,7 +1385,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1556,7 +1394,7 @@
       "requiredCapabilities": [
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1566,7 +1404,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1576,7 +1414,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1585,7 +1423,7 @@
       "requiredCapabilities": [
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1594,7 +1432,7 @@
       "requiredCapabilities": [
         "atlasEntityRelationUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1603,7 +1441,7 @@
       "requiredCapabilities": [
         "atlasTemporalContinuityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1612,7 +1450,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1621,7 +1459,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1630,7 +1468,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1640,7 +1478,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1649,7 +1487,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1658,7 +1496,7 @@
       "requiredCapabilities": [
         "atlasEntityRelationUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1667,7 +1505,7 @@
       "requiredCapabilities": [
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1676,7 +1514,7 @@
       "requiredCapabilities": [
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1685,7 +1523,7 @@
       "requiredCapabilities": [
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1696,7 +1534,7 @@
         "atlasTemporalContinuityUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1708,7 +1546,7 @@
         "manualMapPortabilityUi",
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1718,7 +1556,7 @@
         "atlasEntityRelationUi",
         "manualMapPortabilityUi"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     },
@@ -1730,7 +1568,7 @@
         "manualMapPortabilityUi",
         "multilingualWorkerStress"
       ],
-      "pass": false,
+      "pass": true,
       "missing": [],
       "sourceBindingRequired": true
     }
@@ -2054,7 +1892,7 @@
   },
   "legacyReceiptStatusCanCertifyProgramDoD": false,
   "activePlatformScope": {
-    "macosPackagedElectron": "NOT_READY_MACHINE_CAPABILITY_GAPS",
+    "macosPackagedElectron": "MACHINE_GATE_READY_FOR_INDEPENDENT_AUDIT",
     "windows": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
     "linux": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
     "web": "NOT_ACTIVATED_NO_PASS_NO_HOLD",
@@ -2072,142 +1910,5 @@
     "negativeControlsRequired": true,
     "allP0RepairsRequiredBeforeProgramDone": true
   },
-  "failures": [
-    {
-      "code": "MACHINE_SOURCE_BINDING_FAILED",
-      "id": "exactHeadBinding",
-      "actual": "fd092ff854c926cd9c45bbd264216cf996c268ca",
-      "expected": "022d462d2696679fc18994d9f65924962fd4a7f0"
-    },
-    {
-      "code": "MACHINE_SOURCE_BINDING_FAILED",
-      "id": "noProductRuntimeDeltaSincePhysicalProof",
-      "actual": 3,
-      "expected": 0
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_01_FOUR_CANONICAL_PROJECTIONS_AND_MANUAL_MAPS",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_02_SHARED_GRAPH_WORKBENCH_DISTINCT_AUTHORITY",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_03_PRODUCT_CORE_SINGLE_DOMAIN_TRUTH",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_04_COMMAND_KERNEL_SINGLE_WRITE_PATH",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_05_DESIGN_OS_MANIFEST_TYPED_SLOTS",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_06_ATLAS_EVIDENTIAL_REVERSIBLE_NO_MANUSCRIPT_REWRITE",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_07_TIME_CALENDAR_CONTINUITY_WORKS",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_08_GLOBAL_LANGUAGE_BASELINE_UNICODE",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_09_BASIC_DEEP_LANGUAGES_CERTIFIED",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_10_MIXED_CJK_RTL_IME_UNICODE_EDGES",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_11_MANUAL_MAPS_ATLAS_DECISIONS_AUTHOR_DATA_RECOVERY",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_12_DERIVED_CACHE_REBUILDABLE",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_13_HISTORY_COMMENTS_COLLAB_NO_SECOND_TRUTH",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_14_IMPORT_EXPORT_ROUNDTRIP_FULL_ARCHIVE",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_15_PERFORMANCE_BUDGETS_APPROVED_CORPORA_HARDWARE",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_16_GRAPH_ACCESSIBILITY_FALLBACK_PARITY",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_17_ACTIVE_PLATFORMS_PACKAGED_VERIFICATION",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_18_FACTUAL_DOCS_MATCH_RUNTIME",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_19_NO_CAPABILITY_SILENTLY_LOST",
-      "missing": []
-    },
-    {
-      "code": "PROGRAM_DOD_MACHINE_CAPABILITY_MISSING",
-      "id": "DOD_20_PROGRAM_ORDER_AND_DELIVERY_COMPLETE",
-      "missing": []
-    },
-    {
-      "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-      "id": "P0_03_PACKAGED_JOURNEY_STALE"
-    },
-    {
-      "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-      "id": "P0_04_DESIGN_OS_BINDING"
-    },
-    {
-      "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-      "id": "P0_05_MANUAL_MAP_PORTABILITY"
-    },
-    {
-      "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-      "id": "P0_06_MULTILINGUAL_MATCHER"
-    },
-    {
-      "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-      "id": "P0_07_STRESS_PRODUCT_PROOF"
-    },
-    {
-      "code": "FINAL_AUDIT_REPAIR_QUEUE_OPEN",
-      "id": "P0_08_STAGE10_PRODUCT_WIRING"
-    }
-  ]
+  "failures": []
 }

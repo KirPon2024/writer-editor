@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.atlas.v5.r3.c04.multilingualWorkerStress.v1",
   "contourId": "R3_C04_MULTILINGUAL_WORKER_STRESS_AND_STALE_RESULT_SATURATION",
-  "generatedAtUtc": "2026-08-01T01:52:18.478Z",
+  "generatedAtUtc": "2026-08-01T11:37:28.044Z",
   "project": {
     "projectId": "r3-c04-multilingual-worker-project",
     "sceneId": "scene-r3-c04-multilingual",
@@ -53,7 +53,7 @@
     }
   },
   "multilingualRouting": {
-    "mentionCount": 9,
+    "mentionCount": 11,
     "routeCount": 17,
     "routeAssertions": [
       {
@@ -65,7 +65,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 12,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       },
       {
         "id": "ru",
@@ -76,7 +79,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 4,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       },
       {
         "id": "cjk",
@@ -87,7 +93,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 2,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       },
       {
         "id": "rtl",
@@ -98,7 +107,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 4,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       },
       {
         "id": "indic",
@@ -109,7 +121,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 4,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       },
       {
         "id": "emoji",
@@ -120,7 +135,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 1,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       },
       {
         "id": "nfc",
@@ -131,7 +149,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 4,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       },
       {
         "id": "nfd",
@@ -142,7 +163,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 4,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       },
       {
         "id": "ime",
@@ -153,7 +177,10 @@
         "fuzzyMatching": false,
         "englishFallback": false,
         "graphemeLength": 2,
-        "quotePreserved": true
+        "quotePreserved": true,
+        "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+        "matchMode": "CASE_AND_CANONICAL_EQUIVALENCE_EXACT",
+        "segmentationAppliedBeforeMatching": true
       }
     ],
     "allSegmentsMatched": true,
@@ -161,7 +188,8 @@
     "allExpectedLanguages": true,
     "exactOnlyNoFallback": true,
     "allQuotesPreserved": true,
-    "mentionIndexHash": "3df9e78c80331786dff094632bd95989ed34cf8f4494f4d7b23ed24c868fbd09",
+    "matcherPolicyBeforeMatching": true,
+    "mentionIndexHash": "3d72986308228b1d0c4e6fcb61b9fb42ffb7a9fb8ef4fa8d46190d58af6b76cc",
     "routerHash": "f76b0f55c8ea8d90625c41dfb15b35544fdf11b291779f75dac3bf7e812d1c61"
   },
   "workerStress": {
@@ -173,7 +201,7 @@
       "plannedNodes": 720,
       "plannedEdges": 725,
       "spatialIndexCells": 174,
-      "portWallTimeMs": 159.2927090000012,
+      "portWallTimeMs": 117.46029200000339,
       "fullGraphIncluded": false,
       "coreStateIncluded": false
     },
@@ -183,7 +211,7 @@
       "plannedNodes": 960,
       "plannedEdges": 956,
       "spatialIndexCells": 211,
-      "portWallTimeMs": 134.62570899999992,
+      "portWallTimeMs": 133.7677079999994,
       "fullGraphIncluded": false,
       "coreStateIncluded": false
     },

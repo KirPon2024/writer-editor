@@ -1,0 +1,1593 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r3.c01.atlasEntityRelationUiJourneys.v1",
+  "generatedAtUtc": "2026-08-01T01:51:28.176Z",
+  "contourId": "R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS",
+  "platformId": "macos-local-electron",
+  "viewportMatrix": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "status": "SUPPORTED_BLACK_BOX_ACCEPTED"
+    }
+  ],
+  "status": "PASS_ATLAS_ENTITY_RELATION_UI_JOURNEY",
+  "pass": true,
+  "accepted": {
+    "visibleInputRuntime": true,
+    "pointerAndKeyboardUsed": true,
+    "explicitJourneyFields": true,
+    "commandKernelButtonsOnly": true,
+    "noFirstTargetFallbackSurface": true,
+    "sceneTextSaved": true,
+    "persistedEntityAliasMentionEvidence": true,
+    "persistedRelationOperations": true,
+    "reopenProjectionVisible": true,
+    "screenshotsNonblank": true,
+    "noNetworkNoDialogs": true,
+    "noHorizontalOverflow": true
+  },
+  "negativeAssertions": {
+    "directIpcAcceptedJourney": false,
+    "hiddenFirstEntityFallbackAccepted": false,
+    "generatedArtifactOnlyAccepted": false,
+    "networkActivated": false,
+    "overflowAccepted": false
+  },
+  "runtime": {
+    "first": {
+      "ok": true,
+      "runtimeKind": "production-electron-visible-input-black-box",
+      "mode": "journey",
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": "",
+      "result": {
+        "ok": 1,
+        "mode": "journey",
+        "appReady": true,
+        "windowCount": 1,
+        "rendererProbe": {
+          "ok": 1,
+          "mode": "journey",
+          "viewport": {
+            "width": 1440,
+            "height": 782
+          },
+          "inputEvents": [
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 152,
+              "y": 310
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 152,
+              "y": 310
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 152,
+              "y": 310
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 377
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 377
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 377
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "1",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": " ",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "m",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": " ",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "1",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": ".",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": " ",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "1",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": " ",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "r",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "u",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "s",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": " ",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "1",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": ".",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "S",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "S",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1242,
+              "y": 212
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1242,
+              "y": 212
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1242,
+              "y": 212
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 324
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 324
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 324
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "1",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1207,
+              "y": 579
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1207,
+              "y": 579
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1207,
+              "y": 579
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 324
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 324
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 324
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "1",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1207,
+              "y": 579
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1207,
+              "y": 579
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1207,
+              "y": 579
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 378
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 378
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 378
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "i",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "s",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "1",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1286,
+              "y": 579
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1286,
+              "y": 579
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1286,
+              "y": 579
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1217,
+              "y": 613
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1217,
+              "y": 613
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1217,
+              "y": 613
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1305,
+              "y": 613
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1305,
+              "y": 613
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1305,
+              "y": 613
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1373,
+              "y": 613
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1373,
+              "y": 613
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1373,
+              "y": 613
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1191,
+              "y": 647
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1191,
+              "y": 647
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1191,
+              "y": 647
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1261,
+              "y": 647
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1261,
+              "y": 647
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1261,
+              "y": 647
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1361,
+              "y": 647
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1361,
+              "y": 647
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1361,
+              "y": 647
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "S",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "S",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            }
+          ],
+          "snapshot": {
+            "hostVisible": true,
+            "journeyStatus": "applied",
+            "sourceEntityId": "atlas-entity-ms9ptk7y-22h3e",
+            "targetEntityId": "atlas-entity-ms9ptj22-0q1yc",
+            "mentionId": "atlas-mention:3fe0db981d1fc7774dbd2b8c5e5c60b87990d3d713a8f5a0721e38ce31ef661e",
+            "fields": [
+              {
+                "tag": "INPUT",
+                "field": "entityName",
+                "value": "BetaR3C01",
+                "options": []
+              },
+              {
+                "tag": "INPUT",
+                "field": "aliasValue",
+                "value": "AlphaAliasR3C01",
+                "options": []
+              },
+              {
+                "tag": "SELECT",
+                "field": "sourceEntityId",
+                "value": "atlas-entity-ms9ptk7y-22h3e",
+                "options": [
+                  "No entity",
+                  "AlphaR3C01 · character",
+                  "BetaR3C01 · character"
+                ]
+              },
+              {
+                "tag": "SELECT",
+                "field": "targetEntityId",
+                "value": "atlas-entity-ms9ptj22-0q1yc",
+                "options": [
+                  "No target",
+                  "AlphaR3C01 · character"
+                ]
+              },
+              {
+                "tag": "SELECT",
+                "field": "mentionId",
+                "value": "atlas-mention:3fe0db981d1fc7774dbd2b8c5e5c60b87990d3d713a8f5a0721e38ce31ef661e",
+                "options": [
+                  "No mention",
+                  "AlphaR3C01 · AlphaR3C01",
+                  "BetaR3C01 · BetaR3C01",
+                  "AlphaR3C01 · AlphaR3C01",
+                  "BetaR3C01 · BetaR3C01"
+                ]
+              }
+            ],
+            "buttons": [
+              {
+                "action": "create-entity",
+                "commandId": "atlas.entity.create",
+                "text": "Create entity",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "add-alias",
+                "commandId": "atlas.alias.add",
+                "text": "Add alias",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "confirm-mention",
+                "commandId": "atlas.mention.confirm",
+                "text": "Confirm mention",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "suppress-observation",
+                "commandId": "atlas.observation.suppress",
+                "text": "Suppress",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "reassign-observation",
+                "commandId": "atlas.observation.reassign",
+                "text": "Reassign",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "merge-entities",
+                "commandId": "atlas.entity.merge",
+                "text": "Merge",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "split-restore",
+                "commandId": "atlas.entity.splitRestore",
+                "text": "Split restore",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "reattach-evidence",
+                "commandId": "atlas.evidence.reattach",
+                "text": "Reattach evidence",
+                "disabled": false,
+                "title": ""
+              }
+            ],
+            "currentSceneStatus": "ready",
+            "currentSceneText": "Atlasобложка2 сущн.4 упом.AlphaR3C012AlphaR3C01met BetaR3C01. AlphaR3C01 trusted BetaR3C...0-10AlphaR3C01AlphaR3C01 met BetaR3C01. trusted BetaR3C01.26-36BetaR3C012BetaR3C01AlphaR3C01 met . AlphaR3C01 trusted BetaR3C01.15-24BetaR3C01...haR3C01 met BetaR3C01. AlphaR3C01 trusted .45-54",
+            "bodyText": "\n  \n    \n      Yalken\n    \n    \n      \n        \n          \n            \n              \n                \n                \n                \n              \n              \n                \n                \n                \n              \n            \n          \n          \n            \n              \n                \n                \n                \n              \n            \n          \n          \n            \n              \n                \n                \n              \n            \n            \n              \n                \n              \n            \n            \n              \n                \n                \n              \n            \n            \n              \n                \n                \n                \n                \n              \n            \n            \n              \n                \n                \n                \n                \n              \n            \n          \n          \n            Изменить отступы\n          \n        \n      \n    \n    \n      \n        \n          \n            \n            \n          \n        \n        \n          \n            \n          \n        \n        \n          \n            \n          \n        \n        \n          \n          \n          \n          \n          \n          \n          \n          \n        \n            \n            \n            \n            \n          \n              \n                Roboto Ms\n                \n              \n              \n                Roboto Ms\n                Circe\n                American Typewriter\n                Palatino\n                Georgia\n                Times New Roman\n                Helvetica\n                Arial\n                SF Pro\n                Courier\n              \n            \n              \n                Light\n                \n              \n              \n                Regular\n                Light\n                Semibold\n                Bold\n                Condensed\n                Condensed Light\n                Condensed Bold\n              \n            \n              \n                16\n                \n              \n              \n                9\n                10\n                11\n                12\n                13\n                14\n                15\n                16\n                17\n                18\n                19\n                20\n                21\n                22\n                23\n                24\n                25\n                26\n                27\n                28\n                32\n                36\n                40\n                48\n                56\n                64\n                72\n                96\n                144\n                288\n                Font Panel...\n              \n            \n              \n                \n                  \n                \n                1.0\n                \n              \n              \n                0.5\n                0.6\n                0.7\n                0.8\n                0.9\n                1.0\n                1.1\n                1.2\n                1.3\n                1.4\n                1.5\n                1.625\n                1.75\n                2.0\n                Other...\n              \n            \n            \n            \n              \n              Список\n              \n            \n          \n              \n              Абзац\n              \n            \n            \n            \n          \n              \n            \n              \n            \n            \n              \n            \n            \n              \n            \n            \n              \n            \n          \n            \n              \n            \n          \n            \n              \n            \n            \n              \n            \n          \n            \n              \n            \n          \n            \n              \n            \n            \n              \n            \n          \n        \n          Слева\n          По центру\n          Справа\n          По ширине\n        \n        \n          Без списка\n          Маркированный\n          Нумерованный\n        \n        \n          Изменить отступы\n        \n      \n      \n        \n          Text color\n          ×\n        \n        ×\n      \n      \n        \n          Абзац\n          Обычный\n          Титул\n          Заголовок 1\n          Заголовок 2\n          Цитата\n        \n        \n        \n          Символ\n          Акцент\n          Код\n        \n      \n    \n    \n      \n        \n          \n        \n        \n          Навигатор\n          \n            \n              \n            \n            \n              \n            \n          \n        \n        \n          \n            Проект\n            План\n            Заметки\n            Поиск\n          \n        \n        \n          \n        \n        \n          Текст\n          \n            Сцена\n            Непрерывно\n          \n        \n        ПроектРукописьобложкачерновикчистовой текстЗаметкикарта идейпоток сознаниясныстатистика\n        Outline is empty\n        \n        Введите запрос\n        \n          \n            Рукопись\n            Локально\n          \n          \n            Без ограничений\n            На этом устройстве\n          \n          \n            \n          \n        \n        \n      \n      \n      \n        Atlas\n        Контекст\n      \n      \n        Выберите раздел для начала работы\n        \n          \n            Функции тулбара\n            \n              Минимальный\n              Полный\n            \n            \n              Полный набор\n              Шрифт×Начертание×Размер×Интерлиньяж×Жирный×Курсив×Подчеркнуть×Абзац×Список×Ссылка×Цвет текста×Выделение×Комментарий×Стиль абзаца×Стиль символов×Отменить×Повторить×\n            \n            \n              Минимальный набор\n              Шрифт×Начертание×Размер×Интерлиньяж×Абзац×Отменить×Повторить×\n            \n            ЖирныйСсылкаСтиль абзацаNew SlotNew SlotКурсивЦвет текстаСтиль символовNew SlotNew SlotПодчеркнутьВыделениеNew SlotNew SlotNew SlotСписокКомментарийNew SlotNew SlotNew Slot\n          \n        \n        \n          \n            \n              \n                Входящие\n                Заметки\n              \n              Готово\n            \n            \n              Быстрый захват\n              \n              \n                \n                Сохранить\n              \n            \n            \n              \n              \n                Выберите заметку или сохраните новую.\n                \n                  \n                  \n                  \n                  \n                    Сохранить\n                    К сцене\n                    В сцену\n                    Удалить\n                    Вернуть\n                  \n                \n              \n            \n          \n        \n        \n          \n            \n              \n                Поиск\n                Проектный поиск\n              \n              Введите запрос\n            \n            \n              \n                Проект\n                Рукопись\n                Текущая сцена\n                Выбранные сцены\n                Текущая ветка\n                Заметки\n                Аннотации\n              \n              \n                \n                Регистр\n              \n              \n                \n                Слово целиком\n              \n            \n            Введите запрос слева, чтобы найти текст в рукописи, заметках и аннотациях.\n          \n        \n        \n          \n        \n        \n          \n            Тихий редактор\n            Сцена\n            Локально\n          \n          \n            AlphaR3C01 met BetaR3C01. AlphaR3C01 trusted BetaR3C01.\n          \n        \n      \n      \n        \n          Контекст\n          \n            \n          \n        \n        \n          \n            Документ\n            Комментарии\n            История\n            Atlas\n          \n        \n        \n          \n            \n              Сведения недоступны\n              Текст сцены остаётся доступен и не изменён.\n            \n            \n              \n                Документ\n                обложка\n              \n\n              \n                Синопсис\n                \n              \n\n              \n                Теги\n                \n                  \n                    POV\n                    \n                  \n                  \n                    Линия\n                    \n                  \n                  \n                    Место\n                    \n                  \n                \n              \n\n              \n                Сведения\n                \n                  \n                    Тип\n                    Раздел рукописи\n                  \n                  \n                    Слова\n                    6\n                  \n                  \n                    Изменено\n                    сегодня, 04:51\n                  \n                \n              \n\n              \n                \n                  Показать настройки\n                  Скрыть настройки\n                  \n                \n                \n                  \n                    Сведения\n                    \n                      \n                        Статус\n                        \n                          черновик\n                          В работе\n                          Готово\n                        \n                      \n                      \n                        Слова\n                        6\n                      \n                      \n                        Изменено\n                        сегодня, 04:51\n                      \n                    \n                  \n\n                  \n                    Макет\n                    \n                      \n                        Формат\n                        \n                          A4\n                          A5\n                          Letter\n                        \n                      \n                      \n                        Ориентация\n                        \n                          Книжная\n                          Альбомная\n                        \n                      \n                      \n                        Предпросмотр\n                        Выкл\n                      \n                      \n                        Рамка\n                        Вкл\n                      \n                      \n                        Колонки\n                        1\n                      \n                      \n                        Поля\n                        25,4 мм\n                      \n                    \n                  \n\n                  \n                    Состояние\n                    \n                      \n                        Автосохранение\n                        Локально\n                      \n                      \n                        Комментарии\n                        Открыть\n                      \n                      \n                        Режим фокуса\n                        Выкл\n                      \n                    \n                  \n\n                  \n                    Команды\n                    \n                      Команды\n                    \n                  \n                \n              \n            \n          \n        \n        \n          \n    \n    \n    \n      Проверка правок\n      \n        Безопасная проверка\n        Запись в проект идет только через подтвержденный путь.\n      \n    \n    \n      Сводка импорта\n      \n    \n      Проект\n      локальный\n    \n  \n    \n      Сессия\n      не загружена\n    \n  \n    \n      Основа\n      ожидание\n    \n  \n    \n      Source mode\n      не определен\n    \n  \n    \n      Lifecycle\n      ожидание\n    \n  \n    \n      Статус\n      пусто\n    \n  \n    \n      Текст\n      0\n    \n  \n    \n      Структура\n      0\n    \n  \n    \n      Треды\n      0\n    \n  \n    \n      Привязки\n      0\n    \n  \n    \n      Диагностика\n      0\n    \n  \n    \n      Решения\n      0\n    \n  \n    \n    \n      Lanes\n      \n    \n      \n        \n          \n            Exact\n            0\n          \n          No exact text candidates\n        \n      \n        \n          \n            Manual\n            0\n          \n          No manual-only items\n        \n      \n        \n          \n            Comments\n            0\n          \n          No comment threads\n        \n      \n    \n  \n    \n    \n      Identity\n      \n    \n      Return artifact\n      —\n    \n  \n    \n      Manifest\n      —\n    \n  \n    \n      Parser profile\n      —\n    \n  \n    \n      Analysis\n      —\n    \n  \n    \n    \n      Элементы проверки\n      Нет импортированных элементов проверки.\n    \n    \n      Почему только вручную\n      Нет ручных ограничений.\n    \n    \n      Comment lane\n      Нет комментариев в независимой lane.\n    \n    \n      Потерянные комментарии\n      Нет потерянных или непривязанных комментариев.\n    \n    \n      Неподдержанные случаи\n      Нет неподдержанных наблюдений.\n    \n    \n      Точный текстовый шаг\n      Нет точного текстового предпросмотра.\n    \n    \n      Rewrite report\n      Нет Package Rewrite Report.\n    \n    \n      Progress\n      \n    \n      \n        No active review operation\n        0%\n      \n      \n        \n      \n      \n    \n  \n    \n    \n      Apply summary\n      \n    \n      pending\n      No terminal apply summary\n      \n    \n  \n    \n    \n      Отчет записи\n      Нет отчета о записи.\n    \n  \n        \n        \n          \n        \n        \n          \n            Scene\n            Flow\n            Map\n            Plot\n            Overview\n            Entity\n            Relation\n            Matrix\n            Reports\n            Diag.\n            Heatmap\n            Time\n            Ledger\n          \n          \n            Atlas journeyобложкаpersistedEntity nameAliasSource entityNo entityAlphaR3C01 · characterBetaR3C01 · characterTarget entityNo targetAlphaR3C01 · characterEvidence mentionNo mentionAlphaR3C01 · AlphaR3C01BetaR3C01 · BetaR3C01AlphaR3C01 · AlphaR3C01BetaR3C01 · BetaR3C01Create entityAdd aliasConfirm mentionSuppressReassignMergeSplit restoreReattach evidenceTarget: BetaR3C01 -> AlphaR3C01 · mention selected\n          \n          \n            Graph inspectorGraph workbench166bdb3d0maps0nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateOpen workspaceKeyboard list fallbackNo graph rows yetCreate a manual map node to populate the fallback.Portability recordsNo portability records yetAdd an attachment, portal, or template from the workspace.\n          \n          \n            Projection inspectorPlot, Idea, Meaning1/31ready2empty0unavail.3manifestsProjection statesideaempty · 0 items · IDEA_PROJECTION_EMPTYmeaningempty · 0 items · MEANING_PROJECTION_EMPTYplotready · 2 items · 254c2ae9ec25979715c8bb060791c273d28b7231b51495ebec2b2614809b2e9bPromotion boundaryPlotRead projection from scenes and confirmed mentionsIdeaAuthor truth: idea.create and idea.originLink.addMeaningPromotion only through meaning.promote via CommandKernel only\n          \n          \n            Atlas overviewc769af841сцен2сущн.3набл.1связей2/1графHealthready4 evidence anchorsreadyEntitiesBetaR3C012 appearances, 1 scenescharacterAlphaR3C011 appearances, 1 scenescharacterRelationsAlphaR3C01 ↔ BetaR3C011 occurrences1 scenesGraph1 clusters2 nodes, 1 edgesreadyconnectedComponent2 nodes1 edges\n          \n          \n            Entity dossierBetaR3C013d1cbdb51сцен2набл.3evidence0reviewRelationsAlphaR3C011 occurrences1 scenesEvidence ledgerBetaR3C01observation tree-node-e731a5eea5e04d81ac305de67e645f27CURRENTBetaR3C01observation tree-node-e731a5eea5e04d81ac305de67e645f27CURRENTAlphaR3C01observation tree-node-e731a5eea5e04d81ac305de67e645f27SUPPRESSED\n          \n          \n            Relation dossierAlphaR3C01 - BetaR3C019f06df701сцен1co-occur7evidence1/3actions\n          \n          \n            MatricesAtlas matrix parity600e95172entities1scenes6cells0clippedOpen heatmapOpen timelineOpen ledgerEntity-scene matrixEntity by scene observationsSceneобложкаBetaR3C012AlphaR3C011BetaR3C01 · обложка2 observations · 2 anchorsAlphaR3C01 · обложка1 observations · 1 anchorsRelation matrixEntity relation co-occurrencesEntityBetaR3C01AlphaR3C01BetaR3C01·1AlphaR3C011·AlphaR3C01 - BetaR3C011 co-occurrences · 1 scenes\n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            ReportsLocal Atlas reports9286197cSave queryQuery idQuery nameReport typeReportOverviewEntityRelationMatrixHeatmapSave query3reports0queries0stale3export rowsReport packetOverviewentities 2 · scenes 1 · observations 4 · relations 1MatricesentitySceneCells 2 · relationCells 4 · clippedCells 0HeatmaprenderedTiles 2 · omittedTiles 0 · maxObservationCount 2Saved queriesNo saved queries yetCommand boundary: atlas.savedQuery.saveExport-safe summaryOverviewentities:2, scenes:1, observations:4, relations:1MatricesentitySceneCells:2, relationCells:4, clippedCells:0HeatmaprenderedTiles:2, omittedTiles:0, maxObservationCount:2\n          \n          \n            DiagnosticsStage 05 acceptance / Stage 06 handoffc4077a3513surfaces2degraded4/7gates80 BscoreAcceptance gatesQuiet WRITEPASS · Diagnostics is a query-only projection with no product, storage, network, renderer, worker, daemon, or command mutation.Explicit heavy surfacesPASS · Atlas heatmap remains explicit-open and exposes viewport tile budget proof.Honest capability statePASS · Every Atlas surface has a fallback row and degraded state remains visible instead of failing the tab.Large-project UI guardsPASS · Matrix clipping/list parity and heatmap tile budget proofs are present.Final audit and heuristic receiptsDEGRADED · Repo-native audit and heuristic rows are advisory unless the final bar has external machine evidence.Stage 06 time calendar continuity acceptanceDEGRADED · Stage 06 acceptance proof covers calendar assumptions, temporal degraded report, evidence-backed findings, and hot-path budget.External machine evidenceNOT_READY · Missing external evidence: visualCaptureArtifact, accessibilityAuditArtifact, responsiveAuditArtifact, performanceMeasurementArtifact, packagedRunArtifactDegraded capability reportatlas.entity.createinfo · cap.atlas.entity.create enabled on nodeatlas.alias.addinfo · cap.atlas.alias.add enabled on nodeatlas.mention.confirminfo · cap.atlas.mention.confirm enabled on nodeatlas.observation.suppressinfo · cap.atlas.observation.suppress enabled on nodeatlas.entity.mergeinfo · cap.atlas.entity.merge enabled on nodeatlas.entity.splitRestoreinfo · cap.atlas.entity.splitRestore enabled on nodeatlas.observation.reassigninfo · cap.atlas.observation.reassign enabled on nodeatlas.evidence.reattachinfo · cap.atlas.evidence.reattach enabled on nodeatlas.savedQuery.saveinfo · cap.atlas.savedQuery.save enabled on nodeatlas.calendar.defineinfo · cap.atlas.calendar.define enabled on nodeFallback inventorysurface.atlas.calendarDefinitionsempty · empty read modelsurface.atlas.continuityFindingsempty · empty read modelsurface.atlas.continuityLedgerempty · empty read modelsurface.atlas.currentSceneDossierselectionRequired · empty current-scene state until a scene is opensurface.atlas.diagnosticsStageAcceptanceready · self-diagnostic read model reports degraded rows instead of failing the Atlas tabsurface.atlas.entityDossierselectionRequired · empty entity dossier until an entity is selectedsurface.atlas.heatmapready · ready read modelsurface.atlas.matricesready · ready read modelsurface.atlas.overviewready · ready read modelsurface.atlas.relationDossierselectionRequired · empty relation dossier until a relation is selected\n          \n          Atlasобложка2 сущн.4 упом.AlphaR3C012AlphaR3C01met BetaR3C01. AlphaR3C01 trusted BetaR3C...0-10AlphaR3C01AlphaR3C01 met BetaR3C01. trusted BetaR3C01.26-36BetaR3C012BetaR3C01AlphaR3C01 met . AlphaR3C01 trusted BetaR3C01.15-24BetaR3C01...haR3C01 met BetaR3C01. AlphaR3C01 trusted .45-54\n        \n        \n      \n    \n  \n  \n    \n      6 words\n    \n    \n      Сохранено\n      Save: saved\n      Warnings: none\n      Perf: normal\n    \n    \n      \n        \n          \n            \n            \n            \n          \n        \n        50%\n        \n          \n            \n            \n            \n          \n        \n      \n    \n  \n  \n  \n    \n    \n      \n        Проекты\n        Готово\n      \n      \n        Новый проект\n        \n          \n          Создать\n        \n      \n      \n      \n        Переименовать\n        Дублировать\n        Переместить\n      \n      \n        Архив\n        Корзина\n        Вернуть\n        Бэкап\n        Проверить\n      \n      \n        Обновить\n        Продолжить\n        Открыть\n        Закрыть\n      \n    \n  \n  \n    \n    \n      Command palette\n      Command\n      \n      Open a command\n      \n      \n        Close\n      \n    \n  \n  \n    \n    \n      Settings\n      Owner-specific settings\n      \n        Theme\n        \n          Light\n          Dark\n        \n        Word Wrap\n        \n          On\n          Off\n        \n      \n      \n      \n        Close\n      \n    \n  \n  \n    \n    \n      Recovery\n      Recovery status\n      \n        Close\n      \n    \n  \n  \n    \n    \n      Export Preview\n      DOCX baseline export (internal beta)\n      \n        Cancel\n        Export DOCX\n      \n    \n  \n  \n    \n    \n      Export\n      Choose what to export from saved project truth.\n      \n        \n          DOCX Minimal\n          Baseline DOCX preview, then main-owned target write.\n        \n        \n          PDF\n          Saved scenes rendered through BookProfile print geometry.\n        \n        \n          Project Archive\n          Complete portable project snapshot with checksums.\n        \n        \n          Markdown\n          Saved current scene with serializer loss report.\n        \n        \n          TXT Current Scene\n          Saved current scene only.\n        \n        \n          TXT Selected Scenes\n          Scene selector, then canonical selected-scene export.\n        \n        \n          TXT All Scenes\n          Canonical scene traversal only.\n        \n      \n      Unsupported layout fidelity is reported by the chosen export lane.\n      \n        Cancel\n      \n    \n  \n  \n    \n    \n      Selected Scenes TXT Export\n      Выберите сцены для экспорта в один TXT файл.\n      \n      \n        Cancel\n        Export TXT\n      \n    \n  \n  \n    \n    \n      Import\n      Choose a local source format. Preview creates no project files.\n      \n        \n          DOCX\n          Content preview, then safe-create scenes.\n        \n        \n          TXT\n          UTF-8 plain text preview, then one new scene.\n        \n        \n          Markdown\n          Local Markdown preview, then safe-create scene.\n        \n        \n          Project Archive\n          Verified project restore or copy.\n        \n      \n      Unsupported structure stays outside automatic import.\n      \n        Cancel\n      \n    \n  \n  \n    \n    \n      DOCX Import Preview\n      DOCX import preview\n      Plain text import only\n      \n        Cancel\n        Import DOCX\n      \n    \n  \n  \n    \n    \n      Diagnostics\n      \n      \n        Close\n      \n    \n  \n  \n    \n    \n      Новая карточка\n      Заголовок\n      \n      Текст\n      \n      Теги\n      \n      \n        Отмена\n        Сохранить\n      \n    \n  \n  \n  \n\n\n",
+            "hasHorizontalOverflow": false
+          },
+          "screenshot": {
+            "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
+            "bytes": 611835,
+            "sha256": "14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4",
+            "sampled": 112608,
+            "nonBlankRatio": 0.8465206734867861,
+            "preserved": true
+          }
+        },
+        "networkRequests": 0,
+        "dialogCalls": 0,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6"
+      },
+      "stdout": "[perf] when-ready: 331ms\n[craftsman:migration] no legacy userData found, creating craftsman folder\n[craftsman:migration] legacy documents folder is empty or missing\n[perf] init-complete: 377ms\n[perf] window-state-loaded: 377ms\n[perf] create-window: 572ms\n[perf] window-visible: 601ms\n[perf] did-finish-load: 961ms\nR3_C01_ATLAS_UI_RESULT:{\"ok\":1,\"mode\":\"journey\",\"appReady\":true,\"windowCount\":1,\"rendererProbe\":{\"ok\":1,\"mode\":\"journey\",\"viewport\":{\"width\":1440,\"height\":782},\"inputEvents\":[{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":152,\"y\":310},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":152,\"y\":310},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":152,\"y\":310},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":377},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":377},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":377},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"1\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\" \",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"m\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\" \",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"1\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\".\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\" \",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"1\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\" \",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"r\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"u\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"s\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\" \",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"1\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\".\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"S\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"S\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1242,\"y\":212},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1242,\"y\":212},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1242,\"y\":212},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":324},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":324},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":324},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"1\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1207,\"y\":579},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1207,\"y\":579},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1207,\"y\":579},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":324},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":324},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":324},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"1\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1207,\"y\":579},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1207,\"y\":579},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1207,\"y\":579},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":378},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":378},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":378},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"i\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"s\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"1\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1286,\"y\":579},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1286,\"y\":579},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1286,\"y\":579},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1217,\"y\":613},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1217,\"y\":613},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1217,\"y\":613},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1305,\"y\":613},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1305,\"y\":613},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1305,\"y\":613},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1373,\"y\":613},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1373,\"y\":613},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1373,\"y\":613},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1191,\"y\":647},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1191,\"y\":647},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1191,\"y\":647},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1261,\"y\":647},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1261,\"y\":647},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1261,\"y\":647},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1361,\"y\":647},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1361,\"y\":647},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1361,\"y\":647},{\"type\":\"keyDown\",\"keyCode\":\"S\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"S\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null}],\"snapshot\":{\"hostVisible\":true,\"journeyStatus\":\"applied\",\"sourceEntityId\":\"atlas-entity-ms9ptk7y-22h3e\",\"targetEntityId\":\"atlas-entity-ms9ptj22-0q1yc\",\"mentionId\":\"atlas-mention:3fe0db981d1fc7774dbd2b8c5e5c60b87990d3d713a8f5a0721e38ce31ef661e\",\"fields\":[{\"tag\":\"INPUT\",\"field\":\"entityName\",\"value\":\"BetaR3C01\",\"options\":[]},{\"tag\":\"INPUT\",\"field\":\"aliasValue\",\"value\":\"AlphaAliasR3C01\",\"options\":[]},{\"tag\":\"SELECT\",\"field\":\"sourceEntityId\",\"value\":\"atlas-entity-ms9ptk7y-22h3e\",\"options\":[\"No entity\",\"AlphaR3C01 · character\",\"BetaR3C01 · character\"]},{\"tag\":\"SELECT\",\"field\":\"targetEntityId\",\"value\":\"atlas-entity-ms9ptj22-0q1yc\",\"options\":[\"No target\",\"AlphaR3C01 · character\"]},{\"tag\":\"SELECT\",\"field\":\"mentionId\",\"value\":\"atlas-mention:3fe0db981d1fc7774dbd2b8c5e5c60b87990d3d713a8f5a0721e38ce31ef661e\",\"options\":[\"No mention\",\"AlphaR3C01 · AlphaR3C01\",\"BetaR3C01 · BetaR3C01\",\"AlphaR3C01 · AlphaR3C01\",\"BetaR3C01 · BetaR3C01\"]}],\"buttons\":[{\"action\":\"create-entity\",\"commandId\":\"atlas.entity.create\",\"text\":\"Create entity\",\"disabled\":false,\"title\":\"\"},{\"action\":\"add-alias\",\"commandId\":\"atlas.alias.add\",\"text\":\"Add alias\",\"disabled\":false,\"title\":\"\"},{\"action\":\"confirm-mention\",\"commandId\":\"atlas.mention.confirm\",\"text\":\"Confirm mention\",\"disabled\":false,\"title\":\"\"},{\"action\":\"suppress-observation\",\"commandId\":\"atlas.observation.suppress\",\"text\":\"Suppress\",\"disabled\":false,\"title\":\"\"},{\"action\":\"reassign-observation\",\"commandId\":\"atlas.observation.reassign\",\"text\":\"Reassign\",\"disabled\":false,\"title\":\"\"},{\"action\":\"merge-entities\",\"commandId\":\"atlas.entity.merge\",\"text\":\"Merge\",\"disabled\":false,\"title\":\"\"},{\"action\":\"split-restore\",\"commandId\":\"atlas.entity.splitRestore\",\"text\":\"Split restore\",\"disabled\":false,\"title\":\"\"},{\"action\":\"reattach-evidence\",\"commandId\":\"atlas.evidence.reattach\",\"text\":\"Reattach evidence\",\"disabled\":false,\"title\":\"\"}],\"currentSceneStatus\":\"ready\",\"currentSceneText\":\"Atlasобложка2 сущн.4 упом.AlphaR3C012AlphaR3C01met BetaR3C01. AlphaR3C01 trusted BetaR3C...0-10AlphaR3C01AlphaR3C01 met BetaR3C01. trusted BetaR3C01.26-36BetaR3C012BetaR3C01AlphaR3C01 met . AlphaR3C01 trusted BetaR3C01.15-24BetaR3C01...haR3C01 met BetaR3C01. AlphaR3C01 trusted .45-54\",\"bodyText\":\"\\n  \\n    \\n      Yalken\\n    \\n    \\n      \\n        \\n          \\n            \\n              \\n                \\n                \\n                \\n              \\n              \\n                \\n                \\n                \\n              \\n            \\n          \\n          \\n            \\n              \\n                \\n                \\n                \\n              \\n            \\n          \\n          \\n            \\n              \\n                \\n                \\n              \\n            \\n            \\n              \\n                \\n              \\n            \\n            \\n              \\n                \\n                \\n              \\n            \\n            \\n              \\n                \\n                \\n                \\n                \\n              \\n            \\n            \\n              \\n                \\n                \\n                \\n                \\n              \\n            \\n          \\n          \\n            Изменить отступы\\n          \\n        \\n      \\n    \\n    \\n      \\n        \\n          \\n            \\n            \\n          \\n        \\n        \\n          \\n            \\n          \\n        \\n        \\n          \\n            \\n          \\n        \\n        \\n          \\n          \\n          \\n          \\n          \\n          \\n          \\n          \\n        \\n            \\n            \\n            \\n            \\n          \\n              \\n                Roboto Ms\\n                \\n              \\n              \\n                Roboto Ms\\n                Circe\\n                American Typewriter\\n                Palatino\\n                Georgia\\n                Times New Roman\\n                Helvetica\\n                Arial\\n                SF Pro\\n                Courier\\n              \\n            \\n              \\n                Light\\n                \\n              \\n              \\n                Regular\\n                Light\\n                Semibold\\n                Bold\\n                Condensed\\n                Condensed Light\\n                Condensed Bold\\n              \\n            \\n              \\n                16\\n                \\n              \\n              \\n                9\\n                10\\n                11\\n                12\\n                13\\n                14\\n                15\\n                16\\n                17\\n                18\\n                19\\n                20\\n                21\\n                22\\n                23\\n                24\\n                25\\n                26\\n                27\\n                28\\n                32\\n                36\\n                40\\n                48\\n                56\\n                64\\n                72\\n                96\\n                144\\n                288\\n                Font Panel...\\n              \\n            \\n              \\n                \\n                  \\n                \\n                1.0\\n                \\n              \\n              \\n                0.5\\n                0.6\\n                0.7\\n                0.8\\n                0.9\\n                1.0\\n                1.1\\n                1.2\\n                1.3\\n                1.4\\n                1.5\\n                1.625\\n                1.75\\n                2.0\\n                Other...\\n              \\n            \\n            \\n            \\n              \\n              Список\\n              \\n            \\n          \\n              \\n              Абзац\\n              \\n            \\n            \\n            \\n          \\n              \\n            \\n              \\n            \\n            \\n              \\n            \\n            \\n              \\n            \\n            \\n              \\n            \\n          \\n            \\n              \\n            \\n          \\n            \\n              \\n            \\n            \\n              \\n            \\n          \\n            \\n              \\n            \\n          \\n            \\n              \\n            \\n            \\n              \\n            \\n          \\n        \\n          Слева\\n          По центру\\n          Справа\\n          По ширине\\n        \\n        \\n          Без списка\\n          Маркированный\\n          Нумерованный\\n        \\n        \\n          Изменить отступы\\n        \\n      \\n      \\n        \\n          Text color\\n          ×\\n        \\n        ×\\n      \\n      \\n        \\n          Абзац\\n          Обычный\\n          Титул\\n          Заголовок 1\\n          Заголовок 2\\n          Цитата\\n        \\n        \\n        \\n          Символ\\n          Акцент\\n          Код\\n        \\n      \\n    \\n    \\n      \\n        \\n          \\n        \\n        \\n          Навигатор\\n          \\n            \\n              \\n            \\n            \\n              \\n            \\n          \\n        \\n        \\n          \\n            Проект\\n            План\\n            Заметки\\n            Поиск\\n          \\n        \\n        \\n          \\n        \\n        \\n          Текст\\n          \\n            Сцена\\n            Непрерывно\\n          \\n        \\n        ПроектРукописьобложкачерновикчистовой текстЗаметкикарта идейпоток сознаниясныстатистика\\n        Outline is empty\\n        \\n        Введите запрос\\n        \\n          \\n            Рукопись\\n            Локально\\n          \\n          \\n            Без ограничений\\n            На этом устройстве\\n          \\n          \\n            \\n          \\n        \\n        \\n      \\n      \\n      \\n        Atlas\\n        Контекст\\n      \\n      \\n        Выберите раздел для начала работы\\n        \\n          \\n            Функции тулбара\\n            \\n              Минимальный\\n              Полный\\n            \\n            \\n              Полный набор\\n              Шрифт×Начертание×Размер×Интерлиньяж×Жирный×Курсив×Подчеркнуть×Абзац×Список×Ссылка×Цвет текста×Выделение×Комментарий×Стиль абзаца×Стиль символов×Отменить×Повторить×\\n            \\n            \\n              Минимальный набор\\n              Шрифт×Начертание×Размер×Интерлиньяж×Абзац×Отменить×Повторить×\\n            \\n            ЖирныйСсылкаСтиль абзацаNew SlotNew SlotКурсивЦвет текстаСтиль символовNew SlotNew SlotПодчеркнутьВыделениеNew SlotNew SlotNew SlotСписокКомментарийNew SlotNew SlotNew Slot\\n          \\n        \\n        \\n          \\n            \\n              \\n                Входящие\\n                Заметки\\n              \\n              Готово\\n            \\n            \\n              Быстрый захват\\n              \\n              \\n                \\n                Сохранить\\n              \\n            \\n            \\n              \\n              \\n                Выберите заметку или сохраните новую.\\n                \\n                  \\n                  \\n                  \\n                  \\n                    Сохранить\\n                    К сцене\\n                    В сцену\\n                    Удалить\\n                    Вернуть\\n                  \\n                \\n              \\n            \\n          \\n        \\n        \\n          \\n            \\n              \\n                Поиск\\n                Проектный поиск\\n              \\n              Введите запрос\\n            \\n            \\n              \\n                Проект\\n                Рукопись\\n                Текущая сцена\\n                Выбранные сцены\\n                Текущая ветка\\n                Заметки\\n                Аннотации\\n              \\n              \\n                \\n                Регистр\\n              \\n              \\n                \\n                Слово целиком\\n              \\n            \\n            Введите запрос слева, чтобы найти текст в рукописи, заметках и аннотациях.\\n          \\n        \\n        \\n          \\n        \\n        \\n          \\n            Тихий редактор\\n            Сцена\\n            Локально\\n          \\n          \\n            AlphaR3C01 met BetaR3C01. AlphaR3C01 trusted BetaR3C01.\\n          \\n        \\n      \\n      \\n        \\n          Контекст\\n          \\n            \\n          \\n        \\n        \\n          \\n            Документ\\n            Комментарии\\n            История\\n            Atlas\\n          \\n        \\n        \\n          \\n            \\n              Сведения недоступны\\n              Текст сцены остаётся доступен и не изменён.\\n            \\n            \\n              \\n                Документ\\n                обложка\\n              \\n\\n              \\n                Синопсис\\n                \\n              \\n\\n              \\n                Теги\\n                \\n                  \\n                    POV\\n                    \\n                  \\n                  \\n                    Линия\\n                    \\n                  \\n                  \\n                    Место\\n                    \\n                  \\n                \\n              \\n\\n              \\n                Сведения\\n                \\n                  \\n                    Тип\\n                    Раздел рукописи\\n                  \\n                  \\n                    Слова\\n                    6\\n                  \\n                  \\n                    Изменено\\n                    сегодня, 04:51\\n                  \\n                \\n              \\n\\n              \\n                \\n                  Показать настройки\\n                  Скрыть настройки\\n                  \\n                \\n                \\n                  \\n                    Сведения\\n                    \\n                      \\n                        Статус\\n                        \\n                          черновик\\n                          В работе\\n                          Готово\\n                        \\n                      \\n                      \\n                        Слова\\n                        6\\n                      \\n                      \\n                        Изменено\\n                        сегодня, 04:51\\n                      \\n                    \\n                  \\n\\n                  \\n                    Макет\\n                    \\n                      \\n                        Формат\\n                        \\n                          A4\\n                          A5\\n                          Letter\\n                        \\n                      \\n                      \\n                        Ориентация\\n                        \\n                          Книжная\\n                          Альбомная\\n                        \\n                      \\n                      \\n                        Предпросмотр\\n                        Выкл\\n                      \\n                      \\n                        Рамка\\n                        Вкл\\n                      \\n                      \\n                        Колонки\\n                        1\\n                      \\n                      \\n                        Поля\\n                        25,4 мм\\n                      \\n                    \\n                  \\n\\n                  \\n                    Состояние\\n                    \\n                      \\n                        Автосохранение\\n                        Локально\\n                      \\n                      \\n                        Комментарии\\n                        Открыть\\n                      \\n                      \\n                        Режим фокуса\\n                        Выкл\\n                      \\n                    \\n                  \\n\\n                  \\n                    Команды\\n                    \\n                      Команды\\n                    \\n                  \\n                \\n              \\n            \\n          \\n        \\n        \\n          \\n    \\n    \\n    \\n      Проверка правок\\n      \\n        Безопасная проверка\\n        Запись в проект идет только через подтвержденный путь.\\n      \\n    \\n    \\n      Сводка импорта\\n      \\n    \\n      Проект\\n      локальный\\n    \\n  \\n    \\n      Сессия\\n      не загружена\\n    \\n  \\n    \\n      Основа\\n      ожидание\\n    \\n  \\n    \\n      Source mode\\n      не определен\\n    \\n  \\n    \\n      Lifecycle\\n      ожидание\\n    \\n  \\n    \\n      Статус\\n      пусто\\n    \\n  \\n    \\n      Текст\\n      0\\n    \\n  \\n    \\n      Структура\\n      0\\n    \\n  \\n    \\n      Треды\\n      0\\n    \\n  \\n    \\n      Привязки\\n      0\\n    \\n  \\n    \\n      Диагностика\\n      0\\n    \\n  \\n    \\n      Решения\\n      0\\n    \\n  \\n    \\n    \\n      Lanes\\n      \\n    \\n      \\n        \\n          \\n            Exact\\n            0\\n          \\n          No exact text candidates\\n        \\n      \\n        \\n          \\n            Manual\\n            0\\n          \\n          No manual-only items\\n        \\n      \\n        \\n          \\n            Comments\\n            0\\n          \\n          No comment threads\\n        \\n      \\n    \\n  \\n    \\n    \\n      Identity\\n      \\n    \\n      Return artifact\\n      —\\n    \\n  \\n    \\n      Manifest\\n      —\\n    \\n  \\n    \\n      Parser profile\\n      —\\n    \\n  \\n    \\n      Analysis\\n      —\\n    \\n  \\n    \\n    \\n      Элементы проверки\\n      Нет импортированных элементов проверки.\\n    \\n    \\n      Почему только вручную\\n      Нет ручных ограничений.\\n    \\n    \\n      Comment lane\\n      Нет комментариев в независимой lane.\\n    \\n    \\n      Потерянные комментарии\\n      Нет потерянных или непривязанных комментариев.\\n    \\n    \\n      Неподдержанные случаи\\n      Нет неподдержанных наблюдений.\\n    \\n    \\n      Точный текстовый шаг\\n      Нет точного текстового предпросмотра.\\n    \\n    \\n      Rewrite report\\n      Нет Package Rewrite Report.\\n    \\n    \\n      Progress\\n      \\n    \\n      \\n        No active review operation\\n        0%\\n      \\n      \\n        \\n      \\n      \\n    \\n  \\n    \\n    \\n      Apply summary\\n      \\n    \\n      pending\\n      No terminal apply summary\\n      \\n    \\n  \\n    \\n    \\n      Отчет записи\\n      Нет отчета о записи.\\n    \\n  \\n        \\n        \\n          \\n        \\n        \\n          \\n            Scene\\n            Flow\\n            Map\\n            Plot\\n            Overview\\n            Entity\\n            Relation\\n            Matrix\\n            Reports\\n            Diag.\\n            Heatmap\\n            Time\\n            Ledger\\n          \\n          \\n            Atlas journeyобложкаpersistedEntity nameAliasSource entityNo entityAlphaR3C01 · characterBetaR3C01 · characterTarget entityNo targetAlphaR3C01 · characterEvidence mentionNo mentionAlphaR3C01 · AlphaR3C01BetaR3C01 · BetaR3C01AlphaR3C01 · AlphaR3C01BetaR3C01 · BetaR3C01Create entityAdd aliasConfirm mentionSuppressReassignMergeSplit restoreReattach evidenceTarget: BetaR3C01 -> AlphaR3C01 · mention selected\\n          \\n          \\n            Graph inspectorGraph workbench166bdb3d0maps0nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateOpen workspaceKeyboard list fallbackNo graph rows yetCreate a manual map node to populate the fallback.Portability recordsNo portability records yetAdd an attachment, portal, or template from the workspace.\\n          \\n          \\n            Projection inspectorPlot, Idea, Meaning1/31ready2empty0unavail.3manifestsProjection statesideaempty · 0 items · IDEA_PROJECTION_EMPTYmeaningempty · 0 items · MEANING_PROJECTION_EMPTYplotready · 2 items · 254c2ae9ec25979715c8bb060791c273d28b7231b51495ebec2b2614809b2e9bPromotion boundaryPlotRead projection from scenes and confirmed mentionsIdeaAuthor truth: idea.create and idea.originLink.addMeaningPromotion only through meaning.promote via CommandKernel only\\n          \\n          \\n            Atlas overviewc769af841сцен2сущн.3набл.1связей2/1графHealthready4 evidence anchorsreadyEntitiesBetaR3C012 appearances, 1 scenescharacterAlphaR3C011 appearances, 1 scenescharacterRelationsAlphaR3C01 ↔ BetaR3C011 occurrences1 scenesGraph1 clusters2 nodes, 1 edgesreadyconnectedComponent2 nodes1 edges\\n          \\n          \\n            Entity dossierBetaR3C013d1cbdb51сцен2набл.3evidence0reviewRelationsAlphaR3C011 occurrences1 scenesEvidence ledgerBetaR3C01observation tree-node-e731a5eea5e04d81ac305de67e645f27CURRENTBetaR3C01observation tree-node-e731a5eea5e04d81ac305de67e645f27CURRENTAlphaR3C01observation tree-node-e731a5eea5e04d81ac305de67e645f27SUPPRESSED\\n          \\n          \\n            Relation dossierAlphaR3C01 - BetaR3C019f06df701сцен1co-occur7evidence1/3actions\\n          \\n          \\n            MatricesAtlas matrix parity600e95172entities1scenes6cells0clippedOpen heatmapOpen timelineOpen ledgerEntity-scene matrixEntity by scene observationsSceneобложкаBetaR3C012AlphaR3C011BetaR3C01 · обложка2 observations · 2 anchorsAlphaR3C01 · обложка1 observations · 1 anchorsRelation matrixEntity relation co-occurrencesEntityBetaR3C01AlphaR3C01BetaR3C01·1AlphaR3C011·AlphaR3C01 - BetaR3C011 co-occurrences · 1 scenes\\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            ReportsLocal Atlas reports9286197cSave queryQuery idQuery nameReport typeReportOverviewEntityRelationMatrixHeatmapSave query3reports0queries0stale3export rowsReport packetOverviewentities 2 · scenes 1 · observations 4 · relations 1MatricesentitySceneCells 2 · relationCells 4 · clippedCells 0HeatmaprenderedTiles 2 · omittedTiles 0 · maxObservationCount 2Saved queriesNo saved queries yetCommand boundary: atlas.savedQuery.saveExport-safe summaryOverviewentities:2, scenes:1, observations:4, relations:1MatricesentitySceneCells:2, relationCells:4, clippedCells:0HeatmaprenderedTiles:2, omittedTiles:0, maxObservationCount:2\\n          \\n          \\n            DiagnosticsStage 05 acceptance / Stage 06 handoffc4077a3513surfaces2degraded4/7gates80 BscoreAcceptance gatesQuiet WRITEPASS · Diagnostics is a query-only projection with no product, storage, network, renderer, worker, daemon, or command mutation.Explicit heavy surfacesPASS · Atlas heatmap remains explicit-open and exposes viewport tile budget proof.Honest capability statePASS · Every Atlas surface has a fallback row and degraded state remains visible instead of failing the tab.Large-project UI guardsPASS · Matrix clipping/list parity and heatmap tile budget proofs are present.Final audit and heuristic receiptsDEGRADED · Repo-native audit and heuristic rows are advisory unless the final bar has external machine evidence.Stage 06 time calendar continuity acceptanceDEGRADED · Stage 06 acceptance proof covers calendar assumptions, temporal degraded report, evidence-backed findings, and hot-path budget.External machine evidenceNOT_READY · Missing external evidence: visualCaptureArtifact, accessibilityAuditArtifact, responsiveAuditArtifact, performanceMeasurementArtifact, packagedRunArtifactDegraded capability reportatlas.entity.createinfo · cap.atlas.entity.create enabled on nodeatlas.alias.addinfo · cap.atlas.alias.add enabled on nodeatlas.mention.confirminfo · cap.atlas.mention.confirm enabled on nodeatlas.observation.suppressinfo · cap.atlas.observation.suppress enabled on nodeatlas.entity.mergeinfo · cap.atlas.entity.merge enabled on nodeatlas.entity.splitRestoreinfo · cap.atlas.entity.splitRestore enabled on nodeatlas.observation.reassigninfo · cap.atlas.observation.reassign enabled on nodeatlas.evidence.reattachinfo · cap.atlas.evidence.reattach enabled on nodeatlas.savedQuery.saveinfo · cap.atlas.savedQuery.save enabled on nodeatlas.calendar.defineinfo · cap.atlas.calendar.define enabled on nodeFallback inventorysurface.atlas.calendarDefinitionsempty · empty read modelsurface.atlas.continuityFindingsempty · empty read modelsurface.atlas.continuityLedgerempty · empty read modelsurface.atlas.currentSceneDossierselectionRequired · empty current-scene state until a scene is opensurface.atlas.diagnosticsStageAcceptanceready · self-diagnostic read model reports degraded rows instead of failing the Atlas tabsurface.atlas.entityDossierselectionRequired · empty entity dossier until an entity is selectedsurface.atlas.heatmapready · ready read modelsurface.atlas.matricesready · ready read modelsurface.atlas.overviewready · ready read modelsurface.atlas.relationDossierselectionRequired · empty relation dossier until a relation is selected\\n          \\n          Atlasобложка2 сущн.4 упом.AlphaR3C012AlphaR3C01met BetaR3C01. AlphaR3C01 trusted BetaR3C...0-10AlphaR3C01AlphaR3C01 met BetaR3C01. trusted BetaR3C01.26-36BetaR3C012BetaR3C01AlphaR3C01 met . AlphaR3C01 trusted BetaR3C01.15-24BetaR3C01...haR3C01 met BetaR3C01. AlphaR3C01 trusted .45-54\\n        \\n        \\n      \\n    \\n  \\n  \\n    \\n      6 words\\n    \\n    \\n      Сохранено\\n      Save: saved\\n      Warnings: none\\n      Perf: normal\\n    \\n    \\n      \\n        \\n          \\n            \\n            \\n            \\n          \\n        \\n        50%\\n        \\n          \\n            \\n            \\n            \\n          \\n        \\n      \\n    \\n  \\n  \\n  \\n    \\n    \\n      \\n        Проекты\\n        Готово\\n      \\n      \\n        Новый проект\\n        \\n          \\n          Создать\\n        \\n      \\n      \\n      \\n        Переименовать\\n        Дублировать\\n        Переместить\\n      \\n      \\n        Архив\\n        Корзина\\n        Вернуть\\n        Бэкап\\n        Проверить\\n      \\n      \\n        Обновить\\n        Продолжить\\n        Открыть\\n        Закрыть\\n      \\n    \\n  \\n  \\n    \\n    \\n      Command palette\\n      Command\\n      \\n      Open a command\\n      \\n      \\n        Close\\n      \\n    \\n  \\n  \\n    \\n    \\n      Settings\\n      Owner-specific settings\\n      \\n        Theme\\n        \\n          Light\\n          Dark\\n        \\n        Word Wrap\\n        \\n          On\\n          Off\\n        \\n      \\n      \\n      \\n        Close\\n      \\n    \\n  \\n  \\n    \\n    \\n      Recovery\\n      Recovery status\\n      \\n        Close\\n      \\n    \\n  \\n  \\n    \\n    \\n      Export Preview\\n      DOCX baseline export (internal beta)\\n      \\n        Cancel\\n        Export DOCX\\n      \\n    \\n  \\n  \\n    \\n    \\n      Export\\n      Choose what to export from saved project truth.\\n      \\n        \\n          DOCX Minimal\\n          Baseline DOCX preview, then main-owned target write.\\n        \\n        \\n          PDF\\n          Saved scenes rendered through BookProfile print geometry.\\n        \\n        \\n          Project Archive\\n          Complete portable project snapshot with checksums.\\n        \\n        \\n          Markdown\\n          Saved current scene with serializer loss report.\\n        \\n        \\n          TXT Current Scene\\n          Saved current scene only.\\n        \\n        \\n          TXT Selected Scenes\\n          Scene selector, then canonical selected-scene export.\\n        \\n        \\n          TXT All Scenes\\n          Canonical scene traversal only.\\n        \\n      \\n      Unsupported layout fidelity is reported by the chosen export lane.\\n      \\n        Cancel\\n      \\n    \\n  \\n  \\n    \\n    \\n      Selected Scenes TXT Export\\n      Выберите сцены для экспорта в один TXT файл.\\n      \\n      \\n        Cancel\\n        Export TXT\\n      \\n    \\n  \\n  \\n    \\n    \\n      Import\\n      Choose a local source format. Preview creates no project files.\\n      \\n        \\n          DOCX\\n          Content preview, then safe-create scenes.\\n        \\n        \\n          TXT\\n          UTF-8 plain text preview, then one new scene.\\n        \\n        \\n          Markdown\\n          Local Markdown preview, then safe-create scene.\\n        \\n        \\n          Project Archive\\n          Verified project restore or copy.\\n        \\n      \\n      Unsupported structure stays outside automatic import.\\n      \\n        Cancel\\n      \\n    \\n  \\n  \\n    \\n    \\n      DOCX Import Preview\\n      DOCX import preview\\n      Plain text import only\\n      \\n        Cancel\\n        Import DOCX\\n      \\n    \\n  \\n  \\n    \\n    \\n      Diagnostics\\n      \\n      \\n        Close\\n      \\n    \\n  \\n  \\n    \\n    \\n      Новая карточка\\n      Заголовок\\n      \\n      Текст\\n      \\n      Теги\\n      \\n      \\n        Отмена\\n        Сохранить\\n      \\n    \\n  \\n  \\n  \\n\\n\\n\",\"hasHorizontalOverflow\":false},\"screenshot\":{\"path\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/r3-c01-atlas-entity-relation-journey.png\",\"bytes\":611835,\"sha256\":\"14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4\",\"sampled\":112608,\"nonBlankRatio\":0.8465206734867861}},\"networkRequests\":0,\"dialogCalls\":0,\"tempRoot\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6\"}\n",
+      "stderr": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:20851:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:22517:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/documents/craftsman/.autosave/autosave.txt'\n}\n(node:40371) DeprecationWarning: getBitmap() is deprecated, use toBitmap() instead.\n(Use `Electron --trace-deprecation ...` to show where the warning was created)\n"
+    },
+    "second": {
+      "ok": true,
+      "runtimeKind": "production-electron-visible-input-black-box",
+      "mode": "reopen",
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": "",
+      "result": {
+        "ok": 1,
+        "mode": "reopen",
+        "appReady": true,
+        "windowCount": 1,
+        "rendererProbe": {
+          "ok": 1,
+          "mode": "reopen",
+          "viewport": {
+            "width": 1440,
+            "height": 782
+          },
+          "inputEvents": [
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 152,
+              "y": 310
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 152,
+              "y": 310
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 152,
+              "y": 310
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1242,
+              "y": 212
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1242,
+              "y": 212
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1242,
+              "y": 212
+            }
+          ],
+          "snapshot": {
+            "hostVisible": true,
+            "journeyStatus": "idle",
+            "sourceEntityId": "atlas-entity-ms9ptj22-0q1yc",
+            "targetEntityId": "atlas-entity-ms9ptk7y-22h3e",
+            "mentionId": "atlas-mention:4896c49535f5e6a3e0502298d6cfb47801503a3a9eabb66f3b6f18a356b63895",
+            "fields": [
+              {
+                "tag": "INPUT",
+                "field": "entityName",
+                "value": "",
+                "options": []
+              },
+              {
+                "tag": "INPUT",
+                "field": "aliasValue",
+                "value": "",
+                "options": []
+              },
+              {
+                "tag": "SELECT",
+                "field": "sourceEntityId",
+                "value": "atlas-entity-ms9ptj22-0q1yc",
+                "options": [
+                  "No entity",
+                  "AlphaR3C01 · character",
+                  "BetaR3C01 · character"
+                ]
+              },
+              {
+                "tag": "SELECT",
+                "field": "targetEntityId",
+                "value": "atlas-entity-ms9ptk7y-22h3e",
+                "options": [
+                  "No target",
+                  "BetaR3C01 · character"
+                ]
+              },
+              {
+                "tag": "SELECT",
+                "field": "mentionId",
+                "value": "atlas-mention:4896c49535f5e6a3e0502298d6cfb47801503a3a9eabb66f3b6f18a356b63895",
+                "options": [
+                  "No mention",
+                  "AlphaR3C01 · AlphaR3C01",
+                  "BetaR3C01 · BetaR3C01",
+                  "AlphaR3C01 · AlphaR3C01",
+                  "BetaR3C01 · BetaR3C01"
+                ]
+              }
+            ],
+            "buttons": [
+              {
+                "action": "create-entity",
+                "commandId": "atlas.entity.create",
+                "text": "Create entity",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "add-alias",
+                "commandId": "atlas.alias.add",
+                "text": "Add alias",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "confirm-mention",
+                "commandId": "atlas.mention.confirm",
+                "text": "Confirm mention",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "suppress-observation",
+                "commandId": "atlas.observation.suppress",
+                "text": "Suppress",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "reassign-observation",
+                "commandId": "atlas.observation.reassign",
+                "text": "Reassign",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "merge-entities",
+                "commandId": "atlas.entity.merge",
+                "text": "Merge",
+                "disabled": false,
+                "title": ""
+              },
+              {
+                "action": "split-restore",
+                "commandId": "atlas.entity.splitRestore",
+                "text": "Split restore",
+                "disabled": true,
+                "title": "Merge first"
+              },
+              {
+                "action": "reattach-evidence",
+                "commandId": "atlas.evidence.reattach",
+                "text": "Reattach evidence",
+                "disabled": true,
+                "title": "Confirm a mention first"
+              }
+            ],
+            "currentSceneStatus": "ready",
+            "currentSceneText": "Atlasобложка2 сущн.4 упом.AlphaR3C012AlphaR3C01met BetaR3C01. AlphaR3C01 trusted BetaR3C...0-10AlphaR3C01AlphaR3C01 met BetaR3C01. trusted BetaR3C01.26-36BetaR3C012BetaR3C01AlphaR3C01 met . AlphaR3C01 trusted BetaR3C01.15-24BetaR3C01...haR3C01 met BetaR3C01. AlphaR3C01 trusted .45-54",
+            "bodyText": "\n  \n    \n      Yalken\n    \n    \n      \n        \n          \n            \n              \n                \n                \n                \n              \n              \n                \n                \n                \n              \n            \n          \n          \n            \n              \n                \n                \n                \n              \n            \n          \n          \n            \n              \n                \n                \n              \n            \n            \n              \n                \n              \n            \n            \n              \n                \n                \n              \n            \n            \n              \n                \n                \n                \n                \n              \n            \n            \n              \n                \n                \n                \n                \n              \n            \n          \n          \n            Изменить отступы\n          \n        \n      \n    \n    \n      \n        \n          \n            \n            \n          \n        \n        \n          \n            \n          \n        \n        \n          \n            \n          \n        \n        \n          \n          \n          \n          \n          \n          \n          \n          \n        \n            \n            \n            \n            \n          \n              \n                Roboto Ms\n                \n              \n              \n                Roboto Ms\n                Circe\n                American Typewriter\n                Palatino\n                Georgia\n                Times New Roman\n                Helvetica\n                Arial\n                SF Pro\n                Courier\n              \n            \n              \n                Light\n                \n              \n              \n                Regular\n                Light\n                Semibold\n                Bold\n                Condensed\n                Condensed Light\n                Condensed Bold\n              \n            \n              \n                16\n                \n              \n              \n                9\n                10\n                11\n                12\n                13\n                14\n                15\n                16\n                17\n                18\n                19\n                20\n                21\n                22\n                23\n                24\n                25\n                26\n                27\n                28\n                32\n                36\n                40\n                48\n                56\n                64\n                72\n                96\n                144\n                288\n                Font Panel...\n              \n            \n              \n                \n                  \n                \n                1.0\n                \n              \n              \n                0.5\n                0.6\n                0.7\n                0.8\n                0.9\n                1.0\n                1.1\n                1.2\n                1.3\n                1.4\n                1.5\n                1.625\n                1.75\n                2.0\n                Other...\n              \n            \n            \n            \n              \n              Список\n              \n            \n          \n              \n              Абзац\n              \n            \n            \n            \n          \n              \n            \n              \n            \n            \n              \n            \n            \n              \n            \n            \n              \n            \n          \n            \n              \n            \n          \n            \n              \n            \n            \n              \n            \n          \n            \n              \n            \n          \n            \n              \n            \n            \n              \n            \n          \n        \n          Слева\n          По центру\n          Справа\n          По ширине\n        \n        \n          Без списка\n          Маркированный\n          Нумерованный\n        \n        \n          Изменить отступы\n        \n      \n      \n        \n          Text color\n          ×\n        \n        ×\n      \n      \n        \n          Абзац\n          Обычный\n          Титул\n          Заголовок 1\n          Заголовок 2\n          Цитата\n        \n        \n        \n          Символ\n          Акцент\n          Код\n        \n      \n    \n    \n      \n        \n          \n        \n        \n          Навигатор\n          \n            \n              \n            \n            \n              \n            \n          \n        \n        \n          \n            Проект\n            План\n            Заметки\n            Поиск\n          \n        \n        \n          \n        \n        \n          Текст\n          \n            Сцена\n            Непрерывно\n          \n        \n        ПроектРукописьобложкачерновикчистовой текстЗаметкикарта идейпоток сознаниясныстатистика\n        Outline is empty\n        \n        Введите запрос\n        \n          \n            Рукопись\n            Локально\n          \n          \n            Без ограничений\n            На этом устройстве\n          \n          \n            \n          \n        \n        \n      \n      \n      \n        Atlas\n        Контекст\n      \n      \n        Выберите раздел для начала работы\n        \n          \n            Функции тулбара\n            \n              Минимальный\n              Полный\n            \n            \n              Полный набор\n              Шрифт×Начертание×Размер×Интерлиньяж×Жирный×Курсив×Подчеркнуть×Абзац×Список×Ссылка×Цвет текста×Выделение×Комментарий×Стиль абзаца×Стиль символов×Отменить×Повторить×\n            \n            \n              Минимальный набор\n              Шрифт×Начертание×Размер×Интерлиньяж×Абзац×Отменить×Повторить×\n            \n            ЖирныйСсылкаСтиль абзацаNew SlotNew SlotКурсивЦвет текстаСтиль символовNew SlotNew SlotПодчеркнутьВыделениеNew SlotNew SlotNew SlotСписокКомментарийNew SlotNew SlotNew Slot\n          \n        \n        \n          \n            \n              \n                Входящие\n                Заметки\n              \n              Готово\n            \n            \n              Быстрый захват\n              \n              \n                \n                Сохранить\n              \n            \n            \n              \n              \n                Выберите заметку или сохраните новую.\n                \n                  \n                  \n                  \n                  \n                    Сохранить\n                    К сцене\n                    В сцену\n                    Удалить\n                    Вернуть\n                  \n                \n              \n            \n          \n        \n        \n          \n            \n              \n                Поиск\n                Проектный поиск\n              \n              Введите запрос\n            \n            \n              \n                Проект\n                Рукопись\n                Текущая сцена\n                Выбранные сцены\n                Текущая ветка\n                Заметки\n                Аннотации\n              \n              \n                \n                Регистр\n              \n              \n                \n                Слово целиком\n              \n            \n            Введите запрос слева, чтобы найти текст в рукописи, заметках и аннотациях.\n          \n        \n        \n          \n        \n        \n          \n            Тихий редактор\n            Сцена\n            Локально\n          \n          \n            AlphaR3C01 met BetaR3C01. AlphaR3C01 trusted BetaR3C01.\n          \n        \n      \n      \n        \n          Контекст\n          \n            \n          \n        \n        \n          \n            Документ\n            Комментарии\n            История\n            Atlas\n          \n        \n        \n          \n            \n              Сведения недоступны\n              Текст сцены остаётся доступен и не изменён.\n            \n            \n              \n                Документ\n                обложка\n              \n\n              \n                Синопсис\n                \n              \n\n              \n                Теги\n                \n                  \n                    POV\n                    \n                  \n                  \n                    Линия\n                    \n                  \n                  \n                    Место\n                    \n                  \n                \n              \n\n              \n                Сведения\n                \n                  \n                    Тип\n                    Раздел рукописи\n                  \n                  \n                    Слова\n                    6\n                  \n                  \n                    Изменено\n                    сегодня, 04:51\n                  \n                \n              \n\n              \n                \n                  Показать настройки\n                  Скрыть настройки\n                  \n                \n                \n                  \n                    Сведения\n                    \n                      \n                        Статус\n                        \n                          черновик\n                          В работе\n                          Готово\n                        \n                      \n                      \n                        Слова\n                        6\n                      \n                      \n                        Изменено\n                        сегодня, 04:51\n                      \n                    \n                  \n\n                  \n                    Макет\n                    \n                      \n                        Формат\n                        \n                          A4\n                          A5\n                          Letter\n                        \n                      \n                      \n                        Ориентация\n                        \n                          Книжная\n                          Альбомная\n                        \n                      \n                      \n                        Предпросмотр\n                        Выкл\n                      \n                      \n                        Рамка\n                        Вкл\n                      \n                      \n                        Колонки\n                        1\n                      \n                      \n                        Поля\n                        25,4 мм\n                      \n                    \n                  \n\n                  \n                    Состояние\n                    \n                      \n                        Автосохранение\n                        Локально\n                      \n                      \n                        Комментарии\n                        Открыть\n                      \n                      \n                        Режим фокуса\n                        Выкл\n                      \n                    \n                  \n\n                  \n                    Команды\n                    \n                      Команды\n                    \n                  \n                \n              \n            \n          \n        \n        \n          \n    \n    \n    \n      Проверка правок\n      \n        Безопасная проверка\n        Запись в проект идет только через подтвержденный путь.\n      \n    \n    \n      Сводка импорта\n      \n    \n      Проект\n      локальный\n    \n  \n    \n      Сессия\n      не загружена\n    \n  \n    \n      Основа\n      ожидание\n    \n  \n    \n      Source mode\n      не определен\n    \n  \n    \n      Lifecycle\n      ожидание\n    \n  \n    \n      Статус\n      пусто\n    \n  \n    \n      Текст\n      0\n    \n  \n    \n      Структура\n      0\n    \n  \n    \n      Треды\n      0\n    \n  \n    \n      Привязки\n      0\n    \n  \n    \n      Диагностика\n      0\n    \n  \n    \n      Решения\n      0\n    \n  \n    \n    \n      Lanes\n      \n    \n      \n        \n          \n            Exact\n            0\n          \n          No exact text candidates\n        \n      \n        \n          \n            Manual\n            0\n          \n          No manual-only items\n        \n      \n        \n          \n            Comments\n            0\n          \n          No comment threads\n        \n      \n    \n  \n    \n    \n      Identity\n      \n    \n      Return artifact\n      —\n    \n  \n    \n      Manifest\n      —\n    \n  \n    \n      Parser profile\n      —\n    \n  \n    \n      Analysis\n      —\n    \n  \n    \n    \n      Элементы проверки\n      Нет импортированных элементов проверки.\n    \n    \n      Почему только вручную\n      Нет ручных ограничений.\n    \n    \n      Comment lane\n      Нет комментариев в независимой lane.\n    \n    \n      Потерянные комментарии\n      Нет потерянных или непривязанных комментариев.\n    \n    \n      Неподдержанные случаи\n      Нет неподдержанных наблюдений.\n    \n    \n      Точный текстовый шаг\n      Нет точного текстового предпросмотра.\n    \n    \n      Rewrite report\n      Нет Package Rewrite Report.\n    \n    \n      Progress\n      \n    \n      \n        No active review operation\n        0%\n      \n      \n        \n      \n      \n    \n  \n    \n    \n      Apply summary\n      \n    \n      pending\n      No terminal apply summary\n      \n    \n  \n    \n    \n      Отчет записи\n      Нет отчета о записи.\n    \n  \n        \n        \n          \n        \n        \n          \n            Scene\n            Flow\n            Map\n            Plot\n            Overview\n            Entity\n            Relation\n            Matrix\n            Reports\n            Diag.\n            Heatmap\n            Time\n            Ledger\n          \n          \n            Atlas journeyобложкаidleEntity nameAliasSource entityNo entityAlphaR3C01 · characterBetaR3C01 · characterTarget entityNo targetBetaR3C01 · characterEvidence mentionNo mentionAlphaR3C01 · AlphaR3C01BetaR3C01 · BetaR3C01AlphaR3C01 · AlphaR3C01BetaR3C01 · BetaR3C01Create entityAdd aliasConfirm mentionSuppressReassignMergeSplit restoreReattach evidenceTarget: AlphaR3C01 -> BetaR3C01 · mention selected\n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          \n            \n          \n          Atlasобложка2 сущн.4 упом.AlphaR3C012AlphaR3C01met BetaR3C01. AlphaR3C01 trusted BetaR3C...0-10AlphaR3C01AlphaR3C01 met BetaR3C01. trusted BetaR3C01.26-36BetaR3C012BetaR3C01AlphaR3C01 met . AlphaR3C01 trusted BetaR3C01.15-24BetaR3C01...haR3C01 met BetaR3C01. AlphaR3C01 trusted .45-54\n        \n        \n      \n    \n  \n  \n    \n      6 words\n    \n    \n      Atlas context открыт\n      Save: saved\n      Warnings: none\n      Perf: normal\n    \n    \n      \n        \n          \n            \n            \n            \n          \n        \n        50%\n        \n          \n            \n            \n            \n          \n        \n      \n    \n  \n  \n  \n    \n    \n      \n        Проекты\n        Готово\n      \n      \n        Новый проект\n        \n          \n          Создать\n        \n      \n      \n      \n        Переименовать\n        Дублировать\n        Переместить\n      \n      \n        Архив\n        Корзина\n        Вернуть\n        Бэкап\n        Проверить\n      \n      \n        Обновить\n        Продолжить\n        Открыть\n        Закрыть\n      \n    \n  \n  \n    \n    \n      Command palette\n      Command\n      \n      Open a command\n      \n      \n        Close\n      \n    \n  \n  \n    \n    \n      Settings\n      Owner-specific settings\n      \n        Theme\n        \n          Light\n          Dark\n        \n        Word Wrap\n        \n          On\n          Off\n        \n      \n      \n      \n        Close\n      \n    \n  \n  \n    \n    \n      Recovery\n      Recovery status\n      \n        Close\n      \n    \n  \n  \n    \n    \n      Export Preview\n      DOCX baseline export (internal beta)\n      \n        Cancel\n        Export DOCX\n      \n    \n  \n  \n    \n    \n      Export\n      Choose what to export from saved project truth.\n      \n        \n          DOCX Minimal\n          Baseline DOCX preview, then main-owned target write.\n        \n        \n          PDF\n          Saved scenes rendered through BookProfile print geometry.\n        \n        \n          Project Archive\n          Complete portable project snapshot with checksums.\n        \n        \n          Markdown\n          Saved current scene with serializer loss report.\n        \n        \n          TXT Current Scene\n          Saved current scene only.\n        \n        \n          TXT Selected Scenes\n          Scene selector, then canonical selected-scene export.\n        \n        \n          TXT All Scenes\n          Canonical scene traversal only.\n        \n      \n      Unsupported layout fidelity is reported by the chosen export lane.\n      \n        Cancel\n      \n    \n  \n  \n    \n    \n      Selected Scenes TXT Export\n      Выберите сцены для экспорта в один TXT файл.\n      \n      \n        Cancel\n        Export TXT\n      \n    \n  \n  \n    \n    \n      Import\n      Choose a local source format. Preview creates no project files.\n      \n        \n          DOCX\n          Content preview, then safe-create scenes.\n        \n        \n          TXT\n          UTF-8 plain text preview, then one new scene.\n        \n        \n          Markdown\n          Local Markdown preview, then safe-create scene.\n        \n        \n          Project Archive\n          Verified project restore or copy.\n        \n      \n      Unsupported structure stays outside automatic import.\n      \n        Cancel\n      \n    \n  \n  \n    \n    \n      DOCX Import Preview\n      DOCX import preview\n      Plain text import only\n      \n        Cancel\n        Import DOCX\n      \n    \n  \n  \n    \n    \n      Diagnostics\n      \n      \n        Close\n      \n    \n  \n  \n    \n    \n      Новая карточка\n      Заголовок\n      \n      Текст\n      \n      Теги\n      \n      \n        Отмена\n        Сохранить\n      \n    \n  \n  \n  \n\n\n",
+            "hasHorizontalOverflow": false
+          },
+          "screenshot": {
+            "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
+            "bytes": 609236,
+            "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43",
+            "sampled": 112608,
+            "nonBlankRatio": 0.8464585109406081,
+            "preserved": true
+          }
+        },
+        "networkRequests": 0,
+        "dialogCalls": 0,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6"
+      },
+      "stdout": "[perf] when-ready: 53ms\n[craftsman:migration] craftsman userData already contains files\n[craftsman:migration] legacy documents folder is empty or missing\n[perf] init-complete: 75ms\n[perf] window-state-loaded: 75ms\n[perf] create-window: 145ms\n[perf] window-visible: 155ms\n[perf] did-finish-load: 338ms\nR3_C01_ATLAS_UI_RESULT:{\"ok\":1,\"mode\":\"reopen\",\"appReady\":true,\"windowCount\":1,\"rendererProbe\":{\"ok\":1,\"mode\":\"reopen\",\"viewport\":{\"width\":1440,\"height\":782},\"inputEvents\":[{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":152,\"y\":310},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":152,\"y\":310},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":152,\"y\":310},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1242,\"y\":212},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1242,\"y\":212},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1242,\"y\":212}],\"snapshot\":{\"hostVisible\":true,\"journeyStatus\":\"idle\",\"sourceEntityId\":\"atlas-entity-ms9ptj22-0q1yc\",\"targetEntityId\":\"atlas-entity-ms9ptk7y-22h3e\",\"mentionId\":\"atlas-mention:4896c49535f5e6a3e0502298d6cfb47801503a3a9eabb66f3b6f18a356b63895\",\"fields\":[{\"tag\":\"INPUT\",\"field\":\"entityName\",\"value\":\"\",\"options\":[]},{\"tag\":\"INPUT\",\"field\":\"aliasValue\",\"value\":\"\",\"options\":[]},{\"tag\":\"SELECT\",\"field\":\"sourceEntityId\",\"value\":\"atlas-entity-ms9ptj22-0q1yc\",\"options\":[\"No entity\",\"AlphaR3C01 · character\",\"BetaR3C01 · character\"]},{\"tag\":\"SELECT\",\"field\":\"targetEntityId\",\"value\":\"atlas-entity-ms9ptk7y-22h3e\",\"options\":[\"No target\",\"BetaR3C01 · character\"]},{\"tag\":\"SELECT\",\"field\":\"mentionId\",\"value\":\"atlas-mention:4896c49535f5e6a3e0502298d6cfb47801503a3a9eabb66f3b6f18a356b63895\",\"options\":[\"No mention\",\"AlphaR3C01 · AlphaR3C01\",\"BetaR3C01 · BetaR3C01\",\"AlphaR3C01 · AlphaR3C01\",\"BetaR3C01 · BetaR3C01\"]}],\"buttons\":[{\"action\":\"create-entity\",\"commandId\":\"atlas.entity.create\",\"text\":\"Create entity\",\"disabled\":false,\"title\":\"\"},{\"action\":\"add-alias\",\"commandId\":\"atlas.alias.add\",\"text\":\"Add alias\",\"disabled\":false,\"title\":\"\"},{\"action\":\"confirm-mention\",\"commandId\":\"atlas.mention.confirm\",\"text\":\"Confirm mention\",\"disabled\":false,\"title\":\"\"},{\"action\":\"suppress-observation\",\"commandId\":\"atlas.observation.suppress\",\"text\":\"Suppress\",\"disabled\":false,\"title\":\"\"},{\"action\":\"reassign-observation\",\"commandId\":\"atlas.observation.reassign\",\"text\":\"Reassign\",\"disabled\":false,\"title\":\"\"},{\"action\":\"merge-entities\",\"commandId\":\"atlas.entity.merge\",\"text\":\"Merge\",\"disabled\":false,\"title\":\"\"},{\"action\":\"split-restore\",\"commandId\":\"atlas.entity.splitRestore\",\"text\":\"Split restore\",\"disabled\":true,\"title\":\"Merge first\"},{\"action\":\"reattach-evidence\",\"commandId\":\"atlas.evidence.reattach\",\"text\":\"Reattach evidence\",\"disabled\":true,\"title\":\"Confirm a mention first\"}],\"currentSceneStatus\":\"ready\",\"currentSceneText\":\"Atlasобложка2 сущн.4 упом.AlphaR3C012AlphaR3C01met BetaR3C01. AlphaR3C01 trusted BetaR3C...0-10AlphaR3C01AlphaR3C01 met BetaR3C01. trusted BetaR3C01.26-36BetaR3C012BetaR3C01AlphaR3C01 met . AlphaR3C01 trusted BetaR3C01.15-24BetaR3C01...haR3C01 met BetaR3C01. AlphaR3C01 trusted .45-54\",\"bodyText\":\"\\n  \\n    \\n      Yalken\\n    \\n    \\n      \\n        \\n          \\n            \\n              \\n                \\n                \\n                \\n              \\n              \\n                \\n                \\n                \\n              \\n            \\n          \\n          \\n            \\n              \\n                \\n                \\n                \\n              \\n            \\n          \\n          \\n            \\n              \\n                \\n                \\n              \\n            \\n            \\n              \\n                \\n              \\n            \\n            \\n              \\n                \\n                \\n              \\n            \\n            \\n              \\n                \\n                \\n                \\n                \\n              \\n            \\n            \\n              \\n                \\n                \\n                \\n                \\n              \\n            \\n          \\n          \\n            Изменить отступы\\n          \\n        \\n      \\n    \\n    \\n      \\n        \\n          \\n            \\n            \\n          \\n        \\n        \\n          \\n            \\n          \\n        \\n        \\n          \\n            \\n          \\n        \\n        \\n          \\n          \\n          \\n          \\n          \\n          \\n          \\n          \\n        \\n            \\n            \\n            \\n            \\n          \\n              \\n                Roboto Ms\\n                \\n              \\n              \\n                Roboto Ms\\n                Circe\\n                American Typewriter\\n                Palatino\\n                Georgia\\n                Times New Roman\\n                Helvetica\\n                Arial\\n                SF Pro\\n                Courier\\n              \\n            \\n              \\n                Light\\n                \\n              \\n              \\n                Regular\\n                Light\\n                Semibold\\n                Bold\\n                Condensed\\n                Condensed Light\\n                Condensed Bold\\n              \\n            \\n              \\n                16\\n                \\n              \\n              \\n                9\\n                10\\n                11\\n                12\\n                13\\n                14\\n                15\\n                16\\n                17\\n                18\\n                19\\n                20\\n                21\\n                22\\n                23\\n                24\\n                25\\n                26\\n                27\\n                28\\n                32\\n                36\\n                40\\n                48\\n                56\\n                64\\n                72\\n                96\\n                144\\n                288\\n                Font Panel...\\n              \\n            \\n              \\n                \\n                  \\n                \\n                1.0\\n                \\n              \\n              \\n                0.5\\n                0.6\\n                0.7\\n                0.8\\n                0.9\\n                1.0\\n                1.1\\n                1.2\\n                1.3\\n                1.4\\n                1.5\\n                1.625\\n                1.75\\n                2.0\\n                Other...\\n              \\n            \\n            \\n            \\n              \\n              Список\\n              \\n            \\n          \\n              \\n              Абзац\\n              \\n            \\n            \\n            \\n          \\n              \\n            \\n              \\n            \\n            \\n              \\n            \\n            \\n              \\n            \\n            \\n              \\n            \\n          \\n            \\n              \\n            \\n          \\n            \\n              \\n            \\n            \\n              \\n            \\n          \\n            \\n              \\n            \\n          \\n            \\n              \\n            \\n            \\n              \\n            \\n          \\n        \\n          Слева\\n          По центру\\n          Справа\\n          По ширине\\n        \\n        \\n          Без списка\\n          Маркированный\\n          Нумерованный\\n        \\n        \\n          Изменить отступы\\n        \\n      \\n      \\n        \\n          Text color\\n          ×\\n        \\n        ×\\n      \\n      \\n        \\n          Абзац\\n          Обычный\\n          Титул\\n          Заголовок 1\\n          Заголовок 2\\n          Цитата\\n        \\n        \\n        \\n          Символ\\n          Акцент\\n          Код\\n        \\n      \\n    \\n    \\n      \\n        \\n          \\n        \\n        \\n          Навигатор\\n          \\n            \\n              \\n            \\n            \\n              \\n            \\n          \\n        \\n        \\n          \\n            Проект\\n            План\\n            Заметки\\n            Поиск\\n          \\n        \\n        \\n          \\n        \\n        \\n          Текст\\n          \\n            Сцена\\n            Непрерывно\\n          \\n        \\n        ПроектРукописьобложкачерновикчистовой текстЗаметкикарта идейпоток сознаниясныстатистика\\n        Outline is empty\\n        \\n        Введите запрос\\n        \\n          \\n            Рукопись\\n            Локально\\n          \\n          \\n            Без ограничений\\n            На этом устройстве\\n          \\n          \\n            \\n          \\n        \\n        \\n      \\n      \\n      \\n        Atlas\\n        Контекст\\n      \\n      \\n        Выберите раздел для начала работы\\n        \\n          \\n            Функции тулбара\\n            \\n              Минимальный\\n              Полный\\n            \\n            \\n              Полный набор\\n              Шрифт×Начертание×Размер×Интерлиньяж×Жирный×Курсив×Подчеркнуть×Абзац×Список×Ссылка×Цвет текста×Выделение×Комментарий×Стиль абзаца×Стиль символов×Отменить×Повторить×\\n            \\n            \\n              Минимальный набор\\n              Шрифт×Начертание×Размер×Интерлиньяж×Абзац×Отменить×Повторить×\\n            \\n            ЖирныйСсылкаСтиль абзацаNew SlotNew SlotКурсивЦвет текстаСтиль символовNew SlotNew SlotПодчеркнутьВыделениеNew SlotNew SlotNew SlotСписокКомментарийNew SlotNew SlotNew Slot\\n          \\n        \\n        \\n          \\n            \\n              \\n                Входящие\\n                Заметки\\n              \\n              Готово\\n            \\n            \\n              Быстрый захват\\n              \\n              \\n                \\n                Сохранить\\n              \\n            \\n            \\n              \\n              \\n                Выберите заметку или сохраните новую.\\n                \\n                  \\n                  \\n                  \\n                  \\n                    Сохранить\\n                    К сцене\\n                    В сцену\\n                    Удалить\\n                    Вернуть\\n                  \\n                \\n              \\n            \\n          \\n        \\n        \\n          \\n            \\n              \\n                Поиск\\n                Проектный поиск\\n              \\n              Введите запрос\\n            \\n            \\n              \\n                Проект\\n                Рукопись\\n                Текущая сцена\\n                Выбранные сцены\\n                Текущая ветка\\n                Заметки\\n                Аннотации\\n              \\n              \\n                \\n                Регистр\\n              \\n              \\n                \\n                Слово целиком\\n              \\n            \\n            Введите запрос слева, чтобы найти текст в рукописи, заметках и аннотациях.\\n          \\n        \\n        \\n          \\n        \\n        \\n          \\n            Тихий редактор\\n            Сцена\\n            Локально\\n          \\n          \\n            AlphaR3C01 met BetaR3C01. AlphaR3C01 trusted BetaR3C01.\\n          \\n        \\n      \\n      \\n        \\n          Контекст\\n          \\n            \\n          \\n        \\n        \\n          \\n            Документ\\n            Комментарии\\n            История\\n            Atlas\\n          \\n        \\n        \\n          \\n            \\n              Сведения недоступны\\n              Текст сцены остаётся доступен и не изменён.\\n            \\n            \\n              \\n                Документ\\n                обложка\\n              \\n\\n              \\n                Синопсис\\n                \\n              \\n\\n              \\n                Теги\\n                \\n                  \\n                    POV\\n                    \\n                  \\n                  \\n                    Линия\\n                    \\n                  \\n                  \\n                    Место\\n                    \\n                  \\n                \\n              \\n\\n              \\n                Сведения\\n                \\n                  \\n                    Тип\\n                    Раздел рукописи\\n                  \\n                  \\n                    Слова\\n                    6\\n                  \\n                  \\n                    Изменено\\n                    сегодня, 04:51\\n                  \\n                \\n              \\n\\n              \\n                \\n                  Показать настройки\\n                  Скрыть настройки\\n                  \\n                \\n                \\n                  \\n                    Сведения\\n                    \\n                      \\n                        Статус\\n                        \\n                          черновик\\n                          В работе\\n                          Готово\\n                        \\n                      \\n                      \\n                        Слова\\n                        6\\n                      \\n                      \\n                        Изменено\\n                        сегодня, 04:51\\n                      \\n                    \\n                  \\n\\n                  \\n                    Макет\\n                    \\n                      \\n                        Формат\\n                        \\n                          A4\\n                          A5\\n                          Letter\\n                        \\n                      \\n                      \\n                        Ориентация\\n                        \\n                          Книжная\\n                          Альбомная\\n                        \\n                      \\n                      \\n                        Предпросмотр\\n                        Выкл\\n                      \\n                      \\n                        Рамка\\n                        Вкл\\n                      \\n                      \\n                        Колонки\\n                        1\\n                      \\n                      \\n                        Поля\\n                        25,4 мм\\n                      \\n                    \\n                  \\n\\n                  \\n                    Состояние\\n                    \\n                      \\n                        Автосохранение\\n                        Локально\\n                      \\n                      \\n                        Комментарии\\n                        Открыть\\n                      \\n                      \\n                        Режим фокуса\\n                        Выкл\\n                      \\n                    \\n                  \\n\\n                  \\n                    Команды\\n                    \\n                      Команды\\n                    \\n                  \\n                \\n              \\n            \\n          \\n        \\n        \\n          \\n    \\n    \\n    \\n      Проверка правок\\n      \\n        Безопасная проверка\\n        Запись в проект идет только через подтвержденный путь.\\n      \\n    \\n    \\n      Сводка импорта\\n      \\n    \\n      Проект\\n      локальный\\n    \\n  \\n    \\n      Сессия\\n      не загружена\\n    \\n  \\n    \\n      Основа\\n      ожидание\\n    \\n  \\n    \\n      Source mode\\n      не определен\\n    \\n  \\n    \\n      Lifecycle\\n      ожидание\\n    \\n  \\n    \\n      Статус\\n      пусто\\n    \\n  \\n    \\n      Текст\\n      0\\n    \\n  \\n    \\n      Структура\\n      0\\n    \\n  \\n    \\n      Треды\\n      0\\n    \\n  \\n    \\n      Привязки\\n      0\\n    \\n  \\n    \\n      Диагностика\\n      0\\n    \\n  \\n    \\n      Решения\\n      0\\n    \\n  \\n    \\n    \\n      Lanes\\n      \\n    \\n      \\n        \\n          \\n            Exact\\n            0\\n          \\n          No exact text candidates\\n        \\n      \\n        \\n          \\n            Manual\\n            0\\n          \\n          No manual-only items\\n        \\n      \\n        \\n          \\n            Comments\\n            0\\n          \\n          No comment threads\\n        \\n      \\n    \\n  \\n    \\n    \\n      Identity\\n      \\n    \\n      Return artifact\\n      —\\n    \\n  \\n    \\n      Manifest\\n      —\\n    \\n  \\n    \\n      Parser profile\\n      —\\n    \\n  \\n    \\n      Analysis\\n      —\\n    \\n  \\n    \\n    \\n      Элементы проверки\\n      Нет импортированных элементов проверки.\\n    \\n    \\n      Почему только вручную\\n      Нет ручных ограничений.\\n    \\n    \\n      Comment lane\\n      Нет комментариев в независимой lane.\\n    \\n    \\n      Потерянные комментарии\\n      Нет потерянных или непривязанных комментариев.\\n    \\n    \\n      Неподдержанные случаи\\n      Нет неподдержанных наблюдений.\\n    \\n    \\n      Точный текстовый шаг\\n      Нет точного текстового предпросмотра.\\n    \\n    \\n      Rewrite report\\n      Нет Package Rewrite Report.\\n    \\n    \\n      Progress\\n      \\n    \\n      \\n        No active review operation\\n        0%\\n      \\n      \\n        \\n      \\n      \\n    \\n  \\n    \\n    \\n      Apply summary\\n      \\n    \\n      pending\\n      No terminal apply summary\\n      \\n    \\n  \\n    \\n    \\n      Отчет записи\\n      Нет отчета о записи.\\n    \\n  \\n        \\n        \\n          \\n        \\n        \\n          \\n            Scene\\n            Flow\\n            Map\\n            Plot\\n            Overview\\n            Entity\\n            Relation\\n            Matrix\\n            Reports\\n            Diag.\\n            Heatmap\\n            Time\\n            Ledger\\n          \\n          \\n            Atlas journeyобложкаidleEntity nameAliasSource entityNo entityAlphaR3C01 · characterBetaR3C01 · characterTarget entityNo targetBetaR3C01 · characterEvidence mentionNo mentionAlphaR3C01 · AlphaR3C01BetaR3C01 · BetaR3C01AlphaR3C01 · AlphaR3C01BetaR3C01 · BetaR3C01Create entityAdd aliasConfirm mentionSuppressReassignMergeSplit restoreReattach evidenceTarget: AlphaR3C01 -> BetaR3C01 · mention selected\\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          \\n            \\n          \\n          Atlasобложка2 сущн.4 упом.AlphaR3C012AlphaR3C01met BetaR3C01. AlphaR3C01 trusted BetaR3C...0-10AlphaR3C01AlphaR3C01 met BetaR3C01. trusted BetaR3C01.26-36BetaR3C012BetaR3C01AlphaR3C01 met . AlphaR3C01 trusted BetaR3C01.15-24BetaR3C01...haR3C01 met BetaR3C01. AlphaR3C01 trusted .45-54\\n        \\n        \\n      \\n    \\n  \\n  \\n    \\n      6 words\\n    \\n    \\n      Atlas context открыт\\n      Save: saved\\n      Warnings: none\\n      Perf: normal\\n    \\n    \\n      \\n        \\n          \\n            \\n            \\n            \\n          \\n        \\n        50%\\n        \\n          \\n            \\n            \\n            \\n          \\n        \\n      \\n    \\n  \\n  \\n  \\n    \\n    \\n      \\n        Проекты\\n        Готово\\n      \\n      \\n        Новый проект\\n        \\n          \\n          Создать\\n        \\n      \\n      \\n      \\n        Переименовать\\n        Дублировать\\n        Переместить\\n      \\n      \\n        Архив\\n        Корзина\\n        Вернуть\\n        Бэкап\\n        Проверить\\n      \\n      \\n        Обновить\\n        Продолжить\\n        Открыть\\n        Закрыть\\n      \\n    \\n  \\n  \\n    \\n    \\n      Command palette\\n      Command\\n      \\n      Open a command\\n      \\n      \\n        Close\\n      \\n    \\n  \\n  \\n    \\n    \\n      Settings\\n      Owner-specific settings\\n      \\n        Theme\\n        \\n          Light\\n          Dark\\n        \\n        Word Wrap\\n        \\n          On\\n          Off\\n        \\n      \\n      \\n      \\n        Close\\n      \\n    \\n  \\n  \\n    \\n    \\n      Recovery\\n      Recovery status\\n      \\n        Close\\n      \\n    \\n  \\n  \\n    \\n    \\n      Export Preview\\n      DOCX baseline export (internal beta)\\n      \\n        Cancel\\n        Export DOCX\\n      \\n    \\n  \\n  \\n    \\n    \\n      Export\\n      Choose what to export from saved project truth.\\n      \\n        \\n          DOCX Minimal\\n          Baseline DOCX preview, then main-owned target write.\\n        \\n        \\n          PDF\\n          Saved scenes rendered through BookProfile print geometry.\\n        \\n        \\n          Project Archive\\n          Complete portable project snapshot with checksums.\\n        \\n        \\n          Markdown\\n          Saved current scene with serializer loss report.\\n        \\n        \\n          TXT Current Scene\\n          Saved current scene only.\\n        \\n        \\n          TXT Selected Scenes\\n          Scene selector, then canonical selected-scene export.\\n        \\n        \\n          TXT All Scenes\\n          Canonical scene traversal only.\\n        \\n      \\n      Unsupported layout fidelity is reported by the chosen export lane.\\n      \\n        Cancel\\n      \\n    \\n  \\n  \\n    \\n    \\n      Selected Scenes TXT Export\\n      Выберите сцены для экспорта в один TXT файл.\\n      \\n      \\n        Cancel\\n        Export TXT\\n      \\n    \\n  \\n  \\n    \\n    \\n      Import\\n      Choose a local source format. Preview creates no project files.\\n      \\n        \\n          DOCX\\n          Content preview, then safe-create scenes.\\n        \\n        \\n          TXT\\n          UTF-8 plain text preview, then one new scene.\\n        \\n        \\n          Markdown\\n          Local Markdown preview, then safe-create scene.\\n        \\n        \\n          Project Archive\\n          Verified project restore or copy.\\n        \\n      \\n      Unsupported structure stays outside automatic import.\\n      \\n        Cancel\\n      \\n    \\n  \\n  \\n    \\n    \\n      DOCX Import Preview\\n      DOCX import preview\\n      Plain text import only\\n      \\n        Cancel\\n        Import DOCX\\n      \\n    \\n  \\n  \\n    \\n    \\n      Diagnostics\\n      \\n      \\n        Close\\n      \\n    \\n  \\n  \\n    \\n    \\n      Новая карточка\\n      Заголовок\\n      \\n      Текст\\n      \\n      Теги\\n      \\n      \\n        Отмена\\n        Сохранить\\n      \\n    \\n  \\n  \\n  \\n\\n\\n\",\"hasHorizontalOverflow\":false},\"screenshot\":{\"path\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/r3-c01-atlas-entity-relation-reopen.png\",\"bytes\":609236,\"sha256\":\"a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43\",\"sampled\":112608,\"nonBlankRatio\":0.8464585109406081}},\"networkRequests\":0,\"dialogCalls\":0,\"tempRoot\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6\"}\n",
+      "stderr": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:20851:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:22517:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/documents/craftsman/.autosave/autosave.txt'\n}\n(node:40441) DeprecationWarning: getBitmap() is deprecated, use toBitmap() instead.\n(Use `Electron --trace-deprecation ...` to show where the warning was created)\n"
+    }
+  },
+  "persistence": {
+    "manifestPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/documents/craftsman/Роман/project.craftsman.json",
+    "manifestProof": {
+      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/documents/craftsman/Роман/project.craftsman.json",
+      "exists": true,
+      "bytes": 20896,
+      "sha256": "371c49c14e0c265ccc1bc91f254ed2ec7ecabd4f1284a5db7bdba81c4c1f3e3b"
+    },
+    "manifestHash": "371c49c14e0c265ccc1bc91f254ed2ec7ecabd4f1284a5db7bdba81c4c1f3e3b",
+    "sceneTextProofs": [
+      {
+        "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r3-c01-atlas-ui-1iuCq6/documents/craftsman/Роман/roman/обложка.txt",
+        "sha256": "3e86f59c6b74efc06ddbc4c74bd7859f971d7eb81753460b137fc9d51ba9236e",
+        "containsSceneText": true
+      }
+    ],
+    "atlas": {
+      "entityNames": [
+        "AlphaR3C01",
+        "BetaR3C01"
+      ],
+      "aliasValues": [
+        "AlphaAliasR3C01"
+      ],
+      "decisionCount": 1,
+      "suppressionCount": 1,
+      "reassignmentCount": 1,
+      "mergeOperationCount": 1,
+      "restoredMergeOperationCount": 1,
+      "reattachmentCount": 1,
+      "commandSeqs": {
+        "entities": [
+          6,
+          6
+        ],
+        "decisions": [
+          4
+        ],
+        "suppressions": [
+          5
+        ],
+        "reassignments": [
+          6
+        ],
+        "operations": [
+          7
+        ],
+        "reattachments": [
+          9
+        ]
+      }
+    }
+  },
+  "evidenceFiles": {
+    "journeyScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
+      "exists": true,
+      "bytes": 611835,
+      "sha256": "14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4"
+    },
+    "reopenScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
+      "exists": true,
+      "bytes": 609236,
+      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43"
+    }
+  }
+}

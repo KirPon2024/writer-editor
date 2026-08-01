@@ -7574,6 +7574,139 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
       "approvedAtUtc": "2026-08-01T01:39:04.559Z",
       "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/night01-c01-independent-final-rerun-report.json",
+      "sha256": "a82932079930d3e3c47869d429a0ca24d0979728d876b380b1e1f6cd702ffcd6",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 independent executable final rerun report: exact origin/main fd092ff854c926cd9c45bbd264216cf996c268ca, runtime dirty files zero, executable R3 physical rows PASS, open P0 zero, Program DONE not claimed from stale aggregation."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun-receipt.json",
+      "sha256": "5056c2e8ccf3dfeac77d8a18d77b756c307a37c470db9c5bd06a3f7869784513",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested R3_C05 physical rerun receipt as executable evidence only; it rebases audit P0 closure to exact remote runtime and does not claim Program DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-journey.png",
+      "sha256": "14e9389b6a271f60b8a3931c278ee137678aa01bb946efb940c283f4748bb7b4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 executable Atlas entity/relation UI journey screenshot as supporting evidence for the physical rerun, not screenshot-only readiness."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-reopen.png",
+      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 Atlas entity/relation reopen screenshot as supporting evidence paired with executable UI state checks."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
+      "sha256": "f1fda7c456c7d40e2db6c6ef671492c2d6c2ff948726b602103111d46ffbaa0e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 Atlas entity/relation executable UI journey report for visible commands, persistence and reopen proof."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journey.png",
+      "sha256": "5f834b334c0c23f25fc1b382f90ff7b15afa5837f61fe97fd0e9ee4423682ac5",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 temporal/continuity/saved-query journey screenshot as supporting evidence for executable UI commands."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
+      "sha256": "5fa683a60f097182de7820fa6d30cd7b4c61f9796b382a7a92f45eaf93b62352",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 temporal, continuity and saved-query executable UI journey report with reopen proof."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-reopen.png",
+      "sha256": "11f4e48ad01b687b99a3a6bced440929f0ab409867c769973c998c35dc2acfb4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 temporal/continuity reopen screenshot as supporting evidence paired with executable persistence checks."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "sha256": "9cb13a3e0009e40e88bb38810f1ebda90641f0c1dffc2b4883a90824eba16d5b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 manual-map attachments, portals and templates executable journey report with export/import and reopen evidence."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
+      "sha256": "541e705fb2eae082f0cc9dc917716a572ab8603a5b82eeadcdae7538c57ca40e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 manual-map portability journey screenshot as supporting evidence, not standalone readiness proof."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
+      "sha256": "964a438eef4463fc06bad9003f9d2eeed9212e4040f44422865b48d266e395db",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 manual-map reopen screenshot as supporting evidence paired with persisted model checks."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
+      "sha256": "ac7c215a068a90a2cb0649f540c6f157b43596e68ac4f4a23f61cff7353f7414",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested seed black-box journey screenshot reused by the manual-map physical rerun evidence path."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "sha256": "65541faaf2347ce5cd60307c5360db8a1de01d69ffacb5681842f3b8a4281484",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested seed black-box reopen screenshot reused by the manual-map physical rerun evidence path."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "dfbce6952a67fb8584998f909b565d0e93530a83d5d549dce28bc41cfdba8868",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested seed R2_C05 black-box report as supporting evidence for the manual-map physical rerun."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
+      "sha256": "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 multilingual, grapheme, worker stress and stale-result executable report."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/r3-c05-release-saturation-revalidation-report.json",
+      "sha256": "1af27aa7e30b4b64afef02568e3104ec8fe597cf930e689b05d9b2f7352232f9",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 nested R3_C05 release saturation rerun report: all executable P0 rows closed and Program DONE remains unclaimed."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN_RECEIPT.json",
+      "sha256": "dd0e5d5aa217582a74092aeda383ead06e1d3f17c2b0e0327345703f92279422",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 receipt binding exact remote head, zero runtime dirty files, executable rerun PASS, open P0 zero, and no Program DONE claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-night01-c01-independent-final-rerun.mjs",
+      "sha256": "8f6e8915fa4dbab50df50570dbb927b9ee196f126477c4f05c6e51ad5b434f81",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 executable audit wrapper: reruns R3 physical rows, requires exact origin/main and runtime-clean state, rejects legacy EFINAL aggregation as advisory."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-night01-c01-independent-final-rerun.contract.test.js",
+      "sha256": "65b30dec6debf1f08f57013e897689121bb675c87fd1abcc7c2a992c4264cbbc",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN",
+      "approvedAtUtc": "2026-08-01T02:36:00.000Z",
+      "rationale": "Approve Night-01 C01 negative contracts for physical-rerun requirement, runtime-dirty rejection, stale EFINAL advisory-only handling and no Program DONE claim."
     }
   ]
 }

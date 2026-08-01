@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "yalken.atlas.v5.night01.c02.finalDisposition.receipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION_AND_PROGRAM_DOD_RECONCILIATION",
+  "contourId": "NIGHT_01_C02_FINAL_DISPOSITION_AND_PROGRAM_DOD_RECONCILIATION",
+  "generatedAtUtc": "2026-08-01T02:09:31.376Z",
+  "status": "PASS_NIGHT01_C02_PROGRAM_DOD_READY_FOR_FINAL_REMOTE_VERIFICATION",
+  "pass": true,
+  "programDoneClaim": true,
+  "programDoneClaimScope": "READY_FOR_DELIVERY_PENDING_PR_MERGE_REMOTE_SHA_VERIFICATION_AND_CLEAN_WORKTREE",
+  "headSha": "84f10f656bcd3352a406b06bf1b3f87d545d1c14",
+  "originMainSha": "84f10f656bcd3352a406b06bf1b3f87d545d1c14",
+  "openFindings": [],
+  "checks": {
+    "currentHeadIsOriginMain": true,
+    "finalAuditReportPassesOnCurrentHead": true,
+    "c01RemoteVerifiedNoOpenP0": true,
+    "executableRerunSupersedesLegacyAggregation": true,
+    "noProductRuntimeDeltaSinceExactPhysicalRerun": true,
+    "generatedScreenshotsNotAcceptedAlone": true
+  },
+  "report": {
+    "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION/night01-c02-final-disposition-report.json",
+    "sha256": "3c5c8886e59e95af84610a1b6d10218ee75605216bc0b8dbfe069903d1adb9ff"
+  },
+  "evidence": {
+    "c01RemoteReceipt": {
+      "path": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION_RECEIPT.json",
+      "sha256": "7f85b7fcae6a51302492c75b229be301caa2bcd129cc25e34323af674048bf12",
+      "status": "PASS_NIGHT01_C01_REMOTE_MERGE_AND_EXACT_HEAD_RERUN_VERIFIED"
+    },
+    "finalAuditReport": {
+      "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
+      "sha256": "e7211c3333dd99b33fcb2dc1c6dec56fa78458a93e48a906eb98beb8de8e4387",
+      "status": "PASS_EFINAL_READY_FOR_DELIVERY"
+    }
+  },
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "mergeRequired": true,
+    "remoteHeadVerificationRequired": true
+  }
+}

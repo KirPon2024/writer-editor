@@ -1536,10 +1536,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/final-audit-program-dod-report.json",
-      "sha256": "80744a52dadb6879145f62becda5e0413686070aa439ef392bfbdeb68cbdf5b7",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_PROGRAM_DOD_REVALIDATION",
-      "approvedAtUtc": "2026-07-31T22:11:27.548Z",
-      "rationale": "Approve EFINAL evidence-binding update: final audit report and receipt are generated from clean implementation commit 309e24e7, Program DoD evidence remains PASS, and final delivery remote SHA remains pending PR merge verification."
+      "sha256": "e7211c3333dd99b33fcb2dc1c6dec56fa78458a93e48a906eb98beb8de8e4387",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve refreshed EFINAL final audit report on exact origin/main 84f10f656bcd3352a406b06bf1b3f87d545d1c14; used as corroborating Program DoD evidence behind Night01 executable no-open-P0 proof, not as a standalone stale aggregation token."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD/revalidated-c01-package-artifact/macos-package-artifact-security-report.json",
@@ -7721,6 +7721,34 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C01_REMOTE_MERGE_VERIFICATION",
       "approvedAtUtc": "2026-08-01T02:03:30.000Z",
       "rationale": "Approve Night-01 C01 remote verification contract enforcing merged SHA equality, exact-head rerun PASS, zero runtime dirty files, zero open findings, advisory-only stale EFINAL aggregation, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION/night01-c02-final-disposition-report.json",
+      "sha256": "3c5c8886e59e95af84610a1b6d10218ee75605216bc0b8dbfe069903d1adb9ff",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve Night-01 C02 final disposition report: exact origin/main 84f10f65, C01 executable no-open-P0 proof, no product runtime delta since physical rerun, refreshed EFINAL pass, and Program DONE claim scoped to PR merge plus remote verification."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION_RECEIPT.json",
+      "sha256": "de930baf73f8bd96eec3606ec56e9f27ecde7ba60eb4716d593e6212d423b160",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve Night-01 C02 final disposition receipt with open findings zero, runtime-delta negative check, executable no-open-P0 dependency, and delivery-chain requirement before final DONE."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-night01-c02-final-disposition.mjs",
+      "sha256": "04805bed8a28707f18f1e266aeb1b7d8d88162a4c3003a967fc99753ad75b467",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve Night-01 C02 executable final-disposition checker: requires current origin/main, refreshed final audit, C01 executable no-open-P0 receipt, stale aggregation rejection, and no product runtime delta since exact physical rerun."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-night01-c02-final-disposition.contract.test.js",
+      "sha256": "3b11e1ec01a2c8941bae05ebb23202b8766ffdef0e4bf57c46ddad53689f74a8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
+      "approvedAtUtc": "2026-08-01T02:09:30.000Z",
+      "rationale": "Approve Night-01 C02 contracts that block final disposition on product runtime delta or missing executable no-open-P0 proof and prevent legacy EFINAL pass from acting alone."
     }
   ]
 }

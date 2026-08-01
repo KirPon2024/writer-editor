@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const vm = require('node:vm');
 const crypto = require('node:crypto');
@@ -407,13 +408,14 @@ function customPropertiesXml(properties = []) {
   ].join('');
 }
 
-function productContentTypesXml() {
+function productContentTypesXml(options = {}) {
+  const includeComments = options.includeComments !== false;
   return [
     '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">',
     '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>',
     '<Default Extension="xml" ContentType="application/xml"/>',
     '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>',
-    '<Override PartName="/word/comments.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml"/>',
+    ...(includeComments ? ['<Override PartName="/word/comments.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml"/>'] : []),
     '<Override PartName="/docProps/custom.xml" ContentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"/>',
     '</Types>',
   ].join('');
@@ -503,6 +505,74 @@ function productReviewDocxWithAnchoredComment({
         body: customPropertiesXml([
           { name: 'YRTK_C01_AUTH', value: authority },
           { name: 'YRTK2_TOKEN', value: 'YRTK2.product-intake-token' },
+          { name: 'YRTK_CORE_DIGEST', value: payload.coreManifestDigest },
+        ]),
+      },
+    ]),
+  };
+}
+
+function productReviewDocxWithTrackedReplacement({
+  secret = 'local-secret-for-product-return-intake',
+  roundId = 'round-product-intake-replacement-1',
+  exportId = 'export-product-intake-replacement-1',
+  sceneId = 'roman/imported/scene-1.txt',
+  sceneText = 'Alpha beta gamma.',
+  deletedText = 'beta',
+  insertedText = 'delta',
+  blockId = 'block-product-intake-replacement-1',
+  envelopeOverrides = {},
+} = {}) {
+  const rawSha256 = c05Sha256Text(sceneText);
+  const payload = {
+    schemaVersion: 'yalken.rtk.locator-authority-envelope.c01.v1',
+    taskId: 'YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01',
+    profileId: 'word-mac-latest-observed-16.111.x-product-review-export-p0',
+    caseId: 'product-review-docx-export-p0-tracked-replacement',
+    sceneId,
+    sceneRevision: rawSha256,
+    rawSha256,
+    blockId,
+    roundId,
+    exportId,
+    exportArtifactId: 'export-artifact-product-intake-replacement-1',
+    semanticReturnId: 'semantic-return-product-intake-replacement-1',
+    coreManifestDigest: c05Sha256Text('core-manifest-product-intake-replacement-1'),
+    transportManifestDigest: c05Sha256Text('transport-manifest-product-intake-replacement-1'),
+    yrtk2TokenDigest: c05Sha256Text('yrtk2-product-intake-replacement-1'),
+    blockCount: 1,
+  };
+  const authority = productAuthorityEnvelope(payload, secret, envelopeOverrides);
+  return {
+    payload,
+    secret,
+    sceneText,
+    deletedText,
+    insertedText,
+    bytes: cleanDocxZip([
+      '<w:p>',
+      '<w:r><w:t>Alpha </w:t></w:r>',
+      `<w:del w:id="1"><w:r><w:delText>${deletedText}</w:delText></w:r></w:del>`,
+      `<w:ins w:id="2"><w:r><w:t>${insertedText}</w:t></w:r></w:ins>`,
+      '<w:r><w:t> gamma.</w:t></w:r>',
+      '</w:p>',
+    ].join(''), [
+      {
+        name: '[Content_Types].xml',
+        method: 8,
+        body: productContentTypesXml({ includeComments: false }),
+      },
+      {
+        name: '_rels/.rels',
+        method: 8,
+        body: productRootRelsXml(),
+      },
+      {
+        name: 'docProps/custom.xml',
+        method: 8,
+        body: customPropertiesXml([
+          { name: 'YRTK_C01_AUTH', value: authority },
+          { name: 'YRTK2_TOKEN', value: 'YRTK2.product-intake-replacement-token' },
           { name: 'YRTK_CORE_DIGEST', value: payload.coreManifestDigest },
         ]),
       },
@@ -968,6 +1038,85 @@ test('DOCX review preview session command: non-overlap tracked replacements reac
   assert.equal(applied.reviewSurface.exactTextAppliedChangeIds.includes(changeId), true);
   assert.equal(applied.reviewSurface.rtkNonOverlapTrackedReplacementApplyResult.status, 'applied');
   assert.equal(port.getState().currentReviewSurfacePayload.rtkNonOverlapTrackedReplacementApplyResult.status, 'applied');
+});
+
+test('DOCX review preview session command: authenticated return IR drives visible preview explicit apply and replay', async () => {
+  const docx = productReviewDocxWithTrackedReplacement();
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-rtk-p0-return-loop-'));
+  const scenePath = path.join(tmpDir, 'scene-1.txt');
+  fs.writeFileSync(scenePath, docx.sceneText, 'utf8');
+  const bridge = await loadBridge();
+  const calls = [];
+  const applyHandler = bridge.createRtkNonOverlapTrackedReplacementCommandHandler({
+    cryptoPort: c05CryptoPort,
+    now: () => 1700000000000,
+  });
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async (commandId, payload = {}) => {
+      calls.push({ commandId, payload: cloneJsonSafe(payload) });
+      assert.equal(commandId, 'cmd.rtk.review.applyNonOverlapTrackedReplacements');
+      return applyHandler(payload);
+    },
+  });
+  const sceneHash = computeHash(docx.sceneText);
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docx.bytes),
+    {
+      activeReviewDocxExportAuthorityStore: productAuthorityStoreFromDocx(docx, {
+        projectRoot: tmpDir,
+        scenePath,
+        baselineFinalText: docx.sceneText,
+      }),
+      buildMainReviewContext: async () => reviewContext({
+        projectRoot: tmpDir,
+        scenePath,
+        sceneText: docx.sceneText,
+        baselineHash: sceneHash,
+        currentBaselineHash: sceneHash,
+      }),
+    },
+  );
+
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
+  assert.equal(result.returnIntake.authenticated, true);
+  assert.equal(result.returnIntake.status, 'authenticated-return-ir-ready');
+  assert.equal(result.nonOverlapTrackedReplacementProductPath.prepared, true);
+  assert.equal(result.reviewSurface.rtkNonOverlapTrackedReplacementProductPath.productRuntimeWired, true);
+  assert.equal(result.reviewSurface.rtkNonOverlapTrackedReplacementProductPath.automaticApplyCertified, false);
+  assert.equal(fs.readFileSync(scenePath, 'utf8'), docx.sceneText);
+  assert.equal(calls.length, 0);
+
+  const textChanges = result.reviewSurface.revisionSession.reviewGraph.textChanges;
+  assert.equal(textChanges.length, 1);
+  assert.equal(textChanges[0].match.kind, 'exact');
+  assert.equal(textChanges[0].match.quote, docx.deletedText);
+  assert.equal(textChanges[0].replacementText, docx.insertedText);
+  assert.equal(textChanges[0].rtkProductPath, 'nonOverlapTrackedReplacement');
+
+  const applied = await port.handleReviewSurfaceApplyExactTextChangeCommandSurface({
+    requestId: 'apply-authenticated-return-ir',
+    changeId: textChanges[0].changeId,
+  });
+  assert.equal(applied.ok, true, JSON.stringify(applied, null, 2));
+  assert.equal(applied.applied, true);
+  assert.equal(applied.result.status, 'applied');
+  assert.equal(applied.result.writerCalled, true);
+  assert.equal(fs.readFileSync(scenePath, 'utf8'), 'Alpha delta gamma.');
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].payload.previewConfirmed, true);
+  assert.equal(calls[0].payload.returnArtifactSha256, result.returnIntake.returnedArtifactSha256);
+  assert.equal(calls[0].payload.reviewIr.textRevisions.length, 2);
+  assert.equal(calls[0].payload.authorityCarrier.selectedCarrier.payload.roundId, docx.payload.roundId);
+
+  const replay = await port.handleReviewSurfaceApplyExactTextChangeCommandSurface({
+    requestId: 'apply-authenticated-return-ir-replay',
+    changeId: textChanges[0].changeId,
+  });
+  assert.equal(replay.ok, true, JSON.stringify(replay, null, 2));
+  assert.equal(replay.replay, true);
+  assert.equal(replay.result.status, 'replay');
+  assert.equal(fs.readFileSync(scenePath, 'utf8'), 'Alpha delta gamma.');
+  assert.equal(calls.length, 2);
 });
 
 test('DOCX review preview session command: forged renderer fields cannot manufacture C05 product authority', async () => {

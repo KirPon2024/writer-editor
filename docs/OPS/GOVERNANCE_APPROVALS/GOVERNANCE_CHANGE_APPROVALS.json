@@ -7254,36 +7254,8 @@
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "62ceaa7320d1600e58ef3560231646b3595b8b99471cebd6c47bc2495211e9ec",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
       "sha256": "c4b94b3cf989ef6e684a0a68004d17bd5a72eec34dad49829ee166d257baa04b",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "1f2cc73712ff8efe089a9d68beb6cf233f4ca17d4c58c95bafa6e6fcd7c422c8",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "cc03255b09aaaa8d50abad0b42b919e877b3adf5c572be5756dad934b034602d",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-return-intake-v2.mjs",
-      "sha256": "ac44863a8ab0f10487e9ca2dbc4c5d943ff434d0f38c77b46914d4902d969ad9",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:31:32.031Z",
       "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
@@ -7310,13 +7282,6 @@
       "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
     },
     {
-      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "a8ea100fb775093d48e5bc1899f69b0276b2d233efcb886ef141bc7df76c30b0",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:31:32.031Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 scope: product Review DOCX returned package is parsed through the Review Transport parser gate with local authority binding before session import or storage authority; preserves Word SATURATED false, automatic apply false, Google Docs closed, no product network dependency, no user document use, and no broad corpus or release-ready claim."
-    },
-    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-return-intake-v2.contract.test.js",
       "sha256": "3dd78178e5fff3ab8efa67bc342ab9fb291df2331448fb070a9e3a985c746013",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
@@ -7331,11 +7296,67 @@
       "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 product runtime source rebind: returned Review DOCX authority is gated through parser V2 before session import, custom properties are recognized as supported review packet metadata, no automatic apply, no writer authority expansion beyond existing command-owned paths, no UI redesign, no dependency, no network, and no release-ready or Word saturation claim."
     },
     {
-      "filePath": "src/main.js",
-      "sha256": "c9c98200ba3db7f4ce9968e540d0ba4dc73b0e7a59706c7d056d12143dd360e3",
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "ab2375e15f3a2e3d2ac68f4062c079a9d2e73706f2b3f8567694c78775581c47",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:32:27.743Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 product runtime source rebind: returned Review DOCX authority is gated through parser V2 before session import, custom properties are recognized as supported review packet metadata, no automatic apply, no writer authority expansion beyond existing command-owned paths, no UI redesign, no dependency, no network, and no release-ready or Word saturation claim."
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT.json",
+      "sha256": "2a670667ca28daca1ee9389a668370a17c4125e9573663c9dcfcec816f173abc",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "07af0c24a890a84d6cd9965147e893b7263ff817694dffe15c462082d39e1750",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "a9e0869086fd9b2e7167a6811cb66e314aa8d594511bf401baa98bf5f048f7a7",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
+      "sha256": "48540d208f125d8c03ddad1cb11987f7905abe70a3b02e8fc882a5af88a39283",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-return-intake-v2.mjs",
+      "sha256": "4e89a81fd2a87caf4cc87288117a49b8d5d97ed7d025b6b452e34c6c521198a9",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "bf3838d086ad3f2f44bfea1b742ba012674b32293e3588c3f1b331bca1b519ce",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "dd64d5f3ead914f115045fe76981bc1d93b605aab3659f84048f9a1598d3f842",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.contract.test.js",
+      "sha256": "5ad674a2f9cd85127d244635d3d31e3df44e4cc3afce18aaeff7d0f2c9e0d060",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T00:45:18.743Z",
+      "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
     }
   ]
 }

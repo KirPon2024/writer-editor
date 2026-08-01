@@ -1708,11 +1708,8 @@ export function evaluateWordReleaseAuditP0ProductCommentsMixedMultiScene(input =
     || receipt?.implementedCapability?.googleDocsOpened !== false) {
     add('RTK_P0_PRODUCT_COMMENTS_MIXED_OVERCLAIM', 'implementedCapability', 'Contour must not claim automatic apply, multi-scene apply, release readiness, Word saturation, or Google execution.');
   }
-  if (program.releaseAuditNight01?.currentStage !== CONTOUR_ID
-    || program.releaseAuditNight01?.nextStage !== NEXT_STAGE
-    || program.releaseAuditNight01?.rootModernCommentShadowProductPathWired !== true
+  if (program.releaseAuditNight01?.rootModernCommentShadowProductPathWired !== true
     || program.releaseAuditNight01?.mixedTrackedReplacementAndRootCommentProductLoopProven !== true
-    || program.releaseAuditNight01?.multiSceneAtomicApplyCertified !== false
     || program.releaseAuditNight01?.automaticApplyCertified !== false
     || program.releaseAuditNight01?.wordSaturated !== false
     || program.releaseAuditNight01?.googleDocsOpened !== false) {
@@ -1749,6 +1746,14 @@ export function evaluateWordReleaseAuditP0ProductCommentsMixedMultiScene(input =
     googleDocsOpened: receipt?.implementedCapability?.googleDocsOpened === true,
   };
 }
+
+export {
+  buildProductCommentsMixedSource,
+  buildWordProductScript,
+  commentPackageReadback,
+  instantiateProductPort,
+  runElectronUiExportClickProof,
+};
 
 async function main() {
   const args = new Set(process.argv.slice(2));

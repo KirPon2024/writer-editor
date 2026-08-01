@@ -164,7 +164,7 @@ function normalizeRootCommentThread(thread, index, reasons) {
   if (replies.length > 0) {
     reasons.push(makeReason('RTK_COMMENT_REPLY_NOT_PROMOTED', `commentThreads.${index}.replies`, 'Modern replies remain a typed limitation and are not promoted in A03-C01.'));
   }
-  if (!['ANCHORED', 'ORPHAN', 'RESOLVED'].includes(status)) {
+  if (!['ANCHORED', 'ORPHAN', 'RESOLVED', 'DELETED'].includes(status)) {
     reasons.push(makeReason('RTK_COMMENT_UNSUPPORTED', `commentThreads.${index}.status`, 'Unsupported comment outcome cannot enter the shadow session.', { status }));
   }
   if (Buffer.byteLength(body, 'utf8') > MAX_BODY_BYTES) {
@@ -183,7 +183,7 @@ function normalizeRootCommentThread(thread, index, reasons) {
     date: rawString(thread.date),
     status,
     anchor,
-    orphanOutcome: status === 'ORPHAN' || anchor.outcome === 'ORPHAN',
+    orphanOutcome: status === 'ORPHAN' || status === 'DELETED' || anchor.outcome === 'ORPHAN',
     orderingKey: Number.isSafeInteger(Number(thread.orderingKey)) ? Number(thread.orderingKey) : index,
     reasonCodes: Array.isArray(thread.reasonCodes) ? thread.reasonCodes.map(normalizeString).filter(Boolean) : [],
     sourceXmlProvenanceDigest: thread.sourceXmlProvenance
@@ -243,7 +243,7 @@ function normalizeThreads(reviewIr) {
 }
 
 function summarizeThreads(threads) {
-  const outcomeCounts = { ANCHORED: 0, ORPHAN: 0, RESOLVED: 0 };
+  const outcomeCounts = { ANCHORED: 0, ORPHAN: 0, RESOLVED: 0, DELETED: 0 };
   for (const thread of threads) {
     if (Object.prototype.hasOwnProperty.call(outcomeCounts, thread.status)) outcomeCounts[thread.status] += 1;
   }
@@ -252,6 +252,7 @@ function summarizeThreads(threads) {
     anchored: outcomeCounts.ANCHORED,
     orphan: outcomeCounts.ORPHAN,
     resolved: outcomeCounts.RESOLVED,
+    deleted: outcomeCounts.DELETED,
     replyCountPromoted: 0,
   };
 }
@@ -337,6 +338,10 @@ function normalizeAuthenticatedReturnIdentity(input, reviewIr, roundId, returnAr
   };
 }
 
+function recordContainsDeletedThread(threads) {
+  return threads.some((thread) => thread.status === 'DELETED');
+}
+
 function buildSessionRecord(input = {}) {
   const reviewIr = reviewIrFrom(input);
   const normalized = normalizeThreads(reviewIr);
@@ -400,6 +405,7 @@ function buildSessionRecord(input = {}) {
       reviewSessionMutation: 'comment-shadow-session-only',
       modernRepliesPromoted: false,
       resolveReopenPromoted: false,
+      deleteStatePromoted: recordContainsDeletedThread(normalized.threads),
       authenticatedProjectSceneBaselineBinding: identity.binding.authenticated === true,
     },
   };
@@ -435,6 +441,7 @@ function buildReceipt(record, writeState = {}) {
       anchored: record.summary.anchored,
       orphan: record.summary.orphan,
       resolved: record.summary.resolved,
+      deleted: record.summary.deleted,
     },
     authorityLevel: cloneJsonSafe(record.authorityLevel),
     vetoMetrics: {

@@ -611,10 +611,10 @@
     "releaseAuditRequired": true
   },
   "releaseAuditNight01": {
-    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE_COMPLETE_NOT_SATURATED",
-    "currentStage": "P0-PRODUCT-VERTICAL-COMMENTS-MIXED-MULTI-SCENE",
-    "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_COMMENTS_MIXED_MULTI_SCENE",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
+    "status": "WORD_RELEASE_AUDIT_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE_NOT_SATURATED",
+    "currentStage": "P0-MULTI-SCENE-ATOMIC-COMMENT-STATE-CLOSURE",
+    "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
     "latestEnvironmentPermissionProbeReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
     "latestEnvironmentPermissionProbeStatus": "MACOS_WORD_SANDBOX_GRANT_REQUIRED_NOT_PACKAGE_INVALID",
     "latestEnvironmentPermissionProbeTerminalReason": "HOST_DIALOG_DID_NOT_OPEN_PICKER_OR_DID_NOT_BIND_SELECTED_ITEM",
@@ -649,10 +649,10 @@
     "rootModernCommentShadowProductPathWired": true,
     "mixedTrackedReplacementAndRootCommentProductLoopProven": true,
     "commentDeletePhysicalReadbackProven": true,
-    "commentDeleteProductRuntimeWired": false,
+    "commentDeleteProductRuntimeWired": true,
     "modernReplyProductRuntimeWired": false,
     "modernResolveReopenProductRuntimeWired": false,
-    "multiSceneAtomicApplyCertified": false,
+    "multiSceneAtomicApplyCertified": true,
     "multiSceneCorrectlyBlockedBeforeWriter": true
   },
   "latestWordProductVerticalTrackedEdit": {

@@ -371,6 +371,38 @@ test('Atlas V5 P1 domain events: SceneOrderChanged preserves semantic scene orde
     nextStateHash: 'also-not-a-hash',
   }), /INVALID_CORE_DOMAIN_EVENT_PROVENANCE:nextStateHash/u);
 
+  const initialState = runtime.createInitialCoreState();
+  const createCommand = {
+    type: runtime.CORE_COMMAND_IDS.PROJECT_CREATE,
+    payload: { projectId: 'p-explicit-provenance', sceneId: 'scene-1', title: 'Presence' },
+  };
+  const createResult = runtime.reduceCoreState(initialState, createCommand);
+  assert.equal(createResult.ok, true, createResult.error?.reason || '');
+  const absentHashes = domainEvents.emitCoreDomainEventsForCommandResult({
+    previousState: initialState,
+    command: createCommand,
+    result: createResult,
+  });
+  assert.equal(absentHashes.length > 0, true);
+  assert.match(absentHashes[0].sourceBinding.previousStateHash, /^[a-f0-9]{64}$/u);
+  assert.match(absentHashes[0].sourceBinding.nextStateHash, /^[a-f0-9]{64}$/u);
+  for (const explicitBadPrevious of ['', '   ', null]) {
+    assert.throws(() => domainEvents.emitCoreDomainEventsForCommandResult({
+      previousState: initialState,
+      previousStateHash: explicitBadPrevious,
+      command: createCommand,
+      result: createResult,
+    }), /INVALID_CORE_DOMAIN_EVENT_PROVENANCE:previousStateHash/u);
+  }
+  for (const explicitBadNext of ['', '   ', null]) {
+    assert.throws(() => domainEvents.emitCoreDomainEventsForCommandResult({
+      previousState: initialState,
+      command: createCommand,
+      result: createResult,
+      nextStateHash: explicitBadNext,
+    }), /INVALID_CORE_DOMAIN_EVENT_PROVENANCE:nextStateHash/u);
+  }
+
   assert.throws(() => domainEvents.buildDerivedGenerationPublishedEvent({
     projectId: 'p-events',
     generationId: 'generation-1',
@@ -514,12 +546,49 @@ test('Atlas V5 P1 domain events: tree reorder Command Kernel result carries real
   });
   assert.equal(missingFacts.ok, false);
   assert.equal(missingFacts.error.reason, 'TREE_REORDER_DOMAIN_EVENT_REQUIRED');
+
+  const forgedBridgeRegistry = createCommandRegistry();
+  projectCommands.registerProjectCommands(forgedBridgeRegistry, {
+    electronAPI: {
+      async invokeUiCommandBridge() {
+        return {
+          ok: true,
+          value: {
+            ok: true,
+            nodeId: 'scene-10',
+            reordered: true,
+            events: [event],
+            domainEventDigest: 'f'.repeat(64),
+            domainEventDigestVerified: true,
+          },
+        };
+      },
+    },
+  });
+  const forgedBridge = await forgedBridgeRegistry.getHandler(projectCommands.EXTRA_COMMAND_IDS.TREE_REORDER_NODE)({
+    projectId: 'p-events',
+    nodeId: 'scene-10',
+    direction: 'up',
+  });
+  assert.equal(forgedBridge.ok, false);
+  assert.equal(forgedBridge.error.reason, 'TREE_REORDER_DOMAIN_EVENT_DIGEST_VERIFICATION_REQUIRED');
 });
 
 test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retain immutable fact digest', async () => {
   const runtime = await importRepoModule('src/product/stage10ProductWiring.mjs');
   const domainEvents = await importRepoModule('src/core/domainEvents.mjs');
+  const hashing = await importRepoModule('src/core/browser-safe-hash.mjs');
   const store = new Map();
+  function authorityRoot(record) {
+    return hashing.hashCanonicalValue({
+      schemaVersion: record.schemaVersion,
+      authorityKind: record.authorityKind,
+      authorityVersion: record.authorityVersion,
+      previousAuthorityRootDigest: record.previousAuthorityRootDigest || '',
+      receiptCount: record.receiptCount,
+      receipts: record.receipts,
+    });
+  }
   const product = await runtime.createStage10ProductRuntime({
     projectId: 'stage10-domain-events',
     now: () => '2026-08-01T00:00:00.000Z',
@@ -541,6 +610,9 @@ test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retai
   assert.equal(Array.isArray(result.receipt.domainEvents), false);
   assert.equal(Array.isArray(result.receipt.details.domainEvents), false);
   const session = product.getSession();
+  assert.equal(session.commandReceiptAuthority.schemaVersion, runtime.STAGE10_COMMAND_RECEIPT_AUTHORITY_SCHEMA);
+  assert.equal(session.commandReceiptAuthority.receiptCount, 1);
+  assert.equal(session.commandReceiptAuthority.authorityRootDigest, authorityRoot(session.commandReceiptAuthority));
   assert.ok(Array.isArray(session.eventLog.events[0].domainEvents));
   assert.equal(session.eventLog.events[0].domainEvents.length, 2);
   assert.equal(result.receipt.domainEventDigest, domainEvents.hashCoreDomainEvents(session.eventLog.events[0].domainEvents));
@@ -556,12 +628,26 @@ test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retai
   assert.equal(product.getReadModels().replay.ok, true);
 
   const missingReceiptSession = product.getSession();
-  missingReceiptSession.commandReceipts = [];
-  const missingReceiptReadModels = runtime.buildStage10ProductReadModels(missingReceiptSession);
-  assert.equal(missingReceiptReadModels.replay.ok, false);
-  assert.equal(
-    missingReceiptReadModels.replay.rejected[0].code,
-    'E_COLLAB_OPERATION_REPLAY_COMMAND_RECEIPT_MISSING',
+  missingReceiptSession.commandReceiptAuthority.receipts = [];
+  missingReceiptSession.commandReceiptAuthority.receiptCount = 0;
+  missingReceiptSession.commandReceiptAuthority.authorityRootDigest = authorityRoot(missingReceiptSession.commandReceiptAuthority);
+  assert.throws(
+    () => runtime.buildStage10ProductReadModels(missingReceiptSession),
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_STALE_OR_ROLLED_BACK',
+  );
+
+  const missingAuthoritySession = product.getSession();
+  delete missingAuthoritySession.commandReceiptAuthority;
+  assert.throws(
+    () => runtime.buildStage10ProductReadModels(missingAuthoritySession),
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_MISSING',
+  );
+
+  const wrongVersionSession = product.getSession();
+  wrongVersionSession.commandReceiptAuthority.schemaVersion = 'yalken.stage10.commandReceiptAuthority.future';
+  assert.throws(
+    () => runtime.buildStage10ProductReadModels(wrongVersionSession),
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_VERSION_INVALID',
   );
 
   const staleDigestSession = product.getSession();
@@ -583,32 +669,123 @@ test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retai
   );
 
   const strippedReceiptDigestSession = product.getSession();
-  delete strippedReceiptDigestSession.commandReceipts[0].domainEventDigest;
-  const strippedReceiptDigestReadModels = runtime.buildStage10ProductReadModels(strippedReceiptDigestSession);
-  assert.equal(strippedReceiptDigestReadModels.replay.ok, false);
-  assert.equal(
-    strippedReceiptDigestReadModels.replay.rejected[0].code,
-    'E_COLLAB_OPERATION_REPLAY_RECEIPT_DOMAIN_EVENT_DIGEST_MISMATCH',
+  delete strippedReceiptDigestSession.commandReceiptAuthority.receipts[0].domainEventDigest;
+  assert.throws(
+    () => runtime.buildStage10ProductReadModels(strippedReceiptDigestSession),
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_DIGEST_INVALID',
   );
 
   const jointMutationSession = product.getSession();
   jointMutationSession.eventLog.events[0].domainEvents[0].payload.projectId = 'jointly-mutated-event-fact';
   jointMutationSession.eventLog.events[0].domainEventDigest = domainEvents.hashCoreDomainEvents(jointMutationSession.eventLog.events[0].domainEvents);
-  const jointMutationReadModels = runtime.buildStage10ProductReadModels(jointMutationSession);
-  assert.equal(jointMutationReadModels.replay.ok, false);
-  assert.equal(
-    jointMutationReadModels.replay.rejected[0].code,
-    'E_COLLAB_OPERATION_REPLAY_RECEIPT_DOMAIN_EVENT_DIGEST_MISMATCH',
+  jointMutationSession.commandReceiptAuthority.receipts[0].domainEventDigest = jointMutationSession.eventLog.events[0].domainEventDigest;
+  assert.throws(
+    () => runtime.buildStage10ProductReadModels(jointMutationSession),
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_DIGEST_INVALID',
   );
 
   const receiptFactsSession = product.getSession();
-  receiptFactsSession.commandReceipts[0].domainEvents = receiptFactsSession.eventLog.events[0].domainEvents;
+  receiptFactsSession.commandReceiptAuthority.receipts[0].domainEvents = receiptFactsSession.eventLog.events[0].domainEvents;
+  receiptFactsSession.commandReceiptAuthority.authorityRootDigest = authorityRoot(receiptFactsSession.commandReceiptAuthority);
   const receiptFactsReadModels = runtime.buildStage10ProductReadModels(receiptFactsSession);
   assert.equal(receiptFactsReadModels.replay.ok, false);
   assert.equal(
     receiptFactsReadModels.replay.rejected[0].code,
     'E_COLLAB_OPERATION_REPLAY_RECEIPT_FACTS_FORBIDDEN',
   );
+
+  const forgedReceiptSession = product.getSession();
+  forgedReceiptSession.commandReceipts = [{
+    ...forgedReceiptSession.commandReceipts[0],
+    domainEventDigest: 'f'.repeat(64),
+  }];
+  assert.equal(runtime.buildStage10ProductReadModels(forgedReceiptSession).replay.ok, true);
+
+  const persisted = product.getSession();
+  const missingAuthorityStore = new Map([[persisted.projectId, { ...persisted, commandReceiptAuthority: undefined }]]);
+  await assert.rejects(
+    () => runtime.reopenStage10ProductRuntime({
+      projectId: persisted.projectId,
+      storagePort: {
+        writeSession: async () => ({ ok: true }),
+        readSession: async (projectId) => missingAuthorityStore.get(projectId),
+      },
+    }),
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_MISSING',
+  );
+
+  const rollbackAuthority = product.getSession();
+  rollbackAuthority.commandReceiptAuthority.receipts = [];
+  rollbackAuthority.commandReceiptAuthority.receiptCount = 0;
+  rollbackAuthority.commandReceiptAuthority.authorityRootDigest = authorityRoot(rollbackAuthority.commandReceiptAuthority);
+  const rollbackStore = new Map([[rollbackAuthority.projectId, rollbackAuthority]]);
+  await assert.rejects(
+    () => runtime.reopenStage10ProductRuntime({
+      projectId: rollbackAuthority.projectId,
+      storagePort: {
+        writeSession: async () => ({ ok: true }),
+        readSession: async (projectId) => rollbackStore.get(projectId),
+      },
+    }),
+    (error) => error?.reason === 'COMMAND_KERNEL_RECEIPT_AUTHORITY_STALE_OR_ROLLED_BACK',
+  );
+});
+
+test('Atlas V5 P1 domain events: Stage10 exposes the typed offline collab apply caller through product runtime and reopen', async () => {
+  const stage10 = await importRepoModule('src/product/stage10ProductWiring.mjs');
+  const core = await importRepoModule('src/core/runtime.mjs');
+  const source = readRepoText('src/product/stage10ProductWiring.mjs');
+  const applySource = readRepoText('src/collab/applyEventLog.mjs');
+  assert.match(source, /applyEventLog/u);
+  assert.match(source, /COLLAB_EVENT_LOG_APPLY/u);
+  assert.doesNotMatch(applySource, /from\s+['"][^'"]*\/core\/[^'"]*['"]/u);
+
+  const store = new Map();
+  const storagePort = {
+    writeSession: async (projectId, session) => {
+      store.set(projectId, JSON.parse(JSON.stringify(session)));
+      return { ok: true };
+    },
+    readSession: async (projectId) => store.get(projectId),
+  };
+  const product = await stage10.createStage10ProductRuntime({
+    projectId: 'stage10-collab-apply',
+    now: () => '2026-08-01T00:00:00.000Z',
+    storagePort,
+  });
+  const initialState = core.createInitialCoreState();
+  const result = await product.dispatchVisibleCommand(
+    stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY,
+    {
+      events: [{
+        eventId: 'remote-event-1',
+        actorId: 'peer-a',
+        ts: '2026-08-01T00:00:00.000Z',
+        opId: 'remote-op-1',
+        commandId: core.CORE_COMMAND_IDS.PROJECT_CREATE,
+        payload: { projectId: 'stage10-collab-apply', sceneId: 'scene-1', title: 'Applied locally' },
+        prevHash: core.hashCoreState(initialState),
+      }],
+    },
+    {
+      mode: stage10.STAGE10_ACTIVATION_MODES.PHYSICAL_POINTER_OR_KEYBOARD,
+      controlId: 'stage10-collab-apply-event-log',
+    },
+  );
+  assert.equal(result.ok, true, result.error?.reason || '');
+  assert.equal(result.receipt.commandId, stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY);
+  assert.equal(result.receipt.details.networkDispatch, false);
+  assert.equal(result.receipt.details.secondJournal, false);
+  assert.match(result.receipt.domainEventDigest, /^[a-f0-9]{64}$/u);
+  assert.equal(Object.keys(product.getSession().collabApplyReports).length, 1);
+
+  const reopened = await stage10.reopenStage10ProductRuntime({
+    projectId: 'stage10-collab-apply',
+    storagePort,
+  });
+  const reopenedSession = reopened.getSession();
+  assert.equal(Object.keys(reopenedSession.collabApplyReports).length, 1);
+  assert.equal(reopenedSession.commandReceiptAuthority.receipts[0].commandId, stage10.STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY);
 });
 
 test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event contracts and helper has no UI or storage side channel', () => {
@@ -616,7 +793,9 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
   const domainSource = readRepoText('src/core/domainEvents.mjs');
   const runtimeSource = readRepoText('src/core/runtime.mjs');
   const applySource = readRepoText('src/collab/applyEventLog.mjs');
+  const stage10Source = readRepoText('src/product/stage10ProductWiring.mjs');
   const productPortSource = readRepoText('src/product/domainEventPort.mjs');
+  const editorSource = readRepoText('src/renderer/editor.js');
   const collabOpsSource = readRepoText('scripts/ops/collab-apply-pipeline-state.mjs');
   const requiredWorkflow = readRepoText('.github/workflows/rtk-required.yml');
   const packageJson = readRepoJson('package.json');
@@ -638,11 +817,19 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
   assert.match(productPortSource, /validateCoreDomainEvent/u);
   assert.match(productPortSource, /hashCoreDomainEvents/u);
   assert.match(productPortSource, /secondJournal:\s*false/u);
+  assert.match(editorSource, /createCoreDomainEventProductPort/u);
+  assert.match(editorSource, /domainEventPort:\s*createCoreDomainEventProductPort\(\)/u);
+  assert.match(stage10Source, /STAGE10_COMMAND_RECEIPT_AUTHORITY_SCHEMA/u);
+  assert.match(stage10Source, /authorityRootDigest/u);
+  assert.match(stage10Source, /COLLAB_EVENT_LOG_APPLY/u);
+  assert.match(stage10Source, /applyEventLog/u);
   assert.match(collabOpsSource, /createCoreDomainEventProductPort/u);
   assert.equal(typeof packageJson.scripts['test:atlas-event-contract'], 'string');
   assert.match(requiredWorkflow, /npm run -s test:atlas-event-contract/u);
   assert.match(packageJson.scripts['test:atlas-event-contract'], /yalken-atlas-v5-p1-domain-event-contract-repair\.contract\.test\.js/u);
   assert.match(packageJson.scripts['test:atlas-event-contract'], /collab-apply-no-network-wiring\.contract\.test\.js/u);
+  assert.match(packageJson.scripts['test:atlas-event-contract'], /collab-apply-pipeline-deterministic\.contract\.test\.js/u);
+  assert.match(packageJson.scripts['test:atlas-event-contract'], /yalken-atlas-v5-e10-c03-operation-replay-command-event-log\.contract\.test\.js/u);
 });
 
 test('Atlas V5 P1 domain events: 1000-scene order event hashing stays inside bounded perf guard', async () => {

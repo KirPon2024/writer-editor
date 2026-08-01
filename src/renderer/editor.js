@@ -25,6 +25,7 @@ import {
   UI_COMMAND_IDS,
   registerProjectCommands,
 } from './commands/projectCommands.mjs';
+import { createCoreDomainEventProductPort } from '../product/domainEventPort.mjs';
 import { COMMAND_BUS_ROUTE, runCommandThroughBus } from './commands/commandBusGuard.mjs';
 import { createPaletteDataProvider } from './commands/palette-groups.v1.mjs';
 import { isAtlasRelationReviewActionCommandId } from './commands/atlasRelationReviewActions.mjs';
@@ -6709,6 +6710,7 @@ const runCommand = createCommandRunner(commandRegistry, {
   },
 });
 registerProjectCommands(commandRegistry, {
+  domainEventPort: createCoreDomainEventProductPort(),
   electronAPI: window.electronAPI,
   uiActions: {
     openSettings: () => openSettingsModal(),

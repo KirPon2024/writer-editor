@@ -532,9 +532,11 @@ function requireNonNegativeSafeIntegerInput(value, key) {
   return seq;
 }
 
-function trustedProducerHashInput(value, fallbackSeed, key) {
+function trustedProducerHashInput(input, key, fallbackSeed) {
+  const present = Object.prototype.hasOwnProperty.call(input || {}, key);
+  if (!present) return hashCanonicalValue(fallbackSeed);
+  const value = input?.[key];
   const hash = text(value);
-  if (!hash) return hashCanonicalValue(fallbackSeed);
   return requireHashInput(hash, key);
 }
 
@@ -976,20 +978,30 @@ function commandFacts(commandType, payload) {
   }
 }
 
-export function emitCoreDomainEventsForCommandResult({
-  previousState,
-  previousStateHash,
-  command,
-  result,
-  nextStateHash,
-}) {
+export function emitCoreDomainEventsForCommandResult(input = {}) {
+  const {
+    previousState,
+    previousStateHash,
+    command,
+    result,
+    nextStateHash,
+  } = input;
   if (!result?.ok || !isObjectRecord(command)) return [];
   const commandType = text(command.type);
   const payload = isObjectRecord(command.payload) ? command.payload : {};
   const commandSeq = Number(result?.state?.data?.lastCommandId);
   if (!Number.isSafeInteger(commandSeq) || commandSeq < 1) return [];
-  const previousHash = trustedProducerHashInput(previousStateHash, previousState, 'previousStateHash');
-  const nextHash = trustedProducerHashInput(nextStateHash || result?.stateHash, result?.state, 'nextStateHash');
+  const source = { commandSeq };
+  if (Object.prototype.hasOwnProperty.call(input, 'previousStateHash')) {
+    source.previousStateHash = previousStateHash;
+  }
+  if (Object.prototype.hasOwnProperty.call(input, 'nextStateHash')) {
+    source.nextStateHash = nextStateHash;
+  } else if (Object.prototype.hasOwnProperty.call(result || {}, 'stateHash')) {
+    source.nextStateHash = result.stateHash;
+  }
+  const previousHash = trustedProducerHashInput(source, 'previousStateHash', previousState);
+  const nextHash = trustedProducerHashInput(source, 'nextStateHash', result?.state);
   return commandFacts(commandType, payload)
     .filter((candidate) => isCoreDomainEventType(candidate.type))
     .map((candidate) => eventFor({

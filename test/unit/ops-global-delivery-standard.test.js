@@ -275,3 +275,100 @@ test('doctor exposes v0.1.3 ops tokens truthfully in local mode', () => {
   assert.equal(tokens.get('REQUIRED_CHECKS_SOURCE'), 'canonical');
   assert.ok(Number(tokens.get('POST_MERGE_VERIFY_CLEANUP_FAIL_STREAK')) >= 0);
 });
+
+test('governance and strategy state distinguish PR-head ancestry from release exact-head', async () => {
+  const [
+    governanceModule,
+    strategyModule,
+  ] = await Promise.all([
+    import('../../scripts/ops/governance-state-valid-state.mjs'),
+    import('../../scripts/ops/strategy-progress-valid-state.mjs'),
+  ]);
+
+  const remote = {
+    headSha: 'branch-head',
+    originMainSha: 'origin-main',
+    headEqualsOrigin: 0,
+    ancestorOk: 1,
+    remoteBindingOk: 0,
+  };
+  const headStrictDev = {
+    mode: 'dev',
+    ok: 1,
+    failReason: '',
+    headSha: 'branch-head',
+    originMainSha: 'origin-main',
+    headEqualsOrigin: 0,
+    originAncestorOfHead: 1,
+  };
+  const headStrictRelease = {
+    ...headStrictDev,
+    mode: 'release',
+    ok: 0,
+    failReason: 'E_HEAD_BINDING_INVALID',
+  };
+  const requiredChecks = {
+    syncOk: 1,
+    stale: 0,
+    source: 'canonical',
+    failReason: '',
+  };
+  const nextSector = {
+    valid: true,
+    id: 'NONE',
+    mode: 'IDLE',
+    reason: 'ALL_SECTORS_DONE',
+    targetSector: '',
+    targetStatus: '',
+    allSectorsDone: true,
+    knownSectors: ['M', 'P', 'U', 'W'],
+  };
+  const sectorStatuses = {
+    M: 'DONE',
+    P: 'DONE',
+    U: 'DONE',
+    W: 'DONE',
+  };
+
+  const governanceDev = governanceModule.evaluateGovernanceStateValidState({
+    mode: 'dev',
+    remote,
+    headStrict: headStrictDev,
+    requiredChecks,
+    nextSector,
+  });
+  assert.equal(governanceDev.GOVERNANCE_STATE_VALID, 1);
+  assert.equal(governanceDev.details.mode, 'dev');
+
+  const strategyDev = strategyModule.evaluateStrategyProgressValidState({
+    mode: 'dev',
+    remote,
+    headStrict: headStrictDev,
+    requiredChecks,
+    nextSector,
+    sectorStatuses,
+  });
+  assert.equal(strategyDev.STRATEGY_PROGRESS_VALID, 1);
+  assert.equal(strategyDev.details.mode, 'dev');
+
+  const governanceRelease = governanceModule.evaluateGovernanceStateValidState({
+    mode: 'release',
+    remote,
+    headStrict: headStrictRelease,
+    requiredChecks,
+    nextSector,
+  });
+  assert.equal(governanceRelease.GOVERNANCE_STATE_VALID, 0);
+  assert.ok(governanceRelease.failures.includes('E_GOVERNANCE_STATE_REMOTE_BINDING_INVALID'));
+
+  const strategyRelease = strategyModule.evaluateStrategyProgressValidState({
+    mode: 'release',
+    remote,
+    headStrict: headStrictRelease,
+    requiredChecks,
+    nextSector,
+    sectorStatuses,
+  });
+  assert.equal(strategyRelease.STRATEGY_PROGRESS_VALID, 0);
+  assert.ok(strategyRelease.failures.includes('E_STRATEGY_PROGRESS_REMOTE_BINDING_INVALID'));
+});

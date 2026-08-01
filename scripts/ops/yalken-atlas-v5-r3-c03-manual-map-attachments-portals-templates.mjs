@@ -292,11 +292,12 @@ async function snapshotWorkbench(win) {
   return js(win, '(() => {' +
     'const host = document.querySelector("[data-manual-map-plan-host]");' +
     'const portabilityRows = Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-kind]")).map((el) => ({ kind: el.dataset.manualMapPortabilityKind || "", id: el.dataset.manualMapPortabilityId || "", text: (el.textContent || "").trim() }));' +
+    'const portabilityCommandRows = Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-command-state]")).map((el) => ({ key: el.dataset.manualMapPortabilityCommandState || "", text: (el.textContent || "").trim() }));' +
     'const buttons = Array.from(document.querySelectorAll("[data-manual-map-plan-host] button")).map((el) => ({ text: (el.textContent || "").trim(), disabled: el.disabled === true }));' +
     'const nodes = Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-node-id]")).map((el) => ({ id: el.getAttribute("data-manual-map-node-id") || "", text: (el.textContent || "").trim(), selected: el.classList.contains("is-selected") }));' +
     'const form = document.querySelector("[data-manual-map-plan-host] [data-manual-map-command-form]");' +
     'const result = document.querySelector("[data-manual-map-plan-host] [data-manual-map-operation-result]");' +
-    'return { ok: 1, hostVisible: Boolean(host && !host.closest("[hidden]")), status: host?.dataset?.manualMapWorkbenchStatus || "", placement: host?.dataset?.manualMapWorkbenchPlacement || "", nodeCount: nodes.length, nodes, portabilityRows, buttons, formCommandId: form?.dataset?.manualMapCommandId || "", resultStatus: result?.dataset?.manualMapOperationResult || "", text: host?.textContent || "", hasHorizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1 };' +
+    'return { ok: 1, hostVisible: Boolean(host && !host.closest("[hidden]")), status: host?.dataset?.manualMapWorkbenchStatus || "", placement: host?.dataset?.manualMapWorkbenchPlacement || "", nodeCount: nodes.length, nodes, portabilityRows, portabilityCommandRows, buttons, formCommandId: form?.dataset?.manualMapCommandId || "", resultStatus: result?.dataset?.manualMapOperationResult || "", text: host?.textContent || "", hasHorizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1 };' +
   '})()');
 }
 
@@ -343,6 +344,16 @@ async function runJourney(win) {
   await applyDraft(win, host, { confirm: true });
   await waitForExpression(win, 'document.querySelector("[data-manual-map-plan-host] [data-manual-map-portability-kind=template]")?.textContent.includes("R3C03Template")', 'template-visible');
   await waitForExpression(win, 'Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-node-id]")).some((el) => (el.textContent || "").includes("Template start"))', 'template-node-visible');
+
+  await clickElement(win, host + ' [data-manual-map-portability-action="export-image-pdf"]', 'Export image/PDF packet');
+  await waitForExpression(win, 'Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-command-state]")).some((el) => el.dataset.manualMapPortabilityCommandState === "imagePdf" && (el.textContent || "").includes("typed PDF loss"))', 'image-pdf-packet-visible');
+  await clickElement(win, host + ' [data-manual-map-portability-action="export-json"]', 'Export JSON');
+  await waitForExpression(win, 'Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-command-state]")).some((el) => el.dataset.manualMapPortabilityCommandState === "json" && !(el.textContent || "").includes("not exported"))', 'json-export-visible');
+  await activateManualMapButton(win, host, 'Import exported copy', 'manualMap.import.jsonRepeat');
+  await waitForExpression(win, 'document.querySelector("[data-manual-map-plan-host] [data-manual-map-impact-preview]")?.textContent.includes("Imports the last exported JSON")', 'import-impact');
+  await typeInto(win, host + ' [data-manual-map-command-field="title"]', 'R3C03ImportedCopy');
+  await applyDraft(win, host, { confirm: true });
+  await waitForExpression(win, 'Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-command-state]")).some((el) => el.dataset.manualMapPortabilityCommandState === "import" && !(el.textContent || "").includes("not imported"))', 'import-command-visible');
 
   const snapshot = await snapshotWorkbench(win);
   const screenshot = await captureProof(win, 'r3-c03-manual-map-portability-journey');
@@ -427,7 +438,7 @@ app.whenReady().then(async () => {
     emitResult({ ok: 1, mode, appReady: app.isReady(), windowCount: BrowserWindow.getAllWindows().length, rendererProbe, networkRequests, dialogCalls, tempRoot });
     app.exit(0);
   } catch (error) {
-    const debugDom = activeWindow ? await js(activeWindow, '(() => ({ bodyText: (document.body.textContent || "").slice(0, 1000), buttons: Array.from(document.querySelectorAll("[data-manual-map-plan-host] button")).map((el) => ({ text: (el.textContent || "").trim(), disabled: el.disabled })), rows: Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-row-id], [data-manual-map-plan-host] [data-manual-map-portability-kind]")).map((el) => ({ text: (el.textContent || "").trim(), dataset: { ...el.dataset } })), form: document.querySelector("[data-manual-map-plan-host] [data-manual-map-command-form]")?.dataset?.manualMapCommandId || "", result: document.querySelector("[data-manual-map-plan-host] [data-manual-map-operation-result]")?.textContent || "", inner: { width: window.innerWidth, height: window.innerHeight, scrollWidth: document.documentElement.scrollWidth } }))()').catch((debugError) => ({ debugError: debugError && debugError.message ? debugError.message : String(debugError) })) : null;
+    const debugDom = activeWindow ? await js(activeWindow, '(() => ({ bodyText: (document.body.textContent || "").slice(0, 1000), buttons: Array.from(document.querySelectorAll("[data-manual-map-plan-host] button")).map((el) => ({ text: (el.textContent || "").trim(), disabled: el.disabled })), rows: Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-row-id], [data-manual-map-plan-host] [data-manual-map-portability-kind]")).map((el) => ({ text: (el.textContent || "").trim(), dataset: { ...el.dataset } })), commandRows: Array.from(document.querySelectorAll("[data-manual-map-plan-host] [data-manual-map-portability-command-state]")).map((el) => ({ text: (el.textContent || "").trim(), dataset: { ...el.dataset } })), form: document.querySelector("[data-manual-map-plan-host] [data-manual-map-command-form]")?.dataset?.manualMapCommandId || "", result: document.querySelector("[data-manual-map-plan-host] [data-manual-map-operation-result]")?.textContent || "", inner: { width: window.innerWidth, height: window.innerHeight, scrollWidth: document.documentElement.scrollWidth } }))()').catch((debugError) => ({ debugError: debugError && debugError.message ? debugError.message : String(debugError) })) : null;
     emitResult({ ok: 0, mode, message: error && error.message ? error.message : String(error), stack: error && error.stack ? error.stack : '', networkRequests, dialogCalls, tempRoot, inputEvents, debugDom });
     app.exit(1);
   }
@@ -512,10 +523,12 @@ async function findManifestPath(tempRoot) {
   return found.sort()[0] || '';
 }
 
-function graphFromManifest(manifest) {
+function graphFromManifest(manifest, requestedMapId = '') {
   const projectId = normalizeText(manifest?.projectId);
   const maps = isPlainObject(manifest?.manualMaps?.maps) ? manifest.manualMaps.maps : {};
-  const mapId = Object.keys(maps).sort()[0] || '';
+  const mapId = requestedMapId && isPlainObject(maps[requestedMapId])
+    ? requestedMapId
+    : Object.keys(maps).sort()[0] || '';
   const map = mapId ? maps[mapId] : {};
   const nodes = Object.values(isPlainObject(map.nodes) ? map.nodes : {}).map((node) => ({
     id: normalizeText(node?.id),
@@ -550,6 +563,9 @@ async function buildPortabilityProof(tempRoot) {
   const manifestPath = await findManifestPath(tempRoot);
   const manifest = manifestPath ? JSON.parse(await fs.readFile(manifestPath, 'utf8')) : {};
   const graph = graphFromManifest(manifest);
+  const maps = isPlainObject(manifest?.manualMaps?.maps) ? manifest.manualMaps.maps : {};
+  const importedMapId = Object.keys(maps).sort().find((mapId) => mapId.startsWith('manual-map-imported-')) || '';
+  const importedGraph = importedMapId ? graphFromManifest(manifest, importedMapId) : null;
   const exported = serializeManualMapExportJsonV1WithLossReport(graph);
   const imagePdf = buildManualMapImagePdfExportEvidence(graph);
   const targetProjectId = 'r3-c03-repeat-import-target';
@@ -570,6 +586,8 @@ async function buildPortabilityProof(tempRoot) {
     manifestPath,
     manifestProof: fileProof(manifestPath),
     graph,
+    importedMapId,
+    importedGraph,
     graphHash: sha256Text(JSON.stringify(graph)),
     exportJsonSha256: sha256Text(exported.json),
     exportLossCount: exported.lossReport.count,
@@ -613,9 +631,14 @@ export function evaluateManualMapPortabilityJourney(input = {}) {
   const attachments = Array.isArray(graph.attachments) ? graph.attachments : [];
   const portals = Array.isArray(graph.portals) ? graph.portals : [];
   const templates = Array.isArray(graph.templates) ? graph.templates : [];
+  const importedGraph = isPlainObject(portability.importedGraph) ? portability.importedGraph : {};
+  const importedAttachments = Array.isArray(importedGraph.attachments) ? importedGraph.attachments : [];
+  const importedPortals = Array.isArray(importedGraph.portals) ? importedGraph.portals : [];
+  const importedTemplates = Array.isArray(importedGraph.templates) ? importedGraph.templates : [];
   const manifestText = JSON.stringify(input.manifest || {});
   const portabilityRows = Array.isArray(firstSnapshot.portabilityRows) ? firstSnapshot.portabilityRows : [];
   const reopenRows = Array.isArray(secondSnapshot.portabilityRows) ? secondSnapshot.portabilityRows : [];
+  const commandRows = Array.isArray(firstSnapshot.portabilityCommandRows) ? firstSnapshot.portabilityCommandRows : [];
   const buttons = Array.isArray(firstSnapshot.buttons) ? firstSnapshot.buttons : [];
   const accepted = {
     visibleInputRuntime: first.ok === true && second.ok === true
@@ -623,6 +646,7 @@ export function evaluateManualMapPortabilityJourney(input = {}) {
       && second.runtimeKind === 'production-electron-visible-input-black-box',
     pointerAndKeyboardUsed: countEvents(first, 'mouseDown') >= 8 && countEvents(first, 'keyDown') >= 3 && countEvents(first, 'char') >= 8,
     attachmentPortalTemplateCommandsVisible: ['Add attachment', 'Add portal', 'Apply template'].every((label) => buttons.some((button) => button.text === label && button.disabled === false)),
+    visiblePortabilityCommands: ['Export JSON', 'Export image/PDF packet', 'Import exported copy'].every((label) => buttons.some((button) => button.text === label)),
     visibleReadbackRuntime: portabilityRows.some((row) => row.kind === 'attachment' && row.text.includes('R3C03Attachment'))
       && portabilityRows.some((row) => row.kind === 'portal' && row.text.includes('R3C03Portal'))
       && portabilityRows.some((row) => row.kind === 'template' && row.text.includes('R3C03Template')),
@@ -632,6 +656,13 @@ export function evaluateManualMapPortabilityJourney(input = {}) {
       && attachments.length >= 1
       && portals.length >= 1
       && templates.length >= 1,
+    visibleCommandPathExportImport: commandRows.some((row) => row.key === 'json' && !row.text.includes('not exported'))
+      && commandRows.some((row) => row.key === 'imagePdf' && row.text.includes('typed PDF loss'))
+      && commandRows.some((row) => row.key === 'import' && !row.text.includes('not imported')),
+    importedCopyPersistedTruth: portability.importedMapId
+      && importedAttachments.some((item) => item.label === 'R3C03Attachment')
+      && importedPortals.some((item) => item.label === 'R3C03Portal')
+      && importedTemplates.some((item) => item.name === 'R3C03Template'),
     reopenProjectionVisible: reopenRows.some((row) => row.kind === 'attachment' && row.text.includes('R3C03Attachment'))
       && reopenRows.some((row) => row.kind === 'portal' && row.text.includes('R3C03Portal'))
       && reopenRows.some((row) => row.kind === 'template' && row.text.includes('R3C03Template')),
@@ -649,6 +680,7 @@ export function evaluateManualMapPortabilityJourney(input = {}) {
       && portability.imageSummary?.attachmentCount >= 1
       && portability.imageSummary?.portalCount >= 1
       && portability.imageSummary?.templateCount >= 1,
+    pdfClaimHonestTypedLoss: portability.pdfBinaryGenerated === false && portability.pdfSourceFormat === 'html-print-packet',
     screenshotsNonblank: firstProbe.screenshot?.nonBlankRatio > 0.01 && secondProbe.screenshot?.nonBlankRatio > 0.01,
     noNetworkNoDialogs: first.result?.networkRequests === 0
       && second.result?.networkRequests === 0
@@ -671,8 +703,11 @@ export function evaluateManualMapPortabilityJourney(input = {}) {
       directIpcAcceptedJourney: false,
       generatedArtifactOnlyAccepted: accepted.visibleInputRuntime !== true,
       hiddenPortabilityControlsAccepted: accepted.attachmentPortalTemplateCommandsVisible !== true,
+      hiddenExportImportControlsAccepted: accepted.visiblePortabilityCommands !== true,
       missingPortabilityTruthAccepted: accepted.persistedPortabilityTruth !== true,
+      missingImportedCopyTruthAccepted: accepted.importedCopyPersistedTruth !== true,
       exportWithoutRepeatImportAccepted: accepted.exportRepeatImport !== true,
+      binaryPdfClaimWithoutAdapter: accepted.pdfClaimHonestTypedLoss !== true,
       networkActivated: accepted.noNetworkNoDialogs !== true,
       viewStatePersisted: accepted.noDirectIpcOrStorageBypass !== true,
     },

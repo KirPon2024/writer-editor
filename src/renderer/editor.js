@@ -964,6 +964,16 @@ let manualMapSearchQuery = '';
 let manualMapPinnedNodeIds = new Set();
 let manualMapDragState = null;
 let manualMapCommandDraft = null;
+let manualMapPortabilityCommandState = {
+  status: '',
+  exportJson: '',
+  exportJsonSha256: '',
+  exportMapId: '',
+  imageEvidenceHash: '',
+  pdfTypedLoss: '',
+  importMapId: '',
+  lastCommandId: '',
+};
 let projectionInspectorState = {
   state: 'empty',
   projectId: '',
@@ -12191,6 +12201,50 @@ async function runManualMapWorkbenchCommand(commandId, payload = {}) {
   await refreshManualMapWorkbench({ force: true });
 }
 
+function unwrapManualMapProductCommandReceipt(result = {}) {
+  const value = result && typeof result === 'object' && !Array.isArray(result)
+    ? result.value
+    : null;
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    if (value.result && typeof value.result === 'object' && !Array.isArray(value.result)) return value.result;
+    return value;
+  }
+  return {};
+}
+
+async function runManualMapExportCommand(commandId, payload = {}) {
+  manualMapPortabilityCommandState = {
+    ...manualMapPortabilityCommandState,
+    status: 'running',
+    lastCommandId: commandId,
+  };
+  renderManualMapWorkbenchState();
+  const result = await runProductJourneyCommand(commandId, payload);
+  if (result && result.ok === true) {
+    const receipt = unwrapManualMapProductCommandReceipt(result);
+    const exported = receipt.export || {};
+    manualMapPortabilityCommandState = {
+      ...manualMapPortabilityCommandState,
+      status: 'exported',
+      lastCommandId: commandId,
+      exportMapId: receipt.mapId || payload.mapId || '',
+      exportJson: typeof exported.json === 'string' ? exported.json : manualMapPortabilityCommandState.exportJson,
+      exportJsonSha256: exported.jsonSha256 || manualMapPortabilityCommandState.exportJsonSha256,
+      imageEvidenceHash: exported.evidenceHash || manualMapPortabilityCommandState.imageEvidenceHash,
+      pdfTypedLoss: exported.pdf?.typedLoss?.code || manualMapPortabilityCommandState.pdfTypedLoss,
+    };
+  } else {
+    manualMapPortabilityCommandState = {
+      ...manualMapPortabilityCommandState,
+      status: result?.reason || result?.error?.reason || 'export_failed',
+      lastCommandId: commandId,
+    };
+  }
+  await refreshManualMapWorkbench({ force: true });
+  renderManualMapWorkbenchState();
+  return result;
+}
+
 function createManualMapCommandDraft(config = {}) {
   const payload = config.payload && typeof config.payload === 'object' && !Array.isArray(config.payload)
     ? { ...config.payload }
@@ -12286,6 +12340,15 @@ async function applyManualMapCommandDraft() {
   const commandReason = commandApplied
     ? ''
     : manualMapText(result?.reason || result?.error?.reason || result?.error || 'NO_COMMAND_RESULT');
+  if (commandApplied && commandId === 'manualMap.import.jsonRepeat') {
+    const receipt = unwrapManualMapProductCommandReceipt(result);
+    manualMapPortabilityCommandState = {
+      ...manualMapPortabilityCommandState,
+      status: 'imported',
+      lastCommandId: commandId,
+      importMapId: receipt.mapId || payload.targetMapId || '',
+    };
+  }
   manualMapCommandDraft = {
     ...draft,
     state: commandApplied ? 'applied' : 'failed',
@@ -12670,6 +12733,53 @@ function renderManualMapToolbar(parent, state, runtime, options = {}) {
     disabled: !state.mapId,
     reason: state.mapId ? '' : 'Create a map first',
   })));
+  const exportJsonButton = document.createElement('button');
+  exportJsonButton.type = 'button';
+  exportJsonButton.className = 'right-rail-atlas-action manual-map-workspace__action';
+  exportJsonButton.textContent = 'Export JSON';
+  exportJsonButton.dataset.manualMapPortabilityAction = 'export-json';
+  exportJsonButton.dataset.productCommandId = 'manualMap.export.json';
+  exportJsonButton.disabled = !state.mapId;
+  exportJsonButton.addEventListener('click', () => {
+    if (exportJsonButton.disabled) return;
+    void runManualMapExportCommand('manualMap.export.json', { mapId });
+  });
+  actionBar.appendChild(exportJsonButton);
+  const imagePdfButton = document.createElement('button');
+  imagePdfButton.type = 'button';
+  imagePdfButton.className = 'right-rail-atlas-action manual-map-workspace__action';
+  imagePdfButton.textContent = 'Export image/PDF packet';
+  imagePdfButton.dataset.manualMapPortabilityAction = 'export-image-pdf';
+  imagePdfButton.dataset.productCommandId = 'manualMap.export.imagePdf';
+  imagePdfButton.disabled = !state.mapId;
+  imagePdfButton.addEventListener('click', () => {
+    if (imagePdfButton.disabled) return;
+    void runManualMapExportCommand('manualMap.export.imagePdf', { mapId });
+  });
+  actionBar.appendChild(imagePdfButton);
+  actionBar.appendChild(makeManualMapDraftButton('Import exported copy', () => {
+    const targetMapId = makeStableUiId('manual-map-imported');
+    return {
+      commandId: 'manualMap.import.jsonRepeat',
+      title: 'Import exported copy',
+      targetKind: 'map',
+      targetId: targetMapId,
+      risk: 'structural',
+      payload: {
+        mapId,
+        targetMapId,
+        title: `${state.graph.title || state.mapId || 'Manual map'} copy`,
+        exportJson: manualMapPortabilityCommandState.exportJson,
+      },
+      fields: [
+        { name: 'title', label: 'Imported map title', type: 'text', value: `${state.graph.title || state.mapId || 'Manual map'} copy` },
+      ],
+      impactPreview: `Imports the last exported JSON into new map ${targetMapId}. Existing maps and scene text stay unchanged.`,
+    };
+  }, () => ({
+    disabled: !state.mapId || !manualMapPortabilityCommandState.exportJson,
+    reason: manualMapPortabilityCommandState.exportJson ? '' : 'Export JSON first',
+  })));
   if (!options.compact) {
     const layoutToggle = document.createElement('button');
     layoutToggle.type = 'button';
@@ -12866,6 +12976,51 @@ function renderManualMapPortabilityReadback(parent, runtime, options = {}) {
   parent.appendChild(section);
 }
 
+function renderManualMapPortabilityCommandReadback(parent, options = {}) {
+  const state = manualMapPortabilityCommandState || {};
+  const section = document.createElement('div');
+  section.className = options.compact ? 'right-rail-atlas-matrix-list' : 'manual-map-workspace__portability';
+  section.dataset.manualMapPortabilityCommandReadback = 'true';
+  const rows = [
+    {
+      key: 'status',
+      label: 'Portability command',
+      value: state.status || 'ready',
+    },
+    {
+      key: 'json',
+      label: 'JSON export',
+      value: state.exportJsonSha256 ? state.exportJsonSha256.slice(0, 12) : 'not exported',
+    },
+    {
+      key: 'imagePdf',
+      label: 'Image/PDF packet',
+      value: state.imageEvidenceHash ? `${state.imageEvidenceHash.slice(0, 12)}${state.pdfTypedLoss ? ' typed PDF loss' : ''}` : 'not exported',
+    },
+    {
+      key: 'import',
+      label: 'Repeat import',
+      value: state.importMapId || 'not imported',
+    },
+  ];
+  for (const row of rows) {
+    const item = document.createElement('div');
+    item.className = options.compact
+      ? 'right-rail-atlas-matrix-list-row right-rail-manual-map-row'
+      : 'manual-map-workspace__portability-row';
+    item.dataset.manualMapPortabilityCommandState = row.key;
+    const main = document.createElement('span');
+    main.className = options.compact ? 'right-rail-atlas-matrix-list-row__main' : 'manual-map-workspace__row-main';
+    main.textContent = row.label;
+    const meta = document.createElement('span');
+    meta.className = options.compact ? 'right-rail-atlas-matrix-list-row__meta' : 'manual-map-workspace__row-meta';
+    meta.textContent = row.value;
+    item.append(main, meta);
+    section.appendChild(item);
+  }
+  parent.appendChild(section);
+}
+
 function renderManualMapCommandDraft(parent) {
   if (!manualMapCommandDraft) return;
   const draft = manualMapCommandDraft;
@@ -13045,6 +13200,8 @@ function renderManualMapWorkbenchInto(host, options = {}) {
     renderManualMapList(listSection, runtime, { compact: true });
     const portabilitySection = appendAtlasOverviewSection(host, 'Portability records', { open: true });
     renderManualMapPortabilityReadback(portabilitySection, runtime, { compact: true });
+    const commandSection = appendAtlasOverviewSection(host, 'Portability commands', { open: true });
+    renderManualMapPortabilityCommandReadback(commandSection, { compact: true });
     return;
   }
 
@@ -13101,6 +13258,7 @@ function renderManualMapWorkbenchInto(host, options = {}) {
   listColumn.className = 'manual-map-workspace__list-column';
   renderManualMapList(listColumn, runtime);
   renderManualMapPortabilityReadback(listColumn, runtime);
+  renderManualMapPortabilityCommandReadback(listColumn);
   renderManualMapInspector(listColumn, state, runtime);
   body.append(graphColumn, listColumn);
   host.appendChild(body);

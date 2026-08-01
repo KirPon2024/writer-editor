@@ -65,6 +65,19 @@ function parseArgs(argv) {
   return out;
 }
 
+function normalizeMode(inputMode) {
+  const requested = String(inputMode || process.env.OPS_CONTEXT_MODE || process.env.CHECK_MODE || process.env.WAVE_MODE || '')
+    .trim()
+    .toLowerCase();
+  if (requested === 'release' || requested === 'promotion') return 'release';
+  if (requested === 'dev' || requested === 'pr' || requested === 'pr_core' || requested === 'prcore') return 'dev';
+  const execMode = String(process.env.OPS_EXEC_MODE || process.env.RUN_INPUT_MODE || process.env.EXECUTION_MODE || '')
+    .trim()
+    .toUpperCase();
+  if (execMode === 'DELIVERY_EXEC' || execMode === 'RELEASE' || execMode === 'PROMOTION') return 'release';
+  return 'dev';
+}
+
 function evaluateRemoteBinding(repoRoot) {
   const headRes = runGit(['rev-parse', 'HEAD'], repoRoot);
   const originRes = runGit(['rev-parse', 'origin/main'], repoRoot);
@@ -123,12 +136,13 @@ function normalizeHeadStrictState(state) {
 
 export function evaluateGovernanceStateValidState(input = {}) {
   const repoRoot = String(input.repoRoot || process.cwd()).trim() || process.cwd();
+  const mode = normalizeMode(input.mode);
   const remote = input.remote && typeof input.remote === 'object'
     ? input.remote
     : evaluateRemoteBinding(repoRoot);
   const headStrictRaw = input.headStrict && typeof input.headStrict === 'object'
     ? input.headStrict
-    : evaluateHeadStrictState({ mode: 'release' });
+    : evaluateHeadStrictState({ mode });
   const nextSectorRaw = input.nextSector && typeof input.nextSector === 'object'
     ? input.nextSector
     : evaluateNextSectorState({
@@ -144,7 +158,10 @@ export function evaluateGovernanceStateValidState(input = {}) {
   const requiredChecks = normalizeRequiredChecksState(requiredChecksRaw);
 
   const failures = new Set();
-  if (toToken(remote.remoteBindingOk) !== 1) failures.add('E_GOVERNANCE_STATE_REMOTE_BINDING_INVALID');
+  const remoteBindingOk = mode === 'release'
+    ? toToken(remote.remoteBindingOk)
+    : toToken(remote.ancestorOk);
+  if (remoteBindingOk !== 1) failures.add('E_GOVERNANCE_STATE_REMOTE_BINDING_INVALID');
   if (headStrict.ok !== 1) failures.add('E_GOVERNANCE_STATE_HEAD_BINDING_INVALID');
   if (!nextSector.valid) failures.add('E_GOVERNANCE_STATE_NEXT_SECTOR_INVALID');
   if (requiredChecks.syncOk !== 1) failures.add('E_GOVERNANCE_STATE_REQUIRED_CHECKS_SYNC_MISSING');
@@ -164,6 +181,7 @@ export function evaluateGovernanceStateValidState(input = {}) {
       ancestorOk: toToken(remote.ancestorOk),
       remoteBindingOk: toToken(remote.remoteBindingOk),
     },
+    mode,
     headStrict,
     nextSector,
     requiredChecks,

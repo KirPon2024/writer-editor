@@ -75,6 +75,19 @@ function parseArgs(argv) {
   return out;
 }
 
+function normalizeMode(inputMode) {
+  const requested = String(inputMode || process.env.OPS_CONTEXT_MODE || process.env.CHECK_MODE || process.env.WAVE_MODE || '')
+    .trim()
+    .toLowerCase();
+  if (requested === 'release' || requested === 'promotion') return 'release';
+  if (requested === 'dev' || requested === 'pr' || requested === 'pr_core' || requested === 'prcore') return 'dev';
+  const execMode = String(process.env.OPS_EXEC_MODE || process.env.RUN_INPUT_MODE || process.env.EXECUTION_MODE || '')
+    .trim()
+    .toUpperCase();
+  if (execMode === 'DELIVERY_EXEC' || execMode === 'RELEASE' || execMode === 'PROMOTION') return 'release';
+  return 'dev';
+}
+
 function evaluateRemoteBinding(repoRoot) {
   const headRes = runGit(['rev-parse', 'HEAD'], repoRoot);
   const originRes = runGit(['rev-parse', 'origin/main'], repoRoot);
@@ -142,6 +155,7 @@ function normalizeSectorStatuses(value) {
 
 export function evaluateStrategyProgressValidState(input = {}) {
   const repoRoot = String(input.repoRoot || process.cwd()).trim() || process.cwd();
+  const mode = normalizeMode(input.mode);
   const statusDir = String(input.statusDir || process.env.OPS_STATUS_DIR || 'docs/OPS/STATUS').trim();
   const nextSectorPath = String(
     input.nextSectorPath || process.env.NEXT_SECTOR_STATUS_PATH || path.join(statusDir, 'NEXT_SECTOR.json'),
@@ -152,7 +166,7 @@ export function evaluateStrategyProgressValidState(input = {}) {
     : evaluateRemoteBinding(repoRoot);
   const headStrictRaw = input.headStrict && typeof input.headStrict === 'object'
     ? input.headStrict
-    : evaluateHeadStrictState({ mode: 'release' });
+    : evaluateHeadStrictState({ mode });
   const requiredChecksRaw = input.requiredChecks && typeof input.requiredChecks === 'object'
     ? input.requiredChecks
     : evaluateRequiredChecksState({ profile: 'ops' });
@@ -170,7 +184,10 @@ export function evaluateStrategyProgressValidState(input = {}) {
   const knownSectors = Object.keys(sectorStatuses).sort();
 
   const failures = new Set();
-  if (toToken(remote.remoteBindingOk) !== 1) failures.add('E_STRATEGY_PROGRESS_REMOTE_BINDING_INVALID');
+  const remoteBindingOk = mode === 'release'
+    ? toToken(remote.remoteBindingOk)
+    : toToken(remote.ancestorOk);
+  if (remoteBindingOk !== 1) failures.add('E_STRATEGY_PROGRESS_REMOTE_BINDING_INVALID');
   if (headStrict.ok !== 1) failures.add('E_STRATEGY_PROGRESS_HEAD_BINDING_INVALID');
   if (requiredChecks.syncOk !== 1) failures.add('E_STRATEGY_PROGRESS_REQUIRED_CHECKS_SYNC_MISSING');
   if (requiredChecks.stale !== 0) failures.add('E_STRATEGY_PROGRESS_REQUIRED_CHECKS_STALE');
@@ -213,6 +230,7 @@ export function evaluateStrategyProgressValidState(input = {}) {
       ancestorOk: toToken(remote.ancestorOk),
       remoteBindingOk: toToken(remote.remoteBindingOk),
     },
+    mode,
     headStrict,
     requiredChecks,
     nextSector,

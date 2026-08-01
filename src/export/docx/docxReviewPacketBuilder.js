@@ -128,14 +128,13 @@ function buildRootRelsXml() {
 <Relationships xmlns="${WORD_REL_NS}">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
   <Relationship Id="rIdYrtkCustomProps" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties" Target="docProps/custom.xml"/>
+  <Relationship Id="rIdYrtkCustomXml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml" Target="customXml/item1.xml"/>
 </Relationships>`;
 }
 
 function buildDocumentRelsXml() {
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Relationships xmlns="${WORD_REL_NS}">
-  <Relationship Id="rIdYrtkCustomXml" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml" Target="../customXml/item1.xml"/>
-</Relationships>`;
+<Relationships xmlns="${WORD_REL_NS}"/>`;
 }
 
 function buildCustomXmlRelsXml() {

@@ -362,7 +362,8 @@
     "Product Review DOCX exporter is wired but return intake and product-originated physical loop are not certified yet.",
     "Product Review DOCX return intake is wired for authenticated parser V2 gate, but automatic apply and physical product loop remain uncertified.",
     "Authenticated parser-derived Word IR is now wired to visible preview and explicit user-confirmed C05 apply/replay; release-level automatic apply, Word saturation, Google Docs, and physical product-originated waves remain pending.",
-    "Authenticated comment shadow sessions now bind project, scene, round, baseline and returned artifact identity; they remain shadow-only and do not certify release readiness."
+    "Authenticated comment shadow sessions now bind project, scene, round, baseline and returned artifact identity; they remain shadow-only and do not certify release readiness.",
+    "P0 product-originated smoke-12 is blocked by macOS Word sandbox grant automation in this host state; this is an ENVIRONMENT_PERMISSION boundary, not Product Review DOCX/package/carrier invalidity evidence."
   ],
   "designToolRouter": "NOT_APPLICABLE",
   "delivery": {
@@ -606,10 +607,10 @@
     "releaseAuditRequired": true
   },
   "releaseAuditNight01": {
-    "status": "WORD_RELEASE_AUDIT_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_STORAGE_EFFECTS_WIRED_NOT_SATURATED",
-    "currentStage": "P0-COMMENT-SHADOW-AUTHENTICATED-SESSION-STORAGE-EFFECTS",
-    "nextStage": "P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_RECEIPT.json",
+    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_BLOCKED_ENVIRONMENT_PERMISSION_NOT_SATURATED",
+    "currentStage": "P0-PRODUCT-ORIGINATED-WORD-SMOKE-WAVE-12",
+    "nextStage": "P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_RETRY_WITH_PREGRANTED_TEST_FOLDER",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
     "productReviewDocxExporterWired": true,
     "productReviewDocxExporterDistinctFromDocxMinimal": true,
     "returnIntakeWired": true,
@@ -625,6 +626,12 @@
     "commentShadowAuthenticatedSessionKeysWired": true,
     "persistentCommentShadowRequiresAuthenticatedReturn": true,
     "legacyUnboundCommentPreviewStorageBlocked": true,
-    "commentShadowStorageEffectsReported": true
+    "commentShadowStorageEffectsReported": true,
+    "productOriginatedPhysicalLoopSmokeProven": false,
+    "liveElectronUiPhysicalClickProven": false,
+    "wordContainerWorkRootUsed": false,
+    "t7ArtifactWorkRootFallback": false,
+    "macosWordSandboxGrantRequired": true,
+    "packageInvalidProven": false
   }
 }

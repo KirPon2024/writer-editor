@@ -40,6 +40,8 @@ test('P0 Review DOCX exporter builds a DOCX packet distinct from DOCX Minimal wi
   assert.equal(raw.includes('word/document.xml'), true);
   assert.equal(raw.includes('docProps/custom.xml'), true);
   assert.equal(raw.includes('customXml/item1.xml'), true);
+  assert.equal(raw.includes('Target="../customXml/item1.xml"'), false);
+  assert.equal(raw.includes('Target="customXml/item1.xml"'), true);
   assert.equal(raw.includes('YRTK_C01_AUTH'), true);
   assert.equal(raw.includes('YRTK2_TOKEN'), true);
   assert.equal(raw.includes('YRTK_CORE_DIGEST'), true);

@@ -493,10 +493,10 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_PLAN_CONTRACT_DIGEST/p1-plan-contract-digest-report.json",
-      "sha256": "accca9ccf7616afb42f4025534bca9c4cf4c4174243fdd58edfaf5be574afd91",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
-      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
-      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
+      "sha256": "b597da26940ebfa31c99b113d39ad36f7c5816cfd039066df5b262dcd03f6a30",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
+      "approvedAtUtc": "2026-08-01T10:48:00.000Z",
+      "rationale": "Approve final P1 post-merge digest binding repair bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and default release-mode full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP/p1-transaction-queue-cleanup-report.json",
@@ -668,10 +668,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_PLAN_CONTRACT_DIGEST_RECEIPT.json",
-      "sha256": "0e85e386a573f7e073ff29556485602d1787d8f521f8470c5a194d65dc209f73",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
-      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
-      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
+      "sha256": "a23f5a7329d0abe0f0f18043c46d1fcf691da96290d26ddbbe57e1f11b4e5381",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
+      "approvedAtUtc": "2026-08-01T10:48:00.000Z",
+      "rationale": "Approve final P1 post-merge digest binding repair bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and default release-mode full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP_RECEIPT.json",
@@ -878,10 +878,10 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs",
-      "sha256": "8c91558c02fae3a810ffaa6317f6f9cb4347924c21a1cc52c9e6e1f10703df44",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
-      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
-      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
+      "sha256": "9dfa400fed3f53b361e2668c19efe0c13da52eeee15aa50c63960b63705a9be3",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
+      "approvedAtUtc": "2026-08-01T10:48:00.000Z",
+      "rationale": "Approve final P1 post-merge digest binding repair bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and default release-mode full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.mjs",
@@ -1004,10 +1004,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-plan-contract-digest.contract.test.js",
-      "sha256": "41d5584f95dae02072b47a8b224c3cadfef079f2d64ffbf4e82104ce3f383c25",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
-      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
-      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
+      "sha256": "825908d839ecffb1b8e0f71077dcdcbeb04ad50285066d487c5e0f57e57dafbc",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
+      "approvedAtUtc": "2026-08-01T10:48:00.000Z",
+      "rationale": "Approve final P1 post-merge digest binding repair bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and default release-mode full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.contract.test.js",

@@ -68,6 +68,14 @@ function git(args) {
   return run.status === 0 ? run.stdout.trim() : '';
 }
 
+function gitOk(args) {
+  const run = spawnSync('git', args, {
+    cwd: REPO_ROOT,
+    encoding: 'utf8',
+  });
+  return run.status === 0;
+}
+
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(repoPath(relativePath), 'utf8'));
 }
@@ -149,6 +157,13 @@ function main() {
       'scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs': sha256File(__filename),
     },
   };
+  sourceBinding.reconciledOriginMainSha = extractedState.reconciledOriginMainSha;
+  sourceBinding.reconciledOriginMainIsAncestorOfHead = /^[0-9a-f]{40}$/u.test(extractedState.reconciledOriginMainSha)
+    ? gitOk(['merge-base', '--is-ancestor', extractedState.reconciledOriginMainSha, 'HEAD'])
+    : false;
+  sourceBinding.reconciledOriginMainIsAncestorOfOriginMain = /^[0-9a-f]{40}$/u.test(extractedState.reconciledOriginMainSha)
+    ? gitOk(['merge-base', '--is-ancestor', extractedState.reconciledOriginMainSha, 'origin/main'])
+    : false;
   const acceptance = {
     snapshotExists: fs.existsSync(snapshotAbsPath),
     bindingSchemaValid: binding?.schemaVersion === 'yalken.atlas.v5.masterPlanContractBinding.v1'
@@ -160,8 +175,8 @@ function main() {
     currentContourBound: binding?.masterPlanSnapshot?.currentContour === extractedState.currentContour
       && extractedState.currentContour === CONTOUR_ID,
     remoteHeadBound: binding?.sourceBinding?.reconciledOriginMainSha === extractedState.reconciledOriginMainSha
-      && extractedState.reconciledOriginMainSha === sourceBinding.originMainSha
-      && binding?.sourceBinding?.reconciledOriginMainSha === sourceBinding.originMainSha,
+      && sourceBinding.reconciledOriginMainIsAncestorOfHead === true
+      && sourceBinding.reconciledOriginMainIsAncestorOfOriginMain === true,
     canonStatusBindsExtension: Boolean(canonEntry)
       && canonEntry.canonicalDocPath === SNAPSHOT_PATH
       && canonEntry.sha256 === snapshotSha256

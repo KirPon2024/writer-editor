@@ -6,15 +6,18 @@
   "pass": true,
   "programDoneClaim": false,
   "sourceBinding": {
-    "headSha": "f998da624080443f3c8ce964a0cd34f377ff9f4a",
-    "originMainSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
-    "branch": "codex/yalken-atlas-v5-final-audit-p1-plan-digest",
+    "headSha": "e0b3683f9f58d8381e3144961dc521994ea1d3a7",
+    "originMainSha": "e0b3683f9f58d8381e3144961dc521994ea1d3a7",
+    "branch": "codex/yalken-atlas-v5-p1-digest-postmerge-binding",
     "exactSourceHashes": {
       "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
       "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json": "57f97fc901a7d5cf5ba9195f6cf0d69f0abbc3af4774d0cfa843c4111de7981d",
       "docs/OPS/STATUS/CANON_STATUS.json": "0c73f3d0ed99adab897b841a8471733572e6c78970371eba751e4fe2418192be",
-      "scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs": "8c91558c02fae3a810ffaa6317f6f9cb4347924c21a1cc52c9e6e1f10703df44"
-    }
+      "scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs": "9dfa400fed3f53b361e2668c19efe0c13da52eeee15aa50c63960b63705a9be3"
+    },
+    "reconciledOriginMainSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
+    "reconciledOriginMainIsAncestorOfHead": true,
+    "reconciledOriginMainIsAncestorOfOriginMain": true
   },
   "masterPlanSnapshot": {
     "path": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md",
@@ -40,7 +43,7 @@
   },
   "report": {
     "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_PLAN_CONTRACT_DIGEST/p1-plan-contract-digest-report.json",
-    "sha256": "accca9ccf7616afb42f4025534bca9c4cf4c4174243fdd58edfaf5be574afd91"
+    "sha256": "b597da26940ebfa31c99b113d39ad36f7c5816cfd039066df5b262dcd03f6a30"
   },
   "acceptance": {
     "snapshotExists": true,
@@ -82,8 +85,8 @@
     },
     "fullRunner": {
       "status": "PASS",
-      "command": "HEAD_STRICT_MODE=repo_execution node scripts/run-tests.js",
-      "summary": "PR_HEAD_REPO_EXECUTION_MODE_799_total_735_pass_0_fail_64_skipped_perf_PASS"
+      "command": "node scripts/run-tests.js",
+      "summary": "POSTMERGE_RELEASE_MODE_799_total_735_pass_0_fail_64_skipped_perf_PASS"
     }
   },
   "delivery": {

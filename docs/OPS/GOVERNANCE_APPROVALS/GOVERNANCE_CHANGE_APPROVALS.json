@@ -7353,10 +7353,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "e07c8e971c1da8abc75e301b7e524436af82e5f24dc61492b2f6ad9aba60e52f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
-      "approvedAtUtc": "2026-08-01T01:22:18.257Z",
-      "rationale": "Rebind R3_C05 runtime approval after fresh origin/main RTK drift merge; preserves command-kernel transaction serialization, relation payloadPreview dispatch, renderer bundle rebuild, and no direct UI-to-storage bypass."
+      "sha256": "c17f953847da93d41f174d9e37412be4ba29dd2a123c6b43fcfd91f706a9d633",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
+      "rationale": "Approve P0_01 future Atlas schema loss production adapter repair in main.js: product command bridge binds raw Atlas author payload into Core quarantine path before persistence, while read-only projection fallback remains non-authoritative; no UI visual change, network, dependency, or Program DONE claim."
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
@@ -7784,6 +7784,27 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-08-01T02:59:28.553Z",
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS/p0-01-future-schema-loss-report.json",
+      "sha256": "f280259031cd801d23f383920959ee3d75e681109559fa69ee0b644af990e89a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
+      "rationale": "Approve P0_01 future Atlas schema loss repair evidence after full runner PASS: focused product command bridge journey, adjacent R3_C04 proof, governance, test ops, doctrine, OSS policy, and release full runner pass; no UI design change, network, dependency, or release DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_01_FUTURE_SCHEMA_LOSS_RECEIPT.json",
+      "sha256": "beaf9d18ec610adb5afb8e6f41b4fcff021a2226eba8742f950dff293a89cc0c",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
+      "rationale": "Approve P0_01 future Atlas schema loss receipt after full-runner rebind; binds report hash, focused and adjacent checks, governance, test ops, doctrine, OSS policy, full runner, delivery requirements, and no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-01-future-schema-loss.contract.test.js",
+      "sha256": "3f8d1504d2c0acaa65211229efa92d10d0127fe306ae9d494a35427ab6559f4f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
+      "rationale": "Approve P0_01 future Atlas schema loss contract test: Electron-stub UI command bridge journey proves migration negative, quarantine persistence, reopen, and recovery preimage preservation."
     }
   ]
 }

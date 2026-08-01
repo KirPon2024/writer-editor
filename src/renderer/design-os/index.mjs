@@ -51,3 +51,13 @@ export {
 } from './designOsShellController.mjs';
 
 export { createDesignOsPorts } from './designOsPortContract.mjs';
+
+export {
+  ATLAS_DESIGN_OS_BINDING_SOURCE,
+  ATLAS_DESIGN_OS_SLOT_RESOLVER_ID,
+  ATLAS_FEATURE_INTEGRATION_MANIFEST_SCHEMA_VERSION,
+  YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1,
+  applyAtlasFeatureSurfaceBinding,
+  getAtlasFeatureSurfaceBinding,
+  resolveAtlasFeatureDesignOsSlots,
+} from './atlasFeatureIntegrationManifest.mjs';

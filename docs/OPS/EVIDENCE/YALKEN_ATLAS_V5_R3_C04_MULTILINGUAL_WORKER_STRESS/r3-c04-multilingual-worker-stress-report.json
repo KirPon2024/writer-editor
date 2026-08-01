@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.atlas.v5.r3.c04.multilingualWorkerStress.v1",
   "contourId": "R3_C04_MULTILINGUAL_WORKER_STRESS_AND_STALE_RESULT_SATURATION",
-  "generatedAtUtc": "2026-08-01T00:45:01.229Z",
+  "generatedAtUtc": "2026-08-01T00:52:51.095Z",
   "project": {
     "projectId": "r3-c04-multilingual-worker-project",
     "sceneId": "scene-r3-c04-multilingual",
@@ -173,7 +173,7 @@
       "plannedNodes": 720,
       "plannedEdges": 725,
       "spatialIndexCells": 174,
-      "portWallTimeMs": 97.97495799999979,
+      "portWallTimeMs": 97.11920799999962,
       "fullGraphIncluded": false,
       "coreStateIncluded": false
     },
@@ -183,7 +183,7 @@
       "plannedNodes": 960,
       "plannedEdges": 956,
       "spatialIndexCells": 211,
-      "portWallTimeMs": 129.58579199999986,
+      "portWallTimeMs": 128.66341699999975,
       "fullGraphIncluded": false,
       "coreStateIncluded": false
     },

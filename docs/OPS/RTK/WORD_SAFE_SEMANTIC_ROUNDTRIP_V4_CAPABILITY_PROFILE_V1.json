@@ -833,6 +833,42 @@
         "Word SATURATED remains false"
       ],
       "killCriterion": "Any returned DOCX parser packet or custom property can reach product storage authority without local HMAC baseline binding, or automatic apply/release-ready is claimed before explicit preview/apply/recovery physical loop."
+    },
+    {
+      "capabilityId": "rtk.word.releaseAudit.p0.parsedIrPreviewApplyReplay",
+      "operationFamily": "Authenticated ReviewIRV2 to visible exact preview and explicit command-kernel apply/replay",
+      "state": "PRODUCT_RUNTIME_WIRED_USER_CONFIRMED_APPLY_NOT_RELEASE_CERTIFIED",
+      "currentCapability": "PARSED_IR_PREVIEW_EXPLICIT_APPLY_REPLAY_WIRED_PHYSICAL_PRODUCT_WAVE_PENDING",
+      "physicalWordEvidence": false,
+      "componentProven": true,
+      "productCompositionRegistered": true,
+      "productRuntimeWired": true,
+      "returnIntakeWired": true,
+      "parsedWordIrConsumerWired": true,
+      "parsedWordIrSoleWriterOperationSource": true,
+      "visibleExactPreviewWired": true,
+      "explicitUserConfirmationRequired": true,
+      "commandKernelApplyWired": true,
+      "atomicWriterAndReplayWired": true,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "wordSaturated": false,
+      "consumer": "DOCX Review preview activation plus exact text apply command surface",
+      "acceptanceTest": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT.json",
+      "supportedNow": [
+        "authenticated returned DOCX parser result is the source for C05 writer-operation input",
+        "visible exact preview exposes only sanitized change ids and text evidence",
+        "explicit user apply dispatches the hidden main-owned command envelope through Command Kernel",
+        "C05 writer path keeps checkpoint, atomic write, readback, outcome ledger, and replay behavior"
+      ],
+      "limitations": [
+        "release-level automatic apply remains false",
+        "product-originated physical Word smoke and varied waves are pending after P0 loop binding",
+        "only supported non-overlap tracked replacements are eligible for this path",
+        "comments and other lanes remain separate P0/P1 follow-up surfaces"
+      ],
+      "killCriterion": "Any writer operation can be built from a returned DOCX without authenticated parser IR, any renderer payload can expose writer authority, or any preview bypass can execute the writer."
     }
   ]
 }

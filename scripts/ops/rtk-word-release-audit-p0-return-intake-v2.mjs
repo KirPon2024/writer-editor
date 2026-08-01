@@ -480,18 +480,30 @@ export async function evaluateWordReleaseAuditP0ReturnIntakeV2(input = {}) {
     || receipt.implementedCapability?.automaticApplyCertified !== false
     || receipt.implementedCapability?.wordSaturated !== false) add('RTK_RELEASE_AUDIT_P0_RETURN_INTAKE_AUTHORITY_INVALID', 'implementedCapability', 'Return intake may wire parser gate and comment identity only; apply and saturation remain closed.');
   if (Object.values(receipt.vetoMetrics || {}).some((value) => Number(value) !== 0)) add('RTK_RELEASE_AUDIT_P0_RETURN_INTAKE_VETO_NONZERO', 'vetoMetrics', 'P0 return intake veto metrics must remain zero.');
-  if (program.releaseAuditNight01?.status !== STATUS
-    || program.releaseAuditNight01?.nextStage !== NEXT_STAGE
+  const activeProgramStage = program.releaseAuditNight01?.currentStage;
+  if (activeProgramStage === CONTOUR_ID) {
+    if (program.releaseAuditNight01?.status !== STATUS
+      || program.releaseAuditNight01?.nextStage !== NEXT_STAGE
+      || program.releaseAuditNight01?.returnIntakeWired !== true
+      || program.releaseAuditNight01?.automaticApplyCertified !== false
+      || program.releaseAuditNight01?.googleDocsOpened !== false) add('RTK_RELEASE_AUDIT_P0_RETURN_INTAKE_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must bind return intake without opening apply saturation or Google Docs.');
+  } else if (
+    program.releaseAuditNight01?.productReviewDocxExporterWired !== true
     || program.releaseAuditNight01?.returnIntakeWired !== true
+    || program.releaseAuditNight01?.parsedWordIrConsumerWired !== true
     || program.releaseAuditNight01?.automaticApplyCertified !== false
-    || program.releaseAuditNight01?.googleDocsOpened !== false) add('RTK_RELEASE_AUDIT_P0_RETURN_INTAKE_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must bind return intake without opening apply saturation or Google Docs.');
+    || program.releaseAuditNight01?.googleDocsOpened !== false
+    || program.releaseAuditNight01?.wordSaturated !== false
+  ) {
+    add('RTK_RELEASE_AUDIT_P0_RETURN_INTAKE_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Later active program stages may advance preview/apply wiring but must preserve return-intake and no-saturation/no-Google truth.');
+  }
   if (!cell
     || cell.returnIntakeWired !== true
     || cell.automaticApplyCertified !== false
     || cell.wordSaturated !== false) add('RTK_RELEASE_AUDIT_P0_RETURN_INTAKE_PROFILE_INVALID', 'profile.cells', 'Capability profile must expose return intake while preserving no-apply and no-saturation truth.');
-  if (ledger.coverageLedger?.releaseAuditNight01P0ReturnIntakeV2?.status !== 'BOUND_PRODUCT_REVIEW_DOCX_RETURN_INTAKE_V2_WIRED_APPLY_PENDING'
-    || ledger.coverageLedger?.releaseAuditNight01P0ReturnIntakeV2?.returnIntakeWired !== true
-    || ledger.coverageLedger?.releaseAuditNight01P0ReturnIntakeV2?.automaticApplyCertified !== false
+  const returnIntakeCoverage = ledger.coverageLedger?.releaseAuditNight01P0ReturnIntakeV2;
+  if (returnIntakeCoverage?.returnIntakeWired !== true
+    || returnIntakeCoverage?.automaticApplyCertified !== false
     || ledger.runtimeClaims?.googleDocsOpened !== false
     || ledger.runtimeClaims?.wordSaturated !== false) add('RTK_RELEASE_AUDIT_P0_RETURN_INTAKE_LEDGER_INVALID', 'ledger', 'Ledger must bind return intake and preserve no-saturation/no-Google truth.');
 

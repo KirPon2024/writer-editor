@@ -4279,6 +4279,15 @@ function sha256DocxReviewPreviewSessionBytes(bytes) {
   return crypto.createHash('sha256').update(Buffer.from(bytes)).digest('hex');
 }
 
+function readDocxReviewPreviewSessionAuthenticatedParserResult(context) {
+  const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
+    ? context.reviewTransportReturnIntake
+    : {};
+  if (intake.authenticated !== true) return null;
+  const parserResult = isPlainObjectValue(intake.parserResult) ? intake.parserResult : null;
+  return parserResult && parserResult.ok === true ? parserResult : null;
+}
+
 function buildDocxReviewPreviewSessionWriterContext(context, authorityCapsule) {
   if (isPlainObjectValue(authorityCapsule.writerContext)) {
     return cloneJsonSafe(authorityCapsule.writerContext) || {};
@@ -4375,7 +4384,6 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
   if (!authorityCapsule) return null;
   if (
     !revisionBridge
-    || typeof revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes !== 'function'
     || typeof revisionBridge.evaluateReviewTransportBlockExactAuthorityV2 !== 'function'
   ) {
     return {
@@ -4395,22 +4403,14 @@ async function buildDocxReviewPreviewSessionDefaultRtkApplyInput({
   }
 
   const cryptoPort = createRtkReviewTransportCryptoPort();
-  const returnedArtifactSha256 = `sha256:${sha256DocxReviewPreviewSessionBytes(docxBytes)}`;
-  const analysis = revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes({
-    bytes: docxBytes,
-    hmacSecret,
-    expectedAuthority,
-    returnedArtifactSha256,
-    baselineFinalText: typeof authorityCapsule.baselineFinalText === 'string'
-      ? authorityCapsule.baselineFinalText
-      : (typeof context.sceneText === 'string' ? context.sceneText : ''),
-    physicalWordReopenVisibility: authorityCapsule.physicalWordReopenVisibility === true,
-  }, { cryptoPort });
+  const returnedArtifactSha256 = docxReviewPreviewSessionDetailString(context?.reviewTransportReturnIntake?.returnedArtifactSha256)
+    || `sha256:${sha256DocxReviewPreviewSessionBytes(docxBytes)}`;
+  const analysis = readDocxReviewPreviewSessionAuthenticatedParserResult(context);
   if (!isPlainObjectValue(analysis) || analysis.ok !== true) {
     return {
       ok: false,
       reason: docxReviewPreviewSessionDetailString(analysis?.reason)
-        || 'RTK_NON_OVERLAP_TRACKED_REPLACEMENT_ANALYSIS_BLOCKED',
+        || 'RTK_NON_OVERLAP_TRACKED_REPLACEMENT_RETURN_INTAKE_REQUIRED',
       analysis,
     };
   }

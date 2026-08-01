@@ -5,17 +5,17 @@
   "programStage": "R3_MAXIMUM_PRODUCT_RELEASE_SATURATION_2026_07_31",
   "status": "PASS_R3_C04_MULTILINGUAL_WORKER_STRESS",
   "pass": true,
-  "generatedAtUtc": "2026-08-01T01:02:00Z",
+  "generatedAtUtc": "2026-08-01T01:13:00Z",
   "git": {
     "branch": "codex/yalken-atlas-v5-r3-c04-multilingual-stress",
-    "headSha": "59ffe457a994ae61221c5c70902e8b61b04e9d69",
-    "originMainSha": "59ffe457a994ae61221c5c70902e8b61b04e9d69",
-    "headEqualsOriginMainBeforeCommit": true,
+    "headSha": "f66ae2933b04468d91331a5c3b1b2856dc8ff410",
+    "originMainSha": "9dcbd76a2584611a78bbc314b5aefd5684fa7ee1",
+    "headEqualsOriginMainBeforeCommit": false,
     "deliveryCommitSha": "PENDING_PRE_COMMIT",
     "mergeSha": "PENDING_PR_MERGE"
   },
   "reportPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS/r3-c04-multilingual-worker-stress-report.json",
-  "reportSha256": "c08ba33747f3bc88a1170d66bac61b70d6f4f88e6ecd2bdea1dd418e37a44fdb",
+  "reportSha256": "b909ca8dc21dcc89df347e0fe9f524349adcb0d3c8511b0a6981f2627918e628",
   "physicalEvidenceAccepted": true,
   "certifiedByThisContour": [
     "atlas-author-state-future-schema-lossless-quarantine",
@@ -101,7 +101,7 @@
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS/r3-c04-multilingual-worker-stress-report.json",
       "exists": true,
       "bytes": 6572,
-      "sha256": "c08ba33747f3bc88a1170d66bac61b70d6f4f88e6ecd2bdea1dd418e37a44fdb"
+      "sha256": "b909ca8dc21dcc89df347e0fe9f524349adcb0d3c8511b0a6981f2627918e628"
     }
   },
   "validation": [
@@ -110,63 +110,63 @@
       "command": "node scripts/ops/yalken-atlas-v5-r3-c04-multilingual-worker-stress.mjs",
       "result": "PASS",
       "exitCode": 0,
-      "summary": "PASS_R3_C04_MULTILINGUAL_WORKER_STRESS on merged origin/main 59ffe457a994ae61221c5c70902e8b61b04e9d69; report sha256 c08ba33747f3bc88a1170d66bac61b70d6f4f88e6ecd2bdea1dd418e37a44fdb; 50k worker-thread planned 960 nodes and 956 edges with spatial index; stale worker identity/revision rejected; split grapheme language/evidence rejected; author future schema quarantined losslessly."
+      "summary": "PASS_R3_C04_MULTILINGUAL_WORKER_STRESS after merging origin/main 9dcbd76a2584611a78bbc314b5aefd5684fa7ee1; report sha256 b909ca8dc21dcc89df347e0fe9f524349adcb0d3c8511b0a6981f2627918e628; 50k worker-thread planned 960 nodes and 956 edges with spatial index; stale worker identity/revision rejected; split grapheme language/evidence rejected; author future schema quarantined losslessly."
     },
     {
       "id": "focused-contracts",
       "command": "node --test test/contracts/yalken-atlas-v5-r3-c04-multilingual-worker-stress.contract.test.js",
       "result": "PASS",
       "exitCode": 0,
-      "summary": "Focused R3_C04 contracts PASS on merged origin/main: 4 tests, 4 pass, 0 fail."
+      "summary": "Focused R3_C04 contracts PASS after origin/main 9dcbd76a drift merge: 4 tests, 4 pass, 0 fail."
     },
     {
       "id": "design-os-doctrine",
       "command": "npm run -s design-os:doctrine",
       "result": "PASS",
       "exitCode": 0,
-      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17 after drift merge."
     },
     {
       "id": "oss-policy",
       "command": "npm run -s oss:policy",
       "result": "PASS",
       "exitCode": 0,
-      "summary": "OSS policy OK: no Tiptap Pro / no private registry."
+      "summary": "OSS policy OK after drift merge: no Tiptap Pro / no private registry."
     },
     {
       "id": "diff-check",
       "command": "git diff --check",
       "result": "PASS",
       "exitCode": 0,
-      "summary": "No whitespace or conflict-marker diff issues."
+      "summary": "No whitespace or conflict-marker diff issues after drift merge."
     },
     {
       "id": "renderer-build",
       "command": "npm run -s build:renderer",
       "result": "PASS",
       "exitCode": 0,
-      "summary": "Renderer bundle rebuilt successfully on merged origin/main; esbuild completed with editor.bundle.js output."
+      "summary": "Renderer bundle rebuilt successfully after drift merge; esbuild completed with editor.bundle.js output."
     },
     {
       "id": "governance-change-detection",
-      "command": "node scripts/ops/governance-change-detection.mjs --json",
-      "result": "PASS",
-      "exitCode": 0,
-      "summary": "GOVERNANCE_CHANGE_OK=1; missing approvals=[]; registry valid=1 on merged origin/main."
+      "command": "PENDING_REBIND",
+      "result": "PENDING",
+      "exitCode": null,
+      "summary": "Pending rerun after report and receipt approvals are rebound to post-9dcbd76a merged bytes."
     },
     {
       "id": "test-ops",
-      "command": "npm run -s test:ops",
-      "result": "PASS",
-      "exitCode": 0,
-      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit=0."
+      "command": "PENDING_REBIND",
+      "result": "PENDING",
+      "exitCode": null,
+      "summary": "Pending rerun after governance approvals are rebound to post-9dcbd76a merged bytes."
     },
     {
       "id": "full-runner",
-      "command": "node scripts/run-tests.js",
-      "result": "PASS",
-      "exitCode": 0,
-      "summary": "Full runner PASS on merged origin/main: 798 tests, 734 pass, 0 fail, 64 skipped; perf baseline PASS; command namespace/menu/release candidate tails PASS."
+      "command": "PENDING_REBIND",
+      "result": "PENDING",
+      "exitCode": null,
+      "summary": "Pending rerun after governance approvals are rebound to post-9dcbd76a merged bytes."
     }
   ],
   "delivery": {

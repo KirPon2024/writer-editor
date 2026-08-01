@@ -158,6 +158,7 @@ function buildAuthorityEnvelope(payload, secret) {
 }
 
 function caseSceneText(caseSpec) {
+  if (typeof caseSpec.sceneText === 'string' && caseSpec.sceneText.length > 0) return caseSpec.sceneText;
   const prefix = typeof caseSpec.leadingText === 'string' ? `${caseSpec.leadingText}\n` : '';
   const suffix = typeof caseSpec.trailingText === 'string' ? `\n${caseSpec.trailingText}` : '';
   if (caseSpec.duplicateInAuthorityBlock) {
@@ -366,6 +367,19 @@ function actionLinesForCase(caseSpec, sceneText) {
   } else if (caseSpec.action === 'paragraph-split-diagnostic') {
     lines.push('set track revisions of yDoc to true');
     lines.push(`set content of (create range yDoc start ${oldStart} end ${oldStart}) to ${appleLiteral(`${caseSpec.id} STRUCTURE_SPLIT\n`)}`);
+  } else if (caseSpec.action === 'dense-comments-diagnostic') {
+    lines.push('set track revisions of yDoc to false');
+    const targets = [...sceneText.matchAll(/COMMENT_TARGET_[0-9]{3}/gu)].map((match) => ({
+      token: match[0],
+      start: match.index + 1,
+      end: match.index + 1 + match[0].length,
+    }));
+    for (const target of targets.slice(0, Number(caseSpec.expectedCommentMinimum || 0))) {
+      const body = `${caseSpec.id} dense ${target.token} ё NBSP\u00a0emoji ${String.fromCodePoint(0x1f4da)}${String.fromCodePoint(0xfe0f)}`;
+      lines.push(`set c1 to make new Word comment at (create range yDoc start ${target.start} end ${target.end}) with properties {comment text:${appleLiteral(body)}}`);
+    }
+    lines.push('set yRootCreated to "1"');
+    lines.push('set yCommentCountAfterCreate to count of Word comments of yDoc');
   } else if (caseSpec.action === 'comment-delete') {
     lines.push('set track revisions of yDoc to false');
     lines.push(`set c1 to make new Word comment at (${commentRange}) with properties {comment text:${appleLiteral(`${rootCommentBody} delete probe`)}}`);
@@ -406,6 +420,7 @@ function buildWordProductScript(caseSpec, returnedPath, sceneText) {
   const sentinel = `Yalken product comments mixed ${caseSpec.id}`;
   const returnedPathLiteral = appleLiteral(returnedPath);
   const expectedName = path.basename(returnedPath);
+  const appleEventTimeoutSeconds = Math.max(120, Math.ceil(Number(caseSpec.wordAutomationTimeoutMs || 180_000) / 1000));
   return [
     'on yOpenExpectedDoc(yPosixPath, yExpectedFullName, yExpectedName)',
     '  do shell script "/usr/bin/open -a " & quoted form of "Microsoft Word" & " " & quoted form of yPosixPath',
@@ -421,6 +436,7 @@ function buildWordProductScript(caseSpec, returnedPath, sceneText) {
     '  end tell',
     '  return false',
     'end yOpenExpectedDoc',
+    `with timeout of ${appleEventTimeoutSeconds} seconds`,
     'tell application "Microsoft Word"',
     'activate',
     'set yDocWasOpened to false',
@@ -471,6 +487,7 @@ function buildWordProductScript(caseSpec, returnedPath, sceneText) {
     '  return "WORD_STATUS=FAIL" & linefeed & "ERRNO=" & errNo & linefeed & "ERR=" & errMsg & linefeed & "LIMITATIONS=" & yLimitations',
     'end try',
     'end tell',
+    'end timeout',
   ].join('\n');
 }
 
@@ -649,6 +666,7 @@ async function runProductCase({ caseSpec, dirs }) {
     buildWordProductScript(caseSpec, returnedPath, source.sceneText),
     `${caseSpec.id}-word`,
     caseDir,
+    { timeout: Number(caseSpec.wordAutomationTimeoutMs || 180_000) },
   );
   const wordReadback = parseKeyValueLines(script.output);
   if (wordReadback.WORD_STATUS !== 'PASS') {

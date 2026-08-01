@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -1307,17 +1307,38 @@
   "wordSafetyRemediation": {
     "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
     "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
-    "currentContour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
+    "currentContour": "C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
     "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
     "wordAcceptanceRevoked": true,
-    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION"
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "activeTaskId": "YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+    "currentContourStatus": "LOCAL_VERIFIED_PENDING_DELIVERY_CHAIN",
+    "currentBaseSha": "488a6873dbb02ef13ba8c201a27c2e3d73a477d7",
+    "c1Delivered": true,
+    "c2Delivered": true,
+    "c3LocalVerified": true,
+    "c4RequiredNext": true,
+    "c5RequiredAfterC4": true,
+    "wordAcceptanceRevokedUntilC1C5AndIndependentAudit": true,
+    "automaticApplyCertified": false,
+    "wordSaturated": false,
+    "vetoMetrics": {
+      "falseExact": 0,
+      "wrongSceneRouting": 0,
+      "silentApply": 0,
+      "replayFailure": 0,
+      "silentCommentLoss": 0,
+      "productNetwork": 0
+    },
+    "latestReceipt": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
+    "updatedAtUtc": "2026-08-01T15:16:23.540Z"
   },
   "wordSafetyRemediationV1": {
-    "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
-    "currentContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
-    "previousContour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
-    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+    "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
+    "currentContour": "C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+    "previousContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH",
     "wordAcceptanceRevoked": true,
     "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
     "c1Delivered": true,
@@ -1329,6 +1350,15 @@
       "total": 799,
       "pass": 735,
       "skip": 64,
+      "fail": 0
+    },
+    "c2Delivered": true,
+    "c3LocalVerified": true,
+    "c3LocalVerifiedAtUtc": "2026-08-01T15:14:14.554Z",
+    "c3FocusedParserSuite": {
+      "command": "node --test rtk-word-safety-c3-parser-resource-envelope.contract.test.js rtk-word-latest-semantic-b02-package-parser.contract.test.js rtk-word-latest-semantic-b03-modern-comments.contract.test.js rtk-word-latest-semantic-b04-classifier.contract.test.js",
+      "total": 22,
+      "pass": 22,
       "fail": 0
     }
   }

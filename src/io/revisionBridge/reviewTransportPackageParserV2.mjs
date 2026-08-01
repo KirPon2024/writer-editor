@@ -8,7 +8,7 @@ import {
 export const RTK_REVIEW_TRANSPORT_PACKAGE_PARSER_V2_PROFILE =
   'yalken.rtk.package-aware-review-ir-parser.v2.b02';
 export const RTK_REVIEW_TRANSPORT_PACKAGE_PARSER_V2_BUILD =
-  'bounded-namespace-package-scanner-no-regex-b02';
+  'bounded-namespace-package-scanner-quote-aware-entities-budgets-c3';
 export const RTK_REVIEW_TRANSPORT_AUTHORITY_CARRIER_V2_SCHEMA =
   'yalken.rtk.review-transport-authority-carrier.v2';
 export const RTK_REVIEW_TRANSPORT_AUTHORITY_CUSTOM_PROPERTY_NAMES = Object.freeze([
@@ -125,6 +125,15 @@ function readName(text, cursor) {
   return { value: text.slice(cursor, index), next: index };
 }
 
+function isValidXmlCharCode(codePoint) {
+  return codePoint === 0x9
+    || codePoint === 0xa
+    || codePoint === 0xd
+    || (codePoint >= 0x20 && codePoint <= 0xd7ff)
+    || (codePoint >= 0xe000 && codePoint <= 0xfffd)
+    || (codePoint >= 0x10000 && codePoint <= 0x10ffff);
+}
+
 function splitQName(qName) {
   const text = rawString(qName);
   const colon = text.indexOf(':');
@@ -135,13 +144,120 @@ function splitQName(qName) {
   };
 }
 
-function decodeEntities(text) {
-  return rawString(text)
-    .split('&lt;').join('<')
-    .split('&gt;').join('>')
-    .split('&amp;').join('&')
-    .split('&quot;').join('"')
-    .split('&apos;').join("'");
+function decodeEntityBody(entityBody) {
+  if (entityBody === 'lt') return { ok: true, value: '<' };
+  if (entityBody === 'gt') return { ok: true, value: '>' };
+  if (entityBody === 'amp') return { ok: true, value: '&' };
+  if (entityBody === 'quot') return { ok: true, value: '"' };
+  if (entityBody === 'apos') return { ok: true, value: "'" };
+  if (entityBody.startsWith('#x') || entityBody.startsWith('#X')) {
+    const hex = entityBody.slice(2);
+    if (!hex || ![...hex].every((char) => /[0-9a-fA-F]/u.test(char))) {
+      return { ok: false, value: '' };
+    }
+    const codePoint = Number.parseInt(hex, 16);
+    if (!Number.isSafeInteger(codePoint) || !isValidXmlCharCode(codePoint)) return { ok: false, value: '' };
+    return { ok: true, value: String.fromCodePoint(codePoint) };
+  }
+  if (entityBody.startsWith('#')) {
+    const decimal = entityBody.slice(1);
+    if (!decimal || ![...decimal].every((char) => char >= '0' && char <= '9')) {
+      return { ok: false, value: '' };
+    }
+    const codePoint = Number.parseInt(decimal, 10);
+    if (!Number.isSafeInteger(codePoint) || !isValidXmlCharCode(codePoint)) return { ok: false, value: '' };
+    return { ok: true, value: String.fromCodePoint(codePoint) };
+  }
+  return { ok: false, value: '' };
+}
+
+function decodeEntities(text, diagnostics = null, field = 'xml.text') {
+  const source = rawString(text);
+  let output = '';
+  let cursor = 0;
+  while (cursor < source.length) {
+    const amp = source.indexOf('&', cursor);
+    if (amp < 0) {
+      output += source.slice(cursor);
+      break;
+    }
+    output += source.slice(cursor, amp);
+    const semi = source.indexOf(';', amp + 1);
+    if (semi < 0) {
+      diagnostics?.push(reason('RTK_XML_MALFORMED_BLOCKED', field, 'XML entity reference is not terminated.'));
+      output += source.slice(amp);
+      break;
+    }
+    const body = source.slice(amp + 1, semi);
+    const decoded = decodeEntityBody(body);
+    if (!decoded.ok) {
+      diagnostics?.push(reason('RTK_XML_MALFORMED_BLOCKED', field, 'XML entity reference is invalid or unsupported.', {
+        entity: `&${body};`,
+      }));
+      output += source.slice(amp, semi + 1);
+    } else {
+      output += decoded.value;
+    }
+    cursor = semi + 1;
+  }
+  return output;
+}
+
+function createParserBudgetState(budgets, cryptoPort) {
+  return {
+    budgets,
+    cryptoPort,
+    blocks: 0,
+    revisions: 0,
+    comments: 0,
+    candidates: 0,
+    workerOutputBytes: 0,
+    exceededCodes: new Set(),
+  };
+}
+
+function budgetExceededReason(field, message, details = {}) {
+  return reason('RTK_BUDGET_EXCEEDED', field, message, details);
+}
+
+function recordBudgetExceeded(state, diagnostics, key, field, message, details = {}) {
+  const token = `${key}:${field}`;
+  if (!state.exceededCodes.has(token)) {
+    diagnostics.push(budgetExceededReason(field, message, details));
+    state.exceededCodes.add(token);
+  }
+}
+
+function admitBudgetCount(state, diagnostics, key, limit, field, message) {
+  state[key] += 1;
+  if (state[key] > limit) {
+    recordBudgetExceeded(state, diagnostics, key, field, message, {
+      actual: state[key],
+      limit,
+    });
+    return false;
+  }
+  return true;
+}
+
+function admitWorkerOutput(state, diagnostics, field, value) {
+  const bytes = state.cryptoPort.byteLength(stableJson(value));
+  if (state.workerOutputBytes + bytes > state.budgets.maxWorkerOutputBytes) {
+    recordBudgetExceeded(
+      state,
+      diagnostics,
+      'workerOutputBytes',
+      field,
+      'Parser worker output budget exceeded before semantic accumulation.',
+      {
+        actual: state.workerOutputBytes + bytes,
+        limit: state.budgets.maxWorkerOutputBytes,
+      },
+    );
+    return false;
+  }
+  state.workerOutputBytes += bytes;
+  return true;
 }
 
 function parseRawAttributes(attrText, budgets, cryptoPort, partName) {
@@ -152,18 +268,31 @@ function parseRawAttributes(attrText, budgets, cryptoPort, partName) {
     while (cursor < attrText.length && attrText[cursor].trim() === '') cursor += 1;
     if (cursor >= attrText.length || attrText[cursor] === '/') break;
     const name = readName(attrText, cursor);
-    if (!name.value) break;
+    if (!name.value) {
+      diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', `${partName}.attributes`, 'XML attribute name is malformed.'));
+      break;
+    }
     cursor = name.next;
     while (cursor < attrText.length && attrText[cursor].trim() === '') cursor += 1;
-    if (attrText[cursor] !== '=') break;
+    if (attrText[cursor] !== '=') {
+      diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', `${partName}.attributes.${name.value}`, 'XML attribute is missing equals sign.'));
+      break;
+    }
     cursor += 1;
     while (cursor < attrText.length && attrText[cursor].trim() === '') cursor += 1;
     const quote = attrText[cursor];
-    if (quote !== '"' && quote !== "'") break;
+    if (quote !== '"' && quote !== "'") {
+      diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', `${partName}.attributes.${name.value}`, 'XML attribute value must be quoted.'));
+      break;
+    }
     cursor += 1;
     const start = cursor;
     while (cursor < attrText.length && attrText[cursor] !== quote) cursor += 1;
-    const value = decodeEntities(attrText.slice(start, cursor));
+    if (cursor >= attrText.length) {
+      diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', `${partName}.attributes.${name.value}`, 'XML attribute quote is not closed.'));
+      break;
+    }
+    const value = decodeEntities(attrText.slice(start, cursor), diagnostics, `${partName}.attributes.${name.value}`);
     cursor += 1;
     if (attributes.length >= budgets.maxAttributes) {
       diagnostics.push(reason('RTK_BUDGET_EXCEEDED', `${partName}.attributes`, 'XML attribute budget exceeded.'));
@@ -228,20 +357,58 @@ function skipSpecialXml(text, open) {
   return 0;
 }
 
+function readMarkupDeclarationName(text, open) {
+  let cursor = open + 2;
+  while (cursor < text.length && text[cursor].trim() === '') cursor += 1;
+  const name = readName(text, cursor);
+  return name.value.toUpperCase();
+}
+
+function findXmlTagClose(text, open, diagnostics = null, partName = 'xml') {
+  let quote = '';
+  for (let cursor = open + 1; cursor < text.length; cursor += 1) {
+    const char = text[cursor];
+    if (quote) {
+      if (char === quote) quote = '';
+      continue;
+    }
+    if (char === '"' || char === "'") {
+      quote = char;
+      continue;
+    }
+    if (char === '>') return cursor;
+    if (char === '<') {
+      diagnostics?.push(reason('RTK_XML_MALFORMED_BLOCKED', partName, 'XML tag contains an unescaped opening bracket.'));
+      return -1;
+    }
+  }
+  diagnostics?.push(reason(
+    'RTK_XML_MALFORMED_BLOCKED',
+    partName,
+    quote ? 'XML tag quote is not closed.' : 'XML tag is not closed.',
+  ));
+  return -1;
+}
+
 function rawTagLocalName(raw) {
   const nameStart = raw.startsWith('/') ? 1 : 0;
   return splitQName(readName(raw, nameStart).value).localName;
 }
 
-function parseXmlPart(partName, xml, budgets, cryptoPort) {
+function parseXmlPart(partName, xml, budgets, cryptoPort, budgetState = null) {
   const text = rawString(xml);
   const tokens = [];
   const diagnostics = [];
   const stack = [];
   let cursor = 0;
+  let stopForBudget = false;
   while (cursor < text.length) {
     const open = text.indexOf('<', cursor);
-    if (open < 0) break;
+    if (open < 0) {
+      decodeEntities(text.slice(cursor), diagnostics, `${partName}.text`);
+      break;
+    }
+    decodeEntities(text.slice(cursor, open), diagnostics, `${partName}.text`);
     const specialSkip = skipSpecialXml(text, open);
     if (specialSkip < 0) {
       diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', partName, 'XML special block is not closed.'));
@@ -251,9 +418,15 @@ function parseXmlPart(partName, xml, budgets, cryptoPort) {
       cursor = specialSkip;
       continue;
     }
-    const close = text.indexOf('>', open + 1);
+    const declarationName = readMarkupDeclarationName(text, open);
+    if (declarationName === 'DOCTYPE' || declarationName === 'ENTITY') {
+      diagnostics.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', partName, 'DTD or entity declaration is blocked.'));
+      const declarationClose = text.indexOf('>', open + 2);
+      cursor = declarationClose < 0 ? text.length : declarationClose + 1;
+      continue;
+    }
+    const close = findXmlTagClose(text, open, diagnostics, partName);
     if (close < 0) {
-      diagnostics.push(reason('RTK_XML_MALFORMED_BLOCKED', partName, 'XML tag is not closed.'));
       break;
     }
     const raw = text.slice(open + 1, close).trim();
@@ -276,6 +449,39 @@ function parseXmlPart(partName, xml, budgets, cryptoPort) {
     }
     const qName = parsedName.value;
     const split = splitQName(qName);
+    if (budgetState && partName === 'word/document.xml') {
+      if (split.localName === 'p') {
+        stopForBudget = stopForBudget || !admitBudgetCount(
+          budgetState,
+          diagnostics,
+          'blocks',
+          budgets.maxBlocks,
+          `${partName}.blocks`,
+          'Block budget exceeded while scanning document XML.',
+        );
+      }
+      if (['ins', 'del', 'moveFrom', 'moveTo', 'rPrChange', 'pPrChange', 'numPrChange'].includes(split.localName)) {
+        stopForBudget = stopForBudget || !admitBudgetCount(
+          budgetState,
+          diagnostics,
+          'revisions',
+          budgets.maxRevisions,
+          `${partName}.revisions`,
+          'Revision budget exceeded while scanning document XML.',
+        );
+      }
+    }
+    if (budgetState && partName === 'word/comments.xml' && split.localName === 'comment') {
+      stopForBudget = stopForBudget || !admitBudgetCount(
+        budgetState,
+        diagnostics,
+        'comments',
+        budgets.maxComments,
+        `${partName}.comments`,
+        'Comment budget exceeded while scanning comments XML.',
+      );
+    }
+    if (stopForBudget) break;
     const parentMap = stack.length > 0 ? stack[stack.length - 1].nsMap : {};
     if (closing) {
       const last = stack.pop();
@@ -316,6 +522,7 @@ function parseXmlPart(partName, xml, budgets, cryptoPort) {
     };
     if (stack.length + 1 > budgets.maxXmlDepth) {
       diagnostics.push(reason('RTK_BUDGET_EXCEEDED', `${partName}.xmlDepth`, 'XML depth budget exceeded.'));
+      break;
     }
     if (selfClosing) tokens.push(token);
     else stack.push(token);
@@ -348,7 +555,7 @@ function stripTagsToText(xml) {
       cursor = specialSkip;
       continue;
     }
-    const close = text.indexOf('>', open + 1);
+    const close = findXmlTagClose(text, open);
     if (close < 0) break;
     const local = rawTagLocalName(text.slice(open + 1, close).trim());
     if (local === 'tab') output += '\t';
@@ -403,7 +610,7 @@ function stripTagsToTextOutsideRanges(xml, ranges) {
       cursor = specialSkip;
       continue;
     }
-    const close = text.indexOf('>', open + 1);
+    const close = findXmlTagClose(text, open);
     if (close < 0) break;
     const local = rawTagLocalName(text.slice(open + 1, close).trim());
     if (!positionInsideRanges(open, skipRanges)) {
@@ -697,20 +904,33 @@ function base64UrlDecodeText(value) {
   }
 }
 
-function customPropertyAuthorityCandidates(parts, budgets, cryptoPort) {
+function customPropertyAuthorityCandidates(parts, budgets, cryptoPort, budgetState) {
   const xml = rawString(parts['docProps/custom.xml']);
   if (!xml) return { candidates: [], reasons: [] };
-  const scan = parseXmlPart('docProps/custom.xml', xml, budgets, cryptoPort);
+  const scan = parseXmlPart('docProps/custom.xml', xml, budgets, cryptoPort, budgetState);
   const candidates = [];
   for (const token of scan.tokens.filter((item) => item.localName === 'property')) {
     const propertyName = attr(token, 'name');
     if (!RTK_REVIEW_TRANSPORT_AUTHORITY_CUSTOM_PROPERTY_NAMES.includes(propertyName)) continue;
-    candidates.push({
+    const candidate = {
       carrier: 'customDocumentProperty',
       propertyName,
       encoded: tokenText(xml, token),
       sourceXmlProvenance: provenance(token),
-    });
+    };
+    if (
+      admitBudgetCount(
+        budgetState,
+        scan.diagnostics,
+        'candidates',
+        budgets.maxCandidates,
+        'authorityCarrier.candidates',
+        'Authority candidate budget exceeded.',
+      )
+      && admitWorkerOutput(budgetState, scan.diagnostics, 'authorityCarrier.candidates', candidate)
+    ) {
+      candidates.push(candidate);
+    }
   }
   return { candidates, reasons: scan.diagnostics };
 }
@@ -817,8 +1037,8 @@ function verifyAuthorityCandidate(candidate, input, cryptoPort, hmacSecret) {
   };
 }
 
-function analyzeAuthorityCarriers(input, parts, budgets, cryptoPort) {
-  const found = customPropertyAuthorityCandidates(parts, budgets, cryptoPort);
+function analyzeAuthorityCarriers(input, parts, budgets, cryptoPort, budgetState) {
+  const found = customPropertyAuthorityCandidates(parts, budgets, cryptoPort, budgetState);
   const reasons = [...found.reasons];
   const carriers = found.candidates.map((candidate) => verifyAuthorityCandidate(
     candidate,
@@ -852,13 +1072,13 @@ function analyzeAuthorityCarriers(input, parts, budgets, cryptoPort) {
   };
 }
 
-function parseTextRevisions(documentXml, documentScan, cryptoPort) {
+function parseTextRevisions(documentXml, documentScan, cryptoPort, budgets, budgetState, reasons) {
   const revisions = [];
   for (const token of documentScan.tokens) {
     if (!isWordToken(token, 'ins') && !isWordToken(token, 'del')) continue;
     const operation = token.localName === 'ins' ? 'insert' : 'delete';
     const text = tokenText(documentXml, token);
-    revisions.push({
+    const revision = {
       kind: 'TextRevision',
       operation,
       nativeRevisionId: attr(token, 'id'),
@@ -871,7 +1091,10 @@ function parseTextRevisions(documentXml, documentScan, cryptoPort) {
       classification: 'TEXT_MANUAL',
       candidateDisposition: 'MANUAL',
       reasonCode: 'RTK_MANUAL_DEGRADED_LOCATOR',
-    });
+    };
+    if (admitWorkerOutput(budgetState, reasons, 'reviewIr.textRevisions', revision)) {
+      revisions.push(revision);
+    }
   }
   const ordered = revisions.slice().sort((left, right) => (
     left.sourceXmlProvenance.openStart - right.sourceXmlProvenance.openStart
@@ -902,7 +1125,7 @@ function parseTextRevisions(documentXml, documentScan, cryptoPort) {
   return ordered;
 }
 
-function parseMoveRevisions(documentXml, documentScan, cryptoPort) {
+function parseMoveRevisions(documentXml, documentScan, cryptoPort, budgetState, reasons) {
   const moves = [];
   const byId = new Map();
   for (const token of documentScan.tokens) {
@@ -927,7 +1150,9 @@ function parseMoveRevisions(documentXml, documentScan, cryptoPort) {
   }
   for (const item of byId.values()) {
     item.pairedRanges = [item.moveFrom, item.moveTo].filter(Boolean).map((side) => side.sourceXmlProvenance);
-    moves.push(item);
+    if (admitWorkerOutput(budgetState, reasons, 'reviewIr.moveRevisions', item)) {
+      moves.push(item);
+    }
   }
   return moves;
 }
@@ -938,11 +1163,11 @@ function childTokensWithin(documentScan, parent) {
   ));
 }
 
-function parsePropertyRevisions(documentXml, documentScan) {
+function parsePropertyRevisions(documentXml, documentScan, budgetState, reasons) {
   const revisions = [];
   for (const token of documentScan.tokens) {
     if (!['rPrChange', 'pPrChange', 'numPrChange'].includes(token.localName)) continue;
-    revisions.push({
+    const revision = {
       kind: 'PropertyRevision',
       propertyKind: token.localName,
       nativeRevisionId: attr(token, 'id'),
@@ -952,12 +1177,15 @@ function parsePropertyRevisions(documentXml, documentScan) {
       rawTextExcerpt: tokenText(documentXml, token).slice(0, 96),
       classification: 'MANUAL_REVIEW',
       reasonCode: 'RTK_BLOCKED_STRUCTURAL',
-    });
+    };
+    if (admitWorkerOutput(budgetState, reasons, 'reviewIr.propertyRevisions', revision)) {
+      revisions.push(revision);
+    }
   }
   return revisions;
 }
 
-function parseStructureChanges(documentScan) {
+function parseStructureChanges(documentScan, budgetState, reasons) {
   const changes = [];
   for (const token of documentScan.tokens) {
     const bodyLevelSectionProperties = token.localName === 'sectPr'
@@ -966,24 +1194,30 @@ function parseStructureChanges(documentScan) {
       && token.path[1] === 'body';
     if (bodyLevelSectionProperties) continue;
     if (['pPrChange', 'tbl', 'sectPr', 'footnoteReference', 'endnoteReference'].includes(token.localName)) {
-      changes.push({
+      const change = {
         kind: 'StructureChange',
         structureKind: token.localName,
         sourceXmlProvenance: provenance(token),
         classification: 'STRUCTURAL_BLOCKED',
         reasonCode: 'RTK_BLOCKED_STRUCTURAL',
         writerAuthorityImpact: 'blocking',
-      });
+      };
+      if (admitWorkerOutput(budgetState, reasons, 'reviewIr.structureChanges', change)) {
+        changes.push(change);
+      }
     }
     if (token.localName === 'moveFrom' || token.localName === 'moveTo') {
-      changes.push({
+      const change = {
         kind: 'StructureChange',
         structureKind: 'moveRevision',
         sourceXmlProvenance: provenance(token),
         classification: 'STRUCTURAL_BLOCKED',
         reasonCode: 'RTK_BLOCKED_MOVE_REVISION',
         writerAuthorityImpact: 'blocking',
-      });
+      };
+      if (admitWorkerOutput(budgetState, reasons, 'reviewIr.structureChanges', change)) {
+        changes.push(change);
+      }
     }
   }
   return changes;
@@ -994,13 +1228,13 @@ function firstChildValue(children, localName, attrName = 'val') {
   return found ? attr(found, attrName) : '';
 }
 
-function parseFormattingDeltas(documentXml, documentScan) {
+function parseFormattingDeltas(documentXml, documentScan, budgetState, reasons) {
   const deltas = [];
   for (const token of documentScan.tokens) {
     if (token.localName !== 'rPr' && token.localName !== 'pPr' && token.localName !== 'hyperlink') continue;
     const children = childTokensWithin(documentScan, token);
     if (token.localName === 'hyperlink') {
-      deltas.push({
+      const delta = {
         kind: 'FormattingDelta',
         formatKind: 'hyperlink',
         values: {
@@ -1010,7 +1244,10 @@ function parseFormattingDeltas(documentXml, documentScan) {
         },
         sourceXmlProvenance: provenance(token),
         classification: 'MANUAL_REVIEW',
-      });
+      };
+      if (admitWorkerOutput(budgetState, reasons, 'reviewIr.formattingDeltas', delta)) {
+        deltas.push(delta);
+      }
       continue;
     }
     const values = token.localName === 'rPr'
@@ -1035,13 +1272,16 @@ function parseFormattingDeltas(documentXml, documentScan) {
           }
           : {},
       };
-    deltas.push({
+    const delta = {
       kind: 'FormattingDelta',
       formatKind: token.localName,
       values,
       sourceXmlProvenance: provenance(token),
       classification: 'MANUAL_REVIEW',
-    });
+    };
+    if (admitWorkerOutput(budgetState, reasons, 'reviewIr.formattingDeltas', delta)) {
+      deltas.push(delta);
+    }
   }
   return deltas;
 }
@@ -1153,7 +1393,7 @@ function expectedCommentRecords(input) {
   }));
 }
 
-function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort) {
+function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort, budgetState) {
   const anchors = commentAnchorMap(documentXml, documentScan);
   const metadata = collectModernCommentMetadata(scans);
   const reasons = [...scans.comments.diagnostics, ...scans.commentsExtended.diagnostics, ...scans.commentsIds.diagnostics, ...scans.commentsExtensible.diagnostics, ...scans.people.diagnostics];
@@ -1289,7 +1529,9 @@ function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort
       modernMetadata: cloneJsonSafe(record.metadata || {}),
       sourceXmlProvenance: record.sourceXmlProvenance,
     };
-    threads.push(thread);
+    if (admitWorkerOutput(budgetState, reasons, 'reviewIr.commentThreads', thread)) {
+      threads.push(thread);
+    }
     reasons.push(reason(code, `comments.${record.rawId}`, 'Comment lane was parsed before text classification and kept independent.', {
       threadId: thread.threadId,
     }));
@@ -1334,7 +1576,9 @@ function parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort
       modernMetadata: {},
       sourceXmlProvenance: null,
     };
-    threads.push(thread);
+    if (admitWorkerOutput(budgetState, reasons, 'reviewIr.commentThreads', thread)) {
+      threads.push(thread);
+    }
     reasons.push(reason('RTK_COMMENT_UNSUPPORTED', `comments.${key}`, 'Expected comment thread is missing from the returned package and cannot be silently dropped.', {
       threadId: thread.threadId,
     }));
@@ -1366,7 +1610,7 @@ function buildCommentGraphCapability(input, partNames, commentThreads) {
   };
 }
 
-function collectUnsupportedElements(documentScan) {
+function collectUnsupportedElements(documentScan, budgetState, reasons) {
   const unsupported = [];
   for (const token of documentScan.tokens) {
     if (!DOCUMENT_UNSUPPORTED_ELEMENTS.includes(token.localName)) continue;
@@ -1374,7 +1618,7 @@ function collectUnsupportedElements(documentScan) {
       && token.path.length === 3
       && token.path[0] === 'document'
       && token.path[1] === 'body';
-    unsupported.push({
+    const item = {
       kind: 'unsupported-element',
       partName: token.partName,
       elementName: token.localName,
@@ -1389,7 +1633,20 @@ function collectUnsupportedElements(documentScan) {
         : 'preserve-evidence-and-report-loss',
       writerAuthorityImpact: bodyLevelSectionProperties ? 'inventory-only' : 'blocking',
       sourceXmlProvenance: provenance(token),
-    });
+    };
+    if (
+      admitBudgetCount(
+        budgetState,
+        reasons,
+        'candidates',
+        budgetState.budgets.maxCandidates,
+        'reviewIr.opaqueUnsupported',
+        'Unsupported candidate budget exceeded.',
+      )
+      && admitWorkerOutput(budgetState, reasons, 'reviewIr.opaqueUnsupported', item)
+    ) {
+      unsupported.push(item);
+    }
   }
   return unsupported;
 }
@@ -1466,6 +1723,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     };
   }
 
+  const budgetState = createParserBudgetState(budgets, cryptoPort);
   const normalized = normalizePackageParts(input.parts, budgets, cryptoPort);
   const parts = normalized.admittedParts;
   const partNames = Object.keys(parts).sort();
@@ -1481,38 +1739,38 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
   const relationships = parseRelationshipParts(parts, budgets, cryptoPort);
   const contentTypes = parseContentTypes(parts['[Content_Types].xml'], budgets, cryptoPort);
   reasons.push(...relationships.reasons, ...contentTypes.reasons);
-  const authorityCarrier = analyzeAuthorityCarriers(input, parts, budgets, cryptoPort);
+  const authorityCarrier = analyzeAuthorityCarriers(input, parts, budgets, cryptoPort, budgetState);
   reasons.push(...authorityCarrier.reasons);
 
   const documentXml = rawString(parts['word/document.xml']);
-  const documentScan = parseXmlPart('word/document.xml', documentXml, budgets, cryptoPort);
+  const documentScan = parseXmlPart('word/document.xml', documentXml, budgets, cryptoPort, budgetState);
   reasons.push(...documentScan.diagnostics);
   const scans = {
     comments: {
       xml: rawString(parts['word/comments.xml']),
-      ...parseXmlPart('word/comments.xml', rawString(parts['word/comments.xml']), budgets, cryptoPort),
+      ...parseXmlPart('word/comments.xml', rawString(parts['word/comments.xml']), budgets, cryptoPort, budgetState),
     },
     commentsExtended: {
       xml: rawString(parts['word/commentsExtended.xml']),
-      ...parseXmlPart('word/commentsExtended.xml', rawString(parts['word/commentsExtended.xml']), budgets, cryptoPort),
+      ...parseXmlPart('word/commentsExtended.xml', rawString(parts['word/commentsExtended.xml']), budgets, cryptoPort, budgetState),
     },
     commentsIds: {
       xml: rawString(parts['word/commentsIds.xml']),
-      ...parseXmlPart('word/commentsIds.xml', rawString(parts['word/commentsIds.xml']), budgets, cryptoPort),
+      ...parseXmlPart('word/commentsIds.xml', rawString(parts['word/commentsIds.xml']), budgets, cryptoPort, budgetState),
     },
     commentsExtensible: {
       xml: rawString(parts['word/commentsExtensible.xml']),
-      ...parseXmlPart('word/commentsExtensible.xml', rawString(parts['word/commentsExtensible.xml']), budgets, cryptoPort),
+      ...parseXmlPart('word/commentsExtensible.xml', rawString(parts['word/commentsExtensible.xml']), budgets, cryptoPort, budgetState),
     },
     people: {
       xml: rawString(parts['word/people.xml']),
-      ...parseXmlPart('word/people.xml', rawString(parts['word/people.xml']), budgets, cryptoPort),
+      ...parseXmlPart('word/people.xml', rawString(parts['word/people.xml']), budgets, cryptoPort, budgetState),
     },
   };
 
   const opaqueUnsupported = [
     ...collectOpaqueUnsupportedParts(partNames),
-    ...collectUnsupportedElements(documentScan),
+    ...collectUnsupportedElements(documentScan, budgetState, reasons),
   ];
   for (const item of opaqueUnsupported) {
     reasons.push(reason('RTK_COMMENT_UNSUPPORTED', `opaque.${item.partName}.${item.elementName || item.kind}`, 'Unsupported OOXML surface is preserved as typed diagnostics.', {
@@ -1546,13 +1804,37 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
     };
   }
 
-  const textRevisions = parseTextRevisions(documentXml, documentScan, cryptoPort);
-  const moveRevisions = parseMoveRevisions(documentXml, documentScan, cryptoPort);
-  const propertyRevisions = parsePropertyRevisions(documentXml, documentScan);
-  const structureChanges = parseStructureChanges(documentScan);
-  const formattingDeltas = parseFormattingDeltas(documentXml, documentScan);
-  const comments = parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort);
+  const textRevisions = parseTextRevisions(documentXml, documentScan, cryptoPort, budgets, budgetState, reasons);
+  const moveRevisions = parseMoveRevisions(documentXml, documentScan, cryptoPort, budgetState, reasons);
+  const propertyRevisions = parsePropertyRevisions(documentXml, documentScan, budgetState, reasons);
+  const structureChanges = parseStructureChanges(documentScan, budgetState, reasons);
+  const formattingDeltas = parseFormattingDeltas(documentXml, documentScan, budgetState, reasons);
+  const comments = parseCommentThreads(input, documentXml, documentScan, scans, cryptoPort, budgetState);
   reasons.push(...comments.reasons);
+  const semanticBudgetBlocked = blockingReason(reasons);
+  if (semanticBudgetBlocked) {
+    return {
+      ok: false,
+      schemaVersion: RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA,
+      status: 'blocked',
+      code: semanticBudgetBlocked.code,
+      canWriteManuscript: false,
+      canApply: false,
+      sourceMode: 'CLEAN',
+      packageInventory: {
+        partNames,
+        relationships: relationships.relationships,
+        contentTypes: contentTypes.contentTypes,
+        authorityCarriers: authorityCarrier.carriers,
+        selectedAuthorityCarrier: authorityCarrier.selectedCarrier,
+        opaqueUnsupported,
+      },
+      authorityCarrier,
+      exactAuthority: authorityCarrier.exactAuthority,
+      reviewIr: emptyReviewIr(reasons),
+      reasons,
+    };
+  }
   if (moveRevisions.length > 0) {
     reasons.push(reason('RTK_BLOCKED_MOVE_REVISION', 'moveRevisions', 'Move revisions remain non-EXACT structural evidence.'));
   }
@@ -1678,6 +1960,26 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
       typedDiagnostic: item.typedDiagnostic,
     })),
   };
+  admitWorkerOutput(budgetState, reasons, 'analysis.semanticProjection', semanticProjection);
+  const outputBudgetBlocked = blockingReason(reasons);
+  if (outputBudgetBlocked) {
+    return {
+      ok: false,
+      schemaVersion: RTK_RETURNED_REVIEW_ANALYSIS_V2_SCHEMA,
+      status: 'blocked',
+      code: outputBudgetBlocked.code,
+      canWriteManuscript: false,
+      canApply: false,
+      sourceMode,
+      packageInventory,
+      commentGraphCapability,
+      authorityCarrier,
+      exactAuthority: authorityCarrier.exactAuthority,
+      reviewIr: emptyReviewIr(reasons),
+      parserProfile,
+      reasons,
+    };
+  }
   const supportedSemanticDigest = cryptoPort.sha256Json(semanticProjection);
   const parserProfileDigest = cryptoPort.sha256Json(parserProfile);
   const analysisDigest = cryptoPort.sha256Json({

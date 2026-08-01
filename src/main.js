@@ -4825,6 +4825,28 @@ function docxReviewReturnIntakeBlocked(reason, details = {}) {
   };
 }
 
+function docxReviewReturnIntakeMaxWorkerOutputBytes(input = {}) {
+  const value = Number(input?.budgets?.maxWorkerOutputBytes);
+  return Number.isSafeInteger(value) && value > 0 ? value : 16 * 1024 * 1024;
+}
+
+function docxReviewReturnIntakeWorkerResultWithinBudget(result, input = {}) {
+  const limit = docxReviewReturnIntakeMaxWorkerOutputBytes(input);
+  const actual = Buffer.byteLength(stableRtkReviewTransportJson(result), 'utf8');
+  if (actual <= limit) return { ok: true, actual, limit };
+  return {
+    ok: false,
+    actual,
+    limit,
+    blocked: docxReviewReturnIntakeBlocked('RTK_BUDGET_EXCEEDED', {
+      field: 'worker.result',
+      actual,
+      limit,
+      workerOutputBlocked: true,
+    }),
+  };
+}
+
 function sanitizeDocxReviewReturnIntakeForResult(intake = {}) {
   const parserResult = isPlainObjectValue(intake.parserResult) ? intake.parserResult : {};
   const selectedCarrier = isPlainObjectValue(parserResult.authorityCarrier?.selectedCarrier)
@@ -5026,6 +5048,18 @@ async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, rev
         const result = isPlainObjectValue(message?.result)
           ? message.result
           : docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_RESULT_INVALID');
+        const outputBudget = docxReviewReturnIntakeWorkerResultWithinBudget(result, input);
+        if (!outputBudget.ok) {
+          finish({
+            ...outputBudget.blocked,
+            utilityProcess: {
+              requiredForProduct: true,
+              attempted: true,
+              mode: 'electron-utility-process',
+            },
+          });
+          return;
+        }
         finish({
           ...result,
           utilityProcess: {

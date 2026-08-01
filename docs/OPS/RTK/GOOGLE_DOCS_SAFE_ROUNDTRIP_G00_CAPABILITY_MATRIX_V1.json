@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.google-docs.safe-roundtrip.g00-capability-matrix.v1",
   "taskId": "YALKEN_GOOGLE_DOCS_G00_DISCOVERY_BINDING",
-  "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
   "createdAtUtc": "2026-08-01T16:05:00.000Z",
   "originMainSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
   "localHeadSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
@@ -242,12 +242,35 @@
     "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
     "wordAcceptanceRevoked": true,
     "googleProductImplementationAllowed": false,
-    "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT"
+    "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT",
+    "activeTaskId": "YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+    "currentContour": "C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+    "currentContourStatus": "LOCAL_VERIFIED_PENDING_DELIVERY_CHAIN",
+    "currentBaseSha": "488a6873dbb02ef13ba8c201a27c2e3d73a477d7",
+    "c1Delivered": true,
+    "c2Delivered": true,
+    "c3LocalVerified": true,
+    "c4RequiredNext": true,
+    "c5RequiredAfterC4": true,
+    "wordAcceptanceRevokedUntilC1C5AndIndependentAudit": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "automaticApplyCertified": false,
+    "wordSaturated": false,
+    "vetoMetrics": {
+      "falseExact": 0,
+      "wrongSceneRouting": 0,
+      "silentApply": 0,
+      "replayFailure": 0,
+      "silentCommentLoss": 0,
+      "productNetwork": 0
+    },
+    "latestReceipt": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
+    "updatedAtUtc": "2026-08-01T15:16:23.540Z"
   },
   "wordSafetyRemediationV1": {
-    "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
-    "currentContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
+    "currentContour": "C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
     "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT",
     "c2FullLocalVerified": true,
     "c2FullLocalVerifiedAtUtc": "2026-08-01T15:01:51.259Z",
@@ -256,6 +279,20 @@
       "total": 799,
       "pass": 735,
       "skip": 64,
+      "fail": 0
+    },
+    "previousContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH",
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "c1Delivered": true,
+    "c2Delivered": true,
+    "c3LocalVerified": true,
+    "c3LocalVerifiedAtUtc": "2026-08-01T15:14:14.554Z",
+    "c3FocusedParserSuite": {
+      "command": "node --test rtk-word-safety-c3-parser-resource-envelope.contract.test.js rtk-word-latest-semantic-b02-package-parser.contract.test.js rtk-word-latest-semantic-b03-modern-comments.contract.test.js rtk-word-latest-semantic-b04-classifier.contract.test.js",
+      "total": 22,
+      "pass": 22,
       "fail": 0
     }
   }

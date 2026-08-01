@@ -1,0 +1,288 @@
+{
+  "schemaVersion": "yalken.atlas.v5.p1.domainEventIndependentAuditRepair.receipt.v1",
+  "taskId": "CONTROLLER_CORRECTION_ATLAS_EVENT_REPAIR_INDEPENDENT_AUDIT_HOLD",
+  "contourId": "P1_DOMAIN_EVENT_INDEPENDENT_AUDIT_REPAIR",
+  "priority": "P1_BOUNDED_REOPEN",
+  "status": "PASS_PENDING_DELIVERY_CHAIN",
+  "pass": true,
+  "programDoneClaim": false,
+  "supersedesWithoutDeleting": "YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR_RECEIPT.json",
+  "independentAudit": {
+    "auditorThread": "019fbdc1-f57e-7322-9df7-fb04f84d7fe1",
+    "auditedSha": "91a4dc9cc0d0b0d710811981eca2ecbbab2879da",
+    "verdict": "HOLD",
+    "openP0": 5,
+    "openP1": 2,
+    "openP2": 2,
+    "boundedRepairOnly": true
+  },
+  "sourceBinding": {
+    "headShaBeforeCommit": "1626db96727ae48a08ef4dac79f25e7a05e43fd0",
+    "originMainShaAtRepairRebind": "1626db96727ae48a08ef4dac79f25e7a05e43fd0",
+    "branch": "codex/yalken-atlas-v5-p1-domain-events-audit-repair",
+    "exactSourceHashes": {
+      "src/core/domainEvents.mjs": "3836ddab9c8caa8efb8a917641df2bfb2bddff3de7240772e1aa40af521c393b",
+      "src/core/runtime.mjs": "9726da13bf59077537a48f978720cb54144cfda8a430d32af18e0c9130ea8383",
+      "src/core/registry.ts": "020c24cd311c0be9b00dc6f3dd3d2dd7075f6989b7a3f357c1ffe7c6bc89d19f",
+      "src/core/contracts.ts": "21ecd0dfba4bc29633825be245c2bed901b857752a16dc66b879a4307e120f46",
+      "src/contracts/core-event.contract.ts": "82a797e58c79de28fceda03a32f20813b98599279a7b7782a90764af4e2791d3",
+      "src/collab/eventLog.mjs": "6420a00437c548f3bc5091a6d8d4a3f5752466cd80977ad1a368b2e07454b99d",
+      "src/collab/applyEventLog.mjs": "55126f6f20f892cd495bacb35bb3b18eb49acf2b1ae1020ff52d13447a2a3baf",
+      "src/product/stage10ProductWiring.mjs": "d64632cd7b15a877bd428616c09bbbfe415d52bfb136be74139fedd3bc04c4da",
+      "src/derived/atlas/atlasLocalGraphLayoutPlanner.mjs": "f365463cbff6cda1c980a54254bc6fc93090b4f2c79ce9344023ee3c377d66c6",
+      "src/derived/atlas/deriveAtlasSeriesPortabilityPreview.mjs": "12e9f9994ad1839050f17cfb70a27b81c89c7316ce032e7580da9a49af70bbc1",
+      "src/import/mindmap/v1/manualMapJsonRepeatImport.mjs": "2e53de0f5c8b99693569f7b5e4e9afbf927f59546208b4cf612256f00a428d3d",
+      "src/main.js": "16502c22c5083b0abd246a26f1a065c3870d78cfbb6acf0f4d8b42cc35a0b479",
+      "src/renderer/editor.bundle.js": "e2a3035e602e0864a77b802bf1f7966b12ff84314e6949623ffc271e1715dbb6",
+      "scripts/doctor.mjs": "df34cf9fbd692a425e13708cc4804c7ab7a67caef5ff8f726570caf897a2e5f5",
+      "docs/OPS/DOMAIN_EVENTS_BASELINE.json": "8b4598ab0205c7dbb4ef71d71bdafbab7b48670d99149305b60cb3503a93a755",
+      "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js": "9e244511868f4972893ebbc63bb39a1762cf30754cf7481294eabdbac9960f2d"
+    }
+  },
+  "frozenActionEnvelope": {
+    "type": "DOMAIN_EVENT_FACT_V1",
+    "immutable": true,
+    "dispatchableAsCommand": false,
+    "rpcOrHandlerAuthority": false,
+    "eventIdCatalog": "CORE_EVENT_IDS_V1",
+    "sourceBindingRequired": true,
+    "payloadSchema": "closed_event_specific_payload_v1",
+    "digest": "sha256_of_canonical_serialized_events"
+  },
+  "exactMappingTable": [
+    {
+      "eventType": "EntityCreated",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "project.create"
+      ]
+    },
+    {
+      "eventType": "EntityRenamed",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "project.updateTitle"
+      ]
+    },
+    {
+      "eventType": "EntityAliasAdded",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "project.updateMetadata"
+      ]
+    },
+    {
+      "eventType": "EntityAliasRemoved",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "project.updateMetadata"
+      ]
+    },
+    {
+      "eventType": "MentionEvidenceLinked",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "project.applyTextEdit",
+        "project.replaceTextRange",
+        "project.importText",
+        "project.addScene",
+        "atlas.entity.confirmMention"
+      ]
+    },
+    {
+      "eventType": "MentionEvidenceSuppressed",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "atlas.entity.suppressMention"
+      ]
+    },
+    {
+      "eventType": "EvidenceReassigned",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "atlas.entity.reassignEvidence"
+      ]
+    },
+    {
+      "eventType": "RelationCreated",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "atlas.relation.create"
+      ]
+    },
+    {
+      "eventType": "RelationUpdated",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "atlas.relation.update"
+      ]
+    },
+    {
+      "eventType": "RelationDeleted",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "atlas.relation.delete"
+      ]
+    },
+    {
+      "eventType": "ContinuityIssueRecorded",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "atlas.continuity.recordIssue"
+      ]
+    },
+    {
+      "eventType": "ContinuityIssueResolved",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "atlas.continuity.resolveIssue"
+      ]
+    },
+    {
+      "eventType": "ManualMapCreated",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "manualMap.create"
+      ]
+    },
+    {
+      "eventType": "ManualMapNodeAdded",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "manualMap.node.add"
+      ]
+    },
+    {
+      "eventType": "ManualMapNodePromoted",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "manualMap.node.add",
+        "manualMap.node.update"
+      ]
+    },
+    {
+      "eventType": "ManualMapEdgeAdded",
+      "boundary": "coreReducer",
+      "allowedSources": [
+        "manualMap.edge.add"
+      ]
+    },
+    {
+      "eventType": "ProjectionInvalidated",
+      "boundary": "projectionInvalidationPort",
+      "allowedSources": [
+        "system.projection.invalidate"
+      ]
+    },
+    {
+      "eventType": "SceneOrderChanged",
+      "boundary": "treeOrderPort",
+      "allowedSources": [
+        "system.tree.reorder"
+      ]
+    },
+    {
+      "eventType": "DerivedGenerationPublished",
+      "boundary": "atlasGraphLayoutPlanner",
+      "allowedSources": [
+        "system.derived.publish"
+      ]
+    },
+    {
+      "eventType": "DerivedGenerationRejectedAsStale",
+      "boundary": "atlasGraphLayoutPlanner",
+      "allowedSources": [
+        "system.derived.rejectStale"
+      ]
+    },
+    {
+      "eventType": "MigrationPrepared",
+      "boundary": "migrationPort",
+      "allowedSources": [
+        "system.migration.prepare"
+      ]
+    }
+  ],
+  "acceptance": {
+    "exactEventToBoundaryToSourceMapping": true,
+    "commandSequenceDomainValidated": true,
+    "hashFormatValidated": true,
+    "payloadSchemasClosedTopLevelAndNested": true,
+    "commandRpcActionHandlerWriteAuthorityRejected": true,
+    "factsClonedAndFrozen": true,
+    "immutableHistoricalAuthorityBaseline": "91a4dc9cc0d0b0d710811981eca2ecbbab2879da",
+    "coordinatedDeletionAndRenameFailClosed": true,
+    "realEmitters": [
+      "SceneOrderChanged",
+      "DerivedGenerationPublished",
+      "DerivedGenerationRejectedAsStale",
+      "MigrationPrepared"
+    ],
+    "commandKernelReceiptPropagation": true,
+    "stage10OperationPathPropagation": true,
+    "operationLogRemainsSoleJournal": true,
+    "noParallelEventStore": true,
+    "noUiStorageBypass": true,
+    "noNetworkIntroduced": true,
+    "noNewDependency": true,
+    "noUiRedesign": true
+  },
+  "checks": {
+    "syntax": {
+      "status": "PASS",
+      "summary": "node_check_domainEvents_runtime_collab_derived_import_doctor"
+    },
+    "focusedDomainEventAndCollab": {
+      "status": "PASS",
+      "command": "node --test domain-event contract plus collab event-log contracts",
+      "summary": "9_total_9_pass_0_fail"
+    },
+    "testOps": {
+      "status": "PASS",
+      "command": "npm run -s test:ops",
+      "summary": "STRICT_DOCTOR_EXIT_0_CURRENT_WAVE_STOP_CONDITION_OK_1"
+    },
+    "doctrine": {
+      "status": "PASS",
+      "command": "npm run -s design-os:doctrine",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1"
+    },
+    "ossPolicy": {
+      "status": "PASS",
+      "command": "npm run -s oss:policy",
+      "summary": "OSS policy OK"
+    },
+    "rendererBuild": {
+      "status": "PASS",
+      "command": "npm run build:renderer",
+      "summary": "dist renderer bundle rebuilt"
+    },
+    "fullRunner": {
+      "status": "PASS",
+      "command": "node scripts/run-tests.js",
+      "summary": "799_total_735_pass_0_fail_64_skipped_perf_PASS"
+    },
+    "perfBaseline": {
+      "status": "PASS",
+      "command": "npm run -s perf:baseline:check",
+      "summary": "openP95Ms_delta_-25.48_typeBurstP95Ms_delta_-2.188_saveP95Ms_delta_-6.264_reopenP95Ms_delta_-0.216_longTaskCount_0"
+    }
+  },
+  "delivery": {
+    "commit": "PENDING_DELIVERY_CHAIN",
+    "push": "PENDING_DELIVERY_CHAIN",
+    "pr": "PENDING_DELIVERY_CHAIN",
+    "ci": "PENDING_DELIVERY_CHAIN",
+    "merge": "PENDING_DELIVERY_CHAIN",
+    "remoteShaVerification": "PENDING_DELIVERY_CHAIN",
+    "postMergeChecks": "PENDING_DELIVERY_CHAIN"
+  },
+  "externalMutableState": {
+    "path": "/Users/kirillponomarev/Desktop/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5.md",
+    "stateRevisionAfterReopen": 154,
+    "executionStatusAfterReopen": "IN_PROGRESS_BOUNDED_P1_DOMAIN_EVENT_AUDIT_REPAIR",
+    "nextAfterDelivery": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT"
+  },
+  "observedAtUtc": "2026-08-01T15:11:58.656Z",
+  "nextContour": "FRESH_INDEPENDENT_EXACT_HEAD_AUDIT_AFTER_DOMAIN_EVENT_REPAIR"
+}

@@ -184,6 +184,7 @@ function capabilityEnabled(capabilitySnapshot, commandId) {
 }
 
 function createReceipt({ session, commandId, opId, ts, status, activation, preStateHash, postStateHash, storageWritten, details }) {
+  const detailEnvelope = isPlainObject(details) ? cloneJson(details) : {};
   return {
     receiptId: opId,
     operationId: opId,
@@ -200,7 +201,9 @@ function createReceipt({ session, commandId, opId, ts, status, activation, preSt
     visibleUiCommand: activation.visibleControl === true,
     directBridge: false,
     storageWritten: storageWritten === true,
-    details: isPlainObject(details) ? cloneJson(details) : {},
+    domainEvents: Array.isArray(detailEnvelope.domainEvents) ? cloneJson(detailEnvelope.domainEvents) : [],
+    domainEventDigest: normalizeString(detailEnvelope.domainEventDigest),
+    details: detailEnvelope,
   };
 }
 
@@ -407,6 +410,8 @@ async function dispatchCoreCommand({ session, storagePort, commandId, payload, a
     storageWritten: true,
     details: {
       eventLogHash: applied.eventLogHash,
+      domainEvents: applied.domainEvents,
+      domainEventDigest: applied.domainEventDigest,
       projectTruthMutation: true,
       commandKernel: true,
     },
@@ -739,6 +744,8 @@ async function dispatchExchangePrepare({ session, storagePort, commandId, payloa
     ts: event.ts,
     commandId: event.commandId,
     payloadHash: event.payloadHash,
+    domainEventDigest: event.domainEventDigest || '',
+    domainEventCount: Array.isArray(event.domainEvents) ? event.domainEvents.length : 0,
     dependsOn: index === 0 ? [] : [session.eventLog.events[index - 1].opId],
   }));
   const packet = buildTransportNeutralExchangePacket({

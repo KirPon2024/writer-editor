@@ -1,5 +1,9 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import {
+  buildMigrationPreparedEvent,
+  hashCoreDomainEvents,
+} from '../../core/domainEvents.mjs';
+import {
   ATLAS_CUSTOM_VOCABULARY_ROW_SCHEMA_VERSION,
   ATLAS_SERIES_IDENTITY_LINK_SCHEMA_VERSION,
   ATLAS_SERIES_PORTABILITY_COLLISION_SCHEMA_VERSION,
@@ -363,10 +367,26 @@ function buildSeriesPortabilityPreview({ coreState, projectId, params, meta }) {
     applyAllowed,
   };
   const previewHash = hashPreviewPlan(planBase);
+  const operationId = `atlas-series-portability:${previewHash}`;
+  const domainEvents = [
+    buildMigrationPreparedEvent({
+      projectId,
+      migrationId: operationId,
+      sourceSchemaVersion: 'atlas.author.v1',
+      targetSchemaVersion: 'atlas.author.v1',
+      commandSeq: Number.isSafeInteger(Number(coreState?.data?.lastCommandId))
+        ? Number(coreState.data.lastCommandId)
+        : 0,
+      previousStateHash: meta.coreStateHash,
+      nextStateHash: meta.coreStateHash,
+    }),
+  ];
   return {
     ...planBase,
     previewHash,
-    operationId: `atlas-series-portability:${previewHash}`,
+    operationId,
+    domainEvents,
+    domainEventDigest: hashCoreDomainEvents(domainEvents),
     applyInstructions: {
       commandId: APPLY_COMMAND_ID,
       rollbackCommandId: ROLLBACK_COMMAND_ID,
@@ -404,6 +424,7 @@ function buildSeriesPortabilityPreview({ coreState, projectId, params, meta }) {
       invalidationKey: meta.invalidationKey,
       coreStateHash: meta.coreStateHash,
       outputHashSeed: previewHash,
+      domainEventDigest: hashCoreDomainEvents(domainEvents),
     },
   };
 }

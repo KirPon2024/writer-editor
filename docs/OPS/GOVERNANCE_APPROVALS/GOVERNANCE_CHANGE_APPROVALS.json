@@ -4891,15 +4891,6 @@
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the existing-token declaration rebind for RECOVERY_HUMAN_READABLE_OK after the detector path was merged and proven green."
     },
     {
-      "filePath": "scripts/doctor.mjs",
-      "sha256": "0fa28e562d6df6c65e3b3bcce9bd44fd6fdd75d22347b7eaab5708b0977114b2",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
-      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
       "filePath": "scripts/ops/attestation-trust-lock-state.mjs",
       "sha256": "2b3600a3320b55b05078a82c585c177801a10230ba596e833b4806da363eefbd",
       "approvedBy": "ticket:TZ-P0-04-ATTESTATION-TRUST-LOCK-HARDENING-003",
@@ -6044,15 +6035,6 @@
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
-      "filePath": "src/core/runtime.mjs",
-      "sha256": "b6267a3d3f695274c83202569b8d9968bfdafb860234a25662eb02996c4452fd",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:42:00.000Z",
-      "rationale": "Rebind runtime core reducer bytes for bounded Atlas V5 P1 domain event emission repair; reducer returns observed facts in CoreReduceResult only, preserves command operation log as sole journal, adds no event store, no UI redesign, no network, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
       "sha256": "4d08126c47977dad707418e16e86af22e30762b3774e96066035f052f28f1a61",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C05_REAL_WORKER_AND_MEASURED_10K_BUDGET",
@@ -6364,25 +6346,11 @@
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
     },
     {
-      "filePath": "src/main.js",
-      "sha256": "f51069abf0b70fe7d7b1cb6c6c9109972577965d1c93671434a4691e14212af6",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
-      "rationale": "Approve bounded src/main.js transaction queue cleanup identity repair after full verification: map stores and cleans the queued tail promise, preventing per-project queue leak while preserving command, storage, network, and UI semantics."
-    },
-    {
       "filePath": "src/preload.js",
       "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "src/product/stage10ProductWiring.mjs",
-      "sha256": "29f11d6d111b3452e503c0ea86c21bdb1ba1057377bc4dbf976bb51fbd11d800",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
     },
     {
       "filePath": "src/renderer/commands/localCapabilityProvider.mjs",
@@ -6404,15 +6372,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
       "approvedAtUtc": "2026-08-01T06:03:00.000Z",
       "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "dc81a63f483af9b24e6802185a6ce321e8e66b589ba75658ccba1a397f15bbc7",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:46:00.000Z",
-      "rationale": "Rebind generated renderer bundle after bounded Atlas V5 P1 domain event contract repair renderer build; source change is core event contract emission only, no UI redesign, no network, no new dependency, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
     },
     {
       "filePath": "src/renderer/editor.js",
@@ -8604,15 +8563,6 @@
       "rationale": "Approve Night-01 C02 contracts that block final disposition on product runtime delta or missing executable no-open-P0 proof and prevent legacy EFINAL pass from acting alone."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "44aba96582114a03457006255a848e52ba0989ceb8339a044cbfa71fa81e1ca1",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
-      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",
       "sha256": "9bfeb492d0c05f9e42d41c94457986005e4fd19f74026c8d422773afbfba011e",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
@@ -8772,6 +8722,33 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "df34cf9fbd692a425e13708cc4804c7ab7a67caef5ff8f726570caf897a2e5f5",
+      "approvedBy": "owner:CONTROLLER_CORRECTION_ATLAS_EVENT_REPAIR_INDEPENDENT_AUDIT_HOLD",
+      "approvedAtUtc": "2026-08-01T18:10:00.000Z",
+      "rationale": "Approve bounded Atlas V5 domain-event independent audit repair: doctor now binds append-only event contracts to audited immutable authority and contract tests cover source mapping, closed payloads, real emitters, receipt propagation and negative false-green cases; no UI redesign, no network, no new dependency, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
+      "sha256": "9e244511868f4972893ebbc63bb39a1762cf30754cf7481294eabdbac9960f2d",
+      "approvedBy": "owner:CONTROLLER_CORRECTION_ATLAS_EVENT_REPAIR_INDEPENDENT_AUDIT_HOLD",
+      "approvedAtUtc": "2026-08-01T18:10:00.000Z",
+      "rationale": "Approve bounded Atlas V5 domain-event independent audit repair: doctor now binds append-only event contracts to audited immutable authority and contract tests cover source mapping, closed payloads, real emitters, receipt propagation and negative false-green cases; no UI redesign, no network, no new dependency, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_INDEPENDENT_AUDIT_REPAIR_RECEIPT.json",
+      "sha256": "d20765883c9d711fe43254cfbbb4f9017e8780aa53ce01b73c7c68e891a7784c",
+      "approvedBy": "owner:CONTROLLER_CORRECTION_ATLAS_EVENT_REPAIR_INDEPENDENT_AUDIT_HOLD",
+      "approvedAtUtc": "2026-08-01T18:20:00.000Z",
+      "rationale": "Approve append-only bounded Atlas V5 domain-event independent audit repair receipt: records strict mapping, closed payloads, immutable historical baseline, real emitter propagation, focused and full evidence, delivery pending, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
     }
   ]
 }

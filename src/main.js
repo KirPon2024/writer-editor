@@ -20503,6 +20503,29 @@ function getTreeParentNodeIdFromResolvedPath(parentPath, manifest) {
   return match ? match[0] : '';
 }
 
+function getTreeNodeIdsForOrderedEntries(parentPath, entries, manifest) {
+  if (!manifest || !manifest.treeIdentity || !parentPath || !Array.isArray(entries)) return [];
+  const projectRoot = getProjectRootPath();
+  const nodes = manifest.treeIdentity.nodes && typeof manifest.treeIdentity.nodes === 'object'
+    ? manifest.treeIdentity.nodes
+    : {};
+  const byBindingKey = new Map();
+  for (const [nodeId, record] of Object.entries(nodes)) {
+    if (
+      typeof nodeId === 'string'
+      && record
+      && typeof record === 'object'
+      && record.present !== false
+      && typeof record.bindingKey === 'string'
+    ) {
+      byBindingKey.set(record.bindingKey, nodeId);
+    }
+  }
+  return entries
+    .map((entry) => byBindingKey.get(toProjectTreeBindingKey(projectRoot, entry.path)) || '')
+    .filter((nodeId) => typeof nodeId === 'string' && nodeId.trim());
+}
+
 async function buildImportedRomanTree(romanPath) {
   const importedPath = joinPathSegmentsWithinRoot(romanPath, ['Imported'], {
     resolveSymlinks: false,
@@ -22562,6 +22585,7 @@ async function handleUiReorderNodeCommand(payload) {
 
   const parentPath = path.dirname(nodePath);
   const entries = await readDirectoryEntries(parentPath);
+  const sceneIdsBefore = getTreeNodeIdsForOrderedEntries(parentPath, entries, resolvedNode.manifest);
   const index = entries.findIndex((entry) => entry.path === nodePath);
   if (index === -1) {
     return { ok: false, error: 'Node not found' };
@@ -22579,7 +22603,30 @@ async function handleUiReorderNodeCommand(payload) {
     targetIndex,
   });
   if (!moveResult || moveResult.ok !== true) return moveResult;
-  return { ok: true, nodeId: resolvedNode.nodeId };
+  const { manifest } = await ensureProjectManifest(DEFAULT_PROJECT_NAME);
+  const entriesAfter = await readDirectoryEntries(parentPath);
+  const sceneIdsAfter = getTreeNodeIdsForOrderedEntries(parentPath, entriesAfter, manifest);
+  if (sceneIdsAfter.length > 0) {
+    try {
+      const runtime = await loadCoreRuntimeModule();
+      const event = runtime.buildSceneOrderChangedEvent({
+        projectId: resolvedNode.projectId,
+        sceneIds: sceneIdsAfter,
+        commandSeq: Math.max(0, targetIndex),
+        previousStateHash: computeHash(JSON.stringify(sceneIdsBefore)),
+        nextStateHash: computeHash(JSON.stringify(sceneIdsAfter)),
+      });
+      return {
+        ok: true,
+        nodeId: resolvedNode.nodeId,
+        events: [event],
+        domainEventDigest: runtime.hashCoreDomainEvents([event]),
+      };
+    } catch (error) {
+      logDevError('scene-order-domain-event', error);
+    }
+  }
+  return { ok: true, nodeId: resolvedNode.nodeId, events: [], domainEventDigest: '' };
 }
 
 ipcMain.handle('ui:reorder-node', async (_, payload) => {
@@ -24563,6 +24610,29 @@ async function handleManualMapImportJsonRepeatProductCommand(binding, payload, r
 
   const unchanged = await assertProductCommandManifestUnchanged(binding, manifestHashBefore, commandId, record);
   if (!unchanged.ok) return unchanged.error;
+  const domainEvents = Array.isArray(imported.value.domainEvents) ? cloneJsonSafe(imported.value.domainEvents) || [] : [];
+  let domainEventDigest = '';
+  try {
+    domainEventDigest = typeof runtime.hashCoreDomainEvents === 'function'
+      ? runtime.hashCoreDomainEvents(domainEvents)
+      : computeHash(JSON.stringify(domainEvents));
+  } catch (error) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_PRODUCT_COMMAND_DOMAIN_EVENT_INVALID',
+      'PRODUCT_COMMAND_DOMAIN_EVENT_INVALID',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        projectId: binding.projectId,
+        mapId: targetMapId,
+        mutationApplied: false,
+        storageWritten: false,
+        domainEventError: error && typeof error.message === 'string' ? error.message : 'DOMAIN_EVENT_INVALID',
+      },
+    );
+  }
   const recovery = await createProjectLifecycleRecovery(
     {
       projectId: binding.projectId,
@@ -24596,6 +24666,8 @@ async function handleManualMapImportJsonRepeatProductCommand(binding, payload, r
     runtimeBacked: record.runtimeBacked === true,
     projectId: binding.projectId,
     mapId: targetMapId,
+    domainEvents,
+    domainEventDigest,
     mutationApplied: true,
     storageWritten: true,
     manifestWritten: true,
@@ -24622,6 +24694,7 @@ async function handleManualMapImportJsonRepeatProductCommand(binding, payload, r
     import: {
       commandPlanHash: imported.value.commandPlanHash || '',
       appliedCommandCount: imported.value.appliedCommandCount || 0,
+      domainEventDigest,
       expectedGraphHash: imported.value.expectedGraphHash || '',
       actualGraphHash: imported.value.actualGraphHash || '',
       repeatExportGraphHash: imported.value.repeatExportGraphHash || '',
@@ -24778,6 +24851,28 @@ async function dispatchProductCommandBridgeTransaction(commandId, payload, recor
       },
     );
   }
+  const domainEvents = Array.isArray(reduced.events) ? cloneJsonSafe(reduced.events) || [] : [];
+  let domainEventDigest = '';
+  try {
+    domainEventDigest = typeof runtime.hashCoreDomainEvents === 'function'
+      ? runtime.hashCoreDomainEvents(domainEvents)
+      : computeHash(JSON.stringify(domainEvents));
+  } catch (error) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_PRODUCT_COMMAND_DOMAIN_EVENT_INVALID',
+      'PRODUCT_COMMAND_DOMAIN_EVENT_INVALID',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        projectId: binding.projectId,
+        mutationApplied: false,
+        storageWritten: false,
+        domainEventError: error && typeof error.message === 'string' ? error.message : 'DOMAIN_EVENT_INVALID',
+      },
+    );
+  }
 
   const nextProject = reduced.state?.data?.projects?.[binding.projectId];
   if (!isPlainObjectValue(nextProject)) {
@@ -24830,6 +24925,8 @@ async function dispatchProductCommandBridgeTransaction(commandId, payload, recor
     domain: record.domain,
     runtimeBacked: record.runtimeBacked === true,
     projectId: binding.projectId,
+    domainEvents,
+    domainEventDigest,
     mutationApplied: true,
     storageWritten: true,
     manifestWritten: true,
@@ -24844,6 +24941,7 @@ async function dispatchProductCommandBridgeTransaction(commandId, payload, recor
       commandSeqAfter: Number(reduced.state?.data?.lastCommandId || 0),
       transactionSerialized: true,
       revisionConflictDetected: false,
+      domainEventDigest,
     },
     recovery: {
       snapshotCreated: recovery.snapshotCreated === true,

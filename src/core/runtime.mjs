@@ -1,5 +1,10 @@
 import { hashCanonicalValue } from './browser-safe-hash.mjs';
 import { emitCoreDomainEventsForCommandResult } from './domainEvents.mjs';
+export {
+  buildSceneOrderChangedEvent,
+  hashCoreDomainEvents,
+  serializeCoreDomainEvents,
+} from './domainEvents.mjs';
 
 export const CORE_COMMAND_IDS = Object.freeze({
   PROJECT_CREATE: 'project.create',
@@ -326,12 +331,18 @@ function attachDomainEventsToCoreResult(previousState, command, result) {
       events: [],
     };
   }
+  const previousStateHash = hashCoreState(previousState);
+  const nextStateHash = typeof result.stateHash === 'string' && result.stateHash.trim()
+    ? result.stateHash
+    : hashCoreState(result.state);
   return {
     ...result,
     events: emitCoreDomainEventsForCommandResult({
       previousState,
+      previousStateHash,
       command,
       result,
+      nextStateHash,
     }),
   };
 }

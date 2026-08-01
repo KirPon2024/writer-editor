@@ -1,5 +1,6 @@
 import { hashCanonicalValue } from '../../../derived/deriveView.mjs';
 import { deriveManualMapGraph } from '../../../derived/mindmap/deriveManualMapGraph.mjs';
+import { hashCoreDomainEvents } from '../../../core/domainEvents.mjs';
 import {
   MANUAL_MAP_EXPORT_FORMAT,
   MANUAL_MAP_EXPORT_SCHEMA_VERSION,
@@ -613,11 +614,14 @@ function normalizeCommandReceipt(result, command, commandIndex) {
   const stateHash = normalizeText(result?.stateHash) || (
     isPlainObject(result?.state) ? hashCanonicalValue(result.state) : ''
   );
+  const domainEvents = Array.isArray(result?.events) ? result.events.map(cloneJson) : [];
   return {
     commandIndex,
     commandType: normalizeText(command.type),
     ok: result?.ok === true,
     stateHash,
+    domainEvents,
+    domainEventDigest: hashCoreDomainEvents(domainEvents),
   };
 }
 
@@ -755,6 +759,8 @@ export async function applyManualMapJsonRepeatImportViaCommandKernel(input = {})
     });
   }
 
+  const domainEvents = commandReceipts.flatMap((receiptEntry) => receiptEntry.domainEvents);
+  const domainEventDigest = hashCoreDomainEvents(domainEvents);
   const receipt = {
     schemaVersion: MANUAL_MAP_JSON_REPEAT_IMPORT_RECEIPT_SCHEMA_VERSION,
     projectId: normalized.value.targetProjectId,
@@ -765,6 +771,8 @@ export async function applyManualMapJsonRepeatImportViaCommandKernel(input = {})
     commandPlanHash: plan.value.meta.planHash,
     appliedCommandCount: commandReceipts.length,
     commandReceipts,
+    domainEvents,
+    domainEventDigest,
     expectedGraphHash: normalized.value.targetGraphHash,
     actualGraphHash,
     repeatExportGraphHash: repeatGraphHash,

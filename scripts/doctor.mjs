@@ -27,6 +27,29 @@ const DEFAULT_FULL_POLICY_NO_DUPLICATION_PATH = 'docs/OPS/STATUS/FULL_POLICY_NO_
 const DEFAULT_SECOND_ENTRYPOINT_PATH = 'docs/CRAFTSMAN.md';
 const ATLAS_V5_PLAN_EXTENSION_ID = 'YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5';
 const ATLAS_V5_PLAN_BINDING_PATH = 'docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json';
+const DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_COMMIT = '91a4dc9cc0d0b0d710811981eca2ecbbab2879da';
+const DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_DIGEST = '8b4598ab0205c7dbb4ef71d71bdafbab7b48670d99149305b60cb3503a93a755';
+const DOMAIN_EVENTS_IMMUTABLE_EVENT_IDS = Object.freeze([
+  'SceneChanged',
+  'SceneOrderChanged',
+  'EntityCreated',
+  'EntityMerged',
+  'EntitySplit',
+  'AliasChanged',
+  'MapChanged',
+  'MapNodePromoted',
+  'DecisionCommitted',
+  'CalendarChanged',
+  'TimeRangeChanged',
+  'ContinuityDecisionCommitted',
+  'ProjectionInvalidated',
+  'DerivedGenerationPublished',
+  'DerivedGenerationRejectedAsStale',
+  'LanguageCapabilityChanged',
+  'MigrationPrepared',
+  'MigrationCommitted',
+  'MigrationRolledBack',
+]);
 
 const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || DEFAULT_SECTOR_U_STATUS_PATH;
 const SECTOR_M_STATUS_PATH = process.env.SECTOR_M_STATUS_PATH || DEFAULT_SECTOR_M_STATUS_PATH;
@@ -2027,6 +2050,55 @@ function checkEventsAppendOnly(matrixMode, debtRegistry) {
 
   const violations = [];
 
+  const readHistoricalAuthority = () => {
+    const fallback = {
+      ok: true,
+      ids: [...DOMAIN_EVENTS_IMMUTABLE_EVENT_IDS],
+      digest: DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_DIGEST,
+      source: 'embedded-authority-fallback',
+    };
+    const result = spawnSync(
+      'git',
+      ['show', `${DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_COMMIT}:${baselinePath}`],
+      { encoding: 'utf8' },
+    );
+    if (result.status !== 0 || typeof result.stdout !== 'string' || !result.stdout.trim()) {
+      return fallback;
+    }
+    const digest = createHash('sha256').update(result.stdout, 'utf8').digest('hex');
+    if (digest !== DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_DIGEST) {
+      return {
+        ok: false,
+        ids: [...DOMAIN_EVENTS_IMMUTABLE_EVENT_IDS],
+        digest,
+        source: 'git-history',
+        violation: 'DOMAIN_EVENTS_AUTHORITY_DIGEST_MISMATCH',
+      };
+    }
+    try {
+      const parsed = JSON.parse(result.stdout);
+      const ids = Array.isArray(parsed.events)
+        ? parsed.events
+          .map((event) => (event && typeof event.eventId === 'string' ? event.eventId : ''))
+          .filter(Boolean)
+        : [];
+      return {
+        ok: ids.length > 0,
+        ids: ids.length > 0 ? ids : [...DOMAIN_EVENTS_IMMUTABLE_EVENT_IDS],
+        digest,
+        source: 'git-history',
+      };
+    } catch {
+      return {
+        ok: false,
+        ids: [...DOMAIN_EVENTS_IMMUTABLE_EVENT_IDS],
+        digest,
+        source: 'git-history',
+        violation: 'DOMAIN_EVENTS_AUTHORITY_PARSE_FAILED',
+      };
+    }
+  };
+
   const baseline = readJson(baselinePath);
   if (!baseline || typeof baseline !== 'object' || Array.isArray(baseline)) {
     die('ERR_DOCTOR_INVALID_SHAPE', baselinePath, 'top_level_must_be_object');
@@ -2043,6 +2115,10 @@ function checkEventsAppendOnly(matrixMode, debtRegistry) {
 
   const baselineEventIds = [];
   const seen = new Set();
+  const historicalAuthority = readHistoricalAuthority();
+  if (!historicalAuthority.ok) {
+    violations.push({ eventId: historicalAuthority.violation || 'DOMAIN_EVENTS_AUTHORITY_INVALID' });
+  }
 
   for (let i = 0; i < baseline.events.length; i += 1) {
     const item = baseline.events[i];
@@ -2107,6 +2183,16 @@ function checkEventsAppendOnly(matrixMode, debtRegistry) {
 
   if (hasWildcardType) {
     violations.push({ eventId: 'PUBLIC_CORE_EVENT_WILDCARD_TYPE' });
+  }
+
+  const baselineIdSet = new Set(baselineEventIds);
+  for (const eventId of historicalAuthority.ids) {
+    if (!baselineIdSet.has(eventId)) {
+      violations.push({ eventId: `DOMAIN_EVENTS_BASELINE_REMOVED:${eventId}` });
+    }
+    if (!currentIds.has(eventId)) {
+      violations.push({ eventId: `DOMAIN_EVENTS_CONTRACT_REMOVED:${eventId}` });
+    }
   }
 
   for (const eventId of baselineEventIds) {

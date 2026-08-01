@@ -1,17 +1,69 @@
 export type CoreEventSchemaVersion = "core.event.v1"
 export type CoreEventFactKind = "OBSERVED_FACT"
 
+export type CoreEventEmissionBoundary =
+  | "coreReducer"
+  | "sceneOrderProjection"
+  | "manualMapPromotionCommand"
+  | "projectionInvalidationPort"
+  | "derivedProjectionWorker"
+  | "migrationPreviewAdapter"
+
+export type CoreEventReducerCommandType =
+  | "project.create"
+  | "project.applyTextEdit"
+  | "atlas.entity.create"
+  | "atlas.alias.add"
+  | "atlas.mention.confirm"
+  | "atlas.observation.suppress"
+  | "atlas.entity.merge"
+  | "atlas.entity.splitRestore"
+  | "atlas.observation.reassign"
+  | "atlas.evidence.reattach"
+  | "atlas.savedQuery.save"
+  | "atlas.languageTag.set"
+  | "atlas.languageTag.clear"
+  | "atlas.seriesPortability.apply"
+  | "atlas.seriesPortability.rollback"
+  | "atlas.calendar.define"
+  | "atlas.sceneTemporalAnchor.set"
+  | "atlas.continuityFact.record"
+  | "idea.create"
+  | "idea.originLink.add"
+  | "meaning.promote"
+  | "manualMap.create"
+  | "manualMap.node.add"
+  | "manualMap.node.update"
+  | "manualMap.node.delete"
+  | "manualMap.edge.add"
+  | "manualMap.edge.update"
+  | "manualMap.edge.delete"
+  | "manualMap.group.create"
+  | "manualMap.group.update"
+  | "manualMap.group.delete"
+  | "manualMap.attachment.add"
+  | "manualMap.portal.add"
+  | "manualMap.template.apply"
+
+export type CoreEventSystemSourceType =
+  | "system.sceneOrder.publish"
+  | "system.projection.invalidate"
+  | "system.derived.publish"
+  | "system.derived.rejectStale"
+  | "system.migration.prepare"
+  | "manualMap.node.promote"
+
+export type CoreEventSourceCommandType =
+  | CoreEventReducerCommandType
+  | CoreEventSystemSourceType
+
 export type CoreEventSourceBinding = {
-  boundary:
-    | "coreReducer"
-    | "sceneOrderProjection"
-    | "manualMapPromotionCommand"
-    | "derivedProjectionWorker"
-    | "migrationPreviewAdapter"
-  commandType: string
+  boundary: CoreEventEmissionBoundary
+  commandType: CoreEventSourceCommandType
   commandSeq: number
   previousStateHash: string
   nextStateHash: string
+  causedByCommandType?: CoreEventReducerCommandType
 }
 
 export type SceneChangedEvent = {

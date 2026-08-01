@@ -2,6 +2,44 @@ import { canonicalSerialize, hashCanonicalValue } from './browser-safe-hash.mjs'
 
 export const CORE_EVENT_SCHEMA_VERSION = 'core.event.v1';
 export const CORE_EVENT_FACT_KIND = 'OBSERVED_FACT';
+export const CORE_EVENT_EMPTY_DIGEST = hashCanonicalValue([]);
+
+const SHA256_HEX_RE = /^[0-9a-f]{64}$/u;
+const CORE_EVENT_TOP_LEVEL_KEYS = Object.freeze([
+  'schemaVersion',
+  'type',
+  'factKind',
+  'sourceBinding',
+  'payload',
+]);
+const CORE_EVENT_SOURCE_BINDING_KEYS = Object.freeze([
+  'boundary',
+  'commandType',
+  'commandSeq',
+  'previousStateHash',
+  'nextStateHash',
+  'causedByCommandType',
+]);
+const PAYLOAD_FORBIDDEN_AUTHORITY_KEYS = Object.freeze([
+  'action',
+  'actions',
+  'bridge',
+  'command',
+  'commandId',
+  'commands',
+  'commandType',
+  'dispatch',
+  'dispatcher',
+  'executor',
+  'handler',
+  'handlers',
+  'ipc',
+  'ipcRenderer',
+  'kernel',
+  'rpc',
+  'storage',
+  'writeAuthority',
+]);
 
 export const CORE_EVENT_IDS = Object.freeze({
   SCENE_CHANGED: 'SceneChanged',
@@ -40,7 +78,7 @@ export const CORE_EVENT_EMISSION_BOUNDARIES = Object.freeze({
   [CORE_EVENT_IDS.CALENDAR_CHANGED]: 'coreReducer',
   [CORE_EVENT_IDS.TIME_RANGE_CHANGED]: 'coreReducer',
   [CORE_EVENT_IDS.CONTINUITY_DECISION_COMMITTED]: 'coreReducer',
-  [CORE_EVENT_IDS.PROJECTION_INVALIDATED]: 'coreReducer',
+  [CORE_EVENT_IDS.PROJECTION_INVALIDATED]: 'projectionInvalidationPort',
   [CORE_EVENT_IDS.DERIVED_GENERATION_PUBLISHED]: 'derivedProjectionWorker',
   [CORE_EVENT_IDS.DERIVED_GENERATION_REJECTED_AS_STALE]: 'derivedProjectionWorker',
   [CORE_EVENT_IDS.LANGUAGE_CAPABILITY_CHANGED]: 'coreReducer',
@@ -86,6 +124,115 @@ const CORE_REDUCER_COMMANDS = Object.freeze({
   MANUAL_MAP_TEMPLATE_APPLY: 'manualMap.template.apply',
 });
 
+export const CORE_EVENT_SYSTEM_SOURCE_TYPES = Object.freeze({
+  SCENE_ORDER_PUBLISH: 'system.sceneOrder.publish',
+  PROJECTION_INVALIDATE: 'system.projection.invalidate',
+  DERIVED_PUBLISH: 'system.derived.publish',
+  DERIVED_REJECT_STALE: 'system.derived.rejectStale',
+  MIGRATION_PREPARE: 'system.migration.prepare',
+  MANUAL_MAP_NODE_PROMOTE: 'manualMap.node.promote',
+});
+
+function freezeRule(boundary, commandTypes, causedByCommandTypes = [], minCommandSeq = 1) {
+  return Object.freeze({
+    boundary,
+    commandTypes: Object.freeze([...commandTypes]),
+    causedByCommandTypes: Object.freeze([...causedByCommandTypes]),
+    minCommandSeq,
+  });
+}
+
+export const CORE_EVENT_SOURCE_RULES = Object.freeze({
+  [CORE_EVENT_IDS.SCENE_CHANGED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.PROJECT_CREATE,
+    CORE_REDUCER_COMMANDS.PROJECT_APPLY_TEXT_EDIT,
+  ]),
+  [CORE_EVENT_IDS.SCENE_ORDER_CHANGED]: freezeRule('sceneOrderProjection', [
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.SCENE_ORDER_PUBLISH,
+  ], [], 0),
+  [CORE_EVENT_IDS.ENTITY_CREATED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_ENTITY_CREATE,
+  ]),
+  [CORE_EVENT_IDS.ENTITY_MERGED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_ENTITY_MERGE,
+  ]),
+  [CORE_EVENT_IDS.ENTITY_SPLIT]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_ENTITY_SPLIT_RESTORE,
+  ]),
+  [CORE_EVENT_IDS.ALIAS_CHANGED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_ALIAS_ADD,
+  ]),
+  [CORE_EVENT_IDS.MAP_CHANGED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_CREATE,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_NODE_ADD,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_NODE_UPDATE,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_NODE_DELETE,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_EDGE_ADD,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_EDGE_UPDATE,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_EDGE_DELETE,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_GROUP_CREATE,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_GROUP_UPDATE,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_GROUP_DELETE,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_ATTACHMENT_ADD,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_PORTAL_ADD,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_TEMPLATE_APPLY,
+  ]),
+  [CORE_EVENT_IDS.MAP_NODE_PROMOTED]: freezeRule('manualMapPromotionCommand', [
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.MANUAL_MAP_NODE_PROMOTE,
+  ], [
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_NODE_ADD,
+    CORE_REDUCER_COMMANDS.MANUAL_MAP_NODE_UPDATE,
+  ]),
+  [CORE_EVENT_IDS.DECISION_COMMITTED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_MENTION_CONFIRM,
+    CORE_REDUCER_COMMANDS.ATLAS_OBSERVATION_SUPPRESS,
+    CORE_REDUCER_COMMANDS.ATLAS_OBSERVATION_REASSIGN,
+    CORE_REDUCER_COMMANDS.ATLAS_EVIDENCE_REATTACH,
+  ]),
+  [CORE_EVENT_IDS.CALENDAR_CHANGED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_CALENDAR_DEFINE,
+  ]),
+  [CORE_EVENT_IDS.TIME_RANGE_CHANGED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_SCENE_TEMPORAL_ANCHOR_SET,
+  ]),
+  [CORE_EVENT_IDS.CONTINUITY_DECISION_COMMITTED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_CONTINUITY_FACT_RECORD,
+  ]),
+  [CORE_EVENT_IDS.PROJECTION_INVALIDATED]: freezeRule('projectionInvalidationPort', [
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.PROJECTION_INVALIDATE,
+  ], Object.values(CORE_REDUCER_COMMANDS)),
+  [CORE_EVENT_IDS.DERIVED_GENERATION_PUBLISHED]: freezeRule('derivedProjectionWorker', [
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.DERIVED_PUBLISH,
+  ], [], 0),
+  [CORE_EVENT_IDS.DERIVED_GENERATION_REJECTED_AS_STALE]: freezeRule('derivedProjectionWorker', [
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.DERIVED_REJECT_STALE,
+  ], [], 0),
+  [CORE_EVENT_IDS.LANGUAGE_CAPABILITY_CHANGED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_LANGUAGE_TAG_SET,
+    CORE_REDUCER_COMMANDS.ATLAS_LANGUAGE_TAG_CLEAR,
+  ]),
+  [CORE_EVENT_IDS.MIGRATION_PREPARED]: freezeRule('migrationPreviewAdapter', [
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.MIGRATION_PREPARE,
+  ], [], 0),
+  [CORE_EVENT_IDS.MIGRATION_COMMITTED]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_SERIES_PORTABILITY_APPLY,
+  ]),
+  [CORE_EVENT_IDS.MIGRATION_ROLLED_BACK]: freezeRule('coreReducer', [
+    CORE_REDUCER_COMMANDS.ATLAS_SERIES_PORTABILITY_ROLLBACK,
+  ]),
+});
+
+export const CORE_EVENT_RUNTIME_CATALOG = Object.freeze(
+  CORE_EVENT_ID_LIST.map((eventId) => Object.freeze({
+    eventId,
+    schemaVersion: CORE_EVENT_SCHEMA_VERSION,
+    factKind: CORE_EVENT_FACT_KIND,
+    boundary: CORE_EVENT_SOURCE_RULES[eventId].boundary,
+    commandTypes: CORE_EVENT_SOURCE_RULES[eventId].commandTypes,
+    causedByCommandTypes: CORE_EVENT_SOURCE_RULES[eventId].causedByCommandTypes,
+  })),
+);
+
 const PROJECTION_KINDS = Object.freeze([
   'atlas',
   'manualMap',
@@ -96,8 +243,72 @@ const PROJECTION_KINDS = Object.freeze([
   'continuity',
 ]);
 
+const CORE_EVENT_PAYLOAD_KEYS = Object.freeze({
+  [CORE_EVENT_IDS.SCENE_CHANGED]: Object.freeze(['projectId', 'sceneId', 'changeKind']),
+  [CORE_EVENT_IDS.SCENE_ORDER_CHANGED]: Object.freeze(['projectId', 'sceneIds', 'changeKind']),
+  [CORE_EVENT_IDS.ENTITY_CREATED]: Object.freeze(['projectId', 'entityId', 'entityKind', 'name']),
+  [CORE_EVENT_IDS.ENTITY_MERGED]: Object.freeze(['projectId', 'sourceEntityId', 'targetEntityId', 'operationId']),
+  [CORE_EVENT_IDS.ENTITY_SPLIT]: Object.freeze(['projectId', 'operationId', 'restoreOperationId']),
+  [CORE_EVENT_IDS.ALIAS_CHANGED]: Object.freeze(['projectId', 'entityId', 'aliasId', 'changeKind']),
+  [CORE_EVENT_IDS.MAP_CHANGED]: Object.freeze(['projectId', 'mapId', 'changeKind']),
+  [CORE_EVENT_IDS.MAP_NODE_PROMOTED]: Object.freeze(['projectId', 'mapId', 'nodeId', 'targetKind', 'targetId', 'promotionKind']),
+  [CORE_EVENT_IDS.DECISION_COMMITTED]: Object.freeze(['projectId', 'decisionKind', 'decisionId', 'subjectId']),
+  [CORE_EVENT_IDS.CALENDAR_CHANGED]: Object.freeze(['projectId', 'calendarId', 'changeKind']),
+  [CORE_EVENT_IDS.TIME_RANGE_CHANGED]: Object.freeze(['projectId', 'sceneId', 'anchorId', 'changeKind']),
+  [CORE_EVENT_IDS.CONTINUITY_DECISION_COMMITTED]: Object.freeze(['projectId', 'ledgerKind', 'factId', 'subjectEntityId']),
+  [CORE_EVENT_IDS.PROJECTION_INVALIDATED]: Object.freeze(['projectId', 'projectionKinds', 'reason']),
+  [CORE_EVENT_IDS.DERIVED_GENERATION_PUBLISHED]: Object.freeze(['projectId', 'generationId', 'projectionKind', 'sourceRevision']),
+  [CORE_EVENT_IDS.DERIVED_GENERATION_REJECTED_AS_STALE]: Object.freeze(['projectId', 'generationId', 'projectionKind', 'sourceRevision', 'currentRevision']),
+  [CORE_EVENT_IDS.LANGUAGE_CAPABILITY_CHANGED]: Object.freeze(['projectId', 'scopeKind', 'tagId', 'changeKind']),
+  [CORE_EVENT_IDS.MIGRATION_PREPARED]: Object.freeze(['projectId', 'migrationId', 'sourceSchemaVersion', 'targetSchemaVersion']),
+  [CORE_EVENT_IDS.MIGRATION_COMMITTED]: Object.freeze(['projectId', 'migrationId', 'sourceSchemaVersion', 'targetSchemaVersion']),
+  [CORE_EVENT_IDS.MIGRATION_ROLLED_BACK]: Object.freeze(['projectId', 'migrationId', 'rollbackOperationId']),
+});
+
 function isObjectRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function deepFreeze(value) {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    Object.freeze(value);
+    for (const item of Object.values(value)) {
+      deepFreeze(item);
+    }
+  }
+  return value;
+}
+
+function cloneAndFreeze(value) {
+  return deepFreeze(cloneJson(value));
+}
+
+function objectKeysClosed(value, allowedKeys) {
+  if (!isObjectRecord(value)) return false;
+  const allowed = new Set(allowedKeys);
+  return Object.keys(value).every((key) => allowed.has(key));
+}
+
+function containsForbiddenAuthorityKey(value) {
+  if (Array.isArray(value)) return value.some((item) => containsForbiddenAuthorityKey(item));
+  if (!isObjectRecord(value)) return false;
+  for (const key of Object.keys(value)) {
+    if (PAYLOAD_FORBIDDEN_AUTHORITY_KEYS.includes(key)) return true;
+    if (containsForbiddenAuthorityKey(value[key])) return true;
+  }
+  return false;
+}
+
+function requiredHash(value) {
+  return SHA256_HEX_RE.test(text(value));
+}
+
+function nonNegativeSafeInteger(value) {
+  return Number.isSafeInteger(value) && value >= 0;
 }
 
 function text(value) {
@@ -181,12 +392,12 @@ const PAYLOAD_VALIDATORS = Object.freeze({
   [CORE_EVENT_IDS.DERIVED_GENERATION_PUBLISHED]: (payload) => requiredString(payload, 'projectId')
     && requiredString(payload, 'generationId')
     && requiredString(payload, 'projectionKind')
-    && Number.isSafeInteger(payload.sourceRevision),
+    && nonNegativeSafeInteger(payload.sourceRevision),
   [CORE_EVENT_IDS.DERIVED_GENERATION_REJECTED_AS_STALE]: (payload) => requiredString(payload, 'projectId')
     && requiredString(payload, 'generationId')
     && requiredString(payload, 'projectionKind')
-    && Number.isSafeInteger(payload.sourceRevision)
-    && Number.isSafeInteger(payload.currentRevision),
+    && nonNegativeSafeInteger(payload.sourceRevision)
+    && nonNegativeSafeInteger(payload.currentRevision),
   [CORE_EVENT_IDS.LANGUAGE_CAPABILITY_CHANGED]: (payload) => requiredString(payload, 'projectId')
     && requiredString(payload, 'scopeKind')
     && requiredString(payload, 'tagId')
@@ -208,24 +419,38 @@ export function isCoreDomainEventType(type) {
   return CORE_EVENT_ID_LIST.includes(type);
 }
 
-function validateSourceBinding(sourceBinding) {
-  return isObjectRecord(sourceBinding)
-    && Object.values(CORE_EVENT_EMISSION_BOUNDARIES).includes(sourceBinding.boundary)
-    && requiredString(sourceBinding, 'commandType')
-    && Number.isSafeInteger(sourceBinding.commandSeq)
-    && requiredString(sourceBinding, 'previousStateHash')
-    && requiredString(sourceBinding, 'nextStateHash');
+function validateSourceBinding(eventType, sourceBinding) {
+  if (!isObjectRecord(sourceBinding) || !objectKeysClosed(sourceBinding, CORE_EVENT_SOURCE_BINDING_KEYS)) return false;
+  const rule = CORE_EVENT_SOURCE_RULES[eventType];
+  if (!rule) return false;
+  if (sourceBinding.boundary !== rule.boundary) return false;
+  if (!rule.commandTypes.includes(sourceBinding.commandType)) return false;
+  if (!Number.isSafeInteger(sourceBinding.commandSeq) || sourceBinding.commandSeq < rule.minCommandSeq) return false;
+  if (!requiredHash(sourceBinding.previousStateHash) || !requiredHash(sourceBinding.nextStateHash)) return false;
+  const hasCausedBy = Object.prototype.hasOwnProperty.call(sourceBinding, 'causedByCommandType');
+  if (rule.causedByCommandTypes.length > 0) {
+    return hasCausedBy && rule.causedByCommandTypes.includes(sourceBinding.causedByCommandType);
+  }
+  return !hasCausedBy;
+}
+
+function validatePayloadClosed(eventType, payload) {
+  const allowedKeys = CORE_EVENT_PAYLOAD_KEYS[eventType];
+  if (!allowedKeys || !objectKeysClosed(payload, allowedKeys)) return false;
+  if (containsForbiddenAuthorityKey(payload)) return false;
+  const validatePayload = PAYLOAD_VALIDATORS[eventType];
+  return typeof validatePayload === 'function' && validatePayload(payload);
 }
 
 export function validateCoreDomainEvent(event) {
   if (!isObjectRecord(event)) return { ok: false, reason: 'EVENT_OBJECT_REQUIRED' };
+  if (!objectKeysClosed(event, CORE_EVENT_TOP_LEVEL_KEYS)) return { ok: false, reason: 'EVENT_KEYS_INVALID' };
   if (event.schemaVersion !== CORE_EVENT_SCHEMA_VERSION) return { ok: false, reason: 'EVENT_SCHEMA_VERSION_INVALID' };
   if (event.factKind !== CORE_EVENT_FACT_KIND) return { ok: false, reason: 'EVENT_FACT_KIND_INVALID' };
   if (!isCoreDomainEventType(event.type)) return { ok: false, reason: 'EVENT_TYPE_UNKNOWN' };
-  if (!validateSourceBinding(event.sourceBinding)) return { ok: false, reason: 'EVENT_SOURCE_BINDING_INVALID' };
+  if (!validateSourceBinding(event.type, event.sourceBinding)) return { ok: false, reason: 'EVENT_SOURCE_BINDING_INVALID' };
   if (!isObjectRecord(event.payload)) return { ok: false, reason: 'EVENT_PAYLOAD_OBJECT_REQUIRED' };
-  const validatePayload = PAYLOAD_VALIDATORS[event.type];
-  if (typeof validatePayload !== 'function' || !validatePayload(event.payload)) {
+  if (!validatePayloadClosed(event.type, event.payload)) {
     return { ok: false, reason: 'EVENT_PAYLOAD_INVALID', eventType: event.type };
   }
   return { ok: true, reason: '' };
@@ -248,32 +473,140 @@ export function deserializeCoreDomainEvent(serialized) {
   }
   const validation = validateCoreDomainEvent(parsed);
   if (!validation.ok) return { ...validation, event: null };
-  return { ok: true, reason: '', event: parsed };
+  return { ok: true, reason: '', event: cloneAndFreeze(parsed) };
 }
 
-function sourceBindingFor({ type, command, commandSeq, previousState, result }) {
-  return {
-    boundary: CORE_EVENT_EMISSION_BOUNDARIES[type],
-    commandType: text(command?.type),
+function sourceBindingFor({ type, command, commandSeq, previousStateHash, nextStateHash }) {
+  const rule = CORE_EVENT_SOURCE_RULES[type];
+  const commandType = text(command?.type);
+  const sourceBinding = {
+    boundary: rule.boundary,
+    commandType,
     commandSeq,
-    previousStateHash: hashCanonicalValue(previousState),
-    nextStateHash: text(result?.stateHash) || hashCanonicalValue(result?.state),
+    previousStateHash,
+    nextStateHash,
   };
+  if (type === CORE_EVENT_IDS.PROJECTION_INVALIDATED) {
+    sourceBinding.commandType = CORE_EVENT_SYSTEM_SOURCE_TYPES.PROJECTION_INVALIDATE;
+    sourceBinding.causedByCommandType = commandType;
+  }
+  if (type === CORE_EVENT_IDS.MAP_NODE_PROMOTED) {
+    sourceBinding.commandType = CORE_EVENT_SYSTEM_SOURCE_TYPES.MANUAL_MAP_NODE_PROMOTE;
+    sourceBinding.causedByCommandType = commandType;
+  }
+  return sourceBinding;
 }
 
-function eventFor({ type, payload, command, commandSeq, previousState, result }) {
+function eventFor({ type, payload, command, commandSeq, previousStateHash, nextStateHash, sourceBinding }) {
   const event = {
     schemaVersion: CORE_EVENT_SCHEMA_VERSION,
     type,
     factKind: CORE_EVENT_FACT_KIND,
-    sourceBinding: sourceBindingFor({ type, command, commandSeq, previousState, result }),
-    payload,
+    sourceBinding: sourceBinding || sourceBindingFor({ type, command, commandSeq, previousStateHash, nextStateHash }),
+    payload: cloneJson(payload),
   };
   const validation = validateCoreDomainEvent(event);
   if (!validation.ok) {
     throw new Error(`INVALID_CORE_DOMAIN_EVENT:${validation.reason}:${type}`);
   }
-  return event;
+  return cloneAndFreeze(event);
+}
+
+function normalizeHashInput(value, fallbackSeed) {
+  const hash = text(value);
+  return SHA256_HEX_RE.test(hash) ? hash : hashCanonicalValue(fallbackSeed);
+}
+
+function normalizeCommandSeqInput(value, fallback = 0) {
+  const seq = Number(value);
+  return Number.isSafeInteger(seq) && seq >= 0 ? seq : fallback;
+}
+
+function boundaryEvent(type, payload, input, commandType) {
+  const commandSeq = normalizeCommandSeqInput(input?.commandSeq);
+  const previousStateHash = normalizeHashInput(input?.previousStateHash, { type, payload, edge: 'previous' });
+  const nextStateHash = normalizeHashInput(input?.nextStateHash, { type, payload, edge: 'next' });
+  return eventFor({
+    type,
+    payload,
+    sourceBinding: {
+      boundary: CORE_EVENT_SOURCE_RULES[type].boundary,
+      commandType,
+      commandSeq,
+      previousStateHash,
+      nextStateHash,
+    },
+  });
+}
+
+export function buildSceneOrderChangedEvent(input = {}) {
+  return boundaryEvent(
+    CORE_EVENT_IDS.SCENE_ORDER_CHANGED,
+    {
+      projectId: text(input.projectId),
+      sceneIds: stringArray(input.sceneIds),
+      changeKind: 'reordered',
+    },
+    input,
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.SCENE_ORDER_PUBLISH,
+  );
+}
+
+export function buildDerivedGenerationPublishedEvent(input = {}) {
+  return boundaryEvent(
+    CORE_EVENT_IDS.DERIVED_GENERATION_PUBLISHED,
+    {
+      projectId: text(input.projectId),
+      generationId: text(input.generationId),
+      projectionKind: text(input.projectionKind),
+      sourceRevision: normalizeCommandSeqInput(input.sourceRevision),
+    },
+    input,
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.DERIVED_PUBLISH,
+  );
+}
+
+export function buildDerivedGenerationRejectedAsStaleEvent(input = {}) {
+  return boundaryEvent(
+    CORE_EVENT_IDS.DERIVED_GENERATION_REJECTED_AS_STALE,
+    {
+      projectId: text(input.projectId),
+      generationId: text(input.generationId),
+      projectionKind: text(input.projectionKind),
+      sourceRevision: normalizeCommandSeqInput(input.sourceRevision),
+      currentRevision: normalizeCommandSeqInput(input.currentRevision),
+    },
+    input,
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.DERIVED_REJECT_STALE,
+  );
+}
+
+export function buildMigrationPreparedEvent(input = {}) {
+  return boundaryEvent(
+    CORE_EVENT_IDS.MIGRATION_PREPARED,
+    {
+      projectId: text(input.projectId),
+      migrationId: text(input.migrationId),
+      sourceSchemaVersion: text(input.sourceSchemaVersion),
+      targetSchemaVersion: text(input.targetSchemaVersion),
+    },
+    input,
+    CORE_EVENT_SYSTEM_SOURCE_TYPES.MIGRATION_PREPARE,
+  );
+}
+
+export function serializeCoreDomainEvents(events = []) {
+  if (!Array.isArray(events)) throw new Error('INVALID_CORE_DOMAIN_EVENTS:EVENTS_ARRAY_REQUIRED');
+  const frozen = events.map((event) => {
+    const validation = validateCoreDomainEvent(event);
+    if (!validation.ok) throw new Error(`INVALID_CORE_DOMAIN_EVENTS:${validation.reason}`);
+    return cloneAndFreeze(event);
+  });
+  return canonicalSerialize(frozen);
+}
+
+export function hashCoreDomainEvents(events = []) {
+  return hashCanonicalValue(JSON.parse(serializeCoreDomainEvents(events)));
 }
 
 function projectionInvalidated(payload, reason, projectionKinds = PROJECTION_KINDS) {
@@ -627,12 +960,20 @@ function commandFacts(commandType, payload) {
   }
 }
 
-export function emitCoreDomainEventsForCommandResult({ previousState, command, result }) {
+export function emitCoreDomainEventsForCommandResult({
+  previousState,
+  previousStateHash,
+  command,
+  result,
+  nextStateHash,
+}) {
   if (!result?.ok || !isObjectRecord(command)) return [];
   const commandType = text(command.type);
   const payload = isObjectRecord(command.payload) ? command.payload : {};
   const commandSeq = Number(result?.state?.data?.lastCommandId);
   if (!Number.isSafeInteger(commandSeq) || commandSeq < 1) return [];
+  const previousHash = normalizeHashInput(previousStateHash, previousState);
+  const nextHash = normalizeHashInput(nextStateHash || result?.stateHash, result?.state);
   return commandFacts(commandType, payload)
     .filter((candidate) => isCoreDomainEventType(candidate.type))
     .map((candidate) => eventFor({
@@ -640,7 +981,7 @@ export function emitCoreDomainEventsForCommandResult({ previousState, command, r
       payload: candidate.payload,
       command,
       commandSeq,
-      previousState,
-      result,
+      previousStateHash: previousHash,
+      nextStateHash: nextHash,
     }));
 }

@@ -192,6 +192,12 @@ test('DOCX intake preflight report: bounded degraded parts become content-only c
   const relationship = bridge.buildDocxIntakePreflightReportFromZipBytes(cleanDocxZip([
     { name: 'word/_rels/document.xml.rels', body: '<Relationships/>' },
   ]));
+  const customProperties = bridge.buildDocxIntakePreflightReportFromZipBytes(cleanDocxZip([
+    {
+      name: 'docProps/custom.xml',
+      body: '<Properties><property name="YRTK_C01_AUTH"><vt:lpwstr>YRTK1.synthetic</vt:lpwstr></property></Properties>',
+    },
+  ]));
   const unknown = bridge.buildDocxIntakePreflightReportFromZipBytes(cleanDocxZip([
     { name: 'custom/item.bin', body: 'x' },
   ]));
@@ -226,6 +232,10 @@ test('DOCX intake preflight report: bounded degraded parts become content-only c
     assert.equal(result.preflightSummary.eligibility.canWriteStorage, false);
   }
   assert.equal(relationship.code, 'DOCX_PART_POLICY_RELATIONSHIP_DIAGNOSTICS_ONLY');
+  assert.equal(customProperties.ok, true);
+  assert.equal(customProperties.gatePass, true);
+  assert.equal(customProperties.partPolicy.categories.knownSupportPart.entryIds.includes('docProps/custom.xml'), true);
+  assert.equal(customProperties.preflightSummary.eligibility.parserCandidateOnly, true);
   assert.equal(externalRelationship.code, 'STAGE02_EXTERNAL_RELATIONSHIP_PRESENT');
   assert.equal(unknown.code, 'STAGE02_PACKAGE_QUARANTINED');
   assert.equal(unsupportedStory.code, 'DOCX_PART_POLICY_UNSUPPORTED_STORY_DIAGNOSTICS_ONLY');

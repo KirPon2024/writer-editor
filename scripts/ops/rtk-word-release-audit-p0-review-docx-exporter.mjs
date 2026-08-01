@@ -382,6 +382,8 @@ export function evaluateWordReleaseAuditP0ReviewDocxExporter(input = {}) {
   const issues = [];
   const add = (code, field, message) => issues.push(issue(code, field, message));
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.releaseAudit.p0.productReviewDocxExporter');
+  const activeProgramStage = program.releaseAuditNight01?.currentStage;
+  const programStillAtExporterStage = activeProgramStage === CONTOUR_ID;
 
   if (receipt.schemaVersion !== RECEIPT_SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_RELEASE_AUDIT_P0_EXPORTER_RECEIPT_INVALID', 'receipt', 'P0 exporter receipt must PASS with the canonical schema and status.');
   if (receipt.sourceProof?.allPresent !== true || Object.values(receipt.sourceProof?.markers || {}).some((value) => value !== true)) add('RTK_RELEASE_AUDIT_P0_EXPORTER_SOURCE_PROOF_INVALID', 'sourceProof', 'P0 exporter source proof must bind product command menu capability builder handler and contracts.');
@@ -395,11 +397,20 @@ export function evaluateWordReleaseAuditP0ReviewDocxExporter(input = {}) {
     || receipt.implementedCapability?.automaticApplyCertified !== false
     || receipt.implementedCapability?.wordSaturated !== false) add('RTK_RELEASE_AUDIT_P0_EXPORTER_AUTHORITY_INVALID', 'implementedCapability', 'P0 exporter must wire export only and keep return/apply/saturation closed.');
   if (Object.values(receipt.vetoMetrics || {}).some((value) => Number(value) !== 0)) add('RTK_RELEASE_AUDIT_P0_EXPORTER_VETO_NONZERO', 'vetoMetrics', 'P0 exporter veto metrics must be zero.');
-  if (program.releaseAuditNight01?.status !== STATUS
-    || program.releaseAuditNight01?.nextStage !== NEXT_STAGE
-    || program.releaseAuditNight01?.returnIntakeWired !== false
+  if (programStillAtExporterStage) {
+    if (program.releaseAuditNight01?.status !== STATUS
+      || program.releaseAuditNight01?.nextStage !== NEXT_STAGE
+      || program.releaseAuditNight01?.returnIntakeWired !== false
+      || program.releaseAuditNight01?.automaticApplyCertified !== false
+      || program.releaseAuditNight01?.googleDocsOpened !== false) add('RTK_RELEASE_AUDIT_P0_EXPORTER_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must bind P0 exporter without opening return intake, apply, saturation, or Google Docs claims.');
+  } else if (
+    program.releaseAuditNight01?.productReviewDocxExporterWired !== true
     || program.releaseAuditNight01?.automaticApplyCertified !== false
-    || program.releaseAuditNight01?.googleDocsOpened !== false) add('RTK_RELEASE_AUDIT_P0_EXPORTER_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must bind P0 exporter without opening return intake, apply, saturation, or Google Docs claims.');
+    || program.releaseAuditNight01?.googleDocsOpened !== false
+    || program.releaseAuditNight01?.wordSaturated !== false
+  ) {
+    add('RTK_RELEASE_AUDIT_P0_EXPORTER_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Later active program stages may advance return intake but must preserve exporter wiring and no-apply/no-saturation/no-Google truth.');
+  }
   if (!cell
     || cell.state !== 'PRODUCT_RUNTIME_WIRED'
     || cell.returnIntakeWired !== false

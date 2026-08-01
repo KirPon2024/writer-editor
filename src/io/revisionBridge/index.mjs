@@ -1016,6 +1016,7 @@ const DOCX_ZIP_INVENTORY_KNOWN_PARTS = [
   '[Content_Types].xml',
   'docProps/core.xml',
   'docProps/app.xml',
+  'docProps/custom.xml',
   'word/styles.xml',
   'word/settings.xml',
   'word/numbering.xml',

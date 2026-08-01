@@ -289,7 +289,7 @@ function cleanDocxZip(body = '<w:p/>', extraEntries = []) {
   ]);
 }
 
-function docxWithAnchoredComment(extraBody = '') {
+function docxWithAnchoredComment(extraBody = '', extraEntries = []) {
   return cleanDocxZip([
     '<w:p>',
     '<w:commentRangeStart w:id="0"/>',
@@ -310,6 +310,7 @@ function docxWithAnchoredComment(extraBody = '') {
         '</w:comments>',
       ].join(''),
     },
+    ...extraEntries,
   ]);
 }
 
@@ -379,6 +380,172 @@ const c05CryptoPort = {
 
 function c05Sha256Text(value) {
   return `sha256:${c05CryptoPort.sha256Text(value)}`;
+}
+
+function base64UrlText(value) {
+  return Buffer.from(String(value || ''), 'utf8')
+    .toString('base64')
+    .replaceAll('+', '-')
+    .replaceAll('/', '_')
+    .replace(/=+$/u, '');
+}
+
+function hmacSha256Json(value, secret) {
+  return `hmac-sha256:${crypto
+    .createHmac('sha256', Buffer.from(String(secret || ''), 'utf8'))
+    .update(Buffer.from(stableJson(value), 'utf8'))
+    .digest('hex')}`;
+}
+
+function customPropertiesXml(properties = []) {
+  return [
+    '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/custom-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">',
+    ...properties.map((property, index) => (
+      `<property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="${index + 2}" name="${property.name}"><vt:lpwstr>${property.value}</vt:lpwstr></property>`
+    )),
+    '</Properties>',
+  ].join('');
+}
+
+function productContentTypesXml() {
+  return [
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">',
+    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>',
+    '<Default Extension="xml" ContentType="application/xml"/>',
+    '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>',
+    '<Override PartName="/word/comments.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml"/>',
+    '<Override PartName="/docProps/custom.xml" ContentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"/>',
+    '</Types>',
+  ].join('');
+}
+
+function productRootRelsXml() {
+  return [
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">',
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>',
+    '<Relationship Id="rIdYrtkCustomProps" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties" Target="docProps/custom.xml"/>',
+    '</Relationships>',
+  ].join('');
+}
+
+function productDocumentRelsXml() {
+  return [
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">',
+    '<Relationship Id="rIdComments" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments" Target="comments.xml"/>',
+    '</Relationships>',
+  ].join('');
+}
+
+function productAuthorityEnvelope(payload, secret, overrides = {}) {
+  const body = {
+    schemaVersion: 'yalken.rtk.locator-authority-envelope.c01.v1',
+    payload,
+    payloadDigest: c05CryptoPort.sha256Json(payload),
+    signature: hmacSha256Json(payload, secret),
+    keyId: 'product-review-docx-local-secret-v1',
+    secretEmbeddedInDocx: false,
+    ...overrides,
+  };
+  return `YRTK1.${base64UrlText(JSON.stringify(body))}`;
+}
+
+function productReviewDocxWithAnchoredComment({
+  secret = 'local-secret-for-product-return-intake',
+  roundId = 'round-product-intake-1',
+  exportId = 'export-product-intake-1',
+  sceneId = 'roman/imported/scene-1.txt',
+  sceneText = 'Anchored text',
+  blockId = 'block-product-intake-1',
+  envelopeOverrides = {},
+} = {}) {
+  const rawSha256 = c05Sha256Text(sceneText);
+  const payload = {
+    schemaVersion: 'yalken.rtk.locator-authority-envelope.c01.v1',
+    taskId: 'YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01',
+    profileId: 'word-mac-latest-observed-16.111.x-product-review-export-p0',
+    caseId: 'product-review-docx-export-p0',
+    sceneId,
+    sceneRevision: rawSha256,
+    rawSha256,
+    blockId,
+    roundId,
+    exportId,
+    exportArtifactId: 'export-artifact-product-intake-1',
+    semanticReturnId: 'semantic-return-product-intake-1',
+    coreManifestDigest: c05Sha256Text('core-manifest-product-intake-1'),
+    transportManifestDigest: c05Sha256Text('transport-manifest-product-intake-1'),
+    yrtk2TokenDigest: c05Sha256Text('yrtk2-product-intake-1'),
+    blockCount: 1,
+  };
+  const authority = productAuthorityEnvelope(payload, secret, envelopeOverrides);
+  return {
+    payload,
+    secret,
+    bytes: docxWithAnchoredComment('', [
+      {
+        name: '[Content_Types].xml',
+        method: 8,
+        body: productContentTypesXml(),
+      },
+      {
+        name: '_rels/.rels',
+        method: 8,
+        body: productRootRelsXml(),
+      },
+      {
+        name: 'word/_rels/document.xml.rels',
+        method: 8,
+        body: productDocumentRelsXml(),
+      },
+      {
+        name: 'docProps/custom.xml',
+        method: 8,
+        body: customPropertiesXml([
+          { name: 'YRTK_C01_AUTH', value: authority },
+          { name: 'YRTK2_TOKEN', value: 'YRTK2.product-intake-token' },
+          { name: 'YRTK_CORE_DIGEST', value: payload.coreManifestDigest },
+        ]),
+      },
+    ]),
+  };
+}
+
+function productAuthorityStoreFromDocx(docx, overrides = {}) {
+  return {
+    schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+    lastRoundId: docx.payload.roundId,
+    roundsById: {
+      [docx.payload.roundId]: {
+        schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
+        projectRoot: '/project',
+        scenePath: '/project/roman/imported/scene-1.txt',
+        baselineFinalText: 'Anchored text',
+        hmacSecret: docx.secret,
+        expectedAuthority: {
+          sceneId: docx.payload.sceneId,
+          sceneRevision: docx.payload.sceneRevision,
+          rawSha256: docx.payload.rawSha256,
+          blockId: docx.payload.blockId,
+          roundId: docx.payload.roundId,
+          exportId: docx.payload.exportId,
+        },
+        roundId: docx.payload.roundId,
+        exportIdentity: docx.payload.exportId,
+        manifestDigest: docx.payload.transportManifestDigest,
+        coreManifestDigest: docx.payload.coreManifestDigest,
+        exportMap: {
+          scenes: [
+            {
+              sceneId: docx.payload.sceneId,
+              rawSha256: docx.payload.rawSha256,
+            },
+          ],
+        },
+        ...overrides,
+      },
+    },
+    secretExposedToRenderer: false,
+  };
 }
 
 function c05ReviewIr({ deleted = 'beta', inserted = 'delta', groupId = 'group-c05' } = {}) {
@@ -874,6 +1041,145 @@ test('DOCX review preview session command: rooted comments enter product comment
   assert.equal(result.commentShadowResult.manuscriptApplyAuthority, false);
   assert.equal(result.commentShadowSession.summary.threadCount, 1);
   assertNoWriteReceiptsOrApplyAuthority(result);
+});
+
+test('DOCX review preview session command: authenticated product return intake gates before session import and binds comment shadow identity', async () => {
+  const docx = productReviewDocxWithAnchoredComment();
+  const calls = [];
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async (commandId, payload = {}) => {
+      calls.push({ commandId, payload: cloneJsonSafe(payload) });
+      return {
+        ok: true,
+        status: 'committed',
+        code: 'RTK_COMMENT_SHADOW_SESSION_COMMITTED',
+        writerCalled: false,
+        manuscriptApplyAuthority: false,
+        session: {
+          authorityLevel: {
+            productRuntimeWired: true,
+            automaticApplyCertified: false,
+          },
+          roundId: payload.roundId,
+          semanticReturnId: payload.semanticReturnId,
+          summary: { threadCount: payload.reviewIr.commentThreads.length },
+        },
+      };
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docx.bytes),
+    {
+      activeReviewDocxExportAuthorityStore: productAuthorityStoreFromDocx(docx),
+      buildMainReviewContext: async () => reviewContext({
+        scenePath: '/project/roman/imported/scene-1.txt',
+        sceneText: 'Anchored text',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, true, JSON.stringify(result, null, 2));
+  assert.equal(result.returnIntake.authenticated, true);
+  assert.equal(result.returnIntake.status, 'authenticated-return-ir-ready');
+  assert.equal(result.returnIntake.authority.validSignedLocator, true);
+  assert.equal(result.returnIntake.roundId, docx.payload.roundId);
+  assert.equal(result.returnIntake.exportId, docx.payload.exportId);
+  assert.equal(result.returnIntake.semanticReturnId, docx.payload.semanticReturnId);
+  assert.equal(result.returnIntake.canAutoApply, false);
+  assert.equal(result.canAutoApply, false);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].commandId, 'cmd.rtk.reviewSession.importComments');
+  assert.equal(calls[0].payload.roundId, docx.payload.roundId);
+  assert.equal(calls[0].payload.returnArtifactId, result.returnIntake.returnedArtifactSha256);
+  assert.equal(calls[0].payload.semanticReturnId, docx.payload.semanticReturnId);
+  assert.equal(calls[0].payload.reviewIr.roundId, docx.payload.roundId);
+  assert.equal(calls[0].payload.reviewIr.commentThreads.length, 1);
+  assert.equal(port.getState().activeReviewSessionLifecycle, 'active');
+  assertNoWriteReceiptsOrApplyAuthority(result);
+});
+
+test('DOCX review preview session command: product carrier without local round store is blocked before import', async () => {
+  const docx = productReviewDocxWithAnchoredComment();
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async () => {
+      throw new Error('foreign product return must not reach comment shadow import');
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docx.bytes),
+    {
+      buildMainReviewContext: async () => reviewContext({
+        scenePath: '/project/roman/imported/scene-1.txt',
+        sceneText: 'Anchored text',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, 'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED');
+  assert.equal(result.error.reason, 'RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND');
+  assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
+});
+
+test('DOCX review preview session command: tampered product carrier HMAC cannot open a session', async () => {
+  const docx = productReviewDocxWithAnchoredComment({
+    envelopeOverrides: {
+      signature: 'hmac-sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    },
+  });
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async () => {
+      throw new Error('tampered product return must not reach comment shadow import');
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docx.bytes),
+    {
+      activeReviewDocxExportAuthorityStore: productAuthorityStoreFromDocx(docx),
+      buildMainReviewContext: async () => reviewContext({
+        scenePath: '/project/roman/imported/scene-1.txt',
+        sceneText: 'Anchored text',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, 'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED');
+  assert.equal(result.error.reason, 'RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED');
+  assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
+});
+
+test('DOCX review preview session command: stale local scene blocks authenticated return before import', async () => {
+  const docx = productReviewDocxWithAnchoredComment();
+  const port = instantiateDocxReviewPreviewSessionPort({
+    dispatchCommandSurfaceKernel: async () => {
+      throw new Error('stale product return must not reach comment shadow import');
+    },
+  });
+  const result = await port.handleDocxReviewPreviewSessionActivationCommandSurface(
+    toPayload(docx.bytes),
+    {
+      activeReviewDocxExportAuthorityStore: productAuthorityStoreFromDocx(docx),
+      buildMainReviewContext: async () => reviewContext({
+        scenePath: '/project/roman/imported/scene-1.txt',
+        sceneText: 'Edited after export',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, 'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED');
+  assert.equal(result.error.reason, 'RTK_RETURN_INTAKE_STALE_CURRENT_SCENE');
+  assert.equal(port.getState().activeReviewSessionLifecycle, 'passive');
+});
+
+test('DOCX review preview session command: return intake V2 source is before session import and uses parser utility boundary', () => {
+  const source = extractMarkedSection(readMainSource(), ACTIVATION_SECTION_START, ACTIVATION_SECTION_END);
+  assert.match(source, /inspectDocxReviewReturnIntakeV2[\s\S]*buildDocxReviewPreviewSessionCandidateFromZipBytes/u);
+  assert.match(source, /runDocxReviewReturnIntakeParserV2InUtilityProcess/u);
+  assert.match(source, /buildDocxReviewTransportAnalysisFromZipBytes/u);
+  assert.match(source, /RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND/u);
+  assert.match(source, /RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED/u);
 });
 
 test('DOCX review preview session command: source section has no storage write authority', () => {

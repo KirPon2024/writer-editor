@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain, session } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, session, utilityProcess } = require('electron');
 const { performance } = require('perf_hooks');
 const { spawnSync } = require('child_process');
 const path = require('path');
@@ -4186,29 +4186,53 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
   const reviewPacket = isPlainObjectValue(candidate?.reviewPacket)
     ? cloneJsonSafe(candidate.reviewPacket)
     : {};
-  if (!Array.isArray(reviewPacket.commentThreads) || reviewPacket.commentThreads.length === 0) {
+  const intake = isPlainObjectValue(context?.reviewTransportReturnIntake)
+    ? context.reviewTransportReturnIntake
+    : {};
+  const intakeReviewIr = isPlainObjectValue(intake.parserResult?.reviewIr)
+    ? intake.parserResult.reviewIr
+    : null;
+  const commentThreads = Array.isArray(intakeReviewIr?.commentThreads)
+    ? cloneJsonSafe(intakeReviewIr.commentThreads)
+    : (Array.isArray(reviewPacket.commentThreads) ? cloneJsonSafe(reviewPacket.commentThreads) : []);
+  if (commentThreads.length === 0) {
     return null;
   }
+  const commentPlacements = Array.isArray(intakeReviewIr?.commentPlacements)
+    ? cloneJsonSafe(intakeReviewIr.commentPlacements)
+    : (Array.isArray(reviewPacket.commentPlacements)
+      ? cloneJsonSafe(reviewPacket.commentPlacements)
+      : []);
   const sourceViewState = isPlainObjectValue(candidate.sourceViewState)
     ? candidate.sourceViewState
     : {};
   const packetHash = docxReviewPreviewSessionDetailString(sourceViewState.packetHash)
     || computeHash(JSON.stringify(reviewPacket));
+  const intakePayload = isPlainObjectValue(intake.parserResult?.authorityCarrier?.selectedCarrier?.payload)
+    ? intake.parserResult.authorityCarrier.selectedCarrier.payload
+    : {};
+  const roundId = intake.authenticated === true
+    ? docxReviewPreviewSessionDetailString(intakePayload.roundId)
+    : '';
+  const returnArtifactId = intake.authenticated === true
+    ? docxReviewPreviewSessionDetailString(intake.returnedArtifactSha256)
+    : '';
+  const semanticReturnId = intake.authenticated === true
+    ? docxReviewPreviewSessionDetailString(intakePayload.semanticReturnId)
+    : '';
   return {
     projectRoot: docxReviewPreviewSessionDetailString(context.projectRoot),
-    roundId: docxReviewPreviewSessionDetailString(sourceViewState.revisionToken) || `docx-review-preview-${packetHash}`,
+    roundId: roundId || docxReviewPreviewSessionDetailString(sourceViewState.revisionToken) || `docx-review-preview-${packetHash}`,
     requestId,
-    returnArtifactId: packetHash,
-    semanticReturnId: `semantic:${packetHash}`,
+    returnArtifactId: returnArtifactId || packetHash,
+    semanticReturnId: semanticReturnId || `semantic:${packetHash}`,
     reviewIr: {
       schemaVersion: 'yalken.rtk.review-ir.v2',
-      roundId: docxReviewPreviewSessionDetailString(sourceViewState.revisionToken) || `docx-review-preview-${packetHash}`,
-      returnArtifactId: packetHash,
-      semanticReturnId: `semantic:${packetHash}`,
-      commentThreads: cloneJsonSafe(reviewPacket.commentThreads) || [],
-      commentPlacements: Array.isArray(reviewPacket.commentPlacements)
-        ? cloneJsonSafe(reviewPacket.commentPlacements)
-        : [],
+      roundId: roundId || docxReviewPreviewSessionDetailString(sourceViewState.revisionToken) || `docx-review-preview-${packetHash}`,
+      returnArtifactId: returnArtifactId || packetHash,
+      semanticReturnId: semanticReturnId || `semantic:${packetHash}`,
+      commentThreads,
+      commentPlacements,
       textRevisions: [],
       moveRevisions: [],
       propertyRevisions: [],
@@ -4719,6 +4743,347 @@ function assertDocxReviewPreviewSessionActivationResult(result = {}) {
   return result;
 }
 
+function readActiveDocxReviewReturnAuthorityStore(options = {}) {
+  if (isPlainObjectValue(options.activeReviewDocxExportAuthorityStore)) {
+    return options.activeReviewDocxExportAuthorityStore;
+  }
+  if (
+    typeof activeReviewDocxExportAuthorityStore !== 'undefined'
+    && isPlainObjectValue(activeReviewDocxExportAuthorityStore)
+  ) {
+    return activeReviewDocxExportAuthorityStore;
+  }
+  return null;
+}
+
+function docxReviewReturnIntakeBlocked(reason, details = {}) {
+  return {
+    ok: false,
+    status: 'blocked',
+    reason,
+    code: reason,
+    canOpenReviewSession: false,
+    canAutoApply: false,
+    canImportMutate: false,
+    canWriteStorage: false,
+    details: isPlainObjectValue(details) ? cloneJsonSafe(details) : {},
+  };
+}
+
+function sanitizeDocxReviewReturnIntakeForResult(intake = {}) {
+  const parserResult = isPlainObjectValue(intake.parserResult) ? intake.parserResult : {};
+  const selectedCarrier = isPlainObjectValue(parserResult.authorityCarrier?.selectedCarrier)
+    ? parserResult.authorityCarrier.selectedCarrier
+    : {};
+  const payload = isPlainObjectValue(selectedCarrier.payload) ? selectedCarrier.payload : {};
+  const reviewIr = isPlainObjectValue(parserResult.reviewIr) ? parserResult.reviewIr : {};
+  return {
+    schemaVersion: 'yalken.rtk.word.return-intake.v2.product-gate-result.v1',
+    status: docxReviewPreviewSessionDetailString(intake.status),
+    authenticated: intake.authenticated === true,
+    authorityCarrierStatus: docxReviewPreviewSessionDetailString(parserResult.authorityCarrier?.status),
+    parserProfileDigest: docxReviewPreviewSessionDetailString(parserResult.parserProfileDigest),
+    analysisDigest: docxReviewPreviewSessionDetailString(parserResult.analysisDigest),
+    returnedArtifactSha256: docxReviewPreviewSessionDetailString(intake.returnedArtifactSha256),
+    roundId: docxReviewPreviewSessionDetailString(payload.roundId),
+    exportId: docxReviewPreviewSessionDetailString(payload.exportId),
+    semanticReturnId: docxReviewPreviewSessionDetailString(payload.semanticReturnId),
+    sceneId: docxReviewPreviewSessionDetailString(payload.sceneId),
+    sourceMode: docxReviewPreviewSessionDetailString(parserResult.sourceMode),
+    counts: {
+      textRevisions: Array.isArray(reviewIr.textRevisions) ? reviewIr.textRevisions.length : 0,
+      moveRevisions: Array.isArray(reviewIr.moveRevisions) ? reviewIr.moveRevisions.length : 0,
+      propertyRevisions: Array.isArray(reviewIr.propertyRevisions) ? reviewIr.propertyRevisions.length : 0,
+      structureChanges: Array.isArray(reviewIr.structureChanges) ? reviewIr.structureChanges.length : 0,
+      commentThreads: Array.isArray(reviewIr.commentThreads) ? reviewIr.commentThreads.length : 0,
+      formattingDeltas: Array.isArray(reviewIr.formattingDeltas) ? reviewIr.formattingDeltas.length : 0,
+      opaqueUnsupported: Array.isArray(reviewIr.opaqueUnsupported) ? reviewIr.opaqueUnsupported.length : 0,
+    },
+    authority: {
+      validSignedLocator: parserResult.exactAuthority?.validSignedLocator === true,
+      sceneRevisionUnchanged: parserResult.exactAuthority?.sceneRevisionUnchanged === true,
+      rawSha256Unchanged: parserResult.exactAuthority?.rawSha256Unchanged === true,
+      baselineBound: selectedCarrier.baselineBinding?.allExpectedMatched === true,
+    },
+    utilityProcess: {
+      requiredForProduct: intake.utilityProcess?.requiredForProduct === true,
+      attempted: intake.utilityProcess?.attempted === true,
+      mode: docxReviewPreviewSessionDetailString(intake.utilityProcess?.mode),
+    },
+    canOpenReviewSession: intake.canOpenReviewSession === true,
+    canAutoApply: false,
+    canImportMutate: false,
+    canWriteStorage: false,
+  };
+}
+
+function findDocxReviewReturnIntakeRoundAuthority(store, roundId) {
+  const rounds = isPlainObjectValue(store?.roundsById) ? store.roundsById : {};
+  const capsule = rounds[roundId];
+  return isPlainObjectValue(capsule) ? capsule : null;
+}
+
+function verifyDocxReviewReturnIntakeLocalBinding({ context, localAuthority, parserResult } = {}) {
+  const payload = isPlainObjectValue(parserResult?.authorityCarrier?.selectedCarrier?.payload)
+    ? parserResult.authorityCarrier.selectedCarrier.payload
+    : {};
+  const expectedAuthority = isPlainObjectValue(localAuthority?.expectedAuthority)
+    ? localAuthority.expectedAuthority
+    : {};
+  const currentRawSha256 = `sha256:${computeHash(typeof context?.sceneText === 'string' ? context.sceneText : '')}`;
+  if (
+    docxReviewPreviewSessionDetailString(context?.scenePath)
+    && docxReviewPreviewSessionDetailString(localAuthority?.scenePath)
+    && docxReviewPreviewSessionDetailString(context.scenePath) !== docxReviewPreviewSessionDetailString(localAuthority.scenePath)
+  ) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_WRONG_SCENE_PATH', {
+      sceneId: docxReviewPreviewSessionDetailString(expectedAuthority.sceneId),
+    });
+  }
+  if (
+    docxReviewPreviewSessionDetailString(context?.targetScope?.id)
+    && docxReviewPreviewSessionDetailString(expectedAuthority.sceneId)
+    && docxReviewPreviewSessionDetailString(context.targetScope.id) !== docxReviewPreviewSessionDetailString(expectedAuthority.sceneId)
+  ) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_WRONG_SCENE_ID', {
+      expectedSceneId: docxReviewPreviewSessionDetailString(expectedAuthority.sceneId),
+      actualSceneId: docxReviewPreviewSessionDetailString(context.targetScope.id),
+    });
+  }
+  if (
+    docxReviewPreviewSessionDetailString(expectedAuthority.rawSha256)
+    && currentRawSha256 !== docxReviewPreviewSessionDetailString(expectedAuthority.rawSha256)
+  ) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_STALE_CURRENT_SCENE', {
+      expectedRawSha256: docxReviewPreviewSessionDetailString(expectedAuthority.rawSha256),
+      actualRawSha256: currentRawSha256,
+    });
+  }
+  if (
+    docxReviewPreviewSessionDetailString(localAuthority.coreManifestDigest)
+    && docxReviewPreviewSessionDetailString(payload.coreManifestDigest)
+    && docxReviewPreviewSessionDetailString(localAuthority.coreManifestDigest) !== docxReviewPreviewSessionDetailString(payload.coreManifestDigest)
+  ) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_CORE_MANIFEST_MISMATCH');
+  }
+  if (
+    docxReviewPreviewSessionDetailString(localAuthority.manifestDigest)
+    && docxReviewPreviewSessionDetailString(payload.transportManifestDigest)
+    && docxReviewPreviewSessionDetailString(localAuthority.manifestDigest) !== docxReviewPreviewSessionDetailString(payload.transportManifestDigest)
+  ) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_TRANSPORT_MANIFEST_MISMATCH');
+  }
+  return { ok: true };
+}
+
+function buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parserResult) {
+  const payload = isPlainObjectValue(parserResult?.authorityCarrier?.selectedCarrier?.payload)
+    ? parserResult.authorityCarrier.selectedCarrier.payload
+    : {};
+  return {
+    ...cloneJsonSafe(localAuthority),
+    roundId: docxReviewPreviewSessionDetailString(localAuthority?.roundId)
+      || docxReviewPreviewSessionDetailString(payload.roundId),
+    exportIdentity: docxReviewPreviewSessionDetailString(localAuthority?.exportIdentity)
+      || docxReviewPreviewSessionDetailString(payload.exportId),
+    manifestDigest: docxReviewPreviewSessionDetailString(localAuthority?.manifestDigest)
+      || docxReviewPreviewSessionDetailString(payload.transportManifestDigest),
+    coreManifestDigest: docxReviewPreviewSessionDetailString(localAuthority?.coreManifestDigest)
+      || docxReviewPreviewSessionDetailString(payload.coreManifestDigest),
+    semanticReturnId: docxReviewPreviewSessionDetailString(payload.semanticReturnId),
+  };
+}
+
+function runDocxReviewReturnIntakeParserV2Inline(input = {}, revisionBridge) {
+  if (
+    !revisionBridge
+    || typeof revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes !== 'function'
+  ) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_PARSER_V2_UNAVAILABLE');
+  }
+  try {
+    const parserResult = revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes(input, {
+      cryptoPort: createRtkReviewTransportCryptoPort(),
+    });
+    if (!isPlainObjectValue(parserResult)) {
+      return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_PARSER_V2_RESULT_INVALID');
+    }
+    if (parserResult.ok !== true) {
+      return docxReviewReturnIntakeBlocked(
+        docxReviewPreviewSessionDetailString(parserResult.reason)
+          || docxReviewPreviewSessionDetailString(parserResult.code)
+          || 'RTK_RETURN_INTAKE_PARSER_V2_BLOCKED',
+        { parserCode: docxReviewPreviewSessionDetailString(parserResult.code) },
+      );
+    }
+    return {
+      ok: true,
+      parserResult,
+    };
+  } catch (error) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_PARSER_V2_FAILED', {
+      message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+    });
+  }
+}
+
+async function runDocxReviewReturnIntakeParserV2InUtilityProcess(input = {}, revisionBridge, options = {}) {
+  if (typeof options.runDocxReviewReturnIntakeInUtilityProcess === 'function') {
+    return options.runDocxReviewReturnIntakeInUtilityProcess(input);
+  }
+  if (
+    typeof utilityProcess === 'undefined'
+    || !utilityProcess
+    || typeof utilityProcess.fork !== 'function'
+    || typeof __dirname !== 'string'
+  ) {
+    return {
+      ...(runDocxReviewReturnIntakeParserV2Inline(input, revisionBridge)),
+      utilityProcess: {
+        requiredForProduct: true,
+        attempted: false,
+        mode: 'inline-test-fallback',
+      },
+    };
+  }
+
+  const workerPath = path.join(__dirname, 'main', 'rtkDocxReturnIntakeWorker.cjs');
+  return new Promise((resolve) => {
+    let settled = false;
+    let child = null;
+    const finish = (result) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      try {
+        if (child && typeof child.kill === 'function') child.kill();
+      } catch {}
+      resolve(result);
+    };
+    const timer = setTimeout(() => {
+      finish(docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_TIMEOUT', {
+        timeoutMs: 10_000,
+      }));
+    }, 10_000);
+    try {
+      child = utilityProcess.fork(workerPath, [], { stdio: 'pipe' });
+      child.on('message', (message) => {
+        const result = isPlainObjectValue(message?.result)
+          ? message.result
+          : docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_RESULT_INVALID');
+        finish({
+          ...result,
+          utilityProcess: {
+            requiredForProduct: true,
+            attempted: true,
+            mode: 'electron-utility-process',
+          },
+        });
+      });
+      child.once('exit', () => {
+        finish(docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_EXITED'));
+      });
+      child.postMessage({
+        ...input,
+        bytesBase64: Buffer.from(input.bytes || []).toString('base64'),
+        bytes: undefined,
+      });
+    } catch (error) {
+      finish(docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_UTILITY_PROCESS_FAILED', {
+        message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN',
+      }));
+    }
+  });
+}
+
+async function inspectDocxReviewReturnIntakeV2({
+  context,
+  docxBytes,
+  revisionBridge,
+  options = {},
+} = {}) {
+  const returnedArtifactSha256 = `sha256:${sha256DocxReviewPreviewSessionBytes(docxBytes)}`;
+  const probe = await runDocxReviewReturnIntakeParserV2InUtilityProcess({
+    bytes: docxBytes,
+    returnedArtifactSha256,
+  }, revisionBridge, options);
+  if (!probe.ok) return probe;
+  const probeResult = isPlainObjectValue(probe.parserResult) ? probe.parserResult : {};
+  const carrierStatus = docxReviewPreviewSessionDetailString(probeResult.authorityCarrier?.status);
+  if (carrierStatus === 'missing') {
+    return {
+      ok: true,
+      status: 'legacy-unbound-review-preview',
+      authenticated: false,
+      parserResult: probeResult,
+      returnedArtifactSha256,
+      utilityProcess: probe.utilityProcess,
+      canOpenReviewSession: true,
+      canAutoApply: false,
+      canImportMutate: false,
+      canWriteStorage: false,
+    };
+  }
+  const selectedCarrier = isPlainObjectValue(probeResult.authorityCarrier?.selectedCarrier)
+    ? probeResult.authorityCarrier.selectedCarrier
+    : {};
+  const payload = isPlainObjectValue(selectedCarrier.payload) ? selectedCarrier.payload : {};
+  const roundId = docxReviewPreviewSessionDetailString(payload.roundId);
+  if (!roundId) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_AUTHORITY_CARRIER_INVALID');
+  }
+  const store = readActiveDocxReviewReturnAuthorityStore(options);
+  const localAuthority = findDocxReviewReturnIntakeRoundAuthority(store, roundId);
+  if (!localAuthority) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND', { roundId });
+  }
+  const expectedAuthority = isPlainObjectValue(localAuthority.expectedAuthority)
+    ? cloneJsonSafe(localAuthority.expectedAuthority) || {}
+    : {};
+  const hmacSecret = docxReviewPreviewSessionDetailString(localAuthority.hmacSecret);
+  if (!hmacSecret || !isPlainObjectValue(expectedAuthority)) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_LOCAL_SECRET_REQUIRED', { roundId });
+  }
+  const verified = await runDocxReviewReturnIntakeParserV2InUtilityProcess({
+    bytes: docxBytes,
+    hmacSecret,
+    expectedAuthority,
+    returnedArtifactSha256,
+    baselineFinalText: typeof localAuthority.baselineFinalText === 'string'
+      ? localAuthority.baselineFinalText
+      : (typeof context?.sceneText === 'string' ? context.sceneText : ''),
+  }, revisionBridge, options);
+  if (!verified.ok) return verified;
+  const parserResult = isPlainObjectValue(verified.parserResult) ? verified.parserResult : {};
+  if (
+    parserResult.authorityCarrier?.status !== 'verified-baseline-bound'
+    || parserResult.exactAuthority?.validSignedLocator !== true
+  ) {
+    return docxReviewReturnIntakeBlocked('RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED', {
+      authorityCarrierStatus: docxReviewPreviewSessionDetailString(parserResult.authorityCarrier?.status),
+    });
+  }
+  const localBinding = verifyDocxReviewReturnIntakeLocalBinding({
+    context,
+    localAuthority,
+    parserResult,
+  });
+  if (!localBinding.ok) return localBinding;
+  return {
+    ok: true,
+    status: 'authenticated-return-ir-ready',
+    authenticated: true,
+    parserResult,
+    returnedArtifactSha256,
+    localAuthorityCapsule: buildDocxReviewReturnIntakeLocalAuthorityCapsule(localAuthority, parserResult),
+    utilityProcess: verified.utilityProcess || probe.utilityProcess,
+    canOpenReviewSession: true,
+    canAutoApply: false,
+    canImportMutate: false,
+    canWriteStorage: false,
+  };
+}
+
 async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = {}, options = {}) {
   const decoded = decodeDocxIntakeGateBufferSource(payload);
   if (!decoded.ok) {
@@ -4757,11 +5122,36 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     );
   }
 
+  const returnIntake = await inspectDocxReviewReturnIntakeV2({
+    context,
+    docxBytes: decoded.bytes,
+    revisionBridge,
+    options,
+  });
+  if (!returnIntake.ok) {
+    return makeDocxReviewPreviewSessionTypedError(
+      'E_DOCX_REVIEW_PREVIEW_SESSION_RETURN_INTAKE_BLOCKED',
+      docxReviewPreviewSessionDetailString(returnIntake.reason)
+        || 'RTK_RETURN_INTAKE_BLOCKED',
+      isPlainObjectValue(returnIntake.details) ? returnIntake.details : undefined,
+    );
+  }
+  const activeContext = returnIntake.authenticated === true
+    ? {
+      ...context,
+      reviewTransportAuthorityCapsule: returnIntake.localAuthorityCapsule,
+      reviewTransportReturnIntake: returnIntake,
+    }
+    : {
+      ...context,
+      reviewTransportReturnIntake: returnIntake,
+    };
+
   let candidate = null;
   try {
     candidate = revisionBridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(decoded.bytes, {
-      targetScope: context.targetScope,
-      createdAt: context.createdAt,
+      targetScope: activeContext.targetScope,
+      createdAt: activeContext.createdAt,
     });
   } catch (error) {
     return makeDocxReviewPreviewSessionTypedError(
@@ -4804,7 +5194,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
   }
 
   const requestId = normalizeDocxIntakeGateRequestId(payload?.requestId);
-  const importPayload = buildDocxReviewPreviewSessionImportPayload(context, candidate, requestId);
+  const importPayload = buildDocxReviewPreviewSessionImportPayload(activeContext, candidate, requestId);
   const importResult = await handleReviewSurfaceImportPacketCommandSurface(importPayload);
   if (!importResult || importResult.ok !== true) {
     const nestedError = isPlainObjectValue(importResult?.error) ? importResult.error : {};
@@ -4814,7 +5204,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       isPlainObjectValue(nestedError.details) ? nestedError.details : undefined,
     );
   }
-  const commentShadowPayload = buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, requestId);
+  const commentShadowPayload = buildDocxReviewPreviewSessionCommentShadowPayload(activeContext, candidate, requestId);
   let commentShadowResult = null;
   if (commentShadowPayload) {
     commentShadowResult = await dispatchCommandSurfaceKernel(
@@ -4824,7 +5214,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
   }
   const nonOverlapTrackedReplacementProductPath =
     await prepareDocxReviewPreviewSessionNonOverlapTrackedReplacementProductPath({
-      context,
+      context: activeContext,
       candidate,
       requestId,
       docxBytes: decoded.bytes,
@@ -4866,6 +5256,7 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
       }
       : null,
     candidateSummary: summarizeDocxReviewPreviewSessionCandidate(candidate),
+    returnIntake: sanitizeDocxReviewReturnIntakeForResult(returnIntake),
     sourcePacketHash: importPayload.sourcePacketHash,
     canOpenReviewSession: candidate.canOpenReviewSession === true,
     canCreateReviewPacket: candidate.canCreateReviewPacket === true,

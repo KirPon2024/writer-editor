@@ -359,7 +359,8 @@
     "A02 terminal audit does not certify automatic apply.",
     "Physical Word evidence is not product runtime authority.",
     "Google Docs remains closed until the next approved sequence point.",
-    "Product Review DOCX exporter is wired but return intake and product-originated physical loop are not certified yet."
+    "Product Review DOCX exporter is wired but return intake and product-originated physical loop are not certified yet.",
+    "Product Review DOCX return intake is wired for authenticated parser V2 gate, but automatic apply and physical product loop remain uncertified."
   ],
   "designToolRouter": "NOT_APPLICABLE",
   "delivery": {
@@ -603,13 +604,14 @@
     "releaseAuditRequired": true
   },
   "releaseAuditNight01": {
-    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_REVIEW_DOCX_EXPORTER_WIRED_NOT_SATURATED",
-    "currentStage": "P0-REVIEW-DOCX-EXPORTER",
-    "nextStage": "P0_RETURN_INTAKE_PARSE_REVIEW_TRANSPORT_PACKAGE_V2",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
+    "status": "WORD_RELEASE_AUDIT_P0_RETURN_INTAKE_V2_WIRED_NOT_SATURATED",
+    "currentStage": "P0-RETURN-INTAKE-V2",
+    "nextStage": "P0_PARSED_WORD_IR_PREVIEW_COMMAND_APPLY_RECOVERY_REPLAY",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
     "productReviewDocxExporterWired": true,
     "productReviewDocxExporterDistinctFromDocxMinimal": true,
-    "returnIntakeWired": false,
+    "returnIntakeWired": true,
+    "parsedWordIrConsumerWired": true,
     "automaticApplyCertified": false,
     "releaseReady": false,
     "wordSaturated": false,

@@ -133,6 +133,7 @@ test('P0 08: network exchange request remains rejected instead of becoming runti
 test('P0 08: direct command bridge is denied by production adapter before reducer or persistence', async () => {
   const module = await importModule('src/product/stage10ProductWiring.mjs');
   const writes = [];
+  const authorityWrites = [];
   const storagePort = {
     writeSession(projectId, session) {
       writes.push({ projectId, session });
@@ -148,12 +149,24 @@ test('P0 08: direct command bridge is denied by production adapter before reduce
       return null;
     },
   };
+  const authorityHeadPort = {
+    writeAuthorityHead(projectId, head) {
+      authorityWrites.push({ projectId, head });
+      return { ok: true };
+    },
+    readAuthorityHead(projectId) {
+      return authorityWrites.filter((write) => write.projectId === projectId).at(-1)?.head || null;
+    },
+  };
   const runtime = await module.createStage10ProductRuntime({
     projectId: 'p0-08-direct-negative',
     storagePort,
+    authorityHeadPort,
     capabilitySnapshot: { capabilities: { stage10LocalProductWiring: true } },
   });
-  const beforeHash = module.buildStage10ProductReadModels(runtime.getSession()).surface.projectId;
+  const beforeHash = module.buildStage10ProductReadModels(runtime.getSession(), {}, {
+    authorityStore: authorityWrites.at(-1).head,
+  }).surface.projectId;
   const denied = await runtime.dispatchVisibleCommand(
     'project.create',
     { projectId: 'p0-08-direct-negative', sceneId: 'scene-1' },
@@ -161,9 +174,11 @@ test('P0 08: direct command bridge is denied by production adapter before reduce
   );
   assert.equal(denied.ok, false);
   assert.equal(denied.error.code, 'E_STAGE10_DIRECT_BRIDGE_DENIED');
-  assert.equal(runtime.getSession().commandReceipts.length, 0);
+  assert.equal(runtime.getSession().commandReceiptAuthorityHeadRef.receiptCount, 0);
   assert.equal(writes.length, 0);
-  assert.equal(module.buildStage10ProductReadModels(runtime.getSession()).surface.projectId, beforeHash);
+  assert.equal(module.buildStage10ProductReadModels(runtime.getSession(), {}, {
+    authorityStore: authorityWrites.at(-1).head,
+  }).surface.projectId, beforeHash);
 });
 
 test('P0 08: source guard keeps adapter browser-safe and blocks receipt-only DONE shortcuts', () => {

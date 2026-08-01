@@ -118,6 +118,35 @@ function createFileStoragePort(rootDir) {
   };
 }
 
+function createFileAuthorityHeadPort(rootDir) {
+  const authorityPath = (projectId) => path.join(rootDir, 'authority', `${projectId}.command-receipt-authority-head.json`);
+  const recoveryPath = (projectId) => path.join(rootDir, 'authority', `${projectId}.command-receipt-authority-head.recovery.json`);
+  return {
+    writeAuthorityHead(projectId, authorityHeadRecord) {
+      const targetPath = authorityPath(projectId);
+      const previous = fs.existsSync(targetPath) ? fs.readFileSync(targetPath, 'utf8') : '';
+      if (previous) writeJsonAtomic(recoveryPath(projectId), JSON.parse(previous));
+      writeJsonAtomic(targetPath, authorityHeadRecord);
+      return {
+        ok: true,
+        path: targetPath,
+        sha256: sha256File(targetPath),
+        readableRecovery: Boolean(previous),
+      };
+    },
+    readAuthorityHead(projectId) {
+      const targetPath = authorityPath(projectId);
+      return fs.existsSync(targetPath) ? JSON.parse(fs.readFileSync(targetPath, 'utf8')) : null;
+    },
+    paths(projectId) {
+      return {
+        authorityHead: authorityPath(projectId),
+        recovery: recoveryPath(projectId),
+      };
+    },
+  };
+}
+
 function createUiPort() {
   const surfaces = [];
   return {
@@ -239,6 +268,7 @@ async function runJourney() {
   const failures = [];
   const projectId = 'p0-08-stage10-product';
   const storagePort = disableStorage ? {} : createFileStoragePort(outDir);
+  const authorityHeadPort = disableStorage ? {} : createFileAuthorityHeadPort(outDir);
   const uiPort = createUiPort();
   const capabilitySnapshot = {
     platformId: 'packaged-local-electron',
@@ -249,6 +279,7 @@ async function runJourney() {
     actorId: 'author-primary',
     sessionId: 'session-primary',
     storagePort,
+    authorityHeadPort,
     uiPort,
     capabilitySnapshot,
     now: (() => {
@@ -378,19 +409,26 @@ async function runJourney() {
 
   const session = runtime.getSession();
   const preliminaryStoragePaths = !disableStorage ? storagePort.paths(projectId) : {};
+  const preliminaryAuthorityPaths = !disableStorage ? authorityHeadPort.paths(projectId) : {};
+  const commandReceiptAuthorityStore = !disableStorage && fs.existsSync(preliminaryAuthorityPaths.authorityHead)
+    ? authorityHeadPort.readAuthorityHead(projectId)
+    : null;
   const canReopenPersistedSession = Boolean(preliminaryStoragePaths.session && fs.existsSync(preliminaryStoragePaths.session));
   const reopened = !disableStorage && canReopenPersistedSession
-    ? await reopenStage10ProductRuntime({ projectId, storagePort, uiPort, capabilitySnapshot })
+    ? await reopenStage10ProductRuntime({ projectId, storagePort, authorityHeadPort, uiPort, capabilitySnapshot })
     : null;
   const reopenedSession = reopened ? reopened.getSession() : null;
-  const readModels = buildStage10ProductReadModels(session, capabilitySnapshot);
-  const reopenedReadModels = reopenedSession ? buildStage10ProductReadModels(reopenedSession, capabilitySnapshot) : null;
+  const readModels = buildStage10ProductReadModels(session, capabilitySnapshot, { authorityStore: commandReceiptAuthorityStore });
+  const reopenedReadModels = reopenedSession ? buildStage10ProductReadModels(reopenedSession, capabilitySnapshot, {
+    authorityStore: commandReceiptAuthorityStore,
+  }) : null;
   const storagePaths = preliminaryStoragePaths;
   const finalProject = session.coreState.data.projects[projectId];
   const finalText = finalProject?.scenes?.['scene-1']?.text || '';
   const activationModes = session.uiEvents.map((event) => event.activationMode);
-  const receiptCommands = session.commandReceipts.map((receipt) => receipt.commandId);
-  const commandReceiptsCapabilityOk = session.commandReceipts.every((receipt) => receipt.capabilityRevalidated === true);
+  const commandReceipts = Array.isArray(commandReceiptAuthorityStore?.receipts) ? commandReceiptAuthorityStore.receipts : [];
+  const receiptCommands = commandReceipts.map((receipt) => receipt.commandId);
+  const commandReceiptsCapabilityOk = commandReceipts.every((receipt) => receipt.capabilityRevalidated === true);
   const commentsPersisted = Object.keys(session.commentPackets).length > 0
     && (reopenedReadModels?.comments?.value?.items?.length || 0) > 0;
   const historyPersisted = readModels.history.value?.summary?.projectedEntryCount > 0
@@ -419,7 +457,7 @@ async function runJourney() {
       && Object.values(session.conflictDecisions).some((decision) => decision.manualDecision === true && decision.automaticMerge === false),
     operationExchangeLocalProductPath: exchangePersisted
       && Object.values(session.operationExchangeAdapterPreviews).some((report) => report.ok === true && report.adapter?.liveNetwork === false),
-    negativeDirectBridgeDenied: directBridgeDenied.ok === false && !session.commandReceipts.some((receipt) => receipt.directBridge === true),
+    negativeDirectBridgeDenied: directBridgeDenied.ok === false && !commandReceipts.some((receipt) => receipt.directBridge === true),
     shadowOnlyRejectedAsComplete: !shadowOnly,
     networkAdapterNotRequired: requestNetworkAdapter ? false : session.networkAdapterEnabled === false,
     noProgramDoneClaim: session.programDoneClaim === false,
@@ -453,7 +491,7 @@ async function runJourney() {
     acceptance,
     activationModes: session.uiEvents,
     commandPath: {
-      receiptCount: session.commandReceipts.length,
+      receiptCount: commandReceipts.length,
       commandIds: receiptCommands,
       allCapabilityRevalidated: commandReceiptsCapabilityOk,
       replayOk: readModels.replay.ok === true,
@@ -467,6 +505,10 @@ async function runJourney() {
       sessionHash: hashCanonicalValue(session),
       reopenedSessionHash: reopenedSession ? hashCanonicalValue(reopenedSession) : '',
       reopenedProjectHash: reopenedSession ? hashCoreState(reopenedSession.coreState) : '',
+      authorityHeadPath: preliminaryAuthorityPaths.authorityHead || '',
+      authorityHeadSha256: preliminaryAuthorityPaths.authorityHead && fs.existsSync(preliminaryAuthorityPaths.authorityHead) ? sha256File(preliminaryAuthorityPaths.authorityHead) : '',
+      authorityHeadDigest: commandReceiptAuthorityStore?.currentHead?.authorityHeadDigest || '',
+      authorityReceiptCount: commandReceiptAuthorityStore?.currentHead?.receiptCount || 0,
       recoverySnapshotCount: session.recoverySnapshotRefs.length,
       finalSceneText: finalText,
     },

@@ -8461,6 +8461,134 @@ function getProjectManifestPath(projectName = currentProjectName || DEFAULT_PROJ
   });
 }
 
+const STAGE10_LOCAL_STATE_DIRNAME = '.stage10-local';
+const STAGE10_PRODUCT_SESSION_FILENAME = 'product-session.v1.json';
+const STAGE10_RECEIPT_AUTHORITY_HEAD_FILENAME = 'command-receipt-authority-head.v1.json';
+const STAGE10_RECEIPT_AUTHORITY_RECOVERY_FILENAME = 'command-receipt-authority-head.recovery.v1.json';
+const stage10ProjectQueues = new Map();
+let activeStage10ApplicationBootstrap = null;
+
+function getStage10LocalStatePath(projectRoot, fileName) {
+  return joinPathSegmentsWithinRoot(projectRoot, [STAGE10_LOCAL_STATE_DIRNAME, fileName], {
+    resolveSymlinks: false,
+  });
+}
+
+function enqueueStage10ProjectOperation(projectId, operation) {
+  const key = normalizeStableProjectId(projectId) || 'stage10-project';
+  const previous = stage10ProjectQueues.get(key) || Promise.resolve();
+  const next = previous.then(operation, operation);
+  stage10ProjectQueues.set(key, next.catch(() => {}));
+  return next;
+}
+
+function createStage10MainStoragePort(projectRoot) {
+  return {
+    async readSession() {
+      const sessionPath = getStage10LocalStatePath(projectRoot, STAGE10_PRODUCT_SESSION_FILENAME);
+      const raw = await fs.readFile(sessionPath, 'utf8').catch(() => '');
+      return raw ? JSON.parse(raw) : null;
+    },
+    async writeSession(projectId, sessionRecord, options = {}) {
+      return enqueueStage10ProjectOperation(projectId, async () => {
+        const sessionPath = getStage10LocalStatePath(projectRoot, STAGE10_PRODUCT_SESSION_FILENAME);
+        await fs.mkdir(path.dirname(sessionPath), { recursive: true });
+        const result = await fileManager.writeFileAtomic(sessionPath, `${JSON.stringify(sessionRecord, null, 2)}\n`);
+        return {
+          ok: result?.success !== false,
+          schemaVersion: 'yalken.stage10.mainStoragePort.writeSession.v1',
+          reason: typeof options.reason === 'string' ? options.reason : '',
+          pathKind: 'stage10.localProductSession',
+          atomicWrite: true,
+        };
+      });
+    },
+    async readRecoverySnapshot(projectId, snapshotId) {
+      const safeSnapshotId = sanitizeFilename(snapshotId);
+      const snapshotPath = getStage10LocalStatePath(projectRoot, `recovery-${safeSnapshotId}.json`);
+      const raw = await fs.readFile(snapshotPath, 'utf8').catch(() => '');
+      return raw ? JSON.parse(raw) : null;
+    },
+    async writeRecoverySnapshot(projectId, snapshotId, snapshotRecord, options = {}) {
+      return enqueueStage10ProjectOperation(projectId, async () => {
+        const safeSnapshotId = sanitizeFilename(snapshotId);
+        const snapshotPath = getStage10LocalStatePath(projectRoot, `recovery-${safeSnapshotId}.json`);
+        await fs.mkdir(path.dirname(snapshotPath), { recursive: true });
+        const result = await fileManager.writeFileAtomic(snapshotPath, `${JSON.stringify(snapshotRecord, null, 2)}\n`);
+        return {
+          ok: result?.success !== false,
+          schemaVersion: 'yalken.stage10.mainStoragePort.writeRecoverySnapshot.v1',
+          reason: typeof options.reason === 'string' ? options.reason : '',
+          pathKind: 'stage10.readableRecoverySnapshot',
+          atomicWrite: true,
+        };
+      });
+    },
+  };
+}
+
+function createStage10MainCommandReceiptAuthorityHeadPort(projectRoot) {
+  return {
+    async readAuthorityHead(projectId) {
+      const authorityPath = getStage10LocalStatePath(projectRoot, STAGE10_RECEIPT_AUTHORITY_HEAD_FILENAME);
+      const raw = await fs.readFile(authorityPath, 'utf8').catch(() => '');
+      return raw ? JSON.parse(raw) : null;
+    },
+    async writeAuthorityHead(projectId, authorityHeadRecord, options = {}) {
+      return enqueueStage10ProjectOperation(projectId, async () => {
+        const authorityPath = getStage10LocalStatePath(projectRoot, STAGE10_RECEIPT_AUTHORITY_HEAD_FILENAME);
+        const recoveryPath = getStage10LocalStatePath(projectRoot, STAGE10_RECEIPT_AUTHORITY_RECOVERY_FILENAME);
+        await fs.mkdir(path.dirname(authorityPath), { recursive: true });
+        const previous = await fs.readFile(authorityPath, 'utf8').catch(() => '');
+        if (previous) {
+          await fileManager.writeFileAtomic(recoveryPath, previous.endsWith('\n') ? previous : `${previous}\n`);
+        }
+        const result = await fileManager.writeFileAtomic(authorityPath, `${JSON.stringify(authorityHeadRecord, null, 2)}\n`);
+        return {
+          ok: result?.success !== false,
+          schemaVersion: 'yalken.stage10.mainCommandReceiptAuthorityHeadPort.write.v1',
+          reason: typeof options.reason === 'string' ? options.reason : '',
+          pathKind: 'stage10.commandKernelReceiptAuthorityHead',
+          atomicWrite: true,
+          readableRecovery: Boolean(previous),
+        };
+      });
+    },
+  };
+}
+
+function readStage10LocalStatePresence(projectRoot) {
+  return {
+    session: fsSync.existsSync(getStage10LocalStatePath(projectRoot, STAGE10_PRODUCT_SESSION_FILENAME)),
+    authorityHead: fsSync.existsSync(getStage10LocalStatePath(projectRoot, STAGE10_RECEIPT_AUTHORITY_HEAD_FILENAME)),
+  };
+}
+
+async function bootstrapStage10ApplicationForProject(projectRoot, manifest, mode) {
+  const projectId = normalizeStableProjectId(manifest?.projectId);
+  if (!projectId) return null;
+  const { createStage10ApplicationBootstrap } = await loadStage10ApplicationBootstrapModule();
+  const bootstrap = createStage10ApplicationBootstrap({
+    storagePort: createStage10MainStoragePort(projectRoot),
+    authorityHeadPort: createStage10MainCommandReceiptAuthorityHeadPort(projectRoot),
+  });
+  activeStage10ApplicationBootstrap = bootstrap;
+  if (mode === 'create') {
+    return bootstrap.createProjectRuntime({
+      projectId,
+      title: typeof manifest.projectName === 'string' ? manifest.projectName : projectId,
+    });
+  }
+  const statePresence = readStage10LocalStatePresence(projectRoot);
+  if (!statePresence.session && !statePresence.authorityHead) {
+    return bootstrap.createProjectRuntime({
+      projectId,
+      title: typeof manifest.projectName === 'string' ? manifest.projectName : projectId,
+    });
+  }
+  return bootstrap.reopenProjectRuntime({ projectId });
+}
+
 function buildSectionDefinitions(labels) {
   return labels.map((label) => ({
     label,
@@ -8763,6 +8891,18 @@ function loadCoreRuntimeModule() {
     });
   }
   return coreRuntimeModulePromise;
+}
+
+let stage10ApplicationBootstrapModulePromise = null;
+function loadStage10ApplicationBootstrapModule() {
+  if (!stage10ApplicationBootstrapModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'stage10ApplicationBootstrap.mjs')).href;
+    stage10ApplicationBootstrapModulePromise = import(modulePath).catch((error) => {
+      stage10ApplicationBootstrapModulePromise = null;
+      throw error;
+    });
+  }
+  return stage10ApplicationBootstrapModulePromise;
 }
 
 let manualMapGraphModulePromise = null;
@@ -13045,12 +13185,23 @@ async function handleProjectLifecycleCreateCommand(payload = {}) {
     }),
     manifest: created.manifest,
   });
+  let stage10Bootstrap = null;
+  try {
+    stage10Bootstrap = await bootstrapStage10ApplicationForProject(created.projectRoot, created.manifest, 'create');
+  } catch (error) {
+    return makeProjectLifecycleError(
+      'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED',
+      error?.reason || error?.code || 'STAGE10_APPLICATION_BOOTSTRAP_FAILED',
+      { message: error?.message || 'Stage-10 bootstrap failed' },
+    );
+  }
   return {
     ok: true,
     created: true,
     projectId: created.projectId,
     projectName: created.projectName,
     documentId: opened.documentId,
+    stage10Bootstrap: stage10Bootstrap ? { ok: true, productLifecycleReachable: true } : null,
     recoveryChecked: true,
   };
 }
@@ -13083,6 +13234,16 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
     readOnlyProject,
   });
   if (!opened.ok) return opened;
+  let stage10Bootstrap = null;
+  try {
+    stage10Bootstrap = await bootstrapStage10ApplicationForProject(binding.projectRoot, binding.manifest, 'reopen');
+  } catch (error) {
+    return makeProjectLifecycleError(
+      'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
+      error?.reason || error?.code || 'STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
+      { message: error?.message || 'Stage-10 bootstrap failed closed' },
+    );
+  }
   return {
     ok: true,
     opened: true,
@@ -13090,6 +13251,7 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
     projectName: binding.manifest?.projectName || path.basename(binding.projectRoot),
     documentId: opened.documentId,
     continuationSource: target.source,
+    stage10Bootstrap: stage10Bootstrap ? { ok: true, productLifecycleReachable: true } : null,
     recoveryChecked: true,
     readOnlyProject,
   };

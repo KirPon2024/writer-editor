@@ -6048,7 +6048,7 @@
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs",
-      "sha256": "2c7dc00986e211ef8e4bc2b245a0f97604130efdf9ef4f84f6827f59fc4cb6b3",
+      "sha256": "93951b7f0054a7aaf977cae15d96d374559b158d6b97a864e278c6577d7e261e",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
       "approvedAtUtc": "2026-08-01T08:36:00.000Z",
       "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
@@ -6498,7 +6498,7 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "75f8c5eaabe6cc24647eea741339414f5963cd2e11eec5feb71f9df831c739c2",
+      "sha256": "602b6e98129908d29b781cf42d197eb5285c94bb90d3321f664ad53143431d8a",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
       "approvedAtUtc": "2026-08-01T17:58:15.000Z",
       "rationale": "Approve bounded Atlas V5 audit-hold repair main-process scene reorder boundary: no-op reorder remains false with empty facts, actual reorder returns verified domain-event digest, Word C4 semantics preserved, no direct UI or storage bypass, no network, no dependency, no UI redesign, and no Program DONE claim.",
@@ -8780,7 +8780,7 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js",
-      "sha256": "024419947ec804e0907887c74fd0119689d5ebe1d02e66a44fa98c690ea8235f",
+      "sha256": "e94c4d183ccd129fe6a8d5ad4a0fe9accfc14339acf7d3263ea015ad1b619712",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
       "approvedAtUtc": "2026-08-01T08:36:00.000Z",
       "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
@@ -8829,7 +8829,7 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "9cd964314dcf0d743e19e5a40759e9d05a8f2569a8da01ad36a634014fd0fa37",
+      "sha256": "0503c66630e2baa2a4d008290fab3b8191a0cf25c9c9943f29cd13ae91fe01ed",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_EVENT_CONTRACT_REPAIR_V4",
       "approvedAtUtc": "2026-08-01T18:44:00.000Z",
       "rationale": "Approve bounded Atlas V5 HOLD repair negatives for explicit provenance presence, independent Command Kernel receipt authority integrity, production tree reorder digest verification, actual offline collab apply product caller reachability, and required CI catalog visibility; preserves accepted Atlas contours, Word descendants, offline-only runtime, no UI redesign, no dependency, no second journal, and no Program DONE claim.",

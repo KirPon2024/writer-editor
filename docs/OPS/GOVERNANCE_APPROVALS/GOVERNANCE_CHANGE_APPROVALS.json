@@ -5232,7 +5232,7 @@
     },
     {
       "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "befa992622b7f22cfd5990cda1da31b0065cba9625701753078324723372a273",
+      "sha256": "188e57ddf4474aefe9cea4d50150af987a3b169a3f2100309d001d64ae467157",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
       "approvedAtUtc": "2026-08-01T00:05:00.000Z",
       "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
@@ -7332,10 +7332,38 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "c9c98200ba3db7f4ce9968e540d0ba4dc73b0e7a59706c7d056d12143dd360e3",
+      "sha256": "7f0e4566d1ed36974cf2d99792cd7e369ae768aefeac6ae15a2eae01e1b54fb9",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:32:27.743Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 product runtime source rebind: returned Review DOCX authority is gated through parser V2 before session import, custom properties are recognized as supported review packet metadata, no automatic apply, no writer authority expansion beyond existing command-owned paths, no UI redesign, no dependency, no network, and no release-ready or Word saturation claim."
+      "rationale": "Approve bounded merged src/main.js runtime source rebind: RTK return intake V2 gates returned Review DOCX authority through parser V2 before session import, custom properties are recognized as supported review packet metadata, no automatic apply or writer authority expansion; R3_C04 removes silent project-search candidateNodes slice 0 500 so authoritative search sources are not invisibly partial; no UI redesign, dependency, network, release-ready, Word saturation, or Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS/r3-c04-multilingual-worker-stress-report.json",
+      "sha256": "c08ba33747f3bc88a1170d66bac61b70d6f4f88e6ecd2bdea1dd418e37a44fdb",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C04",
+      "approvedAtUtc": "2026-08-01T00:37:00.000Z",
+      "rationale": "Approve bounded R3_C04 multilingual, grapheme, author-quarantine, partial-search, and 10k/50k worker stress evidence report; certifies only local Core and derived worker invariants, no runtime dependency, no network, no product UI redesign, and no Program DoD claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS_RECEIPT.json",
+      "sha256": "2aec458c0ac93c5c4a3225bf525090e10b7949351f1d5662711b1dde093937fa",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C04",
+      "approvedAtUtc": "2026-08-01T00:37:00.000Z",
+      "rationale": "Approve bounded R3_C04 receipt binding actual runner PASS and focused contract PASS while leaving doctrine, OSS, diff, governance, test:ops, full runner, commit, PR, merge, remote verification, R3_C05, independent audit, and Program DoD pending."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c04-multilingual-worker-stress.mjs",
+      "sha256": "6a0f926827fa5cb6ba5e33afea06ac518d101305c0d68df34449bab3caf4fd44",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C04",
+      "approvedAtUtc": "2026-08-01T00:37:00.000Z",
+      "rationale": "Approve bounded R3_C04 local ops runner: builds deterministic multilingual Core fixture through Command Kernel, proves grapheme admission, future author quarantine, unknown-field preservation, no silent project-search slice, real worker-thread 10k/50k LOD stress, stale discard, cancellation, and typed fallback without network, storage mutation, UI redesign, or new dependency."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c04-multilingual-worker-stress.contract.test.js",
+      "sha256": "1285f4cc7aa613f90256b55246c351979887a0d47c63a551ea3667ee348f9d75",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C04",
+      "approvedAtUtc": "2026-08-01T00:37:00.000Z",
+      "rationale": "Approve bounded R3_C04 focused contract covering runner PASS, split-grapheme negative Core admission, production mention language policy routing, future author quarantine source hooks, and removal of silent project-search candidate slice; no dependency, network, UI redesign, or Program DoD claim."
     }
   ]
 }

@@ -303,6 +303,185 @@ test('DOCX review preview session candidate: adjacent delete and insert become o
   assertNoStorageOrApplyAuthority(result);
 });
 
+test('DOCX review preview session candidate: full manuscript paragraph signals route tracked text to scenes', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([
+    '<w:p w14:paraId="aaaabbbb" w14:textId="11112222">',
+    '<w:r><w:t>Alpha </w:t></w:r>',
+    '<w:del w:id="1"><w:r><w:delText>first phrase</w:delText></w:r></w:del>',
+    '<w:ins w:id="2"><w:r><w:t>first replacement</w:t></w:r></w:ins>',
+    '</w:p>',
+    '<w:p w14:paraId="ccccdddd" w14:textId="33334444">',
+    '<w:r><w:t>Beta </w:t></w:r>',
+    '<w:del w:id="3"><w:r><w:delText>second phrase</w:delText></w:r></w:del>',
+    '<w:ins w:id="4"><w:r><w:t>second replacement</w:t></w:r></w:ins>',
+    '</w:p>',
+  ].join('')), {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: {
+      scenes: [
+        {
+          sceneId: 'roman/chapter-01.txt',
+          blocks: [
+            {
+              wordSignals: [
+                { kind: 'w14ParaIdTextId', value: { paraId: 'aaaabbbb', textId: '11112222' } },
+              ],
+            },
+          ],
+        },
+        {
+          sceneId: 'roman/chapter-02.txt',
+          blocks: [
+            {
+              wordSignals: [
+                { kind: 'w14ParaIdTextId', value: { paraId: 'ccccdddd', textId: '33334444' } },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'ready');
+  assert.deepEqual(result.reviewPacket.textChanges.map((change) => change.targetScope), [
+    { type: 'scene', id: 'roman/chapter-01.txt' },
+    { type: 'scene', id: 'roman/chapter-02.txt' },
+  ]);
+  assert.deepEqual(result.reviewPacket.textChanges.map((change) => change.match.quote), [
+    'first phrase',
+    'second phrase',
+  ]);
+  assert.deepEqual(result.reviewPacket.textChanges.map((change) => change.match.kind), [
+    'exact',
+    'exact',
+  ]);
+  assertNoStorageOrApplyAuthority(result);
+});
+
+test('DOCX review preview session candidate: full manuscript retained-quote insert lane stays manual', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([
+    '<w:p w14:paraId="aaaabbbb" w14:textId="11112222">',
+    '<w:r><w:t>Alpha </w:t></w:r>',
+    '<w:del w:id="1"><w:r><w:delText>stable quote</w:delText></w:r></w:del>',
+    '<w:ins w:id="2"><w:r><w:t>inserted prefix stable quote</w:t></w:r></w:ins>',
+    '</w:p>',
+  ].join('')), {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: {
+      scenes: [
+        {
+          sceneId: 'roman/chapter-01.txt',
+          blocks: [
+            {
+              wordSignals: [
+                { kind: 'w14ParaIdTextId', value: { paraId: 'aaaabbbb', textId: '11112222' } },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'ready');
+  assert.equal(result.reviewPacket.textChanges.length, 1);
+  assert.deepEqual(result.reviewPacket.textChanges[0].targetScope, { type: 'scene', id: 'roman/chapter-01.txt' });
+  assert.equal(result.reviewPacket.textChanges[0].match.quote, 'stable quote');
+  assert.equal(result.reviewPacket.textChanges[0].replacementText, 'inserted prefix stable quote');
+  assert.equal(result.reviewPacket.textChanges[0].match.kind, 'manual');
+  assert.equal(result.reviewPacket.textChanges[0].sourceAuthority, undefined);
+  assertNoStorageOrApplyAuthority(result);
+});
+
+test('DOCX review preview session candidate: full manuscript bookmark signals route Word-rewritten paragraphs', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([
+    '<w:p w14:paraId="wordmade01" w14:textId="wordmade02">',
+    '<w:bookmarkStart w:id="7" w:name="YRTK_0002_scene_02_block_0001_abcdef1234"/>',
+    '<w:r><w:t>Beta </w:t></w:r>',
+    '<w:del w:id="3"><w:r><w:delText>second phrase</w:delText></w:r></w:del>',
+    '<w:ins w:id="4"><w:r><w:t>second replacement</w:t></w:r></w:ins>',
+    '<w:bookmarkEnd w:id="7"/>',
+    '</w:p>',
+  ].join('')), {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: {
+      scenes: [
+        {
+          sceneId: 'roman/chapter-01.txt',
+          blocks: [
+            {
+              blockId: 'scene-01-block-0001-deadbeef00000000',
+              wordSignals: [
+                { kind: 'w14ParaIdTextId', value: { paraId: 'deadbeef', textId: '11112222' } },
+              ],
+            },
+          ],
+        },
+        {
+          sceneId: 'roman/chapter-02.txt',
+          blocks: [
+            {
+              blockId: 'scene-02-block-0001-abcdef1234567890',
+              wordSignals: [
+                { kind: 'w14ParaIdTextId', value: { paraId: 'abcdef12', textId: '33334444' } },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'ready');
+  assert.equal(result.reviewPacket.textChanges.length, 1);
+  assert.deepEqual(result.reviewPacket.textChanges[0].targetScope, { type: 'scene', id: 'roman/chapter-02.txt' });
+  assert.equal(result.reviewPacket.textChanges[0].match.kind, 'exact');
+  assert.equal(result.reviewPacket.textChanges[0].sourceAuthority, 'full-manuscript-export-map-paragraph-signal');
+  assertNoStorageOrApplyAuthority(result);
+});
+
+test('DOCX review preview session candidate: full manuscript unresolved paragraphs cannot fall back to exact open scene', async () => {
+  const bridge = await loadBridge();
+  const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([
+    '<w:p w14:paraId="wordmade01" w14:textId="wordmade02">',
+    '<w:r><w:t>Alpha </w:t></w:r>',
+    '<w:del w:id="1"><w:r><w:delText>first phrase</w:delText></w:r></w:del>',
+    '<w:ins w:id="2"><w:r><w:t>first replacement</w:t></w:r></w:ins>',
+    '</w:p>',
+  ].join('')), {
+    targetScope: { type: 'scene', id: 'roman/currently-open.txt' },
+    fullManuscriptExportMap: {
+      scenes: [
+        {
+          sceneId: 'roman/chapter-01.txt',
+          blocks: [
+            {
+              wordSignals: [
+                { kind: 'w14ParaIdTextId', value: { paraId: 'aaaabbbb', textId: '11112222' } },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'ready');
+  assert.equal(result.reviewPacket.textChanges.length, 1);
+  assert.deepEqual(result.reviewPacket.textChanges[0].targetScope, { type: 'scene', id: 'roman/currently-open.txt' });
+  assert.equal(result.reviewPacket.textChanges[0].match.kind, 'manual');
+  assert.equal(result.reviewPacket.textChanges[0].sourceAuthority, undefined);
+  assertNoStorageOrApplyAuthority(result);
+});
+
 test('DOCX review preview session candidate: standalone insert and delete remain distinct manual candidates', async () => {
   const bridge = await loadBridge();
   const result = bridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(cleanDocxZip([

@@ -1001,6 +1001,14 @@ function normalizeReviewExactTextApplyBatchPayload(payload = {}) {
   };
 }
 
+function deriveReviewExactTextApplyOperationId(requestIdRaw, fallbackSeedRaw = '') {
+  const requestId = normalizeReviewExactTextApplyString(requestIdRaw);
+  const fallbackSeed = normalizeReviewExactTextApplyString(fallbackSeedRaw);
+  const seed = requestId || fallbackSeed;
+  if (!seed) return '';
+  return `op_review_batch_${computeHash(seed).slice(0, 32)}`;
+}
+
 function readReviewExactTextRevisionSession(sessionStore) {
   if (!isPlainObjectValue(sessionStore)) return {};
   if (isPlainObjectValue(sessionStore.revisionSession)) {
@@ -1823,7 +1831,7 @@ function attachReviewExactTextApplyBatchResult(safeWriteResult) {
     : [];
   const batchAppliedChangeIds = Array.isArray(summary.changes)
     ? summary.changes
-      .filter((change) => change.status === 'applied' && change.changeId)
+      .filter((change) => (change.status === 'applied' || change.status === 'replay') && change.changeId)
       .map((change) => change.changeId)
     : [];
   nextReviewSurface.exactTextAppliedChangeIds = [...new Set([
@@ -1845,14 +1853,15 @@ function makeReviewExactTextApplyBatchResponseFromSafeWrite(safeWriteResult) {
   const requested = Array.isArray(summary.changes) && summary.changes.length > 0
     ? summary.changes.length
     : 0;
-  const applied = summary.changes.filter((change) => change.status === 'applied').length;
+  const applied = summary.changes.filter((change) => change.status === 'applied' || change.status === 'replay').length;
   const failed = safeWriteResult?.status === 'failed' ? 1 : 0;
   const blocked = safeWriteResult?.status === 'blocked' ? 1 : 0;
   return {
     ok: true,
     batch: true,
     applied: summary.applied === true,
-    status: summary.applied === true ? 'applied' : (safeWriteResult?.status || 'blocked'),
+    replay: summary.status === 'replay',
+    status: summary.status || (safeWriteResult?.status || 'blocked'),
     reason: summary.reason,
     totals: {
       requested,
@@ -2004,10 +2013,17 @@ async function handleReviewSurfaceApplyExactTextChangesBatchCommandSurface(paylo
 
   let safeWriteResult = null;
   try {
+    const operationId = deriveReviewExactTextApplyOperationId(
+      normalizedPayload.value.requestId,
+      selectedBatch.value.textChanges.map((change) => change.changeId).join('\n'),
+    );
     safeWriteResult = await runBatchSafeWrite(
       safeWriteModule.applyExactTextBatchMinSafeWrite,
       applyContext.input,
-      isPlainObjectValue(options.safeWriteOptions) ? options.safeWriteOptions : {},
+      {
+        ...(isPlainObjectValue(options.safeWriteOptions) ? options.safeWriteOptions : {}),
+        ...(operationId ? { operationId } : {}),
+      },
     );
   } catch (error) {
     return makeReviewMutateTypedError(
@@ -4310,8 +4326,9 @@ async function buildDocxReviewPreviewSessionMainContext(options = {}) {
     sceneText: content,
     baselineHash,
     currentBaselineHash: baselineHash,
+    documentKind: documentContext.kind,
     targetScope: {
-      type: documentContext.kind,
+      type: 'scene',
       id: sceneId,
     },
     createdAt: new Date().toISOString(),
@@ -5338,6 +5355,9 @@ async function handleDocxReviewPreviewSessionActivationCommandSurface(payload = 
     candidate = revisionBridge.buildDocxReviewPreviewSessionCandidateFromZipBytes(decoded.bytes, {
       targetScope: activeContext.targetScope,
       createdAt: activeContext.createdAt,
+      fullManuscriptExportMap: isPlainObjectValue(activeContext.reviewTransportAuthorityCapsule?.exportMap)
+        ? activeContext.reviewTransportAuthorityCapsule.exportMap
+        : null,
     });
   } catch (error) {
     return makeDocxReviewPreviewSessionTypedError(
@@ -16160,9 +16180,19 @@ async function buildReviewExactTextApplyInputFromMainState(request = {}) {
     return makeReviewExactTextApplyContextBlock('REVIEW_EXACT_TEXT_APPLY_PLAN_BUILDER_UNAVAILABLE');
   }
 
+  const selectedRevisionSession = cloneJsonSafe(revisionSession) || {};
+  selectedRevisionSession.baselineHash = projectSnapshot.baselineHash;
+  selectedRevisionSession.reviewGraph = {
+    ...(isPlainObjectValue(selectedRevisionSession.reviewGraph) ? selectedRevisionSession.reviewGraph : {}),
+    commentThreads: [],
+    commentPlacements: [],
+    structuralChanges: [],
+    textChanges: [cloneJsonSafe(textChange) || {}],
+  };
+
   const planPreview = revisionBridge.buildExactTextApplyPlanNoDiskPreview({
     projectSnapshot,
-    revisionSession,
+    revisionSession: selectedRevisionSession,
     reviewItem,
   });
   if (!isPlainObjectValue(planPreview) || planPreview.status !== 'ready' || !isPlainObjectValue(planPreview.plan)) {
@@ -16181,7 +16211,7 @@ async function buildReviewExactTextApplyInputFromMainState(request = {}) {
     input: {
       projectRoot: binding.projectRoot,
       projectSnapshot,
-      revisionSession: cloneJsonSafe(revisionSession) || {},
+      revisionSession: selectedRevisionSession,
       reviewItem: cloneJsonSafe(reviewItem) || {},
       planPreview,
       scenePath: currentFilePath,
@@ -16279,13 +16309,22 @@ async function buildReviewExactTextApplyBatchInputFromMainState(request = {}) {
       },
     ],
   };
+  const selectedRevisionSession = cloneJsonSafe(revisionSession) || {};
+  selectedRevisionSession.baselineHash = projectSnapshot.baselineHash;
+  selectedRevisionSession.reviewGraph = {
+    ...(isPlainObjectValue(selectedRevisionSession.reviewGraph) ? selectedRevisionSession.reviewGraph : {}),
+    commentThreads: [],
+    commentPlacements: [],
+    structuralChanges: [],
+    textChanges: cloneJsonSafe(textChanges) || [],
+  };
 
   return {
     ok: true,
     input: {
       projectRoot: binding.projectRoot,
       projectSnapshot,
-      revisionSession: cloneJsonSafe(revisionSession) || {},
+      revisionSession: selectedRevisionSession,
       reviewItems: cloneJsonSafe(textChanges) || [],
       scenePath: currentFilePath,
       scenePathBySceneId: {
@@ -20677,6 +20716,69 @@ async function resolveProjectTreeNodeIdentity(nodeId, expectedProjectId = '') {
   };
 }
 
+function normalizeProjectRelativeSceneId(value) {
+  const normalized = typeof value === 'string'
+    ? value.trim().replace(/\\/g, '/').replace(/^\/+/u, '')
+    : '';
+  if (
+    !normalized
+    || normalized.length > 512
+    || /[\u0000-\u001F]/u.test(normalized)
+    || !normalized.startsWith('roman/')
+    || !normalized.toLowerCase().endsWith('.txt')
+  ) {
+    return '';
+  }
+  const segments = normalized.split('/');
+  if (
+    segments.some((segment) => !segment || segment === '.' || segment === '..')
+    || segments.some((segment) => segment.startsWith('.'))
+  ) {
+    return '';
+  }
+  return normalized;
+}
+
+async function resolveProjectTreeSceneIdentity(sceneId, expectedProjectId = '') {
+  const normalizedSceneId = normalizeProjectRelativeSceneId(sceneId);
+  if (!normalizedSceneId) {
+    const error = new Error('TREE_SCENE_ID_INVALID');
+    error.code = 'E_TREE_SCENE_ID_INVALID';
+    throw error;
+  }
+  const { manifestPath, manifest } = await ensureProjectManifest(currentProjectName || DEFAULT_PROJECT_NAME);
+  const normalizedExpectedProjectId = typeof expectedProjectId === 'string' ? expectedProjectId.trim() : '';
+  if (normalizedExpectedProjectId && normalizedExpectedProjectId !== manifest.projectId) {
+    const error = new Error('TREE_NODE_PROJECT_MISMATCH');
+    error.code = 'E_TREE_NODE_PROJECT_MISMATCH';
+    throw error;
+  }
+  const projectRoot = path.dirname(manifestPath);
+  const nodePath = joinPathSegmentsWithinRoot(projectRoot, normalizedSceneId.split('/'), {
+    resolveSymlinks: false,
+  });
+  const pathGuard = sanitizePathFieldsWithinRoot({ path: nodePath }, ['path'], projectRoot, {
+    mode: 'any',
+    resolveSymlinks: true,
+  });
+  if (!pathGuard.ok || !pathGuard.payload) {
+    const error = new Error('TREE_SCENE_PATH_BOUNDARY_VIOLATION');
+    error.code = 'E_PATH_BOUNDARY_VIOLATION';
+    throw error;
+  }
+  const identity = await upsertProjectTreeIdentityForPath(pathGuard.payload.path, 'scene');
+  return {
+    projectId: manifest.projectId,
+    projectRoot,
+    manifestPath,
+    manifest,
+    nodeId: identity.nodeId,
+    nodePath: pathGuard.payload.path,
+    kind: 'scene',
+    sceneId: normalizedSceneId,
+  };
+}
+
 async function getProjectDocumentIdentityPayload(filePath) {
   const projectRoot = getProjectRootPath();
   if (typeof filePath !== 'string' || !filePath.trim() || !isPathInside(projectRoot, filePath)) {
@@ -22420,7 +22522,14 @@ async function handleUiOpenDocumentCommand(payload) {
   let resolvedNode;
   let documentTarget;
   try {
-    resolvedNode = await resolveProjectTreeNodeIdentity(safePayload.nodeId, safePayload.projectId);
+    try {
+      resolvedNode = await resolveProjectTreeNodeIdentity(safePayload.nodeId, safePayload.projectId);
+    } catch (nodeError) {
+      if (typeof safePayload.sceneId !== 'string' || !safePayload.sceneId.trim()) {
+        throw nodeError;
+      }
+      resolvedNode = await resolveProjectTreeSceneIdentity(safePayload.sceneId, safePayload.projectId);
+    }
     documentTarget = getResolvedTreeDocumentTarget(resolvedNode);
   } catch (error) {
     return {
@@ -23702,7 +23811,6 @@ const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.review.openDocxReviewPreviewSession',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
-  'cmd.project.review.applyExactTextChangesBatch',
   'cmd.project.review.exportMarkdown',
 ]);
 const SAVE_LIFECYCLE_SIGNAL_BRIDGE_ALLOWED_SIGNAL_IDS = new Set([

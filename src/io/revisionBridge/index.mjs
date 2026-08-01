@@ -2984,7 +2984,7 @@ const DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS = Object.freeze({
   maxComments: 250,
   maxCommentBodyChars: 2000,
   maxAnchors: 250,
-  maxTrackedTextCandidates: 100,
+  maxTrackedTextCandidates: 400,
   maxTrackedStructuralCandidates: 100,
   maxTrackedTextChars: 2000,
   maxDiagnostics: 200,
@@ -3010,6 +3010,55 @@ function docxReviewPreviewSessionTargetScope(value) {
   const type = normalizeString(source.type) || 'docx';
   const id = normalizeString(source.id) || 'word/document.xml';
   return { type, id };
+}
+
+function docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(exportMap = {}) {
+  const byParaId = new Map();
+  const byTextId = new Map();
+  const byBookmarkName = new Map();
+  const scenes = Array.isArray(exportMap?.scenes) ? exportMap.scenes : [];
+  let globalBlockIndex = 0;
+  for (const scene of scenes) {
+    const sceneId = normalizeString(scene?.sceneId);
+    if (!sceneId) continue;
+    const blocks = Array.isArray(scene?.blocks) ? scene.blocks : [];
+    for (const block of blocks) {
+      const targetScope = { type: 'scene', id: sceneId };
+      const blockId = normalizeString(block?.blockId);
+      if (blockId) {
+        const rawBookmark = blockId.replace(/[^A-Za-z0-9_]/gu, '_');
+        const builderBookmarkName = `YRTK_${String(globalBlockIndex + 1).padStart(4, '0')}_${rawBookmark}`.slice(0, 40);
+        if (builderBookmarkName) byBookmarkName.set(builderBookmarkName.toLowerCase(), targetScope);
+      }
+      const signals = Array.isArray(block?.wordSignals) ? block.wordSignals : [];
+      for (const signal of signals) {
+        if (!isPlainObject(signal)) continue;
+        if (signal.kind === 'w14ParaIdTextId') {
+          const paraId = normalizeString(signal.value?.paraId).toLowerCase();
+          const textId = normalizeString(signal.value?.textId).toLowerCase();
+          if (paraId) byParaId.set(paraId, targetScope);
+          if (textId) byTextId.set(textId, targetScope);
+        } else if (signal.kind === 'bookmarkName') {
+          const name = normalizeString(signal.value?.name).toLowerCase();
+          if (name) byBookmarkName.set(name, targetScope);
+        }
+      }
+      globalBlockIndex += 1;
+    }
+  }
+  return (signal = {}) => {
+    const paraId = normalizeString(signal.paraId).toLowerCase();
+    const textId = normalizeString(signal.textId).toLowerCase();
+    const bookmarkNames = Array.isArray(signal.bookmarkNames)
+      ? signal.bookmarkNames.map((name) => normalizeString(name).toLowerCase()).filter(Boolean)
+      : [];
+    if (paraId && byParaId.has(paraId)) return byParaId.get(paraId);
+    if (textId && byTextId.has(textId)) return byTextId.get(textId);
+    for (const bookmarkName of bookmarkNames) {
+      if (byBookmarkName.has(bookmarkName)) return byBookmarkName.get(bookmarkName);
+    }
+    return null;
+  };
 }
 
 function docxReviewPreviewSessionEmptyReviewPacket() {
@@ -3305,7 +3354,14 @@ function docxReviewPreviewSessionBuildPlacements(documentXml, comments, options 
 }
 
 function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}) {
-  const targetScope = docxReviewPreviewSessionTargetScope(options.targetScope);
+  const fallbackTargetScope = docxReviewPreviewSessionTargetScope(options.targetScope);
+  const revisionTargetScopes = revisions
+    .map((revision) => (isPlainObject(revision.targetScope) ? docxReviewPreviewSessionTargetScope(revision.targetScope) : null))
+    .filter(Boolean);
+  const uniqueRevisionTargetScopeKeys = [...new Set(revisionTargetScopes.map((scope) => `${scope.type}\n${scope.id}`))];
+  const targetScope = uniqueRevisionTargetScopeKeys.length === 1
+    ? revisionTargetScopes[0]
+    : fallbackTargetScope;
   const createdAt = revisions
     .map((revision) => normalizeString(revision.createdAt))
     .find(Boolean) || normalizeString(options.createdAt);
@@ -3317,6 +3373,12 @@ function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}
     .filter((revision) => revision.kind === 'insert')
     .map((revision) => revision.text)
     .join('');
+  const fullManuscriptSceneBound = options.fullManuscriptSceneBound === true
+    && targetScope.type === 'scene'
+    && targetScope.id
+    && deletedText
+    && !insertedText.includes(deletedText)
+    && revisions.every((revision) => revision.fullManuscriptResolved === true);
   const changeHash = revisionBlockHash({
     kind,
     paragraphIndex: revisions[0]?.paragraphIndex,
@@ -3325,11 +3387,11 @@ function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}
     insertedText,
     targetScope,
   });
-  return {
+  const change = {
     changeId: `docx-tracked-${kind}-${changeHash.slice(0, 16)}`,
     targetScope,
     match: {
-      kind: 'manual',
+      kind: fullManuscriptSceneBound ? 'exact' : 'manual',
       quote: deletedText,
       prefix: '',
       suffix: '',
@@ -3337,6 +3399,11 @@ function docxReviewPreviewSessionTrackedTextChange(kind, revisions, options = {}
     replacementText: insertedText,
     createdAt,
   };
+  if (fullManuscriptSceneBound) {
+    change.sourceAuthority = 'full-manuscript-export-map-paragraph-signal';
+    change.typedUnsupportedSiblingsRemainPending = true;
+  }
+  return change;
 }
 
 function docxReviewPreviewSessionTrackedStructuralChange(kind, summary, options = {}) {
@@ -3358,11 +3425,14 @@ function docxReviewPreviewSessionTrackedStructuralChange(kind, summary, options 
 
 function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}) {
   const targetScope = docxReviewPreviewSessionTargetScope(options.targetScope);
+  const fullManuscriptScopeForParagraph =
+    docxReviewPreviewSessionBuildFullManuscriptBlockScopeResolver(options.fullManuscriptExportMap);
   const createdAt = normalizeString(options.createdAt);
   const diagnostics = [];
   const structuralChanges = [];
   const revisions = [];
   const elementStack = [];
+  const paragraphStack = [];
   let revisionSequence = 0;
   let paragraphIndex = -1;
   let paragraphDepth = 0;
@@ -3499,7 +3569,10 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
       ) {
         finishRevision();
       }
-      if (tagName === 'w:p') paragraphDepth = Math.max(0, paragraphDepth - 1);
+      if (tagName === 'w:p') {
+        paragraphDepth = Math.max(0, paragraphDepth - 1);
+        paragraphStack.pop();
+      }
       continue;
     }
 
@@ -3508,6 +3581,38 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
       if (paragraphDepth > 0 && activeRevision) activeRevision.complex = true;
       paragraphDepth += selfClosing ? 0 : 1;
       paragraphIndex += 1;
+      const paraId = docxReviewPreviewSessionReadXmlAttr(token, 'paraId');
+      const textId = docxReviewPreviewSessionReadXmlAttr(token, 'textId');
+      const resolvedTargetScope = fullManuscriptScopeForParagraph({ paraId, textId, paragraphIndex });
+      if (!selfClosing) {
+        paragraphStack.push({
+          paraId,
+          textId,
+          bookmarkNames: [],
+          fullManuscriptResolved: Boolean(resolvedTargetScope),
+          targetScope: resolvedTargetScope || targetScope,
+        });
+      }
+    } else if (tagName === 'w:bookmarkStart' && paragraphDepth > 0 && paragraphStack.length > 0) {
+      const bookmarkName = docxReviewPreviewSessionReadXmlAttr(token, 'name');
+      const activeParagraph = paragraphStack[paragraphStack.length - 1];
+      if (bookmarkName) {
+        activeParagraph.bookmarkNames = Array.isArray(activeParagraph.bookmarkNames)
+          ? [...activeParagraph.bookmarkNames, bookmarkName]
+          : [bookmarkName];
+        if (activeParagraph.fullManuscriptResolved !== true) {
+          const resolvedTargetScope = fullManuscriptScopeForParagraph({
+            paraId: activeParagraph.paraId,
+            textId: activeParagraph.textId,
+            paragraphIndex,
+            bookmarkNames: activeParagraph.bookmarkNames,
+          });
+          if (resolvedTargetScope) {
+            activeParagraph.targetScope = resolvedTargetScope;
+            activeParagraph.fullManuscriptResolved = true;
+          }
+        }
+      }
     }
 
     const revisionKind = tagName === 'w:ins' ? 'insert' : (tagName === 'w:del' ? 'delete' : '');
@@ -3527,6 +3632,9 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
           author: normalizeString(docxReviewPreviewSessionReadXmlAttr(token, 'author')),
           createdAt: normalizeString(docxReviewPreviewSessionReadXmlAttr(token, 'date')) || createdAt,
           paragraphIndex,
+          paragraphSignal: cloneJsonSafe(paragraphStack[paragraphStack.length - 1] || {}),
+          targetScope: cloneJsonSafe((paragraphStack[paragraphStack.length - 1] || {}).targetScope || targetScope),
+          fullManuscriptResolved: (paragraphStack[paragraphStack.length - 1] || {}).fullManuscriptResolved === true,
           boundaryVersion: plainBoundaryVersion,
           startDepth: elementStack.length,
           text: '',
@@ -3579,6 +3687,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
       textChanges.push(docxReviewPreviewSessionTrackedTextChange('replace', [current, next], {
         targetScope,
         createdAt,
+        fullManuscriptSceneBound: isPlainObject(options.fullManuscriptExportMap),
       }));
       index += 1;
       continue;
@@ -3586,6 +3695,7 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
     textChanges.push(docxReviewPreviewSessionTrackedTextChange(current.kind, [current], {
       targetScope,
       createdAt,
+      fullManuscriptSceneBound: isPlainObject(options.fullManuscriptExportMap),
     }));
   }
 
@@ -3745,6 +3855,7 @@ export function buildDocxReviewPreviewSessionCandidateFromZipBytes(input, option
   const trackedTextResult = docxReviewPreviewSessionTrackedTextCandidates(documentXml, {
     createdAt,
     targetScope,
+    fullManuscriptExportMap: options.fullManuscriptExportMap,
   });
   if (trackedTextResult.malformed) {
     return docxReviewPreviewSessionResult({

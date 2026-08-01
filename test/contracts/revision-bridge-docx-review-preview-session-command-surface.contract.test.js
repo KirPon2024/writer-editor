@@ -10,6 +10,7 @@ const { pathToFileURL } = require('node:url');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const MAIN_PATH = path.join(REPO_ROOT, 'src', 'main.js');
+const RETURN_INTAKE_WORKER_PATH = path.join(REPO_ROOT, 'src', 'main', 'rtkDocxReturnIntakeWorker.cjs');
 const BRIDGE_MODULE_PATH = path.join(REPO_ROOT, 'src', 'io', 'revisionBridge', 'index.mjs');
 const MUTATE_SECTION_START = '// CONTOUR_01A_REVIEW_MUTATE_PORT_START';
 const MUTATE_SECTION_END = '// CONTOUR_01A_REVIEW_MUTATE_PORT_END';
@@ -787,7 +788,8 @@ test('DOCX review preview session command: command is bridge-allowlisted and han
     source,
     /DOCX_REVIEW_PREVIEW_SESSION_ALLOWED_CONTEXT_KINDS\s*=\s*new Set\(\[[\s\S]*'scene'[\s\S]*'chapter-file'[\s\S]*'roman-section'/,
   );
-  assert.match(source, /targetScope:\s*\{\s*type:\s*documentContext\.kind,\s*id:\s*sceneId/u);
+  assert.match(source, /documentKind:\s*documentContext\.kind/u);
+  assert.match(source, /targetScope:\s*\{\s*type:\s*'scene',\s*id:\s*sceneId/u);
 });
 
 test('DOCX review preview session command: activates an in-memory review session from DOCX comments', async () => {
@@ -1328,6 +1330,26 @@ test('DOCX review preview session command: return intake V2 source is before ses
   assert.match(source, /buildDocxReviewTransportAnalysisFromZipBytes/u);
   assert.match(source, /RTK_RETURN_INTAKE_FOREIGN_OR_EXPIRED_ROUND/u);
   assert.match(source, /RTK_RETURN_INTAKE_AUTHORITY_NOT_VERIFIED/u);
+});
+
+test('DOCX review preview session command: return intake worker accepts Electron parentPort event payloads', () => {
+  delete require.cache[RETURN_INTAKE_WORKER_PATH];
+  const worker = require(RETURN_INTAKE_WORKER_PATH);
+  assert.equal(typeof worker.unwrapParentPortMessage, 'function');
+  assert.equal(typeof worker.stripSecret, 'function');
+  assert.deepEqual(
+    worker.unwrapParentPortMessage({ data: { bytesBase64: 'QUJD', requestId: 'physical-canary' } }),
+    { bytesBase64: 'QUJD', requestId: 'physical-canary' },
+  );
+  assert.deepEqual(
+    worker.unwrapParentPortMessage({ bytesBase64: 'REVG', requestId: 'direct' }),
+    { bytesBase64: 'REVG', requestId: 'direct' },
+  );
+  const bytes = Buffer.from('PK\x03\x04', 'binary');
+  const stripped = worker.stripSecret({ bytes, hmacSecret: 'local-secret-never-returned' });
+  assert.equal(Buffer.isBuffer(stripped.bytes), true);
+  assert.equal(stripped.bytes.equals(bytes), true);
+  assert.equal(Object.prototype.hasOwnProperty.call(stripped, 'hmacSecret'), false);
 });
 
 test('DOCX review preview session command: source section has no storage write authority', () => {

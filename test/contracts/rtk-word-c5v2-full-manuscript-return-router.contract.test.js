@@ -2,11 +2,37 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const path = require('node:path');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
-function makeSource() {
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function makeCryptoPort() {
+  return {
+    sha256Text(value) {
+      return crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex');
+    },
+    sha256Json(value) {
+      return `sha256:${this.sha256Text(stableJson(value))}`;
+    },
+    hmacSha256Json(value, secret) {
+      return `hmac-sha256:${crypto.createHmac('sha256', String(secret || '')).update(stableJson(value), 'utf8').digest('hex')}`;
+    },
+    byteLength(value) {
+      return Buffer.byteLength(String(value || ''), 'utf8');
+    },
+  };
+}
+
+function makeSource(deps = {}) {
   const {
     buildFullManuscriptDocxReviewPacketSource,
   } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'fullManuscriptDocxReviewPacketSource.js'));
@@ -32,6 +58,8 @@ function makeSource() {
     roundIdHex: '1234567890abcdef1234567890abcdef',
     keyIdHex: 'abcdef1234567890abcdef1234567890',
     hmacSecret: 'local-secret-for-test-only',
+    cryptoPort: makeCryptoPort(),
+    ...deps,
   });
 }
 
@@ -46,6 +74,30 @@ function returnedAuthority(source, overrides = {}) {
     ...overrides,
   };
 }
+
+test('C5V2 full-manuscript authority carrier verifies against local full-book authority', async () => {
+  const source = makeSource();
+  const {
+    buildDocxReviewPacketBuffer,
+  } = require(path.join(REPO_ROOT, 'src', 'export', 'docx', 'docxReviewPacketBuilder.js'));
+  const revisionBridge = await import(path.join(REPO_ROOT, 'src', 'io', 'revisionBridge', 'index.mjs'));
+  const bytes = buildDocxReviewPacketBuffer(source);
+  const result = revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes({
+    bytes,
+    hmacSecret: source.forbiddenSecret,
+    expectedAuthority: source.localAuthorityCapsule.expectedAuthority,
+  }, { cryptoPort: makeCryptoPort() });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.authorityCarrier.status, 'verified-baseline-bound');
+  assert.equal(result.exactAuthority.validSignedLocator, true);
+  assert.equal(result.exactAuthority.rawSha256Unchanged, true);
+  assert.equal(result.authorityCarrier.selectedCarrier.payload.scope, 'full-manuscript');
+  assert.equal(
+    result.authorityCarrier.selectedCarrier.payload.fullBookRawSha256,
+    source.localAuthorityCapsule.expectedAuthority.fullBookRawSha256,
+  );
+});
 
 test('C5V2 return router lowers eligible full-manuscript tracked replacements to existing atomic multi-scene command', () => {
   const {

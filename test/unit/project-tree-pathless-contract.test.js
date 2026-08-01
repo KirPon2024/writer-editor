@@ -61,10 +61,27 @@ test('main owns node resolution and tree command results stay pathless', () => {
   const renameSection = functionSection(main, 'handleUiRenameNodeCommand', 'handleUiDeleteNodeCommand');
 
   assert.match(openSection, /resolveProjectTreeNodeIdentity/u);
+  assert.match(openSection, /resolveProjectTreeSceneIdentity/u);
   assert.match(openSection, /return \{ ok: true, documentId: resolvedNode\.nodeId \}/u);
   assert.equal(/sanitizePayloadWithinProjectRoot\(payload, \['path'\]\)/u.test(openSection), false);
   assert.match(renameSection, /resolveProjectTreeNodeIdentity/u);
   assert.match(renameSection, /return \{ ok: true, nodeId: resolvedNode\.nodeId \}/u);
+});
+
+test('main document open scene-id fallback is project-relative roman txt only', () => {
+  const main = read('src/main.js');
+  const normalizeSection = functionSection(main, 'normalizeProjectRelativeSceneId', 'resolveProjectTreeSceneIdentity');
+  const resolverSection = functionSection(main, 'resolveProjectTreeSceneIdentity', 'getProjectDocumentIdentityPayload');
+
+  assert.ok(normalizeSection.includes(".replace(/\\\\/g, '/')"));
+  assert.match(normalizeSection, /normalized\.startsWith\('roman\/'\)/u);
+  assert.match(normalizeSection, /normalized\.toLowerCase\(\)\.endsWith\('\.txt'\)/u);
+  assert.match(normalizeSection, /segment === '\.\.'/u);
+  assert.match(normalizeSection, /segment\.startsWith\('\.'\)/u);
+  assert.match(resolverSection, /joinPathSegmentsWithinRoot\(projectRoot, normalizedSceneId\.split\('\/'\)/u);
+  assert.match(resolverSection, /sanitizePathFieldsWithinRoot/u);
+  assert.match(resolverSection, /upsertProjectTreeIdentityForPath\(pathGuard\.payload\.path, 'scene'\)/u);
+  assert.equal(/\bsafePayload\.path\b/u.test(resolverSection), false);
 });
 
 test('active document channel exposes document identity without renderer path authority', () => {

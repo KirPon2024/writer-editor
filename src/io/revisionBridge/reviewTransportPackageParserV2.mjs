@@ -935,14 +935,30 @@ function customPropertyAuthorityCandidates(parts, budgets, cryptoPort, budgetSta
   return { candidates, reasons: scan.diagnostics };
 }
 
-function validateAuthorityPayload(payload) {
+function isFullManuscriptAuthorityPayload(payload, expected = {}) {
+  return rawString(payload?.scope) === 'full-manuscript'
+    || rawString(expected?.scope) === 'full-manuscript';
+}
+
+function validateAuthorityPayload(payload, expected = {}) {
   const reasons = [];
-  for (const key of ['caseId', 'sceneId', 'sceneRevision', 'blockId', 'roundId', 'exportId']) {
+  const fullManuscript = isFullManuscriptAuthorityPayload(payload, expected);
+  const requiredKeys = fullManuscript
+    ? ['caseId', 'scope', 'projectId', 'roundId', 'exportId', 'fullBookRawSha256', 'capabilityManifestDigest']
+    : ['caseId', 'sceneId', 'sceneRevision', 'blockId', 'roundId', 'exportId'];
+  for (const key of requiredKeys) {
     if (!rawString(payload?.[key])) {
       reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', `authorityCarrier.payload.${key}`, 'Authority carrier payload field is required.'));
     }
   }
-  if (!SIGNED_SHA256_RE.test(rawString(payload?.rawSha256))) {
+  if (fullManuscript) {
+    if (rawString(payload?.scope) !== 'full-manuscript') {
+      reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payload.scope', 'Full-manuscript authority carrier scope is required.'));
+    }
+    if (!SIGNED_SHA256_RE.test(rawString(payload?.fullBookRawSha256))) {
+      reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payload.fullBookRawSha256', 'Full-manuscript raw hash must be a full lowercase sha256 digest.'));
+    }
+  } else if (!SIGNED_SHA256_RE.test(rawString(payload?.rawSha256))) {
     reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payload.rawSha256', 'Authority carrier raw hash must be a full lowercase sha256 digest.'));
   }
   return reasons;
@@ -977,7 +993,9 @@ function verifyAuthorityCandidate(candidate, input, cryptoPort, hmacSecret) {
     reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.envelope', 'Authority carrier JSON is malformed.'));
   }
   const payload = isPlainObject(envelope?.payload) ? envelope.payload : {};
-  reasons.push(...validateAuthorityPayload(payload));
+  const expected = isPlainObject(input.expectedAuthority) ? input.expectedAuthority : {};
+  const fullManuscript = isFullManuscriptAuthorityPayload(payload, expected);
+  reasons.push(...validateAuthorityPayload(payload, expected));
   const expectedPayloadDigest = cryptoPort.sha256Json(payload);
   if (rawString(envelope?.payloadDigest) !== expectedPayloadDigest) {
     reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.payloadDigest', 'Authority carrier payload digest mismatch.'));
@@ -996,8 +1014,9 @@ function verifyAuthorityCandidate(candidate, input, cryptoPort, hmacSecret) {
       reasons.push(reason('RTK_MANUAL_DEGRADED_LOCATOR', 'authorityCarrier.signature', 'Authority carrier HMAC mismatch.'));
     }
   }
-  const expected = isPlainObject(input.expectedAuthority) ? input.expectedAuthority : {};
-  const expectedKeys = ['sceneId', 'sceneRevision', 'rawSha256', 'blockId', 'roundId', 'exportId'];
+  const expectedKeys = fullManuscript
+    ? ['scope', 'fullBookRawSha256', 'roundId', 'exportId', 'capabilityManifestDigest']
+    : ['sceneId', 'sceneRevision', 'rawSha256', 'blockId', 'roundId', 'exportId'];
   const baselineBinding = Object.fromEntries(expectedKeys.map((key) => {
     const expectedValue = rawString(expected[key]);
     return [`${key}Matches`, Boolean(expectedValue) && rawString(payload[key]) === expectedValue];
@@ -1053,8 +1072,10 @@ function analyzeAuthorityCarriers(input, parts, budgets, cryptoPort, budgetState
   const selected = carriers.length === 1 ? carriers[0] : null;
   const exactAuthority = {
     validSignedLocator: selected?.validSignedLocator === true,
-    sceneRevisionUnchanged: selected?.baselineBinding?.sceneRevisionMatches === true,
-    rawSha256Unchanged: selected?.baselineBinding?.rawSha256Matches === true,
+    sceneRevisionUnchanged: selected?.baselineBinding?.sceneRevisionMatches === true
+      || selected?.baselineBinding?.fullBookRawSha256Matches === true,
+    rawSha256Unchanged: selected?.baselineBinding?.rawSha256Matches === true
+      || selected?.baselineBinding?.fullBookRawSha256Matches === true,
     uniqueTarget: false,
     nonOverlapping: false,
     allRelevantXmlSemanticsAccounted: false,

@@ -50,6 +50,16 @@ function shellValue(command, args, options = {}) {
   }
 }
 
+async function waitForCondition(predicate, label, timeoutMs = 30_000, intervalMs = 50) {
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeoutMs) {
+    const value = await predicate();
+    if (value) return value;
+    await new Promise((resolve) => setTimeout(resolve, intervalMs));
+  }
+  throw new Error(`WAIT_TIMEOUT:${label}`);
+}
+
 function appleText(value) {
   return `"${String(value || '')
     .replaceAll('\\', '\\\\')
@@ -258,7 +268,7 @@ function buildCanaryLedger(scenes) {
   };
 }
 
-function createFullManuscriptExportChildSource({ tempRoot, outPath, scenes }) {
+function createFullManuscriptExportChildSource({ tempRoot, outPath, returnedPath, returnedReadyPath, scenes }) {
   return `\
 const crypto = require('crypto');
 const fs = require('fs');
@@ -267,13 +277,17 @@ const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
 const outPath = ${JSON.stringify(outPath)};
+const returnedPath = ${JSON.stringify(returnedPath || '')};
+const returnedReadyPath = ${JSON.stringify(returnedReadyPath || '')};
 const scenes = ${JSON.stringify(scenes.map((scene) => ({ file: scene.file, text: scene.text })))};
 const RESULT_PREFIX = ${JSON.stringify(RESULT_PREFIX)};
 const projectName = '\\u0420\\u043e\\u043c\\u0430\\u043d';
 const dialogCalls = [];
 const networkRequests = [];
 function emit(payload) { process.stdout.write(RESULT_PREFIX + JSON.stringify(payload) + '\\n'); }
+function progress(step, detail = {}) { emit({ phase: 'child-progress', step, detail }); }
 function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
+function sha256ChildText(value) { return 'sha256:' + crypto.createHash('sha256').update(String(value || ''), 'utf8').digest('hex'); }
 async function waitUntil(predicate, label, timeoutMs = 15000) {
   const startedAt = Date.now();
   while (Date.now() - startedAt < timeoutMs) {
@@ -297,9 +311,324 @@ function findTreeNodeByKind(node, kind) {
   }
   return null;
 }
+function findTreeNodeByPathSuffix(node, suffix) {
+  if (!node || typeof node !== 'object' || typeof suffix !== 'string' || !suffix) return null;
+  const nodePath = typeof node.nodePath === 'string' ? node.nodePath : (typeof node.path === 'string' ? node.path : '');
+  if (nodePath && nodePath.endsWith(path.sep + suffix)) return node;
+  const children = Array.isArray(node.children) ? node.children : [];
+  for (const child of children) {
+    const found = findTreeNodeByPathSuffix(child, suffix);
+    if (found) return found;
+  }
+  return null;
+}
+function findTreeNodeById(node, nodeId) {
+  if (!node || typeof node !== 'object' || typeof nodeId !== 'string' || !nodeId) return null;
+  if (node.nodeId === nodeId) return node;
+  const children = Array.isArray(node.children) ? node.children : [];
+  for (const child of children) {
+    const found = findTreeNodeById(child, nodeId);
+    if (found) return found;
+  }
+  return null;
+}
+function listTextFiles(dirPath) {
+  if (!dirPath || !fs.existsSync(dirPath)) return [];
+  return fs.readdirSync(dirPath, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('.txt'))
+    .map((entry) => path.join(dirPath, entry.name))
+    .sort();
+}
+function chunkArray(items, size) {
+  const source = Array.isArray(items) ? items : [];
+  const chunkSize = Number.isSafeInteger(size) && size > 0 ? size : 10;
+  const chunks = [];
+  for (let index = 0; index < source.length; index += chunkSize) {
+    chunks.push(source.slice(index, index + chunkSize));
+  }
+  return chunks;
+}
+const ACCEPTABLE_STALE_RETRY_BLOCK_REASONS = new Set([
+  'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_STALE_BASELINE',
+  'REVISION_BRIDGE_EXACT_TEXT_BATCH_MIN_SAFE_WRITE_CURRENT_NO_MATCH',
+]);
 async function clickNativeMenuItem(item, win) {
   const maybePromise = item.click.call(item, item, win, { triggeredByAccelerator: false });
   if (maybePromise && typeof maybePromise.then === 'function') await maybePromise;
+}
+async function invokeUiCommand(win, commandId, payload) {
+  const result = await win.webContents.executeJavaScript(
+    "window.electronAPI.invokeUiCommandBridge({route:'command.bus',commandId:"
+      + JSON.stringify(commandId)
+      + ",payload:"
+      + JSON.stringify(payload || {})
+      + "})",
+    true,
+  );
+  if (
+    result
+    && result.ok === true
+    && result.value
+    && typeof result.value === 'object'
+    && !Array.isArray(result.value)
+    && typeof result.value.ok === 'boolean'
+  ) {
+    return result.value;
+  }
+  return result;
+}
+function summarizeActivation(result) {
+  const graph = result && result.reviewSurface && result.reviewSurface.revisionSession
+    && result.reviewSurface.revisionSession.reviewGraph
+    ? result.reviewSurface.revisionSession.reviewGraph
+    : {};
+  const textChanges = Array.isArray(graph.textChanges) ? graph.textChanges : [];
+  const commentThreads = Array.isArray(graph.commentThreads) ? graph.commentThreads : [];
+  const commentPlacements = Array.isArray(graph.commentPlacements) ? graph.commentPlacements : [];
+  const structuralChanges = Array.isArray(graph.structuralChanges) ? graph.structuralChanges : [];
+  return {
+    ok: result && result.ok === true,
+    activated: result && result.activated === true,
+    diagnosticOnly: result && result.diagnosticOnly === true,
+    canOpenReviewSession: result && result.canOpenReviewSession === true,
+    returnIntake: result && result.returnIntake ? {
+      authenticated: result.returnIntake.authenticated === true,
+      status: result.returnIntake.status || '',
+      authorityCarrierStatus: result.returnIntake.authorityCarrierStatus || '',
+      returnedArtifactSha256: result.returnIntake.returnedArtifactSha256 || '',
+      roundId: result.returnIntake.roundId || '',
+      exportId: result.returnIntake.exportId || '',
+      sourceMode: result.returnIntake.sourceMode || '',
+      counts: result.returnIntake.counts || {},
+    } : null,
+    candidateSummary: result && result.candidateSummary ? result.candidateSummary : null,
+    nonOverlapTrackedReplacementProductPath: result && result.nonOverlapTrackedReplacementProductPath
+      ? {
+        prepared: result.nonOverlapTrackedReplacementProductPath.prepared === true,
+        status: result.nonOverlapTrackedReplacementProductPath.status || '',
+        reason: result.nonOverlapTrackedReplacementProductPath.reason || '',
+        runtimePreviewCode: result.nonOverlapTrackedReplacementProductPath.runtimePreviewCode || '',
+        runtimePreviewReasons: Array.isArray(result.nonOverlapTrackedReplacementProductPath.runtimePreviewReasons)
+          ? result.nonOverlapTrackedReplacementProductPath.runtimePreviewReasons
+          : [],
+      }
+      : null,
+    reviewGraphCounts: {
+      textChanges: textChanges.length,
+      commentThreads: commentThreads.length,
+      commentPlacements: commentPlacements.length,
+      structuralChanges: structuralChanges.length,
+    },
+    textChangeIdsByScene: textChanges.reduce((acc, change) => {
+      const sceneId = change && change.targetScope && typeof change.targetScope.id === 'string'
+        ? change.targetScope.id
+        : '__missing_scene__';
+      if (!acc[sceneId]) acc[sceneId] = [];
+      if (change && typeof change.changeId === 'string') acc[sceneId].push(change.changeId);
+      return acc;
+    }, {}),
+    exactApplyTextChangeIdsByScene: textChanges.reduce((acc, change) => {
+      const sceneId = change && change.targetScope && typeof change.targetScope.id === 'string'
+        ? change.targetScope.id
+        : '__missing_scene__';
+      const exact = change && change.match && change.match.kind === 'exact' && typeof change.match.quote === 'string' && change.match.quote.length > 0;
+      if (!exact) return acc;
+      if (!acc[sceneId]) acc[sceneId] = [];
+      if (typeof change.changeId === 'string') acc[sceneId].push(change.changeId);
+      return acc;
+    }, {}),
+    textChangeScopeDiagnostics: textChanges.map((change) => ({
+      changeId: change && typeof change.changeId === 'string' ? change.changeId : '',
+      targetScope: change && change.targetScope ? change.targetScope : null,
+      matchKind: change && change.match && typeof change.match.kind === 'string' ? change.match.kind : '',
+      quoteSha256: change && change.match && typeof change.match.quote === 'string' ? sha256ChildText(change.match.quote) : '',
+      replacementSha256: change && typeof change.replacementText === 'string' ? sha256ChildText(change.replacementText) : '',
+      rtkProductPath: change && typeof change.rtkProductPath === 'string' ? change.rtkProductPath : '',
+    })),
+    failure: result && result.ok !== true ? {
+      keys: result && typeof result === 'object' ? Object.keys(result).sort() : [],
+      code: result && typeof result.code === 'string' ? result.code : '',
+      reason: result && typeof result.reason === 'string' ? result.reason : '',
+      message: result && typeof result.message === 'string' ? result.message : '',
+      error: result && result.error ? result.error : null,
+      value: result && result.value && typeof result.value === 'object' ? {
+        ok: result.value.ok === true,
+        code: typeof result.value.code === 'string' ? result.value.code : '',
+        reason: typeof result.value.reason === 'string' ? result.value.reason : '',
+        error: result.value.error || null,
+      } : null,
+    } : null,
+  };
+}
+async function activateApplyAndReplayReturnedDocx(win) {
+  await waitUntil(() => returnedReadyPath && fs.existsSync(returnedReadyPath), 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE', 240000);
+  await waitUntil(() => returnedPath && fs.existsSync(returnedPath), 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE', 30000);
+  const returnedBytes = fs.readFileSync(returnedPath);
+  const activation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
+    requestId: 'c5v2-physical-canary-authenticated-return-activation',
+    bufferSource: returnedBytes.toString('base64'),
+  });
+  const activationSummary = summarizeActivation(activation);
+  const textChangeIdsByScene = activationSummary.exactApplyTextChangeIdsByScene || {};
+  const applyResults = [];
+  const replayResults = [];
+  const staleRetryResults = [];
+  async function resolveCurrentSceneContext(sceneContext, normalizedSceneId) {
+    const fallback = sceneContext && typeof sceneContext === 'object' ? sceneContext : {};
+    try {
+      const treeProbe = await win.webContents.executeJavaScript(
+        "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.projectTree',payload:{tab:'roman'}})",
+        true,
+      );
+      const byRelativePath = findTreeNodeByPathSuffix(treeProbe && treeProbe.root, normalizedSceneId);
+      if (byRelativePath && typeof byRelativePath.nodeId === 'string' && byRelativePath.nodeId) {
+        return {
+          ...fallback,
+          nodeId: byRelativePath.nodeId,
+          nodePath: typeof byRelativePath.nodePath === 'string' ? byRelativePath.nodePath : fallback.nodePath,
+          relativePath: normalizedSceneId,
+          sceneId: normalizedSceneId,
+          refreshedFromTree: true,
+        };
+      }
+    } catch {}
+    return fallback;
+  }
+  for (const [sceneId, changeIds] of Object.entries(textChangeIdsByScene)) {
+    if (!Array.isArray(changeIds) || changeIds.length === 0) continue;
+    const normalizedSceneId = sceneId.replace(/\\\\/gu, '/');
+    const sceneContext = Array.isArray(global.productSceneContexts)
+      ? global.productSceneContexts.find((candidate) => (
+        candidate
+        && (
+          candidate.sceneId === normalizedSceneId
+          || candidate.relativePath === normalizedSceneId
+          || (typeof candidate.nodePath === 'string' && candidate.nodePath.replace(/\\\\/gu, '/').endsWith('/' + normalizedSceneId))
+        )
+      ))
+      : null;
+    const currentSceneContext = await resolveCurrentSceneContext(sceneContext, normalizedSceneId);
+    const openSceneResult = currentSceneContext && (
+      typeof currentSceneContext.nodeId === 'string'
+      || typeof normalizedSceneId === 'string'
+    )
+      ? await invokeUiCommand(win, 'cmd.project.document.open', {
+        nodeId: typeof currentSceneContext.nodeId === 'string' ? currentSceneContext.nodeId : '',
+        sceneId: normalizedSceneId,
+      })
+      : { ok: false, reason: 'C5V2_CANARY_APPLY_SCENE_CONTEXT_NOT_FOUND', sceneId: normalizedSceneId };
+    if (!openSceneResult || openSceneResult.ok !== true) {
+      applyResults.push({
+        sceneId,
+        chunkIndex: -1,
+        changeIds,
+        ok: false,
+        applied: false,
+        replay: false,
+        status: '',
+        reason: 'C5V2_CANARY_APPLY_SCENE_OPEN_FAILED',
+        error: openSceneResult && openSceneResult.error ? openSceneResult.error : openSceneResult,
+        totals: null,
+        result: null,
+      });
+      continue;
+    }
+    const chunks = chunkArray(changeIds, 10);
+    for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex += 1) {
+      const chunkChangeIds = chunks[chunkIndex];
+      const chunkLabel = sceneId.replace(/[^a-z0-9_-]/giu, '-') + '-chunk-' + String(chunkIndex + 1).padStart(2, '0');
+      const requestId = 'c5v2-physical-canary-apply-' + chunkLabel;
+      const apply = await invokeUiCommand(win, 'cmd.project.review.applyExactTextChangesBatch', {
+        requestId,
+        changeIds: chunkChangeIds,
+      });
+      applyResults.push({
+        sceneId,
+        chunkIndex,
+        changeIds: chunkChangeIds,
+        ok: apply && apply.ok === true,
+        applied: apply && apply.applied === true,
+        replay: apply && apply.replay === true,
+        status: apply && apply.status ? apply.status : '',
+        reason: apply && apply.reason ? apply.reason : '',
+        error: apply && apply.error ? apply.error : null,
+        totals: apply && apply.totals ? apply.totals : null,
+        result: apply && apply.result ? {
+          status: apply.result.status || '',
+          reason: apply.result.reason || '',
+          applied: apply.result.applied === true,
+          changes: Array.isArray(apply.result.changes) ? apply.result.changes : [],
+        } : null,
+      });
+      const replay = await invokeUiCommand(win, 'cmd.project.review.applyExactTextChangesBatch', {
+        requestId,
+        changeIds: chunkChangeIds,
+      });
+      replayResults.push({
+        sceneId,
+        chunkIndex,
+        changeIds: chunkChangeIds,
+        ok: replay && replay.ok === true,
+        applied: replay && replay.applied === true,
+        replay: replay && replay.replay === true,
+        status: replay && replay.status ? replay.status : '',
+        reason: replay && replay.reason ? replay.reason : '',
+        error: replay && replay.error ? replay.error : null,
+        totals: replay && replay.totals ? replay.totals : null,
+        result: replay && replay.result ? {
+          status: replay.result.status || '',
+          reason: replay.result.reason || '',
+          applied: replay.result.applied === true,
+          changes: Array.isArray(replay.result.changes) ? replay.result.changes : [],
+        } : null,
+      });
+      const staleRetry = await invokeUiCommand(win, 'cmd.project.review.applyExactTextChangesBatch', {
+        requestId: 'c5v2-physical-canary-stale-retry-' + chunkLabel,
+        changeIds: chunkChangeIds,
+      });
+      staleRetryResults.push({
+        sceneId,
+        chunkIndex,
+        changeIds: chunkChangeIds,
+        ok: staleRetry && staleRetry.ok === true,
+        applied: staleRetry && staleRetry.applied === true,
+        replay: staleRetry && staleRetry.replay === true,
+        status: staleRetry && staleRetry.status ? staleRetry.status : '',
+        reason: staleRetry && staleRetry.reason ? staleRetry.reason : '',
+        error: staleRetry && staleRetry.error ? staleRetry.error : null,
+        totals: staleRetry && staleRetry.totals ? staleRetry.totals : null,
+        result: staleRetry && staleRetry.result ? {
+          status: staleRetry.result.status || '',
+          reason: staleRetry.result.reason || '',
+          applied: staleRetry.result.applied === true,
+          changes: Array.isArray(staleRetry.result.changes) ? staleRetry.result.changes : [],
+        } : null,
+      });
+    }
+  }
+  return {
+    ok: activationSummary.ok === true
+      && activationSummary.returnIntake
+      && activationSummary.returnIntake.authenticated === true
+      && applyResults.length > 0
+      && applyResults.every((result) => result.ok === true && result.applied === true)
+      && replayResults.every((result) => result.ok === true && result.replay === true)
+      && staleRetryResults.every((result) => (
+        result.status === 'blocked'
+        && result.applied !== true
+        && ACCEPTABLE_STALE_RETRY_BLOCK_REASONS.has(result.reason)
+      )),
+    activation: activationSummary,
+    applyResults,
+    replayResults,
+    staleRetryResults,
+    productOpenContext: global.productOpenContext || null,
+    typedPendingLanes: {
+      commentsRepliesState: 'PENDING_PRODUCT_APPLY_LANE',
+      formatting: 'PENDING_PRODUCT_APPLY_LANE',
+      structural: 'PENDING_PRODUCT_APPLY_LANE',
+    },
+  };
 }
 for (const dirName of ['appData', 'userData', 'documents']) fs.mkdirSync(path.join(tempRoot, dirName), { recursive: true });
 dialog.showOpenDialog = async () => ({ canceled: true, filePaths: [] });
@@ -329,7 +658,9 @@ if (!process.argv.includes('--dev')) process.argv.push('--dev');
 require(path.join(rootDir, 'src', 'main.js'));
 app.whenReady().then(async () => {
   try {
+    progress('app-ready');
     const win = await waitUntil(() => BrowserWindow.getAllWindows()[0] || null, 'WINDOW_NOT_CREATED');
+    progress('window-found');
     if (win.webContents.isLoadingMainFrame()) {
       await new Promise((resolve, reject) => {
         const timer = setTimeout(() => reject(new Error('LOAD_TIMEOUT')), 15000);
@@ -340,9 +671,11 @@ app.whenReady().then(async () => {
         });
       });
     }
+    progress('window-loaded');
     const projectRoot = path.join(tempRoot, 'documents', 'craftsman', projectName);
     const manifestPath = path.join(projectRoot, 'project.craftsman.json');
     await waitUntil(() => fs.existsSync(manifestPath), 'MANIFEST_NOT_CREATED');
+    progress('manifest-ready', { manifestPath });
     const projectTreeProbe = await win.webContents.executeJavaScript(
       "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.projectTree',payload:{tab:'roman'}})",
       true,
@@ -352,8 +685,54 @@ app.whenReady().then(async () => {
       ? romanNode.nodePath
       : path.join(projectRoot, 'roman');
     fs.mkdirSync(romanRoot, { recursive: true });
-    for (const scene of scenes) fs.writeFileSync(path.join(romanRoot, scene.file), scene.text, 'utf8');
+    if (!romanNode || typeof romanNode.nodeId !== 'string' || !romanNode.nodeId) {
+      throw new Error('C5V2_CANARY_ROMAN_ROOT_NODE_MISSING');
+    }
+    const productSceneContexts = [];
+    for (const scene of scenes) {
+      const beforeFiles = new Set(listTextFiles(romanRoot));
+      const createResult = await invokeUiCommand(win, 'cmd.project.tree.createNode', {
+        parentNodeId: romanNode.nodeId,
+        kind: 'scene',
+        name: scene.file.replace(/\\.txt$/iu, ''),
+      });
+      if (!createResult || createResult.ok !== true || typeof createResult.nodeId !== 'string') {
+        throw new Error('C5V2_CANARY_CREATE_SCENE_FAILED:' + JSON.stringify({ sceneFile: scene.file, createResult }));
+      }
+      const afterFiles = listTextFiles(romanRoot);
+      const newFiles = afterFiles.filter((filePath) => !beforeFiles.has(filePath));
+      if (newFiles.length !== 1) {
+        throw new Error('C5V2_CANARY_CREATE_SCENE_PATH_UNRESOLVED:' + JSON.stringify({ sceneFile: scene.file, nodeId: createResult.nodeId, beforeCount: beforeFiles.size, afterFiles }));
+      }
+      fs.writeFileSync(newFiles[0], scene.text, 'utf8');
+      const relativePath = path.relative(projectRoot, newFiles[0]).replace(/\\\\/gu, '/');
+      productSceneContexts.push({
+        sourceFile: scene.file,
+        nodeId: createResult.nodeId,
+        nodePath: newFiles[0],
+        relativePath,
+        sceneId: relativePath,
+      });
+    }
+    global.productSceneContexts = productSceneContexts;
+    global.productProjectRoot = projectRoot;
+    progress('scene-files-written', { count: productSceneContexts.length, romanRoot, productSceneContexts });
     await sleep(500);
+    const firstSceneNode = productSceneContexts[0] || null;
+    const openDocumentResult = firstSceneNode && typeof firstSceneNode.nodeId === 'string'
+          ? await invokeUiCommand(win, 'cmd.project.document.open', { nodeId: firstSceneNode.nodeId })
+      : { ok: false, reason: 'C5V2_CANARY_OPEN_CONTEXT_NODE_NOT_FOUND' };
+    global.productOpenContext = {
+      ok: openDocumentResult && openDocumentResult.ok === true,
+      result: openDocumentResult,
+      nodeId: firstSceneNode && typeof firstSceneNode.nodeId === 'string' ? firstSceneNode.nodeId : '',
+      nodePath: firstSceneNode && typeof firstSceneNode.nodePath === 'string' ? firstSceneNode.nodePath : '',
+      file: scenes[0] && scenes[0].file ? scenes[0].file : '',
+    };
+    if (!global.productOpenContext.ok) {
+      throw new Error('C5V2_CANARY_OPEN_CONTEXT_FAILED:' + JSON.stringify(global.productOpenContext));
+    }
+    progress('document-opened', global.productOpenContext);
     const scopeProbe = await win.webContents.executeJavaScript(
       "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.selectedScenesTxtExportScope',payload:{}})",
       true,
@@ -368,7 +747,9 @@ app.whenReady().then(async () => {
       enabled: menuItem.enabled === true,
       visible: menuItem.visible !== false,
     };
+    progress('export-menu-found', menuDiagnostics);
     await clickNativeMenuItem(menuItem, win);
+    progress('export-menu-clicked');
     await sleep(500);
     let exportTrigger = 'native-menu-click';
     let bridgeResult = null;
@@ -421,7 +802,8 @@ app.whenReady().then(async () => {
       return;
     }
     const bytes = fs.readFileSync(outPath);
-    emit({
+    const exportPayload = {
+      phase: 'export',
       ok: 1,
       clicked: true,
       exportTrigger,
@@ -437,56 +819,147 @@ app.whenReady().then(async () => {
       dialogCalls,
       networkRequests,
       projectRoot,
-      sceneFiles: scenes.map((scene) => path.join(romanRoot, scene.file)),
+      productOpenContext: global.productOpenContext,
+      sceneFiles: productSceneContexts.map((scene) => scene.nodePath).filter(Boolean),
+    };
+    emit(exportPayload);
+    if (!returnedPath || !returnedReadyPath) {
+      app.exit(0);
+      return;
+    }
+    const returnApply = await activateApplyAndReplayReturnedDocx(win);
+    emit({
+      phase: 'return-apply',
+      ok: returnApply.ok ? 1 : 0,
+      returnApply,
+      dialogCalls,
+      networkRequests,
     });
-    app.exit(0);
+    app.exit(returnApply.ok ? 0 : 2);
   } catch (error) {
-    emit({ ok: 0, message: error && error.message ? error.message : String(error), stack: error && error.stack ? error.stack : '', dialogCalls, networkRequests });
+    emit({ phase: 'error', ok: 0, message: error && error.message ? error.message : String(error), stack: error && error.stack ? error.stack : '', dialogCalls, networkRequests });
     app.exit(1);
   }
 });
 `;
 }
 
-async function runElectronFullManuscriptExport({ runDir, sourcePath, scenes }) {
+function parseCanaryChildResultLines(stdout) {
+  return String(stdout || '')
+    .split(/\r?\n/u)
+    .filter((item) => item.startsWith(RESULT_PREFIX))
+    .map((item) => {
+      try {
+        return JSON.parse(item.slice(RESULT_PREFIX.length));
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
+}
+
+async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returnedPath, returnedReadyPath, scenes, runWord }) {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-canary-ui-'));
   const childPath = path.join(tempRoot, 'fullbook-export-child.cjs');
-  fs.writeFileSync(childPath, createFullManuscriptExportChildSource({ tempRoot, outPath: sourcePath, scenes }), 'utf8');
+  fs.writeFileSync(childPath, createFullManuscriptExportChildSource({
+    tempRoot,
+    outPath: sourcePath,
+    returnedPath,
+    returnedReadyPath,
+    scenes,
+  }), 'utf8');
   const stdoutChunks = [];
   const stderrChunks = [];
+  const resultLines = [];
+  let bufferedStdout = '';
+  let exited = false;
+  let exitState = null;
   const child = spawn(electronBinary, [childPath], {
     cwd: REPO_ROOT,
     env: { ...process.env, ELECTRON_ENABLE_SECURITY_WARNINGS: 'false' },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
-  child.stdout.on('data', (chunk) => stdoutChunks.push(chunk));
+  child.stdout.on('data', (chunk) => {
+    stdoutChunks.push(chunk);
+    bufferedStdout += chunk.toString('utf8');
+    const lines = bufferedStdout.split(/\r?\n/u);
+    bufferedStdout = lines.pop() || '';
+    for (const line of lines) {
+      if (!line.startsWith(RESULT_PREFIX)) continue;
+      try {
+        resultLines.push(JSON.parse(line.slice(RESULT_PREFIX.length)));
+      } catch {}
+    }
+  });
   child.stderr.on('data', (chunk) => stderrChunks.push(chunk));
+  child.once('exit', (code, signal) => {
+    exited = true;
+    exitState = { code, signal };
+  });
   let timedOut = false;
-  const exitState = await new Promise((resolve) => {
-    const timer = setTimeout(() => {
+  let wordOutput = '';
+  let wordError = '';
+  let exportPayload = null;
+  let wrapperError = null;
+  const killTimer = setTimeout(() => {
+    if (!exited) {
       timedOut = true;
       child.kill('SIGKILL');
-    }, 60_000);
-    child.once('exit', (code, signal) => {
-      clearTimeout(timer);
-      resolve({ code, signal });
-    });
-  });
+    }
+  }, 360_000);
+  try {
+    try {
+      exportPayload = await waitForCondition(() => {
+        const found = resultLines.find((line) => line.phase === 'export' || (line.ok === 1 && line.exportedExists === true));
+        return found || null;
+      }, 'ELECTRON_EXPORT_PHASE_NOT_EMITTED', 90_000);
+      if (exportPayload.ok === 1 && fs.existsSync(sourcePath) && typeof runWord === 'function') {
+        try {
+          wordOutput = await runWord();
+          fs.writeFileSync(returnedReadyPath, JSON.stringify({
+            ready: true,
+            returnedPath,
+            returnedSha256: fs.existsSync(returnedPath) ? sha256File(returnedPath) : '',
+            createdAtUtc: new Date().toISOString(),
+          }, null, 2));
+        } catch (error) {
+          wordError = String(error.stderr || error.message || error);
+          fs.writeFileSync(returnedReadyPath, JSON.stringify({
+            ready: false,
+            returnedPath,
+            error: wordError,
+            createdAtUtc: new Date().toISOString(),
+          }, null, 2));
+        }
+      }
+      await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_RETURN_APPLY_EXIT_NOT_OBSERVED', 240_000);
+    } catch (error) {
+      wrapperError = error && error.message ? error.message : String(error);
+    }
+  } finally {
+    clearTimeout(killTimer);
+    if (!exited) child.kill('SIGKILL');
+  }
   const stdout = Buffer.concat(stdoutChunks).toString('utf8');
   const stderr = Buffer.concat(stderrChunks).toString('utf8');
   fs.writeFileSync(path.join(runDir, 'electron-export-stdout.log'), stdout);
   fs.writeFileSync(path.join(runDir, 'electron-export-stderr.log'), stderr);
-  const line = stdout.split(/\r?\n/u).find((item) => item.startsWith(RESULT_PREFIX));
-  const result = line ? JSON.parse(line.slice(RESULT_PREFIX.length)) : null;
+  const parsedLines = parseCanaryChildResultLines(stdout);
+  const exportResult = exportPayload || parsedLines.find((line) => line.phase === 'export') || parsedLines[0] || null;
+  const returnApplyResult = parsedLines.find((line) => line.phase === 'return-apply') || null;
   return {
-    ok: timedOut === false && exitState.code === 0 && result?.ok === 1 && fs.existsSync(sourcePath),
+    ok: timedOut === false && exitState?.code === 0 && exportResult?.ok === 1 && fs.existsSync(sourcePath),
     timedOut,
-    exitCode: exitState.code,
-    signal: exitState.signal,
-    result,
+    exitCode: exitState?.code ?? null,
+    signal: exitState?.signal ?? null,
+    result: exportResult,
+    returnApplyResult,
     stderrTail: stderr.slice(-2000),
+    wrapperError,
     sourcePath,
     sourceSha256: fs.existsSync(sourcePath) ? sha256File(sourcePath) : '',
+    wordOutput,
+    wordError,
   };
 }
 
@@ -754,25 +1227,31 @@ async function main() {
   fs.mkdirSync(runDir, { recursive: true });
   const sourceDocxPath = path.join(runDir, 'c5v2-canary-source-fullmanuscript.docx');
   const returnedDocxPath = path.join(runDir, 'c5v2-canary-returned-word-native.docx');
+  const returnedReadyPath = path.join(runDir, 'c5v2-canary-returned-ready.json');
   const scenes = loadCanaryScenes();
   let ledger = buildCanaryLedger(scenes);
   fs.writeFileSync(path.join(runDir, 'canary-ledger.pre-export.json'), `${JSON.stringify(ledger, null, 2)}\n`);
   const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
-  const exportResult = await runElectronFullManuscriptExport({ runDir, sourcePath: sourceDocxPath, scenes });
   let wordOutput = '';
   let wordError = '';
-  if (exportResult.ok) {
-    try {
+  const exportResult = await runElectronFullManuscriptRoundtrip({
+    runDir,
+    sourcePath: sourceDocxPath,
+    returnedPath: returnedDocxPath,
+    returnedReadyPath,
+    scenes,
+    runWord: async () => {
       ledger = bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath });
       fs.writeFileSync(path.join(runDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
-      wordOutput = runAppleScript(
+      return runAppleScript(
         buildWordScript({ sourcePath: sourceDocxPath, returnedPath: returnedDocxPath, ledger }),
         path.join(runDir, 'word-canary.applescript'),
       );
-    } catch (error) {
-      wordError = String(error.stderr || error.message || error);
-    }
-  } else {
+    },
+  });
+  wordOutput = exportResult.wordOutput || '';
+  wordError = exportResult.wordError || '';
+  if (!exportResult.ok && !fs.existsSync(path.join(runDir, 'canary-ledger.json'))) {
     fs.mkdirSync(runDir, { recursive: true });
     fs.writeFileSync(path.join(runDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
   }
@@ -812,16 +1291,27 @@ async function main() {
     limitations: wordParsed.limitations,
     packageSummary: fs.existsSync(returnedDocxPath) ? packageSummary(returnedDocxPath) : null,
     oracleProbe: wordParsed.ops.length > 0 ? buildOracleProbe({ ledger, wordParsed }) : null,
-    productRouteGaps: [
-      'full-manuscript authenticated intake preview explicit apply is not yet physically executed by product runtime in this canary script',
-      'comments replies state formatting structural operations are physical Word attempts with typed outcomes, not Yalken apply certification',
-    ],
+    productReturnApply: exportResult.returnApplyResult?.returnApply || null,
+    productRouteGaps: exportResult.returnApplyResult?.returnApply?.ok === true
+      ? [
+        'comments replies state formatting structural operations are physical Word attempts with typed pending product outcomes, not Yalken apply certification',
+      ]
+      : [
+        'full-manuscript authenticated intake preview explicit apply did not complete green in this canary script',
+        'comments replies state formatting structural operations are physical Word attempts with typed outcomes, not Yalken apply certification',
+      ],
     certificationClaim: 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM',
   };
   fs.mkdirSync(runDir, { recursive: true });
   fs.writeFileSync(path.join(runDir, 'canary-result.json'), `${JSON.stringify(summary, null, 2)}\n`);
   process.stdout.write(`${JSON.stringify(summary, null, 2)}\n`);
-  process.exit(summary.exportResult.ok && summary.wordStatus === 'PASS' ? 0 : 1);
+  process.exit(
+    summary.exportResult.ok
+      && summary.wordStatus === 'PASS'
+      && summary.productReturnApply?.ok === true
+      ? 0
+      : 1,
+  );
 }
 
 main().catch((error) => {

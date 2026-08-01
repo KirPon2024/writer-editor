@@ -100,9 +100,8 @@ test('S37 local capability provider: Pro complexity commands are unavailable in 
   assert.equal(freeReviewApply.available, false);
   assert.equal(freeReviewApply.visible, false);
   assert.equal(freeReviewApply.reason, 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE');
-  assert.equal(freeReviewApplyBatch.available, false);
-  assert.equal(freeReviewApplyBatch.visible, false);
-  assert.equal(freeReviewApplyBatch.reason, 'PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE');
+  assert.equal(freeReviewApplyBatch.available, true);
+  assert.equal(freeReviewApplyBatch.visible, true);
   assert.equal(proReview.available, true);
   assert.equal(proReview.visible, true);
   assert.equal(freeComments.available, true);
@@ -128,10 +127,10 @@ test('S37 main bridge boundary blocks Pro review writes in local Free', () => {
 
   assert.ok(main.includes('const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set(['));
   assert.ok(main.includes("'cmd.project.review.applyExactTextChange'"));
-  assert.ok(main.includes("'cmd.project.review.applyExactTextChangesBatch'"));
   const guardStart = main.indexOf('const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([');
   const guardEnd = main.indexOf(']);', guardStart);
   const mainFreeProGuard = main.slice(guardStart, guardEnd);
+  assert.equal(mainFreeProGuard.includes("'cmd.project.review.applyExactTextChangesBatch'"), false);
   assert.equal(
     mainFreeProGuard.includes("'cmd.project.review.exportDocxReviewPacket'"),
     false,

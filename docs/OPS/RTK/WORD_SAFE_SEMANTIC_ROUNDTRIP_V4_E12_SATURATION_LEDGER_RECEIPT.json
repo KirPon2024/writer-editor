@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_WIRED_NOT_SATURATED",
+  "status": "WORD_SATURATION_P0_VARIED_WAVE64_PRODUCT_LOOP_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -498,6 +498,18 @@
       "releaseReady": false,
       "wordSaturated": false,
       "googleDocsOpened": false
+    },
+    "releaseAuditNight01P0VariedWave64": {
+      "status": "BOUND_PRODUCT_VARIED_WAVE64_COMPLETE",
+      "sourceEvidence": "RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP",
+      "observedCases": 64,
+      "passCases": 64,
+      "physicalWordPass": 64,
+      "authenticatedIntakePass": 64,
+      "visiblePreviewPass": 64,
+      "automaticApplyCertified": false,
+      "wordSaturated": false,
+      "googleDocsOpened": false
     }
   },
   "aggregateTotals": {
@@ -605,7 +617,11 @@
     "productMultiSceneAtomicCommentStateClosurePass": 3,
     "productMultiSceneAtomicCommentStateClosureNegativePass": 4,
     "productMultiSceneAtomicApplyCertified": 1,
-    "productCommentDeleteRuntimeWired": 1
+    "productCommentDeleteRuntimeWired": 1,
+    "p0VariedWave64ObservedCases": 64,
+    "p0VariedWave64Pass": 64,
+    "p0VariedWave64PhysicalWordPass": 64,
+    "p0VariedWave64AuthenticatedIntakePass": 64
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -623,7 +639,8 @@
     "TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_TYPED_LIMITATION",
     "AUTOMATIC_APPLY_NOT_CERTIFIED_IN_A02",
     "BOUNDED_VARIED_WAVE_64_NOT_RUN_AFTER_MULTI_SCENE_COMMENT_STATE_CLOSURE",
-    "LARGE_STRESS_AND_FORMAT_UNICODE_STRUCTURE_PRODUCT_WAVES_REMAIN_PENDING"
+    "LARGE_STRESS_AND_FORMAT_UNICODE_STRUCTURE_PRODUCT_WAVES_REMAIN_PENDING",
+    "FORMAT_UNICODE_STRUCTURE_STRESS_REMAINS_PENDING_AFTER_WAVE64"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": true,
@@ -651,7 +668,7 @@
     "P0 multi-scene atomic and comment delete product wiring does not certify Word saturation.",
     "Modern replies and resolve-reopen remain typed limitations."
   ],
-  "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE",
+  "nextStage": "P0_PRODUCT_VERTICAL_FORMAT_UNICODE_STRUCTURE_STRESS_AFTER_WAVE64",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

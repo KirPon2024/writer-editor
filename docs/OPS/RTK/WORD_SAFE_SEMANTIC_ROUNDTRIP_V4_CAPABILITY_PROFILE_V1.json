@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_WIRED_NOT_SATURATED",
+  "status": "WORD_16_111_2_P0_VARIED_WAVE64_PRODUCT_LOOP_COMPLETE_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -1082,5 +1082,15 @@
     "automaticApplyCertified": false,
     "wordSaturated": false,
     "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE"
+  },
+  "latestProductVariedWave64": {
+    "status": "WORD_RELEASE_AUDIT_P0_VARIED_WAVE64_PRODUCT_LOOP_COMPLETE_NOT_SATURATED",
+    "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP_RECEIPT.json",
+    "productRuntimeWired": true,
+    "physicalWordRoundTrips": 64,
+    "passCases": 64,
+    "automaticApplyCertified": false,
+    "wordSaturated": false,
+    "nextStage": "P0_PRODUCT_VERTICAL_FORMAT_UNICODE_STRUCTURE_STRESS_AFTER_WAVE64"
   }
 }

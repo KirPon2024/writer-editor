@@ -53,8 +53,10 @@ const C05_PROFILE_STATUS = 'WORD_16_111_2_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED
 const C05_LEDGER_STATUS = 'WORD_SATURATION_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_SATURATED';
 const C05_PROMOTION_STATUS = 'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT';
 const MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED';
+const FINAL_MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT';
 const P0_MULTI_ROUND_STATUS = 'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED';
 const SCALE_NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
+const FINAL_NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
 const STATE_STATUS = 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN';
 const CURRENT_STAGE = 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_CONTOUR';
 const NEXT_STAGE = 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR';
@@ -383,7 +385,8 @@ function isC02SuccessorState(profile, program, ledger, promotionList) {
     : (c04Successor
     ? 'none; C04 modern comment state readback gate only'
     : (c03Successor ? 'none; C03 negative oracle only' : 'none; C02 component is registered but not user product path wired'));
-  const laterP0SuccessorStatuses = new Set([MATRIX_STATUS, P0_MULTI_ROUND_STATUS]);
+  const laterP0SuccessorStatuses = new Set([MATRIX_STATUS, P0_MULTI_ROUND_STATUS, FINAL_MATRIX_STATUS]);
+  const finalEnvelope = program.v4ExecutionState?.status === FINAL_MATRIX_STATUS;
   const laterP0Successor = laterP0SuccessorStatuses.has(profile.status)
     && laterP0SuccessorStatuses.has(program.status)
     && laterP0SuccessorStatuses.has(ledger.status)
@@ -396,15 +399,24 @@ function isC02SuccessorState(profile, program, ledger, promotionList) {
     && program.v4ExecutionState?.runtimeApplyAuthorityGranted === false
     && program.v4ExecutionState?.runtimeApplyAuthorityScope === 'C05_RETURNED_DOCX_PREVIEW_EXPLICIT_USER_CONFIRMATION_NON_OVERLAP_TRACKED_REPLACEMENTS_ONLY'
     && program.v4ExecutionState?.googleDocsOpened === false
-    && program.v4ExecutionState?.wordSaturated === false
-    && (program.v4ExecutionState?.nextStage === SCALE_NEXT_STAGE
+    && (finalEnvelope
+      ? program.v4ExecutionState?.wordSaturated === true
+        && program.v4ExecutionState?.wordSaturationScope === 'DECLARED_SUPPORT_ENVELOPE_ONLY'
+        && program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit === true
+      : program.v4ExecutionState?.wordSaturated === false)
+    && (program.v4ExecutionState?.nextStage === FINAL_NEXT_STAGE
+      || program.v4ExecutionState?.nextStage === SCALE_NEXT_STAGE
       || program.v4ExecutionState?.nextStage === 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION')
     && ledger.coverageLedger?.a03C01CommentShadowRuntime?.status === 'BOUND'
     && ledger.coverageLedger?.a03C02NonOverlapTrackedReplacementRuntime?.status === 'BOUND'
     && ledger.runtimeClaims?.productRuntimeChanged === true
     && ledger.runtimeClaims?.automaticApplyExpanded === false
     && ledger.runtimeClaims?.googleDocsOpened === false
-    && ledger.runtimeClaims?.wordSaturated === false;
+    && (finalEnvelope
+      ? ledger.runtimeClaims?.wordSaturated === true
+        && ledger.runtimeClaims?.wordSaturationScope === 'DECLARED_SUPPORT_ENVELOPE_ONLY'
+        && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === true
+      : ledger.runtimeClaims?.wordSaturated === false);
   if (isC02SuccessorPromotionList(promotionList) && laterP0Successor) {
     return true;
   }

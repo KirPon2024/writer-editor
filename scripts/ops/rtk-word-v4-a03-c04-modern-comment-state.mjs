@@ -41,6 +41,8 @@ const P0_RESOLVE_NEXT_STAGE = 'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION
 const P0_FORMATTING_NEXT_STAGE = 'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION';
 const P0_STRUCTURAL_NEXT_STAGE = 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION';
 const P0_SCALE_NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
+const FINAL_MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT';
+const FINAL_NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
 const EVIDENCE_ID = 'A03_C04_MODERN_COMMENT_STATE';
 
 function readJson(filePath) {
@@ -508,6 +510,33 @@ function isP0ReplySuccessorState(profile, program, ledger, promotionList) {
     && ledger.runtimeClaims?.wordSaturated === false;
 }
 
+function isFinalEnvelopeSuccessorState(profile, program, ledger, promotionList) {
+  return promotionList.status === C05_PROMOTION_STATUS
+    && promotionList.nextContour === 'RELEASE-AUDIT'
+    && profile.status === FINAL_MATRIX_STATUS
+    && program.status === FINAL_MATRIX_STATUS
+    && program.nextStep === FINAL_NEXT_STAGE
+    && program.v4ExecutionState?.status === FINAL_MATRIX_STATUS
+    && program.v4ExecutionState?.nextStage === FINAL_NEXT_STAGE
+    && program.v4ExecutionState?.wordSaturated === true
+    && program.v4ExecutionState?.wordSaturationScope === 'DECLARED_SUPPORT_ENVELOPE_ONLY'
+    && program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit === true
+    && program.v4ExecutionState?.modernResolveReopenCertified === false
+    && program.v4ExecutionState?.modernReplyProductRuntimeWired === false
+    && program.v4ExecutionState?.modernResolveReopenProductRuntimeWired === false
+    && program.v4ExecutionState?.googleDocsOpened === false
+    && ledger.status === FINAL_MATRIX_STATUS
+    && ledger.nextStage === FINAL_NEXT_STAGE
+    && ledger.coverageLedger?.a03C04ModernCommentState?.status === 'BOUND_STATE_READBACK_ONLY'
+    && ledger.coverageLedger?.p0ModernCommentRepliesTypedLimitation?.status === 'BOUND_TYPED_LIMITATION_WITH_SHADOW_PRESERVATION'
+    && ledger.coverageLedger?.p0ModernCommentResolveReopenTypedLimitation?.status === 'BOUND_RESOLVED_STATE_SHADOW_AND_REOPEN_TYPED_LIMITATION'
+    && ledger.runtimeClaims?.wordSaturated === true
+    && ledger.runtimeClaims?.wordSaturationScope === 'DECLARED_SUPPORT_ENVELOPE_ONLY'
+    && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === true
+    && ledger.runtimeClaims?.googleDocsOpened === false
+    && ledger.runtimeClaims?.automaticApplyExpanded === false;
+}
+
 export function evaluateWordV4A03C04ModernCommentState(input = {}) {
   const receipt = input.receipt || (fs.existsSync(RECEIPT_PATH) ? readJson(RECEIPT_PATH) : buildReceipt());
   const promotionList = input.promotionList || readJson(PROMOTION_LIST_PATH);
@@ -519,7 +548,9 @@ export function evaluateWordV4A03C04ModernCommentState(input = {}) {
   const add = (code, field, message) => issues.push(issue(code, field, message));
   const row = list(promotionList.rows).find((item) => item.capability === 'modernCommentResolveReopenState');
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.v4.modernCommentStateReadbackGate');
-  const validSuccessorState = c05SuccessorState || isP0ReplySuccessorState(profile, program, ledger, promotionList);
+  const validSuccessorState = c05SuccessorState
+    || isP0ReplySuccessorState(profile, program, ledger, promotionList)
+    || isFinalEnvelopeSuccessorState(profile, program, ledger, promotionList);
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_A03_C04_RECEIPT_INVALID', 'receipt', 'C04 receipt must bind a passing state-readback-only gate.');
   if (receipt.oracle?.activeRootCommentReadbackPass !== true

@@ -1,12 +1,12 @@
 {
   "schemaVersion": "yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix-receipt.v1",
   "taskId": "WORD_RTK_NORMALIZED_CAPABILITY_MATRIX",
-  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
   "result": "PASS",
   "createdAtUtc": "2026-08-01T10:20:00.000Z",
   "matrixBinding": {
     "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-    "sha256": "9fb5835099e19ca5407550fccb558db1a9c7a3be08202caed35db72633e4b23b",
+    "sha256": "e2052fd92944517c06f4a4f50182814f951e955c1c78df751307d4ee3448d805",
     "status": "BOUND"
   },
   "sourceBindings": {
@@ -16,15 +16,15 @@
     },
     "capabilityProfile": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "85e0f98279fd5635931460ef34fa26d5cc35a07015e1f3601b20228aab0ed9c3"
+      "sha256": "133864bc92b192625b832ffde491017caeafce9209d3a17425fda14925268c53"
     },
     "postD1Program": {
       "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "d2df8cd77b780514bb4790e7613a8c02e27717bd9b08984115af738eeee2adff"
+      "sha256": "406d1ef2ae45f413cf93dad68e71f057c9162b5a051f473ac5831c9e0c98df10"
     },
     "saturationLedger": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "abc25623649f844f2f01e701024b7e099767a5ccc043173ba4bd6f025e4d43ac"
+      "sha256": "c4dcaa5e6c72fda0916f496f0ed8777f1779354cb54313ab6597b100840895fb"
     }
   },
   "counts": {
@@ -32,7 +32,7 @@
     "physicalWordEvidence": 16,
     "productRuntimeWired": 11,
     "automaticApplyCertified": 0,
-    "blocksWordSaturation": 1,
+    "blocksWordSaturation": 0,
     "currentTerminalClass": {
       "COMPONENT_PROVEN": 5,
       "PHYSICAL_WORD_EVIDENCE": 3,
@@ -51,7 +51,7 @@
       "TYPED_LIMITATION": 2
     }
   },
-  "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
+  "nextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT",
   "nonClaims": [
     "Automatic apply is not certified broadly.",
     "Physical Word evidence is not product runtime authority by itself.",

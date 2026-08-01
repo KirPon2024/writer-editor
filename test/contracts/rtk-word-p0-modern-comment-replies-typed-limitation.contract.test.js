@@ -173,7 +173,7 @@ test('normalized matrix keeps reply typed limitation closed through later resolv
   assert.equal(byId.get('rtk.word.v4.typedStructuralDiagnostics').reasonCode, 'RTK_NORM_STRUCTURAL_APPLY_TYPED_LIMITATION_BOUND');
   assert.equal(byId.get('rtk.word.v4.multiRoundReplayStaleConflictGuards').blocksWordSaturation, false);
   assert.equal(byId.get('rtk.word.v4.multiRoundReplayStaleConflictGuards').reasonCode, 'RTK_NORM_MULTI_ROUND_REPLAY_GUARDS_RECONCILED');
-  assert.equal(matrix.counts.blocksWordSaturation, 1);
-  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE');
+  assert.equal(matrix.counts.blocksWordSaturation, 0);
+  assert.equal(matrix.nextEngineeringOrder[0].contour, 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT');
   assert.equal(matrix.counts.automaticApplyCertified, 0);
 });

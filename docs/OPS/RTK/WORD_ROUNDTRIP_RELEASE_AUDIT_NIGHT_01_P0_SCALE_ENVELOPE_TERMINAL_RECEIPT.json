@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-scale-envelope-terminal-audit-receipt.v1",
+  "taskId": "WORD_RTK_P0_SCALE_ENVELOPE_TERMINAL_AUDIT",
+  "status": "WORD_P0_SCALE_ENVELOPE_DECLARED_READY_FOR_INDEPENDENT_AUDIT",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T15:20:00.000Z",
+  "headBinding": {
+    "originMainSha": "b4b361b332604d9f6ded8446a88ff84fcf91442f",
+    "localHeadSha": "b4b361b332604d9f6ded8446a88ff84fcf91442f"
+  },
+  "sourceBindings": [
+    {
+      "id": "LARGE_MANUSCRIPT_STRESS",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_LARGE_MANUSCRIPT_STRESS_RECEIPT.json",
+      "sha256": "badbe7eadb10fd473153748eaa04434b3d2ee83c9fd5d77cb681107ce21a81cf",
+      "status": "BOUND"
+    },
+    {
+      "id": "REPEAT_HIGH_DENSITY_STRESS",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT.json",
+      "sha256": "7b4089dac3bd07fce0d3e38d511904bcc9291cd80fba7da8fdda082c55124082",
+      "status": "BOUND"
+    },
+    {
+      "id": "P0_500K_TERMINAL_AUDIT",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT.json",
+      "sha256": "1ae66b21b300c50241f81b420e9330d2516b1fc5f52fb92b3b17702d08ecc341",
+      "status": "BOUND"
+    },
+    {
+      "id": "P0_MULTI_ROUND_LEDGER_RECONCILIATION",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json",
+      "sha256": "1f31e05df52ab21178fb46cdba0a14fe65c7f5aef78e4890797fb8f027899b43",
+      "status": "BOUND"
+    },
+    {
+      "id": "NORMALIZED_CAPABILITY_MATRIX",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+      "sha256": "9fb5835099e19ca5407550fccb558db1a9c7a3be08202caed35db72633e4b23b",
+      "status": "BOUND"
+    },
+    {
+      "id": "NORMALIZED_CAPABILITY_MATRIX_RECEIPT",
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
+      "sha256": "543e1297a9322cf882a91a86c30a70fea9a7ab97a58ad683147193dc03e9c81c",
+      "status": "BOUND"
+    }
+  ],
+  "supportEnvelope": {
+    "wordProfile": "Microsoft Word for Mac 16.111.2",
+    "scope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
+    "supportedTrackedReplacementApply": {
+      "operation": "explicit user-confirmed non-overlap tracked replacement apply",
+      "maxCertifiedManuscriptWords": 100000,
+      "authority": "SIGNED_LOCATOR_UNIQUE_SCENE_MAPPING_BASELINE_GUARD_REVERSE_VERIFY_REPLAY_LEDGER"
+    },
+    "supportedCommentShadow": {
+      "operation": "root comment shadow import, delete tombstone, mixed comment plus supported text preview",
+      "maxCertifiedDenseCommentShadowWords": 50000,
+      "maxCertifiedDenseCommentThreads": 120
+    },
+    "completedPhysicalWaves": [
+      10,
+      40,
+      100,
+      300
+    ],
+    "repeatedStableWave300": true,
+    "productReplayIdempotentPasses": 90,
+    "attemptedBoundaryWords": [
+      150000,
+      300000,
+      500000
+    ],
+    "attemptedBoundaryClasses": [
+      "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_150K_APPLY",
+      "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_300K_APPLY",
+      "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY"
+    ],
+    "boundaryStatus": "TYPED_LIMITATION_REPRODUCED",
+    "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
+    "packageInvalidClaimed": false,
+    "userDocumentsTouched": false,
+    "networkRequests": 0
+  },
+  "saturationDecision": {
+    "wordSaturated": true,
+    "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
+    "wordSaturationUniversalClaim": false,
+    "automaticApplyCertified": false,
+    "broadAutomaticApplyCertified": false,
+    "googleDocsOpened": false,
+    "googleDocsAllowedToOpen": false,
+    "programDone": false,
+    "readyForFreshIndependentExactHeadAudit": true,
+    "nextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT"
+  },
+  "typedLimitationsInsideEnvelope": [
+    "MODERN_REPLY_PARENT_LINK_ZERO_TYPED_LIMITATION",
+    "MODERN_RESOLVE_REOPEN_DONE_FALSE_READBACK_TYPED_LIMITATION",
+    "TRIPLE_ADJACENT_TRACKED_EDIT_IDENTITY_LOSS_TYPED_LIMITATION",
+    "FORMATTING_APPLY_DIAGNOSTIC_ONLY_TYPED_LIMITATION",
+    "STRUCTURAL_APPLY_MANUAL_OR_BLOCKED_TYPED_LIMITATION"
+  ],
+  "typedLimitationsOutsideEnvelope": [
+    "MONOLITHIC_150K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT",
+    "MONOLITHIC_300K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT",
+    "MONOLITHIC_500K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT"
+  ],
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "packageInvalidMisclaim": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "prematureGoogleDocsOpen": 0,
+    "unsupportedAutoApplyClaim": 0
+  },
+  "nonClaims": [
+    "No universal Word compatibility claim.",
+    "No broad automatic apply claim.",
+    "No support claim above the declared scale envelope.",
+    "No Google Docs activation before fresh independent exact-head audit.",
+    "No Program DONE claim."
+  ],
+  "requiredNextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT"
+}

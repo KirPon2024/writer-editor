@@ -238,6 +238,12 @@
       "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_REPLY_TYPED_LIMITATION_RECEIPT.json",
       "sha256": "cc93a770497800ae9893b8f0d19d23f48b77ea7f8361f66a9258542f36617733",
       "status": "BOUND"
+    },
+    {
+      "id": "P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION_RECEIPT.json",
+      "sha256": "57ee83330230f365ac567031fbe0ace09f0fd9a552e9d474ca96fba52c4e154f",
+      "status": "BOUND"
     }
   ],
   "coverageLedger": {
@@ -582,7 +588,7 @@
         "physicalWordEvidence": 16,
         "productRuntimeWired": 11,
         "automaticApplyCertified": 0,
-        "blocksWordSaturation": 5,
+        "blocksWordSaturation": 4,
         "currentTerminalClass": {
           "COMPONENT_PROVEN": 5,
           "PHYSICAL_WORD_EVIDENCE": 3,
@@ -605,10 +611,9 @@
         "rtk.word.v4.effectiveFormattingDiagnostics",
         "rtk.word.v4.typedStructuralDiagnostics",
         "rtk.word.v4.multiRoundReplayStaleConflictGuards",
-        "rtk.word.v4.saturationLedger",
-        "rtk.word.v4.modernCommentStateReadbackGate"
+        "rtk.word.v4.saturationLedger"
       ],
-      "nextStage": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION",
+      "nextStage": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
       "wordSaturated": false,
       "googleDocsOpened": false
     },
@@ -620,6 +625,14 @@
       "automaticApplyCertified": false,
       "replyGraphAuthorityCertified": false,
       "replyBodyShadowPreservationCertified": true
+    },
+    "p0ModernCommentResolveReopenTypedLimitation": {
+      "status": "BOUND_RESOLVED_STATE_SHADOW_AND_REOPEN_TYPED_LIMITATION",
+      "sourceEvidence": "WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION_RECEIPT",
+      "doneTrueStateReadbackPhysicalWordProven": true,
+      "resolvedStateShadowPreservationCertified": true,
+      "resolveReopenFullLifecycleCertified": false,
+      "automaticApplyCertified": false
     }
   },
   "aggregateTotals": {
@@ -750,7 +763,10 @@
     "p0500kTerminalAuditMaxCertifiedTrackedReplacementWords": 100000,
     "p0ModernReplyTypedLimitationBound": 1,
     "p0ModernReplyBodyShadowPreservationCertified": 1,
-    "p0ModernReplyGraphCertified": 0
+    "p0ModernReplyGraphCertified": 0,
+    "p0ModernResolveReopenTypedLimitationBound": 1,
+    "p0ResolvedStateShadowPreservationCertified": 1,
+    "p0ResolveReopenFullLifecycleCertified": 0
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -781,8 +797,7 @@
     "RTK_NORM_FORMATTING_APPLY_LANE_PENDING",
     "RTK_NORM_STRUCTURAL_APPLY_LANE_PENDING",
     "RTK_NORM_MULTI_ROUND_LEDGER_RECONCILIATION_PENDING",
-    "RTK_NORM_WORD_HOLD_NOT_SATURATED",
-    "RTK_NORM_RESOLVE_REOPEN_PRODUCT_PATH_OR_LIMITATION_PENDING"
+    "RTK_NORM_WORD_HOLD_NOT_SATURATED"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": true,
@@ -810,7 +825,7 @@
     "P0 multi-scene atomic and comment delete product wiring does not certify Word saturation.",
     "Modern replies and resolve-reopen remain typed limitations."
   ],
-  "nextStage": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION",
+  "nextStage": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

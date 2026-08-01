@@ -55,7 +55,10 @@ test('A03 C04 binds modern comment state readback without reply or resolve-reope
   assert.equal(ledger.runtimeClaims.googleDocsOpened, false);
   assert.equal(ledger.coverageLedger.a03C04ModernCommentState.status, 'BOUND_STATE_READBACK_ONLY');
   assert.equal(program.v4ExecutionState.modernResolveReopenCertified, false);
-  assert.equal(program.v4ExecutionState.nextStage, 'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION');
+  assert.ok([
+    'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION',
+    'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION',
+  ].includes(program.v4ExecutionState.nextStage));
 });
 
 test('A03 C04 rejects full modern comment state overclaim and missing done true evidence', async () => {

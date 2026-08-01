@@ -708,7 +708,7 @@
       "capabilityId": "rtk.word.v4.modernCommentStateReadbackGate",
       "operationFamily": "modern comment done state and thread lifecycle readback",
       "state": "COMPONENT_PROVEN_STATE_READBACK_ONLY_TYPED_LIMITATION",
-      "currentCapability": "DONE_TRUE_READBACK_ONLY_BOUND_NO_RESOLVE_REOPEN_RUNTIME_PROMOTION",
+      "currentCapability": "DONE_TRUE_RESOLVED_STATE_SHADOW_PRESERVED_REOPEN_TYPED_LIMITATION_BOUND",
       "physicalWordEvidence": true,
       "componentProven": true,
       "productRuntimeWired": false,
@@ -736,15 +736,22 @@
         "active root modern comments preserve commentsExtended commentsIds and people parts after Word save-close-reopen",
         "single-thread resolve control produces done true OOXML readback",
         "Word-authored comment delete is physically read back as zero comments",
-        "C01 root modern comments remain product-runtime wired as shadow-only review session import"
+        "C01 root modern comments remain product-runtime wired as shadow-only review session import",
+        "resolved comment state enters authenticated product comment shadow sessions as a diagnostic state"
       ],
       "limitations": [
         "modern replies remain not certified because no parent link is read back",
         "resolve then reopen remains not certified because done false after reopen is not read back",
         "comment delete is physical evidence only until a later product runtime shadow-state contour",
-        "C04 adds no manuscript apply authority"
+        "C04 adds no manuscript apply authority",
+        "resolve then reopen remains unsupported because Word did not produce done false after reopen in physical readback"
       ],
-      "killCriterion": "Any modern comment state is promoted to product mutation or automatic apply without deterministic physical Word readback and Command Kernel receipt."
+      "killCriterion": "Any resolve-reopen lifecycle is promoted without done true then done false physical readback, or resolved-state shadow import writes manuscript text.",
+      "resolveReopenTypedLimitationReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION_RECEIPT.json",
+      "doneTrueStateReadbackPhysicalWordProven": true,
+      "resolvedStateShadowPreservationCertified": true,
+      "reopenTypedLimitationBound": true,
+      "resolveReopenFullLifecycleCertified": false
     },
     {
       "capabilityId": "rtk.word.v4.nonOverlapTrackedReplacementProductPath",
@@ -1168,7 +1175,7 @@
       "physicalWordEvidence": 16,
       "productRuntimeWired": 11,
       "automaticApplyCertified": 0,
-      "blocksWordSaturation": 5,
+      "blocksWordSaturation": 4,
       "currentTerminalClass": {
         "COMPONENT_PROVEN": 5,
         "PHYSICAL_WORD_EVIDENCE": 3,
@@ -1187,7 +1194,7 @@
         "TYPED_LIMITATION": 2
       }
     },
-    "nextStage": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION",
+    "nextStage": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
     "wordSaturated": false,
     "automaticApplyCertified": false
   }

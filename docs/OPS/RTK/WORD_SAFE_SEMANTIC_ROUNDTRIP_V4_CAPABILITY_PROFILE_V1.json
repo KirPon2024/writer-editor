@@ -982,11 +982,56 @@
         "later editor stages remain closed"
       ],
       "killCriterion": "Any preview mutation before explicit apply, wrong-scene route, replay mutation, nonzero veto, product release claim, or automatic apply claim invalidates this capability."
+    },
+    {
+      "capabilityId": "rtk.word.releaseAudit.p0.productCommentsMixedMultiScene",
+      "operationFamily": "Product Review DOCX comments mixed tracked replacement and multi-scene typed limitation",
+      "state": "PRODUCT_BOUNDED_VERTICAL_COMMENTS_MIXED_PROVEN_NOT_SATURATED",
+      "currentCapability": "ROOT_COMMENT_SHADOW_AND_MIXED_TRACKED_REPLACEMENT_PRODUCT_LOOP_WITH_MULTI_SCENE_BLOCK",
+      "physicalWordEvidence": true,
+      "componentProven": true,
+      "productCompositionRegistered": true,
+      "productRuntimeWired": true,
+      "liveElectronUiExportSurfaceClicked": true,
+      "rootModernCommentShadowProductPathWired": true,
+      "mixedTrackedReplacementAndRootCommentProductLoopProven": true,
+      "commentDeletePhysicalReadbackProven": true,
+      "commentDeleteProductRuntimeWired": false,
+      "modernReplyProductRuntimeWired": false,
+      "modernResolveReopenProductRuntimeWired": false,
+      "multiSceneAtomicApplyCertified": false,
+      "explicitUserConfirmationRequired": true,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "releaseReady": false,
+      "wordSaturated": false,
+      "consumer": "cmd.project.review.exportDocxReviewPacket plus cmd.project.review.activateDocxReviewPreviewSession plus cmd.project.review.applyExactTextChange plus cmd.rtk.reviewSession.importComments",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
+      "acceptanceTest": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
+      "supportedNow": [
+        "real Electron menu export surface can export Product Review DOCX into a synthetic path",
+        "root Word comment returns through authenticated intake and comment shadow command with replay",
+        "mixed root comment plus tracked replacement returns through visible preview and explicit command apply",
+        "stale baseline tampered authority wrong scene duplicate locator and multi-scene batch attempts fail closed before unsafe writes"
+      ],
+      "limitations": [
+        "MODERN_COMMENT_REPLY_NOT_PRODUCT_CERTIFIED",
+        "MODERN_COMMENT_RESOLVE_REOPEN_NOT_PRODUCT_CERTIFIED",
+        "COMMENT_DELETE_PHYSICAL_READBACK_NOT_PRODUCT_RUNTIME_WIRED",
+        "MULTI_SCENE_PRODUCT_APPLY_REQUIRES_AUTHENTICATED_MULTI_SCENE_COORDINATOR_CONTOUR"
+      ],
+      "killCriterion": "Any nonzero veto, silent comment loss, preview mutation, automatic apply claim, multi-scene apply claim, reply/resolve runtime claim, or Google Docs execution invalidates this contour."
     }
   ],
   "latestProductVerticalTrackedEdit": {
     "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",
     "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+    "automaticApplyCertified": false,
+    "wordSaturated": false
+  },
+  "latestProductCommentsMixedMultiScene": {
+    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE_COMPLETE_NOT_SATURATED",
+    "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
     "automaticApplyCertified": false,
     "wordSaturated": false
   }

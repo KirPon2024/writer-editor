@@ -366,7 +366,8 @@
     "P0 product-originated smoke-12 is blocked by macOS Word sandbox grant automation in this host state; this is an ENVIRONMENT_PERMISSION boundary, not Product Review DOCX/package/carrier invalidity evidence.",
     "P0 product-originated smoke-12 proves only bounded physical Word open-edit-save-close-reopen through LaunchServices open plus ordinary Save; it does not claim live Electron click, broad release wave, automatic apply, Word saturation, or Google Docs.",
     "P0 product vertical tracked edit proves one physical Word returned DOCX through authenticated V2 intake, visible preview, explicit command apply, reopen, and replay; live Electron click, release automatic apply, Word saturation, comments, mixed, multi-scene, wave-64, and Google Docs remain pending.",
-    "P0 product vertical tracked edit proves one physical Word returned DOCX through authenticated V2 intake, visible preview, explicit command apply, reopen, and replay; live Electron click, release automatic apply, Word saturation, comments, mixed, multi-scene, wave-64, and later editor stages remain pending."
+    "P0 product vertical tracked edit proves one physical Word returned DOCX through authenticated V2 intake, visible preview, explicit command apply, reopen, and replay; live Electron click, release automatic apply, Word saturation, comments, mixed, multi-scene, wave-64, and later editor stages remain pending.",
+    "P0 product comments mixed multi-scene contour proves root comment shadow import, mixed tracked replacement plus comment with explicit apply, and safe multi-scene block; automatic apply, Word saturation, Google Docs, reply/resolve runtime, and multi-scene apply remain unclaimed."
   ],
   "designToolRouter": "NOT_APPLICABLE",
   "delivery": {
@@ -610,10 +611,10 @@
     "releaseAuditRequired": true
   },
   "releaseAuditNight01": {
-    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",
-    "currentStage": "P0-PRODUCT-VERTICAL-TRACKED-EDIT",
-    "nextStage": "P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE_COMPLETE_NOT_SATURATED",
+    "currentStage": "P0-PRODUCT-VERTICAL-COMMENTS-MIXED-MULTI-SCENE",
+    "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_COMMENTS_MIXED_MULTI_SCENE",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
     "latestEnvironmentPermissionProbeReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
     "latestEnvironmentPermissionProbeStatus": "MACOS_WORD_SANDBOX_GRANT_REQUIRED_NOT_PACKAGE_INVALID",
     "latestEnvironmentPermissionProbeTerminalReason": "HOST_DIALOG_DID_NOT_OPEN_PICKER_OR_DID_NOT_BIND_SELECTED_ITEM",
@@ -643,7 +644,16 @@
     "wordSaveMode": "SAVE_EXISTING_DOCUMENT_NO_SAVE_AS",
     "productVerticalTrackedEditOneCaseProven": true,
     "projectReopenReadbackProven": true,
-    "replayIdempotencyProven": true
+    "replayIdempotencyProven": true,
+    "liveElectronUiExportSurfaceClicked": true,
+    "rootModernCommentShadowProductPathWired": true,
+    "mixedTrackedReplacementAndRootCommentProductLoopProven": true,
+    "commentDeletePhysicalReadbackProven": true,
+    "commentDeleteProductRuntimeWired": false,
+    "modernReplyProductRuntimeWired": false,
+    "modernResolveReopenProductRuntimeWired": false,
+    "multiSceneAtomicApplyCertified": false,
+    "multiSceneCorrectlyBlockedBeforeWriter": true
   },
   "latestWordProductVerticalTrackedEdit": {
     "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",
@@ -651,5 +661,12 @@
     "caseCount": 1,
     "passCount": 1,
     "nextStage": "P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE"
+  },
+  "latestWordProductCommentsMixedMultiScene": {
+    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE_COMPLETE_NOT_SATURATED",
+    "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
+    "productCases": 4,
+    "negativeCases": 5,
+    "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_COMMENTS_MIXED_MULTI_SCENE"
   }
 }

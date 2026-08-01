@@ -66,6 +66,7 @@ test('S37 local capability provider: Free keeps authorship, toolbar, import, exp
     'cmd.project.importTxtV1',
     'cmd.project.importMarkdownV1',
     'cmd.project.export.docxMin',
+    'cmd.project.review.exportDocxReviewPacket',
     'cmd.project.exportPdfV1',
     'cmd.project.exportMarkdownV1',
     'cmd.project.exportFullArchiveV1',
@@ -128,6 +129,14 @@ test('S37 main bridge boundary blocks Pro review writes in local Free', () => {
   assert.ok(main.includes('const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set(['));
   assert.ok(main.includes("'cmd.project.review.applyExactTextChange'"));
   assert.ok(main.includes("'cmd.project.review.applyExactTextChangesBatch'"));
+  const guardStart = main.indexOf('const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([');
+  const guardEnd = main.indexOf(']);', guardStart);
+  const mainFreeProGuard = main.slice(guardStart, guardEnd);
+  assert.equal(
+    mainFreeProGuard.includes("'cmd.project.review.exportDocxReviewPacket'"),
+    false,
+    'Review DOCX export is a local artifact export and must stay reachable from the product UI in Free',
+  );
   assert.match(
     main,
     /if\s*\(\s*MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS\.has\(commandId\)\s*\)\s*\{[\s\S]*PRO_COMPLEXITY_SURFACE_UNAVAILABLE_IN_FREE/u,

@@ -36,5 +36,8 @@ export const CORE_COMMANDS = [
   'manualMap.attachment.add',
   'manualMap.portal.add',
   'manualMap.template.apply',
+  'manualMap.export.json',
+  'manualMap.export.imagePdf',
+  'manualMap.import.jsonRepeat',
 ] as const;
 export const CORE_EVENTS = [] as const;

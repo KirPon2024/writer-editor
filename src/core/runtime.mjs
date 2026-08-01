@@ -35,6 +35,9 @@ export const CORE_COMMAND_IDS = Object.freeze({
   MANUAL_MAP_ATTACHMENT_ADD: 'manualMap.attachment.add',
   MANUAL_MAP_PORTAL_ADD: 'manualMap.portal.add',
   MANUAL_MAP_TEMPLATE_APPLY: 'manualMap.template.apply',
+  MANUAL_MAP_EXPORT_JSON: 'manualMap.export.json',
+  MANUAL_MAP_EXPORT_IMAGE_PDF: 'manualMap.export.imagePdf',
+  MANUAL_MAP_IMPORT_JSON_REPEAT: 'manualMap.import.jsonRepeat',
 });
 
 const ATLAS_AUTHOR_SCHEMA_VERSION = 'atlas.author.v1';
@@ -1290,6 +1293,15 @@ function applyManualMapTemplateApply(state, payload) {
   nextMap.updatedByCommandSeq = commandSeq;
   next.data.lastCommandId += 1;
   return ok(next);
+}
+
+function failManualMapPortabilityWrapperCommand(state, op) {
+  return fail(state, 'E_MANUAL_MAP_PORTABILITY_COMMAND_KERNEL_BRIDGE_REQUIRED', op, 'COMMAND_KERNEL_BRIDGE_REQUIRED', {
+    mutationApplied: false,
+    storageWritten: false,
+    directCoreMutation: false,
+    bridgeRequired: true,
+  });
 }
 
 function applyAtlasEntityCreate(state, payload) {
@@ -3602,6 +3614,15 @@ export function reduceCoreState(stateInput, commandInput) {
   }
   if (type === CORE_COMMAND_IDS.MANUAL_MAP_TEMPLATE_APPLY) {
     return applyManualMapTemplateApply(state, command.payload || {});
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_JSON) {
+    return failManualMapPortabilityWrapperCommand(state, CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_JSON);
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_IMAGE_PDF) {
+    return failManualMapPortabilityWrapperCommand(state, CORE_COMMAND_IDS.MANUAL_MAP_EXPORT_IMAGE_PDF);
+  }
+  if (type === CORE_COMMAND_IDS.MANUAL_MAP_IMPORT_JSON_REPEAT) {
+    return failManualMapPortabilityWrapperCommand(state, CORE_COMMAND_IDS.MANUAL_MAP_IMPORT_JSON_REPEAT);
   }
 
   return fail(state, 'E_CORE_COMMAND_NOT_FOUND', type || 'unknown', 'COMMAND_NOT_FOUND', { type });

@@ -553,6 +553,34 @@
     {
       "commandId": "manualMap.import.jsonRepeat",
       "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "cmd.comments.importStablePacket",
+      "capabilityId": "cap.stage10.comments.local"
+    },
+    {
+      "commandId": "cmd.comments.decision.record",
+      "capabilityId": "cap.stage10.comments.local"
+    },
+    {
+      "commandId": "cmd.collab.conflict.preview",
+      "capabilityId": "cap.stage10.conflicts.local"
+    },
+    {
+      "commandId": "cmd.collab.conflict.decision.record",
+      "capabilityId": "cap.stage10.conflicts.local"
+    },
+    {
+      "commandId": "cmd.collab.operationExchange.prepare",
+      "capabilityId": "cap.stage10.operationExchange.local"
+    },
+    {
+      "commandId": "cmd.collab.operationExchange.localFixturePreview",
+      "capabilityId": "cap.stage10.operationExchange.local"
+    },
+    {
+      "commandId": "cmd.collab.eventLog.apply",
+      "capabilityId": "cap.stage10.collabApply.local"
     }
   ]
 }

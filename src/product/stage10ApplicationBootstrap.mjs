@@ -32,8 +32,7 @@ function activation(controlId) {
 }
 
 export function createStage10ApplicationBootstrap(input = {}) {
-  const storagePort = input.storagePort;
-  const authorityHeadPort = input.authorityHeadPort;
+  const persistencePort = input.persistencePort;
   const uiPort = isPlainObject(input.uiPort) ? input.uiPort : {};
   const now = typeof input.now === 'function' ? input.now : undefined;
   let runtime = null;
@@ -48,8 +47,7 @@ export function createStage10ApplicationBootstrap(input = {}) {
       projectId,
       actorId: normalizeString(projectInput.actorId) || 'local-author',
       sessionId: normalizeString(projectInput.sessionId) || `stage10:${projectId}`,
-      storagePort,
-      authorityHeadPort,
+      persistencePort,
       uiPort,
       now,
       capabilitySnapshot: projectInput.capabilitySnapshot,
@@ -83,8 +81,7 @@ export function createStage10ApplicationBootstrap(input = {}) {
     }
     runtime = await reopenStage10ProductRuntime({
       projectId,
-      storagePort,
-      authorityHeadPort,
+      persistencePort,
       uiPort,
       now,
       capabilitySnapshot: projectInput.capabilitySnapshot,

@@ -8462,11 +8462,10 @@ function getProjectManifestPath(projectName = currentProjectName || DEFAULT_PROJ
 }
 
 const STAGE10_LOCAL_STATE_DIRNAME = '.stage10-local';
-const STAGE10_PRODUCT_SESSION_FILENAME = 'product-session.v1.json';
-const STAGE10_RECEIPT_AUTHORITY_HEAD_FILENAME = 'command-receipt-authority-head.v1.json';
-const STAGE10_RECEIPT_AUTHORITY_RECOVERY_FILENAME = 'command-receipt-authority-head.recovery.v1.json';
-const stage10ProjectQueues = new Map();
+const STAGE10_LEGACY_PRODUCT_SESSION_FILENAME = 'product-session.v1.json';
+const STAGE10_LEGACY_RECEIPT_AUTHORITY_HEAD_FILENAME = 'command-receipt-authority-head.v1.json';
 let activeStage10ApplicationBootstrap = null;
+let activeStage10ApplicationCommandRoute = null;
 
 function getStage10LocalStatePath(projectRoot, fileName) {
   return joinPathSegmentsWithinRoot(projectRoot, [STAGE10_LOCAL_STATE_DIRNAME, fileName], {
@@ -8474,119 +8473,52 @@ function getStage10LocalStatePath(projectRoot, fileName) {
   });
 }
 
-function enqueueStage10ProjectOperation(projectId, operation) {
-  const key = normalizeStableProjectId(projectId) || 'stage10-project';
-  const previous = stage10ProjectQueues.get(key) || Promise.resolve();
-  const next = previous.then(operation, operation);
-  stage10ProjectQueues.set(key, next.catch(() => {}));
-  return next;
-}
-
-function createStage10MainStoragePort(projectRoot) {
-  return {
-    async readSession() {
-      const sessionPath = getStage10LocalStatePath(projectRoot, STAGE10_PRODUCT_SESSION_FILENAME);
-      const raw = await fs.readFile(sessionPath, 'utf8').catch(() => '');
-      return raw ? JSON.parse(raw) : null;
-    },
-    async writeSession(projectId, sessionRecord, options = {}) {
-      return enqueueStage10ProjectOperation(projectId, async () => {
-        const sessionPath = getStage10LocalStatePath(projectRoot, STAGE10_PRODUCT_SESSION_FILENAME);
-        await fs.mkdir(path.dirname(sessionPath), { recursive: true });
-        const result = await fileManager.writeFileAtomic(sessionPath, `${JSON.stringify(sessionRecord, null, 2)}\n`);
-        return {
-          ok: result?.success !== false,
-          schemaVersion: 'yalken.stage10.mainStoragePort.writeSession.v1',
-          reason: typeof options.reason === 'string' ? options.reason : '',
-          pathKind: 'stage10.localProductSession',
-          atomicWrite: true,
-        };
-      });
-    },
-    async readRecoverySnapshot(projectId, snapshotId) {
-      const safeSnapshotId = sanitizeFilename(snapshotId);
-      const snapshotPath = getStage10LocalStatePath(projectRoot, `recovery-${safeSnapshotId}.json`);
-      const raw = await fs.readFile(snapshotPath, 'utf8').catch(() => '');
-      return raw ? JSON.parse(raw) : null;
-    },
-    async writeRecoverySnapshot(projectId, snapshotId, snapshotRecord, options = {}) {
-      return enqueueStage10ProjectOperation(projectId, async () => {
-        const safeSnapshotId = sanitizeFilename(snapshotId);
-        const snapshotPath = getStage10LocalStatePath(projectRoot, `recovery-${safeSnapshotId}.json`);
-        await fs.mkdir(path.dirname(snapshotPath), { recursive: true });
-        const result = await fileManager.writeFileAtomic(snapshotPath, `${JSON.stringify(snapshotRecord, null, 2)}\n`);
-        return {
-          ok: result?.success !== false,
-          schemaVersion: 'yalken.stage10.mainStoragePort.writeRecoverySnapshot.v1',
-          reason: typeof options.reason === 'string' ? options.reason : '',
-          pathKind: 'stage10.readableRecoverySnapshot',
-          atomicWrite: true,
-        };
-      });
-    },
-  };
-}
-
-function createStage10MainCommandReceiptAuthorityHeadPort(projectRoot) {
-  return {
-    async readAuthorityHead(projectId) {
-      const authorityPath = getStage10LocalStatePath(projectRoot, STAGE10_RECEIPT_AUTHORITY_HEAD_FILENAME);
-      const raw = await fs.readFile(authorityPath, 'utf8').catch(() => '');
-      return raw ? JSON.parse(raw) : null;
-    },
-    async writeAuthorityHead(projectId, authorityHeadRecord, options = {}) {
-      return enqueueStage10ProjectOperation(projectId, async () => {
-        const authorityPath = getStage10LocalStatePath(projectRoot, STAGE10_RECEIPT_AUTHORITY_HEAD_FILENAME);
-        const recoveryPath = getStage10LocalStatePath(projectRoot, STAGE10_RECEIPT_AUTHORITY_RECOVERY_FILENAME);
-        await fs.mkdir(path.dirname(authorityPath), { recursive: true });
-        const previous = await fs.readFile(authorityPath, 'utf8').catch(() => '');
-        if (previous) {
-          await fileManager.writeFileAtomic(recoveryPath, previous.endsWith('\n') ? previous : `${previous}\n`);
-        }
-        const result = await fileManager.writeFileAtomic(authorityPath, `${JSON.stringify(authorityHeadRecord, null, 2)}\n`);
-        return {
-          ok: result?.success !== false,
-          schemaVersion: 'yalken.stage10.mainCommandReceiptAuthorityHeadPort.write.v1',
-          reason: typeof options.reason === 'string' ? options.reason : '',
-          pathKind: 'stage10.commandKernelReceiptAuthorityHead',
-          atomicWrite: true,
-          readableRecovery: Boolean(previous),
-        };
-      });
-    },
-  };
-}
-
 function readStage10LocalStatePresence(projectRoot) {
   return {
-    session: fsSync.existsSync(getStage10LocalStatePath(projectRoot, STAGE10_PRODUCT_SESSION_FILENAME)),
-    authorityHead: fsSync.existsSync(getStage10LocalStatePath(projectRoot, STAGE10_RECEIPT_AUTHORITY_HEAD_FILENAME)),
+    legacySession: fsSync.existsSync(getStage10LocalStatePath(projectRoot, STAGE10_LEGACY_PRODUCT_SESSION_FILENAME)),
+    legacyAuthorityHead: fsSync.existsSync(getStage10LocalStatePath(projectRoot, STAGE10_LEGACY_RECEIPT_AUTHORITY_HEAD_FILENAME)),
   };
 }
 
 async function bootstrapStage10ApplicationForProject(projectRoot, manifest, mode) {
   const projectId = normalizeStableProjectId(manifest?.projectId);
   if (!projectId) return null;
-  const { createStage10ApplicationBootstrap } = await loadStage10ApplicationBootstrapModule();
-  const bootstrap = createStage10ApplicationBootstrap({
-    storagePort: createStage10MainStoragePort(projectRoot),
-    authorityHeadPort: createStage10MainCommandReceiptAuthorityHeadPort(projectRoot),
-  });
-  activeStage10ApplicationBootstrap = bootstrap;
-  if (mode === 'create') {
-    return bootstrap.createProjectRuntime({
-      projectId,
-      title: typeof manifest.projectName === 'string' ? manifest.projectName : projectId,
-    });
-  }
+  const [
+    { createStage10ApplicationBootstrap },
+    { createStage10MainPersistenceAdapter },
+    { createStage10ApplicationCommandRoute },
+  ] = await Promise.all([
+    loadStage10ApplicationBootstrapModule(),
+    loadStage10MainPersistenceAdapterModule(),
+    loadStage10ApplicationCommandRouteModule(),
+  ]);
   const statePresence = readStage10LocalStatePresence(projectRoot);
-  if (!statePresence.session && !statePresence.authorityHead) {
-    return bootstrap.createProjectRuntime({
+  if (statePresence.legacySession || statePresence.legacyAuthorityHead) {
+    const error = new Error('Stage-10 legacy integrity state requires explicit migration.');
+    error.code = 'E_STAGE10_LEGACY_INTEGRITY_STATE';
+    error.reason = 'STAGE10_LEGACY_INTEGRITY_STATE_REJECTED';
+    throw error;
+  }
+  const persistencePort = createStage10MainPersistenceAdapter({
+    projectRoot,
+    anchorRoot: path.join(app.getPath('userData'), 'stage10-integrity-anchors'),
+    writeFileAtomic: (targetPath, content) => fileManager.writeFileAtomic(targetPath, content),
+  });
+  const bootstrap = createStage10ApplicationBootstrap({
+    persistencePort,
+  });
+  const existingState = await persistencePort.readStage10State(projectId);
+  const result = mode === 'create' || !existingState
+    ? await bootstrap.createProjectRuntime({
       projectId,
       title: typeof manifest.projectName === 'string' ? manifest.projectName : projectId,
-    });
-  }
-  return bootstrap.reopenProjectRuntime({ projectId });
+    })
+    : await bootstrap.reopenProjectRuntime({ projectId });
+  activeStage10ApplicationBootstrap = bootstrap;
+  activeStage10ApplicationCommandRoute = createStage10ApplicationCommandRoute({
+    getBootstrap: () => activeStage10ApplicationBootstrap,
+  });
+  return result;
 }
 
 function buildSectionDefinitions(labels) {
@@ -8894,6 +8826,8 @@ function loadCoreRuntimeModule() {
 }
 
 let stage10ApplicationBootstrapModulePromise = null;
+let stage10MainPersistenceAdapterModulePromise = null;
+let stage10ApplicationCommandRouteModulePromise = null;
 function loadStage10ApplicationBootstrapModule() {
   if (!stage10ApplicationBootstrapModulePromise) {
     const modulePath = pathToFileURL(path.join(__dirname, 'product', 'stage10ApplicationBootstrap.mjs')).href;
@@ -8903,6 +8837,28 @@ function loadStage10ApplicationBootstrapModule() {
     });
   }
   return stage10ApplicationBootstrapModulePromise;
+}
+
+function loadStage10MainPersistenceAdapterModule() {
+  if (!stage10MainPersistenceAdapterModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'stage10MainPersistenceAdapter.mjs')).href;
+    stage10MainPersistenceAdapterModulePromise = import(modulePath).catch((error) => {
+      stage10MainPersistenceAdapterModulePromise = null;
+      throw error;
+    });
+  }
+  return stage10MainPersistenceAdapterModulePromise;
+}
+
+function loadStage10ApplicationCommandRouteModule() {
+  if (!stage10ApplicationCommandRouteModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'product', 'stage10ApplicationCommandRoute.mjs')).href;
+    stage10ApplicationCommandRouteModulePromise = import(modulePath).catch((error) => {
+      stage10ApplicationCommandRouteModulePromise = null;
+      throw error;
+    });
+  }
+  return stage10ApplicationCommandRouteModulePromise;
 }
 
 let manualMapGraphModulePromise = null;
@@ -13174,6 +13130,16 @@ async function handleProjectLifecycleCreateCommand(payload = {}) {
   if (!canProceed) return { ok: false, cancelled: true };
   const created = await ensureProjectSkeleton(projectName);
   if (!created.ok) return created;
+  let stage10Bootstrap = null;
+  try {
+    stage10Bootstrap = await bootstrapStage10ApplicationForProject(created.projectRoot, created.manifest, 'create');
+  } catch (error) {
+    return makeProjectLifecycleError(
+      'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED',
+      error?.reason || error?.code || 'STAGE10_APPLICATION_BOOTSTRAP_FAILED',
+      { message: error?.message || 'Stage-10 bootstrap failed' },
+    );
+  }
   setActiveProjectNameFromRoot(created.projectRoot);
   const opened = await openProjectDocumentFile(created.firstScenePath, { statusText: 'Проект создан' });
   if (!opened.ok) return opened;
@@ -13185,16 +13151,6 @@ async function handleProjectLifecycleCreateCommand(payload = {}) {
     }),
     manifest: created.manifest,
   });
-  let stage10Bootstrap = null;
-  try {
-    stage10Bootstrap = await bootstrapStage10ApplicationForProject(created.projectRoot, created.manifest, 'create');
-  } catch (error) {
-    return makeProjectLifecycleError(
-      'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED',
-      error?.reason || error?.code || 'STAGE10_APPLICATION_BOOTSTRAP_FAILED',
-      { message: error?.message || 'Stage-10 bootstrap failed' },
-    );
-  }
   return {
     ok: true,
     created: true,
@@ -13218,6 +13174,16 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
   if (!canProceed) return { ok: false, cancelled: true };
   const binding = await findProjectBindingByProjectId(normalized.projectId);
   if (!binding) return makeProjectLifecycleError('E_PROJECT_NOT_FOUND', 'PROJECT_NOT_FOUND');
+  let stage10Bootstrap = null;
+  try {
+    stage10Bootstrap = await bootstrapStage10ApplicationForProject(binding.projectRoot, binding.manifest, 'reopen');
+  } catch (error) {
+    return makeProjectLifecycleError(
+      'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
+      error?.reason || error?.code || 'STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
+      { message: error?.message || 'Stage-10 bootstrap failed closed' },
+    );
+  }
   setActiveProjectNameFromRoot(binding.projectRoot);
   const settings = await loadSettings();
   const target = await resolveProjectContinueTarget(binding, settings);
@@ -13234,16 +13200,6 @@ async function handleProjectLifecycleOpenCommand(payload = {}) {
     readOnlyProject,
   });
   if (!opened.ok) return opened;
-  let stage10Bootstrap = null;
-  try {
-    stage10Bootstrap = await bootstrapStage10ApplicationForProject(binding.projectRoot, binding.manifest, 'reopen');
-  } catch (error) {
-    return makeProjectLifecycleError(
-      'E_STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
-      error?.reason || error?.code || 'STAGE10_APPLICATION_BOOTSTRAP_FAILED_CLOSED',
-      { message: error?.message || 'Stage-10 bootstrap failed closed' },
-    );
-  }
   return {
     ok: true,
     opened: true,
@@ -24995,6 +24951,26 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
         capabilityError: capability.error || null,
       },
     );
+  }
+
+  if (record.domain === 'stage10') {
+    if (!activeStage10ApplicationCommandRoute || typeof activeStage10ApplicationCommandRoute.dispatch !== 'function') {
+      return makeProductCommandBridgeError(
+        commandId,
+        'E_STAGE10_APPLICATION_BOOTSTRAP_MISSING',
+        'STAGE10_APPLICATION_BOOTSTRAP_MISSING',
+        {
+          commandAuthority: record.commandAuthority,
+          capabilityId: record.capabilityId,
+          domain: record.domain,
+          mutationApplied: false,
+          storageWritten: false,
+        },
+      );
+    }
+    return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, () => (
+      activeStage10ApplicationCommandRoute.dispatch(commandId, payload)
+    ));
   }
 
   return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, () => (

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-parsed-ir-preview-apply-replay-receipt.v1",
+  "taskId": "YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+  "contourId": "P0-PARSED-IR-PREVIEW-APPLY-REPLAY",
+  "status": "WORD_RELEASE_AUDIT_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_WIRED_NOT_SATURATED",
+  "result": "PASS",
+  "headBinding": {
+    "headSha": "59ffe457a994ae61221c5c70902e8b61b04e9d69",
+    "originMainSha": "59ffe457a994ae61221c5c70902e8b61b04e9d69",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "main": {
+      "id": "MAIN_PRODUCT_PREVIEW_APPLY_REPLAY_LOOP",
+      "path": "src/main.js",
+      "sha256": "bf3838d086ad3f2f44bfea1b742ba012674b32293e3588c3f1b331bca1b519ce",
+      "status": "BOUND"
+    },
+    "previewContract": {
+      "id": "AUTHENTICATED_RETURN_IR_PREVIEW_APPLY_REPLAY_CONTRACT",
+      "path": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "dd64d5f3ead914f115045fe76981bc1d93b605aab3659f84048f9a1598d3f842",
+      "status": "BOUND"
+    },
+    "c05RuntimeContract": {
+      "id": "C05_ATOMIC_WRITER_REPLAY_CONTRACT",
+      "path": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "sha256": "a64ad9e0e43fd6b49520268d574f5df35d846ca874efe07b8fb18864bf3eaa38",
+      "status": "BOUND"
+    },
+    "previousReturnIntakeReceipt": {
+      "id": "PREVIOUS_P0_RETURN_INTAKE_V2_RECEIPT",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
+      "sha256": "c4b94b3cf989ef6e684a0a68004d17bd5a72eec34dad49829ee166d257baa04b",
+      "status": "BOUND"
+    }
+  },
+  "sourceProof": {
+    "markers": {
+      "defaultBuilderRequiresAuthenticatedParserIr": true,
+      "defaultBuilderDoesNotReparseReturnedDocxForWriterInput": true,
+      "returnIntakeBlocksWithoutParserIr": true,
+      "visiblePreviewAttachedBeforeApply": true,
+      "publicApplyCommandRunsMainOwnedEnvelope": true,
+      "explicitConfirmationSetOnlyInsideMainApplyPath": true,
+      "productLoopContractCoversAuthenticatedPreviewApplyReplay": true,
+      "c05RuntimeCoversAtomicWriterReplayAndVetoes": true
+    },
+    "allPresent": true,
+    "mainSha256": "bf3838d086ad3f2f44bfea1b742ba012674b32293e3588c3f1b331bca1b519ce",
+    "previewContractSha256": "dd64d5f3ead914f115045fe76981bc1d93b605aab3659f84048f9a1598d3f842",
+    "c05RuntimeContractSha256": "a64ad9e0e43fd6b49520268d574f5df35d846ca874efe07b8fb18864bf3eaa38"
+  },
+  "implementedCapability": {
+    "capability": "parsedWordIrPreviewExplicitApplyReplay",
+    "productReviewDocxExporterWired": true,
+    "returnIntakeWired": true,
+    "parsedWordIrConsumerWired": true,
+    "parsedWordIrSoleWriterOperationSource": true,
+    "visibleExactPreviewWired": true,
+    "explicitUserConfirmationRequired": true,
+    "commandKernelApplyWired": true,
+    "atomicWriterAndOutcomeLedgerWired": true,
+    "replayIdempotenceWired": true,
+    "rendererAuthority": false,
+    "writerAuthorityExposedToRenderer": false,
+    "productOriginatedPhysicalLoopCertified": false,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "releaseReady": false,
+    "wordSaturated": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "unparsedWordIrWriterOperation": 0,
+    "rendererAuthorityAccepted": 0,
+    "previewBypassAccepted": 0,
+    "productStorageWriteBeforeGate": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "falseReleaseClaim": 0
+  },
+  "nonClaims": [
+    "This contour proves product runtime wiring for authenticated parser-derived non-overlap replacement preview and explicit apply, not release readiness.",
+    "Automatic apply remains false because a visible user confirmation is required before writer execution.",
+    "Product-originated physical Word waves must be rerun after the P0 loop is fully bound.",
+    "Word SATURATED remains false.",
+    "Google Docs remains closed."
+  ],
+  "nextStage": "P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_KEYS_STORAGE_EFFECTS"
+}

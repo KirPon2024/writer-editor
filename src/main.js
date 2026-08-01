@@ -24094,6 +24094,56 @@ function readAuthorityCapabilityMatrixDoc() {
   }
 }
 
+const productCommandTransactionQueues = new Map();
+
+async function enqueueProductCommandTransaction(projectKey, operation) {
+  const key = typeof projectKey === 'string' && projectKey.trim()
+    ? projectKey.trim()
+    : DEFAULT_PROJECT_NAME;
+  const previous = productCommandTransactionQueues.get(key) || Promise.resolve();
+  let release = () => {};
+  const current = new Promise((resolve) => {
+    release = resolve;
+  });
+  productCommandTransactionQueues.set(key, previous.then(() => current, () => current));
+  try {
+    await previous.catch(() => {});
+    return await operation();
+  } finally {
+    release();
+    if (productCommandTransactionQueues.get(key) === current) {
+      productCommandTransactionQueues.delete(key);
+    }
+  }
+}
+
+async function assertProductCommandManifestUnchanged(binding, expectedManifestHash, commandId, record) {
+  const latest = await readProjectManifestRawAtPath(binding.manifestPath);
+  const latestHash = computeHash(latest.raw);
+  if (latestHash === expectedManifestHash) {
+    return { ok: true, latest, latestHash };
+  }
+  return {
+    ok: false,
+    error: makeProductCommandBridgeError(
+      commandId,
+      'E_PRODUCT_COMMAND_REVISION_CONFLICT',
+      'PRODUCT_COMMAND_REVISION_CONFLICT',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        projectId: binding.projectId,
+        expectedManifestHash,
+        actualManifestHash: latestHash,
+        mutationApplied: false,
+        storageWritten: false,
+        transactionSerialized: true,
+      },
+    ),
+  };
+}
+
 async function dispatchProductCommandBridge(commandId, payload = {}) {
   const record = getProductCommandRecord(commandId);
   if (!record) {
@@ -24144,7 +24194,15 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
     );
   }
 
+  return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, () => (
+    dispatchProductCommandBridgeTransaction(commandId, payload, record)
+  ));
+}
+
+async function dispatchProductCommandBridgeTransaction(commandId, payload, record) {
   const binding = await buildProductCoreStateForCurrentProject();
+  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
+  const manifestHashBefore = computeHash(rawRecord.raw);
   const requestedProjectId = typeof payload.projectId === 'string' ? payload.projectId.trim() : '';
   if (requestedProjectId && requestedProjectId !== binding.projectId) {
     return makeProductCommandBridgeError(
@@ -24208,8 +24266,10 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
     );
   }
 
-  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
-  const manifestHashBefore = computeHash(rawRecord.raw);
+  const unchanged = await assertProductCommandManifestUnchanged(binding, manifestHashBefore, commandId, record);
+  if (!unchanged.ok) {
+    return unchanged.error;
+  }
   const recovery = await createProjectLifecycleRecovery(
     {
       projectId: binding.projectId,
@@ -24253,6 +24313,8 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
       manifestHashAfter: computeHash(manifestTextAfter),
       commandSeqBefore: Number(binding.coreState?.data?.lastCommandId || 0),
       commandSeqAfter: Number(reduced.state?.data?.lastCommandId || 0),
+      transactionSerialized: true,
+      revisionConflictDetected: false,
     },
     recovery: {
       snapshotCreated: recovery.snapshotCreated === true,

@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r3.c05.releaseSaturationRevalidation.v1",
+  "contourId": "R3_C05_RELEASE_SATURATION_REVALIDATION_AND_INDEPENDENT_AUDIT",
+  "generatedAtUtc": "2026-08-01T01:25:36.629Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r3-c05-release-saturation",
+    "headSha": "f73c9d44e28bca2f90c790327064f29dd32cafda",
+    "originMainSha": "f73c9d44e28bca2f90c790327064f29dd32cafda",
+    "headEqualsOriginMain": true,
+    "dirtyFiles": [
+      "M docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+      "M  src/derived/atlas/deriveAtlasRelationDossier.mjs",
+      "M  src/main.js",
+      "M  src/renderer/editor.bundle.js",
+      "M  src/renderer/editor.js",
+      "?? docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/",
+      "?? docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_RECEIPT.json",
+      "?? scripts/ops/yalken-atlas-v5-r3-c05-release-saturation-revalidation.mjs",
+      "?? test/contracts/yalken-atlas-v5-r3-c05-release-saturation-revalidation.contract.test.js"
+    ]
+  },
+  "status": "PASS_R3_C05_RELEASE_SATURATION_REVALIDATED",
+  "pass": true,
+  "programDoneClaim": false,
+  "oldEfinalAcceptedAsCurrentProof": false,
+  "journeys": {
+    "c01": {
+      "status": "PASS_ATLAS_ENTITY_RELATION_UI_JOURNEY",
+      "pass": true,
+      "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
+      "reportSha256": "a822a5185de9c6c652722009ec4fe2b49665d1a06440b26dc0b26228026ea90a"
+    },
+    "c02": {
+      "status": "PASS_ATLAS_TEMPORAL_CONTINUITY_SAVED_QUERY_UI_JOURNEY",
+      "pass": true,
+      "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
+      "reportSha256": "a8fc983919cd07968ed96b1b9ae65d2c0173852b3a1a1fb88ed1cf9c981e098b"
+    },
+    "c03": {
+      "status": "PASS_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_UI_JOURNEY",
+      "pass": true,
+      "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "reportSha256": "1064c54641083a67712a094a8888f512f02154d3cebce5c6027d6ef5dc16e0f2"
+    },
+    "c04": {
+      "status": "PASS_R3_C04_MULTILINGUAL_WORKER_STRESS",
+      "pass": true,
+      "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
+      "reportSha256": "e5ed81c16bb21270392b197149172b226f2120bf41965e1ec9e67e47da7df756"
+    }
+  },
+  "source": {
+    "checks": {
+      "productCommandTransactionSerialized": true,
+      "relationPayloadPreviewPreserved": true,
+      "atlasDesignOsSlotBinding": true,
+      "oldEfinalNotAcceptedAsCurrentProof": true,
+      "noSilentSourceSceneSlice": true,
+      "rawMatcherRiskInspected": true
+    },
+    "atlasSurfaceShellCount": 13,
+    "atlasProviderCount": 11,
+    "oldEfinal": {
+      "exists": true,
+      "acceptedAsCurrentDodProof": false,
+      "replacementRule": "R3_C05_EXECUTABLE_ROWS_ONLY"
+    },
+    "rawMatcherDisposition": {
+      "containsCaseSensitiveIndexOf": true,
+      "currentDisposition": "INSPECTED_EXACT_ONLY_AUTHOR_BOUND_MATCHER_NOT_RELEASE_VETO_FOR_R3_C05",
+      "requiresFutureCapability": "CASE_FOLDING_LANGUAGE_ANALYZER_PORT_WHEN_ACTIVATED"
+    }
+  },
+  "p0Rows": [
+    {
+      "id": "NIGHT01_P0_01_EXECUTABLE_DOD_ROWS",
+      "status": "CLOSED_BY_EXECUTABLE_R3_ROWS",
+      "evidence": [
+        "a822a5185de9c6c652722009ec4fe2b49665d1a06440b26dc0b26228026ea90a",
+        "a8fc983919cd07968ed96b1b9ae65d2c0173852b3a1a1fb88ed1cf9c981e098b",
+        "1064c54641083a67712a094a8888f512f02154d3cebce5c6027d6ef5dc16e0f2",
+        "e5ed81c16bb21270392b197149172b226f2120bf41965e1ec9e67e47da7df756"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_02_AUTHOR_STATE_LOSSLESS_VERSIONED",
+      "status": "CLOSED_BY_R3_C04",
+      "evidence": [
+        "e5ed81c16bb21270392b197149172b226f2120bf41965e1ec9e67e47da7df756"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_03_NO_SILENT_SCENE_SLICE",
+      "status": "CLOSED_BY_R3_C04_AND_SOURCE_RECHECK",
+      "evidence": [
+        "e5ed81c16bb21270392b197149172b226f2120bf41965e1ec9e67e47da7df756",
+        "source:src/main.js"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_04_PROJECT_SCOPED_TRANSACTION_CONFLICT_SAFETY",
+      "status": "CLOSED_BY_R3_C05_SOURCE_AND_CONTRACT",
+      "evidence": [
+        "source:src/main.js"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_05_RELATION_PAYLOAD_PREVIEW_AND_VISIBLE_COMMANDS",
+      "status": "CLOSED_BY_R3_C01_AND_R3_C05_PREVIEW_DISPATCH",
+      "evidence": [
+        "a822a5185de9c6c652722009ec4fe2b49665d1a06440b26dc0b26228026ea90a",
+        "source:src/derived/atlas/deriveAtlasRelationDossier.mjs",
+        "source:src/renderer/editor.js"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_06_CONTINUITY_AUTHOR_COMMANDS_REOPEN",
+      "status": "CLOSED_BY_R3_C02",
+      "evidence": [
+        "a8fc983919cd07968ed96b1b9ae65d2c0173852b3a1a1fb88ed1cf9c981e098b"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_07_ATLAS_FEATURE_MANIFEST_DESIGN_OS_SLOT",
+      "status": "CLOSED_BY_R3_C05_SOURCE_AND_UI_SLOT_RECHECK",
+      "evidence": [
+        "source:src/renderer/index.html",
+        "source:src/derived/atlas/deriveAtlasRelationDossier.mjs"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_08_MULTILINGUAL_GRAPHEME_CORE_ADMISSION",
+      "status": "CLOSED_BY_R3_C04",
+      "evidence": [
+        "e5ed81c16bb21270392b197149172b226f2120bf41965e1ec9e67e47da7df756"
+      ]
+    }
+  ],
+  "openP0": [],
+  "nextGate": "DELIVER_R3_C05_THEN_RUN_FINAL_INDEPENDENT_REMOTE_HEAD_AUDIT"
+}

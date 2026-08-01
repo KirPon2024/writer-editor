@@ -1,0 +1,1296 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r3.c03.manualMapAttachmentsPortalsTemplates.v1",
+  "generatedAtUtc": "2026-08-01T01:25:32.508Z",
+  "contourId": "R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_SATURATION",
+  "platformId": "macos-local-electron",
+  "viewportMatrix": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "status": "SUPPORTED_BLACK_BOX_ACCEPTED"
+    }
+  ],
+  "status": "PASS_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_UI_JOURNEY",
+  "pass": true,
+  "accepted": {
+    "visibleInputRuntime": true,
+    "pointerAndKeyboardUsed": true,
+    "attachmentPortalTemplateCommandsVisible": true,
+    "visibleReadbackRuntime": true,
+    "persistedPortabilityTruth": true,
+    "reopenProjectionVisible": true,
+    "exportRepeatImport": true,
+    "imagePdfEvidenceIncludesPortability": true,
+    "screenshotsNonblank": true,
+    "noNetworkNoDialogs": true,
+    "noDirectIpcOrStorageBypass": true,
+    "noHorizontalOverflow": true
+  },
+  "negativeAssertions": {
+    "directIpcAcceptedJourney": false,
+    "generatedArtifactOnlyAccepted": false,
+    "hiddenPortabilityControlsAccepted": false,
+    "missingPortabilityTruthAccepted": false,
+    "exportWithoutRepeatImportAccepted": false,
+    "networkActivated": false,
+    "viewStatePersisted": false
+  },
+  "seed": {
+    "status": "PASS_VISIBLE_UI_BLACK_BOX_ACCEPTANCE",
+    "pass": true,
+    "reportSha256": "9f7ea113132df1a107c171d0be8955567c8e4fc4beab8bfc616537def061bee1"
+  },
+  "runtime": {
+    "first": {
+      "ok": true,
+      "runtimeKind": "production-electron-visible-input-black-box",
+      "mode": "journey",
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": "",
+      "result": {
+        "ok": 1,
+        "mode": "journey",
+        "appReady": true,
+        "windowCount": 1,
+        "rendererProbe": {
+          "ok": 1,
+          "mode": "journey",
+          "viewport": {
+            "width": 1440,
+            "height": 782
+          },
+          "inputEvents": [
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 403
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 403
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 403
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 620,
+              "y": 302
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 620,
+              "y": 302
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 620,
+              "y": 302
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "c",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "m",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "n",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 302
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 302
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 302
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "P",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "r",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 817,
+              "y": 302
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 817,
+              "y": 302
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 817,
+              "y": 302
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "3",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "T",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "m",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            }
+          ],
+          "snapshot": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 3,
+            "nodes": [
+              {
+                "id": "manual-node-ms9ovyi5-juz1j",
+                "text": "BetaRenamedR2C05",
+                "selected": true
+              },
+              {
+                "id": "manual-template-node-ms9owb05-4b7vv",
+                "text": "Template start",
+                "selected": false
+              },
+              {
+                "id": "manual-template-node-ms9owb05-to3yf",
+                "text": "Template finish",
+                "selected": false
+              }
+            ],
+            "portabilityRows": [
+              {
+                "kind": "attachment",
+                "id": "manual-attachment-ms9ow8ip-d9xlm",
+                "text": "R3C03Attachmentattachment · manual-node-ms9ovyi5-juz1j · reference · dddddddd"
+              },
+              {
+                "kind": "portal",
+                "id": "manual-portal-ms9ow9x6-tc5mw",
+                "text": "R3C03Portalportal · manual-node-ms9ovyi5-juz1j -> manual-map-ms9ovvl4-hi7v6:manual-node-ms9ovyi5-juz1j"
+              },
+              {
+                "kind": "template",
+                "id": "manual-template-ms9owb05-jeayr",
+                "text": "R3C03Templatetemplate · 2 nodes · 1 edges"
+              }
+            ],
+            "buttons": [
+              {
+                "text": "Create map",
+                "disabled": false
+              },
+              {
+                "text": "Add node",
+                "disabled": false
+              },
+              {
+                "text": "Scene node",
+                "disabled": true
+              },
+              {
+                "text": "Entity node",
+                "disabled": true
+              },
+              {
+                "text": "Add edge",
+                "disabled": true
+              },
+              {
+                "text": "Edit node",
+                "disabled": false
+              },
+              {
+                "text": "Delete node",
+                "disabled": false
+              },
+              {
+                "text": "Edit edge",
+                "disabled": true
+              },
+              {
+                "text": "Delete edge",
+                "disabled": true
+              },
+              {
+                "text": "Create group",
+                "disabled": true
+              },
+              {
+                "text": "Edit group",
+                "disabled": true
+              },
+              {
+                "text": "Delete group",
+                "disabled": true
+              },
+              {
+                "text": "Add attachment",
+                "disabled": false
+              },
+              {
+                "text": "Add portal",
+                "disabled": false
+              },
+              {
+                "text": "Apply template",
+                "disabled": false
+              },
+              {
+                "text": "Manual",
+                "disabled": false
+              },
+              {
+                "text": "Cancel",
+                "disabled": false
+              },
+              {
+                "text": "Apply",
+                "disabled": false
+              },
+              {
+                "text": "-",
+                "disabled": false
+              },
+              {
+                "text": "+",
+                "disabled": false
+              },
+              {
+                "text": "Fit",
+                "disabled": false
+              },
+              {
+                "text": "BetaRenamedR2C05note",
+                "disabled": false
+              },
+              {
+                "text": "Template startnote",
+                "disabled": false
+              },
+              {
+                "text": "Template finishnote",
+                "disabled": false
+              },
+              {
+                "text": "template flowmanual-template-node-ms9owb05-4b7vv -> manual-template-node-ms9owb05-to3yf",
+                "disabled": false
+              }
+            ],
+            "formCommandId": "manualMap.template.apply",
+            "resultStatus": "APPLIED",
+            "text": "Manual MapR2C05BlackBoxMapd1d06bc11maps3nodes1edges0groups1refs1portals1templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManualApply templatetemplate: manual-template-ms9owb05-jeayr · manualMap.template.applyApplies a bounded two-node template to manual-map-ms9ovvl4-hi7v6. Existing nodes remain untouched and ViewState is not persisted.Template nameConfirm structural changeAPPLIEDCancelApply-+FitBetaRenamedR2C05Template startTemplate finishBetaRenamedR2C05noteTemplate startnoteTemplate finishnotetemplate flowmanual-template-node-ms9owb05-4b7vv -> manual-template-node-ms9owb05-to3yfR3C03Attachmentattachment · manual-node-ms9ovyi5-juz1j · reference · ddddddddR3C03Portalportal · manual-node-ms9ovyi5-juz1j -> manual-map-ms9ovvl4-hi7v6:manual-node-ms9ovyi5-juz1jR3C03Templatetemplate · 2 nodes · 1 edgesBetaRenamedR2C05note · manual-node-ms9ovyi5-juz1j · 112, 62ViewState transient · manual · 3/3",
+            "hasHorizontalOverflow": false
+          },
+          "screenshot": {
+            "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
+            "bytes": 592153,
+            "sha256": "01d7839585b279fb05e6ffa2c5ae06966e3329985f8695ea07066aef1d6a6a3a",
+            "sampled": 112608,
+            "nonBlankRatio": 0.9961459221369707,
+            "preserved": true
+          }
+        },
+        "networkRequests": 0,
+        "dialogCalls": 0,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK"
+      },
+      "stdout": "[perf] when-ready: 51ms\n[craftsman:migration] no legacy userData found, creating craftsman folder\n[craftsman:migration] legacy documents folder is empty or missing\n[perf] init-complete: 67ms\n[perf] window-state-loaded: 67ms\n[perf] create-window: 130ms\n[perf] window-visible: 138ms\n[perf] did-finish-load: 291ms\nR3_C03_MANUAL_MAP_PORTABILITY_RESULT:{\"ok\":1,\"mode\":\"journey\",\"appReady\":true,\"windowCount\":1,\"rendererProbe\":{\"ok\":1,\"mode\":\"journey\",\"viewport\":{\"width\":1440,\"height\":782},\"inputEvents\":[{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":403},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":403},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":403},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":620,\"y\":302},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":620,\"y\":302},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":620,\"y\":302},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"c\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"m\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"n\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":302},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":302},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":302},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"P\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"r\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":817,\"y\":302},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":817,\"y\":302},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":817,\"y\":302},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"3\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"T\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"m\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418}],\"snapshot\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":3,\"nodes\":[{\"id\":\"manual-node-ms9ovyi5-juz1j\",\"text\":\"BetaRenamedR2C05\",\"selected\":true},{\"id\":\"manual-template-node-ms9owb05-4b7vv\",\"text\":\"Template start\",\"selected\":false},{\"id\":\"manual-template-node-ms9owb05-to3yf\",\"text\":\"Template finish\",\"selected\":false}],\"portabilityRows\":[{\"kind\":\"attachment\",\"id\":\"manual-attachment-ms9ow8ip-d9xlm\",\"text\":\"R3C03Attachmentattachment · manual-node-ms9ovyi5-juz1j · reference · dddddddd\"},{\"kind\":\"portal\",\"id\":\"manual-portal-ms9ow9x6-tc5mw\",\"text\":\"R3C03Portalportal · manual-node-ms9ovyi5-juz1j -> manual-map-ms9ovvl4-hi7v6:manual-node-ms9ovyi5-juz1j\"},{\"kind\":\"template\",\"id\":\"manual-template-ms9owb05-jeayr\",\"text\":\"R3C03Templatetemplate · 2 nodes · 1 edges\"}],\"buttons\":[{\"text\":\"Create map\",\"disabled\":false},{\"text\":\"Add node\",\"disabled\":false},{\"text\":\"Scene node\",\"disabled\":true},{\"text\":\"Entity node\",\"disabled\":true},{\"text\":\"Add edge\",\"disabled\":true},{\"text\":\"Edit node\",\"disabled\":false},{\"text\":\"Delete node\",\"disabled\":false},{\"text\":\"Edit edge\",\"disabled\":true},{\"text\":\"Delete edge\",\"disabled\":true},{\"text\":\"Create group\",\"disabled\":true},{\"text\":\"Edit group\",\"disabled\":true},{\"text\":\"Delete group\",\"disabled\":true},{\"text\":\"Add attachment\",\"disabled\":false},{\"text\":\"Add portal\",\"disabled\":false},{\"text\":\"Apply template\",\"disabled\":false},{\"text\":\"Manual\",\"disabled\":false},{\"text\":\"Cancel\",\"disabled\":false},{\"text\":\"Apply\",\"disabled\":false},{\"text\":\"-\",\"disabled\":false},{\"text\":\"+\",\"disabled\":false},{\"text\":\"Fit\",\"disabled\":false},{\"text\":\"BetaRenamedR2C05note\",\"disabled\":false},{\"text\":\"Template startnote\",\"disabled\":false},{\"text\":\"Template finishnote\",\"disabled\":false},{\"text\":\"template flowmanual-template-node-ms9owb05-4b7vv -> manual-template-node-ms9owb05-to3yf\",\"disabled\":false}],\"formCommandId\":\"manualMap.template.apply\",\"resultStatus\":\"APPLIED\",\"text\":\"Manual MapR2C05BlackBoxMapd1d06bc11maps3nodes1edges0groups1refs1portals1templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManualApply templatetemplate: manual-template-ms9owb05-jeayr · manualMap.template.applyApplies a bounded two-node template to manual-map-ms9ovvl4-hi7v6. Existing nodes remain untouched and ViewState is not persisted.Template nameConfirm structural changeAPPLIEDCancelApply-+FitBetaRenamedR2C05Template startTemplate finishBetaRenamedR2C05noteTemplate startnoteTemplate finishnotetemplate flowmanual-template-node-ms9owb05-4b7vv -> manual-template-node-ms9owb05-to3yfR3C03Attachmentattachment · manual-node-ms9ovyi5-juz1j · reference · ddddddddR3C03Portalportal · manual-node-ms9ovyi5-juz1j -> manual-map-ms9ovvl4-hi7v6:manual-node-ms9ovyi5-juz1jR3C03Templatetemplate · 2 nodes · 1 edgesBetaRenamedR2C05note · manual-node-ms9ovyi5-juz1j · 112, 62ViewState transient · manual · 3/3\",\"hasHorizontalOverflow\":false},\"screenshot\":{\"path\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK/r3-c03-manual-map-portability-journey.png\",\"bytes\":592153,\"sha256\":\"01d7839585b279fb05e6ffa2c5ae06966e3329985f8695ea07066aef1d6a6a3a\",\"sampled\":112608,\"nonBlankRatio\":0.9961459221369707}},\"networkRequests\":0,\"dialogCalls\":0,\"tempRoot\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK\"}\n",
+      "stderr": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:20851:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:22517:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK/documents/craftsman/.autosave/autosave.txt'\n}\n(node:52382) DeprecationWarning: getBitmap() is deprecated, use toBitmap() instead.\n(Use `Electron --trace-deprecation ...` to show where the warning was created)\n"
+    },
+    "second": {
+      "ok": true,
+      "runtimeKind": "production-electron-visible-input-black-box",
+      "mode": "reopen",
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": "",
+      "result": {
+        "ok": 1,
+        "mode": "reopen",
+        "appReady": true,
+        "windowCount": 1,
+        "rendererProbe": {
+          "ok": 1,
+          "mode": "reopen",
+          "viewport": {
+            "width": 1440,
+            "height": 782
+          },
+          "inputEvents": [
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            }
+          ],
+          "snapshot": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 3,
+            "nodes": [
+              {
+                "id": "manual-node-ms9ovyi5-juz1j",
+                "text": "BetaRenamedR2C05",
+                "selected": false
+              },
+              {
+                "id": "manual-template-node-ms9owb05-4b7vv",
+                "text": "Template start",
+                "selected": false
+              },
+              {
+                "id": "manual-template-node-ms9owb05-to3yf",
+                "text": "Template finish",
+                "selected": false
+              }
+            ],
+            "portabilityRows": [
+              {
+                "kind": "attachment",
+                "id": "manual-attachment-ms9ow8ip-d9xlm",
+                "text": "R3C03Attachmentattachment · manual-node-ms9ovyi5-juz1j · reference · dddddddd"
+              },
+              {
+                "kind": "portal",
+                "id": "manual-portal-ms9ow9x6-tc5mw",
+                "text": "R3C03Portalportal · manual-node-ms9ovyi5-juz1j -> manual-map-ms9ovvl4-hi7v6:manual-node-ms9ovyi5-juz1j"
+              },
+              {
+                "kind": "template",
+                "id": "manual-template-ms9owb05-jeayr",
+                "text": "R3C03Templatetemplate · 2 nodes · 1 edges"
+              }
+            ],
+            "buttons": [
+              {
+                "text": "Create map",
+                "disabled": false
+              },
+              {
+                "text": "Add node",
+                "disabled": false
+              },
+              {
+                "text": "Scene node",
+                "disabled": true
+              },
+              {
+                "text": "Entity node",
+                "disabled": true
+              },
+              {
+                "text": "Add edge",
+                "disabled": true
+              },
+              {
+                "text": "Edit node",
+                "disabled": true
+              },
+              {
+                "text": "Delete node",
+                "disabled": true
+              },
+              {
+                "text": "Edit edge",
+                "disabled": true
+              },
+              {
+                "text": "Delete edge",
+                "disabled": true
+              },
+              {
+                "text": "Create group",
+                "disabled": true
+              },
+              {
+                "text": "Edit group",
+                "disabled": true
+              },
+              {
+                "text": "Delete group",
+                "disabled": true
+              },
+              {
+                "text": "Add attachment",
+                "disabled": true
+              },
+              {
+                "text": "Add portal",
+                "disabled": true
+              },
+              {
+                "text": "Apply template",
+                "disabled": false
+              },
+              {
+                "text": "Manual",
+                "disabled": false
+              },
+              {
+                "text": "-",
+                "disabled": false
+              },
+              {
+                "text": "+",
+                "disabled": false
+              },
+              {
+                "text": "Fit",
+                "disabled": false
+              },
+              {
+                "text": "BetaRenamedR2C05note",
+                "disabled": false
+              },
+              {
+                "text": "Template startnote",
+                "disabled": false
+              },
+              {
+                "text": "Template finishnote",
+                "disabled": false
+              },
+              {
+                "text": "template flowmanual-template-node-ms9owb05-4b7vv -> manual-template-node-ms9owb05-to3yf",
+                "disabled": false
+              }
+            ],
+            "formCommandId": "",
+            "resultStatus": "",
+            "text": "Manual MapR2C05BlackBoxMapd1d06bc11maps3nodes1edges0groups1refs1portals1templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManual-+FitBetaRenamedR2C05Template startTemplate finishBetaRenamedR2C05noteTemplate startnoteTemplate finishnotetemplate flowmanual-template-node-ms9owb05-4b7vv -> manual-template-node-ms9owb05-to3yfR3C03Attachmentattachment · manual-node-ms9ovyi5-juz1j · reference · ddddddddR3C03Portalportal · manual-node-ms9ovyi5-juz1j -> manual-map-ms9ovvl4-hi7v6:manual-node-ms9ovyi5-juz1jR3C03Templatetemplate · 2 nodes · 1 edgesR2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 3/3",
+            "hasHorizontalOverflow": false
+          },
+          "screenshot": {
+            "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
+            "bytes": 609955,
+            "sha256": "598b8f210f09cac1699382b086e4989348802e3bce1cd2159bfa1494dd1a644b",
+            "sampled": 112608,
+            "nonBlankRatio": 0.9976378232452401,
+            "preserved": true
+          }
+        },
+        "networkRequests": 0,
+        "dialogCalls": 0,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK"
+      },
+      "stdout": "[perf] when-ready: 51ms\n[craftsman:migration] no legacy userData found, creating craftsman folder\n[craftsman:migration] legacy documents folder is empty or missing\n[perf] init-complete: 70ms\n[perf] window-state-loaded: 70ms\n[perf] create-window: 137ms\n[perf] window-visible: 145ms\n[perf] did-finish-load: 315ms\nR3_C03_MANUAL_MAP_PORTABILITY_RESULT:{\"ok\":1,\"mode\":\"reopen\",\"appReady\":true,\"windowCount\":1,\"rendererProbe\":{\"ok\":1,\"mode\":\"reopen\",\"viewport\":{\"width\":1440,\"height\":782},\"inputEvents\":[{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466}],\"snapshot\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":3,\"nodes\":[{\"id\":\"manual-node-ms9ovyi5-juz1j\",\"text\":\"BetaRenamedR2C05\",\"selected\":false},{\"id\":\"manual-template-node-ms9owb05-4b7vv\",\"text\":\"Template start\",\"selected\":false},{\"id\":\"manual-template-node-ms9owb05-to3yf\",\"text\":\"Template finish\",\"selected\":false}],\"portabilityRows\":[{\"kind\":\"attachment\",\"id\":\"manual-attachment-ms9ow8ip-d9xlm\",\"text\":\"R3C03Attachmentattachment · manual-node-ms9ovyi5-juz1j · reference · dddddddd\"},{\"kind\":\"portal\",\"id\":\"manual-portal-ms9ow9x6-tc5mw\",\"text\":\"R3C03Portalportal · manual-node-ms9ovyi5-juz1j -> manual-map-ms9ovvl4-hi7v6:manual-node-ms9ovyi5-juz1j\"},{\"kind\":\"template\",\"id\":\"manual-template-ms9owb05-jeayr\",\"text\":\"R3C03Templatetemplate · 2 nodes · 1 edges\"}],\"buttons\":[{\"text\":\"Create map\",\"disabled\":false},{\"text\":\"Add node\",\"disabled\":false},{\"text\":\"Scene node\",\"disabled\":true},{\"text\":\"Entity node\",\"disabled\":true},{\"text\":\"Add edge\",\"disabled\":true},{\"text\":\"Edit node\",\"disabled\":true},{\"text\":\"Delete node\",\"disabled\":true},{\"text\":\"Edit edge\",\"disabled\":true},{\"text\":\"Delete edge\",\"disabled\":true},{\"text\":\"Create group\",\"disabled\":true},{\"text\":\"Edit group\",\"disabled\":true},{\"text\":\"Delete group\",\"disabled\":true},{\"text\":\"Add attachment\",\"disabled\":true},{\"text\":\"Add portal\",\"disabled\":true},{\"text\":\"Apply template\",\"disabled\":false},{\"text\":\"Manual\",\"disabled\":false},{\"text\":\"-\",\"disabled\":false},{\"text\":\"+\",\"disabled\":false},{\"text\":\"Fit\",\"disabled\":false},{\"text\":\"BetaRenamedR2C05note\",\"disabled\":false},{\"text\":\"Template startnote\",\"disabled\":false},{\"text\":\"Template finishnote\",\"disabled\":false},{\"text\":\"template flowmanual-template-node-ms9owb05-4b7vv -> manual-template-node-ms9owb05-to3yf\",\"disabled\":false}],\"formCommandId\":\"\",\"resultStatus\":\"\",\"text\":\"Manual MapR2C05BlackBoxMapd1d06bc11maps3nodes1edges0groups1refs1portals1templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManual-+FitBetaRenamedR2C05Template startTemplate finishBetaRenamedR2C05noteTemplate startnoteTemplate finishnotetemplate flowmanual-template-node-ms9owb05-4b7vv -> manual-template-node-ms9owb05-to3yfR3C03Attachmentattachment · manual-node-ms9ovyi5-juz1j · reference · ddddddddR3C03Portalportal · manual-node-ms9ovyi5-juz1j -> manual-map-ms9ovvl4-hi7v6:manual-node-ms9ovyi5-juz1jR3C03Templatetemplate · 2 nodes · 1 edgesR2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 3/3\",\"hasHorizontalOverflow\":false},\"screenshot\":{\"path\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK/r3-c03-manual-map-portability-reopen.png\",\"bytes\":609955,\"sha256\":\"598b8f210f09cac1699382b086e4989348802e3bce1cd2159bfa1494dd1a644b\",\"sampled\":112608,\"nonBlankRatio\":0.9976378232452401}},\"networkRequests\":0,\"dialogCalls\":0,\"tempRoot\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK\"}\n",
+      "stderr": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:20851:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:22517:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK/documents/craftsman/.autosave/autosave.txt'\n}\n(node:52403) DeprecationWarning: getBitmap() is deprecated, use toBitmap() instead.\n(Use `Electron --trace-deprecation ...` to show where the warning was created)\n"
+    }
+  },
+  "portability": {
+    "manifestPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK/documents/craftsman/Роман/project.craftsman.json",
+    "manifestProof": {
+      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-SPn5EK/documents/craftsman/Роман/project.craftsman.json",
+      "exists": true,
+      "bytes": 8567,
+      "sha256": "1aecdd077baa0559451b26d9716ee545debb566b887783787e7e93c56d4a0841"
+    },
+    "graph": {
+      "schemaVersion": "derived.manualMap.graph.v1",
+      "projectId": "project-36532208-90dc-4cfa-a3ae-e26e13533f27",
+      "mapId": "manual-map-ms9ovvl4-hi7v6",
+      "title": "R2C05BlackBoxMap",
+      "nodes": [
+        {
+          "id": "manual-node-ms9ovyi5-juz1j",
+          "label": "BetaRenamedR2C05",
+          "kind": "note",
+          "position": {
+            "x": 112,
+            "y": 62
+          },
+          "target": {
+            "kind": "",
+            "id": ""
+          }
+        },
+        {
+          "id": "manual-template-node-ms9owb05-4b7vv",
+          "label": "Template start",
+          "kind": "note",
+          "position": {
+            "x": 84,
+            "y": 72
+          },
+          "target": {
+            "kind": "",
+            "id": ""
+          }
+        },
+        {
+          "id": "manual-template-node-ms9owb05-to3yf",
+          "label": "Template finish",
+          "kind": "note",
+          "position": {
+            "x": 214,
+            "y": 72
+          },
+          "target": {
+            "kind": "",
+            "id": ""
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "manual-template-edge-ms9owb05-6yh8t",
+          "from": "manual-template-node-ms9owb05-4b7vv",
+          "to": "manual-template-node-ms9owb05-to3yf",
+          "kind": "link",
+          "label": "template flow"
+        }
+      ],
+      "groups": [],
+      "attachments": [
+        {
+          "attachmentKind": "reference",
+          "createdByCommandSeq": 8,
+          "id": "manual-attachment-ms9ow8ip-d9xlm",
+          "label": "R3C03Attachment",
+          "nodeId": "manual-node-ms9ovyi5-juz1j",
+          "source": {
+            "byteLength": 128,
+            "mediaType": "text/plain",
+            "name": "manual-map-reference.txt",
+            "sourceHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          "storedContent": false
+        }
+      ],
+      "portals": [
+        {
+          "createdByCommandSeq": 9,
+          "fromNodeId": "manual-node-ms9ovyi5-juz1j",
+          "id": "manual-portal-ms9ow9x6-tc5mw",
+          "label": "R3C03Portal",
+          "target": {
+            "mapId": "manual-map-ms9ovvl4-hi7v6",
+            "nodeId": "manual-node-ms9ovyi5-juz1j"
+          }
+        }
+      ],
+      "templates": [
+        {
+          "id": "manual-template-ms9owb05-jeayr",
+          "templateId": "r3-c03-two-step",
+          "name": "R3C03Template",
+          "appliedNodeIds": [
+            "manual-template-node-ms9owb05-4b7vv",
+            "manual-template-node-ms9owb05-to3yf"
+          ],
+          "appliedEdgeIds": [
+            "manual-template-edge-ms9owb05-6yh8t"
+          ],
+          "createdByCommandSeq": 10
+        }
+      ]
+    },
+    "graphHash": "4ca763db6bb27999fa310b3827d66ad03b879f2f5611c6532d60eeb43531e5c7",
+    "exportJsonSha256": "b6b3d591e6f93d12bb7e016555839f4b0f3c5209275b83469775a306b38f1a7e",
+    "exportLossCount": 0,
+    "imagePdfOk": true,
+    "imageEvidenceHash": "c33f4b8d02fcf2c396641edaaeecdf03b692cfdd4a45a0ac2535774bcfac4923",
+    "imageSummary": {
+      "nodeCount": 3,
+      "edgeCount": 1,
+      "attachmentCount": 1,
+      "portalCount": 1,
+      "templateCount": 1
+    },
+    "imageFormat": "svg",
+    "pdfSourceFormat": "html-print-packet",
+    "pdfBinaryGenerated": false,
+    "repeatImportOk": true,
+    "repeatImportCommandAuthority": "CommandKernel",
+    "repeatImportDirectCoreMutation": false,
+    "repeatImportStorageMutation": false,
+    "repeatImportLossCount": 0,
+    "repeatImportGraphHashMatched": true
+  },
+  "evidenceFiles": {
+    "journeyScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-portability-journey.png",
+      "exists": true,
+      "bytes": 592153,
+      "sha256": "01d7839585b279fb05e6ffa2c5ae06966e3329985f8695ea07066aef1d6a6a3a"
+    },
+    "reopenScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/c03-manual-map-portability/r3-c03-manual-map-portability-reopen.png",
+      "exists": true,
+      "bytes": 609955,
+      "sha256": "598b8f210f09cac1699382b086e4989348802e3bce1cd2159bfa1494dd1a644b"
+    }
+  }
+}

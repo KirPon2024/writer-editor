@@ -14509,6 +14509,7 @@ function appendAtlasRelationAction(parent, action) {
   button.className = 'right-rail-atlas-action';
   button.dataset.atlasRelationActionId = action.actionId || '';
   button.dataset.commandId = action.commandId || '';
+  button.dataset.payloadPreview = JSON.stringify(action.payloadPreview || {});
   button.textContent = action.label || action.commandId || 'Review action';
   const available = isAtlasRelationActionCapabilityAvailable(action);
   button.disabled = !available;
@@ -20095,8 +20096,16 @@ atlasRelationDossierHost?.addEventListener('click', async (event) => {
   if (!(action instanceof HTMLButtonElement)) return;
   const commandId = action.dataset.commandId || '';
   if (!isAtlasRelationReviewActionCommandId(commandId) || action.disabled) return;
+  let payloadPreview = {};
+  try {
+    const parsed = JSON.parse(action.dataset.payloadPreview || '{}');
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      payloadPreview = parsed;
+    }
+  } catch {}
   action.disabled = true;
   const result = await dispatchUiCommand(commandId, {
+    ...payloadPreview,
     source: 'atlasRelationDossier',
     actionId: action.dataset.atlasRelationActionId || '',
     projectId: currentProjectId || atlasRelationDossierState.projectId || '',

@@ -1,0 +1,2272 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-repeat-high-density-stress-receipt.v1",
+  "taskId": "WORD_RTK_P0_REPEAT_HIGH_DENSITY_STRESS",
+  "contourId": "P0-PRODUCT-VERTICAL-REPEAT-HIGH-DENSITY-STRESS",
+  "status": "WORD_RELEASE_AUDIT_P0_REPEAT_HIGH_DENSITY_STRESS_COMPLETE_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T09:24:41.204Z",
+  "headBinding": {
+    "baseRemoteSha": "09df5ff577982e4ef6aa304f4d05cef438461163",
+    "headSha": "315b16d0ccac6761a9c04b1dcad8c57ed027142d",
+    "mergedRemoteShaRequired": true
+  },
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true
+  },
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/p0-repeat-high-density-stress",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": true,
+    "t7ArtifactFallback": false,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false,
+    "canonicalRealpathSkippedForSmokeHangAvoidance": true,
+    "fallbackReason": ""
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedVersionFromOwnerBrief": "16.111.2",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
+    "versionByAppleScript": "",
+    "appleScriptProbeStatus": "DEFERRED_TO_PER_CASE_WORD_SCRIPT",
+    "openDocumentsBeforeLab": -1,
+    "observedVersionClass": "WORD_16_111_FAMILY",
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "physicalCorpus": {
+    "syntheticOnly": true,
+    "fixtureOnlyPassAllowed": false,
+    "liveElectronUiExportSurfaceClick": {
+      "ok": true,
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": null,
+      "result": {
+        "ok": 1,
+        "clicked": true,
+        "menuItemId": "review-export-docx-review-packet",
+        "menuItemLabel": "Export Review DOCX Packet...",
+        "dialogCalls": [
+          {
+            "method": "showSaveDialog",
+            "title": "Экспорт Review DOCX"
+          }
+        ],
+        "exportedExists": true,
+        "exportedSha256": "ee3a254eb0fd715b27c51e6d7ca45ec9a5343408ac033f49a542d32b81e98065",
+        "exportedBytes": 12967,
+        "sceneDiskText": "Yalken UI export surface proof COMMENT_TARGET OLD_WORD.",
+        "networkRequests": []
+      },
+      "stderrTail": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-product-comments-ui-5tl5JW/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/post-d1-portability/src/main.js:21023:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/post-d1-portability/src/main.js:22690:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-product-comments-ui-5tl5JW/documents/craftsman/.autosave/autosave.txt'\n}\n",
+      "exportedDocxPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/electron-ui-review-docx-export.docx",
+      "exportedDocxSha256": "sha256:ee3a254eb0fd715b27c51e6d7ca45ec9a5343408ac033f49a542d32b81e98065",
+      "exportedDocxZipOk": true,
+      "userDocumentsTouched": false,
+      "networkRequests": []
+    },
+    "productCases": [
+      {
+        "caseId": "P0RHD-T10-A",
+        "title": "T10 tracked replacement repeat 10000",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "repeatTrackedReplacementProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-T10-A.txt",
+          "beforeSha256": "sha256:ef271727247365a7f40ffeaef2ebbabceaebbf849759075b4f2e7a5e28b2785b",
+          "expectedFinalTextSha256": "sha256:67360afe82ebad9dfc180963443f8fddb64db6ad5580f6bb86866b8ce99ec4f7",
+          "afterApplyTextSha256": "sha256:67360afe82ebad9dfc180963443f8fddb64db6ad5580f6bb86866b8ce99ec4f7"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 88121,
+          "sourceDocxSha256": "sha256:22ef12577155da046b805aaef0acfb03785aa322ad845536cfe4fec43a2a69e0",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:7d433c8261dcd155776d56c9eeeca0106c1a1ba3739e23887f7cb201a292bc7e",
+          "returnedBytes": 21522,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0RHD-T10-A"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-A/applescripts/P0RHD-T10-A-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "MIXED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:77f0bc504dbf8f48cea587094654cbd4fee48db6922badc162d6ad3a965884fb",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:e5f42e1f3365e1aea1dfeaacc4ad19e3df2a8fa0326134c5d8ea635ccefea0cf",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_MIXED_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7675,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 2,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:67360afe82ebad9dfc180963443f8fddb64db6ad5580f6bb86866b8ce99ec4f7"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-A/source-docx/P0RHD-T10-A-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-A/returned-docx/P0RHD-T10-A-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-A/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-A/synthetic-project/manuscript/product-comments-mixed/P0RHD-T10-A.txt"
+        },
+        "waveFamily": "repeat-tracked-replacement",
+        "expectedCommentMinimum": 1,
+        "stressProfile": {
+          "words": 10000,
+          "commentTargets": 1,
+          "family": "repeat-tracked-replacement",
+          "repeatGroup": "T10"
+        },
+        "deterministicSignature": "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+        "durationMs": 11443
+      },
+      {
+        "caseId": "P0RHD-T10-B",
+        "title": "T10 tracked replacement repeat 10000",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "repeatTrackedReplacementProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-T10-B.txt",
+          "beforeSha256": "sha256:f7b511a30b6d867d6755d25d6b0684f3c203d8cb3303ac58533409ed04be674d",
+          "expectedFinalTextSha256": "sha256:fb78921f24d1605382d1926c120977da003dedae6ea238ae48842545b35810e5",
+          "afterApplyTextSha256": "sha256:fb78921f24d1605382d1926c120977da003dedae6ea238ae48842545b35810e5"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 88121,
+          "sourceDocxSha256": "sha256:628ba97c2e769fd147275055487e8a85712d7eda65d29bae1fc06062568f542b",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:dab2b37587d846d63b220a8f327b9b62ee1a558d6cdbd6b7558b6be8631a2191",
+          "returnedBytes": 21499,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0RHD-T10-B"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-B/applescripts/P0RHD-T10-B-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "MIXED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:fad29e2384b98ee49903dc1f5a1f94e3f0d01437704566372625fa544b8dc13e",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:c2ef70f0bad0b3665cf9a704f9b5f578b73b5f7e6d9129b7bc099c05a3e9583e",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_MIXED_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7675,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 2,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:fb78921f24d1605382d1926c120977da003dedae6ea238ae48842545b35810e5"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-B/source-docx/P0RHD-T10-B-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-B/returned-docx/P0RHD-T10-B-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-B/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-B/synthetic-project/manuscript/product-comments-mixed/P0RHD-T10-B.txt"
+        },
+        "waveFamily": "repeat-tracked-replacement",
+        "expectedCommentMinimum": 1,
+        "stressProfile": {
+          "words": 10000,
+          "commentTargets": 1,
+          "family": "repeat-tracked-replacement",
+          "repeatGroup": "T10"
+        },
+        "deterministicSignature": "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+        "durationMs": 12292
+      },
+      {
+        "caseId": "P0RHD-T10-C",
+        "title": "T10 tracked replacement repeat 10000",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "repeatTrackedReplacementProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-T10-C.txt",
+          "beforeSha256": "sha256:91b8536962d0faf867d1f416eb200587862777a58f2a469aec5cefca86b5a89d",
+          "expectedFinalTextSha256": "sha256:15cd1e746352731ff885482cb2f39b48102c1c71c2923cc12c43cc2a39372cfa",
+          "afterApplyTextSha256": "sha256:15cd1e746352731ff885482cb2f39b48102c1c71c2923cc12c43cc2a39372cfa"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 88121,
+          "sourceDocxSha256": "sha256:75c5c678f7c506c248872f1e974df5afa06fc8ec86d4cbe4a904ac80c67877cf",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:6c554d67ce4ac68662bc75d2592c1ba0fa24e880e19a0148364c60aa143a4309",
+          "returnedBytes": 21525,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0RHD-T10-C"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-C/applescripts/P0RHD-T10-C-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "MIXED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:0b95d643f21fe8c8ea7e50b8bd52a50433bfbf52ff80f5f949ba60baa0677ceb",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:19bc308e0e4431572b7cfb79f9a44fb33536f0857c7d77741ab2ed69f201a6ab",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_MIXED_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7675,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 2,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:15cd1e746352731ff885482cb2f39b48102c1c71c2923cc12c43cc2a39372cfa"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-C/source-docx/P0RHD-T10-C-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-C/returned-docx/P0RHD-T10-C-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-C/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T10-C/synthetic-project/manuscript/product-comments-mixed/P0RHD-T10-C.txt"
+        },
+        "waveFamily": "repeat-tracked-replacement",
+        "expectedCommentMinimum": 1,
+        "stressProfile": {
+          "words": 10000,
+          "commentTargets": 1,
+          "family": "repeat-tracked-replacement",
+          "repeatGroup": "T10"
+        },
+        "deterministicSignature": "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+        "durationMs": 11581
+      },
+      {
+        "caseId": "P0RHD-T50-A",
+        "title": "T50 tracked replacement repeat 50000",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "repeatTrackedReplacementProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-T50-A.txt",
+          "beforeSha256": "sha256:3f3ca1d766c89e47b2fee4c659615db5a68a2b49466b32d7a593e825c78f1871",
+          "expectedFinalTextSha256": "sha256:c3033cad69b95854348d06e57a8a40c75543e6e245478a808aabd1a5c0b8cc2f",
+          "afterApplyTextSha256": "sha256:c3033cad69b95854348d06e57a8a40c75543e6e245478a808aabd1a5c0b8cc2f"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 412569,
+          "sourceDocxSha256": "sha256:4bf502f3f0a39f2d77654625b22bac9814e1109e6c82b745fbd266dd14182ff3",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:f88ef30418b5859c676388da49ece2e03050abf35677258d75308cebf3fafa0c",
+          "returnedBytes": 28065,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0RHD-T50-A"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-A/applescripts/P0RHD-T50-A-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "MIXED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:92f75a697c9810fd2eea1d001dd70d8d6891de2588bcd185664d64ebbd970eff",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:4ec485dadbb7f76759d9cf498ac7e51f9fecb2644b877c924f66a558a5501932",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_MIXED_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7675,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 2,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:c3033cad69b95854348d06e57a8a40c75543e6e245478a808aabd1a5c0b8cc2f"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-A/source-docx/P0RHD-T50-A-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-A/returned-docx/P0RHD-T50-A-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-A/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-A/synthetic-project/manuscript/product-comments-mixed/P0RHD-T50-A.txt"
+        },
+        "waveFamily": "repeat-tracked-replacement",
+        "expectedCommentMinimum": 1,
+        "stressProfile": {
+          "words": 50000,
+          "commentTargets": 1,
+          "family": "repeat-tracked-replacement",
+          "repeatGroup": "T50"
+        },
+        "deterministicSignature": "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+        "durationMs": 14835
+      },
+      {
+        "caseId": "P0RHD-T50-B",
+        "title": "T50 tracked replacement repeat 50000",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "repeatTrackedReplacementProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-T50-B.txt",
+          "beforeSha256": "sha256:edacc23dd36506656cfb3356b86ed0d662aa678cd89feac85ae8560aeaef75d8",
+          "expectedFinalTextSha256": "sha256:6b184df86a0b827c683e7b5ee0a9d60bf45e267d9c594c63854cd4820c274cb8",
+          "afterApplyTextSha256": "sha256:6b184df86a0b827c683e7b5ee0a9d60bf45e267d9c594c63854cd4820c274cb8"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 412569,
+          "sourceDocxSha256": "sha256:e59d1326bb8a0d5641fb29bc6dc8e34bb57adb219c9f6363b0534b57f78f22e1",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:2026757db254cd44fded81cc8b89b0a1ef4ac5c8cb326b50f29f5043b7e03af7",
+          "returnedBytes": 28056,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0RHD-T50-B"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-B/applescripts/P0RHD-T50-B-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "MIXED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:70c7a2b088a61e82f079fa1697f530f0af08e8291124c8d231f667f49cb5f173",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:9b507ac2abddc806338d51e7f1d14c37ce6b650721cff6446b8be8f461823744",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_MIXED_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7675,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 2,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:6b184df86a0b827c683e7b5ee0a9d60bf45e267d9c594c63854cd4820c274cb8"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-B/source-docx/P0RHD-T50-B-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-B/returned-docx/P0RHD-T50-B-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-B/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-B/synthetic-project/manuscript/product-comments-mixed/P0RHD-T50-B.txt"
+        },
+        "waveFamily": "repeat-tracked-replacement",
+        "expectedCommentMinimum": 1,
+        "stressProfile": {
+          "words": 50000,
+          "commentTargets": 1,
+          "family": "repeat-tracked-replacement",
+          "repeatGroup": "T50"
+        },
+        "deterministicSignature": "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+        "durationMs": 10208
+      },
+      {
+        "caseId": "P0RHD-T50-C",
+        "title": "T50 tracked replacement repeat 50000",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "repeatTrackedReplacementProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-T50-C.txt",
+          "beforeSha256": "sha256:2f749807928a3da097b0f8b33fd5921ed894cc0f6078242a859615c284b0ebc4",
+          "expectedFinalTextSha256": "sha256:6afb6a0a40f197e026804c4f2f00258c5f4c9c865dbc336a894379b343b821de",
+          "afterApplyTextSha256": "sha256:6afb6a0a40f197e026804c4f2f00258c5f4c9c865dbc336a894379b343b821de"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 412569,
+          "sourceDocxSha256": "sha256:94147ad3882fd89be4cb2e9c9d9f45483fce230a152faf281a109cc9db597daa",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:68ae10a7ba6005d030d72ba44c1c442dbf85ce4d708a92c7e02cbc9a92edf543",
+          "returnedBytes": 28055,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0RHD-T50-C"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-C/applescripts/P0RHD-T50-C-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "MIXED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:f321059bff93409ba8caa9c2b2eef5351eea0180c666dcb4c4c0c3d541f3af3d",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:0722a9cd4807f2d852687c2e79fd3c6465c93e4f56b19daef1952fd5ff0537e8",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_MIXED_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7675,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 2,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:6afb6a0a40f197e026804c4f2f00258c5f4c9c865dbc336a894379b343b821de"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-C/source-docx/P0RHD-T50-C-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-C/returned-docx/P0RHD-T50-C-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-C/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T50-C/synthetic-project/manuscript/product-comments-mixed/P0RHD-T50-C.txt"
+        },
+        "waveFamily": "repeat-tracked-replacement",
+        "expectedCommentMinimum": 1,
+        "stressProfile": {
+          "words": 50000,
+          "commentTargets": 1,
+          "family": "repeat-tracked-replacement",
+          "repeatGroup": "T50"
+        },
+        "deterministicSignature": "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+        "durationMs": 12884
+      },
+      {
+        "caseId": "P0RHD-T100-A",
+        "title": "T100 tracked replacement repeat 100000",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "repeatTrackedReplacementProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-T100-A.txt",
+          "beforeSha256": "sha256:2afe946f369f1a12f69cabb196217a7417e478b3e525d5a83cea0598025d2a12",
+          "expectedFinalTextSha256": "sha256:bed48692572a06940db92512819b5fc1b5485719e60631831b4aa12fa702489d",
+          "afterApplyTextSha256": "sha256:bed48692572a06940db92512819b5fc1b5485719e60631831b4aa12fa702489d"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 818143,
+          "sourceDocxSha256": "sha256:6948374e018121e08977c10f60526de28f7ca581039713b26d54c6c139c34901",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:62a7e7b420edacbe4029e32a49286b6a962cda0c2a698144c16a27a2ae25708c",
+          "returnedBytes": 36387,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0RHD-T100-A"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-A/applescripts/P0RHD-T100-A-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "MIXED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:90a499598750f19be0784d5d52c6516e506a932becfca0bd469906d2f89b4707",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:d290d8918b1f0b03091a8e5337b058fb41af12837110f02ff1fbcae32e390a3d",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_MIXED_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7678,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 2,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:bed48692572a06940db92512819b5fc1b5485719e60631831b4aa12fa702489d"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-A/source-docx/P0RHD-T100-A-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-A/returned-docx/P0RHD-T100-A-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-A/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-A/synthetic-project/manuscript/product-comments-mixed/P0RHD-T100-A.txt"
+        },
+        "waveFamily": "repeat-tracked-replacement",
+        "expectedCommentMinimum": 1,
+        "stressProfile": {
+          "words": 100000,
+          "commentTargets": 1,
+          "family": "repeat-tracked-replacement",
+          "repeatGroup": "T100"
+        },
+        "deterministicSignature": "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+        "durationMs": 25621
+      },
+      {
+        "caseId": "P0RHD-T100-B",
+        "title": "T100 tracked replacement repeat 100000",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "repeatTrackedReplacementProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-T100-B.txt",
+          "beforeSha256": "sha256:90c731e3e41488137c95dbf6f47e09db8d590040e10bd9ad8dca081c7ffe82ea",
+          "expectedFinalTextSha256": "sha256:915d802d468525593341e83dd93790cdabf2eff32c76f3e4a46625c9e689f187",
+          "afterApplyTextSha256": "sha256:915d802d468525593341e83dd93790cdabf2eff32c76f3e4a46625c9e689f187"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 818143,
+          "sourceDocxSha256": "sha256:42120ff40df6348ce911dd644b22335b2432b3b6166138f0623150a0458cedcf",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:6e0d8fbed123280bfed88a2612076b8248219c9319850daff662845cfd905acf",
+          "returnedBytes": 36346,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0RHD-T100-B"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-B/applescripts/P0RHD-T100-B-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "MIXED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:837935451211d41198299d7ff78ed9118098c0886c16e6e8a57bd877e8455569",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:5d7aa2e043154bcb9b68d53a7caadf28c6b62a0e1e9d365975c7c47281a47296",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_MIXED_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7678,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 2,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:915d802d468525593341e83dd93790cdabf2eff32c76f3e4a46625c9e689f187"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-B/source-docx/P0RHD-T100-B-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-B/returned-docx/P0RHD-T100-B-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-B/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-T100-B/synthetic-project/manuscript/product-comments-mixed/P0RHD-T100-B.txt"
+        },
+        "waveFamily": "repeat-tracked-replacement",
+        "expectedCommentMinimum": 1,
+        "stressProfile": {
+          "words": 100000,
+          "commentTargets": 1,
+          "family": "repeat-tracked-replacement",
+          "repeatGroup": "T100"
+        },
+        "deterministicSignature": "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+        "durationMs": 25587
+      },
+      {
+        "caseId": "P0RHD-C080-A",
+        "title": "80 comment high-density shadow repeat",
+        "action": "dense-comments-diagnostic",
+        "expectedCapability": "highDensityCommentShadowProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-C080-A.txt",
+          "beforeSha256": "sha256:99f4acec4403343bf52cdc44da097bee2c4ca10bbe452876fafb9db92e58e526",
+          "expectedFinalTextSha256": "sha256:99f4acec4403343bf52cdc44da097bee2c4ca10bbe452876fafb9db92e58e526",
+          "afterApplyTextSha256": "sha256:99f4acec4403343bf52cdc44da097bee2c4ca10bbe452876fafb9db92e58e526"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 412876,
+          "sourceDocxSha256": "sha256:35661c151294dfe6c0ca2b7a7b2ea2691fecafc7a5309eef0870fd6b2ca7f5ad",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 0,
+          "commentCount": 80,
+          "commentCountAfterCreate": 80,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:968c5256865a23b36be1d3d5e64c1a47877492d2221c5ceb4feef5953afdfca8",
+          "returnedBytes": 34346,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 80,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 80,
+            "expectedTokensFound": [
+              "P0RHD-C080-A"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-A/applescripts/P0RHD-C080-A-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "CLEAN",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 0,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 80,
+            "formattingDeltas": 80,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:c657f0ae8441e84d3ef1f5d334211d57db298074938be8e3aa6735b12764bcba",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:76de8516daaa6e7d3e6b92f96809beccac1b4a7f56b84a620f53aca90fbc3c46",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_COMMENT_ANCHORED"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "",
+            "exactPreviewReady": false,
+            "exactApplyOps": 0,
+            "textChanges": 0,
+            "commentThreads": 80,
+            "structuralChanges": 0,
+            "diagnosticItems": 2,
+            "productPathReady": false,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 0,
+          "commentThreadCount": 80,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 129883,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 2,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 0,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments"
+          ],
+          "commandPayloadPreviewConfirmed": false,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": false,
+          "writerCalled": false,
+          "applyStatus": "",
+          "applyVetoMetrics": {},
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": false,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 80,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:99f4acec4403343bf52cdc44da097bee2c4ca10bbe452876fafb9db92e58e526"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-A/source-docx/P0RHD-C080-A-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-A/returned-docx/P0RHD-C080-A-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-A/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-A/synthetic-project/manuscript/product-comments-mixed/P0RHD-C080-A.txt"
+        },
+        "waveFamily": "high-density-comment-shadow",
+        "expectedCommentMinimum": 80,
+        "stressProfile": {
+          "words": 50000,
+          "commentTargets": 80,
+          "family": "high-density-comment-shadow",
+          "repeatGroup": "C80"
+        },
+        "deterministicSignature": "d51223dec552bae82e76ab5ff700406bb045d7ebe12a446ca13569b0e7a7c973",
+        "durationMs": 34022
+      },
+      {
+        "caseId": "P0RHD-C080-B",
+        "title": "80 comment high-density shadow repeat",
+        "action": "dense-comments-diagnostic",
+        "expectedCapability": "highDensityCommentShadowProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-C080-B.txt",
+          "beforeSha256": "sha256:6e45d1adb6da4da77197410ea71d73709984a89f8900c66690da8108af6465bb",
+          "expectedFinalTextSha256": "sha256:6e45d1adb6da4da77197410ea71d73709984a89f8900c66690da8108af6465bb",
+          "afterApplyTextSha256": "sha256:6e45d1adb6da4da77197410ea71d73709984a89f8900c66690da8108af6465bb"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 412876,
+          "sourceDocxSha256": "sha256:3dc4f68e7c334aa243d6237c65645cf9808b0bd3e6b0bf9524ed74df5a3e5bd9",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 0,
+          "commentCount": 80,
+          "commentCountAfterCreate": 80,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:a1accd428e0876c55a1bed9c443ad479574a8cb9e575779ab4341a911216e3d9",
+          "returnedBytes": 34335,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 80,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 80,
+            "expectedTokensFound": [
+              "P0RHD-C080-B"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-B/applescripts/P0RHD-C080-B-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "CLEAN",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 0,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 80,
+            "formattingDeltas": 80,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:c4aa268a1707d71a88f15085309b74958034afed4c7104f3c24ea4333618b090",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:76de8516daaa6e7d3e6b92f96809beccac1b4a7f56b84a620f53aca90fbc3c46",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_COMMENT_ANCHORED"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "",
+            "exactPreviewReady": false,
+            "exactApplyOps": 0,
+            "textChanges": 0,
+            "commentThreads": 80,
+            "structuralChanges": 0,
+            "diagnosticItems": 2,
+            "productPathReady": false,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 0,
+          "commentThreadCount": 80,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 129883,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 2,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 0,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments"
+          ],
+          "commandPayloadPreviewConfirmed": false,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": false,
+          "writerCalled": false,
+          "applyStatus": "",
+          "applyVetoMetrics": {},
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": false,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 80,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:6e45d1adb6da4da77197410ea71d73709984a89f8900c66690da8108af6465bb"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-B/source-docx/P0RHD-C080-B-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-B/returned-docx/P0RHD-C080-B-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-B/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C080-B/synthetic-project/manuscript/product-comments-mixed/P0RHD-C080-B.txt"
+        },
+        "waveFamily": "high-density-comment-shadow",
+        "expectedCommentMinimum": 80,
+        "stressProfile": {
+          "words": 50000,
+          "commentTargets": 80,
+          "family": "high-density-comment-shadow",
+          "repeatGroup": "C80"
+        },
+        "deterministicSignature": "d51223dec552bae82e76ab5ff700406bb045d7ebe12a446ca13569b0e7a7c973",
+        "durationMs": 35587
+      },
+      {
+        "caseId": "P0RHD-C120-A",
+        "title": "120 comment high-density shadow repeat",
+        "action": "dense-comments-diagnostic",
+        "expectedCapability": "highDensityCommentShadowProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-C120-A.txt",
+          "beforeSha256": "sha256:8a95741444a38b998a49ae9b462fc7686162e69492a1e321bc6d8b67e56b96d9",
+          "expectedFinalTextSha256": "sha256:8a95741444a38b998a49ae9b462fc7686162e69492a1e321bc6d8b67e56b96d9",
+          "afterApplyTextSha256": "sha256:8a95741444a38b998a49ae9b462fc7686162e69492a1e321bc6d8b67e56b96d9"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 169715,
+          "sourceDocxSha256": "sha256:b754e3bbf1f25f9b6208ab4311b90935f43e091a59db4c6f0ec1d172c373bf8c",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 0,
+          "commentCount": 120,
+          "commentCountAfterCreate": 120,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:8f059dd2497b09ef7a68f3d2eb147e7b224bc97eb2ddfe250368051f4127c9a8",
+          "returnedBytes": 30940,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 120,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 120,
+            "expectedTokensFound": [
+              "P0RHD-C120-A"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-A/applescripts/P0RHD-C120-A-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "CLEAN",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 0,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 120,
+            "formattingDeltas": 120,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:64c893ac20416e9ff5d3943c6711d73f98984d32baa54529f235c86fc47928ab",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:9db76279e0eba05ae4d1212ff7146bb9d19ea521503ef6e5977134cc73304888",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_COMMENT_ANCHORED"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "",
+            "exactPreviewReady": false,
+            "exactApplyOps": 0,
+            "textChanges": 0,
+            "commentThreads": 120,
+            "structuralChanges": 0,
+            "diagnosticItems": 2,
+            "productPathReady": false,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 0,
+          "commentThreadCount": 120,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 191869,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 2,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 0,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments"
+          ],
+          "commandPayloadPreviewConfirmed": false,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": false,
+          "writerCalled": false,
+          "applyStatus": "",
+          "applyVetoMetrics": {},
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": false,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 120,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:8a95741444a38b998a49ae9b462fc7686162e69492a1e321bc6d8b67e56b96d9"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-A/source-docx/P0RHD-C120-A-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-A/returned-docx/P0RHD-C120-A-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-A/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-A/synthetic-project/manuscript/product-comments-mixed/P0RHD-C120-A.txt"
+        },
+        "waveFamily": "high-density-comment-shadow",
+        "expectedCommentMinimum": 120,
+        "stressProfile": {
+          "words": 20000,
+          "commentTargets": 120,
+          "family": "high-density-comment-shadow",
+          "repeatGroup": "C120"
+        },
+        "deterministicSignature": "928d94ee6f3777d16b9acb3d26f4ae00710e5fc8da163cb81e925e2aad708a45",
+        "durationMs": 42912
+      },
+      {
+        "caseId": "P0RHD-C120-B",
+        "title": "120 comment high-density shadow repeat",
+        "action": "dense-comments-diagnostic",
+        "expectedCapability": "highDensityCommentShadowProductLoop",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0RHD-C120-B.txt",
+          "beforeSha256": "sha256:a17223cff4b8e5f48f7cddfec6395e457a19d2c713baa116c3f2ecba4cce1ab2",
+          "expectedFinalTextSha256": "sha256:a17223cff4b8e5f48f7cddfec6395e457a19d2c713baa116c3f2ecba4cce1ab2",
+          "afterApplyTextSha256": "sha256:a17223cff4b8e5f48f7cddfec6395e457a19d2c713baa116c3f2ecba4cce1ab2"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 169715,
+          "sourceDocxSha256": "sha256:4a40ae0ad99a29e8cf76358530939561c9636bf5254d893377f334be813d5d13",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 0,
+          "commentCount": 120,
+          "commentCountAfterCreate": 120,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:a4877c670161fd214d59212332b560ae25aa1ccefb895453d7fe87ee66f8e785",
+          "returnedBytes": 30937,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 120,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 120,
+            "expectedTokensFound": [
+              "P0RHD-C120-B"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-B/applescripts/P0RHD-C120-B-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "CLEAN",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 0,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 120,
+            "formattingDeltas": 120,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:8efd092f4aa822d90b8502b809c8b6ec930047144be50da4cc502acaa35b59d4",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:9db76279e0eba05ae4d1212ff7146bb9d19ea521503ef6e5977134cc73304888",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_COMMENT_ANCHORED"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "",
+            "exactPreviewReady": false,
+            "exactApplyOps": 0,
+            "textChanges": 0,
+            "commentThreads": 120,
+            "structuralChanges": 0,
+            "diagnosticItems": 2,
+            "productPathReady": false,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 0,
+          "commentThreadCount": 120,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 191869,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 2,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 0,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments"
+          ],
+          "commandPayloadPreviewConfirmed": false,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": false,
+          "writerCalled": false,
+          "applyStatus": "",
+          "applyVetoMetrics": {},
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": false,
+          "formattingDiagnosticsVerified": true,
+          "structuralDiagnosticsVerified": true,
+          "formattingDiagnosticCount": 120,
+          "structuralDiagnosticCount": 0,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:a17223cff4b8e5f48f7cddfec6395e457a19d2c713baa116c3f2ecba4cce1ab2"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-B/source-docx/P0RHD-C120-B-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-B/returned-docx/P0RHD-C120-B-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-B/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-repeat-high-density-stress/p0-repeat-high-density-20260801T092012/P0RHD-C120-B/synthetic-project/manuscript/product-comments-mixed/P0RHD-C120-B.txt"
+        },
+        "waveFamily": "high-density-comment-shadow",
+        "expectedCommentMinimum": 120,
+        "stressProfile": {
+          "words": 20000,
+          "commentTargets": 120,
+          "family": "high-density-comment-shadow",
+          "repeatGroup": "C120"
+        },
+        "deterministicSignature": "928d94ee6f3777d16b9acb3d26f4ae00710e5fc8da163cb81e925e2aad708a45",
+        "durationMs": 29806
+      }
+    ]
+  },
+  "totals": {
+    "cases": 12,
+    "pass": 12,
+    "fail": 0,
+    "physicalWordPass": 12,
+    "trackedReplacementApplyPass": 8,
+    "highDensityCommentShadowPass": 4,
+    "authenticatedIntakePass": 12,
+    "visiblePreviewPass": 12,
+    "projectReopenReadbackPass": 12,
+    "replayIdempotentPass": 12,
+    "largestWords": 100000,
+    "largestCommentCount": 120,
+    "repeatStability": [
+      {
+        "group": "T10",
+        "cases": 3,
+        "stable": true,
+        "signatures": [
+          "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+          "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+          "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f"
+        ]
+      },
+      {
+        "group": "T50",
+        "cases": 3,
+        "stable": true,
+        "signatures": [
+          "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+          "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+          "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f"
+        ]
+      },
+      {
+        "group": "T100",
+        "cases": 2,
+        "stable": true,
+        "signatures": [
+          "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+          "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f"
+        ]
+      },
+      {
+        "group": "C80",
+        "cases": 2,
+        "stable": true,
+        "signatures": [
+          "d51223dec552bae82e76ab5ff700406bb045d7ebe12a446ca13569b0e7a7c973",
+          "d51223dec552bae82e76ab5ff700406bb045d7ebe12a446ca13569b0e7a7c973"
+        ]
+      },
+      {
+        "group": "C120",
+        "cases": 2,
+        "stable": true,
+        "signatures": [
+          "928d94ee6f3777d16b9acb3d26f4ae00710e5fc8da163cb81e925e2aad708a45",
+          "928d94ee6f3777d16b9acb3d26f4ae00710e5fc8da163cb81e925e2aad708a45"
+        ]
+      }
+    ],
+    "stableRepeatGroups": 5,
+    "liveElectronUiClickPass": 1
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "noOpPass": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "prematureGoogleDocsOpen": 0
+  },
+  "implementedCapability": {
+    "capability": "repeatHighDensityStressProductLoop",
+    "productRuntimeWired": true,
+    "liveElectronUiExportSurfaceClicked": true,
+    "physicalWordRoundTrips": 12,
+    "trackedReplacementApplyCases": 8,
+    "highDensityCommentShadowCases": 4,
+    "largestAutomaticTrackedReplacementWords": 100000,
+    "largestDenseCommentCount": 120,
+    "repeatDeterminismGroupsStable": 5,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "releaseReady": false,
+    "wordSaturated": false,
+    "googleDocsOpened": false
+  },
+  "sourceEvidence": {
+    "currentRunner": {
+      "id": "P0_REPEAT_HIGH_DENSITY_STRESS_RUNNER",
+      "path": "scripts/ops/rtk-word-release-audit-p0-repeat-high-density-stress.mjs",
+      "sha256": "ae502d7ca0d590b0cb8a0f6b2db13b2fb7253c5f99770b4a6bebe951c6c46f33",
+      "status": "BOUND"
+    },
+    "sharedProductHarness": {
+      "id": "P0_COMMENTS_MIXED_HARNESS",
+      "path": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "151c98f2ca44945520306b187e198530909ac68104d07b1506bb22439cbe410c",
+      "status": "BOUND"
+    },
+    "reviewBridgeRuntime": {
+      "id": "DOCX_REVIEW_PREVIEW_SESSION_250_COMMENT_BUDGET",
+      "path": "src/io/revisionBridge/index.mjs",
+      "sha256": "717ae0f559158cad8d1d74025120d80c6e72793cc65b7d026702265ca5e03cf5",
+      "status": "BOUND"
+    }
+  },
+  "nextStage": "P0_PRODUCT_VERTICAL_500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_AFTER_REPEAT_HIGH_DENSITY"
+}

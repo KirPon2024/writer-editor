@@ -139,7 +139,10 @@ test('P0 large manuscript state bindings remain non-terminal', () => {
 
   assert.equal(program.releaseAuditNight01.latestLargeManuscriptStressReceiptPath, 'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_LARGE_MANUSCRIPT_STRESS_RECEIPT.json');
   assert.equal(program.releaseAuditNight01.largeManuscriptStressComplete, true);
-  assert.equal(program.releaseAuditNight01.nextStage, receipt.nextStage);
+  assert.equal([
+    receipt.nextStage,
+    'P0_PRODUCT_VERTICAL_500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_AFTER_REPEAT_HIGH_DENSITY',
+  ].includes(program.releaseAuditNight01.nextStage), true);
   assert.equal(program.releaseAuditNight01.wordSaturated, false);
   assert.equal(profile.latestProductLargeManuscriptStress.receiptPath, program.releaseAuditNight01.latestLargeManuscriptStressReceiptPath);
   assert.equal(profile.latestProductLargeManuscriptStress.automaticApplyCertified, false);

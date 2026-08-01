@@ -4741,13 +4741,6 @@
       "rationale": "Owner-approved RTK V4 Word-only E12 repeat physical stability wave binding; no UI, dependency, network, Google Docs, or saturation overclaim."
     },
     {
-      "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "75f8f11d53d11ae73b5b142b0ea0aa8c6e23d6af6e60e71d28e6654636ab3776",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
-    },
-    {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
       "sha256": "2a5b4d10eea5e13b42adb6426f19fb06e1f10b472bca1b43fed3ce5e6220d689",
       "approvedBy": "DOCS_OPERATOR",
@@ -5222,13 +5215,6 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "befa992622b7f22cfd5990cda1da31b0065cba9625701753078324723372a273",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
-      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
-      "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
     },
     {
       "filePath": "src/renderer/editor.js",
@@ -7303,81 +7289,137 @@
       "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS/r3-c04-multilingual-worker-stress-report.json",
+      "sha256": "b909ca8dc21dcc89df347e0fe9f524349adcb0d3c8511b0a6981f2627918e628",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
       "sha256": "633f98da2643017ac31dbd60f028a7ce7dcb55dabb1a9d24bb22df384d00a633",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "343e0a8e134262eb76c9157bd52d9b5addf5199791e1c3795d880bb66b554a87",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "544ba2f7044d0188f04ad0d975b60c47c741187de3e1e5a82b0c0508b98ae04b",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
-      "sha256": "c240ab83aff4ec2b13d7ffdfac4a483d16a8f45ced005f3e66653dde07882993",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
-      "sha256": "63e910cbd9f1b728de0f449bb28d8abe1d4737a33441a39b12d3dd6eca35c9a4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "0e41aedf75c0928b436e3a35c11fc710f3c1269fd09f2110d1e1797adb33bad2",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "e2305ec0b49052fd54e979573a6b33200b9e9433cbfde5ec36a346f71aacb835",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
-      "sha256": "b6e721dc741365fdb1e3b4c9240b7bba69279be08235940ab787c4c12f4c6eb6",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_RECEIPT.json",
       "sha256": "d8fdc46b75d415203e1d0c20bc5b3c6d5d9d8147b677fcd6e12c1a9b215e3f44",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "343e0a8e134262eb76c9157bd52d9b5addf5199791e1c3795d880bb66b554a87",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "544ba2f7044d0188f04ad0d975b60c47c741187de3e1e5a82b0c0508b98ae04b",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS_RECEIPT.json",
+      "sha256": "8de6442451ef4355bc74c2ec9253d5d77978aed889c304c2997395e6cce8f8bf",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-comment-shadow-authenticated-session.mjs",
       "sha256": "8e65bef290a62ea9ed60037bfed28d6cb99c538b44bad88f06cc214fec8a1ef1",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
+      "sha256": "c240ab83aff4ec2b13d7ffdfac4a483d16a8f45ced005f3e66653dde07882993",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "scripts/ops/sector-m-scope-map.json",
+      "sha256": "efc3e5c1f2ff8c2614e50636ba1ba6c0afc72bb5e85286c1fa2aa58ebc0a0608",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c04-multilingual-worker-stress.mjs",
+      "sha256": "6a0f926827fa5cb6ba5e33afea06ac518d101305c0d68df34449bab3caf4fd44",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "src/core/runtime.mjs",
+      "sha256": "80372f28b826cea64b5bd671820db789d3614a140f68a9bf483ee66e86b2489e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasMentionIndex.mjs",
+      "sha256": "ebe1d8ee0ee3b1864ea74a2950824005db3e9a1fcfc4a3c829642c58b23cb5da",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "63e910cbd9f1b728de0f449bb28d8abe1d4737a33441a39b12d3dd6eca35c9a4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "328b08938bebaa8a8c4d90b53159cb563a5bc44311dba1d77bc3532372e5875a",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "188e57ddf4474aefe9cea4d50150af987a3b169a3f2100309d001d64ae467157",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "e2305ec0b49052fd54e979573a6b33200b9e9433cbfde5ec36a346f71aacb835",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-comment-shadow-authenticated-session.contract.test.js",
       "sha256": "746bdd3303264c199aa4a04ad065a9e958292a0397c69dbdd642e9e0c953f4ec",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T01:02:14.979Z",
-      "rationale": "Approve bounded P0 authenticated comment shadow identity and storage-effects contour; preserves shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+      "sha256": "b6e721dc741365fdb1e3b4c9240b7bba69279be08235940ab787c4c12f4c6eb6",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c04-multilingual-worker-stress.contract.test.js",
+      "sha256": "1285f4cc7aa613f90256b55246c351979887a0d47c63a551ea3667ee348f9d75",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
+      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
+      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     }
   ]
 }

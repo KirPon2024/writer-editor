@@ -38,6 +38,7 @@ export const CORE_COMMAND_IDS = Object.freeze({
 });
 
 const ATLAS_AUTHOR_SCHEMA_VERSION = 'atlas.author.v1';
+const ATLAS_AUTHOR_UNSUPPORTED_QUARANTINE_SCHEMA_VERSION = 'atlas.authorUnsupportedQuarantine.v1';
 const ATLAS_SERIES_IDENTITY_LINK_SCHEMA_VERSION = 'atlas.seriesIdentityLink.v1';
 const ATLAS_CUSTOM_VOCABULARY_ROW_SCHEMA_VERSION = 'atlas.customVocabularyRow.v1';
 const ATLAS_SERIES_PORTABILITY_PREVIEW_SCHEMA_VERSION = 'derived.atlas.seriesPortabilityPreview.v1';
@@ -47,6 +48,25 @@ const MANUAL_MAP_AUTHOR_SCHEMA_VERSION = 'manualMap.author.v1';
 const IDEA_AUTHOR_SCHEMA_VERSION = 'idea.author.v1';
 const IDEA_ORIGIN_REF_SCHEMA_VERSION = 'idea.originRef.v1';
 const MEANING_AUTHOR_SCHEMA_VERSION = 'meaning.author.v1';
+
+const ATLAS_AUTHOR_KNOWN_FIELDS = Object.freeze([
+  'calendarDefinitions',
+  'continuityFactLedgers',
+  'decisions',
+  'entities',
+  'entityOperations',
+  'entityVocabulary',
+  'evidenceReattachments',
+  'languageTags',
+  'reassignments',
+  'relationVocabulary',
+  'savedQueries',
+  'sceneTemporalAnchors',
+  'schemaVersion',
+  'seriesIdentityLinks',
+  'seriesPortabilityOperations',
+  'suppressions',
+]);
 
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
@@ -121,6 +141,28 @@ function normalizeAtlasContinuityFactLedgers(input) {
   };
 }
 
+function extractUnknownAtlasAuthorFields(input) {
+  if (!isPlainObject(input)) return {};
+  const unknown = {};
+  for (const key of Object.keys(input).sort()) {
+    if (!ATLAS_AUTHOR_KNOWN_FIELDS.includes(key)) {
+      unknown[key] = cloneJson(input[key]);
+    }
+  }
+  return unknown;
+}
+
+function createAtlasAuthorUnsupportedQuarantine(input) {
+  const source = isPlainObject(input) ? cloneJson(input) : {};
+  return {
+    schemaVersion: ATLAS_AUTHOR_UNSUPPORTED_QUARANTINE_SCHEMA_VERSION,
+    reason: 'UNSUPPORTED_ATLAS_AUTHOR_SCHEMA',
+    originalSchemaVersion: trimString(source.schemaVersion),
+    originalAuthorData: source,
+    destructiveReplacement: false,
+  };
+}
+
 function createEmptyAtlasAuthorData() {
   return {
     schemaVersion: ATLAS_AUTHOR_SCHEMA_VERSION,
@@ -143,13 +185,19 @@ function createEmptyAtlasAuthorData() {
 }
 
 function normalizeAtlasAuthorData(input) {
-  if (!isPlainObject(input) || input.schemaVersion !== ATLAS_AUTHOR_SCHEMA_VERSION || !isPlainObject(input.entities)) {
+  if (!isPlainObject(input)) {
     return createEmptyAtlasAuthorData();
+  }
+  if (input.schemaVersion !== ATLAS_AUTHOR_SCHEMA_VERSION) {
+    return {
+      ...createEmptyAtlasAuthorData(),
+      unsupportedAuthorDataQuarantine: createAtlasAuthorUnsupportedQuarantine(input),
+    };
   }
 
   return {
     schemaVersion: ATLAS_AUTHOR_SCHEMA_VERSION,
-    entities: cloneJson(input.entities),
+    entities: isPlainObject(input.entities) ? cloneJson(input.entities) : {},
     decisions: isPlainObject(input.decisions) ? cloneJson(input.decisions) : {},
     suppressions: isPlainObject(input.suppressions) ? cloneJson(input.suppressions) : {},
     entityOperations: isPlainObject(input.entityOperations) ? cloneJson(input.entityOperations) : {},
@@ -164,6 +212,7 @@ function normalizeAtlasAuthorData(input) {
     calendarDefinitions: isPlainObject(input.calendarDefinitions) ? cloneJson(input.calendarDefinitions) : {},
     sceneTemporalAnchors: isPlainObject(input.sceneTemporalAnchors) ? cloneJson(input.sceneTemporalAnchors) : {},
     continuityFactLedgers: normalizeAtlasContinuityFactLedgers(input.continuityFactLedgers),
+    ...extractUnknownAtlasAuthorFields(input),
   };
 }
 
@@ -1879,6 +1928,24 @@ function normalizeRangeOffset(value) {
   return Number.isSafeInteger(number) ? number : -1;
 }
 
+function collectGraphemeBoundaries(text = '') {
+  if (typeof Intl !== 'object' || typeof Intl.Segmenter !== 'function') return null;
+  const boundaries = new Set([0]);
+  const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+  for (const segment of segmenter.segment(String(text))) {
+    boundaries.add(segment.index);
+    boundaries.add(segment.index + segment.segment.length);
+  }
+  boundaries.add(String(text).length);
+  return boundaries;
+}
+
+function isGraphemeBoundaryAligned(text, startOffset, endOffset) {
+  const boundaries = collectGraphemeBoundaries(text);
+  if (!boundaries) return null;
+  return boundaries.has(startOffset) && boundaries.has(endOffset);
+}
+
 function getAtlasLanguageTagBucket(languageTags, scopeKind) {
   if (scopeKind === 'scene') return languageTags.scenes;
   if (scopeKind === 'block') return languageTags.blocks;
@@ -1939,6 +2006,21 @@ function validateAtlasLanguageTagTarget(state, payload, op) {
         endOffset,
         textLength: text.length,
       });
+    }
+    const graphemeAligned = isGraphemeBoundaryAligned(text, startOffset, endOffset);
+    if (graphemeAligned !== true) {
+      return fail(
+        state,
+        graphemeAligned === null ? 'E_ATLAS_LANGUAGE_TAG_GRAPHEME_SEGMENTER_UNAVAILABLE' : 'E_ATLAS_LANGUAGE_TAG_RANGE_GRAPHEME_SPLIT',
+        op,
+        graphemeAligned === null ? 'LANGUAGE_TAG_GRAPHEME_SEGMENTER_UNAVAILABLE' : 'LANGUAGE_TAG_RANGE_GRAPHEME_SPLIT',
+        {
+          projectId,
+          sceneId,
+          startOffset,
+          endOffset,
+        },
+      );
     }
   }
   return { ok: true, project };
@@ -2573,6 +2655,22 @@ function validateEvidenceStillMatchesScene({ state, project, sceneId, evidenceAn
   const currentQuote = sceneText.slice(startOffset, endOffset);
   const currentSceneTextHash = hashCanonicalValue(sceneText);
   const currentQuoteHash = hashCanonicalValue(currentQuote);
+  const graphemeAligned = isGraphemeBoundaryAligned(sceneText, startOffset, endOffset);
+  if (graphemeAligned !== true) {
+    return fail(
+      state,
+      graphemeAligned === null ? 'E_ATLAS_EVIDENCE_GRAPHEME_SEGMENTER_UNAVAILABLE' : 'E_ATLAS_EVIDENCE_GRAPHEME_SPLIT',
+      op,
+      graphemeAligned === null ? 'EVIDENCE_GRAPHEME_SEGMENTER_UNAVAILABLE' : 'EVIDENCE_GRAPHEME_SPLIT',
+      {
+        ...reasonDetails,
+        sceneId,
+        anchorId: evidenceAnchor.anchorId,
+        startOffset,
+        endOffset,
+      },
+    );
+  }
   if (currentSceneTextHash !== evidenceAnchor.sceneTextHash || currentQuoteHash !== evidenceAnchor.quoteHash || currentQuote !== quote) {
     return fail(state, 'E_ATLAS_EVIDENCE_STALE', op, 'EVIDENCE_STALE', {
       ...reasonDetails,
@@ -2652,6 +2750,15 @@ function applyAtlasMentionConfirm(state, payload) {
   if (evidenceAnchor.entityId && evidenceAnchor.entityId !== entityId) {
     return fail(state, 'E_ATLAS_EVIDENCE_ENTITY_MISMATCH', 'atlas.mention.confirm', 'EVIDENCE_ENTITY_MISMATCH', { entityId, evidenceEntityId: evidenceAnchor.entityId });
   }
+  const staleEvidence = validateEvidenceStillMatchesScene({
+    state,
+    project,
+    sceneId,
+    evidenceAnchor,
+    op: 'atlas.mention.confirm',
+    reasonDetails: { projectId, entityId, mentionId, decisionId },
+  });
+  if (staleEvidence) return staleEvidence;
   if (atlas.decisions && atlas.decisions[decisionId]) {
     return fail(state, 'E_ATLAS_DECISION_ALREADY_EXISTS', 'atlas.mention.confirm', 'DECISION_ALREADY_EXISTS', { projectId, decisionId });
   }
@@ -2729,6 +2836,15 @@ function applyAtlasObservationSuppress(state, payload) {
   if (evidenceAnchor.entityId && evidenceAnchor.entityId !== entityId) {
     return fail(state, 'E_ATLAS_EVIDENCE_ENTITY_MISMATCH', 'atlas.observation.suppress', 'EVIDENCE_ENTITY_MISMATCH', { entityId, evidenceEntityId: evidenceAnchor.entityId });
   }
+  const staleEvidence = validateEvidenceStillMatchesScene({
+    state,
+    project,
+    sceneId,
+    evidenceAnchor,
+    op: 'atlas.observation.suppress',
+    reasonDetails: { projectId, entityId, observationId, mentionId, suppressionId },
+  });
+  if (staleEvidence) return staleEvidence;
   if (atlas.suppressions && atlas.suppressions[suppressionId]) {
     return fail(state, 'E_ATLAS_SUPPRESSION_ALREADY_EXISTS', 'atlas.observation.suppress', 'SUPPRESSION_ALREADY_EXISTS', { projectId, suppressionId });
   }

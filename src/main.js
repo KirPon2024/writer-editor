@@ -48,6 +48,10 @@ const { buildDocxMinBuffer: buildDocxMinBufferCore } = require('./export/docx/do
 const { runDocxMinExport } = require('./export/docx/docxMinExportHandler');
 const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore } = require('./export/docx/docxReviewPacketBuilder');
 const { runDocxReviewPacketExport } = require('./export/docx/docxReviewPacketExportHandler');
+const {
+  FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID,
+  buildFullManuscriptDocxReviewPacketSource,
+} = require('./export/docx/fullManuscriptDocxReviewPacketSource');
 const { writeBufferAtomic } = require('./export/docx/atomicWriteBuffer');
 const { runPdfExport } = require('./export/pdf/pdfExportHandler');
 const {
@@ -455,6 +459,7 @@ const COMMAND_SURFACE_KERNEL_COMMAND_IDS = Object.freeze({
   PROJECT_IMPORT_FULL_ARCHIVE_V1: IMPORT_PROJECT_ARCHIVE_COMMAND_ID,
   PROJECT_IMPORT_MARKDOWN_V1: 'cmd.project.importMarkdownV1',
   PROJECT_EXPORT_MARKDOWN_V1: 'cmd.project.exportMarkdownV1',
+  PROJECT_REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET: FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID,
   PROJECT_RELEASE_CLAIM_ADMIT: 'cmd.project.releaseClaim.admit',
   PROJECT_RELEASE_CLAIM_EXECUTE: 'cmd.project.releaseClaim.execute',
   RTK_REVIEW_SESSION_IMPORT_COMMENTS: 'cmd.rtk.reviewSession.importComments',
@@ -2141,6 +2146,7 @@ async function handleReviewExactTextReloadReconciledSceneCommandSurface(payload 
 const REVIEW_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.importLocalPacket';
 const REVIEW_EXPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.exportLocalPacket';
 const REVIEW_EXPORT_DOCX_PACKET_COMMAND_ID = 'cmd.project.review.exportDocxReviewPacket';
+const REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET_COMMAND_ID = FULL_MANUSCRIPT_REVIEW_DOCX_COMMAND_ID;
 const REVIEW_IMPORT_LOCAL_PACKET_MAX_BYTES = 2 * 1024 * 1024;
 const REVIEW_PACKET_V1_VERSION = 'review-packet.v1';
 const REVIEW_PACKET_V1_ALLOWED_TOP_LEVEL_KEYS = new Set([
@@ -3377,6 +3383,14 @@ function makeTypedReviewDocxExportError(code, reason, details = undefined) {
   return { ok: false, error };
 }
 
+function makeTypedFullManuscriptReviewDocxExportError(code, reason, details = undefined) {
+  const result = makeTypedReviewDocxExportError(code, reason, details);
+  if (result && result.error) {
+    result.error.op = REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET_COMMAND_ID;
+  }
+  return result;
+}
+
 async function resolveDocxReviewPacketExportPath(payload) {
   const fromPayload = normalizeDocxExportPath(payload.outPath);
   if (fromPayload) return fromPayload;
@@ -3746,6 +3760,65 @@ async function readDocxReviewPacketExportSource() {
   };
 }
 
+async function readFullManuscriptDocxReviewPacketExportSource() {
+  if (isDirty || autoSaveInProgress) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_DIRTY_EDITOR_BLOCKED');
+  }
+  const scope = await buildSelectedScenesTxtExportScope();
+  const sceneCandidates = Array.isArray(scope?.sceneCandidates) ? scope.sceneCandidates : [];
+  if (sceneCandidates.length < 2) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_MULTI_SCENE_PROJECT_REQUIRED');
+  }
+  const projectId = docxReviewPreviewSessionDetailString(scope.projectId);
+  if (!projectId) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_PROJECT_ID_REQUIRED');
+  }
+  const projectRoot = docxReviewPreviewSessionDetailString(scope.projectRoot) || getProjectRootPath();
+  const manifestPath = getProjectManifestPath(DEFAULT_PROJECT_NAME);
+  const scenes = [];
+  for (let index = 0; index < sceneCandidates.length; index += 1) {
+    const candidate = sceneCandidates[index];
+    const text = await readSelectedScenesTxtExportSceneContent(candidate);
+    scenes.push({
+      sceneId: typeof candidate.sceneId === 'string' ? candidate.sceneId.replace(/\\/g, '/') : '',
+      scenePath: typeof candidate.path === 'string' ? candidate.path : '',
+      title: typeof candidate.title === 'string' ? candidate.title : '',
+      label: typeof candidate.label === 'string' ? candidate.label : '',
+      text,
+      order: index,
+    });
+  }
+  const revisionBridge = await loadRevisionBridgeModule();
+  if (
+    !revisionBridge
+    || typeof revisionBridge.createReviewTransportManifestV2 !== 'function'
+    || typeof revisionBridge.createWordV4CoreManifest !== 'function'
+    || typeof revisionBridge.createYrtk2RoundLocatorToken !== 'function'
+  ) {
+    throw new Error('REVIEW_FULL_MANUSCRIPT_DOCX_EXPORT_RTK_BUILDERS_UNAVAILABLE');
+  }
+  const source = buildFullManuscriptDocxReviewPacketSource({
+    projectId,
+    projectRoot,
+    manifestPath,
+    scenes,
+    expectedOrderedSceneIds: scenes.map((scene) => scene.sceneId),
+  }, {
+    revisionBridge,
+    cryptoPort: createRtkReviewTransportCryptoPort(),
+  });
+  activeReviewDocxExportAuthorityStore = {
+    schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+    scope: 'full-manuscript',
+    lastRoundId: source.localAuthorityCapsule.roundId,
+    roundsById: {
+      [source.localAuthorityCapsule.roundId]: source.localAuthorityCapsule,
+    },
+    secretExposedToRenderer: false,
+  };
+  return source;
+}
+
 async function buildDocxReviewPacketBuffer(source) {
   const documentBuffer = buildDocxReviewPacketBufferCore(source);
   return {
@@ -3769,6 +3842,34 @@ async function handleReviewDocxExportPacketCommandSurface(payload = {}, options 
     readDocxReviewPacketExportSource: typeof options.readDocxReviewPacketExportSource === 'function'
       ? options.readDocxReviewPacketExportSource
       : readDocxReviewPacketExportSource,
+    buildDocxReviewPacketBuffer: typeof options.buildDocxReviewPacketBuffer === 'function'
+      ? options.buildDocxReviewPacketBuffer
+      : buildDocxReviewPacketBuffer,
+    queueDiskOperation: typeof options.queueDiskOperation === 'function'
+      ? options.queueDiskOperation
+      : queueDiskOperation,
+    writeBufferAtomic: typeof options.writeBufferAtomic === 'function'
+      ? options.writeBufferAtomic
+      : writeBufferAtomic,
+    updateStatus: typeof options.updateStatus === 'function' ? options.updateStatus : updateStatus,
+  });
+}
+
+async function handleFullManuscriptReviewDocxExportPacketCommandSurface(payload = {}, options = {}) {
+  return runDocxReviewPacketExport(payload, {
+    commandId: REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET_COMMAND_ID,
+    normalizeExportPayload,
+    makeTypedReviewDocxExportError: makeTypedFullManuscriptReviewDocxExportError,
+    buildPathBoundaryDetails,
+    resolveDocxReviewPacketExportPath: typeof options.resolveDocxReviewPacketExportPath === 'function'
+      ? options.resolveDocxReviewPacketExportPath
+      : resolveDocxReviewPacketExportPath,
+    validateDocxExportTarget: typeof options.validateDocxExportTarget === 'function'
+      ? options.validateDocxExportTarget
+      : validateDocxExportTarget,
+    readDocxReviewPacketExportSource: typeof options.readDocxReviewPacketExportSource === 'function'
+      ? options.readDocxReviewPacketExportSource
+      : readFullManuscriptDocxReviewPacketExportSource,
     buildDocxReviewPacketBuffer: typeof options.buildDocxReviewPacketBuffer === 'function'
       ? options.buildDocxReviewPacketBuffer
       : buildDocxReviewPacketBuffer,
@@ -8406,6 +8507,9 @@ function getInternalCommandSurfaceKernel() {
     },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_EXPORT_MARKDOWN_V1]: async (payload = {}) => {
       return handleExportMarkdownV1(payload);
+    },
+    [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET]: async (payload = {}) => {
+      return handleFullManuscriptReviewDocxExportPacketCommandSurface(payload);
     },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_RELEASE_CLAIM_ADMIT]: async (payload = {}) => {
       return handleRevisionBridgeReleaseClaimCommandSurfaceAdmission(payload);
@@ -23487,6 +23591,7 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.project.review.importLocalPacket',
   'cmd.project.review.exportLocalPacket',
   'cmd.project.review.exportDocxReviewPacket',
+  'cmd.project.review.exportFullManuscriptDocxReviewPacket',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
   'cmd.project.review.applyExactTextChangesBatch',
@@ -23528,6 +23633,7 @@ const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.review.switchMode',
   'cmd.project.review.importLocalPacket',
   'cmd.project.review.exportLocalPacket',
+  'cmd.project.review.exportFullManuscriptDocxReviewPacket',
   'cmd.project.review.openDocxReviewPreviewSession',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
@@ -23851,6 +23957,12 @@ const MENU_COMMAND_HANDLERS = Object.freeze({
   },
   'cmd.project.review.exportDocxReviewPacket': async (payload = {}) => {
     return handleReviewDocxExportPacketCommandSurface(payload);
+  },
+  'cmd.project.review.exportFullManuscriptDocxReviewPacket': async (payload = {}) => {
+    return dispatchCommandSurfaceKernel(
+      COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_REVIEW_EXPORT_FULL_MANUSCRIPT_DOCX_PACKET,
+      payload,
+    );
   },
   'cmd.project.review.clearSession': async () => {
     const result = handleReviewSurfaceClearSessionCommandSurface();

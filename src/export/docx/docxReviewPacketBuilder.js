@@ -37,6 +37,10 @@ function normalizeReviewPacketBlocks(input = {}) {
     .map((block, index) => ({
       blockId: normalizeString(block.blockId) || `block-${String(index + 1).padStart(4, '0')}`,
       paragraphId: normalizeString(block.paragraphId) || `p-${String(index + 1).padStart(4, '0')}`,
+      sceneId: normalizeString(block.sceneId),
+      sceneOrdinal: Number.isInteger(block.sceneOrdinal) && block.sceneOrdinal >= 0 ? block.sceneOrdinal : null,
+      sceneTitle: normalizeString(block.sceneTitle),
+      sceneBoundary: block.sceneBoundary === true,
       paraId: normalizeString(block.paraId).replace(/[^a-fA-F0-9]/g, '').slice(0, 8).padStart(8, '0'),
       textId: normalizeString(block.textId).replace(/[^a-fA-F0-9]/g, '').slice(0, 8).padStart(8, '0'),
       text: normalizeDocxXmlText(block.text),

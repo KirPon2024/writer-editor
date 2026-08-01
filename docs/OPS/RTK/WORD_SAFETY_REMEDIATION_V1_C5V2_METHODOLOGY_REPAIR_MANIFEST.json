@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "yalken.rtk.word-safety-remediation-v1.c5v2-methodology-repair-manifest.v1",
+  "taskId": "YALKEN_RTK_WORD_CONTINUATION_V2",
+  "contourId": "WORD_SAFETY_REMEDIATION_V1_C5V2_FULLBOOK_METHODOLOGY_REPAIR",
+  "status": "DRY_GATES_IMPLEMENTED_PHYSICAL_CAMPAIGN_NOT_STARTED",
+  "headSha": "ea00dd9d7fe2de94c3129fa7ca32f4221f8fe3a0",
+  "createdAtUtc": "2026-08-01T21:13:41Z",
+  "googleProductWork": "REPORT_ONLY_BLOCKED_STASH_UNTOUCHED",
+  "oldC5RunTreatment": "EXPLORATORY_ONLY_CASE_357_UNTRUSTED_RERUN_REQUIRED",
+  "productCapability": {
+    "fullManuscriptDocxReviewExport": {
+      "commandId": "cmd.project.review.exportFullManuscriptDocxReviewPacket",
+      "capabilityId": "cap.project.review.exportFullManuscriptDocxReviewPacket",
+      "route": [
+        "capability-manifest",
+        "typed-command-port",
+        "command-surface-kernel",
+        "canonical-project-truth-projection",
+        "docx-review-packet-adapter",
+        "existing-design-os-export-surface"
+      ],
+      "status": "IMPLEMENTED_DRY_CONTRACT_GREEN",
+      "nonClaim": "NOT_PHYSICALLY_WORD_CERTIFIED"
+    },
+    "fullManuscriptReturnRouter": {
+      "applyCommandId": "cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements",
+      "supportedPositiveApplyLane": "TRACKED_REPLACE_ONLY_UNTIL_PRODUCT_PHYSICAL_PROOF",
+      "typedUnsupportedLanes": [
+        "root_comment",
+        "reply",
+        "comment_state",
+        "formatting",
+        "structural"
+      ],
+      "status": "IMPLEMENTED_DRY_CONTRACT_GREEN",
+      "nonClaim": "COMMENT_FORMAT_STRUCTURE_APPLY_NOT_CERTIFIED"
+    }
+  },
+  "methodologyInfrastructure": {
+    "ledgerDistribution": {
+      "schemaVersion": "yalken.rtk.word.c5v2.fullbook-ledger.v1",
+      "topology": "one-full-manuscript-project-cumulative-rounds",
+      "operationCount": 2000,
+      "sceneCoverageRequirement": "21_OF_21_FOR_APPLICABLE_FAMILIES",
+      "status": "DRY_CONTRACT_GREEN"
+    },
+    "roundCheckpointing": {
+      "schemaVersion": "yalken.rtk.word.c5v2.fullbook-chunk-checkpoint.v1",
+      "checkpointPolicy": "FSYNCED_CHUNK_CHECKPOINTS_PARTIAL_CHUNK_RERUNS_WITH_NEW_ATTEMPT_ID",
+      "status": "DRY_CONTRACT_GREEN"
+    }
+  },
+  "focusedDryGates": {
+    "node --test c5v2 product export return router ledger checkpoint catalog bundle": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0
+    },
+    "npm run -s build:renderer": {
+      "status": "PASS"
+    },
+    "npm run -s test:rtk": {
+      "status": "FAIL_EXPECTED_UNDELIVERED_WIP_AND_OLD_C5V1_PHYSICAL_RECEIPT",
+      "tests": 361,
+      "pass": 356,
+      "fail": 5,
+      "classifiedFailures": [
+        "G0B frozen ActionEnvelope detects active WIP",
+        "W1 frozen allowlist detects active WIP",
+        "W2 frozen allowlist detects active WIP",
+        "old C5 V1 receipt missing terminal physical phases",
+        "old C5 V1 phase veto remains nonzero"
+      ]
+    }
+  },
+  "absoluteVetoStatus": {
+    "falseFullBookLabel": 0,
+    "syntheticTailOnlyAuthority": 0,
+    "repeatedPositiveRootCommentAnchor": 0,
+    "hotspotGateViolation": 0,
+    "countsOnlyOracle": 0,
+    "nonCumulativeRoundPlan": 0,
+    "fixtureOnlyExporter": 0,
+    "partialCheckpointLoss": 0
+  },
+  "nextRequiredAction": "IMPLEMENT_SEMANTIC_ORACLE_AND_MULTILINGUAL_QA_DRY_GATES_BEFORE_WORD_UI_PHYSICAL_EXECUTION"
+}

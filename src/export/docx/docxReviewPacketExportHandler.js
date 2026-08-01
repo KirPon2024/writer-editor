@@ -21,9 +21,17 @@ function sanitizeReviewDocxExportCapsule(value) {
   const capsule = {
     schemaVersion: typeof source.schemaVersion === 'string' ? source.schemaVersion : 'yalken.rtk.word.product-review-docx-export.v1',
     projectId: typeof source.projectId === 'string' ? source.projectId : '',
+    scope: typeof source.scope === 'string' ? source.scope : '',
+    fullManuscript: source.fullManuscript === true,
+    sceneCount: Number.isInteger(source.sceneCount) ? source.sceneCount : 0,
+    orderedSceneIds: Array.isArray(source.orderedSceneIds)
+      ? source.orderedSceneIds.filter((sceneId) => typeof sceneId === 'string')
+      : [],
     sceneId: typeof source.sceneId === 'string' ? source.sceneId : '',
     sceneRevision: typeof source.sceneRevision === 'string' ? source.sceneRevision : '',
     rawSha256: typeof source.rawSha256 === 'string' ? source.rawSha256 : '',
+    fullBookRawSha256: typeof source.fullBookRawSha256 === 'string' ? source.fullBookRawSha256 : '',
+    capabilityManifestDigest: typeof source.capabilityManifestDigest === 'string' ? source.capabilityManifestDigest : '',
     roundId: typeof source.roundId === 'string' ? source.roundId : '',
     exportId: typeof source.exportId === 'string' ? source.exportId : '',
     exportArtifactId: typeof source.exportArtifactId === 'string' ? source.exportArtifactId : '',

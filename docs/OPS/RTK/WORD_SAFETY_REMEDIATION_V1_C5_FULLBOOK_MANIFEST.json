@@ -1,0 +1,287 @@
+{
+  "schemaVersion": "yalken.rtk.word-safety-remediation-v1.c5-fullbook-manifest.v1",
+  "taskId": "YALKEN_RTK_WORD_CONTINUATION_V2",
+  "contourId": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
+  "createdAtUtc": "2026-08-01T18:16:45.638Z",
+  "base": {
+    "originMainShaAtStart": "ea00dd9d7fe2de94c3129fa7ca32f4221f8fe3a0",
+    "headShaAtManifest": "ea00dd9d7fe2de94c3129fa7ca32f4221f8fe3a0",
+    "branch": "codex/rtk-word-c5-fullbook-certification-v1"
+  },
+  "corpus": {
+    "title": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "sourceCorpus": "Project Gutenberg ebook 174",
+    "retrievalUrl": "https://www.gutenberg.org/cache/epub/174/pg174.txt",
+    "retrievedAtUtc": "2026-08-01T17:12:44.997Z",
+    "wrapperRemoved": true,
+    "redistributionPolicy": "large cleaned corpus and modified artifacts stay on verified T7 only",
+    "rawSha256": "sha256:38f36b510417177aa87a6a24c968e3ec63a447b7df36a9c1a7c5a3f2d9e51547",
+    "cleanedSha256": "sha256:8f77016234f135831a5ca1ff23c6e10bb7e4166a1525f6691fe46084619ab531",
+    "sceneCount": 21,
+    "wordCount": 79772,
+    "charCount": 428889,
+    "sceneHashes": [
+      {
+        "sceneId": "dorian-00-preface",
+        "title": "Preface",
+        "wordCount": 385,
+        "sha256": "sha256:007b7503aad1be339e8a9c8ad1d7473241f2ae3228afdcb6a6d42a0b9bb0d441"
+      },
+      {
+        "sceneId": "dorian-01-chapter-i",
+        "title": "Chapter I",
+        "wordCount": 5002,
+        "sha256": "sha256:d2a2b1d6f391295fcacc03ba3af5b59c48bcd5c7474d0127e5e7fb428299f347"
+      },
+      {
+        "sceneId": "dorian-02-chapter-ii",
+        "title": "Chapter II",
+        "wordCount": 5680,
+        "sha256": "sha256:52304b2a68c1b3b4f2d67b5ecd89dedaacc82cb9fed994b27ca0ed6b9104c83f"
+      },
+      {
+        "sceneId": "dorian-03-chapter-iii",
+        "title": "Chapter III",
+        "wordCount": 4464,
+        "sha256": "sha256:890caa270fd8a09edb93a03d1976b303ac2d2380de3ffac00311d4d4d790f5bc"
+      },
+      {
+        "sceneId": "dorian-04-chapter-iv",
+        "title": "Chapter IV",
+        "wordCount": 5630,
+        "sha256": "sha256:2c27a3b88e6337a679bb93097c6b1a0d3c759abbd9558660420d86e9cd9a53aa"
+      },
+      {
+        "sceneId": "dorian-05-chapter-v",
+        "title": "Chapter V",
+        "wordCount": 4424,
+        "sha256": "sha256:8ec45578e9905e413b8620644cb578eb1fe260cdf05ed7eaf0f2c07d67bcc7e3"
+      },
+      {
+        "sceneId": "dorian-06-chapter-vi",
+        "title": "Chapter VI",
+        "wordCount": 2862,
+        "sha256": "sha256:58869f203a41632d65b99746145cd8ea98a7098586c472f361e90e3827a6cb38"
+      },
+      {
+        "sceneId": "dorian-07-chapter-vii",
+        "title": "Chapter VII",
+        "wordCount": 4465,
+        "sha256": "sha256:74901852422a8fddfa11813f57ad8fdd0faaa875f40a5bb3cf586aa13ab94239"
+      },
+      {
+        "sceneId": "dorian-08-chapter-viii",
+        "title": "Chapter VIII",
+        "wordCount": 5340,
+        "sha256": "sha256:72902e8f58fbe6230fb10bb05e6e9740c77ddb38bdbaa116e184ccb3c3b4e84e"
+      },
+      {
+        "sceneId": "dorian-09-chapter-ix",
+        "title": "Chapter IX",
+        "wordCount": 3955,
+        "sha256": "sha256:d7c9f9446708936937053b986508ae63c64e4cfccc736b9909e891ddb82e0c04"
+      },
+      {
+        "sceneId": "dorian-10-chapter-x",
+        "title": "Chapter X",
+        "wordCount": 3256,
+        "sha256": "sha256:c583a96b2b39273b8eb1e9e3db896a56228d92322162f6ca9a55ea586a0a2fc1"
+      },
+      {
+        "sceneId": "dorian-11-chapter-xi",
+        "title": "Chapter XI",
+        "wordCount": 7372,
+        "sha256": "sha256:4705d9a7657b1ef0b4e67d89c36ea6f924ce1c4dd8706d61542880a9fe8331d5"
+      },
+      {
+        "sceneId": "dorian-12-chapter-xii",
+        "title": "Chapter XII",
+        "wordCount": 2811,
+        "sha256": "sha256:f89cd60431732cf97fc0b3d1068bb00df2b81803b0d52823021c496ba18f0cff"
+      },
+      {
+        "sceneId": "dorian-13-chapter-xiii",
+        "title": "Chapter XIII",
+        "wordCount": 2518,
+        "sha256": "sha256:5b5debfd67074d96c8ee955f73a7fae0ce172a8fd4344c44841c6897c3d384aa"
+      },
+      {
+        "sceneId": "dorian-14-chapter-xiv",
+        "title": "Chapter XIV",
+        "wordCount": 4583,
+        "sha256": "sha256:710f098fd9a7be88c8d1bbc95180562bda7b89a0dc641f26731c761e678d84da"
+      },
+      {
+        "sceneId": "dorian-15-chapter-xv",
+        "title": "Chapter XV",
+        "wordCount": 3160,
+        "sha256": "sha256:d4bfb598f2e8fce53550b428ee0355d786908d4ce984c0943190e86186c50e7d"
+      },
+      {
+        "sceneId": "dorian-16-chapter-xvi",
+        "title": "Chapter XVI",
+        "wordCount": 3142,
+        "sha256": "sha256:7d805e7867975186c3ea42f64d6340d1e5193337e511f352742d56a52e94fd40"
+      },
+      {
+        "sceneId": "dorian-17-chapter-xvii",
+        "title": "Chapter XVII",
+        "wordCount": 1805,
+        "sha256": "sha256:06c09fd0931ca10885f986d28aad36efabc9b87da2df2d61c4dff2ba5af7f523"
+      },
+      {
+        "sceneId": "dorian-18-chapter-xviii",
+        "title": "Chapter XVIII",
+        "wordCount": 3352,
+        "sha256": "sha256:425eaa57759e5d36784227bce1b063a4fccab0c13917cc3f97e7361216d113b1"
+      },
+      {
+        "sceneId": "dorian-19-chapter-xix",
+        "title": "Chapter XIX",
+        "wordCount": 3630,
+        "sha256": "sha256:821ef0def37293e3a878f6aaa63e33ce8bd06168b0498712636515fe9a89f8eb"
+      },
+      {
+        "sceneId": "dorian-20-chapter-xx",
+        "title": "Chapter XX",
+        "wordCount": 1936,
+        "sha256": "sha256:94555fb51088b47181eb97b35008ee004c4882099d0012526f63122dbd12abc3"
+      }
+    ]
+  },
+  "ledger": {
+    "operationCount": 2000,
+    "digest": "sha256:c5e30e3a5b5a0dbaf5a5fe05720ebc97baa80c4bc66aa35c7e5b8dbbce976166",
+    "counts": {
+      "tracked-replacement": 1200,
+      "root-comment": 300,
+      "comment-reply": 120,
+      "comment-state-delete": 100,
+      "formatting": 180,
+      "structural": 60,
+      "probe": 40
+    },
+    "expectedOutcomes": {
+      "EXACT": 1200,
+      "SAFE_APPLY": 400,
+      "MANUAL": 360,
+      "BLOCKED": 40
+    },
+    "fullLedgerStorage": "verified T7 artifact root only"
+  },
+  "phases": [
+    {
+      "phaseId": "clean-noop-1",
+      "title": "clean no-op repetition 1",
+      "expectedOperationCount": 0,
+      "sceneCount": 1,
+      "applyExpected": false
+    },
+    {
+      "phaseId": "clean-noop-2",
+      "title": "clean no-op repetition 2",
+      "expectedOperationCount": 0,
+      "sceneCount": 1,
+      "applyExpected": false
+    },
+    {
+      "phaseId": "clean-noop-3",
+      "title": "clean no-op repetition 3",
+      "expectedOperationCount": 0,
+      "sceneCount": 1,
+      "applyExpected": false
+    },
+    {
+      "phaseId": "two-chapter-200-op-smoke",
+      "title": "two-chapter 200-operation physical Word product smoke",
+      "expectedOperationCount": 200,
+      "sceneCount": 2,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "whole-book-light-pass",
+      "title": "whole-book light pass across all 21 scenes",
+      "expectedOperationCount": 21,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "five-round-editorial-lifecycle-1",
+      "title": "five-round editorial lifecycle round 1",
+      "expectedOperationCount": 42,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "five-round-editorial-lifecycle-2",
+      "title": "five-round editorial lifecycle round 2",
+      "expectedOperationCount": 42,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "five-round-editorial-lifecycle-3",
+      "title": "five-round editorial lifecycle round 3",
+      "expectedOperationCount": 42,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "five-round-editorial-lifecycle-4",
+      "title": "five-round editorial lifecycle round 4",
+      "expectedOperationCount": 42,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "five-round-editorial-lifecycle-5",
+      "title": "five-round editorial lifecycle round 5",
+      "expectedOperationCount": 42,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "heavy-2000-operation-ledger",
+      "title": "heavy 2,000-operation ledger authority pass",
+      "expectedOperationCount": 2000,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "replay-recovery-concurrency-forks",
+      "title": "replay recovery concurrency forks",
+      "expectedOperationCount": 40,
+      "sceneCount": 4,
+      "applyExpected": false
+    },
+    {
+      "phaseId": "final-repetition-1",
+      "title": "complete final repetition 1",
+      "expectedOperationCount": 84,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "final-repetition-2",
+      "title": "complete final repetition 2",
+      "expectedOperationCount": 84,
+      "sceneCount": 21,
+      "applyExpected": true
+    },
+    {
+      "phaseId": "final-repetition-3",
+      "title": "complete final repetition 3",
+      "expectedOperationCount": 84,
+      "sceneCount": 21,
+      "applyExpected": true
+    }
+  ],
+  "storagePolicy": {
+    "gitStoresLargeCorpus": false,
+    "gitStoresLargeReturnedDocx": false,
+    "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-safety-remediation-v1/current/c5-fullbook-certification",
+    "productNetworkRequired": false,
+    "googleProductWorkBlocked": true
+  }
+}

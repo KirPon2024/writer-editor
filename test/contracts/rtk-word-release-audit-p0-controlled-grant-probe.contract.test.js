@@ -55,9 +55,9 @@ test('program binds the latest permission probe without replacing smoke-wave rec
     'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json',
   );
   assert.equal(program.releaseAuditNight01.latestEnvironmentPermissionProbeStatus, 'MACOS_WORD_SANDBOX_GRANT_REQUIRED_NOT_PACKAGE_INVALID');
-  assert.equal(program.releaseAuditNight01.macosWordSandboxGrantRequired, true);
+  assert.equal(program.releaseAuditNight01.macosWordSandboxGrantRequired, smokeReceipt.result !== 'PASS');
   assert.equal(program.releaseAuditNight01.packageInvalidProven, false);
-  assert.equal(program.releaseAuditNight01.productOriginatedPhysicalLoopSmokeProven, false);
+  assert.equal(program.releaseAuditNight01.productOriginatedPhysicalLoopSmokeProven, smokeReceipt.result === 'PASS');
   assert.equal(program.releaseAuditNight01.automaticApplyCertified, false);
   assert.equal(program.releaseAuditNight01.wordSaturated, false);
   assert.equal(smokeReceipt.environmentPermissionBoundary.packageInvalidProven, false);

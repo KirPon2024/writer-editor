@@ -615,7 +615,22 @@ function actionLinesForCase(caseSpec, sceneText) {
 function buildWordScript(caseSpec, expectedName, returnedPath, sceneText) {
   const actionLines = actionLinesForCase(caseSpec, sceneText).split('\n').map((line) => `  ${line}`).join('\n');
   const sentinel = `Yalken product smoke ${caseSpec.id}`;
+  const returnedPathLiteral = appleLiteral(returnedPath);
   return [
+    'on yOpenExpectedDoc(yPosixPath, yExpectedFullName, yExpectedName)',
+    '  do shell script "/usr/bin/open -a " & quoted form of "Microsoft Word" & " " & quoted form of yPosixPath',
+    '  set yDeadline to (current date) + 25',
+    '  tell application "Microsoft Word"',
+    '    activate',
+    '    repeat while (current date) is less than yDeadline',
+    '      try',
+    '        if (name of active document as text) is yExpectedName and (full name of active document as text) is yExpectedFullName then return true',
+    '      end try',
+    '      delay 0.25',
+    '    end repeat',
+    '  end tell',
+    '  return false',
+    'end yOpenExpectedDoc',
     'tell application "Microsoft Word"',
     'activate',
     'set yDocWasOpened to false',
@@ -627,8 +642,9 @@ function buildWordScript(caseSpec, expectedName, returnedPath, sceneText) {
     '  set display alerts to alerts none',
     `  set user name to ${appleLiteral(SYNTHETIC_AUTHOR)}`,
     `  set user initials to ${appleLiteral(SYNTHETIC_INITIALS)}`,
-    `  set yFile to POSIX file ${appleLiteral(returnedPath)} as alias`,
-    '  open file name (yFile as text)',
+    `  set yFile to POSIX file ${returnedPathLiteral} as alias`,
+    '  set yExpectedFullName to yFile as text',
+    `  if my yOpenExpectedDoc(${returnedPathLiteral}, yExpectedFullName, ${appleLiteral(expectedName)}) is not true then error "P0_PRODUCT_SMOKE_LAUNCHSERVICES_OPEN_TIMEOUT" number 9700`,
     '  set yDoc to active document',
     '  set yDocWasOpened to true',
     '  set yInitialText to content of text object of yDoc',
@@ -637,11 +653,10 @@ function buildWordScript(caseSpec, expectedName, returnedPath, sceneText) {
     '  set remove date and time of yDoc to false',
     '  set show revisions of yDoc to true',
     actionLines || '  set yNoOp to true',
-    `  save as yDoc file name ${appleLiteral(returnedPath)} file format format document`,
+    '  save yDoc',
     '  close yDoc saving yes',
     '  set yDocWasOpened to false',
-    `  set yFile to POSIX file ${appleLiteral(returnedPath)} as alias`,
-    '  open file name (yFile as text)',
+    `  if my yOpenExpectedDoc(${returnedPathLiteral}, yExpectedFullName, ${appleLiteral(expectedName)}) is not true then error "P0_PRODUCT_SMOKE_LAUNCHSERVICES_REOPEN_TIMEOUT" number 9703`,
     '  set yDoc to active document',
     '  set yDocWasOpened to true',
     '  set yReadback to content of text object of yDoc',
@@ -837,6 +852,7 @@ function buildObservedVetoMetrics(cases) {
     noOpPass: cases.filter((item) => item.noOpPass === true).length,
     productExportFailure: cases.filter((item) => item.productPath?.productCommandHandlerOriginated !== true).length,
     physicalWordFailure: cases.filter((item) => item.openEditSaveCloseReopen !== 'PASS').length,
+    physicalWordBlockedByEnvironmentPermission: 0,
     parserUnexpectedFailure: cases.filter((item) => item.result !== 'PASS' && item.caseId !== 'P0S-012').length,
     userDocumentTouch: 0,
     networkRequest: 0,
@@ -878,11 +894,18 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
   }
   const totals = summarizeCases(cases);
   const vetoMetrics = buildObservedVetoMetrics(cases);
+  const ok = totals.cases === 12
+    && totals.pass === 12
+    && totals.productCommandHandlerOriginated === 12
+    && totals.physicalOpenEditSaveCloseReopenPass === 12
+    && Object.values(vetoMetrics).every((value) => Number(value) === 0);
+  const status = ok ? COMPLETE_STATUS : BLOCKED_STATUS;
+  const nextStage = ok ? COMPLETE_NEXT_STAGE : BLOCKED_NEXT_STAGE;
   const receiptDraft = {
     schemaVersion: RECEIPT_SCHEMA,
     taskId: TASK_ID,
     contourId: CONTOUR_ID,
-    status: STATUS,
+    status,
     createdAtUtc: new Date().toISOString(),
     headBinding: {
       headSha: git('HEAD'),
@@ -910,6 +933,8 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
       liveElectronUiClicked: false,
       wordContainerWorkRootUsed: wordSandboxWorkRoot.insideWordContainer === true,
       t7ArtifactWorkRootFallback: wordSandboxWorkRoot.t7ArtifactFallback === true,
+      launchServicesOpenUsed: true,
+      wordSaveMode: 'SAVE_EXISTING_DOCUMENT_NO_SAVE_AS',
       wordNativeOpenEditSaveCloseReopen: true,
       packageReadbackRequired: true,
       semanticReadbackRequired: true,
@@ -931,7 +956,7 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
       visibleExactPreviewWired: true,
       explicitUserConfirmedCommandApplyWired: true,
       commentShadowAuthenticatedSessionKeysWired: true,
-      productOriginatedPhysicalLoopSmokeProven: true,
+      productOriginatedPhysicalLoopSmokeProven: ok,
       liveElectronUiPhysicalClickProven: false,
       automaticApplyCertified: false,
       userAutomaticApplyCertified: false,
@@ -939,21 +964,23 @@ async function runPhysical({ artifactRoot, wordWorkRoot, runId, writeReceipt }) 
       wordSaturated: false,
       googleDocsOpened: false,
     },
+    environmentPermissionBoundary: {
+      status: ok ? 'NOT_OBSERVED_LAUNCHSERVICES_OPEN_SAVE_PATH' : 'PHYSICAL_WORD_FAILURE_REVIEW_CASES',
+      packageInvalidProven: false,
+      exporterOrOoxmlChangedForPrompt: false,
+      launchServicesOpenUsed: true,
+      wordSaveMode: 'SAVE_EXISTING_DOCUMENT_NO_SAVE_AS',
+    },
     observedNonClaims: [
-      'Smoke-12 uses the product Review DOCX export command handler and physical Word open edit save close reopen; it does not claim a live Electron menu click.',
+      'Smoke-12 uses the product Review DOCX export command handler and physical Word open edit save close reopen through LaunchServices open plus ordinary Word Save; it does not claim a live Electron menu click.',
       'Word container Data writes hung during preflight in this host state, so the bounded smoke used the T7 artifact work root and does not claim the container-root grant-prompt repair.',
       'Smoke-12 is not a broad release wave and does not claim Word SATURATED.',
       'Automatic apply remains false; supported apply still requires explicit user confirmation.',
       'Tampered authority is a typed blocked smoke case, not a parser failure regression.',
       'Google Docs remains closed.',
     ],
-    nextStage: NEXT_STAGE,
+    nextStage,
   };
-  const ok = totals.cases === 12
-    && totals.pass === 12
-    && totals.productCommandHandlerOriginated === 12
-    && totals.physicalOpenEditSaveCloseReopenPass === 12
-    && Object.values(vetoMetrics).every((value) => Number(value) === 0);
   const receipt = {
     ...receiptDraft,
     result: ok ? 'PASS' : 'FAIL',
@@ -1196,12 +1223,29 @@ function upsertBinding(ledger, id, filePath) {
   ledger.evidenceBindings = existing;
 }
 
-function updateProgram(program) {
+function receiptIsPhysicalPass(receipt) {
+  const totals = receipt?.totals || {};
+  const veto = receipt?.vetoMetrics || {};
+  return receipt?.status === COMPLETE_STATUS
+    && receipt?.result === 'PASS'
+    && Number(totals.cases || 0) === 12
+    && Number(totals.pass || 0) === 12
+    && Number(totals.productCommandHandlerOriginated || 0) === 12
+    && Number(totals.physicalOpenEditSaveCloseReopenPass || 0) === 12
+    && Object.values(veto).every((value) => Number(value) === 0);
+}
+
+function currentReceipt() {
+  return fs.existsSync(RECEIPT_PATH) ? readJson(RECEIPT_PATH) : null;
+}
+
+function updateProgram(program, receipt = currentReceipt()) {
+  const physicalPass = receiptIsPhysicalPass(receipt);
   program.releaseAuditNight01 = {
     ...(isPlainObject(program.releaseAuditNight01) ? program.releaseAuditNight01 : {}),
-    status: BLOCKED_STATUS,
+    status: physicalPass ? COMPLETE_STATUS : BLOCKED_STATUS,
     currentStage: CONTOUR_ID,
-    nextStage: BLOCKED_NEXT_STAGE,
+    nextStage: physicalPass ? COMPLETE_NEXT_STAGE : BLOCKED_NEXT_STAGE,
     latestReceiptPath: RECEIPT_REF,
     productReviewDocxExporterWired: true,
     productReviewDocxExporterDistinctFromDocxMinimal: true,
@@ -1212,12 +1256,14 @@ function updateProgram(program) {
     explicitUserConfirmedCommandApplyWired: true,
     atomicWriterAndReplayWired: true,
     commentShadowAuthenticatedSessionKeysWired: true,
-    productOriginatedPhysicalLoopSmokeProven: false,
-    macosWordSandboxGrantRequired: true,
+    productOriginatedPhysicalLoopSmokeProven: physicalPass,
+    macosWordSandboxGrantRequired: !physicalPass,
     packageInvalidProven: false,
     liveElectronUiPhysicalClickProven: false,
-    wordContainerWorkRootUsed: false,
-    t7ArtifactWorkRootFallback: false,
+    launchServicesOpenUsed: physicalPass,
+    wordSaveMode: physicalPass ? 'SAVE_EXISTING_DOCUMENT_NO_SAVE_AS' : '',
+    wordContainerWorkRootUsed: receipt?.physicalCorpus?.wordContainerWorkRootUsed === true,
+    t7ArtifactWorkRootFallback: receipt?.physicalCorpus?.t7ArtifactWorkRootFallback === true,
     automaticApplyCertified: false,
     releaseReady: false,
     wordSaturated: false,
@@ -1227,24 +1273,29 @@ function updateProgram(program) {
     .filter((item) => !String(item || '').includes('P0 product-originated smoke-12 proves physical Word mutation'));
   program.nonClaims = Array.from(new Set([
     ...filteredNonClaims,
-    'P0 product-originated smoke-12 is blocked by macOS Word sandbox grant automation in this host state; this is an ENVIRONMENT_PERMISSION boundary, not Product Review DOCX/package/carrier invalidity evidence.',
+    physicalPass
+      ? 'P0 product-originated smoke-12 proves only bounded physical Word open-edit-save-close-reopen through LaunchServices open plus ordinary Save; it does not claim live Electron click, broad release wave, automatic apply, Word saturation, or Google Docs.'
+      : 'P0 product-originated smoke-12 is blocked by macOS Word sandbox grant automation in this host state; this is an ENVIRONMENT_PERMISSION boundary, not Product Review DOCX/package/carrier invalidity evidence.',
   ]));
 }
 
-function updateProfile(profile) {
+function updateProfile(profile, receipt = currentReceipt()) {
+  const physicalPass = receiptIsPhysicalPass(receipt);
   const cell = {
     capabilityId: 'rtk.word.releaseAudit.p0.productOriginatedSmokeWave12',
     operationFamily: 'Product-originated Review DOCX to physical Word return smoke wave',
-    state: 'BLOCKED_ENVIRONMENT_PERMISSION_NOT_RELEASE_CERTIFIED',
-    currentCapability: 'PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_RETRY_WITH_PREGRANTED_TEST_FOLDER',
-    physicalWordEvidence: false,
+    state: physicalPass ? 'PHYSICAL_WORD_SMOKE_WAVE_12_COMPLETE_NOT_RELEASE_CERTIFIED' : 'BLOCKED_ENVIRONMENT_PERMISSION_NOT_RELEASE_CERTIFIED',
+    currentCapability: physicalPass ? 'PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_COMPLETE' : 'PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_RETRY_WITH_PREGRANTED_TEST_FOLDER',
+    physicalWordEvidence: physicalPass,
     componentProven: true,
     productCompositionRegistered: true,
     productRuntimeWired: true,
     productCommandHandlerOriginatedPhysicalDocs: true,
-    macosWordSandboxGrantRequired: true,
+    macosWordSandboxGrantRequired: !physicalPass,
     packageInvalidProven: false,
     liveElectronUiPhysicalClickProven: false,
+    launchServicesOpenUsed: physicalPass,
+    wordSaveMode: physicalPass ? 'SAVE_EXISTING_DOCUMENT_NO_SAVE_AS' : '',
     returnIntakeWired: true,
     parsedWordIrConsumerWired: true,
     commentShadowAuthenticatedSessionKeysWired: true,
@@ -1252,20 +1303,24 @@ function updateProfile(profile) {
     userAutomaticApplyCertified: false,
     releaseReady: false,
     wordSaturated: false,
-    consumer: 'Product Review DOCX export command handler plus pre-Word return parser; physical Word save-close-reopen is blocked by macOS grant until a pregranted synthetic folder is available',
+    consumer: physicalPass
+      ? 'Product Review DOCX export command handler plus physical Word LaunchServices open, ordinary Save, close, reopen, package readback and Review Transport parser'
+      : 'Product Review DOCX export command handler plus pre-Word return parser; physical Word save-close-reopen is blocked by macOS grant until a pregranted synthetic folder is available',
     acceptanceTest: 'test/contracts/rtk-word-release-audit-p0-product-originated-smoke-wave12.contract.test.js',
     evidenceReceiptPath: RECEIPT_REF,
     supportedNow: [
       'twelve synthetic product Review DOCX packets are emitted by the product export command handler',
       'pre-Word packages are preserved on T7 and semantically read back through Review Transport parser',
-      'macOS Word sandbox grant prompt is typed as ENVIRONMENT_PERMISSION rather than PACKAGE_INVALID',
+      physicalPass
+        ? 'physical Word open edit save close reopen is proven through LaunchServices open and ordinary Save'
+        : 'macOS Word sandbox grant prompt is typed as ENVIRONMENT_PERMISSION rather than PACKAGE_INVALID',
     ],
     limitations: [
-      'physical Word open-save-reopen is blocked until a controlled grant route or pregranted synthetic test folder is available',
       'live Electron menu click evidence is not claimed by this smoke runner',
       'smoke-12 is not the 64 varied or 300 repeat release wave',
       'automatic apply remains false and requires explicit user confirmation',
       'Word SATURATED remains false',
+      ...(physicalPass ? [] : ['physical Word open-save-reopen is blocked until a controlled grant route or pregranted synthetic test folder is available']),
     ],
     killCriterion: 'Any smoke case is fixture-only, no-op comment action is counted as PASS, product output is not command-handler-originated, or any observed veto becomes nonzero.',
   };
@@ -1276,21 +1331,25 @@ function updateProfile(profile) {
   profile.cells = cells;
 }
 
-function updateLedger(ledger) {
+function updateLedger(ledger, receipt = currentReceipt()) {
+  const physicalPass = receiptIsPhysicalPass(receipt);
   upsertBinding(ledger, 'RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_SMOKE_WAVE12', RECEIPT_PATH);
   ledger.coverageLedger = {
     ...(isPlainObject(ledger.coverageLedger) ? ledger.coverageLedger : {}),
     releaseAuditNight01P0ProductOriginatedSmokeWave12: {
-      status: 'BOUND_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_BLOCKED_ENVIRONMENT_PERMISSION',
+      status: physicalPass ? 'BOUND_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_PHYSICAL_COMPLETE' : 'BOUND_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_BLOCKED_ENVIRONMENT_PERMISSION',
       sourceEvidence: 'RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_SMOKE_WAVE12',
-      result: BLOCKED_STATUS,
-      physicalWordEvidence: false,
+      result: physicalPass ? COMPLETE_STATUS : BLOCKED_STATUS,
+      physicalWordEvidence: physicalPass,
       productCommandHandlerOriginatedPhysicalDocs: true,
-      macosWordSandboxGrantRequired: true,
+      macosWordSandboxGrantRequired: !physicalPass,
       packageInvalidProven: false,
+      launchServicesOpenUsed: physicalPass,
+      wordSaveMode: physicalPass ? 'SAVE_EXISTING_DOCUMENT_NO_SAVE_AS' : '',
       liveElectronUiPhysicalClickProven: false,
       observedCases: 12,
-      blockedCases: 12,
+      blockedCases: physicalPass ? 0 : 12,
+      passCases: physicalPass ? 12 : 0,
       automaticApplyCertified: false,
       releaseReady: false,
       wordSaturated: false,
@@ -1308,14 +1367,15 @@ function updateLedger(ledger) {
 }
 
 function updateState() {
+  const receipt = currentReceipt();
   const program = readJson(PROGRAM_PATH);
-  updateProgram(program);
+  updateProgram(program, receipt);
   writeJson(PROGRAM_PATH, program);
   const profile = readJson(PROFILE_PATH);
-  updateProfile(profile);
+  updateProfile(profile, receipt);
   writeJson(PROFILE_PATH, profile);
   const ledger = readJson(LEDGER_PATH);
-  updateLedger(ledger);
+  updateLedger(ledger, receipt);
   writeJson(LEDGER_PATH, ledger);
 }
 
@@ -1326,49 +1386,65 @@ export function evaluateWordReleaseAuditP0ProductOriginatedSmokeWave12(input = {
   const ledger = input.ledger || readJson(LEDGER_PATH);
   const issues = [];
   const add = (code, field, message) => issues.push(issue(code, field, message));
-  if (!receipt || receipt.schemaVersion !== RECEIPT_SCHEMA || receipt.status !== BLOCKED_STATUS || receipt.result !== 'BLOCKED') {
-    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_RECEIPT_INVALID', 'receipt', 'Product-originated smoke receipt must bind the canonical typed environment-permission blocker.');
+  const physicalPass = receiptIsPhysicalPass(receipt);
+  const environmentBlocked = receipt?.status === BLOCKED_STATUS && receipt?.result === 'BLOCKED';
+  if (!receipt || receipt.schemaVersion !== RECEIPT_SCHEMA || (!physicalPass && !environmentBlocked)) {
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_RECEIPT_INVALID', 'receipt', 'Product-originated smoke receipt must bind either physical smoke completion or the canonical typed environment-permission blocker.');
   }
   const cases = list(receipt?.physicalCorpus?.cases);
   const totals = receipt?.totals || {};
   const veto = receipt?.vetoMetrics || {};
-  if (cases.length !== 12 || Number(totals.cases || 0) !== 12 || Number(totals.blocked || 0) !== 12 || Number(totals.pass || 0) !== 0) {
-    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_CASE_COUNT_INVALID', 'physicalCorpus.cases', 'Smoke wave blocker must bind exactly 12 blocked cases and zero physical PASS claims.');
+  if (cases.length !== 12 || Number(totals.cases || 0) !== 12) {
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_CASE_COUNT_INVALID', 'physicalCorpus.cases', 'Smoke wave must bind exactly 12 cases.');
+  }
+  if (physicalPass && Number(totals.pass || 0) !== 12) {
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_PASS_COUNT_INVALID', 'totals.pass', 'Physical smoke completion requires exactly 12 PASS cases.');
+  }
+  if (environmentBlocked && (Number(totals.blocked || 0) !== 12 || Number(totals.pass || 0) !== 0)) {
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_BLOCKED_COUNT_INVALID', 'totals.blocked', 'Environment blocker must bind exactly 12 blocked cases and zero physical PASS claims.');
   }
   if (Number(totals.productCommandHandlerOriginated || 0) !== 12 || receipt?.physicalCorpus?.productCommandHandlerOriginated !== true) {
     add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_NOT_PRODUCT_ORIGINATED', 'totals.productCommandHandlerOriginated', 'Every smoke DOCX must originate from the product Review DOCX export command handler.');
   }
-  if (Number(totals.physicalOpenEditSaveCloseReopenPass || 0) !== 0
+  if (physicalPass && (Number(totals.physicalOpenEditSaveCloseReopenPass || 0) !== 12 || !cases.every((item) => item.openEditSaveCloseReopen === 'PASS' && item.wordStatus === 'PASS'))) {
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_WORD_PASS_INVALID', 'cases.openEditSaveCloseReopen', 'Physical smoke completion requires every case to pass Word open-edit-save-close-reopen.');
+  }
+  if (environmentBlocked && (Number(totals.physicalOpenEditSaveCloseReopenPass || 0) !== 0
     || Number(totals.physicalOpenEditSaveCloseReopenBlocked || 0) !== 12
-    || !cases.every((item) => item.openEditSaveCloseReopen === 'BLOCKED' && item.blockedReasonCode === 'MACOS_WORD_SANDBOX_GRANT_REQUIRED')) {
-    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_WORD_FAILURE', 'cases.openEditSaveCloseReopen', 'Every case must be typed blocked by macOS Word sandbox grant instead of claiming physical Word success.');
+    || !cases.every((item) => item.openEditSaveCloseReopen === 'BLOCKED' && item.blockedReasonCode === 'MACOS_WORD_SANDBOX_GRANT_REQUIRED'))) {
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_WORD_BLOCKER_INVALID', 'cases.openEditSaveCloseReopen', 'Every blocked case must be typed blocked by macOS Word sandbox grant instead of claiming physical Word success.');
   }
   if (!cases.every((item) => item.packageZipOk === true && typeof item.returnedDocxSha256 === 'string' && item.returnedDocxSha256.startsWith('sha256:'))) {
     add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_PACKAGE_READBACK_INVALID', 'cases.packageZipOk', 'Every pre-Word DOCX must be preserved and pass package readback.');
   }
-  if (receipt?.environmentPermissionBoundary?.status !== 'MACOS_WORD_SANDBOX_GRANT_REQUIRED'
-    || receipt?.environmentPermissionBoundary?.packageInvalidProven !== false
-    || receipt?.environmentPermissionBoundary?.exporterOrOoxmlChangedForPrompt !== false
-    || receipt?.environmentPermissionBoundary?.controlledPositiveGrantAutomated !== false) {
+  if (receipt?.environmentPermissionBoundary?.packageInvalidProven !== false
+    || receipt?.environmentPermissionBoundary?.exporterOrOoxmlChangedForPrompt !== false) {
     add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_PERMISSION_BOUNDARY_INVALID', 'environmentPermissionBoundary', 'Receipt must separate environment permission from package invalidity and avoid exporter/OOXML changes based on the prompt.');
   }
+  if (environmentBlocked && (receipt?.environmentPermissionBoundary?.status !== 'MACOS_WORD_SANDBOX_GRANT_REQUIRED'
+    || receipt?.environmentPermissionBoundary?.packageInvalidProven !== false
+    || receipt?.environmentPermissionBoundary?.exporterOrOoxmlChangedForPrompt !== false
+    || receipt?.environmentPermissionBoundary?.controlledPositiveGrantAutomated !== false)) {
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_PERMISSION_BOUNDARY_INVALID', 'environmentPermissionBoundary', 'Receipt must separate environment permission from package invalidity and avoid exporter/OOXML changes based on the prompt.');
+  }
+  const allowedEnvironmentBlocked = environmentBlocked ? 12 : 0;
   const nonEnvironmentVetoValues = Object.entries(veto)
     .filter(([key]) => key !== 'physicalWordBlockedByEnvironmentPermission')
     .map(([, value]) => value);
-  if (nonEnvironmentVetoValues.some((value) => Number(value) !== 0) || Number(veto.physicalWordBlockedByEnvironmentPermission || 0) !== 12) {
+  if (nonEnvironmentVetoValues.some((value) => Number(value) !== 0) || Number(veto.physicalWordBlockedByEnvironmentPermission || 0) !== allowedEnvironmentBlocked) {
     add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_VETO_NONZERO', 'vetoMetrics', 'Observed veto metrics must be zero.');
   }
   if (receipt?.implementedCapability?.automaticApplyCertified !== false
     || receipt?.implementedCapability?.wordSaturated !== false
     || receipt?.implementedCapability?.releaseReady !== false
     || receipt?.implementedCapability?.googleDocsOpened !== false
-    || receipt?.implementedCapability?.productOriginatedPhysicalLoopSmokeProven !== false) {
-    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_OVERCLAIM', 'implementedCapability', 'Smoke wave must not claim automatic apply, release, saturation, or Google Docs.');
+    || receipt?.implementedCapability?.productOriginatedPhysicalLoopSmokeProven !== physicalPass) {
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_OVERCLAIM', 'implementedCapability', 'Smoke wave must not claim automatic apply, release, saturation, or Google Docs, and physical-loop claim must match observed Word evidence.');
   }
   if (program.releaseAuditNight01?.currentStage !== CONTOUR_ID
-    || program.releaseAuditNight01?.nextStage !== BLOCKED_NEXT_STAGE
-    || program.releaseAuditNight01?.productOriginatedPhysicalLoopSmokeProven !== false
-    || program.releaseAuditNight01?.macosWordSandboxGrantRequired !== true
+    || program.releaseAuditNight01?.nextStage !== (physicalPass ? COMPLETE_NEXT_STAGE : BLOCKED_NEXT_STAGE)
+    || program.releaseAuditNight01?.productOriginatedPhysicalLoopSmokeProven !== physicalPass
+    || program.releaseAuditNight01?.macosWordSandboxGrantRequired !== !physicalPass
     || program.releaseAuditNight01?.packageInvalidProven !== false
     || program.releaseAuditNight01?.automaticApplyCertified !== false
     || program.releaseAuditNight01?.wordSaturated !== false
@@ -1376,11 +1452,11 @@ export function evaluateWordReleaseAuditP0ProductOriginatedSmokeWave12(input = {
     add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must bind smoke wave truth without saturation or Google Docs.');
   }
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.releaseAudit.p0.productOriginatedSmokeWave12');
-  if (!cell || cell.physicalWordEvidence !== false || cell.productCommandHandlerOriginatedPhysicalDocs !== true || cell.macosWordSandboxGrantRequired !== true || cell.packageInvalidProven !== false || cell.automaticApplyCertified !== false || cell.wordSaturated !== false) {
+  if (!cell || cell.physicalWordEvidence !== physicalPass || cell.productCommandHandlerOriginatedPhysicalDocs !== true || cell.macosWordSandboxGrantRequired !== !physicalPass || cell.packageInvalidProven !== false || cell.automaticApplyCertified !== false || cell.wordSaturated !== false) {
     add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_PROFILE_INVALID', 'profile.cells', 'Capability profile must bind typed environment permission blocker and non-claims.');
   }
   const coverage = ledger.coverageLedger?.releaseAuditNight01P0ProductOriginatedSmokeWave12;
-  if (!coverage || coverage.observedCases !== 12 || coverage.blockedCases !== 12 || coverage.macosWordSandboxGrantRequired !== true || coverage.packageInvalidProven !== false || coverage.automaticApplyCertified !== false || coverage.wordSaturated !== false || ledger.runtimeClaims?.googleDocsOpened !== false) {
+  if (!coverage || coverage.observedCases !== 12 || coverage.blockedCases !== (physicalPass ? 0 : 12) || coverage.macosWordSandboxGrantRequired !== !physicalPass || coverage.packageInvalidProven !== false || coverage.automaticApplyCertified !== false || coverage.wordSaturated !== false || ledger.runtimeClaims?.googleDocsOpened !== false) {
     add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_LEDGER_INVALID', 'ledger.coverageLedger', 'Ledger must bind smoke coverage without Google or saturation.');
   }
   return {
@@ -1391,7 +1467,7 @@ export function evaluateWordReleaseAuditP0ProductOriginatedSmokeWave12(input = {
     observedCases: cases.length,
     physicalOpenEditSaveCloseReopenPass: Number(totals.physicalOpenEditSaveCloseReopenPass || 0),
     productCommandHandlerOriginated: Number(totals.productCommandHandlerOriginated || 0),
-    macosWordSandboxGrantRequired: receipt?.environmentPermissionBoundary?.status === 'MACOS_WORD_SANDBOX_GRANT_REQUIRED',
+    macosWordSandboxGrantRequired: environmentBlocked,
     packageInvalidProven: receipt?.environmentPermissionBoundary?.packageInvalidProven === true,
     automaticApplyCertified: receipt?.implementedCapability?.automaticApplyCertified === true,
     wordSaturated: receipt?.implementedCapability?.wordSaturated === true,

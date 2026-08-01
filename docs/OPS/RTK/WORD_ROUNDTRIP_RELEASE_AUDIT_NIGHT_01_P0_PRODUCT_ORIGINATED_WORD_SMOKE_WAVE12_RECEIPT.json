@@ -2,11 +2,11 @@
   "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-product-originated-word-smoke-wave12-receipt.v1",
   "taskId": "YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
   "contourId": "P0-PRODUCT-ORIGINATED-WORD-SMOKE-WAVE-12",
-  "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_BLOCKED_ENVIRONMENT_PERMISSION_NOT_SATURATED",
-  "createdAtUtc": "2026-08-01T02:15:36.442Z",
+  "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_COMPLETE_NOT_SATURATED",
+  "createdAtUtc": "2026-08-01T02:58:01.449Z",
   "headBinding": {
-    "headSha": "f73c9d44e28bca2f90c790327064f29dd32cafda",
-    "originMainSha": "92c6ac1fadd3477be5b5dbfe6f340a3eee9676af",
+    "headSha": "a46d12cd8b87adc6b34a5abaa182644780b8c75d",
+    "originMainSha": "a46d12cd8b87adc6b34a5abaa182644780b8c75d",
     "mergedRemoteShaRequired": true
   },
   "wordProfile": {
@@ -28,13 +28,26 @@
     "fileVault": "Yes",
     "writable": true
   },
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/_word-work",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": false,
+    "t7ArtifactFallback": true,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false,
+    "canonicalRealpathSkippedForSmokeHangAvoidance": true,
+    "fallbackReason": "WORD_CONTAINER_DATA_WRITE_HUNG_DURING_PREFLIGHT_USE_T7_ARTIFACT_ROOT_FOR_BOUNDED_SMOKE"
+  },
   "artifactRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12",
-  "runDir": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536",
+  "runDir": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735",
+  "wordSandboxRunDir": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/_word-work/p0-product-smoke12-20260801T025735",
   "sourceEvidence": {
     "main": {
       "id": "MAIN_PRODUCT_COMMAND_SURFACE_BINDING",
       "path": "src/main.js",
-      "sha256": "328b08938bebaa8a8c4d90b53159cb563a5bc44311dba1d77bc3532372e5875a",
+      "sha256": "e07c8e971c1da8abc75e301b7e524436af82e5f24dc61492b2f6ad9aba60e52f",
       "status": "BOUND"
     },
     "exportHandler": {
@@ -62,33 +75,6 @@
       "status": "BOUND"
     }
   },
-  "environmentPermissionBoundary": {
-    "status": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-    "packageInvalidProven": false,
-    "exporterOrOoxmlChangedForPrompt": false,
-    "controlledPositiveGrantAutomated": false,
-    "positiveGrantAutomationRoutesTried": [
-      "AXPress Choose exact synthetic file",
-      "keyboard navigation Choose exact synthetic file",
-      "AX-coordinate click on enabled Choose button",
-      "bounded synthetic folder selection attempt"
-    ],
-    "positiveGrantAutomationOutcome": "HOST_DIALOG_DID_NOT_OPEN_PICKER_OR_DID_NOT_BIND_SELECTED_ITEM",
-    "requiredResumeCondition": "Run again with a user-pregranted synthetic test folder or a working controlled grant route; do not infer package invalidity from this prompt.",
-    "rawProductReviewDocxBeforeGrant": {
-      "status": "RECORDED",
-      "sha256": "sha256:e1581a96d69be169e336fb3a43d73466673a594b40a190e782b9b2dea18a94c7",
-      "packageZipOk": true
-    },
-    "sameUnchangedShaAfterExplicitGrant": {
-      "status": "NOT_PROVEN_GRANT_AUTOMATION_UNAVAILABLE",
-      "sha256": "sha256:e1581a96d69be169e336fb3a43d73466673a594b40a190e782b9b2dea18a94c7"
-    },
-    "wordOwnedSaveAsCopy": {
-      "status": "DEFERRED_UNTIL_POSITIVE_GRANT_OR_PREGRANTED_FOLDER",
-      "packageInvalidProven": false
-    }
-  },
   "physicalCorpus": {
     "targetCases": 12,
     "observedCases": 12,
@@ -96,9 +82,10 @@
     "productCommandHandlerOriginated": true,
     "liveElectronUiClicked": false,
     "wordContainerWorkRootUsed": false,
-    "t7ArtifactWorkRootFallback": false,
-    "wordNativeOpenEditSaveCloseReopen": false,
-    "blockedBeforeWordOpenByEnvironmentPermission": true,
+    "t7ArtifactWorkRootFallback": true,
+    "launchServicesOpenUsed": true,
+    "wordSaveMode": "SAVE_EXISTING_DOCUMENT_NO_SAVE_AS",
+    "wordNativeOpenEditSaveCloseReopen": true,
     "packageReadbackRequired": true,
     "semanticReadbackRequired": true,
     "returnedDocxPreserved": true,
@@ -112,10 +99,7 @@
         "title": "no edit conservation through product Review DOCX",
         "action": "no-edit",
         "expectedLane": "noEditConservation",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -145,14 +129,12 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
         "wordRevisionCount": 0,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordReadbackDigest": "sha256:bd7eba01cd9e677fc0e219abfb118810a0d4ba4b3a7897c03e7ebc9aab285169",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
@@ -180,13 +162,13 @@
           "RTK_MANUAL_CLEAN_RETURN"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:e1581a96d69be169e336fb3a43d73466673a594b40a190e782b9b2dea18a94c7",
         "returnedDocxSha256": "sha256:e1581a96d69be169e336fb3a43d73466673a594b40a190e782b9b2dea18a94c7",
         "returnedBytes": 7848,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-001-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-001-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-001-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-001-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-001-returned.docx"
         }
       },
       {
@@ -195,10 +177,7 @@
         "title": "tracked insertion inside authenticated scene",
         "action": "tracked-insert",
         "expectedLane": "textRevisions",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -228,48 +207,51 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
-        "wordRevisionCount": 0,
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
+        "wordRevisionCount": 1,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordReadbackDigest": "sha256:71f7c98d60b0f00081dc65f42dea46a470785c798874014927d6d86739ebf1d7",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
         "validSignedLocator": true,
-        "sourceMode": "CLEAN",
+        "sourceMode": "MIXED",
         "reviewIrSummary": {
-          "textRevisions": 0,
+          "textRevisions": 1,
           "moveRevisions": 0,
           "propertyRevisions": 0,
           "structureChanges": 1,
           "commentThreads": 0,
           "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "opaqueUnsupported": 8
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:c9b5d999104af5ac426ba6d66a62460dfda4112ec9a13046d3465d02bc479d3c",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:cbd7819316c8cc5a185b2bb3cd9c0a12b6e6216abff71f18b863c2aef44aaa74",
+        "parserProfileDigest": "sha256:b8a36e23c2651609b44ff55c109b874663895895e6c7903be010945412804123",
+        "classificationDigest": "sha256:c9e2fc193eb77724ecc73cba766dc6eedfbf2a5441465683ccd7c2203548f9e8",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
           "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_MANUAL_MIXED_RETURN"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:31315591d6d76535306da5357e337696d82933d42fb6fc8ee4c4f1fef4a91207",
-        "returnedDocxSha256": "sha256:31315591d6d76535306da5357e337696d82933d42fb6fc8ee4c4f1fef4a91207",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:b3f72b57019c2ebc903ca4d61cd5f09bb842e2991c67a90b0dcf7ab956cb0166",
+        "returnedBytes": 15544,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-002-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-002-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-002-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-002-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-002-returned.docx"
         }
       },
       {
@@ -278,10 +260,7 @@
         "title": "tracked replacement inside authenticated scene",
         "action": "tracked-replace",
         "expectedLane": "textRevisions",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -311,48 +290,51 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
-        "wordRevisionCount": 0,
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
+        "wordRevisionCount": 2,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordReadbackDigest": "sha256:bad2f5384c3366b20f33a7e3f0a792fb049a7256ec2b26f9b050c7681d736f5d",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
         "validSignedLocator": true,
-        "sourceMode": "CLEAN",
+        "sourceMode": "MIXED",
         "reviewIrSummary": {
-          "textRevisions": 0,
+          "textRevisions": 2,
           "moveRevisions": 0,
           "propertyRevisions": 0,
           "structureChanges": 1,
           "commentThreads": 0,
           "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "opaqueUnsupported": 8
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:07f777808e97586bef10a5d84c685cf86b858374cb66f3dd558b95f90a8b18c0",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:ff95553a9b9329496bbf4d671fdb5b47e295b3229c25defafbe475de24f391d6",
+        "parserProfileDigest": "sha256:b8a36e23c2651609b44ff55c109b874663895895e6c7903be010945412804123",
+        "classificationDigest": "sha256:e7329216b85ff50aba9eac96d69914c963d97541295ee105c67dbf6f5907dec9",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
           "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_MANUAL_MIXED_RETURN"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:a8e1592d30f2da26beaa088b9d441fe51020ed10523eaa25b7f016dd67b4aa5d",
-        "returnedDocxSha256": "sha256:a8e1592d30f2da26beaa088b9d441fe51020ed10523eaa25b7f016dd67b4aa5d",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:65d19d1f9b75fa4f2cdd017b062e80b7a85cd6dd7f684ab1339bda9f9d36c494",
+        "returnedBytes": 15594,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-003-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-003-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-003-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-003-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-003-returned.docx"
         }
       },
       {
@@ -361,10 +343,7 @@
         "title": "tracked deletion inside authenticated scene",
         "action": "tracked-delete",
         "expectedLane": "textRevisions",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -394,48 +373,51 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
-        "wordRevisionCount": 0,
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
+        "wordRevisionCount": 1,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordReadbackDigest": "sha256:9802057d7ed59fc932aca03cab33a8f3827b1ebd6b0fa01ab44918db9417fcfb",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
         "validSignedLocator": true,
-        "sourceMode": "CLEAN",
+        "sourceMode": "MIXED",
         "reviewIrSummary": {
-          "textRevisions": 0,
+          "textRevisions": 1,
           "moveRevisions": 0,
           "propertyRevisions": 0,
           "structureChanges": 1,
           "commentThreads": 0,
           "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "opaqueUnsupported": 8
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:d083fbf3a70e596ecba8456c5b1a8176085dff5c54524c381c6e2974448255af",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:c591b2772cc1b7c98075380092bf164e96763f46854287dafd0e5dcc4aefa42e",
+        "parserProfileDigest": "sha256:b8a36e23c2651609b44ff55c109b874663895895e6c7903be010945412804123",
+        "classificationDigest": "sha256:e20113b20e89ba9c1446b0c0bf52a3ac93f86d2aa1ded080ae829c0649f608d9",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
           "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_MANUAL_MIXED_RETURN"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:cd8d6025f2e937109005fb9bfa69c68286d5017d73f66ba5472a769a44fc09d8",
-        "returnedDocxSha256": "sha256:cd8d6025f2e937109005fb9bfa69c68286d5017d73f66ba5472a769a44fc09d8",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:e91fc117bc87920dc849043d83d0664de1ed652d47b251f89c26cd8035476bca",
+        "returnedBytes": 15565,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-004-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-004-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-004-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-004-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-004-returned.docx"
         }
       },
       {
@@ -444,10 +426,7 @@
         "title": "clean insertion is preview/manual not tracked authority",
         "action": "clean-insert",
         "expectedLane": "cleanTextDrift",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -477,14 +456,12 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
         "wordRevisionCount": 0,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordReadbackDigest": "sha256:cf47fe8a697feb9cd58fb2489375bbe22e9e68020535a1a29674ad0f2cc41ad5",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
@@ -497,14 +474,19 @@
           "structureChanges": 1,
           "commentThreads": 0,
           "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "opaqueUnsupported": 8
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:36a6e5bbb99bab6b51e94cb966ae838bc95e06a2d4a4fbbe443a98ea9250c5ea",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:c8cbb4a2f8217dd31658e283e44e1e4141d4d9f1da5fe52d423b43a1e664b861",
+        "parserProfileDigest": "sha256:905efcbdedc29e4e31cb7e38831b2c540dbed0d08a6108a03f50be5d5a61bd17",
+        "classificationDigest": "sha256:0722ea074d00eea71a45e30eeb186e27c5391a0033fa6dad3140e0f229d75924",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
@@ -512,13 +494,13 @@
           "RTK_MANUAL_CLEAN_RETURN"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:366c929d78be7c9c512adae7d9f1ebbd268ba5eb48bc9e3f57430897842947e3",
-        "returnedDocxSha256": "sha256:366c929d78be7c9c512adae7d9f1ebbd268ba5eb48bc9e3f57430897842947e3",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:f3eaaf08d62eb065715c2f9c1bff86b552698af61f8ffc8c7d15685ef4add1bc",
+        "returnedBytes": 14674,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-005-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-005-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-005-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-005-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-005-returned.docx"
         }
       },
       {
@@ -527,10 +509,7 @@
         "title": "mixed tracked and clean edits stay mixed",
         "action": "mixed-edit",
         "expectedLane": "mixedTextDrift",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -560,48 +539,51 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
-        "wordRevisionCount": 0,
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
+        "wordRevisionCount": 2,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordReadbackDigest": "sha256:076703631cd32aaf1ec2f57da810d2cee60ece0dc85cc795b86b5519d2f975f9",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
         "validSignedLocator": true,
-        "sourceMode": "CLEAN",
+        "sourceMode": "MIXED",
         "reviewIrSummary": {
-          "textRevisions": 0,
+          "textRevisions": 2,
           "moveRevisions": 0,
           "propertyRevisions": 0,
           "structureChanges": 1,
           "commentThreads": 0,
           "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "opaqueUnsupported": 8
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:88d90afb4f52f44f0662e30b9ca9777c7cd84c4bafa98ba4d5da82882682d20d",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:c6e718c18db28563eeca32f39d8e36ce437ead1795bd65ec1ecc2e511371ce5d",
+        "parserProfileDigest": "sha256:b8a36e23c2651609b44ff55c109b874663895895e6c7903be010945412804123",
+        "classificationDigest": "sha256:a5ef39dcabfe6e8efcf287db1dee2b44107a57b515b62641e8330dee22fabe91",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
           "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_MANUAL_MIXED_RETURN"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:83e5b402a114185232bd205e45980ae23c34a95fc2a67ff18f5785812da28698",
-        "returnedDocxSha256": "sha256:83e5b402a114185232bd205e45980ae23c34a95fc2a67ff18f5785812da28698",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:e22ab60aa6f069a6e5c0a044af9d5d6aaef46fec50bcf3957c3a1bf3d38d377b",
+        "returnedBytes": 15609,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-006-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-006-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-006-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-006-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-006-returned.docx"
         }
       },
       {
@@ -610,10 +592,7 @@
         "title": "root comment survives authenticated product return",
         "action": "root-comment",
         "expectedLane": "comments",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -643,14 +622,12 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
         "wordRevisionCount": 0,
-        "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordCommentCount": 1,
+        "wordReadbackDigest": "sha256:8b431ebcbc73bf897696e0f3c5e7500c07da6b0a0fe233096cf87560091f693d",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
@@ -661,30 +638,36 @@
           "moveRevisions": 0,
           "propertyRevisions": 0,
           "structureChanges": 1,
-          "commentThreads": 0,
-          "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "commentThreads": 1,
+          "formattingDeltas": 1,
+          "opaqueUnsupported": 9
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:d4d52221b6cd79f2a6a5f3a3d3086d285c4631417a48a76fbf10809ca99ca8f9",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:9c17704479668fb9207935263b7363dea6d710bf8467c18da155d150680c4356",
+        "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+        "classificationDigest": "sha256:3d5e840616bbf15d74a896b48dd57ef122c6ef4fe9d8f7660dd5b75e319e4394",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
-          "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_ANCHORED",
+          "RTK_BLOCKED_STRUCTURAL"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:71cdc4fac9f09e83bca127a6f1eedf6d4d90782b26d9548a7497a078f84a6907",
-        "returnedDocxSha256": "sha256:71cdc4fac9f09e83bca127a6f1eedf6d4d90782b26d9548a7497a078f84a6907",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:b7cb1e956cfe4cd4349bf07569ce2c440057872d01b3ca5f3c9fcf382dcbe77d",
+        "returnedBytes": 19026,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-007-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-007-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-007-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-007-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-007-returned.docx"
         }
       },
       {
@@ -693,10 +676,7 @@
         "title": "comment beside tracked replacement keeps lanes independent",
         "action": "comment-plus-replace",
         "expectedLane": "commentsAndRevisions",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -726,48 +706,52 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
-        "wordRevisionCount": 0,
-        "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
+        "wordRevisionCount": 2,
+        "wordCommentCount": 1,
+        "wordReadbackDigest": "sha256:a9b5c4351bea7b54e481eb84bbac0670a41358b4a47927bb1989b278fa496905",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
         "validSignedLocator": true,
-        "sourceMode": "CLEAN",
+        "sourceMode": "MIXED",
         "reviewIrSummary": {
-          "textRevisions": 0,
+          "textRevisions": 2,
           "moveRevisions": 0,
           "propertyRevisions": 0,
           "structureChanges": 1,
-          "commentThreads": 0,
-          "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "commentThreads": 1,
+          "formattingDeltas": 1,
+          "opaqueUnsupported": 9
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:00fffc1cee6f628cdd67734e0ddec7d071592fbf402c395cebdb97fb6be8d02d",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:611667157d4e99667060485976da84afcfcb9bd2a3d1b3860e54a68543646953",
+        "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+        "classificationDigest": "sha256:e2da3b0c9b7dd82de158311e8a564a434f63fd11e48b1e9bec54256961a409e3",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
-          "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_ANCHORED",
+          "RTK_BLOCKED_STRUCTURAL"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:4618baf256a127e4c5c87ca449d201ea2cb2901092d995c43f12a021a1ffe3d6",
-        "returnedDocxSha256": "sha256:4618baf256a127e4c5c87ca449d201ea2cb2901092d995c43f12a021a1ffe3d6",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:a5d53bf6b74f8d782c3c5d74a1dbc3cae24c90ff30f5007f2c88beb9e1410104",
+        "returnedBytes": 19207,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-008-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-008-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-008-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-008-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-008-returned.docx"
         }
       },
       {
@@ -776,10 +760,7 @@
         "title": "unicode tracked insertion survives Word save reopen",
         "action": "unicode-insert",
         "expectedLane": "unicodeTextRevisions",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -809,48 +790,51 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
-        "wordRevisionCount": 0,
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
+        "wordRevisionCount": 1,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordReadbackDigest": "sha256:fed0b403341ea80fec9a953ad9ca5b778dbce7d5e610d2bd99986b212b5b3726",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
         "validSignedLocator": true,
-        "sourceMode": "CLEAN",
+        "sourceMode": "MIXED",
         "reviewIrSummary": {
-          "textRevisions": 0,
+          "textRevisions": 1,
           "moveRevisions": 0,
           "propertyRevisions": 0,
           "structureChanges": 1,
           "commentThreads": 0,
-          "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "formattingDeltas": 5,
+          "opaqueUnsupported": 8
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:043ba036d442313c834a752df8c72395d786831ada35e78fe3af90f137bf73dd",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:e3be13870d7cbdf115af2435b87c2f28ee87aa787573d0ebc66f06db39067619",
+        "parserProfileDigest": "sha256:b8a36e23c2651609b44ff55c109b874663895895e6c7903be010945412804123",
+        "classificationDigest": "sha256:a13c0bd6ad5a322bc0e5b752935326932614e3f104a541db71637aba45038e86",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
           "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_MANUAL_MIXED_RETURN"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:aebf863a3586c0fce7f81bf971056798e5888f4d649dfb995a1e14147b001e4a",
-        "returnedDocxSha256": "sha256:aebf863a3586c0fce7f81bf971056798e5888f4d649dfb995a1e14147b001e4a",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:11d7d624d6f9f9fe359b2052e8a16a391d98c08358b11949f35e70c8d4ebc878",
+        "returnedBytes": 15876,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-009-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-009-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-009-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-009-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-009-returned.docx"
         }
       },
       {
@@ -859,10 +843,7 @@
         "title": "formatting change is diagnostic lane not destructive apply",
         "action": "formatting",
         "expectedLane": "formattingDiagnostics",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -892,14 +873,12 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
         "wordRevisionCount": 0,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
-        "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
-        ],
+        "wordReadbackDigest": "sha256:c952ae76a238ecc89721a1be171ee22899160ab1b8b134d7ad222c0fda2cb89d",
+        "wordLimitations": [],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
@@ -911,15 +890,20 @@
           "propertyRevisions": 0,
           "structureChanges": 1,
           "commentThreads": 0,
-          "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "formattingDeltas": 1,
+          "opaqueUnsupported": 8
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:be69595d1920e8ea588d7033f7a243fed929798f3bce851cbf7813fc5e79a4f4",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:7e986c6a00fd201067f7e1035c2e4cab5fd25ea5a83a17347a5662495249c050",
+        "parserProfileDigest": "sha256:905efcbdedc29e4e31cb7e38831b2c540dbed0d08a6108a03f50be5d5a61bd17",
+        "classificationDigest": "sha256:aef849c9b582aab35154b8ceda78ca0a9055254a5b62daac162b2543695ffea5",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
@@ -927,13 +911,13 @@
           "RTK_MANUAL_CLEAN_RETURN"
         ],
         "noOpPass": false,
-        "falseExact": false,
         "sourceDocxSha256": "sha256:0634ea3c6b4db511e61a9dc1c3d16432bf1334940b4ec47bf46308953f05cad5",
-        "returnedDocxSha256": "sha256:0634ea3c6b4db511e61a9dc1c3d16432bf1334940b4ec47bf46308953f05cad5",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:8dc099d4cb15bc6dcb685a012ed19d070021a0963ca72422e2c73d805dca88b8",
+        "returnedBytes": 14670,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-010-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-010-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-010-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-010-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-010-returned.docx"
         }
       },
       {
@@ -942,10 +926,7 @@
         "title": "duplicate anchor text remains non-authoritative when ambiguous",
         "action": "duplicate-replace",
         "expectedLane": "duplicateAmbiguity",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -975,48 +956,54 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
-        "wordRevisionCount": 0,
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
+        "wordRevisionCount": 2,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
+        "wordReadbackDigest": "sha256:d8b55b01b1d49ee27a861977225a9c9088f8aad14e1547d41d781582ca60819b",
         "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
+          "DUPLICATE_ANCHOR_REMAINS_MANUAL_UNTIL_UNIQUE_PRODUCT_LOCATOR_PROOF"
         ],
         "packageZipOk": true,
         "parserStatus": "PASS",
         "authorityCarrierStatus": "verified-baseline-bound",
         "validSignedLocator": true,
-        "sourceMode": "CLEAN",
+        "sourceMode": "MIXED",
         "reviewIrSummary": {
-          "textRevisions": 0,
+          "textRevisions": 2,
           "moveRevisions": 0,
           "propertyRevisions": 0,
           "structureChanges": 1,
           "commentThreads": 0,
           "formattingDeltas": 0,
-          "opaqueUnsupported": 3
+          "opaqueUnsupported": 8
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:c6c9500f21eaea9340a6994c14fb314a492b90e190120860fadc0d5c59abf0dc",
-        "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
-        "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
+        "analysisDigest": "sha256:d894b7deb11175eaa9d8f1a2b23c3ac83b973fbdfcb614f5995630461d61dd75",
+        "parserProfileDigest": "sha256:b8a36e23c2651609b44ff55c109b874663895895e6c7903be010945412804123",
+        "classificationDigest": "sha256:4aea441aed53e95e57f8261fda6e5a68c9aca060501ac1b57b57bf3572ba51c4",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
           "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
+          "RTK_COMMENT_UNSUPPORTED",
           "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_MANUAL_MIXED_RETURN"
         ],
         "noOpPass": false,
         "falseExact": false,
         "sourceDocxSha256": "sha256:7534363f7394413515955a0be3fca91f20d62010aca3015e84a5da016f6cf3eb",
-        "returnedDocxSha256": "sha256:7534363f7394413515955a0be3fca91f20d62010aca3015e84a5da016f6cf3eb",
-        "returnedBytes": 7873,
+        "returnedDocxSha256": "sha256:42fa6bed48af7e1408e35459dab2e3ba76f02796ddfcf6168acedd59292421a7",
+        "returnedBytes": 15604,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-011-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-011-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-011-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-011-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-011-returned.docx"
         }
       },
       {
@@ -1025,10 +1012,7 @@
         "title": "post-Word tampered authority is blocked",
         "action": "tampered-authority",
         "expectedLane": "tamperBlocked",
-        "result": "BLOCKED",
-        "blockedReasonCode": "MACOS_WORD_SANDBOX_GRANT_REQUIRED",
-        "blockedReasonFamily": "ENVIRONMENT_PERMISSION",
-        "packageInvalid": false,
+        "result": "PASS",
         "productPath": {
           "commandId": "cmd.project.review.exportDocxReviewPacket",
           "productCommandHandlerOriginated": true,
@@ -1058,18 +1042,18 @@
             "returnIntakeWired": true
           }
         },
-        "wordStatus": "BLOCKED_ENVIRONMENT_PERMISSION",
-        "openEditSaveCloseReopen": "BLOCKED",
+        "wordStatus": "PASS",
+        "openEditSaveCloseReopen": "PASS",
         "wordRevisionCount": 0,
         "wordCommentCount": 0,
-        "wordReadbackDigest": "",
+        "wordReadbackDigest": "sha256:bd7eba01cd9e677fc0e219abfb118810a0d4ba4b3a7897c03e7ebc9aab285169",
         "wordLimitations": [
-          "MACOS_WORD_SANDBOX_GRANT_REQUIRED"
+          "POST_WORD_AUTHORITY_PROPERTY_TAMPERED"
         ],
         "packageZipOk": true,
         "parserStatus": "PASS",
-        "authorityCarrierStatus": "verified-baseline-bound",
-        "validSignedLocator": true,
+        "authorityCarrierStatus": "present-not-authoritative",
+        "validSignedLocator": false,
         "sourceMode": "CLEAN",
         "reviewIrSummary": {
           "textRevisions": 0,
@@ -1081,43 +1065,50 @@
           "opaqueUnsupported": 3
         },
         "exactAutomaticCandidateCount": 0,
-        "analysisDigest": "sha256:c050676cb7cfa7cc570d6a901499173f0de1c1b86077ef2dbe2e5d2d4cbd41a2",
+        "analysisDigest": "sha256:3093edf80473a9f00ff9a6ed410eb5d15aab7524a8e9fe74cf42120d0c1009b1",
         "parserProfileDigest": "sha256:68db1bdc28187f13ff19d2ed9fb350639b41f83e11659de47151a5c0b487a27c",
         "classificationDigest": "sha256:e1c152bb1135d13bb190776ab30c2f3a479f115abb1d4487f8c1632ba35dcff1",
         "parserReasons": [
           "RTK_NO_WRITE_ANALYSIS_READY",
-          "RTK_COMMENT_UNSUPPORTED",
-          "RTK_COMMENT_UNSUPPORTED",
-          "RTK_COMMENT_UNSUPPORTED",
-          "RTK_BLOCKED_STRUCTURAL",
-          "RTK_MANUAL_CLEAN_RETURN"
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR",
+          "RTK_MANUAL_DEGRADED_LOCATOR"
         ],
         "noOpPass": false,
         "falseExact": false,
         "sourceDocxSha256": "sha256:ca2640dccb083e9403df6fc8a3573b422adcb2e127c63594f05eee5c476abbe1",
-        "returnedDocxSha256": "sha256:ca2640dccb083e9403df6fc8a3573b422adcb2e127c63594f05eee5c476abbe1",
-        "returnedBytes": 7848,
+        "returnedDocxSha256": "sha256:f2dcbae71a9b74001fc2179a7a9989b6d17ca8b7c4eeb4d756c4bdf20a1ef471",
+        "returnedBytes": 5486,
+        "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/applescripts/P0S-012-word.applescript",
         "paths": {
-          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/source-docx/P0S-012-product-export.docx",
-          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T021536/returned-docx/P0S-012-returned-before-word-grant.docx"
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/source-docx/P0S-012-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/p0-product-smoke12-20260801T025735/returned-docx/P0S-012-returned.docx"
         }
       }
     ]
   },
   "totals": {
     "cases": 12,
-    "pass": 0,
+    "pass": 12,
     "fail": 0,
-    "blocked": 12,
     "productCommandHandlerOriginated": 12,
-    "physicalOpenEditSaveCloseReopenPass": 0,
-    "physicalOpenEditSaveCloseReopenBlocked": 12,
+    "physicalOpenEditSaveCloseReopenPass": 12,
     "parserPass": 12,
     "typedBlocked": 0,
     "commentCases": 2,
-    "commentVisibleAndParsed": 0,
+    "commentVisibleAndParsed": 2,
     "exactAutomaticCandidateCount": 0,
-    "environmentPermissionBlocked": 12
+    "parserStatusHistogram": {
+      "PASS": 12
+    }
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -1128,7 +1119,7 @@
     "noOpPass": 0,
     "productExportFailure": 0,
     "physicalWordFailure": 0,
-    "physicalWordBlockedByEnvironmentPermission": 12,
+    "physicalWordBlockedByEnvironmentPermission": 0,
     "parserUnexpectedFailure": 0,
     "userDocumentTouch": 0,
     "networkRequest": 0,
@@ -1145,7 +1136,7 @@
     "visibleExactPreviewWired": true,
     "explicitUserConfirmedCommandApplyWired": true,
     "commentShadowAuthenticatedSessionKeysWired": true,
-    "productOriginatedPhysicalLoopSmokeProven": false,
+    "productOriginatedPhysicalLoopSmokeProven": true,
     "liveElectronUiPhysicalClickProven": false,
     "automaticApplyCertified": false,
     "userAutomaticApplyCertified": false,
@@ -1153,13 +1144,22 @@
     "wordSaturated": false,
     "googleDocsOpened": false
   },
+  "environmentPermissionBoundary": {
+    "status": "NOT_OBSERVED_LAUNCHSERVICES_OPEN_SAVE_PATH",
+    "packageInvalidProven": false,
+    "exporterOrOoxmlChangedForPrompt": false,
+    "launchServicesOpenUsed": true,
+    "wordSaveMode": "SAVE_EXISTING_DOCUMENT_NO_SAVE_AS"
+  },
   "observedNonClaims": [
-    "macOS Word sandbox grant prompt is recorded as ENVIRONMENT_PERMISSION and is not evidence of Product Review DOCX, carrier, relationship, quarantine, or Word provenance defect.",
-    "The exporter and OOXML package are not changed on the basis of the grant prompt.",
-    "Smoke-12 did not prove physical Word open-save-reopen because controlled positive grant could not be automated in this host state.",
-    "Automatic apply remains false; Word SATURATED remains false; Google Docs remains closed."
+    "Smoke-12 uses the product Review DOCX export command handler and physical Word open edit save close reopen through LaunchServices open plus ordinary Word Save; it does not claim a live Electron menu click.",
+    "Word container Data writes hung during preflight in this host state, so the bounded smoke used the T7 artifact work root and does not claim the container-root grant-prompt repair.",
+    "Smoke-12 is not a broad release wave and does not claim Word SATURATED.",
+    "Automatic apply remains false; supported apply still requires explicit user confirmation.",
+    "Tampered authority is a typed blocked smoke case, not a parser failure regression.",
+    "Google Docs remains closed."
   ],
-  "nextStage": "P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_RETRY_WITH_PREGRANTED_TEST_FOLDER",
-  "result": "BLOCKED",
-  "receiptDigest": "sha256:de19919177e7b5c5f52346adc28e6f8ac21776e55f864c908d4f92f718927e84"
+  "nextStage": "P0_PRODUCT_ORIGINATED_WORD_VARIED_WAVE_64",
+  "result": "PASS",
+  "receiptDigest": "sha256:ae499fa9b46465773360a0a09025b40b985c24116010ef066f7e2415d040f3fc"
 }

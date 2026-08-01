@@ -2,15 +2,15 @@
   "schemaVersion": "yalken.atlas.v5.finalAudit.p0_05.manualMapPortability.receipt.v1",
   "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
   "contourId": "P0_05_MANUAL_MAP_PORTABILITY",
-  "generatedAtUtc": "2026-08-01T07:22:00Z",
-  "status": "PASS_P0_05_MANUAL_MAP_PORTABILITY_READY_FOR_DELIVERY",
+  "generatedAtUtc": "2026-08-01T09:14:00Z",
+  "status": "PASS_P0_05_MANUAL_MAP_PORTABILITY_READY_FOR_DELIVERY_AFTER_ORIGIN_MAIN_22E02F2A_DRIFT_MERGE",
   "pass": true,
   "programDoneClaim": false,
-  "baseSha": "804455eaa5e05e9a0a7448c700897fab406a3b8a",
-  "originMainSha": "804455eaa5e05e9a0a7448c700897fab406a3b8a",
+  "baseSha": "22e02f2a349b5338f390e90be760e4d27b0ab6e5",
+  "originMainSha": "22e02f2a349b5338f390e90be760e4d27b0ab6e5",
   "report": {
     "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-attachments-portals-templates-report.json",
-    "sha256": "d064f518287ca05ca86672fa576b0bdcfbb568f2103b8e8cdecedf2cc7cca24a"
+    "sha256": "b83aaf18fc8d7ad8a47aee3ebe3f311c60ed58ee18d88ab01f264ee7ac4712ee"
   },
   "changedBasenames": [
     "runtime.mjs",
@@ -21,8 +21,12 @@
     "editor.bundle.js",
     "productCommandRegistry.cjs",
     "COMMAND_CAPABILITY_BINDING.json",
+    "governance-state-valid-state.mjs",
+    "strategy-progress-valid-state.mjs",
+    "sector-m-scope-map.json",
     "yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
     "yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
+    "ops-global-delivery-standard.test.js",
     "r3-c03-manual-map-attachments-portals-templates-report.json",
     "r3-c03-manual-map-portability-journey.png",
     "r3-c03-manual-map-portability-reopen.png",
@@ -32,22 +36,26 @@
   "sourceBinding": {
     "src/core/runtime.mjs": "bf8e2c74f5ad0c24f2a1f105936e96e23f3dff8eccb4dd48ec2a986925da3b9f",
     "src/core/registry.ts": "d4d94a6ae3ca99953c85a18be0dc6c5ca8f9c4f18e8587b7265e028f3a70394f",
-    "src/main.js": "2e9026a7501fdb3bb34ca2465a679f23281c7f69ecf1c7225dfe0cffa2b0cd27",
+    "src/main.js": "6ec1dee7a19c07876f6d47d43b2b6a5ea3d5dea91d7d4af06efd47060f934b70",
     "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs": "4666609f8f4b6919a77d834a98b4c5853a208afc371da474813a9b755f05f093",
     "src/renderer/editor.js": "3f91aa11067da9da0c8053bff13c1619d48511e10bd0631b66868f6f8c9d0f5f",
     "src/renderer/editor.bundle.js": "c492302f049d2ce67196124393fbe2fd874fefa7a590915e0d87e2598b108cc7",
     "src/shared/productCommandRegistry.cjs": "dba1e1f45c629e3f43aa3323746411f9db79f93b149c5a4e1dddb4b90e860ec9",
     "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json": "2b291976df9d5cf42ee68a14f94a58cd3a9c61fe5f85e483a72117cf5ad384d0",
     "scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs": "a11e0487cbf27d0ef0b517aacc53cc0d13cdac9b11d58505b112314b70832085",
-    "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js": "5569601f63cb6fcb47c52394c58f6431771c6e2f7549f59d6b1880c21e0237f5"
+    "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js": "5569601f63cb6fcb47c52394c58f6431771c6e2f7549f59d6b1880c21e0237f5",
+    "scripts/ops/governance-state-valid-state.mjs": "81fa2710dd0e64069effd3e157664c1927b0796971f505132474b8b62c7b8d83",
+    "scripts/ops/sector-m-scope-map.json": "9ffc743b1e718b45a75062a9984af9c561c6917eb051c1e5683542e835284b75",
+    "scripts/ops/strategy-progress-valid-state.mjs": "229ae07cec20a447d37670ad0ddf4fb3ee987f6a253fb627900438cd500cdaa1",
+    "test/unit/ops-global-delivery-standard.test.js": "370f0b451121929f916d83911669f5ed107697438d80cbfe67fec26f6c68715b"
   },
   "evidenceBinding": {
-    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-attachments-portals-templates-report.json": "d064f518287ca05ca86672fa576b0bdcfbb568f2103b8e8cdecedf2cc7cca24a",
-    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-journey.png": "55a60eb5e4185e20540fab480fbe29d9a5d5dc4e3d587831ac5a5d7bc64b6f09",
-    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-reopen.png": "345236f7c430e2ca9f7388d189ae7642cef5f57471edd2faf50ee7bfc6908d2b",
-    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-journey.png": "df1c4c91289bc7cb0f982e721aaa7d036427d2dcc1a10706ebe927f1200d85ed",
-    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-reopen.png": "f9f1b4a7bf40a608cfd1a3d4d760e875151aa3b8e259e546f0485a9b88731c23",
-    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json": "03f7a89884f8d55283e4a32810816123656e0a86883ea7f346b0472bdfd6aaec"
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-attachments-portals-templates-report.json": "b83aaf18fc8d7ad8a47aee3ebe3f311c60ed58ee18d88ab01f264ee7ac4712ee",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-journey.png": "f8278905b19e6a1a6df7d7bb992bb539061cf5d77e2adbd34f4b7fb44d3b53dd",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-reopen.png": "8f8617ea630074826866ac35eb36c7f57d56a68545cb04ba4c3e7e38bb92e467",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-journey.png": "e6482742bbe2ae1c4a2b15367df974087a250bedde0e4e76b1939995e37d68ba",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-reopen.png": "84c24574245b6e66294adbf865b4dddb210f1f49110cc9a8f6b6d5dd3e3ffc1d",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json": "998b5332235e73e9a734c781b7fb8d52a8c03bd254e4ac57ccaaf67d05c18099"
   },
   "acceptance": {
     "productCommandRuntimeUiPathBound": true,
@@ -72,18 +80,22 @@
       "status": "PASS"
     },
     "focusedContract": {
-      "command": "node --test P0_05 focused contract pack",
+      "command": "node --test P0_05 focused contract pack plus ops PR-head mode repair pack",
       "status": "PASS",
       "tests": {
-        "total": 32,
-        "pass": 32,
+        "total": 52,
+        "pass": 52,
         "fail": 0
-      }
+      },
+      "includes": [
+        "P0_05 manual map portability contract pack 32 PASS",
+        "ops PR-head mode and sector-m scope repair pack 20 PASS"
+      ]
     },
     "physicalJourney": {
       "command": "node scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY",
       "status": "PASS",
-      "reportSha256": "d064f518287ca05ca86672fa576b0bdcfbb568f2103b8e8cdecedf2cc7cca24a",
+      "reportSha256": "b83aaf18fc8d7ad8a47aee3ebe3f311c60ed58ee18d88ab01f264ee7ac4712ee",
       "reportStatus": "PASS_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_UI_JOURNEY",
       "accepted": {
         "visibleInputRuntime": true,
@@ -119,7 +131,7 @@
     "testOps": {
       "command": "npm run -s test:ops",
       "status": "PASS",
-      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1"
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; HEAD_STRICT_OK=1; GOVERNANCE_STATE_VALID=1; STRATEGY_PROGRESS_VALID=1"
     },
     "designOsDoctrine": {
       "command": "npm run -s design-os:doctrine",
@@ -133,13 +145,28 @@
       "command": "node scripts/run-tests.js",
       "status": "PASS",
       "tests": {
-        "total": 798,
-        "pass": 734,
+        "total": 799,
+        "pass": 735,
         "fail": 0,
         "skipped": 64
       },
       "perfBaseline": "PASS",
-      "releaseCandidateVerify": "PASS"
+      "releaseCandidateVerify": "PASS",
+      "summary": "Post-drift full runner PASS after merging origin/main 22e02f2a and repairing PR-head ops mode: 799 total, 735 pass, 0 fail, 64 skipped."
+    },
+    "opsPrHeadModeRepair": {
+      "command": "node --test test/unit/ops-global-delivery-standard.test.js test/unit/sector-m-no-scope-leak.test.js test/unit/sector-m-runner-artifact.test.js",
+      "status": "PASS",
+      "tests": {
+        "total": 20,
+        "pass": 20,
+        "fail": 0
+      },
+      "assertions": {
+        "prHeadAncestryAcceptedOnlyInDevMode": true,
+        "releaseExactOriginMainStillRequired": true,
+        "sectorMScopeMapExplicit": true
+      }
     }
   },
   "residualLimitations": [
@@ -152,7 +179,7 @@
     "prRequired": true,
     "mergeRequired": true,
     "remoteHeadVerificationRequired": true,
-    "status": "PENDING_DELIVERY_CHAIN"
+    "status": "PENDING_DELIVERY_CHAIN_AFTER_FULL_RUNNER_PASS"
   },
   "nextContour": "P0_06_MULTILINGUAL_MATCHER"
 }

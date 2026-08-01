@@ -10,10 +10,15 @@ import {
 } from './reviewTransportApplyCore.mjs';
 import {
   findRtkExactApplyOutcome,
+  readRtkExactApplyReservation,
+  reserveRtkExactApplyMutation,
   writeRtkExactApplyOutcomeRecord,
   writeRtkExactApplyRecoveryResolution,
+  writeRtkExactApplyReservationState,
 } from './reviewTransportApplyStore.mjs';
 import { stableJson } from './reviewTransportCore.mjs';
+
+const exactApplyQueues = new Map();
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -29,6 +34,20 @@ function normalizeString(value) {
 
 function cloneJsonSafe(value) {
   return JSON.parse(JSON.stringify(value));
+}
+
+function queueKey(projectRoot) {
+  return normalizeString(projectRoot) || '__missing_project_root__';
+}
+
+function enqueueExactApply(projectRoot, task) {
+  const key = queueKey(projectRoot);
+  const previous = exactApplyQueues.get(key) || Promise.resolve();
+  const next = previous.catch(() => {}).then(task);
+  exactApplyQueues.set(key, next.finally(() => {
+    if (exactApplyQueues.get(key) === next) exactApplyQueues.delete(key);
+  }));
+  return next;
 }
 
 export function createNodeRtkCryptoPort() {
@@ -103,6 +122,30 @@ function replay(match, details = {}) {
   };
 }
 
+function reservationBlock(code, message, details = {}) {
+  return block({
+    code,
+    field: 'exactApplyReservation',
+    message,
+  }, details);
+}
+
+async function recoveryBlock(projectRoot, envelope, cryptoPort, reconciliation, details = {}) {
+  const recoveryResolution = buildRtkExactApplyRecoveryResolution(envelope, reconciliation, {
+    cryptoPort,
+  });
+  await writeRtkExactApplyRecoveryResolution(projectRoot, recoveryResolution);
+  return writerBlock({
+    status: 'ambiguous',
+    reason: 'RTK_RECOVERY_REQUIRED',
+    reconciliation,
+  }, {
+    envelope,
+    recoveryResolution,
+    ...details,
+  });
+}
+
 function operationIdFromEnvelope(envelope) {
   const hex = normalizeString(envelope?.requestKey).replace(/^sha256:/u, '');
   return `op_${hex.slice(0, 48)}`;
@@ -147,6 +190,13 @@ export async function applyReviewTransportExactApply(input = {}, options = {}) {
   const envelope = validated.envelope;
   const writerInput = isPlainObject(envelopeInput.writerInput) ? envelopeInput.writerInput : {};
   const projectRoot = normalizeString(writerInput.projectRoot || input.projectRoot);
+  if (!projectRoot) {
+    return block({
+      code: 'RTK_WRITE_PRECONDITION_FAILED',
+      field: 'writerInput.projectRoot',
+      message: 'Exact apply requires an explicit project root for durable replay and reservation.',
+    }, { envelope });
+  }
 
   if (!hasTextCandidates(envelope)) {
     return block({
@@ -156,7 +206,32 @@ export async function applyReviewTransportExactApply(input = {}, options = {}) {
     }, { envelope });
   }
 
-  const preflightReplay = await findRtkExactApplyOutcome(projectRoot, envelope);
+  return enqueueExactApply(projectRoot, async () => applyReviewTransportExactApplyReserved({
+    envelopeInput,
+    envelope,
+    writerInput,
+    projectRoot,
+    cryptoPort,
+    options,
+  }));
+}
+
+async function applyReviewTransportExactApplyReserved(context) {
+  const {
+    envelopeInput,
+    envelope,
+    writerInput,
+    projectRoot,
+    cryptoPort,
+    options,
+  } = context;
+
+  let preflightReplay;
+  try {
+    preflightReplay = await findRtkExactApplyOutcome(projectRoot, envelope);
+  } catch (error) {
+    return reservationBlock('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', error.message, { envelope, errorCode: error?.code });
+  }
   if (preflightReplay.requestMatch) {
     return replay(preflightReplay.requestMatch, { replayKind: 'request', envelope });
   }
@@ -170,7 +245,12 @@ export async function applyReviewTransportExactApply(input = {}, options = {}) {
   const revalidated = validateRtkExactApplyCommandEnvelope(envelopeInput, envelope, { cryptoPort });
   if (!revalidated.ok) return block(revalidated.reasons[0], { reasons: revalidated.reasons, envelope });
 
-  const postRecheckReplay = await findRtkExactApplyOutcome(projectRoot, envelope);
+  let postRecheckReplay;
+  try {
+    postRecheckReplay = await findRtkExactApplyOutcome(projectRoot, envelope);
+  } catch (error) {
+    return reservationBlock('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', error.message, { envelope, errorCode: error?.code });
+  }
   if (postRecheckReplay.requestMatch) {
     return replay(postRecheckReplay.requestMatch, { replayKind: 'request_post_recheck', envelope });
   }
@@ -178,21 +258,115 @@ export async function applyReviewTransportExactApply(input = {}, options = {}) {
     return replay(postRecheckReplay.sameRoundEffectMatch, { replayKind: 'same_round_effect_post_recheck', envelope });
   }
 
+  let existingReservation;
+  try {
+    existingReservation = await readRtkExactApplyReservation(projectRoot, envelope);
+  } catch (error) {
+    return reservationBlock('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', error.message, { envelope, errorCode: error?.code });
+  }
+  if (existingReservation) {
+    return reservationBlock(
+      'RTK_WRITE_RESERVATION_RECOVERY_REQUIRED',
+      'Existing exact apply reservation has no committed outcome; recovery must reconcile before writer can run again.',
+      { envelope, reservation: existingReservation },
+    );
+  }
+
+  let reservation;
+  try {
+    reservation = await reserveRtkExactApplyMutation(projectRoot, envelope, {
+      now: options.now,
+    });
+  } catch (error) {
+    return reservationBlock('RTK_WRITE_RESERVATION_RECOVERY_REQUIRED', error.message, { envelope, errorCode: error?.code });
+  }
+  if (!reservation.ok) {
+    return reservationBlock(
+      normalizeString(reservation.code) || 'RTK_WRITE_RESERVATION_RECOVERY_REQUIRED',
+      'Exact apply reservation was already acquired or conflicted before writer admission.',
+      { envelope, reservation },
+    );
+  }
+
+  if (typeof options.afterReservation === 'function') {
+    try {
+      await options.afterReservation({ envelope, reservation });
+    } catch (error) {
+      await writeRtkExactApplyReservationState(projectRoot, envelope, 'RECOVERY_REQUIRED', {
+        now: options.now,
+        detail: { killpoint: 'afterReservation', message: error.message },
+      });
+      return recoveryBlock(projectRoot, envelope, cryptoPort, {
+        outcome: 'reservation_acquired_writer_not_started',
+        killpoint: 'afterReservation',
+        ambiguous: true,
+        message: error.message,
+      }, { writerCalled: false, reservation });
+    }
+  }
+
   const exactWriter = typeof options.exactWriter === 'function'
     ? options.exactWriter
     : applyExactTextBatchMinSafeWrite;
+  await writeRtkExactApplyReservationState(projectRoot, envelope, 'WRITER_STARTED', {
+    now: options.now,
+  });
+  if (typeof options.beforeWriter === 'function') {
+    try {
+      await options.beforeWriter({ envelope, reservation });
+    } catch (error) {
+      await writeRtkExactApplyReservationState(projectRoot, envelope, 'RECOVERY_REQUIRED', {
+        now: options.now,
+        detail: { killpoint: 'beforeWriter', message: error.message },
+      });
+      return recoveryBlock(projectRoot, envelope, cryptoPort, {
+        outcome: 'writer_started_writer_not_called',
+        killpoint: 'beforeWriter',
+        ambiguous: true,
+        message: error.message,
+      }, { writerCalled: false, reservation });
+    }
+  }
   const writerResult = await exactWriter(writerInput, {
     ...(isPlainObject(options.exactWriterOptions) ? options.exactWriterOptions : {}),
     operationId: operationIdFromEnvelope(envelope),
   });
 
   if (writerResult?.status === 'applied' && writerResult?.applied === true) {
+    await writeRtkExactApplyReservationState(projectRoot, envelope, 'WRITER_APPLIED', {
+      now: options.now,
+      detail: { writerReceiptDigest: cryptoPort.sha256Json(writerResult.receipt || {}) },
+    });
+    if (typeof options.beforeOutcomeCommit === 'function') {
+      try {
+        await options.beforeOutcomeCommit({ envelope, reservation, writerResult });
+      } catch (error) {
+        await writeRtkExactApplyReservationState(projectRoot, envelope, 'RECOVERY_REQUIRED', {
+          now: options.now,
+          detail: { killpoint: 'beforeOutcomeCommit', message: error.message },
+        });
+        return recoveryBlock(projectRoot, envelope, cryptoPort, {
+          outcome: 'applied_receipt_missing',
+          killpoint: 'beforeOutcomeCommit',
+          ambiguous: true,
+          message: error.message,
+        }, { reservation, writerResult: cloneJsonSafe(writerResult) });
+      }
+    }
     const outcomeRecord = buildRtkExactApplyOutcomeRecord(envelope, writerResult, { cryptoPort });
     await writeRtkExactApplyOutcomeRecord(projectRoot, outcomeRecord);
+    await writeRtkExactApplyReservationState(projectRoot, envelope, 'OUTCOME_COMMITTED', {
+      now: options.now,
+      detail: { outcomeDigest: outcomeRecord.outcomeDigest },
+    });
     return applied(writerResult, outcomeRecord, { envelope });
   }
 
   if (writerResult?.status === 'ambiguous' || writerResult?.reconciliation) {
+    await writeRtkExactApplyReservationState(projectRoot, envelope, 'RECOVERY_REQUIRED', {
+      now: options.now,
+      detail: { writerStatus: normalizeString(writerResult?.status), writerReason: normalizeString(writerResult?.reason) },
+    });
     const recoveryResolution = buildRtkExactApplyRecoveryResolution(envelope, writerResult.reconciliation || writerResult, {
       cryptoPort,
     });
@@ -203,6 +377,9 @@ export async function applyReviewTransportExactApply(input = {}, options = {}) {
     });
   }
 
+  await writeRtkExactApplyReservationState(projectRoot, envelope, 'RECOVERY_REQUIRED', {
+    now: options.now,
+    detail: { writerStatus: normalizeString(writerResult?.status), writerReason: normalizeString(writerResult?.reason) },
+  });
   return writerBlock(writerResult, { envelope });
 }
-

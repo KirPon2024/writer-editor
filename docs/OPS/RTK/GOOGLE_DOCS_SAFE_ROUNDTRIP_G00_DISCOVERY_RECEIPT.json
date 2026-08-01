@@ -1,8 +1,8 @@
 {
   "schemaVersion": "yalken.rtk.google-docs.safe-roundtrip.g00-discovery-receipt.v1",
   "taskId": "YALKEN_GOOGLE_DOCS_G00_DISCOVERY_BINDING",
-  "status": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
-  "result": "PASS",
+  "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+  "result": "REPORT_ONLY_BLOCKED",
   "createdAtUtc": "2026-08-01T16:05:00.000Z",
   "headBinding": {
     "originMainSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
@@ -180,7 +180,7 @@
     "noWrongSceneRouting": true,
     "noReplayFailure": true
   },
-  "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
+  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
   "nonClaims": [
     "No Google Docs support is claimed.",
     "No Google Docs import is claimed.",
@@ -189,5 +189,13 @@
     "No Google Drive integration is introduced.",
     "No automatic apply is certified.",
     "No Google stage DONE is claimed."
-  ]
+  ],
+  "blockedBy": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+  "previousStatus": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
+  "wordSafetyRemediation": {
+    "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "wordAcceptanceRevoked": true,
+    "googleProductImplementationAllowed": false,
+    "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT"
+  }
 }

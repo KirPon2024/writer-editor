@@ -907,6 +907,7 @@ let atlasJourneyState = {
   lastResult: '',
   commandSeq: 0,
 };
+let atlasStableUiIdSeq = 0;
 let atlasJourneyDraft = {
   entityName: '',
   aliasValue: '',
@@ -13357,7 +13358,8 @@ function findAtlasJourneyMention(mentionId = '') {
 }
 
 function makeStableUiId(prefix) {
-  return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+  atlasStableUiIdSeq += 1;
+  return `${prefix}-${atlasStableUiIdSeq.toString(36).padStart(5, '0')}`;
 }
 
 function ensureAtlasJourneyDraftId(fieldName, prefix) {

@@ -11,6 +11,8 @@ async function loadModule(filePath) {
 async function buildReplayFixture() {
   const collab = await loadModule('src/collab/eventLog.mjs');
   const core = await loadModule('src/core/runtime.mjs');
+  const productDomainEvents = await loadModule('src/product/domainEventPort.mjs');
+  const domainEventPort = productDomainEvents.createCoreDomainEventProductPort();
   const initialState = core.createInitialCoreState();
   const initialStateHash = core.hashCoreState(initialState);
   let currentState = initialState;
@@ -60,6 +62,7 @@ async function buildReplayFixture() {
       eventLog,
       currentState,
       currentStateHash,
+      domainEventPort,
       opId: step.opId,
       ts: step.ts,
       actorId: step.actorId,
@@ -69,6 +72,7 @@ async function buildReplayFixture() {
     });
     assert.equal(applied.ok, true, JSON.stringify(applied.error || {}));
     receipts.push({
+      schemaVersion: collab.COMMAND_KERNEL_RECEIPT_SCHEMA_VERSION,
       receiptId: `kernel-receipt-${step.opId}`,
       operationId: step.opId,
       commandId: step.commandId,
@@ -77,7 +81,8 @@ async function buildReplayFixture() {
       preStateHash: currentStateHash,
       postStateHash: applied.stateHash,
       capabilityRevalidated: true,
-      payload: step.payload,
+      domainEventDigest: applied.domainEventDigest,
+      domainEventCount: applied.domainEvents.length,
     });
     eventLog = applied.eventLog;
     currentState = applied.state;
@@ -88,8 +93,18 @@ async function buildReplayFixture() {
     collab,
     eventLog,
     commandReceipts: receipts,
+    domainEventPort,
     initialStateHash,
     finalStateHash: currentStateHash,
+  };
+}
+
+function receiptAuthorityPort(collab, receipts) {
+  return {
+    authorityKind: collab.COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
+    getCommandKernelReceipt({ operationId }) {
+      return receipts.find((receipt) => receipt.operationId === operationId) || null;
+    },
   };
 }
 
@@ -98,13 +113,15 @@ test('E10 C03: operation replay report is deterministic over existing event log 
     collab,
     eventLog,
     commandReceipts,
+    domainEventPort,
     initialStateHash,
     finalStateHash,
   } = await buildReplayFixture();
 
   const buildReport = () => collab.buildOperationReplayReport({
     eventLog,
-    commandReceipts,
+    domainEventPort,
+    commandReceiptAuthorityPort: receiptAuthorityPort(collab, commandReceipts),
     initialStateHash,
     expectedFinalStateHash: finalStateHash,
     requireCommandKernelReceipt: true,
@@ -146,6 +163,7 @@ test('E10 C03: duplicate operation id and hash drift produce typed replay envelo
     collab,
     eventLog,
     commandReceipts,
+    domainEventPort,
     initialStateHash,
   } = await buildReplayFixture();
   const duplicateEntry = {
@@ -158,7 +176,8 @@ test('E10 C03: duplicate operation id and hash drift produce typed replay envelo
       schemaVersion: eventLog.schemaVersion,
       events: [...eventLog.events.slice(0, 2), duplicateEntry],
     },
-    commandReceipts,
+    domainEventPort,
+    commandReceiptAuthorityPort: receiptAuthorityPort(collab, commandReceipts),
     initialStateHash,
     requireCommandKernelReceipt: true,
   });
@@ -177,7 +196,8 @@ test('E10 C03: duplicate operation id and hash drift produce typed replay envelo
         preStateHash: 'sha256:not-the-initial-state',
       }],
     },
-    commandReceipts,
+    domainEventPort,
+    commandReceiptAuthorityPort: receiptAuthorityPort(collab, commandReceipts),
     initialStateHash,
     requireCommandKernelReceipt: true,
   });
@@ -194,12 +214,14 @@ test('E10 C03: Command Kernel replay binding requires receipt and capability rev
     collab,
     eventLog,
     commandReceipts,
+    domainEventPort,
     initialStateHash,
   } = await buildReplayFixture();
 
   const missingReceipt = collab.buildOperationReplayReport({
     eventLog,
-    commandReceipts: commandReceipts.slice(0, 2),
+    domainEventPort,
+    commandReceiptAuthorityPort: receiptAuthorityPort(collab, commandReceipts.slice(0, 2)),
     initialStateHash,
     requireCommandKernelReceipt: true,
   });
@@ -211,10 +233,11 @@ test('E10 C03: Command Kernel replay binding requires receipt and capability rev
 
   const staleCapability = collab.buildOperationReplayReport({
     eventLog,
-    commandReceipts: commandReceipts.map((receipt, index) => ({
+    domainEventPort,
+    commandReceiptAuthorityPort: receiptAuthorityPort(collab, commandReceipts.map((receipt, index) => ({
       ...receipt,
       capabilityRevalidated: index === 1 ? false : receipt.capabilityRevalidated,
-    })),
+    }))),
     initialStateHash,
     requireCommandKernelReceipt: true,
   });
@@ -222,6 +245,37 @@ test('E10 C03: Command Kernel replay binding requires receipt and capability rev
   assert.equal(
     staleCapability.rejected[0].code,
     'E_COLLAB_OPERATION_REPLAY_CAPABILITY_NOT_REVALIDATED',
+  );
+
+  const forgedRawReceiptArray = collab.buildOperationReplayReport({
+    eventLog,
+    domainEventPort,
+    commandReceipts,
+    initialStateHash,
+    requireCommandKernelReceipt: true,
+  });
+  assert.equal(forgedRawReceiptArray.ok, false);
+  assert.equal(
+    forgedRawReceiptArray.rejected[0].code,
+    'E_COLLAB_OPERATION_REPLAY_RECEIPT_AUTHORITY_REQUIRED',
+  );
+
+  const missingVersion = collab.buildOperationReplayReport({
+    eventLog,
+    domainEventPort,
+    commandReceiptAuthorityPort: receiptAuthorityPort(collab, commandReceipts.map((receipt, index) => {
+      if (index !== 0) return receipt;
+      const next = { ...receipt };
+      delete next.schemaVersion;
+      return next;
+    })),
+    initialStateHash,
+    requireCommandKernelReceipt: true,
+  });
+  assert.equal(missingVersion.ok, false);
+  assert.equal(
+    missingVersion.rejected[0].code,
+    'E_COLLAB_OPERATION_REPLAY_RECEIPT_SCHEMA_INVALID',
   );
 });
 

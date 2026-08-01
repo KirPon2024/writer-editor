@@ -10,6 +10,8 @@ async function loadModule(filePath) {
 test('collab event log replay is deterministic and matches command application hash', async () => {
   const collab = await loadModule('src/collab/eventLog.mjs');
   const core = await loadModule('src/core/runtime.mjs');
+  const productDomainEvents = await loadModule('src/product/domainEventPort.mjs');
+  const domainEventPort = productDomainEvents.createCoreDomainEventProductPort();
 
   const initialState = core.createInitialCoreState();
   const initialStateHash = core.hashCoreState(initialState);
@@ -47,6 +49,7 @@ test('collab event log replay is deterministic and matches command application h
       eventLog,
       currentState,
       currentStateHash,
+      domainEventPort,
       opId: step.opId,
       ts: step.ts,
       actorId: step.actorId,
@@ -61,8 +64,8 @@ test('collab event log replay is deterministic and matches command application h
     eventLog = applied.eventLog;
   }
 
-  const replayA = collab.replayEventLog({ eventLog, initialStateHash });
-  const replayB = collab.replayEventLog({ eventLog, initialStateHash });
+  const replayA = collab.replayEventLog({ eventLog, initialStateHash, domainEventPort });
+  const replayB = collab.replayEventLog({ eventLog, initialStateHash, domainEventPort });
 
   assert.equal(replayA.ok, true, JSON.stringify(replayA.error || {}));
   assert.equal(replayB.ok, true, JSON.stringify(replayB.error || {}));

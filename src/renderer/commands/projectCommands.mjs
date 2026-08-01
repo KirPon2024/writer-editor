@@ -1004,6 +1004,9 @@ async function runProductCommandBridge(electronAPI, commandId, input = {}) {
 export function registerProjectCommands(registry, options = {}) {
   const electronAPI = options.electronAPI || null;
   const uiActions = options.uiActions && typeof options.uiActions === 'object' ? options.uiActions : null;
+  const domainEventPort = options.domainEventPort && typeof options.domainEventPort === 'object'
+    ? options.domainEventPort
+    : null;
 
   for (const record of PRODUCT_COMMAND_RECORDS) {
     registerCatalogCommand(
@@ -2019,15 +2022,43 @@ export function registerProjectCommands(registry, options = {}) {
       if (bridged && (bridged.ok === 1 || bridged.ok === true)) {
         const events = Array.isArray(bridged.events) ? bridged.events : [];
         const domainEventDigest = typeof bridged.domainEventDigest === 'string' ? bridged.domainEventDigest.trim() : '';
-        if (bridged.reordered === true && (events.length === 0 || !domainEventDigest)) {
+        const reordered = bridged.reordered === true;
+        if (reordered && (events.length === 0 || !domainEventDigest)) {
           return fail(
             'E_COMMAND_FAILED',
             EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
             'TREE_REORDER_DOMAIN_EVENT_REQUIRED',
           );
         }
+        if (reordered) {
+          if (domainEventPort && typeof domainEventPort.hashCoreDomainEvents === 'function') {
+            let recomputedDigest = '';
+            try {
+              recomputedDigest = domainEventPort.hashCoreDomainEvents(events);
+            } catch {
+              return fail(
+                'E_COMMAND_FAILED',
+                EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
+                'TREE_REORDER_DOMAIN_EVENT_DIGEST_INVALID',
+              );
+            }
+            if (recomputedDigest !== domainEventDigest) {
+              return fail(
+                'E_COMMAND_FAILED',
+                EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
+                'TREE_REORDER_DOMAIN_EVENT_DIGEST_MISMATCH',
+              );
+            }
+          } else if (bridged.domainEventDigestVerified !== true) {
+            return fail(
+              'E_COMMAND_FAILED',
+              EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
+              'TREE_REORDER_DOMAIN_EVENT_DIGEST_VERIFICATION_REQUIRED',
+            );
+          }
+        }
         return ok({
-          reordered: true,
+          reordered,
           projectId,
           nodeId: typeof bridged.nodeId === 'string' && bridged.nodeId.trim()
             ? bridged.nodeId.trim()

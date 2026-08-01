@@ -2,6 +2,8 @@ import {
   buildLocalFixtureExchangeAdapterReport,
   buildLocalMultiSessionRecoveryReport,
   buildOperationReplayReport,
+  COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
+  COMMAND_KERNEL_RECEIPT_SCHEMA_VERSION,
   buildTransportNeutralExchangePacket,
   createEmptyEventLog,
   hashEventLog,
@@ -20,6 +22,7 @@ import {
   reduceCoreState,
 } from '../core/runtime.mjs';
 import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
+import { createCoreDomainEventProductPort } from './domainEventPort.mjs';
 
 export const STAGE10_PRODUCT_SESSION_SCHEMA = 'yalken.stage10.localProductSession.v1';
 export const STAGE10_PRODUCT_SURFACE_SCHEMA = 'yalken.stage10.localProductSurface.v1';
@@ -194,7 +197,12 @@ function capabilityEnabled(capabilitySnapshot, commandId) {
 
 function createReceipt({ session, commandId, opId, ts, status, activation, preStateHash, postStateHash, storageWritten, details }) {
   const detailEnvelope = isPlainObject(details) ? cloneJson(details) : {};
+  const domainEvents = Array.isArray(detailEnvelope.domainEvents) ? cloneJson(detailEnvelope.domainEvents) : [];
+  const domainEventDigest = normalizeString(detailEnvelope.domainEventDigest);
+  const receiptDetails = cloneJson(detailEnvelope);
+  delete receiptDetails.domainEvents;
   return deepFreeze({
+    schemaVersion: COMMAND_KERNEL_RECEIPT_SCHEMA_VERSION,
     receiptId: opId,
     operationId: opId,
     commandId,
@@ -210,10 +218,20 @@ function createReceipt({ session, commandId, opId, ts, status, activation, preSt
     visibleUiCommand: activation.visibleControl === true,
     directBridge: false,
     storageWritten: storageWritten === true,
-    domainEvents: Array.isArray(detailEnvelope.domainEvents) ? cloneJson(detailEnvelope.domainEvents) : [],
-    domainEventDigest: normalizeString(detailEnvelope.domainEventDigest),
-    details: detailEnvelope,
+    domainEventDigest,
+    domainEventCount: domainEvents.length,
+    details: receiptDetails,
   });
+}
+
+function createCommandKernelReceiptAuthorityPort(session) {
+  return {
+    authorityKind: COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
+    getCommandKernelReceipt({ operationId }) {
+      const receipt = session.commandReceipts.find((candidate) => candidate.operationId === operationId) || null;
+      return receipt ? cloneJson(receipt) : null;
+    },
+  };
 }
 
 function nextOpId(session, commandId) {
@@ -396,6 +414,7 @@ async function dispatchCoreCommand({ session, storagePort, commandId, payload, a
     eventLog: session.eventLog,
     currentState: session.coreState,
     currentStateHash: preStateHash,
+    domainEventPort: createCoreDomainEventProductPort(),
     commandId,
     payload,
     opId,
@@ -825,7 +844,8 @@ export function buildStage10ProductReadModels(sessionInput, capabilitySnapshot =
   const replay = buildOperationReplayReport({
     projectId: session.projectId,
     eventLog: session.eventLog,
-    commandReceipts: session.commandReceipts,
+    domainEventPort: createCoreDomainEventProductPort(),
+    commandReceiptAuthorityPort: createCommandKernelReceiptAuthorityPort(session),
     initialStateHash: session.eventLog.events[0]?.preStateHash || hashCoreState(createInitialCoreState()),
     requireCommandKernelReceipt: true,
     requireCapabilityRevalidation: true,

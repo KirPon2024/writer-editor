@@ -222,6 +222,11 @@
       "ru": "Экспортировать Review Packet...",
       "en": "Export Review Packet..."
     },
+    "menu.review.exportDocxReviewPacket": {
+      "base": "Export Review DOCX Packet...",
+      "ru": "Экспортировать Review DOCX Packet...",
+      "en": "Export Review DOCX Packet..."
+    },
     "menu.review.openDocxReviewPreviewSession": {
       "base": "Open DOCX Review (Comments; tracked text candidates are manual-only)...",
       "ru": "Открыть DOCX Review (комментарии; кандидаты правок только вручную)...",

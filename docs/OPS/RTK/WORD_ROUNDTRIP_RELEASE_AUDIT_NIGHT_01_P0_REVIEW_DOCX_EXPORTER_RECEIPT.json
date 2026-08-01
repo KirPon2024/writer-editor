@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-review-docx-exporter-receipt.v1",
+  "taskId": "YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+  "contourId": "P0-REVIEW-DOCX-EXPORTER",
+  "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_REVIEW_DOCX_EXPORTER_WIRED_NOT_SATURATED",
+  "result": "PASS",
+  "headBinding": {
+    "baseHeadSha": "a87baa693981e1143eec58e77a17a8aafa736ab2",
+    "originMainSha": "a87baa693981e1143eec58e77a17a8aafa736ab2",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "main": {
+      "id": "MAIN_PRODUCT_COMPOSITION_ROOT",
+      "path": "src/main.js",
+      "sha256": "2e0c9871d9c1ffd311cfcd558cfec1384013994f6d530c43b8f54953d7a42262",
+      "status": "BOUND"
+    },
+    "builder": {
+      "id": "PRODUCT_REVIEW_DOCX_PACKET_BUILDER",
+      "path": "src/export/docx/docxReviewPacketBuilder.js",
+      "sha256": "f34f4030d8419e14417060754495bd5de7d3a84967a0b7c12f4f36ec93acbc65",
+      "status": "BOUND"
+    },
+    "handler": {
+      "id": "PRODUCT_REVIEW_DOCX_PACKET_EXPORT_HANDLER",
+      "path": "src/export/docx/docxReviewPacketExportHandler.js",
+      "sha256": "e33016a86e993e820dd228447050f89e22f52f7dfa37e94fb53d85f3fcc6f42b",
+      "status": "BOUND"
+    },
+    "projectCommands": {
+      "id": "RENDERER_COMMAND_REGISTRY_BRIDGE_ONLY",
+      "path": "src/renderer/commands/projectCommands.mjs",
+      "sha256": "a49ab91829374705ce87ec4f5136789a90b58c3a8acc834814bb0ac9c25b23c6",
+      "status": "BOUND"
+    },
+    "capabilityPolicy": {
+      "id": "RUNTIME_CAPABILITY_POLICY_NODE_ONLY",
+      "path": "src/renderer/commands/capabilityPolicy.mjs",
+      "sha256": "fc563c6423424a5dba1a12eb31289ff9b99b66850dae51a627411a8dd1d01c3e",
+      "status": "BOUND"
+    },
+    "menuConfig": {
+      "id": "REVIEW_MENU_COMMAND_SURFACE",
+      "path": "src/menu/menu-config.v2.json",
+      "sha256": "f58829c038822f01bb0b91bdd29604270125dd548b777d2d6054df74bf1072c4",
+      "status": "BOUND"
+    },
+    "contract": {
+      "id": "P0_PRODUCT_REVIEW_DOCX_EXPORTER_CONTRACT",
+      "path": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
+      "sha256": "e81443d874dd375eea4ca72c58ea7a9925ea6a33d6964f06772112d5da3004ea",
+      "status": "BOUND"
+    }
+  },
+  "sourceProof": {
+    "markers": {
+      "mainCommandRegistered": true,
+      "mainBuildsAuthorityEnvelope": true,
+      "mainKeepsSecretLocal": true,
+      "cryptoPortHasHmac": true,
+      "builderRequiresCustomProperties": true,
+      "builderWritesCustomPropsAndAdvisoryXml": true,
+      "builderBlocksSecretEmbedding": true,
+      "handlerRejectsBufferSource": true,
+      "handlerUsesAtomicWrite": true,
+      "handlerReturnsNoApplyAuthority": true,
+      "docxMinimalUntouched": true,
+      "rendererBridgeOnly": true,
+      "capabilityNodeOnly": true,
+      "localProviderKnown": true,
+      "menuReachable": true,
+      "localeReachable": true,
+      "docsCapabilityBound": true,
+      "docsCommandBound": true,
+      "focusedContractPresent": true
+    },
+    "allPresent": true,
+    "mainSha256": "2e0c9871d9c1ffd311cfcd558cfec1384013994f6d530c43b8f54953d7a42262",
+    "builderSha256": "f34f4030d8419e14417060754495bd5de7d3a84967a0b7c12f4f36ec93acbc65",
+    "handlerSha256": "e33016a86e993e820dd228447050f89e22f52f7dfa37e94fb53d85f3fcc6f42b",
+    "projectCommandsSha256": "a49ab91829374705ce87ec4f5136789a90b58c3a8acc834814bb0ac9c25b23c6",
+    "capabilityPolicySha256": "fc563c6423424a5dba1a12eb31289ff9b99b66850dae51a627411a8dd1d01c3e"
+  },
+  "runtimeProof": {
+    "docxBytes": 4664,
+    "hasWordDocument": true,
+    "hasCustomProperties": true,
+    "hasCustomXmlAdvisory": true,
+    "hasAuthorityCarrier": true,
+    "hasYrtk2Token": true,
+    "hasCoreDigest": true,
+    "customXmlMarkedAdvisoryOnly": true,
+    "forbiddenSecretAbsent": true,
+    "docxSha256": "e85f21c89b02f7565bd7eb4b231b1e60af483a427e9f3cd09700c11efdf8d63a"
+  },
+  "implementedCapability": {
+    "capability": "productReviewDocxExporter",
+    "productCompositionRegistered": true,
+    "productRuntimeWired": true,
+    "productReviewDocxExporterDistinctFromDocxMinimal": true,
+    "productUiInvoked": true,
+    "immutableRoundProjectSceneBaselineIdentity": true,
+    "exportMapBound": true,
+    "yrtk2HmacAuthorityBound": true,
+    "blockLocatorsIncluded": true,
+    "hmacSecretMainOnly": true,
+    "customDocumentPropertyAuthorityCarrier": true,
+    "customXmlAdvisoryOnly": true,
+    "returnIntakeWired": false,
+    "parsedWordIrConsumerWired": false,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "wordSaturated": false,
+    "releaseReady": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "secretEmbeddedInDocx": 0,
+    "rendererForgedBufferSourceAccepted": 0,
+    "docxMinimalChanged": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "falseReleaseClaim": 0
+  },
+  "nonClaims": [
+    "P0 exporter does not certify return intake.",
+    "P0 exporter does not parse returned Word IR.",
+    "P0 exporter does not apply manuscript changes.",
+    "P0 exporter does not certify automatic apply.",
+    "P0 exporter does not certify Word SATURATED.",
+    "P0 exporter does not open Google Docs.",
+    "customXml is advisory only because mutating Word saves were previously proven to drop it as authority carrier."
+  ],
+  "nextStage": "P0_RETURN_INTAKE_PARSE_REVIEW_TRANSPORT_PACKAGE_V2"
+}

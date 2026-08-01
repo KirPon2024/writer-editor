@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "snapshotId": "menu-default-desktop-minimal",
-  "normalizedHashSha256": "be734ebdba6fd509b9102689a7faff3b51f00a8a845323c34129fb4a783a6917",
-  "generatedAt": "2026-07-29T17:27:18.243Z",
-  "generatedFromCommit": "6a442aabf630f07a0ba35d3654e777c4f067bc24",
+  "normalizedHashSha256": "b3f6649b0dd23e09de0458c19b7f1da0492bf24c581405dffd19a1a487c0ff33",
+  "generatedAt": "2026-07-31T23:58:11.513Z",
+  "generatedFromCommit": "a87baa693981e1143eec58e77a17a8aafa736ab2",
   "context": {
     "contextHashSha256": "0b9f41c629bef3558dc79abcbc0afcffdad95ff97ccb70bfb3d1ebf8ad9b9290",
     "contextRef": "test/fixtures/menu/context.default.json"
@@ -139,6 +139,11 @@
         "base": "Clear Review Session",
         "en": "Clear Review Session",
         "ru": "Очистить review session"
+      },
+      "menu.review.exportDocxReviewPacket": {
+        "base": "Export Review DOCX Packet...",
+        "en": "Export Review DOCX Packet...",
+        "ru": "Экспортировать Review DOCX Packet..."
       },
       "menu.review.exportLocalPacket": {
         "base": "Export Review Packet...",
@@ -315,6 +320,7 @@
     "cmd.project.plan.switchMode",
     "cmd.project.review.cancelOperation",
     "cmd.project.review.clearSession",
+    "cmd.project.review.exportDocxReviewPacket",
     "cmd.project.review.exportLocalPacket",
     "cmd.project.review.importLocalPacket",
     "cmd.project.review.openDocxReviewPreviewSession",
@@ -1598,6 +1604,37 @@
           "id": "review-export-local-packet",
           "label": "Export Review Packet...",
           "labelKey": "menu.review.exportLocalPacket",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.exportDocxReviewPacket",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-export-docx-review-packet",
+          "label": "Export Review DOCX Packet...",
+          "labelKey": "menu.review.exportDocxReviewPacket",
           "mode": [
             "offline"
           ],

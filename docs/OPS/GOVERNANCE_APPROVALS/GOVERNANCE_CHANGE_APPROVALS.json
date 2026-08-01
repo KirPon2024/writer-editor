@@ -7554,15 +7554,6 @@
       "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
-      "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
-      "sha256": "5262fb34c60f0c1f587c1437659e20ced55085e02d3d48b08f47087a682fd7ea",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
       "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
       "sha256": "a96de4632d80f6c4e43c1c695282a87f864e0eb5847c428f340df104ca9b2098",
       "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
@@ -8785,6 +8776,15 @@
       "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
       "approvedAtUtc": "2026-08-01T15:16:23.540Z",
       "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
+      "sha256": "153b6f79c3be1030f9ed624235617670100ef03293fb35af8c6fd4166fbbc84a",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:33:00.000Z",
+      "rationale": "Approve bounded post-merge C3 stale binding guard repair: C1 safety contract separates active remediation status from Google report-only blocked result and accepts the C1-C5 remediation progression without changing product authority.",
       "approved": true,
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     }

@@ -14,7 +14,10 @@ const GOOGLE_MATRIX_PATH = path.join(process.cwd(), 'docs', 'OPS', 'RTK', 'GOOGL
 const GOOGLE_RECEIPT_PATH = path.join(process.cwd(), 'docs', 'OPS', 'RTK', 'GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json');
 const C1_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN';
 const C2_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN';
-const ACTIVE_REMEDIATION_STATUSES = new Set([C1_STATUS, C2_STATUS]);
+const C3_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN';
+const C4_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN';
+const C5_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C5_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN';
+const ACTIVE_REMEDIATION_STATUSES = new Set([C1_STATUS, C2_STATUS, C3_STATUS, C4_STATUS, C5_STATUS]);
 const GOOGLE_BLOCKED_STATUS = 'REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION';
 const WORD_REVOKED_STATUS = 'WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE';
 
@@ -206,10 +209,12 @@ test('C1 active program truth parks Google and revokes Word acceptance pending C
   assert.equal(ledger.wordAcceptanceRevocation.status, WORD_REVOKED_STATUS);
   assert.equal(ledger.googleDocsStage.status, GOOGLE_BLOCKED_STATUS);
 
-  assert.equal(googleMatrix.status, GOOGLE_BLOCKED_STATUS);
+  assertActiveRemediationStatus(googleMatrix.status);
   assert.equal(googleMatrix.result, 'REPORT_ONLY_BLOCKED');
-  assert.equal(googleReceipt.status, GOOGLE_BLOCKED_STATUS);
+  assert.equal(googleMatrix.wordSafetyRemediation.googleStage, GOOGLE_BLOCKED_STATUS);
+  assertActiveRemediationStatus(googleReceipt.status);
   assert.equal(googleReceipt.result, 'REPORT_ONLY_BLOCKED');
+  assert.equal(googleReceipt.wordSafetyRemediation.googleStage, GOOGLE_BLOCKED_STATUS);
 });
 
 test('C1 same-round effect with different requestKey mutates once and replays by effect index', async () => {

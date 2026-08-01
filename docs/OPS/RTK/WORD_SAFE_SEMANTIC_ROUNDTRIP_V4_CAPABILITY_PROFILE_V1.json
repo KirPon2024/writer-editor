@@ -312,7 +312,7 @@
       "capabilityId": "rtk.word.v4.typedStructuralDiagnostics",
       "operationFamily": "paragraph structure moves cross-scene topology tables sections footnotes endnotes fields Compare Combine",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "STRUCTURAL_DIAGNOSTIC_BLOCKING_WITH_TYPED_LIMITATIONS",
+      "currentCapability": "STRUCTURAL_DIAGNOSTIC_LANE_TERMINAL_TYPED_LIMITATION_BOUND",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_10 multi-round replay stale conflicts",
       "acceptanceTest": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
@@ -329,14 +329,22 @@
         "move attempt and cross-scene move attempt rows remain manual or blocked",
         "tables sections footnotes endnotes fields and breaks produce typed structural diagnostics plus opaque unsupported atoms",
         "Compare and Combine generated revision topology remains manual or blocked",
-        "structural lane remains separate from text comments and formatting lanes"
+        "structural lane remains separate from text comments and formatting lanes",
+        "product return preview preserves structural diagnostics as manual or blocked proposals without writer authority"
       ],
       "limitations": [
         "automatic structural apply is not certified by E09",
         "native w:moveFrom and w:moveTo revisions were not observed in E09 physical corpus",
-        "table section footnote endnote field image header footer and layout mutation are not certified by E09"
+        "table section footnote endnote field image header footer and layout mutation are not certified by E09",
+        "structural apply remains manual or blocked until a future StructureIR apply contour proves reverse verification and recovery"
       ],
-      "killCriterion": "any structural diagnostic is claimed as automatic or destructive apply, native move revisions are claimed without evidence, cross-scene topology becomes EXACT, or writer authority is added"
+      "killCriterion": "Any structural diagnostic is promoted to manuscript write authority without a future StructureIR reverse-verification contour, or move/cross-scene topology becomes EXACT.",
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "safeStructuralLaneTypedLimitationReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_STRUCTURAL_LANE_TYPED_LIMITATION_RECEIPT.json",
+      "structuralDiagnosticProductPathProven": true,
+      "structuralApplyTypedLimitationBound": true,
+      "automaticStructuralApplyCertified": false
     },
     {
       "capabilityId": "rtk.word.v4.multiRoundReplayStaleConflictGuards",
@@ -1183,7 +1191,7 @@
       "physicalWordEvidence": 16,
       "productRuntimeWired": 11,
       "automaticApplyCertified": 0,
-      "blocksWordSaturation": 3,
+      "blocksWordSaturation": 2,
       "currentTerminalClass": {
         "COMPONENT_PROVEN": 5,
         "PHYSICAL_WORD_EVIDENCE": 3,
@@ -1202,7 +1210,7 @@
         "TYPED_LIMITATION": 2
       }
     },
-    "nextStage": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
+    "nextStage": "P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION",
     "wordSaturated": false,
     "automaticApplyCertified": false
   }

@@ -153,7 +153,8 @@ test('normalized matrix keeps resolve reopen typed limitation closed through lat
   assert.equal(stateCell.requiredNextContour, 'NONE_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND');
   assert.equal(formattingCell.blocksWordSaturation, false);
   assert.equal(formattingCell.reasonCode, 'RTK_NORM_FORMATTING_APPLY_TYPED_LIMITATION_BOUND');
-  assert.equal(structuralCell.blocksWordSaturation, true);
-  assert.equal(matrix.counts.blocksWordSaturation, 3);
-  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION');
+  assert.equal(structuralCell.blocksWordSaturation, false);
+  assert.equal(structuralCell.reasonCode, 'RTK_NORM_STRUCTURAL_APPLY_TYPED_LIMITATION_BOUND');
+  assert.equal(matrix.counts.blocksWordSaturation, 2);
+  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION');
 });

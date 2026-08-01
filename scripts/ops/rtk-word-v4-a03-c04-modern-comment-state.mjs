@@ -39,6 +39,7 @@ const P0_REPLY_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED';
 const P0_REPLY_NEXT_STAGE = 'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION';
 const P0_RESOLVE_NEXT_STAGE = 'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION';
 const P0_FORMATTING_NEXT_STAGE = 'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION';
+const P0_STRUCTURAL_NEXT_STAGE = 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION';
 const EVIDENCE_ID = 'A03_C04_MODERN_COMMENT_STATE';
 
 function readJson(filePath) {
@@ -474,18 +475,25 @@ function isP0ReplySuccessorState(profile, program, ledger, promotionList) {
     P0_REPLY_NEXT_STAGE,
     P0_RESOLVE_NEXT_STAGE,
     P0_FORMATTING_NEXT_STAGE,
+    P0_STRUCTURAL_NEXT_STAGE,
   ].includes(nextStage);
+  const allowedNextStages = [
+    P0_REPLY_NEXT_STAGE,
+    P0_RESOLVE_NEXT_STAGE,
+    P0_FORMATTING_NEXT_STAGE,
+    P0_STRUCTURAL_NEXT_STAGE,
+  ];
   return promotionList.status === C05_PROMOTION_STATUS
     && promotionList.nextContour === 'RELEASE-AUDIT'
     && profile.status === P0_REPLY_STATUS
     && program.status === P0_REPLY_STATUS
-    && [P0_REPLY_NEXT_STAGE, P0_RESOLVE_NEXT_STAGE, P0_FORMATTING_NEXT_STAGE].includes(program.nextStep)
+    && allowedNextStages.includes(program.nextStep)
     && replyOrLaterNextStage
     && program.v4ExecutionState?.modernReplyTypedLimitationBound === true
     && program.v4ExecutionState?.modernResolveReopenCertified !== true
     && program.v4ExecutionState?.googleDocsOpened === false
     && ledger.status === P0_REPLY_STATUS
-    && [P0_REPLY_NEXT_STAGE, P0_RESOLVE_NEXT_STAGE, P0_FORMATTING_NEXT_STAGE].includes(ledger.nextStage)
+    && allowedNextStages.includes(ledger.nextStage)
     && ledger.coverageLedger?.a03C04ModernCommentState?.status === 'BOUND_STATE_READBACK_ONLY'
     && ledger.coverageLedger?.p0ModernCommentRepliesTypedLimitation?.status === 'BOUND_TYPED_LIMITATION_WITH_SHADOW_PRESERVATION'
     && (

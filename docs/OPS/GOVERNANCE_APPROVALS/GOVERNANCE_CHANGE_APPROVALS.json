@@ -1794,6 +1794,76 @@
       "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/p0-07-render-10000.png",
+      "sha256": "af7a95315a81dc4c95e6425644f5c875246af9fd49f885f99dd64dea0e218e65",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/p0-07-render-50000.png",
+      "sha256": "ccb07fe15b12fd81a6196b2dabb4657e8efd2c78dc941cc36565964fb2d3689e",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/p0-07-render-child-10000.cjs",
+      "sha256": "d69b410109badd6048d5c50dfd5baecf1cc0ccb714dc682d1381fdbf2e287516",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/p0-07-render-child-50000.cjs",
+      "sha256": "81a7060f17c6e242896edbc6abeb8bce00840f6f0f2012c2ebb643ea720258cc",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/p0-07-render-input-10000.json",
+      "sha256": "30836b876fa211f131384b6e05c82d3217d6ec876e87e7bccb826205402d7d92",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/p0-07-render-input-50000.json",
+      "sha256": "49a2f1479973e334c99690f70c560e92bd8582ea308d06833b554c03f9811625",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/p0-07-stress-product-proof-report.json",
+      "sha256": "bde17b8a35bad63b23a7e03e03761431440a2170a189fbaf3f07e984b76ecf9c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/persisted-large-project/manifest.json",
+      "sha256": "06389f4e2b6267db088971cf03ee7ddb832ecc5b858417d0fe9fcb0114115674",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/persisted-large-project/p0-07-persisted-large-project.bundle.json.gz",
+      "sha256": "c9ea3664872ef245a79c58d924c0721c1bf7e3b253da36d7cdc95c9d27c59f77",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF/persisted-large-project/p0-07-recovery-snapshot.json.gz",
+      "sha256": "a2f09a0d578b191c1a2ce4e37d898274ad1fe093d864aabef6fb48e730497e44",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND/night01-c00-audit-rebind-report.json",
       "sha256": "a8828964efd79b9816091021ced6e03320477178a96444f55b511f4c9655bf44",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -4419,6 +4489,13 @@
       "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_07_STRESS_PRODUCT_PROOF_RECEIPT.json",
+      "sha256": "246b5279f3bc5d589c5a9406786375d29e1d56370b34b10cefebb6b50ed5d20f",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND_RECEIPT.json",
       "sha256": "36a4aede8c9db58be06bdcc4161819cbdecfd37704418c26f088ea5cdcde323d",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -5495,6 +5572,13 @@
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
       "approvedAtUtc": "2026-08-01T07:55:00.000Z",
       "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-07-stress-product-proof.mjs",
+      "sha256": "9b980a1a14970433a2d6d9b9213b0e6e46884e7a945f1841aa95b885c50c5404",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-night01-c00-audit-rebind.mjs",
@@ -7966,6 +8050,13 @@
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
       "approvedAtUtc": "2026-08-01T07:55:00.000Z",
       "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-07-stress-product-proof.contract.test.js",
+      "sha256": "456983a52de3279ccbece11b1e26f500065ad57a551a2f36874af4c8fcc5ea7d",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
+      "approvedAtUtc": "2026-08-01T10:45:00.000Z",
+      "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-night01-c00-audit-rebind.contract.test.js",

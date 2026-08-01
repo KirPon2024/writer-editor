@@ -5609,13 +5609,6 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
-      "filePath": "src/renderer/editor.js",
-      "sha256": "a62b96ffb4d1c38ed56e443d5b38606dff1ccefdf0eae20fdcb99cfa8080f92d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
-      "approvedAtUtc": "2026-08-01T01:22:18.257Z",
-      "rationale": "Rebind R3_C05 runtime approval after fresh origin/main RTK drift merge; preserves command-kernel transaction serialization, relation payloadPreview dispatch, renderer bundle rebuild, and no direct UI-to-storage bypass."
-    },
-    {
       "filePath": "src/renderer/index.html",
       "sha256": "eb120716e8d7fb73d4f3c2faf6c655915d5234c635436fd57231d3ef3ff98e5c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
@@ -7807,13 +7800,6 @@
       "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "528d958389a5319f2a1d448118fed8c47404e76370ec8e44ccfd863224eb2b98",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
-      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
       "filePath": "test/unit/sector-m-s37-capability-provider-free-pro.test.js",
       "sha256": "59824e77ce2bac209f07f105e1a552f12f731b16bbcd818d1807866c917364d4",
       "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
@@ -7875,6 +7861,55 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
       "approvedAtUtc": "2026-08-01T04:45:00.000Z",
       "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING/p0-04-design-os-binding-report.json",
+      "sha256": "68d3f67b2ed2e97e9b42c74053d4ee1012e20d7eadca33b4ae6f5d64e4aa694c",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:13:43.000Z",
+      "rationale": "Approve bounded P0_04 Design OS binding evidence and receipt after full runner PASS: FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1 bind Atlas and Manual Map surfaces through query registry, Command Kernel command ids, typed Design OS slots, renderer resolved contribution metadata, and fail-closed negative bypass checks; no visual redesign, no network, no storage authority, no runtime dependency, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_04_DESIGN_OS_BINDING_RECEIPT.json",
+      "sha256": "2a190a45adac16990624995c30a0b6c564956db995e50605ff90aa5ecc819b31",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:13:43.000Z",
+      "rationale": "Approve bounded P0_04 Design OS binding evidence and receipt after full runner PASS: FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1 bind Atlas and Manual Map surfaces through query registry, Command Kernel command ids, typed Design OS slots, renderer resolved contribution metadata, and fail-closed negative bypass checks; no visual redesign, no network, no storage authority, no runtime dependency, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
+      "sha256": "29909fa062c5559c64da12e666dba3e2712b0803b76e2f2ec8f84608f656d857",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
+      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "src/renderer/design-os/index.mjs",
+      "sha256": "cb9c90b5a942ba2d170ad89334ef9c872f02086078f726a1d7efc3c0909c51b7",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
+      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "109d4d492a7731ee4253cca420dde082f9e6dd49d2fe10a5f4a0106ba6a3f3f8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
+      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "22a0d24ad6bd8ba68f022bf5c0efcaaa07a1e7d7a92755b74e92f1d362e2f1f4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
+      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",
+      "sha256": "447f40757b32e7d27a4a646d53e85a22b359dd300cf937355eca93bb55edf912",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
+      "approvedAtUtc": "2026-08-01T05:58:00.000Z",
+      "rationale": "Approve bounded P0_04 Design OS binding contract: requires FEATURE_INTEGRATION_MANIFEST_V1, actual Design OS slot resolver, query registry binding, Command Kernel command IDs, renderer host binding through resolver metadata, fail-closed negative bypass checks, no visual redesign, no network, no storage authority, and Program DoD remains IN_PROGRESS."
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",

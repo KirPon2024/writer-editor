@@ -5,10 +5,16 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const { WORKSPACE_QUERY_IDS } = require(path.join(ROOT, 'src', 'shared', 'workspaceQueryRegistry.cjs'));
+const { WORKSPACE_QUERY_IDS, WORKSPACE_QUERY_ID_SET } = require(path.join(ROOT, 'src', 'shared', 'workspaceQueryRegistry.cjs'));
 
 function read(parts) {
   return fs.readFileSync(path.join(ROOT, ...parts), 'utf8');
+}
+
+function loadAtlasFeatureIntegrationManifestPrelude() {
+  return read(['src', 'renderer', 'design-os', 'atlasFeatureIntegrationManifest.mjs'])
+    .replace(/^export const /gmu, 'const ')
+    .replace(/^export function /gmu, 'function ');
 }
 
 function loadReviewSurfaceHelpers() {
@@ -19,7 +25,8 @@ function loadReviewSurfaceHelpers() {
   const end = source.indexOf(endMarker);
   assert.notEqual(start, -1, 'review surface start marker must exist');
   assert.notEqual(end, -1, 'review surface end marker must exist');
-  const snippet = `${source.slice(start, end + endMarker.length)}
+  const snippet = `${loadAtlasFeatureIntegrationManifestPrelude()}
+${source.slice(start, end + endMarker.length)}
 this.__reviewSurfaceExports = {
   REVIEW_SURFACE_RECEIPT_SCHEMA,
   REVIEW_SURFACE_EXACT_TEXT_APPLY_COMMAND_ID,
@@ -33,7 +40,7 @@ this.__reviewSurfaceExports = {
   renderReviewSurfaceMarkup,
 };
 `;
-  const sandbox = { WORKSPACE_QUERY_IDS };
+  const sandbox = { WORKSPACE_QUERY_IDS, WORKSPACE_QUERY_ID_SET };
   vm.runInNewContext(snippet, sandbox, {
     filename: 'review-surface-ui.editor-snippet.js',
   });
@@ -52,7 +59,8 @@ function loadReviewSurfaceClickHarness(bridgeResult) {
   assert.notEqual(runtimeStart, -1, 'review surface apply runtime start must exist');
   assert.ok(runtimeEnd > runtimeStart, 'review surface apply runtime block must be bounded');
 
-  const snippet = `${source.slice(presentationStart, presentationEnd)}
+  const snippet = `${loadAtlasFeatureIntegrationManifestPrelude()}
+${source.slice(presentationStart, presentationEnd)}
 let reviewSurfaceExactTextApplyTransientState = null;
 let renderCount = 0;
 const bridgeCalls = [];
@@ -141,6 +149,7 @@ this.__reviewSurfaceClickHarness = {
 `;
   const sandbox = {
     WORKSPACE_QUERY_IDS,
+    WORKSPACE_QUERY_ID_SET,
     __bridgeResult: bridgeResult,
     Element: null,
     HTMLElement: null,

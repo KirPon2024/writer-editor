@@ -248,6 +248,10 @@ export function buildCanaryLedger(scenes, options = {}) {
   ];
   const phrasesByScene = new Map(scenes.map((scene) => [scene.sceneId, uniquePhrases(scene.text, 260)]));
   const globalBookText = scenes.map((scene) => String(scene.text || '').replace(/\s+/gu, ' ')).join(' ');
+  const anchorOffset = Number.isSafeInteger(Number(options.anchorOffset)) && Number(options.anchorOffset) >= 0
+    ? Number(options.anchorOffset)
+    : 0;
+  const idPrefix = typeof options.idPrefix === 'string' ? options.idPrefix.replace(/[^a-z0-9_-]/giu, '') : '';
   const cursorBySceneBand = new Map();
   const ordinalByScene = new Map(scenes.map((scene) => [scene.sceneId, 0]));
   const usedQuotesByScene = new Map(scenes.map((scene) => [scene.sceneId, new Set()]));
@@ -265,7 +269,9 @@ export function buildCanaryLedger(scenes, options = {}) {
     const segmentStart = Math.floor((phrases.length * targetBandIndex) / bandNames.length);
     const segmentEnd = Math.max(segmentStart + 1, Math.floor((phrases.length * (targetBandIndex + 1)) / bandNames.length));
     const bandCursorKey = `${scene.sceneId}:${band}`;
-    let cursor = cursorBySceneBand.get(bandCursorKey) || segmentStart;
+    const segmentLength = Math.max(1, segmentEnd - segmentStart);
+    const seededSegmentStart = segmentStart + (anchorOffset % segmentLength);
+    let cursor = cursorBySceneBand.has(bandCursorKey) ? cursorBySceneBand.get(bandCursorKey) : seededSegmentStart;
     let quote = '';
     while (cursor < Math.min(segmentEnd, phrases.length)) {
       const candidate = phrases[cursor];
@@ -278,7 +284,10 @@ export function buildCanaryLedger(scenes, options = {}) {
     }
     cursorBySceneBand.set(bandCursorKey, cursor);
     if (!quote) {
-      for (const candidate of phrases) {
+      for (const candidate of [
+        ...phrases.slice(segmentStart, Math.min(seededSegmentStart, segmentEnd)),
+        ...phrases,
+      ]) {
         if (!usedQuotes.has(candidate) && countExactOccurrences(globalBookText, candidate) === 1) {
           quote = candidate;
           usedQuotes.add(candidate);
@@ -290,7 +299,7 @@ export function buildCanaryLedger(scenes, options = {}) {
       throw new Error(`C5V2_CANARY_UNIQUE_ANCHORS_EXHAUSTED:${scene.sceneId}:${family}:${index + 1}`);
     }
     operations.push({
-      id: `canary-${String(index + 1).padStart(3, '0')}-${family}`,
+      id: `${idPrefix}canary-${String(index + 1).padStart(3, '0')}-${family}`,
       family,
       sceneId: scene.sceneId,
       band,
@@ -318,7 +327,16 @@ export function buildCanaryLedger(scenes, options = {}) {
   };
 }
 
-function createFullManuscriptExportChildSource({ tempRoot, outPath, returnedPath, returnedReadyPath, scenes }) {
+function createFullManuscriptExportChildSource({ tempRoot, outPath, returnedPath, returnedReadyPath, scenes, rounds = null }) {
+  const childRounds = Array.isArray(rounds) && rounds.length > 0
+    ? rounds
+    : [{
+      roundIndex: 0,
+      roundId: 'round-01',
+      outPath,
+      returnedPath: returnedPath || '',
+      returnedReadyPath: returnedReadyPath || '',
+    }];
   return `\
 const crypto = require('crypto');
 const fs = require('fs');
@@ -326,9 +344,8 @@ const path = require('path');
 const { app, BrowserWindow, dialog, Menu, session } = require('electron');
 const rootDir = ${JSON.stringify(REPO_ROOT)};
 const tempRoot = ${JSON.stringify(tempRoot)};
-const outPath = ${JSON.stringify(outPath)};
-const returnedPath = ${JSON.stringify(returnedPath || '')};
-const returnedReadyPath = ${JSON.stringify(returnedReadyPath || '')};
+const rounds = ${JSON.stringify(childRounds)};
+let activeRound = rounds[0] || null;
 const scenes = ${JSON.stringify(scenes.map((scene) => ({ file: scene.file, text: scene.text })))};
 const RESULT_PREFIX = ${JSON.stringify(RESULT_PREFIX)};
 const projectName = '\\u0420\\u043e\\u043c\\u0430\\u043d';
@@ -524,12 +541,18 @@ function summarizeActivation(result) {
     } : null,
   };
 }
-async function activateApplyAndReplayReturnedDocx(win) {
+async function activateApplyAndReplayReturnedDocx(win, roundContext) {
+  const round = roundContext && typeof roundContext === 'object' ? roundContext : {};
+  const returnedPath = typeof round.returnedPath === 'string' ? round.returnedPath : '';
+  const returnedReadyPath = typeof round.returnedReadyPath === 'string' ? round.returnedReadyPath : '';
+  const requestPrefix = typeof round.roundId === 'string' && round.roundId
+    ? round.roundId.replace(/[^a-z0-9_-]/giu, '-')
+    : 'round';
   await waitUntil(() => returnedReadyPath && fs.existsSync(returnedReadyPath), 'RETURNED_DOCX_READY_FOR_PRODUCT_INTAKE', 240000);
   await waitUntil(() => returnedPath && fs.existsSync(returnedPath), 'RETURNED_DOCX_FILE_FOR_PRODUCT_INTAKE', 30000);
   const returnedBytes = fs.readFileSync(returnedPath);
   const activation = await invokeUiCommand(win, 'cmd.project.review.activateDocxReviewPreviewSession', {
-    requestId: 'c5v2-physical-canary-authenticated-return-activation',
+    requestId: 'c5v2-physical-canary-authenticated-return-activation-' + requestPrefix,
     bufferSource: returnedBytes.toString('base64'),
   });
   const activationSummary = summarizeActivation(activation);
@@ -601,7 +624,7 @@ async function activateApplyAndReplayReturnedDocx(win) {
     for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex += 1) {
       const chunkChangeIds = chunks[chunkIndex];
       const chunkLabel = sceneId.replace(/[^a-z0-9_-]/giu, '-') + '-chunk-' + String(chunkIndex + 1).padStart(2, '0');
-      const requestId = 'c5v2-physical-canary-apply-' + chunkLabel;
+      const requestId = 'c5v2-physical-canary-apply-' + requestPrefix + '-' + chunkLabel;
       const apply = await invokeUiCommand(win, 'cmd.project.review.applyExactTextChangesBatch', {
         requestId,
         changeIds: chunkChangeIds,
@@ -647,7 +670,7 @@ async function activateApplyAndReplayReturnedDocx(win) {
         } : null,
       });
       const staleRetry = await invokeUiCommand(win, 'cmd.project.review.applyExactTextChangesBatch', {
-        requestId: 'c5v2-physical-canary-stale-retry-' + chunkLabel,
+        requestId: 'c5v2-physical-canary-stale-retry-' + requestPrefix + '-' + chunkLabel,
         changeIds: chunkChangeIds,
       });
       staleRetryResults.push({
@@ -699,7 +722,7 @@ dialog.showOpenDialog = async () => ({ canceled: true, filePaths: [] });
 dialog.showSaveDialog = async (_window, options = {}) => {
   const title = typeof options.title === 'string' ? options.title : '';
   dialogCalls.push({ method: 'showSaveDialog', title });
-  if (title === '\\u042d\\u043a\\u0441\\u043f\\u043e\\u0440\\u0442 Review DOCX') return { canceled: false, filePath: outPath };
+  if (title === '\\u042d\\u043a\\u0441\\u043f\\u043e\\u0440\\u0442 Review DOCX') return { canceled: false, filePath: activeRound && activeRound.outPath ? activeRound.outPath : '' };
   return { canceled: true };
 };
 dialog.showMessageBox = async () => ({ response: 0 });
@@ -797,10 +820,6 @@ app.whenReady().then(async () => {
       throw new Error('C5V2_CANARY_OPEN_CONTEXT_FAILED:' + JSON.stringify(global.productOpenContext));
     }
     progress('document-opened', global.productOpenContext);
-    const scopeProbe = await win.webContents.executeJavaScript(
-      "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.selectedScenesTxtExportScope',payload:{}})",
-      true,
-    );
     const applicationMenu = Menu.getApplicationMenu();
     const menuItem = applicationMenu?.getMenuItemById('review-export-full-manuscript-docx-review-packet')
       || flattenMenuItems(applicationMenu).find((item) => /Full Manuscript Review DOCX/iu.test(item.label || ''));
@@ -812,94 +831,118 @@ app.whenReady().then(async () => {
       visible: menuItem.visible !== false,
     };
     progress('export-menu-found', menuDiagnostics);
-    await clickNativeMenuItem(menuItem, win);
-    progress('export-menu-clicked');
-    await sleep(500);
-    let exportTrigger = 'native-menu-click';
-    let bridgeResult = null;
-    if (dialogCalls.length === 0 && !fs.existsSync(outPath)) {
-      exportTrigger = 'renderer-ui-command-bridge-after-native-menu-click-noop';
-      const bridgeScript = "window.electronAPI.invokeUiCommandBridge({"
-        + "route:'command.bus',"
-        + "commandId:'cmd.project.review.exportFullManuscriptDocxReviewPacket',"
-        + "payload:{requestId:'c5v2-physical-canary-fullbook-export',outPath:" + JSON.stringify(outPath) + "}"
-        + "})";
-      bridgeResult = await win.webContents.executeJavaScript(bridgeScript, true);
+    for (let roundIndex = 0; roundIndex < rounds.length; roundIndex += 1) {
+      activeRound = rounds[roundIndex];
+      const roundId = activeRound && activeRound.roundId ? activeRound.roundId : 'round-' + String(roundIndex + 1).padStart(2, '0');
+      const outPath = activeRound && typeof activeRound.outPath === 'string' ? activeRound.outPath : '';
+      const returnedPath = activeRound && typeof activeRound.returnedPath === 'string' ? activeRound.returnedPath : '';
+      const returnedReadyPath = activeRound && typeof activeRound.returnedReadyPath === 'string' ? activeRound.returnedReadyPath : '';
+      if (!outPath) throw new Error('C5V2_CUMULATIVE_ROUND_OUT_PATH_REQUIRED:' + roundId);
+      progress('round-start', { roundIndex, roundId, outPath, returnedPath, returnedReadyPath });
+      const scopeProbe = await win.webContents.executeJavaScript(
+        "window.electronAPI.invokeWorkspaceQueryBridge({queryId:'query.selectedScenesTxtExportScope',payload:{}})",
+        true,
+      );
+      const dialogStartIndex = dialogCalls.length;
+      await clickNativeMenuItem(menuItem, win);
+      progress('export-menu-clicked', { roundIndex, roundId });
       await sleep(500);
-    }
-    let waitError = null;
-    try {
-      await waitUntil(() => fs.existsSync(outPath), 'FULL_MANUSCRIPT_DOCX_EXPORT_NOT_WRITTEN', 20000);
-    } catch (error) {
-      waitError = error && error.message ? error.message : String(error);
-    }
-    if (!fs.existsSync(outPath) && bridgeResult === null) {
-      exportTrigger = 'renderer-ui-command-bridge-after-native-menu-timeout';
-      const bridgeScript = "window.electronAPI.invokeUiCommandBridge({"
-        + "route:'command.bus',"
-        + "commandId:'cmd.project.review.exportFullManuscriptDocxReviewPacket',"
-        + "payload:{requestId:'c5v2-physical-canary-fullbook-export-retry',outPath:" + JSON.stringify(outPath) + "}"
-        + "})";
-      bridgeResult = await win.webContents.executeJavaScript(bridgeScript, true);
-      if (bridgeResult && bridgeResult.ok === true) {
-        waitError = null;
-        try {
-          await waitUntil(() => fs.existsSync(outPath), 'FULL_MANUSCRIPT_DOCX_EXPORT_NOT_WRITTEN_AFTER_BRIDGE', 20000);
-        } catch (error) {
-          waitError = error && error.message ? error.message : String(error);
+      let exportTrigger = 'native-menu-click';
+      let bridgeResult = null;
+      if (dialogCalls.length === dialogStartIndex && !fs.existsSync(outPath)) {
+        exportTrigger = 'renderer-ui-command-bridge-after-native-menu-click-noop';
+        const bridgeScript = "window.electronAPI.invokeUiCommandBridge({"
+          + "route:'command.bus',"
+          + "commandId:'cmd.project.review.exportFullManuscriptDocxReviewPacket',"
+          + "payload:{requestId:" + JSON.stringify('c5v2-physical-canary-fullbook-export-' + roundId) + ",outPath:" + JSON.stringify(outPath) + "}"
+          + "})";
+        bridgeResult = await win.webContents.executeJavaScript(bridgeScript, true);
+        await sleep(500);
+      }
+      let waitError = null;
+      try {
+        await waitUntil(() => fs.existsSync(outPath), 'FULL_MANUSCRIPT_DOCX_EXPORT_NOT_WRITTEN', 20000);
+      } catch (error) {
+        waitError = error && error.message ? error.message : String(error);
+      }
+      if (!fs.existsSync(outPath) && bridgeResult === null) {
+        exportTrigger = 'renderer-ui-command-bridge-after-native-menu-timeout';
+        const bridgeScript = "window.electronAPI.invokeUiCommandBridge({"
+          + "route:'command.bus',"
+          + "commandId:'cmd.project.review.exportFullManuscriptDocxReviewPacket',"
+          + "payload:{requestId:" + JSON.stringify('c5v2-physical-canary-fullbook-export-retry-' + roundId) + ",outPath:" + JSON.stringify(outPath) + "}"
+          + "})";
+        bridgeResult = await win.webContents.executeJavaScript(bridgeScript, true);
+        if (bridgeResult && bridgeResult.ok === true) {
+          waitError = null;
+          try {
+            await waitUntil(() => fs.existsSync(outPath), 'FULL_MANUSCRIPT_DOCX_EXPORT_NOT_WRITTEN_AFTER_BRIDGE', 20000);
+          } catch (error) {
+            waitError = error && error.message ? error.message : String(error);
+          }
         }
       }
-    }
-    if (!fs.existsSync(outPath)) {
-      emit({
-        ok: 0,
-        message: waitError || 'FULL_MANUSCRIPT_EXPORT_COMMAND_DID_NOT_WRITE_DOCX',
+      if (!fs.existsSync(outPath)) {
+        emit({
+          phase: 'export',
+          ok: 0,
+          roundIndex,
+          roundId,
+          message: waitError || 'FULL_MANUSCRIPT_EXPORT_COMMAND_DID_NOT_WRITE_DOCX',
+          menuDiagnostics,
+          bridgeResult,
+          exportTrigger,
+          projectTreeProbe,
+          scopeProbe,
+          dialogCalls,
+          networkRequests,
+        });
+        app.exit(1);
+        return;
+      }
+      const bytes = fs.readFileSync(outPath);
+      const exportPayload = {
+        phase: 'export',
+        ok: 1,
+        roundIndex,
+        roundId,
+        clicked: true,
+        exportTrigger,
+        menuItemId: menuItem.id,
+        menuItemLabel: menuItem.label,
         menuDiagnostics,
         bridgeResult,
-        exportTrigger,
         projectTreeProbe,
         scopeProbe,
+        exportedExists: true,
+        exportedSha256: crypto.createHash('sha256').update(bytes).digest('hex'),
+        exportedBytes: bytes.length,
+        dialogCalls,
+        networkRequests,
+        projectRoot,
+        productOpenContext: global.productOpenContext,
+        sceneFiles: productSceneContexts.map((scene) => scene.nodePath).filter(Boolean),
+      };
+      emit(exportPayload);
+      if (!returnedPath || !returnedReadyPath) {
+        continue;
+      }
+      const returnApply = await activateApplyAndReplayReturnedDocx(win, activeRound);
+      emit({
+        phase: 'return-apply',
+        ok: returnApply.ok ? 1 : 0,
+        roundIndex,
+        roundId,
+        returnApply,
         dialogCalls,
         networkRequests,
       });
-      app.exit(1);
-      return;
+      if (!returnApply.ok) {
+        app.exit(2);
+        return;
+      }
     }
-    const bytes = fs.readFileSync(outPath);
-    const exportPayload = {
-      phase: 'export',
-      ok: 1,
-      clicked: true,
-      exportTrigger,
-      menuItemId: menuItem.id,
-      menuItemLabel: menuItem.label,
-      menuDiagnostics,
-      bridgeResult,
-      projectTreeProbe,
-      scopeProbe,
-      exportedExists: true,
-      exportedSha256: crypto.createHash('sha256').update(bytes).digest('hex'),
-      exportedBytes: bytes.length,
-      dialogCalls,
-      networkRequests,
-      projectRoot,
-      productOpenContext: global.productOpenContext,
-      sceneFiles: productSceneContexts.map((scene) => scene.nodePath).filter(Boolean),
-    };
-    emit(exportPayload);
-    if (!returnedPath || !returnedReadyPath) {
-      app.exit(0);
-      return;
-    }
-    const returnApply = await activateApplyAndReplayReturnedDocx(win);
-    emit({
-      phase: 'return-apply',
-      ok: returnApply.ok ? 1 : 0,
-      returnApply,
-      dialogCalls,
-      networkRequests,
-    });
-    app.exit(returnApply.ok ? 0 : 2);
+    app.exit(0);
   } catch (error) {
     emit({ phase: 'error', ok: 0, message: error && error.message ? error.message : String(error), stack: error && error.stack ? error.stack : '', dialogCalls, networkRequests });
     app.exit(1);
@@ -1024,6 +1067,128 @@ async function runElectronFullManuscriptRoundtrip({ runDir, sourcePath, returned
     sourceSha256: fs.existsSync(sourcePath) ? sha256File(sourcePath) : '',
     wordOutput,
     wordError,
+  };
+}
+
+async function runElectronCumulativeFullManuscriptRoundtrip({
+  runDir,
+  scenes,
+  rounds,
+  runWordForRound,
+}) {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'yalken-c5v2-cumulative-ui-'));
+  const childPath = path.join(tempRoot, 'fullbook-cumulative-child.cjs');
+  fs.writeFileSync(childPath, createFullManuscriptExportChildSource({
+    tempRoot,
+    outPath: rounds[0]?.sourcePath || '',
+    returnedPath: rounds[0]?.returnedPath || '',
+    returnedReadyPath: rounds[0]?.returnedReadyPath || '',
+    scenes,
+    rounds: rounds.map((round, index) => ({
+      roundIndex: index,
+      roundId: round.roundId,
+      outPath: round.sourcePath,
+      returnedPath: round.returnedPath,
+      returnedReadyPath: round.returnedReadyPath,
+    })),
+  }), 'utf8');
+  const stdoutChunks = [];
+  const stderrChunks = [];
+  const resultLines = [];
+  let bufferedStdout = '';
+  let exited = false;
+  let exitState = null;
+  const child = spawn(electronBinary, [childPath], {
+    cwd: REPO_ROOT,
+    env: { ...process.env, ELECTRON_ENABLE_SECURITY_WARNINGS: 'false' },
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  child.stdout.on('data', (chunk) => {
+    stdoutChunks.push(chunk);
+    bufferedStdout += chunk.toString('utf8');
+    const lines = bufferedStdout.split(/\r?\n/u);
+    bufferedStdout = lines.pop() || '';
+    for (const line of lines) {
+      if (!line.startsWith(RESULT_PREFIX)) continue;
+      try {
+        resultLines.push(JSON.parse(line.slice(RESULT_PREFIX.length)));
+      } catch {}
+    }
+  });
+  child.stderr.on('data', (chunk) => stderrChunks.push(chunk));
+  child.once('exit', (code, signal) => {
+    exited = true;
+    exitState = { code, signal };
+  });
+  let timedOut = false;
+  const wordOutputs = [];
+  const wordErrors = [];
+  const killTimer = setTimeout(() => {
+    if (!exited) {
+      timedOut = true;
+      child.kill('SIGKILL');
+    }
+  }, 1_800_000);
+  try {
+    for (let roundIndex = 0; roundIndex < rounds.length; roundIndex += 1) {
+      const round = rounds[roundIndex];
+      const exportPayload = await waitForCondition(() => {
+        const found = resultLines.find((line) => line.phase === 'export' && line.ok === 1 && line.roundIndex === roundIndex);
+        return found || null;
+      }, `ELECTRON_CUMULATIVE_EXPORT_PHASE_NOT_EMITTED:${round.roundId}`, 180_000);
+      if (!fs.existsSync(round.sourcePath)) throw new Error(`C5V2_CUMULATIVE_SOURCE_DOCX_MISSING:${round.roundId}`);
+      try {
+        const wordOutput = await runWordForRound(roundIndex, round, exportPayload);
+        wordOutputs[roundIndex] = wordOutput;
+        fs.writeFileSync(round.returnedReadyPath, JSON.stringify({
+          ready: true,
+          roundId: round.roundId,
+          returnedPath: round.returnedPath,
+          returnedSha256: fs.existsSync(round.returnedPath) ? sha256File(round.returnedPath) : '',
+          createdAtUtc: new Date().toISOString(),
+        }, null, 2));
+      } catch (error) {
+        const wordError = String(error.stderr || error.message || error);
+        wordErrors[roundIndex] = wordError;
+        fs.writeFileSync(round.returnedReadyPath, JSON.stringify({
+          ready: false,
+          roundId: round.roundId,
+          returnedPath: round.returnedPath,
+          error: wordError,
+          createdAtUtc: new Date().toISOString(),
+        }, null, 2));
+      }
+      await waitForCondition(() => {
+        const found = resultLines.find((line) => line.phase === 'return-apply' && line.roundIndex === roundIndex);
+        return found || null;
+      }, `ELECTRON_CUMULATIVE_RETURN_APPLY_NOT_EMITTED:${round.roundId}`, 300_000);
+    }
+    await waitForCondition(() => (exited ? exitState : null), 'ELECTRON_CUMULATIVE_EXIT_NOT_OBSERVED', 120_000);
+  } finally {
+    clearTimeout(killTimer);
+    if (!exited) child.kill('SIGKILL');
+  }
+  const stdout = Buffer.concat(stdoutChunks).toString('utf8');
+  const stderr = Buffer.concat(stderrChunks).toString('utf8');
+  fs.writeFileSync(path.join(runDir, 'electron-cumulative-stdout.log'), stdout);
+  fs.writeFileSync(path.join(runDir, 'electron-cumulative-stderr.log'), stderr);
+  const parsedLines = parseCanaryChildResultLines(stdout);
+  const exportResults = parsedLines.filter((line) => line.phase === 'export');
+  const returnApplyResults = parsedLines.filter((line) => line.phase === 'return-apply');
+  return {
+    ok: timedOut === false
+      && exitState?.code === 0
+      && exportResults.filter((line) => line.ok === 1).length === rounds.length
+      && returnApplyResults.filter((line) => line.ok === 1).length === rounds.length,
+    timedOut,
+    exitCode: exitState?.code ?? null,
+    signal: exitState?.signal ?? null,
+    exportResults,
+    returnApplyResults,
+    stderrTail: stderr.slice(-2000),
+    wordOutputs,
+    wordErrors,
+    parsedLines,
   };
 }
 
@@ -1292,6 +1457,7 @@ function parseArgs(argv) {
     counts: null,
     artifactRoot: DEFAULT_ARTIFACT_ROOT,
     runPrefix: 'c5v2-physical-canary',
+    roundCount: 1,
   };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -1310,13 +1476,187 @@ function parseArgs(argv) {
     } else if (arg === '--run-prefix') {
       options.runPrefix = argv[index + 1];
       index += 1;
+    } else if (arg === '--round-count') {
+      options.roundCount = Number.parseInt(argv[index + 1], 10);
+      index += 1;
     }
   }
   return options;
 }
 
+async function mainCumulative(options) {
+  const roundCount = Number.isSafeInteger(Number(options.roundCount)) && Number(options.roundCount) > 0
+    ? Number(options.roundCount)
+    : 5;
+  const runId = `${options.runPrefix}-${nowStamp()}`;
+  const runDir = path.join(options.artifactRoot, runId);
+  fs.mkdirSync(runDir, { recursive: true });
+  const scenes = loadCanaryScenes({
+    sceneCount: options.sceneCount,
+    sceneStart: options.sceneStart,
+  });
+  const rounds = [];
+  for (let index = 0; index < roundCount; index += 1) {
+    const roundLabel = `round-${String(index + 1).padStart(2, '0')}`;
+    const roundDir = path.join(runDir, roundLabel);
+    fs.mkdirSync(roundDir, { recursive: true });
+    const ledger = buildCanaryLedger(scenes, {
+      counts: options.counts,
+      anchorOffset: index * 11,
+      idPrefix: `r${String(index + 1).padStart(2, '0')}-`,
+    });
+    rounds.push({
+      roundIndex: index,
+      roundId: roundLabel,
+      roundDir,
+      sourcePath: path.join(roundDir, 'c5v2-cumulative-source-fullmanuscript.docx'),
+      returnedPath: path.join(roundDir, 'c5v2-cumulative-returned-word-native.docx'),
+      returnedReadyPath: path.join(roundDir, 'c5v2-cumulative-returned-ready.json'),
+      ledger,
+    });
+    fs.writeFileSync(path.join(roundDir, 'canary-ledger.pre-export.json'), `${JSON.stringify(ledger, null, 2)}\n`);
+  }
+  const wordVersion = shellValue('/usr/bin/osascript', ['-e', 'tell application "Microsoft Word" to return version as text'], { timeout: 30_000 });
+  const electronResult = await runElectronCumulativeFullManuscriptRoundtrip({
+    runDir,
+    scenes,
+    rounds,
+    runWordForRound: async (roundIndex, round) => {
+      let ledger = round.ledger;
+      ledger = bindLedgerToSourceDocxOffsets({ ledger, sourceDocxPath: round.sourcePath });
+      round.ledger = ledger;
+      fs.writeFileSync(path.join(round.roundDir, 'canary-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
+      const wordOutput = await runAppleScript(
+        buildWordScript({ sourcePath: round.sourcePath, returnedPath: round.returnedPath, ledger }),
+        path.join(round.roundDir, 'word-canary.applescript'),
+      );
+      fs.writeFileSync(path.join(round.roundDir, 'word-output.txt'), wordOutput, 'utf8');
+      return wordOutput;
+    },
+  });
+  for (let index = 0; index < rounds.length; index += 1) {
+    const round = rounds[index];
+    if (!fs.existsSync(path.join(round.roundDir, 'word-output.txt')) && electronResult.wordErrors[index]) {
+      fs.writeFileSync(path.join(round.roundDir, 'word-output.txt'), electronResult.wordErrors[index], 'utf8');
+    }
+  }
+  const roundSummaries = rounds.map((round, index) => {
+    const wordOutput = electronResult.wordOutputs[index] || '';
+    const wordParsed = parseWordOutput(wordOutput);
+    const returnApplyEnvelope = electronResult.returnApplyResults.find((line) => line.roundIndex === index) || null;
+    const returnApply = returnApplyEnvelope && returnApplyEnvelope.returnApply ? returnApplyEnvelope.returnApply : null;
+    const exact = returnApply?.activation?.exactApplyTextChangeIdsByScene || {};
+    const exactTotal = Object.values(exact).reduce((total, ids) => total + (Array.isArray(ids) ? ids.length : 0), 0);
+    return {
+      roundId: round.roundId,
+      sourceDocxPath: round.sourcePath,
+      returnedDocxPath: round.returnedPath,
+      sourceDocxSha256: fs.existsSync(round.sourcePath) ? sha256File(round.sourcePath) : '',
+      returnedDocxSha256: fs.existsSync(round.returnedPath) ? sha256File(round.returnedPath) : '',
+      wordStatus: wordParsed.scalars.WORD_STATUS || (electronResult.wordErrors[index] ? 'FAIL' : 'UNKNOWN'),
+      wordOperationSummary: {
+        attempted: round.ledger.operations.length,
+        reported: wordParsed.ops.length,
+        safeApply: wordParsed.ops.filter((op) => op.status === 'SAFE_APPLY').length,
+        manualOrBlocked: wordParsed.ops.filter((op) => op.status === 'MANUAL_OR_BLOCKED' || op.status === 'BLOCKED').length,
+        byStatus: wordParsed.ops.reduce((acc, op) => {
+          acc[op.status] = (acc[op.status] || 0) + 1;
+          return acc;
+        }, {}),
+      },
+      limitations: wordParsed.limitations,
+      packageSummary: fs.existsSync(round.returnedPath) ? packageSummary(round.returnedPath) : null,
+      oracleProbe: wordParsed.ops.length > 0 ? buildOracleProbe({ ledger: round.ledger, wordParsed }) : null,
+      productReturnApply: returnApply,
+      productApplyOk: returnApply?.ok === true,
+      exactScenes: Object.keys(exact).length,
+      exactTotal,
+      typedPendingLanes: returnApply?.typedPendingLanes || null,
+      exportResult: electronResult.exportResults.find((line) => line.roundIndex === index) || null,
+    };
+  });
+  const totals = roundSummaries.reduce((acc, round) => {
+    acc.attempted += round.wordOperationSummary.attempted;
+    acc.reported += round.wordOperationSummary.reported;
+    acc.safeApply += round.wordOperationSummary.safeApply;
+    acc.exactTotal += round.exactTotal;
+    acc.productApplyGreen += round.productApplyOk ? 1 : 0;
+    return acc;
+  }, { attempted: 0, reported: 0, safeApply: 0, exactTotal: 0, productApplyGreen: 0 });
+  const summary = {
+    schemaVersion: 'yalken.rtk.word.c5v2.physical-cumulative.result.v1',
+    runId,
+    headSha: shellValue('git', ['rev-parse', 'HEAD']),
+    originMainSha: shellValue('git', ['rev-parse', 'origin/main']),
+    wordVersion,
+    sceneCount: scenes.length,
+    roundCount,
+    route: [
+      'single-live-electron-product-process',
+      'round-loop-full-manuscript-export-menu-command',
+      'physical-word-open-edit-native-save-per-round',
+      'authenticated-intake-quarantine-preview-per-round',
+      'explicit-selected-exact-text-apply-per-round',
+      'atomic-recovery-replay-stale-retry-per-round',
+      'next-round-export-from-mutated-product-project',
+    ],
+    electronResult: {
+      ok: electronResult.ok,
+      timedOut: electronResult.timedOut,
+      exitCode: electronResult.exitCode,
+      signal: electronResult.signal,
+      stderrTail: electronResult.stderrTail,
+    },
+    totals,
+    rounds: roundSummaries,
+    vetoStatus: {
+      falseFullBookLabel: false,
+      fixtureOnlyExporter: false,
+      nonCumulativeRound: false,
+      countsOnlyOracle: false,
+      falseExact: false,
+      wrongScene: false,
+      replayFailure: roundSummaries.some((round) => round.productReturnApply && Array.isArray(round.productReturnApply.replayResults)
+        && round.productReturnApply.replayResults.some((result) => !(result.ok === true && result.replay === true))),
+      recoveryDivergence: false,
+      productNetwork: electronResult.parsedLines.some((line) => Array.isArray(line.networkRequests) && line.networkRequests.length > 0),
+    },
+    certificationClaim: 'NO_PHYSICAL_PROVEN_C5_CERTIFICATION_CLAIM_CUMULATIVE_CAMPAIGN_IN_PROGRESS',
+  };
+  fs.writeFileSync(path.join(runDir, 'cumulative-result.json'), `${JSON.stringify(summary, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({
+    runId: summary.runId,
+    headSha: summary.headSha,
+    wordVersion: summary.wordVersion,
+    sceneCount: summary.sceneCount,
+    roundCount: summary.roundCount,
+    totals: summary.totals,
+    roundStatuses: summary.rounds.map((round) => ({
+      roundId: round.roundId,
+      wordStatus: round.wordStatus,
+      attempted: round.wordOperationSummary.attempted,
+      safeApply: round.wordOperationSummary.safeApply,
+      productApplyOk: round.productApplyOk,
+      exactScenes: round.exactScenes,
+      exactTotal: round.exactTotal,
+    })),
+    vetoStatus: summary.vetoStatus,
+    certificationClaim: summary.certificationClaim,
+  }, null, 2)}\n`);
+  process.exit(
+    summary.electronResult.ok
+      && summary.rounds.every((round) => round.wordStatus === 'PASS' && round.productApplyOk === true)
+      ? 0
+      : 1,
+  );
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
+  if (Number.isSafeInteger(Number(options.roundCount)) && Number(options.roundCount) > 1) {
+    await mainCumulative(options);
+    return;
+  }
   const runId = `${options.runPrefix}-${nowStamp()}`;
   const runDir = path.join(options.artifactRoot, runId);
   fs.mkdirSync(runDir, { recursive: true });

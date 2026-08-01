@@ -363,6 +363,13 @@ test('Atlas V5 P1 domain events: SceneOrderChanged preserves semantic scene orde
     previousStateHash: 'not-a-hash',
     nextStateHash: '7'.repeat(64),
   }), /INVALID_CORE_DOMAIN_EVENT_PROVENANCE:previousStateHash/u);
+  assert.throws(() => runtime.buildSceneOrderChangedEvent({
+    projectId: 'p-events',
+    sceneIds: ['scene-1', 'scene-2'],
+    commandSeq: 1,
+    previousStateHash: '6'.repeat(64),
+    nextStateHash: 'also-not-a-hash',
+  }), /INVALID_CORE_DOMAIN_EVENT_PROVENANCE:nextStateHash/u);
 
   assert.throws(() => domainEvents.buildDerivedGenerationPublishedEvent({
     projectId: 'p-events',
@@ -387,6 +394,20 @@ test('Atlas V5 P1 domain events: SceneOrderChanged preserves semantic scene orde
   });
   assert.equal(invalidGraph.ok, false);
   assert.equal(invalidGraph.error.reason, 'LOCAL_GRAPH_HASH_INVALID');
+
+  const negativeSequenceGraph = planner.createAtlasLocalGraphLayoutJob({
+    graph: {
+      schemaVersion: layoutTypes.ATLAS_LOCAL_GRAPH_SCHEMA_VERSION,
+      projectId: 'p-events',
+      nodes: [],
+      edges: [],
+      clusters: [],
+      summary: { graphHash: '0'.repeat(64) },
+    },
+    sequence: -1,
+  });
+  assert.equal(negativeSequenceGraph.ok, false);
+  assert.equal(negativeSequenceGraph.error.reason, 'LOCAL_GRAPH_SEQUENCE_INVALID');
 });
 
 test('Atlas V5 P1 domain events: tree reorder Command Kernel result carries real event facts and fails closed when facts are missing', async () => {
@@ -403,7 +424,11 @@ test('Atlas V5 P1 domain events: tree reorder Command Kernel result carries real
   const digest = runtime.hashCoreDomainEvents([event]);
 
   const registry = createCommandRegistry();
+  const domainEventPort = {
+    hashCoreDomainEvents: runtime.hashCoreDomainEvents,
+  };
   projectCommands.registerProjectCommands(registry, {
+    domainEventPort,
     electronAPI: {
       async invokeUiCommandBridge() {
         return {
@@ -429,6 +454,50 @@ test('Atlas V5 P1 domain events: tree reorder Command Kernel result carries real
   assert.deepEqual(okResult.value.events[0].payload.sceneIds, ['scene-10', 'scene-2', 'scene-1']);
   assert.equal(okResult.value.domainEventDigest, digest);
   assert.equal(okResult.value.receipt.receiptId, 'tree-reorder-receipt-1');
+
+  const noOpRegistry = createCommandRegistry();
+  projectCommands.registerProjectCommands(noOpRegistry, {
+    domainEventPort,
+    electronAPI: {
+      async invokeUiCommandBridge() {
+        return { ok: true, value: { ok: true, nodeId: 'scene-10', reordered: false, events: [], domainEventDigest: '' } };
+      },
+    },
+  });
+  const noOp = await noOpRegistry.getHandler(projectCommands.EXTRA_COMMAND_IDS.TREE_REORDER_NODE)({
+    projectId: 'p-events',
+    nodeId: 'scene-10',
+    direction: 'up',
+  });
+  assert.equal(noOp.ok, true, JSON.stringify(noOp.error || {}));
+  assert.equal(noOp.value.reordered, false);
+  assert.deepEqual(noOp.value.events, []);
+
+  const digestMismatchRegistry = createCommandRegistry();
+  projectCommands.registerProjectCommands(digestMismatchRegistry, {
+    domainEventPort,
+    electronAPI: {
+      async invokeUiCommandBridge() {
+        return {
+          ok: true,
+          value: {
+            ok: true,
+            nodeId: 'scene-10',
+            reordered: true,
+            events: [event],
+            domainEventDigest: '0'.repeat(64),
+          },
+        };
+      },
+    },
+  });
+  const digestMismatch = await digestMismatchRegistry.getHandler(projectCommands.EXTRA_COMMAND_IDS.TREE_REORDER_NODE)({
+    projectId: 'p-events',
+    nodeId: 'scene-10',
+    direction: 'up',
+  });
+  assert.equal(digestMismatch.ok, false);
+  assert.equal(digestMismatch.error.reason, 'TREE_REORDER_DOMAIN_EVENT_DIGEST_MISMATCH');
 
   const missingFactsRegistry = createCommandRegistry();
   projectCommands.registerProjectCommands(missingFactsRegistry, {
@@ -468,19 +537,22 @@ test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retai
     { mode: runtime.STAGE10_ACTIVATION_MODES.PHYSICAL_POINTER_OR_KEYBOARD, controlId: 'stage10-core-project-create' },
   );
   assert.equal(result.ok, true, result.error?.reason || '');
-  assert.ok(Array.isArray(result.receipt.domainEvents));
-  assert.equal(result.receipt.domainEvents.length, 2);
-  assert.equal(result.receipt.domainEventDigest, domainEvents.hashCoreDomainEvents(result.receipt.domainEvents));
+  assert.equal(result.receipt.schemaVersion, 'command-kernel.receipt.v1');
+  assert.equal(Array.isArray(result.receipt.domainEvents), false);
+  assert.equal(Array.isArray(result.receipt.details.domainEvents), false);
   const session = product.getSession();
+  assert.ok(Array.isArray(session.eventLog.events[0].domainEvents));
+  assert.equal(session.eventLog.events[0].domainEvents.length, 2);
+  assert.equal(result.receipt.domainEventDigest, domainEvents.hashCoreDomainEvents(session.eventLog.events[0].domainEvents));
+  assert.equal(result.receipt.domainEventCount, 2);
   assert.equal(session.eventLog.events[0].domainEventDigest, result.receipt.domainEventDigest);
-  assert.deepEqual(session.eventLog.events[0].domainEvents, result.receipt.domainEvents);
   const readModels = product.getReadModels();
   assert.equal(readModels.replay.ok, true);
   assert.equal(readModels.replay.steps[0].commandReceiptRef.domainEventDigest, result.receipt.domainEventDigest);
 
-  result.receipt.domainEvents[0].payload.projectId = 'mutated-returned-receipt';
+  result.receipt.domainEventDigest = '0'.repeat(64);
   const internalSession = product.getSession();
-  assert.equal(internalSession.commandReceipts[0].domainEvents[0].payload.projectId, 'stage10-domain-events');
+  assert.notEqual(internalSession.commandReceipts[0].domainEventDigest, '0'.repeat(64));
   assert.equal(product.getReadModels().replay.ok, true);
 
   const missingReceiptSession = product.getSession();
@@ -493,12 +565,49 @@ test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retai
   );
 
   const staleDigestSession = product.getSession();
-  staleDigestSession.commandReceipts[0].domainEvents[0].payload.projectId = 'mutated-replay-receipt';
+  staleDigestSession.eventLog.events[0].domainEvents[0].payload.projectId = 'mutated-event-fact';
   const staleDigestReadModels = runtime.buildStage10ProductReadModels(staleDigestSession);
   assert.equal(staleDigestReadModels.replay.ok, false);
   assert.equal(
     staleDigestReadModels.replay.rejected[0].code,
+    'E_COLLAB_OPERATION_REPLAY_ENTRY_INVALID',
+  );
+
+  const missingEventDigestSession = product.getSession();
+  delete missingEventDigestSession.eventLog.events[0].domainEventDigest;
+  const missingEventDigestReadModels = runtime.buildStage10ProductReadModels(missingEventDigestSession);
+  assert.equal(missingEventDigestReadModels.replay.ok, false);
+  assert.equal(
+    missingEventDigestReadModels.replay.rejected[0].code,
+    'E_COLLAB_OPERATION_REPLAY_ENTRY_INVALID',
+  );
+
+  const strippedReceiptDigestSession = product.getSession();
+  delete strippedReceiptDigestSession.commandReceipts[0].domainEventDigest;
+  const strippedReceiptDigestReadModels = runtime.buildStage10ProductReadModels(strippedReceiptDigestSession);
+  assert.equal(strippedReceiptDigestReadModels.replay.ok, false);
+  assert.equal(
+    strippedReceiptDigestReadModels.replay.rejected[0].code,
     'E_COLLAB_OPERATION_REPLAY_RECEIPT_DOMAIN_EVENT_DIGEST_MISMATCH',
+  );
+
+  const jointMutationSession = product.getSession();
+  jointMutationSession.eventLog.events[0].domainEvents[0].payload.projectId = 'jointly-mutated-event-fact';
+  jointMutationSession.eventLog.events[0].domainEventDigest = domainEvents.hashCoreDomainEvents(jointMutationSession.eventLog.events[0].domainEvents);
+  const jointMutationReadModels = runtime.buildStage10ProductReadModels(jointMutationSession);
+  assert.equal(jointMutationReadModels.replay.ok, false);
+  assert.equal(
+    jointMutationReadModels.replay.rejected[0].code,
+    'E_COLLAB_OPERATION_REPLAY_RECEIPT_DOMAIN_EVENT_DIGEST_MISMATCH',
+  );
+
+  const receiptFactsSession = product.getSession();
+  receiptFactsSession.commandReceipts[0].domainEvents = receiptFactsSession.eventLog.events[0].domainEvents;
+  const receiptFactsReadModels = runtime.buildStage10ProductReadModels(receiptFactsSession);
+  assert.equal(receiptFactsReadModels.replay.ok, false);
+  assert.equal(
+    receiptFactsReadModels.replay.rejected[0].code,
+    'E_COLLAB_OPERATION_REPLAY_RECEIPT_FACTS_FORBIDDEN',
   );
 });
 
@@ -506,6 +615,11 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
   const doctorSource = readRepoText('scripts/doctor.mjs');
   const domainSource = readRepoText('src/core/domainEvents.mjs');
   const runtimeSource = readRepoText('src/core/runtime.mjs');
+  const applySource = readRepoText('src/collab/applyEventLog.mjs');
+  const productPortSource = readRepoText('src/product/domainEventPort.mjs');
+  const collabOpsSource = readRepoText('scripts/ops/collab-apply-pipeline-state.mjs');
+  const requiredWorkflow = readRepoText('.github/workflows/rtk-required.yml');
+  const packageJson = readRepoJson('package.json');
 
   assert.match(doctorSource, /PUBLIC_CORE_EVENT_WILDCARD_TYPE/u);
   assert.match(doctorSource, /DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_COMMIT/u);
@@ -519,6 +633,16 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
   assert.doesNotMatch(domainSource, /\b(localStorage|indexedDB|ipcRenderer)\s*[.(]/u);
   assert.doesNotMatch(domainSource, /\b(eventStore|appendEvent|writeEvent|appendFile|writeFile)\s*\(/u);
   assert.match(runtimeSource, /emitCoreDomainEventsForCommandResult/u);
+  assert.doesNotMatch(applySource, /from\s+['"][^'"]*\/core\/[^'"]*['"]/u);
+  assert.match(productPortSource, /createCoreDomainEventProductPort/u);
+  assert.match(productPortSource, /validateCoreDomainEvent/u);
+  assert.match(productPortSource, /hashCoreDomainEvents/u);
+  assert.match(productPortSource, /secondJournal:\s*false/u);
+  assert.match(collabOpsSource, /createCoreDomainEventProductPort/u);
+  assert.equal(typeof packageJson.scripts['test:atlas-event-contract'], 'string');
+  assert.match(requiredWorkflow, /npm run -s test:atlas-event-contract/u);
+  assert.match(packageJson.scripts['test:atlas-event-contract'], /yalken-atlas-v5-p1-domain-event-contract-repair\.contract\.test\.js/u);
+  assert.match(packageJson.scripts['test:atlas-event-contract'], /collab-apply-no-network-wiring\.contract\.test\.js/u);
 });
 
 test('Atlas V5 P1 domain events: 1000-scene order event hashing stays inside bounded perf guard', async () => {

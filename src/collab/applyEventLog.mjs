@@ -47,14 +47,14 @@ function getDomainEventPort(input = {}) {
       ? port.hashCoreDomainEvents
       : typeof port.hashDomainEvents === 'function'
         ? port.hashDomainEvents
-        : (events) => hashCanonical(events),
+        : null,
   };
 }
 
 function domainEventsValid(events, domainEventPort) {
   try {
     const normalized = normalizeDomainEvents(events);
-    if (normalized.length > 0 && typeof domainEventPort.validate !== 'function') return false;
+    if (normalized.length > 0 && (typeof domainEventPort.validate !== 'function' || typeof domainEventPort.hash !== 'function')) return false;
     return normalized.every((event) => {
       const validation = domainEventPort.validate(event);
       return validation === true || validation?.ok === true;
@@ -213,6 +213,8 @@ export function applyEventLog(input = {}) {
     rejected,
     stateHash,
     domainEvents,
-    domainEventDigest: domainEventPort.hash(domainEvents),
+    domainEventDigest: typeof domainEventPort.hash === 'function'
+      ? domainEventPort.hash(domainEvents)
+      : hashCanonical(domainEvents),
   };
 }

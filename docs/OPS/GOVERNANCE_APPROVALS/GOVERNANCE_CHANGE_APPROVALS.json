@@ -3,12 +3,12 @@
   "approvals": [
     {
       "filePath": ".github/workflows/rtk-required.yml",
-      "sha256": "c5827d031bdd607066dd7a5d35fb4052977611a0b0e288a2301ddcb1c7b83372",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "sha256": "bb330c5c81efc389c012ec7e22803231d22e05e97ae6383907114ce50906803e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair CI truth rebind adding the maintained Atlas event-contract graph to required workflow visibility while preserving Word C4 RTK checks, offline local behavior, no network, no dependency, no UI redesign, and no Program DONE claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
@@ -5039,12 +5039,21 @@
     },
     {
       "filePath": "scripts/ops/collab-apply-pipeline-state.mjs",
-      "sha256": "9ac61342cdcae4b3449f5521b3075ab9271a5c5f3fdf2f4c32518acdbffbde28",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "8b4f03a41e7cb5ea88f1540c30c19f8cb13770267440c8023317402c04dd74c2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair for collab apply product domain-event port wiring and maintained CI visibility; preserves offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
+    },
+    {
+      "filePath": "scripts/ops/collab-eventlog-state.mjs",
+      "sha256": "72cf4b84ff34cdf1085274d0c429560d3fd476297be036dd25e3f40a27b60be0",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair for collab event-log proof routing through the product domain-event port; preserves deterministic replay, offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "scripts/ops/command-surface-caller-trust-state.mjs",
@@ -5132,10 +5141,10 @@
     },
     {
       "filePath": "scripts/ops/freeze-rollups-state.mjs",
-      "sha256": "e4e3a09278795c97e15528059c0f863b7b1f3617e8ede415cf3f6876e822b7c0",
-      "approvedBy": "ticket:TZ_X25_P0_WS05_STRICT_DOCTOR_ALIGNMENT_CLUSTER_RECOVERY_001",
-      "approvedAtUtc": "2026-02-28T23:49:20.337Z",
-      "rationale": "X25_WS05_STRICT_CLUSTER_ALIGNMENT_RECOVERY_APPROVAL_REBIND"
+      "sha256": "9004502bf0ff9066366cd65a7b0c826079cdcc5b707db173e25586edbd21ad61",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair for adapter-boundary false-positive reduction to real browser document globals while preserving no-platform-core enforcement, offline local behavior, no network, no dependency, no UI redesign, and no Program DONE claim."
     },
     {
       "filePath": "scripts/ops/full-cross-platform-parity-state.mjs",
@@ -5878,10 +5887,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "9ffc743b1e718b45a75062a9984af9c561c6917eb051c1e5683542e835284b75",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+      "sha256": "01dd0b44c15b4096c69ca67e446fbc9272342ff2ea91347d44743ff85a739a5f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR_V3",
+      "approvedAtUtc": "2026-08-01T18:14:00.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair Sector-M exact DONE scope-map rebind for legitimate event-contract and CI files on the current repair branch; preserves no wildcard prefix, no UI redesign, no network, no dependency, and no Program DONE claim."
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -6489,12 +6498,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "191dda33c00722181da91bfb29dd3017de25ab8dd79e9d39bc64452450d5e602",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve current src/main.js bytes after preserving the merged Word C3 worker output budget semantics and adding the bounded Atlas V5 scene-order event repair: tree reorder no longer uses targetIndex as commandSeq, returns real SceneOrderChanged facts and digest, and fails closed when fact construction fails; no UI redesign, no network, no dependency, no storage bypass.",
+      "sha256": "75f8c5eaabe6cc24647eea741339414f5963cd2e11eec5feb71f9df831c739c2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair main-process scene reorder boundary: no-op reorder remains false with empty facts, actual reorder returns verified domain-event digest, Word C4 semantics preserved, no direct UI or storage bypass, no network, no dependency, no UI redesign, and no Program DONE claim.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -6535,10 +6544,10 @@
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "3f91aa11067da9da0c8053bff13c1619d48511e10bd0631b66868f6f8c9d0f5f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
+      "sha256": "185b95e00205fd37f1a1795d410c5cfff110108e28ec2af7dad323bb6fa1c8b1",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair deterministic Atlas manual-map draft ID helper replacing hotpath random suffixes; preserves existing UI contract and local draft behavior, no product truth expansion, no network, no dependency, no UI redesign, and no Program DONE claim."
     },
     {
       "filePath": "src/renderer/index.html",
@@ -6612,21 +6621,39 @@
     },
     {
       "filePath": "test/contracts/collab-apply-pipeline-deterministic.contract.test.js",
-      "sha256": "6524a6af6fe030a0a8822fc3526c5a28836f3aaba574ba7575c8ff10f86592ed",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "a27ed27dc2c327767ece66f29df9c3a1ba6c611fef43ed1f08eda408739e7678",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair deterministic collab apply contract rebinding through the canonical product domain-event adapter; preserves offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/collab-apply-pipeline-typed-errors.contract.test.js",
-      "sha256": "7554ab766eb92d8728be2580135e954f1e6e2f5e8ba1688ce5ec6a7962fedd28",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "3ad3d12e4a21bd360510fe7483d50da7cd6acb8649d5f8bb2d8eea084b3521e4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair typed-error negatives for missing domain-event hash authority and fail-closed collab apply; preserves offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/collab-eventlog-replay-deterministic.contract.test.js",
+      "sha256": "949cde700ddd649a08ea76286f07d0595c82e07f0a8412ea87c9dc2d784e126b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair replay deterministic contract rebinding through the canonical product domain-event adapter; preserves offline local behavior, no second journal, no direct core import in collab, no network, no dependency, no UI redesign, and no Program DONE claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/core-no-platform-wiring.contract.test.js",
+      "sha256": "b5da862bf6763b1a56ad6aa134fafc3b585e4e2e584f4bc532a49c47aff5b97d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair for no-platform-core contract false-positive reduction to real browser document globals; preserves platform wiring enforcement, offline local behavior, no network, no dependency, no UI redesign, and no Program DONE claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/command-catalog.contract.test.js",
@@ -8585,10 +8612,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js",
-      "sha256": "8c74930548bd41dcb57f4054543d339d1da6e10b1a1b82d60ebfcaa31e8cfb7f",
-      "approvedBy": "ticket:YALKEN_ATLAS_V5_E10_C03_OPERATION_REPLAY_OVER_EXISTING_COMMAND_EVENT_LOG",
-      "approvedAtUtc": "2026-07-30T16:58:50.000Z",
-      "rationale": "Approve E10 C03 focused contract: proves deterministic operation replay report over the existing collab event log with Command Kernel receipt refs, hash-only state replay proof, duplicate op id rejection, typed replay error envelopes, capability revalidation requirement, payload exclusion, no second operation log truth, no private command bus, no direct manuscript mutation, no transport exchange, no network wiring, no storage writer, and no UI scope."
+      "sha256": "69b3c9375c719626e2fa58f9a68a6c3a181ebf79f7ff2e32d3d104fe563532ec",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair E10 C03 contract for versioned Command Kernel receipt authority, forged receipt rejection, mandatory domain-event digest verification, and canonical product domain-event port replay; preserves existing event log truth, no second journal, no network, no dependency, no UI redesign, and no Program DONE claim."
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-e10-c04-actor-causal-offline-queue.contract.test.js",
@@ -8802,12 +8829,12 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "c628376756b41b6e5e27b1f6d89c753845e68c4ed175a772763fdb18206b9b9b",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
-      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "sha256": "ef0dd74413dcad4d9b94090f20688c7a86157952b4cfb22561270234dc8057c6",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
+      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
+      "rationale": "Approve bounded Atlas V5 audit-hold repair P1 domain-event contract negatives for provenance rejection, negative graph sequence, forged receipts, missing digest, digest stripping, joint mutation, no-op reorder, digest mismatch, product collab adapter, CI catalog inclusion, and 1000-scene perf guard; preserves no second journal, no network, no dependency, no UI redesign, and no Program DONE claim.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",

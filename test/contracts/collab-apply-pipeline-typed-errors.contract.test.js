@@ -98,3 +98,40 @@ test('collab apply pipeline fails closed when domain events arrive without a typ
   assert.equal(result.rejected.length, 1);
   assert.equal(result.rejected[0].code, 'E_COLLAB_APPLY_DOMAIN_EVENTS_INVALID');
 });
+
+test('collab apply pipeline fails closed when product port omits the domain event hash function', async () => {
+  const collab = await loadModule('src/collab/applyEventLog.mjs');
+  const core = await loadModule('src/core/runtime.mjs');
+  const domainEvents = await loadModule('src/core/domainEvents.mjs');
+
+  const initialState = core.createInitialCoreState();
+  const initialStateHash = core.hashCoreState(initialState);
+  const result = collab.applyEventLog({
+    coreState: initialState,
+    initialStateHash,
+    events: [
+      {
+        eventId: 'ev-project-create',
+        actorId: 'writer-A',
+        ts: '2026-02-13T12:21:00.000Z',
+        opId: 'op-project-create',
+        commandId: core.CORE_COMMAND_IDS.PROJECT_CREATE,
+        payload: {
+          projectId: 'collab-apply-hash-port-required',
+          title: 'Hash port required',
+          sceneId: 'scene-1',
+        },
+        prevHash: initialStateHash,
+      },
+    ],
+    applyCommand: (state, command) => core.reduceCoreState(state, command),
+    hashState: (value) => core.hashCoreState(value),
+    domainEventPort: {
+      validateCoreDomainEvent: domainEvents.validateCoreDomainEvent,
+    },
+  });
+
+  assert.equal(result.appliedCount, 0);
+  assert.equal(result.rejected.length, 1);
+  assert.equal(result.rejected[0].code, 'E_COLLAB_APPLY_DOMAIN_EVENTS_INVALID');
+});

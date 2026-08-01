@@ -27,3 +27,6 @@ jobs:
 
       - name: Run maintained RTK graph
         run: npm run -s test:rtk
+
+      - name: Run maintained Atlas event contract graph
+        run: npm run -s test:atlas-event-contract

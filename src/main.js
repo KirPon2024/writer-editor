@@ -22627,7 +22627,7 @@ async function handleUiReorderNodeCommand(payload) {
 
   const targetIndex = direction === 'up' ? index - 1 : direction === 'down' ? index + 1 : index;
   if (targetIndex < 0 || targetIndex >= entries.length || targetIndex === index) {
-    return { ok: true, nodeId: resolvedNode.nodeId };
+    return { ok: true, nodeId: resolvedNode.nodeId, reordered: false, events: [], domainEventDigest: '' };
   }
 
   const moveResult = await handleUiMoveNodeCommand({
@@ -22660,6 +22660,7 @@ async function handleUiReorderNodeCommand(payload) {
         receipt: moveResult.receipt && typeof moveResult.receipt === 'object' ? cloneJsonSafe(moveResult.receipt) : null,
         events: [event],
         domainEventDigest: runtime.hashCoreDomainEvents([event]),
+        domainEventDigestVerified: true,
       };
     } catch (error) {
       logDevError('scene-order-domain-event', error);

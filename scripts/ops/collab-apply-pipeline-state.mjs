@@ -3,8 +3,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CORE_COMMAND_IDS, createInitialCoreState, hashCoreState, reduceCoreState } from '../../src/core/runtime.mjs';
-import { hashCoreDomainEvents, validateCoreDomainEvent } from '../../src/core/domainEvents.mjs';
 import { applyEventLog } from '../../src/collab/applyEventLog.mjs';
+import { createCoreDomainEventProductPort } from '../../src/product/domainEventPort.mjs';
 
 const TOOL_VERSION = 'collab-apply-pipeline-state.v1';
 const REQUIRED_FILES = [
@@ -182,16 +182,14 @@ export function evaluateCollabApplyPipelineState() {
   state.checks.pureStatic = toToken(pureStatic);
 
   const fixture = buildDeterministicFixture();
+  const domainEventPort = createCoreDomainEventProductPort();
   const applyOnce = () => applyEventLog({
     coreState: fixture.initialState,
     events: fixture.events,
     initialStateHash: fixture.initialStateHash,
     applyCommand: (currentState, command) => reduceCoreState(currentState, command),
     hashState: (value) => hashCoreState(value),
-    domainEventPort: {
-      validateCoreDomainEvent,
-      hashCoreDomainEvents,
-    },
+    domainEventPort,
   });
 
   const runA = applyOnce();

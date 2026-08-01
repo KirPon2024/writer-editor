@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createInitialCoreState, hashCoreState, reduceCoreState } from '../../src/core/runtime.mjs';
+import { createCoreDomainEventProductPort } from '../../src/product/domainEventPort.mjs';
 import {
   createEmptyEventLog,
   appendEventLogEntry,
@@ -85,6 +86,7 @@ function buildReplayFixture() {
 
 function runReplayFixture() {
   const fixture = buildReplayFixture();
+  const domainEventPort = createCoreDomainEventProductPort();
   let eventLog = createEmptyEventLog();
   let state = createInitialCoreState();
   let stateHash = hashCoreState(state);
@@ -94,6 +96,7 @@ function runReplayFixture() {
       eventLog,
       currentState: state,
       currentStateHash: stateHash,
+      domainEventPort,
       opId: step.opId,
       ts: step.ts,
       actorId: step.actorId,
@@ -116,10 +119,12 @@ function runReplayFixture() {
 
   const replayA = replayEventLog({
     eventLog,
+    domainEventPort,
     initialStateHash: hashCoreState(createInitialCoreState()),
   });
   const replayB = replayEventLog({
     eventLog,
+    domainEventPort,
     initialStateHash: hashCoreState(createInitialCoreState()),
   });
 
@@ -233,6 +238,7 @@ export function evaluateCollabEventLogState() {
     eventLog: createEmptyEventLog(),
     currentState: { marker: 'before' },
     currentStateHash: 'hash-before',
+    domainEventPort: createCoreDomainEventProductPort(),
     opId: 'evt-bypass-1',
     ts: '2026-02-13T09:12:00.000Z',
     actorId: 'writer-Z',
@@ -251,6 +257,7 @@ export function evaluateCollabEventLogState() {
     eventLog: createEmptyEventLog(),
     currentState: { marker: 'before' },
     currentStateHash: 'hash-before',
+    domainEventPort: createCoreDomainEventProductPort(),
     opId: 'evt-bypass-2',
     ts: '2026-02-13T09:12:01.000Z',
     actorId: 'writer-Z',

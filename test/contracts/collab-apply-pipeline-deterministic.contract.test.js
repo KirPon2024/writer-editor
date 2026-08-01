@@ -10,7 +10,7 @@ async function loadModule(filePath) {
 test('collab apply pipeline is deterministic for identical inputs', async () => {
   const collab = await loadModule('src/collab/applyEventLog.mjs');
   const core = await loadModule('src/core/runtime.mjs');
-  const domainEvents = await loadModule('src/core/domainEvents.mjs');
+  const domainEventPort = await loadModule('src/product/domainEventPort.mjs');
 
   const initialState = core.createInitialCoreState();
   const initialStateHash = core.hashCoreState(initialState);
@@ -58,10 +58,7 @@ test('collab apply pipeline is deterministic for identical inputs', async () => 
     initialStateHash,
     applyCommand: (state, command) => core.reduceCoreState(state, command),
     hashState: (value) => core.hashCoreState(value),
-    domainEventPort: {
-      validateCoreDomainEvent: domainEvents.validateCoreDomainEvent,
-      hashCoreDomainEvents: domainEvents.hashCoreDomainEvents,
-    },
+    domainEventPort: domainEventPort.createCoreDomainEventProductPort(),
   });
 
   const first = run();

@@ -22,6 +22,7 @@
     "perf:baseline:check": "node scripts/perf/perf-baseline.mjs check",
     "test": "npm run -s test:ops && node scripts/run-tests.js",
     "test:rtk": "node scripts/run-rtk-tests.mjs",
+    "test:atlas-event-contract": "node scripts/run-tests.js test/contracts/collab-apply-no-network-wiring.contract.test.js test/contracts/collab-apply-pipeline-deterministic.contract.test.js test/contracts/collab-apply-pipeline-typed-errors.contract.test.js test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
     "promotion:check": "npm run -s test:ops && npm run -s test:rtk && node scripts/run-tests.js --mode=promotion",
     "test:electron": "node scripts/run-tests.js electron",
     "sector:u:run": "node scripts/sector-u-run.mjs",

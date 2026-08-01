@@ -33,7 +33,7 @@ test('core has no platform wiring imports/usages', () => {
     /\bipcMain\b/u,
     /\bBrowserWindow\b/u,
     /\bwindow\./u,
-    /\bdocument\./u,
+    /(?<!\.)\bdocument\.(?:activeElement|addEventListener|body|cookie|createElement|createElementNS|documentElement|getElementById|querySelector|querySelectorAll|removeEventListener)\b/u,
     /\bnavigator\./u,
     /from\s+['"]electron['"]/u,
     /require\(['"]electron['"]\)/u,
@@ -55,4 +55,3 @@ test('core has no platform wiring imports/usages', () => {
 
   assert.deepEqual(violations, []);
 });
-

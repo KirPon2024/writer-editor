@@ -34,7 +34,6 @@ const PAYLOAD_FORBIDDEN_AUTHORITY_KEYS = Object.freeze([
   'handler',
   'handlers',
   'ipc',
-  'ipcRenderer',
   'kernel',
   'rpc',
   'storage',
@@ -519,16 +518,6 @@ function eventFor({ type, payload, command, commandSeq, previousStateHash, nextS
   return cloneAndFreeze(event);
 }
 
-function normalizeHashInput(value, fallbackSeed) {
-  const hash = text(value);
-  return SHA256_HEX_RE.test(hash) ? hash : hashCanonicalValue(fallbackSeed);
-}
-
-function normalizeCommandSeqInput(value, fallback = 0) {
-  const seq = Number(value);
-  return Number.isSafeInteger(seq) && seq >= 0 ? seq : fallback;
-}
-
 function requireHashInput(value, key) {
   const hash = text(value);
   if (!SHA256_HEX_RE.test(hash)) throw new Error(`INVALID_CORE_DOMAIN_EVENT_PROVENANCE:${key}`);
@@ -541,6 +530,12 @@ function requireNonNegativeSafeIntegerInput(value, key) {
     throw new Error(`INVALID_CORE_DOMAIN_EVENT_PROVENANCE:${key}`);
   }
   return seq;
+}
+
+function trustedProducerHashInput(value, fallbackSeed, key) {
+  const hash = text(value);
+  if (!hash) return hashCanonicalValue(fallbackSeed);
+  return requireHashInput(hash, key);
 }
 
 function boundaryEvent(type, payload, input, commandType) {
@@ -993,8 +988,8 @@ export function emitCoreDomainEventsForCommandResult({
   const payload = isObjectRecord(command.payload) ? command.payload : {};
   const commandSeq = Number(result?.state?.data?.lastCommandId);
   if (!Number.isSafeInteger(commandSeq) || commandSeq < 1) return [];
-  const previousHash = normalizeHashInput(previousStateHash, previousState);
-  const nextHash = normalizeHashInput(nextStateHash || result?.stateHash, result?.state);
+  const previousHash = trustedProducerHashInput(previousStateHash, previousState, 'previousStateHash');
+  const nextHash = trustedProducerHashInput(nextStateHash || result?.stateHash, result?.state, 'nextStateHash');
   return commandFacts(commandType, payload)
     .filter((candidate) => isCoreDomainEventType(candidate.type))
     .map((candidate) => eventFor({

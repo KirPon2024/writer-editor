@@ -39,6 +39,14 @@ function normalizePositiveInteger(value, fallback, max = 200_000) {
   return Math.min(max, number);
 }
 
+function requirePositiveInteger(value, key, max = 1_000_000_000) {
+  const number = Number(value);
+  if (!Number.isSafeInteger(number) || number < 1 || number > max) {
+    throw new Error(`${key}_INVALID`);
+  }
+  return number;
+}
+
 function plannerError(code, reason, details = {}) {
   const error = {
     code,
@@ -79,7 +87,9 @@ function graphSourceRevision(graph = {}) {
 
 function buildJobIdentity({ graph, sourceRevision, sequence, layoutKind, limits }) {
   const projectId = normalizeText(graph.projectId);
-  const generation = normalizePositiveInteger(sequence, 1, 1_000_000_000);
+  const generation = sequence === undefined || sequence === null || (typeof sequence === 'string' && normalizeText(sequence) === '')
+    ? 1
+    : requirePositiveInteger(sequence, 'LOCAL_GRAPH_SEQUENCE');
   const revision = normalizeText(sourceRevision) || graphSourceRevision(graph);
   if (!SHA256_HEX_RE.test(revision)) throw new Error('LOCAL_GRAPH_SOURCE_REVISION_INVALID');
   const requestHash = hashCanonicalValue({
@@ -342,6 +352,11 @@ export function runAtlasLocalGraphLayoutJob(job = {}) {
   if (!isPlainObject(job) || job.schemaVersion !== ATLAS_LOCAL_GRAPH_LAYOUT_JOB_SCHEMA_VERSION) {
     return plannerError('E_ATLAS_LOCAL_GRAPH_LAYOUT_JOB_INVALID', 'JOB_INVALID');
   }
+  try {
+    requirePositiveInteger(job.generation, 'LOCAL_GRAPH_SEQUENCE');
+  } catch (error) {
+    return plannerError('E_ATLAS_LOCAL_GRAPH_LAYOUT_JOB_INVALID', error?.message || 'LOCAL_GRAPH_SEQUENCE_INVALID');
+  }
   const graph = isPlainObject(job.input?.graph) ? job.input.graph : {};
   const layoutPlan = buildAtlasLocalGraphLayoutPlan({
     graph,
@@ -381,8 +396,18 @@ export function acceptAtlasLocalGraphLayoutResult(input = {}) {
   if (activeJob.schemaVersion !== ATLAS_LOCAL_GRAPH_LAYOUT_JOB_SCHEMA_VERSION) {
     return plannerError('E_ATLAS_LOCAL_GRAPH_LAYOUT_ACTIVE_JOB_INVALID', 'ACTIVE_JOB_INVALID');
   }
+  try {
+    requirePositiveInteger(activeJob.generation, 'LOCAL_GRAPH_SEQUENCE');
+  } catch (error) {
+    return plannerError('E_ATLAS_LOCAL_GRAPH_LAYOUT_ACTIVE_JOB_INVALID', error?.message || 'LOCAL_GRAPH_SEQUENCE_INVALID');
+  }
   if (result.schemaVersion !== ATLAS_LOCAL_GRAPH_LAYOUT_RESULT_SCHEMA_VERSION) {
     return plannerError('E_ATLAS_LOCAL_GRAPH_LAYOUT_RESULT_INVALID', 'RESULT_INVALID');
+  }
+  try {
+    requirePositiveInteger(result.generation, 'LOCAL_GRAPH_SEQUENCE');
+  } catch (error) {
+    return plannerError('E_ATLAS_LOCAL_GRAPH_LAYOUT_RESULT_INVALID', error?.message || 'LOCAL_GRAPH_SEQUENCE_INVALID');
   }
   if (result.ok !== true) return plannerError('E_ATLAS_LOCAL_GRAPH_LAYOUT_RESULT_FAILED', 'RESULT_FAILED');
   const mismatches = [];

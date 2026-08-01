@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r3.c05.releaseSaturationRevalidation.v1",
+  "contourId": "R3_C05_RELEASE_SATURATION_REVALIDATION_AND_INDEPENDENT_AUDIT",
+  "generatedAtUtc": "2026-08-01T01:52:22.793Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-night01-c01-final-rerun",
+    "headSha": "fd092ff854c926cd9c45bbd264216cf996c268ca",
+    "originMainSha": "fd092ff854c926cd9c45bbd264216cf996c268ca",
+    "headEqualsOriginMain": true,
+    "dirtyFiles": [
+      "?? scripts/ops/yalken-atlas-v5-night01-c01-independent-final-rerun.mjs",
+      "?? test/contracts/yalken-atlas-v5-night01-c01-independent-final-rerun.contract.test.js"
+    ]
+  },
+  "status": "PASS_R3_C05_RELEASE_SATURATION_REVALIDATED",
+  "pass": true,
+  "programDoneClaim": false,
+  "oldEfinalAcceptedAsCurrentProof": false,
+  "journeys": {
+    "c01": {
+      "status": "PASS_ATLAS_ENTITY_RELATION_UI_JOURNEY",
+      "pass": true,
+      "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c01-atlas-entity-relation/r3-c01-atlas-entity-relation-ui-journeys-report.json",
+      "reportSha256": "f1fda7c456c7d40e2db6c6ef671492c2d6c2ff948726b602103111d46ffbaa0e"
+    },
+    "c02": {
+      "status": "PASS_ATLAS_TEMPORAL_CONTINUITY_SAVED_QUERY_UI_JOURNEY",
+      "pass": true,
+      "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c02-temporal-continuity-saved-query/r3-c02-temporal-continuity-saved-query-journeys-report.json",
+      "reportSha256": "5fa683a60f097182de7820fa6d30cd7b4c61f9796b382a7a92f45eaf93b62352"
+    },
+    "c03": {
+      "status": "PASS_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_UI_JOURNEY",
+      "pass": true,
+      "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "reportSha256": "9cb13a3e0009e40e88bb38810f1ebda90641f0c1dffc2b4883a90824eba16d5b"
+    },
+    "c04": {
+      "status": "PASS_R3_C04_MULTILINGUAL_WORKER_STRESS",
+      "pass": true,
+      "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c04-multilingual-worker-stress/r3-c04-multilingual-worker-stress-report.json",
+      "reportSha256": "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4"
+    }
+  },
+  "source": {
+    "checks": {
+      "productCommandTransactionSerialized": true,
+      "relationPayloadPreviewPreserved": true,
+      "atlasDesignOsSlotBinding": true,
+      "oldEfinalNotAcceptedAsCurrentProof": true,
+      "noSilentSourceSceneSlice": true,
+      "rawMatcherRiskInspected": true
+    },
+    "atlasSurfaceShellCount": 13,
+    "atlasProviderCount": 11,
+    "oldEfinal": {
+      "exists": true,
+      "acceptedAsCurrentDodProof": false,
+      "replacementRule": "R3_C05_EXECUTABLE_ROWS_ONLY"
+    },
+    "rawMatcherDisposition": {
+      "containsCaseSensitiveIndexOf": true,
+      "currentDisposition": "INSPECTED_EXACT_ONLY_AUTHOR_BOUND_MATCHER_NOT_RELEASE_VETO_FOR_R3_C05",
+      "requiresFutureCapability": "CASE_FOLDING_LANGUAGE_ANALYZER_PORT_WHEN_ACTIVATED"
+    }
+  },
+  "p0Rows": [
+    {
+      "id": "NIGHT01_P0_01_EXECUTABLE_DOD_ROWS",
+      "status": "CLOSED_BY_EXECUTABLE_R3_ROWS",
+      "evidence": [
+        "f1fda7c456c7d40e2db6c6ef671492c2d6c2ff948726b602103111d46ffbaa0e",
+        "5fa683a60f097182de7820fa6d30cd7b4c61f9796b382a7a92f45eaf93b62352",
+        "9cb13a3e0009e40e88bb38810f1ebda90641f0c1dffc2b4883a90824eba16d5b",
+        "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_02_AUTHOR_STATE_LOSSLESS_VERSIONED",
+      "status": "CLOSED_BY_R3_C04",
+      "evidence": [
+        "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_03_NO_SILENT_SCENE_SLICE",
+      "status": "CLOSED_BY_R3_C04_AND_SOURCE_RECHECK",
+      "evidence": [
+        "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4",
+        "source:src/main.js"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_04_PROJECT_SCOPED_TRANSACTION_CONFLICT_SAFETY",
+      "status": "CLOSED_BY_R3_C05_SOURCE_AND_CONTRACT",
+      "evidence": [
+        "source:src/main.js"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_05_RELATION_PAYLOAD_PREVIEW_AND_VISIBLE_COMMANDS",
+      "status": "CLOSED_BY_R3_C01_AND_R3_C05_PREVIEW_DISPATCH",
+      "evidence": [
+        "f1fda7c456c7d40e2db6c6ef671492c2d6c2ff948726b602103111d46ffbaa0e",
+        "source:src/derived/atlas/deriveAtlasRelationDossier.mjs",
+        "source:src/renderer/editor.js"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_06_CONTINUITY_AUTHOR_COMMANDS_REOPEN",
+      "status": "CLOSED_BY_R3_C02",
+      "evidence": [
+        "5fa683a60f097182de7820fa6d30cd7b4c61f9796b382a7a92f45eaf93b62352"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_07_ATLAS_FEATURE_MANIFEST_DESIGN_OS_SLOT",
+      "status": "CLOSED_BY_R3_C05_SOURCE_AND_UI_SLOT_RECHECK",
+      "evidence": [
+        "source:src/renderer/index.html",
+        "source:src/derived/atlas/deriveAtlasRelationDossier.mjs"
+      ]
+    },
+    {
+      "id": "NIGHT01_P0_08_MULTILINGUAL_GRAPHEME_CORE_ADMISSION",
+      "status": "CLOSED_BY_R3_C04",
+      "evidence": [
+        "1c2a938fc25a95256c778afc66ede2279bc5cad0a3ebc9d50e9544d27835a9a4"
+      ]
+    }
+  ],
+  "openP0": [],
+  "nextGate": "DELIVER_R3_C05_THEN_RUN_FINAL_INDEPENDENT_REMOTE_HEAD_AUDIT"
+}

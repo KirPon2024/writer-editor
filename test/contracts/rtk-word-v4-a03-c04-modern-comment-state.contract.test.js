@@ -58,6 +58,7 @@ test('A03 C04 binds modern comment state readback without reply or resolve-reope
   assert.ok([
     'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION',
     'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION',
+    'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION',
   ].includes(program.v4ExecutionState.nextStage));
 });
 

@@ -38,6 +38,7 @@ const C05_NEXT_STAGE = 'RELEASE_AUDIT_REBIND_AFTER_C05';
 const P0_REPLY_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED';
 const P0_REPLY_NEXT_STAGE = 'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION';
 const P0_RESOLVE_NEXT_STAGE = 'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION';
+const P0_FORMATTING_NEXT_STAGE = 'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION';
 const EVIDENCE_ID = 'A03_C04_MODERN_COMMENT_STATE';
 
 function readJson(filePath) {
@@ -469,18 +470,22 @@ function isC05SuccessorState(profile, program, ledger, promotionList) {
 
 function isP0ReplySuccessorState(profile, program, ledger, promotionList) {
   const nextStage = program.v4ExecutionState?.nextStage;
-  const replyOrLaterNextStage = nextStage === P0_REPLY_NEXT_STAGE || nextStage === P0_RESOLVE_NEXT_STAGE;
+  const replyOrLaterNextStage = [
+    P0_REPLY_NEXT_STAGE,
+    P0_RESOLVE_NEXT_STAGE,
+    P0_FORMATTING_NEXT_STAGE,
+  ].includes(nextStage);
   return promotionList.status === C05_PROMOTION_STATUS
     && promotionList.nextContour === 'RELEASE-AUDIT'
     && profile.status === P0_REPLY_STATUS
     && program.status === P0_REPLY_STATUS
-    && (program.nextStep === P0_REPLY_NEXT_STAGE || program.nextStep === P0_RESOLVE_NEXT_STAGE)
+    && [P0_REPLY_NEXT_STAGE, P0_RESOLVE_NEXT_STAGE, P0_FORMATTING_NEXT_STAGE].includes(program.nextStep)
     && replyOrLaterNextStage
     && program.v4ExecutionState?.modernReplyTypedLimitationBound === true
     && program.v4ExecutionState?.modernResolveReopenCertified !== true
     && program.v4ExecutionState?.googleDocsOpened === false
     && ledger.status === P0_REPLY_STATUS
-    && (ledger.nextStage === P0_REPLY_NEXT_STAGE || ledger.nextStage === P0_RESOLVE_NEXT_STAGE)
+    && [P0_REPLY_NEXT_STAGE, P0_RESOLVE_NEXT_STAGE, P0_FORMATTING_NEXT_STAGE].includes(ledger.nextStage)
     && ledger.coverageLedger?.a03C04ModernCommentState?.status === 'BOUND_STATE_READBACK_ONLY'
     && ledger.coverageLedger?.p0ModernCommentRepliesTypedLimitation?.status === 'BOUND_TYPED_LIMITATION_WITH_SHADOW_PRESERVATION'
     && (

@@ -137,7 +137,7 @@ test('comment shadow command preserves RESOLVED state and keeps reopen as typed 
   assert.equal(replay.status, 'replay');
 });
 
-test('normalized matrix advances from resolve reopen typed limitation to formatting blocker', async () => {
+test('normalized matrix keeps resolve reopen typed limitation closed through later formatting successor', async () => {
   const { evaluateNormalizedCapabilityMatrix } = await loadMatrixEvaluator();
   const matrix = readJson(MATRIX_PATH);
   const profile = readJson(PROFILE_PATH);
@@ -145,12 +145,15 @@ test('normalized matrix advances from resolve reopen typed limitation to formatt
   const byId = new Map(matrix.rows.map((row) => [row.cellId, row]));
   const stateCell = byId.get('rtk.word.v4.modernCommentStateReadbackGate');
   const formattingCell = byId.get('rtk.word.v4.effectiveFormattingDiagnostics');
+  const structuralCell = byId.get('rtk.word.v4.typedStructuralDiagnostics');
 
   assert.equal(result.ok, true, JSON.stringify(result.issues, null, 2));
   assert.equal(stateCell.blocksWordSaturation, false);
   assert.equal(stateCell.reasonCode, 'RTK_NORM_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND');
   assert.equal(stateCell.requiredNextContour, 'NONE_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND');
-  assert.equal(formattingCell.blocksWordSaturation, true);
-  assert.equal(matrix.counts.blocksWordSaturation, 4);
-  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION');
+  assert.equal(formattingCell.blocksWordSaturation, false);
+  assert.equal(formattingCell.reasonCode, 'RTK_NORM_FORMATTING_APPLY_TYPED_LIMITATION_BOUND');
+  assert.equal(structuralCell.blocksWordSaturation, true);
+  assert.equal(matrix.counts.blocksWordSaturation, 3);
+  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION');
 });

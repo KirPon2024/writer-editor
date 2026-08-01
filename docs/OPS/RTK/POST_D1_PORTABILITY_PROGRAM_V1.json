@@ -380,7 +380,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
+  "nextStep": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -396,7 +396,7 @@
   "v4ExecutionState": {
     "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
     "currentStage": "P0_NORMALIZED_CAPABILITY_MATRIX",
-    "nextStage": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
+    "nextStage": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
     "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
@@ -627,13 +627,16 @@
     "modernReplyTypedLimitationBound": true,
     "modernReplyBodyShadowPreservationCertified": true,
     "modernResolveReopenTypedLimitationBound": true,
-    "resolvedStateShadowPreservationCertified": true
+    "resolvedStateShadowPreservationCertified": true,
+    "safeFormattingLaneTypedLimitationBound": true,
+    "formattingDiagnosticProductPathProven": true,
+    "runtimeApplyAuthorityGrantedForFormatting": false
   },
   "releaseAuditNight01": {
     "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
     "currentStage": "P0_NORMALIZED_CAPABILITY_MATRIX",
-    "nextStage": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION_RECEIPT.json",
+    "nextStage": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_FORMATTING_LANE_TYPED_LIMITATION_RECEIPT.json",
     "latestEnvironmentPermissionProbeReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
     "latestEnvironmentPermissionProbeStatus": "MACOS_WORD_SANDBOX_GRANT_REQUIRED_NOT_PACKAGE_INVALID",
     "latestEnvironmentPermissionProbeTerminalReason": "HOST_DIALOG_DID_NOT_OPEN_PICKER_OR_DID_NOT_BIND_SELECTED_ITEM",
@@ -709,7 +712,7 @@
       "physicalWordEvidence": 16,
       "productRuntimeWired": 11,
       "automaticApplyCertified": 0,
-      "blocksWordSaturation": 4,
+      "blocksWordSaturation": 3,
       "currentTerminalClass": {
         "COMPONENT_PROVEN": 5,
         "PHYSICAL_WORD_EVIDENCE": 3,
@@ -727,7 +730,10 @@
         "PRODUCT_RUNTIME_WIRED": 11,
         "TYPED_LIMITATION": 2
       }
-    }
+    },
+    "safeFormattingLaneTypedLimitationBound": true,
+    "formattingDiagnosticProductPathProven": true,
+    "automaticFormattingApplyCertified": false
   },
   "latestWordProductVerticalTrackedEdit": {
     "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",

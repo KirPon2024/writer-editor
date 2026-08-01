@@ -273,7 +273,7 @@
       "capabilityId": "rtk.word.v4.effectiveFormattingDiagnostics",
       "operationFamily": "effective formatting headings lists hyperlinks and typography deltas",
       "state": "PHYSICAL_WORD_PROVEN",
-      "currentCapability": "FORMATTING_DIAGNOSTIC_LANE_WITH_TYPED_LIMITATIONS",
+      "currentCapability": "FORMATTING_DIAGNOSTIC_LANE_TERMINAL_TYPED_LIMITATION_BOUND",
       "physicalWordEvidence": true,
       "consumer": "EXECUTION_10 multi-round replay stale conflicts",
       "acceptanceTest": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
@@ -291,14 +291,22 @@
         "paragraph property style alignment indent list metadata diagnostic readback",
         "inert hyperlink relationship and anchor inventory diagnostic readback",
         "Unicode and writer-scale formatting delta readback",
-        "formatting lane remains separate from manuscript text and comment lanes"
+        "formatting lane remains separate from manuscript text and comment lanes",
+        "product return preview preserves formatting diagnostics as a user-visible loss report without writer authority"
       ],
       "limitations": [
         "automatic formatting apply is not certified by E08",
         "style list hyperlink semantics remain manual readback in E08",
-        "tables sections footnotes fields images headers footers and page layout are not certified by E08"
+        "tables sections footnotes fields images headers footers and page layout are not certified by E08",
+        "formatting apply remains manual diagnostic only until a future FormatIR apply contour proves reverse verification and recovery"
       ],
-      "killCriterion": "any formatting diagnostic readback is claimed as automatic or destructive apply, writer authority is added, or typed limitation disappears"
+      "killCriterion": "Any formatting diagnostic is promoted to manuscript write authority without a future FormatIR reverse-verification contour, or a formatting-only returned DOCX mutates project text.",
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "safeFormattingLaneTypedLimitationReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_FORMATTING_LANE_TYPED_LIMITATION_RECEIPT.json",
+      "formattingDiagnosticProductPathProven": true,
+      "formattingApplyTypedLimitationBound": true,
+      "automaticFormattingApplyCertified": false
     },
     {
       "capabilityId": "rtk.word.v4.typedStructuralDiagnostics",
@@ -1175,7 +1183,7 @@
       "physicalWordEvidence": 16,
       "productRuntimeWired": 11,
       "automaticApplyCertified": 0,
-      "blocksWordSaturation": 4,
+      "blocksWordSaturation": 3,
       "currentTerminalClass": {
         "COMPONENT_PROVEN": 5,
         "PHYSICAL_WORD_EVIDENCE": 3,
@@ -1194,7 +1202,7 @@
         "TYPED_LIMITATION": 2
       }
     },
-    "nextStage": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
+    "nextStage": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
     "wordSaturated": false,
     "automaticApplyCertified": false
   }

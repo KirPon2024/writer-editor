@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_P0_REPEAT_HIGH_DENSITY_STRESS_COMPLETE_NOT_SATURATED",
+  "status": "WORD_SATURATION_P0_500K_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -556,6 +556,17 @@
       "automaticApplyCertified": false,
       "wordSaturated": false,
       "googleDocsOpened": false
+    },
+    "releaseAuditNight01P0500kTerminalAudit": {
+      "status": "BOUND_PRODUCT_500K_TERMINAL_AUDIT_COMPLETE",
+      "sourceEvidence": "RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT",
+      "observedCases": 1,
+      "boundaryResult": "TYPED_LIMITATION_REPRODUCED",
+      "boundaryClass": "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY",
+      "maxCertifiedTrackedReplacementWordsBeforeBoundary": 100000,
+      "automaticApplyCertified": false,
+      "wordSaturated": false,
+      "googleDocsOpened": false
     }
   },
   "aggregateTotals": {
@@ -680,7 +691,10 @@
     "p0RepeatHighDensityStressPass": 12,
     "p0RepeatHighDensityStressPhysicalWordPass": 12,
     "p0RepeatHighDensityStressLargestWords": 100000,
-    "p0RepeatHighDensityStressLargestCommentCount": 120
+    "p0RepeatHighDensityStressLargestCommentCount": 120,
+    "p0500kTerminalAuditObservedCases": 1,
+    "p0500kTerminalAuditBoundaryWords": 500000,
+    "p0500kTerminalAuditMaxCertifiedTrackedReplacementWords": 100000
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -702,7 +716,12 @@
     "FORMAT_UNICODE_STRUCTURE_STRESS_REMAINS_PENDING_AFTER_WAVE64",
     "LARGE_MANUSCRIPT_STRESS_REMAINS_PENDING_AFTER_FORMAT_UNICODE_STRUCTURE",
     "REPEAT_STABILITY_HIGH_DENSITY_AND_500K_STRESS_REMAIN_PENDING",
-    "500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_REMAIN_PENDING"
+    "500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_REMAIN_PENDING",
+    "MONOLITHIC_500K_TRACKED_REPLACEMENT_SCALE_ENGINEERING",
+    "MODERN_COMMENT_REPLY_PRODUCT_RUNTIME_NOT_CERTIFIED",
+    "MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_RUNTIME_NOT_CERTIFIED",
+    "FORMATTING_APPLY_REMAINS_DIAGNOSTIC_ONLY",
+    "STRUCTURAL_APPLY_REMAINS_MANUAL_OR_BLOCKED"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": true,
@@ -730,7 +749,7 @@
     "P0 multi-scene atomic and comment delete product wiring does not certify Word saturation.",
     "Modern replies and resolve-reopen remain typed limitations."
   ],
-  "nextStage": "P0_PRODUCT_VERTICAL_500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_AFTER_REPEAT_HIGH_DENSITY",
+  "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_REMAINING_LIMITATION_CLOSURE_AFTER_500K_AUDIT",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

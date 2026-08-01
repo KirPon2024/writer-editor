@@ -2105,11 +2105,13 @@ function checkEventsAppendOnly(matrixMode, debtRegistry) {
     }
   }
 
-  if (!hasWildcardType) {
-    for (const eventId of baselineEventIds) {
-      if (!currentIds.has(eventId)) {
-        violations.push({ eventId });
-      }
+  if (hasWildcardType) {
+    violations.push({ eventId: 'PUBLIC_CORE_EVENT_WILDCARD_TYPE' });
+  }
+
+  for (const eventId of baselineEventIds) {
+    if (!currentIds.has(eventId)) {
+      violations.push({ eventId });
     }
   }
 

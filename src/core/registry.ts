@@ -1,5 +1,4 @@
 export type CoreCommandType = string;
-export type CoreEventType = string;
 
 export const CORE_COMMANDS = [
   'project.create',
@@ -40,4 +39,25 @@ export const CORE_COMMANDS = [
   'manualMap.export.imagePdf',
   'manualMap.import.jsonRepeat',
 ] as const;
-export const CORE_EVENTS = [] as const;
+export const CORE_EVENTS = [
+  'SceneChanged',
+  'SceneOrderChanged',
+  'EntityCreated',
+  'EntityMerged',
+  'EntitySplit',
+  'AliasChanged',
+  'MapChanged',
+  'MapNodePromoted',
+  'DecisionCommitted',
+  'CalendarChanged',
+  'TimeRangeChanged',
+  'ContinuityDecisionCommitted',
+  'ProjectionInvalidated',
+  'DerivedGenerationPublished',
+  'DerivedGenerationRejectedAsStale',
+  'LanguageCapabilityChanged',
+  'MigrationPrepared',
+  'MigrationCommitted',
+  'MigrationRolledBack',
+] as const;
+export type CoreEventType = (typeof CORE_EVENTS)[number];

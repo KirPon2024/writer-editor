@@ -483,10 +483,6 @@ export type CoreCommand =
   | {
       type: "manualMap.template.apply"
       payload: { projectId: string; mapId: string; templateInstanceId: string; templateId: string; templateName?: string; nodes: Array<{ nodeId: string; label: string; nodeKind?: string; position?: { x?: number; y?: number }; targetKind?: string; targetId?: string }>; edges?: Array<{ edgeId: string; fromNodeId: string; toNodeId: string; edgeKind?: string; label?: string }> }
-    }
-  | {
-      type: string
-      payload?: Record<string, unknown>
     };
 
 export type CoreTypedError = {
@@ -496,11 +492,12 @@ export type CoreTypedError = {
   details?: Record<string, unknown>
 }
 
+export type CoreEvent = import("../contracts/core-event.contract").CoreEvent
+
 export type CoreReduceResult = {
   ok: boolean
   state: CoreState
   stateHash: string
   error?: CoreTypedError
+  events: CoreEvent[]
 }
-
-export type CoreEvent = { type: string };

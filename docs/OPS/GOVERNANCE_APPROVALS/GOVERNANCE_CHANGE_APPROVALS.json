@@ -5927,10 +5927,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "01dd0b44c15b4096c69ca67e446fbc9272342ff2ea91347d44743ff85a739a5f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR_V3",
-      "approvedAtUtc": "2026-08-01T18:14:00.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair Sector-M exact DONE scope-map rebind for legitimate event-contract and CI files on the current repair branch; preserves no wildcard prefix, no UI redesign, no network, no dependency, and no Program DONE claim."
+      "sha256": "c5fdfb4651b1669957bc62c72bb7b7a1af907fb1284759343d70eedd8a56b0a3",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
+      "rationale": "Approve exact, non-wildcard Sector-M DONE scope entries for the five Stage-10 authority, bootstrap, command-route, integrity-anchor, and main-persistence modules required by the source-proven R1-R7 repair; no broader scope expansion."
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",

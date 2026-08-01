@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -945,7 +945,7 @@
   },
   "googleDocsStage": {
     "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
-    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
     "matrixPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
     "existingEvidenceClaimGateOnly": true,
     "physicalGoogleEvidence": 0,
@@ -953,13 +953,34 @@
     "automaticApplyCertified": false,
     "blockers": 12,
     "googleStageDone": false,
-    "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY",
-    "externalActivationBoundary": "WORD_SAFETY_REMEDIATION_C1_C5_REQUIRED_BEFORE_GOOGLE_RESUME"
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+    "externalActivationBoundary": "WORD_SAFETY_REMEDIATION_C1_C5_REQUIRED_BEFORE_GOOGLE_RESUME",
+    "currentStage": "GOOGLE_DOCS_REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION"
   },
   "wordAcceptanceRevocation": {
     "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
     "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
     "sourceBoundEvidence": true,
     "previousAuditAcceptedSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb"
+  },
+  "wordSafetyRemediationV1": {
+    "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
+    "currentContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "previousContour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "c1Delivered": true,
+    "c2LocalVerified": true,
+    "c2FullLocalVerified": true,
+    "c2FullLocalVerifiedAtUtc": "2026-08-01T15:01:51.259Z",
+    "c2FullLocalSuite": {
+      "command": "node scripts/run-tests.js",
+      "total": 799,
+      "pass": 735,
+      "skip": 64,
+      "fail": 0
+    }
   }
 }

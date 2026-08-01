@@ -190,12 +190,27 @@
     "No automatic apply is certified.",
     "No Google stage DONE is claimed."
   ],
-  "blockedBy": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+  "blockedBy": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
   "previousStatus": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
   "wordSafetyRemediation": {
     "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
     "wordAcceptanceRevoked": true,
     "googleProductImplementationAllowed": false,
     "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT"
+  },
+  "wordSafetyRemediationV1": {
+    "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
+    "currentContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT",
+    "c2FullLocalVerified": true,
+    "c2FullLocalVerifiedAtUtc": "2026-08-01T15:01:51.259Z",
+    "c2FullLocalSuite": {
+      "command": "node scripts/run-tests.js",
+      "total": 799,
+      "pass": 735,
+      "skip": 64,
+      "fail": 0
+    }
   }
 }

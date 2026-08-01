@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -1311,5 +1311,25 @@
     "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
     "wordAcceptanceRevoked": true,
     "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION"
+  },
+  "wordSafetyRemediationV1": {
+    "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
+    "currentContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "previousContour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "c1Delivered": true,
+    "c2LocalVerified": true,
+    "c2FullLocalVerified": true,
+    "c2FullLocalVerifiedAtUtc": "2026-08-01T15:01:51.259Z",
+    "c2FullLocalSuite": {
+      "command": "node scripts/run-tests.js",
+      "total": 799,
+      "pass": 735,
+      "skip": 64,
+      "fail": 0
+    }
   }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -394,10 +394,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "currentStage": "WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION",
-    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+    "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "currentStage": "WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -643,7 +643,12 @@
     "googleDocsStageDone": false,
     "googleDocsSupportClaimed": false,
     "googleDocsPhysicalEvidence": 0,
-    "googleDocsProductRuntimeWired": 0
+    "googleDocsProductRuntimeWired": 0,
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "wordSafetyC1Delivered": true,
+    "wordSafetyC2LocalVerified": true,
+    "wordSafetyNextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE"
   },
   "releaseAuditNight01": {
     "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
@@ -796,9 +801,9 @@
   "googleDocsStage": {
     "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
     "currentStage": "GOOGLE_DOCS_REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
-    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
     "matrixPath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
     "supportClaimed": false,
     "importClaimed": false,
     "roundtripClaimed": false,
@@ -818,5 +823,25 @@
     "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
     "sourceBoundP0OpenBeforeC1": 4,
     "sourceBoundP1OpenBeforeC1": 3
+  },
+  "wordSafetyRemediationV1": {
+    "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
+    "currentContour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "previousContour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "c1Delivered": true,
+    "c2LocalVerified": true,
+    "c2FullLocalVerified": true,
+    "c2FullLocalVerifiedAtUtc": "2026-08-01T15:01:51.259Z",
+    "c2FullLocalSuite": {
+      "command": "node scripts/run-tests.js",
+      "total": 799,
+      "pass": 735,
+      "skip": 64,
+      "fail": 0
+    }
   }
 }

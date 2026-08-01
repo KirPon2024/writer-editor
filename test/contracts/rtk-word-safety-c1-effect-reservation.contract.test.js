@@ -13,6 +13,8 @@ const LEDGER_PATH = path.join(process.cwd(), 'docs', 'OPS', 'RTK', 'WORD_SAFE_SE
 const GOOGLE_MATRIX_PATH = path.join(process.cwd(), 'docs', 'OPS', 'RTK', 'GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json');
 const GOOGLE_RECEIPT_PATH = path.join(process.cwd(), 'docs', 'OPS', 'RTK', 'GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json');
 const C1_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN';
+const C2_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN';
+const ACTIVE_REMEDIATION_STATUSES = new Set([C1_STATUS, C2_STATUS]);
 const GOOGLE_BLOCKED_STATUS = 'REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION';
 const WORD_REVOKED_STATUS = 'WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE';
 
@@ -39,6 +41,10 @@ const cryptoPort = {
 
 function sha256Text(text) {
   return `sha256:${crypto.createHash('sha256').update(Buffer.from(String(text || ''), 'utf8')).digest('hex')}`;
+}
+
+function assertActiveRemediationStatus(value) {
+  assert.equal(ACTIVE_REMEDIATION_STATUSES.has(value), true, value);
 }
 
 function portableHashName(value) {
@@ -180,20 +186,23 @@ test('C1 active program truth parks Google and revokes Word acceptance pending C
   assert.equal(receipt.c1Guarantees.sameRoundEffectKeyDirectIndex, true);
   assert.equal(receipt.c1Guarantees.noSilentScanTruncation, true);
 
-  assert.equal(program.status, C1_STATUS);
+  assertActiveRemediationStatus(program.status);
+  assert.equal(program.wordSafetyRemediationV1.c1Delivered !== false, true);
   assert.equal(program.wordStageClosure.status, WORD_REVOKED_STATUS);
   assert.equal(program.googleDocsStage.status, GOOGLE_BLOCKED_STATUS);
   assert.equal(program.googleDocsStage.productRuntimeWired, 0);
   assert.equal(program.googleDocsStage.googleStageDone, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 
-  assert.equal(profile.status, C1_STATUS);
+  assertActiveRemediationStatus(profile.status);
+  assert.equal(profile.wordSafetyRemediationV1.c1Delivered !== false, true);
   assert.equal(profile.formalWordStageClosure.status, WORD_REVOKED_STATUS);
   assert.equal(profile.nextEditorStage.status, GOOGLE_BLOCKED_STATUS);
   assert.equal(profile.normalizedCapabilityMatrix.wordSaturated, false);
   assert.equal(profile.normalizedCapabilityMatrix.readyForFreshIndependentExactHeadAudit, false);
 
-  assert.equal(ledger.status, C1_STATUS);
+  assertActiveRemediationStatus(ledger.status);
+  assert.equal(ledger.wordSafetyRemediationV1.c1Delivered !== false, true);
   assert.equal(ledger.wordAcceptanceRevocation.status, WORD_REVOKED_STATUS);
   assert.equal(ledger.googleDocsStage.status, GOOGLE_BLOCKED_STATUS);
 

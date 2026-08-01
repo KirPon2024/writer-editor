@@ -44,6 +44,15 @@
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the dedicated critical claim row for RECOVERY_HUMAN_READABLE so central claim tracing matches the merged detector path."
     },
     {
+      "filePath": "docs/OPS/DOMAIN_EVENTS_BASELINE.json",
+      "sha256": "8b4598ab0205c7dbb4ef71d71bdafbab7b48670d99149305b60cb3503a93a755",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
+      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_01/advisory-blocking-drift-cases.json",
       "sha256": "e09a162b1cebcb26c62c578360f8b1ad22301225a564c9477d12d7ecff2b1deb",
       "approvedBy": "ticket:TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-003-GOV-REMEDIATION-01",
@@ -2438,6 +2447,24 @@
       "rationale": "Approve bounded G0C exact-safety receipt required by the owner-approved RTK V6 contract; it records local verification evidence only and introduces no runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
     },
     {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "e7ed54249e898d054fcdadcfe30447fa69f43e24e8cd5df6bfcef00ac614ca9a",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "2380835683ffe94d543be68f6a83eba36052339a5f2f3002494472cf2a7801eb",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
       "filePath": "docs/OPS/RTK/POST_D1_A00_RECONCILIATION_RECEIPT.json",
       "sha256": "99558f5aeb27b96980bd36b130e3d81cc6b8a3dbeb3bbbe0d2c8a4525ba9fcd3",
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
@@ -2445,11 +2472,27 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "8d35ca4910c8b28f457f6f6a50c08bd91befbbf46ee8e41ad28ec3dd1a88485e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
       "approvedAtUtc": "2026-07-29T17:45:00.000Z",
       "rationale": "Approve bounded W5 V6 local release-hardening status that binds existing ops, package, archive, migration, performance, release-candidate, and Word evidence claim proof hooks while explicitly keeping external Word certification resumable and DONE blocked; no Word PASS, release DONE, dependency, UI, Design OS, product capability, import/export behavior, writer authority, or package publication claim is introduced."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
+      "sha256": "0c26cf0a3665f0587e152f6bc89f676c825bcbf5f8b332db794829e9c8420b05",
+      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
+      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
+      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json",
@@ -2578,6 +2621,27 @@
       "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_REPLY_TYPED_LIMITATION_RECEIPT.json",
+      "sha256": "cc93a770497800ae9893b8f0d19d23f48b77ea7f8361f66a9258542f36617733",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T11:40:00.000Z",
+      "rationale": "Approve Word P0 modern comment reply typed-limitation closure: physical Word parent-reply readback lacks stable parent-link authority, while the product Command Kernel comment shadow path preserves reply bodies as typed unsupported diagnostics with no manuscript authority, automatic apply, Google stage, or silent comment loss."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION_RECEIPT.json",
+      "sha256": "57ee83330230f365ac567031fbe0ace09f0fd9a552e9d474ca96fba52c4e154f",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
+      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json",
+      "sha256": "1f31e05df52ab21178fb46cdba0a14fe65c7f5aef78e4890797fb8f027899b43",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
+      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
+      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
       "sha256": "d17668e3e77ecc0ac42342ca04a96e903879eb6b764765fd74cd8542099614f1",
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
@@ -2639,6 +2703,29 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-07-31T23:53:30.000Z",
       "rationale": "Bind P0 Review DOCX exporter receipt proving product command, carrier, advisory customXml, main-only HMAC boundary, no DOCX Minimal mutation, and no return/apply/saturation claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_FORMATTING_LANE_TYPED_LIMITATION_RECEIPT.json",
+      "sha256": "b3b7bbc69340401f4d39c44175b30b2c7db48259f8affad1a49973c3609ae0c6",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_STRUCTURAL_LANE_TYPED_LIMITATION_RECEIPT.json",
+      "sha256": "38885988294ab433dfba0f0bb587e90ff130829696305df08dd4ce2b80ae5c3f",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:30:00.000Z",
+      "rationale": "Approve Word P0 safe structural lane typed-limitation contour: E09 physical structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, normalized matrix advances to multi-round reconciliation, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SCALE_ENVELOPE_TERMINAL_RECEIPT.json",
+      "sha256": "701553e21d222596f5da3cdff9de30a5602cbce488d9d834a201796bee09373e",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP_RECEIPT.json",
@@ -2709,6 +2796,15 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "2866ade8e060be250659ecc3b42f66b5ad561727aa8627098206fca6de2d94dd",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2844,11 +2940,56 @@
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "f2b7349857534cb243dac4443057c222c4584a1a5c4b2d9233dfc2de08c23d67",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
       "sha256": "2d914a5e62785d12b5191b796d4c5d26badf9a885fa6b42e881103382ac0ced6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
       "approvedAtUtc": "2026-07-31T11:00:00.000Z",
       "rationale": "Approve bounded E12 stability limitation audit receipt: binds wave300 complete evidence, keeps all veto metrics zero, explicitly denies Word SATURATED and Google Docs opening, classifies five active limitations, and advances only to the next physical Word stability wave."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
+      "sha256": "f04dfdb8356e1df1b4bcc06a2e038f7ff5a656b8db715fcb9d186d22d9ee5b25",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+      "sha256": "e2052fd92944517c06f4a4f50182814f951e955c1c78df751307d4ee3448d805",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+      "sha256": "b785337b40fcd24aeadf9fc650136867b9c6c7f7256cb6839c6b38c30a1bb039",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
+      "sha256": "087961d073b7ec8fe04623d36cf1d9429b3ad2545bffaf2ce4d525a2a60bcb4f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -4608,6 +4749,15 @@
       "rationale": "Approve Night-01 C02 final disposition receipt with open findings zero, runtime-delta negative check, executable no-open-P0 dependency, and delivery-chain requirement before final DONE."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR_RECEIPT.json",
+      "sha256": "4f3c3c8f953873b5646ad3c4a96fa5e8fe2a03b4f6c89c0fd9066ef1547f1560",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T14:22:19.000Z",
+      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair receipt after safe rebind to current origin main; delivery pending until commit push PR CI merge exact remote verification and fresh independent audit, with no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C00_TRUTH_RECONCILIATION_RECEIPT.json",
       "sha256": "489bbfefce6ecb70e14d9472798775b732896667d71ac95a453c517c96ccdd20",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
@@ -4739,6 +4889,15 @@
       "approvedBy": "ticket:RECOVERY_READABILITY_CENTRAL_BINDING_001",
       "approvedAtUtc": "2026-04-27T23:33:13.000Z",
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the existing-token declaration rebind for RECOVERY_HUMAN_READABLE_OK after the detector path was merged and proven green."
+    },
+    {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "0fa28e562d6df6c65e3b3bcce9bd44fd6fdd75d22347b7eaab5708b0977114b2",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
+      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
     },
     {
       "filePath": "scripts/ops/attestation-trust-lock-state.mjs",
@@ -5210,6 +5369,13 @@
       "rationale": "Approve bounded G0A assurance evaluator required by the owner-approved RTK V6 contract; it is an offline governance verifier using Node built-ins only and adds no product runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     },
     {
+      "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
+      "sha256": "24c0197ae508ad74b67c638a22817167a4a69c9899aa281fefe24c0fb405c480",
+      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
+      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
+      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
+    },
+    {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
       "sha256": "1fef5c09ca0499d00762db5f8b53a070aafcb1d5c8a7c88848b0ef7d2c31a239",
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
@@ -5243,6 +5409,69 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_WORD_CONTAINER_WORK_ROOT",
       "approvedAtUtc": "2026-07-31T10:45:00.000Z",
       "rationale": "Approve bounded B01 Word sandbox repair: routes physical Word working DOCX through the shared com.microsoft.Word container tmp resolver, forbids plain tmp fallback, preserves diagnostic override validation, keeps T7 evidence destination, and adds no product runtime, UI, dependency, or network scope."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
+      "sha256": "0bfaf6ac11fb132fffd3c256df75bf6946bd763c2ed27d0c117962144c708ad8",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
+      "sha256": "cb5c3d3523fefdecfc0458eeb98a6ee7b4713603669d897ce186425ca1013f13",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
+      "sha256": "e980cf0047dbb0ac121148a00da03cfcacaec99fdeeeaa89badfc797d8befbc1",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-multi-round-ledger-reconciliation.mjs",
+      "sha256": "a1742e5bf2c53737a9ed330a7fc0d806ca562e71ccc420b24476acfaa006c478",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-safe-formatting-lane-typed-limitation.mjs",
+      "sha256": "d4fba10f83916aebe70cd4bff677e73937cb2917aa80706c673dc850d6a8ac66",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-safe-structural-lane-typed-limitation.mjs",
+      "sha256": "57e14d7d40d5e7f341bc6a9a4d3192ebe5e93c1797a4e36f72cd51f2fbad1689",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-scale-envelope-terminal-audit.mjs",
+      "sha256": "437aa20a51decf15a710671295e4ca676970e9365ff8a8bca57bface2eadff6d",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-500k-terminal-audit.mjs",
@@ -5357,6 +5586,15 @@
       "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
     },
     {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+      "sha256": "555bed3954c3d08d9d6761c4f3ab7563ad96a827a0a285a9cb7528635eabd0bb",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
       "sha256": "8850be69a09144ca80cafb8c112e59417844a4c3549767a2144b0b3188a2b02f",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
@@ -5369,6 +5607,15 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
+      "sha256": "01a980a8a06751b5c31f3e27b34833956dbe71b050982f7dd4a1739515494019",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c05-non-overlap-product-path.mjs",
@@ -5481,6 +5728,24 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100",
       "approvedAtUtc": "2026-07-31T09:45:00.000Z",
       "rationale": "Approve bounded E12 physical Word wave-100 contour: records 100 synthetic Word 16.111.2 physical open edit save close reopen round trips, 398 visible Word comment threads, 400k-class large returned DOCX, zero falseExact silentApply wrongSceneRouting replayFailure, Word sandbox work root inside Microsoft Word container, T7-Secure evidence retention, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "0c1a80474573b3f22c272c8124787a85309821968d412fb24af4e2c0ea32ffe3",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "ed83aa499d16ebe6407ef518bd3d422ea65b4515e099fd471e67be85538b8741",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -5771,10 +6036,21 @@
     },
     {
       "filePath": "src/command/commandSurfaceKernel.js",
-      "sha256": "5de50f65ea11737f4288233a669c9b25b01f840881b36e3163bd949779e819f9",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.233Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "sha256": "9537b3b47a91bbaca432040b564c03ee2b551b34345bb445b009b7cfa00cf97c",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T18:10:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "src/core/runtime.mjs",
+      "sha256": "b6267a3d3f695274c83202569b8d9968bfdafb860234a25662eb02996c4452fd",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:42:00.000Z",
+      "rationale": "Rebind runtime core reducer bytes for bounded Atlas V5 P1 domain event emission repair; reducer returns observed facts in CoreReduceResult only, preserves command operation log as sole journal, adds no event store, no UI redesign, no network, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -5924,6 +6200,24 @@
       "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
+      "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
+      "sha256": "4d15cefd27f6c38419678e6dc22e6617dc41320f4f81e2d1ec591e32a4273295",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportApplyStore.mjs",
+      "sha256": "5335800f50d78007da73a2a8caff12d51172fcc3014000ba285ecc4de4f57006",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
       "sha256": "fbfb852683f77d9a72deb2ca9d99cf13670ec06a758fbaa68cae4eb13e79ca9a",
       "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
@@ -5945,11 +6239,43 @@
       "rationale": "Approve new bounded C05 platform-neutral block-range authority helper: builds locally bound block text and range integrity digests from local baseline and current project snapshot, requires unique block text in scene and exact block-local quote, models SHA-256 as integrity checks rather than signatures, imports no Node, Electron, renderer, network, parser, writer, or UI authority, and makes no HMAC/YRTK2 or Word carrier claim."
     },
     {
+      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
+      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:20:00.000Z",
+      "rationale": "Approve Word P0 safe structural lane typed-limitation closure: physical E09 structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "9aeb9dd5b0f406c32cb930a6312b78f7e4af5bdef783decb6fd31631f9041629",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
+      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
       "sha256": "ae56b094ea2769313a93c792a4a9f24cceeb1e6256ef4cf4a0525617b9e6e5e8",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
       "approvedAtUtc": "2026-07-29T16:30:29.812Z",
       "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
+      "sha256": "b5da9b4c8708f43cb91783ba446c5733d145ed88cac186a38eef3578a470efb8",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
+      "sha256": "67fb8c269adb3240f2f1d9a5c26950b398ecf94e567e44cf1159f11af60aa3bc",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
@@ -5981,10 +6307,12 @@
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs",
-      "sha256": "bef27e2add216813062871d761a7bfca0113b3f80967ee98f8deb7f2a031fd41",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+      "sha256": "9a1c80f9fb1abd12a5e26d3526a1157a58339eacb927cc18dd72518bed91049c",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T18:10:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
@@ -6076,6 +6404,15 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
       "approvedAtUtc": "2026-08-01T06:03:00.000Z",
       "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "dc81a63f483af9b24e6802185a6ce321e8e66b589ba75658ccba1a397f15bbc7",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:46:00.000Z",
+      "rationale": "Rebind generated renderer bundle after bounded Atlas V5 P1 domain event contract repair renderer build; source change is core event contract emission only, no UI redesign, no network, no new dependency, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
     },
     {
       "filePath": "src/renderer/editor.js",
@@ -6862,6 +7199,13 @@
       "rationale": "Approve bounded format matrix contract allowlist sync for the release claim dossier binding contour; the existing 12A kernel proof remains unchanged and no runtime code, import, export, apply, storage, dependency, UI, release readiness, full fidelity, layout parity, user-facing release, or format support claim is introduced."
     },
     {
+      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
+      "sha256": "9390d84376107e1994b8629e6f1b20cb70a78e4968918ed359d72cbb36a8ff51",
+      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
+      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
+      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
+    },
+    {
       "filePath": "test/contracts/revision-bridge-inline-range-anchor-contract.contract.test.js",
       "sha256": "33a12cc509245f915ffcb65659392424672bdec8f585b0aeee5c3e49a30b86b9",
       "approvedBy": "ticket:EDITORIAL_STRESS_ARTIFACT_REBIND_001",
@@ -7037,6 +7381,13 @@
       "rationale": "Approve bounded G0C exact-safety regression contract required by the owner-approved RTK V6 contract; it proves overlapping occurrence counting, immutable-baseline batch ranges, duplicate id and overlap blocking, permutation-stable disjoint output, no chained authority, stable typed reasons, and zero writes for negative cases without adding runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     },
     {
+      "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
+      "sha256": "5443634665bbc3d6c74fb769e9fa59ab245f7a731513e12a8101f52927566b9b",
+      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
+      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
+      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
+    },
+    {
       "filePath": "test/contracts/rtk-post-d1-portability-program.contract.test.js",
       "sha256": "df2ec25c82d3670fa84542fa14480c147590713736f1daaad493ed4a79ebb53e",
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
@@ -7121,11 +7472,74 @@
       "rationale": "Approve focused B06 contract coverage: proves the committed physical Word receipt has 30-plus native round trips, comment PASS requires package inventory, semantic readback and Word reopen visibility, high-comment and scale rows are physical, hostile package stays BLOCKED, unsupported modern semantics are typed limitations, D1 is not rebound, no fixture-only PASS is allowed, and exact/apply/UI/network claims are not widened."
     },
     {
+      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
+      "sha256": "747567192fe311a44648fae6c2ed06ee69ff0ed463106d9b394f3ec9ffcdaa84",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-modern-comment-replies-typed-limitation.contract.test.js",
+      "sha256": "254e3968d5a351677a69b1126ff51cad5b045b8e98cc74847a509a4a3fd86bf5",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.contract.test.js",
+      "sha256": "c331a7c88865d8c52940ab697b8fac1a89ede7a1af1a60233638d68d9762143f",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-multi-round-ledger-reconciliation.contract.test.js",
+      "sha256": "d611fe3715c2af58eaa11bb4ac925385f5a610ea8fb744ba7d28fa702981e985",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
       "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
       "sha256": "e6c60aff0db434749cac163fa0cffaa1432734c8e1e5c0ec0de55fa87d77d021",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-08-01T02:20:36.749Z",
       "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-safe-formatting-lane-typed-limitation.contract.test.js",
+      "sha256": "00a728551843a795c4360c1f094606646e1576df41be6de4de8f06e271753802",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-safe-structural-lane-typed-limitation.contract.test.js",
+      "sha256": "afeb9e403dafb7ec762e39e489929b6e65119aa89bebb283fcc60dfc93e590c4",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-scale-envelope-terminal-audit.contract.test.js",
+      "sha256": "8b9af2471b919141813a4e7d09cd4799d33b3ccce4af808ade2e2aad093a82bf",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-500k-terminal-audit.contract.test.js",
@@ -7147,6 +7561,13 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-08-01T02:59:28.553Z",
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
+      "sha256": "104d8e51f242691cc294c7d7f97969ae0ecb6ae63eb65c5e7ece8273ba078e87",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:30:00.000Z",
+      "rationale": "Approve Word P0 safe structural lane typed-limitation contour: E09 physical structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, normalized matrix advances to multi-round reconciliation, Word saturated remains false, and Google Docs remains closed."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
@@ -7226,6 +7647,24 @@
       "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
+      "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
+      "sha256": "5262fb34c60f0c1f587c1437659e20ced55085e02d3d48b08f47087a682fd7ea",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
+      "sha256": "a96de4632d80f6c4e43c1c695282a87f864e0eb5847c428f340df104ca9b2098",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
+      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
       "filePath": "test/contracts/rtk-word-saturation-c01-locator-carrier.contract.test.js",
       "sha256": "6434426b112f104b073f11017316e3e34fce749de580d8e8b38e1452f9fa3db1",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
@@ -7261,6 +7700,13 @@
       "rationale": "Approve focused C05 contract coverage: proves duplicate scene quote applies only through trusted locally bound C04 block-range authority, caller-forged self-consistent ranges are rejected, duplicate quote, duplicate block, stale, wrong scene, wrong block, wrong schema, tampered digest, invalid offset, duplicate id, and overlapping ranges block atomically, legacy no-blockRange path remains compatible, effect identity distinguishes distinct ranges, batch permutation remains deterministic, crash recovery prevents double apply, and source adds no HMAC signing, UI, renderer, or network authority."
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
+      "sha256": "277880ed4dca5cb5320d14a5df97bac5215ef5c2d90b9ba1b82237a5427db278",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T12:20:00.000Z",
+      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation closure: done=true state readback is physically bound and RESOLVED state is preserved through the authenticated product comment shadow command path, while reopen/full lifecycle authority remains a typed limitation with no manuscript or automatic apply authority."
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
       "sha256": "a64ad9e0e43fd6b49520268d574f5df35d846ca874efe07b8fb18864bf3eaa38",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
@@ -7273,6 +7719,15 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
+      "sha256": "c599ae1d5c8dba8b85a2bbf04e527df7f2f6cb425e17b4d076907492dbd61cd5",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c05-non-overlap-product-path.contract.test.js",
@@ -7331,6 +7786,31 @@
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "268fa301c12f63271f62989a7d399bf50689f236d32ae3d4bcc28c2860e9d1ed",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "sha256": "2ea747531678307253ed27e8d411e00ae670e73919eeb44fab07a55f7a2c5d87",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "sha256": "70555f1ad3246a55f1d282303bc4b7fd69a043e14140fe9d8e98f4128dff8f35",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
       "sha256": "590ac52cc875cbe3b5f1f4c6e15a05f3c2c9d4c9bbdfb636a1d4abb59785dd50",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
@@ -7364,6 +7844,15 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "sha256": "b46f42b673ec1d9a9fb97dd78d67ccb897246bc5bdb518adcdf37d7cecc98f83",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -8115,6 +8604,15 @@
       "rationale": "Approve Night-01 C02 contracts that block final disposition on product runtime delta or missing executable no-open-P0 proof and prevent legacy EFINAL pass from acting alone."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
+      "sha256": "44aba96582114a03457006255a848e52ba0989ceb8339a044cbfa71fa81e1ca1",
+      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
+      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
+      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",
       "sha256": "9bfeb492d0c05f9e42d41c94457986005e4fd19f74026c8d422773afbfba011e",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
@@ -8274,482 +8772,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_REPLY_TYPED_LIMITATION_RECEIPT.json",
-      "sha256": "cc93a770497800ae9893b8f0d19d23f48b77ea7f8361f66a9258542f36617733",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T11:40:00.000Z",
-      "rationale": "Approve Word P0 modern comment reply typed-limitation closure: physical Word parent-reply readback lacks stable parent-link authority, while the product Command Kernel comment shadow path preserves reply bodies as typed unsupported diagnostics with no manuscript authority, automatic apply, Google stage, or silent comment loss."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c01-comment-shadow-runtime.contract.test.js",
-      "sha256": "277880ed4dca5cb5320d14a5df97bac5215ef5c2d90b9ba1b82237a5427db278",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:20:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation closure: done=true state readback is physically bound and RESOLVED state is preserved through the authenticated product comment shadow command path, while reopen/full lifecycle authority remains a typed limitation with no manuscript or automatic apply authority."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION_RECEIPT.json",
-      "sha256": "57ee83330230f365ac567031fbe0ace09f0fd9a552e9d474ca96fba52c4e154f",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
-      "sha256": "9aeb9dd5b0f406c32cb930a6312b78f7e4af5bdef783decb6fd31631f9041629",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_FORMATTING_LANE_TYPED_LIMITATION_RECEIPT.json",
-      "sha256": "b3b7bbc69340401f4d39c44175b30b2c7db48259f8affad1a49973c3609ae0c6",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
-      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "268fa301c12f63271f62989a7d399bf50689f236d32ae3d4bcc28c2860e9d1ed",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
-      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
-      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:20:00.000Z",
-      "rationale": "Approve Word P0 safe structural lane typed-limitation closure: physical E09 structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_STRUCTURAL_LANE_TYPED_LIMITATION_RECEIPT.json",
-      "sha256": "38885988294ab433dfba0f0bb587e90ff130829696305df08dd4ce2b80ae5c3f",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:30:00.000Z",
-      "rationale": "Approve Word P0 safe structural lane typed-limitation contour: E09 physical structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, normalized matrix advances to multi-round reconciliation, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
-      "sha256": "104d8e51f242691cc294c7d7f97969ae0ecb6ae63eb65c5e7ece8273ba078e87",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:30:00.000Z",
-      "rationale": "Approve Word P0 safe structural lane typed-limitation contour: E09 physical structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, normalized matrix advances to multi-round reconciliation, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json",
-      "sha256": "1f31e05df52ab21178fb46cdba0a14fe65c7f5aef78e4890797fb8f027899b43",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SCALE_ENVELOPE_TERMINAL_RECEIPT.json",
-      "sha256": "701553e21d222596f5da3cdff9de30a5602cbce488d9d834a201796bee09373e",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
-      "sha256": "f04dfdb8356e1df1b4bcc06a2e038f7ff5a656b8db715fcb9d186d22d9ee5b25",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-      "sha256": "e2052fd92944517c06f4a4f50182814f951e955c1c78df751307d4ee3448d805",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
-      "sha256": "0bfaf6ac11fb132fffd3c256df75bf6946bd763c2ed27d0c117962144c708ad8",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
-      "sha256": "cb5c3d3523fefdecfc0458eeb98a6ee7b4713603669d897ce186425ca1013f13",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
-      "sha256": "e980cf0047dbb0ac121148a00da03cfcacaec99fdeeeaa89badfc797d8befbc1",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-multi-round-ledger-reconciliation.mjs",
-      "sha256": "a1742e5bf2c53737a9ed330a7fc0d806ca562e71ccc420b24476acfaa006c478",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-safe-formatting-lane-typed-limitation.mjs",
-      "sha256": "d4fba10f83916aebe70cd4bff677e73937cb2917aa80706c673dc850d6a8ac66",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-safe-structural-lane-typed-limitation.mjs",
-      "sha256": "57e14d7d40d5e7f341bc6a9a4d3192ebe5e93c1797a4e36f72cd51f2fbad1689",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-scale-envelope-terminal-audit.mjs",
-      "sha256": "437aa20a51decf15a710671295e4ca676970e9365ff8a8bca57bface2eadff6d",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "555bed3954c3d08d9d6761c4f3ab7563ad96a827a0a285a9cb7528635eabd0bb",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
-      "sha256": "01a980a8a06751b5c31f3e27b34833956dbe71b050982f7dd4a1739515494019",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "0c1a80474573b3f22c272c8124787a85309821968d412fb24af4e2c0ea32ffe3",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "ed83aa499d16ebe6407ef518bd3d422ea65b4515e099fd471e67be85538b8741",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
-      "sha256": "747567192fe311a44648fae6c2ed06ee69ff0ed463106d9b394f3ec9ffcdaa84",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-modern-comment-replies-typed-limitation.contract.test.js",
-      "sha256": "254e3968d5a351677a69b1126ff51cad5b045b8e98cc74847a509a4a3fd86bf5",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.contract.test.js",
-      "sha256": "c331a7c88865d8c52940ab697b8fac1a89ede7a1af1a60233638d68d9762143f",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-multi-round-ledger-reconciliation.contract.test.js",
-      "sha256": "d611fe3715c2af58eaa11bb4ac925385f5a610ea8fb744ba7d28fa702981e985",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-safe-formatting-lane-typed-limitation.contract.test.js",
-      "sha256": "00a728551843a795c4360c1f094606646e1576df41be6de4de8f06e271753802",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-safe-structural-lane-typed-limitation.contract.test.js",
-      "sha256": "afeb9e403dafb7ec762e39e489929b6e65119aa89bebb283fcc60dfc93e590c4",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-scale-envelope-terminal-audit.contract.test.js",
-      "sha256": "8b9af2471b919141813a4e7d09cd4799d33b3ccce4af808ade2e2aad093a82bf",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
-      "sha256": "c599ae1d5c8dba8b85a2bbf04e527df7f2f6cb425e17b4d076907492dbd61cd5",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "2ea747531678307253ed27e8d411e00ae670e73919eeb44fab07a55f7a2c5d87",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "70555f1ad3246a55f1d282303bc4b7fd69a043e14140fe9d8e98f4128dff8f35",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "b46f42b673ec1d9a9fb97dd78d67ccb897246bc5bdb518adcdf37d7cecc98f83",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
-      "sha256": "0c26cf0a3665f0587e152f6bc89f676c825bcbf5f8b332db794829e9c8420b05",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
-    },
-    {
-      "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
-      "sha256": "24c0197ae508ad74b67c638a22817167a4a69c9899aa281fefe24c0fb405c480",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
-    },
-    {
-      "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
-      "sha256": "5443634665bbc3d6c74fb769e9fa59ab245f7a731513e12a8101f52927566b9b",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-google-docs-evidence-check.contract.test.js",
-      "sha256": "9390d84376107e1994b8629e6f1b20cb70a78e4968918ed359d72cbb36a8ff51",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
-    },
-    {
-      "filePath": "scripts/doctor.mjs",
-      "sha256": "0fa28e562d6df6c65e3b3bcce9bd44fd6fdd75d22347b7eaab5708b0977114b2",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
-      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
-      "filePath": "src/core/runtime.mjs",
-      "sha256": "b6267a3d3f695274c83202569b8d9968bfdafb860234a25662eb02996c4452fd",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:42:00.000Z",
-      "rationale": "Rebind runtime core reducer bytes for bounded Atlas V5 P1 domain event emission repair; reducer returns observed facts in CoreReduceResult only, preserves command operation log as sole journal, adds no event store, no UI redesign, no network, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "dc81a63f483af9b24e6802185a6ce321e8e66b589ba75658ccba1a397f15bbc7",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:46:00.000Z",
-      "rationale": "Rebind generated renderer bundle after bounded Atlas V5 P1 domain event contract repair renderer build; source change is core event contract emission only, no UI redesign, no network, no new dependency, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
-      "filePath": "docs/OPS/DOMAIN_EVENTS_BASELINE.json",
-      "sha256": "8b4598ab0205c7dbb4ef71d71bdafbab7b48670d99149305b60cb3503a93a755",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
-      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "44aba96582114a03457006255a848e52ba0989ceb8339a044cbfa71fa81e1ca1",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T15:40:00.000Z",
-      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair bytes after focused positive and negative event contract PASS; events are versioned observed facts, no dynamic event registry, no parallel event store, no UI redesign, no network, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_CONTRACT_REPAIR_RECEIPT.json",
-      "sha256": "4f3c3c8f953873b5646ad3c4a96fa5e8fe2a03b4f6c89c0fd9066ef1547f1560",
-      "approvedBy": "owner:OWNER_CONTROLLER_CORRECTION:REOPEN_ONE_BOUNDED_P1_ONLY",
-      "approvedAtUtc": "2026-08-01T14:22:19.000Z",
-      "rationale": "Approve bounded Atlas V5 P1 domain event contract repair receipt after safe rebind to current origin main; delivery pending until commit push PR CI merge exact remote verification and fresh independent audit, with no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "4008ceb44e5a750418c157bbe86edcc26e3202e22157e64dbd7fc8186ad8b980",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "01fff777d03ce80ad593ce9ecdc8e6caef81c0469448d5819f946c5cb1b9972e",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "62ec9547dbe00a12ff419a7e20bcbbd83445d2bcf3d1412e398fd289741816b4",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "234fde7b2c1b72363523dffab1329e16a42d0d9e58385ca2a09fb418a952d2bc",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "01a86e4a59880e3667774b7a12630f6e5791052c26ece61e83c46a66164f545e",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
-      "sha256": "4d15cefd27f6c38419678e6dc22e6617dc41320f4f81e2d1ec591e32a4273295",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportApplyStore.mjs",
-      "sha256": "5335800f50d78007da73a2a8caff12d51172fcc3014000ba285ecc4de4f57006",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportCore.mjs",
-      "sha256": "b5da9b4c8708f43cb91783ba446c5733d145ed88cac186a38eef3578a470efb8",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportExactApply.mjs",
-      "sha256": "67fb8c269adb3240f2f1d9a5c26950b398ecf94e567e44cf1159f11af60aa3bc",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
-      "sha256": "ee044322007fc50f2f9ee0b6fd93a099531f77ae480dffd530b50896de9dcaa0",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
-      "sha256": "b785337b40fcd24aeadf9fc650136867b9c6c7f7256cb6839c6b38c30a1bb039",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T17:20:00.000Z",
-      "rationale": "Approve bounded Word safety remediation C1 current bytes: Google remains report-only blocked until C1-C5 pass, Word acceptance is revoked by source-bound evidence, exact apply uses durable request/effect reservation, keyed replay, immutable outcome/recovery and fail-closed scan overflow; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     }
   ]
 }

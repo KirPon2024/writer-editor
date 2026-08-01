@@ -2031,29 +2031,28 @@ export function registerProjectCommands(registry, options = {}) {
           );
         }
         if (reordered) {
-          if (domainEventPort && typeof domainEventPort.hashCoreDomainEvents === 'function') {
-            let recomputedDigest = '';
-            try {
-              recomputedDigest = domainEventPort.hashCoreDomainEvents(events);
-            } catch {
-              return fail(
-                'E_COMMAND_FAILED',
-                EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
-                'TREE_REORDER_DOMAIN_EVENT_DIGEST_INVALID',
-              );
-            }
-            if (recomputedDigest !== domainEventDigest) {
-              return fail(
-                'E_COMMAND_FAILED',
-                EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
-                'TREE_REORDER_DOMAIN_EVENT_DIGEST_MISMATCH',
-              );
-            }
-          } else if (bridged.domainEventDigestVerified !== true) {
+          if (!domainEventPort || typeof domainEventPort.hashCoreDomainEvents !== 'function') {
             return fail(
               'E_COMMAND_FAILED',
               EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
               'TREE_REORDER_DOMAIN_EVENT_DIGEST_VERIFICATION_REQUIRED',
+            );
+          }
+          let recomputedDigest = '';
+          try {
+            recomputedDigest = domainEventPort.hashCoreDomainEvents(events);
+          } catch {
+            return fail(
+              'E_COMMAND_FAILED',
+              EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
+              'TREE_REORDER_DOMAIN_EVENT_DIGEST_INVALID',
+            );
+          }
+          if (recomputedDigest !== domainEventDigest) {
+            return fail(
+              'E_COMMAND_FAILED',
+              EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
+              'TREE_REORDER_DOMAIN_EVENT_DIGEST_MISMATCH',
             );
           }
         }

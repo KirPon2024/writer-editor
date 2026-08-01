@@ -6544,10 +6544,10 @@
     },
     {
       "filePath": "src/renderer/editor.js",
-      "sha256": "185b95e00205fd37f1a1795d410c5cfff110108e28ec2af7dad323bb6fa1c8b1",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair deterministic Atlas manual-map draft ID helper replacing hotpath random suffixes; preserves existing UI contract and local draft behavior, no product truth expansion, no network, no dependency, no UI redesign, and no Program DONE claim."
+      "sha256": "aaf469d92eea14f187b5346bbe09811a9a8ebae7a3a6551a963318ca908780eb",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_EVENT_CONTRACT_REPAIR_V4",
+      "approvedAtUtc": "2026-08-01T18:44:00.000Z",
+      "rationale": "Approve bounded Atlas V5 HOLD repair renderer registration bytes: real project command registration now receives the canonical domain-event verifier/hash product port so forged bridge digestVerified booleans are not authority; preserves Word C4 descendants, offline local behavior, no UI redesign, no dependency, no second journal, and no Program DONE claim."
     },
     {
       "filePath": "src/renderer/index.html",
@@ -8829,10 +8829,10 @@
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "ef0dd74413dcad4d9b94090f20688c7a86157952b4cfb22561270234dc8057c6",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair P1 domain-event contract negatives for provenance rejection, negative graph sequence, forged receipts, missing digest, digest stripping, joint mutation, no-op reorder, digest mismatch, product collab adapter, CI catalog inclusion, and 1000-scene perf guard; preserves no second journal, no network, no dependency, no UI redesign, and no Program DONE claim.",
+      "sha256": "9cd964314dcf0d743e19e5a40759e9d05a8f2569a8da01ad36a634014fd0fa37",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_EVENT_CONTRACT_REPAIR_V4",
+      "approvedAtUtc": "2026-08-01T18:44:00.000Z",
+      "rationale": "Approve bounded Atlas V5 HOLD repair negatives for explicit provenance presence, independent Command Kernel receipt authority integrity, production tree reorder digest verification, actual offline collab apply product caller reachability, and required CI catalog visibility; preserves accepted Atlas contours, Word descendants, offline-only runtime, no UI redesign, no dependency, no second journal, and no Program DONE claim.",
       "approved": true,
       "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },

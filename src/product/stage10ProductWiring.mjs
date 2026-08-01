@@ -8,6 +8,7 @@ import {
   createEmptyEventLog,
   hashEventLog,
   applyCommandWithEventLog,
+  applyEventLog,
 } from '../collab/index.mjs';
 import {
   buildRevisionHistoryProjectionPacket,
@@ -26,6 +27,7 @@ import { createCoreDomainEventProductPort } from './domainEventPort.mjs';
 
 export const STAGE10_PRODUCT_SESSION_SCHEMA = 'yalken.stage10.localProductSession.v1';
 export const STAGE10_PRODUCT_SURFACE_SCHEMA = 'yalken.stage10.localProductSurface.v1';
+export const STAGE10_COMMAND_RECEIPT_AUTHORITY_SCHEMA = 'yalken.stage10.commandReceiptAuthority.v1';
 
 export const STAGE10_ACTIVATION_MODES = Object.freeze({
   PHYSICAL_POINTER_OR_KEYBOARD: 'PHYSICAL_POINTER_OR_KEYBOARD',
@@ -44,6 +46,7 @@ export const STAGE10_PRODUCT_COMMAND_IDS = Object.freeze({
   CONFLICT_DECISION_RECORD: 'cmd.collab.conflict.decision.record',
   OPERATION_EXCHANGE_PREPARE: 'cmd.collab.operationExchange.prepare',
   OPERATION_EXCHANGE_LOCAL_FIXTURE_PREVIEW: 'cmd.collab.operationExchange.localFixturePreview',
+  COLLAB_EVENT_LOG_APPLY: 'cmd.collab.eventLog.apply',
 });
 
 const DEFAULT_STAGE10_COMMANDS = Object.freeze([
@@ -78,6 +81,150 @@ function typedError(code, op, reason, details) {
   return error;
 }
 
+function commandReceiptAuthorityRootDigest(record) {
+  return hashCanonicalValue({
+    schemaVersion: record.schemaVersion,
+    authorityKind: record.authorityKind,
+    authorityVersion: record.authorityVersion,
+    previousAuthorityRootDigest: normalizeString(record.previousAuthorityRootDigest),
+    receiptCount: record.receiptCount,
+    receipts: record.receipts,
+  });
+}
+
+function createCommandReceiptAuthorityRecord(receipts = [], previousAuthorityRootDigest = '') {
+  const normalizedReceipts = Array.isArray(receipts) ? receipts.map((receipt) => cloneJson(receipt)) : [];
+  const record = {
+    schemaVersion: STAGE10_COMMAND_RECEIPT_AUTHORITY_SCHEMA,
+    authorityKind: COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
+    authorityVersion: 1,
+    previousAuthorityRootDigest: normalizeString(previousAuthorityRootDigest),
+    receiptCount: normalizedReceipts.length,
+    receipts: normalizedReceipts,
+  };
+  return deepFreeze({
+    ...record,
+    authorityRootDigest: commandReceiptAuthorityRootDigest(record),
+  });
+}
+
+function verifyCommandReceiptAuthorityRecord(record) {
+  if (!isPlainObject(record)) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_RECEIPT_AUTHORITY_MISSING',
+        'stage10.commandReceiptAuthority',
+        'COMMAND_KERNEL_RECEIPT_AUTHORITY_MISSING',
+      ),
+    };
+  }
+  if (
+    record.schemaVersion !== STAGE10_COMMAND_RECEIPT_AUTHORITY_SCHEMA
+    || record.authorityKind !== COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND
+    || record.authorityVersion !== 1
+  ) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_RECEIPT_AUTHORITY_VERSION_INVALID',
+        'stage10.commandReceiptAuthority',
+        'COMMAND_KERNEL_RECEIPT_AUTHORITY_VERSION_INVALID',
+      ),
+    };
+  }
+  if (!Array.isArray(record.receipts) || record.receiptCount !== record.receipts.length) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_RECEIPT_AUTHORITY_STALE',
+        'stage10.commandReceiptAuthority',
+        'COMMAND_KERNEL_RECEIPT_AUTHORITY_STALE_OR_ROLLED_BACK',
+      ),
+    };
+  }
+  const expectedRoot = commandReceiptAuthorityRootDigest(record);
+  if (normalizeString(record.authorityRootDigest) !== expectedRoot) {
+    return {
+      ok: false,
+      error: typedError(
+        'E_STAGE10_RECEIPT_AUTHORITY_DIGEST_INVALID',
+        'stage10.commandReceiptAuthority',
+        'COMMAND_KERNEL_RECEIPT_AUTHORITY_DIGEST_INVALID',
+      ),
+    };
+  }
+  return {
+    ok: true,
+    record: deepFreeze({
+      ...cloneJson(record),
+      authorityRootDigest: expectedRoot,
+    }),
+  };
+}
+
+function receiptAuthorityRequired(session) {
+  return Boolean(
+    Array.isArray(session.commandReceipts) && session.commandReceipts.length > 0
+    || isPlainObject(session.eventLog) && Array.isArray(session.eventLog.events) && session.eventLog.events.length > 0
+  );
+}
+
+function commandReceiptAuthorityCoversEventLog(session, record) {
+  const events = isPlainObject(session.eventLog) && Array.isArray(session.eventLog.events)
+    ? session.eventLog.events
+    : [];
+  if (events.length === 0) return true;
+  const receipts = Array.isArray(record.receipts) ? record.receipts : [];
+  return events.every((event) => receipts.some((receipt) => (
+    receipt
+    && receipt.operationId === event.opId
+    && receipt.commandId === event.commandId
+  )));
+}
+
+function assertReceiptAuthority(session, options = {}) {
+  if (options.authorityWasPresent === false && receiptAuthorityRequired(session)) {
+    throw typedError(
+      'E_STAGE10_RECEIPT_AUTHORITY_MISSING',
+      'stage10.commandReceiptAuthority',
+      'COMMAND_KERNEL_RECEIPT_AUTHORITY_MISSING',
+    );
+  }
+  const existing = verifyCommandReceiptAuthorityRecord(session.commandReceiptAuthority);
+  if (existing.ok) {
+    if (!commandReceiptAuthorityCoversEventLog(session, existing.record)) {
+      throw typedError(
+        'E_STAGE10_RECEIPT_AUTHORITY_STALE',
+        'stage10.commandReceiptAuthority',
+        'COMMAND_KERNEL_RECEIPT_AUTHORITY_STALE_OR_ROLLED_BACK',
+      );
+    }
+    session.commandReceiptAuthority = existing.record;
+    session.commandReceipts = cloneJson(existing.record.receipts);
+    return existing;
+  }
+  const strict = options.requireReceiptAuthority === true;
+  const hasLegacyReceipts = Array.isArray(session.commandReceipts) && session.commandReceipts.length > 0;
+  if (strict || receiptAuthorityRequired(session)) {
+    throw existing.error;
+  }
+  const record = createCommandReceiptAuthorityRecord(hasLegacyReceipts ? session.commandReceipts : []);
+  session.commandReceiptAuthority = record;
+  session.commandReceipts = cloneJson(record.receipts);
+  return { ok: true, record };
+}
+
+function appendCommandReceipt(session, receipt) {
+  const current = verifyCommandReceiptAuthorityRecord(session.commandReceiptAuthority);
+  if (!current.ok) throw current.error;
+  const receipts = [...current.record.receipts, cloneJson(receipt)];
+  const next = createCommandReceiptAuthorityRecord(receipts, current.record.authorityRootDigest);
+  session.commandReceiptAuthority = next;
+  session.commandReceipts = cloneJson(next.receipts);
+  return next;
+}
+
 function createDefaultSession(input = {}) {
   const projectId = normalizeString(input.projectId) || 'stage10-project';
   return {
@@ -88,6 +235,7 @@ function createDefaultSession(input = {}) {
     coreState: isPlainObject(input.initialCoreState) ? cloneJson(input.initialCoreState) : createInitialCoreState(),
     eventLog: createEmptyEventLog(),
     commandReceipts: [],
+    commandReceiptAuthority: createCommandReceiptAuthorityRecord([]),
     commentPackets: {},
     commentDecisions: {},
     historyCheckpoints: {},
@@ -97,6 +245,7 @@ function createDefaultSession(input = {}) {
     conflictDecisions: {},
     operationExchangePackets: {},
     operationExchangeAdapterPreviews: {},
+    collabApplyReports: {},
     uiEvents: [],
     storageWrites: [],
     recoverySnapshotRefs: [],
@@ -107,11 +256,12 @@ function createDefaultSession(input = {}) {
   };
 }
 
-function normalizeSession(input = {}) {
+function normalizeSession(input = {}, options = {}) {
   const session = isPlainObject(input) && input.schemaVersion === STAGE10_PRODUCT_SESSION_SCHEMA
     ? cloneJson(input)
     : createDefaultSession(input);
-  return {
+  const authorityWasPresent = Object.prototype.hasOwnProperty.call(session, 'commandReceiptAuthority');
+  const normalized = {
     ...createDefaultSession(session),
     ...session,
     coreState: isPlainObject(session.coreState) ? session.coreState : createInitialCoreState(),
@@ -128,10 +278,13 @@ function normalizeSession(input = {}) {
     operationExchangeAdapterPreviews: isPlainObject(session.operationExchangeAdapterPreviews)
       ? session.operationExchangeAdapterPreviews
       : {},
+    collabApplyReports: isPlainObject(session.collabApplyReports) ? session.collabApplyReports : {},
     uiEvents: Array.isArray(session.uiEvents) ? session.uiEvents : [],
     storageWrites: Array.isArray(session.storageWrites) ? session.storageWrites : [],
     recoverySnapshotRefs: Array.isArray(session.recoverySnapshotRefs) ? session.recoverySnapshotRefs : [],
   };
+  assertReceiptAuthority(normalized, { ...options, authorityWasPresent });
+  return normalized;
 }
 
 function buildVisibleControls() {
@@ -146,6 +299,7 @@ function buildVisibleControls() {
     { controlId: 'stage10-conflict-decision', commandId: STAGE10_PRODUCT_COMMAND_IDS.CONFLICT_DECISION_RECORD },
     { controlId: 'stage10-exchange-prepare', commandId: STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_PREPARE },
     { controlId: 'stage10-exchange-preview', commandId: STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_LOCAL_FIXTURE_PREVIEW },
+    { controlId: 'stage10-collab-apply-event-log', commandId: STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY },
   ];
 }
 
@@ -225,10 +379,16 @@ function createReceipt({ session, commandId, opId, ts, status, activation, preSt
 }
 
 function createCommandKernelReceiptAuthorityPort(session) {
+  const authority = assertReceiptAuthority(session).record;
   return {
     authorityKind: COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
+    schemaVersion: STAGE10_COMMAND_RECEIPT_AUTHORITY_SCHEMA,
+    authorityVersion: 1,
+    authorityRootDigest: authority.authorityRootDigest,
     getCommandKernelReceipt({ operationId }) {
-      const receipt = session.commandReceipts.find((candidate) => candidate.operationId === operationId) || null;
+      const verified = verifyCommandReceiptAuthorityRecord(session.commandReceiptAuthority);
+      if (!verified.ok) return null;
+      const receipt = verified.record.receipts.find((candidate) => candidate.operationId === operationId) || null;
       return receipt ? cloneJson(receipt) : null;
     },
   };
@@ -444,7 +604,7 @@ async function dispatchCoreCommand({ session, storagePort, commandId, payload, a
       commandKernel: true,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, receipt, session: cloneJson(session) };
 }
@@ -479,7 +639,7 @@ async function dispatchCommentImport({ session, storagePort, capabilitySnapshot,
       commentTruthDuplicated: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, packet, views, receipt, session: cloneJson(session) };
 }
@@ -523,7 +683,7 @@ async function dispatchCommentDecision({ session, storagePort, capabilitySnapsho
       commentTruthDuplicated: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, packet: nextPacket, views, receipt, session: cloneJson(session) };
 }
@@ -553,7 +713,7 @@ async function dispatchHistoryCheckpoint({ session, storagePort, commandId, payl
       projectTruthMutation: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, snapshotRef: ref, receipt, session: cloneJson(session) };
 }
@@ -595,7 +755,7 @@ async function dispatchHistoryRestorePreview({ session, storagePort, commandId, 
       mutationApplied: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, preview: session.historyRestorePreviews[previewId], receipt, session: cloneJson(session) };
 }
@@ -629,9 +789,12 @@ async function dispatchHistoryRestoreApply({ session, storagePort, commandId, pa
   const undoSnapshotId = `history-restore-undo-${hashCanonicalValue({ opId, currentStateHash }).slice(0, 16)}`;
   await writeRecoverySnapshot(session, storagePort, undoSnapshotId, 'cmd.project.history.restoreApply.preimage');
   const targetSnapshot = await maybeAwait(storagePort.readRecoverySnapshot(session.projectId, preview.snapshotId));
+  const restoredSession = normalizeSession(targetSnapshot.session);
   session.historyRestoreUndoSnapshots[previewId] = { previewId, snapshotId: undoSnapshotId };
-  session.coreState = cloneJson(targetSnapshot.session.coreState);
-  session.eventLog = cloneJson(targetSnapshot.session.eventLog);
+  session.coreState = cloneJson(restoredSession.coreState);
+  session.eventLog = cloneJson(restoredSession.eventLog);
+  session.commandReceiptAuthority = cloneJson(restoredSession.commandReceiptAuthority);
+  session.commandReceipts = cloneJson(restoredSession.commandReceipts);
   const receipt = createReceipt({
     session,
     commandId,
@@ -650,7 +813,7 @@ async function dispatchHistoryRestoreApply({ session, storagePort, commandId, pa
       authorDataLoss: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, receipt, session: cloneJson(session) };
 }
@@ -666,8 +829,11 @@ async function dispatchHistoryRestoreUndo({ session, storagePort, commandId, pay
   }
   const currentStateHash = hashCoreState(session.coreState);
   const undoSnapshot = await maybeAwait(storagePort.readRecoverySnapshot(session.projectId, undo.snapshotId));
-  session.coreState = cloneJson(undoSnapshot.session.coreState);
-  session.eventLog = cloneJson(undoSnapshot.session.eventLog);
+  const restoredSession = normalizeSession(undoSnapshot.session);
+  session.coreState = cloneJson(restoredSession.coreState);
+  session.eventLog = cloneJson(restoredSession.eventLog);
+  session.commandReceiptAuthority = cloneJson(restoredSession.commandReceiptAuthority);
+  session.commandReceipts = cloneJson(restoredSession.commandReceipts);
   const receipt = createReceipt({
     session,
     commandId,
@@ -685,7 +851,7 @@ async function dispatchHistoryRestoreUndo({ session, storagePort, commandId, pay
       authorDataLoss: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, receipt, session: cloneJson(session) };
 }
@@ -717,7 +883,7 @@ async function dispatchConflictPreview({ session, storagePort, commandId, payloa
       silentProjectRewrite: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, reportId, report, receipt, session: cloneJson(session) };
 }
@@ -758,7 +924,7 @@ async function dispatchConflictDecision({ session, storagePort, commandId, paylo
     storageWritten: true,
     details: cloneJson(session.conflictDecisions[conflictId]),
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: true, decision: session.conflictDecisions[conflictId], receipt, session: cloneJson(session) };
 }
@@ -802,7 +968,7 @@ async function dispatchExchangePrepare({ session, storagePort, commandId, payloa
       networkAdapterEnabled: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: packet.ok, packetId, packet, receipt, session: cloneJson(session) };
 }
@@ -833,9 +999,77 @@ async function dispatchExchangePreview({ session, storagePort, commandId, payloa
       networkDispatch: false,
     },
   });
-  session.commandReceipts.push(receipt);
+  appendCommandReceipt(session, receipt);
   await persistSession(session, storagePort, commandId);
   return { ok: report.ok, reportId, report, receipt, session: cloneJson(session) };
+}
+
+async function dispatchCollabApplyEventLog({ session, storagePort, commandId, payload, activation, opId, ts }) {
+  const preStateHash = hashCoreState(session.coreState);
+  const domainEventPort = createCoreDomainEventProductPort();
+  const report = applyEventLog({
+    coreState: session.coreState,
+    events: Array.isArray(payload.events) ? payload.events : [],
+    initialStateHash: preStateHash,
+    domainEventPort,
+    hashState: (state) => hashCoreState(state),
+    applyCommand: (state, command) => reduceCoreState(state, command),
+  });
+  const reportId = `collab-apply:${hashCanonicalValue({ opId, stateHash: report.stateHash }).slice(0, 24)}`;
+  if (report.rejected.length > 0) {
+    return {
+      ok: false,
+      report,
+      error: typedError(
+        'E_STAGE10_COLLAB_APPLY_REJECTED',
+        commandId,
+        'COLLAB_EVENT_LOG_APPLY_REJECTED',
+        { reportId, rejectedCount: report.rejected.length },
+      ),
+    };
+  }
+
+  session.coreState = cloneJson(report.nextState);
+  session.collabApplyReports[reportId] = {
+    schemaVersion: 'yalken.stage10.collabApply.reportRef.v1',
+    reportId,
+    appliedCount: report.appliedCount,
+    rejectedCount: report.rejected.length,
+    stateHash: report.stateHash,
+    domainEventDigest: report.domainEventDigest,
+    networkDispatch: false,
+    secondJournal: false,
+  };
+  const receipt = createReceipt({
+    session,
+    commandId,
+    opId,
+    ts,
+    status: 'APPLIED',
+    activation,
+    preStateHash,
+    postStateHash: report.stateHash,
+    storageWritten: true,
+    details: {
+      reportId,
+      appliedCount: report.appliedCount,
+      rejectedCount: report.rejected.length,
+      domainEvents: report.domainEvents,
+      domainEventDigest: report.domainEventDigest,
+      projectTruthMutation: true,
+      networkDispatch: false,
+      secondJournal: false,
+    },
+  });
+  appendCommandReceipt(session, receipt);
+  await persistSession(session, storagePort, commandId);
+  return {
+    ok: true,
+    reportId,
+    report: cloneJson(session.collabApplyReports[reportId]),
+    receipt,
+    session: cloneJson(session),
+  };
 }
 
 export function buildStage10ProductReadModels(sessionInput, capabilitySnapshot = {}) {
@@ -927,6 +1161,8 @@ export async function createStage10ProductRuntime(input = {}) {
       result = await dispatchExchangePrepare({ session, storagePort, commandId, payload, activation, opId, ts });
     } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.OPERATION_EXCHANGE_LOCAL_FIXTURE_PREVIEW) {
       result = await dispatchExchangePreview({ session, storagePort, commandId, payload, activation, opId, ts });
+    } else if (commandId === STAGE10_PRODUCT_COMMAND_IDS.COLLAB_EVENT_LOG_APPLY) {
+      result = await dispatchCollabApplyEventLog({ session, storagePort, commandId, payload, activation, opId, ts });
     }
 
     await publishSurface();
@@ -948,6 +1184,6 @@ export async function reopenStage10ProductRuntime(input = {}) {
   const persisted = await maybeAwait(storagePort.readSession(projectId));
   return createStage10ProductRuntime({
     ...input,
-    initialSession: normalizeSession(persisted),
+    initialSession: normalizeSession(persisted, { requireReceiptAuthority: true }),
   });
 }

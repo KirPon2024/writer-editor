@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix-receipt.v1",
+  "taskId": "WORD_RTK_NORMALIZED_CAPABILITY_MATRIX",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T10:20:00.000Z",
+  "matrixBinding": {
+    "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+    "sha256": "9ad7f1cf6e0324a13b443903da317555f4d747746e22f30d0713fa2cd862df9d",
+    "status": "BOUND"
+  },
+  "sourceBindings": {
+    "v4Spec": {
+      "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+      "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4"
+    },
+    "capabilityProfile": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "65766e3a3062149e35c21dde31fc1553da6ce61052ae099635a4585c16cff512"
+    },
+    "postD1Program": {
+      "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "f8b011e285948fdfde8537ce522e1925c6ea941b67d4b198ca54e327e6dd5eb9"
+    },
+    "saturationLedger": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "e4474b4c07fd2f59daa0256f38da7c7544fffe9ba946432dd3c20c02ed3c1a34"
+    }
+  },
+  "counts": {
+    "totalCells": 25,
+    "physicalWordEvidence": 16,
+    "productRuntimeWired": 11,
+    "automaticApplyCertified": 0,
+    "blocksWordSaturation": 6,
+    "currentTerminalClass": {
+      "COMPONENT_PROVEN": 5,
+      "PHYSICAL_WORD_EVIDENCE": 3,
+      "DIAGNOSTIC_ONLY": 3,
+      "SATURATION_GOVERNANCE": 1,
+      "PRODUCT_RUNTIME_WIRED": 10,
+      "PRODUCT_COMPOSITION_REGISTERED_COMPONENT_CONSUMER": 1,
+      "TYPED_LIMITATION": 2
+    },
+    "intendedTerminalClass": {
+      "COMPONENT_PROVEN": 5,
+      "PHYSICAL_WORD_EVIDENCE": 3,
+      "DIAGNOSTIC_ONLY": 3,
+      "SATURATION_GOVERNANCE": 1,
+      "PRODUCT_RUNTIME_WIRED": 11,
+      "TYPED_LIMITATION": 2
+    }
+  },
+  "nextStage": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
+  "nonClaims": [
+    "Automatic apply is not certified broadly.",
+    "Physical Word evidence is not product runtime authority by itself.",
+    "Component proven cells are not missing product UI work unless their intended terminal class says so.",
+    "Diagnostic-only formatting and structural lanes are not silent apply capability.",
+    "Google Docs remains closed until terminal Word audit and fresh independent exact-head audit."
+  ],
+  "testPlan": [
+    "node scripts/ops/rtk-word-normalized-capability-matrix.mjs --json",
+    "node --test test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
+    "node scripts/ops/governance-approval-state.mjs --json",
+    "npm run -s test:ops",
+    "node scripts/run-tests.js"
+  ]
+}

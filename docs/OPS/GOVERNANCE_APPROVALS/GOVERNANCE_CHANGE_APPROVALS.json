@@ -7912,27 +7912,6 @@
       "rationale": "Approve bounded P0_04 Design OS binding contract: requires FEATURE_INTEGRATION_MANIFEST_V1, actual Design OS slot resolver, query registry binding, Command Kernel command IDs, renderer host binding through resolver metadata, fail-closed negative bypass checks, no visual redesign, no network, no storage authority, and Program DoD remains IN_PROGRESS."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "f2e836d1474135eefa186aa9bba90065e1f6395bf00cd45acb8f45f9a8aaf436",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "0fed667f14515d06a951dd96330dd2e1c9f89bdc37cc3e893a282dc6f7f3cace",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "d7058226d08380026817cbecf50f986a77272a775be0f770a1cb406ac41dc3d8",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
       "sha256": "d17668e3e77ecc0ac42342ca04a96e903879eb6b764765fd74cd8542099614f1",
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
@@ -7994,6 +7973,41 @@
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "a3c685d82050d23e5bbb4e0e691d90522f5a11b3e8de962436c98481a1be774c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
+      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "853fbd362b44c500b9c30013767286b6a2d1e97975ee4e36e348d2e53bb71534",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
+      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "f0b3b6f2126ed589c82028bcdfde1ece37aa9450bba899b442054cb5559d1b22",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
+      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_POSTMERGE_TRUTH_REBIND_RECEIPT.json",
+      "sha256": "daaad4df7d1d9fb08bd18ded249f0dba3912facd6b0ae9989cf61ae4cd51715b",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
+      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
+      "sha256": "03afc96ac289e91ce20060fe2c9cb4cabcee76aa6650d229d7541713ebcc9b0e",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T06:55:00.000Z",
+      "rationale": "Approve bounded P0 postmerge truth rebind after multi-scene atomic comment-state closure: aggregate Word program/profile/ledger now point at the merged closure receipt, preserve Word SATURATED false, automatic apply false, Google Docs closed, and prepare bounded varied wave64 as the next Word-only contour."
     }
   ]
 }

@@ -2,8 +2,10 @@ import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveVie
 import { canonicalizeAtlasMentionIndex } from './atlasMentionTypes.mjs';
 import { normalizeAtlasObservationLanguagePolicy } from './atlasObservationTypes.mjs';
 import { buildAtlasTextAnchorPacket } from './atlasTextAnchorNormalization.mjs';
+import atlasMultilingualMatcher from '../../shared/atlasMultilingualMatcher.cjs';
 
 const VIEW_ID = 'derived.atlas.mentionIndex.v1';
+const { collectAtlasMultilingualMatches } = atlasMultilingualMatcher;
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -25,20 +27,6 @@ function isAtlasMentionCapabilityEnabled(snapshot) {
   if (capabilities['atlas.mentionIndex'] === false) return false;
   if (capabilities.atlasMentionIndex === false) return false;
   if (isPlainObject(capabilities.atlas) && capabilities.atlas.mentionIndex === false) return false;
-  return true;
-}
-
-function isTokenChar(char) {
-  return typeof char === 'string' && char.length > 0 && /[\p{L}\p{N}_]/u.test(char);
-}
-
-function hasExactBoundaries(text, startOffset, endOffset, term) {
-  const before = startOffset > 0 ? text[startOffset - 1] : '';
-  const after = endOffset < text.length ? text[endOffset] : '';
-  const first = term[0] || '';
-  const last = term[term.length - 1] || '';
-  if (isTokenChar(first) && isTokenChar(before)) return false;
-  if (isTokenChar(last) && isTokenChar(after)) return false;
   return true;
 }
 
@@ -150,6 +138,47 @@ function resolveLanguageRouteForMention({ project, tags, sceneId, startOffset, e
   };
 }
 
+function buildLanguageMatcherSegments({ project, tags, sceneId, sceneText }) {
+  const defaultLanguageCode = normalizeLanguageCode(project?.languageCode);
+  const projectTag = tags.find((tag) => tag.scopeKind === 'project');
+  const sceneTag = tags.find((tag) => tag.scopeKind === 'scene' && tag.sceneId === sceneId);
+  const baseLanguageCode = sceneTag?.languageCode || projectTag?.languageCode || defaultLanguageCode;
+  const ranges = tags
+    .filter((tag) => (
+      tag.scopeKind === 'range'
+      && tag.sceneId === sceneId
+      && tag.startOffset >= 0
+      && tag.endOffset > tag.startOffset
+      && tag.endOffset <= sceneText.length
+    ))
+    .sort((left, right) => {
+      if (left.startOffset !== right.startOffset) return left.startOffset - right.startOffset;
+      if (left.endOffset !== right.endOffset) return left.endOffset - right.endOffset;
+      return left.id.localeCompare(right.id, 'en', { sensitivity: 'variant' });
+    });
+  if (ranges.length === 0) {
+    return [{ startOffset: 0, endOffset: sceneText.length, languageCode: baseLanguageCode }];
+  }
+  const points = new Set([0, sceneText.length]);
+  for (const range of ranges) {
+    points.add(range.startOffset);
+    points.add(range.endOffset);
+  }
+  const sortedPoints = [...points].sort((left, right) => left - right);
+  const segments = [];
+  for (let index = 0; index < sortedPoints.length - 1; index += 1) {
+    const startOffset = sortedPoints[index];
+    const endOffset = sortedPoints[index + 1];
+    const matchingRange = ranges.find((range) => range.startOffset <= startOffset && range.endOffset >= endOffset);
+    segments.push({
+      startOffset,
+      endOffset,
+      languageCode: matchingRange?.languageCode || baseLanguageCode,
+    });
+  }
+  return segments;
+}
+
 function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset, endOffset, sceneText }) {
   const packet = buildAtlasTextAnchorPacket({
     projectId,
@@ -166,12 +195,17 @@ function buildEvidenceAnchor({ projectId, sceneId, entityId, termId, startOffset
 function collectTermMentions({ project, projectId, sceneId, sceneText, term, languageTags }) {
   const out = [];
   if (term.scope === 'scene' && term.sceneId !== sceneId) return out;
-  let cursor = 0;
-  while (cursor <= sceneText.length) {
-    const found = sceneText.indexOf(term.value, cursor);
-    if (found < 0) break;
-    const endOffset = found + term.value.length;
-    if (hasExactBoundaries(sceneText, found, endOffset, term.value)) {
+  const matcherSegments = buildLanguageMatcherSegments({ project, tags: languageTags, sceneId, sceneText });
+  for (const segment of matcherSegments) {
+    const segmentText = sceneText.slice(segment.startOffset, segment.endOffset);
+    const matches = collectAtlasMultilingualMatches({
+      sourceText: segmentText,
+      needle: term.value,
+      languageCode: segment.languageCode,
+    }).matches;
+    for (const match of matches) {
+      const found = segment.startOffset + match.startOffset;
+      const endOffset = segment.startOffset + match.endOffset;
       const anchor = buildEvidenceAnchor({
         projectId,
         sceneId,
@@ -204,7 +238,18 @@ function collectTermMentions({ project, projectId, sceneId, sceneText, term, lan
         termId: term.termId,
         termKind: term.termKind,
         aliasId: term.aliasId || '',
-        matchedText: term.value,
+        matchedText: match.matchedText,
+        matchMode: match.matchMode,
+        matcherId: match.matcherId,
+        matcherPolicy: {
+          languageCode: match.languageCode,
+          languagePolicy: match.languagePolicy,
+          exactOnly: true,
+          fuzzyMatching: false,
+          englishFallback: false,
+          segmentationAppliedBeforeMatching: true,
+          graphemeBoundaryRequired: true,
+        },
         languageCode: languageRoute.languageCode,
         languageRoute,
         startOffset: found,
@@ -212,7 +257,6 @@ function collectTermMentions({ project, projectId, sceneId, sceneText, term, lan
         evidenceAnchor: anchor,
       });
     }
-    cursor = Math.max(endOffset, found + 1);
   }
   return out;
 }

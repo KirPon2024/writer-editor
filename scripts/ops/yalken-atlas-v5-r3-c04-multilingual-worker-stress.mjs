@@ -250,9 +250,18 @@ function proveMultilingualRouting(state) {
     capabilitySnapshot: { platformId: 'node', capabilities: { atlasMixedLanguageRouter: true } },
   });
   if (!router.ok) throw new Error(`MIXED_LANGUAGE_ROUTER_FAILED:${JSON.stringify(router.error)}`);
-  const byEntity = new Map(mentionIndex.value.mentions.map((mention) => [mention.entityId, mention]));
+  const mentionsForSegment = new Map();
+  for (const segment of SEGMENTS) {
+    const range = segmentRange(segment.value);
+    const mention = mentionIndex.value.mentions.find((item) => (
+      item.entityId === segment.entityId
+      && item.startOffset === range.startOffset
+      && item.endOffset === range.endOffset
+    ));
+    if (mention) mentionsForSegment.set(segment.id, mention);
+  }
   const routeAssertions = SEGMENTS.map((segment) => {
-    const mention = byEntity.get(segment.entityId);
+    const mention = mentionsForSegment.get(segment.id);
     return {
       id: segment.id,
       expectedLanguageCode: segment.languageCode,
@@ -263,17 +272,25 @@ function proveMultilingualRouting(state) {
       englishFallback: mention?.languageRoute?.englishFallback === true,
       graphemeLength: mention?.evidenceAnchor?.graphemeRange?.length || 0,
       quotePreserved: mention?.evidenceAnchor?.quote === segment.value,
+      matcherId: mention?.matcherId || '',
+      matchMode: mention?.matchMode || '',
+      segmentationAppliedBeforeMatching: mention?.matcherPolicy?.segmentationAppliedBeforeMatching === true,
     };
   });
   return {
     mentionCount: mentionIndex.value.mentions.length,
     routeCount: router.value.routes.length,
     routeAssertions,
-    allSegmentsMatched: SEGMENTS.every((segment) => byEntity.has(segment.entityId)),
+    allSegmentsMatched: SEGMENTS.every((segment) => mentionsForSegment.has(segment.id)),
     allRoutesAuthorBound: routeAssertions.every((row) => row.sourceKind === 'author-range'),
     allExpectedLanguages: routeAssertions.every((row) => row.expectedLanguageCode === row.actualLanguageCode),
     exactOnlyNoFallback: routeAssertions.every((row) => row.exactOnly === true && row.fuzzyMatching === false && row.englishFallback === false),
     allQuotesPreserved: routeAssertions.every((row) => row.quotePreserved === true && row.graphemeLength >= 1),
+    matcherPolicyBeforeMatching: routeAssertions.every((row) => (
+      row.matcherId === 'BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1'
+      && row.matchMode === 'CASE_AND_CANONICAL_EQUIVALENCE_EXACT'
+      && row.segmentationAppliedBeforeMatching === true
+    )),
     mentionIndexHash: mentionIndex.value.meta.indexHash,
     routerHash: router.value.summary.routerHash,
   };
@@ -437,6 +454,7 @@ function collectFailures(report) {
   if (report.multilingualRouting.allExpectedLanguages !== true) failures.push('MENTION_LANGUAGE_CODE_MISMATCH');
   if (report.multilingualRouting.exactOnlyNoFallback !== true) failures.push('MENTION_LANGUAGE_POLICY_NOT_EXACT_ONLY');
   if (report.multilingualRouting.allQuotesPreserved !== true) failures.push('UNICODE_QUOTE_OR_GRAPHEME_RANGE_NOT_PRESERVED');
+  if (report.multilingualRouting.matcherPolicyBeforeMatching !== true) failures.push('MATCHER_POLICY_NOT_APPLIED_BEFORE_MATCHING');
   if (report.workerStress.queueCoalescedLatest !== true) failures.push('WORKER_QUEUE_NOT_COALESCED');
   if (report.workerStress.abortedRejected !== true) failures.push('WORKER_ABORT_NOT_REJECTED');
   if (report.workerStress.run10k.ok !== true || report.workerStress.run10k.executionMode !== 'worker-thread') failures.push('WORKER_10K_NOT_REAL_THREAD');

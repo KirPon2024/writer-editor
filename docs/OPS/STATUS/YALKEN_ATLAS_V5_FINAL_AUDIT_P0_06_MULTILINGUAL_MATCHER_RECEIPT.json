@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p0_06.multilingualMatcher.v1.receipt",
+  "contourId": "P0_06_MULTILINGUAL_MATCHER",
+  "status": "PASS_P0_06_MULTILINGUAL_MATCHER",
+  "pass": true,
+  "programDoneClaim": false,
+  "generatedAtUtc": "2026-08-01T07:52:00.000Z",
+  "sourceBinding": {
+    "headSha": "8dfe81752407293b2e2b8f7480e7355245882080",
+    "originMainSha": "8dfe81752407293b2e2b8f7480e7355245882080",
+    "noMentionIndexRawCaseSensitiveIndexOf": true,
+    "noMainRawCaseSensitiveNeedleIndexOf": true,
+    "sharedMatcherWiredToDerived": true,
+    "sharedMatcherWiredToMain": true,
+    "matcherUsesGraphemeSegmentation": true,
+    "matcherUsesCanonicalCaseFold": true,
+    "noNetworkDependency": true,
+    "sourceFiles": {
+      "src/shared/atlasMultilingualMatcher.cjs": {
+        "path": "src/shared/atlasMultilingualMatcher.cjs",
+        "exists": true,
+        "bytes": 9710,
+        "sha256": "d47dc25376f5db25a6c458cc9a8befe9a57be71f88b36a8d1ac086c152bf7f96"
+      },
+      "src/derived/atlas/deriveAtlasMentionIndex.mjs": {
+        "path": "src/derived/atlas/deriveAtlasMentionIndex.mjs",
+        "exists": true,
+        "bytes": 13629,
+        "sha256": "9fc050b5853e8d66ce4063dc3f5a4571fb0964cb11667738d887bdf0fc46645a"
+      },
+      "src/main.js": {
+        "path": "src/main.js",
+        "exists": true,
+        "bytes": 910429,
+        "sha256": "9cb2a3320af611fcbbbd1159acf2d6ba84fc78bcb9b65817cf74e9d640fe1e59"
+      },
+      "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs": {
+        "path": "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
+        "exists": true,
+        "bytes": 16981,
+        "sha256": "9a3dd39f622699217f8139b8f83fd98adf48bedd297bc5507f3521d53a44aef6"
+      },
+      "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js": {
+        "path": "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",
+        "exists": true,
+        "bytes": 5120,
+        "sha256": "1b3a18fcad789aac3b5d3210f17dcb91619f12354e00393b9dc2e3295460ae69"
+      }
+    }
+  },
+  "report": {
+    "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_06_MULTILINGUAL_MATCHER/p0-06-multilingual-matcher-report.json",
+    "exists": true,
+    "bytes": 7710,
+    "sha256": "3dc7a4e7ab263450bd6089cc294d56fcdba196d2eea503a970d3794a0e4c0a72"
+  },
+  "acceptance": {
+    "languagePolicyBeforeMatching": true,
+    "graphemeAwareMatching": true,
+    "unicodeMatrixProductEvidence": true,
+    "rawCaseSensitiveUtf16MatcherRemoved": true,
+    "productMentionIndexBound": true,
+    "commandKernelCoreAdmissionRejectsSplitGrapheme": true,
+    "noEnglishFallback": true,
+    "noFuzzyMatching": true,
+    "noNetwork": true,
+    "noProgramDoneClaim": true
+  },
+  "evidenceCommands": [
+    "node scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs"
+  ],
+  "nextContour": "P0_07_STRESS_PRODUCT_PROOF",
+  "baseSha": "8dfe81752407293b2e2b8f7480e7355245882080",
+  "originMainSha": "8dfe81752407293b2e2b8f7480e7355245882080",
+  "changedBasenames": [
+    "atlasMultilingualMatcher.cjs",
+    "deriveAtlasMentionIndex.mjs",
+    "main.js",
+    "yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
+    "yalken-atlas-v5-r3-c04-multilingual-worker-stress.mjs",
+    "yalken-atlas-v5-r3-c05-release-saturation-revalidation.mjs",
+    "yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",
+    "yalken-atlas-v5-e01-c02-exact-mention-anchors.contract.test.js",
+    "yalken-atlas-v5-r3-c05-release-saturation-revalidation.contract.test.js",
+    "p0-06-multilingual-matcher-report.json",
+    "YALKEN_ATLAS_V5_FINAL_AUDIT_P0_06_MULTILINGUAL_MATCHER_RECEIPT.json",
+    "GOVERNANCE_CHANGE_APPROVALS.json"
+  ],
+  "checks": {
+    "focusedContract": {
+      "command": "node --test P0_06 focused language contract pack",
+      "status": "PASS",
+      "tests": {
+        "total": 28,
+        "pass": 28,
+        "fail": 0
+      },
+      "includes": [
+        "P0_06 shared matcher and product evidence contract PASS",
+        "E01 C02 exact mention anchors updated for casefold exact PASS",
+        "E07 C02 Unicode evidence anchor preservation PASS",
+        "E07 C05 CJK RTL complex-script guards PASS",
+        "R3 C04 multilingual worker stress PASS",
+        "R3 C05 release saturation source invariant PASS"
+      ]
+    },
+    "productEvidence": {
+      "command": "node scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
+      "status": "PASS",
+      "reportSha256": "3dc7a4e7ab263450bd6089cc294d56fcdba196d2eea503a970d3794a0e4c0a72",
+      "reportStatus": "PASS_P0_06_MULTILINGUAL_MATCHER"
+    },
+    "testOps": {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; GOVERNANCE_CHANGE_OK=1; GOVERNANCE_STATE_VALID=1; STRATEGY_PROGRESS_VALID=1"
+    },
+    "designOsDoctrine": {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    "ossPolicy": {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    "rendererBuild": {
+      "command": "npm run -s build:renderer",
+      "status": "PASS"
+    },
+    "fullRunner": {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "tests": {
+        "total": 799,
+        "pass": 735,
+        "fail": 0,
+        "skipped": 64
+      },
+      "perfBaseline": "PASS",
+      "releaseCandidateVerify": "PASS"
+    }
+  },
+  "delivery": {
+    "commit": "PENDING",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  }
+}

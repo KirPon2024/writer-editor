@@ -59,13 +59,17 @@ test('E01 C02: exact Atlas mention index emits stable evidence anchors without f
   assert.equal(result.ok, true);
   assert.equal(result.value.schemaVersion, 'derived.atlas.mentionIndex.v1');
   assert.equal(result.value.projectId, projectId);
-  assert.equal(result.value.mentions.length, 3);
+  assert.equal(result.value.mentions.length, 4);
   assert.deepEqual(
     result.value.mentions.map((mention) => mention.matchedText),
-    ['Anna', 'Atlas keeper', 'Anna'],
+    ['Anna', 'Atlas keeper', 'Anna', 'atlas keeper'],
   );
   assert.equal(result.value.mentions.some((mention) => mention.matchedText === 'Annabel'), false);
-  assert.equal(result.value.mentions.some((mention) => mention.matchedText === 'atlas keeper'), false);
+  const foldedAlias = result.value.mentions.find((mention) => mention.matchedText === 'atlas keeper');
+  assert.equal(foldedAlias.matchMode, 'CASE_AND_CANONICAL_EQUIVALENCE_EXACT');
+  assert.equal(foldedAlias.matcherPolicy.segmentationAppliedBeforeMatching, true);
+  assert.equal(foldedAlias.matcherPolicy.graphemeBoundaryRequired, true);
+  assert.equal(foldedAlias.matcherPolicy.fuzzyMatching, false);
 
   const firstAnna = result.value.mentions[0];
   assert.equal(firstAnna.sceneId, sceneId);
@@ -85,7 +89,7 @@ test('E01 C02: exact Atlas mention index emits stable evidence anchors without f
       sceneId,
       sceneTextHash: firstAnna.evidenceAnchor.sceneTextHash,
       mentionIds: result.value.mentions.map((mention) => mention.mentionId),
-      mentionCount: 3,
+      mentionCount: 4,
     },
   ]);
 });

@@ -138,8 +138,8 @@ export function evaluateSourceInvariants() {
       && finalReceipt.schemaVersion !== RECEIPT_SCHEMA,
     noSilentSourceSceneSlice: !/candidateNodes\.slice\(\s*0\s*,\s*500\s*\)/u.test(mainSource)
       && !/collectAtlasOverviewSceneNodes\(roots\)\.slice\(\s*0\s*,\s*500\s*\)/u.test(mainSource),
-    rawMatcherRiskInspected: sourceIncludes(mentionIndexSource, 'sceneText.indexOf(term.value, cursor)')
-      && sourceIncludes(mentionIndexSource, 'exactOnly: true')
+    rawMatcherRiskInspected: sourceIncludes(mentionIndexSource, 'collectAtlasMultilingualMatches({')
+      && sourceIncludes(mentionIndexSource, 'segmentationAppliedBeforeMatching: true')
       && sourceIncludes(mentionIndexSource, 'englishFallback: false'),
   };
 
@@ -154,8 +154,8 @@ export function evaluateSourceInvariants() {
     },
     rawMatcherDisposition: {
       containsCaseSensitiveIndexOf: sourceIncludes(mentionIndexSource, 'sceneText.indexOf(term.value, cursor)'),
-      currentDisposition: 'INSPECTED_EXACT_ONLY_AUTHOR_BOUND_MATCHER_NOT_RELEASE_VETO_FOR_R3_C05',
-      requiresFutureCapability: 'CASE_FOLDING_LANGUAGE_ANALYZER_PORT_WHEN_ACTIVATED',
+      currentDisposition: 'REPAIRED_BY_P0_06_GRAPHEME_CASEFOLD_MATCHER',
+      requiresFutureCapability: 'NO_OPEN_P0_06_MATCHER_GAP_AFTER_CASEFOLD_GRAPHEME_ROUTE',
     },
   };
 }

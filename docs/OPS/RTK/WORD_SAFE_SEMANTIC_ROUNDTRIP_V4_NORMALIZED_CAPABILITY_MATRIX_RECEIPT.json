@@ -6,7 +6,7 @@
   "createdAtUtc": "2026-08-01T10:20:00.000Z",
   "matrixBinding": {
     "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-    "sha256": "b78c5f63e031e1df8d7dbeef50f875d3598d1de1ea008099eb46ac9164b6fa87",
+    "sha256": "94568639fc62b586cf7eeed07d623e3a8da675d5ebaba1fb00cdedffae04d5ff",
     "status": "BOUND"
   },
   "sourceBindings": {
@@ -24,7 +24,7 @@
     },
     "saturationLedger": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "4be7ee3b60c162a5fadc0b9e4bdb3799e43e75a3f0aeee84a705b4bbebd48604"
+      "sha256": "528435b780c7223d5a1cfd57cc81c2810ef78411f1e69aa97ed840fd453dedc6"
     }
   },
   "counts": {

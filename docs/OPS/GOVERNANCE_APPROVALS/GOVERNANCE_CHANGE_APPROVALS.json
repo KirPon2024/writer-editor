@@ -8396,7 +8396,7 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_REPLY_TYPED_LIMITATION_RECEIPT.json",
-      "sha256": "7dcc4023a29ca9955e3d7f15b9022a2d216b746d2366d241faa700ce30031365",
+      "sha256": "cc93a770497800ae9893b8f0d19d23f48b77ea7f8361f66a9258542f36617733",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
       "approvedAtUtc": "2026-08-01T11:40:00.000Z",
       "rationale": "Approve Word P0 modern comment reply typed-limitation closure: physical Word parent-reply readback lacks stable parent-link authority, while the product Command Kernel comment shadow path preserves reply bodies as typed unsupported diagnostics with no manuscript authority, automatic apply, Google stage, or silent comment loss."
@@ -8459,21 +8459,21 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "1983a067e34943543599f76f091b7e4bc87052fc2517a87de2400157c3abe643",
+      "sha256": "96ab892f7cdca9d695a2bdee81e4d78ea19ad29ea09b57677b8e0a5917891358",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
       "approvedAtUtc": "2026-08-01T10:20:00.000Z",
       "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-      "sha256": "b78c5f63e031e1df8d7dbeef50f875d3598d1de1ea008099eb46ac9164b6fa87",
+      "sha256": "94568639fc62b586cf7eeed07d623e3a8da675d5ebaba1fb00cdedffae04d5ff",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
       "approvedAtUtc": "2026-08-01T10:20:00.000Z",
       "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
-      "sha256": "0dff036dc9f822af4eb70f7db8a7e3061c249d27abd04427753f0305a9a02419",
+      "sha256": "753e683c9d4a48819dd6ee0b4e2c0f33094ce7b7eb9446b4afa74bada6e262c7",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
       "approvedAtUtc": "2026-08-01T10:20:00.000Z",
       "rationale": "Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed."

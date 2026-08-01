@@ -16,6 +16,7 @@ const ALLOWED_COMMAND_IDS = Object.freeze([
   'cmd.project.releaseClaim.execute',
   'cmd.rtk.reviewSession.importComments',
   'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+  'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
 ]);
 
 const ALLOWED_COMMAND_ID_SET = new Set(ALLOWED_COMMAND_IDS);
@@ -23,6 +24,7 @@ const TYPED_RESULT_COMMAND_IDS = new Set([
   'cmd.project.releaseClaim.admit',
   'cmd.project.releaseClaim.execute',
   'cmd.rtk.review.applyNonOverlapTrackedReplacements',
+  'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements',
 ]);
 
 function isPlainObject(value) {

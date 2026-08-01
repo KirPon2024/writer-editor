@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "yalken.rtk.word-safety-remediation-v1.c2-multi-scene-command-path-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+  "contour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C2_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "baseSha": "e30b964213995fad7d47674395448b38a11bdcec",
+  "generatedAtUtc": "2026-08-01T15:01:51.259Z",
+  "predecessor": {
+    "contour": "C1_ATOMIC_EFFECT_RESERVATION_REPLAY_AND_RECOVERY",
+    "mergeSha": "e30b964213995fad7d47674395448b38a11bdcec",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json"
+  },
+  "ownerCorrection": {
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "preservedGoogleStash": "stash@{0}: park google g01 boundary wip after word acceptance revocation"
+  },
+  "c2ActionEnvelope": {
+    "frozen": true,
+    "allowedRuntimeFiles": [
+      "commandSurfaceKernel.js",
+      "reviewTransportMultiSceneNonOverlapTrackedReplacementRuntime.mjs"
+    ],
+    "allowedContracts": [
+      "rtk-word-safety-c2-multiscene-command-path.contract.test.js",
+      "rtk-word-safety-c1-effect-reservation.contract.test.js",
+      "rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js"
+    ],
+    "allowedStateFiles": [
+      "WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
+      "POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json"
+    ],
+    "forbidden": [
+      "Google product implementation",
+      "Word corpus growth",
+      "historical V6 hash rewrite",
+      "new dependency",
+      "renderer writer authority",
+      "direct parser write authority"
+    ]
+  },
+  "c2Guarantees": {
+    "canonicalCommandAllowlisted": true,
+    "commandSurfaceTypedResult": true,
+    "mainHandlerRegistered": true,
+    "commandKernelDispatchProven": true,
+    "directModuleInvocationBlocked": true,
+    "sameProjectRootRequired": true,
+    "allScenesValidateBeforeWriter": true,
+    "serializedMultiSceneMutationBoundary": true,
+    "allOrNoneRollbackOnSceneFailure": true,
+    "replayProducesZeroWrites": true,
+    "concurrentDuplicateMultiSceneEffectOneTransaction": true,
+    "rendererWriterAuthorityAdded": false,
+    "automaticApplyCertifiedExpanded": false
+  },
+  "tests": {
+    "focused": {
+      "command": "node --test rtk-word-safety-c2-multiscene-command-path.contract.test.js",
+      "total": 6,
+      "pass": 6,
+      "fail": 0
+    },
+    "focusedWithAdjacentSafety": {
+      "command": "node --test rtk-word-safety-c1-effect-reservation.contract.test.js rtk-word-safety-c2-multiscene-command-path.contract.test.js rtk-word-saturation-c05-block-range-writer.contract.test.js rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "total": 27,
+      "pass": 27,
+      "fail": 0
+    },
+    "predecessorPostMerge": {
+      "command": "node scripts/run-tests.js on exact C1 merged head",
+      "total": 799,
+      "pass": 735,
+      "skip": 64,
+      "fail": 0
+    },
+    "fullLocal": {
+      "command": "node scripts/run-tests.js",
+      "total": 799,
+      "pass": 735,
+      "skip": 64,
+      "fail": 0
+    }
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetwork": 0
+  },
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "pullRequestRequired": true,
+    "mergeRequired": true,
+    "status": "ready_for_commit_push_pr_ci_merge"
+  },
+  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+  "gates": {
+    "testOps": {
+      "command": "HEAD_STRICT_MODE=dev npm run -s test:ops",
+      "status": "PASS"
+    },
+    "ossPolicy": {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    "npmAuditModerate": {
+      "command": "npm audit --audit-level=moderate",
+      "status": "PASS",
+      "vulnerabilities": 0
+    },
+    "designOsDoctrine": {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    "governanceChangeDetection": {
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "status": "PASS",
+      "missingApprovals": 0
+    },
+    "syntaxAndDiffCheck": {
+      "command": "node --check changed runtime and contract files; git diff --check",
+      "status": "PASS"
+    }
+  }
+}

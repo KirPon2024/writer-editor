@@ -15,6 +15,10 @@ export const RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID =
   'cmd.rtk.review.applyMultiSceneNonOverlapTrackedReplacements';
 export const RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_SCHEMA =
   'yalken.rtk.multi-scene-non-overlap-tracked-replacement-runtime.v1';
+export const RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_TYPE =
+  'yalken.rtk.multiSceneNonOverlapTrackedReplacementRuntime';
+
+const multiSceneApplyQueues = new Map();
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -45,6 +49,7 @@ function blockResult(reasons, details = {}) {
   const code = normalized[0]?.code || 'RTK_MULTI_SCENE_WRITE_PRECONDITION_FAILED';
   return {
     ok: false,
+    type: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_TYPE,
     schemaVersion: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_SCHEMA,
     commandId: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID,
     status: 'blocked',
@@ -64,6 +69,16 @@ function blockResult(reasons, details = {}) {
 function resolveCryptoPort(port) {
   if (typeof port?.sha256Text === 'function' && typeof port?.sha256Json === 'function') return port;
   throw new Error('CryptoPort with sha256Text and sha256Json is required');
+}
+
+function enqueueMultiSceneApply(queueKey, task) {
+  const key = normalizeString(queueKey) || '__missing_multi_scene_project_root__';
+  const previous = multiSceneApplyQueues.get(key) || Promise.resolve();
+  const next = previous.catch(() => {}).then(task);
+  multiSceneApplyQueues.set(key, next.finally(() => {
+    if (multiSceneApplyQueues.get(key) === next) multiSceneApplyQueues.delete(key);
+  }));
+  return next;
 }
 
 function normalizeCommandSurface(input = {}) {
@@ -258,6 +273,7 @@ function normalizeSceneCommand(command, index, cryptoPort, options) {
     ok: true,
     sceneId,
     scenePath,
+    projectRoot: normalizeString(writerInput.projectRoot),
     input,
     preview,
     writerInput,
@@ -375,6 +391,15 @@ export function buildMultiSceneNonOverlapTrackedReplacementRuntimePreview(input 
       { sceneId: duplicateScene },
     ));
   }
+  const projectRoots = [...new Set(scenes.map((scene) => normalizeString(scene.projectRoot)).filter(Boolean))];
+  if (projectRoots.length !== 1) {
+    reasons.push(reason(
+      'RTK_MULTI_SCENE_SINGLE_PROJECT_REQUIRED',
+      'sceneCommands.writerInput.projectRoot',
+      'Multi-scene atomic apply requires one project root before checkpoint.',
+      { projectRoots },
+    ));
+  }
   if (reasons.length > 0) return blockResult(reasons);
 
   const baseRootPointer = rootPointer(cryptoPort, scenes, 'beforeSha256');
@@ -391,6 +416,7 @@ export function buildMultiSceneNonOverlapTrackedReplacementRuntimePreview(input 
 
   return {
     ok: true,
+    type: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_TYPE,
     schemaVersion: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_SCHEMA,
     commandId: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID,
     status: 'preview-ready',
@@ -428,6 +454,23 @@ export async function applyMultiSceneNonOverlapTrackedReplacementRuntime(input =
     ), { preview });
   }
 
+  return enqueueMultiSceneApply(
+    normalizeString(preview.sceneCommands[0]?.projectRoot),
+    () => applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
+      input,
+      options,
+      cryptoPort,
+      preview,
+    }),
+  );
+}
+
+async function applyMultiSceneNonOverlapTrackedReplacementRuntimeReserved({
+  input,
+  options,
+  cryptoPort,
+  preview,
+}) {
   const states = [];
   for (const scene of preview.sceneCommands) {
     let state = null;
@@ -563,6 +606,7 @@ export async function applyMultiSceneNonOverlapTrackedReplacementRuntime(input =
   const allReplay = sceneResults.every((item) => item.result?.status === 'replay');
   return {
     ok: true,
+    type: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_TYPE,
     schemaVersion: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_SCHEMA,
     commandId: RTK_MULTI_SCENE_NON_OVERLAP_TRACKED_REPLACEMENT_COMMAND_ID,
     status: allReplay ? 'replay' : 'applied',

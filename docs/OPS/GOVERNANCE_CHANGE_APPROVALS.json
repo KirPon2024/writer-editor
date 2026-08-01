@@ -30,20 +30,6 @@
       "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_01/summary.json",
-      "sha256": "71668cb7a9f48d5a0a47d4a03fd3200c68ecffa00d2abe2a6d396f284749f5f7",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T00:55:00.000Z",
-      "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_01/ticket-meta.json",
-      "sha256": "3361763ac147413fc5a3d7f88945c8fc792529bde055dd6e50ed1e86a9774bde",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T00:55:00.000Z",
-      "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
-    },
-    {
       "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_02/binary-test-a-complete-set.json",
       "sha256": "38e4235a2c63aed0e5718bae857d16eb5ac891eae45661c90cada71c78024136",
       "approvedBy": "DOCS_OPERATOR",
@@ -79,20 +65,6 @@
       "rationale": "TZ-P0-02-RELEASE-TOKEN-BINDING-COMPLETENESS-001 approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_02/summary.json",
-      "sha256": "4966bf050122d4952f90ba2572b311a21514a6851ffabceeab2ca8503a3252f7",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:15:00.000Z",
-      "rationale": "TZ-P0-02-RELEASE-TOKEN-BINDING-COMPLETENESS-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_02/ticket-meta.json",
-      "sha256": "4a5aed5fdddb2842c5ea581f162e97009e508954bb413fe44b30b3ff2ee21348",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:15:00.000Z",
-      "rationale": "TZ-P0-02-RELEASE-TOKEN-BINDING-COMPLETENESS-001 approvals."
-    },
-    {
       "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_03/domain-failsignal-negative-test-map.json",
       "sha256": "a416ba95a588789df2bdd98b588b6a0a663b9d78a0045aeae81212dfa6e271de",
       "approvedBy": "DOCS_OPERATOR",
@@ -109,20 +81,6 @@
     {
       "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_03/p0-03-domain-enforcement-report.json",
       "sha256": "dbf056cfe144f18932b20d8e63e1a935e27ddfacd5e42877ce0af438c8667bba",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:35:00.000Z",
-      "rationale": "TZ-P0-03-DOMAIN-NEGATIVE-TEST-ENFORCEMENT-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_03/summary.json",
-      "sha256": "8d2b60562ac11bff664964338829324380e36533180a0956d15b99317b9ab8d0",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:35:00.000Z",
-      "rationale": "TZ-P0-03-DOMAIN-NEGATIVE-TEST-ENFORCEMENT-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_03/ticket-meta.json",
-      "sha256": "7199d51f2299551d7e0e99a16ac153233a7ede0c2713c4c5754cf2a75f8fb50c",
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T01:35:00.000Z",
       "rationale": "TZ-P0-03-DOMAIN-NEGATIVE-TEST-ENFORCEMENT-001 approvals."
@@ -156,20 +114,6 @@
       "rationale": "TZ-P0-04-DECLARED-SET-VS-EFFECTIVE-SET-ALIGNMENT-001 approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_04/summary.json",
-      "sha256": "e7eafcba622943b5a5bd2aa8da9695d806d1caf24dc509a0c7ef793f1d1a8b81",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:55:00.000Z",
-      "rationale": "TZ-P0-04-DECLARED-SET-VS-EFFECTIVE-SET-ALIGNMENT-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_04/ticket-meta.json",
-      "sha256": "be4a35015caea2bcff95d74e313a805f8d6d8713b71b750ca8ceec37b29f6bde",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:55:00.000Z",
-      "rationale": "TZ-P0-04-DECLARED-SET-VS-EFFECTIVE-SET-ALIGNMENT-001 approvals."
-    },
-    {
       "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_05/p0-05-recursion-bypass-ban-report.json",
       "sha256": "59727f8e726134d06d1a64da83bbb05e5fd5d14808ca31f2fb72bb383bd8acb5",
       "approvedBy": "DOCS_OPERATOR",
@@ -196,27 +140,6 @@
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T02:15:00.000Z",
       "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_05/summary.json",
-      "sha256": "02abea221f3af25942104e7244eed99bec1ba43e526dea3b598acad7bf0f9c6f",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T02:15:00.000Z",
-      "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_05/ticket-meta.json",
-      "sha256": "94940c6b9e24a2067b482f405ea777e46789002b1ef26f0fea03508fe64cefba",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T02:15:00.000Z",
-      "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_06/advisory-blocking-drift-cases.json",
-      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:40:00.000Z",
-      "rationale": "TZ-P0-06-ATTESTATION-TRUST-LOCK-ENFORCEMENT-001 approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_06/attestation-self-generated-payload-negative.json",
@@ -247,39 +170,25 @@
       "rationale": "TZ-P0-06-ATTESTATION-TRUST-LOCK-ENFORCEMENT-001 approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_06/summary.json",
-      "sha256": "a857b1c8390c8ea3018aa1868e756a8bab32487e08a0a358d59aa89e48d65801",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:40:00.000Z",
-      "rationale": "TZ-P0-06-ATTESTATION-TRUST-LOCK-ENFORCEMENT-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_06/ticket-meta.json",
-      "sha256": "3362f0094f0e55ce41316e929a9a316bd334e987ed8f388ffba7866e449dc774",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:40:00.000Z",
-      "rationale": "TZ-P0-06-ATTESTATION-TRUST-LOCK-ENFORCEMENT-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_07/summary.json",
-      "sha256": "fc494eadc25324619d5dea402315cb0c8173b5ed3988cb4c776e64459d6e7ef9",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T06:10:00.000Z",
-      "rationale": "TZ-P0-07-REMOTE-AUTOFIX-IMPLEMENTATION-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P0_CONTOUR/TICKET_07/ticket-meta.json",
-      "sha256": "1f94bfceeb00137a699572cc5b91cbd20cc9a84c16659c30a0471da0e6d794e2",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T06:10:00.000Z",
-      "rationale": "TZ-P0-07-REMOTE-AUTOFIX-IMPLEMENTATION-001 approvals."
-    },
-    {
       "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_01/advisory-blocking-drift-cases.json",
       "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T02:40:00.000Z",
       "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-001 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_01/duplicate-checks-before-after.json",
+      "sha256": "db601a1b9152969548c41b56d60b3c60e014d60371e055c5154c0242c19efc21",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
+      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_01/risk-weighted-dedup-proof.json",
+      "sha256": "dd4c9c623995ad802a3207bdb102db197a18a09e4ebdc3cc26236cf3d40942ac",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
+      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_01/safety-parity-proof.json",
@@ -296,11 +205,11 @@
       "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-001 approvals."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_02/advisory-blocking-drift-cases.json",
-      "sha256": "65babcd7b7a0a6457de5ea18d38e2b7d597d778a566fe182632714d2aeea5694",
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_02/exit-policy-before-after.json",
+      "sha256": "8d163ee37abd296ddc05fe9a5c94ca81f001d659c93833dc3389d97e498e1002",
       "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T03:20:00.000Z",
-      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-001 approvals."
+      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
+      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_02/mode-aware-exit-policy-cases.json",
@@ -324,11 +233,123 @@
       "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-001 approvals."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_03/preflight-duplication-before-after.json",
+      "sha256": "bd9a2a8c8dcecd6cad3e873fc285bcfe0421f3e8ee5c479d24bc5b2310bafc86",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
+      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_03/safety-parity-proof.json",
       "sha256": "8917ab5b338286c61276dcae4d3c7950e3030de643f4585dfaf70322bee5bb6e",
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T03:55:00.000Z",
       "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-001 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/advisory-blocking-drift-cases.json",
+      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
+      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/migration-gap-report.json",
+      "sha256": "422d7a6880f7c989e05b1e0f847bf28d2902204b51211cb78ac9211ffaff224c",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
+      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/migration-input-output-map.json",
+      "sha256": "39b74518f3ae20b4f9b263d44d0b23198f7df073c4965500e0f3c50f44e94e01",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
+      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/migration-negative-missing-step.json",
+      "sha256": "1d219d60556547ddb0460822fdff5ff91822a50a8968d6e23835e3a89c346e53",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
+      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/safety-parity-proof.json",
+      "sha256": "8917ab5b338286c61276dcae4d3c7950e3030de643f4585dfaf70322bee5bb6e",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
+      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/advisory-blocking-drift-cases.json",
+      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
+      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/declared-stage-vs-effective-stage-map.json",
+      "sha256": "341eb252ef6de840f9d1e2003183f27419b44d94d6961d1262117b4331814687",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
+      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/stage-alignment-gaps.json",
+      "sha256": "231fb4cdcd4afb74608d171455f6f9f2af69041690dd223fcdef6a2a7f54619b",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
+      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/stage-clarity-report.json",
+      "sha256": "05b1dcaa1af0fadfd3b90cd98aa247d98e0f034411eca252c485b52a9bde3e38",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
+      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/advisory-blocking-drift-cases.json",
+      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
+      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/fast-lane-smoke-proof.json",
+      "sha256": "dad076b9440062fe6ab4b50cdb052c51cdea650a5c10b92a69416c615ed60c1d",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
+      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/heavy-lane-blocks-low-risk-proof.json",
+      "sha256": "cd3c1a586728a0bd54d8f78b1d97865d06c4cbeae9b61626903b0e23d649af12",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
+      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/l3-fast-lane-scope-matrix.json",
+      "sha256": "fc19c48ac418802a79f5c31b960e1558f026e40c869bcc42eaec51f194080613",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
+      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P2_CONTOUR/TICKET_01/advisory-blocking-drift-cases.json",
+      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
+      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/P2_CONTOUR/TICKET_01/typing-loop-nonblocking-proof.json",
+      "sha256": "33f29a6bccb178c511cf76d49b77248f28d5c80e877305bccf1ad13d9f438259",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
+      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
     },
     {
       "approvedAtUtc": "2026-02-24T01:20:00.000Z",
@@ -443,11 +464,53 @@
       "sha256": "cadd1b1b4095f5f5243b88f9bae2a5190ea914fd3004c8a4177b473f2904a7c7"
     },
     {
-      "filePath": "docs/OPS/STATUS/ATTESTATION_TRUST_LOCK_ENFORCEMENT_v1.json",
-      "sha256": "04434a6f9b507f056b4804f8a4dc2dcda5ec797e5fab667033dd29eb32537fc0",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:40:00.000Z",
-      "rationale": "TZ-P0-06-ATTESTATION-TRUST-LOCK-ENFORCEMENT-001 approvals."
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/p0-08-stage10-product-wiring-report.json",
+      "sha256": "7fa2d0b7ef9e7a99e3874213ed045add2df5507929c4667944cb860c321228e1",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/p0-08-stage10-product.session.json",
+      "sha256": "fa377a5f16e7d549a52de3d311697b29ee1f946af4adc6eef3fe6a6fff7e2b0d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/recovery/p0-08-stage10-product/checkpoint-before-edit.json",
+      "sha256": "d99888d83f34190b7c36793b04ea0e7bb1d8b7a44e45b2abfd37aef74fd83e0f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/recovery/p0-08-stage10-product/history-restore-undo-2c0ffa314146741e.json",
+      "sha256": "d4490ed1e9b0c6216e543198631caaaec8c1fbda1b5830ac1aaf145fab76a572",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_PLAN_CONTRACT_DIGEST/p1-plan-contract-digest-report.json",
+      "sha256": "b597da26940ebfa31c99b113d39ad36f7c5816cfd039066df5b262dcd03f6a30",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
+      "approvedAtUtc": "2026-08-01T10:48:00.000Z",
+      "rationale": "Approve final P1 post-merge digest binding repair bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and default release-mode full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP/p1-transaction-queue-cleanup-report.json",
+      "sha256": "91067eb65a0f6295ee85f95cf5ca0d9efffa6c70d1764fbfd2a924ebbfba39db",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/CANON_STATUS.json",
+      "sha256": "0c73f3d0ed99adab897b841a8471733572e6c78970371eba751e4fe2418192be",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
+      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
     },
     {
       "filePath": "docs/OPS/STATUS/CHECK_DEDUP_CANON_v1.json",
@@ -457,11 +520,25 @@
       "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-001 approvals."
     },
     {
+      "filePath": "docs/OPS/STATUS/CHECK_DEDUP_CANON_v2.json",
+      "sha256": "de846a927572d1819be96caa7c2cb8672aca542c24df27ddb80439ecdf798ddc",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
+      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
+    },
+    {
       "filePath": "docs/OPS/STATUS/DECLARED_SET_EFFECTIVE_SET_ALIGNMENT_v1.json",
       "sha256": "70947e0b8555c97a4ecd490a04b92736370598bc229fa6d7ec39248ce7b2e669",
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T01:55:00.000Z",
       "rationale": "TZ-P0-04-DECLARED-SET-VS-EFFECTIVE-SET-ALIGNMENT-001 approvals."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/DECLARED_STAGE_EFFECTIVE_STAGE_CLARITY_v2.json",
+      "sha256": "6f5e9c5a43961766f18bb860ddfb227752d74376d68b8e44c1e472778f11bd6d",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
+      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
     },
     {
       "approvedAtUtc": "2026-02-24T00:50:00.000Z",
@@ -478,11 +555,25 @@
       "rationale": "TZ-P0-03-DOMAIN-NEGATIVE-TEST-ENFORCEMENT-001 approvals."
     },
     {
-      "filePath": "docs/OPS/STATUS/LOOP_BREAKER_POLICY_v1.json",
-      "sha256": "484d16c89af2a5979184ac90c84b9080abf6815f64eab6b7ae3acb0789b18b4b",
+      "filePath": "docs/OPS/STATUS/HOT_PATH_INCREMENTAL_RENDER_v2.json",
+      "sha256": "9c45625277b4d3ede5b0356c6e5f2fd197740313bd8a78665645b48362fa7400",
       "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T06:10:00.000Z",
-      "rationale": "TZ-P0-07-REMOTE-AUTOFIX-IMPLEMENTATION-001 approvals."
+      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
+      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/L3_FAST_LANE_ENFORCEMENT_v2.json",
+      "sha256": "79e19cbfdba6da37c410f980fbaef5ad52cda0f1cec73fd5e7ac0a03cacec8aa",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
+      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/MIGRATION_COMPLETENESS_VERIFIER_v2.json",
+      "sha256": "cebca7ae4faaa158508f80ef918a3fcd5e3cc787d4177be67971f8a88cc14d43",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
+      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
     },
     {
       "filePath": "docs/OPS/STATUS/MODE_AWARE_EXIT_POLICY_v1.json",
@@ -490,6 +581,13 @@
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T03:20:00.000Z",
       "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-001 approvals."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/MODE_AWARE_EXIT_POLICY_v2.json",
+      "sha256": "5ee3693ddf601424b95be25ededb8067fafa7bb35ff02db86f4e2350499180cb",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
+      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
     },
     {
       "filePath": "docs/OPS/STATUS/MODE_MATRIX_POLICY_v1.json",
@@ -511,13 +609,6 @@
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T02:15:00.000Z",
       "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
-    },
-    {
-      "approvedAtUtc": "2026-02-24T01:20:00.000Z",
-      "approvedBy": "DOCS_OPERATOR",
-      "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "rationale": "TZ-SECTOR-02-D-CLOSEOUT-HEAVY-001-RERUN-ALLOWLIST-01 closeout heavy rerun approvals.",
-      "sha256": "6e37085e283ff774f1b3dc0852f6fc272cd6cd1c6862f197ec7fc645934a29cd"
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_TOKEN_BINDING_COMPLETENESS_v1.json",
@@ -548,11 +639,53 @@
       "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-001 approvals."
     },
     {
-      "filePath": "docs/OPS/TOKENS/TOKEN_CATALOG.json",
-      "sha256": "b0d2e19677f50c094ba081af0461a7b94622b31b415561bf5f87293158e5fa08",
+      "filePath": "docs/OPS/STATUS/SAFE_LOCAL_WAVE_PREFLIGHT_v2.json",
+      "sha256": "a69208f9a54030cdb13a71500a9ecb6e1039de0d3e21184da3d494bdb79c363e",
       "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:15:00.000Z",
-      "rationale": "TZ-P0-02-RELEASE-TOKEN-BINDING-COMPLETENESS-001 approvals."
+      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
+      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json",
+      "sha256": "57f97fc901a7d5cf5ba9195f6cf0d69f0abbc3af4774d0cfa843c4111de7981d",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
+      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_REPO_SNAPSHOT.md",
+      "sha256": "2bf4000f45fe13ad99c3da75c0c197ae19603473539482b642cbf6ec695d36fe",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
+      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING_RECEIPT.json",
+      "sha256": "03a179f981f7341591dc3ff6ad0b1365644b5998b4bf95029bf0108b32c33cab",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_PLAN_CONTRACT_DIGEST_RECEIPT.json",
+      "sha256": "a23f5a7329d0abe0f0f18043c46d1fcf691da96290d26ddbbe57e1f11b4e5381",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
+      "approvedAtUtc": "2026-08-01T10:48:00.000Z",
+      "rationale": "Approve final P1 post-merge digest binding repair bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and default release-mode full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP_RECEIPT.json",
+      "sha256": "e29176e7a283c32e665ff143fa8d1ffacc44cdd9cc3638db83e24854639d6a56",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "d493c86d744b2085352de815faa435ec306651ddec9fdddeb21f6ac54bc28ac4",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST",
+      "approvedAtUtc": "2026-08-01T10:25:00.000Z",
+      "rationale": "Approve final P1 deterministic Atlas V5 plan digest delivery bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and PR-head repo-execution full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS; repo snapshot is read-only evidence, no second tracker, no Program DONE claim."
     },
     {
       "filePath": "scripts/guards/ops-current-wave-stop.mjs",
@@ -562,32 +695,18 @@
       "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
     },
     {
-      "filePath": "scripts/ops/attestation-trust-lock-state.mjs",
-      "sha256": "49a5b8b4c018b79e835bb1d9eb48aaadabef4764ccf8e233c4f41e13da81336e",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:40:00.000Z",
-      "rationale": "TZ-P0-06-ATTESTATION-TRUST-LOCK-ENFORCEMENT-001 approvals."
-    },
-    {
-      "filePath": "scripts/ops/canonical-mode-matrix-evaluator.mjs",
-      "sha256": "ed77b74b9da1947b417d38435c597d9eab0df7812475fa38486a4f309cec03eb",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T00:55:00.000Z",
-      "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
-    },
-    {
-      "filePath": "scripts/ops/check-command-namespace-static.mjs",
-      "sha256": "32cb52c1408981ba32ede52d62f11b59cf7d01d1d99c0291d3a8e7d30097e2d2",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T00:55:00.000Z",
-      "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
-    },
-    {
       "filePath": "scripts/ops/check-command-namespace.mjs",
       "sha256": "4ef9d89f713903880c6f3b8e6805c039be35dc5e5922d1ce142f6527921964ec",
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T00:55:00.000Z",
       "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
+    },
+    {
+      "filePath": "scripts/ops/check-dedup-canon-state.mjs",
+      "sha256": "e4fd42a2560aad0839e63fd5b3702654b7128c5ea5f93f1841e00938a9d9c414",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
+      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
     },
     {
       "filePath": "scripts/ops/check-execution-sequence.mjs",
@@ -611,25 +730,32 @@
       "rationale": "TZ-P0-04-DECLARED-SET-VS-EFFECTIVE-SET-ALIGNMENT-001 approvals."
     },
     {
-      "filePath": "scripts/ops/domain-negative-test-enforcement-state.mjs",
-      "sha256": "a26cf3e28caacb575149b484eb201b48f6b37d863dc4b70306ec5ef5a00aaeb9",
+      "filePath": "scripts/ops/declared-stage-vs-effective-stage-clarity-state.mjs",
+      "sha256": "174e5ca881d9ddc42d13ce560d9abe8e2f2a754ac1219dfe9e7e54661d47d3a5",
       "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:35:00.000Z",
-      "rationale": "TZ-P0-03-DOMAIN-NEGATIVE-TEST-ENFORCEMENT-001 approvals."
+      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
+      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
     },
     {
-      "filePath": "scripts/ops/p0-01-mode-matrix-single-authority-report.mjs",
-      "sha256": "65d1d04fa5e236db899c2629db485df24f24c13938b20689dd5d500e8d50099c",
+      "filePath": "scripts/ops/hot-path-incremental-render-state.mjs",
+      "sha256": "9568f3fd98551e3a39418b3900ebd83696c877f3b43108a4ce42f927b8f47b45",
       "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T00:55:00.000Z",
-      "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
+      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
+      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
     },
     {
-      "filePath": "scripts/ops/p0-02-release-token-binding-completeness-report.mjs",
-      "sha256": "a35e5c2cbdeecb30ef7e9ff0a37183238c733e34f6d27667b9fe5151a2d6bc99",
+      "filePath": "scripts/ops/l3-fast-lane-enforcement-state.mjs",
+      "sha256": "2d2f8671f160998d8083e641f68b61ab1f9c5f842c7f8cea82cd1021dab2d563",
       "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:15:00.000Z",
-      "rationale": "TZ-P0-02-RELEASE-TOKEN-BINDING-COMPLETENESS-001 approvals."
+      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
+      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
+    },
+    {
+      "filePath": "scripts/ops/mode-aware-exit-policy-state.mjs",
+      "sha256": "6c6a21b124d80e90756abe9775f7e1253cc24102606cedca01ee44ce95282b60",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
+      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
     },
     {
       "filePath": "scripts/ops/p0-03-domain-negative-test-enforcement-report.mjs",
@@ -660,18 +786,53 @@
       "rationale": "TZ-P0-06-ATTESTATION-TRUST-LOCK-ENFORCEMENT-001 approvals."
     },
     {
+      "filePath": "scripts/ops/p1-01-check-dedup-canon-report.mjs",
+      "sha256": "55d4161d1d477d7b763d1cab627e7e9a848f5cce9601a4a288e76d861a6e468d",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
+      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
+    },
+    {
+      "filePath": "scripts/ops/p1-02-mode-aware-exit-policy-report.mjs",
+      "sha256": "a2c931f1e32bf9759afa893fe8274d1404b5433c8942f4a2537648f159bc0790",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
+      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
+    },
+    {
+      "filePath": "scripts/ops/p1-03-safe-local-wave-preflight-report.mjs",
+      "sha256": "c3a7552fd3928498a6fe33fd7267f2eec18cc752333a4707094abba60c906e0b",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
+      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
+    },
+    {
+      "filePath": "scripts/ops/p1-04-migration-completeness-verifier-report.mjs",
+      "sha256": "22b9c140dc0a05ed5775c8408ea49b9062aaa582a4d54ea7af51d410a6f347c5",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
+      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
+    },
+    {
+      "filePath": "scripts/ops/p1-05-declared-stage-vs-effective-stage-clarity-report.mjs",
+      "sha256": "e87b42fb283949bd3018775d2d5c2df5d4f7f35eea5d1319e036bd78ff926526",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
+      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
+    },
+    {
+      "filePath": "scripts/ops/p1-06-l3-fast-lane-enforcement-report.mjs",
+      "sha256": "482c376e7f0a3cfa1dc4af1cacd331913b49873f18cd067d095c1dc9c14a2e6f",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
+      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
+    },
+    {
       "filePath": "scripts/ops/recursion-bypass-release-ban-state.mjs",
       "sha256": "dcf8995a42d7eca93cedfef3255c72e636404fbea0f40e42777d9e04f47cf637",
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T02:15:00.000Z",
       "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
-    },
-    {
-      "filePath": "scripts/ops/release-token-binding-completeness-state.mjs",
-      "sha256": "948cf3d3bd36ce535006c15d51bbcbe938f14e7add85e2f54a4bf152dd58ca16",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:15:00.000Z",
-      "rationale": "TZ-P0-02-RELEASE-TOKEN-BINDING-COMPLETENESS-001 approvals."
     },
     {
       "filePath": "scripts/ops/remote-autofix-orchestrator.mjs",
@@ -702,557 +863,11 @@
       "rationale": "TZ-P0-07-REMOTE-AUTOFIX-IMPLEMENTATION-001 approvals."
     },
     {
-      "filePath": "test/contracts/attestation-trust-lock.contract.test.js",
-      "sha256": "f744502ecc57e98bfcb3567d4f7ad69d5203207ae4833093d6037a5328501c5d",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:40:00.000Z",
-      "rationale": "TZ-P0-06-ATTESTATION-TRUST-LOCK-ENFORCEMENT-001 approvals."
-    },
-    {
-      "filePath": "test/contracts/declared-set-vs-effective-set-alignment.contract.test.js",
-      "sha256": "82732437c30bac38a2d01c5aab16632ca1c7ddc796797bfa63f693cc303621d9",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:55:00.000Z",
-      "rationale": "TZ-P0-04-DECLARED-SET-VS-EFFECTIVE-SET-ALIGNMENT-001 approvals."
-    },
-    {
-      "filePath": "test/contracts/dev-fast-lane.contract.test.js",
-      "sha256": "8c9852def5aaaacbde3998be897c2ffd1bfcaf1adfa70d8719a63aed20889048",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T02:15:00.000Z",
-      "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
-    },
-    {
-      "filePath": "test/contracts/domain-negative-test-enforcement.contract.test.js",
-      "sha256": "96b0e166fb6aa72cbca83330c26003ea1c5ccc8084e0afef5fd973e664795972",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:35:00.000Z",
-      "rationale": "TZ-P0-03-DOMAIN-NEGATIVE-TEST-ENFORCEMENT-001 approvals."
-    },
-    {
-      "filePath": "test/contracts/execution-sequence-lock.contract.test.js",
-      "sha256": "881c7ad528695c15e9fa719d2b8cd8f41d96380ad0a20006b3632937a3d6ea26",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T00:55:00.000Z",
-      "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
-    },
-    {
-      "filePath": "test/contracts/mode-matrix-single-authority.contract.test.js",
-      "sha256": "d1d1b26d14ce731c46d4e9e29831a707ee995ebdb6b7dbec6f816ebb22083cd5",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T00:55:00.000Z",
-      "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
-    },
-    {
-      "filePath": "test/contracts/recursion-bypass-release-ban.contract.test.js",
-      "sha256": "37b5d73eda53030ef35dd137978f6bf0d7eb986fda5a51e6657286677a8986c5",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T02:15:00.000Z",
-      "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
-    },
-    {
-      "filePath": "test/contracts/release-token-binding-completeness.contract.test.js",
-      "sha256": "aac0fc83abd4ca8ca9add573ba18a1aeb165c16e701366b6420f86f15649931d",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T01:15:00.000Z",
-      "rationale": "TZ-P0-02-RELEASE-TOKEN-BINDING-COMPLETENESS-001 approvals."
-    },
-    {
-      "filePath": "test/contracts/remote-autofix.contract.test.js",
-      "sha256": "db142a37c681ddd5ed9f1c11c0bb3a217a40fbb1b8bc17abd64574f6e2453c6f",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T06:10:00.000Z",
-      "rationale": "TZ-P0-07-REMOTE-AUTOFIX-IMPLEMENTATION-001 approvals."
-    },
-    {
-      "filePath": "test/contracts/wait-mode-dedup.contract.test.js",
-      "sha256": "742dfe032234d8530914167928e6e2dacba2e83d525c9496eaa9391fb940b97b",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T06:10:00.000Z",
-      "rationale": "TZ-P0-07-REMOTE-AUTOFIX-IMPLEMENTATION-001 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_01/duplicate-checks-before-after.json",
-      "sha256": "db601a1b9152969548c41b56d60b3c60e014d60371e055c5154c0242c19efc21",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
-      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_01/risk-weighted-dedup-proof.json",
-      "sha256": "dd4c9c623995ad802a3207bdb102db197a18a09e4ebdc3cc26236cf3d40942ac",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
-      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_01/summary.json",
-      "sha256": "e752004cfc8d8c5549bed3461012bbfc450a889a9c7651cfe252dfe1ca552ead",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
-      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_01/ticket-meta.json",
-      "sha256": "ea469b6887f7c309f80e1dc7b4d955183cbd932ad2580ea12fc9733dacf311e0",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
-      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/CHECK_DEDUP_CANON_v2.json",
-      "sha256": "de846a927572d1819be96caa7c2cb8672aca542c24df27ddb80439ecdf798ddc",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
-      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/check-dedup-canon-state.mjs",
-      "sha256": "e4fd42a2560aad0839e63fd5b3702654b7128c5ea5f93f1841e00938a9d9c414",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
-      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/p1-01-check-dedup-canon-report.mjs",
-      "sha256": "55d4161d1d477d7b763d1cab627e7e9a848f5cce9601a4a288e76d861a6e468d",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
-      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
-    },
-    {
-      "filePath": "test/contracts/check-dedup-canon.contract.test.js",
-      "sha256": "8bb36dd773d94eb0df339589c0ead98565cfc998a6c5b1bf854eb89445d24014",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
-      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_02/exit-policy-before-after.json",
-      "sha256": "8d163ee37abd296ddc05fe9a5c94ca81f001d659c93833dc3389d97e498e1002",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
-      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_02/summary.json",
-      "sha256": "1f73af878b4653123104181449cf6f253c171a6469a79ccb015e025c4ef7470a",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
-      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_02/ticket-meta.json",
-      "sha256": "f7e7387b1a4f8abdf2cd426cd36e5a22ecc0297bfa34c5d3fd048527df3d72f5",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
-      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/mode-aware-exit-policy-state.mjs",
-      "sha256": "6c6a21b124d80e90756abe9775f7e1253cc24102606cedca01ee44ce95282b60",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
-      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/p1-02-mode-aware-exit-policy-report.mjs",
-      "sha256": "a2c931f1e32bf9759afa893fe8274d1404b5433c8942f4a2537648f159bc0790",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
-      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
-    },
-    {
-      "filePath": "test/contracts/mode-aware-exit-policy.contract.test.js",
-      "sha256": "a1bcf38e8a516cdb8d33d7380850a66a5f61a7dc6cfe7b0bb09d1d216907abbe",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
-      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/MODE_AWARE_EXIT_POLICY_v2.json",
-      "sha256": "5ee3693ddf601424b95be25ededb8067fafa7bb35ff02db86f4e2350499180cb",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
-      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_03/preflight-duplication-before-after.json",
-      "sha256": "bd9a2a8c8dcecd6cad3e873fc285bcfe0421f3e8ee5c479d24bc5b2310bafc86",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
-      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_03/summary.json",
-      "sha256": "d9a69648e11bc9eff96c7b24f85c5d6b0f9d12572551695ee7e13efc1fe0a7f6",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
-      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_03/ticket-meta.json",
-      "sha256": "bee0078af06083923cb0be3aa1cf6d708ed8771e3eac320792df3b4dc14ee122",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
-      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/p1-03-safe-local-wave-preflight-report.mjs",
-      "sha256": "c3a7552fd3928498a6fe33fd7267f2eec18cc752333a4707094abba60c906e0b",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
-      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
-    },
-    {
       "filePath": "scripts/ops/safe-local-wave-preflight-state.mjs",
       "sha256": "40d102aeab59fd14899ac6ecd6a5dacda5fe50514f2ecd8b26bec0385ba84743",
       "approvedBy": "DOCS_OPERATOR",
       "approvedAtUtc": "2026-02-25T08:05:00.000Z",
       "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
-    },
-    {
-      "filePath": "test/contracts/safe-local-wave-preflight.contract.test.js",
-      "sha256": "62419aa03248bcdcd4cc589679cd2504a654e23f664b8c2ee16333ef7ae7b2ee",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
-      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/SAFE_LOCAL_WAVE_PREFLIGHT_v2.json",
-      "sha256": "a69208f9a54030cdb13a71500a9ecb6e1039de0d3e21184da3d494bdb79c363e",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
-      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/advisory-blocking-drift-cases.json",
-      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/migration-gap-report.json",
-      "sha256": "422d7a6880f7c989e05b1e0f847bf28d2902204b51211cb78ac9211ffaff224c",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/migration-input-output-map.json",
-      "sha256": "39b74518f3ae20b4f9b263d44d0b23198f7df073c4965500e0f3c50f44e94e01",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/migration-negative-missing-step.json",
-      "sha256": "1d219d60556547ddb0460822fdff5ff91822a50a8968d6e23835e3a89c346e53",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/safety-parity-proof.json",
-      "sha256": "8917ab5b338286c61276dcae4d3c7950e3030de643f4585dfaf70322bee5bb6e",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/summary.json",
-      "sha256": "4f1c38f25deb6f67a206d1e312d69bb20d08aca2c265e9edefbd65342f92005b",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_04/ticket-meta.json",
-      "sha256": "9acf2fe3678ec3d941922cdb731a72c5984b179a52e642165e26e884588b086e",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/MIGRATION_COMPLETENESS_VERIFIER_v2.json",
-      "sha256": "cebca7ae4faaa158508f80ef918a3fcd5e3cc787d4177be67971f8a88cc14d43",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/migration-completeness-verifier-state.mjs",
-      "sha256": "b27b33d883f1fc2a4f672dcacfb2b402f0a4c80595c3de8debad4908fdcc8761",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/p1-04-migration-completeness-verifier-report.mjs",
-      "sha256": "22b9c140dc0a05ed5775c8408ea49b9062aaa582a4d54ea7af51d410a6f347c5",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "test/contracts/migration-completeness-verifier.contract.test.js",
-      "sha256": "13ea923dc3d191e5bb67b1e8ea93c188f5a6293692064cf1b3e6570abd999cad",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
-      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/advisory-blocking-drift-cases.json",
-      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/declared-stage-vs-effective-stage-map.json",
-      "sha256": "341eb252ef6de840f9d1e2003183f27419b44d94d6961d1262117b4331814687",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/stage-alignment-gaps.json",
-      "sha256": "231fb4cdcd4afb74608d171455f6f9f2af69041690dd223fcdef6a2a7f54619b",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/stage-clarity-report.json",
-      "sha256": "05b1dcaa1af0fadfd3b90cd98aa247d98e0f034411eca252c485b52a9bde3e38",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/summary.json",
-      "sha256": "e7267b428c9f43b6f87dafc14c077e79d8e0630259c6becd8526bff0c143528e",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_05/ticket-meta.json",
-      "sha256": "0e3b83fa227b0d280559481f19c0bf72b186f437a41736bbc4b0bfd3677a324c",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/DECLARED_STAGE_EFFECTIVE_STAGE_CLARITY_v2.json",
-      "sha256": "6f5e9c5a43961766f18bb860ddfb227752d74376d68b8e44c1e472778f11bd6d",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/declared-stage-vs-effective-stage-clarity-state.mjs",
-      "sha256": "174e5ca881d9ddc42d13ce560d9abe8e2f2a754ac1219dfe9e7e54661d47d3a5",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/p1-05-declared-stage-vs-effective-stage-clarity-report.mjs",
-      "sha256": "e87b42fb283949bd3018775d2d5c2df5d4f7f35eea5d1319e036bd78ff926526",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "test/contracts/declared-stage-vs-effective-stage-clarity.contract.test.js",
-      "sha256": "1a0916edc4a74395254a6645860f3ec30429b944292b65c5980c5cb781bbd6a6",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
-      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/advisory-blocking-drift-cases.json",
-      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/fast-lane-smoke-proof.json",
-      "sha256": "dad076b9440062fe6ab4b50cdb052c51cdea650a5c10b92a69416c615ed60c1d",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/heavy-lane-blocks-low-risk-proof.json",
-      "sha256": "cd3c1a586728a0bd54d8f78b1d97865d06c4cbeae9b61626903b0e23d649af12",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/l3-fast-lane-scope-matrix.json",
-      "sha256": "fc19c48ac418802a79f5c31b960e1558f026e40c869bcc42eaec51f194080613",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/summary.json",
-      "sha256": "ac2c11848372fbc83108af8e866186356e9bf710f3e83e07e062817f85f60fcc",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P1_CONTOUR/TICKET_06/ticket-meta.json",
-      "sha256": "7ea1c8cebbcd955915030d2c71aa525a4060b413435ade405dacad89bcea54a8",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/L3_FAST_LANE_ENFORCEMENT_v2.json",
-      "sha256": "79e19cbfdba6da37c410f980fbaef5ad52cda0f1cec73fd5e7ac0a03cacec8aa",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/l3-fast-lane-enforcement-state.mjs",
-      "sha256": "2d2f8671f160998d8083e641f68b61ab1f9c5f842c7f8cea82cd1021dab2d563",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "scripts/ops/p1-06-l3-fast-lane-enforcement-report.mjs",
-      "sha256": "482c376e7f0a3cfa1dc4af1cacd331913b49873f18cd067d095c1dc9c14a2e6f",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "test/contracts/l3-fast-lane-enforcement.contract.test.js",
-      "sha256": "ba713356504d7684bbd63ba203a4725b92cb568c3f755302eaa90210c6d4c2d9",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
-      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P2_CONTOUR/TICKET_01/advisory-blocking-drift-cases.json",
-      "sha256": "9fb68a29274c041253fda457df2b7ef4be06f63db1cf9d1967172db79b27ed90",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P2_CONTOUR/TICKET_01/hotpath-p95-latency-proof.json",
-      "sha256": "0764483f15fb786646ebd0eb1cfe69279f576a0294ca35ad89cc7e62a6861976",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P2_CONTOUR/TICKET_01/hotpath-rerender-sampling.json",
-      "sha256": "881033b35e23f32daccdbc681041eafb625144d45255f4e48f8831b91df9f677",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P2_CONTOUR/TICKET_01/summary.json",
-      "sha256": "e2901f7ed84c8ac910124bd4219013f005f70ccaef9219da48be9dbefdf13cd9",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P2_CONTOUR/TICKET_01/ticket-meta.json",
-      "sha256": "a3184f9d28615f338b5cfd620030a1df77fa4c08f20f453f7f83d1cdea6b3a15",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/P2_CONTOUR/TICKET_01/typing-loop-nonblocking-proof.json",
-      "sha256": "33f29a6bccb178c511cf76d49b77248f28d5c80e877305bccf1ad13d9f438259",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/HOT_PATH_INCREMENTAL_RENDER_v2.json",
-      "sha256": "9c45625277b4d3ede5b0356c6e5f2fd197740313bd8a78665645b48362fa7400",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "scripts/ops/editor-hotpath-incremental-render.js",
-      "sha256": "21062730ce619ea3f0e610bfd9cc6f9e4846e2101d7fc5da9cff3c2e4d50b5d4",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "scripts/ops/hot-path-incremental-render-state.mjs",
-      "sha256": "9568f3fd98551e3a39418b3900ebd83696c877f3b43108a4ce42f927b8f47b45",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "scripts/ops/p2-01-hot-path-incremental-render-report.mjs",
-      "sha256": "ee5a00b5d563f439f21e8076988d72cece1b0b0eee0cb77ba96b33ae3ba31dfc",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "test/contracts/hot-path-incremental-render.contract.test.js",
-      "sha256": "02a65a8c27df39a781d0ea8d214460997e43765da8dfbb0b46c5f68dca9b7ae5",
-      "approvedBy": "DOCS_OPERATOR",
-      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
-      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/p0-08-stage10-product-wiring-report.json",
-      "sha256": "7fa2d0b7ef9e7a99e3874213ed045add2df5507929c4667944cb860c321228e1",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/p0-08-stage10-product.session.json",
-      "sha256": "fa377a5f16e7d549a52de3d311697b29ee1f946af4adc6eef3fe6a6fff7e2b0d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/recovery/p0-08-stage10-product/checkpoint-before-edit.json",
-      "sha256": "d99888d83f34190b7c36793b04ea0e7bb1d8b7a44e45b2abfd37aef74fd83e0f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/recovery/p0-08-stage10-product/history-restore-undo-2c0ffa314146741e.json",
-      "sha256": "d4490ed1e9b0c6216e543198631caaaec8c1fbda1b5830ac1aaf145fab76a572",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING_RECEIPT.json",
-      "sha256": "03a179f981f7341591dc3ff6ad0b1365644b5998b4bf95029bf0108b32c33cab",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs",
@@ -1262,43 +877,15 @@
       "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
     },
     {
-      "filePath": "src/product/stage10ProductWiring.mjs",
-      "sha256": "29f11d6d111b3452e503c0ea86c21bdb1ba1057377bc4dbf976bb51fbd11d800",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js",
-      "sha256": "024419947ec804e0907887c74fd0119689d5ebe1d02e66a44fa98c690ea8235f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP/p1-transaction-queue-cleanup-report.json",
-      "sha256": "91067eb65a0f6295ee85f95cf5ca0d9efffa6c70d1764fbfd2a924ebbfba39db",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
-      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP_RECEIPT.json",
-      "sha256": "e29176e7a283c32e665ff143fa8d1ffacc44cdd9cc3638db83e24854639d6a56",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
-      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs",
+      "sha256": "9dfa400fed3f53b361e2668c19efe0c13da52eeee15aa50c63960b63705a9be3",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
+      "approvedAtUtc": "2026-08-01T10:48:00.000Z",
+      "rationale": "Approve final P1 post-merge digest binding repair bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and default release-mode full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.mjs",
       "sha256": "6838dc0360f2944c787be0dcbe760d5e87c8f557ef08b8286a151d9d6c71030c",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
-      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.contract.test.js",
-      "sha256": "d5da4d66b5298a03e0063da75a4bb79fd3c6daebb0fdbe04596f1e9e5d27824c",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
       "approvedAtUtc": "2026-08-01T09:50:00.000Z",
       "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
@@ -1309,6 +896,125 @@
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
       "approvedAtUtc": "2026-08-01T09:50:00.000Z",
       "rationale": "Approve bounded src/main.js transaction queue cleanup identity repair after full verification: map stores and cleans the queued tail promise, preventing per-project queue leak while preserving command, storage, network, and UI semantics."
+    },
+    {
+      "filePath": "src/product/stage10ProductWiring.mjs",
+      "sha256": "29f11d6d111b3452e503c0ea86c21bdb1ba1057377bc4dbf976bb51fbd11d800",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/check-dedup-canon.contract.test.js",
+      "sha256": "8bb36dd773d94eb0df339589c0ead98565cfc998a6c5b1bf854eb89445d24014",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:05:00.000Z",
+      "rationale": "TZ-P1-01-CHECK-DEDUP-CANON-002 approvals."
+    },
+    {
+      "filePath": "test/contracts/declared-set-vs-effective-set-alignment.contract.test.js",
+      "sha256": "82732437c30bac38a2d01c5aab16632ca1c7ddc796797bfa63f693cc303621d9",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T01:55:00.000Z",
+      "rationale": "TZ-P0-04-DECLARED-SET-VS-EFFECTIVE-SET-ALIGNMENT-001 approvals."
+    },
+    {
+      "filePath": "test/contracts/declared-stage-vs-effective-stage-clarity.contract.test.js",
+      "sha256": "1a0916edc4a74395254a6645860f3ec30429b944292b65c5980c5cb781bbd6a6",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:05:00.000Z",
+      "rationale": "TZ-P1-05-DECLARED-STAGE-VS-EFFECTIVE-STAGE-CLARITY-002 approvals."
+    },
+    {
+      "filePath": "test/contracts/dev-fast-lane.contract.test.js",
+      "sha256": "8c9852def5aaaacbde3998be897c2ffd1bfcaf1adfa70d8719a63aed20889048",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T02:15:00.000Z",
+      "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
+    },
+    {
+      "filePath": "test/contracts/execution-sequence-lock.contract.test.js",
+      "sha256": "881c7ad528695c15e9fa719d2b8cd8f41d96380ad0a20006b3632937a3d6ea26",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T00:55:00.000Z",
+      "rationale": "TZ-P0-01-MODE-MATRIX-SINGLE-AUTHORITY-001-RERUN-CLEAN-01 approvals."
+    },
+    {
+      "filePath": "test/contracts/hot-path-incremental-render.contract.test.js",
+      "sha256": "02a65a8c27df39a781d0ea8d214460997e43765da8dfbb0b46c5f68dca9b7ae5",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-26T11:15:00.000Z",
+      "rationale": "TZ-P2-01-HOT-PATH-INCREMENTAL-RENDER-002-RERUN-01 approvals."
+    },
+    {
+      "filePath": "test/contracts/l3-fast-lane-enforcement.contract.test.js",
+      "sha256": "ba713356504d7684bbd63ba203a4725b92cb568c3f755302eaa90210c6d4c2d9",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T09:35:00.000Z",
+      "rationale": "TZ-P1-06-L3-FAST-LANE-ENFORCEMENT-002 approvals."
+    },
+    {
+      "filePath": "test/contracts/migration-completeness-verifier.contract.test.js",
+      "sha256": "13ea923dc3d191e5bb67b1e8ea93c188f5a6293692064cf1b3e6570abd999cad",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:35:00.000Z",
+      "rationale": "TZ-P1-04-MIGRATION-COMPLETENESS-VERIFIER-002 approvals."
+    },
+    {
+      "filePath": "test/contracts/mode-aware-exit-policy.contract.test.js",
+      "sha256": "a1bcf38e8a516cdb8d33d7380850a66a5f61a7dc6cfe7b0bb09d1d216907abbe",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T07:35:00.000Z",
+      "rationale": "TZ-P1-02-MODE-AWARE-EXIT-POLICY-002 approvals."
+    },
+    {
+      "filePath": "test/contracts/recursion-bypass-release-ban.contract.test.js",
+      "sha256": "37b5d73eda53030ef35dd137978f6bf0d7eb986fda5a51e6657286677a8986c5",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T02:15:00.000Z",
+      "rationale": "TZ-P0-05-RECURSION-BYPASS-RELEASE-BAN-001 approvals."
+    },
+    {
+      "filePath": "test/contracts/remote-autofix.contract.test.js",
+      "sha256": "db142a37c681ddd5ed9f1c11c0bb3a217a40fbb1b8bc17abd64574f6e2453c6f",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T06:10:00.000Z",
+      "rationale": "TZ-P0-07-REMOTE-AUTOFIX-IMPLEMENTATION-001 approvals."
+    },
+    {
+      "filePath": "test/contracts/safe-local-wave-preflight.contract.test.js",
+      "sha256": "62419aa03248bcdcd4cc589679cd2504a654e23f664b8c2ee16333ef7ae7b2ee",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T08:05:00.000Z",
+      "rationale": "TZ-P1-03-SAFE-LOCAL-WAVE-PREFLIGHT-002 approvals."
+    },
+    {
+      "filePath": "test/contracts/wait-mode-dedup.contract.test.js",
+      "sha256": "742dfe032234d8530914167928e6e2dacba2e83d525c9496eaa9391fb940b97b",
+      "approvedBy": "DOCS_OPERATOR",
+      "approvedAtUtc": "2026-02-25T06:10:00.000Z",
+      "rationale": "TZ-P0-07-REMOTE-AUTOFIX-IMPLEMENTATION-001 approvals."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js",
+      "sha256": "024419947ec804e0907887c74fd0119689d5ebe1d02e66a44fa98c690ea8235f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-plan-contract-digest.contract.test.js",
+      "sha256": "825908d839ecffb1b8e0f71077dcdcbeb04ad50285066d487c5e0f57e57dafbc",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
+      "approvedAtUtc": "2026-08-01T10:48:00.000Z",
+      "rationale": "Approve final P1 post-merge digest binding repair bytes after focused PASS, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, renderer build PASS, and default release-mode full runner PASS 799 total 735 pass 0 fail 64 skipped perf PASS."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.contract.test.js",
+      "sha256": "d5da4d66b5298a03e0063da75a4bb79fd3c6daebb0fdbe04596f1e9e5d27824c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
     }
   ]
 }

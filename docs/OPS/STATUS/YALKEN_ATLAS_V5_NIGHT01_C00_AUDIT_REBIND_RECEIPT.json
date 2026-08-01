@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "yalken.atlas.v5.night01.c00.auditRebindReceipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_RELEASE_AUDIT_NIGHT_01_REBIND",
+  "status": "PASS_NIGHT01_C00_P0_REBOUND_TO_REMOTE_MAIN",
+  "pass": true,
+  "generatedAtUtc": "2026-08-01T01:38:30.906Z",
+  "headSha": "e73a44d5fa51568882e89d0328ae1560edc547b1",
+  "originMainSha": "e73a44d5fa51568882e89d0328ae1560edc547b1",
+  "reportPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND/night01-c00-audit-rebind-report.json",
+  "reportSha256": "a8828964efd79b9816091021ced6e03320477178a96444f55b511f4c9655bf44",
+  "openRows": [],
+  "programDoneClaim": false,
+  "nextRequiredGate": "NIGHT01_INDEPENDENT_FINAL_RERUN_ON_EXACT_REMOTE_HEAD"
+}

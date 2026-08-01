@@ -19,6 +19,7 @@ const FREE_PRO_COMPLEXITY_COMMAND_IDS = Object.freeze([
   'cmd.project.review.switchMode',
   'cmd.project.review.importLocalPacket',
   'cmd.project.review.exportLocalPacket',
+  'cmd.project.review.exportDocxReviewPacket',
   'cmd.project.review.openDocxReviewPreviewSession',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',

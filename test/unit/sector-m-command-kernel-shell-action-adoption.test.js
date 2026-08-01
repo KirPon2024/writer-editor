@@ -107,17 +107,21 @@ test('command kernel shell action adoption: review local packet import clear and
   const expected = new Map([
     [projectCommands.EXTRA_COMMAND_IDS.REVIEW_IMPORT_LOCAL_PACKET, 'cap.project.review.importLocalPacket'],
     [projectCommands.EXTRA_COMMAND_IDS.REVIEW_EXPORT_LOCAL_PACKET, 'cap.project.review.exportLocalPacket'],
+    [projectCommands.EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET, 'cap.project.review.exportDocxReviewPacket'],
     [projectCommands.EXTRA_COMMAND_IDS.REVIEW_CLEAR_SESSION, 'cap.project.review.clearSession'],
   ])
 
   assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_IMPORT_LOCAL_PACKET, 'cmd.project.review.importLocalPacket')
   assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_EXPORT_LOCAL_PACKET, 'cmd.project.review.exportLocalPacket')
+  assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET, 'cmd.project.review.exportDocxReviewPacket')
   assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_CLEAR_SESSION, 'cmd.project.review.clearSession')
   assert.equal(projectCommands.EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION, 'cmd.project.review.cancelOperation')
   assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_IMPORT_LOCAL_PACKET,'))
   assert.ok(source.includes("'reviewImportLocalPacket', EXTRA_COMMAND_IDS.REVIEW_IMPORT_LOCAL_PACKET"))
   assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_EXPORT_LOCAL_PACKET,'))
   assert.ok(source.includes('runReviewExportLocalPacketBridge(electronAPI, input)'))
+  assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET,'))
+  assert.ok(source.includes('runReviewExportDocxReviewPacketBridge(electronAPI, input)'))
   assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_CLEAR_SESSION,'))
   assert.ok(source.includes("'reviewClearSession', EXTRA_COMMAND_IDS.REVIEW_CLEAR_SESSION"))
   assert.ok(source.includes('id: EXTRA_COMMAND_IDS.REVIEW_CANCEL_OPERATION,'))

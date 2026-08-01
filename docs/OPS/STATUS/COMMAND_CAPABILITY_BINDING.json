@@ -415,6 +415,10 @@
       "capabilityId": "cap.project.review.exportLocalPacket"
     },
     {
+      "commandId": "cmd.project.review.exportDocxReviewPacket",
+      "capabilityId": "cap.project.review.exportDocxReviewPacket"
+    },
+    {
       "commandId": "cmd.project.review.openDocxReviewPreviewSession",
       "capabilityId": "cap.project.review.openDocxReviewPreviewSession"
     },

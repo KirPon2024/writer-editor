@@ -46,6 +46,8 @@ const {
 } = require('./utils/externalFileAuthority');
 const { buildDocxMinBuffer: buildDocxMinBufferCore } = require('./export/docx/docxMinBuilder');
 const { runDocxMinExport } = require('./export/docx/docxMinExportHandler');
+const { buildDocxReviewPacketBuffer: buildDocxReviewPacketBufferCore } = require('./export/docx/docxReviewPacketBuilder');
+const { runDocxReviewPacketExport } = require('./export/docx/docxReviewPacketExportHandler');
 const { writeBufferAtomic } = require('./export/docx/atomicWriteBuffer');
 const { runPdfExport } = require('./export/pdf/pdfExportHandler');
 const {
@@ -426,6 +428,7 @@ let internalCommandSurfaceKernel = null;
 // CONTOUR_01A_REVIEW_MUTATE_PORT_START
 let activeReviewSessionDirtyImportBlocked = false;
 let activeRtkNonOverlapTrackedReplacementApplyStore = null;
+let activeReviewDocxExportAuthorityStore = null;
 
 function isReviewSessionEditorContextDirty() {
   return (typeof isDirty === 'boolean' && isDirty)
@@ -470,6 +473,12 @@ function createRtkReviewTransportCryptoPort() {
         .update(Buffer.from(stableRtkReviewTransportJson(value), 'utf8'))
         .digest('hex')}`;
     },
+    hmacSha256Text(value, secret) {
+      return `hmac-sha256:${crypto
+        .createHmac('sha256', Buffer.from(String(secret || ''), 'utf8'))
+        .update(Buffer.from(String(value || ''), 'utf8'))
+        .digest('hex')}`;
+    },
     byteLength(value) {
       return Buffer.byteLength(String(value || ''), 'utf8');
     },
@@ -481,6 +490,7 @@ function resetActiveReviewSessionStore(nextLifecycle = 'passive') {
   activeReviewSessionLifecycle = nextLifecycle === 'cleared' ? 'cleared' : 'passive';
   activeReviewSessionDirtyImportBlocked = false;
   activeRtkNonOverlapTrackedReplacementApplyStore = null;
+  activeReviewDocxExportAuthorityStore = null;
   currentReviewSurfacePayload = {};
   currentReviewSurfacePayloadSource = 'none';
   currentReviewSurfacePayloadContentHash = '';
@@ -2091,6 +2101,7 @@ async function handleReviewExactTextReloadReconciledSceneCommandSurface(payload 
 // REVIEW_LOCAL_PACKET_COMMAND_SURFACE_START
 const REVIEW_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.importLocalPacket';
 const REVIEW_EXPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.exportLocalPacket';
+const REVIEW_EXPORT_DOCX_PACKET_COMMAND_ID = 'cmd.project.review.exportDocxReviewPacket';
 const REVIEW_IMPORT_LOCAL_PACKET_MAX_BYTES = 2 * 1024 * 1024;
 const REVIEW_PACKET_V1_VERSION = 'review-packet.v1';
 const REVIEW_PACKET_V1_ALLOWED_TOP_LEVEL_KEYS = new Set([
@@ -3308,6 +3319,430 @@ async function handleReviewSurfaceExportLocalPacketCommandSurface(payload = {}, 
   };
 }
 // REVIEW_LOCAL_PACKET_COMMAND_SURFACE_END
+
+// DOCX_REVIEW_PACKET_EXPORT_COMMAND_SURFACE_START
+const REVIEW_DOCX_PACKET_PROFILE_ID = 'word-mac-latest-observed-16.111.x-product-review-export-p0';
+const REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME = 'YRTK_C01_AUTH';
+const REVIEW_DOCX_PACKET_YRTK2_PROPERTY_NAME = 'YRTK2_TOKEN';
+const REVIEW_DOCX_PACKET_CORE_DIGEST_PROPERTY_NAME = 'YRTK_CORE_DIGEST';
+
+function makeTypedReviewDocxExportError(code, reason, details = undefined) {
+  const error = {
+    code: typeof code === 'string' && code.length > 0 ? code : 'E_REVIEW_DOCX_EXPORT_FAILED',
+    op: REVIEW_EXPORT_DOCX_PACKET_COMMAND_ID,
+    reason: typeof reason === 'string' && reason.length > 0 ? reason : 'REVIEW_DOCX_EXPORT_FAILED',
+  };
+  if (isPlainObjectValue(details) && Object.keys(details).length > 0) {
+    error.details = cloneJsonSafe(details);
+  }
+  return { ok: false, error };
+}
+
+async function resolveDocxReviewPacketExportPath(payload) {
+  const fromPayload = normalizeDocxExportPath(payload.outPath);
+  if (fromPayload) return fromPayload;
+
+  const defaultBase = currentFilePath
+    ? `${currentFilePath.replace(/\.[^/.]+$/i, '')}.review`
+    : path.join(fileManager.getDocumentsPath(), 'review-export');
+  const defaultPath = normalizeDocxExportPath(defaultBase);
+
+  const result = await dialog.showSaveDialog(mainWindow, {
+    title: 'Экспорт Review DOCX',
+    defaultPath,
+    filters: [{ name: 'DOCX', extensions: ['docx'] }],
+  });
+  if (result.canceled) return '';
+  return normalizeDocxExportPath(result.filePath);
+}
+
+function base64UrlEncodeReviewDocxPacketText(value) {
+  return Buffer.from(String(value || ''), 'utf8')
+    .toString('base64')
+    .replaceAll('+', '-')
+    .replaceAll('/', '_')
+    .replace(/=+$/u, '');
+}
+
+function buildReviewDocxPacketAuthorityEnvelope(payload, hmacSecret, cryptoPort) {
+  const body = {
+    schemaVersion: 'yalken.rtk.locator-authority-envelope.c01.v1',
+    payload: cloneJsonSafe(payload),
+    payloadDigest: cryptoPort.sha256Json(payload),
+    signature: cryptoPort.hmacSha256Json(payload, hmacSecret),
+    keyId: 'product-review-docx-local-secret-v1',
+    secretEmbeddedInDocx: false,
+  };
+  return `YRTK1.${base64UrlEncodeReviewDocxPacketText(JSON.stringify(body))}`;
+}
+
+function buildReviewDocxPacketBlocks(sceneText, sceneId, cryptoPort) {
+  const lines = String(sceneText || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+  return lines.map((text, index) => {
+    const seed = `${sceneId}\n${index}\n${text}`;
+    const seedHash = computeHash(seed);
+    const blockId = `block-${String(index + 1).padStart(4, '0')}-${seedHash.slice(0, 16)}`;
+    const paragraphId = `yrtk-p-${seedHash.slice(0, 16)}`;
+    const paraId = seedHash.slice(0, 8);
+    const textId = computeHash(`${seed}:textId`).slice(0, 8);
+    return {
+      blockId,
+      paragraphId,
+      paraId,
+      textId,
+      text,
+      canonicalTextSha256: `sha256:${computeHash(text)}`,
+      canonicalMarksSha256: cryptoPort.sha256Json({ marks: [] }),
+      wordSignals: [
+        {
+          kind: 'w14ParaIdTextId',
+          value: { paraId, textId },
+          applyAuthority: false,
+        },
+        {
+          kind: 'bookmarkName',
+          value: { name: `YRTK_${String(index + 1).padStart(4, '0')}_${seedHash.slice(0, 12)}` },
+          applyAuthority: false,
+        },
+      ],
+      locatorSignals: [
+        {
+          signalId: `${blockId}:signed-scene-block-baseline`,
+          kind: 'signed-scene-block-baseline-v1',
+          authority: 'required-apply-authority',
+          value: {
+            sceneId,
+            blockId,
+            paragraphId,
+          },
+        },
+        {
+          signalId: `${blockId}:w14-paraid-textid`,
+          kind: 'w14-paraId-textId-v1',
+          authority: 'word-native-placement-signal-only',
+          value: { paraId, textId },
+        },
+      ],
+    };
+  });
+}
+
+function buildReviewDocxPacketHashTree({ projectId, sceneId, sceneRevision, rawSha256, blocks }, cryptoPort) {
+  const blockDigests = blocks.map((block) => ({
+    sceneId,
+    blockId: block.blockId,
+    digest: cryptoPort.sha256Json({
+      sceneId,
+      blockId: block.blockId,
+      paragraphId: block.paragraphId,
+      canonicalTextSha256: block.canonicalTextSha256,
+      canonicalMarksSha256: block.canonicalMarksSha256,
+    }),
+  }));
+  const sceneDigest = cryptoPort.sha256Json({
+    projectId,
+    sceneId,
+    sceneRevision,
+    rawSha256,
+    blockDigests,
+  });
+  return {
+    rootDigest: cryptoPort.sha256Json({ sceneDigests: [{ sceneId, digest: sceneDigest }] }),
+    sceneDigests: [{ sceneId, digest: sceneDigest }],
+    blockDigests,
+  };
+}
+
+async function readDocxReviewPacketExportSource() {
+  if (isDirty || autoSaveInProgress) {
+    throw new Error('REVIEW_DOCX_EXPORT_DIRTY_EDITOR_BLOCKED');
+  }
+  if (typeof currentFilePath !== 'string' || !currentFilePath.trim()) {
+    throw new Error('REVIEW_DOCX_EXPORT_CURRENT_FILE_REQUIRED');
+  }
+  if (!isAllowedFilePath(currentFilePath)) {
+    throw new Error('REVIEW_DOCX_EXPORT_CURRENT_FILE_NOT_ALLOWED');
+  }
+
+  const documentContext = getDocumentContextFromPath(currentFilePath);
+  if (!DOCX_REVIEW_PREVIEW_SESSION_ALLOWED_CONTEXT_KINDS.has(documentContext.kind)) {
+    throw new Error('REVIEW_DOCX_EXPORT_CURRENT_FILE_NOT_REVIEW_TARGET');
+  }
+  const binding = await readReviewExactTextApplyProjectBinding(currentFilePath);
+  if (!binding.ok) {
+    throw new Error(binding.reason || 'REVIEW_DOCX_EXPORT_PROJECT_BINDING_UNAVAILABLE');
+  }
+
+  const sceneText = await fs.readFile(currentFilePath, 'utf8');
+  const projectId = docxReviewPreviewSessionDetailString(binding.projectId);
+  const projectRoot = docxReviewPreviewSessionDetailString(binding.projectRoot) || path.dirname(binding.manifestPath);
+  const sceneId = getProjectRelativeFilePath(currentFilePath, binding.manifestPath).replace(/\\/g, '/');
+  const rawSha256 = `sha256:${computeHash(sceneText)}`;
+  const sceneRevision = rawSha256;
+  const createdAtUtc = new Date().toISOString();
+  const roundIdHex = crypto.randomBytes(16).toString('hex');
+  const keyIdHex = crypto.randomBytes(16).toString('hex');
+  const roundId = `round-${roundIdHex}`;
+  const exportId = `export-${roundIdHex}`;
+  const exportArtifactId = `export-artifact-${roundIdHex}`;
+  const semanticReturnId = `semantic-return-${roundIdHex}`;
+  const hmacSecret = crypto.randomBytes(32).toString('hex');
+  const cryptoPort = createRtkReviewTransportCryptoPort();
+  const blocks = buildReviewDocxPacketBlocks(sceneText, sceneId, cryptoPort);
+  const primaryBlock = blocks[0] || {
+    blockId: 'block-0000-empty',
+    paragraphId: 'yrtk-p-empty',
+    canonicalTextSha256: `sha256:${computeHash('')}`,
+    canonicalMarksSha256: cryptoPort.sha256Json({ marks: [] }),
+    locatorSignals: [],
+    wordSignals: [],
+  };
+  const sceneSnapshot = {
+    sceneId,
+    sceneRevision,
+    rawSha256,
+    blocks: blocks.map((block) => ({
+      blockId: block.blockId,
+      paragraphId: block.paragraphId,
+      canonicalTextSha256: block.canonicalTextSha256,
+      canonicalMarksSha256: block.canonicalMarksSha256,
+      locatorSignals: block.locatorSignals,
+    })),
+  };
+  const exportMap = {
+    exportMapId: `export-map-${roundIdHex}`,
+    profileId: REVIEW_DOCX_PACKET_PROFILE_ID,
+    roundId,
+    scenes: [
+      {
+        sceneId,
+        sceneRevision,
+        rawSha256,
+        blocks: blocks.map((block) => ({
+          blockId: block.blockId,
+          paragraphId: block.paragraphId,
+          canonicalTextSha256: block.canonicalTextSha256,
+          canonicalMarksSha256: block.canonicalMarksSha256,
+          wordSignals: block.wordSignals,
+        })),
+      },
+    ],
+  };
+  const provisionalBuffer = buildDocxReviewPacketBufferCore({
+    sceneText,
+    blocks,
+    customProperties: [
+      { name: REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME, value: 'YRTK1.provisional' },
+      { name: REVIEW_DOCX_PACKET_YRTK2_PROPERTY_NAME, value: 'YRTK2.provisional' },
+    ],
+    advisoryManifest: { roundId, exportId, provisional: true },
+  });
+  const provisionalDocxSha256 = `sha256:${crypto.createHash('sha256').update(provisionalBuffer).digest('hex')}`;
+
+  const revisionBridge = await loadRevisionBridgeModule();
+  if (
+    !revisionBridge
+    || typeof revisionBridge.createReviewTransportManifestV2 !== 'function'
+    || typeof revisionBridge.createWordV4CoreManifest !== 'function'
+    || typeof revisionBridge.createYrtk2RoundLocatorToken !== 'function'
+  ) {
+    throw new Error('REVIEW_DOCX_EXPORT_RTK_BUILDERS_UNAVAILABLE');
+  }
+  const transportManifestResult = revisionBridge.createReviewTransportManifestV2({
+    profileId: REVIEW_DOCX_PACKET_PROFILE_ID,
+    manifestId: `transport-manifest-${roundIdHex}`,
+    projectId,
+    roundId,
+    exportId,
+    exportedAtUtc: createdAtUtc,
+    sceneSnapshots: [sceneSnapshot],
+    hmacSecret,
+    keyId: 'product-review-docx-local-secret-v1',
+  }, { cryptoPort });
+  if (!transportManifestResult.ok) {
+    throw new Error(transportManifestResult.code || 'REVIEW_DOCX_EXPORT_TRANSPORT_MANIFEST_BLOCKED');
+  }
+  const hashTree = buildReviewDocxPacketHashTree({
+    projectId,
+    sceneId,
+    sceneRevision,
+    rawSha256,
+    blocks,
+  }, cryptoPort);
+  const coreManifestResult = revisionBridge.createWordV4CoreManifest({
+    profileId: REVIEW_DOCX_PACKET_PROFILE_ID,
+    projectId,
+    roundId,
+    exportArtifactId,
+    semanticReturnId,
+    createdAtUtc,
+    compileIrDigest: cryptoPort.sha256Json({ sceneId, blocks: exportMap.scenes[0].blocks }),
+    actualBaselineDigest: rawSha256,
+    parserProfileDigest: cryptoPort.sha256Json({ parser: 'parseReviewTransportPackageV2', profile: REVIEW_DOCX_PACKET_PROFILE_ID }),
+    capabilityProfileDigest: cryptoPort.sha256Json({ capability: 'product-review-docx-export-p0', automaticApplyCertified: false }),
+    artifactIdentities: {
+      provisionalDocxSha256,
+      returnArtifactId: '',
+      applyId: '',
+      effectIds: [],
+    },
+    exportMap,
+    hashTree,
+  }, { cryptoPort });
+  if (!coreManifestResult.ok) {
+    throw new Error(coreManifestResult.code || 'REVIEW_DOCX_EXPORT_CORE_MANIFEST_BLOCKED');
+  }
+  const yrtk2Result = revisionBridge.createYrtk2RoundLocatorToken({
+    keyIdHex,
+    roundIdHex,
+    coreManifestDigest: coreManifestResult.coreManifestDigest,
+    hmacSecret,
+    secretEmbeddedInDocx: false,
+  }, { cryptoPort });
+  if (!yrtk2Result.ok) {
+    throw new Error(yrtk2Result.code || 'REVIEW_DOCX_EXPORT_YRTK2_BLOCKED');
+  }
+  const authorityPayload = {
+    schemaVersion: 'yalken.rtk.locator-authority-envelope.c01.v1',
+    taskId: 'YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01',
+    profileId: REVIEW_DOCX_PACKET_PROFILE_ID,
+    caseId: 'product-review-docx-export-p0',
+    sceneId,
+    sceneRevision,
+    rawSha256,
+    blockId: primaryBlock.blockId,
+    roundId,
+    exportId,
+    exportArtifactId,
+    semanticReturnId,
+    coreManifestDigest: coreManifestResult.coreManifestDigest,
+    transportManifestDigest: transportManifestResult.manifest.payloadDigest,
+    yrtk2TokenDigest: cryptoPort.sha256Text(yrtk2Result.token),
+    blockCount: blocks.length,
+  };
+  const authorityEncoded = buildReviewDocxPacketAuthorityEnvelope(authorityPayload, hmacSecret, cryptoPort);
+  const exportCapsule = {
+    schemaVersion: 'yalken.rtk.word.product-review-docx-export.v1',
+    projectId,
+    sceneId,
+    sceneRevision,
+    rawSha256,
+    roundId,
+    exportId,
+    exportArtifactId,
+    semanticReturnId,
+    coreManifestDigest: coreManifestResult.coreManifestDigest,
+    transportManifestDigest: transportManifestResult.manifest.payloadDigest,
+    yrtk2TokenLength: yrtk2Result.tokenLength,
+    blockCount: blocks.length,
+    authorityCarrier: 'customDocumentProperty',
+    authorityPropertyName: REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME,
+    secretEmbeddedInDocx: false,
+    automaticApplyCertified: false,
+    productRuntimeWired: true,
+    returnIntakeWired: false,
+  };
+  const localAuthorityCapsule = {
+    schemaVersion: 'yalken.rtk.word.product-review-docx-export.local-authority.v1',
+    projectRoot,
+    scenePath: currentFilePath,
+    baselineFinalText: sceneText,
+    hmacSecret,
+    expectedAuthority: {
+      sceneId,
+      sceneRevision,
+      rawSha256,
+      blockId: primaryBlock.blockId,
+      roundId,
+      exportId,
+    },
+    roundId,
+    exportIdentity: exportId,
+    manifestDigest: transportManifestResult.manifest.payloadDigest,
+    coreManifestDigest: coreManifestResult.coreManifestDigest,
+    exportMap,
+  };
+  activeReviewDocxExportAuthorityStore = {
+    schemaVersion: 'yalken.rtk.word.product-review-docx-export.authority-store.v1',
+    lastRoundId: roundId,
+    roundsById: {
+      [roundId]: localAuthorityCapsule,
+    },
+    secretExposedToRenderer: false,
+  };
+
+  return {
+    sceneText,
+    blocks,
+    forbiddenSecret: hmacSecret,
+    customProperties: [
+      { name: REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME, value: authorityEncoded },
+      { name: REVIEW_DOCX_PACKET_YRTK2_PROPERTY_NAME, value: yrtk2Result.token },
+      { name: REVIEW_DOCX_PACKET_CORE_DIGEST_PROPERTY_NAME, value: coreManifestResult.coreManifestDigest },
+    ],
+    advisoryManifest: {
+      schemaVersion: 'yalken.rtk.word.product-review-docx-export.advisory-manifest.v1',
+      coreManifest: coreManifestResult.manifest,
+      transportManifest: transportManifestResult.manifest,
+      yrtk2: {
+        schemaVersion: yrtk2Result.schemaVersion,
+        tokenLength: yrtk2Result.tokenLength,
+        keyIdHex: yrtk2Result.keyIdHex,
+        roundIdHex: yrtk2Result.roundIdHex,
+        coreManifestDigest: yrtk2Result.coreManifestDigest,
+        secretEmbeddedInDocx: false,
+      },
+      authorityCarrier: {
+        carrier: 'customDocumentProperty',
+        propertyName: REVIEW_DOCX_PACKET_AUTH_PROPERTY_NAME,
+        legacyC01Compatibility: true,
+      },
+      nonClaims: {
+        customXmlApplyAuthority: false,
+        automaticApplyCertified: false,
+        returnIntakeWired: false,
+      },
+    },
+    exportCapsule,
+  };
+}
+
+async function buildDocxReviewPacketBuffer(source) {
+  const documentBuffer = buildDocxReviewPacketBufferCore(source);
+  return {
+    documentBuffer,
+    exportCapsule: source.exportCapsule,
+  };
+}
+
+async function handleReviewDocxExportPacketCommandSurface(payload = {}, options = {}) {
+  return runDocxReviewPacketExport(payload, {
+    commandId: REVIEW_EXPORT_DOCX_PACKET_COMMAND_ID,
+    normalizeExportPayload,
+    makeTypedReviewDocxExportError,
+    buildPathBoundaryDetails,
+    resolveDocxReviewPacketExportPath: typeof options.resolveDocxReviewPacketExportPath === 'function'
+      ? options.resolveDocxReviewPacketExportPath
+      : resolveDocxReviewPacketExportPath,
+    validateDocxExportTarget: typeof options.validateDocxExportTarget === 'function'
+      ? options.validateDocxExportTarget
+      : validateDocxExportTarget,
+    readDocxReviewPacketExportSource: typeof options.readDocxReviewPacketExportSource === 'function'
+      ? options.readDocxReviewPacketExportSource
+      : readDocxReviewPacketExportSource,
+    buildDocxReviewPacketBuffer: typeof options.buildDocxReviewPacketBuffer === 'function'
+      ? options.buildDocxReviewPacketBuffer
+      : buildDocxReviewPacketBuffer,
+    queueDiskOperation: typeof options.queueDiskOperation === 'function'
+      ? options.queueDiskOperation
+      : queueDiskOperation,
+    writeBufferAtomic: typeof options.writeBufferAtomic === 'function'
+      ? options.writeBufferAtomic
+      : writeBufferAtomic,
+    updateStatus: typeof options.updateStatus === 'function' ? options.updateStatus : updateStatus,
+  });
+}
+// DOCX_REVIEW_PACKET_EXPORT_COMMAND_SURFACE_END
 
 // DOCX_INTAKE_GATE_COMMAND_SURFACE_START
 const DOCX_INTAKE_GATE_COMMAND_ID = 'cmd.project.review.inspectDocxIntakeGate';
@@ -22214,6 +22649,7 @@ const UI_COMMAND_BRIDGE_ALLOWED_COMMAND_IDS = new Set([
   'cmd.project.releaseClaim.execute',
   'cmd.project.review.importLocalPacket',
   'cmd.project.review.exportLocalPacket',
+  'cmd.project.review.exportDocxReviewPacket',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
   'cmd.project.review.applyExactTextChangesBatch',
@@ -22255,6 +22691,7 @@ const MAIN_FREE_PRO_COMPLEXITY_COMMAND_IDS = new Set([
   'cmd.project.review.switchMode',
   'cmd.project.review.importLocalPacket',
   'cmd.project.review.exportLocalPacket',
+  'cmd.project.review.exportDocxReviewPacket',
   'cmd.project.review.openDocxReviewPreviewSession',
   'cmd.project.review.clearSession',
   'cmd.project.review.applyExactTextChange',
@@ -22575,6 +23012,9 @@ const MENU_COMMAND_HANDLERS = Object.freeze({
   },
   'cmd.project.review.exportLocalPacket': async (payload = {}) => {
     return handleReviewSurfaceExportLocalPacketCommandSurface(payload);
+  },
+  'cmd.project.review.exportDocxReviewPacket': async (payload = {}) => {
+    return handleReviewDocxExportPacketCommandSurface(payload);
   },
   'cmd.project.review.clearSession': async () => {
     const result = handleReviewSurfaceClearSessionCommandSurface();

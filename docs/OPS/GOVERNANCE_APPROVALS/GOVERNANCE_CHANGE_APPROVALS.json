@@ -17,10 +17,10 @@
     },
     {
       "filePath": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
-      "sha256": "6407c7588e9b0648538b39af52f626de043cc5b9e8d5481304497fb30000d9e3",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
-      "approvedAtUtc": "2026-07-29T18:20:00.000Z",
-      "rationale": "Approve bounded W4 V6 normalized menu artifact refresh for the cancel-operation review command in the existing Review menu; this preserves offline menu semantics, normalized artifact integrity, toolbar geometry, Design OS, shell modes, dependency policy, writer authority, and project-format behavior."
+      "sha256": "54a0f555247a53792f7c9f794190f23bb2667fade4a1183ffa7140166bbc0b52",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:58:54.204Z",
+      "rationale": "Approve regenerated normalized menu artifact for bounded Review DOCX exporter menu entry; preserves Design OS menu structure, toolbar geometry, shell modes, local-only runtime, and no automatic apply claim."
     },
     {
       "filePath": "docs/OPS/BASELINE/OPS_GOVERNANCE_BASELINE_v1.0.json",
@@ -28,13 +28,6 @@
       "approvedBy": "ticket:RECOVERY_READABILITY_CENTRAL_BINDING_001",
       "approvedAtUtc": "2026-04-28T00:00:00.000Z",
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the bounded OPS governance baseline regeneration required after the new recovery readability token and claim rows changed canonical governed-file hashes."
-    },
-    {
-      "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "9f502303896301f0807031b7eadafe30c74cc7309ff5cc7bf8881d206caf2154",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.223Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
       "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
@@ -1802,10 +1795,10 @@
     },
     {
       "filePath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
-      "sha256": "6ab55ca17aa1e18db02f1054a701f4bb27d45e3440986027a7f604872e7a9193",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
-      "approvedAtUtc": "2026-07-29T18:20:00.000Z",
-      "rationale": "Approve bounded W4 V6 menu artifact lock refresh after the existing Review menu gained the read-only cancel-operation command; the lock remains tied to the normalized artifact bytes and introduces no UI redesign, network, dependency, shell mode, writer authority, or project-format change."
+      "sha256": "d4ff3e2bcccdba4bd74f0443a9f553bcf2b96e7cc7731f385fb7402447efffe8",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:58:54.204Z",
+      "rationale": "Approve regenerated menu artifact lock for bounded Review DOCX exporter menu entry; normalized menu snapshot and artifact bytes are re-bound to current source after release-audit P0 exporter wiring."
     },
     {
       "filePath": "docs/OPS/PROOFHOOKS/PROOFHOOK_INTEGRITY_LOCK.json",
@@ -2249,13 +2242,6 @@
       "rationale": "PHASE08_NARROW_RELEASE_CANDIDATE_AND_COLLAB_STATUS_REGEN_REBIND"
     },
     {
-      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "404b2c39368162fdb8d70e9ffe8123922d717c56e56825e92249e99cf699d7be",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.230Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
       "filePath": "docs/OPS/STATUS/COMMAND_ID_COMPAT_MAP_V1.json",
       "sha256": "c7c2334e1d254cc13060dc118f9a4c664e3a9791762e57889231ed749433859b",
       "approvedBy": "ticket:TZ_CONTOUR_CLOSE_V4_A03_GIT_FORMALIZATION",
@@ -2593,10 +2579,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/MENU_SNAPSHOT_REGISTRY.json",
-      "sha256": "6a7c0958ac763a053974d2ed47cbc26b4c5ad74de4d846553047c102622e2d05",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
-      "approvedAtUtc": "2026-07-29T18:20:00.000Z",
-      "rationale": "Approve bounded W4 V6 menu snapshot registry refresh for the existing Review menu cancel-operation command while preserving the canonical menu snapshot mechanism, offline runtime contract, Design OS, toolbar geometry, dependency policy, and writer authority boundaries."
+      "sha256": "bcc85df4dab8df507a2c6ef596938e4c81512ddc6114afd8f90bdb994dae172e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:58:54.204Z",
+      "rationale": "Approve menu snapshot registry rebind for bounded Review DOCX exporter menu entry; context hash unchanged, no toolbar/layout/shell mode change, no UI redesign, and no release-ready claim."
     },
     {
       "filePath": "docs/OPS/STATUS/MODE_MATRIX_SINGLE_AUTHORITY_v3.json",
@@ -2698,10 +2684,10 @@
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CANDIDATE_LOCK.json",
-      "sha256": "2cc83ec5214de9183b72712f56eefaf897c63132cecf3a15dcc816d8740461cd",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
-      "approvedAtUtc": "2026-07-29T17:50:00.000Z",
-      "rationale": "Approve bounded W5 V6 release candidate lock refresh to the verified W4-merged remote main menu/provenance hashes so release-mode verification returns PASS; this introduces no Word PASS, release DONE, dependency, runtime behavior, UI change, Design OS change, entitlement, storage format change, writer authority, or package publication claim."
+      "sha256": "93f939838d0ca921ee47a232a9771d1f2d7cb2e16b6aa32214c0600a9e01b01c",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T00:05:30.951Z",
+      "rationale": "Approve release-candidate lock rebind after bounded P0 Review DOCX exporter menu artifact and snapshot refresh; release verify returns PASS while Word SATURATED, return intake, and automatic apply remain false."
     },
     {
       "filePath": "docs/OPS/STATUS/RELEASE_CRITICAL_IMPACT_MATRIX_V1.json",
@@ -5280,13 +5266,6 @@
       "rationale": "MENU_HIDE_SHOW_REORDER_001 governance rebind and approvals for bounded hide/show reorder contracts."
     },
     {
-      "filePath": "test/contracts/menu-config-v2.contract.test.js",
-      "sha256": "0f20448e23e96e8f2e24932241c769a076e8d29489844b9417f5f960e321805a",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W4_REVIEW_UI_ACCESSIBILITY",
-      "approvedAtUtc": "2026-07-29T18:10:00.000Z",
-      "rationale": "Approve bounded W4 V6 menu contract coverage for the cancel-operation review command in the existing Review menu; the test preserves existing menu schema validation and command routing evidence without changing toolbar geometry, Design OS, shell modes, dependencies, network behavior, writer authority, or product storage."
-    },
-    {
       "filePath": "test/contracts/menu-hide-show-reorder.contract.test.js",
       "sha256": "932d95b922b2b30fcdba2c9c0f267e0950e0848b965bfe251a476a203104bc82",
       "approvedBy": "ticket:MENU_HIDE_SHOW_REORDER_001",
@@ -7023,13 +7002,6 @@
       "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "5e18318e747e89a8395f2dfa75341878f86e25a86b45ac5eb3ab21b058985f9a",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
       "sha256": "519ee66e2742fb913d155ee084f8707734c72ae7f5082ce5dcec8fc41de0e2b6",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
@@ -7039,20 +7011,6 @@
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
       "sha256": "0f4d3c4cbab44dd2ec9fe06825c032646969179dfd556f695cc935923c9bd355",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "efea06b63daacbf554dd0ca51fa818cb39386a8de33f9e55e314978af6fe6935",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "9b13b027a1c812e5e2987352d0a771733c25169193dec6db3f57d3711b290a02",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
@@ -7178,10 +7136,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "5610bcfcc327e4317105fcfb72cb4bf24d645aaf56f3e034b587cc90264903fc",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 runtime source and bundle after origin/main reconcile; adds Atlas temporal, continuity, and saved-query visible command controls plus removes silent source-scene slicing; preserves Command Kernel path, Design OS visual canon, local-only runtime, and no release-ready overclaim."
+      "sha256": "2e0c9871d9c1ffd311cfcd558cfec1384013994f6d530c43b8f54953d7a42262",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve bounded src/main.js update after Atlas R3_C02 origin/main rebind: preserves Atlas command path and adds P0 Review DOCX exporter command surface with main-owned HMAC authority construction, no DOCX Minimal mutation, no network, no return intake, no automatic apply, and Word SATURATED false."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-journey.png",
@@ -7224,6 +7182,76 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
+      "sha256": "3713386314354b995929a97dcdd3fafb5b1b629ca1ea1c2aae6af8f6e89d1281",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve bounded P0 Review DOCX exporter command capability binding: node-only product export path, no runtime dependency, no network, no automatic apply, return intake pending, Word SATURATED remains false."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "810191f66fb35603d2db70b0e6a3190c34d47d2380d8f522ec7c699761061d52",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve release-audit Night 01 P0 state binding for product Review DOCX exporter only; C05 history preserved, return intake and automatic apply remain closed, Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
+      "sha256": "3711763b462e69f5b5a23e881c961eac82aff1d4715a9c8831fcacad30290437",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Bind P0 Review DOCX exporter receipt proving product command, carrier, advisory customXml, main-only HMAC boundary, no DOCX Minimal mutation, and no return/apply/saturation claim."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "eb654564667914c5c88621e2268ccb141df670b2b6776c25877ebd3fa47d085c",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve capability profile row for product Review DOCX exporter: runtime exporter wired, physical return loop pending, automatic apply false, releaseReady false."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "38bb34c4c9144059d7ac96e687ddfb574d7cb7068fc8f0d61970fae663531099",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve saturation ledger binding for release-audit P0 Review DOCX exporter while preserving Word SATURATED false, Google Docs closed, and automatic apply not expanded."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
+      "sha256": "d23456fb681b664e396db01d9df50c94a5683e01c8a28f25cc423dfe2a9cbe7e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve command-to-capability binding for cmd.project.review.exportDocxReviewPacket to the node-only Review DOCX exporter capability."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-review-docx-exporter.mjs",
+      "sha256": "f4b2f091b148cd75a80362652ae796a42eedd1722fce401cefca0bb4c05ad372",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve bounded verifier for P0 Review DOCX exporter receipt and truth binding with negative authority overclaim checks."
+    },
+    {
+      "filePath": "test/contracts/menu-config-v2.contract.test.js",
+      "sha256": "e010ab6d1430b58c272eaae77efb89418df4bf0ac9ad8b6ae828d44956b39b0c",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve menu contract extension for the Review DOCX exporter menu item without toolbar, layout, shell mode, or Design OS change."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
+      "sha256": "e81443d874dd375eea4ca72c58ea7a9925ea6a33d6964f06772112d5da3004ea",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve focused P0 exporter contract for DOCX carrier, secret non-embedding, renderer bufferSource rejection, and product reachability."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-review-docx-exporter.contract.test.js",
+      "sha256": "5f1cdcdf70da6eba9a5a45f03e022bc8546cd68fd606df9a97eecdce90b0f7df",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve release-audit P0 verifier contract with negative checks for automatic-apply overclaim and missing carrier proof."
     }
   ]
 }

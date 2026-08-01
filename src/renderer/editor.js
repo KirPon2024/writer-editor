@@ -11931,6 +11931,9 @@ function normalizeManualMapWorkbench(result = {}) {
       nodes: Array.isArray(graph.nodes) ? graph.nodes.filter(reviewSurfaceIsPlainObject) : [],
       edges: Array.isArray(graph.edges) ? graph.edges.filter(reviewSurfaceIsPlainObject) : [],
       groups: Array.isArray(graph.groups) ? graph.groups.filter(reviewSurfaceIsPlainObject) : [],
+      attachments: Array.isArray(graph.attachments) ? graph.attachments.filter(reviewSurfaceIsPlainObject) : [],
+      portals: Array.isArray(graph.portals) ? graph.portals.filter(reviewSurfaceIsPlainObject) : [],
+      templates: Array.isArray(graph.templates) ? graph.templates.filter(reviewSurfaceIsPlainObject) : [],
       meta: graph.meta && typeof graph.meta === 'object' && !Array.isArray(graph.meta) ? graph.meta : {},
     },
     listParity: {
@@ -12190,6 +12193,13 @@ function getManualMapSelectedNodeId() {
 
 function getManualMapSelectedEdgeId() {
   return manualMapText(manualMapTransientViewState.selection?.edgeIds?.[0]);
+}
+
+function getManualMapSecondarySelectedNodeId() {
+  const selectedIds = Array.isArray(manualMapTransientViewState.selection?.nodeIds)
+    ? manualMapTransientViewState.selection.nodeIds.map(manualMapText).filter(Boolean)
+    : [];
+  return selectedIds[1] || selectedIds[0] || '';
 }
 
 async function runManualMapWorkbenchCommand(commandId, payload = {}) {
@@ -12585,6 +12595,97 @@ function renderManualMapToolbar(parent, state, runtime, options = {}) {
     disabled: !selectedGroup,
     reason: 'Select a grouped node',
   })));
+  actionBar.appendChild(makeManualMapDraftButton('Add attachment', () => {
+    const attachmentId = makeStableUiId('manual-attachment');
+    return {
+      commandId: 'manualMap.attachment.add',
+      title: 'Add attachment',
+      targetKind: 'attachment',
+      targetId: attachmentId,
+      risk: 'semantic',
+      payload: {
+        mapId,
+        nodeId: selectedNodeId,
+        attachmentId,
+        label: 'Reference packet',
+        attachmentKind: 'reference',
+        source: {
+          name: 'manual-map-reference.txt',
+          mediaType: 'text/plain',
+          sourceHash: 'd'.repeat(64),
+          byteLength: 128,
+        },
+      },
+      fields: [
+        { name: 'label', label: 'Attachment label', type: 'text', value: 'Reference packet' },
+        { name: 'attachmentKind', label: 'Kind', type: 'text', value: 'reference' },
+      ],
+      impactPreview: `Adds one pathless attachment reference to selected node ${selectedNodeId}. File bytes are not embedded and scene text is unchanged.`,
+    };
+  }, () => ({
+    disabled: !selectedNode,
+    reason: 'Select a node',
+  })));
+  actionBar.appendChild(makeManualMapDraftButton('Add portal', () => {
+    const portalId = makeStableUiId('manual-portal');
+    const targetNodeId = getManualMapSecondarySelectedNodeId();
+    return {
+      commandId: 'manualMap.portal.add',
+      title: 'Add portal',
+      targetKind: 'portal',
+      targetId: portalId,
+      risk: 'semantic',
+      payload: {
+        mapId,
+        portalId,
+        fromNodeId: selectedNodeId,
+        targetMapId: mapId,
+        targetNodeId,
+        label: 'Portal link',
+      },
+      fields: [
+        { name: 'label', label: 'Portal label', type: 'text', value: 'Portal link' },
+      ],
+      impactPreview: `Adds one portal from ${selectedNodeId} to ${mapId}:${targetNodeId || 'map'}. It links graph navigation only and does not rewrite target content.`,
+    };
+  }, () => ({
+    disabled: !selectedNode,
+    reason: 'Select a source node',
+  })));
+  actionBar.appendChild(makeManualMapDraftButton('Apply template', () => {
+    const templateInstanceId = makeStableUiId('manual-template');
+    const nodeOneId = makeStableUiId('manual-template-node');
+    const nodeTwoId = makeStableUiId('manual-template-node');
+    const edgeId = makeStableUiId('manual-template-edge');
+    const nextIndex = state.summary.nodeCount + 1;
+    return {
+      commandId: 'manualMap.template.apply',
+      title: 'Apply template',
+      targetKind: 'template',
+      targetId: templateInstanceId,
+      risk: 'structural',
+      payload: {
+        mapId,
+        templateInstanceId,
+        templateId: 'r3-c03-two-step',
+        templateName: 'Two step starter',
+        nodes: [
+          { nodeId: nodeOneId, label: 'Template start', nodeKind: 'note', position: { x: nextIndex * 42, y: 72 } },
+          { nodeId: nodeTwoId, label: 'Template finish', nodeKind: 'note', position: { x: nextIndex * 42 + 130, y: 72 } },
+        ],
+        edges: [
+          { edgeId, fromNodeId: nodeOneId, toNodeId: nodeTwoId, edgeKind: 'link', label: 'template flow' },
+        ],
+      },
+      fields: [
+        { name: 'templateName', label: 'Template name', type: 'text', value: 'Two step starter' },
+      ],
+      impactPreview: `Applies a bounded two-node template to ${mapId}. Existing nodes remain untouched and ViewState is not persisted.`,
+    };
+  }, () => ({
+    disabled: !state.mapId,
+    reason: state.mapId ? '' : 'Create a map first',
+  })));
   if (!options.compact) {
     const layoutToggle = document.createElement('button');
     layoutToggle.type = 'button';
@@ -12730,6 +12831,55 @@ function renderManualMapList(parent, runtime, options = {}) {
     appendAtlasReportsRow(list, 'No graph rows yet', 'Create a manual map node to populate the fallback.');
   }
   parent.appendChild(list);
+}
+
+function renderManualMapPortabilityReadback(parent, runtime, options = {}) {
+  const graph = runtime.sourceGraph || {};
+  const rows = [
+    ...(Array.isArray(graph.attachments) ? graph.attachments : []).map((attachment) => ({
+      kind: 'attachment',
+      id: manualMapText(attachment?.id),
+      label: manualMapText(attachment?.label),
+      meta: `${manualMapText(attachment?.nodeId)} · ${manualMapText(attachment?.attachmentKind || attachment?.kind)} · ${manualMapText(attachment?.source?.sourceHash).slice(0, 8)}`,
+    })),
+    ...(Array.isArray(graph.portals) ? graph.portals : []).map((portal) => ({
+      kind: 'portal',
+      id: manualMapText(portal?.id),
+      label: manualMapText(portal?.label),
+      meta: `${manualMapText(portal?.fromNodeId)} -> ${manualMapText(portal?.target?.mapId)}:${manualMapText(portal?.target?.nodeId)}`,
+    })),
+    ...(Array.isArray(graph.templates) ? graph.templates : []).map((template) => ({
+      kind: 'template',
+      id: manualMapText(template?.id),
+      label: manualMapText(template?.name),
+      meta: `${(template?.appliedNodeIds || []).length} nodes · ${(template?.appliedEdgeIds || []).length} edges`,
+    })),
+  ];
+  const section = document.createElement('div');
+  section.className = options.compact ? 'right-rail-atlas-matrix-list' : 'manual-map-workspace__portability';
+  section.dataset.manualMapPortabilityReadback = 'true';
+  if (rows.length < 1) {
+    appendAtlasReportsRow(section, 'No portability records yet', 'Add an attachment, portal, or template from the workspace.');
+    parent.appendChild(section);
+    return;
+  }
+  for (const row of rows) {
+    const item = document.createElement('div');
+    item.className = options.compact
+      ? 'right-rail-atlas-matrix-list-row right-rail-manual-map-row'
+      : 'manual-map-workspace__portability-row';
+    item.dataset.manualMapPortabilityKind = row.kind;
+    item.dataset.manualMapPortabilityId = row.id;
+    const main = document.createElement('span');
+    main.className = options.compact ? 'right-rail-atlas-matrix-list-row__main' : 'manual-map-workspace__row-main';
+    main.textContent = row.label || row.id || row.kind;
+    const meta = document.createElement('span');
+    meta.className = options.compact ? 'right-rail-atlas-matrix-list-row__meta' : 'manual-map-workspace__row-meta';
+    meta.textContent = `${row.kind} · ${row.meta}`.trim();
+    item.append(main, meta);
+    section.appendChild(item);
+  }
+  parent.appendChild(section);
 }
 
 function renderManualMapCommandDraft(parent) {
@@ -12893,6 +13043,9 @@ function renderManualMapWorkbenchInto(host, options = {}) {
   appendAtlasOverviewMetric(metrics, 'nodes', state.summary.nodeCount);
   appendAtlasOverviewMetric(metrics, 'edges', state.summary.edgeCount);
   appendAtlasOverviewMetric(metrics, 'groups', state.summary.groupCount);
+  appendAtlasOverviewMetric(metrics, 'refs', (runtime.sourceGraph.attachments || []).length);
+  appendAtlasOverviewMetric(metrics, 'portals', (runtime.sourceGraph.portals || []).length);
+  appendAtlasOverviewMetric(metrics, 'templates', (runtime.sourceGraph.templates || []).length);
   host.appendChild(metrics);
 
   renderManualMapToolbar(host, state, runtime, { compact });
@@ -12906,6 +13059,8 @@ function renderManualMapWorkbenchInto(host, options = {}) {
     host.appendChild(openButton);
     const listSection = appendAtlasOverviewSection(host, 'Keyboard list fallback', { open: true });
     renderManualMapList(listSection, runtime, { compact: true });
+    const portabilitySection = appendAtlasOverviewSection(host, 'Portability records', { open: true });
+    renderManualMapPortabilityReadback(portabilitySection, runtime, { compact: true });
     return;
   }
 
@@ -12961,6 +13116,7 @@ function renderManualMapWorkbenchInto(host, options = {}) {
   const listColumn = document.createElement('div');
   listColumn.className = 'manual-map-workspace__list-column';
   renderManualMapList(listColumn, runtime);
+  renderManualMapPortabilityReadback(listColumn, runtime);
   renderManualMapInspector(listColumn, state, runtime);
   body.append(graphColumn, listColumn);
   host.appendChild(body);

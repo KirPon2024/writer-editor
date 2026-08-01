@@ -30,6 +30,13 @@
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the bounded OPS governance baseline regeneration required after the new recovery readability token and claim rows changed canonical governed-file hashes."
     },
     {
+      "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
+      "sha256": "3713386314354b995929a97dcdd3fafb5b1b629ca1ea1c2aae6af8f6e89d1281",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve bounded P0 Review DOCX exporter command capability binding: node-only product export path, no runtime dependency, no network, no automatic apply, return intake pending, Word SATURATED remains false."
+    },
+    {
       "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
       "sha256": "49768bd3220c8460d216099294427fd841f902e2a590d2314ca98b53390f257a",
       "approvedBy": "ticket:RECOVERY_READABILITY_CENTRAL_BINDING_001",
@@ -1752,6 +1759,118 @@
       "rationale": "Approve R2 C06 final repair revalidation governed files: binds R2 C00 false-green invalidation anchor, R2 C01-C05 repaired facts, visible black-box acceptance, stale E11 and EFINAL rejection, PR-head remote identity descent, no Program DoD claim, no runtime dependency, and no network expansion."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/physical-black-box/r2-c05-black-box-journey.png",
+      "sha256": "79c16dc1eb36698fe84b97588386b16824134264370b778cb384f5bef9c27a3d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
+      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
+      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/physical-black-box/r2-c05-black-box-reopen.png",
+      "sha256": "5a6756678690ca6716acb4dd8b3b45f66173aaf3df54ddad9149745dd43965b6",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
+      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
+      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/physical-black-box/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "7ff2b4e30ab9abc886ca15bc0d2ce506724f49e12e6e241f88158bc92c8ac08e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
+      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
+      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/r3-c00-saturation-audit-report.json",
+      "sha256": "d46cea22ae13b9d4ae71563d4e20b63c74d8cf3e71f86870ae9f3b0456293168",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
+      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
+      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-journey.png",
+      "sha256": "cc0a20cd8f0077bf56803633cdb1263aa998454080e912d294b68738074dc997",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-reopen.png",
+      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-ui-journeys-report.json",
+      "sha256": "c8b56fa067cd8a1100ddd7538cd136a4a2b6fdaf1bca2913d14658deb689dc18",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-journey.png",
+      "sha256": "d14564b786bee8548627cb7703553d60e36e2a34d4781734adf81e8e0123ebdd",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-journeys-report.json",
+      "sha256": "ad4405e6de7d33b47bb97929d30eead99bd579646bdcb661af7098d70d8ae10d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-reopen.png",
+      "sha256": "6c8c2f4867c968bc415ec0105611d0aea6c994cc45e1a60c283e197f1e1319d7",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "sha256": "6516bfbc8d9e7174edb7a09efdd63a0e9a73b87f94db036e6824efd1cd266296",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:14:30.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence rerun after origin/main merge drift; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-portability-journey.png",
+      "sha256": "3e0bea281209758201175c5cb436eca956f37e493ac8ee44596b4f4c30af6493",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:14:30.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence rerun after origin/main merge drift; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-portability-reopen.png",
+      "sha256": "549a5a95cf858764cfd0be02b53c7c0ca6fda3b15c0e9930a69ee1be5d66a23e",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:14:30.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence rerun after origin/main merge drift; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/seed-r2-c05/r2-c05-black-box-journey.png",
+      "sha256": "487c7afdc29f4f4b61ea29bbe7543e326e7b02bc4abcf441a1140e518834509d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:14:30.000Z",
+      "rationale": "Approve bounded R3_C03 seed project evidence rerun after origin/main merge drift; seed proves setup only and is not counted as R3_C03 completion without the visible portability journey."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "sha256": "bb9ebee76d66a53202663a90fbd6a581d77818f7e25b7c943eb09522864e4936",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:14:30.000Z",
+      "rationale": "Approve bounded R3_C03 seed project evidence rerun after origin/main merge drift; seed proves setup only and is not counted as R3_C03 completion without the visible portability journey."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "ebc4673e779afcf3683dfa6d8a088fd345071b5edcaf1028389600dd4d76ddb2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:14:30.000Z",
+      "rationale": "Approve bounded R3_C03 seed project evidence rerun after origin/main merge drift; seed proves setup only and is not counted as R3_C03 completion without the visible portability journey."
+    },
+    {
       "filePath": "docs/OPS/EXECUTION/AUTOCYCLE_CANON_v1.json",
       "sha256": "0f1f01a0c5a9dd9e314b436597b810fb99b863212767ae05f008812cd45fe75c",
       "approvedBy": "ticket:TZ-AUTOCYCLE-PRODUCT-PIPELINE-01",
@@ -1871,6 +1990,13 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "810191f66fb35603d2db70b0e6a3190c34d47d2380d8f522ec7c699761061d52",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve release-audit Night 01 P0 state binding for product Review DOCX exporter only; C05 history preserved, return intake and automatic apply remain closed, Google Docs remains closed."
+    },
+    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -1969,6 +2095,13 @@
       "rationale": "Approve bounded C05 receipt: records locally bound block-range writer authority from trusted C04 evidence, numerator and denominator for focused, adjacent, governance, sector, OSS, ops, and full local runner checks, zero false exact, zero silent apply, zero wrong-scene routing, zero replay failure, preservation of canonical writer and nonclaims for HMAC, YRTK2, signed locator, Word carrier selection, Google Docs, other editors, and full Word saturation."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
+      "sha256": "3711763b462e69f5b5a23e881c961eac82aff1d4715a9c8831fcacad30290437",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Bind P0 Review DOCX exporter receipt proving product command, carrier, advisory customXml, main-only HMAC boundary, no DOCX Minimal mutation, and no return/apply/saturation claim."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
       "sha256": "fad174a5ce6719ca8792934005001aa44240259b0300904ac36ae41229a5f2cf",
       "approvedBy": "ticket:YALKEN_WORD_A02_TERMINAL_AUDIT_AND_A03_PROMOTION_LIST",
@@ -2004,6 +2137,20 @@
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
+      "sha256": "519ee66e2742fb913d155ee084f8707734c72ae7f5082ce5dcec8fc41de0e2b6",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
+      "sha256": "0f4d3c4cbab44dd2ec9fe06825c032646969179dfd556f695cc935923c9bd355",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
       "sha256": "3c54d847fb41af0b0eb7f43dfb8a3a8b1a9739e16357d94e08880de0f8e81746",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -2016,6 +2163,13 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "eb654564667914c5c88621e2268ccb141df670b2b6776c25877ebd3fa47d085c",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve capability profile row for product Review DOCX exporter: runtime exporter wired, physical return loop pending, automatic apply false, releaseReady false."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2151,6 +2305,13 @@
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "38bb34c4c9144059d7ac96e687ddfb574d7cb7068fc8f0d61970fae663531099",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve saturation ledger binding for release-audit P0 Review DOCX exporter while preserving Word SATURATED false, Google Docs closed, and automatic apply not expanded."
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
       "sha256": "2d914a5e62785d12b5191b796d4c5d26badf9a885fa6b42e881103382ac0ced6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
@@ -2240,6 +2401,13 @@
       "approvedBy": "ticket:YALKEN_DESIGN_OS_PHASE08_RELEASE_CANDIDATE_AND_COLLAB_STATUS_REGEN_001",
       "approvedAtUtc": "2026-03-28T16:53:54.412Z",
       "rationale": "PHASE08_NARROW_RELEASE_CANDIDATE_AND_COLLAB_STATUS_REGEN_REBIND"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
+      "sha256": "d23456fb681b664e396db01d9df50c94a5683e01c8a28f25cc423dfe2a9cbe7e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve command-to-capability binding for cmd.project.review.exportDocxReviewPacket to the node-only Review DOCX exporter capability."
     },
     {
       "filePath": "docs/OPS/STATUS/COMMAND_ID_COMPAT_MAP_V1.json",
@@ -3845,6 +4013,34 @@
       "rationale": "Approve R2 C06 final repair revalidation governed files: binds R2 C00 false-green invalidation anchor, R2 C01-C05 repaired facts, visible black-box acceptance, stale E11 and EFINAL rejection, PR-head remote identity descent, no Program DoD claim, no runtime dependency, and no network expansion."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT_RECEIPT.json",
+      "sha256": "8f84eb263166edde2f3fd9a4ade1586292597a6a47ae4f9e9998dc667c76db17",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
+      "approvedAtUtc": "2026-07-31T22:30:26.078Z",
+      "rationale": "Rebind R3_C00 saturation audit receipt after factual validation rows were recorded from focused contracts, fresh visible Electron black-box proof, governance, test:ops, doctrine, OSS, and full runner; Program DoD remains NOT_DONE and next R3 repair queue remains explicit."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS_RECEIPT.json",
+      "sha256": "54f5b50626302157fa7bcc364d8f1b54af8c9c68acea7f8659a5d54beb53494a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:10:22.090Z",
+      "rationale": "Bind R3_C01 receipt after physical Electron Atlas entity relation evidence journey, focused contracts, doctrine, OSS, governance, test:ops, and full runner passed; Program DoD remains NOT_DONE and audit queue continues."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS_RECEIPT.json",
+      "sha256": "7a42c1c312aeff4e0c7d47c6aaee75f66dc0c9452a4f4233e6d7c70ef33f039c",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Bind R3_C02 receipt after actual physical Electron journey, focused contracts, doctrine, OSS, governance, test:ops, and full runner PASS; Program DoD remains NOT_DONE and Night_01/R3 queue continues."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_RECEIPT.json",
+      "sha256": "94c03b4d2d8cb03b65dfd0033689b579c256056bd30bde23f05bcb67ebb690f3",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:14:30.000Z",
+      "rationale": "Bind R3_C03 receipt after origin/main merge drift, physical Electron Manual Map portability journey rerun, focused contracts, doctrine, OSS, governance, test:ops, and full runner PASS; Program DoD remains NOT_DONE and Night_01/R3 queue continues."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_STAGE_00_BINDING_AND_CALIBRATION_RECEIPT.json",
       "sha256": "d565e174006a0013afd6b0c96df9e6a0be57b18b739550beb86c0330daf0c31e",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -4384,6 +4580,13 @@
       "rationale": "Approve bounded B01 Word sandbox repair: routes physical Word working DOCX through the shared com.microsoft.Word container tmp resolver, forbids plain tmp fallback, preserves diagnostic override validation, keeps T7 evidence destination, and adds no product runtime, UI, dependency, or network scope."
     },
     {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-review-docx-exporter.mjs",
+      "sha256": "f4b2f091b148cd75a80362652ae796a42eedd1722fce401cefca0bb4c05ad372",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve bounded verifier for P0 Review DOCX exporter receipt and truth binding with negative authority overclaim checks."
+    },
+    {
       "filePath": "scripts/ops/rtk-word-sandbox-work-root.mjs",
       "sha256": "d4942252fa70307deb2eece720e318bc446a56bf0688572b3ad061f1469edf58",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
@@ -4405,11 +4608,39 @@
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+      "sha256": "d4297567872f46fd97afbefb6b3dc9cb534d4a8a2caf97760b2df6fc9d8b367e",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
       "sha256": "8850be69a09144ca80cafb8c112e59417844a4c3549767a2144b0b3188a2b02f",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
+      "sha256": "fe0711b3f874219a257d964b777eef9a1513b52e87fee33806477d4798d4ffab",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
+      "sha256": "3b3a492b18e8196ad5733510d8992267994c91f4935ab43f978b9ffa61c46545",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c05-non-overlap-product-path.mjs",
+      "sha256": "44b64d8dfcd5d37a6f53fd34ab17d15f48b37f2449b4e684b0b51487973c6eb4",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -4692,6 +4923,34 @@
       "rationale": "Approve R2 C06 final repair revalidation governed files: binds R2 C00 false-green invalidation anchor, R2 C01-C05 repaired facts, visible black-box acceptance, stale E11 and EFINAL rejection, PR-head remote identity descent, no Program DoD claim, no runtime dependency, and no network expansion."
     },
     {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c00-saturation-audit.mjs",
+      "sha256": "e04cde87497d3f71eb0d3c51f300328de37109e69d0cb846961d01785a756589",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
+      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
+      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui-journeys.mjs",
+      "sha256": "fd09b5860ac54d3bbab21eccd7a70dc11ef662d44b964c4efdc9351235efd8a2",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c02-temporal-continuity-saved-query-journeys.mjs",
+      "sha256": "d30575eac2bb6b7ae5ce38792a99cf73e2504e0c370f7949476d70e0b177579a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
+      "sha256": "2dd1b2cfda26c82cbf3eceffabf5e94a160db66ad035d3a5d89458c0bbe096e8",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
       "filePath": "scripts/sector-m-run.mjs",
       "sha256": "9d631b8e759cc7340485bd8026f25df3a9a05c1b4cb662d584bba1789abdbd1f",
       "approvedBy": "ticket:YALKEN_WORD_A03_SAFE_PORTABILITY_RUNTIME_CONTOUR_A03_C01_SECTOR_M_GUARD_BOUNDARY_FIX",
@@ -4846,6 +5105,13 @@
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
     },
     {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "e8f913d401427a37388117c55a9b9791e2916139c6937c9c4cdc8c035161ef58",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "sha256": "3cc6794dd7acf034b33c0c2bf9ef3706d48b6105f4baef40c09eaa684d1b0e33",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -4993,6 +5259,13 @@
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
     },
     {
+      "filePath": "src/main.js",
+      "sha256": "2e0c9871d9c1ffd311cfcd558cfec1384013994f6d530c43b8f54953d7a42262",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve bounded src/main.js update after Atlas R3_C02 origin/main rebind: preserves Atlas command path and adds P0 Review DOCX exporter command surface with main-owned HMAC authority construction, no DOCX Minimal mutation, no network, no return intake, no automatic apply, and Word SATURATED false."
+    },
+    {
       "filePath": "src/preload.js",
       "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
@@ -5000,11 +5273,32 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "befa992622b7f22cfd5990cda1da31b0065cba9625701753078324723372a273",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "db6411de5f07c4a6fd7c14efc4f51cef6340e2f9d1c15f54938d705298a37226",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
+    },
+    {
       "filePath": "src/renderer/index.html",
       "sha256": "eb120716e8d7fb73d4f3c2faf6c655915d5234c635436fd57231d3ef3ff98e5c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C03_CURRENT_STATE_REBIND",
       "approvedAtUtc": "2026-07-31T18:48:00.000Z",
       "rationale": "Current-state governance registry rebind after origin/main drift reconciliation and R2 C03 renderer rebuild: approval hash now matches current repo bytes; no new runtime authority, dependency, network, product truth, or Program DoD readiness claim is introduced."
+    },
+    {
+      "filePath": "src/renderer/styles.css",
+      "sha256": "6617b6460b187af848f569521e626e6b9699a973d4fc964b092b9d9d4a209213",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map portability visible UI journey repair; preserves Command Kernel path, Design OS visual canon, local-only runtime, projection readback, persistence, reopen, and no release-ready overclaim."
     },
     {
       "filePath": "src/shared/commandCapabilityAuthority.cjs",
@@ -5264,6 +5558,13 @@
       "approvedBy": "ticket:MENU_HIDE_SHOW_REORDER_001",
       "approvedAtUtc": "2026-04-10T21:13:30.000Z",
       "rationale": "MENU_HIDE_SHOW_REORDER_001 governance rebind and approvals for bounded hide/show reorder contracts."
+    },
+    {
+      "filePath": "test/contracts/menu-config-v2.contract.test.js",
+      "sha256": "e010ab6d1430b58c272eaae77efb89418df4bf0ac9ad8b6ae828d44956b39b0c",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve menu contract extension for the Review DOCX exporter menu item without toolbar, layout, shell mode, or Design OS change."
     },
     {
       "filePath": "test/contracts/menu-hide-show-reorder.contract.test.js",
@@ -5707,6 +6008,13 @@
       "rationale": "Approve bounded contract proof for DOCX review preflight diagnostic-only report preserving no review session, apply, receipt, recovery, project truth write, importDocxV1 routing, dependency, network, UI, release, Word parity, or full DOCX review import claim."
     },
     {
+      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
+      "sha256": "80e733cb822c5b3fb007643f7d4880f585d65e7779c2bf5aa372a5752dc7dd31",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
       "filePath": "test/contracts/revision-bridge-docx-review-preview-session.contract.test.js",
       "sha256": "b54a9b5feb12ab3942b32017bf39868db54b86925f7fbce56456b4a5b2103398",
       "approvedBy": "ticket:REVIEW_BRIDGE_DOCX_REVIEW_V1_GATE_C_001",
@@ -6022,6 +6330,20 @@
       "rationale": "Approve focused B06 contract coverage: proves the committed physical Word receipt has 30-plus native round trips, comment PASS requires package inventory, semantic readback and Word reopen visibility, high-comment and scale rows are physical, hostile package stays BLOCKED, unsupported modern semantics are typed limitations, D1 is not rebound, no fixture-only PASS is allowed, and exact/apply/UI/network claims are not widened."
     },
     {
+      "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
+      "sha256": "e81443d874dd375eea4ca72c58ea7a9925ea6a33d6964f06772112d5da3004ea",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve focused P0 exporter contract for DOCX carrier, secret non-embedding, renderer bufferSource rejection, and product reachability."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-review-docx-exporter.contract.test.js",
+      "sha256": "5f1cdcdf70da6eba9a5a45f03e022bc8546cd68fd606df9a97eecdce90b0f7df",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
+      "rationale": "Approve release-audit P0 verifier contract with negative checks for automatic-apply overclaim and missing carrier proof."
+    },
+    {
       "filePath": "test/contracts/rtk-word-saturation-c01-locator-carrier.contract.test.js",
       "sha256": "6434426b112f104b073f11017316e3e34fce749de580d8e8b38e1452f9fa3db1",
       "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C01_LOCATOR_AUTHORITY_CARRIER_AB",
@@ -6064,6 +6386,13 @@
       "rationale": "Approve A03-C01 root modern comment shadow-session runtime wiring, C01 receipt/state truth correction, and successor verifier guards; no manuscript apply authority, no UI, no dependency, no network, Google Docs closed."
     },
     {
+      "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
+      "sha256": "a64ad9e0e43fd6b49520268d574f5df35d846ca874efe07b8fb18864bf3eaa38",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+    },
+    {
       "filePath": "test/contracts/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.contract.test.js",
       "sha256": "0a1ac8e05f99ff3735e958715227b13ed4b239367f74fbbb09954babfeb4e2c9",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
@@ -6076,6 +6405,13 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c05-non-overlap-product-path.contract.test.js",
+      "sha256": "dd04e3876f09f2f503c15b0a168051934ab662ae1696f9c4d3fde3c73c42ad02",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
@@ -6897,6 +7233,34 @@
       "rationale": "Approve R2 C06 final repair revalidation governed files: binds R2 C00 false-green invalidation anchor, R2 C01-C05 repaired facts, visible black-box acceptance, stale E11 and EFINAL rejection, PR-head remote identity descent, no Program DoD claim, no runtime dependency, and no network expansion."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c00-saturation-audit.contract.test.js",
+      "sha256": "e7962125e8fb3c07eec633ae03bf733642da01b4504248ec0581d6791678a1a0",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
+      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
+      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui-journeys.contract.test.js",
+      "sha256": "c9337583da11ca5073872527678761020838cce2629d1bb5b3cb1438aefba639",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
+      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
+      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c02-temporal-continuity-saved-query-journeys.contract.test.js",
+      "sha256": "07d6be6643a4d369e644e760983e21c4ae8107a94b79ec3706637bf942d297e0",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
+      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
+      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.contract.test.js",
+      "sha256": "59f9c0dea828aebf1df3662983705a48dafb8796de7dffddd5afcaf23659ae62",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
+      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
+      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-stage00-receipt.contract.test.js",
       "sha256": "792deeab574395469beb7d435468970480be0a9a6cd1a435d1fcb9c0f3472197",
       "approvedBy": "task:YALKEN_ATLAS_V5_AUTONOMOUS_HANDOFF",
@@ -6951,307 +7315,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/physical-black-box/r2-c05-black-box-journey.png",
-      "sha256": "79c16dc1eb36698fe84b97588386b16824134264370b778cb384f5bef9c27a3d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
-      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
-      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/physical-black-box/r2-c05-black-box-reopen.png",
-      "sha256": "5a6756678690ca6716acb4dd8b3b45f66173aaf3df54ddad9149745dd43965b6",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
-      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
-      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/physical-black-box/r2-c05-honest-black-box-acceptance-report.json",
-      "sha256": "7ff2b4e30ab9abc886ca15bc0d2ce506724f49e12e6e241f88158bc92c8ac08e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
-      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
-      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT/r3-c00-saturation-audit-report.json",
-      "sha256": "d46cea22ae13b9d4ae71563d4e20b63c74d8cf3e71f86870ae9f3b0456293168",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
-      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
-      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C00_SATURATION_AUDIT_RECEIPT.json",
-      "sha256": "8f84eb263166edde2f3fd9a4ade1586292597a6a47ae4f9e9998dc667c76db17",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
-      "approvedAtUtc": "2026-07-31T22:30:26.078Z",
-      "rationale": "Rebind R3_C00 saturation audit receipt after factual validation rows were recorded from focused contracts, fresh visible Electron black-box proof, governance, test:ops, doctrine, OSS, and full runner; Program DoD remains NOT_DONE and next R3 repair queue remains explicit."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-r3-c00-saturation-audit.mjs",
-      "sha256": "e04cde87497d3f71eb0d3c51f300328de37109e69d0cb846961d01785a756589",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
-      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
-      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-r3-c00-saturation-audit.contract.test.js",
-      "sha256": "e7962125e8fb3c07eec633ae03bf733642da01b4504248ec0581d6791678a1a0",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION:R3_C00",
-      "approvedAtUtc": "2026-07-31T22:27:26.981Z",
-      "rationale": "Approve R3_C00 saturation audit and fresh visible Electron black-box evidence as a NOT_DONE repair-queue compiler; this does not certify Program DONE, does not create runtime dependency, does not accept screenshots or Lazyweb metadata as readiness, and preserves command-kernel and Design OS authority boundaries."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
-      "sha256": "519ee66e2742fb913d155ee084f8707734c72ae7f5082ce5dcec8fc41de0e2b6",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-      "sha256": "0f4d3c4cbab44dd2ec9fe06825c032646969179dfd556f695cc935923c9bd355",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "d4297567872f46fd97afbefb6b3dc9cb534d4a8a2caf97760b2df6fc9d8b367e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
-      "sha256": "fe0711b3f874219a257d964b777eef9a1513b52e87fee33806477d4798d4ffab",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
-      "sha256": "3b3a492b18e8196ad5733510d8992267994c91f4935ab43f978b9ffa61c46545",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c05-non-overlap-product-path.mjs",
-      "sha256": "44b64d8dfcd5d37a6f53fd34ab17d15f48b37f2449b4e684b0b51487973c6eb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "e8f913d401427a37388117c55a9b9791e2916139c6937c9c4cdc8c035161ef58",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "test/contracts/revision-bridge-docx-review-preview-session-command-surface.contract.test.js",
-      "sha256": "80e733cb822c5b3fb007643f7d4880f585d65e7779c2bf5aa372a5752dc7dd31",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.contract.test.js",
-      "sha256": "a64ad9e0e43fd6b49520268d574f5df35d846ca874efe07b8fb18864bf3eaa38",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-a03-c05-non-overlap-product-path.contract.test.js",
-      "sha256": "dd04e3876f09f2f503c15b0a168051934ab662ae1696f9c4d3fde3c73c42ad02",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-journey.png",
-      "sha256": "cc0a20cd8f0077bf56803633cdb1263aa998454080e912d294b68738074dc997",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-reopen.png",
-      "sha256": "a482f0459149e13742eddc849624b02d694e14011ddd02df46a9b98f9e7e8f43",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS/r3-c01-atlas-entity-relation-ui-journeys-report.json",
-      "sha256": "c8b56fa067cd8a1100ddd7538cd136a4a2b6fdaf1bca2913d14658deb689dc18",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui-journeys.mjs",
-      "sha256": "fd09b5860ac54d3bbab21eccd7a70dc11ef662d44b964c4efdc9351235efd8a2",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-r3-c01-atlas-entity-relation-ui-journeys.contract.test.js",
-      "sha256": "c9337583da11ca5073872527678761020838cce2629d1bb5b3cb1438aefba639",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
-    },
-    {
-      "filePath": "src/renderer/editor.js",
-      "sha256": "1c32abeca490a6098cc235a535da524af04412c3610c1511eb4dfb8a35967e53",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 runtime source and bundle after origin/main reconcile; adds Atlas temporal, continuity, and saved-query visible command controls plus removes silent source-scene slicing; preserves Command Kernel path, Design OS visual canon, local-only runtime, and no release-ready overclaim."
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "6ff86ee1eb5bf6199541727e9a544c6e18078f7d273671e8b7905b608abcf128",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 runtime source and bundle after origin/main reconcile; adds Atlas temporal, continuity, and saved-query visible command controls plus removes silent source-scene slicing; preserves Command Kernel path, Design OS visual canon, local-only runtime, and no release-ready overclaim."
-    },
-    {
-      "filePath": "src/renderer/styles.css",
-      "sha256": "955737c298aeedb02038525d0d11bc2da79e0d596789bf39adf306807482067a",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:07:08.963Z",
-      "rationale": "Approve bounded R3_C01 Atlas visible UI journey repair after physical Electron PASS; preserves command kernel, local storage, Design OS visual canon, and adds no runtime dependency."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C01_ATLAS_ENTITY_RELATION_UI_JOURNEYS_RECEIPT.json",
-      "sha256": "54f5b50626302157fa7bcc364d8f1b54af8c9c68acea7f8659a5d54beb53494a",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C01",
-      "approvedAtUtc": "2026-07-31T23:10:22.090Z",
-      "rationale": "Bind R3_C01 receipt after physical Electron Atlas entity relation evidence journey, focused contracts, doctrine, OSS, governance, test:ops, and full runner passed; Program DoD remains NOT_DONE and audit queue continues."
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "2e0c9871d9c1ffd311cfcd558cfec1384013994f6d530c43b8f54953d7a42262",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve bounded src/main.js update after Atlas R3_C02 origin/main rebind: preserves Atlas command path and adds P0 Review DOCX exporter command surface with main-owned HMAC authority construction, no DOCX Minimal mutation, no network, no return intake, no automatic apply, and Word SATURATED false."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-journey.png",
-      "sha256": "d14564b786bee8548627cb7703553d60e36e2a34d4781734adf81e8e0123ebdd",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-journeys-report.json",
-      "sha256": "ad4405e6de7d33b47bb97929d30eead99bd579646bdcb661af7098d70d8ae10d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS/r3-c02-temporal-continuity-saved-query-reopen.png",
-      "sha256": "6c8c2f4867c968bc415ec0105611d0aea6c994cc45e1a60c283e197f1e1319d7",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C02_TEMPORAL_CONTINUITY_SAVED_QUERY_JOURNEYS_RECEIPT.json",
-      "sha256": "7a42c1c312aeff4e0c7d47c6aaee75f66dc0c9452a4f4233e6d7c70ef33f039c",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Bind R3_C02 receipt after actual physical Electron journey, focused contracts, doctrine, OSS, governance, test:ops, and full runner PASS; Program DoD remains NOT_DONE and Night_01/R3 queue continues."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-r3-c02-temporal-continuity-saved-query-journeys.mjs",
-      "sha256": "d30575eac2bb6b7ae5ce38792a99cf73e2504e0c370f7949476d70e0b177579a",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-r3-c02-temporal-continuity-saved-query-journeys.contract.test.js",
-      "sha256": "07d6be6643a4d369e644e760983e21c4ae8107a94b79ec3706637bf942d297e0",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C02",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
-    },
-    {
-      "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "3713386314354b995929a97dcdd3fafb5b1b629ca1ea1c2aae6af8f6e89d1281",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve bounded P0 Review DOCX exporter command capability binding: node-only product export path, no runtime dependency, no network, no automatic apply, return intake pending, Word SATURATED remains false."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "810191f66fb35603d2db70b0e6a3190c34d47d2380d8f522ec7c699761061d52",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve release-audit Night 01 P0 state binding for product Review DOCX exporter only; C05 history preserved, return intake and automatic apply remain closed, Google Docs remains closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
-      "sha256": "3711763b462e69f5b5a23e881c961eac82aff1d4715a9c8831fcacad30290437",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Bind P0 Review DOCX exporter receipt proving product command, carrier, advisory customXml, main-only HMAC boundary, no DOCX Minimal mutation, and no return/apply/saturation claim."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "eb654564667914c5c88621e2268ccb141df670b2b6776c25877ebd3fa47d085c",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve capability profile row for product Review DOCX exporter: runtime exporter wired, physical return loop pending, automatic apply false, releaseReady false."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "38bb34c4c9144059d7ac96e687ddfb574d7cb7068fc8f0d61970fae663531099",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve saturation ledger binding for release-audit P0 Review DOCX exporter while preserving Word SATURATED false, Google Docs closed, and automatic apply not expanded."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "d23456fb681b664e396db01d9df50c94a5683e01c8a28f25cc423dfe2a9cbe7e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve command-to-capability binding for cmd.project.review.exportDocxReviewPacket to the node-only Review DOCX exporter capability."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-review-docx-exporter.mjs",
-      "sha256": "f4b2f091b148cd75a80362652ae796a42eedd1722fce401cefca0bb4c05ad372",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve bounded verifier for P0 Review DOCX exporter receipt and truth binding with negative authority overclaim checks."
-    },
-    {
-      "filePath": "test/contracts/menu-config-v2.contract.test.js",
-      "sha256": "e010ab6d1430b58c272eaae77efb89418df4bf0ac9ad8b6ae828d44956b39b0c",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve menu contract extension for the Review DOCX exporter menu item without toolbar, layout, shell mode, or Design OS change."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
-      "sha256": "e81443d874dd375eea4ca72c58ea7a9925ea6a33d6964f06772112d5da3004ea",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve focused P0 exporter contract for DOCX carrier, secret non-embedding, renderer bufferSource rejection, and product reachability."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-review-docx-exporter.contract.test.js",
-      "sha256": "5f1cdcdf70da6eba9a5a45f03e022bc8546cd68fd606df9a97eecdce90b0f7df",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve release-audit P0 verifier contract with negative checks for automatic-apply overclaim and missing carrier proof."
     }
   ]
 }

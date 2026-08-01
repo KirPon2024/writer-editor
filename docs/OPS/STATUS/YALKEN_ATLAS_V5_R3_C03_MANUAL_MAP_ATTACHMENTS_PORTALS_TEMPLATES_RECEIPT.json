@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_RECEIPT_V1",
+  "taskId": "YALKEN_ATLAS_V5_MAXIMUM_PRODUCT_RELEASE_SATURATION",
+  "contourId": "R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_SATURATION",
+  "programStage": "R3_MAXIMUM_PRODUCT_RELEASE_SATURATION_2026_07_31",
+  "status": "PASS_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_UI_JOURNEY",
+  "pass": true,
+  "generatedAtUtc": "2026-08-01T00:14:30Z",
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r3-c03-manual-map-portals",
+    "headSha": "26db3d8cd94878f792f775d79abf9d88ee03da4f",
+    "originMainSha": "6e1868472ac40d4acc985b7feb432bbf9e42b129",
+    "headEqualsOriginMain": false,
+    "dirtyFileCount": 30
+  },
+  "reportPath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-attachments-portals-templates-report.json",
+  "reportSha256": "6516bfbc8d9e7174edb7a09efdd63a0e9a73b87f94db036e6824efd1cd266296",
+  "physicalEvidenceAccepted": true,
+  "certifiedByThisContour": [
+    "manual-map-attachment-visible-command-kernel-ui-journey",
+    "manual-map-portal-visible-command-kernel-ui-journey",
+    "manual-map-template-visible-command-kernel-ui-journey",
+    "manual-map-portability-persist-reopen-readback",
+    "manual-map-portability-json-repeat-import-image-pdf-evidence"
+  ],
+  "notCertifiedByThisContour": [
+    "multilingual-grapheme-worker-staleness-large-graph-stress",
+    "packaged-all-program-dod-row-executable-journeys",
+    "night-01-p0-author-state-lossless-versioned-quarantine",
+    "night-01-p0-project-scoped-transaction-revision-conflict-proof",
+    "night-01-p0-explicit-feature-integration-manifest-slot-resolver",
+    "night-01-p0-production-multilingual-routing-grapheme-core-admission"
+  ],
+  "nextContours": [
+    "R3_C04_MULTILINGUAL_WORKER_STRESS_AND_STALE_RESULT_SATURATION",
+    "R3_C05_RELEASE_SATURATION_REVALIDATION_AND_INDEPENDENT_AUDIT"
+  ],
+  "independentAuditQueueAfterCurrentContour": "YALKEN_ATLAS_V5_RELEASE_AUDIT_NIGHT_01_P0_REBIND_AFTER_R3_C03_DELIVERY",
+  "programDodVerdict": "NOT_DONE_R3_SATURATION_REPAIRS_REQUIRED",
+  "acceptanceSummary": {
+    "visibleInputRuntime": true,
+    "pointerAndKeyboardUsed": true,
+    "attachmentPortalTemplateCommandsVisible": true,
+    "visibleReadbackRuntime": true,
+    "persistedPortabilityTruth": true,
+    "reopenProjectionVisible": true,
+    "exportRepeatImport": true,
+    "imagePdfEvidenceIncludesPortability": true,
+    "screenshotsNonblank": true,
+    "noNetworkNoDialogs": true,
+    "noDirectIpcOrStorageBypass": true,
+    "noHorizontalOverflow": true
+  },
+  "negativeAssertions": {
+    "directIpcAcceptedJourney": false,
+    "generatedArtifactOnlyAccepted": false,
+    "hiddenPortabilityControlsAccepted": false,
+    "missingPortabilityTruthAccepted": false,
+    "exportWithoutRepeatImportAccepted": false,
+    "networkActivated": false,
+    "viewStatePersisted": false
+  },
+  "evidenceFiles": {
+    "journeyScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-portability-journey.png",
+      "exists": true,
+      "bytes": 591849,
+      "sha256": "3e0bea281209758201175c5cb436eca956f37e493ac8ee44596b4f4c30af6493"
+    },
+    "reopenScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C03_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES/r3-c03-manual-map-portability-reopen.png",
+      "exists": true,
+      "bytes": 609341,
+      "sha256": "549a5a95cf858764cfd0be02b53c7c0ca6fda3b15c0e9930a69ee1be5d66a23e"
+    }
+  },
+  "validation": [
+    {
+      "id": "renderer-build",
+      "command": "npm run -s build:renderer",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "dist/renderer/editor.bundle.js rebuilt successfully after projection-normalizer repair."
+    },
+    {
+      "id": "fresh-physical-manual-map-attachments-portals-templates-ui-journey",
+      "command": "node scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "PASS_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_UI_JOURNEY; rerun after origin/main merge drift; report sha256 6516bfbc8d9e7174edb7a09efdd63a0e9a73b87f94db036e6824efd1cd266296; attachment, portal, template, persistence, reopen, repeat import, image/PDF evidence, no network/dialogs, no direct IPC/storage bypass, and no overflow all true."
+    },
+    {
+      "id": "focused-contracts",
+      "command": "node --test test/contracts/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.contract.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Focused R3_C03 contracts PASS: 4 tests, 4 pass, 0 fail."
+    },
+    {
+      "id": "design-os-doctrine",
+      "command": "npm run -s design-os:doctrine",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    {
+      "id": "oss-policy",
+      "command": "npm run -s oss:policy",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "OSS policy OK: no Tiptap Pro and no private registry."
+    },
+    {
+      "id": "diff-check",
+      "command": "git diff --check",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "No whitespace/conflict marker errors."
+    },
+    {
+      "id": "governance-change-detection",
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "GOVERNANCE_CHANGE_OK=1; approval registry valid; missing approvals empty after R3_C03 binding."
+    },
+    {
+      "id": "test-ops",
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; strict doctor exit 0; boundary guard exit 0; strict lie classes OK."
+    },
+    {
+      "id": "full-runner",
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Full runner PASS: 798 tests, 734 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS; release candidate verify PASS."
+    }
+  ],
+  "delivery": {
+    "commit": "PENDING_PRE_COMMIT",
+    "push": "PENDING",
+    "pr": "PENDING",
+    "ci": "PENDING",
+    "merge": "PENDING",
+    "remoteShaVerification": "PENDING"
+  }
+}

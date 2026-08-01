@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.atlas.v5.finalAudit.p0_03.packagedVisibleJourney.v1",
   "contourId": "P0_03_PACKAGED_JOURNEY_STALE_VISIBLE_UI_REPAIR",
-  "generatedAtUtc": "2026-08-01T05:22:31.270Z",
+  "generatedAtUtc": "2026-08-01T05:31:20.369Z",
   "status": "PASS_PACKAGED_VISIBLE_UI_JOURNEY",
   "pass": true,
   "platformId": "macos-packaged-electron",
@@ -1447,14 +1447,14 @@
   },
   "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
   "sourceBinding": {
-    "headSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
-    "originMainSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
-    "packageBuiltAtHeadSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
+    "headSha": "25171357b835002547859b08e6cdbd4be6d657dc",
+    "originMainSha": "25171357b835002547859b08e6cdbd4be6d657dc",
+    "packageBuiltAtHeadSha": "25171357b835002547859b08e6cdbd4be6d657dc",
     "appAsar": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Resources/app.asar",
       "exists": true,
-      "bytes": 100228820,
-      "sha256": "4c445281e98124dc30c3850ff2560929364767727b459be01e3745db1d5d9e75"
+      "bytes": 100224170,
+      "sha256": "dd9eaf70a30753924bb71debf04fc5f6d11a5298aba2a07262f8bc863dd6b908"
     },
     "appExecutable": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/MacOS/Yalken",
@@ -1463,24 +1463,24 @@
       "sha256": "f5212ea9181df95040385dfd04f512e983ed95394a96fb7c4b8ee838ea433caf"
     },
     "packageReportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/macos-package-artifact-security-report.json",
-    "packageReportSha256": "a9c412c3a057d784a17ed492cb0751662cc3a8564c33810dcd7d7488fee042ed"
+    "packageReportSha256": "d9fc5d36db4ba244000c9a513162135f93d6d2d34154f019dea723768389043c"
   },
   "packageReport": {
     "status": "PASS_UNSIGNED_LOCAL_ARTIFACT",
     "pass": true,
     "reportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/macos-package-artifact-security-report.json",
-    "reportSha256": "a9c412c3a057d784a17ed492cb0751662cc3a8564c33810dcd7d7488fee042ed"
+    "reportSha256": "d9fc5d36db4ba244000c9a513162135f93d6d2d34154f019dea723768389043c"
   },
   "runtime": {
     "first": {
       "ok": true,
       "mode": "first-launch-visible-ui",
       "runtimeKind": "macos-packaged-electron-cdp-visible-input",
-      "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP",
-      "tempHome": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/home",
-      "appPathRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths",
-      "documentsRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents",
-      "dialogRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs",
+      "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz",
+      "tempHome": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/home",
+      "appPathRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths",
+      "documentsRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents",
+      "dialogRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs",
       "snapshot": {
         "url": "file:///Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Resources/app.asar/src/renderer/index.html?USE_TIPTAP=1",
         "viewport": {
@@ -1505,20 +1505,20 @@
       "screenshot": {
         "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-first-launch.png",
         "exists": true,
-        "bytes": 377196,
-        "sha256": "c832cb41c6cca85ab0914a8b058d6e977e826b71405a80672cd5acd62367879b"
+        "bytes": 377492,
+        "sha256": "8b34e05aac371b2cd9ca4744ffa8c2e6da394405490f47b40cdbf130d5901de1"
       },
       "persistence": {
-        "manifestPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/project.craftsman.json",
+        "manifestPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/project.craftsman.json",
         "manifestProof": {
-          "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/project.craftsman.json",
+          "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/project.craftsman.json",
           "exists": true,
           "bytes": 29248,
-          "sha256": "177b1789c59541fc086540b00645e89cb41d73ad072553f93d2af83ca801cf9f"
+          "sha256": "9f075c199102b6bffd31d2b7c760d96c72a13e858bf0a8af73169a6ebf2dfb02"
         },
-        "manifestHash": "177b1789c59541fc086540b00645e89cb41d73ad072553f93d2af83ca801cf9f",
+        "manifestHash": "9f075c199102b6bffd31d2b7c760d96c72a13e858bf0a8af73169a6ebf2dfb02",
         "manifestSummary": {
-          "projectId": "project-92785da1-e964-4f41-b299-1e7bb3a07a12",
+          "projectId": "project-9895d1fc-bdc9-4459-be4b-4e38ed742e01",
           "projectName": "Роман",
           "lastCommandId": 17,
           "entityNames": [
@@ -1551,25 +1551,25 @@
         },
         "sceneTextProofs": [
           {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/backups/9622d03c2a90e80daa57fd5dbcaf85246ec49cec3aaa1a312388dbc1d257d457/1785561735507_p0-03-import f924613bb2.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/backups/6ff1d03c95f4a9fda0ec2a8c827bbf8d27281812712b050b6619344e76b689f3/1785562264911_p0-03-import f924613bb2.txt",
             "sha256": "6278e5d63594cb0d56cc7a7516257974b2ad397690ee61172ad442eea1d961c3",
             "containsSceneText": true,
             "containsImportedMarkdown": true
           },
           {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/roman/Imported/p0-03-import f924613bb2.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/roman/Imported/p0-03-import f924613bb2.txt",
             "sha256": "6278e5d63594cb0d56cc7a7516257974b2ad397690ee61172ad442eea1d961c3",
             "containsSceneText": true,
             "containsImportedMarkdown": true
           },
           {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/roman/обложка.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/roman/обложка.txt",
             "sha256": "d984c3847cec930b3ff2bdb1136c54001645471a14f459dbfd36af89917bbc7d",
             "containsSceneText": false,
             "containsImportedMarkdown": false
           },
           {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs/Роман-all-scenes.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs/Роман-all-scenes.txt",
             "sha256": "f6cca4c3d66bcdbb0b9fa5b32a118de053f5125af65e62c5b50f778622597151",
             "containsSceneText": true,
             "containsImportedMarkdown": true
@@ -1577,19 +1577,19 @@
         ],
         "exports": {
           "allScenesTxt": {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs/Роман-all-scenes.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs/Роман-all-scenes.txt",
             "exists": true,
             "bytes": 152,
             "sha256": "f6cca4c3d66bcdbb0b9fa5b32a118de053f5125af65e62c5b50f778622597151"
           },
           "markdownImportSource": {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs/p0-03-import.md",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs/p0-03-import.md",
             "exists": true,
             "bytes": 157,
             "sha256": "a602644562ee72478689c890f89b094d78fb2e120633f1cec1b5a960c71bdad3"
           },
           "markdownExportIfCreated": {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs/roman.md",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs/roman.md",
             "exists": false,
             "bytes": 0,
             "sha256": ""
@@ -2896,7 +2896,7 @@
           }
         }
       ],
-      "stderrTail": "\nDevTools listening on ws://127.0.0.1:49618/devtools/browser/7842528f-a5c7-4b9b-85a3-1d797633a805\n"
+      "stderrTail": "\nDevTools listening on ws://127.0.0.1:49628/devtools/browser/6c6ec0bc-a557-4f66-a338-f683c8981892\n"
     },
     "reopen": {
       "ok": true,
@@ -2926,20 +2926,20 @@
       "screenshot": {
         "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-reopen.png",
         "exists": true,
-        "bytes": 350933,
-        "sha256": "a05b7a88744033cb4c90d49a97f270952b58ec7193b08b7b4b0c04959c310b0f"
+        "bytes": 349956,
+        "sha256": "15512a38641327c616a4889495732660011568a8230ed44631e634479a4a931e"
       },
       "persistence": {
-        "manifestPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/project.craftsman.json",
+        "manifestPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/project.craftsman.json",
         "manifestProof": {
-          "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/project.craftsman.json",
+          "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/project.craftsman.json",
           "exists": true,
           "bytes": 29248,
-          "sha256": "177b1789c59541fc086540b00645e89cb41d73ad072553f93d2af83ca801cf9f"
+          "sha256": "9f075c199102b6bffd31d2b7c760d96c72a13e858bf0a8af73169a6ebf2dfb02"
         },
-        "manifestHash": "177b1789c59541fc086540b00645e89cb41d73ad072553f93d2af83ca801cf9f",
+        "manifestHash": "9f075c199102b6bffd31d2b7c760d96c72a13e858bf0a8af73169a6ebf2dfb02",
         "manifestSummary": {
-          "projectId": "project-92785da1-e964-4f41-b299-1e7bb3a07a12",
+          "projectId": "project-9895d1fc-bdc9-4459-be4b-4e38ed742e01",
           "projectName": "Роман",
           "lastCommandId": 17,
           "entityNames": [
@@ -2972,25 +2972,25 @@
         },
         "sceneTextProofs": [
           {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/backups/9622d03c2a90e80daa57fd5dbcaf85246ec49cec3aaa1a312388dbc1d257d457/1785561735507_p0-03-import f924613bb2.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/backups/6ff1d03c95f4a9fda0ec2a8c827bbf8d27281812712b050b6619344e76b689f3/1785562264911_p0-03-import f924613bb2.txt",
             "sha256": "6278e5d63594cb0d56cc7a7516257974b2ad397690ee61172ad442eea1d961c3",
             "containsSceneText": true,
             "containsImportedMarkdown": true
           },
           {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/roman/Imported/p0-03-import f924613bb2.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/roman/Imported/p0-03-import f924613bb2.txt",
             "sha256": "6278e5d63594cb0d56cc7a7516257974b2ad397690ee61172ad442eea1d961c3",
             "containsSceneText": true,
             "containsImportedMarkdown": true
           },
           {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/craftsman/Роман/roman/обложка.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/craftsman/Роман/roman/обложка.txt",
             "sha256": "d984c3847cec930b3ff2bdb1136c54001645471a14f459dbfd36af89917bbc7d",
             "containsSceneText": false,
             "containsImportedMarkdown": false
           },
           {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs/Роман-all-scenes.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs/Роман-all-scenes.txt",
             "sha256": "f6cca4c3d66bcdbb0b9fa5b32a118de053f5125af65e62c5b50f778622597151",
             "containsSceneText": true,
             "containsImportedMarkdown": true
@@ -2998,19 +2998,19 @@
         ],
         "exports": {
           "allScenesTxt": {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs/Роман-all-scenes.txt",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs/Роман-all-scenes.txt",
             "exists": true,
             "bytes": 152,
             "sha256": "f6cca4c3d66bcdbb0b9fa5b32a118de053f5125af65e62c5b50f778622597151"
           },
           "markdownImportSource": {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs/p0-03-import.md",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs/p0-03-import.md",
             "exists": true,
             "bytes": 157,
             "sha256": "a602644562ee72478689c890f89b094d78fb2e120633f1cec1b5a960c71bdad3"
           },
           "markdownExportIfCreated": {
-            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-rz9oAP/app-paths/Documents/p0-03-dialogs/roman.md",
+            "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-p0-03-packaged-visible-tdyWjz/app-paths/Documents/p0-03-dialogs/roman.md",
             "exists": false,
             "bytes": 0,
             "sha256": ""
@@ -3108,7 +3108,7 @@
         }
       ],
       "dialogsHandled": [],
-      "stderrTail": "\nDevTools listening on ws://127.0.0.1:50245/devtools/browser/acbe1b4c-53e7-46f8-ac4f-e5ea23e4d98f\n"
+      "stderrTail": "\nDevTools listening on ws://127.0.0.1:49557/devtools/browser/47c69fde-4cd7-4db2-a6cc-67b17260f076\n"
     }
   },
   "directBridgeProof": {

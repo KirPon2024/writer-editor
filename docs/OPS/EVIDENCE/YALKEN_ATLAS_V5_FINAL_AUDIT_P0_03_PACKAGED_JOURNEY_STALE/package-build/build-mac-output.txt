@@ -26,4 +26,4 @@
 
   dist/renderer/editor.bundle.js  1.1mb ⚠️
 
-⚡ Done in 155ms
+⚡ Done in 107ms

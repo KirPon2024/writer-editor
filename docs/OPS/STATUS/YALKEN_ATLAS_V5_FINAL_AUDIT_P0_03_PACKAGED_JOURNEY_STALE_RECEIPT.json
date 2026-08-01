@@ -2,19 +2,19 @@
   "schemaVersion": "yalken.atlas.v5.finalAudit.p0_03.packagedVisibleJourney.receipt.v1",
   "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
   "contourId": "P0_03_PACKAGED_JOURNEY_STALE_VISIBLE_UI_REPAIR",
-  "generatedAtUtc": "2026-08-01T05:22:31.270Z",
+  "generatedAtUtc": "2026-08-01T05:31:20.369Z",
   "status": "PASS_PACKAGED_VISIBLE_UI_JOURNEY",
   "pass": true,
   "platformId": "macos-packaged-electron",
   "sourceBinding": {
-    "headSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
-    "originMainSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
-    "packageBuiltAtHeadSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
+    "headSha": "25171357b835002547859b08e6cdbd4be6d657dc",
+    "originMainSha": "25171357b835002547859b08e6cdbd4be6d657dc",
+    "packageBuiltAtHeadSha": "25171357b835002547859b08e6cdbd4be6d657dc",
     "appAsar": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Resources/app.asar",
       "exists": true,
-      "bytes": 100228820,
-      "sha256": "4c445281e98124dc30c3850ff2560929364767727b459be01e3745db1d5d9e75"
+      "bytes": 100224170,
+      "sha256": "dd9eaf70a30753924bb71debf04fc5f6d11a5298aba2a07262f8bc863dd6b908"
     },
     "appExecutable": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/MacOS/Yalken",
@@ -23,15 +23,15 @@
       "sha256": "f5212ea9181df95040385dfd04f512e983ed95394a96fb7c4b8ee838ea433caf"
     },
     "packageReportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/macos-package-artifact-security-report.json",
-    "packageReportSha256": "a9c412c3a057d784a17ed492cb0751662cc3a8564c33810dcd7d7488fee042ed"
+    "packageReportSha256": "d9fc5d36db4ba244000c9a513162135f93d6d2d34154f019dea723768389043c"
   },
   "report": {
     "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-journey-report.json",
     "exists": true,
     "bytes": 110700,
-    "sha256": "b22b71979419d53d20e0ddb8c1bd2fb6c4cc78ba0b53c7b808e7c1342714fa78"
+    "sha256": "a6d99d4c6ee019acd9495df262fd6170b8e817a1c5b4f86cff7418b2ae262e20"
   },
-  "reportSha256": "b22b71979419d53d20e0ddb8c1bd2fb6c4cc78ba0b53c7b808e7c1342714fa78",
+  "reportSha256": "a6d99d4c6ee019acd9495df262fd6170b8e817a1c5b4f86cff7418b2ae262e20",
   "accepted": {
     "currentSourcePackageBuilt": true,
     "exactSourceBindingPresent": true,

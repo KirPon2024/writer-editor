@@ -14,6 +14,7 @@ export function reduceWithResult(state: CoreState, command: CoreCommand): CoreRe
       ok: false,
       state: createInitialCoreState(),
       stateHash: "",
+      events: [],
       error: {
         code: "E_CORE_INVALID_REDUCER_RESULT",
         op: "core.reduce",

@@ -2017,6 +2017,15 @@ export function registerProjectCommands(registry, options = {}) {
         ? response.value
         : response;
       if (bridged && (bridged.ok === 1 || bridged.ok === true)) {
+        const events = Array.isArray(bridged.events) ? bridged.events : [];
+        const domainEventDigest = typeof bridged.domainEventDigest === 'string' ? bridged.domainEventDigest.trim() : '';
+        if (bridged.reordered === true && (events.length === 0 || !domainEventDigest)) {
+          return fail(
+            'E_COMMAND_FAILED',
+            EXTRA_COMMAND_IDS.TREE_REORDER_NODE,
+            'TREE_REORDER_DOMAIN_EVENT_REQUIRED',
+          );
+        }
         return ok({
           reordered: true,
           projectId,
@@ -2024,6 +2033,12 @@ export function registerProjectCommands(registry, options = {}) {
             ? bridged.nodeId.trim()
             : nodeId,
           direction,
+          events,
+          domainEvents: events,
+          domainEventDigest,
+          receipt: bridged.receipt && typeof bridged.receipt === 'object' && !Array.isArray(bridged.receipt)
+            ? bridged.receipt
+            : null,
         });
       }
       return fail(

@@ -14,6 +14,7 @@ import {
 
 const LAYOUT_OP = 'derived.atlas.localGraphLayoutPlanner';
 const LAYOUT_ADAPTER_KIND = 'local-pure-derived-planner';
+const SHA256_HEX_RE = /^[a-f0-9]{64}$/u;
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -63,7 +64,10 @@ function normalizeLimits(value = {}) {
 function graphSourceRevision(graph = {}) {
   const source = isPlainObject(graph) ? graph : {};
   const graphHash = normalizeText(source.summary?.graphHash);
-  if (graphHash) return graphHash;
+  if (graphHash) {
+    if (!SHA256_HEX_RE.test(graphHash)) throw new Error('LOCAL_GRAPH_HASH_INVALID');
+    return graphHash;
+  }
   return hashCanonicalValue({
     schemaVersion: normalizeText(source.schemaVersion),
     projectId: normalizeText(source.projectId),
@@ -77,6 +81,7 @@ function buildJobIdentity({ graph, sourceRevision, sequence, layoutKind, limits 
   const projectId = normalizeText(graph.projectId);
   const generation = normalizePositiveInteger(sequence, 1, 1_000_000_000);
   const revision = normalizeText(sourceRevision) || graphSourceRevision(graph);
+  if (!SHA256_HEX_RE.test(revision)) throw new Error('LOCAL_GRAPH_SOURCE_REVISION_INVALID');
   const requestHash = hashCanonicalValue({
     projectId,
     sourceRevision: revision,
@@ -210,13 +215,18 @@ export function createAtlasLocalGraphLayoutJob(input = {}) {
   }
   const limits = normalizeLimits(input.limits);
   const layoutKind = normalizeText(input.layoutKind) || 'cluster-grid';
-  const identity = buildJobIdentity({
-    graph,
-    sourceRevision: input.sourceRevision,
-    sequence: input.sequence,
-    layoutKind,
-    limits,
-  });
+  let identity;
+  try {
+    identity = buildJobIdentity({
+      graph,
+      sourceRevision: input.sourceRevision,
+      sequence: input.sequence,
+      layoutKind,
+      limits,
+    });
+  } catch (error) {
+    return plannerError('E_ATLAS_LOCAL_GRAPH_INVALID', error?.message || 'LOCAL_GRAPH_SOURCE_REVISION_INVALID', { projectId });
+  }
   return {
     ok: true,
     value: {

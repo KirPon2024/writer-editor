@@ -20,6 +20,14 @@ const TOOLBAR_CLOSEOUT_TESTS = Object.freeze([
   'test/contracts/phase03-safe-reset-last-stable-artifact-state.contract.test.js',
 ]);
 
+const ATLAS_EVENT_CONTRACT_TESTS = Object.freeze([
+  'test/contracts/collab-apply-no-network-wiring.contract.test.js',
+  'test/contracts/collab-apply-pipeline-deterministic.contract.test.js',
+  'test/contracts/collab-apply-pipeline-typed-errors.contract.test.js',
+  'test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js',
+  'test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js',
+]);
+
 const FAST_LANE_FORBIDDEN_SEGMENTS = Object.freeze([
   'scripts/ops/run-wave.mjs',
   'scripts/guards/ops-current-wave-stop.mjs',
@@ -441,6 +449,17 @@ function runPerfBaselineGuard(rootDir, isPromotionMode) {
   return result.status ?? 1;
 }
 
+function runAtlasEventContractGuard(rootDir) {
+  const testsAbs = ATLAS_EVENT_CONTRACT_TESTS
+    .map((item) => path.resolve(rootDir, item))
+    .sort();
+  const result = spawnSync(process.execPath, ['--test', ...testsAbs], {
+    cwd: rootDir,
+    stdio: 'inherit',
+  });
+  return result.status ?? 1;
+}
+
 function runCommandNamespaceGuard(rootDir, isPromotionMode) {
   const checkMode = isPromotionMode ? 'promotion' : 'release';
   const result = spawnSync(
@@ -655,6 +674,11 @@ if (testFiles.length === 0) {
   const result = spawnSync(process.execPath, ['--test', ...testFiles], { cwd: rootDir, stdio: 'inherit' });
   exitCode = result.status ?? 1;
   if (exitCode === 0 && explicitTests.length === 0) {
+    const atlasEventContractsExit = runAtlasEventContractGuard(rootDir);
+    if (atlasEventContractsExit !== 0) {
+      process.exitCode = atlasEventContractsExit;
+      return;
+    }
     const perfExit = runPerfBaselineGuard(rootDir, isPromotionMode);
     if (perfExit !== 0) {
       process.exitCode = perfExit;

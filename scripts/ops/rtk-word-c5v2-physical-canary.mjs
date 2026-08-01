@@ -463,6 +463,20 @@ function summarizeActivation(result) {
           : [],
       }
       : null,
+    commentShadowResult: result && result.commentShadowResult
+      ? {
+        ok: result.commentShadowResult.ok === true,
+        status: result.commentShadowResult.status || '',
+        code: result.commentShadowResult.code || '',
+        reason: result.commentShadowResult.reason || '',
+        writerCalled: result.commentShadowResult.writerCalled === true,
+        manuscriptApplyAuthority: result.commentShadowResult.manuscriptApplyAuthority === true,
+        storageEffects: result.commentShadowResult.storageEffects || null,
+      }
+      : null,
+    commentShadowSessionSummary: result && result.commentShadowSession && result.commentShadowSession.summary
+      ? result.commentShadowSession.summary
+      : null,
     reviewGraphCounts: {
       textChanges: textChanges.length,
       commentThreads: commentThreads.length,
@@ -1353,6 +1367,9 @@ async function main() {
       'physical-word-open-edit-native-save',
       'physical-word-close-reopen-object-model-readback',
       'raw-ooxml-package-summary',
+      'authenticated-intake-quarantine-preview',
+      'explicit-selected-exact-text-apply',
+      'atomic-recovery-replay-stale-retry',
       'bounded-semantic-oracle-probe',
     ],
     sourceDocxPath,

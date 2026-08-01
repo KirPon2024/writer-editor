@@ -336,10 +336,14 @@ function normalizeAuthenticatedReturnIdentity(input, reviewIr, roundId, returnAr
   const binding = {
     schemaVersion: 'yalken.rtk.comment-shadow-authenticated-return-binding.v1',
     authenticated: source.authenticated === true,
+    scope: normalizeString(source.scope) || (normalizeString(source.fullBookRawSha256) ? 'full-manuscript' : 'scene'),
     projectId: normalizeString(source.projectId),
     sceneId: normalizeString(source.sceneId),
     sceneRevision: normalizeString(source.sceneRevision),
     rawSha256: normalizeString(source.rawSha256).toLowerCase(),
+    fullBookRawSha256: normalizeString(source.fullBookRawSha256).toLowerCase(),
+    sceneCount: Number.isSafeInteger(Number(source.sceneCount)) ? Number(source.sceneCount) : 0,
+    orderedSceneIdsDigest: normalizeString(source.orderedSceneIdsDigest).toLowerCase(),
     baselineHash: normalizeString(source.baselineHash).toLowerCase(),
     currentBaselineHash: normalizeString(source.currentBaselineHash).toLowerCase(),
     roundId: normalizeString(source.roundId),
@@ -351,19 +355,25 @@ function normalizeAuthenticatedReturnIdentity(input, reviewIr, roundId, returnAr
     analysisDigest: normalizeString(source.analysisDigest),
   };
   const reasons = [];
+  const fullManuscriptScope = binding.scope === 'full-manuscript';
   for (const field of [
     'projectId',
-    'sceneId',
-    'sceneRevision',
-    'rawSha256',
-    'baselineHash',
     'roundId',
     'exportId',
     'returnArtifactId',
     'semanticReturnId',
   ]) {
     if (!binding[field]) {
-      reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_REQUIRED', `authenticatedReturnIdentity.${field}`, 'Authenticated comment shadow identity must bind project, scene, baseline, round and return artifact.'));
+      reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_REQUIRED', `authenticatedReturnIdentity.${field}`, 'Authenticated comment shadow identity must bind project, baseline, round and return artifact.'));
+    }
+  }
+  for (const field of fullManuscriptScope
+    ? ['fullBookRawSha256', 'orderedSceneIdsDigest']
+    : ['sceneId', 'sceneRevision', 'rawSha256', 'baselineHash']) {
+    if (!binding[field]) {
+      reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_REQUIRED', `authenticatedReturnIdentity.${field}`, fullManuscriptScope
+        ? 'Authenticated full-manuscript comment shadow identity must bind full-book hash and ordered scene identity.'
+        : 'Authenticated comment shadow identity must bind scene and baseline identity.'));
     }
   }
   if (binding.authenticated !== true) {
@@ -371,6 +381,12 @@ function normalizeAuthenticatedReturnIdentity(input, reviewIr, roundId, returnAr
   }
   if (binding.rawSha256 && !isSha256Identity(binding.rawSha256)) {
     reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_INVALID', 'authenticatedReturnIdentity.rawSha256', 'rawSha256 must be a full lowercase sha256 identity.'));
+  }
+  if (binding.fullBookRawSha256 && !isSha256Identity(binding.fullBookRawSha256)) {
+    reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_INVALID', 'authenticatedReturnIdentity.fullBookRawSha256', 'fullBookRawSha256 must be a full lowercase sha256 identity.'));
+  }
+  if (binding.orderedSceneIdsDigest && !isSha256Identity(binding.orderedSceneIdsDigest)) {
+    reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_INVALID', 'authenticatedReturnIdentity.orderedSceneIdsDigest', 'orderedSceneIdsDigest must be a full lowercase sha256 identity.'));
   }
   if (binding.returnArtifactId && !isSha256Identity(binding.returnArtifactId)) {
     reasons.push(makeReason('RTK_COMMENT_SHADOW_AUTHORITY_INVALID', 'authenticatedReturnIdentity.returnArtifactId', 'returnArtifactId must be the full returned DOCX sha256 identity.'));

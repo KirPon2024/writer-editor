@@ -4373,11 +4373,17 @@ function buildDocxReviewPreviewSessionCommentShadowPayload(context, candidate, r
   const authenticatedReturnIdentity = {
     schemaVersion: 'yalken.rtk.comment-shadow-authenticated-return-binding.v1',
     authenticated: true,
+    scope: docxReviewPreviewSessionDetailString(intakePayload.scope) || 'scene',
     projectId: docxReviewPreviewSessionDetailString(context.projectId),
     sceneId: docxReviewPreviewSessionDetailString(intakePayload.sceneId)
       || docxReviewPreviewSessionDetailString(context.targetScope?.id),
     sceneRevision: docxReviewPreviewSessionDetailString(intakePayload.sceneRevision),
     rawSha256: docxReviewPreviewSessionDetailString(intakePayload.rawSha256),
+    fullBookRawSha256: docxReviewPreviewSessionDetailString(intakePayload.fullBookRawSha256),
+    sceneCount: Number.isFinite(Number(intakePayload.sceneCount)) ? Number(intakePayload.sceneCount) : 0,
+    orderedSceneIdsDigest: Array.isArray(intakePayload.orderedSceneIds)
+      ? `sha256:${computeHash(JSON.stringify(intakePayload.orderedSceneIds))}`
+      : '',
     baselineHash: docxReviewPreviewSessionDetailString(context.baselineHash),
     currentBaselineHash: docxReviewPreviewSessionDetailString(context.currentBaselineHash),
     roundId,

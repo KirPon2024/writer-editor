@@ -104,6 +104,54 @@ test('B04 classifier keeps replacement pairs atomic and duplicate ambiguity bloc
   assert.equal(ambiguous.reasons.some((reason) => reason.code === 'RTK_BLOCKED_AMBIGUOUS_TEXT'), true);
 });
 
+test('B04 classifier keeps Word advisory inventory visible without blocking exact tracked replacement', async () => {
+  const parser = await load(PARSER_PATH);
+  const classifier = await load(CLASSIFIER_PATH);
+  const parsed = parser.parseReviewTransportPackageV2({
+    parts: {
+      ...parts(`
+        <w:p>
+          <w:r><w:t>Alpha </w:t></w:r>
+          <w:ins w:id="i1"><w:r><w:t>new</w:t></w:r></w:ins>
+          <w:del w:id="d1"><w:r><w:delText>old</w:delText></w:r></w:del>
+          <w:r><w:t> omega</w:t></w:r>
+        </w:p>
+        <w:sectPr/>`),
+      'word/styles.xml': '<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"/>',
+    },
+    baselineFinalText: 'Alpha old omega',
+  }, { cryptoPort });
+  const exact = classifier.classifyReviewTransportIrV2({
+    reviewIr: parsed.reviewIr,
+    exactAuthority: fullAuthority,
+  }, { cryptoPort });
+  const withBlockingUnknown = classifier.classifyReviewTransportIrV2({
+    reviewIr: {
+      ...parsed.reviewIr,
+      opaqueUnsupported: [
+        ...parsed.reviewIr.opaqueUnsupported,
+        {
+          kind: 'unknown-part',
+          partName: 'word/embeddings/object1.bin',
+          writerAuthorityImpact: 'blocking',
+        },
+      ],
+    },
+    exactAuthority: fullAuthority,
+  }, { cryptoPort });
+
+  assert.equal(parsed.sourceMode, 'TRACKED');
+  assert.equal(parsed.reviewIr.structureChanges.length, 0);
+  assert.equal(parsed.reviewIr.opaqueUnsupported.some((item) => item.writerAuthorityImpact === 'inventory-only'), true);
+  assert.equal(exact.classifications.text.length, 1);
+  assert.equal(exact.classifications.text[0].kind, 'replacement-pair');
+  assert.equal(exact.classifications.text[0].disposition, 'EXACT_AUTOMATIC_CANDIDATE');
+  assert.equal(exact.classifications.opaqueUnsupported.every((item) => item.disposition === 'DIAGNOSTIC_ONLY'), true);
+  assert.equal(withBlockingUnknown.summary.exactAutomaticCandidates, 0);
+  assert.equal(withBlockingUnknown.classifications.text[0].disposition, 'MANUAL_REVIEW');
+  assert.equal(withBlockingUnknown.classifications.opaqueUnsupported.some((item) => item.disposition === 'BLOCKED'), true);
+});
+
 test('B04 classifier blocks move and structural changes even with otherwise valid exact authority', async () => {
   const parser = await load(PARSER_PATH);
   const classifier = await load(CLASSIFIER_PATH);

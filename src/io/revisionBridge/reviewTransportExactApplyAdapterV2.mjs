@@ -198,7 +198,7 @@ function nonWriterLaneSummary(classification) {
     properties: list(classifications.properties).length,
     formatting: list(classifications.formatting).length,
     moves: list(classifications.moves).length,
-    structure: list(classifications.structure).length,
+    structure: list(classifications.structure).filter((item) => item.disposition === 'BLOCKED').length,
     opaqueUnsupported: list(classifications.opaqueUnsupported).length,
   };
 }
@@ -233,10 +233,10 @@ function validateTextAdmission({ classification, reviewIr, writerInput, bindings
   if (list(classifications.moves).length > 0) {
     reasons.push(reason('RTK_BLOCKED_MOVE_REVISION', 'classifications.moves', 'Move revisions are never admitted for automatic apply.'));
   }
-  if (list(classifications.structure).length > 0) {
+  if (list(classifications.structure).some((item) => item.disposition === 'BLOCKED')) {
     reasons.push(reason('RTK_BLOCKED_STRUCTURAL', 'classifications.structure', 'Structural changes are blocked from automatic apply.'));
   }
-  if (list(classifications.opaqueUnsupported).length > 0) {
+  if (list(classifications.opaqueUnsupported).some((item) => item.disposition === 'BLOCKED')) {
     reasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', 'classifications.opaqueUnsupported', 'Unknown package semantics block automatic apply.'));
   }
   if (bindingList.length !== exactTextCandidates.length || writerChanges.length !== exactTextCandidates.length) {

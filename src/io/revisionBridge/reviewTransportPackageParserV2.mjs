@@ -358,6 +358,89 @@ function stripTagsToText(xml) {
   return decodeEntities(output);
 }
 
+function normalizeRanges(ranges) {
+  return (Array.isArray(ranges) ? ranges : [])
+    .filter((range) => (
+      Number.isSafeInteger(range?.start)
+      && Number.isSafeInteger(range?.end)
+      && range.end > range.start
+    ))
+    .sort((left, right) => left.start - right.start || left.end - right.end);
+}
+
+function appendTextOutsideRanges(output, source, start, end, skipRanges) {
+  let cursor = start;
+  for (const range of skipRanges) {
+    if (range.end <= cursor) continue;
+    if (range.start >= end) break;
+    if (range.start > cursor) output += source.slice(cursor, Math.min(range.start, end));
+    cursor = Math.max(cursor, range.end);
+    if (cursor >= end) break;
+  }
+  if (cursor < end) output += source.slice(cursor, end);
+  return output;
+}
+
+function positionInsideRanges(position, ranges) {
+  return ranges.some((range) => position >= range.start && position < range.end);
+}
+
+function stripTagsToTextOutsideRanges(xml, ranges) {
+  const text = rawString(xml);
+  const skipRanges = normalizeRanges(ranges);
+  let output = '';
+  let cursor = 0;
+  while (cursor < text.length) {
+    const open = text.indexOf('<', cursor);
+    if (open < 0) {
+      output = appendTextOutsideRanges(output, text, cursor, text.length, skipRanges);
+      break;
+    }
+    output = appendTextOutsideRanges(output, text, cursor, open, skipRanges);
+    const specialSkip = skipSpecialXml(text, open);
+    if (specialSkip < 0) break;
+    if (specialSkip > 0) {
+      cursor = specialSkip;
+      continue;
+    }
+    const close = text.indexOf('>', open + 1);
+    if (close < 0) break;
+    const local = rawTagLocalName(text.slice(open + 1, close).trim());
+    if (!positionInsideRanges(open, skipRanges)) {
+      if (local === 'tab') output += '\t';
+      if (local === 'br' || local === 'cr') output += '\n';
+    }
+    cursor = close + 1;
+  }
+  return decodeEntities(output);
+}
+
+function trackedRejectedText(documentXml, documentScan) {
+  const insertedRanges = documentScan.tokens
+    .filter((token) => isWordToken(token, 'ins'))
+    .map((token) => ({ start: token.openStart, end: token.closeEnd }));
+  return stripTagsToTextOutsideRanges(documentXml, insertedRanges);
+}
+
+function wordDocumentText(documentXml, documentScan, options = {}) {
+  const insertedRanges = options.skipInsertedRevisions === true
+    ? normalizeRanges(documentScan.tokens
+      .filter((token) => isWordToken(token, 'ins'))
+      .map((token) => ({ start: token.openStart, end: token.closeEnd })))
+    : [];
+  let output = '';
+  const textTokens = documentScan.tokens
+    .filter((token) => ['t', 'delText', 'tab', 'br', 'cr'].includes(token.localName))
+    .sort((left, right) => left.openStart - right.openStart || left.closeEnd - right.closeEnd);
+  for (const token of textTokens) {
+    if (positionInsideRanges(token.openStart, insertedRanges)) continue;
+    if (token.localName === 'tab') output += '\t';
+    else if (token.localName === 'br' || token.localName === 'cr') output += '\n';
+    else output += decodeEntities(elementBody(documentXml, token));
+  }
+  return output;
+}
+
 function tokenText(xml, token) {
   return stripTagsToText(elementBody(xml, token)).trim();
 }
@@ -439,6 +522,7 @@ function collectOpaqueUnsupportedParts(partNames) {
         relationshipId: '',
         typedDiagnostic: 'RTK_OPAQUE_UNSUPPORTED_PART',
         preservationPolicy: 'preserve-evidence-and-report-loss',
+        writerAuthorityImpact: 'blocking',
       });
       continue;
     }
@@ -450,6 +534,7 @@ function collectOpaqueUnsupportedParts(partNames) {
         relationshipId: '',
         typedDiagnostic: 'RTK_OPAQUE_UNSUPPORTED_KNOWN_PART',
         preservationPolicy: 'inventory-only-manual-review',
+        writerAuthorityImpact: 'inventory-only',
       });
     }
     if (partName === 'word/commentsExtensible.xml') {
@@ -460,6 +545,7 @@ function collectOpaqueUnsupportedParts(partNames) {
         relationshipId: '',
         typedDiagnostic: 'RTK_MODERN_COMMENT_EXTENSIBLE_NOT_CERTIFIED',
         preservationPolicy: 'inventory-only-until-physical-semantic-readback',
+        writerAuthorityImpact: 'inventory-only',
       });
     }
   }
@@ -794,12 +880,20 @@ function parseTextRevisions(documentXml, documentScan, cryptoPort) {
     const left = ordered[index];
     const right = ordered[index + 1];
     const distance = right.sourceXmlProvenance.openStart - left.sourceXmlProvenance.closeEnd;
-    if (left.operation === 'delete' && right.operation === 'insert' && distance >= 0 && distance < 256) {
+    const adjacentReplacement = (
+      ((left.operation === 'delete' && right.operation === 'insert')
+        || (left.operation === 'insert' && right.operation === 'delete'))
+      && distance >= 0
+      && distance < 256
+    );
+    if (adjacentReplacement) {
+      const deleteRevision = left.operation === 'delete' ? left : right;
+      const insertRevision = left.operation === 'insert' ? left : right;
       const groupId = cryptoPort.sha256Text(stableJson({
-        left: left.nativeRevisionId,
-        right: right.nativeRevisionId,
-        deleted: left.textDigest,
-        inserted: right.textDigest,
+        deleteRevision: deleteRevision.nativeRevisionId,
+        insertRevision: insertRevision.nativeRevisionId,
+        deleted: deleteRevision.textDigest,
+        inserted: insertRevision.textDigest,
       }));
       left.replacementGroupId = groupId;
       right.replacementGroupId = groupId;
@@ -866,6 +960,11 @@ function parsePropertyRevisions(documentXml, documentScan) {
 function parseStructureChanges(documentScan) {
   const changes = [];
   for (const token of documentScan.tokens) {
+    const bodyLevelSectionProperties = token.localName === 'sectPr'
+      && token.path.length === 3
+      && token.path[0] === 'document'
+      && token.path[1] === 'body';
+    if (bodyLevelSectionProperties) continue;
     if (['pPrChange', 'tbl', 'sectPr', 'footnoteReference', 'endnoteReference'].includes(token.localName)) {
       changes.push({
         kind: 'StructureChange',
@@ -873,6 +972,7 @@ function parseStructureChanges(documentScan) {
         sourceXmlProvenance: provenance(token),
         classification: 'STRUCTURAL_BLOCKED',
         reasonCode: 'RTK_BLOCKED_STRUCTURAL',
+        writerAuthorityImpact: 'blocking',
       });
     }
     if (token.localName === 'moveFrom' || token.localName === 'moveTo') {
@@ -882,6 +982,7 @@ function parseStructureChanges(documentScan) {
         sourceXmlProvenance: provenance(token),
         classification: 'STRUCTURAL_BLOCKED',
         reasonCode: 'RTK_BLOCKED_MOVE_REVISION',
+        writerAuthorityImpact: 'blocking',
       });
     }
   }
@@ -1269,27 +1370,39 @@ function collectUnsupportedElements(documentScan) {
   const unsupported = [];
   for (const token of documentScan.tokens) {
     if (!DOCUMENT_UNSUPPORTED_ELEMENTS.includes(token.localName)) continue;
+    const bodyLevelSectionProperties = token.localName === 'sectPr'
+      && token.path.length === 3
+      && token.path[0] === 'document'
+      && token.path[1] === 'body';
     unsupported.push({
       kind: 'unsupported-element',
       partName: token.partName,
       elementName: token.localName,
       relationshipId: attr(token, 'id'),
-      typedDiagnostic: token.localName === 'AlternateContent'
-        ? 'RTK_MCE_ALTERNATE_CONTENT_MANUAL'
-        : 'RTK_STRUCTURAL_OR_FORMAT_ELEMENT_MANUAL',
-      preservationPolicy: 'preserve-evidence-and-report-loss',
+      typedDiagnostic: bodyLevelSectionProperties
+        ? 'RTK_WORD_BODY_SECTION_PROPERTIES_INVENTORY'
+        : (token.localName === 'AlternateContent'
+          ? 'RTK_MCE_ALTERNATE_CONTENT_MANUAL'
+          : 'RTK_STRUCTURAL_OR_FORMAT_ELEMENT_MANUAL'),
+      preservationPolicy: bodyLevelSectionProperties
+        ? 'inventory-only-word-section-defaults'
+        : 'preserve-evidence-and-report-loss',
+      writerAuthorityImpact: bodyLevelSectionProperties ? 'inventory-only' : 'blocking',
       sourceXmlProvenance: provenance(token),
     });
   }
   return unsupported;
 }
 
-function sourceModeFor(input, documentXml, textRevisions, moveRevisions, propertyRevisions) {
+function sourceModeFor(input, documentXml, documentScan, textRevisions, moveRevisions, propertyRevisions) {
   const hasRevisions = textRevisions.length > 0 || moveRevisions.length > 0 || propertyRevisions.length > 0;
+  const observedText = hasRevisions
+    ? rawString(input.rejectedTrackedText || wordDocumentText(documentXml, documentScan, { skipInsertedRevisions: true }) || trackedRejectedText(documentXml, documentScan))
+    : rawString(input.finalText || wordDocumentText(documentXml, documentScan) || stripTagsToText(documentXml));
   const hasUntrackedDrift = input.untrackedDrift === true
     || (
       rawString(input.baselineFinalText)
-      && rawString(input.finalText || stripTagsToText(documentXml)) !== rawString(input.baselineFinalText)
+      && observedText !== rawString(input.baselineFinalText)
     );
   if (hasRevisions && hasUntrackedDrift) return 'MIXED';
   if (hasRevisions) return 'TRACKED';
@@ -1446,7 +1559,7 @@ export function parseReviewTransportPackageV2(input = {}, ports = {}) {
   if (propertyRevisions.length > 0 || structureChanges.length > 0) {
     reasons.push(reason('RTK_BLOCKED_STRUCTURAL', 'structureChanges', 'Structure and property changes require manual review.'));
   }
-  const sourceMode = sourceModeFor(input, documentXml, textRevisions, moveRevisions, propertyRevisions);
+  const sourceMode = sourceModeFor(input, documentXml, documentScan, textRevisions, moveRevisions, propertyRevisions);
   if (sourceMode === 'CLEAN') reasons.push(reason('RTK_MANUAL_CLEAN_RETURN', 'sourceMode', 'CLEAN return remains manual review in B02.'));
   if (sourceMode === 'MIXED') reasons.push(reason('RTK_MANUAL_MIXED_RETURN', 'sourceMode', 'MIXED return remains manual review in B02.'));
   const commentGraphCapability = buildCommentGraphCapability(input, partNames, comments.commentThreads);

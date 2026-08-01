@@ -220,6 +220,12 @@
       "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
       "sha256": "331aa00db7c71faf7d688468f56401c6eadc3280816ff48453e3366c3593bdcb",
       "status": "BOUND"
+    },
+    {
+      "id": "RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+      "sha256": "01524307f07a0c45528eb5a5d1df31392fce6899dd6f2a914b931206010dbcc7",
+      "status": "BOUND"
     }
   ],
   "coverageLedger": {
@@ -433,6 +439,23 @@
       "automaticApplyCertified": false,
       "releaseReady": false,
       "wordSaturated": false
+    },
+    "releaseAuditNight01P0ProductVerticalTrackedEdit": {
+      "status": "BOUND_PRODUCT_VERTICAL_TRACKED_EDIT_ONE_CASE_COMPLETE",
+      "sourceEvidence": "RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT",
+      "physicalWordEvidence": true,
+      "observedCases": 1,
+      "passCases": 1,
+      "authenticatedV2IntakePass": 1,
+      "visiblePreviewPass": 1,
+      "explicitConfirmedApplyPass": 1,
+      "projectReopenReadbackPass": 1,
+      "replayIdempotentPass": 1,
+      "liveElectronUiPhysicalClickProven": false,
+      "automaticApplyCertified": false,
+      "releaseReady": false,
+      "wordSaturated": false,
+      "googleDocsOpened": false
     }
   },
   "aggregateTotals": {

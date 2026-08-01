@@ -1441,15 +1441,15 @@ export function evaluateWordReleaseAuditP0ProductOriginatedSmokeWave12(input = {
     || receipt?.implementedCapability?.productOriginatedPhysicalLoopSmokeProven !== physicalPass) {
     add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_OVERCLAIM', 'implementedCapability', 'Smoke wave must not claim automatic apply, release, saturation, or Google Docs, and physical-loop claim must match observed Word evidence.');
   }
-  if (program.releaseAuditNight01?.currentStage !== CONTOUR_ID
-    || program.releaseAuditNight01?.nextStage !== (physicalPass ? COMPLETE_NEXT_STAGE : BLOCKED_NEXT_STAGE)
+  const programStillOnSmokeStage = program.releaseAuditNight01?.currentStage === CONTOUR_ID;
+  if ((programStillOnSmokeStage && program.releaseAuditNight01?.nextStage !== (physicalPass ? COMPLETE_NEXT_STAGE : BLOCKED_NEXT_STAGE))
     || program.releaseAuditNight01?.productOriginatedPhysicalLoopSmokeProven !== physicalPass
     || program.releaseAuditNight01?.macosWordSandboxGrantRequired !== !physicalPass
     || program.releaseAuditNight01?.packageInvalidProven !== false
     || program.releaseAuditNight01?.automaticApplyCertified !== false
     || program.releaseAuditNight01?.wordSaturated !== false
     || program.releaseAuditNight01?.googleDocsOpened !== false) {
-    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must bind smoke wave truth without saturation or Google Docs.');
+    add('RTK_RELEASE_AUDIT_P0_PRODUCT_SMOKE_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program must retain smoke wave truth after later stages without saturation or later editor execution.');
   }
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.releaseAudit.p0.productOriginatedSmokeWave12');
   if (!cell || cell.physicalWordEvidence !== physicalPass || cell.productCommandHandlerOriginatedPhysicalDocs !== true || cell.macosWordSandboxGrantRequired !== !physicalPass || cell.packageInvalidProven !== false || cell.automaticApplyCertified !== false || cell.wordSaturated !== false) {
@@ -1473,6 +1473,19 @@ export function evaluateWordReleaseAuditP0ProductOriginatedSmokeWave12(input = {
     wordSaturated: receipt?.implementedCapability?.wordSaturated === true,
   };
 }
+
+export {
+  analyzeReturnedDocx,
+  assertSmokeWordSandboxWorkRoot,
+  buildProductExportSource,
+  buildWordScript,
+  collectSmokeWordProfile,
+  parseKeyValueLines,
+  productSmokeCases,
+  runAppleScript,
+  runProductExport,
+  testZip,
+};
 
 async function main() {
   const args = new Set(process.argv.slice(2));

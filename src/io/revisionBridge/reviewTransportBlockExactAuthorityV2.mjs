@@ -13,6 +13,10 @@ function list(value) {
   return Array.isArray(value) ? value.filter(isPlainObject) : [];
 }
 
+function writerBlockingItems(value) {
+  return list(value).filter((item) => rawString(item.writerAuthorityImpact) !== 'inventory-only');
+}
+
 function rawString(value) {
   return typeof value === 'string' ? value : '';
 }
@@ -302,11 +306,11 @@ export function evaluateReviewTransportBlockExactAuthorityV2(input = {}, options
 
   const structuralTopologyChanged =
     list(reviewIr.moveRevisions).length > 0
-    || list(reviewIr.structureChanges).length > 0;
+    || writerBlockingItems(reviewIr.structureChanges).length > 0;
   if (structuralTopologyChanged) {
     reasons.push(reason('RTK_BLOCKED_STRUCTURAL', 'reviewIr.structure', 'Move or structural changes are outside block-local exact text authority.'));
   }
-  if (list(reviewIr.opaqueUnsupported).length > 0) {
+  if (writerBlockingItems(reviewIr.opaqueUnsupported).length > 0) {
     reasons.push(reason('RTK_HOSTILE_PACKAGE_BLOCKED', 'reviewIr.opaqueUnsupported', 'Unknown OOXML semantics prevent exact authority.'));
   }
 
@@ -381,7 +385,7 @@ export function evaluateReviewTransportBlockExactAuthorityV2(input = {}, options
   const allRelevantXmlSemanticsAccounted =
     allSupportedTextGroups
     && !structuralTopologyChanged
-    && list(reviewIr.opaqueUnsupported).length === 0;
+    && writerBlockingItems(reviewIr.opaqueUnsupported).length === 0;
 
   if (ambiguousDuplicate) uniqueTarget = false;
   if (!allRelevantXmlSemanticsAccounted) nonOverlapping = false;

@@ -3563,8 +3563,8 @@ function docxReviewPreviewSessionTrackedTextCandidates(documentXml, options = {}
     const current = revisions[index];
     const next = revisions[index + 1];
     if (
-      current.kind === 'delete'
-      && next?.kind === 'insert'
+      ((current.kind === 'delete' && next?.kind === 'insert')
+        || (current.kind === 'insert' && next?.kind === 'delete'))
       && current.paragraphIndex === next.paragraphIndex
       && current.boundaryVersion === next.boundaryVersion
     ) {

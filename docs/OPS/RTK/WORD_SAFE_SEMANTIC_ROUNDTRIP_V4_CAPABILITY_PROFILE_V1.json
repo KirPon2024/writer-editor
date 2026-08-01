@@ -942,6 +942,52 @@
         "Word SATURATED remains false"
       ],
       "killCriterion": "Any smoke case is fixture-only, no-op comment action is counted as PASS, product output is not command-handler-originated, or any observed veto becomes nonzero."
+    },
+    {
+      "capabilityId": "rtk.word.releaseAudit.p0.productVerticalTrackedEdit",
+      "operationFamily": "Product Review DOCX to physical Word tracked replacement return to explicit command apply",
+      "state": "PRODUCT_ONE_CASE_VERTICAL_LOOP_PROVEN_NOT_SATURATED",
+      "currentCapability": "ONE_SUPPORTED_TRACKED_REPLACEMENT_PHYSICAL_PRODUCT_VERTICAL_LOOP",
+      "physicalWordEvidence": true,
+      "componentProven": true,
+      "productCompositionRegistered": true,
+      "productRuntimeWired": true,
+      "productOneCaseVerticalLoopProven": true,
+      "liveElectronUiPhysicalClickProven": false,
+      "authenticatedV2ReturnIntake": true,
+      "visiblePreviewWired": true,
+      "explicitUserConfirmationRequired": true,
+      "commandKernelApplyWired": true,
+      "atomicWriterAndReplayWired": true,
+      "projectReopenReadbackProven": true,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "releaseReady": false,
+      "wordSaturated": false,
+      "consumer": "cmd.project.review.exportDocxReviewPacket plus cmd.project.review.activateDocxReviewPreviewSession plus cmd.project.review.applyExactTextChange",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+      "acceptanceTest": "test/contracts/rtk-word-release-audit-p0-product-vertical-tracked-edit.contract.test.js",
+      "supportedNow": [
+        "one synthetic tracked replacement originates from Product Review DOCX export command handler",
+        "Microsoft Word physically opens edits saves closes and reopens the returned DOCX",
+        "returned DOCX passes authenticated V2 intake and exact preview",
+        "explicit user-confirmed exact apply dispatches the C05 runtime command and writes atomically",
+        "project file reopens with expected text and replay is idempotent"
+      ],
+      "limitations": [
+        "live Electron menu click remains pending",
+        "automatic apply remains false",
+        "comments mixed multi-scene and wave-64 are next contours",
+        "Word SATURATED remains false",
+        "later editor stages remain closed"
+      ],
+      "killCriterion": "Any preview mutation before explicit apply, wrong-scene route, replay mutation, nonzero veto, product release claim, or automatic apply claim invalidates this capability."
     }
-  ]
+  ],
+  "latestProductVerticalTrackedEdit": {
+    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",
+    "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+    "automaticApplyCertified": false,
+    "wordSaturated": false
+  }
 }

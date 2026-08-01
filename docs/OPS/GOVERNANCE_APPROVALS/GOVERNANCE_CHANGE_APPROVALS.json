@@ -2235,13 +2235,6 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "f26670b4814506d0ffd1001c5395c75519b270ffdb6e9578c3e49536a31a9cf3",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -2445,13 +2438,6 @@
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "751ae3e6a3e50f69edf9d912b9777bd32262b2123b1c9ab500e945f3b8cc56aa",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
       "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
@@ -2583,13 +2569,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "3553d04f6ffe5f1fa6f4a57c5cc7e77fea0851cfbc13f5f33cc6454f1b070cb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -4937,13 +4916,6 @@
       "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
-      "sha256": "50c4467c7c81144355ec9919d2dcc9c3c752dcf188abe2a6beaad0f4f77c1171",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-return-intake-v2.mjs",
       "sha256": "4e89a81fd2a87caf4cc87288117a49b8d5d97ed7d025b6b452e34c6c521198a9",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
@@ -5525,13 +5497,6 @@
       "rationale": "Approve bounded C05 exact writer guard extension: admits block-local writes only when a locally bound C04-generated range digest is passed through trusted options, rejects caller-forged or tampered ranges, validates schema, provenance, scene, block, offsets, expected text, digests, current text, duplicate block, and duplicate quote, preserves no-blockRange legacy scene-unique behavior, canonical journal, checkpoint, atomic write, readback, receipt, and replay path, and adds no UI, network, dependency, HMAC/YRTK2, fuzzy apply, or full Word saturation claim."
     },
     {
-      "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "191df123fb8078ed986b78bdb320177c2fdfeca64c09e1df9b5f457fa34ee58a",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportApplyCore.mjs",
       "sha256": "3cc6794dd7acf034b33c0c2bf9ef3706d48b6105f4baef40c09eaa684d1b0e33",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -5546,13 +5511,6 @@
       "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
-      "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
-      "sha256": "ba13521aade53a940e9fa4f88c93054155cb50cf81952c8ae01220ac5d5817c8",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C03_BLOCK_LOCAL_EXACT_AUTHORITY_NEGATIVE_ORACLES",
-      "approvedAtUtc": "2026-07-30T17:31:00.000Z",
-      "rationale": "Approve bounded C03 platform-neutral block-local exact authority evaluator: consumes ReviewIRV2, C02 verified authority carrier, C02 baseline guards, and local Yalken baseline block text to prove uniqueTarget, nonOverlapping, and allRelevantXmlSemanticsAccounted for supported delete and replacement-pair text groups; blocks duplicate text, duplicate block identities, overlapping ranges, standalone inserts without anchors, move and structural changes, cross-scene drift, stale baseline guards, and opaque unsupported OOXML; imports no Node, Electron, filesystem, Buffer, picker, network, UI, renderer, parser write, or writer authority; keeps canApply false and only feeds classifier authority inputs."
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportBlockExactWriterBindingV2.mjs",
       "sha256": "bd67f1ade56f63f6e1166c2cc3b39f318fe597f17e76a50529f6b3623b60c2e5",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
@@ -5565,13 +5523,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_C05_BLOCK_RANGE_WRITER",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Approve new bounded C05 platform-neutral block-range authority helper: builds locally bound block text and range integrity digests from local baseline and current project snapshot, requires unique block text in scene and exact block-local quote, models SHA-256 as integrity checks rather than signatures, imports no Node, Electron, renderer, network, parser, writer, or UI authority, and makes no HMAC/YRTK2 or Word carrier claim."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
-      "sha256": "81983c52248eb512dfe1660efe4b7349ae92c45d2b22af15ce4484c971288fd8",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:45:00.000Z",
-      "rationale": "Approve bounded B04 platform-neutral ReviewIRV2 classifier core: classifies text, replacement pairs, move revisions, property revisions, structure changes, formatting deltas, comments and opaque unsupported lanes through CryptoPort digests, requires signed locator and baseline guards for exact candidates, blocks moves and structure from exact, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not apply."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
@@ -5602,13 +5553,6 @@
       "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
-      "filePath": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
-      "sha256": "f8dde0a66bb932c64ba9d796cdca0fbd285e1a6d480605a9365697f7a506fac7",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T16:05:00.000Z",
-      "rationale": "Approve bounded B05 exact apply admission adapter: recomputes ReviewIRV2 classification through CryptoPort, requires main command authority and one-to-one exact candidate binding before delegating to the existing exact writer with recovery and outcome ledger, blocks parser/UI/comment/format authority, standalone insert, moves, structure, opaque unsupported and tampered classification, and adds no renderer, UI, network, dependency, or direct manuscript write path."
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportIr.mjs",
       "sha256": "75168437ca40e2b08e4d6d6a3272ca343b0dd0072f6d24a231f894591bea5dd7",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
@@ -5630,25 +5574,11 @@
       "rationale": "Approve E11 platform-neutral multi-scene atomic coordinator component: validates same-root prepare records, unique scene request and effect identities, staged receipt matching, root-pointer commit preconditions and recovery states through injected crypto only, with no Node filesystem, Electron, renderer, network or writer authority."
     },
     {
-      "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
-      "sha256": "821cb6ccea60ebb4f1761cb19ee8294cd85893789dcbf692e77f3ba1076ef7cc",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.238Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportOracle.mjs",
       "sha256": "84a6b7fc882b323e2b6d4125a34b794f0d57bc281b5b80e882e1a87f883e9232",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
       "approvedAtUtc": "2026-07-29T16:30:29.812Z",
       "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "31b194da169db5406e71a30c40183bb907f9492180a3f7d5bb2d43f6292d37cf",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_SATURATION_C02_AUTHORITY_CARRIER_PARSER_INTEGRATION",
-      "approvedAtUtc": "2026-07-30T17:12:04.000Z",
-      "rationale": "Approve bounded C02 extension of the platform-neutral package-aware ReviewIRV2 parser core: semantically parses docProps/custom.xml as the C01-physically-proven custom document property authority carrier, verifies the carrier through CryptoPort hmacSha256Json plus local hmacSecret without embedded secret, binds expected scene, sceneRevision, rawSha256, block, round, and export identity, exports immutable exactAuthority inputs while deliberately leaving target uniqueness, overlap, and full XML semantic accounting false until later negative oracles, preserves customXml and docVar non-authority, imports no Node, Electron, filesystem, Buffer, picker, network, UI, or writer authority, and does not expand automatic apply."
     },
     {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
@@ -5677,13 +5607,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
       "approvedAtUtc": "2026-07-31T05:05:00.000Z",
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "c17f953847da93d41f174d9e37412be4ba29dd2a123c6b43fcfd91f706a9d633",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T03:38:00.000Z",
-      "rationale": "Approve P0_01 future Atlas schema loss production adapter repair in main.js: product command bridge binds raw Atlas author payload into Core quarantine path before persistence, while read-only projection fallback remains non-authoritative; no UI visual change, network, dependency, or Program DONE claim."
     },
     {
       "filePath": "src/preload.js",
@@ -6715,25 +6638,11 @@
       "rationale": "Approve bounded B01 sandbox contracts: verify default Word work root is inside com.microsoft.Word container tmp, T7 artifact root is preserved, plain tmp override is rejected, and survival-only certification boundaries remain enforced without UI, dependency, or network expansion."
     },
     {
-      "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",
-      "sha256": "fafd2b65b7211c294245699a3d4b085bf9c4e08912389390c0598aaf2e01a741",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:19:00.000Z",
-      "rationale": "Approve focused B02 parser contract coverage: proves namespace prefix and attribute-order stability, modern comment graph preservation with replies and resolved state, separate revision/property/structure/formatting lanes, hostile package blocking, typed opaque unsupported handling, malformed XML blocking, public export, receipt non-certification, and platform-neutral no-regex/no-runtime boundaries."
-    },
-    {
       "filePath": "test/contracts/rtk-word-latest-semantic-b03-modern-comments.contract.test.js",
       "sha256": "e499f8893f2a26265b73e964b6857908ed9e61ada061013e95769f4b803664ee",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
       "approvedAtUtc": "2026-07-30T15:33:00.000Z",
       "rationale": "Approve focused B03 modern comments contract coverage: proves reopened state, durable identity, recursive replies, comment-on-deleted-text related revision, orphan body preservation, missing expected comment deleted-or-missing diagnostics, duplicate ID non-pass, no-op empty comment non-pass, and receipt non-certification without runtime, UI, dependency, network, apply, or Word certification expansion."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-latest-semantic-b04-classifier.contract.test.js",
-      "sha256": "627beaba1f15117db1761c8191a439d9e67e0645550262d71a611674125fc83f",
-      "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
-      "approvedAtUtc": "2026-07-30T15:45:00.000Z",
-      "rationale": "Approve focused B04 classifier contract coverage: proves exact requires all signed locator and baseline guards, replacement pairs stay atomic, duplicate ambiguity blocks exact, move and structure are non-EXACT, property and formatting are manual, comments stay comments-only, public export works, and classifier core has no writer or fuzzy authority."
     },
     {
       "filePath": "test/contracts/rtk-word-latest-semantic-b05-exact-apply-adapter.contract.test.js",
@@ -7819,6 +7728,118 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "b9f1f85b756d2068d1841d5a6a492e912a87f0b1da10e2ad8535215c6a4a1dcb",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "2a99f170b6db6e7ccfbd926e872fec60d4794d2211eabc6457a66048198b6fcb",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "9a255ab6360c4caae03184a6f5501aea9e7020395b6eb50bcdd6822f88e46c5f",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+      "sha256": "01524307f07a0c45528eb5a5d1df31392fce6899dd6f2a914b931206010dbcc7",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
+      "sha256": "8953470a8441bd98d0d1610b8a2c6b13d05b6be692c78199343827153451fdc2",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
+      "sha256": "8cab751e51be21bc904e85927789b418b6a63051d224986e1509cd567d308a4e",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/index.mjs",
+      "sha256": "da7fb6b9ab7045397b79d25409d6f88ca0ff4b073b280d85c8d5e0cbb3ed3172",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportBlockExactAuthorityV2.mjs",
+      "sha256": "fbfb852683f77d9a72deb2ca9d99cf13670ec06a758fbaa68cae4eb13e79ca9a",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
+      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportExactApplyAdapterV2.mjs",
+      "sha256": "6cb7fe3a0a7ee099438a5051286d2648733168cfa13c65a86943cf45a3a245c1",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportNonOverlapTrackedReplacementRuntime.mjs",
+      "sha256": "1f1b1563ca9128d746cc250e2a2c3799c0d9a4f66a396dde77b4f30473ff462d",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
+      "sha256": "12a922b4d69d5a7b394c9616fb23a97a93a6a5e8fe944f9a6a51b49cc5a454bb",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "e2d84624061972b0950db9ff064c561732a343b1ca6f2f6ed125d31e332fe18b",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",
+      "sha256": "6d2a670e3f138caeb9796f190947281971be277b705be2d0d93085cce4ece43c",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-latest-semantic-b04-classifier.contract.test.js",
+      "sha256": "010db197453ef99462c3609c14b332debc6ec9f16d0151654ae5ff23a38c1310",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-product-vertical-tracked-edit.contract.test.js",
+      "sha256": "f38095c07482888413e4804089352fbe2c9d610b3a5c15eabd6ad40a351cf472",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
+      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
+      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
     }
   ]
 }

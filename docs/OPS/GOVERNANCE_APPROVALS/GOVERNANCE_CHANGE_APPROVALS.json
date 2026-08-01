@@ -2461,13 +2461,6 @@
       "rationale": "Approve bounded W5 V6 local release-hardening status that binds existing ops, package, archive, migration, performance, release-candidate, and Word evidence claim proof hooks while explicitly keeping external Word certification resumable and DONE blocked; no Word PASS, release DONE, dependency, UI, Design OS, product capability, import/export behavior, writer authority, or package publication claim is introduced."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
-      "sha256": "0c26cf0a3665f0587e152f6bc89f676c825bcbf5f8b332db794829e9c8420b05",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json",
       "sha256": "2af237f52ca2681465155596b1d82b6b6753b6bd943d615717e0f36a57c4fe04",
       "approvedBy": "ticket:YALKEN_RTK_WORD_LATEST_SEMANTIC_ROUNDTRIP_V2",
@@ -2757,13 +2750,6 @@
       "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
-      "sha256": "3c54d847fb41af0b0eb7f43dfb8a3a8b1a9739e16357d94e08880de0f8e81746",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
-      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
-      "rationale": "Approve V4 canonical binding status: binds the exact V4 spec digest as an active post-D1 Word extension after C05 merge, preserves global v3.13a canon, V6 history, D1 evidence, and C03-C05 receipts, records Google Docs as not opened before Word saturation, and adds no runtime, UI, network, dependency, or physical Word saturation claim."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
       "sha256": "8e3afdb080a2bdbec9da39a64086c7340e6825f9e15cba44b7f21daae0d0935b",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
@@ -2909,24 +2895,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
       "approvedAtUtc": "2026-07-31T11:00:00.000Z",
       "rationale": "Approve bounded E12 stability limitation audit receipt: binds wave300 complete evidence, keeps all veto metrics zero, explicitly denies Word SATURATED and Google Docs opening, classifies five active limitations, and advances only to the next physical Word stability wave."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
-      "sha256": "f04dfdb8356e1df1b4bcc06a2e038f7ff5a656b8db715fcb9d186d22d9ee5b25",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-      "sha256": "e2052fd92944517c06f4a4f50182814f951e955c1c78df751307d4ee3448d805",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
@@ -5315,20 +5283,6 @@
       "rationale": "Approve bounded G0A assurance evaluator required by the owner-approved RTK V6 contract; it is an offline governance verifier using Node built-ins only and adds no product runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     },
     {
-      "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
-      "sha256": "24c0197ae508ad74b67c638a22817167a4a69c9899aa281fefe24c0fb405c480",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
-    },
-    {
-      "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
-      "sha256": "1fef5c09ca0499d00762db5f8b53a070aafcb1d5c8a7c88848b0ef7d2c31a239",
-      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
-      "rationale": "Approve bounded post-D1 editor lab harness and verifier: validates the post-D1 program and A00 receipt, exposes a synthetic-only ledger plan, requires encrypted T7-Secure before physical editor runs, writes lab ledgers atomically only under the deterministic T7 evidence root when explicitly requested, enforces timeout resume cleanup and fixture-only PASS rejection, and adds no product runtime entrypoint, no UI, no dependency, no build, no install, no download, no user document handling, and no profile certification."
-    },
-    {
       "filePath": "scripts/ops/rtk-w5-release-hardening-certification.mjs",
       "sha256": "d8ca2d5ddeecf412db9dfc588b027237bf2c188f7c8b3b32478d2b314f40e27e",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -5357,69 +5311,6 @@
       "rationale": "Approve bounded B01 Word sandbox repair: routes physical Word working DOCX through the shared com.microsoft.Word container tmp resolver, forbids plain tmp fallback, preserves diagnostic override validation, keeps T7 evidence destination, and adds no product runtime, UI, dependency, or network scope."
     },
     {
-      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
-      "sha256": "0bfaf6ac11fb132fffd3c256df75bf6946bd763c2ed27d0c117962144c708ad8",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
-      "sha256": "cb5c3d3523fefdecfc0458eeb98a6ee7b4713603669d897ce186425ca1013f13",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
-      "sha256": "e980cf0047dbb0ac121148a00da03cfcacaec99fdeeeaa89badfc797d8befbc1",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-multi-round-ledger-reconciliation.mjs",
-      "sha256": "a1742e5bf2c53737a9ed330a7fc0d806ca562e71ccc420b24476acfaa006c478",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-safe-formatting-lane-typed-limitation.mjs",
-      "sha256": "d4fba10f83916aebe70cd4bff677e73937cb2917aa80706c673dc850d6a8ac66",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-safe-structural-lane-typed-limitation.mjs",
-      "sha256": "57e14d7d40d5e7f341bc6a9a4d3192ebe5e93c1797a4e36f72cd51f2fbad1689",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-scale-envelope-terminal-audit.mjs",
-      "sha256": "437aa20a51decf15a710671295e4ca676970e9365ff8a8bca57bface2eadff6d",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-500k-terminal-audit.mjs",
       "sha256": "9b55758ca929a1ef75e89c93e6a59210fc108c80032e0f2da862c3f2ea2c58ac",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
@@ -5446,13 +5337,6 @@
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
       "approvedAtUtc": "2026-08-01T08:05:00.000Z",
       "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs",
-      "sha256": "02c5ba8d3d6f79bdc5f3c557fec497b4860765c29818b1c20afa5dcfd2e5fb4f",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
@@ -5532,43 +5416,11 @@
       "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
     },
     {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "555bed3954c3d08d9d6761c4f3ab7563ad96a827a0a285a9cb7528635eabd0bb",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
       "sha256": "8850be69a09144ca80cafb8c112e59417844a4c3549767a2144b0b3188a2b02f",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "A03_C02_PRODUCT_PATH_TRUTH_REPAIR_DOWNGRADE_FALSE_GREEN_AND_NEGATIVE_REACHABILITY_CONTRACT"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
-      "sha256": "fe0711b3f874219a257d964b777eef9a1513b52e87fee33806477d4798d4ffab",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
-      "sha256": "01a980a8a06751b5c31f3e27b34833956dbe71b050982f7dd4a1739515494019",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c05-non-overlap-product-path.mjs",
-      "sha256": "44b64d8dfcd5d37a6f53fd34ab17d15f48b37f2449b4e684b0b51487973c6eb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -5674,24 +5526,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100",
       "approvedAtUtc": "2026-07-31T09:45:00.000Z",
       "rationale": "Approve bounded E12 physical Word wave-100 contour: records 100 synthetic Word 16.111.2 physical open edit save close reopen round trips, 398 visible Word comment threads, 400k-class large returned DOCX, zero falseExact silentApply wrongSceneRouting replayFailure, Word sandbox work root inside Microsoft Word container, T7-Secure evidence retention, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "0c1a80474573b3f22c272c8124787a85309821968d412fb24af4e2c0ea32ffe3",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "ed83aa499d16ebe6407ef518bd3d422ea65b4515e099fd471e67be85538b8741",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -7274,46 +7108,11 @@
       "rationale": "Approve bounded G0A assurance contract tests required by the owner-approved RTK V6 contract; they verify fail-closed registry behavior and introduce no product runtime wiring, dependency, network, cloud, storage, export, or UI capability."
     },
     {
-      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "fc3b5976fd2fe76869eea81548de2168828bf613fe5dc889e1541f41e912ee4b",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
-      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
-      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
-    },
-    {
       "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
       "sha256": "8a0b250eee1c72300bbd2d68846b92c89f79b949b25bfda5b6dec6e47587916c",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_G0C_EXISTING_EXACT_SAFETY_REPAIR",
       "approvedAtUtc": "2026-07-29T13:02:36.000Z",
       "rationale": "Approve bounded G0C exact-safety regression contract required by the owner-approved RTK V6 contract; it proves overlapping occurrence counting, immutable-baseline batch ranges, duplicate id and overlap blocking, permutation-stable disjoint output, no chained authority, stable typed reasons, and zero writes for negative cases without adding runtime wiring, dependency, network, cloud, storage, export, or UI capability."
-    },
-    {
-      "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
-      "sha256": "5443634665bbc3d6c74fb769e9fa59ab245f7a731513e12a8101f52927566b9b",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
-    },
-    {
-      "filePath": "test/contracts/rtk-post-d1-portability-program.contract.test.js",
-      "sha256": "df2ec25c82d3670fa84542fa14480c147590713736f1daaad493ed4a79ebb53e",
-      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
-      "rationale": "Approve focused post-D1 portability contract: proves A00 and A01 are bounded, D1 history is immutable, latest Word remains uncertified, all external editor profiles require physical evidence and reject fixture-only PASS, writer formatting scale lanes and locator research queue are present, harness guard and ledger are synthetic-only, and false certification or fixture-only profile PASS mutations fail."
-    },
-    {
-      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "be9d3c528e2cdb3cce3a656a6b2efe18dcc65e1c051574e858236a077004e687",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
-      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
-      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
-    },
-    {
-      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "16db2910007a50fc850c190b69f42aec27b6ed73b88ffdb909731a4724a8f449",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
-      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
-      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
     },
     {
       "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
@@ -7379,15 +7178,6 @@
       "rationale": "Approve focused B06 contract coverage: proves the committed physical Word receipt has 30-plus native round trips, comment PASS requires package inventory, semantic readback and Word reopen visibility, high-comment and scale rows are physical, hostile package stays BLOCKED, unsupported modern semantics are typed limitations, D1 is not rebound, no fixture-only PASS is allowed, and exact/apply/UI/network claims are not widened."
     },
     {
-      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
-      "sha256": "747567192fe311a44648fae6c2ed06ee69ff0ed463106d9b394f3ec9ffcdaa84",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
       "filePath": "test/contracts/rtk-word-p0-modern-comment-replies-typed-limitation.contract.test.js",
       "sha256": "254e3968d5a351677a69b1126ff51cad5b045b8e98cc74847a509a4a3fd86bf5",
       "approvedBy": "owner-standing-authority",
@@ -7399,15 +7189,6 @@
     {
       "filePath": "test/contracts/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.contract.test.js",
       "sha256": "c331a7c88865d8c52940ab697b8fac1a89ede7a1af1a60233638d68d9762143f",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-multi-round-ledger-reconciliation.contract.test.js",
-      "sha256": "d611fe3715c2af58eaa11bb4ac925385f5a610ea8fb744ba7d28fa702981e985",
       "approvedBy": "owner-standing-authority",
       "approvedAtUtc": "2026-08-01T15:25:00.000Z",
       "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
@@ -7440,48 +7221,11 @@
       "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
-      "filePath": "test/contracts/rtk-word-p0-scale-envelope-terminal-audit.contract.test.js",
-      "sha256": "8b9af2471b919141813a4e7d09cd4799d33b3ccce4af808ade2e2aad093a82bf",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-500k-terminal-audit.contract.test.js",
-      "sha256": "8b130af541ffdba13657806b9951c553b12557dbf463b94e5035262af799d6aa",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
-      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-comment-shadow-authenticated-session.contract.test.js",
       "sha256": "746bdd3303264c199aa4a04ad065a9e958292a0397c69dbdd642e9e0c953f4ec",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
       "approvedAtUtc": "2026-08-01T01:06:00.129Z",
       "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-controlled-grant-probe.contract.test.js",
-      "sha256": "d5999277a7b4e57ca0f64c232d9a96ff7e0d717d07680518a6b13fab7fb296bd",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
-      "sha256": "104d8e51f242691cc294c7d7f97969ae0ecb6ae63eb65c5e7ece8273ba078e87",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:30:00.000Z",
-      "rationale": "Approve Word P0 safe structural lane typed-limitation contour: E09 physical structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, normalized matrix advances to multi-round reconciliation, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
-      "sha256": "71f9f7aac9f7b65009c2d422a956b4cc287f74fef712c145d11b32386b965de4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
-      "approvedAtUtc": "2026-08-01T11:29:47.362Z",
-      "rationale": "Refresh stale governance approval entry to current origin/main-bound file bytes after safe EFINAL drift reconciliation; no product runtime readiness is inferred from this approval."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
@@ -7496,13 +7240,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:45:18.743Z",
       "rationale": "Approve bounded release-audit Night 01 P0 parsed-IR preview apply replay loop: authenticated ReviewIRV2 is the sole writer-operation source for visible exact preview and explicit user-confirmed C05 command-kernel apply/replay; preserves automaticApplyCertified false at release level, Word SATURATED false, Google Docs closed, no UI redesign, no dependency, no product network, and no broad physical wave claim."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
-      "sha256": "271a614328253f978925339e79f3ec9ca5c1507ad58e98cb7b0a7867979bbd86",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
@@ -7524,13 +7261,6 @@
       "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
       "approvedAtUtc": "2026-08-01T03:35:00.000Z",
       "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-repeat-high-density-stress.contract.test.js",
-      "sha256": "6c7f47cf72a17819bc3a0018c164897d4b5141df20c2d4da4fae0c904000be03",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
-      "approvedAtUtc": "2026-08-01T11:29:47.362Z",
-      "rationale": "Refresh stale governance approval entry to current origin/main-bound file bytes after safe EFINAL drift reconciliation; no product runtime readiness is inferred from this approval."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-return-intake-v2.contract.test.js",
@@ -7619,34 +7349,11 @@
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
     },
     {
-      "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
-      "sha256": "c599ae1d5c8dba8b85a2bbf04e527df7f2f6cb425e17b4d076907492dbd61cd5",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
       "filePath": "test/contracts/rtk-word-v4-a03-c05-non-overlap-product-path.contract.test.js",
       "sha256": "dd04e3876f09f2f503c15b0a168051934ab662ae1696f9c4d3fde3c73c42ad02",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
-      "sha256": "db85dee94158e54a8c22298eb532b474783dd4569658d841e098327621b743c6",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
-      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
-      "rationale": "Approve V4 canonical integration contract: proves exact owner artifact digest, active binding through CANON_STATUS and RTK program state, complete Feature Integration Manifest fields, capability status vector, taint model, reason registry, C05 immediate consumer cell, and negative red cases for digest drift, missing manifest field, premature physical Word claim, premature Google execution, and missing consumer."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js",
-      "sha256": "e8d5c8f3530738e1ab717d7634a7d8dc44c7a076f2f32ff76cb9ff8db834c291",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
-      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
-      "rationale": "Approve V4 E02 contract coverage: proves physical C01 evidence binding, custom document property carrier selection, fragile carrier rejection, placement-signal non-authority, capability state update, no YRTK2/runtime apply claim, and negative red cases for stale evidence, customXml selection, overclaim, runtime expansion, and Google drift."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",
@@ -7668,89 +7375,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E05_SOURCEMAP_UNIQUEDIFF",
       "approvedAtUtc": "2026-07-31T05:10:00.000Z",
       "rationale": "Approve V4 E05 contract coverage: proves duplicate quote text routes by SourceMap block identity and distinct effect footprints, tampered stale duplicate and overlapping SourceMap rows block, quote-only fallback is refused, multi-hunk and O-to-C divergence stay manual, pending G revisions require SourceMap and kernel semantics, public barrel exports, receipt truth, and platform-neutral non-writer source boundaries."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "69f8c0bd038910985f6ff4b08af4f8f4eba4a314a9efd8a6268b320f5c41e1e3",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.241Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "f9c776161cd090c9bb62db6f51b342c735c55c8c1b662e3cdb4658a670181fac",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.242Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "268fa301c12f63271f62989a7d399bf50689f236d32ae3d4bcc28c2860e9d1ed",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
-      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "2ea747531678307253ed27e8d411e00ae670e73919eeb44fab07a55f7a2c5d87",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "70555f1ad3246a55f1d282303bc4b7fd69a043e14140fe9d8e98f4128dff8f35",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "590ac52cc875cbe3b5f1f4c6e15a05f3c2c9d4c9bbdfb636a1d4abb59785dd50",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
-      "sha256": "d148e7b724e778abbe1f6e58c6c83126ad0738f65956bc249b9f465a7d703af3",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
-      "sha256": "146afad81bdb1adc7333d6cefe0d933132381186c523cdaa61840f3b802f7f2e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
-      "sha256": "b09a1a1f802fd5dc431425fdbf19434ce7ac789909fdab4c80d63de8de4d5921",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
-      "sha256": "702ebfd7ed9fc8e5a69ad341bc5bd016638548b6c83fe8195545997b0c9cfeb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "b46f42b673ec1d9a9fb97dd78d67ccb897246bc5bdb518adcdf37d7cecc98f83",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
-      "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -8690,51 +8314,6 @@
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
     },
     {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "4128f9f4a93c39ddf177b968c535abd46fe774256f3c9604abed24bdec4fedbf",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "cf8058e60605b8bf859c0788fe9722bb6113678ef80f97a13845e404a90f798e",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "ceae6c4a6696006a03c65e10b9b9d9d25e1dad8e39f161cda6ae1995a5c00507",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "8f9e2ad82d260384fe9e9aeab263c9d703022caf23db3282e79ec1ae7d724617",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "43d0ae76d778a53da4dd6e509de8d22317f796f11ebde7ad9529ed88392ce232",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
       "sha256": "dc3c1644dec2da947e3c5a1c9421e941406cad6096b2f0598ddb8addca073efd",
       "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
@@ -8780,13 +8359,535 @@
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
-      "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
-      "sha256": "153b6f79c3be1030f9ed624235617670100ef03293fb35af8c6fd4166fbbc84a",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:33:00.000Z",
-      "rationale": "Approve bounded post-merge C3 stale binding guard repair: C1 safety contract separates active remediation status from Google report-only blocked result and accepts the C1-C5 remediation progression without changing product authority.",
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "c5827d031bdd607066dd7a5d35fb4052977611a0b0e288a2301ddcb1c7b83372",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
       "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "53e31b720f54b51fe11e268ad045171ba70f2abdc7a87a8d67381ad0e3695d9f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "ba2313ff407257d1f09f11d5ec8c42a2b5447ad6fee78768aa12e8d533782831",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "f34751eba907425dd029ae54a6b73f299e40158c73d2ca7f11272b86e1fb9791",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "f381ca1cf20f5fd4e489f1a332a9cfcec0d874a5bdc35dd085387c2e6b710e3d",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
+      "sha256": "ad2f378d5d66973b7f8fc96de95c7e39a64e331340c46af70b8f50fefc9ff757",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_RECEIPT.json",
+      "sha256": "555883779d7998fa362eb7c7e74fc8d24b048f0f9eb1a12457692288bac6a1fc",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
+      "sha256": "f9b990c10010491383dbd52ad99d7ea676f7270be70b46e2351abadcc92834d0",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "a4c2076c006b2d676600d83e810fe0be4502cd9a509a6671ede85266e195fe94",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "08e44cdeb3bf5329084f9101e12703d7e18c77a71cf41ff46e7eb32db709d54b",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
+      "sha256": "6bde1d59716a499fc4418b52859ac36843bd9191ba11a73250f21bdff6b90674",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+      "sha256": "c560bd4cce061029578ac510d1589cb923680a2a9a455d8b2c2c4521b8488460",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
+      "sha256": "3014e5e97ab34efcd37cb254cada42e873662bfb9b7eea36f2a29e1d61b59908",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
+      "sha256": "9047143608aec9ad6ae2f465e3f20b3dd53ac34b6df60859d71a9ebcee49253e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
+      "sha256": "1dd2410abb30b9150a7cd9f188b2bd9b57d102e276ef5cfa7cb89a6f4f114be6",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
+      "sha256": "8a866c773c6ab7a96ad810ef23ab8b86cdd9427f09c4ec61ea8863f1378cdc3b",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
+      "sha256": "8f2debbd2df30dec19c51e9d807430c05343ba4f71b520f6307ba66be399b839",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-multi-round-ledger-reconciliation.mjs",
+      "sha256": "147dede584983ace71ff9a5f34a0a8f2f722f671a63df39d3ff0a2b6b63fabeb",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-safe-formatting-lane-typed-limitation.mjs",
+      "sha256": "0b9f17112e46a4bbf03779525bab34c99ad970734aa2f497ace785e00fde9b82",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-safe-structural-lane-typed-limitation.mjs",
+      "sha256": "6eab35919a85fc4374249164a24ed4d169d4a02c3b681decd57b54124485692e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-scale-envelope-terminal-audit.mjs",
+      "sha256": "00d5f57a1deffd1c92b55067ae3c4a95d761d14cba7e63bd4805361c8a6081f6",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs",
+      "sha256": "4d669c54e6fbd2caa9156572eae842ea7ab5bf9b2aee2bed86adf1699fcd717f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+      "sha256": "39155be340540ba2de536648f1cf2b30c6f4bdb1f4b3e5647bb9dcf7142033f3",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
+      "sha256": "4723bb69e487e8ca6632d1ab8d4fe81f355cc56c9ece3dc3d269b3647438f9cf",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
+      "sha256": "5dd2798e30e03aecc1ad87ce6477785649eb268fac89448ee1eba9675d37ac04",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c05-non-overlap-product-path.mjs",
+      "sha256": "f24665f2ffff767a1e957af4c79faa822cfb24258f684d232531782ce963c2ff",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "ac17b484bb0b6030f82ab9b61a612e45ac4755029e7a1074cac87fa155df157d",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "bec9afcf98616386f0ffefbcfd1458a917813d9fdb6f49c19e5787b1b08d2c9f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "scripts/run-rtk-tests.mjs",
+      "sha256": "4bcc098dd386785336823d1f93baffe940709e8ada7af115f470ea7179c685ff",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
+      "sha256": "e24a7d88469ca329098930e3d46e710ea33cb8c28e4d7f40712dbb94fcc31084",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
+      "sha256": "a4f1b8fca734c1b8fee604a3a2fa7aa38afecbf7be4d549e1939afdfe156ebfe",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-post-d1-portability-program.contract.test.js",
+      "sha256": "3b9849e107d047047837c8244e569006ecb12d12a20f1cd56045d07ed68ae36f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
+      "sha256": "b30d65c12e422d5a8dfa13b9e3c338d71bbade15f05b18528c293c02d4e630ce",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
+      "sha256": "b391bcc18509efd60276541ddcceeb3be1668f8f6b1d475a1078c7bce9c9abb4",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
+      "sha256": "2f4271873dcae919b38d43b848c305346c4c90ec20f3c81c2c0d2a8123d83b34",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
+      "sha256": "b71a10119314c1bd53f1c7a0ec5c6c7e697e7068fa20446af0847bab6605e2b0",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-multi-round-ledger-reconciliation.contract.test.js",
+      "sha256": "29c979f214aa45ad0c37c74d0b834f75c6b14dea825b6a8dc9f9546b6381710f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-scale-envelope-terminal-audit.contract.test.js",
+      "sha256": "cdf1784ad68efa7fd00ef14103a82f6ddd02443b2d4f18ae9ed258e606f90aad",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-500k-terminal-audit.contract.test.js",
+      "sha256": "a196bc0dac596176781d27407e8ccf1b5728c223c6e6a77161dba913a55a6452",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-controlled-grant-probe.contract.test.js",
+      "sha256": "90c79790753746a4afdcb8de5988eb895f73b1acc4263f92bf668d6fbc5ca7d2",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
+      "sha256": "161b59ff6f57a39a132ae8bde248a242be1ca4ee4721199df673a6cc4a82f2b9",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
+      "sha256": "90ad85984832897da5e1e825f058d667ab3d5993555c85154598ca5dfad8fea9",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
+      "sha256": "f89f7d3b8100b01d89a8c05eeac461523f980cc8c349d41544f8472aa70f11fa",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-repeat-high-density-stress.contract.test.js",
+      "sha256": "3f109ed051b90a8ca0d4796e41ead83bc1bb2e50ae11ca4a1784407958d05c8e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
+      "sha256": "d9b2ab57f563a87feb566db7c8f22af9ffbed1db55e4d64f64b0243f59d0937b",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
+      "sha256": "5336d2727a35e111febafaa86125fcc58da132d2d1c79d9dbc9e4caa8815c055",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
+      "sha256": "15a1e79aa4e5054a8557cc30c6bb563d0313597819705315fbc33853b99b5aa2",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js",
+      "sha256": "d2bee7e584ce7d465c971bf96dd9eaf59a9ad04353a27c398a186da35bfbbf85",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
+      "sha256": "cba059ca6832cf98c2ce05a7ea507b5a51dad28612484e71ed6e7f854ac8b518",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
+      "sha256": "667e32fc27e617e230cb1b16399809e7078d064af4813c2d7fa9677de565e3e1",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "b432ea9782d8f311664e6767a15b29aeb283f5f0473c90b5f5486b8cb4f70ee3",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "sha256": "e88ef086ad726bc363e2c2de923a1424770a8e75c36757ee05dbbe0fbef899c7",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "sha256": "88e4ee8a13108bbb18e6116999049f6418fe1fdb167d58874929ced90512c38f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
+      "sha256": "426abe0b2a62e6293fa2a4128e4400acaf48c33bec3a309a41dd8a057db6cfba",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
+      "sha256": "38475484e23d105f31727de7445201df09152df8b5474e4981e89304e7b50082",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
+      "sha256": "37873da67223738bcf4c44bef08a004816afe2cc678d83ce5114aa58462db905",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
+      "sha256": "a9f9c2655352628d3f03959baf37ede83ce04d60904db437df53543bc85ace4e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
+      "sha256": "b25b09b4ac35d348627197a8e8e505a9bc292ccd677e3c9a9b67f910e3c09922",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "sha256": "e5ab44e0464a8a6fe2ef1636ca2e05ca4262aea32374b5ac2aecd9fc700b13ee",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
     }
   ]
 }

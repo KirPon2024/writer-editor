@@ -25,7 +25,7 @@ async function loadVerifier() {
   return import(pathToFileURL(SCRIPT_PATH).href);
 }
 
-test('G00 formally closes Word and binds Google current state without support claims', async () => {
+test('G00 keeps Google report-only blocked after Word acceptance revocation', async () => {
   const verifier = await loadVerifier();
   const result = verifier.evaluateGoogleDocsG00DiscoveryBinding();
   const wordClosure = readJson(WORD_CLOSURE_PATH);
@@ -36,13 +36,15 @@ test('G00 formally closes Word and binds Google current state without support cl
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
-  assert.equal(wordClosure.status, 'WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE');
+  assert.equal(wordClosure.status, 'WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE');
   assert.equal(wordClosure.controllerAcceptance.auditVerdict, 'PASS');
+  assert.equal(wordClosure.controllerAcceptance.wordStageAccepted, false);
+  assert.equal(wordClosure.revocation.wordSaturated, false);
   assert.equal(wordClosure.acceptedEnvelope.supportedExplicitUserTrackedReplacementWordsMax, 100000);
   assert.deepEqual(wordClosure.acceptedEnvelope.aboveEnvelopeBoundaryWords, [150000, 300000, 500000]);
   assert.equal(wordClosure.acceptedEnvelope.aboveEnvelopeDisposition, 'MANUAL_RESOURCE_LIMIT');
   assert.equal(wordClosure.acceptedEnvelope.automaticApplyCertified, false);
-  assert.equal(matrix.status, 'GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01');
+  assert.equal(matrix.status, 'REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION');
   assert.equal(matrix.counts.totalCells, 13);
   assert.equal(matrix.counts.componentProven, 1);
   assert.equal(matrix.counts.physicalGoogleEvidence, 0);
@@ -55,7 +57,7 @@ test('G00 formally closes Word and binds Google current state without support cl
   assert.equal(matrix.approvedAdapterBoundary.noCredentialsHandling, true);
   assert.equal(matrix.approvedAdapterBoundary.alreadyAuthorizedSessionOnly, true);
   assert.equal(receipt.googleCurrentState.existingEvidenceClaimGateOnly, true);
-  assert.equal(receipt.googleCurrentState.nextStage, 'GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY');
+  assert.equal(receipt.googleCurrentState.nextStage, 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION');
   assert.equal(program.googleDocsStage.supportClaimed, false);
   assert.equal(program.googleDocsStage.physicalGoogleEvidence, 0);
   assert.equal(program.googleDocsStage.productRuntimeWired, 0);

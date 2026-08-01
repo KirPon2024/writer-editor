@@ -12,9 +12,9 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
 const TASK_ID = 'YALKEN_GOOGLE_DOCS_G00_DISCOVERY_BINDING';
-const STATUS = 'GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01';
-const WORD_CLOSURE_STATUS = 'WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE';
-const NEXT_STAGE = 'GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY';
+const STATUS = 'REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION';
+const WORD_CLOSURE_STATUS = 'WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE';
+const NEXT_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 const CREATED_AT_UTC = '2026-08-01T16:05:00.000Z';
 const WORD_AUDIT_THREAD = '019fbd7d-f375-7a72-836f-81301bd6eda9';
 const AUDITED_SHA = 'e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb';
@@ -465,15 +465,16 @@ function evaluateGoogleDocsG00DiscoveryBinding(input = {}) {
   const issues = [];
   const add = (code, field, message) => issues.push({ code, field, message });
 
-  if (wordClosure.status !== WORD_CLOSURE_STATUS || wordClosure.result !== 'PASS') {
-    add('GOOGLE_G00_WORD_CLOSURE_INVALID', 'wordClosure.status', 'Word closure receipt must be accepted PASS.');
+  if (wordClosure.status !== WORD_CLOSURE_STATUS || wordClosure.revocation?.wordSaturated !== false) {
+    add('GOOGLE_G00_WORD_CLOSURE_INVALID', 'wordClosure.status', 'Word closure receipt must bind revoked Word acceptance before Google can resume.');
   }
   if (wordClosure.controllerAcceptance?.auditedSha !== AUDITED_SHA
     || wordClosure.controllerAcceptance?.auditVerdict !== 'PASS'
     || wordClosure.controllerAcceptance?.zeroOpenP0 !== true
     || wordClosure.controllerAcceptance?.zeroOpenP1 !== true
-    || wordClosure.controllerAcceptance?.zeroOpenP2 !== true) {
-    add('GOOGLE_G00_WORD_AUDIT_BINDING_INVALID', 'wordClosure.controllerAcceptance', 'Word closure must bind the accepted independent exact-head audit.');
+    || wordClosure.controllerAcceptance?.zeroOpenP2 !== true
+    || wordClosure.controllerAcceptance?.wordStageAccepted !== false) {
+    add('GOOGLE_G00_WORD_AUDIT_BINDING_INVALID', 'wordClosure.controllerAcceptance', 'Word closure must preserve the prior audit facts while binding current acceptance revocation.');
   }
   if (wordClosure.acceptedEnvelope?.supportedExplicitUserTrackedReplacementWordsMax !== 100000
     || JSON.stringify(wordClosure.acceptedEnvelope?.aboveEnvelopeBoundaryWords) !== JSON.stringify([150000, 300000, 500000])
@@ -506,24 +507,24 @@ function evaluateGoogleDocsG00DiscoveryBinding(input = {}) {
     add('GOOGLE_G00_MATRIX_VETO_NONZERO', 'matrix.vetoMetrics', 'G00 veto counters must remain zero.');
   }
   if (receipt.status !== STATUS
-    || receipt.result !== 'PASS'
+    || receipt.result !== 'REPORT_ONLY_BLOCKED'
     || receipt.googleCurrentState?.existingEvidenceClaimGateOnly !== true
     || receipt.googleCurrentState?.physicalGoogleEvidence !== 0
     || receipt.googleCurrentState?.productRuntimeWired !== 0
     || receipt.googleCurrentState?.automaticApplyCertified !== 0
     || receipt.nextStage !== NEXT_STAGE) {
-    add('GOOGLE_G00_RECEIPT_INVALID', 'receipt', 'G00 receipt must bind discovery only and advance to G01.');
+    add('GOOGLE_G00_RECEIPT_INVALID', 'receipt', 'G00 receipt must keep Google report-only blocked until Word safety remediation C5.');
   }
   if (program.googleDocsStage?.status !== STATUS
     || program.googleDocsStage?.nextStage !== NEXT_STAGE
     || program.googleDocsStage?.supportClaimed !== false
     || program.googleDocsStage?.physicalGoogleEvidence !== 0
     || program.googleDocsStage?.automaticApplyCertified !== false) {
-    add('GOOGLE_G00_PROGRAM_STATE_INVALID', 'program.googleDocsStage', 'Program must bind Google G00 without support or apply claims.');
+    add('GOOGLE_G00_PROGRAM_STATE_INVALID', 'program.googleDocsStage', 'Program must keep Google blocked without support or apply claims.');
   }
   if (program.wordStageClosure?.status !== WORD_CLOSURE_STATUS
-    || program.wordStageClosure?.acceptedDeclaredSupportEnvelopeOnly !== true) {
-    add('GOOGLE_G00_PROGRAM_WORD_CLOSURE_MISSING', 'program.wordStageClosure', 'Program must formally close the accepted Word stage.');
+    || program.wordStageClosure?.acceptedDeclaredSupportEnvelopeOnly !== false) {
+    add('GOOGLE_G00_PROGRAM_WORD_CLOSURE_MISSING', 'program.wordStageClosure', 'Program must bind revoked Word acceptance.');
   }
   if (profile.formalWordStageClosure?.status !== WORD_CLOSURE_STATUS
     || ledger.formalWordStageClosure?.status !== WORD_CLOSURE_STATUS) {

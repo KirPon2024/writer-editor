@@ -618,6 +618,11 @@ export function evaluateP0ModernCommentRepliesTypedLimitation(input = {}) {
     SCALE_SUCCESSOR_STAGE,
     FINAL_ENVELOPE_SUCCESSOR_STAGE,
   ].includes(actualNextStage);
+  const validRemediationC4 = program.v4ExecutionState?.status === 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED'
+    && actualNextStage === 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION'
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.googleDocsOpened === false;
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_P0_REPLY_RECEIPT_INVALID', 'receipt', 'P0 reply typed limitation receipt must pass.');
   if (receipt.physicalWordProbe?.result === 'PARENT_LINK_DETECTED_REQUIRES_RUNTIME_PROMOTION') add('RTK_P0_REPLY_PARENT_LINK_DETECTED', 'physicalWordProbe', 'Parent-link evidence requires runtime promotion instead of typed-limitation closure.');
@@ -636,7 +641,7 @@ export function evaluateP0ModernCommentRepliesTypedLimitation(input = {}) {
     || cell.replyTypedLimitationBound !== true
     || cell.replyBodyShadowPreservationCertified !== true
     || cell.automaticApplyCertified !== false) add('RTK_P0_REPLY_PROFILE_INVALID', 'profile.commentsShadowAnalysis', 'Capability profile must bind reply typed limitation without automatic apply.');
-  if (!validNextStage
+  if (!validRemediationC4 && !validNextStage
     || program.v4ExecutionState?.modernReplyGraphCertified !== false
     || program.v4ExecutionState?.modernReplyTypedLimitationBound !== true
     || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_P0_REPLY_PROGRAM_INVALID', 'program', 'Program must advance to resolve/reopen with Google closed.');

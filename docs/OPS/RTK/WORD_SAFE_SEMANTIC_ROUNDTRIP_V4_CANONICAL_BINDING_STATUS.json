@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.canonical-binding-status.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_INTEGRATION_AND_C05_RESUME",
-  "status": "ACTIVE_POST_D1_WORD_EXTENSION_AFTER_C05_MERGE",
+  "status": "ACTIVE_WORD_SAFETY_REMEDIATION_V1_C4_LOCAL_VERIFIED",
   "createdAtUtc": "2026-07-31T04:30:00.000Z",
   "remoteHeadAtStart": "343e6142c7a59822a5a6cc087c30d779c7f12dcd",
   "canonicalSpec": {
@@ -39,7 +39,7 @@
     },
     {
       "order": "EXECUTION_13",
-      "status": "NOT_OPEN_UNTIL_WORD_SATURATION"
+      "status": "NOT_OPEN_UNTIL_WORD_SAFETY_C1_C5_AND_INDEPENDENT_AUDIT"
     }
   ],
   "artifacts": {
@@ -54,5 +54,12 @@
     "replayFailure": 0,
     "silentCommentLoss": 0,
     "productNetworkRequests": 0
+  },
+  "wordSafetyRemediationV1": {
+    "status": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_RECEIPT.json",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
+    "wordAcceptanceRevoked": true,
+    "wordSaturated": false
   }
 }

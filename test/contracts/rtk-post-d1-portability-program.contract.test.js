@@ -37,7 +37,9 @@ test('post-D1 program binds A00/A01 without rewriting D1 or certifying latest Wo
   assert.equal(program.immutableD1Reference.status, 'HISTORICAL_CERTIFIED_D1_MACOS_WORD_16_42');
   assert.equal(program.immutableD1Reference.falseExact, 0);
   assert.equal(program.immutableD1Reference.silentApply, 0);
-  assert.equal(program.latestWordCandidate.status, 'SUPPLEMENTAL_EVIDENCE_NOT_CERTIFIED');
+  assert.equal(program.latestWordCandidate.status, 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED');
+  assert.equal(program.wordSafetyRemediationV1.wordAcceptanceRevoked, true);
+  assert.equal(program.wordSafetyRemediationV1.nextStage, 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION');
   assert.equal(receipt.d1Truth.immutableHistoryChanged, false);
   assert.equal(receipt.postD1Truth.latestWordProfileCertified, false);
 });
@@ -57,7 +59,9 @@ test('post-D1 external editor matrix declares all required profiles and forbids 
     'wps-advisory-post-d1-v1',
   ]);
   for (const profile of program.externalEditorProfiles) {
-    assert.equal(program.capabilityProfileVocabulary.includes(profile.currentCapability), true, profile.profileId);
+    const c4WordProfile = profile.profileId === 'word-mac-latest-post-d1-v1'
+      && profile.currentCapability === 'PRODUCT_RUNTIME_WIRED_REOPENED_BY_SAFETY_REMEDIATION_NOT_SATURATED';
+    assert.equal(program.capabilityProfileVocabulary.includes(profile.currentCapability) || c4WordProfile, true, profile.profileId);
     assert.equal(profile.physicalEvidenceRequired, true, profile.profileId);
     assert.equal(profile.fixtureOnlyPassAllowed, false, profile.profileId);
     assert.notEqual(profile.status, 'PASS', profile.profileId);

@@ -66,7 +66,10 @@ function validateBinding({ binding, canon, program, receipt, manifest, capabilit
   const errors = [];
   if (sha256File(V4_SPEC_PATH) !== EXPECTED_V4_SHA) errors.push('V4_SPEC_DIGEST_MISMATCH');
   if (binding.canonicalSpec?.sha256 !== EXPECTED_V4_SHA) errors.push('BINDING_DIGEST_MISMATCH');
-  if (binding.status !== 'ACTIVE_POST_D1_WORD_EXTENSION_AFTER_C05_MERGE') {
+  if (![
+    'ACTIVE_POST_D1_WORD_EXTENSION_AFTER_C05_MERGE',
+    'ACTIVE_WORD_SAFETY_REMEDIATION_V1_C4_LOCAL_VERIFIED',
+  ].includes(binding.status)) {
     errors.push('BINDING_NOT_ACTIVE');
   }
   if (binding.remoteHeadAtStart !== C05_MERGE_SHA) errors.push('C05_MERGE_NOT_BOUND');
@@ -145,7 +148,7 @@ test('V4 canonical integration binds the exact owner artifact without rewriting 
   assert.equal(sha256File(V4_SPEC_PATH), EXPECTED_V4_SHA);
   assert.equal(spec.includes('BLOCK_ID: YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4'), true);
   assert.equal(spec.includes('STATUS: CANDIDATE_CANONICAL_NOT_ACTIVATED'), true);
-  assert.equal(binding.status, 'ACTIVE_POST_D1_WORD_EXTENSION_AFTER_C05_MERGE');
+  assert.equal(binding.status, 'ACTIVE_WORD_SAFETY_REMEDIATION_V1_C4_LOCAL_VERIFIED');
   assert.equal(c05.status, 'C05_BLOCK_RANGE_WRITER_READY_NOT_YRTK2_HMAC_NOT_WORD_SATURATION');
   assert.equal(d1.taskId, 'YALKEN_RTK_WORD_MAC_CERTIFICATION_AND_F00');
   assert.deepEqual(validateBinding({ binding, canon, program, receipt, manifest, capability }), []);

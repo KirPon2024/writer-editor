@@ -56,6 +56,7 @@ test('V4 E12 binds saturation ledger through terminal support envelope without u
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED',
   ].includes(receipt.status));
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
@@ -68,9 +69,10 @@ test('V4 E12 binds saturation ledger through terminal support envelope without u
     'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
     'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(receipt.nextStage));
-  assert.equal(receipt.saturationRule.saturated, true);
-  assert.equal(receipt.saturationRule.wordSaturationClaimAllowed, true);
+  assert.equal(receipt.saturationRule.saturated, false);
+  assert.equal(receipt.saturationRule.wordSaturationClaimAllowed, false);
   assert.equal(receipt.saturationRule.googleDocsAllowedToOpen, false);
   assert.equal(receipt.notSaturatedReasons.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), false);
 });
@@ -218,6 +220,7 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED',
   ].includes(profile.status));
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
   assert.ok([
@@ -225,6 +228,7 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
     'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY',
     'SATURATION_LEDGER_RECONCILED_SCALE_ENVELOPE_PENDING',
     'SUPPORT_ENVELOPE_TERMINAL_READY_FOR_INDEPENDENT_AUDIT',
+    'REOPENED_BY_WORD_SAFETY_REMEDIATION_C4_VERIFIED_C5_REQUIRED',
   ].includes(cell.currentCapability));
   assert.equal(cell.physicalWordEvidence, true);
   assert.ok([
@@ -232,12 +236,14 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED',
   ].includes(program.status));
   assert.ok([
     'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
     'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(program.nextStep));
   assert.equal(typeof program.v4ExecutionState.currentStage, 'string');
   assert.ok([
@@ -245,6 +251,7 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
     'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(program.v4ExecutionState.nextStage));
   assert.equal(program.v4ExecutionState.rootModernCommentShadowRuntimeWired, true);
   assert.equal(program.v4ExecutionState.nonOverlapTrackedReplacementComponentProven, true);
@@ -259,9 +266,9 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   assert.equal(program.v4ExecutionState.adjacentRangeAutomaticApplyCertified, false);
   assert.equal(program.v4ExecutionState.modernCommentStateReadbackOnlyBound, true);
   assert.equal(program.v4ExecutionState.modernResolveReopenCertified, false);
-  assert.equal(program.v4ExecutionState.wordSaturated, true);
+  assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.wordSaturationScope, 'DECLARED_SUPPORT_ENVELOPE_ONLY');
-  assert.equal(program.v4ExecutionState.readyForFreshIndependentExactHeadAudit, true);
+  assert.equal(program.v4ExecutionState.readyForFreshIndependentExactHeadAudit, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });
 

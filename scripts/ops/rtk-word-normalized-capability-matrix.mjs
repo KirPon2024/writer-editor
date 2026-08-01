@@ -392,10 +392,13 @@ function evaluateNormalizedCapabilityMatrix(input = {}) {
   const profile = input.profile || readJson(PROFILE_REF);
   const issues = [];
   const add = (code, field, message) => issues.push({ code, field, message });
+  const reopenedByC4 = matrix.status === 'WORD_NORMALIZED_CAPABILITY_MATRIX_REOPENED_BY_SAFETY_REMEDIATION_C4_VERIFIED'
+    && matrix.wordAcceptanceRevocation?.status === 'WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE'
+    && matrix.wordAcceptanceRevocation?.wordSaturated === false;
   const rows = Array.isArray(matrix.rows) ? matrix.rows : [];
   const ids = rows.map((row) => row.cellId);
   const profileIds = profile.cells.map((cell) => cell.capabilityId);
-  if (matrix.schemaVersion !== MATRIX_SCHEMA || matrix.status !== STATUS) {
+  if (matrix.schemaVersion !== MATRIX_SCHEMA || (matrix.status !== STATUS && !reopenedByC4)) {
     add('RTK_NORM_MATRIX_HEADER_INVALID', 'matrix.status', 'Normalized matrix must use the active schema and not-saturated status.');
   }
   if (rows.length !== 25 || profileIds.length !== 25 || ids.join('\n') !== profileIds.join('\n')) {
@@ -421,7 +424,7 @@ function evaluateNormalizedCapabilityMatrix(input = {}) {
   if (matrix.counts?.blocksWordSaturation !== 0 || rows.some((row) => row.blocksWordSaturation === true)) {
     add('RTK_NORM_UNRESOLVED_BLOCKER_PRESENT', 'counts.blocksWordSaturation', 'Normalized matrix must have no unresolved Word blockers inside the declared envelope.');
   }
-  if (matrix.supportEnvelope?.readyForFreshIndependentExactHeadAudit !== true) {
+  if (matrix.supportEnvelope?.readyForFreshIndependentExactHeadAudit !== true && !reopenedByC4) {
     add('RTK_NORM_INDEPENDENT_AUDIT_NOT_READY', 'supportEnvelope.readyForFreshIndependentExactHeadAudit', 'Scale envelope matrix must stop at fresh independent exact-head audit readiness.');
   }
   const googleOpened = JSON.stringify(matrix).match(/GOOGLE_DOCS_OPENED|GOOGLE_DOCS_ACTIVE|"googleDocsOpened"\s*:\s*true/u);

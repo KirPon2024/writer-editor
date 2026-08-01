@@ -227,6 +227,13 @@ function evaluateWordP0ScaleEnvelopeTerminalAudit(input = {}) {
   const sources = computeEnvelopeSources();
   const issues = [];
   const add = (code, field, message) => issues.push({ code, field, message });
+  const remediationC4Active = program.status === 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED'
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.nextStage === 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION'
+    && profile.formalWordStageClosure?.status === 'WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE'
+    && ledger.runtimeClaims?.wordSaturated === false
+    && ledger.googleDocsStage?.status === 'REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION';
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') {
     add('RTK_SCALE_ENVELOPE_RECEIPT_INVALID', 'receipt.status', 'Scale envelope receipt must be terminal PASS.');
@@ -275,27 +282,27 @@ function evaluateWordP0ScaleEnvelopeTerminalAudit(input = {}) {
     add('RTK_SCALE_ENVELOPE_500K_BOUNDARY_INVALID', 'P0_500K_TERMINAL_AUDIT', '500K must remain a typed Word/AppleEvent resource boundary, not package invalid or supported auto apply.');
   }
   const saturationCell = list(profile.cells).find((cell) => cell.capabilityId === 'rtk.word.v4.saturationLedger');
-  if (![PROFILE_STATUS, MATRIX_STATUS].includes(profile.status)
+  if (!remediationC4Active && (![PROFILE_STATUS, MATRIX_STATUS].includes(profile.status)
     || saturationCell?.currentCapability !== 'SUPPORT_ENVELOPE_TERMINAL_READY_FOR_INDEPENDENT_AUDIT'
     || saturationCell?.wordSaturated !== true
-    || saturationCell?.wordSaturationScope !== 'DECLARED_SUPPORT_ENVELOPE_ONLY') {
+    || saturationCell?.wordSaturationScope !== 'DECLARED_SUPPORT_ENVELOPE_ONLY')) {
     add('RTK_SCALE_ENVELOPE_PROFILE_STATE_INVALID', 'profile', 'Capability profile must bind the terminal support envelope.');
   }
-  if (![STATUS, MATRIX_STATUS].includes(program.status)
+  if (!remediationC4Active && (![STATUS, MATRIX_STATUS].includes(program.status)
     || program.nextStep !== NEXT_STAGE
     || program.v4ExecutionState?.wordSaturated !== true
     || program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit !== true
-    || program.v4ExecutionState?.googleDocsOpened !== false) {
+    || program.v4ExecutionState?.googleDocsOpened !== false)) {
     add('RTK_SCALE_ENVELOPE_PROGRAM_STATE_INVALID', 'program', 'Program must stop at fresh independent exact-head audit readiness.');
   }
-  if (![LEDGER_STATUS, MATRIX_STATUS].includes(ledger.status)
+  if (!remediationC4Active && (![LEDGER_STATUS, MATRIX_STATUS].includes(ledger.status)
     || ledger.runtimeClaims?.wordSaturated !== true
     || ledger.runtimeClaims?.wordSaturationScope !== 'DECLARED_SUPPORT_ENVELOPE_ONLY'
     || ledger.runtimeClaims?.googleDocsOpened !== false
-    || list(ledger.notSaturatedReasons).length !== 0) {
+    || list(ledger.notSaturatedReasons).length !== 0)) {
     add('RTK_SCALE_ENVELOPE_LEDGER_STATE_INVALID', 'ledger', 'Ledger must have no unresolved blockers inside the declared envelope.');
   }
-  if (matrix
+  if (!remediationC4Active && matrix
     && (matrix.status !== MATRIX_STATUS
       || matrix.counts?.blocksWordSaturation !== 0
       || matrix.supportEnvelope?.readyForFreshIndependentExactHeadAudit !== true

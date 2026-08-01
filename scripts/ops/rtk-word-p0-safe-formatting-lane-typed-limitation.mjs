@@ -366,6 +366,11 @@ export function evaluateP0SafeFormattingLaneTypedLimitation(input = {}) {
     SCALE_SUCCESSOR_STAGE,
     FINAL_ENVELOPE_SUCCESSOR_STAGE,
   ].includes(actualNextStage);
+  const validRemediationC4 = program.v4ExecutionState?.status === 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED'
+    && actualNextStage === 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION'
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.googleDocsOpened === false;
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_P0_FORMATTING_RECEIPT_INVALID', 'receipt', 'P0 safe formatting lane receipt must pass.');
   if (receipt.implementedCapability?.formattingApplyTypedLimitationBound !== true
@@ -381,7 +386,7 @@ export function evaluateP0SafeFormattingLaneTypedLimitation(input = {}) {
     || cell.formattingApplyTypedLimitationBound !== true
     || cell.formattingDiagnosticProductPathProven !== true
     || cell.automaticApplyCertified !== false) add('RTK_P0_FORMATTING_PROFILE_INVALID', 'profile.effectiveFormattingDiagnostics', 'Profile must bind formatting diagnostic typed limitation without automatic apply.');
-  if (!validNextStage
+  if (!validRemediationC4 && !validNextStage
     || program.v4ExecutionState?.safeFormattingLaneTypedLimitationBound !== true
     || program.v4ExecutionState?.runtimeApplyAuthorityGrantedForFormatting !== false
     || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_P0_FORMATTING_PROGRAM_INVALID', 'program', 'Program must advance to structural lane with Google closed.');

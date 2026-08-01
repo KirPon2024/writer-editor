@@ -89,6 +89,8 @@ const REQUIRED_QUEUE = Object.freeze([
   'A07_CAPABILITY_MATRIX_AND_LOSS_REPORTING',
   'A08_FINAL_POST_D1_AUDIT',
 ]);
+const REMEDIATION_C4_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED';
+const REMEDIATION_C5_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 
 function stableJson(value) {
   if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
@@ -248,8 +250,12 @@ export function evaluatePostD1PortabilityProgram(input = {}) {
   if (program.taskId !== 'YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX') {
     pushIssue(issues, 'POST_D1_TASK_ID_INVALID', 'Program taskId must bind the owner post-D1 task.');
   }
-  if (program.status !== 'A00_A01_PROGRAM_AND_HARNESS_BOUND') {
-    pushIssue(issues, 'POST_D1_STATUS_INVALID', 'A00/A01 program status must stay narrow until physical profiles close.');
+  const c4RemediationActive = program.status === REMEDIATION_C4_STATUS
+    && program.wordSafetyRemediationV1?.status === REMEDIATION_C4_STATUS
+    && program.wordSafetyRemediationV1?.nextStage === REMEDIATION_C5_STAGE
+    && program.wordSafetyRemediationV1?.wordAcceptanceRevoked === true;
+  if (program.status !== 'A00_A01_PROGRAM_AND_HARNESS_BOUND' && !c4RemediationActive) {
+    pushIssue(issues, 'POST_D1_STATUS_INVALID', 'Program status must be the original A00/A01 binding or active C4 Word safety remediation.');
   }
   if (program.binding?.immutableV6HistoryChanged !== false || program.binding?.d1NormativeStatusChanged !== false) {
     pushIssue(issues, 'POST_D1_D1_HISTORY_MUTATED', 'Post-D1 program must not rewrite V6 or D1 normative status.');
@@ -299,7 +305,10 @@ export function evaluatePostD1PortabilityProgram(input = {}) {
       pushIssue(issues, 'POST_D1_EXTERNAL_PROFILE_INVALID', 'External editor profile must be an object.');
       continue;
     }
-    if (!allowedCapabilities.has(profile.currentCapability)) {
+    const c4WordProfile = profile.profileId === 'word-mac-latest-post-d1-v1'
+      && profile.currentCapability === 'PRODUCT_RUNTIME_WIRED_REOPENED_BY_SAFETY_REMEDIATION_NOT_SATURATED'
+      && c4RemediationActive;
+    if (!allowedCapabilities.has(profile.currentCapability) && !c4WordProfile) {
       pushIssue(issues, 'POST_D1_EXTERNAL_PROFILE_CAPABILITY_INVALID', 'External editor currentCapability is invalid.', {
         profileId: profile.profileId,
         currentCapability: profile.currentCapability,
@@ -340,7 +349,10 @@ export function evaluatePostD1PortabilityProgram(input = {}) {
       });
     }
   }
-  if (queue.find((item) => item.stageId === 'A02_WORD_MAC_LATEST_PROFILE')?.status !== 'READY_NEXT_AFTER_MERGED_A00_A01') {
+  const a02Status = queue.find((item) => item.stageId === 'A02_WORD_MAC_LATEST_PROFILE')?.status;
+  const a02Ok = a02Status === 'READY_NEXT_AFTER_MERGED_A00_A01'
+    || (c4RemediationActive && a02Status === 'REOPENED_BY_WORD_SAFETY_REMEDIATION_C4_VERIFIED_C5_REQUIRED');
+  if (!a02Ok) {
     pushIssue(issues, 'POST_D1_A02_NOT_READY_NEXT', 'A02 must be the next ready contour after A00/A01 merge.');
   }
 
@@ -385,7 +397,7 @@ export function evaluatePostD1PortabilityProgram(input = {}) {
       POST_D1_EXTERNAL_PROFILES_DECLARED: profiles.length,
       POST_D1_FIXTURE_ONLY_PASS_FORBIDDEN: profiles.every((profile) => profile.fixtureOnlyPassAllowed === false) ? 1 : 0,
       POST_D1_HARNESS_BOUND: harness.script === 'scripts/ops/rtk-post-d1-editor-lab-harness.mjs' ? 1 : 0,
-      POST_D1_A02_READY_NEXT: queue.find((item) => item.stageId === 'A02_WORD_MAC_LATEST_PROFILE')?.status === 'READY_NEXT_AFTER_MERGED_A00_A01' ? 1 : 0,
+      POST_D1_A02_READY_NEXT: a02Ok ? 1 : 0,
     },
   };
 }

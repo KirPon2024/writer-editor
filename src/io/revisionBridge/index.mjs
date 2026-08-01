@@ -2981,9 +2981,9 @@ const DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_CODES = Object.freeze({
 });
 
 const DOCX_REVIEW_PREVIEW_SESSION_CANDIDATE_BOUNDS = Object.freeze({
-  maxComments: 100,
+  maxComments: 250,
   maxCommentBodyChars: 2000,
-  maxAnchors: 100,
+  maxAnchors: 250,
   maxTrackedTextCandidates: 100,
   maxTrackedStructuralCandidates: 100,
   maxTrackedTextChars: 2000,

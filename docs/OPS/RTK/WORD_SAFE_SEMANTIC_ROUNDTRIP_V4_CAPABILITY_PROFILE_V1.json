@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_P0_LARGE_MANUSCRIPT_STRESS_COMPLETE_NOT_SATURATED",
+  "status": "WORD_16_111_2_P0_REPEAT_HIGH_DENSITY_STRESS_COMPLETE_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -1124,5 +1124,20 @@
     "automaticStructuralApplyCertified": false,
     "wordSaturated": false,
     "nextStage": "P0_PRODUCT_VERTICAL_REPEAT_STABILITY_AND_HIGH_DENSITY_AFTER_LARGE_STRESS"
+  },
+  "latestProductRepeatHighDensityStress": {
+    "status": "WORD_RELEASE_AUDIT_P0_REPEAT_HIGH_DENSITY_STRESS_COMPLETE_NOT_SATURATED",
+    "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT.json",
+    "productRuntimeWired": true,
+    "physicalWordRoundTrips": 12,
+    "passCases": 12,
+    "trackedReplacementApplyCases": 8,
+    "highDensityCommentShadowCases": 4,
+    "largestStressWords": 100000,
+    "largestCommentCount": 120,
+    "repeatDeterminismGroupsStable": 5,
+    "automaticApplyCertified": false,
+    "wordSaturated": false,
+    "nextStage": "P0_PRODUCT_VERTICAL_500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_AFTER_REPEAT_HIGH_DENSITY"
   }
 }

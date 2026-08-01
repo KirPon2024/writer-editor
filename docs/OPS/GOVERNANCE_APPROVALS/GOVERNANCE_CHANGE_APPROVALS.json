@@ -2,6 +2,60 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
+      "sha256": "2a28084d5cb3ce5fe905554a545554f462c7afaf7c7aebce0e5fbb5c265f15bb",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
+      "rationale": "Approve the bounded Atlas Stage-10 node-only local capability bindings required by the source-proven PR 1391 audit repair; no network, UI redesign, new dependency, second journal, or release acceptance claim.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+    },
+    {
+      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
+      "sha256": "f30bb8adbfc8da38bb72dbe93c1373971f12cb9b92b7cee857587122ecfe4107",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
+      "rationale": "Approve exact Stage-10 comments, conflict, operation-exchange, and collab command-to-capability bindings for the real canonical application command route.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs",
+      "sha256": "5f57325244166330af3d48dffbf70aacb0d0d0643ddce39b877b2383d023ef37",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
+      "rationale": "Approve replacement of memory-only Stage-10 audit persistence with the real transactional filesystem adapter and independent main-owned integrity anchor.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js",
+      "sha256": "e5811b461a2709fbe90b20bed451805258b2ee912d1f0542ac4b13666bee7b77",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
+      "rationale": "Approve the maintained Stage-10 P0-08 contract rebind to transactional persistence and external integrity-anchor validation.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
+      "sha256": "1b48d59f102ac27ff4cc0b0a9aeb93fb593eacdf999e0e880d5ddc599eb70dc4",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
+      "rationale": "Approve existing domain-event repair tests re-bound to the versioned independent receipt authority and main-owned integrity anchor.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-stage10-pr1391-audit-repair.contract.test.js",
+      "sha256": "0ce096eb321187c52478b29568dc664790059205c527e4ea6975242703907067",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
+      "rationale": "Approve decisive real-filesystem Stage-10 negatives for rollback, coherent rebuild, forged receipts, fail-closed activation, partial writes, killpoints, recovery, real application routing, replay provenance, and bounded authority growth.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
+    },
+    {
       "filePath": ".github/workflows/rtk-required.yml",
       "sha256": "bb330c5c81efc389c012ec7e22803231d22e05e97ae6383907114ce50906803e",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
@@ -37,13 +91,6 @@
       "approvedBy": "ticket:RECOVERY_READABILITY_CENTRAL_BINDING_001",
       "approvedAtUtc": "2026-04-28T00:00:00.000Z",
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the bounded OPS governance baseline regeneration required after the new recovery readability token and claim rows changed canonical governed-file hashes."
-    },
-    {
-      "filePath": "docs/OPS/CAPABILITIES_MATRIX.json",
-      "sha256": "3713386314354b995929a97dcdd3fafb5b1b629ca1ea1c2aae6af8f6e89d1281",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve bounded P0 Review DOCX exporter command capability binding: node-only product export path, no runtime dependency, no network, no automatic apply, return intake pending, Word SATURATED remains false."
     },
     {
       "filePath": "docs/OPS/CLAIMS/CRITICAL_CLAIM_MATRIX.json",
@@ -3170,13 +3217,6 @@
       "rationale": "PHASE08_NARROW_RELEASE_CANDIDATE_AND_COLLAB_STATUS_REGEN_REBIND"
     },
     {
-      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "2b291976df9d5cf42ee68a14f94a58cd3a9c61fe5f85e483a72117cf5ad384d0",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY+FINAL_FULL_RUNNER_REBIND",
-      "approvedAtUtc": "2026-08-01T09:16:00.000Z",
-      "rationale": "Approve final P0_05 Manual Map portability delivery bytes after origin/main 22e02f2a merge: visible product command export/import evidence PASS, ops PR-head mode repair PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, no network, no dependency, no Program DONE claim."
-    },
-    {
       "filePath": "docs/OPS/STATUS/COMMAND_ID_COMPAT_MAP_V1.json",
       "sha256": "c7c2334e1d254cc13060dc118f9a4c664e3a9791762e57889231ed749433859b",
       "approvedBy": "ticket:TZ_CONTOUR_CLOSE_V4_A03_GIT_FORMALIZATION",
@@ -6047,13 +6087,6 @@
       "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
     },
     {
-      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs",
-      "sha256": "93951b7f0054a7aaf977cae15d96d374559b158d6b97a864e278c6577d7e261e",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
-    },
-    {
       "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p1-plan-contract-digest.mjs",
       "sha256": "9dfa400fed3f53b361e2668c19efe0c13da52eeee15aa50c63960b63705a9be3",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
@@ -6498,12 +6531,12 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "602b6e98129908d29b781cf42d197eb5285c94bb90d3321f664ad53143431d8a",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_AUDIT_HOLD_REPAIR",
-      "approvedAtUtc": "2026-08-01T17:58:15.000Z",
-      "rationale": "Approve bounded Atlas V5 audit-hold repair main-process scene reorder boundary: no-op reorder remains false with empty facts, actual reorder returns verified domain-event digest, Word C4 semantics preserved, no direct UI or storage bypass, no network, no dependency, no UI redesign, and no Program DONE claim.",
+      "sha256": "d579ab85258357db03b9694dfbd291253abd198bd8e8a526b923ad43c3baf817",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_STAGE10_PR1391_AUDIT_REPAIR",
+      "approvedAtUtc": "2026-08-01T22:12:34.000Z",
+      "rationale": "Approve the bounded main-process Stage-10 preactivation gate, independent integrity-anchor filesystem adapter, canonical application command route, and fail-closed product lifecycle ordering while preserving Word descendants and existing Atlas behavior.",
       "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_SOURCE_PROVEN_R1_R7_REPAIR"
     },
     {
       "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
@@ -8779,13 +8812,6 @@
       "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js",
-      "sha256": "e94c4d183ccd129fe6a8d5ad4a0fe9accfc14339acf7d3263ea015ad1b619712",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
-    },
-    {
       "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-plan-contract-digest.contract.test.js",
       "sha256": "825908d839ecffb1b8e0f71077dcdcbeb04ad50285066d487c5e0f57e57dafbc",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_V5_PLAN_CONTRACT_DETERMINISTIC_DIGEST_POSTMERGE_BINDING_REPAIR",
@@ -8826,15 +8852,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C02_FINAL_DISPOSITION",
       "approvedAtUtc": "2026-08-01T02:09:30.000Z",
       "rationale": "Approve Night-01 C02 contracts that block final disposition on product runtime delta or missing executable no-open-P0 proof and prevent legacy EFINAL pass from acting alone."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "0503c66630e2baa2a4d008290fab3b8191a0cf25c9c9943f29cd13ae91fe01ed",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2_EVENT_CONTRACT_REPAIR_V4",
-      "approvedAtUtc": "2026-08-01T18:44:00.000Z",
-      "rationale": "Approve bounded Atlas V5 HOLD repair negatives for explicit provenance presence, independent Command Kernel receipt authority integrity, production tree reorder digest verification, actual offline collab apply product caller reachability, and required CI catalog visibility; preserves accepted Atlas contours, Word descendants, offline-only runtime, no UI redesign, no dependency, no second journal, and no Program DONE claim.",
-      "approved": true,
-      "authority": "AUTONOMOUS_WRITE_DELIVERY_WITHIN_OWNER_ATLAS_AUDIT_HOLD_REPAIR"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",

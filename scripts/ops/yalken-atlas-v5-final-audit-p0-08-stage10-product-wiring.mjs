@@ -19,6 +19,7 @@ import {
   hashCoreState,
 } from '../../src/core/runtime.mjs';
 import { hashCanonicalValue } from '../../src/core/browser-safe-hash.mjs';
+import { createStage10MainPersistenceAdapter } from '../../src/product/stage10MainPersistenceAdapter.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const require = createRequire(import.meta.url);
@@ -81,70 +82,6 @@ function git(args) {
     encoding: 'utf8',
   });
   return run.status === 0 ? run.stdout.trim() : '';
-}
-
-function createFileStoragePort(rootDir) {
-  const sessionPath = (projectId) => path.join(rootDir, 'store', `${projectId}.session.json`);
-  const recoveryPath = (projectId, snapshotId) => path.join(rootDir, 'store', 'recovery', projectId, `${snapshotId}.json`);
-  return {
-    writeSession(projectId, session) {
-      writeJsonAtomic(sessionPath(projectId), session);
-      return {
-        ok: true,
-        path: sessionPath(projectId),
-        sha256: sha256File(sessionPath(projectId)),
-      };
-    },
-    readSession(projectId) {
-      return JSON.parse(fs.readFileSync(sessionPath(projectId), 'utf8'));
-    },
-    writeRecoverySnapshot(projectId, snapshotId, snapshot) {
-      writeJsonAtomic(recoveryPath(projectId, snapshotId), snapshot);
-      return {
-        ok: true,
-        path: recoveryPath(projectId, snapshotId),
-        sha256: sha256File(recoveryPath(projectId, snapshotId)),
-      };
-    },
-    readRecoverySnapshot(projectId, snapshotId) {
-      return JSON.parse(fs.readFileSync(recoveryPath(projectId, snapshotId), 'utf8'));
-    },
-    paths(projectId) {
-      return {
-        session: sessionPath(projectId),
-        recoveryRoot: path.join(rootDir, 'store', 'recovery', projectId),
-      };
-    },
-  };
-}
-
-function createFileAuthorityHeadPort(rootDir) {
-  const authorityPath = (projectId) => path.join(rootDir, 'authority', `${projectId}.command-receipt-authority-head.json`);
-  const recoveryPath = (projectId) => path.join(rootDir, 'authority', `${projectId}.command-receipt-authority-head.recovery.json`);
-  return {
-    writeAuthorityHead(projectId, authorityHeadRecord) {
-      const targetPath = authorityPath(projectId);
-      const previous = fs.existsSync(targetPath) ? fs.readFileSync(targetPath, 'utf8') : '';
-      if (previous) writeJsonAtomic(recoveryPath(projectId), JSON.parse(previous));
-      writeJsonAtomic(targetPath, authorityHeadRecord);
-      return {
-        ok: true,
-        path: targetPath,
-        sha256: sha256File(targetPath),
-        readableRecovery: Boolean(previous),
-      };
-    },
-    readAuthorityHead(projectId) {
-      const targetPath = authorityPath(projectId);
-      return fs.existsSync(targetPath) ? JSON.parse(fs.readFileSync(targetPath, 'utf8')) : null;
-    },
-    paths(projectId) {
-      return {
-        authorityHead: authorityPath(projectId),
-        recovery: recoveryPath(projectId),
-      };
-    },
-  };
 }
 
 function createUiPort() {
@@ -267,8 +204,14 @@ async function runJourney() {
   fs.mkdirSync(outDir, { recursive: true });
   const failures = [];
   const projectId = 'p0-08-stage10-product';
-  const storagePort = disableStorage ? {} : createFileStoragePort(outDir);
-  const authorityHeadPort = disableStorage ? {} : createFileAuthorityHeadPort(outDir);
+  const persistencePort = disableStorage ? {} : createStage10MainPersistenceAdapter({
+    projectRoot: path.join(outDir, 'project'),
+    anchorRoot: path.join(outDir, 'main-owned-anchors'),
+    writeFileAtomic: async (targetPath, content) => {
+      writeJsonAtomic(targetPath, JSON.parse(content));
+      return { success: true };
+    },
+  });
   const uiPort = createUiPort();
   const capabilitySnapshot = {
     platformId: 'packaged-local-electron',
@@ -278,8 +221,7 @@ async function runJourney() {
     projectId,
     actorId: 'author-primary',
     sessionId: 'session-primary',
-    storagePort,
-    authorityHeadPort,
+    persistencePort,
     uiPort,
     capabilitySnapshot,
     now: (() => {
@@ -408,19 +350,23 @@ async function runJourney() {
   }
 
   const session = runtime.getSession();
-  const preliminaryStoragePaths = !disableStorage ? storagePort.paths(projectId) : {};
-  const preliminaryAuthorityPaths = !disableStorage ? authorityHeadPort.paths(projectId) : {};
-  const commandReceiptAuthorityStore = !disableStorage && fs.existsSync(preliminaryAuthorityPaths.authorityHead)
-    ? authorityHeadPort.readAuthorityHead(projectId)
-    : null;
+  const preliminaryStoragePaths = !disableStorage ? persistencePort.paths(projectId) : {};
+  const persistedBundle = !disableStorage ? await persistencePort.readStage10State(projectId) : null;
+  const commandReceiptAuthorityStore = persistedBundle?.authorityStore || null;
   const canReopenPersistedSession = Boolean(preliminaryStoragePaths.session && fs.existsSync(preliminaryStoragePaths.session));
   const reopened = !disableStorage && canReopenPersistedSession
-    ? await reopenStage10ProductRuntime({ projectId, storagePort, authorityHeadPort, uiPort, capabilitySnapshot })
+    ? await reopenStage10ProductRuntime({ projectId, persistencePort, uiPort, capabilitySnapshot })
     : null;
   const reopenedSession = reopened ? reopened.getSession() : null;
-  const readModels = buildStage10ProductReadModels(session, capabilitySnapshot, { authorityStore: commandReceiptAuthorityStore });
+  const readModels = buildStage10ProductReadModels(session, capabilitySnapshot, {
+    authorityStore: commandReceiptAuthorityStore,
+    integrityAnchor: persistedBundle?.integrityAnchor,
+    previousIntegrityAnchor: persistedBundle?.previousIntegrityAnchor,
+  });
   const reopenedReadModels = reopenedSession ? buildStage10ProductReadModels(reopenedSession, capabilitySnapshot, {
     authorityStore: commandReceiptAuthorityStore,
+    integrityAnchor: persistedBundle?.integrityAnchor,
+    previousIntegrityAnchor: persistedBundle?.previousIntegrityAnchor,
   }) : null;
   const storagePaths = preliminaryStoragePaths;
   const finalProject = session.coreState.data.projects[projectId];
@@ -505,8 +451,8 @@ async function runJourney() {
       sessionHash: hashCanonicalValue(session),
       reopenedSessionHash: reopenedSession ? hashCanonicalValue(reopenedSession) : '',
       reopenedProjectHash: reopenedSession ? hashCoreState(reopenedSession.coreState) : '',
-      authorityHeadPath: preliminaryAuthorityPaths.authorityHead || '',
-      authorityHeadSha256: preliminaryAuthorityPaths.authorityHead && fs.existsSync(preliminaryAuthorityPaths.authorityHead) ? sha256File(preliminaryAuthorityPaths.authorityHead) : '',
+      authorityHeadPath: preliminaryStoragePaths.authority || '',
+      authorityHeadSha256: preliminaryStoragePaths.authority && fs.existsSync(preliminaryStoragePaths.authority) ? sha256File(preliminaryStoragePaths.authority) : '',
       authorityHeadDigest: commandReceiptAuthorityStore?.currentHead?.authorityHeadDigest || '',
       authorityReceiptCount: commandReceiptAuthorityStore?.currentHead?.receiptCount || 0,
       recoverySnapshotCount: session.recoverySnapshotRefs.length,
@@ -560,7 +506,7 @@ async function runJourney() {
       productCoreOwnsAuthorTruth: true,
       commandKernelOwnsMutation: true,
       designOsSurfaceIntentOnly: true,
-      storagePortOwnsPersistence: true,
+      transactionalPersistencePortOwnsPersistence: true,
       networkAdapterRuntimeDependency: false,
       shadowAcceptedAsComplete: false,
       programDoneClaim: false,

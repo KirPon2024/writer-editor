@@ -132,40 +132,40 @@ test('P0 08: network exchange request remains rejected instead of becoming runti
 
 test('P0 08: direct command bridge is denied by production adapter before reducer or persistence', async () => {
   const module = await importModule('src/product/stage10ProductWiring.mjs');
-  const writes = [];
-  const authorityWrites = [];
-  const storagePort = {
-    writeSession(projectId, session) {
-      writes.push({ projectId, session });
-      return { ok: true };
+  const commits = [];
+  const recoverySnapshots = new Map();
+  let bundle = null;
+  const persistencePort = {
+    async readStage10State() {
+      return bundle ? JSON.parse(JSON.stringify(bundle)) : null;
     },
-    readSession() {
-      return writes.at(-1)?.session;
+    async commitStage10State(projectId, nextBundle) {
+      bundle = JSON.parse(JSON.stringify(nextBundle));
+      commits.push({ projectId, bundle });
+      return {
+        ok: true,
+        storageWritten: true,
+        readbackVerified: true,
+        bundle: JSON.parse(JSON.stringify(bundle)),
+      };
     },
-    writeRecoverySnapshot() {
-      return { ok: true };
+    async writeRecoverySnapshot(projectId, snapshotId, snapshot) {
+      recoverySnapshots.set(`${projectId}:${snapshotId}`, JSON.parse(JSON.stringify(snapshot)));
+      return { ok: true, atomicWrite: true, readbackVerified: true };
     },
-    readRecoverySnapshot() {
-      return null;
-    },
-  };
-  const authorityHeadPort = {
-    writeAuthorityHead(projectId, head) {
-      authorityWrites.push({ projectId, head });
-      return { ok: true };
-    },
-    readAuthorityHead(projectId) {
-      return authorityWrites.filter((write) => write.projectId === projectId).at(-1)?.head || null;
+    async readRecoverySnapshot(projectId, snapshotId) {
+      return recoverySnapshots.get(`${projectId}:${snapshotId}`) || null;
     },
   };
   const runtime = await module.createStage10ProductRuntime({
     projectId: 'p0-08-direct-negative',
-    storagePort,
-    authorityHeadPort,
+    persistencePort,
     capabilitySnapshot: { capabilities: { stage10LocalProductWiring: true } },
   });
   const beforeHash = module.buildStage10ProductReadModels(runtime.getSession(), {}, {
-    authorityStore: authorityWrites.at(-1).head,
+    authorityStore: bundle.authorityStore,
+    integrityAnchor: bundle.integrityAnchor,
+    previousIntegrityAnchor: bundle.previousIntegrityAnchor,
   }).surface.projectId;
   const denied = await runtime.dispatchVisibleCommand(
     'project.create',
@@ -175,9 +175,11 @@ test('P0 08: direct command bridge is denied by production adapter before reduce
   assert.equal(denied.ok, false);
   assert.equal(denied.error.code, 'E_STAGE10_DIRECT_BRIDGE_DENIED');
   assert.equal(runtime.getSession().commandReceiptAuthorityHeadRef.receiptCount, 0);
-  assert.equal(writes.length, 0);
+  assert.equal(commits.length, 1);
   assert.equal(module.buildStage10ProductReadModels(runtime.getSession(), {}, {
-    authorityStore: authorityWrites.at(-1).head,
+    authorityStore: bundle.authorityStore,
+    integrityAnchor: bundle.integrityAnchor,
+    previousIntegrityAnchor: bundle.previousIntegrityAnchor,
   }).surface.projectId, beforeHash);
 });
 
@@ -202,7 +204,7 @@ test('P0 08: source guard keeps adapter browser-safe and blocks receipt-only DON
   assert.match(adapterSource, /buildStableCommentAnchorPacketFromReviewIr/u);
   assert.match(adapterSource, /buildLocalMultiSessionRecoveryReport/u);
   assert.match(adapterSource, /buildTransportNeutralExchangePacket/u);
-  assert.match(adapterSource, /storagePort\.writeSession/u);
+  assert.match(adapterSource, /persistencePort\.commitStage10State/u);
   assert.match(runnerSource, /--shadow-only/u);
   assert.match(runnerSource, /DIRECT_BRIDGE_NEGATIVE_NOT_PROVEN/u);
   assert.match(runnerSource, /NETWORK_ADAPTER_REQUIRED_OR_ACCEPTED/u);

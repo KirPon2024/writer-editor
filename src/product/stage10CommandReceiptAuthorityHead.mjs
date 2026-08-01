@@ -6,9 +6,10 @@ import {
 } from '../collab/index.mjs';
 import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
 
-export const STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA = 'yalken.stage10.commandReceiptAuthorityHead.v1';
-export const STAGE10_COMMAND_RECEIPT_AUTHORITY_STORE_SCHEMA = 'yalken.stage10.commandReceiptAuthorityStore.v1';
-export const STAGE10_COMMAND_RECEIPT_AUTHORITY_REF_SCHEMA = 'yalken.stage10.commandReceiptAuthorityRef.v1';
+export const STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA = 'yalken.stage10.commandReceiptAuthorityHead.v2';
+export const STAGE10_COMMAND_RECEIPT_AUTHORITY_STORE_SCHEMA = 'yalken.stage10.commandReceiptAuthorityStore.v2';
+export const STAGE10_COMMAND_RECEIPT_AUTHORITY_REF_SCHEMA = 'yalken.stage10.commandReceiptAuthorityRef.v2';
+const VERIFIED_AUTHORITY_STORES = new WeakSet();
 
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
@@ -40,10 +41,27 @@ function sha256Text(value) {
 }
 
 export function receiptRootDigest(receipts = []) {
-  return hashCanonicalValue({
+  const normalized = Array.isArray(receipts) ? receipts.map((receipt) => cloneJson(receipt)) : [];
+  let rootDigest = hashCanonicalValue({
     authorityKind: COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
     schemaVersion: COMMAND_KERNEL_RECEIPT_SCHEMA_VERSION,
-    receipts: Array.isArray(receipts) ? receipts.map((receipt) => cloneJson(receipt)) : [],
+    receiptCount: 0,
+  });
+  for (let index = 0; index < normalized.length; index += 1) {
+    rootDigest = hashCanonicalValue({
+      previousReceiptRootDigest: rootDigest,
+      receiptIndex: index,
+      receiptDigest: hashCanonicalValue(normalized[index]),
+    });
+  }
+  return rootDigest;
+}
+
+function appendReceiptRootDigest(previousRootDigest, receipt, receiptIndex) {
+  return hashCanonicalValue({
+    previousReceiptRootDigest: normalizeString(previousRootDigest),
+    receiptIndex,
+    receiptDigest: hashCanonicalValue(receipt),
   });
 }
 
@@ -61,15 +79,15 @@ export function authorityHeadDigest(headCore) {
   });
 }
 
-function createHead({ projectId, generation, receipts, eventLogDigest, previousAuthorityHeadDigest = '' }) {
+function createHead({ projectId, generation, receiptCount, receiptRoot, eventLogDigest, previousAuthorityHeadDigest = '' }) {
   const headCore = {
     schemaVersion: STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA,
     authorityKind: COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
-    authorityVersion: 1,
+    authorityVersion: 2,
     projectId: normalizeString(projectId),
     authorityGeneration: generation,
-    receiptCount: receipts.length,
-    receiptRootDigest: receiptRootDigest(receipts),
+    receiptCount,
+    receiptRootDigest: receiptRoot,
     eventLogDigest: normalizeString(eventLogDigest),
     previousAuthorityHeadDigest: normalizeString(previousAuthorityHeadDigest),
   };
@@ -84,7 +102,7 @@ export function createCommandReceiptAuthorityHeadRef(head) {
   return deepFreeze({
     schemaVersion: STAGE10_COMMAND_RECEIPT_AUTHORITY_REF_SCHEMA,
     authorityKind: COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
-    authorityVersion: 1,
+    authorityVersion: 2,
     projectId: normalizeString(head.projectId),
     authorityGeneration: head.authorityGeneration,
     receiptCount: head.receiptCount,
@@ -101,19 +119,27 @@ export function createInitialCommandReceiptAuthorityStore({ projectId, eventLog 
   const head = createHead({
     projectId,
     generation: 0,
-    receipts,
+    receiptCount: 0,
+    receiptRoot: receiptRootDigest(receipts),
     eventLogDigest,
     previousAuthorityHeadDigest: '',
   });
-  return deepFreeze({
+  const store = deepFreeze({
     schemaVersion: STAGE10_COMMAND_RECEIPT_AUTHORITY_STORE_SCHEMA,
     projectId: normalizeString(projectId),
     authorityKind: COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
-    authorityVersion: 1,
+    authorityVersion: 2,
     currentHead: head,
-    headHistory: [createCommandReceiptAuthorityHeadRef(head)],
+    compaction: deepFreeze({
+      schemaVersion: 'yalken.stage10.commandReceiptAuthorityCompaction.v1',
+      headHistoryStored: false,
+      rootAlgorithm: 'sha256-receipt-chain-v1',
+      retainedReceiptCount: receipts.length,
+    }),
     receipts,
   });
+  VERIFIED_AUTHORITY_STORES.add(store);
+  return store;
 }
 
 function validateReceipt(receipt, index) {
@@ -148,7 +174,7 @@ function validateHead(head, { projectId, receipts, eventLogDigest, previousHeadD
   if (
     head.schemaVersion !== STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA
     || head.authorityKind !== COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND
-    || head.authorityVersion !== 1
+    || head.authorityVersion !== 2
   ) {
     return typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_VERSION_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_VERSION_INVALID');
   }
@@ -157,6 +183,12 @@ function validateHead(head, { projectId, receipts, eventLogDigest, previousHeadD
   }
   if (head.authorityGeneration !== generation || head.receiptCount !== receipts.length) {
     return typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_STALE', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_STALE_OR_ROLLED_BACK');
+  }
+  if (
+    (generation === 0 && normalizeString(head.previousAuthorityHeadDigest))
+    || (generation > 0 && !sha256Text(head.previousAuthorityHeadDigest))
+  ) {
+    return typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_FORKED', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_PREVIOUS_DIGEST_FORKED');
   }
   if (normalizeString(head.previousAuthorityHeadDigest) !== normalizeString(previousHeadDigest)) {
     return typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_FORKED', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_PREVIOUS_DIGEST_FORKED');
@@ -189,7 +221,7 @@ export function validateCommandReceiptAuthorityStore(storeInput, {
   if (
     store.schemaVersion !== STAGE10_COMMAND_RECEIPT_AUTHORITY_STORE_SCHEMA
     || store.authorityKind !== COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND
-    || store.authorityVersion !== 1
+    || store.authorityVersion !== 2
   ) {
     return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_STORE_VERSION_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_STORE_VERSION_INVALID') };
   }
@@ -210,22 +242,20 @@ export function validateCommandReceiptAuthorityStore(storeInput, {
   const eventLogDigest = isPlainObject(eventLog)
     ? hashEventLog(eventLog)
     : normalizeString(store.currentHead?.eventLogDigest);
-  const history = Array.isArray(store.headHistory) ? store.headHistory : [];
-  if (history.length !== receipts.length + 1) {
-    return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_HISTORY_STALE', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HISTORY_STALE_OR_ROLLED_BACK') };
+  if (
+    !isPlainObject(store.compaction)
+    || store.compaction.schemaVersion !== 'yalken.stage10.commandReceiptAuthorityCompaction.v1'
+    || store.compaction.headHistoryStored !== false
+    || store.compaction.rootAlgorithm !== 'sha256-receipt-chain-v1'
+    || store.compaction.retainedReceiptCount !== receipts.length
+    || Object.prototype.hasOwnProperty.call(store, 'headHistory')
+  ) {
+    return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_COMPACTION_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_COMPACTION_INVALID') };
   }
-  for (let index = 0; index < history.length; index += 1) {
-    if (!isPlainObject(history[index]) || history[index].schemaVersion !== STAGE10_COMMAND_RECEIPT_AUTHORITY_REF_SCHEMA) {
-      return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_HISTORY_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HISTORY_INVALID', { index }) };
-    }
-    if (history[index].authorityGeneration !== index) {
-      return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_GENERATION_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_GENERATION_INVALID', { index }) };
-    }
-    if (index > 0 && normalizeString(history[index].previousAuthorityHeadDigest) !== normalizeString(history[index - 1].authorityHeadDigest)) {
-      return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_HISTORY_FORKED', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HISTORY_FORKED', { index }) };
-    }
+  const previousHeadDigest = normalizeString(store.currentHead?.previousAuthorityHeadDigest);
+  if (receipts.length === 0 && previousHeadDigest) {
+    return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_FORKED', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_PREVIOUS_DIGEST_FORKED') };
   }
-  const previousHeadDigest = receipts.length === 0 ? '' : history[history.length - 2]?.authorityHeadDigest;
   const headError = validateHead(store.currentHead, {
     projectId: expectedProjectId,
     receipts,
@@ -235,47 +265,62 @@ export function validateCommandReceiptAuthorityStore(storeInput, {
   });
   if (headError) return { ok: false, error: headError };
   const headRef = createCommandReceiptAuthorityHeadRef(store.currentHead);
-  const historyHead = history.at(-1);
-  if (hashCanonicalValue(historyHead) !== hashCanonicalValue(headRef)) {
-    return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_HEAD_HISTORY_MISMATCH', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_HEAD_HISTORY_MISMATCH') };
-  }
   if (requireSessionRef && !isPlainObject(sessionRef) && receipts.length > 0) {
     return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_SESSION_HEAD_MISSING', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_SESSION_HEAD_MISMATCH') };
   }
   if (isPlainObject(sessionRef) && hashCanonicalValue(sessionRef) !== hashCanonicalValue(headRef)) {
     return { ok: false, error: typedError('E_STAGE10_RECEIPT_AUTHORITY_SESSION_HEAD_MISMATCH', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_SESSION_HEAD_MISMATCH') };
   }
+  const verifiedStore = deepFreeze({
+    ...store,
+    receipts,
+    currentHead: deepFreeze(cloneJson(store.currentHead)),
+    compaction: deepFreeze(cloneJson(store.compaction)),
+  });
+  VERIFIED_AUTHORITY_STORES.add(verifiedStore);
   return {
     ok: true,
-    store: deepFreeze({
-      ...store,
-      receipts,
-      currentHead: deepFreeze(cloneJson(store.currentHead)),
-      headHistory: history.map((ref) => deepFreeze(cloneJson(ref))),
-    }),
+    store: verifiedStore,
     headRef,
   };
 }
 
 export function appendCommandReceiptAuthorityHead({ store, projectId, eventLog, receipt }) {
-  const verified = validateCommandReceiptAuthorityStore(store, { projectId });
-  if (!verified.ok) throw verified.error;
-  const receipts = [...verified.store.receipts, cloneJson(receipt)];
+  let verifiedStore = store;
+  if (!VERIFIED_AUTHORITY_STORES.has(verifiedStore)) {
+    const verified = validateCommandReceiptAuthorityStore(store, { projectId });
+    if (!verified.ok) throw verified.error;
+    verifiedStore = verified.store;
+  }
+  if (normalizeString(verifiedStore.projectId) !== normalizeString(projectId)) {
+    throw typedError('E_STAGE10_RECEIPT_AUTHORITY_STORE_PROJECT_INVALID', 'stage10.commandReceiptAuthorityHead', 'COMMAND_KERNEL_RECEIPT_AUTHORITY_STORE_PROJECT_MISMATCH');
+  }
+  const receipts = [...verifiedStore.receipts, cloneJson(receipt)];
   const receiptError = validateReceipt(receipts.at(-1), receipts.length - 1);
   if (receiptError) throw receiptError;
   const nextHead = createHead({
-    projectId: verified.store.projectId,
+    projectId: verifiedStore.projectId,
     generation: receipts.length,
-    receipts,
+    receiptCount: receipts.length,
+    receiptRoot: appendReceiptRootDigest(
+      verifiedStore.currentHead.receiptRootDigest,
+      receipts.at(-1),
+      receipts.length - 1,
+    ),
     eventLogDigest: hashEventLog(eventLog),
-    previousAuthorityHeadDigest: verified.store.currentHead.authorityHeadDigest,
+    previousAuthorityHeadDigest: verifiedStore.currentHead.authorityHeadDigest,
   });
-  return deepFreeze({
-    ...cloneJson(verified.store),
+  const nextStore = deepFreeze({
+    ...cloneJson(verifiedStore),
     receipts,
     currentHead: nextHead,
-    headHistory: [...verified.store.headHistory.map((ref) => cloneJson(ref)), createCommandReceiptAuthorityHeadRef(nextHead)],
+    compaction: deepFreeze({
+      ...cloneJson(verifiedStore.compaction),
+      retainedReceiptCount: receipts.length,
+    }),
   });
+  VERIFIED_AUTHORITY_STORES.add(nextStore);
+  return nextStore;
 }
 
 export function createCommandKernelReceiptAuthorityPortFromStore(storeInput, options = {}) {
@@ -285,7 +330,7 @@ export function createCommandKernelReceiptAuthorityPortFromStore(storeInput, opt
   return {
     authorityKind: COMMAND_KERNEL_RECEIPT_AUTHORITY_KIND,
     schemaVersion: STAGE10_COMMAND_RECEIPT_AUTHORITY_HEAD_SCHEMA,
-    authorityVersion: 1,
+    authorityVersion: 2,
     authorityHeadDigest: store.currentHead.authorityHeadDigest,
     receiptRootDigest: store.currentHead.receiptRootDigest,
     getCommandKernelReceipt({ operationId }) {

@@ -142,6 +142,7 @@ test('P0 repeat high-density state bindings remain non-terminal', () => {
   assert.equal([
     receipt.nextStage,
     'P0_WORD_SCALE_ENGINEERING_AND_REMAINING_LIMITATION_CLOSURE_AFTER_500K_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(program.releaseAuditNight01.nextStage), true);
   assert.equal(program.releaseAuditNight01.wordSaturated, false);
   assert.equal(profile.latestProductRepeatHighDensityStress.receiptPath, program.releaseAuditNight01.latestRepeatHighDensityStressReceiptPath);

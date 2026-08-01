@@ -12,6 +12,7 @@ const PROGRAM_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'POST_D1_PORTABI
 const LEDGER_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json');
 const SCRIPT_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-normalized-capability-matrix.mjs');
 const NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
+const C5_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -114,15 +115,15 @@ test('normalized Word capability matrix state bindings are non-terminal', () => 
   assert.equal(receipt.matrixBinding.path, 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json');
   assert.equal(receipt.counts.totalCells, 25);
   assert.equal(program.releaseAuditNight01.normalizedCapabilityMatrixPath, receipt.matrixBinding.path);
-  assert.equal(program.releaseAuditNight01.nextStage, NEXT_STAGE);
-  assert.equal(program.releaseAuditNight01.wordSaturated, true);
+  assert.equal(program.releaseAuditNight01.nextStage, C5_STAGE);
+  assert.equal(program.releaseAuditNight01.wordSaturated, false);
   assert.equal(program.releaseAuditNight01.wordSaturationScope, 'DECLARED_SUPPORT_ENVELOPE_ONLY');
-  assert.equal(program.releaseAuditNight01.readyForFreshIndependentExactHeadAudit, true);
+  assert.equal(program.releaseAuditNight01.readyForFreshIndependentExactHeadAudit, false);
   assert.equal(profile.normalizedCapabilityMatrix.matrixPath, receipt.matrixBinding.path);
   assert.equal(profile.normalizedCapabilityMatrix.counts.productRuntimeWired, matrix.counts.productRuntimeWired);
   assert.equal(ledger.coverageLedger.releaseAuditNight01NormalizedCapabilityMatrix.counts.physicalWordEvidence, 16);
-  assert.equal(ledger.runtimeClaims.wordSaturated, true);
+  assert.equal(ledger.runtimeClaims.wordSaturated, false);
   assert.equal(ledger.runtimeClaims.wordSaturationScope, 'DECLARED_SUPPORT_ENVELOPE_ONLY');
-  assert.equal(ledger.runtimeClaims.readyForFreshIndependentExactHeadAudit, true);
+  assert.equal(ledger.runtimeClaims.readyForFreshIndependentExactHeadAudit, false);
   assert.equal(ledger.runtimeClaims.googleDocsOpened, false);
 });

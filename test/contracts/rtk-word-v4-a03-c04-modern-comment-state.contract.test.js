@@ -62,6 +62,7 @@ test('A03 C04 binds modern comment state readback without reply or resolve-reope
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
     'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(program.v4ExecutionState.nextStage));
 });
 

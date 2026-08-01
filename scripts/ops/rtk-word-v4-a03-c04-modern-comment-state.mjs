@@ -43,6 +43,9 @@ const P0_STRUCTURAL_NEXT_STAGE = 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECON
 const P0_SCALE_NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
 const FINAL_MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT';
 const FINAL_NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
+const C4_REMEDIATION_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED';
+const C4_REMEDIATION_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH';
+const C4_NEXT_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 const EVIDENCE_ID = 'A03_C04_MODERN_COMMENT_STATE';
 
 function readJson(filePath) {
@@ -537,6 +540,24 @@ function isFinalEnvelopeSuccessorState(profile, program, ledger, promotionList) 
     && ledger.runtimeClaims?.automaticApplyExpanded === false;
 }
 
+function isC4RemediationState(profile, program, ledger) {
+  return profile.status === C4_REMEDIATION_STATUS
+    && program.status === C4_REMEDIATION_STATUS
+    && program.nextStep === C4_NEXT_STAGE
+    && program.v4ExecutionState?.status === C4_REMEDIATION_STATUS
+    && program.v4ExecutionState?.currentStage === C4_REMEDIATION_STAGE
+    && program.v4ExecutionState?.nextStage === C4_NEXT_STAGE
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit === false
+    && program.v4ExecutionState?.googleDocsOpened === false
+    && ledger.status === C4_REMEDIATION_STATUS
+    && ledger.nextStage === C4_NEXT_STAGE
+    && ledger.runtimeClaims?.wordSaturated === false
+    && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === false
+    && ledger.runtimeClaims?.googleDocsOpened === false;
+}
+
 export function evaluateWordV4A03C04ModernCommentState(input = {}) {
   const receipt = input.receipt || (fs.existsSync(RECEIPT_PATH) ? readJson(RECEIPT_PATH) : buildReceipt());
   const promotionList = input.promotionList || readJson(PROMOTION_LIST_PATH);
@@ -550,7 +571,8 @@ export function evaluateWordV4A03C04ModernCommentState(input = {}) {
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.v4.modernCommentStateReadbackGate');
   const validSuccessorState = c05SuccessorState
     || isP0ReplySuccessorState(profile, program, ledger, promotionList)
-    || isFinalEnvelopeSuccessorState(profile, program, ledger, promotionList);
+    || isFinalEnvelopeSuccessorState(profile, program, ledger, promotionList)
+    || isC4RemediationState(profile, program, ledger);
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_A03_C04_RECEIPT_INVALID', 'receipt', 'C04 receipt must bind a passing state-readback-only gate.');
   if (receipt.oracle?.activeRootCommentReadbackPass !== true

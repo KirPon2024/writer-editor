@@ -37,6 +37,9 @@ const C05_PROFILE_STATUS = 'WORD_16_111_2_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED
 const C05_PROGRAM_STATUS = 'WORD_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_WIRED_NOT_SATURATED';
 const C05_PROMOTION_STATUS = 'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT';
 const C05_NEXT_STAGE = 'RELEASE_AUDIT_REBIND_AFTER_C05';
+const C4_REMEDIATION_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED';
+const C4_REMEDIATION_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH';
+const C4_NEXT_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 const CURRENT_STAGE = 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE';
 const NEXT_STAGE = 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS';
 const EVIDENCE_ID = 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE';
@@ -375,6 +378,24 @@ function isC05SuccessorState(profile, program, ledger, promotionList) {
     && ledger.runtimeClaims?.wordSaturated === false;
 }
 
+function isC4RemediationState(profile, program, ledger) {
+  return profile.status === C4_REMEDIATION_STATUS
+    && program.status === C4_REMEDIATION_STATUS
+    && program.nextStep === C4_NEXT_STAGE
+    && program.v4ExecutionState?.status === C4_REMEDIATION_STATUS
+    && program.v4ExecutionState?.currentStage === C4_REMEDIATION_STAGE
+    && program.v4ExecutionState?.nextStage === C4_NEXT_STAGE
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit === false
+    && program.v4ExecutionState?.googleDocsOpened === false
+    && ledger.status === C4_REMEDIATION_STATUS
+    && ledger.nextStage === C4_NEXT_STAGE
+    && ledger.runtimeClaims?.wordSaturated === false
+    && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === false
+    && ledger.runtimeClaims?.googleDocsOpened === false;
+}
+
 export function evaluateWordV4A03C03AdjacentRangeNegativeOracle(input = {}) {
   const receipt = input.receipt || (fs.existsSync(RECEIPT_PATH) ? readJson(RECEIPT_PATH) : buildReceipt());
   const promotionList = input.promotionList || readJson(PROMOTION_LIST_PATH);
@@ -386,7 +407,8 @@ export function evaluateWordV4A03C03AdjacentRangeNegativeOracle(input = {}) {
   const row = list(promotionList.rows).find((item) => item.capability === 'adjacentTrackedReplacementExactCandidate');
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.v4.adjacentRangeNegativeOracle');
   const successorState = isC04SuccessorState(profile, program, ledger, promotionList)
-    || isC05SuccessorState(profile, program, ledger, promotionList);
+    || isC05SuccessorState(profile, program, ledger, promotionList)
+    || isC4RemediationState(profile, program, ledger);
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_A03_C03_RECEIPT_INVALID', 'receipt', 'C03 receipt must bind a passing negative oracle without promotion.');
   if (receipt.oracle?.twoAdjacentPass !== true || receipt.oracle?.tripleIdentityLoss !== true || receipt.oracle?.a02TripleBlocked !== true || receipt.oracle?.c02NoProductAuthority !== true) add('RTK_A03_C03_ORACLE_INVALID', 'oracle', 'C03 oracle requires two-adjacent pass plus triple-adjacent typed identity loss and no C02 product authority.');

@@ -38,7 +38,9 @@ test('P0 multi-round ledger reconciliation binds E10 and product replay evidence
   assert.equal(receipt.implementedCapability.divergentRoundAutoMergeCertified, false);
   assert.equal(receipt.implementedCapability.multiRoundLedgerReconciled, true);
   assert.deepEqual(Object.values(receipt.vetoMetrics).filter((value) => Number(value) !== 0), []);
-  assert.equal(program.v4ExecutionState.nextStage, 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT');
+  assert.equal(program.v4ExecutionState.nextStage, 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION');
+  assert.equal(program.v4ExecutionState.wordAcceptanceRevoked, true);
+  assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
   assert.equal(ledger.coverageLedger.p0MultiRoundLedgerReconciliation.status, 'BOUND_MULTI_ROUND_REPLAY_GUARDS_RECONCILED');
 });

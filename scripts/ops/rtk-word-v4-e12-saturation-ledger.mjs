@@ -10,6 +10,8 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const RECEIPT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json');
 const PROFILE_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json');
 const PROGRAM_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'POST_D1_PORTABILITY_PROGRAM_V1.json');
+const REMEDIATION_C4_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED';
+const REMEDIATION_C5_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 
 const REQUIRED_EVIDENCE = [
   'E06_PHYSICAL_TEXT',
@@ -101,6 +103,14 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
   const program = input.program || readJson(PROGRAM_PATH);
   const issues = [];
   const add = (code, field, message) => issues.push(issue(code, field, message));
+  const remediationC4Active = receipt.status === REMEDIATION_C4_STATUS
+    && profile.status === REMEDIATION_C4_STATUS
+    && program.status === REMEDIATION_C4_STATUS
+    && program.v4ExecutionState?.status === REMEDIATION_C4_STATUS
+    && program.v4ExecutionState?.nextStage === REMEDIATION_C5_STAGE
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.googleDocsOpened === false;
 
   if (receipt.schemaVersion !== 'yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1') {
     add('RTK_V4_E12_SCHEMA_INVALID', 'schemaVersion', 'E12 receipt schema is invalid.');
@@ -126,6 +136,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    REMEDIATION_C4_STATUS,
   ]);
   if (!allowedReceiptStatuses.has(receipt.status)) {
     add('RTK_V4_E12_STATUS_INVALID', 'status', 'E12 must bind wave 300 complete while staying not-saturated until all wave criteria are proven.');
@@ -535,7 +546,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
 
   const customXmlResolved = coverage.customXmlAuthorityFollowup?.status === 'BOUND';
   const multiSceneResolved = coverage.multiSceneApplyFollowup?.status === 'BOUND';
-  if (!finalEnvelopeReady && (!Array.isArray(receipt.notSaturatedReasons) || receipt.notSaturatedReasons.length < (multiSceneResolved ? 1 : (customXmlResolved ? 2 : 3)))) {
+  if (!finalEnvelopeReady && !remediationC4Active && (!Array.isArray(receipt.notSaturatedReasons) || receipt.notSaturatedReasons.length < (multiSceneResolved ? 1 : (customXmlResolved ? 2 : 3)))) {
     add('RTK_V4_E12_NOT_SATURATED_REASONS_MISSING', 'notSaturatedReasons', 'E12 must list concrete remaining saturation blockers.');
   }
   if (coverage.wave300ParserGapFollowup?.status === 'BOUND'
@@ -587,7 +598,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     && receipt.runtimeClaims?.automaticApplyExpanded === false
     && receipt.runtimeClaims?.googleDocsOpened === false
     && receipt.runtimeClaims?.wordSaturated === false;
-  if (!c01RuntimeOnly && !c02ComponentOnly && !c03NegativeOracleOnly && !c04StateReadbackOnly && !p0MultiRoundReconciled && !normalizedMatrixReconciled && !finalEnvelopeReady && (receipt.runtimeClaims?.productRuntimeChanged !== false || receipt.runtimeClaims?.automaticApplyExpanded !== false || receipt.runtimeClaims?.googleDocsOpened !== false)) {
+  if (!c01RuntimeOnly && !c02ComponentOnly && !c03NegativeOracleOnly && !c04StateReadbackOnly && !p0MultiRoundReconciled && !normalizedMatrixReconciled && !remediationC4Active && !finalEnvelopeReady && (receipt.runtimeClaims?.productRuntimeChanged !== false || receipt.runtimeClaims?.automaticApplyExpanded !== false || receipt.runtimeClaims?.googleDocsOpened !== false)) {
     add('RTK_V4_E12_RUNTIME_SCOPE_OVERCLAIM', 'runtimeClaims', 'E12 must not change runtime apply authority or open Google Docs outside bounded delivered A03 contours.');
   }
 
@@ -611,6 +622,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY',
     'SATURATION_LEDGER_RECONCILED_SCALE_ENVELOPE_PENDING',
     'SUPPORT_ENVELOPE_TERMINAL_READY_FOR_INDEPENDENT_AUDIT',
+    'REOPENED_BY_WORD_SAFETY_REMEDIATION_C4_VERIFIED_C5_REQUIRED',
   ]);
   if (!cell || cell.state !== 'PHYSICAL_WORD_PROVEN' || !allowedProfileCapabilities.has(cell.currentCapability) || cell.physicalWordEvidence !== true) {
     add('RTK_V4_E12_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability profile must bind E12 wave 300 as physical evidence proven but not saturated.');
@@ -634,6 +646,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    REMEDIATION_C4_STATUS,
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_PROFILE_STATUS_INVALID', 'profile.status', 'Profile status must reflect E12 wave 300 complete not-saturated ledger.');
@@ -659,6 +672,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    REMEDIATION_C4_STATUS,
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must reflect E12 physical wave 300 completion.');
@@ -682,6 +696,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    REMEDIATION_C4_STATUS,
   ]);
   if (!allowedStateStatuses.has(state.status)) {
     add('RTK_V4_E12_PROGRAM_STATE_INVALID', 'program.v4ExecutionState.status', 'Program state must keep E12 active and advance to the Word stability limitation audit.');
@@ -703,6 +718,7 @@ export function evaluateWordV4E12SaturationLedger(input = {}) {
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
     'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
+    REMEDIATION_C5_STAGE,
   ]);
   if (!allowedNextStages.has(state.nextStage)) {
     add('RTK_V4_E12_NEXT_STAGE_INVALID', 'program.v4ExecutionState.nextStage', 'Next stage must continue the Word stability limitation audit, not Google Docs.');

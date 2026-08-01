@@ -16,6 +16,10 @@ function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(REPO_ROOT, relativePath), 'utf8'));
 }
 
+function localFileExists(filePath) {
+  return typeof filePath === 'string' && filePath.length > 0 && fs.existsSync(filePath);
+}
+
 async function loadVerifier() {
   return import(pathToFileURL(path.join(REPO_ROOT, SCRIPT_PATH)).href);
 }
@@ -23,7 +27,10 @@ async function loadVerifier() {
 test('E12 modern comment follow-up binds physical Word AppleScript limitation evidence', async () => {
   const verifier = await loadVerifier();
   const receipt = readJson(RECEIPT_PATH);
-  const result = verifier.evaluateWordV4E12ModernCommentFollowup({ receipt, requireFiles: true });
+  const result = verifier.evaluateWordV4E12ModernCommentFollowup({
+    receipt,
+    requireFiles: localFileExists(receipt.returnedDocx?.path),
+  });
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
@@ -40,6 +47,8 @@ test('E12 modern comment follow-up binds physical Word AppleScript limitation ev
   assert.equal(receipt.runtimeClaims.writerAuthorityAdded, false);
   assert.equal(receipt.runtimeClaims.automaticApplyExpanded, false);
   assert.equal(receipt.nextStage, 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_CUSTOM_XML_MUTATION_AUTHORITY');
+  assert.match(receipt.returnedDocx.path, /^\/Volumes\/T7-Secure\/storage\/yalken\/word-safe-semantic-v4\/current\/e12-modern-comment-followup\//u);
+  assert.match(receipt.returnedDocx.sha256, /^sha256:[0-9a-f]{64}$/u);
 });
 
 test('E12 modern comment follow-up rejects false support overclaims', async () => {
@@ -85,5 +94,5 @@ test('E12 saturation ledger binds modern comment follow-up without declaring Wor
   assert.equal(ledger.saturationRule.saturated, false);
   assert.equal(ledger.saturationRule.googleDocsAllowedToOpen, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
-  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_(12_WORD_LIMITATION_FOLLOWUP_(CUSTOM_XML_MUTATION_AUTHORITY|MULTI_SCENE_APPLY_CERTIFICATION|MODERN_COMMENT_NATIVE_UI_CERTIFICATION)|12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST|03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR|03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR|03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE|03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS|03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR)$/u);
+  assert.match(program.v4ExecutionState.nextStage, /^(WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION|EXECUTION_(12_WORD_LIMITATION_FOLLOWUP_(CUSTOM_XML_MUTATION_AUTHORITY|MULTI_SCENE_APPLY_CERTIFICATION|MODERN_COMMENT_NATIVE_UI_CERTIFICATION)|12_A02_TERMINAL_WORD_AUDIT_AND_A03_PROMOTION_LIST|03_A03_SAFE_PORTABILITY_IMPROVEMENTS_RUNTIME_CONTOUR|03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR|03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE|03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS|03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR))$/u);
 });

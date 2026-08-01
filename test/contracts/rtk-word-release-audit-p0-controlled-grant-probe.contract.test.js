@@ -47,8 +47,12 @@ test('program binds the latest permission probe without replacing smoke-wave rec
   const program = readJson(programPath);
   const smokeReceipt = readJson(previousSmokeReceiptPath);
   assert.equal(
-    program.releaseAuditNight01.latestReceiptPath,
-    'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json',
+    [
+      'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json',
+      'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION_RECEIPT.json',
+      'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json',
+    ].includes(program.releaseAuditNight01.latestReceiptPath),
+    true,
   );
   assert.equal(
     program.releaseAuditNight01.latestEnvironmentPermissionProbeReceiptPath,

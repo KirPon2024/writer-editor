@@ -991,11 +991,15 @@ export function evaluateWordReleaseAuditP0MultiSceneAtomicCommentStateClosure(in
   if (Object.values(receipt.vetoMetrics || {}).some((value) => Number(value) !== 0)) {
     addIssue(issues, 'RTK_P0_MSCS_VETO_NONZERO', 'vetoMetrics', 'All veto metrics must remain zero.');
   }
-  if (program.releaseAuditNight01?.latestReceiptPath !== RECEIPT_REF
+  const validRemediationC4 = program.releaseAuditNight01?.status === 'WORD_RELEASE_AUDIT_REOPENED_BY_SAFETY_REMEDIATION_C4_VERIFIED'
+    && program.releaseAuditNight01?.nextStage === 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION'
+    && program.releaseAuditNight01?.wordSaturated === false
+    && program.releaseAuditNight01?.googleDocsOpened === false;
+  if (!validRemediationC4 && (program.releaseAuditNight01?.latestReceiptPath !== RECEIPT_REF
     || program.releaseAuditNight01?.multiSceneAtomicApplyCertified !== true
     || program.releaseAuditNight01?.commentDeleteProductRuntimeWired !== true
     || program.releaseAuditNight01?.wordSaturated !== false
-    || program.releaseAuditNight01?.googleDocsOpened !== false) {
+    || program.releaseAuditNight01?.googleDocsOpened !== false)) {
     addIssue(issues, 'RTK_P0_MSCS_PROGRAM_INVALID', 'program.releaseAuditNight01', 'Program state must bind product truth without saturation.');
   }
   if (!cell || cell.productRuntimeWired !== true || cell.multiSceneAtomicApplyCertified !== true || cell.automaticApplyCertified !== false || cell.wordSaturated !== false) {

@@ -11,7 +11,7 @@ const PROFILE_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMAN
 const PROGRAM_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'POST_D1_PORTABILITY_PROGRAM_V1.json');
 const LEDGER_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json');
 const SCRIPT_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-normalized-capability-matrix.mjs');
-const NEXT_STAGE = 'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION';
+const NEXT_STAGE = 'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION';
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -60,16 +60,17 @@ test('normalized Word capability matrix keeps remaining Word blockers explicit a
 
   assert.deepEqual([...blockers].sort(), [
     'rtk.word.v4.effectiveFormattingDiagnostics',
-    'rtk.word.v4.modernCommentStateReadbackGate',
     'rtk.word.v4.multiRoundReplayStaleConflictGuards',
     'rtk.word.v4.saturationLedger',
     'rtk.word.v4.typedStructuralDiagnostics',
   ].sort());
-  assert.equal(matrix.counts.blocksWordSaturation, 5);
+  assert.equal(matrix.counts.blocksWordSaturation, 4);
   assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.commentsShadowAnalysis').reasonCode, 'RTK_NORM_MODERN_REPLY_TYPED_LIMITATION_BOUND');
   assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.commentsShadowAnalysis').requiredNextContour, 'NONE_REPLY_TYPED_LIMITATION_BOUND');
+  assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.modernCommentStateReadbackGate').reasonCode, 'RTK_NORM_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND');
+  assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.modernCommentStateReadbackGate').requiredNextContour, 'NONE_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND');
+  assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.modernCommentStateReadbackGate').blocksWordSaturation, false);
   assert.deepEqual(matrix.nextEngineeringOrder.map((item) => item.contour), [
-    'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION',
     'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION',
     'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION',
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',

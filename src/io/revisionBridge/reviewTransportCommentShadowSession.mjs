@@ -182,6 +182,20 @@ function normalizeUnsupportedReplies(thread, replies, reasons) {
   });
 }
 
+function normalizeStateLifecycle(status) {
+  return {
+    resolvedStatePreserved: status === 'RESOLVED',
+    deletedStatePreserved: status === 'DELETED',
+    reopenedStateCertified: false,
+    resolveReopenLifecycleCertified: false,
+    reasonCodes: [
+      ...(status === 'RESOLVED' ? ['RTK_COMMENT_RESOLVE_STATE_SHADOW_PRESERVED'] : []),
+      ...(status === 'DELETED' ? ['RTK_COMMENT_DELETE_STATE_SHADOW_PRESERVED'] : []),
+      'RTK_COMMENT_REOPEN_TYPED_LIMITATION',
+    ],
+  };
+}
+
 function normalizeRootCommentThread(thread, index, reasons) {
   const messages = Array.isArray(thread.messages) ? thread.messages.filter(isPlainObject) : [];
   const rootMessage = messages[0] || {};
@@ -207,6 +221,7 @@ function normalizeRootCommentThread(thread, index, reasons) {
 
   const anchor = normalizeAnchor(thread);
   const unsupportedReplies = normalizeUnsupportedReplies(thread, replies, reasons);
+  const stateLifecycle = normalizeStateLifecycle(status);
   return {
     kind: 'CommentThread',
     threadId,
@@ -217,6 +232,7 @@ function normalizeRootCommentThread(thread, index, reasons) {
     authorPersonIdentity: normalizeAuthor(thread),
     date: rawString(thread.date),
     status,
+    stateLifecycle,
     anchor,
     unsupportedReplies,
     orphanOutcome: status === 'ORPHAN' || status === 'DELETED' || anchor.outcome === 'ORPHAN',
@@ -224,6 +240,8 @@ function normalizeRootCommentThread(thread, index, reasons) {
     reasonCodes: [
       ...(Array.isArray(thread.reasonCodes) ? thread.reasonCodes.map(normalizeString).filter(Boolean) : []),
       ...(unsupportedReplies.length > 0 ? ['RTK_COMMENT_REPLY_TYPED_LIMITATION_PRESERVED'] : []),
+      ...(stateLifecycle.resolvedStatePreserved ? ['RTK_COMMENT_RESOLVE_STATE_SHADOW_PRESERVED'] : []),
+      ...(stateLifecycle.deletedStatePreserved ? ['RTK_COMMENT_DELETE_STATE_SHADOW_PRESERVED'] : []),
     ],
     sourceXmlProvenanceDigest: thread.sourceXmlProvenance
       ? sha256Json(thread.sourceXmlProvenance)
@@ -296,6 +314,9 @@ function summarizeThreads(threads) {
     deleted: outcomeCounts.DELETED,
     replyCountPromoted: 0,
     unsupportedReplyCount,
+    resolveStateShadowPreserved: outcomeCounts.RESOLVED,
+    deleteStateShadowPreserved: outcomeCounts.DELETED,
+    reopenStateCertified: 0,
   };
 }
 
@@ -448,6 +469,8 @@ function buildSessionRecord(input = {}) {
       modernRepliesPromoted: false,
       modernRepliesPreservedAsTypedLimitation: normalized.threads.some((thread) => (thread.unsupportedReplies || []).length > 0),
       resolveReopenPromoted: false,
+      resolveStatePreservedAsShadowDiagnostic: normalized.threads.some((thread) => thread.stateLifecycle?.resolvedStatePreserved === true),
+      reopenStateCertified: false,
       deleteStatePromoted: recordContainsDeletedThread(normalized.threads),
       authenticatedProjectSceneBaselineBinding: identity.binding.authenticated === true,
     },
@@ -487,6 +510,8 @@ function buildReceipt(record, writeState = {}) {
       deleted: record.summary.deleted,
     },
     unsupportedReplyCount: record.summary.unsupportedReplyCount,
+    resolveStateShadowPreserved: record.summary.resolveStateShadowPreserved,
+    reopenStateCertified: record.summary.reopenStateCertified,
     authorityLevel: cloneJsonSafe(record.authorityLevel),
     vetoMetrics: {
       falseExact: 0,

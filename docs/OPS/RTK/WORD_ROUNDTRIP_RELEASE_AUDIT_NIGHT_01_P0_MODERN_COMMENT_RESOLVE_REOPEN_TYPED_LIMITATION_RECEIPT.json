@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "yalken.rtk.word.p0-modern-comment-resolve-reopen-typed-limitation-receipt.v1",
+  "taskId": "WORD_RTK_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION",
+  "status": "WORD_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T12:20:00.000Z",
+  "headBinding": {
+    "headSha": "89b2f8093d1785a5e2bce9a03446e597e541ae24",
+    "originMainSha": "89b2f8093d1785a5e2bce9a03446e597e541ae24",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "physicalStateEvidence": {
+      "sourceReceipt": {
+        "id": "A03_C04_MODERN_COMMENT_STATE",
+        "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C04_MODERN_COMMENT_STATE_RECEIPT.json",
+        "sha256": "abf76d9256a1d3cadb8fe2db681adeb536776be5a7d766c42f58bb5c4f7a3614",
+        "status": "BOUND"
+      },
+      "a02ResolveMicroLab": {
+        "id": "A02-MC-RESOLVE-REOPEN",
+        "result": "TYPED_LIMITATION",
+        "deterministicSelectedThreadBinding": true,
+        "resolveStableControlBound": true,
+        "reopenStableControlBound": false,
+        "resolvedDoneTrueCount": 1,
+        "resolvedDoneFalseCount": 0,
+        "reopenedDoneTrueCount": 1,
+        "reopenedDoneFalseCount": 0
+      },
+      "doneTrueReadbackOnly": true,
+      "reopenTypedLimitation": true
+    },
+    "p0ReplyClosure": {
+      "id": "P0_MODERN_COMMENT_REPLIES_TYPED_LIMITATION",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_REPLY_TYPED_LIMITATION_RECEIPT.json",
+      "sha256": "cc93a770497800ae9893b8f0d19d23f48b77ea7f8361f66a9258542f36617733",
+      "status": "BOUND"
+    },
+    "commentShadowSessionRuntime": {
+      "id": "COMMENT_SHADOW_SESSION_RUNTIME",
+      "path": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "9aeb9dd5b0f406c32cb930a6312b78f7e4af5bdef783decb6fd31631f9041629",
+      "status": "BOUND"
+    }
+  },
+  "productCommandProof": {
+    "commandId": "cmd.rtk.reviewSession.importComments",
+    "commandKernelDispatched": true,
+    "ok": true,
+    "firstStatus": "committed",
+    "replayStatus": "replay",
+    "writerCalled": false,
+    "manuscriptApplyAuthority": false,
+    "threadCount": 1,
+    "resolvedCount": 1,
+    "resolveStateShadowPreserved": 1,
+    "reopenStateCertified": 0,
+    "stateLifecycle": {
+      "resolvedStatePreserved": true,
+      "deletedStatePreserved": false,
+      "reopenedStateCertified": false,
+      "resolveReopenLifecycleCertified": false,
+      "reasonCodes": [
+        "RTK_COMMENT_RESOLVE_STATE_SHADOW_PRESERVED",
+        "RTK_COMMENT_REOPEN_TYPED_LIMITATION"
+      ]
+    },
+    "idempotentReplay": true,
+    "storageEffects": {
+      "manuscriptBytesWritten": 0,
+      "firstSessionRecordCreated": true,
+      "replaySessionRecordExisting": true
+    },
+    "vetoMetrics": {
+      "falseExact": 0,
+      "wrongSceneRouting": 0,
+      "silentApply": 0,
+      "replayFailure": 0,
+      "silentCommentLoss": 0,
+      "manuscriptMutation": 0,
+      "replyPromotion": 0,
+      "resolveReopenPromotion": 0
+    }
+  },
+  "implementedCapability": {
+    "capability": "modernCommentResolveReopenTypedLimitationShadowPreservation",
+    "physicalWordProven": false,
+    "componentProven": true,
+    "productRuntimeWired": true,
+    "automaticApplyCertified": false,
+    "resolvedStateShadowPreservationCertified": true,
+    "doneTrueStateReadbackPhysicalWordProven": true,
+    "reopenTypedLimitationBound": true,
+    "resolveReopenFullLifecycleCertified": false,
+    "manuscriptApplyAuthority": false,
+    "userFacingAuthority": "COMMENT_STATE_SHADOW_PREVIEW_ONLY",
+    "terminalClass": "TYPED_LIMITATION_BOUND_WITH_RESOLVED_STATE_SHADOW"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "falseSupport": 0,
+    "noOpPass": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "resolveReopenPromotion": 0
+  },
+  "nonClaims": [
+    "MODERN_RESOLVE_REOPEN_FULL_LIFECYCLE_NOT_CERTIFIED",
+    "NO_REOPEN_DONE_FALSE_AUTHORITY",
+    "NO_MANUSCRIPT_APPLY_AUTHORITY_ADDED",
+    "NO_AUTOMATIC_APPLY_CERTIFIED",
+    "GOOGLE_DOCS_NOT_OPENED",
+    "NO_GENERIC_WAVE_REPEATED"
+  ],
+  "nextStage": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION"
+}

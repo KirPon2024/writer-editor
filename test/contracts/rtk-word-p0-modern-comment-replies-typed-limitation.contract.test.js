@@ -158,15 +158,16 @@ test('self-standing reply thread cannot forge root shadow authority', async () =
   assert.equal(result.reasons.some((item) => item.code === 'RTK_COMMENT_UNSUPPORTED'), true);
 });
 
-test('normalized matrix advances from reply blocker to resolve reopen blocker', () => {
+test('normalized matrix keeps reply typed limitation closed through later resolve reopen successor', () => {
   const matrix = readJson(MATRIX_PATH);
   const byId = new Map(matrix.rows.map((row) => [row.cellId, row]));
 
   assert.equal(byId.get('rtk.word.v4.commentsShadowAnalysis').blocksWordSaturation, false);
   assert.equal(byId.get('rtk.word.v4.commentsShadowAnalysis').requiredNextContour, 'NONE_REPLY_TYPED_LIMITATION_BOUND');
   assert.equal(byId.get('rtk.word.v4.commentsShadowAnalysis').reasonCode, 'RTK_NORM_MODERN_REPLY_TYPED_LIMITATION_BOUND');
-  assert.equal(byId.get('rtk.word.v4.modernCommentStateReadbackGate').blocksWordSaturation, true);
-  assert.equal(matrix.counts.blocksWordSaturation, 5);
-  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION');
+  assert.equal(byId.get('rtk.word.v4.modernCommentStateReadbackGate').blocksWordSaturation, false);
+  assert.equal(byId.get('rtk.word.v4.modernCommentStateReadbackGate').reasonCode, 'RTK_NORM_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND');
+  assert.equal(matrix.counts.blocksWordSaturation, 4);
+  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION');
   assert.equal(matrix.counts.automaticApplyCertified, 0);
 });

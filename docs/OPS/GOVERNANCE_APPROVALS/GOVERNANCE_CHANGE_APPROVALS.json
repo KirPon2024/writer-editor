@@ -4742,10 +4742,10 @@
     },
     {
       "filePath": "scripts/ops/sector-m-scope-map.json",
-      "sha256": "75f8f11d53d11ae73b5b142b0ea0aa8c6e23d6af6e60e71d28e6654636ab3776",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_MODERN_COMMENT_NATIVE_UI_BLOCKER",
-      "approvedAtUtc": "2026-07-31T13:40:00.000Z",
-      "rationale": "Approve bounded RTK Word E12 modern-comment native UI blocker contour: Word 16.111.2 preflight open documents zero, System Events UI elements disabled, sdef unavailable under CLT-only Xcode, modern reply resolve reopen remains typed limitation, false support PASS zero, saturation remains false, and delivery requires truthful BLOCKED evidence plus strict governance rebinding."
+      "sha256": "efc3e5c1f2ff8c2614e50636ba1ba6c0afc72bb5e85286c1fa2aa58ebc0a0608",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C04",
+      "approvedAtUtc": "2026-08-01T01:27:00.000Z",
+      "rationale": "Approve bounded Sector-M scope map rebind for R3_C04 after PR 1339 drift: admits only src/derived/atlas/deriveAtlasMentionIndex.mjs alongside existing Atlas derived/runtime DONE-phase files so multilingual mention language routing is checked without widening UI, dependency, network, storage, or Program DoD claims."
     },
     {
       "filePath": "scripts/ops/shared-drift-engine-runtime-state.mjs",
@@ -7360,7 +7360,7 @@
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C04_MULTILINGUAL_WORKER_STRESS_RECEIPT.json",
-      "sha256": "16325d873dd6b6139b28bfc50c76071f44d9f625044d9108586389cd60f81fab",
+      "sha256": "8de6442451ef4355bc74c2ec9253d5d77978aed889c304c2997395e6cce8f8bf",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C04",
       "approvedAtUtc": "2026-08-01T00:37:00.000Z",
       "rationale": "Approve bounded R3_C04 receipt binding actual runner PASS and focused contract PASS while leaving doctrine, OSS, diff, governance, test:ops, full runner, commit, PR, merge, remote verification, R3_C05, independent audit, and Program DoD pending."

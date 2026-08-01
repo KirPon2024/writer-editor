@@ -5,10 +5,10 @@
   "programStage": "R3_MAXIMUM_PRODUCT_RELEASE_SATURATION_2026_07_31",
   "status": "PASS_R3_C04_MULTILINGUAL_WORKER_STRESS",
   "pass": true,
-  "generatedAtUtc": "2026-08-01T01:13:00Z",
+  "generatedAtUtc": "2026-08-01T01:31:00Z",
   "git": {
     "branch": "codex/yalken-atlas-v5-r3-c04-multilingual-stress",
-    "headSha": "f66ae2933b04468d91331a5c3b1b2856dc8ff410",
+    "headSha": "cd93ea7fcf5ef0b33a6c03a9e8d5e5c31b198849",
     "originMainSha": "9dcbd76a2584611a78bbc314b5aefd5684fa7ee1",
     "headEqualsOriginMainBeforeCommit": false,
     "deliveryCommitSha": "PENDING_PRE_COMMIT",
@@ -149,24 +149,38 @@
     },
     {
       "id": "governance-change-detection",
-      "command": "PENDING_REBIND",
-      "result": "PENDING",
-      "exitCode": null,
-      "summary": "Pending rerun after report and receipt approvals are rebound to post-9dcbd76a merged bytes."
+      "command": "node scripts/ops/governance-change-detection.mjs --json",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "GOVERNANCE_CHANGE_OK=1 after PR 1339 drift merge and Sector-M scope-map repair; missing approvals=[]; registry valid=1."
     },
     {
       "id": "test-ops",
-      "command": "PENDING_REBIND",
-      "result": "PENDING",
-      "exitCode": null,
-      "summary": "Pending rerun after governance approvals are rebound to post-9dcbd76a merged bytes."
+      "command": "npm run -s test:ops",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit=0 after branch push/upstream binding and Sector-M scope-map repair."
     },
     {
       "id": "full-runner",
-      "command": "PENDING_REBIND",
-      "result": "PENDING",
-      "exitCode": null,
-      "summary": "Pending rerun after governance approvals are rebound to post-9dcbd76a merged bytes."
+      "command": "node scripts/run-tests.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Full runner PASS after PR 1339 drift merge and Sector-M scope-map repair: 798 tests, 734 pass, 0 fail, 64 skipped; perf/menu/release-candidate tails PASS."
+    },
+    {
+      "id": "sector-m-scope-leak-contract",
+      "command": "node --test test/unit/sector-m-no-scope-leak.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Sector-M scope leak contract PASS after adding exact src/derived/atlas/deriveAtlasMentionIndex.mjs DONE allowlist entry: 10 tests, 10 pass, 0 fail."
+    },
+    {
+      "id": "sector-m-runner-artifact-contract",
+      "command": "node --test test/unit/sector-m-runner-artifact.test.js",
+      "result": "PASS",
+      "exitCode": 0,
+      "summary": "Sector-M runner artifact contract PASS after scope-map repair: 1 test, 1 pass, 0 fail."
     }
   ],
   "delivery": {

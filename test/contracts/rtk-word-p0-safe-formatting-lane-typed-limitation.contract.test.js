@@ -82,6 +82,8 @@ test('normalized matrix keeps formatting typed limitation closed through later s
   assert.equal(formatting.requiredNextContour, 'NONE_FORMATTING_TYPED_LIMITATION_BOUND');
   assert.equal(structural.blocksWordSaturation, false);
   assert.equal(structural.reasonCode, 'RTK_NORM_STRUCTURAL_APPLY_TYPED_LIMITATION_BOUND');
-  assert.equal(matrix.counts.blocksWordSaturation, 2);
-  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION');
+  assert.equal(byId.get('rtk.word.v4.multiRoundReplayStaleConflictGuards').blocksWordSaturation, false);
+  assert.equal(byId.get('rtk.word.v4.multiRoundReplayStaleConflictGuards').reasonCode, 'RTK_NORM_MULTI_ROUND_REPLAY_GUARDS_RECONCILED');
+  assert.equal(matrix.counts.blocksWordSaturation, 1);
+  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE');
 });

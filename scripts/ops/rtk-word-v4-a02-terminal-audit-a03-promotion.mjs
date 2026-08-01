@@ -937,7 +937,8 @@ export function evaluateWordA02TerminalAudit(input = {}) {
     || promotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT'
     || promotionList.status === 'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_C03_NEXT'
     || promotionList.status === 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT'
-    || promotionList.status === 'A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT';
+    || promotionList.status === 'A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT'
+    || promotionList.status === 'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT';
   if (promotionList.schemaVersion !== PROMOTION_SCHEMA || !promotionStatusAllowed) add('RTK_WORD_A03_PROMOTION_SCHEMA_INVALID', 'promotionList', 'A03 promotion list must be ready after A02 terminal audit or advanced by bounded A03 contours.');
   if (!Array.isArray(promotionList.rows) || promotionList.rows.length < 5) add('RTK_WORD_A03_PROMOTION_ROWS_MISSING', 'promotionList.rows', 'Promotion list must contain capability rows.');
   for (const row of promotionList.rows || []) {
@@ -947,11 +948,16 @@ export function evaluateWordA02TerminalAudit(input = {}) {
     const successorRuntimeWiringAllowed = promotionList.status === 'A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_C02_NEXT'
       || promotionList.status === 'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_C03_NEXT'
       || promotionList.status === 'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_C04_NEXT'
-      || promotionList.status === 'A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT';
+      || promotionList.status === 'A03_C04_MODERN_COMMENT_STATE_BOUND_C05_NEXT'
+      || promotionList.status === 'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT';
     const allowedC01RuntimeWiring = successorRuntimeWiringAllowed
       && row.capability === 'rootModernCommentShadowImport'
       && row.authorityLevel?.productRuntimeWired === true;
-    const productRuntimeOk = allowedC01RuntimeWiring || row.authorityLevel?.productRuntimeWired === false;
+    const allowedC05RuntimeWiring = promotionList.status === 'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT'
+      && row.capability === 'nonOverlapTrackedReplacementRuntimeApply'
+      && row.authorityLevel?.productRuntimeWired === true
+      && row.authorityLevel?.userAutomaticApplyCertified === false;
+    const productRuntimeOk = allowedC01RuntimeWiring || allowedC05RuntimeWiring || row.authorityLevel?.productRuntimeWired === false;
     const automaticApplyOk = row.authorityLevel?.automaticApplyCertified === false;
     if (!productRuntimeOk || !automaticApplyOk) {
       add('RTK_WORD_A03_RUNTIME_OVERCLAIM', `promotionList.rows.${row.capability}.authorityLevel`, 'A03 promotion list can only claim bounded delivered successor runtime contours.');

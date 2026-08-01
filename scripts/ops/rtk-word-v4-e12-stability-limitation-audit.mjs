@@ -16,6 +16,9 @@ const SCHEMA = 'yalken.rtk.word-safe-semantic-roundtrip-v4.e12-stability-limitat
 const STATUS = 'WORD_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED';
 const NEXT_STAGE = 'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT';
 const SUCCESSOR_STAGE = 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES';
+const MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED';
+const P0_MULTI_ROUND_STATUS = 'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED';
+const SCALE_NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
 const REQUIRED_LIMITATIONS = Object.freeze([
   'SECOND_CONSECUTIVE_STABLE_APPROVED_WAVE_REQUIRED',
   'MODERN_REPLY_RESOLVE_REOPEN_REMAINS_TYPED_LIMITATION',
@@ -70,11 +73,23 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     || ledger.status === 'WORD_SATURATION_A03_C02_COMPONENT_PROVEN_NOT_PRODUCT_PATH_NOT_SATURATED'
     || ledger.status === 'WORD_SATURATION_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_SATURATED'
     || ledger.status === 'WORD_SATURATION_A03_C04_MODERN_COMMENT_STATE_BOUND_NOT_SATURATED'
+    || ledger.status === 'WORD_SATURATION_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_SATURATED'
   )
     && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
     && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
     && ledgerRule.saturated === false
     && ledgerRule.googleDocsAllowedToOpen === false;
+  const ledgerIsP0Successor = (
+    ledger.status === MATRIX_STATUS
+    || ledger.status === P0_MULTI_ROUND_STATUS
+  )
+    && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
+    && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
+    && ledgerRule.saturated === false
+    && ledgerRule.googleDocsAllowedToOpen === false
+    && ledger.runtimeClaims?.wordSaturated === false
+    && ledger.runtimeClaims?.googleDocsOpened === false
+    && ledger.coverageLedger?.p0MultiRoundLedgerReconciliation?.status === 'BOUND_MULTI_ROUND_REPLAY_GUARDS_RECONCILED';
 
   if (receipt.schemaVersion !== SCHEMA) add('RTK_V4_E12_STABILITY_SCHEMA_INVALID', 'schemaVersion', 'Stability limitation audit schema is invalid.');
   if (receipt.stageId !== 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT') add('RTK_V4_E12_STABILITY_STAGE_INVALID', 'stageId', 'Audit stage id is invalid.');
@@ -83,7 +98,12 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     add('RTK_V4_E12_STABILITY_LEDGER_PATH_INVALID', 'boundLedger.path', 'Audit must bind the E12 saturation ledger.');
   }
   if (!isHex64(receipt.boundLedger?.sha256)) add('RTK_V4_E12_STABILITY_LEDGER_SHA_INVALID', 'boundLedger.sha256', 'Bound ledger SHA-256 is invalid.');
-  if (input.requireFiles === true && !ledgerIsRepeatSuccessor && !ledgerIsFollowupSuccessor && !ledgerIsModernCommentSuccessor && receipt.boundLedger?.sha256 !== sha256File(LEDGER_PATH)) {
+  if (input.requireFiles === true
+    && !ledgerIsRepeatSuccessor
+    && !ledgerIsFollowupSuccessor
+    && !ledgerIsModernCommentSuccessor
+    && !ledgerIsP0Successor
+    && receipt.boundLedger?.sha256 !== sha256File(LEDGER_PATH)) {
     add('RTK_V4_E12_STABILITY_LEDGER_SHA_MISMATCH', 'boundLedger.sha256', 'Bound ledger SHA-256 does not match current bytes.');
   }
 
@@ -123,7 +143,11 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && Number(ledgerRule.consecutiveStableApprovedWaves) === 1
     && ledgerRule.saturated === false
     && ledgerRule.googleDocsAllowedToOpen === false;
-  if (!ledgerIsAuditState && !ledgerIsRepeatSuccessor && !ledgerIsFollowupSuccessor && !ledgerIsModernCommentSuccessor) {
+  if (!ledgerIsAuditState
+    && !ledgerIsRepeatSuccessor
+    && !ledgerIsFollowupSuccessor
+    && !ledgerIsModernCommentSuccessor
+    && !ledgerIsP0Successor) {
     add('RTK_V4_E12_STABILITY_LEDGER_STATE_INVALID', 'ledger.saturationRule', 'Source ledger must remain wave300 complete not saturated.');
   }
 
@@ -143,6 +167,9 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_16_111_2_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH',
     'WORD_16_111_2_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
     'WORD_16_111_2_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED',
+    'WORD_16_111_2_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_SATURATED',
+    MATRIX_STATUS,
+    P0_MULTI_ROUND_STATUS,
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_STABILITY_PROFILE_STATUS_INVALID', 'profile.status', 'Profile must bind the stability audit as complete not saturated.');
@@ -163,6 +190,8 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'A03_C02_COMPONENT_PROVEN_NOT_USER_AUTOMATIC_APPLY_NOT_SATURATED',
     'A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
     'A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_NOT_PROMOTED',
+    'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY',
+    'SATURATION_LEDGER_RECONCILED_SCALE_ENVELOPE_PENDING',
   ]);
   if (!cell || !allowedCapabilities.has(cell.currentCapability) || cell.state !== 'PHYSICAL_WORD_PROVEN') {
     add('RTK_V4_E12_STABILITY_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability cell must bind stability audit without saturation.');
@@ -184,6 +213,9 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_COMPONENT_PROVEN_NOT_PRODUCT_PATH',
     'WORD_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND_NOT_PROMOTED',
     'WORD_A03_C04_MODERN_COMMENT_STATE_READBACK_BOUND_NOT_PROMOTED',
+    'WORD_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_WIRED_NOT_SATURATED',
+    MATRIX_STATUS,
+    P0_MULTI_ROUND_STATUS,
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must bind the stability audit.');
@@ -203,6 +235,9 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_03_A03_C02_COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED',
     'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND',
     'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_BOUND',
+    'EXECUTION_03_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT',
+    MATRIX_STATUS,
+    P0_MULTI_ROUND_STATUS,
   ]);
   const allowedCurrentStages = new Set([
     'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',
@@ -218,6 +253,9 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR',
     'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE',
     'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS',
+    'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
+    'P0_NORMALIZED_CAPABILITY_MATRIX',
+    'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
   ]);
   const allowedNextStages = new Set([
     NEXT_STAGE,
@@ -232,6 +270,8 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE',
     'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS',
     'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
+    'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
+    SCALE_NEXT_STAGE,
   ]);
   if (!allowedStateStatuses.has(state.status)
     || !allowedCurrentStages.has(state.currentStage)
@@ -246,6 +286,9 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     || state.status === 'EXECUTION_03_A03_C02_COMPONENT_PROVEN_PRODUCT_PATH_NOT_WIRED'
     || state.status === 'EXECUTION_03_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_BOUND'
     || state.status === 'EXECUTION_03_A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_BOUND'
+    || state.status === 'EXECUTION_03_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT'
+    || state.status === MATRIX_STATUS
+    || state.status === P0_MULTI_ROUND_STATUS
     ? state.nextStage
     : decision.nextStage || '';
 

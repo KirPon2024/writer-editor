@@ -11,7 +11,7 @@ const PROFILE_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMAN
 const PROGRAM_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'POST_D1_PORTABILITY_PROGRAM_V1.json');
 const LEDGER_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'RTK', 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json');
 const SCRIPT_PATH = path.join(REPO_ROOT, 'scripts', 'ops', 'rtk-word-normalized-capability-matrix.mjs');
-const NEXT_STAGE = 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION';
+const NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -59,10 +59,9 @@ test('normalized Word capability matrix keeps remaining Word blockers explicit a
   const blockers = new Set(matrix.rows.filter((row) => row.blocksWordSaturation).map((row) => row.cellId));
 
   assert.deepEqual([...blockers].sort(), [
-    'rtk.word.v4.multiRoundReplayStaleConflictGuards',
     'rtk.word.v4.saturationLedger',
   ].sort());
-  assert.equal(matrix.counts.blocksWordSaturation, 2);
+  assert.equal(matrix.counts.blocksWordSaturation, 1);
   assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.commentsShadowAnalysis').reasonCode, 'RTK_NORM_MODERN_REPLY_TYPED_LIMITATION_BOUND');
   assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.commentsShadowAnalysis').requiredNextContour, 'NONE_REPLY_TYPED_LIMITATION_BOUND');
   assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.modernCommentStateReadbackGate').reasonCode, 'RTK_NORM_RESOLVE_REOPEN_TYPED_LIMITATION_BOUND');
@@ -74,8 +73,10 @@ test('normalized Word capability matrix keeps remaining Word blockers explicit a
   assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.typedStructuralDiagnostics').reasonCode, 'RTK_NORM_STRUCTURAL_APPLY_TYPED_LIMITATION_BOUND');
   assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.typedStructuralDiagnostics').requiredNextContour, 'NONE_STRUCTURAL_TYPED_LIMITATION_BOUND');
   assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.typedStructuralDiagnostics').blocksWordSaturation, false);
+  assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.multiRoundReplayStaleConflictGuards').reasonCode, 'RTK_NORM_MULTI_ROUND_REPLAY_GUARDS_RECONCILED');
+  assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.multiRoundReplayStaleConflictGuards').requiredNextContour, 'NONE_MULTI_ROUND_LEDGER_RECONCILED');
+  assert.equal(matrix.rows.find((row) => row.cellId === 'rtk.word.v4.multiRoundReplayStaleConflictGuards').blocksWordSaturation, false);
   assert.deepEqual(matrix.nextEngineeringOrder.map((item) => item.contour), [
-    'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
   ]);
 });

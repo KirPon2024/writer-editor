@@ -69,7 +69,7 @@ test('structural classifier lanes remain blocked and cannot become writer author
   assert.doesNotMatch(source, /structure:\s*classifyExact|automaticStructuralApply|structuralWriterAuthority:\s*true/u);
 });
 
-test('normalized matrix advances from structural typed limitation to multi-round blockers', async () => {
+test('normalized matrix keeps structural typed limitation closed through multi-round reconciliation', async () => {
   const { evaluateNormalizedCapabilityMatrix } = await loadMatrixEvaluator();
   const matrix = readJson(MATRIX_PATH);
   const profile = readJson(PROFILE_PATH);
@@ -83,8 +83,10 @@ test('normalized matrix advances from structural typed limitation to multi-round
   assert.equal(structural.blocksWordSaturation, false);
   assert.equal(structural.reasonCode, 'RTK_NORM_STRUCTURAL_APPLY_TYPED_LIMITATION_BOUND');
   assert.equal(structural.requiredNextContour, 'NONE_STRUCTURAL_TYPED_LIMITATION_BOUND');
-  assert.equal(multiRound.blocksWordSaturation, true);
+  assert.equal(multiRound.blocksWordSaturation, false);
+  assert.equal(multiRound.reasonCode, 'RTK_NORM_MULTI_ROUND_REPLAY_GUARDS_RECONCILED');
+  assert.equal(multiRound.requiredNextContour, 'NONE_MULTI_ROUND_LEDGER_RECONCILED');
   assert.equal(ledger.blocksWordSaturation, true);
-  assert.equal(matrix.counts.blocksWordSaturation, 2);
-  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION');
+  assert.equal(matrix.counts.blocksWordSaturation, 1);
+  assert.equal(matrix.nextEngineeringOrder[0].contour, 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE');
 });

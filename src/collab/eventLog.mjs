@@ -137,9 +137,11 @@ function normalizeCommandReceipt(input = {}) {
     || typeof details.domainEventDigest === 'string'
   ) {
     const domainEvents = normalizeDomainEvents(receipt.domainEvents || receipt.events || details.domainEvents);
-    normalized.domainEvents = domainEvents;
-    normalized.domainEventDigest = normalizeString(receipt.domainEventDigest || receipt.eventDigest || details.domainEventDigest)
+    const domainEventDigest = normalizeString(receipt.domainEventDigest || receipt.eventDigest || details.domainEventDigest)
       || hashCoreDomainEvents(domainEvents);
+    normalized.domainEvents = domainEvents;
+    normalized.domainEventDigest = domainEventDigest;
+    normalized.domainEventDigestValid = domainEventsValid(domainEvents, domainEventDigest);
   }
   return normalized;
 }
@@ -526,6 +528,15 @@ export function buildOperationReplayReport(input = {}) {
         'E_COLLAB_OPERATION_REPLAY_CAPABILITY_NOT_REVALIDATED',
         'COMMAND_KERNEL_CAPABILITY_REVALIDATION_REQUIRED',
         { index, opId: event.opId, commandId: event.commandId },
+      ));
+      continue;
+    }
+
+    if (receipt && receipt.domainEventDigestValid === false) {
+      rejected.push(replayError(
+        'E_COLLAB_OPERATION_REPLAY_RECEIPT_DOMAIN_EVENT_DIGEST_MISMATCH',
+        'COMMAND_KERNEL_RECEIPT_DOMAIN_EVENT_DIGEST_MISMATCH',
+        { index, opId: event.opId, receiptId: receipt.receiptId },
       ));
       continue;
     }

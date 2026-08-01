@@ -2051,19 +2051,19 @@ function checkEventsAppendOnly(matrixMode, debtRegistry) {
   const violations = [];
 
   const readHistoricalAuthority = () => {
-    const fallback = {
-      ok: true,
-      ids: [...DOMAIN_EVENTS_IMMUTABLE_EVENT_IDS],
-      digest: DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_DIGEST,
-      source: 'embedded-authority-fallback',
-    };
     const result = spawnSync(
       'git',
       ['show', `${DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_COMMIT}:${baselinePath}`],
       { encoding: 'utf8' },
     );
     if (result.status !== 0 || typeof result.stdout !== 'string' || !result.stdout.trim()) {
-      return fallback;
+      return {
+        ok: false,
+        ids: [...DOMAIN_EVENTS_IMMUTABLE_EVENT_IDS],
+        digest: '',
+        source: 'git-history',
+        violation: 'DOMAIN_EVENTS_AUTHORITY_UNREADABLE',
+      };
     }
     const digest = createHash('sha256').update(result.stdout, 'utf8').digest('hex');
     if (digest !== DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_DIGEST) {
@@ -2209,17 +2209,7 @@ function checkEventsAppendOnly(matrixMode, debtRegistry) {
     return { status: 'EVENTS_APPEND_OK', level: 'ok' };
   }
 
-  if (matrixMode.mode === 'STRICT') {
-    return { status: 'EVENTS_APPEND_FAIL', level: 'fail' };
-  }
-
-  const hasDebt = hasMatchingActiveDebt(debtRegistry, baselinePath)
-    || hasMatchingActiveDebt(debtRegistry, 'src/contracts/core-event.contract.ts')
-    || hasMatchingActiveDebt(debtRegistry, 'src/contracts/events');
-  return {
-    status: hasDebt ? 'EVENTS_APPEND_WARN' : 'EVENTS_APPEND_WARN_MISSING_DEBT',
-    level: 'warn',
-  };
+  return { status: 'EVENTS_APPEND_FAIL', level: 'fail' };
 }
 
 function checkTextSnapshotSpec(matrixMode, debtRegistry) {

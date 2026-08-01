@@ -317,7 +317,14 @@ function text(value) {
 
 function stringArray(value) {
   if (!Array.isArray(value)) return [];
-  return [...new Set(value.map(text).filter(Boolean))].sort();
+  const seen = new Set();
+  const out = [];
+  for (const item of value.map(text).filter(Boolean)) {
+    if (seen.has(item)) continue;
+    seen.add(item);
+    out.push(item);
+  }
+  return out;
 }
 
 function inferredLanguageTagId(payload) {
@@ -522,10 +529,24 @@ function normalizeCommandSeqInput(value, fallback = 0) {
   return Number.isSafeInteger(seq) && seq >= 0 ? seq : fallback;
 }
 
+function requireHashInput(value, key) {
+  const hash = text(value);
+  if (!SHA256_HEX_RE.test(hash)) throw new Error(`INVALID_CORE_DOMAIN_EVENT_PROVENANCE:${key}`);
+  return hash;
+}
+
+function requireNonNegativeSafeIntegerInput(value, key) {
+  const seq = Number(value);
+  if (!Number.isSafeInteger(seq) || seq < 0) {
+    throw new Error(`INVALID_CORE_DOMAIN_EVENT_PROVENANCE:${key}`);
+  }
+  return seq;
+}
+
 function boundaryEvent(type, payload, input, commandType) {
-  const commandSeq = normalizeCommandSeqInput(input?.commandSeq);
-  const previousStateHash = normalizeHashInput(input?.previousStateHash, { type, payload, edge: 'previous' });
-  const nextStateHash = normalizeHashInput(input?.nextStateHash, { type, payload, edge: 'next' });
+  const commandSeq = requireNonNegativeSafeIntegerInput(input?.commandSeq, 'commandSeq');
+  const previousStateHash = requireHashInput(input?.previousStateHash, 'previousStateHash');
+  const nextStateHash = requireHashInput(input?.nextStateHash, 'nextStateHash');
   return eventFor({
     type,
     payload,
@@ -559,7 +580,7 @@ export function buildDerivedGenerationPublishedEvent(input = {}) {
       projectId: text(input.projectId),
       generationId: text(input.generationId),
       projectionKind: text(input.projectionKind),
-      sourceRevision: normalizeCommandSeqInput(input.sourceRevision),
+      sourceRevision: requireNonNegativeSafeIntegerInput(input.sourceRevision, 'sourceRevision'),
     },
     input,
     CORE_EVENT_SYSTEM_SOURCE_TYPES.DERIVED_PUBLISH,
@@ -573,8 +594,8 @@ export function buildDerivedGenerationRejectedAsStaleEvent(input = {}) {
       projectId: text(input.projectId),
       generationId: text(input.generationId),
       projectionKind: text(input.projectionKind),
-      sourceRevision: normalizeCommandSeqInput(input.sourceRevision),
-      currentRevision: normalizeCommandSeqInput(input.currentRevision),
+      sourceRevision: requireNonNegativeSafeIntegerInput(input.sourceRevision, 'sourceRevision'),
+      currentRevision: requireNonNegativeSafeIntegerInput(input.currentRevision, 'currentRevision'),
     },
     input,
     CORE_EVENT_SYSTEM_SOURCE_TYPES.DERIVED_REJECT_STALE,

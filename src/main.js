@@ -22643,24 +22643,34 @@ async function handleUiReorderNodeCommand(payload) {
   if (sceneIdsAfter.length > 0) {
     try {
       const runtime = await loadCoreRuntimeModule();
+      const commandSeq = Number.isSafeInteger(Number(resolvedNode.manifest?.lastCommandId))
+        ? Math.max(0, Number(resolvedNode.manifest.lastCommandId))
+        : 0;
       const event = runtime.buildSceneOrderChangedEvent({
         projectId: resolvedNode.projectId,
         sceneIds: sceneIdsAfter,
-        commandSeq: Math.max(0, targetIndex),
+        commandSeq,
         previousStateHash: computeHash(JSON.stringify(sceneIdsBefore)),
         nextStateHash: computeHash(JSON.stringify(sceneIdsAfter)),
       });
       return {
         ok: true,
         nodeId: resolvedNode.nodeId,
+        reordered: true,
+        receipt: moveResult.receipt && typeof moveResult.receipt === 'object' ? cloneJsonSafe(moveResult.receipt) : null,
         events: [event],
         domainEventDigest: runtime.hashCoreDomainEvents([event]),
       };
     } catch (error) {
       logDevError('scene-order-domain-event', error);
+      return {
+        ok: false,
+        error: 'SCENE_ORDER_DOMAIN_EVENT_INVALID',
+        reason: error && typeof error.message === 'string' ? error.message : 'DOMAIN_EVENT_INVALID',
+      };
     }
   }
-  return { ok: true, nodeId: resolvedNode.nodeId, events: [], domainEventDigest: '' };
+  return { ok: false, error: 'SCENE_ORDER_DOMAIN_EVENT_MISSING', reason: 'SCENE_ORDER_FACT_REQUIRED' };
 }
 
 ipcMain.handle('ui:reorder-node', async (_, payload) => {

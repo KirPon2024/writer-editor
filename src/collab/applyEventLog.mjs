@@ -1,5 +1,4 @@
 import { createHash } from 'node:crypto';
-import { hashCoreDomainEvents, validateCoreDomainEvent } from '../core/domainEvents.mjs';
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -35,9 +34,31 @@ function normalizeDomainEvents(events) {
   return Array.isArray(events) ? events.map((event) => cloneJson(event)) : [];
 }
 
-function domainEventsValid(events) {
+function getDomainEventPort(input = {}) {
+  const port = isPlainObject(input.domainEventPort) ? input.domainEventPort : {};
+  const validate = typeof port.validateCoreDomainEvent === 'function'
+    ? port.validateCoreDomainEvent
+    : typeof port.validateDomainEvent === 'function'
+      ? port.validateDomainEvent
+      : null;
+  return {
+    validate,
+    hash: typeof port.hashCoreDomainEvents === 'function'
+      ? port.hashCoreDomainEvents
+      : typeof port.hashDomainEvents === 'function'
+        ? port.hashDomainEvents
+        : (events) => hashCanonical(events),
+  };
+}
+
+function domainEventsValid(events, domainEventPort) {
   try {
-    return normalizeDomainEvents(events).every((event) => validateCoreDomainEvent(event).ok);
+    const normalized = normalizeDomainEvents(events);
+    if (normalized.length > 0 && typeof domainEventPort.validate !== 'function') return false;
+    return normalized.every((event) => {
+      const validation = domainEventPort.validate(event);
+      return validation === true || validation?.ok === true;
+    });
   } catch {
     return false;
   }
@@ -94,6 +115,7 @@ export function applyEventLog(input = {}) {
   const events = normalizeEvents(input.events);
   const applyCommand = typeof input.applyCommand === 'function' ? input.applyCommand : null;
   const hashState = typeof input.hashState === 'function' ? input.hashState : defaultHashState;
+  const domainEventPort = getDomainEventPort(input);
   const rejected = [];
   const seenEventIds = new Set();
 
@@ -170,7 +192,7 @@ export function applyEventLog(input = {}) {
     }
 
     const resultEvents = normalizeDomainEvents(applyResult.events);
-    if (!domainEventsValid(resultEvents)) {
+    if (!domainEventsValid(resultEvents, domainEventPort)) {
       rejected.push(buildRejectionEnvelope(
         event,
         'E_COLLAB_APPLY_DOMAIN_EVENTS_INVALID',
@@ -191,6 +213,6 @@ export function applyEventLog(input = {}) {
     rejected,
     stateHash,
     domainEvents,
-    domainEventDigest: hashCoreDomainEvents(domainEvents),
+    domainEventDigest: domainEventPort.hash(domainEvents),
   };
 }

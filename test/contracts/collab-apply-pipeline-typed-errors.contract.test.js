@@ -65,3 +65,36 @@ test('collab apply pipeline returns typed rejection envelopes for invalid events
   assert.equal(result.rejected[1].code, 'E_COLLAB_APPLY_PREV_HASH_MISMATCH');
   assert.equal(result.rejected[2].code, 'E_COLLAB_APPLY_COMMAND_REJECTED');
 });
+
+test('collab apply pipeline fails closed when domain events arrive without a typed validation port', async () => {
+  const collab = await loadModule('src/collab/applyEventLog.mjs');
+  const core = await loadModule('src/core/runtime.mjs');
+
+  const initialState = core.createInitialCoreState();
+  const initialStateHash = core.hashCoreState(initialState);
+  const result = collab.applyEventLog({
+    coreState: initialState,
+    initialStateHash,
+    events: [
+      {
+        eventId: 'ev-project-create',
+        actorId: 'writer-A',
+        ts: '2026-02-13T12:20:00.000Z',
+        opId: 'op-project-create',
+        commandId: core.CORE_COMMAND_IDS.PROJECT_CREATE,
+        payload: {
+          projectId: 'collab-apply-port-required',
+          title: 'Port required',
+          sceneId: 'scene-1',
+        },
+        prevHash: initialStateHash,
+      },
+    ],
+    applyCommand: (state, command) => core.reduceCoreState(state, command),
+    hashState: (value) => core.hashCoreState(value),
+  });
+
+  assert.equal(result.appliedCount, 0);
+  assert.equal(result.rejected.length, 1);
+  assert.equal(result.rejected[0].code, 'E_COLLAB_APPLY_DOMAIN_EVENTS_INVALID');
+});

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_WIRED_NOT_SATURATED",
+  "status": "WORD_RELEASE_AUDIT_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -44,7 +44,7 @@
       "writer-scale corpus including high page counts high comment density and formatting matrix"
     ],
     "forbiddenShortcut": "Supplemental ZIP and large-corpus fixes alone do not certify this profile; the current certification-with-typed-limitations is bound to physical Word receipts, targeted corpus readback, zero-veto metrics, and no saturation claim.",
-    "currentCapability": "A02_TERMINAL_AUDIT_COMPLETE_A03_READY_NOT_RUNTIME_WIRED",
+    "currentCapability": "PRODUCT_MULTI_SCENE_ATOMIC_AND_COMMENT_DELETE_STATE_WIRED_NOT_SATURATED",
     "certificationBoundary": [
       "D1 Word 16.42 remains immutable historical release evidence",
       "post-D1 Word 16.111.2 is certified only for physically proven capability families with typed limitations",
@@ -367,7 +367,10 @@
     "P0 product-originated smoke-12 proves only bounded physical Word open-edit-save-close-reopen through LaunchServices open plus ordinary Save; it does not claim live Electron click, broad release wave, automatic apply, Word saturation, or Google Docs.",
     "P0 product vertical tracked edit proves one physical Word returned DOCX through authenticated V2 intake, visible preview, explicit command apply, reopen, and replay; live Electron click, release automatic apply, Word saturation, comments, mixed, multi-scene, wave-64, and Google Docs remain pending.",
     "P0 product vertical tracked edit proves one physical Word returned DOCX through authenticated V2 intake, visible preview, explicit command apply, reopen, and replay; live Electron click, release automatic apply, Word saturation, comments, mixed, multi-scene, wave-64, and later editor stages remain pending.",
-    "P0 product comments mixed multi-scene contour proves root comment shadow import, mixed tracked replacement plus comment with explicit apply, and safe multi-scene block; automatic apply, Word saturation, Google Docs, reply/resolve runtime, and multi-scene apply remain unclaimed."
+    "P0 product comments mixed multi-scene contour proves root comment shadow import, mixed tracked replacement plus comment with explicit apply, and safe multi-scene block; automatic apply, Word saturation, Google Docs, reply/resolve runtime, and multi-scene apply remain unclaimed.",
+    "P0 multi-scene atomic and comment-state closure is product-wired, but Word SATURATED remains false until bounded varied wave 64 and later stress finish.",
+    "Comment delete is product-wired as a shadow tombstone only; modern replies and resolve-reopen remain typed limitations.",
+    "Multi-scene exact apply is explicit user-confirmed only; automatic apply certification remains false."
   ],
   "designToolRouter": "NOT_APPLICABLE",
   "delivery": {
@@ -377,7 +380,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "RELEASE_AUDIT_REBIND_AFTER_C05",
+  "nextStep": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -391,10 +394,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_03_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT",
-    "currentStage": "EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR",
-    "nextStage": "RELEASE_AUDIT_REBIND_AFTER_C05",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
+    "status": "EXECUTION_03_PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE_NOT_SATURATED",
+    "currentStage": "P0-MULTI-SCENE-ATOMIC-COMMENT-STATE-CLOSURE",
+    "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -604,11 +607,16 @@
     "modernCommentDoneTrueReadbackPhysicalWordProven": true,
     "modernCommentDeletePhysicalWordProven": true,
     "modernResolveReopenCertified": false,
-    "productCommentStateMutationWired": false,
+    "productCommentStateMutationWired": true,
     "nonOverlapTrackedReplacementUserAutomaticApplyCertified": false,
     "nonOverlapTrackedReplacementComponentAutomaticApplyCertified": true,
     "releaseReady": false,
-    "releaseAuditRequired": true
+    "releaseAuditRequired": false,
+    "multiSceneAtomicProductRuntimeWired": true,
+    "multiSceneAtomicApplyCertified": true,
+    "commentDeleteProductRuntimeWired": true,
+    "modernReplyProductRuntimeWired": false,
+    "modernResolveReopenProductRuntimeWired": false
   },
   "releaseAuditNight01": {
     "status": "WORD_RELEASE_AUDIT_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE_NOT_SATURATED",

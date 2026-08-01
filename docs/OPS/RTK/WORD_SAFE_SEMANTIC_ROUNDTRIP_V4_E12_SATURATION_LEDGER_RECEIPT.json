@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_SATURATED",
+  "status": "WORD_SATURATION_PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_WIRED_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -600,7 +600,12 @@
     "productCommentsMixedMultiSceneNegativePass": 5,
     "productCommentsMixedMultiSceneLiveUiClickPass": 1,
     "productCommentsMixedMultiSceneAutomaticApplyCertified": 0,
-    "productCommentsMixedMultiSceneMultiSceneApplyCertified": 0
+    "productCommentsMixedMultiSceneMultiSceneApplyCertified": 0,
+    "productMultiSceneAtomicCommentStateClosureCases": 3,
+    "productMultiSceneAtomicCommentStateClosurePass": 3,
+    "productMultiSceneAtomicCommentStateClosureNegativePass": 4,
+    "productMultiSceneAtomicApplyCertified": 1,
+    "productCommentDeleteRuntimeWired": 1
   },
   "vetoMetrics": {
     "falseExact": 0,
@@ -616,8 +621,9 @@
     "MODERN_REPLY_REMAINS_ZERO_PARENT_LINK_NOT_CERTIFIED",
     "MODERN_RESOLVE_REOPEN_ROUNDTRIP_REMAINS_TYPED_LIMITATION_UNTIL_DONE_FALSE_READBACK",
     "TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_TYPED_LIMITATION",
-    "PRODUCT_RUNTIME_WIRING_NOT_STARTED_IN_A02",
-    "AUTOMATIC_APPLY_NOT_CERTIFIED_IN_A02"
+    "AUTOMATIC_APPLY_NOT_CERTIFIED_IN_A02",
+    "BOUNDED_VARIED_WAVE_64_NOT_RUN_AFTER_MULTI_SCENE_COMMENT_STATE_CLOSURE",
+    "LARGE_STRESS_AND_FORMAT_UNICODE_STRUCTURE_PRODUCT_WAVES_REMAIN_PENDING"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": true,
@@ -628,8 +634,12 @@
     "networkAdded": false,
     "googleDocsOpened": false,
     "wordSaturated": false,
-    "automaticApplyScope": "none at release level; C05 wires explicit user-confirmed returned-DOCX non-overlap replacement path only",
-    "releaseReady": false
+    "automaticApplyScope": "none at release level; explicit user-confirmed returned-DOCX non-overlap replacement path now includes product multi-scene atomic coordination",
+    "releaseReady": false,
+    "multiSceneAtomicExplicitApplyWired": true,
+    "commentDeleteShadowTombstoneWired": true,
+    "modernReplyProductRuntimeWired": false,
+    "modernResolveReopenProductRuntimeWired": false
   },
   "nonClaims": [
     "E12 wave 40, wave 100, wave 300, and repeat wave 300 are already complete and are not repeated by targeted gap closure.",
@@ -637,9 +647,11 @@
     "Google Docs remains closed until Word saturation criteria permit sequencing.",
     "A03 automatic portability improvements are not started by this receipt.",
     "Literal overlapping tracked edits are not certified as apply authority.",
-    "Modern reply and resolve reopen remain typed limitations unless future physical readback proves them."
+    "Modern reply and resolve reopen remain typed limitations unless future physical readback proves them.",
+    "P0 multi-scene atomic and comment delete product wiring does not certify Word saturation.",
+    "Modern replies and resolve-reopen remain typed limitations."
   ],
-  "nextStage": "RELEASE_AUDIT_REBIND_AFTER_C05",
+  "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

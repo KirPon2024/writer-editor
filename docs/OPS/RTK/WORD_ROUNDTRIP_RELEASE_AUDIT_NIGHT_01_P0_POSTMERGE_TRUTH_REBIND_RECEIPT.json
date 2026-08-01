@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-postmerge-truth-rebind-receipt.v1",
+  "taskId": "WORD_RTK_P0_POSTMERGE_TRUTH_REBIND",
+  "status": "PASS",
+  "createdAtUtc": "2026-08-01T06:55:55.214Z",
+  "base": {
+    "headSha": "e59d1a0ead480176cb364c803bcfef93c129c4bb",
+    "mergedContourReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json"
+  },
+  "correction": {
+    "staleStatusRebound": true,
+    "programStatus": "WORD_RELEASE_AUDIT_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE_NOT_SATURATED",
+    "profileStatus": "WORD_16_111_2_PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_WIRED_NOT_SATURATED",
+    "ledgerStatus": "WORD_SATURATION_PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_WIRED_NOT_SATURATED",
+    "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE",
+    "wordSaturated": false,
+    "automaticApplyCertified": false,
+    "googleDocsOpened": false
+  },
+  "evidence": {
+    "closureObservedCases": 3,
+    "closurePass": 3,
+    "closureNegativePass": 4,
+    "multiSceneAtomicApplyCertified": true,
+    "commentDeleteProductRuntimeWired": true,
+    "vetoMetrics": {
+      "falseExact": 0,
+      "wrongSceneRouting": 0,
+      "silentApply": 0,
+      "replayFailure": 0,
+      "silentCommentLoss": 0,
+      "userDocumentTouch": 0,
+      "networkRequest": 0,
+      "noOpPass": 0
+    }
+  },
+  "evidenceBindings": [
+    {
+      "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "a3c685d82050d23e5bbb4e0e691d90522f5a11b3e8de962436c98481a1be774c",
+      "status": "BOUND"
+    },
+    {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "853fbd362b44c500b9c30013767286b6a2d1e97975ee4e36e348d2e53bb71534",
+      "status": "BOUND"
+    },
+    {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "f0b3b6f2126ed589c82028bcdfde1ece37aa9450bba899b442054cb5559d1b22",
+      "status": "BOUND"
+    },
+    {
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
+      "sha256": "d17668e3e77ecc0ac42342ca04a96e903879eb6b764765fd74cd8542099614f1",
+      "status": "BOUND"
+    }
+  ],
+  "nextStep": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE"
+}

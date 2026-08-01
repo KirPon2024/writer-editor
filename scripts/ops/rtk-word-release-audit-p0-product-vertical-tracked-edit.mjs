@@ -423,8 +423,10 @@ ${menuCommandHandlersSection}
 module.exports = {
   MENU_COMMAND_HANDLERS,
   runtimeCommands,
+  handleReviewSurfaceImportPacketCommandSurface,
   handleDocxReviewPreviewSessionActivationCommandSurface,
   handleReviewSurfaceApplyExactTextChangeCommandSurface,
+  handleReviewSurfaceApplyExactTextChangesBatchCommandSurface,
   getState() {
     return {
       activeReviewSessionStore,
@@ -1119,8 +1121,13 @@ export function evaluateWordReleaseAuditP0ProductVerticalTrackedEdit(input = {})
     || receipt?.implementedCapability?.googleDocsOpened !== false) {
     add('RTK_P0_PRODUCT_VERTICAL_OVERCLAIM', 'implementedCapability', 'Contour must not claim automatic apply, release readiness, Word saturation, or later editor-stage execution.');
   }
-  if (program.releaseAuditNight01?.currentStage !== CONTOUR_ID
-    || program.releaseAuditNight01?.nextStage !== NEXT_STAGE
+  const activeProgramBinding = program.releaseAuditNight01?.currentStage === CONTOUR_ID
+    && program.releaseAuditNight01?.nextStage === NEXT_STAGE;
+  const historicalProgramBinding = program.latestWordProductVerticalTrackedEdit?.status === STATUS
+    && program.latestWordProductVerticalTrackedEdit?.receiptPath === RECEIPT_REF
+    && program.latestWordProductVerticalTrackedEdit?.caseCount === 1
+    && program.latestWordProductVerticalTrackedEdit?.passCount === 1;
+  if ((!activeProgramBinding && !historicalProgramBinding)
     || program.releaseAuditNight01?.productVerticalTrackedEditOneCaseProven !== true
     || program.releaseAuditNight01?.automaticApplyCertified !== false
     || program.releaseAuditNight01?.wordSaturated !== false
@@ -1153,6 +1160,15 @@ export function evaluateWordReleaseAuditP0ProductVerticalTrackedEdit(input = {})
     googleDocsOpened: receipt?.implementedCapability?.googleDocsOpened === true,
   };
 }
+
+export {
+  buildAuthorityStore,
+  c05CryptoPort,
+  cloneJsonSafe,
+  instantiateDocxReviewPreviewSessionPort,
+  summarizeReviewSurface,
+  toPayload,
+};
 
 async function main() {
   const args = new Set(process.argv.slice(2));

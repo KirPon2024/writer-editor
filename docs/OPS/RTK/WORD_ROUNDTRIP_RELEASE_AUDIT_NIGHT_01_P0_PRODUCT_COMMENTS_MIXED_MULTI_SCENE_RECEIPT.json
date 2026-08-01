@@ -1,0 +1,883 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-product-comments-mixed-multiscene-receipt.v1",
+  "taskId": "WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+  "contourId": "P0-PRODUCT-VERTICAL-COMMENTS-MIXED-MULTI-SCENE",
+  "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE_COMPLETE_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T05:01:22.281Z",
+  "headBinding": {
+    "baselineMerge": "3fb21f329f376353fb1ba817fb21e832e0b3676b",
+    "headSha": "3fb21f329f376353fb1ba817fb21e832e0b3676b",
+    "originMainSha": "3fb21f329f376353fb1ba817fb21e832e0b3676b",
+    "mergedRemoteShaRequired": true
+  },
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true
+  },
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-originated-smoke-wave12/_comments-mixed-multiscene-word-work",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": false,
+    "t7ArtifactFallback": true,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false,
+    "canonicalRealpathSkippedForSmokeHangAvoidance": true,
+    "fallbackReason": "WORD_CONTAINER_DATA_WRITE_HUNG_DURING_PREFLIGHT_USE_T7_ARTIFACT_ROOT_FOR_BOUNDED_SMOKE"
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedVersionFromOwnerBrief": "16.111.2",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
+    "versionByAppleScript": "",
+    "appleScriptProbeStatus": "DEFERRED_TO_PER_CASE_WORD_SCRIPT",
+    "openDocumentsBeforeLab": -1,
+    "observedVersionClass": "WORD_16_111_FAMILY",
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "sourceEvidence": {
+    "main": {
+      "id": "MAIN_PRODUCT_COMMAND_SURFACE",
+      "path": "src/main.js",
+      "sha256": "82bb9f054dc9a535e89bd8ea70c560e78569606209c7a2d741eb9211b97dc22f",
+      "status": "BOUND"
+    },
+    "revisionBridge": {
+      "id": "REVISION_BRIDGE_INDEX",
+      "path": "src/io/revisionBridge/index.mjs",
+      "sha256": "da7fb6b9ab7045397b79d25409d6f88ca0ff4b073b280d85c8d5e0cbb3ed3172",
+      "status": "BOUND"
+    },
+    "commentShadow": {
+      "id": "COMMENT_SHADOW_SESSION_RUNTIME",
+      "path": "src/io/revisionBridge/reviewTransportCommentShadowSession.mjs",
+      "sha256": "63e910cbd9f1b728de0f449bb28d8abe1d4737a33441a39b12d3dd6eca35c9a4",
+      "status": "BOUND"
+    },
+    "smokeRunnerHelpers": {
+      "id": "P0_PRODUCT_SMOKE_HELPERS",
+      "path": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
+      "sha256": "8953470a8441bd98d0d1610b8a2c6b13d05b6be692c78199343827153451fdc2",
+      "status": "BOUND"
+    },
+    "verticalRunnerHarness": {
+      "id": "P0_PRODUCT_VERTICAL_TRACKED_EDIT_HARNESS",
+      "path": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
+      "sha256": "d4379c64c8c7adfd976eb3c043886c80d4051c3d09f67b271fd8742e18031d93",
+      "status": "BOUND"
+    },
+    "currentRunner": {
+      "id": "P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RUNNER",
+      "path": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "54c9cc99c49dab403bb9e0e19e15b95cb958f65574dea09eb4b4f5f8244d4c96",
+      "status": "BOUND"
+    }
+  },
+  "physicalCorpus": {
+    "boundedPhysicalSet": true,
+    "syntheticOnly": true,
+    "fixtureOnlyPassAllowed": false,
+    "liveElectronUiExportSurfaceClick": {
+      "ok": true,
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": null,
+      "result": {
+        "ok": 1,
+        "clicked": true,
+        "menuItemId": "review-export-docx-review-packet",
+        "menuItemLabel": "Export Review DOCX Packet...",
+        "dialogCalls": [
+          {
+            "method": "showSaveDialog",
+            "title": "Экспорт Review DOCX"
+          }
+        ],
+        "exportedExists": true,
+        "exportedSha256": "54cdf6a3440fcbb2bcfa2c83996fb59219b3283349774747a5d62befca670dc7",
+        "exportedBytes": 12967,
+        "sceneDiskText": "Yalken UI export surface proof COMMENT_TARGET OLD_WORD.",
+        "networkRequests": []
+      },
+      "stderrTail": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-product-comments-ui-dQibK9/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/post-d1-portability/src/main.js:20870:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/post-d1-portability/src/main.js:22536:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-product-comments-ui-dQibK9/documents/craftsman/.autosave/autosave.txt'\n}\n",
+      "exportedDocxPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/electron-ui-review-docx-export.docx",
+      "exportedDocxSha256": "sha256:54cdf6a3440fcbb2bcfa2c83996fb59219b3283349774747a5d62befca670dc7",
+      "exportedDocxZipOk": true,
+      "userDocumentsTouched": false,
+      "networkRequests": []
+    },
+    "productCases": [
+      {
+        "caseId": "P0CM-001",
+        "title": "root comment shadow product path survives Word return",
+        "action": "root-comment",
+        "expectedCapability": "rootModernCommentShadowImport",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0CM-001.txt",
+          "beforeSha256": "sha256:47933f5107b4e1b8794a716037fcd609956dfa599a6d5244eca60547733e3797",
+          "expectedFinalTextSha256": "sha256:47933f5107b4e1b8794a716037fcd609956dfa599a6d5244eca60547733e3797",
+          "afterApplyTextSha256": "sha256:47933f5107b4e1b8794a716037fcd609956dfa599a6d5244eca60547733e3797"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 7064,
+          "sourceDocxSha256": "sha256:6768baa54efae8e67be11d1e701b9f99e512f83b03d30aa61c3156b7ca62a86f",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 0,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:e018cd1c10770273468cb76bef343ed27d782e24494f32351d5029dc3a469464",
+          "returnedBytes": 18623,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0CM-001"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-001/applescripts/P0CM-001-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "CLEAN",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 0,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 1,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:fc9bdbc83ad6ca7da85f0f9f9717ce9aa45ae67939ff7635235e254e22157437",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:280b7a8b2f2bfd1b21023caa6f3623038cdd27a3a427a493ccae695a6744c444",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_MANUAL_CLEAN_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "",
+            "exactPreviewReady": false,
+            "exactApplyOps": 0,
+            "textChanges": 0,
+            "commentThreads": 1,
+            "structuralChanges": 0,
+            "diagnosticItems": 2,
+            "productPathReady": false,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 0,
+          "commentThreadCount": 1,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7565,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 2,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 0,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments"
+          ],
+          "commandPayloadPreviewConfirmed": false,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": false,
+          "writerCalled": false,
+          "applyStatus": "",
+          "applyVetoMetrics": {},
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": false,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:47933f5107b4e1b8794a716037fcd609956dfa599a6d5244eca60547733e3797"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-001/source-docx/P0CM-001-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-001/returned-docx/P0CM-001-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-001/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-001/synthetic-project/manuscript/product-comments-mixed/P0CM-001.txt"
+        }
+      },
+      {
+        "caseId": "P0CM-002",
+        "title": "mixed tracked replacement plus root comment closes product path",
+        "action": "mixed-comment-replace",
+        "expectedCapability": "mixedTrackedReplacementAndRootComment",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0CM-002.txt",
+          "beforeSha256": "sha256:388c6a849ecc32930227c0aa9245f45a5234aaf9dd61270f0ddb28790f95f061",
+          "expectedFinalTextSha256": "sha256:d44c74ddc5ca5abf02502f555cf17158d93f45cf0bfaecd68bbf08525a093e10",
+          "afterApplyTextSha256": "sha256:d44c74ddc5ca5abf02502f555cf17158d93f45cf0bfaecd68bbf08525a093e10"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 7064,
+          "sourceDocxSha256": "sha256:844967af6b0f85d12d1ee7dbfd4ab64551e430f3e438f9ff680e8fb78e9e19df",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 2,
+          "commentCount": 1,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:6742c586738aecf292c7088c7af229b91ffa7be59a73b68d3328db51b6b4a494",
+          "returnedBytes": 18780,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 1,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 1,
+            "expectedTokensFound": [
+              "P0CM-002"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-002/applescripts/P0CM-002-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "TRACKED",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 2,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 1,
+            "formattingDeltas": 1,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:a31b7acc5ae2432b45a819968e03143fbd783462542d1b51c9d703107f4c196a",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:1f1ec9689e88c645774b7aa902716966df55fc283a4da9504790efa33436275a",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "ready",
+            "exactPreviewReady": true,
+            "exactApplyOps": 1,
+            "textChanges": 1,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 0,
+            "productPathReady": true,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 1,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 7596,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 4,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 2,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements",
+            "cmd.rtk.review.applyNonOverlapTrackedReplacements"
+          ],
+          "commandPayloadPreviewConfirmed": true,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": true,
+          "writerCalled": true,
+          "applyStatus": "applied",
+          "applyVetoMetrics": {
+            "falseExact": 0,
+            "wrongSceneRouting": 0,
+            "silentApply": 0,
+            "replayFailure": 0,
+            "silentLoss": 0
+          },
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": true,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:d44c74ddc5ca5abf02502f555cf17158d93f45cf0bfaecd68bbf08525a093e10"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-002/source-docx/P0CM-002-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-002/returned-docx/P0CM-002-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-002/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-002/synthetic-project/manuscript/product-comments-mixed/P0CM-002.txt"
+        }
+      },
+      {
+        "caseId": "P0CM-003",
+        "title": "Word-authored comment delete readback stays physical evidence only",
+        "action": "comment-delete",
+        "expectedCapability": "commentDeletePhysicalReadback",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0CM-003.txt",
+          "beforeSha256": "sha256:51c3eb9b5b60e677d00d37f6351cc32a1057e4b7fb7df8ca0294d25b0c9ccf3e",
+          "expectedFinalTextSha256": "sha256:51c3eb9b5b60e677d00d37f6351cc32a1057e4b7fb7df8ca0294d25b0c9ccf3e",
+          "afterApplyTextSha256": "sha256:51c3eb9b5b60e677d00d37f6351cc32a1057e4b7fb7df8ca0294d25b0c9ccf3e"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 7064,
+          "sourceDocxSha256": "sha256:1fae6307f68a6ba53e42f37dc154a2bee9d922c6748b7ce5ff0c65d7c6d9ad5c",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 0,
+          "commentCount": 0,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": true,
+          "replyAttempted": false,
+          "resolveAttempted": false,
+          "reopenAttempted": false,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:35692e9076406787dbf91b14cee21145125ceedf1e33abe359e4216b8edfb9f8",
+          "returnedBytes": 14457,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 12,
+            "commentRelatedParts": [],
+            "commentCount": 0,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 0,
+            "expectedTokensFound": [],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": false,
+            "hasCommentsExtendedXml": false,
+            "hasCommentsIdsXml": false,
+            "hasPeopleXml": false
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-003/applescripts/P0CM-003-word.applescript",
+          "physicalDeleteCertified": true
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "CLEAN",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 0,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 0,
+            "formattingDeltas": 0,
+            "opaqueUnsupported": 8
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:70e90e0cc117669d7f9c6a217e658b69d657f0d7bc9b67b75e63ce52576692e7",
+          "parserProfileDigest": "sha256:905efcbdedc29e4e31cb7e38831b2c540dbed0d08a6108a03f50be5d5a61bd17",
+          "classificationDigest": "sha256:325eb5eee767d76cdce766039a12a91757e5d4bc01fb54cd8e62bfb7eb291932",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_MANUAL_CLEAN_RETURN"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "",
+            "exactPreviewReady": false,
+            "exactApplyOps": 0,
+            "textChanges": 0,
+            "commentThreads": 0,
+            "structuralChanges": 0,
+            "diagnosticItems": 2,
+            "productPathReady": false,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 0,
+          "commentThreadCount": 0,
+          "commentShadowCommitted": false,
+          "commentShadowReplay": false,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": null,
+          "commandKernelCalls": 0,
+          "commentCommandCalls": 0,
+          "applyCommandCalls": 0,
+          "commandKernelCommandIds": [],
+          "commandPayloadPreviewConfirmed": false,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": false,
+          "writerCalled": false,
+          "applyStatus": "",
+          "applyVetoMetrics": {},
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": false,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:51c3eb9b5b60e677d00d37f6351cc32a1057e4b7fb7df8ca0294d25b0c9ccf3e"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-003/source-docx/P0CM-003-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-003/returned-docx/P0CM-003-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-003/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-003/synthetic-project/manuscript/product-comments-mixed/P0CM-003.txt"
+        }
+      },
+      {
+        "caseId": "P0CM-004",
+        "title": "reply and resolve object-model probe remains typed limitation unless semantic readback proves it",
+        "action": "reply-resolve-probe",
+        "expectedCapability": "replyResolveTypedLimitationBoundary",
+        "result": "PASS",
+        "project": {
+          "projectId": "yalken-product-comments-mixed-synthetic-project",
+          "sceneId": "manuscript/product-comments-mixed/P0CM-004.txt",
+          "beforeSha256": "sha256:ec03461be4d832d6b04b6828229897e1b0863c9a78c1fbebfd234ffb80bc1ba1",
+          "expectedFinalTextSha256": "sha256:ec03461be4d832d6b04b6828229897e1b0863c9a78c1fbebfd234ffb80bc1ba1",
+          "afterApplyTextSha256": "sha256:ec03461be4d832d6b04b6828229897e1b0863c9a78c1fbebfd234ffb80bc1ba1"
+        },
+        "export": {
+          "commandId": "cmd.project.review.exportDocxReviewPacket",
+          "productCommandHandlerOriginated": true,
+          "bytesWritten": 7064,
+          "sourceDocxSha256": "sha256:4fb41c8cc9ca4d02b99d843d13421e2b6da2375f6fff0c4bd105fac3538a185c",
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "canImportMutate": false
+        },
+        "physicalWord": {
+          "openEditSaveCloseReopen": true,
+          "revisionCount": 0,
+          "commentCount": 2,
+          "commentCountAfterCreate": 1,
+          "rootCreated": true,
+          "deleteAttempted": false,
+          "replyAttempted": true,
+          "resolveAttempted": true,
+          "reopenAttempted": true,
+          "limitations": [],
+          "returnedDocxSha256": "sha256:d1844c72c91bdd0e3ad5df19bd2ea94ca9a9f7cb9f4dd18c57fcd6f043736609",
+          "returnedBytes": 18736,
+          "packageZipOk": true,
+          "packageReadback": {
+            "packagePartCount": 17,
+            "commentRelatedParts": [
+              "word/comments.xml",
+              "word/commentsExtended.xml",
+              "word/commentsExtensible.xml",
+              "word/commentsIds.xml",
+              "word/people.xml"
+            ],
+            "commentCount": 2,
+            "parentLinkCount": 0,
+            "doneTrueCount": 0,
+            "doneFalseCount": 2,
+            "expectedTokensFound": [
+              "P0CM-004"
+            ],
+            "expectedTokensMissing": [],
+            "hasCommentsXml": true,
+            "hasCommentsExtendedXml": true,
+            "hasCommentsIdsXml": true,
+            "hasPeopleXml": true
+          },
+          "scriptPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-004/applescripts/P0CM-004-word.applescript"
+        },
+        "parser": {
+          "parserOk": true,
+          "parserStatus": "PASS",
+          "sourceMode": "CLEAN",
+          "validSignedLocator": true,
+          "authorityCarrierStatus": "verified-baseline-bound",
+          "reviewIrSummary": {
+            "textRevisions": 0,
+            "moveRevisions": 0,
+            "propertyRevisions": 0,
+            "structureChanges": 0,
+            "commentThreads": 2,
+            "formattingDeltas": 2,
+            "opaqueUnsupported": 9
+          },
+          "exactAutomaticCandidateCount": 0,
+          "analysisDigest": "sha256:6280776a8a56c635979b28d380c94ef0a0334ca48fc28292421c3e7d2c1be2f4",
+          "parserProfileDigest": "sha256:1ec1607858b0213720c0444134ebb5864cfeaaae10d4a82f1d68ffd6a4a77a1f",
+          "classificationDigest": "sha256:cf729730aa642c5c1d668c374dde88d306741fdb1ba89666027fca75d3eeffbb",
+          "reasons": [
+            "RTK_NO_WRITE_ANALYSIS_READY",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_UNSUPPORTED",
+            "RTK_COMMENT_ANCHORED",
+            "RTK_COMMENT_ANCHORED"
+          ]
+        },
+        "productLoop": {
+          "returnIntakeAuthenticated": true,
+          "returnIntakeStatus": "authenticated-return-ir-ready",
+          "activationOk": true,
+          "secondActivationOk": true,
+          "visiblePreviewReady": true,
+          "previewSummary": {
+            "exactPreviewStatus": "",
+            "exactPreviewReady": false,
+            "exactApplyOps": 0,
+            "textChanges": 0,
+            "commentThreads": 2,
+            "structuralChanges": 0,
+            "diagnosticItems": 2,
+            "productPathReady": false,
+            "automaticApplyCertified": false,
+            "writerCalledBeforeApply": false,
+            "rendererAuthority": false
+          },
+          "textChangeCount": 0,
+          "commentThreadCount": 2,
+          "commentShadowCommitted": true,
+          "commentShadowReplay": true,
+          "commentShadowManuscriptAuthority": false,
+          "commentShadowStorageEffects": {
+            "sessionRecordCreated": true,
+            "sessionRecordExisting": false,
+            "receiptCreated": true,
+            "receiptExisting": false,
+            "receiptRecovered": false,
+            "bytesWritten": 9070,
+            "manuscriptBytesWritten": 0
+          },
+          "commandKernelCalls": 2,
+          "commentCommandCalls": 2,
+          "applyCommandCalls": 0,
+          "commandKernelCommandIds": [
+            "cmd.rtk.reviewSession.importComments",
+            "cmd.rtk.reviewSession.importComments"
+          ],
+          "commandPayloadPreviewConfirmed": false,
+          "manuscriptMutationDuringAnalysisOrPreview": false,
+          "explicitUserConfirmedCommandApply": false,
+          "writerCalled": false,
+          "applyStatus": "",
+          "applyVetoMetrics": {},
+          "applyVetoZero": true,
+          "replacementSemanticsVerified": false,
+          "sceneMatchesExpectedAfterApply": true,
+          "projectReopenReadbackMatchesExpected": true,
+          "replayIdempotent": true,
+          "afterApplyTextSha256": "sha256:ec03461be4d832d6b04b6828229897e1b0863c9a78c1fbebfd234ffb80bc1ba1"
+        },
+        "paths": {
+          "evidenceSourceDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-004/source-docx/P0CM-004-product-export.docx",
+          "evidenceReturnedDocx": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-004/returned-docx/P0CM-004-returned.docx",
+          "syntheticProjectRoot": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-004/synthetic-project",
+          "syntheticScenePath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-product-comments-mixed-multiscene/p0-product-comments-mixed-20260801T050018/P0CM-004/synthetic-project/manuscript/product-comments-mixed/P0CM-004.txt"
+        },
+        "typedLimitations": [
+          "MODERN_COMMENT_REPLY_NOT_CERTIFIED_IN_PRODUCT_PATH",
+          "MODERN_COMMENT_RESOLVE_REOPEN_NOT_CERTIFIED_IN_PRODUCT_PATH"
+        ],
+        "implementedSupportOverclaimed": false
+      }
+    ],
+    "negativeCases": [
+      {
+        "caseId": "P0CM-N01",
+        "title": "stale baseline blocks authenticated intake before writer",
+        "result": "PASS",
+        "exportOk": true,
+        "reason": "RTK_RETURN_INTAKE_STALE_CURRENT_SCENE",
+        "writerCalls": 0,
+        "commentCalls": 0,
+        "sceneUnchanged": true
+      },
+      {
+        "caseId": "P0CM-N02",
+        "title": "wrong scene blocks before writer or comment shadow mutation",
+        "result": "PASS",
+        "exportOk": true,
+        "reason": "RTK_RETURN_INTAKE_WRONG_SCENE_ID",
+        "expectedSceneId": "manuscript/product-comments-mixed/P0CM-N02.txt",
+        "actualSceneId": "manuscript/product-comments-mixed/wrong-scene.txt",
+        "writerCalls": 0,
+        "commentCalls": 0,
+        "sceneUnchanged": true
+      },
+      {
+        "caseId": "P0CM-N03",
+        "title": "tampered authority blocks authenticated intake",
+        "result": "PASS",
+        "exportOk": true,
+        "reason": "RTK_RETURN_INTAKE_AUTHORITY_CARRIER_INVALID",
+        "writerCalls": 0,
+        "commentCalls": 0,
+        "sceneUnchanged": true
+      },
+      {
+        "caseId": "P0CM-N04",
+        "title": "duplicate locator inside authority block does not become exact apply",
+        "result": "PASS",
+        "exportOk": true,
+        "activationOk": true,
+        "previewSummary": {
+          "exactPreviewStatus": "",
+          "exactPreviewReady": false,
+          "exactApplyOps": 0,
+          "textChanges": 1,
+          "commentThreads": 1,
+          "structuralChanges": 0,
+          "diagnosticItems": 5,
+          "productPathReady": false,
+          "automaticApplyCertified": false,
+          "writerCalledBeforeApply": false,
+          "rendererAuthority": false
+        },
+        "runtimeReasons": [
+          {
+            "code": "RTK_BLOCKED_TOKEN_CONTRADICTION",
+            "field": "exactAuthority.nonOverlapping"
+          },
+          {
+            "code": "RTK_BLOCKED_AMBIGUOUS_TEXT",
+            "field": "exactAuthority.uniqueTarget"
+          }
+        ],
+        "writerCalls": 0,
+        "commentCalls": 1,
+        "sceneUnchanged": true
+      },
+      {
+        "caseId": "P0CM-N05",
+        "title": "multi-scene batch remains blocked before writer until coordinator contour",
+        "result": "PASS",
+        "importOk": true,
+        "batchOk": false,
+        "reason": "REVIEW_EXACT_TEXT_APPLY_BATCH_SINGLE_SCENE_REQUIRED",
+        "canWrite": false,
+        "runtimeApplyAuthorityGranted": false,
+        "sceneAUnchanged": true,
+        "sceneBUnchanged": true,
+        "typedLimitation": "MULTI_SCENE_PRODUCT_APPLY_REQUIRES_AUTHENTICATED_MULTI_SCENE_COORDINATOR_CONTOUR"
+      }
+    ]
+  },
+  "totals": {
+    "cases": 4,
+    "pass": 4,
+    "fail": 0,
+    "productCommandHandlerOriginated": 4,
+    "physicalOpenEditSaveCloseReopenPass": 4,
+    "parserPass": 4,
+    "rootCommentProductPathPass": 1,
+    "mixedProductLoopPass": 1,
+    "commentDeletePhysicalReadbackPass": 1,
+    "replyResolveTypedLimitations": 1,
+    "commentThreadsParsed": 4,
+    "exactAutomaticCandidateCount": 0,
+    "negativeCases": 5,
+    "negativePass": 5,
+    "liveElectronUiClickPass": 1,
+    "visiblePreviewPass": 4,
+    "explicitConfirmedApplyPass": 1,
+    "projectReopenReadbackPass": 4,
+    "replayIdempotentPass": 4
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "noOpPass": 0,
+    "falseSupport": 0,
+    "productExportFailure": 0,
+    "physicalWordFailure": 0,
+    "parserUnexpectedFailure": 0,
+    "previewFailure": 0,
+    "applyFailure": 0,
+    "negativeCaseFailure": 0,
+    "liveElectronUiClickFailure": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "googleDocsOpened": 0,
+    "falseReleaseClaim": 0
+  },
+  "implementedCapability": {
+    "capability": "productVerticalCommentsMixedMultiSceneBoundedSet",
+    "productReviewDocxExporterWired": true,
+    "liveElectronUiExportSurfaceClicked": true,
+    "rootModernCommentShadowProductPathWired": true,
+    "mixedTrackedReplacementAndRootCommentProductLoopProven": true,
+    "commentDeletePhysicalReadbackProven": true,
+    "commentDeleteProductRuntimeWired": false,
+    "modernReplyProductRuntimeWired": false,
+    "modernResolveReopenProductRuntimeWired": false,
+    "multiSceneCorrectlyBlockedBeforeWriter": true,
+    "multiSceneAtomicApplyCertified": false,
+    "productRuntimeWired": true,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "releaseReady": false,
+    "wordSaturated": false,
+    "googleDocsOpened": false
+  },
+  "typedLimitations": [
+    "MODERN_COMMENT_REPLY_NOT_PRODUCT_CERTIFIED",
+    "MODERN_COMMENT_RESOLVE_REOPEN_NOT_PRODUCT_CERTIFIED",
+    "COMMENT_DELETE_PHYSICAL_READBACK_NOT_PRODUCT_RUNTIME_WIRED",
+    "MULTI_SCENE_PRODUCT_APPLY_REQUIRES_AUTHENTICATED_MULTI_SCENE_COORDINATOR_CONTOUR"
+  ],
+  "nonClaims": [
+    "Automatic apply remains false because explicit preview confirmation is required.",
+    "Multi-scene automatic apply is not certified in this contour.",
+    "Reply and resolve/reopen are not product runtime capabilities.",
+    "Comment delete is physical Word readback evidence only until a separate product shadow-state contour.",
+    "Google Docs and later editor stages remain closed.",
+    "No user documents, cloud, network, or private data were used."
+  ],
+  "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_COMMENTS_MIXED_MULTI_SCENE",
+  "receiptDigest": "sha256:a0506038a645098848b66ad9b894352363140b3b6691a0f66b764396f8412da4"
+}

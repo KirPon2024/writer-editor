@@ -5616,13 +5616,6 @@
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
     },
     {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "58dad704cf08ad502faa20b42c3ab5e2a1ddd4cee9aea49a943e8660cc06bbf8",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
-      "approvedAtUtc": "2026-08-01T01:22:18.257Z",
-      "rationale": "Rebind R3_C05 runtime approval after fresh origin/main RTK drift merge; preserves command-kernel transaction serialization, relation payloadPreview dispatch, renderer bundle rebuild, and no direct UI-to-storage bypass."
-    },
-    {
       "filePath": "src/renderer/editor.js",
       "sha256": "ec08ad8a19bcbf1cd27ecb33b519e2c37e1708d975bfdb5faadeffb35efd5ee0",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION",
@@ -7730,27 +7723,6 @@
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "b9f1f85b756d2068d1841d5a6a492e912a87f0b1da10e2ad8535215c6a4a1dcb",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "2a99f170b6db6e7ccfbd926e872fec60d4794d2211eabc6457a66048198b6fcb",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "9a255ab6360c4caae03184a6f5501aea9e7020395b6eb50bcdd6822f88e46c5f",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
       "sha256": "01524307f07a0c45528eb5a5d1df31392fce6899dd6f2a914b931206010dbcc7",
       "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
@@ -7760,13 +7732,6 @@
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
       "sha256": "8953470a8441bd98d0d1610b8a2c6b13d05b6be692c78199343827153451fdc2",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
-      "sha256": "8cab751e51be21bc904e85927789b418b6a63051d224986e1509cd567d308a4e",
       "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
       "approvedAtUtc": "2026-08-01T03:35:00.000Z",
       "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
@@ -7814,13 +7779,6 @@
       "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
     },
     {
-      "filePath": "src/main.js",
-      "sha256": "e2d84624061972b0950db9ff064c561732a343b1ca6f2f6ed125d31e332fe18b",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
       "filePath": "test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js",
       "sha256": "6d2a670e3f138caeb9796f190947281971be277b705be2d0d93085cce4ece43c",
       "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
@@ -7840,6 +7798,83 @@
       "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
       "approvedAtUtc": "2026-08-01T03:35:00.000Z",
       "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "e1964907e7637c52ae138817d3be1641fc981a5e6fb6565036b6908410991128",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "92d2e0adf8a8bbd21b25facf1a386c0e08ae2956050269b592e517f2ed757f3d",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "1c7777091b0083a923ff0532c8e1e6b6676ae22db66b7fbada0ac0201beca2a3",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
+      "sha256": "70c08e63f3449eb7630a20183939652588f0b43ff29f50fb27d26c58b2a99338",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "54c9cc99c49dab403bb9e0e19e15b95cb958f65574dea09eb4b4f5f8244d4c96",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
+      "sha256": "31a09805ba1b79c44994ea949ae8f51e6fe12b614256a53be7eca308950a380f",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
+      "sha256": "006683946f6e98e1d2d8d63d44a06828068e7334ab7334f7df4273d5b7757359",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "82bb9f054dc9a535e89bd8ea70c560e78569606209c7a2d741eb9211b97dc22f",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "src/renderer/commands/localCapabilityProvider.mjs",
+      "sha256": "1c2a42ad6a50bb187d91bf7ff11aa8060a77fe4c512799ccf1e8620b8e024dc6",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "599096d2dc82f51f9ecf7d2b845a017ae83bb4447b183283196e7a533e2cad1f",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
+    },
+    {
+      "filePath": "test/unit/sector-m-s37-capability-provider-free-pro.test.js",
+      "sha256": "59824e77ce2bac209f07f105e1a552f12f731b16bbcd818d1807866c917364d4",
+      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
+      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
+      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
     }
   ]
 }

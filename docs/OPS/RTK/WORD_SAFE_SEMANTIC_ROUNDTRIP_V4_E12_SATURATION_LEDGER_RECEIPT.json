@@ -226,6 +226,12 @@
       "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
       "sha256": "01524307f07a0c45528eb5a5d1df31392fce6899dd6f2a914b931206010dbcc7",
       "status": "BOUND"
+    },
+    {
+      "id": "RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
+      "sha256": "70c08e63f3449eb7630a20183939652588f0b43ff29f50fb27d26c58b2a99338",
+      "status": "BOUND"
     }
   ],
   "coverageLedger": {
@@ -456,6 +462,24 @@
       "releaseReady": false,
       "wordSaturated": false,
       "googleDocsOpened": false
+    },
+    "releaseAuditNight01P0ProductCommentsMixedMultiScene": {
+      "status": "BOUND_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE_COMPLETE",
+      "sourceEvidence": "RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE",
+      "physicalWordEvidence": true,
+      "observedCases": 4,
+      "passCases": 4,
+      "negativeCases": 5,
+      "negativePass": 5,
+      "liveElectronUiExportSurfaceClicked": true,
+      "rootCommentProductPathPass": 1,
+      "mixedProductLoopPass": 1,
+      "commentDeletePhysicalReadbackPass": 1,
+      "multiSceneAtomicApplyCertified": false,
+      "automaticApplyCertified": false,
+      "releaseReady": false,
+      "wordSaturated": false,
+      "googleDocsOpened": false
     }
   },
   "aggregateTotals": {
@@ -552,7 +576,13 @@
     "silentCommentLoss": 0,
     "a03C05NonOverlapProductPathWired": 1,
     "a03C05EndToEndProductPathWired": 1,
-    "a03C05AutomaticApplyCertifiedRows": 0
+    "a03C05AutomaticApplyCertifiedRows": 0,
+    "productCommentsMixedMultiSceneCases": 4,
+    "productCommentsMixedMultiScenePass": 4,
+    "productCommentsMixedMultiSceneNegativePass": 5,
+    "productCommentsMixedMultiSceneLiveUiClickPass": 1,
+    "productCommentsMixedMultiSceneAutomaticApplyCertified": 0,
+    "productCommentsMixedMultiSceneMultiSceneApplyCertified": 0
   },
   "vetoMetrics": {
     "falseExact": 0,

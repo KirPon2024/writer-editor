@@ -1,0 +1,258 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p0_08.stage10ProductWiring.report.v1",
+  "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+  "contourId": "P0_08_STAGE10_PRODUCT_WIRING",
+  "generatedAtUtc": "2026-08-01T08:15:33.628Z",
+  "sourceBinding": {
+    "headSha": "b276a00c4cca0d500ad35f7de9165ac4071ad265",
+    "originMainSha": "b276a00c4cca0d500ad35f7de9165ac4071ad265",
+    "branch": "codex/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring",
+    "exactSourceHashes": {
+      "src/product/stage10ProductWiring.mjs": "29f11d6d111b3452e503c0ea86c21bdb1ba1057377bc4dbf976bb51fbd11d800",
+      "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs": "2c7dc00986e211ef8e4bc2b245a0f97604130efdf9ef4f84f6827f59fc4cb6b3",
+      "src/collab/index.mjs": "3a48ff26d76686f2d1ffd03bf508db2f874669ed23544c4a0025e952912a30c5",
+      "src/derived/commentsHistory/index.mjs": "ad1f1b7537d04395bfbae4040056b0c8b1998a7cd6810f7b569bd09e63700616",
+      "src/io/revisionBridge/index.mjs": "20f1832b15b2d697f24278688fb2f542fc64ea1964917af8301d7665508ecf40",
+      "src/core/runtime.mjs": "bf8e2c74f5ad0c24f2a1f105936e96e23f3dff8eccb4dd48ec2a986925da3b9f"
+    }
+  },
+  "pass": true,
+  "status": "PASS_P0_08_STAGE10_PRODUCT_WIRING",
+  "failures": [],
+  "acceptance": {
+    "visibleUiCommandPath": true,
+    "commandKernelCapabilityRevalidated": true,
+    "commentsProductPathPersistReopen": true,
+    "historyProductPathPersistReopenRecoveryUndo": true,
+    "conflictsProductPathPersistManualDecision": true,
+    "operationExchangeLocalProductPath": true,
+    "negativeDirectBridgeDenied": true,
+    "shadowOnlyRejectedAsComplete": true,
+    "networkAdapterNotRequired": true,
+    "noProgramDoneClaim": true
+  },
+  "activationModes": [
+    {
+      "opId": "stage10:0001:project-create",
+      "commandId": "project.create",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "project-create-visible",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0002:project-applyTextEdit",
+      "commandId": "project.applyTextEdit",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "editor-text-visible",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0003:cmd-comments-importStablePacket",
+      "commandId": "cmd.comments.importStablePacket",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-comment-import",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0004:cmd-comments-decision-record",
+      "commandId": "cmd.comments.decision.record",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-comment-decision",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0005:cmd-project-history-createCheckpoint",
+      "commandId": "cmd.project.history.createCheckpoint",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-checkpoint",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0006:project-applyTextEdit",
+      "commandId": "project.applyTextEdit",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "editor-text-visible",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0007:cmd-project-history-restorePreview",
+      "commandId": "cmd.project.history.restorePreview",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-preview",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0008:cmd-project-history-restoreApply",
+      "commandId": "cmd.project.history.restoreApply",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-apply",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0009:cmd-project-history-restoreUndo",
+      "commandId": "cmd.project.history.restoreUndo",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-undo",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0010:cmd-collab-conflict-preview",
+      "commandId": "cmd.collab.conflict.preview",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-conflict-preview",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0011:cmd-collab-conflict-decision-record",
+      "commandId": "cmd.collab.conflict.decision.record",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-conflict-decision",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0012:cmd-collab-operationExchange-prepare",
+      "commandId": "cmd.collab.operationExchange.prepare",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-exchange-prepare",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0013:cmd-collab-operationExchange-localFixturePreview",
+      "commandId": "cmd.collab.operationExchange.localFixturePreview",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-exchange-preview",
+      "visibleControl": true,
+      "directBridge": false
+    }
+  ],
+  "commandPath": {
+    "receiptCount": 13,
+    "commandIds": [
+      "project.create",
+      "project.applyTextEdit",
+      "cmd.comments.importStablePacket",
+      "cmd.comments.decision.record",
+      "cmd.project.history.createCheckpoint",
+      "project.applyTextEdit",
+      "cmd.project.history.restorePreview",
+      "cmd.project.history.restoreApply",
+      "cmd.project.history.restoreUndo",
+      "cmd.collab.conflict.preview",
+      "cmd.collab.conflict.decision.record",
+      "cmd.collab.operationExchange.prepare",
+      "cmd.collab.operationExchange.localFixturePreview"
+    ],
+    "allCapabilityRevalidated": true,
+    "replayOk": true,
+    "replayHash": "e158f49bf1085735a21bfdcc4210baca6e51178d1caeaddcb36afbf3ac1e02ca",
+    "directBridgeDenied": true,
+    "directBridgeMutatedState": false
+  },
+  "persistence": {
+    "sessionPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/p0-08-stage10-product.session.json",
+    "sessionSha256": "fa377a5f16e7d549a52de3d311697b29ee1f946af4adc6eef3fe6a6fff7e2b0d",
+    "sessionHash": "4e7fd476a837fa4507bc4edd653a59620eabcd73dc1ba3c310a89f60fc0b2b32",
+    "reopenedSessionHash": "a51866befaaef60a0ed90114ce79a4ef17671de897d204a7f0be8bd05c56fd67",
+    "reopenedProjectHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+    "recoverySnapshotCount": 2,
+    "finalSceneText": "Stage 10 product wiring changed text."
+  },
+  "productPaths": {
+    "comments": {
+      "packetCount": 1,
+      "derivedItemCount": 1,
+      "reopenedDerivedItemCount": 1,
+      "secondCommentTruth": false,
+      "manuscriptMutation": false
+    },
+    "history": {
+      "projectedEntryCount": 16,
+      "reopenedProjectedEntryCount": 16,
+      "recoverySnapshotCount": 2,
+      "undoCommandPresent": true,
+      "storedHistoryTruth": false
+    },
+    "conflicts": {
+      "reportCount": 1,
+      "decisionCount": 1,
+      "automaticMerge": false,
+      "silentProjectRewrite": false
+    },
+    "operationExchange": {
+      "packetCount": 1,
+      "adapterPreviewCount": 1,
+      "networkAdapterEnabled": false,
+      "shadowOnly": false
+    }
+  },
+  "negativeAssertions": {
+    "directBridgeAccepted": false,
+    "shadowOnlyAcceptedAsProductComplete": false,
+    "receiptOnlyAcceptedAsReadiness": false,
+    "storageBypassAccepted": false,
+    "networkAdapterAccepted": false,
+    "programDoneClaim": false
+  },
+  "checks": {
+    "focused": {
+      "status": "PASS",
+      "command": "node --test test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js test/contracts/yalken-atlas-v5-e10-c01-stable-comment-anchors-decision-survival.contract.test.js test/contracts/yalken-atlas-v5-e10-c02-revision-history-projection-author-truth.contract.test.js test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js test/contracts/yalken-atlas-v5-e10-c05-local-multi-session-recovery-conflicts.contract.test.js test/contracts/yalken-atlas-v5-e10-c06-transport-neutral-operation-exchange.contract.test.js test/contracts/comments-history-no-second-sot.contract.test.js test/contracts/collab-eventlog-append-only.contract.test.js test/contracts/collab-no-network-wiring.contract.test.js",
+      "summary": "29 total, 29 pass, 0 fail; includes shadow-only, disabled storage, network adapter and direct bridge negative cases."
+    },
+    "testOps": {
+      "status": "PASS",
+      "command": "npm run -s test:ops",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0."
+    },
+    "doctrine": {
+      "status": "PASS",
+      "command": "npm run -s design-os:doctrine",
+      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+    },
+    "ossPolicy": {
+      "status": "PASS",
+      "command": "npm run -s oss:policy",
+      "summary": "OSS policy OK: no Tiptap Pro / no private registry."
+    },
+    "buildRenderer": {
+      "status": "PASS",
+      "command": "npm run -s build:renderer",
+      "summary": "dist/renderer/editor.bundle.js built successfully."
+    },
+    "fullRunner": {
+      "status": "PASS",
+      "command": "node scripts/run-tests.js",
+      "summary": "799 total, 735 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS."
+    }
+  },
+  "authority": {
+    "productCoreOwnsAuthorTruth": true,
+    "commandKernelOwnsMutation": true,
+    "designOsSurfaceIntentOnly": true,
+    "storagePortOwnsPersistence": true,
+    "networkAdapterRuntimeDependency": false,
+    "shadowAcceptedAsComplete": false,
+    "programDoneClaim": false
+  },
+  "postCheckRebind": {
+    "focusedPass": true,
+    "testOpsPass": true,
+    "doctrinePass": true,
+    "ossPolicyPass": true,
+    "buildRendererPass": true,
+    "fullRunnerPass": true,
+    "programDoneClaim": false
+  }
+}

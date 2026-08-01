@@ -1,0 +1,1386 @@
+{
+  "schemaVersion": "yalken.stage10.localProductSession.v1",
+  "projectId": "p0-08-stage10-product",
+  "actorId": "author-primary",
+  "sessionId": "session-primary",
+  "coreState": {
+    "version": 1,
+    "data": {
+      "projects": {
+        "p0-08-stage10-product": {
+          "id": "p0-08-stage10-product",
+          "title": "P0 08 Stage10 Product Wiring",
+          "atlas": {
+            "schemaVersion": "atlas.author.v1",
+            "entities": {},
+            "decisions": {},
+            "suppressions": {},
+            "entityOperations": {},
+            "reassignments": {},
+            "evidenceReattachments": {},
+            "savedQueries": {},
+            "languageTags": {
+              "project": null,
+              "scenes": {},
+              "blocks": {},
+              "ranges": {}
+            },
+            "seriesIdentityLinks": {},
+            "entityVocabulary": {},
+            "relationVocabulary": {},
+            "seriesPortabilityOperations": {},
+            "calendarDefinitions": {},
+            "sceneTemporalAnchors": {},
+            "continuityFactLedgers": {
+              "location": {},
+              "knowledge": {},
+              "object": {},
+              "promise": {}
+            }
+          },
+          "ideas": {
+            "schemaVersion": "idea.author.v1",
+            "ideas": {},
+            "originLinks": {}
+          },
+          "meanings": {
+            "schemaVersion": "meaning.author.v1",
+            "meanings": {}
+          },
+          "manualMaps": {
+            "schemaVersion": "manualMap.author.v1",
+            "maps": {}
+          },
+          "scenes": {
+            "scene-1": {
+              "id": "scene-1",
+              "text": "Stage 10 product wiring changed text."
+            }
+          }
+        }
+      },
+      "lastCommandId": 3
+    }
+  },
+  "eventLog": {
+    "schemaVersion": "collab-eventlog.v1",
+    "events": [
+      {
+        "opId": "stage10:0001:project-create",
+        "ts": "2026-08-01T00:00:01.000Z",
+        "actorId": "author-primary",
+        "commandId": "project.create",
+        "payloadHash": "24e46ddc3eb399328c1eed3b9c59d38dd5232a3d39027b2b36238f723a8b5597",
+        "preStateHash": "17bbb03ed8575017073ce668d34f138c1a05b649bf201f561e7799419c0cdb59",
+        "postStateHash": "8d8f2fad7702993271e628ec0aa9f7620aaefc2a7dd4b72716f8169c2d04c084"
+      },
+      {
+        "opId": "stage10:0002:project-applyTextEdit",
+        "ts": "2026-08-01T00:00:02.000Z",
+        "actorId": "author-primary",
+        "commandId": "project.applyTextEdit",
+        "payloadHash": "b56c622d1ead6a187acd713d1fe6f9979c2a68ea84c6bf36f12ccf889df2d8d7",
+        "preStateHash": "8d8f2fad7702993271e628ec0aa9f7620aaefc2a7dd4b72716f8169c2d04c084",
+        "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72"
+      },
+      {
+        "opId": "stage10:0006:project-applyTextEdit",
+        "ts": "2026-08-01T00:00:06.000Z",
+        "actorId": "author-primary",
+        "commandId": "project.applyTextEdit",
+        "payloadHash": "be57e6200a5b472fe003c1d8faa7de9519b0215c50872ea6745e4f92895757f6",
+        "preStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+        "postStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848"
+      }
+    ]
+  },
+  "commandReceipts": [
+    {
+      "receiptId": "stage10:0001:project-create",
+      "operationId": "stage10:0001:project-create",
+      "commandId": "project.create",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:01.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "17bbb03ed8575017073ce668d34f138c1a05b649bf201f561e7799419c0cdb59",
+      "postStateHash": "8d8f2fad7702993271e628ec0aa9f7620aaefc2a7dd4b72716f8169c2d04c084",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "project-create-visible",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "eventLogHash": "4fe115a5783ad0fd5060a8a9dee5ab5fedcb8635cc4919bc38e6f77844f84cf6",
+        "projectTruthMutation": true,
+        "commandKernel": true
+      }
+    },
+    {
+      "receiptId": "stage10:0002:project-applyTextEdit",
+      "operationId": "stage10:0002:project-applyTextEdit",
+      "commandId": "project.applyTextEdit",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:02.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "8d8f2fad7702993271e628ec0aa9f7620aaefc2a7dd4b72716f8169c2d04c084",
+      "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "editor-text-visible",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "eventLogHash": "81da0e9ff8ae5770f4c7953175a4fd66e247223cab4b11b4a4c1080044c9e9d4",
+        "projectTruthMutation": true,
+        "commandKernel": true
+      }
+    },
+    {
+      "receiptId": "stage10:0003:cmd-comments-importStablePacket",
+      "operationId": "stage10:0003:cmd-comments-importStablePacket",
+      "commandId": "cmd.comments.importStablePacket",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:03.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-comment-import",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "packetHash": "sha256:ab28a5cb4772873da11d7d72c630ef5b25577aa86f619339468f377a31f749dd",
+        "commentItemCount": 1,
+        "projectTruthMutation": false,
+        "manuscriptMutation": false,
+        "commentTruthDuplicated": false
+      }
+    },
+    {
+      "receiptId": "stage10:0004:cmd-comments-decision-record",
+      "operationId": "stage10:0004:cmd-comments-decision-record",
+      "commandId": "cmd.comments.decision.record",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:04.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-comment-decision",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "packetHash": "sha256:e28f0665fc5b6630f125b13298062d4012a48f08174b4bb272c87e8ad93a5d7b",
+        "decisionId": "stable-comment-decision:44906278dacc4393",
+        "commentItemCount": 1,
+        "commentTruthDuplicated": false
+      }
+    },
+    {
+      "receiptId": "stage10:0005:cmd-project-history-createCheckpoint",
+      "operationId": "stage10:0005:cmd-project-history-createCheckpoint",
+      "commandId": "cmd.project.history.createCheckpoint",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:05.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-checkpoint",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "snapshotId": "checkpoint-before-edit",
+        "readableRecovery": true,
+        "projectTruthMutation": false
+      }
+    },
+    {
+      "receiptId": "stage10:0006:project-applyTextEdit",
+      "operationId": "stage10:0006:project-applyTextEdit",
+      "commandId": "project.applyTextEdit",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:06.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "postStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "editor-text-visible",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "eventLogHash": "3f214e104e6eb8a58a12e8d7f15e789d81121d8a3efba601034a6da9f09b70d2",
+        "projectTruthMutation": true,
+        "commandKernel": true
+      }
+    },
+    {
+      "receiptId": "stage10:0007:cmd-project-history-restorePreview",
+      "operationId": "stage10:0007:cmd-project-history-restorePreview",
+      "commandId": "cmd.project.history.restorePreview",
+      "status": "PREVIEW_READY",
+      "appliedAt": "2026-08-01T00:00:07.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "postStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-preview",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "previewId": "history-restore-preview:43919c15b047445e4425cdf2",
+        "snapshotId": "checkpoint-before-edit",
+        "requiresConfirmation": true,
+        "mutationApplied": false
+      }
+    },
+    {
+      "receiptId": "stage10:0008:cmd-project-history-restoreApply",
+      "operationId": "stage10:0008:cmd-project-history-restoreApply",
+      "commandId": "cmd.project.history.restoreApply",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:08.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-apply",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "previewId": "history-restore-preview:43919c15b047445e4425cdf2",
+        "snapshotId": "checkpoint-before-edit",
+        "undoSnapshotId": "history-restore-undo-2c0ffa314146741e",
+        "restoreApplied": true,
+        "authorDataLoss": false
+      }
+    },
+    {
+      "receiptId": "stage10:0009:cmd-project-history-restoreUndo",
+      "operationId": "stage10:0009:cmd-project-history-restoreUndo",
+      "commandId": "cmd.project.history.restoreUndo",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:09.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "postStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-undo",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "previewId": "history-restore-preview:43919c15b047445e4425cdf2",
+        "undoSnapshotId": "history-restore-undo-2c0ffa314146741e",
+        "undoApplied": true,
+        "authorDataLoss": false
+      }
+    },
+    {
+      "receiptId": "stage10:0010:cmd-collab-conflict-preview",
+      "operationId": "stage10:0010:cmd-collab-conflict-preview",
+      "commandId": "cmd.collab.conflict.preview",
+      "status": "PREVIEW_DIAGNOSTICS",
+      "appliedAt": "2026-08-01T00:00:10.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "postStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-conflict-preview",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "reportId": "conflict-report:2ef6dbeab6eddbda9369e12f",
+        "conflictCount": 1,
+        "automaticMerge": false,
+        "silentProjectRewrite": false
+      }
+    },
+    {
+      "receiptId": "stage10:0011:cmd-collab-conflict-decision-record",
+      "operationId": "stage10:0011:cmd-collab-conflict-decision-record",
+      "commandId": "cmd.collab.conflict.decision.record",
+      "status": "APPLIED",
+      "appliedAt": "2026-08-01T00:00:11.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "postStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-conflict-decision",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "conflictId": "conflict:15ff6ba79ccdd6024d151f7a",
+        "reportId": "conflict-report:2ef6dbeab6eddbda9369e12f",
+        "decision": "keepLocal",
+        "commandReceiptId": "stage10:0011:cmd-collab-conflict-decision-record",
+        "manualDecision": true,
+        "automaticMerge": false,
+        "silentProjectRewrite": false,
+        "projectTruthMutation": false
+      }
+    },
+    {
+      "receiptId": "stage10:0012:cmd-collab-operationExchange-prepare",
+      "operationId": "stage10:0012:cmd-collab-operationExchange-prepare",
+      "commandId": "cmd.collab.operationExchange.prepare",
+      "status": "PREVIEW_READY",
+      "appliedAt": "2026-08-01T00:00:12.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "postStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-exchange-prepare",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "packetId": "exchange-packet:5b730b4d8e49453caa1c0385",
+        "exchangeHash": "17b6842fe1c8135130bec06f66dc2d1edd5e2c91ee3b06f81af5abee79a4bdef",
+        "entryCount": 3,
+        "networkAdapterEnabled": false
+      }
+    },
+    {
+      "receiptId": "stage10:0013:cmd-collab-operationExchange-localFixturePreview",
+      "operationId": "stage10:0013:cmd-collab-operationExchange-localFixturePreview",
+      "commandId": "cmd.collab.operationExchange.localFixturePreview",
+      "status": "PREVIEW_READY",
+      "appliedAt": "2026-08-01T00:00:13.000Z",
+      "actorId": "author-primary",
+      "sessionId": "session-primary",
+      "preStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "postStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "capabilityRevalidated": true,
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-exchange-preview",
+      "visibleUiCommand": true,
+      "directBridge": false,
+      "storageWritten": true,
+      "details": {
+        "reportId": "exchange-preview:4d657b6360e074af4b2a09b5",
+        "packetId": "exchange-packet:5b730b4d8e49453caa1c0385",
+        "appliedCount": 0,
+        "networkDispatch": false
+      }
+    }
+  ],
+  "commentPackets": {
+    "sha256:e28f0665fc5b6630f125b13298062d4012a48f08174b4bb272c87e8ad93a5d7b": {
+      "schemaVersion": "revision-bridge.stable-comment-anchor-packet.v1",
+      "type": "revisionBridge.stableCommentAnchor.packet",
+      "status": "ready",
+      "code": "REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_READY",
+      "reason": "REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_READY",
+      "canAutoApply": false,
+      "canWriteManuscript": false,
+      "projectId": "p0-08-stage10-product",
+      "sceneId": "scene-1",
+      "revisionId": "revision-stage10",
+      "source": {
+        "reviewIrSchemaVersion": "yalken.rtk.review-ir.v2",
+        "commentThreadCount": 1,
+        "placementHintCount": 1,
+        "parserAuthority": "rtk-review-ir-comment-graph-only"
+      },
+      "sourceThreadRefs": [
+        {
+          "stableThreadIdentity": "stable-comment-thread:durableId:96be9ff96552d80f",
+          "sourceThreadId": "rtk-comment-stage10",
+          "commentId": "100",
+          "durableId": "durable-stage10-comment",
+          "doneResolvedReopenedState": "active",
+          "status": "ANCHORED",
+          "quotedAnchorText": "Stage 10",
+          "relatedRevision": null,
+          "reasonCodes": [
+            "RTK_COMMENT_ANCHORED"
+          ],
+          "sourceXmlProvenance": null,
+          "placementSelectorEvidence": {}
+        }
+      ],
+      "anchorRecords": [
+        {
+          "schemaVersion": "revision-bridge.stable-comment-anchor-record.v1",
+          "anchorRecordId": "stable-comment-anchor:dc95beee34c53de2",
+          "projectId": "p0-08-stage10-product",
+          "sceneId": "scene-1",
+          "stableThreadIdentity": "stable-comment-thread:durableId:96be9ff96552d80f",
+          "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+          "commentId": "stable-comment-message:155aa5549b8bb3de",
+          "sourceThreadId": "rtk-comment-stage10",
+          "sourceCommentId": "100",
+          "durableId": "durable-stage10-comment",
+          "bodyDigest": "sha256:58e029e736fd0e4989f8dab4e3e1af8b7566967bb9bb911bc41b75fe0a7070aa",
+          "placementStatus": "exact",
+          "orphanReason": "",
+          "anchorKind": "span",
+          "sourcePart": "commentThread:stable-comment-thread:durableId:96be9ff96552d80f",
+          "authorHandle": "",
+          "createdAtUtc": "",
+          "replyParent": "",
+          "resolvedDone": false,
+          "evidenceIdentity": "sha256:7dec4c4614e1169afd099bf7c8c2fe570cc6f897a3838eeb6fc879ec0ff7469e",
+          "selectorEvidence": {},
+          "relatedRevision": null,
+          "canAutoApply": false,
+          "canWriteManuscript": false
+        }
+      ],
+      "decisionRows": [
+        {
+          "schemaVersion": "revision-bridge.stable-comment-decision-row.v1",
+          "decisionId": "stable-comment-decision:44906278dacc4393",
+          "anchorRecordId": "stable-comment-anchor:dc95beee34c53de2",
+          "stableThreadIdentity": "stable-comment-thread:durableId:96be9ff96552d80f",
+          "commentId": "stable-comment-message:155aa5549b8bb3de",
+          "state": "acknowledged",
+          "placementStatus": "exact",
+          "requiresAuthorDecision": false,
+          "canAutoApply": false,
+          "canWriteManuscript": false,
+          "mutationAuthority": "command-kernel-reviewed-comment-decision",
+          "productCommandRecorded": true
+        }
+      ],
+      "survivalPreviewHash": "sha256:713caf20a0ece2d1dc384bf05eee80cc0562ebbee3210dc33fb9ef2f6a97a783",
+      "survivalPreview": {
+        "schemaVersion": "revision-bridge.comment-survival-preview.v1",
+        "type": "revisionBridge.commentSurvival.preview",
+        "status": "ready",
+        "code": "REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_READY",
+        "reason": "REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_READY",
+        "canAutoApply": false,
+        "autoApplyCount": 0,
+        "autoApplyCandidates": [],
+        "totalThreads": 1,
+        "totalPlacements": 1,
+        "preservedThreads": [
+          {
+            "index": 0,
+            "schemaVersion": "revision-bridge.comment-thread.v1",
+            "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+            "authorId": "",
+            "status": "open",
+            "resolvedDone": false,
+            "createdAt": "",
+            "updatedAt": "",
+            "tags": [
+              "RTK_COMMENT_ANCHORED"
+            ],
+            "messages": [
+              {
+                "messageId": "stable-comment-message:155aa5549b8bb3de",
+                "authorId": "",
+                "body": "Stage 10 visible comment path.",
+                "createdAt": "",
+                "replyParent": ""
+              }
+            ]
+          }
+        ],
+        "placementResults": [
+          {
+            "index": 0,
+            "placementId": "placement-stage10-comment",
+            "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+            "threadIndexes": [
+              0
+            ],
+            "status": "placed",
+            "canAutoApply": false,
+            "evaluation": {
+              "schemaVersion": "revision-bridge.comment-anchor-placement-evaluation.v1",
+              "type": "revisionBridge.commentAnchorPlacement.evaluation",
+              "status": "evaluated",
+              "code": "REVISION_BRIDGE_PLACEMENT_EVALUATION_EVALUATED",
+              "reason": "REVISION_BRIDGE_PLACEMENT_EVALUATION_EVALUATED",
+              "placement": {
+                "schemaVersion": "revision-bridge.comment-anchor-placement.v1",
+                "placementId": "placement-stage10-comment",
+                "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+                "targetScope": {
+                  "type": "scene",
+                  "id": "scene-1"
+                },
+                "inlineRange": {
+                  "schemaVersion": "revision-bridge.inline-range.v1",
+                  "kind": "span",
+                  "blockId": "block-1",
+                  "lineageId": "lineage-1",
+                  "from": 0,
+                  "to": 8,
+                  "quote": "Stage 10",
+                  "prefix": "",
+                  "suffix": " product",
+                  "confidence": "exact",
+                  "riskClass": "low",
+                  "deletedTarget": false,
+                  "reasonCodes": []
+                },
+                "resolvedState": "open",
+                "acceptedState": "pending",
+                "diagnosticsOnly": false
+              },
+              "validation": {
+                "ok": true,
+                "type": "revisionBridge.commentAnchorPlacement.validation",
+                "code": "REVISION_BRIDGE_COMMENT_ANCHOR_PLACEMENT_VALID",
+                "reason": "REVISION_BRIDGE_COMMENT_ANCHOR_PLACEMENT_VALID",
+                "reasons": []
+              },
+              "matchProof": {
+                "schemaVersion": "revision-bridge.match-proof.v1",
+                "type": "revisionBridge.matchProof",
+                "status": "matched",
+                "code": "REVISION_BRIDGE_MATCH_PROOF_BUILT",
+                "reason": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                "inlineRange": {
+                  "blockId": "block-1",
+                  "confidence": "exact",
+                  "deletedTarget": false,
+                  "from": 0,
+                  "kind": "span",
+                  "lineageId": "lineage-1",
+                  "prefix": "",
+                  "quote": "Stage 10",
+                  "reasonCodes": [],
+                  "riskClass": "low",
+                  "schemaVersion": "revision-bridge.inline-range.v1",
+                  "suffix": " product",
+                  "to": 8
+                },
+                "blockRef": {
+                  "blockId": "block-1",
+                  "lineageId": "lineage-1",
+                  "hasContextBlock": true
+                },
+                "comparedRange": {
+                  "from": 0,
+                  "inBounds": true,
+                  "to": 8
+                },
+                "expectedQuote": "Stage 10",
+                "observedQuote": "Stage 10",
+                "prefixProof": {
+                  "expected": "",
+                  "matched": true,
+                  "observed": ""
+                },
+                "suffixProof": {
+                  "expected": " product",
+                  "matched": true,
+                  "observed": " product"
+                },
+                "reasonCodes": [
+                  "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE"
+                ],
+                "diagnostics": [
+                  {
+                    "code": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                    "field": "inlineRange",
+                    "message": "quote matches the target range exactly"
+                  }
+                ]
+              },
+              "confidenceEvaluation": {
+                "schemaVersion": "revision-bridge.anchor-confidence-evaluation.v1",
+                "type": "revisionBridge.anchorConfidence.evaluation",
+                "status": "evaluated",
+                "code": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EVALUATED",
+                "reason": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                "inlineRange": {
+                  "automationPolicy": "manualConfirmRequired",
+                  "blockId": "block-1",
+                  "confidence": "exact",
+                  "deletedTarget": false,
+                  "from": 0,
+                  "kind": "span",
+                  "lineageId": "lineage-1",
+                  "prefix": "",
+                  "quote": "Stage 10",
+                  "reasonCodes": [
+                    "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE"
+                  ],
+                  "riskClass": "low",
+                  "schemaVersion": "revision-bridge.inline-range.v1",
+                  "suffix": " product",
+                  "to": 8
+                },
+                "confidence": "exact",
+                "riskClass": "low",
+                "automationPolicy": "manualConfirmRequired",
+                "reasonCodes": [
+                  "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE"
+                ],
+                "diagnostics": [
+                  {
+                    "code": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                    "field": "inlineRange",
+                    "message": "quote matches the target range exactly"
+                  }
+                ]
+              },
+              "reasonCodes": [
+                "REVISION_BRIDGE_PLACEMENT_EVALUATION_EVALUATED",
+                "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE"
+              ],
+              "diagnostics": [
+                {
+                  "code": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                  "field": "commentAnchorPlacement.inlineRange",
+                  "message": "quote matches the target range exactly"
+                }
+              ]
+            }
+          }
+        ],
+        "commentRecords": [
+          {
+            "commentId": "stable-comment-message:155aa5549b8bb3de",
+            "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+            "bodyText": "Stage 10 visible comment path.",
+            "placementStatus": "exact",
+            "orphanReason": "",
+            "sourcePart": "commentThread:stable-comment-thread:durableId:96be9ff96552d80f",
+            "authorHandle": "",
+            "createdAtUtc": "",
+            "replyParent": "",
+            "resolvedDone": false,
+            "anchorKind": "span"
+          }
+        ],
+        "blockedRecords": [],
+        "diagnostics": [],
+        "diagnosticSummary": {
+          "schemaVersion": "revision-bridge.comment-survival-preview.v1",
+          "total": 0,
+          "items": []
+        }
+      },
+      "diagnostics": [],
+      "summary": {
+        "totalThreads": 1,
+        "totalAnchorRecords": 1,
+        "totalDecisionRows": 1,
+        "exactAnchors": 1,
+        "orphanAnchors": 0,
+        "deletedAnchors": 0,
+        "diagnostics": 0
+      },
+      "packetHash": "sha256:e28f0665fc5b6630f125b13298062d4012a48f08174b4bb272c87e8ad93a5d7b"
+    }
+  },
+  "commentDecisions": {
+    "stable-comment-decision:44906278dacc4393": {
+      "decisionId": "stable-comment-decision:44906278dacc4393",
+      "packetHash": "sha256:e28f0665fc5b6630f125b13298062d4012a48f08174b4bb272c87e8ad93a5d7b",
+      "state": "acknowledged",
+      "commandReceiptId": "stage10:0004:cmd-comments-decision-record",
+      "automaticApply": false,
+      "manuscriptMutation": false
+    }
+  },
+  "historyCheckpoints": {
+    "checkpoint-before-edit": {
+      "snapshotId": "checkpoint-before-edit",
+      "createdByCommandReceiptId": "stage10:0005:cmd-project-history-createCheckpoint",
+      "stateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "eventLogHash": "81da0e9ff8ae5770f4c7953175a4fd66e247223cab4b11b4a4c1080044c9e9d4"
+    }
+  },
+  "historyRestorePreviews": {
+    "history-restore-preview:43919c15b047445e4425cdf2": {
+      "previewId": "history-restore-preview:43919c15b047445e4425cdf2",
+      "snapshotId": "checkpoint-before-edit",
+      "currentStateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "targetStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "requiresConfirmation": true,
+      "mutationApplied": false
+    }
+  },
+  "historyRestoreUndoSnapshots": {
+    "history-restore-preview:43919c15b047445e4425cdf2": {
+      "previewId": "history-restore-preview:43919c15b047445e4425cdf2",
+      "snapshotId": "history-restore-undo-2c0ffa314146741e"
+    }
+  },
+  "conflictReports": {
+    "conflict-report:2ef6dbeab6eddbda9369e12f": {
+      "schemaVersion": "collab-local-multi-session-recovery.report.v1",
+      "ok": false,
+      "projectId": "p0-08-stage10-product",
+      "initialStateHash": "daf532d8cf2019d86b0ce4c34fad90fa91a35829561791612ebd53b3c2223858",
+      "finalStateHash": "0b906e67691853da80e898ad226a46babe955bce6b134dc37851d358f9bf2db8",
+      "sessions": [
+        {
+          "sessionId": "session-local",
+          "actorId": "actor-local",
+          "actorHash": "0e785aacc2e4434b1e474697b7f63878dd0c9bb919172056ec73893f920cd32d",
+          "actorIdentityOk": true,
+          "eventCount": 1,
+          "offlineQueueHash": "ccb0797ff97b7dac71c61d304b6e6ea4cbb6b3515c9fbce61338fef5e5c647ab"
+        },
+        {
+          "sessionId": "session-remote",
+          "actorId": "actor-remote",
+          "actorHash": "76e26e90acd4700dcca1f7f66c04d303ef515863ad44551d19fdb3c62f74b6b0",
+          "actorIdentityOk": true,
+          "eventCount": 1,
+          "offlineQueueHash": "85ef6691fb9580f83eb2b16729e5ab2e8a651463536fbb7f8bc04d024287275f"
+        }
+      ],
+      "applied": [
+        {
+          "opId": "conflict-op-local",
+          "actorId": "actor-local",
+          "sessionId": "session-local",
+          "seq": 1,
+          "ts": "2026-08-01T00:00:06.000Z",
+          "commandId": "project.applyTextEdit",
+          "payloadHash": "cf2a3bb38b36a4bfc82ec31ba588f2925f7471c0b035305cb5df86f55ef2535a",
+          "dependsOn": [],
+          "replayVerdict": "applied",
+          "preReplayStateHash": "daf532d8cf2019d86b0ce4c34fad90fa91a35829561791612ebd53b3c2223858",
+          "postReplayStateHash": "0b906e67691853da80e898ad226a46babe955bce6b134dc37851d358f9bf2db8"
+        }
+      ],
+      "noop": [],
+      "conflicts": [
+        {
+          "conflictId": "conflict:15ff6ba79ccdd6024d151f7a",
+          "schemaVersion": "collab-local-conflict-envelope.v1",
+          "envelope": {
+            "code": "E_COLLAB_BASE_VERSION_MISMATCH",
+            "op": "collab.merge",
+            "reason": "BASE_VERSION_CONFLICT",
+            "details": {
+              "opId": "conflict-op-remote",
+              "authorId": "actor-remote",
+              "ts": "2026-08-01T00:00:07.000Z",
+              "commandId": "project.applyTextEdit"
+            }
+          },
+          "eventRef": {
+            "opId": "conflict-op-remote",
+            "actorId": "actor-remote",
+            "sessionId": "session-remote",
+            "seq": 1,
+            "ts": "2026-08-01T00:00:07.000Z",
+            "commandId": "project.applyTextEdit",
+            "payloadHash": "d54f9afe19251adc152a0a97b44db97d5cc9bbafa9f3789ce3f9d78facf69733",
+            "dependsOn": []
+          },
+          "retainedLocalStateHash": "0b906e67691853da80e898ad226a46babe955bce6b134dc37851d358f9bf2db8",
+          "rejectedRemoteStateHash": "618ddbd99f9a9420bd01e783dd4839f2b9eaba0d36b45ed096680cfad0b20f76",
+          "automaticMerge": false,
+          "silentProjectRewrite": false,
+          "destructiveRecovery": false,
+          "projectTruthMutation": false,
+          "manuscriptMutation": false,
+          "manualDecisionRoute": {
+            "routeId": "manual-conflict-decision:conflict:15ff6ba79ccdd6024d151f7a",
+            "routeKind": "MANUAL_PREVIEW_REQUIRED",
+            "previewRequired": true,
+            "commandKernelApplyRequired": true,
+            "capabilityRevalidationRequired": true,
+            "dispatchIntentOnly": true,
+            "automaticMerge": false,
+            "silentProjectRewrite": false,
+            "destructiveRecovery": false,
+            "decisionStates": [
+              "keepLocalWithReceipt",
+              "acceptRemoteAsManualRevision",
+              "keepBothAsManualRevision",
+              "rejectRemoteWithReceipt"
+            ],
+            "eventRef": {
+              "opId": "conflict-op-remote",
+              "actorId": "actor-remote",
+              "sessionId": "session-remote",
+              "commandId": "project.applyTextEdit"
+            }
+          },
+          "rollbackProof": {
+            "rollbackAction": "ROLLBACK_TO_PRE_CONFLICT_STATE",
+            "rollbackStateHash": "0b906e67691853da80e898ad226a46babe955bce6b134dc37851d358f9bf2db8",
+            "reopenRequired": true,
+            "authorDataLoss": false,
+            "destructiveRecovery": false
+          }
+        }
+      ],
+      "invalidEvents": [],
+      "rollbackReopenProof": {
+        "rollbackTargets": [
+          {
+            "conflictId": "conflict:15ff6ba79ccdd6024d151f7a",
+            "rollbackStateHash": "0b906e67691853da80e898ad226a46babe955bce6b134dc37851d358f9bf2db8",
+            "reopenRequired": true
+          }
+        ],
+        "reopenProof": {
+          "proofKind": "LOCAL_REOPEN_HASH_MATCH",
+          "required": true,
+          "provided": true,
+          "expectedStateHash": "0b906e67691853da80e898ad226a46babe955bce6b134dc37851d358f9bf2db8",
+          "actualStateHash": "daf532d8cf2019d86b0ce4c34fad90fa91a35829561791612ebd53b3c2223858",
+          "matches": false,
+          "projectTruthMutation": false,
+          "manuscriptMutation": false
+        },
+        "rollbackAvailable": true,
+        "authorDataLoss": false,
+        "destructiveRecovery": false,
+        "silentProjectRewrite": false
+      },
+      "offlineRecoveryProof": {
+        "schemaVersion": "collab-offline-recovery.proof.v1",
+        "localOnly": true,
+        "networkRequired": false,
+        "networkDispatch": false,
+        "replayFromQueueSupported": true,
+        "queuePackets": [
+          {
+            "sessionId": "session-local",
+            "actorId": "actor-local",
+            "queueHash": "ccb0797ff97b7dac71c61d304b6e6ea4cbb6b3515c9fbce61338fef5e5c647ab",
+            "heldLocalCount": 1,
+            "dispatchableCount": 0,
+            "disabledNonBlocking": true,
+            "authoringBlocked": false,
+            "networkDispatch": false
+          },
+          {
+            "sessionId": "session-remote",
+            "actorId": "actor-remote",
+            "queueHash": "85ef6691fb9580f83eb2b16729e5ab2e8a651463536fbb7f8bc04d024287275f",
+            "heldLocalCount": 1,
+            "dispatchableCount": 0,
+            "disabledNonBlocking": true,
+            "authoringBlocked": false,
+            "networkDispatch": false
+          }
+        ],
+        "recoverySnapshotRefs": [
+          {
+            "snapshotId": "checkpoint-before-edit",
+            "sessionId": "session-primary",
+            "stateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+            "eventLogHash": "81da0e9ff8ae5770f4c7953175a4fd66e247223cab4b11b4a4c1080044c9e9d4",
+            "createdAtUtc": "1970-01-01T00:00:00.000Z",
+            "readableRecovery": true,
+            "destructiveRewrite": false
+          },
+          {
+            "snapshotId": "history-restore-undo-2c0ffa314146741e",
+            "sessionId": "session-primary",
+            "stateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+            "eventLogHash": "3f214e104e6eb8a58a12e8d7f15e789d81121d8a3efba601034a6da9f09b70d2",
+            "createdAtUtc": "1970-01-01T00:00:00.000Z",
+            "readableRecovery": true,
+            "destructiveRewrite": false
+          }
+        ],
+        "authorDataLoss": false,
+        "destructiveRecovery": false,
+        "projectRewrite": false
+      },
+      "summary": {
+        "sessionCount": 2,
+        "inputEventCount": 2,
+        "appliedCount": 1,
+        "noopCount": 0,
+        "conflictCount": 1,
+        "invalidEventCount": 0,
+        "manualDecisionRequiredCount": 1,
+        "rollbackProofCount": 1,
+        "recoverySnapshotRefCount": 2
+      },
+      "authority": {
+        "localOnly": true,
+        "manualDecisionRequired": true,
+        "automaticMerge": false,
+        "networkCollaboration": false,
+        "networkDispatch": false,
+        "destructiveRecovery": false,
+        "silentProjectRewrite": false,
+        "projectTruthMutation": false,
+        "manuscriptMutation": false,
+        "storageMutation": false,
+        "uiMutation": false,
+        "secondOperationLogTruth": false,
+        "secondCommentTruth": false
+      },
+      "recoveryHash": "8f9adc96578afebec20b8ec03ada6ada2d477bde75a8a4656dbaa89f32dcc270"
+    }
+  },
+  "conflictDecisions": {
+    "conflict:15ff6ba79ccdd6024d151f7a": {
+      "conflictId": "conflict:15ff6ba79ccdd6024d151f7a",
+      "reportId": "conflict-report:2ef6dbeab6eddbda9369e12f",
+      "decision": "keepLocal",
+      "commandReceiptId": "stage10:0011:cmd-collab-conflict-decision-record",
+      "manualDecision": true,
+      "automaticMerge": false,
+      "silentProjectRewrite": false,
+      "projectTruthMutation": false
+    }
+  },
+  "operationExchangePackets": {
+    "exchange-packet:5b730b4d8e49453caa1c0385": {
+      "schemaVersion": "collab-transport-neutral-operation-exchange.packet.v1",
+      "ok": true,
+      "packetKind": "operationExchange",
+      "packetVersion": 1,
+      "projectId": "p0-08-stage10-product",
+      "transport": {
+        "adapterKind": "localFixture",
+        "transportNeutral": true,
+        "localFixtureAdapter": true,
+        "freeReversibleAdapter": true,
+        "liveNetwork": false,
+        "networkAdapterEnabled": false,
+        "accountSync": false,
+        "cloudSync": false,
+        "runtimeDownload": false,
+        "transportSourceOfTruth": false,
+        "crdtCoreAdopted": false,
+        "yjsRuntimeDependency": false
+      },
+      "capability": {
+        "transportEnabled": true,
+        "disabledNonBlocking": false,
+        "authoringBlocked": false,
+        "explicitActivationRequired": true,
+        "networkAdapterEnabled": false
+      },
+      "entries": [
+        {
+          "opId": "stage10:0001:project-create",
+          "actorId": "author-primary",
+          "sessionId": "session-primary",
+          "seq": 1,
+          "ts": "2026-08-01T00:00:01.000Z",
+          "commandId": "project.create",
+          "payloadHash": "24e46ddc3eb399328c1eed3b9c59d38dd5232a3d39027b2b36238f723a8b5597",
+          "dependsOn": [],
+          "eventHash": "03e96d260be72369a3b0f1c09e4d3c34f829996bda66022196f65666c35edba8",
+          "exchangeState": "readyLocalFixture",
+          "localFixtureExchangeable": true,
+          "networkDispatchable": false,
+          "sourceOrdinal": 0
+        },
+        {
+          "opId": "stage10:0002:project-applyTextEdit",
+          "actorId": "author-primary",
+          "sessionId": "session-primary",
+          "seq": 2,
+          "ts": "2026-08-01T00:00:02.000Z",
+          "commandId": "project.applyTextEdit",
+          "payloadHash": "b56c622d1ead6a187acd713d1fe6f9979c2a68ea84c6bf36f12ccf889df2d8d7",
+          "dependsOn": [
+            "stage10:0001:project-create"
+          ],
+          "eventHash": "c0f546537abe95a4579548dc038e33b3114f4ba21a5269a7a55ae6da6d81cefc",
+          "exchangeState": "readyLocalFixture",
+          "localFixtureExchangeable": true,
+          "networkDispatchable": false,
+          "sourceOrdinal": 1
+        },
+        {
+          "opId": "stage10:0006:project-applyTextEdit",
+          "actorId": "author-primary",
+          "sessionId": "session-primary",
+          "seq": 3,
+          "ts": "2026-08-01T00:00:06.000Z",
+          "commandId": "project.applyTextEdit",
+          "payloadHash": "be57e6200a5b472fe003c1d8faa7de9519b0215c50872ea6745e4f92895757f6",
+          "dependsOn": [
+            "stage10:0002:project-applyTextEdit"
+          ],
+          "eventHash": "1c70f1a353f963a6f48c42997c568f775ef8882caf7a2e42d970fc143d2f91d8",
+          "exchangeState": "readyLocalFixture",
+          "localFixtureExchangeable": true,
+          "networkDispatchable": false,
+          "sourceOrdinal": 2
+        }
+      ],
+      "rejected": [],
+      "summary": {
+        "inputCount": 3,
+        "exchangeableCount": 3,
+        "heldLocalCount": 0,
+        "rejectedCount": 0
+      },
+      "authority": {
+        "localOnly": true,
+        "transportNeutral": true,
+        "usesExistingOperationLogTruth": true,
+        "transportSourceOfTruth": false,
+        "networkAdapter": false,
+        "networkDispatch": false,
+        "accountIdentity": false,
+        "cloudSync": false,
+        "remotePresence": false,
+        "coreTransportDependency": false,
+        "crdtCoreAdopted": false,
+        "yjsRuntimeDependency": false,
+        "projectTruthMutation": false,
+        "manuscriptMutation": false,
+        "storageMutation": false,
+        "uiMutation": false,
+        "secondOperationLogTruth": false,
+        "secondCommentTruth": false
+      },
+      "exchangeHash": "17b6842fe1c8135130bec06f66dc2d1edd5e2c91ee3b06f81af5abee79a4bdef"
+    }
+  },
+  "operationExchangeAdapterPreviews": {
+    "exchange-preview:4d657b6360e074af4b2a09b5": {
+      "schemaVersion": "collab-local-fixture-exchange-adapter.report.v1",
+      "ok": true,
+      "adapter": {
+        "adapterKind": "localFixture",
+        "localOnly": true,
+        "free": true,
+        "reversible": true,
+        "readsPacketOnly": true,
+        "writesRuntime": false,
+        "liveNetwork": false,
+        "networkDispatch": false,
+        "accountSync": false,
+        "cloudSync": false,
+        "storageMutation": false,
+        "uiMutation": false
+      },
+      "packetRef": {
+        "schemaVersion": "collab-transport-neutral-operation-exchange.packet.v1",
+        "exchangeHash": "17b6842fe1c8135130bec06f66dc2d1edd5e2c91ee3b06f81af5abee79a4bdef",
+        "expectedExchangeHash": "17b6842fe1c8135130bec06f66dc2d1edd5e2c91ee3b06f81af5abee79a4bdef",
+        "recomputedExchangeHash": "17b6842fe1c8135130bec06f66dc2d1edd5e2c91ee3b06f81af5abee79a4bdef",
+        "packetHashMatches": true,
+        "entryCount": 3
+      },
+      "previewRows": [
+        {
+          "opId": "stage10:0001:project-create",
+          "actorId": "author-primary",
+          "sessionId": "session-primary",
+          "seq": 1,
+          "ts": "2026-08-01T00:00:01.000Z",
+          "commandId": "project.create",
+          "payloadHash": "24e46ddc3eb399328c1eed3b9c59d38dd5232a3d39027b2b36238f723a8b5597",
+          "dependsOn": [],
+          "eventHash": "03e96d260be72369a3b0f1c09e4d3c34f829996bda66022196f65666c35edba8",
+          "previewOnly": true,
+          "payloadCopied": false
+        },
+        {
+          "opId": "stage10:0002:project-applyTextEdit",
+          "actorId": "author-primary",
+          "sessionId": "session-primary",
+          "seq": 2,
+          "ts": "2026-08-01T00:00:02.000Z",
+          "commandId": "project.applyTextEdit",
+          "payloadHash": "b56c622d1ead6a187acd713d1fe6f9979c2a68ea84c6bf36f12ccf889df2d8d7",
+          "dependsOn": [
+            "stage10:0001:project-create"
+          ],
+          "eventHash": "c0f546537abe95a4579548dc038e33b3114f4ba21a5269a7a55ae6da6d81cefc",
+          "previewOnly": true,
+          "payloadCopied": false
+        },
+        {
+          "opId": "stage10:0006:project-applyTextEdit",
+          "actorId": "author-primary",
+          "sessionId": "session-primary",
+          "seq": 3,
+          "ts": "2026-08-01T00:00:06.000Z",
+          "commandId": "project.applyTextEdit",
+          "payloadHash": "be57e6200a5b472fe003c1d8faa7de9519b0215c50872ea6745e4f92895757f6",
+          "dependsOn": [
+            "stage10:0002:project-applyTextEdit"
+          ],
+          "eventHash": "1c70f1a353f963a6f48c42997c568f775ef8882caf7a2e42d970fc143d2f91d8",
+          "previewOnly": true,
+          "payloadCopied": false
+        }
+      ],
+      "applyRoute": {
+        "routeKind": "COMMAND_KERNEL_PREVIEW_REQUIRED",
+        "previewRequired": true,
+        "commandKernelApplyRequired": true,
+        "capabilityRevalidationRequired": true,
+        "dispatchIntentOnly": true,
+        "automaticApply": false,
+        "transportApplyAuthority": false
+      },
+      "rejected": [],
+      "summary": {
+        "previewCount": 3,
+        "appliedCount": 0,
+        "rejectedCount": 0,
+        "transportCapabilityEnabled": true,
+        "authoringBlocked": false
+      },
+      "authority": {
+        "localOnly": true,
+        "transportNeutral": true,
+        "transportSourceOfTruth": false,
+        "networkAdapter": false,
+        "networkDispatch": false,
+        "accountIdentity": false,
+        "cloudSync": false,
+        "remotePresence": false,
+        "coreTransportDependency": false,
+        "crdtCoreAdopted": false,
+        "yjsRuntimeDependency": false,
+        "projectTruthMutation": false,
+        "manuscriptMutation": false,
+        "storageMutation": false,
+        "uiMutation": false,
+        "secondOperationLogTruth": false,
+        "secondCommentTruth": false
+      },
+      "adapterReportHash": "a157d8caa2cdc0e479ce2f97e7bcb9a6bd2d117f4e705f314e294e7d5fa64b31"
+    }
+  },
+  "uiEvents": [
+    {
+      "opId": "stage10:0001:project-create",
+      "commandId": "project.create",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "project-create-visible",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0002:project-applyTextEdit",
+      "commandId": "project.applyTextEdit",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "editor-text-visible",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0003:cmd-comments-importStablePacket",
+      "commandId": "cmd.comments.importStablePacket",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-comment-import",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0004:cmd-comments-decision-record",
+      "commandId": "cmd.comments.decision.record",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-comment-decision",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0005:cmd-project-history-createCheckpoint",
+      "commandId": "cmd.project.history.createCheckpoint",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-checkpoint",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0006:project-applyTextEdit",
+      "commandId": "project.applyTextEdit",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "editor-text-visible",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0007:cmd-project-history-restorePreview",
+      "commandId": "cmd.project.history.restorePreview",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-preview",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0008:cmd-project-history-restoreApply",
+      "commandId": "cmd.project.history.restoreApply",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-apply",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0009:cmd-project-history-restoreUndo",
+      "commandId": "cmd.project.history.restoreUndo",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-history-restore-undo",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0010:cmd-collab-conflict-preview",
+      "commandId": "cmd.collab.conflict.preview",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-conflict-preview",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0011:cmd-collab-conflict-decision-record",
+      "commandId": "cmd.collab.conflict.decision.record",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-conflict-decision",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0012:cmd-collab-operationExchange-prepare",
+      "commandId": "cmd.collab.operationExchange.prepare",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-exchange-prepare",
+      "visibleControl": true,
+      "directBridge": false
+    },
+    {
+      "opId": "stage10:0013:cmd-collab-operationExchange-localFixturePreview",
+      "commandId": "cmd.collab.operationExchange.localFixturePreview",
+      "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+      "controlId": "stage10-exchange-preview",
+      "visibleControl": true,
+      "directBridge": false
+    }
+  ],
+  "storageWrites": [
+    {
+      "reason": "project.create",
+      "sessionHash": "2da90e4928ea8c4519f32788a66e73f5033a0e07e46e7e9f12dfc1b5536aff4c",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "project.applyTextEdit",
+      "sessionHash": "8c5b733738fd16ee29e34c9c7a6103a204832c3851e4ac69ebf6b16398eb4110",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.comments.importStablePacket",
+      "sessionHash": "aac9c5cafa366332f0e3d4fb8d41f380dabfa2e22bf0df9b598d93a7b068b825",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.comments.decision.record",
+      "sessionHash": "c1e1b2d7c4b6127c646e9758e58ba9ff73c67c7e6208d05fd6a5a0a5a9aea430",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.project.history.createCheckpoint",
+      "sessionHash": "3bce4ef2bf64cd49b76f4cd603a7e94594e3c74df54cfcf616319c22d724e87d",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "project.applyTextEdit",
+      "sessionHash": "8d7549459d3d0e3805a14834a9fc1f8e48a1a57462b22093f90e085b478bda3a",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.project.history.restorePreview",
+      "sessionHash": "f2b4cfe5fdf7b9168593dc63801ca734e9edfcf7f6bdc0e1e6483bb2c6aca306",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.project.history.restoreApply",
+      "sessionHash": "05ac1c57460bae8ddc8920ebb121e2191a202eec57d1b8046fe4ee746a568e2e",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.project.history.restoreUndo",
+      "sessionHash": "3660faa7bb142c77307015e10ff3b385c0c18c21ebdaae2ab4c0b5a03d3d51fc",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.collab.conflict.preview",
+      "sessionHash": "dbbd212492296e79449e98d386f92432aff6af7c1437e614692c19380ef125d4",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.collab.conflict.decision.record",
+      "sessionHash": "8ec04c5609e217030afc10fe8c1e4d728e780b7831433a6ec65589ef2c97feba",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    },
+    {
+      "reason": "cmd.collab.operationExchange.prepare",
+      "sessionHash": "b6469484e4016b5201f846289a467227c7f673a31497545b80f2343736e380d9",
+      "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+      "ok": true
+    }
+  ],
+  "recoverySnapshotRefs": [
+    {
+      "snapshotId": "checkpoint-before-edit",
+      "sessionId": "session-primary",
+      "stateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+      "eventLogHash": "81da0e9ff8ae5770f4c7953175a4fd66e247223cab4b11b4a4c1080044c9e9d4",
+      "createdAtUtc": "1970-01-01T00:00:00.000Z",
+      "readableRecovery": true,
+      "destructiveRewrite": false
+    },
+    {
+      "snapshotId": "history-restore-undo-2c0ffa314146741e",
+      "sessionId": "session-primary",
+      "stateHash": "e3815f33e277cd8be77db61548fb923c72998983d0aca5300f8c414b6cdcf848",
+      "eventLogHash": "3f214e104e6eb8a58a12e8d7f15e789d81121d8a3efba601034a6da9f09b70d2",
+      "createdAtUtc": "1970-01-01T00:00:00.000Z",
+      "readableRecovery": true,
+      "destructiveRewrite": false
+    }
+  ],
+  "shadowOnly": false,
+  "shadowAcceptedAsComplete": false,
+  "programDoneClaim": false,
+  "networkAdapterEnabled": false
+}

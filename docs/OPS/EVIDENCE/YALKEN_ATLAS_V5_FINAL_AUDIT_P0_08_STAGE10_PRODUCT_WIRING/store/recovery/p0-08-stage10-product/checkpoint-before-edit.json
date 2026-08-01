@@ -1,0 +1,587 @@
+{
+  "schemaVersion": "yalken.stage10.recoverySnapshot.v1",
+  "snapshotId": "checkpoint-before-edit",
+  "reason": "cmd.project.history.createCheckpoint",
+  "sessionId": "session-primary",
+  "projectId": "p0-08-stage10-product",
+  "stateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+  "eventLogHash": "81da0e9ff8ae5770f4c7953175a4fd66e247223cab4b11b4a4c1080044c9e9d4",
+  "session": {
+    "schemaVersion": "yalken.stage10.localProductSession.v1",
+    "projectId": "p0-08-stage10-product",
+    "actorId": "author-primary",
+    "sessionId": "session-primary",
+    "coreState": {
+      "version": 1,
+      "data": {
+        "projects": {
+          "p0-08-stage10-product": {
+            "id": "p0-08-stage10-product",
+            "title": "P0 08 Stage10 Product Wiring",
+            "atlas": {
+              "schemaVersion": "atlas.author.v1",
+              "entities": {},
+              "decisions": {},
+              "suppressions": {},
+              "entityOperations": {},
+              "reassignments": {},
+              "evidenceReattachments": {},
+              "savedQueries": {},
+              "languageTags": {
+                "project": null,
+                "scenes": {},
+                "blocks": {},
+                "ranges": {}
+              },
+              "seriesIdentityLinks": {},
+              "entityVocabulary": {},
+              "relationVocabulary": {},
+              "seriesPortabilityOperations": {},
+              "calendarDefinitions": {},
+              "sceneTemporalAnchors": {},
+              "continuityFactLedgers": {
+                "location": {},
+                "knowledge": {},
+                "object": {},
+                "promise": {}
+              }
+            },
+            "ideas": {
+              "schemaVersion": "idea.author.v1",
+              "ideas": {},
+              "originLinks": {}
+            },
+            "meanings": {
+              "schemaVersion": "meaning.author.v1",
+              "meanings": {}
+            },
+            "manualMaps": {
+              "schemaVersion": "manualMap.author.v1",
+              "maps": {}
+            },
+            "scenes": {
+              "scene-1": {
+                "id": "scene-1",
+                "text": "Stage 10 product wiring base text."
+              }
+            }
+          }
+        },
+        "lastCommandId": 2
+      }
+    },
+    "eventLog": {
+      "schemaVersion": "collab-eventlog.v1",
+      "events": [
+        {
+          "opId": "stage10:0001:project-create",
+          "ts": "2026-08-01T00:00:01.000Z",
+          "actorId": "author-primary",
+          "commandId": "project.create",
+          "payloadHash": "24e46ddc3eb399328c1eed3b9c59d38dd5232a3d39027b2b36238f723a8b5597",
+          "preStateHash": "17bbb03ed8575017073ce668d34f138c1a05b649bf201f561e7799419c0cdb59",
+          "postStateHash": "8d8f2fad7702993271e628ec0aa9f7620aaefc2a7dd4b72716f8169c2d04c084"
+        },
+        {
+          "opId": "stage10:0002:project-applyTextEdit",
+          "ts": "2026-08-01T00:00:02.000Z",
+          "actorId": "author-primary",
+          "commandId": "project.applyTextEdit",
+          "payloadHash": "b56c622d1ead6a187acd713d1fe6f9979c2a68ea84c6bf36f12ccf889df2d8d7",
+          "preStateHash": "8d8f2fad7702993271e628ec0aa9f7620aaefc2a7dd4b72716f8169c2d04c084",
+          "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72"
+        }
+      ]
+    },
+    "commandReceipts": [
+      {
+        "receiptId": "stage10:0001:project-create",
+        "operationId": "stage10:0001:project-create",
+        "commandId": "project.create",
+        "status": "APPLIED",
+        "appliedAt": "2026-08-01T00:00:01.000Z",
+        "actorId": "author-primary",
+        "sessionId": "session-primary",
+        "preStateHash": "17bbb03ed8575017073ce668d34f138c1a05b649bf201f561e7799419c0cdb59",
+        "postStateHash": "8d8f2fad7702993271e628ec0aa9f7620aaefc2a7dd4b72716f8169c2d04c084",
+        "capabilityRevalidated": true,
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "project-create-visible",
+        "visibleUiCommand": true,
+        "directBridge": false,
+        "storageWritten": true,
+        "details": {
+          "eventLogHash": "4fe115a5783ad0fd5060a8a9dee5ab5fedcb8635cc4919bc38e6f77844f84cf6",
+          "projectTruthMutation": true,
+          "commandKernel": true
+        }
+      },
+      {
+        "receiptId": "stage10:0002:project-applyTextEdit",
+        "operationId": "stage10:0002:project-applyTextEdit",
+        "commandId": "project.applyTextEdit",
+        "status": "APPLIED",
+        "appliedAt": "2026-08-01T00:00:02.000Z",
+        "actorId": "author-primary",
+        "sessionId": "session-primary",
+        "preStateHash": "8d8f2fad7702993271e628ec0aa9f7620aaefc2a7dd4b72716f8169c2d04c084",
+        "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+        "capabilityRevalidated": true,
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "editor-text-visible",
+        "visibleUiCommand": true,
+        "directBridge": false,
+        "storageWritten": true,
+        "details": {
+          "eventLogHash": "81da0e9ff8ae5770f4c7953175a4fd66e247223cab4b11b4a4c1080044c9e9d4",
+          "projectTruthMutation": true,
+          "commandKernel": true
+        }
+      },
+      {
+        "receiptId": "stage10:0003:cmd-comments-importStablePacket",
+        "operationId": "stage10:0003:cmd-comments-importStablePacket",
+        "commandId": "cmd.comments.importStablePacket",
+        "status": "APPLIED",
+        "appliedAt": "2026-08-01T00:00:03.000Z",
+        "actorId": "author-primary",
+        "sessionId": "session-primary",
+        "preStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+        "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+        "capabilityRevalidated": true,
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "stage10-comment-import",
+        "visibleUiCommand": true,
+        "directBridge": false,
+        "storageWritten": true,
+        "details": {
+          "packetHash": "sha256:ab28a5cb4772873da11d7d72c630ef5b25577aa86f619339468f377a31f749dd",
+          "commentItemCount": 1,
+          "projectTruthMutation": false,
+          "manuscriptMutation": false,
+          "commentTruthDuplicated": false
+        }
+      },
+      {
+        "receiptId": "stage10:0004:cmd-comments-decision-record",
+        "operationId": "stage10:0004:cmd-comments-decision-record",
+        "commandId": "cmd.comments.decision.record",
+        "status": "APPLIED",
+        "appliedAt": "2026-08-01T00:00:04.000Z",
+        "actorId": "author-primary",
+        "sessionId": "session-primary",
+        "preStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+        "postStateHash": "cf024db7f15ff4f6bfbcf604fb5bb573c0f4370f0ce40971b73badf9d7037f72",
+        "capabilityRevalidated": true,
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "stage10-comment-decision",
+        "visibleUiCommand": true,
+        "directBridge": false,
+        "storageWritten": true,
+        "details": {
+          "packetHash": "sha256:e28f0665fc5b6630f125b13298062d4012a48f08174b4bb272c87e8ad93a5d7b",
+          "decisionId": "stable-comment-decision:44906278dacc4393",
+          "commentItemCount": 1,
+          "commentTruthDuplicated": false
+        }
+      }
+    ],
+    "commentPackets": {
+      "sha256:e28f0665fc5b6630f125b13298062d4012a48f08174b4bb272c87e8ad93a5d7b": {
+        "schemaVersion": "revision-bridge.stable-comment-anchor-packet.v1",
+        "type": "revisionBridge.stableCommentAnchor.packet",
+        "status": "ready",
+        "code": "REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_READY",
+        "reason": "REVISION_BRIDGE_STABLE_COMMENT_ANCHOR_PACKET_READY",
+        "canAutoApply": false,
+        "canWriteManuscript": false,
+        "projectId": "p0-08-stage10-product",
+        "sceneId": "scene-1",
+        "revisionId": "revision-stage10",
+        "source": {
+          "reviewIrSchemaVersion": "yalken.rtk.review-ir.v2",
+          "commentThreadCount": 1,
+          "placementHintCount": 1,
+          "parserAuthority": "rtk-review-ir-comment-graph-only"
+        },
+        "sourceThreadRefs": [
+          {
+            "stableThreadIdentity": "stable-comment-thread:durableId:96be9ff96552d80f",
+            "sourceThreadId": "rtk-comment-stage10",
+            "commentId": "100",
+            "durableId": "durable-stage10-comment",
+            "doneResolvedReopenedState": "active",
+            "status": "ANCHORED",
+            "quotedAnchorText": "Stage 10",
+            "relatedRevision": null,
+            "reasonCodes": [
+              "RTK_COMMENT_ANCHORED"
+            ],
+            "sourceXmlProvenance": null,
+            "placementSelectorEvidence": {}
+          }
+        ],
+        "anchorRecords": [
+          {
+            "schemaVersion": "revision-bridge.stable-comment-anchor-record.v1",
+            "anchorRecordId": "stable-comment-anchor:dc95beee34c53de2",
+            "projectId": "p0-08-stage10-product",
+            "sceneId": "scene-1",
+            "stableThreadIdentity": "stable-comment-thread:durableId:96be9ff96552d80f",
+            "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+            "commentId": "stable-comment-message:155aa5549b8bb3de",
+            "sourceThreadId": "rtk-comment-stage10",
+            "sourceCommentId": "100",
+            "durableId": "durable-stage10-comment",
+            "bodyDigest": "sha256:58e029e736fd0e4989f8dab4e3e1af8b7566967bb9bb911bc41b75fe0a7070aa",
+            "placementStatus": "exact",
+            "orphanReason": "",
+            "anchorKind": "span",
+            "sourcePart": "commentThread:stable-comment-thread:durableId:96be9ff96552d80f",
+            "authorHandle": "",
+            "createdAtUtc": "",
+            "replyParent": "",
+            "resolvedDone": false,
+            "evidenceIdentity": "sha256:7dec4c4614e1169afd099bf7c8c2fe570cc6f897a3838eeb6fc879ec0ff7469e",
+            "selectorEvidence": {},
+            "relatedRevision": null,
+            "canAutoApply": false,
+            "canWriteManuscript": false
+          }
+        ],
+        "decisionRows": [
+          {
+            "schemaVersion": "revision-bridge.stable-comment-decision-row.v1",
+            "decisionId": "stable-comment-decision:44906278dacc4393",
+            "anchorRecordId": "stable-comment-anchor:dc95beee34c53de2",
+            "stableThreadIdentity": "stable-comment-thread:durableId:96be9ff96552d80f",
+            "commentId": "stable-comment-message:155aa5549b8bb3de",
+            "state": "acknowledged",
+            "placementStatus": "exact",
+            "requiresAuthorDecision": false,
+            "canAutoApply": false,
+            "canWriteManuscript": false,
+            "mutationAuthority": "command-kernel-reviewed-comment-decision",
+            "productCommandRecorded": true
+          }
+        ],
+        "survivalPreviewHash": "sha256:713caf20a0ece2d1dc384bf05eee80cc0562ebbee3210dc33fb9ef2f6a97a783",
+        "survivalPreview": {
+          "schemaVersion": "revision-bridge.comment-survival-preview.v1",
+          "type": "revisionBridge.commentSurvival.preview",
+          "status": "ready",
+          "code": "REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_READY",
+          "reason": "REVISION_BRIDGE_COMMENT_SURVIVAL_PREVIEW_READY",
+          "canAutoApply": false,
+          "autoApplyCount": 0,
+          "autoApplyCandidates": [],
+          "totalThreads": 1,
+          "totalPlacements": 1,
+          "preservedThreads": [
+            {
+              "index": 0,
+              "schemaVersion": "revision-bridge.comment-thread.v1",
+              "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+              "authorId": "",
+              "status": "open",
+              "resolvedDone": false,
+              "createdAt": "",
+              "updatedAt": "",
+              "tags": [
+                "RTK_COMMENT_ANCHORED"
+              ],
+              "messages": [
+                {
+                  "messageId": "stable-comment-message:155aa5549b8bb3de",
+                  "authorId": "",
+                  "body": "Stage 10 visible comment path.",
+                  "createdAt": "",
+                  "replyParent": ""
+                }
+              ]
+            }
+          ],
+          "placementResults": [
+            {
+              "index": 0,
+              "placementId": "placement-stage10-comment",
+              "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+              "threadIndexes": [
+                0
+              ],
+              "status": "placed",
+              "canAutoApply": false,
+              "evaluation": {
+                "schemaVersion": "revision-bridge.comment-anchor-placement-evaluation.v1",
+                "type": "revisionBridge.commentAnchorPlacement.evaluation",
+                "status": "evaluated",
+                "code": "REVISION_BRIDGE_PLACEMENT_EVALUATION_EVALUATED",
+                "reason": "REVISION_BRIDGE_PLACEMENT_EVALUATION_EVALUATED",
+                "placement": {
+                  "schemaVersion": "revision-bridge.comment-anchor-placement.v1",
+                  "placementId": "placement-stage10-comment",
+                  "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+                  "targetScope": {
+                    "type": "scene",
+                    "id": "scene-1"
+                  },
+                  "inlineRange": {
+                    "schemaVersion": "revision-bridge.inline-range.v1",
+                    "kind": "span",
+                    "blockId": "block-1",
+                    "lineageId": "lineage-1",
+                    "from": 0,
+                    "to": 8,
+                    "quote": "Stage 10",
+                    "prefix": "",
+                    "suffix": " product",
+                    "confidence": "exact",
+                    "riskClass": "low",
+                    "deletedTarget": false,
+                    "reasonCodes": []
+                  },
+                  "resolvedState": "open",
+                  "acceptedState": "pending",
+                  "diagnosticsOnly": false
+                },
+                "validation": {
+                  "ok": true,
+                  "type": "revisionBridge.commentAnchorPlacement.validation",
+                  "code": "REVISION_BRIDGE_COMMENT_ANCHOR_PLACEMENT_VALID",
+                  "reason": "REVISION_BRIDGE_COMMENT_ANCHOR_PLACEMENT_VALID",
+                  "reasons": []
+                },
+                "matchProof": {
+                  "schemaVersion": "revision-bridge.match-proof.v1",
+                  "type": "revisionBridge.matchProof",
+                  "status": "matched",
+                  "code": "REVISION_BRIDGE_MATCH_PROOF_BUILT",
+                  "reason": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                  "inlineRange": {
+                    "blockId": "block-1",
+                    "confidence": "exact",
+                    "deletedTarget": false,
+                    "from": 0,
+                    "kind": "span",
+                    "lineageId": "lineage-1",
+                    "prefix": "",
+                    "quote": "Stage 10",
+                    "reasonCodes": [],
+                    "riskClass": "low",
+                    "schemaVersion": "revision-bridge.inline-range.v1",
+                    "suffix": " product",
+                    "to": 8
+                  },
+                  "blockRef": {
+                    "blockId": "block-1",
+                    "lineageId": "lineage-1",
+                    "hasContextBlock": true
+                  },
+                  "comparedRange": {
+                    "from": 0,
+                    "inBounds": true,
+                    "to": 8
+                  },
+                  "expectedQuote": "Stage 10",
+                  "observedQuote": "Stage 10",
+                  "prefixProof": {
+                    "expected": "",
+                    "matched": true,
+                    "observed": ""
+                  },
+                  "suffixProof": {
+                    "expected": " product",
+                    "matched": true,
+                    "observed": " product"
+                  },
+                  "reasonCodes": [
+                    "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE"
+                  ],
+                  "diagnostics": [
+                    {
+                      "code": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                      "field": "inlineRange",
+                      "message": "quote matches the target range exactly"
+                    }
+                  ]
+                },
+                "confidenceEvaluation": {
+                  "schemaVersion": "revision-bridge.anchor-confidence-evaluation.v1",
+                  "type": "revisionBridge.anchorConfidence.evaluation",
+                  "status": "evaluated",
+                  "code": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EVALUATED",
+                  "reason": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                  "inlineRange": {
+                    "automationPolicy": "manualConfirmRequired",
+                    "blockId": "block-1",
+                    "confidence": "exact",
+                    "deletedTarget": false,
+                    "from": 0,
+                    "kind": "span",
+                    "lineageId": "lineage-1",
+                    "prefix": "",
+                    "quote": "Stage 10",
+                    "reasonCodes": [
+                      "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE"
+                    ],
+                    "riskClass": "low",
+                    "schemaVersion": "revision-bridge.inline-range.v1",
+                    "suffix": " product",
+                    "to": 8
+                  },
+                  "confidence": "exact",
+                  "riskClass": "low",
+                  "automationPolicy": "manualConfirmRequired",
+                  "reasonCodes": [
+                    "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE"
+                  ],
+                  "diagnostics": [
+                    {
+                      "code": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                      "field": "inlineRange",
+                      "message": "quote matches the target range exactly"
+                    }
+                  ]
+                },
+                "reasonCodes": [
+                  "REVISION_BRIDGE_PLACEMENT_EVALUATION_EVALUATED",
+                  "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE"
+                ],
+                "diagnostics": [
+                  {
+                    "code": "REVISION_BRIDGE_ANCHOR_CONFIDENCE_EXACT_RANGE",
+                    "field": "commentAnchorPlacement.inlineRange",
+                    "message": "quote matches the target range exactly"
+                  }
+                ]
+              }
+            }
+          ],
+          "commentRecords": [
+            {
+              "commentId": "stable-comment-message:155aa5549b8bb3de",
+              "threadId": "stable-comment-thread:durableId:96be9ff96552d80f",
+              "bodyText": "Stage 10 visible comment path.",
+              "placementStatus": "exact",
+              "orphanReason": "",
+              "sourcePart": "commentThread:stable-comment-thread:durableId:96be9ff96552d80f",
+              "authorHandle": "",
+              "createdAtUtc": "",
+              "replyParent": "",
+              "resolvedDone": false,
+              "anchorKind": "span"
+            }
+          ],
+          "blockedRecords": [],
+          "diagnostics": [],
+          "diagnosticSummary": {
+            "schemaVersion": "revision-bridge.comment-survival-preview.v1",
+            "total": 0,
+            "items": []
+          }
+        },
+        "diagnostics": [],
+        "summary": {
+          "totalThreads": 1,
+          "totalAnchorRecords": 1,
+          "totalDecisionRows": 1,
+          "exactAnchors": 1,
+          "orphanAnchors": 0,
+          "deletedAnchors": 0,
+          "diagnostics": 0
+        },
+        "packetHash": "sha256:e28f0665fc5b6630f125b13298062d4012a48f08174b4bb272c87e8ad93a5d7b"
+      }
+    },
+    "commentDecisions": {
+      "stable-comment-decision:44906278dacc4393": {
+        "decisionId": "stable-comment-decision:44906278dacc4393",
+        "packetHash": "sha256:e28f0665fc5b6630f125b13298062d4012a48f08174b4bb272c87e8ad93a5d7b",
+        "state": "acknowledged",
+        "commandReceiptId": "stage10:0004:cmd-comments-decision-record",
+        "automaticApply": false,
+        "manuscriptMutation": false
+      }
+    },
+    "historyCheckpoints": {},
+    "historyRestorePreviews": {},
+    "historyRestoreUndoSnapshots": {},
+    "conflictReports": {},
+    "conflictDecisions": {},
+    "operationExchangePackets": {},
+    "operationExchangeAdapterPreviews": {},
+    "uiEvents": [
+      {
+        "opId": "stage10:0001:project-create",
+        "commandId": "project.create",
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "project-create-visible",
+        "visibleControl": true,
+        "directBridge": false
+      },
+      {
+        "opId": "stage10:0002:project-applyTextEdit",
+        "commandId": "project.applyTextEdit",
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "editor-text-visible",
+        "visibleControl": true,
+        "directBridge": false
+      },
+      {
+        "opId": "stage10:0003:cmd-comments-importStablePacket",
+        "commandId": "cmd.comments.importStablePacket",
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "stage10-comment-import",
+        "visibleControl": true,
+        "directBridge": false
+      },
+      {
+        "opId": "stage10:0004:cmd-comments-decision-record",
+        "commandId": "cmd.comments.decision.record",
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "stage10-comment-decision",
+        "visibleControl": true,
+        "directBridge": false
+      },
+      {
+        "opId": "stage10:0005:cmd-project-history-createCheckpoint",
+        "commandId": "cmd.project.history.createCheckpoint",
+        "activationMode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "controlId": "stage10-history-checkpoint",
+        "visibleControl": true,
+        "directBridge": false
+      }
+    ],
+    "storageWrites": [
+      {
+        "reason": "project.create",
+        "sessionHash": "2da90e4928ea8c4519f32788a66e73f5033a0e07e46e7e9f12dfc1b5536aff4c",
+        "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+        "ok": true
+      },
+      {
+        "reason": "project.applyTextEdit",
+        "sessionHash": "8c5b733738fd16ee29e34c9c7a6103a204832c3851e4ac69ebf6b16398eb4110",
+        "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+        "ok": true
+      },
+      {
+        "reason": "cmd.comments.importStablePacket",
+        "sessionHash": "aac9c5cafa366332f0e3d4fb8d41f380dabfa2e22bf0df9b598d93a7b068b825",
+        "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+        "ok": true
+      },
+      {
+        "reason": "cmd.comments.decision.record",
+        "sessionHash": "c1e1b2d7c4b6127c646e9758e58ba9ff73c67c7e6208d05fd6a5a0a5a9aea430",
+        "writtenAtUtc": "1970-01-01T00:00:00.000Z",
+        "ok": true
+      }
+    ],
+    "recoverySnapshotRefs": [],
+    "shadowOnly": false,
+    "shadowAcceptedAsComplete": false,
+    "programDoneClaim": false,
+    "networkAdapterEnabled": false
+  }
+}

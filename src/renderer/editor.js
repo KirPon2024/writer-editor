@@ -901,6 +901,7 @@ let atlasJourneyState = {
   status: 'idle',
   lastCommandId: '',
   lastResult: '',
+  commandSeq: 0,
 };
 let atlasJourneyDraft = {
   entityName: '',
@@ -13722,10 +13723,12 @@ async function refreshAtlasProductSurfaces(options = {}) {
 }
 
 async function runProductJourneyCommand(commandId, payload = {}) {
+  const nextCommandSeq = Number(atlasJourneyState.commandSeq || 0) + 1;
   atlasJourneyState = {
     status: 'running',
     lastCommandId: commandId,
     lastResult: '',
+    commandSeq: nextCommandSeq,
   };
   renderAtlasJourneyState();
   const result = await dispatchUiCommand(commandId, {
@@ -13743,6 +13746,7 @@ async function runProductJourneyCommand(commandId, payload = {}) {
     status: result && result.ok ? 'applied' : 'failed',
     lastCommandId: commandId,
     lastResult: result && result.ok ? 'persisted' : (result?.reason || result?.error?.reason || 'failed'),
+    commandSeq: nextCommandSeq,
   };
   renderAtlasJourneyState();
   await refreshAtlasCurrentScene({ force: true });
@@ -13759,6 +13763,8 @@ function renderAtlasJourneyState() {
   atlasJourneyHost.innerHTML = '';
   atlasJourneyHost.dataset.atlasJourneyProvider = ATLAS_CURRENT_SCENE_QUERY_ID;
   atlasJourneyHost.dataset.atlasJourneyStatus = atlasJourneyState.status;
+  atlasJourneyHost.dataset.atlasJourneyLastCommandId = atlasJourneyState.lastCommandId || '';
+  atlasJourneyHost.dataset.atlasJourneyCommandSeq = String(atlasJourneyState.commandSeq || 0);
   atlasJourneyHost.dataset.atlasJourneySourceEntityId = atlasJourneyDraft.sourceEntityId || '';
   atlasJourneyHost.dataset.atlasJourneyTargetEntityId = atlasJourneyDraft.targetEntityId || '';
   atlasJourneyHost.dataset.atlasJourneyMentionId = atlasJourneyDraft.mentionId || '';
@@ -17087,27 +17093,60 @@ function getExportBridgeValue(result) {
   return result;
 }
 
+function findCommandResultReason(value, depth = 0) {
+  if (!value || typeof value !== 'object' || Array.isArray(value) || depth > 4) return '';
+  if (typeof value.reason === 'string' && value.reason) return value.reason;
+  if (value.error && typeof value.error === 'object' && !Array.isArray(value.error)) {
+    const errorReason = findCommandResultReason(value.error, depth + 1);
+    if (errorReason) return errorReason;
+  }
+  if (value.value && typeof value.value === 'object' && !Array.isArray(value.value)) {
+    const nestedReason = findCommandResultReason(value.value, depth + 1);
+    if (nestedReason) return nestedReason;
+  }
+  if (value.details && typeof value.details === 'object' && !Array.isArray(value.details)) {
+    const detailReason = findCommandResultReason(value.details, depth + 1);
+    if (detailReason) return detailReason;
+  }
+  if (typeof value.error === 'string' && value.error) return value.error;
+  return '';
+}
+
 async function runExportSurfaceBridgeCommand(commandId, requestPrefix, statusBase) {
   updateStatusText(`${statusBase} export`);
-  const result = await invokePreloadUiCommandBridge(commandId, {
-    confirmed: true,
+  setExportSurfaceStatus(`${statusBase} export`, 'Command Kernel is resolving the saved project truth.');
+  const payload = {
     requestId: `${requestPrefix}-${Date.now()}`,
+  };
+  if (
+    commandId !== EXTRA_COMMAND_IDS.PROJECT_EXPORT_ALL_SCENES_TXT
+    && commandId !== EXTRA_COMMAND_IDS.PROJECT_EXPORT_CURRENT_SCENE_TXT
+  ) {
+    payload.confirmed = true;
+  }
+  const result = await invokePreloadUiCommandBridge(commandId, {
+    ...payload,
   });
   if (!result || result.ok !== true) {
     updateStatusText(`${statusBase} export failed`);
+    const reason = findCommandResultReason(result) || 'Command returned NOT_OK';
+    setExportSurfaceStatus(`${statusBase} export failed`, reason);
     return result;
   }
   const value = getExportBridgeValue(result);
   if (value.canceled === true || value.cancelled === true) {
     updateStatusText(`${statusBase} export cancelled`);
+    setExportSurfaceStatus(`${statusBase} export cancelled`, 'Target selection was cancelled.');
     return result;
   }
   if (value.exported === true || result.ok === true) {
     const sceneCount = Number.isInteger(value.sceneCount) ? `: ${value.sceneCount}` : '';
     updateStatusText(`${statusBase} exported${sceneCount}`);
+    setExportSurfaceStatus(`${statusBase} exported${sceneCount}`, value.outPath || 'Export completed.');
     return result;
   }
   updateStatusText(`${statusBase} export unavailable`);
+  setExportSurfaceStatus(`${statusBase} export unavailable`, 'Command completed without an exported artifact.');
   return result;
 }
 
@@ -20275,8 +20314,16 @@ exportSurfaceCloseButtons.forEach((button) => {
   button.addEventListener('click', () => closeExportSurfaceModal());
 });
 exportSurfaceFormatButtons.forEach((button) => {
-  button.addEventListener('click', () => {
+  const runExportSurfaceButtonFormat = () => {
     void runExportSurfaceFormat(button.dataset.exportSurfaceFormat || '');
+  };
+  button.addEventListener('click', () => {
+    runExportSurfaceButtonFormat();
+  });
+  button.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') return;
+    event.preventDefault();
+    runExportSurfaceButtonFormat();
   });
 });
 selectedScenesTxtExportCancelButtons.forEach((button) => {
@@ -20291,8 +20338,16 @@ importSurfaceCloseButtons.forEach((button) => {
   button.addEventListener('click', () => closeImportSurfaceModal());
 });
 importSurfaceFormatButtons.forEach((button) => {
-  button.addEventListener('click', () => {
+  const runImportSurfaceButtonFormat = () => {
     void runImportSurfaceFormat(button.dataset.importSurfaceFormat || '');
+  };
+  button.addEventListener('click', () => {
+    runImportSurfaceButtonFormat();
+  });
+  button.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar') return;
+    event.preventDefault();
+    runImportSurfaceButtonFormat();
   });
 });
 docxImportPreviewCancelButtons.forEach((button) => {

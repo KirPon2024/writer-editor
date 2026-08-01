@@ -1,0 +1,1482 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p0_03.packagedVisibleJourney.receipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+  "contourId": "P0_03_PACKAGED_JOURNEY_STALE_VISIBLE_UI_REPAIR",
+  "generatedAtUtc": "2026-08-01T05:22:31.270Z",
+  "status": "PASS_PACKAGED_VISIBLE_UI_JOURNEY",
+  "pass": true,
+  "platformId": "macos-packaged-electron",
+  "sourceBinding": {
+    "headSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
+    "originMainSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
+    "packageBuiltAtHeadSha": "aeedf084d19e78b3c1d2ba689c2143bfd7ed9141",
+    "appAsar": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Resources/app.asar",
+      "exists": true,
+      "bytes": 100228820,
+      "sha256": "4c445281e98124dc30c3850ff2560929364767727b459be01e3745db1d5d9e75"
+    },
+    "appExecutable": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/MacOS/Yalken",
+      "exists": true,
+      "bytes": 33968,
+      "sha256": "f5212ea9181df95040385dfd04f512e983ed95394a96fb7c4b8ee838ea433caf"
+    },
+    "packageReportPath": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/macos-package-artifact-security-report.json",
+    "packageReportSha256": "a9c412c3a057d784a17ed492cb0751662cc3a8564c33810dcd7d7488fee042ed"
+  },
+  "report": {
+    "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-journey-report.json",
+    "exists": true,
+    "bytes": 110700,
+    "sha256": "b22b71979419d53d20e0ddb8c1bd2fb6c4cc78ba0b53c7b808e7c1342714fa78"
+  },
+  "reportSha256": "b22b71979419d53d20e0ddb8c1bd2fb6c4cc78ba0b53c7b808e7c1342714fa78",
+  "accepted": {
+    "currentSourcePackageBuilt": true,
+    "exactSourceBindingPresent": true,
+    "packagedExecutableRuntime": true,
+    "visibleUiInputUsed": true,
+    "atlasCreateEditRelationContinuity": true,
+    "manualMapLifecyclePersisted": true,
+    "undoExportImportPersisted": true,
+    "freshReopenReadback": true,
+    "screenshotsNonblank": true,
+    "noNetworkClaimed": true,
+    "noDirectBridgeAcceptance": true,
+    "noGeneratedArtifactOnlyAcceptance": true,
+    "physicalUserProofScoped": true
+  },
+  "activationEvidence": {
+    "activationModes": [
+      "PHYSICAL_POINTER_OR_KEYBOARD",
+      "DOM_VISIBLE_CONTROL_LISTENER_FALLBACK",
+      "FORBIDDEN_DIRECT_BRIDGE"
+    ],
+    "physicalClaimRule": "Only PHYSICAL_POINTER_OR_KEYBOARD rows are physical-user proof. DOM_VISIBLE_CONTROL_LISTENER_FALLBACK rows prove visible packaged control listener/product handler/persistence only.",
+    "residualLimitation": "Some packaged harness steps still use visible DOM listener fallbacks and must not be counted as physical pointer/keyboard proof.",
+    "counts": {
+      "PHYSICAL_POINTER_OR_KEYBOARD": 128,
+      "DOM_VISIBLE_CONTROL_LISTENER_FALLBACK": 3,
+      "FORBIDDEN_DIRECT_BRIDGE": 1
+    },
+    "domFallbackSteps": [
+      "editor-text-entry:execCommand-fallback",
+      "modal-format:markdown-imported-visible",
+      "modal-format:txt-all-exported"
+    ],
+    "forbiddenDirectBridgeAccepted": false,
+    "steps": [
+      {
+        "step": "click:.tree__row[data-navigator-selectable=\"true\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": ".tree__row[data-navigator-selectable=\"true\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:#editor",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "#editor",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "A",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "key:Backspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Backspace",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 71
+        }
+      },
+      {
+        "step": "editor-text-entry:execCommand-fallback",
+        "mode": "DOM_VISIBLE_CONTROL_LISTENER_FALLBACK",
+        "physicalUserProof": false,
+        "details": {
+          "method": "document.execCommand",
+          "reason": "CDP keyboard text did not update the visible editor before timeout."
+        }
+      },
+      {
+        "step": "key:meta+S",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "S",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 18
+        }
+      },
+      {
+        "step": "click:[data-action=\"undo\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-action=\"undo\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+S",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "S",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "click:[data-atlas-reachability-opener]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reachability-opener]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-surface-button=\"journey\"]:Flow",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-surface-button=\"journey\"]",
+          "text": "Flow",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-field=\"entityName\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-field=\"entityName\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "A",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "key:Backspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Backspace",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 9
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"create-entity\"]:Create entity",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"create-entity\"]",
+          "text": "Create entity",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": true
+        }
+      },
+      {
+        "step": "key:Enter",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Enter",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Space",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Space",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-field=\"entityName\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-field=\"entityName\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "A",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "key:Backspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Backspace",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 8
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"create-entity\"]:Create entity",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"create-entity\"]",
+          "text": "Create entity",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": true
+        }
+      },
+      {
+        "step": "key:Enter",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Enter",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Space",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Space",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-field=\"aliasValue\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-field=\"aliasValue\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "A",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "key:Backspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Backspace",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 14
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"add-alias\"]:Add alias",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"add-alias\"]",
+          "text": "Add alias",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": true
+        }
+      },
+      {
+        "step": "key:Enter",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Enter",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Space",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Space",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"confirm-mention\"]:Confirm mention",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"confirm-mention\"]",
+          "text": "Confirm mention",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"reattach-evidence\"]:Reattach evidence",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"reattach-evidence\"]",
+          "text": "Reattach evidence",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"reassign-observation\"]:Reassign",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"reassign-observation\"]",
+          "text": "Reassign",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"suppress-observation\"]:Suppress",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"suppress-observation\"]",
+          "text": "Suppress",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"merge-entities\"]:Merge",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"merge-entities\"]",
+          "text": "Merge",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-journey-action=\"split-restore\"]:Split restore",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-journey-action=\"split-restore\"]",
+          "text": "Split restore",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+S",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "S",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "click:[data-atlas-reachability-opener]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reachability-opener]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-surface-button=\"temporal\"]:Time",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-surface-button=\"temporal\"]",
+          "text": "Time",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-temporal-action=\"define-calendar\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-temporal-action=\"define-calendar\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-temporal-action=\"set-scene-time\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-temporal-action=\"set-scene-time\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-reachability-opener]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reachability-opener]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-surface-button=\"continuity\"]:Ledger",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-surface-button=\"continuity\"]",
+          "text": "Ledger",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-continuity-field=\"mentionId\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-continuity-field=\"mentionId\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:ArrowDown",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "ArrowDown",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Enter",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Enter",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "click:[data-atlas-continuity-action=\"record-fact\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-continuity-action=\"record-fact\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-reachability-opener]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reachability-opener]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-surface-button=\"reports\"]:Reports",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-surface-button=\"reports\"]",
+          "text": "Reports",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-reports-action=\"save-query\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reports-action=\"save-query\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-reachability-opener]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reachability-opener]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-surface-button=\"manualMap\"]:Map",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-surface-button=\"manualMap\"]",
+          "text": "Map",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-workbench-host] button:Open workspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-workbench-host] button",
+          "text": "Open workspace",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] button:Create map",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] button",
+          "text": "Create map",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-command-field=\"title\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-command-field=\"title\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "A",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "key:Backspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Backspace",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 18
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-confirm-risk]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-confirm-risk]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": true
+        }
+      },
+      {
+        "step": "key:Space",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Space",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-command-apply]:Apply",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-command-apply]",
+          "text": "Apply",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] button:Add node",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] button",
+          "text": "Add node",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-command-field=\"label\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-command-field=\"label\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "A",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "key:Backspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Backspace",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 11
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-command-apply]:Apply",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-command-apply]",
+          "text": "Apply",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": true
+        }
+      },
+      {
+        "step": "key:Enter",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Enter",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Space",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Space",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] button:Add node",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] button",
+          "text": "Add node",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-command-field=\"label\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-command-field=\"label\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "A",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "key:Backspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Backspace",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 11
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-command-apply]:Apply",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-command-apply]",
+          "text": "Apply",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": true
+        }
+      },
+      {
+        "step": "key:Enter",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Enter",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Space",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Space",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-row-id]:P003 Node A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-row-id]",
+          "text": "P003 Node A",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-row-id]:P003 Node B",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-row-id]",
+          "text": "P003 Node B",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] button:Add edge",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] button",
+          "text": "Add edge",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-command-field=\"label\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-command-field=\"label\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "key:meta+A",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "A",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "key:Backspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Backspace",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "text-entry:Input.dispatchKeyEvent",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "graphemeCount": 9
+        }
+      },
+      {
+        "step": "click:[data-manual-map-plan-host] [data-manual-map-command-apply]:Apply",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-plan-host] [data-manual-map-command-apply]",
+          "text": "Apply",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": true
+        }
+      },
+      {
+        "step": "key:Enter",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Enter",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Space",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Space",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:meta+shift+I",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "I",
+          "modifiers": [
+            "meta",
+            "shift"
+          ]
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "modal-format:markdown-imported-visible",
+        "mode": "DOM_VISIBLE_CONTROL_LISTENER_FALLBACK",
+        "physicalUserProof": false,
+        "details": {
+          "selector": "[data-import-surface-format=\"markdown\"]",
+          "label": "Markdown",
+          "method": "HTMLElement.click",
+          "reason": "Visible modal format control listener fallback; not counted as physical pointer/keyboard proof."
+        }
+      },
+      {
+        "step": "key:meta+shift+E",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "E",
+          "modifiers": [
+            "meta",
+            "shift"
+          ]
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "key:Tab",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "Tab",
+          "modifiers": []
+        }
+      },
+      {
+        "step": "modal-format:txt-all-exported",
+        "mode": "DOM_VISIBLE_CONTROL_LISTENER_FALLBACK",
+        "physicalUserProof": false,
+        "details": {
+          "selector": "[data-export-surface-format=\"txt-all\"]",
+          "label": "TXT All Scenes",
+          "method": "HTMLElement.click",
+          "reason": "Visible modal format control listener fallback; not counted as physical pointer/keyboard proof."
+        }
+      },
+      {
+        "step": "key:meta+S",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "method": "Input.dispatchKeyEvent",
+          "keyCode": "S",
+          "modifiers": [
+            "meta"
+          ]
+        }
+      },
+      {
+        "step": "click:.tree__row[data-navigator-selectable=\"true\"]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": ".tree__row[data-navigator-selectable=\"true\"]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-reachability-opener]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reachability-opener]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-surface-button=\"journey\"]:Flow",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-surface-button=\"journey\"]",
+          "text": "Flow",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-reachability-opener]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reachability-opener]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-surface-button=\"manualMap\"]:Map",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-surface-button=\"manualMap\"]",
+          "text": "Map",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-manual-map-workbench-host] button:Open workspace",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-manual-map-workbench-host] button",
+          "text": "Open workspace",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-reachability-opener]",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-reachability-opener]",
+          "text": "",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "click:[data-atlas-surface-button=\"reports\"]:Reports",
+        "mode": "PHYSICAL_POINTER_OR_KEYBOARD",
+        "physicalUserProof": true,
+        "details": {
+          "selector": "[data-atlas-surface-button=\"reports\"]",
+          "text": "Reports",
+          "method": "Input.dispatchMouseEvent",
+          "hitTestObscured": false
+        }
+      },
+      {
+        "step": "direct-ipc-or-storage-bridge-acceptance",
+        "mode": "FORBIDDEN_DIRECT_BRIDGE",
+        "physicalUserProof": false,
+        "details": {
+          "accepted": false,
+          "reason": "Direct bridge, IPC, and storage mutation are forbidden as P0_03 packaged user-journey proof."
+        }
+      }
+    ]
+  },
+  "negativeAssertions": {
+    "directInjectedBridgeAcceptedAsPackagedJourney": false,
+    "oldE11C02BridgeHarnessAccepted": false,
+    "screenshotOnlyAccepted": false,
+    "stalePackageAccepted": false,
+    "missingFreshReopenAccepted": false,
+    "finalProgramDoDClaim": false
+  },
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "mergeRequired": true,
+    "remoteHeadVerificationRequired": true
+  }
+}

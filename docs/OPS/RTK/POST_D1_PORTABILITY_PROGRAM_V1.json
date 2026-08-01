@@ -363,7 +363,8 @@
     "Product Review DOCX return intake is wired for authenticated parser V2 gate, but automatic apply and physical product loop remain uncertified.",
     "Authenticated parser-derived Word IR is now wired to visible preview and explicit user-confirmed C05 apply/replay; release-level automatic apply, Word saturation, Google Docs, and physical product-originated waves remain pending.",
     "Authenticated comment shadow sessions now bind project, scene, round, baseline and returned artifact identity; they remain shadow-only and do not certify release readiness.",
-    "P0 product-originated smoke-12 is blocked by macOS Word sandbox grant automation in this host state; this is an ENVIRONMENT_PERMISSION boundary, not Product Review DOCX/package/carrier invalidity evidence."
+    "P0 product-originated smoke-12 is blocked by macOS Word sandbox grant automation in this host state; this is an ENVIRONMENT_PERMISSION boundary, not Product Review DOCX/package/carrier invalidity evidence.",
+    "P0 product-originated smoke-12 proves only bounded physical Word open-edit-save-close-reopen through LaunchServices open plus ordinary Save; it does not claim live Electron click, broad release wave, automatic apply, Word saturation, or Google Docs."
   ],
   "designToolRouter": "NOT_APPLICABLE",
   "delivery": {
@@ -607,9 +608,9 @@
     "releaseAuditRequired": true
   },
   "releaseAuditNight01": {
-    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_BLOCKED_ENVIRONMENT_PERMISSION_NOT_SATURATED",
+    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_COMPLETE_NOT_SATURATED",
     "currentStage": "P0-PRODUCT-ORIGINATED-WORD-SMOKE-WAVE-12",
-    "nextStage": "P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_RETRY_WITH_PREGRANTED_TEST_FOLDER",
+    "nextStage": "P0_PRODUCT_ORIGINATED_WORD_VARIED_WAVE_64",
     "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
     "latestEnvironmentPermissionProbeReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
     "latestEnvironmentPermissionProbeStatus": "MACOS_WORD_SANDBOX_GRANT_REQUIRED_NOT_PACKAGE_INVALID",
@@ -630,11 +631,13 @@
     "persistentCommentShadowRequiresAuthenticatedReturn": true,
     "legacyUnboundCommentPreviewStorageBlocked": true,
     "commentShadowStorageEffectsReported": true,
-    "productOriginatedPhysicalLoopSmokeProven": false,
+    "productOriginatedPhysicalLoopSmokeProven": true,
     "liveElectronUiPhysicalClickProven": false,
     "wordContainerWorkRootUsed": false,
-    "t7ArtifactWorkRootFallback": false,
-    "macosWordSandboxGrantRequired": true,
-    "packageInvalidProven": false
+    "t7ArtifactWorkRootFallback": true,
+    "macosWordSandboxGrantRequired": false,
+    "packageInvalidProven": false,
+    "launchServicesOpenUsed": true,
+    "wordSaveMode": "SAVE_EXISTING_DOCUMENT_NO_SAVE_AS"
   }
 }

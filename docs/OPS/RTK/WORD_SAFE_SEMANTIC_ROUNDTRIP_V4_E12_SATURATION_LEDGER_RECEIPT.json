@@ -218,7 +218,7 @@
     {
       "id": "RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_SMOKE_WAVE12",
       "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
-      "sha256": "311070e639b230971da6fd26c6cbb9d448485300a523a5b4a7d2b639d68cf967",
+      "sha256": "331aa00db7c71faf7d688468f56401c6eadc3280816ff48453e3366c3593bdcb",
       "status": "BOUND"
     }
   ],
@@ -417,16 +417,19 @@
       "wordSaturated": false
     },
     "releaseAuditNight01P0ProductOriginatedSmokeWave12": {
-      "status": "BOUND_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_BLOCKED_ENVIRONMENT_PERMISSION",
+      "status": "BOUND_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_PHYSICAL_COMPLETE",
       "sourceEvidence": "RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_SMOKE_WAVE12",
-      "result": "WORD_RELEASE_AUDIT_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_BLOCKED_ENVIRONMENT_PERMISSION_NOT_SATURATED",
-      "physicalWordEvidence": false,
+      "result": "WORD_RELEASE_AUDIT_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_COMPLETE_NOT_SATURATED",
+      "physicalWordEvidence": true,
       "productCommandHandlerOriginatedPhysicalDocs": true,
-      "macosWordSandboxGrantRequired": true,
+      "macosWordSandboxGrantRequired": false,
       "packageInvalidProven": false,
+      "launchServicesOpenUsed": true,
+      "wordSaveMode": "SAVE_EXISTING_DOCUMENT_NO_SAVE_AS",
       "liveElectronUiPhysicalClickProven": false,
       "observedCases": 12,
-      "blockedCases": 12,
+      "blockedCases": 0,
+      "passCases": 12,
       "automaticApplyCertified": false,
       "releaseReady": false,
       "wordSaturated": false

@@ -233,6 +233,10 @@ test('Stage02 hostile file gate allows bounded ignored parts and quarantines unk
   ]));
   const wordSidePart = bridge.inspectDocxHostileFileGateFromZipBytes(zipFixture([
     { name: 'word/document.xml', body: '<root/>' },
+    { name: 'word/comments.xml', body: '<w:comments/>' },
+    { name: 'word/commentsExtended.xml', body: '<w15:commentsEx/>' },
+    { name: 'word/commentsIds.xml', body: '<w16cid:commentsIds/>' },
+    { name: 'word/commentsExtensible.xml', body: '<w16cex:commentsExtensible/>' },
     { name: 'word/webSettings.xml', body: '<w:webSettings/>' },
     { name: 'word/people.xml', body: '<w15:people/>' },
   ]));

@@ -5848,10 +5848,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-hostile-file-gate.contract.test.js",
-      "sha256": "fdce11545385efd211fda0de29f976ce33b7cd01061c0689345a8d429fc8b58b",
-      "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
-      "approvedAtUtc": "2026-07-12T23:00:00.000Z",
-      "rationale": "Approve hostile gate coverage distinguishing internal OOXML relationships from literal, encoded, and malformed external TargetMode values while preserving all ZIP and XML defenses."
+      "sha256": "6d71ee9f4d41fb93c0f0d0dce1ac2909c347de634b50e8fe23b95e6903dbd675",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-import-e2e-command-chain.contract.test.js",
@@ -5939,10 +5939,10 @@
     },
     {
       "filePath": "test/contracts/revision-bridge-docx-zip-inventory-materializer.contract.test.js",
-      "sha256": "aec911d0dc3dfc939ab55f94af53ec0931bd4c0df655aa6a720d3d37e3609e63",
-      "approvedBy": "ticket:REVIEW_BRIDGE_BOUNDED_FIDELITY_GOLDEN_ACCEPTANCE_001",
-      "approvedAtUtc": "2026-07-12T23:00:00.000Z",
-      "rationale": "Approve materializer contract alignment with the honest relationship-part diagnostic code while preserving all binary bounds and rejection behavior."
+      "sha256": "bbf509466f4e1febf9169e3e0d59628c90721287601be2e13a954dc8b30ff175",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "test/contracts/revision-bridge-exact-text-apply-crash-reconciliation.contract.test.js",
@@ -7255,10 +7255,10 @@
     },
     {
       "filePath": "src/io/revisionBridge/index.mjs",
-      "sha256": "a026532a5a61740e990cb1605fd6a3ab9d939cbf797114d14d14018ae353d855",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:32:27.743Z",
-      "rationale": "Approve bounded release-audit Night 01 P0 return intake V2 product runtime source rebind: returned Review DOCX authority is gated through parser V2 before session import, custom properties are recognized as supported review packet metadata, no automatic apply, no writer authority expansion beyond existing command-owned paths, no UI redesign, no dependency, no network, and no release-ready or Word saturation claim."
+      "sha256": "191df123fb8078ed986b78bdb320177c2fdfeca64c09e1df9b5f457fa34ee58a",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT.json",
@@ -7724,38 +7724,38 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "7a0fba081fb49cdcab6855f1c7566f1ea30c6d9ba500dad1ed1fc990ebc1cc6d",
+      "sha256": "f26670b4814506d0ffd1001c5395c75519b270ffdb6e9578c3e49536a31a9cf3",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:34:01.000Z",
-      "rationale": "Approve bounded controlled Word grant probe receipt and contract: confirms macOS Word sandbox grant prompt as ENVIRONMENT_PERMISSION, same raw Product Review DOCX SHA unchanged, Word-owned Save As copy not created, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
-      "sha256": "311070e639b230971da6fd26c6cbb9d448485300a523a5b4a7d2b639d68cf967",
+      "sha256": "331aa00db7c71faf7d688468f56401c6eadc3280816ff48453e3366c3593bdcb",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "355c05ef572a805e9f84753837d8442382b1e97067863117eda57b618f4e05c4",
+      "sha256": "751ae3e6a3e50f69edf9d912b9777bd32262b2123b1c9ab500e945f3b8cc56aa",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "7ab93333c57965b2c43b79e3bcd72f425bb884aa0d6eeb1921d8d0f78c163230",
+      "sha256": "3553d04f6ffe5f1fa6f4a57c5cc7e77fea0851cfbc13f5f33cc6454f1b070cb4",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
-      "sha256": "88d530f2efa5eb29e2b2cf2eb275017db8ce1705655b37542e3ee714f8030b92",
+      "sha256": "50c4467c7c81144355ec9919d2dcc9c3c752dcf188abe2a6beaad0f4f77c1171",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
@@ -7766,10 +7766,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-originated-smoke-wave12.contract.test.js",
-      "sha256": "8ac7d07c3eeeabf1e52f7345838053737d868c060885cdae06b2dda6790923ad",
+      "sha256": "503d2d54ac5cf34d9854e082cc8b202f8ebe107f6567a1d626f194355b9145a0",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
@@ -7780,10 +7780,10 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-controlled-grant-probe.contract.test.js",
-      "sha256": "920fcda9b71758d1d2895a601237e28e83d8fd22d3c5af1feb081cee61e522e7",
+      "sha256": "d5999277a7b4e57ca0f64c232d9a96ff7e0d717d07680518a6b13fab7fb296bd",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:34:01.000Z",
-      "rationale": "Approve bounded controlled Word grant probe receipt and contract: confirms macOS Word sandbox grant prompt as ENVIRONMENT_PERMISSION, same raw Product Review DOCX SHA unchanged, Word-owned Save As copy not created, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
+      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     }
   ]
 }

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r3.c05.releaseSaturationRevalidation.receipt.v1",
+  "contourId": "R3_C05_RELEASE_SATURATION_REVALIDATION_AND_INDEPENDENT_AUDIT",
+  "generatedAtUtc": "2026-08-01T01:25:36.629Z",
+  "status": "PASS_R3_C05_RELEASE_SATURATION_REVALIDATED",
+  "pass": true,
+  "programDoneClaim": false,
+  "git": {
+    "branch": "codex/yalken-atlas-v5-r3-c05-release-saturation",
+    "headSha": "f73c9d44e28bca2f90c790327064f29dd32cafda",
+    "originMainSha": "f73c9d44e28bca2f90c790327064f29dd32cafda",
+    "headEqualsOriginMain": true,
+    "dirtyFiles": [
+      "M docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json",
+      "M  src/derived/atlas/deriveAtlasRelationDossier.mjs",
+      "M  src/main.js",
+      "M  src/renderer/editor.bundle.js",
+      "M  src/renderer/editor.js",
+      "?? docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/",
+      "?? docs/OPS/STATUS/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION_RECEIPT.json",
+      "?? scripts/ops/yalken-atlas-v5-r3-c05-release-saturation-revalidation.mjs",
+      "?? test/contracts/yalken-atlas-v5-r3-c05-release-saturation-revalidation.contract.test.js"
+    ]
+  },
+  "report": {
+    "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_R3_C05_RELEASE_SATURATION_REVALIDATION/r3-c05-release-saturation-revalidation-report.json",
+    "exists": true,
+    "bytes": 6014,
+    "sha256": "7240190d781474fe8a161f7a65ee9d7e48c1424c60419ff4971610a3b6d5df94"
+  },
+  "reportSha256": "7240190d781474fe8a161f7a65ee9d7e48c1424c60419ff4971610a3b6d5df94",
+  "p0OpenCount": 0,
+  "p0Rows": [
+    {
+      "id": "NIGHT01_P0_01_EXECUTABLE_DOD_ROWS",
+      "status": "CLOSED_BY_EXECUTABLE_R3_ROWS"
+    },
+    {
+      "id": "NIGHT01_P0_02_AUTHOR_STATE_LOSSLESS_VERSIONED",
+      "status": "CLOSED_BY_R3_C04"
+    },
+    {
+      "id": "NIGHT01_P0_03_NO_SILENT_SCENE_SLICE",
+      "status": "CLOSED_BY_R3_C04_AND_SOURCE_RECHECK"
+    },
+    {
+      "id": "NIGHT01_P0_04_PROJECT_SCOPED_TRANSACTION_CONFLICT_SAFETY",
+      "status": "CLOSED_BY_R3_C05_SOURCE_AND_CONTRACT"
+    },
+    {
+      "id": "NIGHT01_P0_05_RELATION_PAYLOAD_PREVIEW_AND_VISIBLE_COMMANDS",
+      "status": "CLOSED_BY_R3_C01_AND_R3_C05_PREVIEW_DISPATCH"
+    },
+    {
+      "id": "NIGHT01_P0_06_CONTINUITY_AUTHOR_COMMANDS_REOPEN",
+      "status": "CLOSED_BY_R3_C02"
+    },
+    {
+      "id": "NIGHT01_P0_07_ATLAS_FEATURE_MANIFEST_DESIGN_OS_SLOT",
+      "status": "CLOSED_BY_R3_C05_SOURCE_AND_UI_SLOT_RECHECK"
+    },
+    {
+      "id": "NIGHT01_P0_08_MULTILINGUAL_GRAPHEME_CORE_ADMISSION",
+      "status": "CLOSED_BY_R3_C04"
+    }
+  ],
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "mergeRequired": true,
+    "remoteHeadVerificationRequired": true
+  }
+}

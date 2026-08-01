@@ -7546,6 +7546,34 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C05_REMOTE_MERGE_VERIFICATION",
       "approvedAtUtc": "2026-08-01T01:40:00.000Z",
       "rationale": "Approve append-only R3_C05 remote merge verification receipt binding PR 1341, merge commit 08e0f9085c20c9c5ecb7db506f2a4236677b015e, post-merge checks, and explicit no Program DONE claim; does not rewrite prior physical evidence receipt."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND/night01-c00-audit-rebind-report.json",
+      "sha256": "a8828964efd79b9816091021ced6e03320477178a96444f55b511f4c9655bf44",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
+      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
+      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND_RECEIPT.json",
+      "sha256": "36a4aede8c9db58be06bdcc4161819cbdecfd37704418c26f088ea5cdcde323d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
+      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
+      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-night01-c00-audit-rebind.mjs",
+      "sha256": "2cb0f460767636936c39a10b0792044259d9e2cdf4a8417c11135b04015dd9ad",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
+      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
+      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-night01-c00-audit-rebind.contract.test.js",
+      "sha256": "45834766a468efdec66826ef4cb3f733b775bfe9d26d5793b8acd03e36749f91",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
+      "approvedAtUtc": "2026-08-01T01:39:04.559Z",
+      "rationale": "Approve Night-01 C00 audit rebind artifacts: binds latest independent audit P0 rows to current origin/main e73a44d5 via R3_C05 remote verification ancestry, keeps Program DONE false, and compiles next independent final rerun gate without runtime/product mutation."
     }
   ]
 }

@@ -16,6 +16,7 @@ const STATUS = 'WORD_P0_SAFE_FORMATTING_LANE_TYPED_LIMITATION_BOUND_NOT_SATURATE
 const SCHEMA = 'yalken.rtk.word.p0-safe-formatting-lane-typed-limitation-receipt.v1';
 const CREATED_AT_UTC = '2026-08-01T12:55:00.000Z';
 const NEXT_STAGE = 'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION';
+const STRUCTURAL_SUCCESSOR_STAGE = 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION';
 
 const RECEIPT_REF = 'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_FORMATTING_LANE_TYPED_LIMITATION_RECEIPT.json';
 const E08_RECEIPT_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING_RECEIPT.json';
@@ -356,6 +357,8 @@ export function evaluateP0SafeFormattingLaneTypedLimitation(input = {}) {
   const issues = [];
   const add = (code, field, message) => issues.push(issue(code, field, message));
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.v4.effectiveFormattingDiagnostics');
+  const actualNextStage = program.v4ExecutionState?.nextStage || program.nextStep || '';
+  const validNextStage = actualNextStage === NEXT_STAGE || actualNextStage === STRUCTURAL_SUCCESSOR_STAGE;
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_P0_FORMATTING_RECEIPT_INVALID', 'receipt', 'P0 safe formatting lane receipt must pass.');
   if (receipt.implementedCapability?.formattingApplyTypedLimitationBound !== true
@@ -371,7 +374,7 @@ export function evaluateP0SafeFormattingLaneTypedLimitation(input = {}) {
     || cell.formattingApplyTypedLimitationBound !== true
     || cell.formattingDiagnosticProductPathProven !== true
     || cell.automaticApplyCertified !== false) add('RTK_P0_FORMATTING_PROFILE_INVALID', 'profile.effectiveFormattingDiagnostics', 'Profile must bind formatting diagnostic typed limitation without automatic apply.');
-  if (program.v4ExecutionState?.nextStage !== NEXT_STAGE
+  if (!validNextStage
     || program.v4ExecutionState?.safeFormattingLaneTypedLimitationBound !== true
     || program.v4ExecutionState?.runtimeApplyAuthorityGrantedForFormatting !== false
     || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_P0_FORMATTING_PROGRAM_INVALID', 'program', 'Program must advance to structural lane with Google closed.');
@@ -383,7 +386,7 @@ export function evaluateP0SafeFormattingLaneTypedLimitation(input = {}) {
     ok: issues.length === 0,
     status: issues.length === 0 ? 'PASS' : 'FAIL',
     issues,
-    nextStage: NEXT_STAGE,
+    nextStage: actualNextStage || NEXT_STAGE,
     formattingApplyTypedLimitationBound: receipt.implementedCapability?.formattingApplyTypedLimitationBound === true,
     productDiagnosticPathProven: receipt.implementedCapability?.productDiagnosticPathProven === true,
     automaticFormattingApplyCertified: receipt.implementedCapability?.automaticFormattingApplyCertified === true,

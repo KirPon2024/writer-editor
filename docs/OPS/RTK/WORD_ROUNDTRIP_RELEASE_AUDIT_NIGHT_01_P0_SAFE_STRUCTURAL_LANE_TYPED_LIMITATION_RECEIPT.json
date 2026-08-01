@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "yalken.rtk.word.p0-safe-structural-lane-typed-limitation-receipt.v1",
+  "taskId": "WORD_RTK_P0_SAFE_STRUCTURAL_LANE_TYPED_LIMITATION",
+  "status": "WORD_P0_SAFE_STRUCTURAL_LANE_TYPED_LIMITATION_BOUND_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T13:20:00.000Z",
+  "headBinding": {
+    "headSha": "6861edf49c970b6e009ce22b20950baccdf47157",
+    "originMainSha": "6861edf49c970b6e009ce22b20950baccdf47157",
+    "mergedRemoteShaRequired": true
+  },
+  "sourceEvidence": {
+    "physicalStructure": {
+      "sourceReceipt": {
+        "id": "E09_TYPED_STRUCTURAL_DIAGNOSTIC_LANE",
+        "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS_RECEIPT.json",
+        "sha256": "45bef8319b619a1413149d1666c815a086fb2c328f55931fe0258e4fd641b374",
+        "status": "BOUND"
+      },
+      "status": "STRUCTURAL_DIAGNOSTIC_BLOCKING_CERTIFIED_WITH_TYPED_LIMITATIONS",
+      "physicalStructuralCases": 30,
+      "totalStructureChanges": 31,
+      "nativeMoveRevisionCases": 0,
+      "nativeMoveRevisions": 0,
+      "automaticStructuralApplyCertified": 0,
+      "destructiveStructuralApplyAdded": 0,
+      "typedLimitations": [
+        "STRUCTURAL_APPLY_NOT_CERTIFIED_IN_E09",
+        "NATIVE_MOVEFROM_MOVETO_NOT_OBSERVED_IN_E09",
+        "CROSS_SCENE_MOVE_REMAINS_BLOCKED",
+        "TABLE_SECTION_FOOTNOTE_ENDNOTE_FIELD_MUTATION_NOT_CERTIFIED",
+        "COMPARE_COMBINE_TOPOLOGY_REMAINS_MANUAL_OR_BLOCKED"
+      ],
+      "runtimeClaims": {
+        "structuralDiagnosticBlockingCertified": true,
+        "automaticStructuralApplyAdded": false,
+        "destructiveStructuralApplyAdded": false,
+        "writerAuthorityAdded": false,
+        "reviewSessionMutationAuthorityAdded": false,
+        "productRuntimeChanged": false,
+        "uiChanged": false,
+        "dependencyAdded": false,
+        "networkAdded": false,
+        "fixtureOnlyPassClaimed": false
+      },
+      "diagnosticLaneBound": true
+    },
+    "productStructuralDiagnostics": {
+      "sourceReceipt": {
+        "id": "P0_FORMAT_UNICODE_STRUCTURE_PRODUCT_STRESS",
+        "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_FORMAT_UNICODE_STRUCTURE_STRESS_RECEIPT.json",
+        "sha256": "ffc5b4c126382fd6ee7dac77d48d27e192e85ed258cc47f7785e65c498c118a8",
+        "status": "BOUND"
+      },
+      "status": "WORD_RELEASE_AUDIT_P0_FORMAT_UNICODE_STRUCTURE_STRESS_COMPLETE_NOT_SATURATED",
+      "result": "PASS",
+      "totalCases": 36,
+      "passCases": 36,
+      "physicalWordPass": 36,
+      "structuralDiagnosticPass": 12,
+      "structuralCaseCount": 12,
+      "structuralDiagnostics": 12,
+      "structuralWriterCalls": 0,
+      "structuralExplicitApplies": 0,
+      "vetoMetrics": {
+        "falseExact": 0,
+        "wrongSceneRouting": 0,
+        "silentApply": 0,
+        "replayFailure": 0,
+        "silentCommentLoss": 0,
+        "formattingApplyOverclaim": 0,
+        "structuralApplyOverclaim": 0,
+        "noOpPass": 0,
+        "userDocumentTouch": 0,
+        "networkRequest": 0,
+        "prematureGoogleDocsOpen": 0
+      },
+      "typedLimitations": [
+        "FORMATTING_APPLY_REMAINS_MANUAL_DIAGNOSTIC_ONLY",
+        "STRUCTURAL_APPLY_REMAINS_MANUAL_OR_BLOCKED_ONLY",
+        "HEADING_LIST_HYPERLINK_STYLE_SEMANTICS_REMAIN_EXISTING_E08_DIAGNOSTIC_LIMITS"
+      ],
+      "productDiagnosticPathBound": true
+    },
+    "classifier": {
+      "sourceBinding": {
+        "id": "REVIEW_TRANSPORT_CLASSIFIER_V2",
+        "path": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
+        "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
+        "status": "BOUND"
+      },
+      "structureClassifiedAsBlockedLane": true,
+      "movesClassifiedAsBlockedLane": true
+    }
+  },
+  "implementedCapability": {
+    "capability": "safeStructuralLaneTypedLimitation",
+    "physicalWordProven": true,
+    "componentProven": true,
+    "productDiagnosticPathProven": true,
+    "productRuntimeApplyWired": false,
+    "productRuntimeWired": false,
+    "automaticApplyCertified": false,
+    "automaticStructuralApplyCertified": false,
+    "destructiveStructuralApplyAdded": false,
+    "structuralApplyTypedLimitationBound": true,
+    "userFacingAuthority": "STRUCTURE_PREVIEW_MANUAL_OR_BLOCKED_ONLY",
+    "terminalClass": "DIAGNOSTIC_ONLY_TYPED_LIMITATION_BOUND"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "structuralApplyOverclaim": 0,
+    "destructiveStructuralApply": 0,
+    "productNetwork": 0,
+    "googleDocsOpened": 0
+  },
+  "typedLimitations": [
+    "STRUCTURAL_APPLY_REMAINS_MANUAL_OR_BLOCKED_ONLY",
+    "NATIVE_MOVEFROM_MOVETO_NOT_OBSERVED_OR_CERTIFIED",
+    "TABLE_SECTION_FOOTNOTE_ENDNOTE_FIELD_LAYOUT_MUTATIONS_REMAIN_TYPED_DIAGNOSTIC_ONLY",
+    "NO_STRUCTURAL_WRITER_AUTHORITY_WITHOUT_FUTURE_STRUCTURE_IR_AND_REVERSE_VERIFICATION_CONTOUR"
+  ],
+  "nonClaims": [
+    "NO_STRUCTURAL_MANUSCRIPT_WRITE_AUTHORITY_ADDED",
+    "NO_AUTOMATIC_STRUCTURAL_APPLY_CERTIFIED",
+    "NO_MOVE_REVISION_EXACT_AUTHORITY",
+    "WORD_SATURATED_FALSE",
+    "GOOGLE_DOCS_NOT_OPENED"
+  ],
+  "nextStage": "P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION"
+}

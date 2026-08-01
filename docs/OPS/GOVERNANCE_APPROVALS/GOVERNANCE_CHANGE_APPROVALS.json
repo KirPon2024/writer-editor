@@ -7878,44 +7878,44 @@
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-first-launch.png",
-      "sha256": "c832cb41c6cca85ab0914a8b058d6e977e826b71405a80672cd5acd62367879b",
+      "sha256": "8b34e05aac371b2cd9ca4744ffa8c2e6da394405490f47b40cdbf130d5901de1",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
       "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-journey-report.json",
-      "sha256": "b22b71979419d53d20e0ddb8c1bd2fb6c4cc78ba0b53c7b808e7c1342714fa78",
+      "sha256": "a6d99d4c6ee019acd9495df262fd6170b8e817a1c5b4f86cff7418b2ae262e20",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
       "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/p0-03-packaged-visible-reopen.png",
-      "sha256": "a05b7a88744033cb4c90d49a97f270952b58ec7193b08b7b4b0c04959c310b0f",
+      "sha256": "15512a38641327c616a4889495732660011568a8230ed44631e634479a4a931e",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
       "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/build-mac-output.txt",
-      "sha256": "e60c3a798bfd785b0e87ea0717f116c5ad6674dbbd680f45844fe63df378d4d9",
+      "sha256": "6101e196e81746b111bf15c0eae843db680ff9c879f8975c869905411919391d",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
       "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
     },
     {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE/package-build/macos-package-artifact-security-report.json",
-      "sha256": "a9c412c3a057d784a17ed492cb0751662cc3a8564c33810dcd7d7488fee042ed",
+      "sha256": "d9fc5d36db4ba244000c9a513162135f93d6d2d34154f019dea723768389043c",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
       "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
     },
     {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_03_PACKAGED_JOURNEY_STALE_RECEIPT.json",
-      "sha256": "35f61aa0a7011f2d1a8e3007b4ea9ea07db20b60e8a5659fafe235fddcb80b8e",
+      "sha256": "6397e8b0bdb89d89ac0cee1a3a8b56603c56c8ecbe186d287f62e23cafd8f226",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_03",
-      "approvedAtUtc": "2026-08-01T04:45:00.000Z",
+      "approvedAtUtc": "2026-08-01T05:20:00.000Z",
       "rationale": "Approve bounded P0_03 packaged visible UI journey repair after evidence clarification and origin/main rebind: current macOS package rebuilt from exact source, visible Atlas and Manual Map controls exercise create/edit/relation/continuity/import/export/undo/persistence, fresh reopen/readback passes, activation evidence distinguishes PHYSICAL_POINTER_OR_KEYBOARD from DOM_VISIBLE_CONTROL_LISTENER_FALLBACK and FORBIDDEN_DIRECT_BRIDGE, stale package, screenshot-only, generated-artifact-only, and direct bridge acceptance are negative, no network or runtime dependency added, and Program DoD remains IN_PROGRESS."
     },
     {

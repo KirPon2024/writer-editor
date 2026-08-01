@@ -1098,18 +1098,6 @@ function selectReviewExactTextChangesBatch(revisionSession, payload = {}) {
     commentThreads,
     commentPlacements,
   } = readReviewExactTextChangeCollections(revisionSession);
-  if (structuralChanges.length > 0 || commentThreads.length > 0 || commentPlacements.length > 0) {
-    return {
-      ok: false,
-      code: 'E_REVIEW_EXACT_TEXT_APPLY_BATCH_BLOCKED',
-      reason: 'REVIEW_EXACT_TEXT_APPLY_BATCH_MIXED_REVIEW_BLOCKED',
-      details: {
-        structuralChangeCount: structuralChanges.length,
-        commentThreadCount: commentThreads.length,
-        commentPlacementCount: commentPlacements.length,
-      },
-    };
-  }
   if (textChanges.length === 0) {
     return {
       ok: false,
@@ -1182,6 +1170,14 @@ function selectReviewExactTextChangesBatch(revisionSession, payload = {}) {
     ok: true,
     value: {
       textChanges: selectedTextChanges,
+      mixedReviewTypedUnapplied: {
+        structuralChangeCount: structuralChanges.length,
+        commentThreadCount: commentThreads.length,
+        commentPlacementCount: commentPlacements.length,
+        policy: structuralChanges.length > 0 || commentThreads.length > 0 || commentPlacements.length > 0
+          ? 'selected-exact-text-only-non-text-lanes-remain-preview-typed'
+          : 'selected-exact-text-only',
+      },
     },
   };
 }

@@ -2326,13 +2326,6 @@
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "598cd31bf00a6c0a4e5d14c195998539e7d135543c2f894db1c67a8fcc9a910e",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
       "sha256": "fee1545e7c163fc4c5db6677a118b836052a9836d23b394a226b40b9f36f5fa8",
       "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W5_RELEASE_HARDENING_AND_CERTIFICATION",
@@ -2578,13 +2571,6 @@
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "464cdad052d11cd830d2f70734204028dc4af0ba42e982ed5ae960acc2d5f598",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
       "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
@@ -2716,13 +2702,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "173684aa484606b5c961bbbcf913602015ecd6ec36848fe68467f8cf1f762cb8",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -5119,20 +5098,6 @@
       "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
-      "sha256": "ff1a0c7683b5d29db21c31086a4f911cd03bf089e64cd0741dc3739f2ae82b34",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
-      "sha256": "8953470a8441bd98d0d1610b8a2c6b13d05b6be692c78199343827153451fdc2",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
       "sha256": "e2fb25059ae731a9188d7e1a649b9f8f60b6178ab66326f43fede837c9dbd9f9",
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
@@ -7023,13 +6988,6 @@
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
-      "sha256": "a861d225691e6b7b106e098c31e3f169be2759e935f9059023eb4e3edbbc86c9",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
       "sha256": "028e0d335bbfb5d652678be124bd5a4bf34b9c98e981e7847402550689c30f1f",
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
@@ -8155,6 +8113,69 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "e55345311728c901b7316e2d0707d2c5d167c131ea1933384e5fb3aaf564d239",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "f4ae164d6bc3e7f5d2f267fb8e34f84e6a96d21ea1c025da800a64e9cfa26914",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "dcc76851517742b58ebbe4e28b4ea028a1236584609261e81bf600b70b263b7c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_LARGE_MANUSCRIPT_STRESS_RECEIPT.json",
+      "sha256": "badbe7eadb10fd473153748eaa04434b3d2ee83c9fd5d77cb681107ce21a81cf",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-large-manuscript-stress.mjs",
+      "sha256": "63ce2d98d69f9fba7d3b3eb0bb2c5405ec3f467fcd1bc13cfe993bb0562329dc",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "151c98f2ca44945520306b187e198530909ac68104d07b1506bb22439cbe410c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
+      "sha256": "b6373b1b47d79ce0e50c507697f6390c5f4f6f86ffc5220a602e92f697f41d82",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
+      "sha256": "6c86261ed6703ad4e63b58c66a453697c72748077b49d45b5e16afa0f796f647",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
+      "sha256": "12db25f01a98039f6c9f678c4007d5618e5701834a085dff537d7833aa01b2da",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     }
   ]
 }

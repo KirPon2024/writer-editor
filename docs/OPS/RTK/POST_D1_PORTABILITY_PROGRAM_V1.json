@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_RELEASE_AUDIT_P0_FORMAT_UNICODE_STRUCTURE_STRESS_COMPLETE_NOT_SATURATED",
+  "status": "WORD_RELEASE_AUDIT_P0_LARGE_MANUSCRIPT_STRESS_COMPLETE_NOT_SATURATED",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -380,7 +380,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "P0_PRODUCT_VERTICAL_LARGE_MANUSCRIPT_STRESS_AFTER_FORMAT_UNICODE_STRUCTURE",
+  "nextStep": "P0_PRODUCT_VERTICAL_REPEAT_STABILITY_AND_HIGH_DENSITY_AFTER_LARGE_STRESS",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -394,10 +394,10 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "EXECUTION_03_P0_FORMAT_UNICODE_STRUCTURE_STRESS_COMPLETE_NOT_SATURATED",
-    "currentStage": "P0-PRODUCT-VERTICAL-FORMAT-UNICODE-STRUCTURE-STRESS",
-    "nextStage": "P0_PRODUCT_VERTICAL_LARGE_MANUSCRIPT_STRESS_AFTER_FORMAT_UNICODE_STRUCTURE",
-    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_FORMAT_UNICODE_STRUCTURE_STRESS_RECEIPT.json",
+    "status": "EXECUTION_03_P0_LARGE_MANUSCRIPT_STRESS_COMPLETE_NOT_SATURATED",
+    "currentStage": "P0-PRODUCT-VERTICAL-LARGE-MANUSCRIPT-STRESS",
+    "nextStage": "P0_PRODUCT_VERTICAL_REPEAT_STABILITY_AND_HIGH_DENSITY_AFTER_LARGE_STRESS",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_LARGE_MANUSCRIPT_STRESS_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
     "physicalTextCertificationProven": true,
@@ -619,12 +619,13 @@
     "modernResolveReopenProductRuntimeWired": false,
     "boundedVariedWave64ProductLoopComplete": true,
     "boundedVariedWave64Pass": 64,
-    "formatUnicodeStructureStressComplete": true
+    "formatUnicodeStructureStressComplete": true,
+    "largeManuscriptStressComplete": true
   },
   "releaseAuditNight01": {
-    "status": "WORD_RELEASE_AUDIT_P0_FORMAT_UNICODE_STRUCTURE_STRESS_COMPLETE_NOT_SATURATED",
-    "currentStage": "P0-PRODUCT-VERTICAL-FORMAT-UNICODE-STRUCTURE-STRESS",
-    "nextStage": "P0_PRODUCT_VERTICAL_LARGE_MANUSCRIPT_STRESS_AFTER_FORMAT_UNICODE_STRUCTURE",
+    "status": "WORD_RELEASE_AUDIT_P0_LARGE_MANUSCRIPT_STRESS_COMPLETE_NOT_SATURATED",
+    "currentStage": "P0-PRODUCT-VERTICAL-LARGE-MANUSCRIPT-STRESS",
+    "nextStage": "P0_PRODUCT_VERTICAL_REPEAT_STABILITY_AND_HIGH_DENSITY_AFTER_LARGE_STRESS",
     "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
     "latestEnvironmentPermissionProbeReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
     "latestEnvironmentPermissionProbeStatus": "MACOS_WORD_SANDBOX_GRANT_REQUIRED_NOT_PACKAGE_INVALID",
@@ -673,7 +674,14 @@
     "formatUnicodeStructureStressPass": 36,
     "supportedUnicodeTrackedReplacementApplyCases": 12,
     "formattingDiagnosticProductCases": 12,
-    "structuralDiagnosticProductCases": 12
+    "structuralDiagnosticProductCases": 12,
+    "latestLargeManuscriptStressReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_LARGE_MANUSCRIPT_STRESS_RECEIPT.json",
+    "largeManuscriptStressComplete": true,
+    "largeManuscriptStressPass": 7,
+    "largeTrackedReplacementApplyCases": 3,
+    "denseCommentShadowCases": 2,
+    "largestStressWords": 100000,
+    "monolithic300kBoundaryStatus": "TYPED_LIMITATION_REPRODUCED"
   },
   "latestWordProductVerticalTrackedEdit": {
     "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",

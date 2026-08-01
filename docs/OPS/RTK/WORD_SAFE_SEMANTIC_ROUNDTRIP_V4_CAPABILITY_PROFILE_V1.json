@@ -768,6 +768,38 @@
         "Word SATURATED remains false"
       ],
       "killCriterion": "Any parser renderer returned DOCX or forged payload gains writer authority, or any release-ready automatic apply claim appears before product-originated physical evidence."
+    },
+    {
+      "capabilityId": "rtk.word.releaseAudit.p0.productReviewDocxExporter",
+      "operationFamily": "Product-originated Review DOCX export packet with authenticated round identity",
+      "state": "PRODUCT_RUNTIME_WIRED",
+      "currentCapability": "PRODUCT_REVIEW_DOCX_EXPORTER_WIRED_RETURN_INTAKE_PENDING",
+      "physicalWordEvidence": false,
+      "componentProven": true,
+      "productCompositionRegistered": true,
+      "productRuntimeWired": true,
+      "productReviewDocxExporterDistinctFromDocxMinimal": true,
+      "returnIntakeWired": false,
+      "automaticApplyCertified": false,
+      "userAutomaticApplyCertified": false,
+      "wordSaturated": false,
+      "consumer": "Review menu and Command Kernel bridge export command",
+      "acceptanceTest": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
+      "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
+      "supportedNow": [
+        "real product command exports a Review DOCX packet separate from DOCX Minimal",
+        "main owns project scene round baseline and HMAC authority construction",
+        "DOCX carries custom document property authority capsule YRTK_C01_AUTH and YRTK2 token",
+        "customXml exists only as advisory manifest and never grants apply authority",
+        "renderer cannot provide raw DOCX bytes or HMAC secret"
+      ],
+      "limitations": [
+        "returned DOCX intake through parseReviewTransportPackageV2 is next P0 contour",
+        "physical Yalken export Word edit return reopen wave is not certified by this contour",
+        "automatic apply remains closed",
+        "Word SATURATED remains false"
+      ],
+      "killCriterion": "Any renderer bufferSource, returned DOCX, parser packet, or customXml advisory part can manufacture writer authority; any secret appears in the DOCX; or release-ready/automatic-apply is claimed before return intake and physical product loop."
     }
   ]
 }

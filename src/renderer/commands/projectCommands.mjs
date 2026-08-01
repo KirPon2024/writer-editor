@@ -115,6 +115,7 @@ export const EXTRA_COMMAND_IDS = Object.freeze({
   INSERT_LINK_PROMPT: 'cmd.project.insert.linkPrompt',
   REVIEW_IMPORT_LOCAL_PACKET: 'cmd.project.review.importLocalPacket',
   REVIEW_EXPORT_LOCAL_PACKET: 'cmd.project.review.exportLocalPacket',
+  REVIEW_EXPORT_DOCX_REVIEW_PACKET: 'cmd.project.review.exportDocxReviewPacket',
   REVIEW_OPEN_DOCX_REVIEW_PREVIEW_SESSION: 'cmd.project.review.openDocxReviewPreviewSession',
   REVIEW_OPEN_COMMENTS: 'cmd.project.review.openComments',
   REVIEW_CLEAR_SESSION: 'cmd.project.review.clearSession',
@@ -808,6 +809,69 @@ async function runReviewExportLocalPacketBridge(electronAPI, input = {}) {
     bridged && typeof bridged.reason === 'string'
       ? bridged.reason
       : 'REVIEW_EXPORT_LOCAL_PACKET_INVALID_RESPONSE',
+  );
+}
+
+async function runReviewExportDocxReviewPacketBridge(electronAPI, input = {}) {
+  if (!electronAPI || typeof electronAPI !== 'object') {
+    return fail(
+      'E_COMMAND_FAILED',
+      EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET,
+      'ELECTRON_API_UNAVAILABLE',
+    );
+  }
+
+  const payload = {};
+  if (typeof input?.requestId === 'string' && input.requestId.trim()) {
+    payload.requestId = input.requestId.trim();
+  }
+  if (typeof input?.outPath === 'string' && input.outPath.trim()) {
+    payload.outPath = input.outPath.trim();
+  }
+
+  let response;
+  try {
+    response = await invokeBridgeOnlyCommand(
+      electronAPI,
+      EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET,
+      payload,
+    );
+  } catch (error) {
+    return fail(
+      'E_COMMAND_FAILED',
+      EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET,
+      'REVIEW_DOCX_EXPORT_IPC_FAILED',
+      { message: error && typeof error.message === 'string' ? error.message : 'UNKNOWN' },
+    );
+  }
+
+  const bridged = unwrapBridgeResponseValue(response);
+  if (bridged && bridged.ok === true) {
+    return ok({
+      exported: bridged.exported === true,
+      outPath: typeof bridged.outPath === 'string' ? bridged.outPath : '',
+      bytesWritten: Number.isInteger(bridged.bytesWritten) ? bridged.bytesWritten : 0,
+      exportCapsule: getObjectOrNull(bridged.exportCapsule),
+      canAutoApply: bridged.canAutoApply === true,
+      canWriteManuscript: bridged.canWriteManuscript === true,
+      canImportMutate: bridged.canImportMutate === true,
+    });
+  }
+  if (bridged && bridged.ok === false && bridged.error && typeof bridged.error === 'object') {
+    const error = bridged.error;
+    return fail(
+      typeof error.code === 'string' ? error.code : 'E_REVIEW_DOCX_EXPORT_FAILED',
+      typeof error.op === 'string' ? error.op : EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET,
+      typeof error.reason === 'string' ? error.reason : 'REVIEW_DOCX_EXPORT_FAILED',
+      error.details && typeof error.details === 'object' && !Array.isArray(error.details) ? error.details : undefined,
+    );
+  }
+  return fail(
+    'E_COMMAND_FAILED',
+    EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET,
+    bridged && typeof bridged.reason === 'string'
+      ? bridged.reason
+      : 'REVIEW_DOCX_EXPORT_INVALID_RESPONSE',
   );
 }
 
@@ -2480,6 +2544,17 @@ export function registerProjectCommands(registry, options = {}) {
       hotkey: '',
     },
     async (input = {}) => runReviewExportLocalPacketBridge(electronAPI, input),
+  );
+
+  registry.registerCommand(
+    {
+      id: EXTRA_COMMAND_IDS.REVIEW_EXPORT_DOCX_REVIEW_PACKET,
+      label: 'Export Review DOCX Packet',
+      group: 'review',
+      surface: ['menu', 'palette'],
+      hotkey: '',
+    },
+    async (input = {}) => runReviewExportDocxReviewPacketBridge(electronAPI, input),
   );
 
   registry.registerCommand(

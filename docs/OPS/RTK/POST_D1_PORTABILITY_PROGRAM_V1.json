@@ -358,7 +358,8 @@
     "A02 terminal audit does not wire product runtime.",
     "A02 terminal audit does not certify automatic apply.",
     "Physical Word evidence is not product runtime authority.",
-    "Google Docs remains closed until the next approved sequence point."
+    "Google Docs remains closed until the next approved sequence point.",
+    "Product Review DOCX exporter is wired but return intake and product-originated physical loop are not certified yet."
   ],
   "designToolRouter": "NOT_APPLICABLE",
   "delivery": {
@@ -600,5 +601,18 @@
     "nonOverlapTrackedReplacementComponentAutomaticApplyCertified": true,
     "releaseReady": false,
     "releaseAuditRequired": true
+  },
+  "releaseAuditNight01": {
+    "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_REVIEW_DOCX_EXPORTER_WIRED_NOT_SATURATED",
+    "currentStage": "P0-REVIEW-DOCX-EXPORTER",
+    "nextStage": "P0_RETURN_INTAKE_PARSE_REVIEW_TRANSPORT_PACKAGE_V2",
+    "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
+    "productReviewDocxExporterWired": true,
+    "productReviewDocxExporterDistinctFromDocxMinimal": true,
+    "returnIntakeWired": false,
+    "automaticApplyCertified": false,
+    "releaseReady": false,
+    "wordSaturated": false,
+    "googleDocsOpened": false
   }
 }

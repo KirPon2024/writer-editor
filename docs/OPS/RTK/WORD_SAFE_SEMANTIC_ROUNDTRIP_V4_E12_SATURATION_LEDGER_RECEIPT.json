@@ -190,6 +190,12 @@
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
       "sha256": "519ee66e2742fb913d155ee084f8707734c72ae7f5082ce5dcec8fc41de0e2b6",
       "status": "BOUND"
+    },
+    {
+      "id": "RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
+      "sha256": "3711763b462e69f5b5a23e881c961eac82aff1d4715a9c8831fcacad30290437",
+      "status": "BOUND"
     }
   ],
   "coverageLedger": {
@@ -333,6 +339,17 @@
       "automaticApplyCertified": false,
       "userAutomaticApplyCertified": false,
       "releaseReady": false
+    },
+    "releaseAuditNight01P0ReviewDocxExporter": {
+      "status": "BOUND_PRODUCT_REVIEW_DOCX_EXPORTER_WIRED_RETURN_INTAKE_PENDING",
+      "sourceEvidence": "RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER",
+      "result": "WORD_RELEASE_AUDIT_P0_PRODUCT_REVIEW_DOCX_EXPORTER_WIRED_NOT_SATURATED",
+      "productRuntimeWired": true,
+      "productReviewDocxExporterDistinctFromDocxMinimal": true,
+      "returnIntakeWired": false,
+      "automaticApplyCertified": false,
+      "releaseReady": false,
+      "wordSaturated": false
     }
   },
   "aggregateTotals": {

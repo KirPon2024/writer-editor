@@ -25,6 +25,8 @@ const DEFAULT_CANON_WORKTREE_POLICY_PATH = 'docs/OPS/STATUS/CANON_WORKTREE_POLIC
 const DEFAULT_U_DETECT_ONLY_CARVEOUT_PATH = 'docs/OPS/STATUS/U_DETECT_ONLY_CARVEOUT.md';
 const DEFAULT_FULL_POLICY_NO_DUPLICATION_PATH = 'docs/OPS/STATUS/FULL_POLICY_NO_DUPLICATION.md';
 const DEFAULT_SECOND_ENTRYPOINT_PATH = 'docs/CRAFTSMAN.md';
+const ATLAS_V5_PLAN_EXTENSION_ID = 'YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5';
+const ATLAS_V5_PLAN_BINDING_PATH = 'docs/OPS/STATUS/YALKEN_ATLAS_MINDMAP_AUTONOMOUS_MASTER_PLAN_V5_BINDING.json';
 
 const SECTOR_U_STATUS_PATH = process.env.SECTOR_U_STATUS_PATH || DEFAULT_SECTOR_U_STATUS_PATH;
 const SECTOR_M_STATUS_PATH = process.env.SECTOR_M_STATUS_PATH || DEFAULT_SECTOR_M_STATUS_PATH;
@@ -2940,6 +2942,41 @@ function sha256File(filePath) {
   }
 }
 
+function isBoundReadOnlyAtlasV5SnapshotDoc(docPath) {
+  const canonStatus = readJsonObjectOptional('docs/OPS/STATUS/CANON_STATUS.json');
+  const binding = readJsonObjectOptional(ATLAS_V5_PLAN_BINDING_PATH);
+  if (!canonStatus || !binding) return false;
+
+  const entry = Array.isArray(canonStatus.activeFeatureExtensions)
+    ? canonStatus.activeFeatureExtensions.find((candidate) => (
+      candidate
+      && candidate.extensionId === ATLAS_V5_PLAN_EXTENSION_ID
+      && candidate.canonicalDocPath === docPath
+      && candidate.bindingStatusPath === ATLAS_V5_PLAN_BINDING_PATH
+      && candidate.globalCanonReplaced === false
+    ))
+    : null;
+  if (!entry) return false;
+
+  const snapshot = binding.masterPlanSnapshot && typeof binding.masterPlanSnapshot === 'object'
+    ? binding.masterPlanSnapshot
+    : null;
+  const authority = binding.authority && typeof binding.authority === 'object'
+    ? binding.authority
+    : null;
+  const snapshotHash = sha256File(docPath);
+  return binding.extensionId === ATLAS_V5_PLAN_EXTENSION_ID
+    && snapshot
+    && authority
+    && snapshot.path === docPath
+    && snapshot.sha256 === snapshotHash
+    && entry.sha256 === snapshotHash
+    && authority.repoSnapshotExecutionAuthority === false
+    && authority.secondTrackerCreated === false
+    && authority.globalCanonReplaced === false
+    && authority.programDoneClaim === false;
+}
+
 function hasNpmScript(scriptName) {
   try {
     const parsed = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -5632,6 +5669,7 @@ function evaluateSectorMOpsProcessFixTokens() {
   for (const docPath of opsDocs) {
     const text = readText(docPath);
     if (/\/Volumes\/Work\//u.test(text) || /\/private\/tmp\/writer-editor/u.test(text)) {
+      if (isBoundReadOnlyAtlasV5SnapshotDoc(docPath)) continue;
       splitBrainHits.push(docPath);
     }
   }

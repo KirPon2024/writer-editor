@@ -88,12 +88,16 @@ import {
 import { buildLargePayloadLineSafeRows } from './largePayloadLineWrap.mjs';
 import {
   createRepoGroundedDesignOsBrowserRuntime,
+  applyAtlasFeatureSurfaceBinding,
   buildLayoutPatchFromSpatialState,
   buildSidebarLayoutModel,
   buildSpatialStateFromLayoutSnapshot,
   deriveSidebarViewportMode,
+  getAtlasFeatureSurfaceBinding,
   LEFT_RAIL_COLLAPSED_WIDTH,
   RIGHT_RAIL_COLLAPSED_WIDTH,
+  resolveAtlasFeatureDesignOsSlots,
+  YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1,
 } from './design-os/index.mjs';
 import {
   getToolbarFunctionCatalogEntryById,
@@ -1119,21 +1123,15 @@ const ATLAS_SURFACE_IDS = Object.freeze([
   'continuity',
 ]);
 const ATLAS_DEFERRED_SURFACE_IDS = Object.freeze(['heatmap', 'temporal', 'continuity']);
-const ATLAS_SURFACE_PROVIDER_BY_ID = Object.freeze({
-  currentScene: ATLAS_CURRENT_SCENE_QUERY_ID,
-  journey: ATLAS_CURRENT_SCENE_QUERY_ID,
-  manualMap: MANUAL_MAP_WORKBENCH_QUERY_ID,
-  projection: PROJECTION_INSPECTOR_QUERY_ID,
-  overview: ATLAS_OVERVIEW_QUERY_ID,
-  entity: ATLAS_ENTITY_DOSSIER_QUERY_ID,
-  relation: ATLAS_RELATION_DOSSIER_QUERY_ID,
-  matrices: ATLAS_MATRICES_QUERY_ID,
-  reports: ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID,
-  diagnostics: ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID,
-  heatmap: ATLAS_HEATMAP_QUERY_ID,
-  temporal: ATLAS_TEMPORAL_LAYOUT_QUERY_ID,
-  continuity: ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID,
+const ATLAS_DESIGN_OS_SLOT_RESOLUTION = resolveAtlasFeatureDesignOsSlots({
+  manifest: YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1,
+  workspaceQueryIds: WORKSPACE_QUERY_IDS,
+  workspaceQueryIdSet: WORKSPACE_QUERY_ID_SET,
 });
+const ATLAS_SURFACE_PROVIDER_BY_ID = Object.freeze(Object.fromEntries(ATLAS_SURFACE_IDS.map((surfaceId) => {
+  const binding = getAtlasFeatureSurfaceBinding(ATLAS_DESIGN_OS_SLOT_RESOLUTION, surfaceId);
+  return [surfaceId, binding?.providerId || ATLAS_CURRENT_SCENE_QUERY_ID];
+})));
 const METADATA_UPDATE_COMMAND_ID = 'cmd.project.metadata.update';
 const REVIEW_SURFACE_IMPORT_LOCAL_PACKET_COMMAND_ID = 'cmd.project.review.importLocalPacket';
 const REVIEW_SURFACE_CLEAR_SESSION_COMMAND_ID = 'cmd.project.review.clearSession';
@@ -11483,6 +11481,17 @@ function isAtlasSurfaceActive(surfaceId) {
   return normalizeAtlasSurface(surfaceId) === currentAtlasSurface;
 }
 
+function getAtlasResolvedSurfaceBinding(surfaceId) {
+  return getAtlasFeatureSurfaceBinding(ATLAS_DESIGN_OS_SLOT_RESOLUTION, normalizeAtlasSurface(surfaceId));
+}
+
+function applyAtlasResolvedSurfaceBinding(surfaceId, host, providerDatasetName) {
+  const binding = getAtlasResolvedSurfaceBinding(surfaceId);
+  if (!(host instanceof HTMLElement) || !binding) return '';
+  applyAtlasFeatureSurfaceBinding(host, binding, { providerDatasetName });
+  return binding.providerId;
+}
+
 function syncAtlasSurfaceCompositionState() {
   const activeSurface = normalizeAtlasSurface(currentAtlasSurface);
   currentAtlasSurface = activeSurface;
@@ -11631,45 +11640,19 @@ function syncRightRailCompositionState(tab) {
   if (reviewSurfaceHost instanceof HTMLElement) {
     reviewSurfaceHost.dataset.reviewSurfaceProvider = RIGHT_RAIL_SURFACE_PROVIDERS.comments;
   }
-  if (atlasJourneyHost instanceof HTMLElement) {
-    atlasJourneyHost.dataset.atlasJourneyProvider = ATLAS_CURRENT_SCENE_QUERY_ID;
-  }
-  if (manualMapWorkbenchHost instanceof HTMLElement) {
-    manualMapWorkbenchHost.dataset.manualMapWorkbenchProvider = MANUAL_MAP_WORKBENCH_QUERY_ID;
-  }
-  if (projectionInspectorHost instanceof HTMLElement) {
-    projectionInspectorHost.dataset.projectionInspectorProvider = PROJECTION_INSPECTOR_QUERY_ID;
-  }
-  if (atlasOverviewHost instanceof HTMLElement) {
-    atlasOverviewHost.dataset.atlasOverviewProvider = ATLAS_OVERVIEW_QUERY_ID;
-  }
-  if (atlasEntityDossierHost instanceof HTMLElement) {
-    atlasEntityDossierHost.dataset.atlasEntityDossierProvider = ATLAS_ENTITY_DOSSIER_QUERY_ID;
-  }
-  if (atlasRelationDossierHost instanceof HTMLElement) {
-    atlasRelationDossierHost.dataset.atlasRelationDossierProvider = ATLAS_RELATION_DOSSIER_QUERY_ID;
-  }
-  if (atlasMatricesHost instanceof HTMLElement) {
-    atlasMatricesHost.dataset.atlasMatricesProvider = ATLAS_MATRICES_QUERY_ID;
-  }
-  if (atlasHeatmapHost instanceof HTMLElement) {
-    atlasHeatmapHost.dataset.atlasHeatmapProvider = ATLAS_HEATMAP_QUERY_ID;
-  }
-  if (atlasTemporalLayoutHost instanceof HTMLElement) {
-    atlasTemporalLayoutHost.dataset.atlasTemporalLayoutProvider = ATLAS_TEMPORAL_LAYOUT_QUERY_ID;
-  }
-  if (atlasContinuityLedgerHost instanceof HTMLElement) {
-    atlasContinuityLedgerHost.dataset.atlasContinuityLedgerProvider = ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID;
-  }
-  if (atlasReportsHost instanceof HTMLElement) {
-    atlasReportsHost.dataset.atlasReportsProvider = ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID;
-  }
-  if (atlasDiagnosticsHost instanceof HTMLElement) {
-    atlasDiagnosticsHost.dataset.atlasDiagnosticsProvider = ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID;
-  }
-  if (atlasCurrentSceneHost instanceof HTMLElement) {
-    atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = RIGHT_RAIL_SURFACE_PROVIDERS.atlas;
-  }
+  applyAtlasResolvedSurfaceBinding('journey', atlasJourneyHost, 'atlasJourneyProvider');
+  applyAtlasResolvedSurfaceBinding('manualMap', manualMapWorkbenchHost, 'manualMapWorkbenchProvider');
+  applyAtlasResolvedSurfaceBinding('projection', projectionInspectorHost, 'projectionInspectorProvider');
+  applyAtlasResolvedSurfaceBinding('overview', atlasOverviewHost, 'atlasOverviewProvider');
+  applyAtlasResolvedSurfaceBinding('entity', atlasEntityDossierHost, 'atlasEntityDossierProvider');
+  applyAtlasResolvedSurfaceBinding('relation', atlasRelationDossierHost, 'atlasRelationDossierProvider');
+  applyAtlasResolvedSurfaceBinding('matrices', atlasMatricesHost, 'atlasMatricesProvider');
+  applyAtlasResolvedSurfaceBinding('heatmap', atlasHeatmapHost, 'atlasHeatmapProvider');
+  applyAtlasResolvedSurfaceBinding('temporal', atlasTemporalLayoutHost, 'atlasTemporalLayoutProvider');
+  applyAtlasResolvedSurfaceBinding('continuity', atlasContinuityLedgerHost, 'atlasContinuityLedgerProvider');
+  applyAtlasResolvedSurfaceBinding('reports', atlasReportsHost, 'atlasReportsProvider');
+  applyAtlasResolvedSurfaceBinding('diagnostics', atlasDiagnosticsHost, 'atlasDiagnosticsProvider');
+  applyAtlasResolvedSurfaceBinding('currentScene', atlasCurrentSceneHost, 'atlasCurrentSceneProvider');
   syncAtlasSurfaceCompositionState();
   syncAtlasReachabilityOpenerState();
 }
@@ -13000,7 +12983,7 @@ function renderManualMapWorkbenchInto(host, options = {}) {
   const state = normalizeManualMapWorkbench(manualMapWorkbenchState);
   const compact = options.compact === true;
   host.innerHTML = '';
-  host.dataset.manualMapWorkbenchProvider = MANUAL_MAP_WORKBENCH_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('manualMap', host, 'manualMapWorkbenchProvider');
   host.dataset.manualMapWorkbenchStatus = state.state;
   host.dataset.manualMapWorkbenchPlacement = compact ? 'right-rail-inspector' : 'plan-workspace';
 
@@ -13761,7 +13744,7 @@ function renderAtlasJourneyState() {
   if (!(atlasJourneyHost instanceof HTMLElement)) return;
   reconcileAtlasJourneyDraft();
   atlasJourneyHost.innerHTML = '';
-  atlasJourneyHost.dataset.atlasJourneyProvider = ATLAS_CURRENT_SCENE_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('journey', atlasJourneyHost, 'atlasJourneyProvider');
   atlasJourneyHost.dataset.atlasJourneyStatus = atlasJourneyState.status;
   atlasJourneyHost.dataset.atlasJourneyLastCommandId = atlasJourneyState.lastCommandId || '';
   atlasJourneyHost.dataset.atlasJourneyCommandSeq = String(atlasJourneyState.commandSeq || 0);
@@ -14104,7 +14087,7 @@ function renderProjectionInspectorState() {
   if (!(projectionInspectorHost instanceof HTMLElement)) return;
   const state = normalizeProjectionInspector(projectionInspectorState);
   projectionInspectorHost.innerHTML = '';
-  projectionInspectorHost.dataset.projectionInspectorProvider = PROJECTION_INSPECTOR_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('projection', projectionInspectorHost, 'projectionInspectorProvider');
   projectionInspectorHost.dataset.projectionInspectorStatus = state.state;
 
   const header = document.createElement('div');
@@ -14189,7 +14172,7 @@ function renderAtlasOverviewState() {
   const state = normalizeAtlasOverview(atlasOverviewState);
   atlasOverviewHost.innerHTML = '';
   atlasOverviewHost.dataset.atlasOverviewStatus = state.state;
-  atlasOverviewHost.dataset.atlasOverviewProvider = ATLAS_OVERVIEW_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('overview', atlasOverviewHost, 'atlasOverviewProvider');
 
   const header = document.createElement('div');
   header.className = 'right-rail-atlas-overview-head';
@@ -14338,7 +14321,7 @@ function renderAtlasEntityDossierState() {
   const state = normalizeAtlasEntityDossier(atlasEntityDossierState);
   atlasEntityDossierHost.innerHTML = '';
   atlasEntityDossierHost.dataset.atlasEntityDossierStatus = state.state;
-  atlasEntityDossierHost.dataset.atlasEntityDossierProvider = ATLAS_ENTITY_DOSSIER_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('entity', atlasEntityDossierHost, 'atlasEntityDossierProvider');
   atlasEntityDossierHost.dataset.atlasSelectedEntityId = state.selectedEntityId || atlasSelectedEntityId || '';
 
   const header = document.createElement('div');
@@ -14532,7 +14515,7 @@ function renderAtlasRelationDossierState() {
   const state = normalizeAtlasRelationDossier(atlasRelationDossierState);
   atlasRelationDossierHost.innerHTML = '';
   atlasRelationDossierHost.dataset.atlasRelationDossierStatus = state.state;
-  atlasRelationDossierHost.dataset.atlasRelationDossierProvider = ATLAS_RELATION_DOSSIER_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('relation', atlasRelationDossierHost, 'atlasRelationDossierProvider');
   atlasRelationDossierHost.dataset.atlasSelectedRelationPairId = state.selectedPairId || atlasSelectedRelation.pairId || '';
 
   const header = document.createElement('div');
@@ -14979,7 +14962,7 @@ function renderAtlasMatricesState() {
   const state = normalizeAtlasMatrices(atlasMatricesState);
   atlasMatricesHost.innerHTML = '';
   atlasMatricesHost.dataset.atlasMatricesStatus = state.state;
-  atlasMatricesHost.dataset.atlasMatricesProvider = ATLAS_MATRICES_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('matrices', atlasMatricesHost, 'atlasMatricesProvider');
 
   const header = document.createElement('div');
   header.className = 'right-rail-atlas-matrices-head';
@@ -15095,7 +15078,7 @@ function renderAtlasHeatmapState() {
   }
   atlasHeatmapHost.innerHTML = '';
   atlasHeatmapHost.dataset.atlasHeatmapStatus = atlasHeatmapExplicitOpen ? atlasHeatmapState.state : 'closed';
-  atlasHeatmapHost.dataset.atlasHeatmapProvider = ATLAS_HEATMAP_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('heatmap', atlasHeatmapHost, 'atlasHeatmapProvider');
   if (atlasHeatmapExplicitOpen !== true) return;
 
   const state = normalizeAtlasHeatmap(atlasHeatmapState);
@@ -15418,7 +15401,7 @@ function renderAtlasTemporalLayoutState() {
   }
   atlasTemporalLayoutHost.innerHTML = '';
   atlasTemporalLayoutHost.dataset.atlasTemporalLayoutStatus = atlasTemporalLayoutExplicitOpen ? atlasTemporalLayoutState.state : 'closed';
-  atlasTemporalLayoutHost.dataset.atlasTemporalLayoutProvider = ATLAS_TEMPORAL_LAYOUT_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('temporal', atlasTemporalLayoutHost, 'atlasTemporalLayoutProvider');
   if (atlasTemporalLayoutExplicitOpen !== true) return;
 
   const state = normalizeAtlasTemporalLayout(atlasTemporalLayoutState);
@@ -15713,7 +15696,7 @@ function renderAtlasContinuityLedgerState() {
   }
   atlasContinuityLedgerHost.innerHTML = '';
   atlasContinuityLedgerHost.dataset.atlasContinuityLedgerStatus = atlasContinuityLedgerExplicitOpen ? atlasContinuityLedgerState.state : 'closed';
-  atlasContinuityLedgerHost.dataset.atlasContinuityLedgerProvider = ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('continuity', atlasContinuityLedgerHost, 'atlasContinuityLedgerProvider');
   if (atlasContinuityLedgerExplicitOpen !== true) return;
 
   const state = normalizeAtlasContinuityLedgerSurface(atlasContinuityLedgerState);
@@ -15869,7 +15852,7 @@ function renderAtlasReportsSavedQueriesState() {
   const state = normalizeAtlasReportsSavedQueries(atlasReportsState);
   atlasReportsHost.innerHTML = '';
   atlasReportsHost.dataset.atlasReportsStatus = state.state;
-  atlasReportsHost.dataset.atlasReportsProvider = ATLAS_REPORTS_SAVED_QUERIES_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('reports', atlasReportsHost, 'atlasReportsProvider');
 
   const header = document.createElement('div');
   header.className = 'right-rail-atlas-matrices-head';
@@ -16025,7 +16008,7 @@ function renderAtlasDiagnosticsStageAcceptanceState() {
   const state = normalizeAtlasDiagnosticsStageAcceptance(atlasDiagnosticsState);
   atlasDiagnosticsHost.innerHTML = '';
   atlasDiagnosticsHost.dataset.atlasDiagnosticsStatus = state.state;
-  atlasDiagnosticsHost.dataset.atlasDiagnosticsProvider = ATLAS_DIAGNOSTICS_STAGE_ACCEPTANCE_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('diagnostics', atlasDiagnosticsHost, 'atlasDiagnosticsProvider');
 
   const header = document.createElement('div');
   header.className = 'right-rail-atlas-matrices-head';
@@ -16164,7 +16147,7 @@ function renderAtlasCurrentSceneState() {
   const state = normalizeAtlasCurrentSceneDossier(atlasCurrentSceneState);
   atlasCurrentSceneHost.innerHTML = '';
   atlasCurrentSceneHost.dataset.atlasCurrentSceneStatus = state.state;
-  atlasCurrentSceneHost.dataset.atlasCurrentSceneProvider = ATLAS_CURRENT_SCENE_QUERY_ID;
+  applyAtlasResolvedSurfaceBinding('currentScene', atlasCurrentSceneHost, 'atlasCurrentSceneProvider');
 
   const header = document.createElement('section');
   header.className = 'right-rail-surface right-rail-surface--atlas-header';

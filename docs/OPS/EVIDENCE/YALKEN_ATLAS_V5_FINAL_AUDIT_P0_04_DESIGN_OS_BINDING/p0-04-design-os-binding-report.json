@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p0_04.designOsBinding.report.v1",
+  "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+  "contourId": "P0_04_DESIGN_OS_BINDING",
+  "generatedAtUtc": "2026-08-01T06:13:43Z",
+  "status": "PASS_P0_04_DESIGN_OS_BINDING_READY_FOR_DELIVERY",
+  "pass": true,
+  "programDoneClaim": false,
+  "designToolRouter": "NOT_APPLICABLE_NO_VISUAL_CONTRACT_CHANGE",
+  "sourceBinding": {
+    "headShaBeforeCommit": "8912c41144304b3ba74bc5868a3ebfff3ea7f2ab",
+    "originMainShaBeforeCommit": "8912c41144304b3ba74bc5868a3ebfff3ea7f2ab",
+    "fileHashes": {
+      "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs": "29909fa062c5559c64da12e666dba3e2712b0803b76e2f2ec8f84608f656d857",
+      "src/renderer/design-os/index.mjs": "cb9c90b5a942ba2d170ad89334ef9c872f02086078f726a1d7efc3c0909c51b7",
+      "src/renderer/editor.js": "22a0d24ad6bd8ba68f022bf5c0efcaaa07a1e7d7a92755b74e92f1d362e2f1f4",
+      "src/renderer/editor.bundle.js": "109d4d492a7731ee4253cca420dde082f9e6dd49d2fe10a5f4a0106ba6a3f3f8",
+      "test/unit/sector-m-review-surface-ui.test.js": "49d0cc924dba5e6d86f6e8c953fe3d252f3ce28611c9529bb3dad6315423edca",
+      "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js": "447f40757b32e7d27a4a646d53e85a22b359dd300cf937355eca93bb55edf912",
+      "test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js": "74f27c679966788a67baaafbf73db50c64829958898cc44c8e0aa6bf57edcfbf",
+      "scripts/ops/yalken-atlas-v5-efinal-final-audit-program-dod.mjs": "663d6d0464b38db5013374c52a37f585190fb649506b7425cae31119ba7103c2"
+    }
+  },
+  "manifest": {
+    "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+    "featureId": "yalken.atlasAndManualMap.v5",
+    "featureVersion": "5.0.0-p0-04",
+    "resolverId": "YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1",
+    "bindingSource": "DESIGN_OS_SLOT_RESOLVER",
+    "bindingCount": 13,
+    "surfaces": [
+      "currentScene",
+      "journey",
+      "manualMap",
+      "projection",
+      "overview",
+      "entity",
+      "relation",
+      "matrices",
+      "reports",
+      "diagnostics",
+      "heatmap",
+      "temporal",
+      "continuity"
+    ],
+    "manualMapSlot": "workspace.plan.manualMapWorkbench",
+    "atlasSlotPrefix": "rightRail.context.atlas",
+    "authorityMap": {
+      "productTruth": "Product Core",
+      "commandAuthority": "Command Kernel",
+      "designAuthority": "Design OS slot resolver"
+    }
+  },
+  "acceptance": {
+    "featureIntegrationManifestBound": true,
+    "slotResolverBound": true,
+    "negativeBypassTested": true,
+    "queryRegistryBinding": true,
+    "commandKernelCommandIdsValidated": true,
+    "rendererHostUsesResolvedSlotBinding": true,
+    "htmlAttributesAloneRejected": true,
+    "packagedSurfaceUsesResolvedContribution": true,
+    "noRuntimeNetwork": true,
+    "noStorageAuthority": true,
+    "noVisualRedesign": true,
+    "receiptAloneIsNotReadinessProof": true,
+    "programDoneClaimFalseUntilAllP0Closed": true
+  },
+  "negativeControls": [
+    {
+      "id": "unknown-query-provider-fails-closed",
+      "expectedReason": "E_ATLAS_SURFACE_PROVIDER_NOT_IN_QUERY_REGISTRY",
+      "status": "PASS"
+    },
+    {
+      "id": "unknown-command-id-fails-closed",
+      "expectedReason": "E_ATLAS_SURFACE_COMMAND_NOT_IN_COMMAND_KERNEL",
+      "status": "PASS"
+    },
+    {
+      "id": "missing-slot-or-outside-slot-fails-closed",
+      "expectedReason": "E_ATLAS_SURFACE_SLOT_OUTSIDE_DESIGN_OS_ROUTE",
+      "status": "PASS"
+    },
+    {
+      "id": "html-data-attributes-alone-are-not-readiness-proof",
+      "expected": "renderer imports resolver and uses applyAtlasResolvedSurfaceBinding instead of direct provider dataset writes",
+      "status": "PASS"
+    }
+  ],
+  "checks": {
+    "rendererBuild": {
+      "command": "npm run -s build:renderer",
+      "status": "PASS"
+    },
+    "focusedContract": {
+      "command": "node --check src/renderer/design-os/atlasFeatureIntegrationManifest.mjs && node --test test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js test/contracts/yalken-atlas-v5-e05-c01-atlas-overview-surface-manifest-progressive-disclosure.contract.test.js test/contracts/yalken-atlas-v5-e05-c03-relation-dossier-contextual-review-actions.contract.test.js test/contracts/yalken-atlas-v5-efinal-final-audit-program-dod.contract.test.js test/unit/sector-m-review-surface-ui.test.js",
+      "status": "PASS",
+      "tests": {
+        "total": 45,
+        "pass": 45,
+        "fail": 0
+      }
+    },
+    "reviewSurfaceHarnessRegression": {
+      "command": "node --test test/unit/sector-m-review-surface-ui.test.js",
+      "status": "PASS",
+      "tests": {
+        "total": 27,
+        "pass": 27,
+        "fail": 0
+      },
+      "notes": "The isolated VM harness loads the canonical atlasFeatureIntegrationManifest module as a prelude; production ESM route remains unchanged and has no runtime silent fallback."
+    },
+    "testOps": {
+      "command": "npm run -s test:ops",
+      "status": "PASS"
+    },
+    "designOsDoctrine": {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS",
+      "references": 17
+    },
+    "ossPolicy": {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    "fullRunner": {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "tests": {
+        "total": 798,
+        "pass": 734,
+        "fail": 0,
+        "skipped": 64
+      },
+      "perfBaseline": "PASS"
+    }
+  },
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "mergeRequired": true,
+    "remoteHeadVerificationRequired": true,
+    "status": "PENDING_DELIVERY_CHAIN"
+  },
+  "nextContour": "P0_05_MANUAL_MAP_PORTABILITY"
+}

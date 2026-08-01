@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p0_06.multilingualMatcher.v1",
+  "contourId": "P0_06_MULTILINGUAL_MATCHER",
+  "generatedAtUtc": "2026-08-01T07:34:20.989Z",
+  "sourceBinding": {
+    "headSha": "8dfe81752407293b2e2b8f7480e7355245882080",
+    "originMainSha": "8dfe81752407293b2e2b8f7480e7355245882080",
+    "noMentionIndexRawCaseSensitiveIndexOf": true,
+    "noMainRawCaseSensitiveNeedleIndexOf": true,
+    "sharedMatcherWiredToDerived": true,
+    "sharedMatcherWiredToMain": true,
+    "matcherUsesGraphemeSegmentation": true,
+    "matcherUsesCanonicalCaseFold": true,
+    "noNetworkDependency": true,
+    "sourceFiles": {
+      "src/shared/atlasMultilingualMatcher.cjs": {
+        "path": "src/shared/atlasMultilingualMatcher.cjs",
+        "exists": true,
+        "bytes": 9710,
+        "sha256": "d47dc25376f5db25a6c458cc9a8befe9a57be71f88b36a8d1ac086c152bf7f96"
+      },
+      "src/derived/atlas/deriveAtlasMentionIndex.mjs": {
+        "path": "src/derived/atlas/deriveAtlasMentionIndex.mjs",
+        "exists": true,
+        "bytes": 13629,
+        "sha256": "9fc050b5853e8d66ce4063dc3f5a4571fb0964cb11667738d887bdf0fc46645a"
+      },
+      "src/main.js": {
+        "path": "src/main.js",
+        "exists": true,
+        "bytes": 910429,
+        "sha256": "9cb2a3320af611fcbbbd1159acf2d6ba84fc78bcb9b65817cf74e9d640fe1e59"
+      },
+      "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs": {
+        "path": "scripts/ops/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.mjs",
+        "exists": true,
+        "bytes": 16981,
+        "sha256": "9a3dd39f622699217f8139b8f83fd98adf48bedd297bc5507f3521d53a44aef6"
+      },
+      "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js": {
+        "path": "test/contracts/yalken-atlas-v5-final-audit-p0-06-multilingual-matcher.contract.test.js",
+        "exists": true,
+        "bytes": 5120,
+        "sha256": "1b3a18fcad789aac3b5d3210f17dcb91619f12354e00393b9dc2e3295460ae69"
+      }
+    }
+  },
+  "sharedMatcher": [
+    {
+      "id": "case-fold-en",
+      "languageCode": "en",
+      "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+      "languagePolicy": "BASIC_SUPPORTED",
+      "segmentationAppliedBeforeMatching": true,
+      "caseFold": true,
+      "fuzzyMatching": false,
+      "englishFallback": false,
+      "quotes": [
+        "atlas keeper"
+      ],
+      "boundaryAligned": true,
+      "originalTextPreserved": true,
+      "expectedQuotesPresent": true,
+      "rejectedQuotesAbsent": true
+    },
+    {
+      "id": "cjk-exact",
+      "languageCode": "zh-hans",
+      "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+      "languagePolicy": "UNSUPPORTED_EXACT_ONLY",
+      "segmentationAppliedBeforeMatching": true,
+      "caseFold": true,
+      "fuzzyMatching": false,
+      "englishFallback": false,
+      "quotes": [
+        "東京"
+      ],
+      "boundaryAligned": true,
+      "originalTextPreserved": true,
+      "expectedQuotesPresent": true,
+      "rejectedQuotesAbsent": true
+    },
+    {
+      "id": "rtl-hebrew",
+      "languageCode": "he",
+      "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+      "languagePolicy": "UNSUPPORTED_EXACT_ONLY",
+      "segmentationAppliedBeforeMatching": true,
+      "caseFold": true,
+      "fuzzyMatching": false,
+      "englishFallback": false,
+      "quotes": [
+        "אבג"
+      ],
+      "boundaryAligned": true,
+      "originalTextPreserved": true,
+      "expectedQuotesPresent": true,
+      "rejectedQuotesAbsent": true
+    },
+    {
+      "id": "indic",
+      "languageCode": "hi",
+      "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+      "languagePolicy": "UNSUPPORTED_EXACT_ONLY",
+      "segmentationAppliedBeforeMatching": true,
+      "caseFold": true,
+      "fuzzyMatching": false,
+      "englishFallback": false,
+      "quotes": [
+        "नमस्ते"
+      ],
+      "boundaryAligned": true,
+      "originalTextPreserved": true,
+      "expectedQuotesPresent": true,
+      "rejectedQuotesAbsent": true
+    },
+    {
+      "id": "combining-nfd-source",
+      "languageCode": "fr",
+      "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+      "languagePolicy": "BASIC_SUPPORTED",
+      "segmentationAppliedBeforeMatching": true,
+      "caseFold": true,
+      "fuzzyMatching": false,
+      "englishFallback": false,
+      "quotes": [
+        "Café"
+      ],
+      "boundaryAligned": true,
+      "originalTextPreserved": true,
+      "expectedQuotesPresent": true,
+      "rejectedQuotesAbsent": true
+    },
+    {
+      "id": "emoji-zwj",
+      "languageCode": "und",
+      "matcherId": "BASIC_EXACT_TERM_GRAPHEME_CASEFOLD_V1",
+      "languagePolicy": "BASIC_SUPPORTED",
+      "segmentationAppliedBeforeMatching": true,
+      "caseFold": true,
+      "fuzzyMatching": false,
+      "englishFallback": false,
+      "quotes": [
+        "👩‍💻"
+      ],
+      "boundaryAligned": true,
+      "originalTextPreserved": true,
+      "expectedQuotesPresent": true,
+      "rejectedQuotesAbsent": true
+    }
+  ],
+  "productMentionIndex": {
+    "schemaVersion": "yalken.atlas.v5.finalAudit.p0_06.productMentionIndexProof.v1",
+    "mentionCount": 6,
+    "indexHash": "c9cb15adfdc3fa7746172d27230541a7d855fc7b462354afef2dd51160c6f0c1",
+    "rows": [
+      {
+        "id": "case-fold-en",
+        "expectedQuotesPresent": true,
+        "rejectedQuotesAbsent": true,
+        "matcherBound": true,
+        "matchModeBound": true,
+        "languageRouteBound": true,
+        "noEnglishFallback": true,
+        "originalQuotePreserved": true,
+        "graphemeBoundaryProof": true
+      },
+      {
+        "id": "cjk-exact",
+        "expectedQuotesPresent": true,
+        "rejectedQuotesAbsent": true,
+        "matcherBound": true,
+        "matchModeBound": true,
+        "languageRouteBound": true,
+        "noEnglishFallback": true,
+        "originalQuotePreserved": true,
+        "graphemeBoundaryProof": true
+      },
+      {
+        "id": "rtl-hebrew",
+        "expectedQuotesPresent": true,
+        "rejectedQuotesAbsent": true,
+        "matcherBound": true,
+        "matchModeBound": true,
+        "languageRouteBound": true,
+        "noEnglishFallback": true,
+        "originalQuotePreserved": true,
+        "graphemeBoundaryProof": true
+      },
+      {
+        "id": "indic",
+        "expectedQuotesPresent": true,
+        "rejectedQuotesAbsent": true,
+        "matcherBound": true,
+        "matchModeBound": true,
+        "languageRouteBound": true,
+        "noEnglishFallback": true,
+        "originalQuotePreserved": true,
+        "graphemeBoundaryProof": true
+      },
+      {
+        "id": "combining-nfd-source",
+        "expectedQuotesPresent": true,
+        "rejectedQuotesAbsent": true,
+        "matcherBound": true,
+        "matchModeBound": true,
+        "languageRouteBound": true,
+        "noEnglishFallback": true,
+        "originalQuotePreserved": true,
+        "graphemeBoundaryProof": true
+      },
+      {
+        "id": "emoji-zwj",
+        "expectedQuotesPresent": true,
+        "rejectedQuotesAbsent": true,
+        "matcherBound": true,
+        "matchModeBound": true,
+        "languageRouteBound": true,
+        "noEnglishFallback": true,
+        "originalQuotePreserved": true,
+        "graphemeBoundaryProof": true
+      }
+    ]
+  },
+  "coreAdmission": {
+    "splitGraphemeEvidenceRejected": true,
+    "rejectionCode": "E_ATLAS_EVIDENCE_GRAPHEME_SPLIT"
+  },
+  "authority": {
+    "commandKernelAdmission": true,
+    "readModelProjection": true,
+    "storageMutation": false,
+    "networkRuntime": false,
+    "generatedArtifactOnlyAccepted": false,
+    "programDoneClaim": false
+  },
+  "failures": [],
+  "pass": true,
+  "status": "PASS_P0_06_MULTILINGUAL_MATCHER"
+}

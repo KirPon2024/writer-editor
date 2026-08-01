@@ -68,6 +68,9 @@ const {
   DEFAULT_AUTHORITY_PLATFORM_ID,
   evaluateCommandCapabilityAuthority,
 } = require('./shared/commandCapabilityAuthority.cjs');
+const {
+  countAtlasMultilingualMatches,
+} = require('./shared/atlasMultilingualMatcher.cjs');
 
 const launchT0 = performance.now();
 let mainWindow;
@@ -11804,16 +11807,11 @@ function normalizeReplaceSingleSafePayload(payload = {}) {
 
 function countExactTextOccurrences(sourceText, needle) {
   if (typeof sourceText !== 'string' || typeof needle !== 'string' || needle.length === 0) return 0;
-  let count = 0;
-  let index = 0;
-  while (index <= sourceText.length) {
-    const found = sourceText.indexOf(needle, index);
-    if (found < 0) break;
-    count += 1;
-    if (count > 1) return count;
-    index = found + needle.length;
-  }
-  return count;
+  return countAtlasMultilingualMatches({
+    sourceText,
+    needle,
+    languageCode: 'und',
+  });
 }
 
 async function handleReplaceSingleSafeCommand(payload = {}, options = {}) {

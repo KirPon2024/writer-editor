@@ -22,7 +22,8 @@ test('R3 C05: source invariants close transaction, payloadPreview, Design OS slo
   assert.equal(source.checks.oldEfinalNotAcceptedAsCurrentProof, true);
   assert.equal(source.checks.noSilentSourceSceneSlice, true);
   assert.equal(source.oldEfinal.acceptedAsCurrentDodProof, false);
-  assert.equal(source.rawMatcherDisposition.currentDisposition, 'INSPECTED_EXACT_ONLY_AUTHOR_BOUND_MATCHER_NOT_RELEASE_VETO_FOR_R3_C05');
+  assert.equal(source.rawMatcherDisposition.currentDisposition, 'REPAIRED_BY_P0_06_GRAPHEME_CASEFOLD_MATCHER');
+  assert.equal(source.rawMatcherDisposition.containsCaseSensitiveIndexOf, false);
 });
 
 test('R3 C05: P0 rows only close when executable journey rows are PASS', async () => {

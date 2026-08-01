@@ -145,6 +145,43 @@ function normalizeAuthor(thread) {
   };
 }
 
+function normalizeUnsupportedReplies(thread, replies, reasons) {
+  return replies.map((reply, index) => {
+    const replyId = normalizeString(
+      reply.replyId
+      || reply.commentId
+      || reply.rawId
+      || reply.messageId
+      || `reply-${index}`,
+    );
+    const body = rawString(reply.body || reply.commentText || reply.text);
+    if (Buffer.byteLength(body, 'utf8') > MAX_BODY_BYTES) {
+      reasons.push(makeReason('RTK_BUDGET_EXCEEDED', `commentThreads.${index}.replies`, 'Comment reply body exceeds shadow import budget.'));
+    }
+    return {
+      kind: 'UnsupportedCommentReply',
+      replyId,
+      parentThreadId: normalizeString(reply.parentThreadId || thread.threadId),
+      body,
+      bodyDigest: sha256Json({ replyId, body }),
+      authorPersonIdentity: normalizeAuthor(reply),
+      date: rawString(reply.date),
+      orderingKey: Number.isSafeInteger(Number(reply.orderingKey)) ? Number(reply.orderingKey) : index,
+      reasonCodes: [
+        'RTK_COMMENT_REPLY_TYPED_LIMITATION_PRESERVED',
+        ...(
+          Array.isArray(reply.reasonCodes)
+            ? reply.reasonCodes.map(normalizeString).filter(Boolean)
+            : []
+        ),
+      ],
+      sourceXmlProvenanceDigest: reply.sourceXmlProvenance
+        ? sha256Json(reply.sourceXmlProvenance)
+        : '',
+    };
+  });
+}
+
 function normalizeRootCommentThread(thread, index, reasons) {
   const messages = Array.isArray(thread.messages) ? thread.messages.filter(isPlainObject) : [];
   const rootMessage = messages[0] || {};
@@ -161,9 +198,6 @@ function normalizeRootCommentThread(thread, index, reasons) {
   if (normalizeString(thread.parentThreadId)) {
     reasons.push(makeReason('RTK_COMMENT_UNSUPPORTED', `commentThreads.${index}.parentThreadId`, 'A03-C01 admits root comment threads only.'));
   }
-  if (replies.length > 0) {
-    reasons.push(makeReason('RTK_COMMENT_REPLY_NOT_PROMOTED', `commentThreads.${index}.replies`, 'Modern replies remain a typed limitation and are not promoted in A03-C01.'));
-  }
   if (!['ANCHORED', 'ORPHAN', 'RESOLVED', 'DELETED'].includes(status)) {
     reasons.push(makeReason('RTK_COMMENT_UNSUPPORTED', `commentThreads.${index}.status`, 'Unsupported comment outcome cannot enter the shadow session.', { status }));
   }
@@ -172,6 +206,7 @@ function normalizeRootCommentThread(thread, index, reasons) {
   }
 
   const anchor = normalizeAnchor(thread);
+  const unsupportedReplies = normalizeUnsupportedReplies(thread, replies, reasons);
   return {
     kind: 'CommentThread',
     threadId,
@@ -183,9 +218,13 @@ function normalizeRootCommentThread(thread, index, reasons) {
     date: rawString(thread.date),
     status,
     anchor,
+    unsupportedReplies,
     orphanOutcome: status === 'ORPHAN' || status === 'DELETED' || anchor.outcome === 'ORPHAN',
     orderingKey: Number.isSafeInteger(Number(thread.orderingKey)) ? Number(thread.orderingKey) : index,
-    reasonCodes: Array.isArray(thread.reasonCodes) ? thread.reasonCodes.map(normalizeString).filter(Boolean) : [],
+    reasonCodes: [
+      ...(Array.isArray(thread.reasonCodes) ? thread.reasonCodes.map(normalizeString).filter(Boolean) : []),
+      ...(unsupportedReplies.length > 0 ? ['RTK_COMMENT_REPLY_TYPED_LIMITATION_PRESERVED'] : []),
+    ],
     sourceXmlProvenanceDigest: thread.sourceXmlProvenance
       ? sha256Json(thread.sourceXmlProvenance)
       : '',
@@ -244,8 +283,10 @@ function normalizeThreads(reviewIr) {
 
 function summarizeThreads(threads) {
   const outcomeCounts = { ANCHORED: 0, ORPHAN: 0, RESOLVED: 0, DELETED: 0 };
+  let unsupportedReplyCount = 0;
   for (const thread of threads) {
     if (Object.prototype.hasOwnProperty.call(outcomeCounts, thread.status)) outcomeCounts[thread.status] += 1;
+    unsupportedReplyCount += Array.isArray(thread.unsupportedReplies) ? thread.unsupportedReplies.length : 0;
   }
   return {
     threadCount: threads.length,
@@ -254,6 +295,7 @@ function summarizeThreads(threads) {
     resolved: outcomeCounts.RESOLVED,
     deleted: outcomeCounts.DELETED,
     replyCountPromoted: 0,
+    unsupportedReplyCount,
   };
 }
 
@@ -404,6 +446,7 @@ function buildSessionRecord(input = {}) {
       commandAuthority: 'Command Kernel',
       reviewSessionMutation: 'comment-shadow-session-only',
       modernRepliesPromoted: false,
+      modernRepliesPreservedAsTypedLimitation: normalized.threads.some((thread) => (thread.unsupportedReplies || []).length > 0),
       resolveReopenPromoted: false,
       deleteStatePromoted: recordContainsDeletedThread(normalized.threads),
       authenticatedProjectSceneBaselineBinding: identity.binding.authenticated === true,
@@ -443,6 +486,7 @@ function buildReceipt(record, writeState = {}) {
       resolved: record.summary.resolved,
       deleted: record.summary.deleted,
     },
+    unsupportedReplyCount: record.summary.unsupportedReplyCount,
     authorityLevel: cloneJsonSafe(record.authorityLevel),
     vetoMetrics: {
       falseExact: 0,

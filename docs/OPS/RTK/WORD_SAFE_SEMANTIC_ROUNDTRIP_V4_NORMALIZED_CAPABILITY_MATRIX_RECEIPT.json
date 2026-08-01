@@ -6,7 +6,7 @@
   "createdAtUtc": "2026-08-01T10:20:00.000Z",
   "matrixBinding": {
     "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-    "sha256": "9ad7f1cf6e0324a13b443903da317555f4d747746e22f30d0713fa2cd862df9d",
+    "sha256": "70788ac0c2e78293ca62d361c60e709f2a2872ebf31f7e19e4739a28f9815f63",
     "status": "BOUND"
   },
   "sourceBindings": {
@@ -16,15 +16,15 @@
     },
     "capabilityProfile": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "65766e3a3062149e35c21dde31fc1553da6ce61052ae099635a4585c16cff512"
+      "sha256": "b45304f20328385e49ab8af0cbc086a9b1d13b02e0ff2c9e8e1ab093819d513e"
     },
     "postD1Program": {
       "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "f8b011e285948fdfde8537ce522e1925c6ea941b67d4b198ca54e327e6dd5eb9"
+      "sha256": "38e45ae49dd8d4ba62bb2a33cb511d82ea64206d2ab273432ad93d7279308698"
     },
     "saturationLedger": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "e4474b4c07fd2f59daa0256f38da7c7544fffe9ba946432dd3c20c02ed3c1a34"
+      "sha256": "3d1a187de54bab3a70575f561d48b3d58b1343c3814be620309f4f65956a0e9d"
     }
   },
   "counts": {
@@ -32,7 +32,7 @@
     "physicalWordEvidence": 16,
     "productRuntimeWired": 11,
     "automaticApplyCertified": 0,
-    "blocksWordSaturation": 6,
+    "blocksWordSaturation": 5,
     "currentTerminalClass": {
       "COMPONENT_PROVEN": 5,
       "PHYSICAL_WORD_EVIDENCE": 3,
@@ -51,7 +51,7 @@
       "TYPED_LIMITATION": 2
     }
   },
-  "nextStage": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
+  "nextStage": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION",
   "nonClaims": [
     "Automatic apply is not certified broadly.",
     "Physical Word evidence is not product runtime authority by itself.",

@@ -35,6 +35,8 @@ const C05_PROFILE_STATUS = 'WORD_16_111_2_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED
 const C05_PROGRAM_STATUS = 'WORD_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_WIRED_NOT_SATURATED';
 const C05_PROMOTION_STATUS = 'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT';
 const C05_NEXT_STAGE = 'RELEASE_AUDIT_REBIND_AFTER_C05';
+const P0_REPLY_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED';
+const P0_REPLY_NEXT_STAGE = 'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION';
 const EVIDENCE_ID = 'A03_C04_MODERN_COMMENT_STATE';
 
 function readJson(filePath) {
@@ -464,6 +466,25 @@ function isC05SuccessorState(profile, program, ledger, promotionList) {
     && ledger.runtimeClaims?.releaseReady === false;
 }
 
+function isP0ReplySuccessorState(profile, program, ledger, promotionList) {
+  return promotionList.status === C05_PROMOTION_STATUS
+    && promotionList.nextContour === 'RELEASE-AUDIT'
+    && profile.status === P0_REPLY_STATUS
+    && program.status === P0_REPLY_STATUS
+    && program.nextStep === P0_REPLY_NEXT_STAGE
+    && program.v4ExecutionState?.nextStage === P0_REPLY_NEXT_STAGE
+    && program.v4ExecutionState?.modernReplyTypedLimitationBound === true
+    && program.v4ExecutionState?.modernResolveReopenCertified !== true
+    && program.v4ExecutionState?.googleDocsOpened === false
+    && ledger.status === P0_REPLY_STATUS
+    && ledger.nextStage === P0_REPLY_NEXT_STAGE
+    && ledger.coverageLedger?.a03C04ModernCommentState?.status === 'BOUND_STATE_READBACK_ONLY'
+    && ledger.coverageLedger?.p0ModernCommentRepliesTypedLimitation?.status === 'BOUND_TYPED_LIMITATION_WITH_SHADOW_PRESERVATION'
+    && ledger.runtimeClaims?.googleDocsOpened === false
+    && ledger.runtimeClaims?.automaticApplyExpanded === false
+    && ledger.runtimeClaims?.wordSaturated === false;
+}
+
 export function evaluateWordV4A03C04ModernCommentState(input = {}) {
   const receipt = input.receipt || (fs.existsSync(RECEIPT_PATH) ? readJson(RECEIPT_PATH) : buildReceipt());
   const promotionList = input.promotionList || readJson(PROMOTION_LIST_PATH);
@@ -475,6 +496,7 @@ export function evaluateWordV4A03C04ModernCommentState(input = {}) {
   const add = (code, field, message) => issues.push(issue(code, field, message));
   const row = list(promotionList.rows).find((item) => item.capability === 'modernCommentResolveReopenState');
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.v4.modernCommentStateReadbackGate');
+  const validSuccessorState = c05SuccessorState || isP0ReplySuccessorState(profile, program, ledger, promotionList);
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_A03_C04_RECEIPT_INVALID', 'receipt', 'C04 receipt must bind a passing state-readback-only gate.');
   if (receipt.oracle?.activeRootCommentReadbackPass !== true
@@ -494,7 +516,7 @@ export function evaluateWordV4A03C04ModernCommentState(input = {}) {
     || receipt.implementedCapability?.replyPhysicalWordProven !== false
     || receipt.implementedCapability?.resolveReopenPhysicalWordProven !== false) add('RTK_A03_C04_AUTHORITY_OVERCLAIM', 'implementedCapability', 'C04 must not promote full modern comment resolve or reply runtime authority.');
   if (Object.values(receipt.vetoMetrics || {}).some((value) => Number(value) !== 0)) add('RTK_A03_C04_VETO_NONZERO', 'vetoMetrics', 'C04 veto metrics must remain zero.');
-  if ((promotionList.status !== PROMOTION_STATUS || promotionList.nextContour !== 'A03-C05') && !c05SuccessorState) add('RTK_A03_C04_PROMOTION_STATUS_INVALID', 'promotionList', 'Promotion list must advance to C05 after binding C04, or remain valid after the bounded C05 successor.');
+  if ((promotionList.status !== PROMOTION_STATUS || promotionList.nextContour !== 'A03-C05') && !validSuccessorState) add('RTK_A03_C04_PROMOTION_STATUS_INVALID', 'promotionList', 'Promotion list must advance to C05 after binding C04, or remain valid after bounded successors.');
   if (!row
     || row.authorityLevel?.physicalWordProven !== false
     || row.authorityLevel?.componentProven !== true
@@ -502,7 +524,7 @@ export function evaluateWordV4A03C04ModernCommentState(input = {}) {
     || row.authorityLevel?.automaticApplyCertified !== false
     || row.authorityLevel?.stateReadbackOnlyPhysicalWordProven !== true
     || row.authorityLevel?.resolveReopenPhysicalWordProven !== false) add('RTK_A03_C04_PROMOTION_ROW_INVALID', 'promotionList.rows.modernCommentResolveReopenState', 'C04 promotion row must stay state-readback-only and not runtime-promoted.');
-  if ((profile.status !== PROFILE_STATUS && !c05SuccessorState)
+  if ((profile.status !== PROFILE_STATUS && !validSuccessorState)
     || !cell
     || cell.state !== 'COMPONENT_PROVEN_STATE_READBACK_ONLY_TYPED_LIMITATION'
     || cell.productRuntimeWired !== false
@@ -513,14 +535,14 @@ export function evaluateWordV4A03C04ModernCommentState(input = {}) {
     || program.v4ExecutionState?.modernResolveReopenCertified !== false
     || program.v4ExecutionState?.productCommentStateMutationWired !== false
     || program.v4ExecutionState?.runtimeApplyAuthorityGranted !== false
-    || program.v4ExecutionState?.googleDocsOpened !== false) && !c05SuccessorState) add('RTK_A03_C04_PROGRAM_INVALID', 'program', 'Program must advance to C05 with no comment-state product mutation and Google closed, or remain valid after the bounded C05 successor.');
+    || program.v4ExecutionState?.googleDocsOpened !== false) && !validSuccessorState) add('RTK_A03_C04_PROGRAM_INVALID', 'program', 'Program must advance to C05 with no comment-state product mutation and Google closed, or remain valid after bounded successors.');
   if ((ledger.status !== LEDGER_STATUS
     || ledger.coverageLedger?.a03C04ModernCommentState?.status !== 'BOUND_STATE_READBACK_ONLY'
     || ledger.runtimeClaims?.automaticApplyExpanded !== false
     || ledger.runtimeClaims?.writerAuthorityAdded !== false
     || ledger.runtimeClaims?.googleDocsOpened !== false
     || ledger.aggregateTotals?.a03C04ResolveReopenFullPass !== 0
-    || ledger.aggregateTotals?.a03C04ModernReplyPass !== 0) && !c05SuccessorState) add('RTK_A03_C04_LEDGER_INVALID', 'ledger', 'Ledger must bind C04 without runtime, reply, resolve-reopen, or Google expansion, or remain valid after the bounded C05 successor.');
+    || ledger.aggregateTotals?.a03C04ModernReplyPass !== 0) && !validSuccessorState) add('RTK_A03_C04_LEDGER_INVALID', 'ledger', 'Ledger must bind C04 without runtime, reply, resolve-reopen, or Google expansion, or remain valid after bounded successors.');
 
   return {
     ok: issues.length === 0,

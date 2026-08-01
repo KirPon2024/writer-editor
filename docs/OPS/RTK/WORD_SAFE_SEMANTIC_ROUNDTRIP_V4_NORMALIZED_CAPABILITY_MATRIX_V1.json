@@ -4,8 +4,8 @@
   "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
   "createdAtUtc": "2026-08-01T10:20:00.000Z",
   "headBinding": {
-    "originMainSha": "0c514593f4e9fc8b6b0e936e83509f862ceda223",
-    "localHeadSha": "0c514593f4e9fc8b6b0e936e83509f862ceda223",
+    "originMainSha": "c819b467f9f19ca20cdae27373d78d00f69219e6",
+    "localHeadSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
     "auditedHead": "0c514593f4e9fc8b6b0e936e83509f862ceda223",
     "independentAuditId": "019fbd04-b1f9-7393-aa67-d3e65632b803"
   },
@@ -16,15 +16,15 @@
     },
     "capabilityProfile": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "65766e3a3062149e35c21dde31fc1553da6ce61052ae099635a4585c16cff512"
+      "sha256": "b45304f20328385e49ab8af0cbc086a9b1d13b02e0ff2c9e8e1ab093819d513e"
     },
     "postD1Program": {
       "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "f8b011e285948fdfde8537ce522e1925c6ea941b67d4b198ca54e327e6dd5eb9"
+      "sha256": "38e45ae49dd8d4ba62bb2a33cb511d82ea64206d2ab273432ad93d7279308698"
     },
     "saturationLedger": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "e4474b4c07fd2f59daa0256f38da7c7544fffe9ba946432dd3c20c02ed3c1a34"
+      "sha256": "3d1a187de54bab3a70575f561d48b3d58b1343c3814be620309f4f65956a0e9d"
     }
   },
   "normalizedVocabulary": [
@@ -40,7 +40,7 @@
     "physicalWordEvidence": 16,
     "productRuntimeWired": 11,
     "automaticApplyCertified": 0,
-    "blocksWordSaturation": 6,
+    "blocksWordSaturation": 5,
     "currentTerminalClass": {
       "COMPONENT_PROVEN": 5,
       "PHYSICAL_WORD_EVIDENCE": 3,
@@ -111,14 +111,14 @@
         "physicalWordEvidence": true,
         "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
         "sourceState": "PHYSICAL_WORD_PROVEN",
-        "sourceCurrentCapability": "VISIBLE_ANCHORED_COMMENT_SHADOW_ANALYSIS_WITH_TYPED_LIMITATIONS"
+        "sourceCurrentCapability": "VISIBLE_COMMENT_SHADOW_ANALYSIS_WITH_REPLY_TYPED_LIMITATION_PRESERVED"
       },
       "productRuntimeWired": false,
       "automaticApplyCertified": false,
-      "reasonCode": "RTK_NORM_MODERN_REPLY_STATE_GAP_REMAINS",
-      "requiredNextContour": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
-      "blocksWordSaturation": true,
-      "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
+      "reasonCode": "RTK_NORM_MODERN_REPLY_TYPED_LIMITATION_BOUND",
+      "requiredNextContour": "NONE_REPLY_TYPED_LIMITATION_BOUND",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
     },
     {
       "ordinal": 4,
@@ -296,7 +296,7 @@
       "productRuntimeWired": false,
       "automaticApplyCertified": false,
       "reasonCode": "RTK_NORM_WORD_HOLD_NOT_SATURATED",
-      "requiredNextContour": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
+      "requiredNextContour": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION",
       "blocksWordSaturation": true,
       "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
     },
@@ -564,34 +564,27 @@
   "nextEngineeringOrder": [
     {
       "order": 1,
-      "contour": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
-      "blockingCells": [
-        "rtk.word.v4.commentsShadowAnalysis"
-      ]
-    },
-    {
-      "order": 2,
       "contour": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION",
       "blockingCells": [
         "rtk.word.v4.modernCommentStateReadbackGate"
       ]
     },
     {
-      "order": 3,
+      "order": 2,
       "contour": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
       "blockingCells": [
         "rtk.word.v4.effectiveFormattingDiagnostics"
       ]
     },
     {
-      "order": 4,
+      "order": 3,
       "contour": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
       "blockingCells": [
         "rtk.word.v4.typedStructuralDiagnostics"
       ]
     },
     {
-      "order": 5,
+      "order": 4,
       "contour": "P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION",
       "blockingCells": [
         "rtk.word.v4.multiRoundReplayStaleConflictGuards",
@@ -599,7 +592,7 @@
       ]
     },
     {
-      "order": 6,
+      "order": 5,
       "contour": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
       "blockingCells": [],
       "boundaryEvidence": "WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT"

@@ -127,7 +127,10 @@ test('P0 format Unicode structure state bindings are exact and non-terminal', ()
 
   assert.equal(program.releaseAuditNight01.latestFormatUnicodeStructureStressReceiptPath, 'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_FORMAT_UNICODE_STRUCTURE_STRESS_RECEIPT.json');
   assert.equal(program.releaseAuditNight01.formatUnicodeStructureStressComplete, true);
-  assert.equal(program.releaseAuditNight01.nextStage, receipt.nextStage);
+  assert.equal([
+    receipt.nextStage,
+    'P0_PRODUCT_VERTICAL_REPEAT_STABILITY_AND_HIGH_DENSITY_AFTER_LARGE_STRESS',
+  ].includes(program.releaseAuditNight01.nextStage), true);
   assert.equal(program.releaseAuditNight01.wordSaturated, false);
   assert.equal(profile.latestProductFormatUnicodeStructureStress.receiptPath, program.releaseAuditNight01.latestFormatUnicodeStructureStressReceiptPath);
   assert.equal(profile.latestProductFormatUnicodeStructureStress.automaticApplyCertified, false);

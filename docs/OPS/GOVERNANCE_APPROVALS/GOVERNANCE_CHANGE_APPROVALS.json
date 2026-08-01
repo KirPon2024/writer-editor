@@ -1864,6 +1864,41 @@
       "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
     },
     {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/p0-08-stage10-product-wiring-report.json",
+      "sha256": "7fa2d0b7ef9e7a99e3874213ed045add2df5507929c4667944cb860c321228e1",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/p0-08-stage10-product.session.json",
+      "sha256": "fa377a5f16e7d549a52de3d311697b29ee1f946af4adc6eef3fe6a6fff7e2b0d",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/recovery/p0-08-stage10-product/checkpoint-before-edit.json",
+      "sha256": "d99888d83f34190b7c36793b04ea0e7bb1d8b7a44e45b2abfd37aef74fd83e0f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/recovery/p0-08-stage10-product/history-restore-undo-2c0ffa314146741e.json",
+      "sha256": "d4490ed1e9b0c6216e543198631caaaec8c1fbda1b5830ac1aaf145fab76a572",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP/p1-transaction-queue-cleanup-report.json",
+      "sha256": "91067eb65a0f6295ee85f95cf5ca0d9efffa6c70d1764fbfd2a924ebbfba39db",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
       "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND/night01-c00-audit-rebind-report.json",
       "sha256": "a8828964efd79b9816091021ced6e03320477178a96444f55b511f4c9655bf44",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -2312,6 +2347,13 @@
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the dedicated failsignal row for readable recovery proof failure and the bounded precedence rebind that keeps registry ordering valid."
     },
     {
+      "filePath": "docs/OPS/GOVERNANCE_CHANGE_APPROVALS.json",
+      "sha256": "c0ffc87331d6b9c48b0ba14bdab0a04c38bb29b21d0aa56237597b177ce0ec36",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:30.000Z",
+      "rationale": "Approve mirrored governance registry hash after final P1 transaction queue cleanup approval rebind; no runtime dependency, no network change, and no Program DONE claim."
+    },
+    {
       "filePath": "docs/OPS/LOCKS/CONFIG_HASH_LOCK.json",
       "sha256": "e42f1b4f3425d027338f59a2fb487fe3bd681d762efc13aa8d82a0ce884272e9",
       "approvedBy": "ticket:EDITORIAL_SHEET_STRESS_LANE_REBIND_004_GOVERNANCE_HYGIENE",
@@ -2394,13 +2436,6 @@
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
       "approvedAtUtc": "2026-07-30T13:19:11.000Z",
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "598cd31bf00a6c0a4e5d14c195998539e7d135543c2f894db1c67a8fcc9a910e",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -2648,13 +2683,6 @@
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "464cdad052d11cd830d2f70734204028dc4af0ba42e982ed5ae960acc2d5f598",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
       "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
@@ -2786,13 +2814,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "173684aa484606b5c961bbbcf913602015ecd6ec36848fe68467f8cf1f762cb8",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -4496,6 +4517,20 @@
       "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING_RECEIPT.json",
+      "sha256": "03a179f981f7341591dc3ff6ad0b1365644b5998b4bf95029bf0108b32c33cab",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP_RECEIPT.json",
+      "sha256": "e29176e7a283c32e665ff143fa8d1ffacc44cdd9cc3638db83e24854639d6a56",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND_RECEIPT.json",
       "sha256": "36a4aede8c9db58be06bdcc4161819cbdecfd37704418c26f088ea5cdcde323d",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -5196,20 +5231,6 @@
       "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
-      "sha256": "ff1a0c7683b5d29db21c31086a4f911cd03bf089e64cd0741dc3739f2ae82b34",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
-      "sha256": "8953470a8441bd98d0d1610b8a2c6b13d05b6be692c78199343827153451fdc2",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-product-vertical-tracked-edit.mjs",
       "sha256": "e2fb25059ae731a9188d7e1a649b9f8f60b6178ab66326f43fede837c9dbd9f9",
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
@@ -5579,6 +5600,20 @@
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_07_STRESS_PRODUCT_PROOF_FINAL_CHECK_REBIND",
       "approvedAtUtc": "2026-08-01T10:45:00.000Z",
       "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs",
+      "sha256": "2c7dc00986e211ef8e4bc2b245a0f97604130efdf9ef4f84f6827f59fc4cb6b3",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.mjs",
+      "sha256": "6838dc0360f2944c787be0dcbe760d5e87c8f557ef08b8286a151d9d6c71030c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
     },
     {
       "filePath": "scripts/ops/yalken-atlas-v5-night01-c00-audit-rebind.mjs",
@@ -6006,6 +6041,13 @@
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF",
       "approvedAtUtc": "2026-07-31T11:45:00.000Z",
       "rationale": "Approve bounded ER C07 delivery artifacts: binds live Electron renderer journey, full-runner PASS log, stage revalidation report, receipt evidence hashes, sandbox-safe preload bridge repair, Command Kernel journey recovery, invalidated E05/E06 evidence rejection, Stage 01/02/03/05 user outcome revalidation, and explicit SAST NOT_READY classification without release or Program DoD claim."
+    },
+    {
+      "filePath": "src/product/stage10ProductWiring.mjs",
+      "sha256": "29f11d6d111b3452e503c0ea86c21bdb1ba1057377bc4dbf976bb51fbd11d800",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
     },
     {
       "filePath": "src/renderer/commands/localCapabilityProvider.mjs",
@@ -7107,13 +7149,6 @@
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
-      "sha256": "a861d225691e6b7b106e098c31e3f169be2759e935f9059023eb4e3edbbc86c9",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:30:00.000Z",
-      "rationale": "Approve bounded Word P0 format Unicode structure stress product loop: synthetic physical Word cases exercise Unicode tracked replacement apply, formatting diagnostics, structural diagnostics, authenticated intake, visible preview, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
-    },
-    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
       "sha256": "028e0d335bbfb5d652678be124bd5a4bf34b9c98e981e7847402550689c30f1f",
       "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
@@ -8059,6 +8094,20 @@
       "rationale": "Approve final P0_07 stress product proof bytes after local verification rebind: focused pack PASS 12 total 12 pass 0 fail including negative skip-render, test:ops PASS, Design OS doctrine PASS, OSS policy PASS, build renderer PASS, full runner PASS 799 total 735 pass 0 fail 64 skipped, perf baseline PASS, no Program DONE claim."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js",
+      "sha256": "024419947ec804e0907887c74fd0119689d5ebe1d02e66a44fa98c690ea8235f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
+      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.contract.test.js",
+      "sha256": "d5da4d66b5298a03e0063da75a4bb79fd3c6daebb0fdbe04596f1e9e5d27824c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-night01-c00-audit-rebind.contract.test.js",
       "sha256": "45834766a468efdec66826ef4cb3f733b775bfe9d26d5793b8acd03e36749f91",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_NIGHT01_C00_AUDIT_REBIND",
@@ -8248,95 +8297,67 @@
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/p0-08-stage10-product-wiring-report.json",
-      "sha256": "7fa2d0b7ef9e7a99e3874213ed045add2df5507929c4667944cb860c321228e1",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "e55345311728c901b7316e2d0707d2c5d167c131ea1933384e5fb3aaf564d239",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/p0-08-stage10-product.session.json",
-      "sha256": "fa377a5f16e7d549a52de3d311697b29ee1f946af4adc6eef3fe6a6fff7e2b0d",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "f4ae164d6bc3e7f5d2f267fb8e34f84e6a96d21ea1c025da800a64e9cfa26914",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/recovery/p0-08-stage10-product/checkpoint-before-edit.json",
-      "sha256": "d99888d83f34190b7c36793b04ea0e7bb1d8b7a44e45b2abfd37aef74fd83e0f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "dcc76851517742b58ebbe4e28b4ea028a1236584609261e81bf600b70b263b7c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/store/recovery/p0-08-stage10-product/history-restore-undo-2c0ffa314146741e.json",
-      "sha256": "d4490ed1e9b0c6216e543198631caaaec8c1fbda1b5830ac1aaf145fab76a572",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_LARGE_MANUSCRIPT_STRESS_RECEIPT.json",
+      "sha256": "badbe7eadb10fd473153748eaa04434b3d2ee83c9fd5d77cb681107ce21a81cf",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING_RECEIPT.json",
-      "sha256": "03a179f981f7341591dc3ff6ad0b1365644b5998b4bf95029bf0108b32c33cab",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-large-manuscript-stress.mjs",
+      "sha256": "63ce2d98d69f9fba7d3b3eb0bb2c5405ec3f467fcd1bc13cfe993bb0562329dc",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs",
-      "sha256": "2c7dc00986e211ef8e4bc2b245a0f97604130efdf9ef4f84f6827f59fc4cb6b3",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-comments-mixed-multiscene.mjs",
+      "sha256": "151c98f2ca44945520306b187e198530909ac68104d07b1506bb22439cbe410c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "src/product/stage10ProductWiring.mjs",
-      "sha256": "29f11d6d111b3452e503c0ea86c21bdb1ba1057377bc4dbf976bb51fbd11d800",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-product-originated-smoke-wave12.mjs",
+      "sha256": "b6373b1b47d79ce0e50c507697f6390c5f4f6f86ffc5220a602e92f697f41d82",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js",
-      "sha256": "024419947ec804e0907887c74fd0119689d5ebe1d02e66a44fa98c690ea8235f",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
-      "approvedAtUtc": "2026-08-01T08:36:00.000Z",
-      "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+      "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
+      "sha256": "6c86261ed6703ad4e63b58c66a453697c72748077b49d45b5e16afa0f796f647",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "docs/OPS/GOVERNANCE_CHANGE_APPROVALS.json",
-      "sha256": "c0ffc87331d6b9c48b0ba14bdab0a04c38bb29b21d0aa56237597b177ce0ec36",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:30.000Z",
-      "rationale": "Approve mirrored governance registry hash after final P1 transaction queue cleanup approval rebind; no runtime dependency, no network change, and no Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP/p1-transaction-queue-cleanup-report.json",
-      "sha256": "91067eb65a0f6295ee85f95cf5ca0d9efffa6c70d1764fbfd2a924ebbfba39db",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
-      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP_RECEIPT.json",
-      "sha256": "e29176e7a283c32e665ff143fa8d1ffacc44cdd9cc3638db83e24854639d6a56",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
-      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
-    },
-    {
-      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.mjs",
-      "sha256": "6838dc0360f2944c787be0dcbe760d5e87c8f557ef08b8286a151d9d6c71030c",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
-      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.contract.test.js",
-      "sha256": "d5da4d66b5298a03e0063da75a4bb79fd3c6daebb0fdbe04596f1e9e5d27824c",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
-      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
-      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
+      "sha256": "12db25f01a98039f6c9f678c4007d5618e5701834a085dff537d7833aa01b2da",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T08:05:00.000Z",
+      "rationale": "Approve bounded Word P0 large manuscript stress product loop: synthetic physical Word cases exercise 10k, 50k and 100k tracked replacement apply, 20k/50-comment and 50k/80-comment shadow import, 50k formatting and paragraph structure diagnostics, authenticated intake, visible preview, replay/readback, typed 150k and 300k Word automation scale boundaries, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     }
   ]
 }

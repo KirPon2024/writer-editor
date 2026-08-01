@@ -221,14 +221,14 @@ function assertSmokeWordSandboxWorkRoot(workRoot, { source = 'default' } = {}) {
   };
 }
 
-function runAppleScript(scriptText, scriptName, runDir) {
+function runAppleScript(scriptText, scriptName, runDir, options = {}) {
   const scriptDir = path.join(runDir, 'applescripts');
   fs.mkdirSync(scriptDir, { recursive: true });
   const scriptPath = path.join(scriptDir, `${scriptName}.applescript`);
   fs.writeFileSync(scriptPath, scriptText, 'utf8');
   return {
     scriptPath,
-    output: execText('osascript', [scriptPath], { timeout: 180_000 }),
+    output: execText('osascript', [scriptPath], { timeout: options.timeout || 180_000 }),
   };
 }
 

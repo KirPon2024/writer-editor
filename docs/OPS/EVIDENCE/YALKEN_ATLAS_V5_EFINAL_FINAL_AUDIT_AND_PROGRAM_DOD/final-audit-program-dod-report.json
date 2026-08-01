@@ -1,16 +1,16 @@
 {
   "schemaVersion": "yalken.atlas.v5.efinal.finalAuditProgramDod.v1",
-  "generatedAtUtc": "2026-07-31T22:11:09.302Z",
+  "generatedAtUtc": "2026-08-01T02:07:42.974Z",
   "contourId": "EFINAL_FINAL_AUDIT_AND_PROGRAM_DOD",
   "status": "PASS_EFINAL_READY_FOR_DELIVERY",
   "pass": true,
   "finalProgramDoDClaim": true,
   "finalProgramDoDClaimScope": "READY_FOR_DELIVERY_PENDING_PR_MERGE_REMOTE_SHA_VERIFICATION_AND_CLEAN_WORKTREE",
   "gitIdentity": {
-    "headSha": "309e24e7cc64320e086b3e935bfc7c4c3054f3e9",
-    "originMainSha": "cefe359e99348af99744f0b8e7bf393b2c3f244b",
-    "branch": "codex/yalken-atlas-v5-efinal-revalidation",
-    "headEqualsOriginMain": false,
+    "headSha": "84f10f656bcd3352a406b06bf1b3f87d545d1c14",
+    "originMainSha": "84f10f656bcd3352a406b06bf1b3f87d545d1c14",
+    "branch": "codex/yalken-atlas-v5-night01-c02-final-disposition",
+    "headEqualsOriginMain": true,
     "localDirtyFileCount": 0,
     "remoteBranchExists": false
   },
@@ -849,7 +849,7 @@
     "staleSelfFinalReceiptCanCertifyProgramDoD": false
   },
   "finalAuditChecklist": {
-    "frozenMergedRemoteIdentity": false,
+    "frozenMergedRemoteIdentity": true,
     "programDodEvidenceMapPass": true,
     "criticalInvariantsPass": true,
     "finalSuitesRequiredInReceipt": true,

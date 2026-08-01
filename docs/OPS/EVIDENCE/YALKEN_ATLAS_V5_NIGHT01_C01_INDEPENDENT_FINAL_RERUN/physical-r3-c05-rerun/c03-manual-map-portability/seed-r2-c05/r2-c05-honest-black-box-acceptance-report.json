@@ -1,0 +1,2027 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r2.c05.honestBlackBoxAcceptance.v1",
+  "generatedAtUtc": "2026-08-01T01:52:10.418Z",
+  "contourId": "R2_C05_HONEST_BLACK_BOX_ACCEPTANCE",
+  "platformId": "macos-local-electron",
+  "viewportMatrix": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "status": "SUPPORTED_BLACK_BOX_ACCEPTED"
+    }
+  ],
+  "status": "PASS_VISIBLE_UI_BLACK_BOX_ACCEPTANCE",
+  "pass": true,
+  "accepted": {
+    "visibleInputRuntime": true,
+    "pointerAndKeyboardUsed": true,
+    "createRenameConnectMoveSearchDelete": true,
+    "cancelNoop": true,
+    "hitTestableNonblankGraph": true,
+    "listKeyboardParity": true,
+    "saveQuitReopenRecovery": true,
+    "exportRepeatImport": true,
+    "noNetworkNoDialogs": true,
+    "noWrongTargetOrViewStatePersistence": true,
+    "noOverflow": true
+  },
+  "negativeAssertions": {
+    "directIpcAcceptedJourney": false,
+    "proofByScreenshotByteSizeOnly": false,
+    "hiddenOpenerAccepted": false,
+    "canceledDestructiveActionMutated": false,
+    "staleViewStatePersisted": false,
+    "wrongTargetSilentMutation": false,
+    "networkActivated": false
+  },
+  "runtime": {
+    "first": {
+      "ok": true,
+      "runtimeKind": "production-electron-visible-input-black-box",
+      "mode": "journey",
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": "",
+      "result": {
+        "ok": 1,
+        "mode": "journey",
+        "appReady": true,
+        "windowCount": 1,
+        "rendererProbe": {
+          "ok": 1,
+          "mode": "journey",
+          "viewport": {
+            "width": 1440,
+            "height": 782
+          },
+          "inputEvents": [
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1206,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1206,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1206,
+              "y": 466
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "c",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "k",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "x",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "M",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1190,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1190,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1190,
+              "y": 466
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1271,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1271,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1271,
+              "y": 466
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "N",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "N",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [
+                "shift"
+              ],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [
+                "shift"
+              ],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [
+                "shift"
+              ],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 675,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 675,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 675,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "T",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1001,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1001,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1001,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 755,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 755,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 755,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "n",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "m",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 579,
+              "y": 526
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 579,
+              "y": 526
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 615,
+              "y": 545
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 651,
+              "y": 564
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 651,
+              "y": 564
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "n",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "m",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 627,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 627,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 627,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 591,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 591,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 591,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 668,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 668,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 668,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 427
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 427
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 427
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "ArrowDown",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "ArrowDown",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1001,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1001,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1001,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 332,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 332,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 332,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            }
+          ],
+          "drag": {
+            "from": {
+              "x": 579,
+              "y": 526
+            },
+            "to": {
+              "x": 651,
+              "y": 564
+            }
+          },
+          "beforeCancel": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 2,
+            "edgeCount": 1,
+            "rowCount": 3,
+            "nodes": [
+              {
+                "id": "manual-node-ms9pue37-96s2h",
+                "text": "BetaRenamedR2C05",
+                "selected": true,
+                "hit": true
+              },
+              {
+                "id": "manual-node-ms9pucw2-unbrd",
+                "text": "AlphaNodeR2C05",
+                "selected": false,
+                "hit": false
+              }
+            ],
+            "edges": [
+              {
+                "id": "manual-edge-ms9pufhn-rs08n",
+                "selected": false
+              }
+            ],
+            "rows": [
+              {
+                "rowId": "node:manual-node-ms9pucw2-unbrd",
+                "text": "AlphaNodeR2C05note",
+                "selected": false
+              },
+              {
+                "rowId": "node:manual-node-ms9pue37-96s2h",
+                "text": "BetaRenamedR2C05note",
+                "selected": true
+              },
+              {
+                "rowId": "edge:manual-edge-ms9pufhn-rs08n",
+                "text": "AlphaToBetaR2C05manual-node-ms9pucw2-unbrd -> manual-node-ms9pue37-96s2h",
+                "selected": false
+              }
+            ],
+            "formCommandId": "manualMap.node.update",
+            "formRisk": "semantic",
+            "resultStatus": "APPLIED",
+            "text": "Manual MapR2C05BlackBoxMap18322d141maps2nodes1edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManualMove nodenode: manual-node-ms9pue37-96s2h · manualMap.node.updateMoves selected node manual-node-ms9pue37-96s2h to 112, 62. ViewState remains transient; only node position is written after Apply.APPLIEDCancelApply-+FitBetaRenamedR2C05AlphaNodeR2C05AlphaNodeR2C05noteBetaRenamedR2C05noteAlphaToBetaR2C05manual-node-ms9pucw2-unbrd -> manual-node-ms9pue37-96s2hNo portability records yetAdd an attachment, portal, or template from the workspace.BetaRenamedR2C05note · manual-node-ms9pue37-96s2h · 112, 62ViewState transient · manual · 2/2",
+            "hasHorizontalOverflow": false
+          },
+          "afterCancel": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 2,
+            "edgeCount": 1,
+            "rowCount": 3,
+            "nodes": [
+              {
+                "id": "manual-node-ms9pucw2-unbrd",
+                "text": "AlphaNodeR2C05",
+                "selected": true,
+                "hit": false
+              },
+              {
+                "id": "manual-node-ms9pue37-96s2h",
+                "text": "BetaRenamedR2C05",
+                "selected": false,
+                "hit": true
+              }
+            ],
+            "edges": [
+              {
+                "id": "manual-edge-ms9pufhn-rs08n",
+                "selected": false
+              }
+            ],
+            "rows": [
+              {
+                "rowId": "node:manual-node-ms9pucw2-unbrd",
+                "text": "AlphaNodeR2C05note",
+                "selected": true
+              },
+              {
+                "rowId": "node:manual-node-ms9pue37-96s2h",
+                "text": "BetaRenamedR2C05note",
+                "selected": false
+              },
+              {
+                "rowId": "edge:manual-edge-ms9pufhn-rs08n",
+                "text": "AlphaToBetaR2C05manual-node-ms9pucw2-unbrd -> manual-node-ms9pue37-96s2h",
+                "selected": false
+              }
+            ],
+            "formCommandId": "manualMap.node.delete",
+            "formRisk": "destructive",
+            "resultStatus": "CANCELLED_NOOP",
+            "text": "Manual MapR2C05BlackBoxMap18322d141maps2nodes1edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManualDelete nodenode: manual-node-ms9pucw2-unbrd · manualMap.node.deleteDeletes selected node manual-node-ms9pucw2-unbrd. Command Kernel owns any related edge or group cleanup.Confirm destructive changeCANCELLED_NOOPCancelApply-+FitAlphaNodeR2C05BetaRenamedR2C05AlphaNodeR2C05noteBetaRenamedR2C05noteAlphaToBetaR2C05manual-node-ms9pucw2-unbrd -> manual-node-ms9pue37-96s2hNo portability records yetAdd an attachment, portal, or template from the workspace.AlphaNodeR2C05note · manual-node-ms9pucw2-unbrd · 0, 0ViewState transient · manual · 2/2",
+            "hasHorizontalOverflow": false
+          },
+          "finalSnapshot": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 1,
+            "edgeCount": 0,
+            "rowCount": 1,
+            "nodes": [
+              {
+                "id": "manual-node-ms9pue37-96s2h",
+                "text": "BetaRenamedR2C05",
+                "selected": false,
+                "hit": true
+              }
+            ],
+            "edges": [],
+            "rows": [
+              {
+                "rowId": "node:manual-node-ms9pue37-96s2h",
+                "text": "BetaRenamedR2C05note",
+                "selected": false
+              }
+            ],
+            "formCommandId": "manualMap.node.delete",
+            "formRisk": "destructive",
+            "resultStatus": "APPLIED",
+            "text": "Manual MapR2C05BlackBoxMap8471115d1maps1nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManualDelete nodenode: manual-node-ms9pucw2-unbrd · manualMap.node.deleteDeletes selected node manual-node-ms9pucw2-unbrd. Command Kernel owns any related edge or group cleanup.Confirm destructive changeAPPLIEDCancelApply-+FitBetaRenamedR2C05BetaRenamedR2C05noteNo portability records yetAdd an attachment, portal, or template from the workspace.R2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 1/1",
+            "hasHorizontalOverflow": false
+          },
+          "screenshot": {
+            "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
+            "bytes": 598757,
+            "sha256": "ac7c215a068a90a2cb0649f540c6f157b43596e68ac4f4a23f61cff7353f7414",
+            "sampled": 112608,
+            "nonBlankRatio": 0.9961459221369707,
+            "preserved": true
+          }
+        },
+        "networkRequests": 0,
+        "dialogCalls": 0,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH"
+      },
+      "stdout": "[perf] when-ready: 280ms\n[craftsman:migration] no legacy userData found, creating craftsman folder\n[craftsman:migration] legacy documents folder is empty or missing\n[perf] init-complete: 317ms\n[perf] window-state-loaded: 317ms\n[perf] create-window: 610ms\n[perf] window-visible: 640ms\n[perf] did-finish-load: 1067ms\nR2_C05_BLACK_BOX_RESULT:{\"ok\":1,\"mode\":\"journey\",\"appReady\":true,\"windowCount\":1,\"rendererProbe\":{\"ok\":1,\"mode\":\"journey\",\"viewport\":{\"width\":1440,\"height\":782},\"inputEvents\":[{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1206,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1206,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1206,\"y\":466},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"c\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"k\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"x\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"M\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1190,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1190,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1190,\"y\":466},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1271,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1271,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1271,\"y\":466},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"N\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"N\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[\"shift\"],\"x\":990,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[\"shift\"],\"x\":990,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[\"shift\"],\"x\":990,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":675,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":675,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":675,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"T\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1001,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1001,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1001,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":755,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":755,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":755,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"n\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"m\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":579,\"y\":526},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":579,\"y\":526},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":615,\"y\":545},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":651,\"y\":564},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":651,\"y\":564},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"n\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"m\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":627,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":627,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":627,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":591,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":591,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":591,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":668,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":668,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":668,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":427},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":427},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":427},{\"type\":\"keyDown\",\"keyCode\":\"ArrowDown\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"ArrowDown\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1001,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1001,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1001,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":332,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":332,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":332,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418}],\"drag\":{\"from\":{\"x\":579,\"y\":526},\"to\":{\"x\":651,\"y\":564}},\"beforeCancel\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":2,\"edgeCount\":1,\"rowCount\":3,\"nodes\":[{\"id\":\"manual-node-ms9pue37-96s2h\",\"text\":\"BetaRenamedR2C05\",\"selected\":true,\"hit\":true},{\"id\":\"manual-node-ms9pucw2-unbrd\",\"text\":\"AlphaNodeR2C05\",\"selected\":false,\"hit\":false}],\"edges\":[{\"id\":\"manual-edge-ms9pufhn-rs08n\",\"selected\":false}],\"rows\":[{\"rowId\":\"node:manual-node-ms9pucw2-unbrd\",\"text\":\"AlphaNodeR2C05note\",\"selected\":false},{\"rowId\":\"node:manual-node-ms9pue37-96s2h\",\"text\":\"BetaRenamedR2C05note\",\"selected\":true},{\"rowId\":\"edge:manual-edge-ms9pufhn-rs08n\",\"text\":\"AlphaToBetaR2C05manual-node-ms9pucw2-unbrd -> manual-node-ms9pue37-96s2h\",\"selected\":false}],\"formCommandId\":\"manualMap.node.update\",\"formRisk\":\"semantic\",\"resultStatus\":\"APPLIED\",\"text\":\"Manual MapR2C05BlackBoxMap18322d141maps2nodes1edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManualMove nodenode: manual-node-ms9pue37-96s2h · manualMap.node.updateMoves selected node manual-node-ms9pue37-96s2h to 112, 62. ViewState remains transient; only node position is written after Apply.APPLIEDCancelApply-+FitBetaRenamedR2C05AlphaNodeR2C05AlphaNodeR2C05noteBetaRenamedR2C05noteAlphaToBetaR2C05manual-node-ms9pucw2-unbrd -> manual-node-ms9pue37-96s2hNo portability records yetAdd an attachment, portal, or template from the workspace.BetaRenamedR2C05note · manual-node-ms9pue37-96s2h · 112, 62ViewState transient · manual · 2/2\",\"hasHorizontalOverflow\":false},\"afterCancel\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":2,\"edgeCount\":1,\"rowCount\":3,\"nodes\":[{\"id\":\"manual-node-ms9pucw2-unbrd\",\"text\":\"AlphaNodeR2C05\",\"selected\":true,\"hit\":false},{\"id\":\"manual-node-ms9pue37-96s2h\",\"text\":\"BetaRenamedR2C05\",\"selected\":false,\"hit\":true}],\"edges\":[{\"id\":\"manual-edge-ms9pufhn-rs08n\",\"selected\":false}],\"rows\":[{\"rowId\":\"node:manual-node-ms9pucw2-unbrd\",\"text\":\"AlphaNodeR2C05note\",\"selected\":true},{\"rowId\":\"node:manual-node-ms9pue37-96s2h\",\"text\":\"BetaRenamedR2C05note\",\"selected\":false},{\"rowId\":\"edge:manual-edge-ms9pufhn-rs08n\",\"text\":\"AlphaToBetaR2C05manual-node-ms9pucw2-unbrd -> manual-node-ms9pue37-96s2h\",\"selected\":false}],\"formCommandId\":\"manualMap.node.delete\",\"formRisk\":\"destructive\",\"resultStatus\":\"CANCELLED_NOOP\",\"text\":\"Manual MapR2C05BlackBoxMap18322d141maps2nodes1edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManualDelete nodenode: manual-node-ms9pucw2-unbrd · manualMap.node.deleteDeletes selected node manual-node-ms9pucw2-unbrd. Command Kernel owns any related edge or group cleanup.Confirm destructive changeCANCELLED_NOOPCancelApply-+FitAlphaNodeR2C05BetaRenamedR2C05AlphaNodeR2C05noteBetaRenamedR2C05noteAlphaToBetaR2C05manual-node-ms9pucw2-unbrd -> manual-node-ms9pue37-96s2hNo portability records yetAdd an attachment, portal, or template from the workspace.AlphaNodeR2C05note · manual-node-ms9pucw2-unbrd · 0, 0ViewState transient · manual · 2/2\",\"hasHorizontalOverflow\":false},\"finalSnapshot\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":1,\"edgeCount\":0,\"rowCount\":1,\"nodes\":[{\"id\":\"manual-node-ms9pue37-96s2h\",\"text\":\"BetaRenamedR2C05\",\"selected\":false,\"hit\":true}],\"edges\":[],\"rows\":[{\"rowId\":\"node:manual-node-ms9pue37-96s2h\",\"text\":\"BetaRenamedR2C05note\",\"selected\":false}],\"formCommandId\":\"manualMap.node.delete\",\"formRisk\":\"destructive\",\"resultStatus\":\"APPLIED\",\"text\":\"Manual MapR2C05BlackBoxMap8471115d1maps1nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManualDelete nodenode: manual-node-ms9pucw2-unbrd · manualMap.node.deleteDeletes selected node manual-node-ms9pucw2-unbrd. Command Kernel owns any related edge or group cleanup.Confirm destructive changeAPPLIEDCancelApply-+FitBetaRenamedR2C05BetaRenamedR2C05noteNo portability records yetAdd an attachment, portal, or template from the workspace.R2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 1/1\",\"hasHorizontalOverflow\":false},\"screenshot\":{\"path\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH/r2-c05-black-box-journey.png\",\"bytes\":598757,\"sha256\":\"ac7c215a068a90a2cb0649f540c6f157b43596e68ac4f4a23f61cff7353f7414\",\"sampled\":112608,\"nonBlankRatio\":0.9961459221369707}},\"networkRequests\":0,\"dialogCalls\":0,\"tempRoot\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH\"}\n",
+      "stderr": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:20851:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:22517:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH/documents/craftsman/.autosave/autosave.txt'\n}\n(node:40631) DeprecationWarning: getBitmap() is deprecated, use toBitmap() instead.\n(Use `Electron --trace-deprecation ...` to show where the warning was created)\n"
+    },
+    "second": {
+      "ok": true,
+      "runtimeKind": "production-electron-visible-input-black-box",
+      "mode": "reopen",
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": "",
+      "result": {
+        "ok": 1,
+        "mode": "reopen",
+        "appReady": true,
+        "windowCount": 1,
+        "rendererProbe": {
+          "ok": 1,
+          "mode": "reopen",
+          "viewport": {
+            "width": 1440,
+            "height": 782
+          },
+          "inputEvents": [
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 518
+            }
+          ],
+          "snapshot": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 1,
+            "edgeCount": 0,
+            "rowCount": 1,
+            "nodes": [
+              {
+                "id": "manual-node-ms9pue37-96s2h",
+                "text": "BetaRenamedR2C05",
+                "selected": false,
+                "hit": true
+              }
+            ],
+            "edges": [],
+            "rows": [
+              {
+                "rowId": "node:manual-node-ms9pue37-96s2h",
+                "text": "BetaRenamedR2C05note",
+                "selected": false
+              }
+            ],
+            "formCommandId": "",
+            "formRisk": "",
+            "resultStatus": "",
+            "text": "Manual MapR2C05BlackBoxMap8471115d1maps1nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManual-+FitBetaRenamedR2C05BetaRenamedR2C05noteNo portability records yetAdd an attachment, portal, or template from the workspace.R2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 1/1",
+            "hasHorizontalOverflow": false
+          },
+          "screenshot": {
+            "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
+            "bytes": 585225,
+            "sha256": "65541faaf2347ce5cd60307c5360db8a1de01d69ffacb5681842f3b8a4281484",
+            "sampled": 112608,
+            "nonBlankRatio": 0.9976378232452401,
+            "preserved": true
+          }
+        },
+        "networkRequests": 0,
+        "dialogCalls": 0,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH"
+      },
+      "stdout": "[perf] when-ready: 63ms\n[craftsman:migration] no legacy userData found, creating craftsman folder\n[craftsman:migration] legacy documents folder is empty or missing\n[perf] init-complete: 84ms\n[perf] window-state-loaded: 84ms\n[perf] create-window: 158ms\n[perf] window-visible: 169ms\n[perf] did-finish-load: 383ms\nR2_C05_BLACK_BOX_RESULT:{\"ok\":1,\"mode\":\"reopen\",\"appReady\":true,\"windowCount\":1,\"rendererProbe\":{\"ok\":1,\"mode\":\"reopen\",\"viewport\":{\"width\":1440,\"height\":782},\"inputEvents\":[{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":518}],\"snapshot\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":1,\"edgeCount\":0,\"rowCount\":1,\"nodes\":[{\"id\":\"manual-node-ms9pue37-96s2h\",\"text\":\"BetaRenamedR2C05\",\"selected\":false,\"hit\":true}],\"edges\":[],\"rows\":[{\"rowId\":\"node:manual-node-ms9pue37-96s2h\",\"text\":\"BetaRenamedR2C05note\",\"selected\":false}],\"formCommandId\":\"\",\"formRisk\":\"\",\"resultStatus\":\"\",\"text\":\"Manual MapR2C05BlackBoxMap8471115d1maps1nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateManual-+FitBetaRenamedR2C05BetaRenamedR2C05noteNo portability records yetAdd an attachment, portal, or template from the workspace.R2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 1/1\",\"hasHorizontalOverflow\":false},\"screenshot\":{\"path\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH/r2-c05-black-box-reopen.png\",\"bytes\":585225,\"sha256\":\"65541faaf2347ce5cd60307c5360db8a1de01d69ffacb5681842f3b8a4281484\",\"sampled\":112608,\"nonBlankRatio\":0.9976378232452401}},\"networkRequests\":0,\"dialogCalls\":0,\"tempRoot\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH\"}\n",
+      "stderr": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:20851:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:22517:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH/documents/craftsman/.autosave/autosave.txt'\n}\n(node:40719) DeprecationWarning: getBitmap() is deprecated, use toBitmap() instead.\n(Use `Electron --trace-deprecation ...` to show where the warning was created)\n"
+    }
+  },
+  "portability": {
+    "manifestPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH/documents/craftsman/Роман/project.craftsman.json",
+    "manifestProof": {
+      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-OvqSzH/documents/craftsman/Роман/project.craftsman.json",
+      "exists": true,
+      "bytes": 5566,
+      "sha256": "365e89675b63cec0f3a1ca6506192e09a7fb3c6529e48472fab90a9f3437c55b"
+    },
+    "graph": {
+      "schemaVersion": "derived.manualMap.graph.v1",
+      "projectId": "project-0854c3ba-48dd-4b2d-b4f6-23b307787ccd",
+      "mapId": "manual-map-ms9pub8y-lonec",
+      "title": "R2C05BlackBoxMap",
+      "nodes": [
+        {
+          "id": "manual-node-ms9pue37-96s2h",
+          "label": "BetaRenamedR2C05",
+          "kind": "note",
+          "position": {
+            "x": 112,
+            "y": 62
+          },
+          "target": {
+            "kind": "",
+            "id": ""
+          }
+        }
+      ],
+      "edges": [],
+      "groups": [],
+      "attachments": [],
+      "portals": [],
+      "templates": []
+    },
+    "graphHash": "d25f13b3f2f64631335992ae282c513fe471e97c7c771667b9a4ac3d0c26e929",
+    "exportJsonSha256": "7a961a07c1105aaa07f826c036941cd5fb759363548d47921b62769e4372a39e",
+    "exportLossCount": 0,
+    "imagePdfOk": true,
+    "imageEvidenceHash": "4cc876e76e4358fc74928e8595411e54302507b383f5bfff3be271f85143c0fa",
+    "imageFormat": "svg",
+    "pdfSourceFormat": "html-print-packet",
+    "pdfBinaryGenerated": false,
+    "repeatImportOk": true,
+    "repeatImportCommandAuthority": "CommandKernel",
+    "repeatImportDirectCoreMutation": false,
+    "repeatImportStorageMutation": false,
+    "repeatImportLossCount": 0,
+    "repeatImportGraphHashMatched": true
+  },
+  "evidenceFiles": {
+    "journeyScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-journey.png",
+      "exists": true,
+      "bytes": 598757,
+      "sha256": "ac7c215a068a90a2cb0649f540c6f157b43596e68ac4f4a23f61cff7353f7414"
+    },
+    "reopenScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_NIGHT01_C01_INDEPENDENT_FINAL_RERUN/physical-r3-c05-rerun/c03-manual-map-portability/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "exists": true,
+      "bytes": 585225,
+      "sha256": "65541faaf2347ce5cd60307c5360db8a1de01d69ffacb5681842f3b8a4281484"
+    }
+  }
+}

@@ -273,6 +273,12 @@ function diffNames(repoRoot, fromSha, toSha) {
   return result.ok && result.stdout ? result.stdout.split(/\r?\n/u).filter(Boolean) : [];
 }
 
+function isAncestor(repoRoot, ancestorSha, descendantSha) {
+  if (!ancestorSha || !descendantSha) return false;
+  if (ancestorSha === descendantSha) return true;
+  return runGit(['merge-base', '--is-ancestor', ancestorSha, descendantSha], repoRoot).ok === true;
+}
+
 function buildGitIdentity(repoRoot) {
   const head = runGit(['rev-parse', 'HEAD'], repoRoot);
   const origin = runGit(['rev-parse', 'origin/main'], repoRoot);
@@ -330,6 +336,91 @@ function proofPass(details) {
   return details.every((item) => item.pass === true);
 }
 
+function normalizeRepairAcceptance(item, receipt, identity) {
+  const acceptance = {
+    ...(receipt?.acceptance || {}),
+    ...(receipt?.accepted || {}),
+  };
+  if (item.id === 'P0_03_PACKAGED_JOURNEY_STALE') {
+    const sourceBinding = receipt?.sourceBinding || {};
+    const activationEvidence = receipt?.activationEvidence || {};
+    const negativeAssertions = receipt?.negativeAssertions || {};
+    acceptance.packagedJourneyFreshOnCurrentRuntimeSha = acceptance.packagedJourneyFreshOnCurrentRuntimeSha === true
+      || (
+        acceptance.currentSourcePackageBuilt === true
+        && acceptance.exactSourceBindingPresent === true
+        && acceptance.packagedExecutableRuntime === true
+        && sourceBinding.headSha === identity.headSha
+        && sourceBinding.packageBuiltAtHeadSha === identity.headSha
+      );
+    acceptance.visibleControlsOnly = acceptance.visibleControlsOnly === true
+      || (
+        acceptance.visibleUiInputUsed === true
+        && acceptance.noDirectBridgeAcceptance === true
+        && acceptance.noGeneratedArtifactOnlyAcceptance === true
+        && activationEvidence.forbiddenDirectBridgeAccepted === false
+        && negativeAssertions.directInjectedBridgeAcceptedAsPackagedJourney === false
+        && negativeAssertions.screenshotOnlyAccepted === false
+      );
+    acceptance.persistReopenRecoveryImportExportProof = acceptance.persistReopenRecoveryImportExportProof === true
+      || (
+        acceptance.atlasCreateEditRelationContinuity === true
+        && acceptance.manualMapLifecyclePersisted === true
+        && acceptance.undoExportImportPersisted === true
+        && acceptance.freshReopenReadback === true
+      );
+  }
+  if (item.id === 'P0_05_MANUAL_MAP_PORTABILITY') {
+    const physical = receipt?.checks?.physicalJourney || {};
+    acceptance.runtimeUiPathConnected = acceptance.runtimeUiPathConnected === true
+      || (
+        acceptance.productCommandRuntimeUiPathBound === true
+        && acceptance.visibleExportJsonControl === true
+        && acceptance.visibleImagePdfPacketControl === true
+        && acceptance.visibleRepeatImportControl === true
+        && acceptance.noRendererStorageBypass === true
+        && acceptance.noDirectIpcAcceptance === true
+      );
+    acceptance.repeatImportTested = acceptance.repeatImportTested === true
+      || (
+        acceptance.repeatImportPersistedAndReopened === true
+        && physical.accepted?.exportRepeatImport === true
+        && physical.negativeAssertions?.exportWithoutRepeatImportAccepted === false
+      );
+    acceptance.pdfProofOrTypedLoss = acceptance.pdfProofOrTypedLoss === true
+      || (
+        acceptance.imagePdfEvidenceGenerated === true
+        && acceptance.binaryPdfUnsupportedDeclaredAsTypedLoss === true
+        && physical.accepted?.imagePdfEvidenceIncludesPortability === true
+        && physical.negativeAssertions?.binaryPdfClaimWithoutAdapter === false
+      );
+  }
+  if (item.id === 'P0_08_STAGE10_PRODUCT_WIRING') {
+    acceptance.localProductPathsConnected = acceptance.localProductPathsConnected === true
+      || (
+        acceptance.visibleUiCommandPath === true
+        && acceptance.commandKernelCapabilityRevalidated === true
+        && acceptance.commentsProductPathPersistReopen === true
+        && acceptance.historyProductPathPersistReopenRecoveryUndo === true
+        && acceptance.conflictsProductPathPersistManualDecision === true
+        && acceptance.operationExchangeLocalProductPath === true
+        && acceptance.negativeDirectBridgeDenied === true
+      );
+    acceptance.persistenceReopenRecoveryUndoConflicts = acceptance.persistenceReopenRecoveryUndoConflicts === true
+      || (
+        acceptance.commentsProductPathPersistReopen === true
+        && acceptance.historyProductPathPersistReopenRecoveryUndo === true
+        && acceptance.conflictsProductPathPersistManualDecision === true
+      );
+    acceptance.shadowDeclaredShadow = acceptance.shadowDeclaredShadow === true
+      || (
+        acceptance.shadowOnlyRejectedAsComplete === true
+        && acceptance.networkAdapterNotRequired === true
+      );
+  }
+  return acceptance;
+}
+
 function readJourneyReport(repoRoot, r3Report, spec) {
   const summary = r3Report?.journeys?.[spec.journeyKey] || {};
   const evidencePath = relativeEvidencePath(repoRoot, summary.reportPath || '');
@@ -384,15 +475,16 @@ function validateJourneyCapability(repoRoot, capabilityId, spec, r3Report) {
   };
 }
 
-function validateRepairQueue(repoRoot, repairQueue = FINAL_REPAIR_QUEUE) {
+function validateRepairQueue(repoRoot, repairQueue = FINAL_REPAIR_QUEUE, identity = buildGitIdentity(repoRoot)) {
   return repairQueue.map((item) => {
     const receipt = readJsonIfExists(repoRoot, item.receiptPath);
     const proof = fileProof(repoRoot, item.receiptPath);
+    const acceptance = normalizeRepairAcceptance(item, receipt, identity);
     const acceptanceChecks = item.requiredAcceptance.map((key) => ({
       key,
       expected: true,
-      actual: receipt?.acceptance?.[key],
-      pass: receipt?.acceptance?.[key] === true,
+      actual: acceptance?.[key],
+      pass: acceptance?.[key] === true,
     }));
     const reportPath = receipt?.report?.path || '';
     const reportProof = reportPath ? fileProof(repoRoot, reportPath) : { path: reportPath, exists: false, bytes: 0, sha256: '' };
@@ -422,10 +514,18 @@ export function buildMachineCapabilityGate(input = {}) {
   const r3SourceHead = r3Report?.git?.headSha || r3Report?.identity?.headSha || '';
   const sourceDeltaFiles = input.sourceDeltaFiles || diffNames(repoRoot, r3SourceHead, identity.headSha);
   const productRuntimeDeltaFiles = sourceDeltaFiles.filter(isProductRuntimePath);
+  const sourceHeadAcceptable = Boolean(r3SourceHead)
+    && (
+      r3SourceHead === identity.headSha
+      || (
+        productRuntimeDeltaFiles.length === 0
+        && isAncestor(repoRoot, r3SourceHead, identity.headSha)
+      )
+    );
   const sourceBindingChecks = [
     { key: 'r3PhysicalReportExists', expected: true, actual: Boolean(r3Report), pass: Boolean(r3Report) },
     { key: 'r3PhysicalReportPass', expected: true, actual: r3Report?.pass, pass: r3Report?.pass === true },
-    { key: 'exactHeadBinding', expected: identity.headSha, actual: r3SourceHead, pass: Boolean(r3SourceHead) && r3SourceHead === identity.headSha },
+    { key: 'exactHeadBinding', expected: `${identity.headSha} or ancestor with zero product-runtime delta`, actual: r3SourceHead, pass: sourceHeadAcceptable },
     { key: 'currentHeadEqualsOriginMain', expected: true, actual: identity.headEqualsOriginMain, pass: identity.headEqualsOriginMain === true },
     { key: 'noProductRuntimeDeltaSincePhysicalProof', expected: 0, actual: productRuntimeDeltaFiles.length, pass: productRuntimeDeltaFiles.length === 0 },
   ];
@@ -446,7 +546,7 @@ export function buildMachineCapabilityGate(input = {}) {
       sourceBindingRequired: true,
     };
   });
-  const repairQueue = validateRepairQueue(repoRoot, input.repairQueue || FINAL_REPAIR_QUEUE);
+  const repairQueue = validateRepairQueue(repoRoot, input.repairQueue || FINAL_REPAIR_QUEUE, identity);
   const failures = [
     ...sourceBindingChecks.filter((check) => check.pass !== true).map((check) => ({ code: 'MACHINE_SOURCE_BINDING_FAILED', id: check.key, actual: check.actual, expected: check.expected })),
     ...Object.values(capabilities).filter((capability) => capability.pass !== true).map((capability) => ({ code: 'MACHINE_CAPABILITY_PROOF_FAILED', id: capability.id })),

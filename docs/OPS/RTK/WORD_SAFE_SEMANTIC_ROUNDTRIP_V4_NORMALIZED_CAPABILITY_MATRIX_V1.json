@@ -5,7 +5,7 @@
   "createdAtUtc": "2026-08-01T10:20:00.000Z",
   "headBinding": {
     "originMainSha": "c819b467f9f19ca20cdae27373d78d00f69219e6",
-    "localHeadSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+    "localHeadSha": "aa76f17c2085cddef806131cb295939f3d51bf29",
     "auditedHead": "0c514593f4e9fc8b6b0e936e83509f862ceda223",
     "independentAuditId": "019fbd04-b1f9-7393-aa67-d3e65632b803"
   },
@@ -24,7 +24,7 @@
     },
     "saturationLedger": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "3d1a187de54bab3a70575f561d48b3d58b1343c3814be620309f4f65956a0e9d"
+      "sha256": "4be7ee3b60c162a5fadc0b9e4bdb3799e43e75a3f0aeee84a705b4bbebd48604"
     }
   },
   "normalizedVocabulary": [

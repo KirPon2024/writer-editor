@@ -6,21 +6,21 @@
   "pass": true,
   "programDoneClaim": false,
   "sourceBinding": {
-    "headSha": "b276a00c4cca0d500ad35f7de9165ac4071ad265",
-    "originMainSha": "b276a00c4cca0d500ad35f7de9165ac4071ad265",
-    "branch": "codex/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring",
+    "headSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+    "originMainSha": "31897c6ab0d24151fc69509c63438922c481a0b4",
+    "branch": "codex/yalken-atlas-v5-efinal-exact-head",
     "exactSourceHashes": {
       "src/product/stage10ProductWiring.mjs": "29f11d6d111b3452e503c0ea86c21bdb1ba1057377bc4dbf976bb51fbd11d800",
       "scripts/ops/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.mjs": "2c7dc00986e211ef8e4bc2b245a0f97604130efdf9ef4f84f6827f59fc4cb6b3",
       "src/collab/index.mjs": "3a48ff26d76686f2d1ffd03bf508db2f874669ed23544c4a0025e952912a30c5",
       "src/derived/commentsHistory/index.mjs": "ad1f1b7537d04395bfbae4040056b0c8b1998a7cd6810f7b569bd09e63700616",
-      "src/io/revisionBridge/index.mjs": "20f1832b15b2d697f24278688fb2f542fc64ea1964917af8301d7665508ecf40",
+      "src/io/revisionBridge/index.mjs": "717ae0f559158cad8d1d74025120d80c6e72793cc65b7d026702265ca5e03cf5",
       "src/core/runtime.mjs": "bf8e2c74f5ad0c24f2a1f105936e96e23f3dff8eccb4dd48ec2a986925da3b9f"
     }
   },
   "report": {
     "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_08_STAGE10_PRODUCT_WIRING/p0-08-stage10-product-wiring-report.json",
-    "sha256": "7fa2d0b7ef9e7a99e3874213ed045add2df5507929c4667944cb860c321228e1"
+    "sha256": "ed6e71449332f508fae8a2245afcf1e66230f5532da04bea7e20da51b66f31f5"
   },
   "acceptance": {
     "visibleUiCommandPath": true,
@@ -36,34 +36,28 @@
   },
   "checks": {
     "focused": {
-      "status": "PASS",
-      "command": "node --test test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js test/contracts/yalken-atlas-v5-e10-c01-stable-comment-anchors-decision-survival.contract.test.js test/contracts/yalken-atlas-v5-e10-c02-revision-history-projection-author-truth.contract.test.js test/contracts/yalken-atlas-v5-e10-c03-operation-replay-command-event-log.contract.test.js test/contracts/yalken-atlas-v5-e10-c05-local-multi-session-recovery-conflicts.contract.test.js test/contracts/yalken-atlas-v5-e10-c06-transport-neutral-operation-exchange.contract.test.js test/contracts/comments-history-no-second-sot.contract.test.js test/contracts/collab-eventlog-append-only.contract.test.js test/contracts/collab-no-network-wiring.contract.test.js",
-      "summary": "29 total, 29 pass, 0 fail; includes shadow-only, disabled storage, network adapter and direct bridge negative cases."
+      "status": "PENDING",
+      "command": "node --test test/contracts/yalken-atlas-v5-final-audit-p0-08-stage10-product-wiring.contract.test.js"
     },
     "testOps": {
-      "status": "PASS",
-      "command": "npm run -s test:ops",
-      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1; strict doctor exit 0; boundary guard exit 0."
+      "status": "PENDING",
+      "command": "npm run -s test:ops"
     },
     "doctrine": {
-      "status": "PASS",
-      "command": "npm run -s design-os:doctrine",
-      "summary": "YALKEN_DESIGN_OS_INTEGRATION_DOCTRINE_OK=1; references=17."
+      "status": "PENDING",
+      "command": "npm run -s design-os:doctrine"
     },
     "ossPolicy": {
-      "status": "PASS",
-      "command": "npm run -s oss:policy",
-      "summary": "OSS policy OK: no Tiptap Pro / no private registry."
+      "status": "PENDING",
+      "command": "npm run -s oss:policy"
     },
     "buildRenderer": {
-      "status": "PASS",
-      "command": "npm run -s build:renderer",
-      "summary": "dist/renderer/editor.bundle.js built successfully."
+      "status": "PENDING",
+      "command": "npm run -s build:renderer"
     },
     "fullRunner": {
-      "status": "PASS",
-      "command": "node scripts/run-tests.js",
-      "summary": "799 total, 735 pass, 0 fail, 64 skipped; PERF_BASELINE_CHECK_STATUS=PASS."
+      "status": "PENDING",
+      "command": "node scripts/run-tests.js"
     }
   },
   "delivery": {
@@ -79,10 +73,5 @@
     "P0_08 closes local Stage 10 product wiring only through visible command activation, Command Kernel revalidation, storage ports, reopen, recovery and undo evidence.",
     "Operation exchange remains transport-neutral local fixture preview; network adapter is not part of Core or runtime.",
     "Shadow/receipt-only evidence is explicitly not accepted as product completion."
-  ],
-  "postCheckRebind": {
-    "reportSha256": "7fa2d0b7ef9e7a99e3874213ed045add2df5507929c4667944cb860c321228e1",
-    "receiptDeliveryState": "PRE_COMMIT_PRE_PR_DELIVERY_PENDING",
-    "programDoneClaim": false
-  }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "yalken.atlas.v5.e11.c01.macosPackageArtifactSecurity.v1",
-  "generatedAtUtc": "2026-08-01T05:30:00.051Z",
+  "generatedAtUtc": "2026-08-01T11:34:57.241Z",
   "contourId": "E11_C01_MACOS_PACKAGE_ARTIFACT_ENTRYPOINT_AND_OFFLINE_SECURITY",
   "platformId": "macos-packaged-electron",
   "status": "PASS_UNSIGNED_LOCAL_ARTIFACT",
@@ -9,7 +9,7 @@
     "command": "npm run build:mac",
     "status": "PASS",
     "exitCode": 0,
-    "durationMs": 32290
+    "durationMs": 67010
   },
   "artifacts": {
     "appDir": {
@@ -21,14 +21,14 @@
     "appAsar": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Resources/app.asar",
       "exists": true,
-      "bytes": 100224170,
-      "sha256": "dd9eaf70a30753924bb71debf04fc5f6d11a5298aba2a07262f8bc863dd6b908"
+      "bytes": 108100004,
+      "sha256": "c22e166bd6a6d6381c5394c518b2142a3826ba4f7ad93b86c769e90fe948deea"
     },
     "infoPlist": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/Info.plist",
       "exists": true,
       "bytes": 3416,
-      "sha256": "8434d542902f3bb092d157690b58cb8ad308a14356fe66508d82e5bd9f4fa311"
+      "sha256": "684cf2eaed1966639d8c0c1ffd7cc10b5ab48fd821cfbf6f32e4e9c9c85b7981"
     },
     "executable": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/mac-arm64/Yalken.app/Contents/MacOS/Yalken",
@@ -39,14 +39,14 @@
     "zip": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/Yalken-1.0.2-arm64-mac.zip",
       "exists": true,
-      "bytes": 164231028,
-      "sha256": "6104efb26a53b2e5e2f04beaa95b62d36f7ccbe0b422daaacfff9603d626b759"
+      "bytes": 169196053,
+      "sha256": "e8246123b9d0d28d35212a4103a7d544c16cd711d6365b672501a1981d54ac59"
     },
     "dmg": {
       "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/dist/Yalken-1.0.2-arm64.dmg",
       "exists": true,
-      "bytes": 167138906,
-      "sha256": "44f865494269e37ea8ce3c11888395c9e8a4cae1e838517a2d9a4a346c6fa46b"
+      "bytes": 172127532,
+      "sha256": "8412d97bc20fc907e806c192b0b3b7a9551e8cdf1d4534a6ecfef9d374cd106d"
     }
   },
   "bundleEntrypoint": {
@@ -60,7 +60,7 @@
     "bundleIdentifier": "com.kirpon.writereditor",
     "bundleName": "Yalken",
     "minimumSystemVersion": "12.0",
-    "sha256": "8434d542902f3bb092d157690b58cb8ad308a14356fe66508d82e5bd9f4fa311"
+    "sha256": "684cf2eaed1966639d8c0c1ffd7cc10b5ab48fd821cfbf6f32e4e9c9c85b7981"
   },
   "atsPolicy": {
     "ok": true,

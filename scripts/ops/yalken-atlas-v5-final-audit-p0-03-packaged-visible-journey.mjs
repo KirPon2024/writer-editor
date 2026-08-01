@@ -1361,6 +1361,27 @@ export function evaluateP0_03PackagedVisibleJourney(input = {}) {
       && activationEvidence.forbiddenDirectBridgeAccepted === false,
   };
   const pass = Object.values(accepted).every((value) => value === true);
+  const acceptance = {
+    packagedJourneyFreshOnCurrentRuntimeSha: accepted.currentSourcePackageBuilt === true
+      && accepted.exactSourceBindingPresent === true
+      && accepted.packagedExecutableRuntime === true,
+    visibleControlsOnly: accepted.visibleUiInputUsed === true
+      && accepted.noDirectBridgeAcceptance === true
+      && accepted.noGeneratedArtifactOnlyAcceptance === true
+      && activationEvidence.forbiddenDirectBridgeAccepted === false,
+    persistReopenRecoveryImportExportProof: accepted.atlasCreateEditRelationContinuity === true
+      && accepted.manualMapLifecyclePersisted === true
+      && accepted.undoExportImportPersisted === true
+      && accepted.freshReopenReadback === true,
+    physicalPointerOrKeyboardClaimScoped: accepted.physicalUserProofScoped === true,
+    domFallbackNotCountedAsPhysicalProof: activationEvidence.domFallbackSteps.every((step) => typeof step === 'string')
+      && activationEvidence.steps
+        .filter((entry) => entry.mode === ACTIVATION_DOM_FALLBACK)
+        .every((entry) => entry.physicalUserProof === false),
+    forbiddenDirectBridgeRejected: activationEvidence.forbiddenDirectBridgeAccepted === false
+      && input.directBridgeProof?.accepted === false,
+    noProgramDoneClaim: true,
+  };
   return {
     schemaVersion: REPORT_SCHEMA,
     contourId: CONTOUR_ID,
@@ -1369,6 +1390,7 @@ export function evaluateP0_03PackagedVisibleJourney(input = {}) {
     pass,
     platformId: 'macos-packaged-electron',
     accepted,
+    acceptance,
     activationEvidence,
     negativeAssertions: {
       directInjectedBridgeAcceptedAsPackagedJourney: false,
@@ -1445,6 +1467,7 @@ export async function runP0_03PackagedVisibleJourney(options = {}) {
     report: fileProof(reportPath),
     reportSha256: sha256File(reportPath),
     accepted: report.accepted,
+    acceptance: report.acceptance,
     activationEvidence: report.activationEvidence,
     negativeAssertions: report.negativeAssertions,
     delivery: {

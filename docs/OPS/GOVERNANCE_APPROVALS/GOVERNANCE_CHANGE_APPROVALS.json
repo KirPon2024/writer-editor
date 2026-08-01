@@ -2447,38 +2447,11 @@
       "rationale": "Approve bounded G0C exact-safety receipt required by the owner-approved RTK V6 contract; it records local verification evidence only and introduces no runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
     },
     {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "e7ed54249e898d054fcdadcfe30447fa69f43e24e8cd5df6bfcef00ac614ca9a",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "2380835683ffe94d543be68f6a83eba36052339a5f2f3002494472cf2a7801eb",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
       "filePath": "docs/OPS/RTK/POST_D1_A00_RECONCILIATION_RECEIPT.json",
       "sha256": "99558f5aeb27b96980bd36b130e3d81cc6b8a3dbeb3bbbe0d2c8a4525ba9fcd3",
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
       "approvedAtUtc": "2026-07-30T13:19:11.000Z",
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "8d35ca4910c8b28f457f6f6a50c08bd91befbbf46ee8e41ad28ec3dd1a88485e",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -2798,15 +2771,6 @@
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
     },
     {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "2866ade8e060be250659ecc3b42f66b5ad561727aa8627098206fca6de2d94dd",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
       "sha256": "0fd3878b4f0dcbed888fa548db14e0e4b92debf722e7db0046bf9e7b3da5556d",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
@@ -2938,15 +2902,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE40",
       "approvedAtUtc": "2026-07-31T08:00:17.774Z",
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "f2b7349857534cb243dac4443057c222c4584a1a5c4b2d9233dfc2de08c23d67",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:02:26.141Z",
-      "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
@@ -6311,13 +6266,6 @@
       "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     },
     {
-      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "12a922b4d69d5a7b394c9616fb23a97a93a6a5e8fe944f9a6a51b49cc5a454bb",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
       "sha256": "79560b97da9231f5c3e3fc257f07adc644fd7bb69b81ff92661688aa66194871",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
@@ -8749,6 +8697,96 @@
       "rationale": "Approve append-only bounded Atlas V5 domain-event independent audit repair receipt: records strict mapping, closed payloads, immutable historical baseline, real emitter propagation, focused and full evidence, delivery pending, no Program DONE claim.",
       "approved": true,
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "4128f9f4a93c39ddf177b968c535abd46fe774256f3c9604abed24bdec4fedbf",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "cf8058e60605b8bf859c0788fe9722bb6113678ef80f97a13845e404a90f798e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "ceae6c4a6696006a03c65e10b9b9d9d25e1dad8e39f161cda6ae1995a5c00507",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "8f9e2ad82d260384fe9e9aeab263c9d703022caf23db3282e79ec1ae7d724617",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "43d0ae76d778a53da4dd6e509de8d22317f796f11ebde7ad9529ed88392ce232",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
+      "sha256": "dc3c1644dec2da947e3c5a1c9421e941406cad6096b2f0598ddb8addca073efd",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
+      "sha256": "bfa98cd3550e6718090efd9f73290d0907f0bb193d3e4a635b603737262f8acb",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "793b347b4f425b898b30b608ad8d2090228c30c5e3c629909bfc7afa777661b1",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
+      "sha256": "13787a4a0fbe513d89adaa0d9fb8cf47238ba6d26ff9cd5dee5b7327f3e238ba",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
+      "sha256": "87d4ff1af222a01cac707bf68fb05c53d40518efd41f36550f534f4f4d5c29bc",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     }
   ]
 }

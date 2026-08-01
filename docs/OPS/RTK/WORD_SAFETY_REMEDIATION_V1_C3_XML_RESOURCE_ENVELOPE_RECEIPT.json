@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "yalken.rtk.word-safety-remediation-v1.c3-xml-resource-envelope-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+  "contour": "C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "baseSha": "488a6873dbb02ef13ba8c201a27c2e3d73a477d7",
+  "generatedAtUtc": "2026-08-01T15:16:23.540Z",
+  "predecessor": {
+    "contour": "C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+    "mergeSha": "1626db96727ae48a08ef4dac79f25e7a05e43fd0",
+    "rebindSha": "488a6873dbb02ef13ba8c201a27c2e3d73a477d7",
+    "rebindReason": "origin/main advanced by Atlas-only contour before C3 delivery; C3 WIP was safely reapplied and verified on fresh origin/main.",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json"
+  },
+  "ownerCorrection": {
+    "wordAcceptanceRevoked": true,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "preservedGoogleStash": "park google g01 boundary wip after word acceptance revocation"
+  },
+  "c3ActionEnvelope": {
+    "frozen": true,
+    "allowedRuntimeFiles": [
+      "reviewTransportPackageParserV2.mjs",
+      "rtkDocxReturnIntakeWorker.cjs",
+      "main.js"
+    ],
+    "allowedContracts": [
+      "rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
+      "rtk-word-latest-semantic-b02-package-parser.contract.test.js",
+      "rtk-word-latest-semantic-b03-modern-comments.contract.test.js",
+      "rtk-word-latest-semantic-b04-classifier.contract.test.js"
+    ],
+    "allowedStateFiles": [
+      "WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
+      "POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json"
+    ],
+    "forbidden": [
+      "Google product implementation",
+      "Word corpus growth",
+      "historical V6 hash rewrite",
+      "new dependency",
+      "renderer writer authority",
+      "direct parser write authority",
+      "silent XML normalization"
+    ]
+  },
+  "c3Guarantees": {
+    "quoteAwareTagTermination": true,
+    "numericDecimalEntities": true,
+    "numericHexEntities": true,
+    "ampersandDecodeOnePass": true,
+    "invalidEntityReferencesBlocked": true,
+    "dtdAndEntityDeclarationsHostileBlocked": true,
+    "malformedQuotesBlocked": true,
+    "maxBlocksMechanicallyEnforced": true,
+    "maxRevisionsMechanicallyEnforced": true,
+    "maxCommentsMechanicallyEnforced": true,
+    "maxCandidatesMechanicallyEnforced": true,
+    "maxWorkerOutputBytesMechanicallyEnforced": true,
+    "workerOutputSupervisorBound": true,
+    "parserDependencyAdded": false,
+    "automaticApplyCertifiedExpanded": false
+  },
+  "tests": {
+    "focusedC3": {
+      "command": "node --test test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
+      "total": 4,
+      "pass": 4,
+      "fail": 0
+    },
+    "focusedParserAdjacent": {
+      "command": "node --test test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js test/contracts/rtk-word-latest-semantic-b02-package-parser.contract.test.js test/contracts/rtk-word-latest-semantic-b03-modern-comments.contract.test.js test/contracts/rtk-word-latest-semantic-b04-classifier.contract.test.js",
+      "total": 22,
+      "pass": 22,
+      "fail": 0
+    },
+    "knownDeferredRedGraph": {
+      "command": "direct release-audit return-intake and parsed-ir preview/apply contracts",
+      "status": "DEFERRED_TO_C4_TEST_GRAPH_AND_CI_TRUTH",
+      "classification": "STALE_BINDING_GUARD_UNDER_C4_RECONCILIATION",
+      "observedFail": 3,
+      "note": "C3 proves XML/resource envelope. C4 is the explicit contour for complete maintained RTK graph admission and stale binding reconciliation."
+    },
+    "focusedSafetyRemediation": {
+      "command": "node --test test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
+      "total": 19,
+      "pass": 19,
+      "fail": 0
+    },
+    "ops": {
+      "command": "HEAD_STRICT_MODE=dev npm run -s test:ops",
+      "currentWaveStopConditionOk": 1,
+      "strictDoctorExit": 0,
+      "boundaryGuardExit": 0,
+      "strictLieClassesOk": 1
+    },
+    "policy": {
+      "ossPolicy": "PASS",
+      "npmAuditModerate": "PASS found 0 vulnerabilities",
+      "designOsDoctrine": "PASS references 17",
+      "governanceChangeDetection": "PASS missing_approvals 0 approval_registry_valid 1"
+    },
+    "fullRunner": {
+      "command": "node scripts/run-tests.js",
+      "total": 799,
+      "pass": 735,
+      "fail": 0,
+      "skipped": 64
+    },
+    "syntax": {
+      "packageParser": "PASS",
+      "worker": "PASS",
+      "main": "PASS",
+      "c3Contract": "PASS",
+      "diffCheck": "PASS"
+    }
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "productNetwork": 0,
+    "silentXmlDistortion": 0,
+    "partialExactOutputOnBudgetOverflow": 0
+  },
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "pullRequestRequired": true,
+    "mergeRequired": true,
+    "status": "local_verified_pending_commit_push_pr_ci_merge",
+    "baseShaAfterRebind": "488a6873dbb02ef13ba8c201a27c2e3d73a477d7"
+  },
+  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH"
+}

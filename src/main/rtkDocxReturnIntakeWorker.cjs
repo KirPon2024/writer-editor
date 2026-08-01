@@ -4,6 +4,8 @@ const crypto = require('node:crypto');
 const { pathToFileURL } = require('node:url');
 const path = require('node:path');
 
+const DEFAULT_MAX_WORKER_OUTPUT_BYTES = 16 * 1024 * 1024;
+
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -56,6 +58,26 @@ function blocked(reason, details = {}) {
   };
 }
 
+function maxWorkerOutputBytes(message = {}) {
+  const value = Number(message?.budgets?.maxWorkerOutputBytes);
+  return Number.isSafeInteger(value) && value > 0 ? value : DEFAULT_MAX_WORKER_OUTPUT_BYTES;
+}
+
+function enforceWorkerOutputBudget(result, message = {}) {
+  const stripped = stripSecret(result);
+  const limit = maxWorkerOutputBytes(message);
+  const bytes = Buffer.byteLength(stableJson(stripped), 'utf8');
+  if (bytes > limit) {
+    return blocked('RTK_BUDGET_EXCEEDED', {
+      field: 'worker.result',
+      actual: bytes,
+      limit,
+      workerOutputBlocked: true,
+    });
+  }
+  return stripped;
+}
+
 async function run(message = {}) {
   const bridgePath = path.join(__dirname, '..', 'io', 'revisionBridge', 'index.mjs');
   const revisionBridge = await import(pathToFileURL(bridgePath).href);
@@ -72,16 +94,16 @@ async function run(message = {}) {
   if (typeof message.hmacSecret === 'string' && message.hmacSecret) {
     input.hmacSecret = message.hmacSecret;
   }
-  return revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes(input, {
+  return enforceWorkerOutputBudget(revisionBridge.buildDocxReviewTransportAnalysisFromZipBytes(input, {
     cryptoPort: cryptoPort(),
-  });
+  }), message);
 }
 
 if (process.parentPort && typeof process.parentPort.on === 'function') {
   process.parentPort.on('message', async (message) => {
     try {
       const result = await run(message);
-      process.parentPort.postMessage({ result: stripSecret(result) });
+      process.parentPort.postMessage({ result: enforceWorkerOutputBudget(result, message) });
     } catch (error) {
       process.parentPort.postMessage({
         result: blocked('RTK_RETURN_INTAKE_WORKER_FAILED', {

@@ -1274,6 +1274,41 @@
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
       "approvedAtUtc": "2026-08-01T08:36:00.000Z",
       "rationale": "Approve current P0_08 Stage 10 product wiring repair bytes after focused, test:ops, doctrine, OSS, renderer build and full runner PASS; no network adapter, no second truth, no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP/p1-transaction-queue-cleanup-report.json",
+      "sha256": "91067eb65a0f6295ee85f95cf5ca0d9efffa6c70d1764fbfd2a924ebbfba39db",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P1_TRANSACTION_QUEUE_CLEANUP_RECEIPT.json",
+      "sha256": "e29176e7a283c32e665ff143fa8d1ffacc44cdd9cc3638db83e24854639d6a56",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.mjs",
+      "sha256": "6838dc0360f2944c787be0dcbe760d5e87c8f557ef08b8286a151d9d6c71030c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p1-transaction-queue-cleanup.contract.test.js",
+      "sha256": "d5da4d66b5298a03e0063da75a4bb79fd3c6daebb0fdbe04596f1e9e5d27824c",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve P1 transaction queue cleanup governed bytes after focused, test:ops, Design OS doctrine, OSS policy, renderer build and full runner PASS; old promise identity leak negative reproduces; no command semantics, storage bypass, network dependency, or Program DONE claim."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "f51069abf0b70fe7d7b1cb6c6c9109972577965d1c93671434a4691e14212af6",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P1_TRANSACTION_QUEUE_CLEANUP_PROMISE_IDENTITY",
+      "approvedAtUtc": "2026-08-01T09:50:00.000Z",
+      "rationale": "Approve bounded src/main.js transaction queue cleanup identity repair after full verification: map stores and cleans the queued tail promise, preventing per-project queue leak while preserving command, storage, network, and UI semantics."
     }
   ]
 }

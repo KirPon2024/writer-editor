@@ -24296,13 +24296,14 @@ async function enqueueProductCommandTransaction(projectKey, operation) {
   const current = new Promise((resolve) => {
     release = resolve;
   });
-  productCommandTransactionQueues.set(key, previous.then(() => current, () => current));
+  const queuedTail = previous.then(() => current, () => current);
+  productCommandTransactionQueues.set(key, queuedTail);
   try {
     await previous.catch(() => {});
     return await operation();
   } finally {
     release();
-    if (productCommandTransactionQueues.get(key) === current) {
+    if (productCommandTransactionQueues.get(key) === queuedTail) {
       productCommandTransactionQueues.delete(key);
     }
   }

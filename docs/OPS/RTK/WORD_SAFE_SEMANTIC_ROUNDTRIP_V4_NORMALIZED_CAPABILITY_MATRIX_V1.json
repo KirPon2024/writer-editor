@@ -4,8 +4,8 @@
   "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
   "createdAtUtc": "2026-08-01T10:20:00.000Z",
   "headBinding": {
-    "originMainSha": "89b2f8093d1785a5e2bce9a03446e597e541ae24",
-    "localHeadSha": "89b2f8093d1785a5e2bce9a03446e597e541ae24",
+    "originMainSha": "1f7dc080e724f77ae3c7139edbeb5b2823469fe9",
+    "localHeadSha": "1f7dc080e724f77ae3c7139edbeb5b2823469fe9",
     "auditedHead": "0c514593f4e9fc8b6b0e936e83509f862ceda223",
     "independentAuditId": "019fbd04-b1f9-7393-aa67-d3e65632b803"
   },
@@ -16,15 +16,15 @@
     },
     "capabilityProfile": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "2b3e0a4e923f7ae249a21abe3b8b72f6c48d19b82dbba8beea04c75d3d59690b"
+      "sha256": "48948e9fc29c2e2fced789645f4278917cdf51e1ac8521c6be8b2174cbbbbb5c"
     },
     "postD1Program": {
       "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "605d4885609cf05aa1f505d1e4a475f0c1519873d85301c6f76ae0bc2c30710e"
+      "sha256": "d355407ce25a2ee9fadb9a6c0d7c8c0e8755850dc857140e73ff53e5347a46a1"
     },
     "saturationLedger": {
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "af608c675ebe042b259f4018b768285ca4e12d2adb410840d92874fc7abef227"
+      "sha256": "2f696ab3b1949a975ce100353638428b3f0bd5c2d8e28db201e4d5f9e6302b16"
     }
   },
   "normalizedVocabulary": [
@@ -40,7 +40,7 @@
     "physicalWordEvidence": 16,
     "productRuntimeWired": 11,
     "automaticApplyCertified": 0,
-    "blocksWordSaturation": 4,
+    "blocksWordSaturation": 3,
     "currentTerminalClass": {
       "COMPONENT_PROVEN": 5,
       "PHYSICAL_WORD_EVIDENCE": 3,
@@ -211,14 +211,14 @@
         "physicalWordEvidence": true,
         "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING_RECEIPT.json",
         "sourceState": "PHYSICAL_WORD_PROVEN",
-        "sourceCurrentCapability": "FORMATTING_DIAGNOSTIC_LANE_WITH_TYPED_LIMITATIONS"
+        "sourceCurrentCapability": "FORMATTING_DIAGNOSTIC_LANE_TERMINAL_TYPED_LIMITATION_BOUND"
       },
       "productRuntimeWired": false,
       "automaticApplyCertified": false,
-      "reasonCode": "RTK_NORM_FORMATTING_APPLY_LANE_PENDING",
-      "requiredNextContour": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
-      "blocksWordSaturation": true,
-      "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
+      "reasonCode": "RTK_NORM_FORMATTING_APPLY_TYPED_LIMITATION_BOUND",
+      "requiredNextContour": "NONE_FORMATTING_TYPED_LIMITATION_BOUND",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
     },
     {
       "ordinal": 9,
@@ -296,7 +296,7 @@
       "productRuntimeWired": false,
       "automaticApplyCertified": false,
       "reasonCode": "RTK_NORM_WORD_HOLD_NOT_SATURATED",
-      "requiredNextContour": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
+      "requiredNextContour": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
       "blocksWordSaturation": true,
       "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
     },
@@ -564,20 +564,13 @@
   "nextEngineeringOrder": [
     {
       "order": 1,
-      "contour": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
-      "blockingCells": [
-        "rtk.word.v4.effectiveFormattingDiagnostics"
-      ]
-    },
-    {
-      "order": 2,
       "contour": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
       "blockingCells": [
         "rtk.word.v4.typedStructuralDiagnostics"
       ]
     },
     {
-      "order": 3,
+      "order": 2,
       "contour": "P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION",
       "blockingCells": [
         "rtk.word.v4.multiRoundReplayStaleConflictGuards",
@@ -585,7 +578,7 @@
       ]
     },
     {
-      "order": 4,
+      "order": 3,
       "contour": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
       "blockingCells": [],
       "boundaryEvidence": "WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT"

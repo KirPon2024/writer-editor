@@ -5994,13 +5994,6 @@
       "rationale": "Approve new bounded C05 platform-neutral block-range authority helper: builds locally bound block text and range integrity digests from local baseline and current project snapshot, requires unique block text in scene and exact block-local quote, models SHA-256 as integrity checks rather than signatures, imports no Node, Electron, renderer, network, parser, writer, or UI authority, and makes no HMAC/YRTK2 or Word carrier claim."
     },
     {
-      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
-      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_NEXT_PRODUCT_VERTICAL_CONTOUR",
-      "approvedAtUtc": "2026-08-01T03:35:00.000Z",
-      "rationale": "Approve bounded P0 product vertical tracked-edit contour: one synthetic Product Review DOCX physically edited by Word, authenticated V2 return intake, visible preview, explicit command apply, project reopen, replay idempotence, veto metrics zero, automatic apply false, Word saturated false, later editor stages closed."
-    },
-    {
       "filePath": "src/io/revisionBridge/reviewTransportContracts.mjs",
       "sha256": "ae56b094ea2769313a93c792a4a9f24cceeb1e6256ef4cf4a0525617b9e6e5e8",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
@@ -7233,13 +7226,6 @@
       "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
-      "sha256": "da4e1b2a036b0052e3b012a77df4d246d96082b94e8b012590b64048a846337d",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
       "sha256": "71f9f7aac9f7b65009c2d422a956b4cc287f74fef712c145d11b32386b965de4",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
@@ -7417,13 +7403,6 @@
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
       "sha256": "f9c776161cd090c9bb62db6f51b342c735c55c8c1b662e3cdb4658a670181fac",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.242Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "deee292f109df53619bb09fa6780229751f3001745bbaf6b28316d0f79569eec",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T18:23:22.242Z",
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
@@ -8409,71 +8388,8 @@
       "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation closure: done=true state readback is physically bound and RESOLVED state is preserved through the authenticated product comment shadow command path, while reopen/full lifecycle authority remains a typed limitation with no manuscript or automatic apply authority."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "b4aa5e7b0da68a6b1757c92613b3a029b7ab5db312ffc813500ab8768df3c2c3",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_RESOLVE_REOPEN_TYPED_LIMITATION_RECEIPT.json",
       "sha256": "57ee83330230f365ac567031fbe0ace09f0fd9a552e9d474ca96fba52c4e154f",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "389a4bd63a95d6997cfcde4781454902aec0302c51e19d7a97188aff75c30cb2",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "2d0579092a76e1000cd78ce0467db54a76abb549b0bc0667d798d349eddb2e4a",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
-      "sha256": "0f14fbe22ad8e659259630d312ecd20bf1f7be68948fc548cbb253c6c9b9bce1",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-      "sha256": "456b6b2fc11a8562c8164fa8c946ace99c707227fe1139dd4a87b226472fd8df",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
-      "sha256": "fa39e01175f1999eb3c57a4b4244eac4c0732b0dfec9031ccd3f31fe6577e22f",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
-      "sha256": "e5900e6e97c36faca2d6544869f97f71996374abc2a802d5d5ed15135895d644",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
-      "sha256": "7df4f64a340c8b938196a50831738a07ae28160fd7684628ea979ff6384e48bf",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
-      "sha256": "ec31e5e97af3711d068e6d1d053af942b0126ef290cf0a8b87422bf110a640a7",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
       "approvedAtUtc": "2026-08-01T12:35:00.000Z",
       "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
@@ -8486,32 +8402,137 @@
       "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
     },
     {
-      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
-      "sha256": "fe654b9c314c07dbf9d71b86a9050ca85fd7f86179d4bd5bef471f850c57b2ce",
+      "filePath": "src/io/revisionBridge/reviewTransportClassifierV2.mjs",
+      "sha256": "46496be08b65283680b27a4e50d3c368f70105d865e3282dfde4baa6ff627429",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
+      "approvedAtUtc": "2026-08-01T12:55:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation closure: physical E08 formatting evidence and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "ff23a091697b320fc1242cd41d4b56ff859569ede968357db20875ce0088e96f",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_FORMATTING_LANE_TYPED_LIMITATION_RECEIPT.json",
+      "sha256": "b3b7bbc69340401f4d39c44175b30b2c7db48259f8affad1a49973c3609ae0c6",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "21b68818bef79cad66da15001e769f4185404983c2f81cdf32a54d8869434142",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "8cc57d96a39034fddb607872ba109116b04187760f77ef3f5270c287a0cf2295",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
+      "sha256": "f0a78991b925970529579e3b1dab288d95f615e217070a20e61ccfd09da9a84b",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+      "sha256": "8b474fc9d836d7a878fe3a84a114cc472141fcebd1e102116ec2683f8340f05c",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
+      "sha256": "396465382dec0a4eb8c9b2c164ae1b659b1b78206a52a812f2824f599ea48184",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
+      "sha256": "7b7908ff8e1168b30e8b9e01a908a943d81b1edb9451fdaec6fe0c5403a33308",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
+      "sha256": "c6c639a7946aad3aad2664aa50df6edbf357b5cfb00a7497751acc0b02a03bdd",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-safe-formatting-lane-typed-limitation.mjs",
+      "sha256": "c9ec0aaba63ea7bf27b580a6ae98026864ea4433df57f9f129b9cb1691954493",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
+      "sha256": "3c0679d3bc8b73935883c2c0b36f99dcbfbe818630f890762788eb1f1f400749",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
+      "sha256": "d902767946aa1cc3feaf2a5d500d760df42d4d05fa7304c8baae7e5480e45f86",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
     },
     {
       "filePath": "test/contracts/rtk-word-p0-modern-comment-replies-typed-limitation.contract.test.js",
-      "sha256": "ac00c4bd9e3e82592a01d82f0fd7764bf6db83580ef1690aebab06de73e97af4",
+      "sha256": "06a9a6ac2324aa6e748e70df195a391d93710d35f74ac44520ed493fe31624bf",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
     },
     {
       "filePath": "test/contracts/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.contract.test.js",
-      "sha256": "b2aaa425f7d2bd280c4969791a776c41068e93b62ac82614580495ba651333fb",
+      "sha256": "d1f94732c5ab4caed38e457e455bac161820574e0677305050df66d573e37f76",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-safe-formatting-lane-typed-limitation.contract.test.js",
+      "sha256": "bc25aafcdd279fcc0a40c746af36d2a50a8a237326b77f4b1c61aaef5086ab5e",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
+      "sha256": "785fd428af9e894ede967df732c0ba755a1d9803519d35e27ec4bb173cd614c6",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
-      "sha256": "35132544af5bfd78be23dbdb0364d61a0e915a8a9006b2e8108774bff999bcbe",
+      "sha256": "7f7dace7a60c7a070683a33cfa8ef20bed14fe065cd404463d0fa2fcb4ce0a39",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T12:35:00.000Z",
-      "rationale": "Approve Word P0 modern comment resolve/reopen typed-limitation contour: preserves RESOLVED state through authenticated comment shadow product command path, binds reopen lifecycle as typed limitation, advances normalized matrix to formatting lane, keeps automatic apply false, Word saturated false, Google Docs closed, and updates successor verifiers without expanding manuscript authority."
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
+      "sha256": "268fa301c12f63271f62989a7d399bf50689f236d32ae3d4bcc28c2860e9d1ed",
+      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
+      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
+      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
     }
   ]
 }

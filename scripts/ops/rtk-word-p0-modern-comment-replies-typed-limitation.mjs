@@ -21,6 +21,7 @@ const SCHEMA = 'yalken.rtk.word.p0-modern-comment-replies-typed-limitation-recei
 const CREATED_AT_UTC = '2026-08-01T11:40:00.000Z';
 const NEXT_STAGE = 'P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION';
 const RESOLVE_REOPEN_SUCCESSOR_STAGE = 'P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION';
+const FORMATTING_SUCCESSOR_STAGE = 'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION';
 const ARTIFACT_ROOT = '/Volumes/T7-Secure/storage/yalken/word-safe-semantic-v4/current/p0-modern-comment-replies';
 
 const RECEIPT_REF = 'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MODERN_COMMENT_REPLY_TYPED_LIMITATION_RECEIPT.json';
@@ -606,7 +607,11 @@ export function evaluateP0ModernCommentRepliesTypedLimitation(input = {}) {
   const add = (code, field, message) => issues.push(issue(code, field, message));
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.v4.commentsShadowAnalysis');
   const actualNextStage = program.v4ExecutionState?.nextStage || program.nextStep || '';
-  const validNextStage = actualNextStage === NEXT_STAGE || actualNextStage === RESOLVE_REOPEN_SUCCESSOR_STAGE;
+  const validNextStage = [
+    NEXT_STAGE,
+    RESOLVE_REOPEN_SUCCESSOR_STAGE,
+    FORMATTING_SUCCESSOR_STAGE,
+  ].includes(actualNextStage);
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_P0_REPLY_RECEIPT_INVALID', 'receipt', 'P0 reply typed limitation receipt must pass.');
   if (receipt.physicalWordProbe?.result === 'PARENT_LINK_DETECTED_REQUIRES_RUNTIME_PROMOTION') add('RTK_P0_REPLY_PARENT_LINK_DETECTED', 'physicalWordProbe', 'Parent-link evidence requires runtime promotion instead of typed-limitation closure.');

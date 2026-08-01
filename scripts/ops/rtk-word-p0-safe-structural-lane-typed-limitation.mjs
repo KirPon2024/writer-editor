@@ -17,6 +17,7 @@ const SCHEMA = 'yalken.rtk.word.p0-safe-structural-lane-typed-limitation-receipt
 const CREATED_AT_UTC = '2026-08-01T13:20:00.000Z';
 const NEXT_STAGE = 'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION';
 const SCALE_SUCCESSOR_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
+const FINAL_ENVELOPE_SUCCESSOR_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
 
 const RECEIPT_REF = 'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_STRUCTURAL_LANE_TYPED_LIMITATION_RECEIPT.json';
 const E09_RECEIPT_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS_RECEIPT.json';
@@ -377,7 +378,7 @@ export function evaluateP0SafeStructuralLaneTypedLimitation(input = {}) {
     || cell.structuralDiagnosticProductPathProven !== true
     || cell.automaticApplyCertified !== false) add('RTK_P0_STRUCTURAL_PROFILE_INVALID', 'profile.typedStructuralDiagnostics', 'Profile must bind structural diagnostic typed limitation without automatic apply.');
   const actualNextStage = program.v4ExecutionState?.nextStage || program.nextStep || '';
-  if (![NEXT_STAGE, SCALE_SUCCESSOR_STAGE].includes(actualNextStage)
+  if (![NEXT_STAGE, SCALE_SUCCESSOR_STAGE, FINAL_ENVELOPE_SUCCESSOR_STAGE].includes(actualNextStage)
     || program.v4ExecutionState?.safeStructuralLaneTypedLimitationBound !== true
     || program.v4ExecutionState?.runtimeApplyAuthorityGrantedForStructure !== false
     || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_P0_STRUCTURAL_PROGRAM_INVALID', 'program', 'Program must advance to multi-round reconciliation with Google closed.');

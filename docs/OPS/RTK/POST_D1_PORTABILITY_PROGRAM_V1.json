@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.post-d1.portability-program.v1",
   "taskId": "YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
   "createdAtUtc": "2026-07-30T13:19:11Z",
   "binding": {
     "selectedBaseSha": "835d0a9d84438f6243a789f06a81f35547440998",
@@ -380,7 +380,7 @@
     "mergeRequired": true,
     "status": "pending_delivery"
   },
-  "nextStep": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
+  "nextStep": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT",
   "v4CanonicalIntegration": {
     "status": "ACTIVE_AFTER_C05_MERGE",
     "canonicalSpecPath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -394,9 +394,9 @@
     "currentExecutionFocus": "WORD_SATURATION_BEFORE_GOOGLE_DOCS"
   },
   "v4ExecutionState": {
-    "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
+    "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
     "currentStage": "P0_NORMALIZED_CAPABILITY_MATRIX",
-    "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
+    "nextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT",
     "latestReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
     "semanticKernelComponentProven": true,
     "sourceMapUniqueDiffComponentProven": true,
@@ -451,7 +451,7 @@
     "multiSceneAtomicCoordinatorStatus": "MULTI_SCENE_ATOMIC_COORDINATOR_COMPONENT_SHADOW_ONLY",
     "automaticMultiSceneApplyCertified": 0,
     "wordSaturationLedgerBound": true,
-    "wordSaturated": false,
+    "wordSaturated": true,
     "completedPhysicalWaves": [
       10,
       40,
@@ -570,7 +570,7 @@
     "a02TerminalAuditBound": true,
     "a02TerminalAuditReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A02_TERMINAL_AUDIT_RECEIPT.json",
     "a03PromotionListPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_PROMOTION_LIST.json",
-    "automaticApplyCertified": 0,
+    "automaticApplyCertified": false,
     "physicalWordProvenDoesNotEqualRuntimeWired": true,
     "authorityLevelVocabulary": [
       "PHYSICAL_WORD_PROVEN",
@@ -635,12 +635,15 @@
     "structuralDiagnosticProductPathProven": true,
     "runtimeApplyAuthorityGrantedForStructure": false,
     "multiRoundLedgerReconciled": true,
-    "productReplayIdempotentPasses": 90
+    "productReplayIdempotentPasses": 90,
+    "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
+    "readyForFreshIndependentExactHeadAudit": true,
+    "programDone": false
   },
   "releaseAuditNight01": {
-    "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
+    "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
     "currentStage": "P0_NORMALIZED_CAPABILITY_MATRIX",
-    "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
+    "nextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT",
     "latestReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json",
     "latestEnvironmentPermissionProbeReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
     "latestEnvironmentPermissionProbeStatus": "MACOS_WORD_SANDBOX_GRANT_REQUIRED_NOT_PACKAGE_INVALID",
@@ -651,7 +654,7 @@
     "parsedWordIrConsumerWired": true,
     "automaticApplyCertified": false,
     "releaseReady": false,
-    "wordSaturated": false,
+    "wordSaturated": true,
     "googleDocsOpened": false,
     "parsedWordIrSoleWriterOperationSource": true,
     "visibleExactPreviewWired": true,
@@ -717,7 +720,7 @@
       "physicalWordEvidence": 16,
       "productRuntimeWired": 11,
       "automaticApplyCertified": 0,
-      "blocksWordSaturation": 1,
+      "blocksWordSaturation": 0,
       "currentTerminalClass": {
         "COMPONENT_PROVEN": 5,
         "PHYSICAL_WORD_EVIDENCE": 3,
@@ -745,7 +748,11 @@
     "multiRoundLedgerReconciled": true,
     "productReplayIdempotentPasses": 90,
     "automaticReplayApplyCertified": false,
-    "divergentRoundAutoMergeCertified": false
+    "divergentRoundAutoMergeCertified": false,
+    "p0ScaleEnvelopeTerminalAuditReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SCALE_ENVELOPE_TERMINAL_RECEIPT.json",
+    "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
+    "readyForFreshIndependentExactHeadAudit": true,
+    "programDone": false
   },
   "latestWordProductVerticalTrackedEdit": {
     "status": "WORD_RELEASE_AUDIT_P0_PRODUCT_VERTICAL_TRACKED_EDIT_COMPLETE_NOT_SATURATED",

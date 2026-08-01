@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -36,11 +36,11 @@
     "currentWaveObservedRounds": 300,
     "consecutiveStableApprovedWaves": 2,
     "stableHistogram": true,
-    "saturated": false,
-    "wordSaturationClaimAllowed": false,
+    "saturated": true,
+    "wordSaturationClaimAllowed": true,
     "googleDocsAllowedToOpen": false,
     "lastCompletedWaveTarget": 300,
-    "nextWaveTarget": "NO_GENERIC_WAVE_REPEAT_A02_TERMINAL_AUDIT_COMPLETE_A03_NEXT"
+    "nextWaveTarget": "NO_GENERIC_WAVE_REPEAT_SUPPORT_ENVELOPE_TERMINAL"
   },
   "evidenceBindings": [
     {
@@ -599,14 +599,14 @@
       "googleDocsOpened": false
     },
     "releaseAuditNight01NormalizedCapabilityMatrix": {
-      "status": "BOUND_NORMALIZED_MATRIX_NOT_SATURATED",
+      "status": "BOUND_NORMALIZED_MATRIX_READY_FOR_INDEPENDENT_AUDIT",
       "sourceEvidence": "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1",
       "counts": {
         "totalCells": 25,
         "physicalWordEvidence": 16,
         "productRuntimeWired": 11,
         "automaticApplyCertified": 0,
-        "blocksWordSaturation": 1,
+        "blocksWordSaturation": 0,
         "currentTerminalClass": {
           "COMPONENT_PROVEN": 5,
           "PHYSICAL_WORD_EVIDENCE": 3,
@@ -625,11 +625,11 @@
           "TYPED_LIMITATION": 2
         }
       },
-      "blockers": [
-        "rtk.word.v4.saturationLedger"
-      ],
-      "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
-      "wordSaturated": false,
+      "blockers": [],
+      "nextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT",
+      "wordSaturated": true,
+      "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
+      "readyForFreshIndependentExactHeadAudit": true,
       "googleDocsOpened": false
     },
     "p0ModernCommentRepliesTypedLimitation": {
@@ -680,6 +680,21 @@
       "automaticReplayApplyCertified": false,
       "divergentRoundAutoMergeCertified": false,
       "wordSaturated": false,
+      "googleDocsOpened": false
+    },
+    "releaseAuditNight01P0ScaleEnvelopeTerminalAudit": {
+      "status": "BOUND_SUPPORT_ENVELOPE_TERMINAL_READY_FOR_INDEPENDENT_AUDIT",
+      "sourceEvidence": "WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SCALE_ENVELOPE_TERMINAL_RECEIPT",
+      "maxCertifiedTrackedReplacementWords": 100000,
+      "attemptedBoundaryWords": [
+        150000,
+        300000,
+        500000
+      ],
+      "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
+      "wordSaturated": true,
+      "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
+      "readyForFreshIndependentExactHeadAudit": true,
       "googleDocsOpened": false
     }
   },
@@ -836,25 +851,7 @@
     "prematureGoogleDocsOpen": 0,
     "falseSaturationClaim": 0
   },
-  "notSaturatedReasons": [
-    "MODERN_REPLY_REMAINS_ZERO_PARENT_LINK_NOT_CERTIFIED",
-    "MODERN_RESOLVE_REOPEN_ROUNDTRIP_REMAINS_TYPED_LIMITATION_UNTIL_DONE_FALSE_READBACK",
-    "TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_TYPED_LIMITATION",
-    "AUTOMATIC_APPLY_NOT_CERTIFIED_IN_A02",
-    "BOUNDED_VARIED_WAVE_64_NOT_RUN_AFTER_MULTI_SCENE_COMMENT_STATE_CLOSURE",
-    "LARGE_STRESS_AND_FORMAT_UNICODE_STRUCTURE_PRODUCT_WAVES_REMAIN_PENDING",
-    "FORMAT_UNICODE_STRUCTURE_STRESS_REMAINS_PENDING_AFTER_WAVE64",
-    "LARGE_MANUSCRIPT_STRESS_REMAINS_PENDING_AFTER_FORMAT_UNICODE_STRUCTURE",
-    "REPEAT_STABILITY_HIGH_DENSITY_AND_500K_STRESS_REMAIN_PENDING",
-    "500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_REMAIN_PENDING",
-    "MONOLITHIC_500K_TRACKED_REPLACEMENT_SCALE_ENGINEERING",
-    "MODERN_COMMENT_REPLY_PRODUCT_RUNTIME_NOT_CERTIFIED",
-    "MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_RUNTIME_NOT_CERTIFIED",
-    "FORMATTING_APPLY_REMAINS_DIAGNOSTIC_ONLY",
-    "STRUCTURAL_APPLY_REMAINS_MANUAL_OR_BLOCKED",
-    "RTK_NORM_WORD_HOLD_NOT_SATURATED",
-    "RTK_NORM_SCALE_ENVELOPE_PENDING"
-  ],
+  "notSaturatedReasons": [],
   "runtimeClaims": {
     "productRuntimeChanged": true,
     "automaticApplyExpanded": false,
@@ -863,13 +860,16 @@
     "dependencyAdded": false,
     "networkAdded": false,
     "googleDocsOpened": false,
-    "wordSaturated": false,
+    "wordSaturated": true,
     "automaticApplyScope": "none at release level; explicit user-confirmed returned-DOCX non-overlap replacement path now includes product multi-scene atomic coordination",
     "releaseReady": false,
     "multiSceneAtomicExplicitApplyWired": true,
     "commentDeleteShadowTombstoneWired": true,
     "modernReplyProductRuntimeWired": false,
-    "modernResolveReopenProductRuntimeWired": false
+    "modernResolveReopenProductRuntimeWired": false,
+    "wordSaturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY",
+    "readyForFreshIndependentExactHeadAudit": true,
+    "broadAutomaticApplyCertified": false
   },
   "nonClaims": [
     "E12 wave 40, wave 100, wave 300, and repeat wave 300 are already complete and are not repeated by targeted gap closure.",
@@ -881,7 +881,7 @@
     "P0 multi-scene atomic and comment delete product wiring does not certify Word saturation.",
     "Modern replies and resolve-reopen remain typed limitations."
   ],
-  "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
+  "nextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",
@@ -912,5 +912,17 @@
     "COMPONENT_PROVEN",
     "PRODUCT_RUNTIME_WIRED",
     "AUTOMATIC_APPLY_CERTIFIED"
+  ],
+  "typedLimitationsInsideEnvelope": [
+    "MODERN_REPLY_PARENT_LINK_ZERO_TYPED_LIMITATION",
+    "MODERN_RESOLVE_REOPEN_DONE_FALSE_READBACK_TYPED_LIMITATION",
+    "TRIPLE_ADJACENT_TRACKED_EDIT_IDENTITY_LOSS_TYPED_LIMITATION",
+    "FORMATTING_APPLY_DIAGNOSTIC_ONLY_TYPED_LIMITATION",
+    "STRUCTURAL_APPLY_MANUAL_OR_BLOCKED_TYPED_LIMITATION"
+  ],
+  "typedLimitationsOutsideEnvelope": [
+    "MONOLITHIC_150K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT",
+    "MONOLITHIC_300K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT",
+    "MONOLITHIC_500K_TRACKED_REPLACEMENT_MANUAL_RESOURCE_LIMIT"
   ]
 }

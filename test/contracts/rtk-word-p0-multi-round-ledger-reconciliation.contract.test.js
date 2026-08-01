@@ -38,7 +38,7 @@ test('P0 multi-round ledger reconciliation binds E10 and product replay evidence
   assert.equal(receipt.implementedCapability.divergentRoundAutoMergeCertified, false);
   assert.equal(receipt.implementedCapability.multiRoundLedgerReconciled, true);
   assert.deepEqual(Object.values(receipt.vetoMetrics).filter((value) => Number(value) !== 0), []);
-  assert.equal(program.v4ExecutionState.nextStage, 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE');
+  assert.equal(program.v4ExecutionState.nextStage, 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT');
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
   assert.equal(ledger.coverageLedger.p0MultiRoundLedgerReconciliation.status, 'BOUND_MULTI_ROUND_REPLAY_GUARDS_RECONCILED');
 });
@@ -71,19 +71,19 @@ test('P0 multi-round ledger reconciliation refuses replay false-green and stale 
   assert.equal(result.issues.some((item) => item.code === 'RTK_P0_MULTI_ROUND_LEDGER_INVALID'), true);
 });
 
-test('normalized matrix closes multi-round blocker and leaves only saturation governance open', () => {
+test('normalized matrix keeps multi-round closed after scale envelope terminal audit', () => {
   const matrix = readJson(MATRIX_PATH);
   const blockers = matrix.rows.filter((row) => row.blocksWordSaturation).map((row) => row.cellId);
   const multiRound = matrix.rows.find((row) => row.cellId === 'rtk.word.v4.multiRoundReplayStaleConflictGuards');
   const saturation = matrix.rows.find((row) => row.cellId === 'rtk.word.v4.saturationLedger');
 
-  assert.deepEqual(blockers, ['rtk.word.v4.saturationLedger']);
-  assert.equal(matrix.counts.blocksWordSaturation, 1);
+  assert.deepEqual(blockers, []);
+  assert.equal(matrix.counts.blocksWordSaturation, 0);
   assert.equal(multiRound.reasonCode, 'RTK_NORM_MULTI_ROUND_REPLAY_GUARDS_RECONCILED');
   assert.equal(multiRound.requiredNextContour, 'NONE_MULTI_ROUND_LEDGER_RECONCILED');
   assert.equal(multiRound.blocksWordSaturation, false);
-  assert.equal(saturation.requiredNextContour, 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE');
+  assert.equal(saturation.requiredNextContour, 'NONE_READY_FOR_INDEPENDENT_EXACT_HEAD_AUDIT');
   assert.deepEqual(matrix.nextEngineeringOrder.map((item) => item.contour), [
-    'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
+    'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
   ]);
 });

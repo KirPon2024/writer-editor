@@ -16,6 +16,8 @@ const STATUS = 'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED';
 const SCHEMA = 'yalken.rtk.word.p0-multi-round-ledger-reconciliation-receipt.v1';
 const CREATED_AT_UTC = '2026-08-01T14:10:00.000Z';
 const NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
+const FINAL_MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT';
+const FINAL_NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
 
 const RECEIPT_REF = 'docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json';
 const E10_RECEIPT_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json';
@@ -450,7 +452,11 @@ export function evaluateP0MultiRoundLedgerReconciliation(input = {}) {
     || cell.multiRoundLedgerReconciled !== true
     || cell.productReplayIdempotencyProven !== true
     || cell.automaticApplyCertified !== false) add('RTK_P0_MULTI_ROUND_PROFILE_INVALID', 'profile.multiRoundReplayStaleConflictGuards', 'Profile must bind multi-round reconciliation without automatic apply.');
-  if (program.v4ExecutionState?.nextStage !== NEXT_STAGE
+  const validLaterProgram = program.v4ExecutionState?.status === FINAL_MATRIX_STATUS
+    && program.v4ExecutionState?.nextStage === FINAL_NEXT_STAGE
+    && program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit === true
+    && program.v4ExecutionState?.wordSaturated === true;
+  if ((!validLaterProgram && program.v4ExecutionState?.nextStage !== NEXT_STAGE)
     || program.v4ExecutionState?.multiRoundLedgerReconciled !== true
     || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_P0_MULTI_ROUND_PROGRAM_INVALID', 'program', 'Program must advance to scale envelope with Google closed.');
   if (ledger.coverageLedger?.p0MultiRoundLedgerReconciliation?.status !== 'BOUND_MULTI_ROUND_REPLAY_GUARDS_RECONCILED'

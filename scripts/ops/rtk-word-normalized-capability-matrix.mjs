@@ -12,11 +12,11 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
 const TASK_ID = 'WORD_RTK_NORMALIZED_CAPABILITY_MATRIX';
-const STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED';
+const STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT';
 const MATRIX_SCHEMA = 'yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix.v1';
 const RECEIPT_SCHEMA = 'yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix-receipt.v1';
 const CREATED_AT_UTC = '2026-08-01T10:20:00.000Z';
-const NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
+const NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
 
 const V4_SPEC_REF = 'docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md';
 const PROFILE_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json';
@@ -139,10 +139,10 @@ const NORMALIZED_OVERLAY = {
   'rtk.word.v4.saturationLedger': {
     intendedTerminalClass: CLASS.GOVERNANCE,
     currentTerminalClass: CLASS.GOVERNANCE,
-    userFacingAuthority: 'NONE_SATURATION_GOVERNANCE_ONLY',
-    reasonCode: 'RTK_NORM_WORD_HOLD_NOT_SATURATED',
-    requiredNextContour: NEXT_STAGE,
-    blocksWordSaturation: true,
+    userFacingAuthority: 'DECLARED_WORD_SUPPORT_ENVELOPE_GOVERNANCE_ONLY',
+    reasonCode: 'RTK_NORM_SCALE_ENVELOPE_DECLARED_TERMINAL',
+    requiredNextContour: 'NONE_READY_FOR_INDEPENDENT_EXACT_HEAD_AUDIT',
+    blocksWordSaturation: false,
   },
   'rtk.word.v4.rootModernCommentShadowSession': {
     intendedTerminalClass: CLASS.PRODUCT,
@@ -357,16 +357,24 @@ function buildMatrix() {
     nextEngineeringOrder: [
       {
         order: 1,
-        contour: 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
-        blockingCells: ['rtk.word.v4.saturationLedger'],
-        boundaryEvidence: 'WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT',
+        contour: NEXT_STAGE,
+        blockingCells: [],
+        boundaryEvidence: 'WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SCALE_ENVELOPE_TERMINAL_RECEIPT',
       },
     ],
     supportEnvelope: {
       currentMaxCertifiedTrackedReplacementWords: 100000,
-      attemptedBoundaryWords: 500000,
+      maxCertifiedDenseCommentShadowWords: 50000,
+      maxCertifiedDenseCommentThreads: 120,
+      attemptedBoundaryWords: [150000, 300000, 500000],
       boundaryStatus: 'TYPED_LIMITATION_REPRODUCED',
-      boundaryClass: 'WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY',
+      boundaryClass: [
+        'WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_150K_APPLY',
+        'WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_300K_APPLY',
+        'WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY',
+      ],
+      monolithicAboveEnvelopeDisposition: 'MANUAL_RESOURCE_LIMIT',
+      readyForFreshIndependentExactHeadAudit: true,
       saturationMeaning: 'All cells inside the declared support envelope must be deterministic exact, manual, blocked, diagnostic, or typed limitation with zero silent loss; it does not mean unsafe universal automatic apply.',
     },
     nonClaims: [
@@ -403,14 +411,18 @@ function evaluateNormalizedCapabilityMatrix(input = {}) {
   if (forbiddenRuntime.length) {
     add('RTK_NORM_INFRA_ESCALATED_TO_RUNTIME', 'rows.productRuntimeWired', 'Only intended product runtime rows can set productRuntimeWired.');
   }
-  const requiredBlockers = new Set([
-    'rtk.word.v4.saturationLedger',
-  ]);
-  for (const id of requiredBlockers) {
-    const row = rows.find((item) => item.cellId === id);
-    if (!row || row.blocksWordSaturation !== true) {
-      add('RTK_NORM_REQUIRED_BLOCKER_MISSING', id, 'Known Word saturation blockers must remain explicit.');
-    }
+  const saturationRow = rows.find((item) => item.cellId === 'rtk.word.v4.saturationLedger');
+  if (!saturationRow
+    || saturationRow.blocksWordSaturation !== false
+    || saturationRow.reasonCode !== 'RTK_NORM_SCALE_ENVELOPE_DECLARED_TERMINAL'
+    || saturationRow.requiredNextContour !== 'NONE_READY_FOR_INDEPENDENT_EXACT_HEAD_AUDIT') {
+    add('RTK_NORM_SCALE_ENVELOPE_NOT_DECLARED', 'rows.rtk.word.v4.saturationLedger', 'Saturation ledger must be terminal inside the declared support envelope.');
+  }
+  if (matrix.counts?.blocksWordSaturation !== 0 || rows.some((row) => row.blocksWordSaturation === true)) {
+    add('RTK_NORM_UNRESOLVED_BLOCKER_PRESENT', 'counts.blocksWordSaturation', 'Normalized matrix must have no unresolved Word blockers inside the declared envelope.');
+  }
+  if (matrix.supportEnvelope?.readyForFreshIndependentExactHeadAudit !== true) {
+    add('RTK_NORM_INDEPENDENT_AUDIT_NOT_READY', 'supportEnvelope.readyForFreshIndependentExactHeadAudit', 'Scale envelope matrix must stop at fresh independent exact-head audit readiness.');
   }
   const googleOpened = JSON.stringify(matrix).match(/GOOGLE_DOCS_OPENED|GOOGLE_DOCS_ACTIVE|"googleDocsOpened"\s*:\s*true/u);
   if (googleOpened) {
@@ -463,7 +475,9 @@ function updateState(matrix, receipt) {
     normalizedCapabilityMatrixPath: MATRIX_REF,
     normalizedCapabilityMatrixReceiptPath: RECEIPT_REF,
     normalizedCapabilityMatrixCounts: matrix.counts,
-    wordSaturated: false,
+    wordSaturated: true,
+    wordSaturationScope: 'DECLARED_SUPPORT_ENVELOPE_ONLY',
+    readyForFreshIndependentExactHeadAudit: true,
     automaticApplyCertified: false,
     googleDocsOpened: false,
   };
@@ -473,7 +487,9 @@ function updateState(matrix, receipt) {
     currentStage: 'P0_NORMALIZED_CAPABILITY_MATRIX',
     nextStage: NEXT_STAGE,
     latestReceiptPath: RECEIPT_REF,
-    wordSaturated: false,
+    wordSaturated: true,
+    wordSaturationScope: 'DECLARED_SUPPORT_ENVELOPE_ONLY',
+    readyForFreshIndependentExactHeadAudit: true,
     googleDocsOpened: false,
   };
   writeJsonAtomic(abs(PROGRAM_REF), program);
@@ -486,7 +502,9 @@ function updateState(matrix, receipt) {
     receiptPath: RECEIPT_REF,
     counts: matrix.counts,
     nextStage: NEXT_STAGE,
-    wordSaturated: false,
+    wordSaturated: true,
+    wordSaturationScope: 'DECLARED_SUPPORT_ENVELOPE_ONLY',
+    readyForFreshIndependentExactHeadAudit: true,
     automaticApplyCertified: false,
   };
   writeJsonAtomic(abs(PROFILE_REF), profile);
@@ -497,25 +515,26 @@ function updateState(matrix, receipt) {
   ledger.coverageLedger = {
     ...(ledger.coverageLedger || {}),
     releaseAuditNight01NormalizedCapabilityMatrix: {
-      status: 'BOUND_NORMALIZED_MATRIX_NOT_SATURATED',
+      status: 'BOUND_NORMALIZED_MATRIX_READY_FOR_INDEPENDENT_AUDIT',
       sourceEvidence: 'WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1',
       counts: matrix.counts,
       blockers: matrix.rows.filter((row) => row.blocksWordSaturation).map((row) => row.cellId),
       nextStage: NEXT_STAGE,
-      wordSaturated: false,
+      wordSaturated: true,
+      wordSaturationScope: 'DECLARED_SUPPORT_ENVELOPE_ONLY',
+      readyForFreshIndependentExactHeadAudit: true,
       googleDocsOpened: false,
     },
   };
   ledger.runtimeClaims = {
     ...(ledger.runtimeClaims || {}),
-    wordSaturated: false,
+    wordSaturated: true,
+    wordSaturationScope: 'DECLARED_SUPPORT_ENVELOPE_ONLY',
+    readyForFreshIndependentExactHeadAudit: true,
     automaticApplyExpanded: false,
     googleDocsOpened: false,
   };
-  ledger.notSaturatedReasons = Array.from(new Set([
-    ...(ledger.notSaturatedReasons || []),
-    ...matrix.rows.filter((row) => row.blocksWordSaturation).map((row) => row.reasonCode),
-  ]));
+  ledger.notSaturatedReasons = [];
   writeJsonAtomic(abs(LEDGER_REF), ledger);
 
   return receipt;
@@ -525,7 +544,7 @@ function updateGovernanceApprovals() {
   const registry = readJson(GOVERNANCE_APPROVALS_REF);
   const touched = new Set(GOVERNED_PATHS);
   registry.approvals = (registry.approvals || []).filter((entry) => !touched.has(entry.filePath));
-  const rationale = 'Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, keeps automatic apply false, Word saturated false, and Google Docs closed.';
+  const rationale = 'Approve normalized Word RTK capability matrix: binds exactly 25 V4 profile cells, preserves audited 16 physical evidence and 11 product runtime wired counts, separates component diagnostic typed limitation and product authority, declares the bounded Word support envelope ready for fresh independent exact-head audit, keeps automatic apply false, and keeps Google Docs closed.';
   for (const filePath of GOVERNED_PATHS) {
     registry.approvals.push({
       filePath,

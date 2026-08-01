@@ -5364,13 +5364,6 @@
       "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
     },
     {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "f785d0979cde3ccb8a5144efcf1374e0d017967ab27b092c89cf74165e6a119b",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
       "sha256": "8850be69a09144ca80cafb8c112e59417844a4c3549767a2144b0b3188a2b02f",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
@@ -5495,20 +5488,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE100",
       "approvedAtUtc": "2026-07-31T09:45:00.000Z",
       "rationale": "Approve bounded E12 physical Word wave-100 contour: records 100 synthetic Word 16.111.2 physical open edit save close reopen round trips, 398 visible Word comment threads, 400k-class large returned DOCX, zero falseExact silentApply wrongSceneRouting replayFailure, Word sandbox work root inside Microsoft Word container, T7-Secure evidence retention, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "753c6a901ea063bcbdd4b10cebf8eb2ccb272f79aeef476927cfad09d1c75cea",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "9f800167291dfb20fab9c4b49715ef84db3667774b9d6c8b019e5608a3e00814",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -7408,13 +7387,6 @@
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
     },
     {
-      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "d3d26e9fd3a95b21274e83d4d942455106cb8ef336cc8a3cc1af700625b2c6ea",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
       "sha256": "590ac52cc875cbe3b5f1f4c6e15a05f3c2c9d4c9bbdfb636a1d4abb59785dd50",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
@@ -7448,13 +7420,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
       "approvedAtUtc": "2026-08-01T00:00:00.000Z",
       "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "7c9f0484de2958128597b4284c8bdc0eb0cedf71e28b5497bdfa1d26f3b17034",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -8416,123 +8381,11 @@
       "rationale": "Approve Word P0 safe structural lane typed-limitation closure: physical E09 structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, Word saturated remains false, and Google Docs remains closed."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "722f83952098d9d91341fdefb3770f2293e67b70366021a89fd65c2bfabda9ac",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SAFE_STRUCTURAL_LANE_TYPED_LIMITATION_RECEIPT.json",
       "sha256": "38885988294ab433dfba0f0bb587e90ff130829696305df08dd4ce2b80ae5c3f",
       "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
       "approvedAtUtc": "2026-08-01T13:30:00.000Z",
       "rationale": "Approve Word P0 safe structural lane typed-limitation contour: E09 physical structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, normalized matrix advances to multi-round reconciliation, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "4c9d0ba09345c0fcfa501c2ea406b2833011cd5eefdae48a4ec8705402725de4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "702dca22640b14b41832e03593dd8002d41f06f2e0a228c1f6ca793d1e049b88",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
-      "sha256": "543e1297a9322cf882a91a86c30a70fea9a7ab97a58ad683147193dc03e9c81c",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-      "sha256": "9fb5835099e19ca5407550fccb558db1a9c7a3be08202caed35db72633e4b23b",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
-      "sha256": "627d81ece3b604b8d12a089a72d422d04d284093383eecb522fd2768b60c5afb",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
-      "sha256": "71d1eeac7718f799321d0965a1fbadf1429ca3418f99f5fdc2392b539a3a693d",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
-      "sha256": "5123daef5375fa24c7c6c325cfab1ca45019deed566d90f65b5dc056cf4116f3",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-safe-formatting-lane-typed-limitation.mjs",
-      "sha256": "dae9f1331cc9be34837c6bc500f78dfebb8a97147f32b79ecbe1bea41072b797",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-p0-safe-structural-lane-typed-limitation.mjs",
-      "sha256": "b0a193198744505b7b9342e3db77730a591fd5f5fe2078cc06793debeb67e424",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
-      "sha256": "1320117e1b44603b006f77dd34920a67cd8ae6a1caa6015d0fea9fdfda1d1407",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
-      "sha256": "405cab441e221e4537b9360004f15ef8deccc383b0e4465cf12bd5751b07ff62",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-modern-comment-replies-typed-limitation.contract.test.js",
-      "sha256": "cceb6d12141daa3556b94ef0a5dcce082f727883f30cfc87c88b972ead4007eb",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.contract.test.js",
-      "sha256": "8d8499fef38bdb6e65578b4fff193e20de81d1ae53d969deafc45ae690625c71",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-safe-formatting-lane-typed-limitation.contract.test.js",
-      "sha256": "f45b41357ff2bd74e8240e1aa6307cab3ec6eecd86a58962aa5002df9c1655c1",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-p0-safe-structural-lane-typed-limitation.contract.test.js",
-      "sha256": "6c208562f9d720218903ce7fd3a7e6984eb68def1271d7f548924a1df2cfbf3f",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
@@ -8542,20 +8395,6 @@
       "rationale": "Approve Word P0 safe structural lane typed-limitation contour: E09 physical structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, normalized matrix advances to multi-round reconciliation, Word saturated remains false, and Google Docs remains closed."
     },
     {
-      "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
-      "sha256": "4323604201be45fc2a6cc3159b9bc005cd29f1f46bfe6eb6c1728b611f60f7d5",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "d423a9814d07c4e2a1dfc4bda94dd4faed2a7e260c9de03a73b791e06ddd27e1",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_ROUND_LEDGER_RECONCILIATION_RECEIPT.json",
       "sha256": "1f31e05df52ab21178fb46cdba0a14fe65c7f5aef78e4890797fb8f027899b43",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
@@ -8563,18 +8402,256 @@
       "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
     },
     {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "43bd6a05d1ddb7bb5ac771fd526f92c1699a62fd974c8e1241dee030483b20a8",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_SCALE_ENVELOPE_TERMINAL_RECEIPT.json",
+      "sha256": "701553e21d222596f5da3cdff9de30a5602cbce488d9d834a201796bee09373e",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "e248191682e5ad4d0390f3dfb2dc079408dd9b9c2ea637e0037b101fdeca1fd7",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "268384df3b1edc9362e931b24b9e68780a589e45b14ff8241ce6bcda20712411",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
+      "sha256": "f04dfdb8356e1df1b4bcc06a2e038f7ff5a656b8db715fcb9d186d22d9ee5b25",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+      "sha256": "e2052fd92944517c06f4a4f50182814f951e955c1c78df751307d4ee3448d805",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
+      "sha256": "0bfaf6ac11fb132fffd3c256df75bf6946bd763c2ed27d0c117962144c708ad8",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
+      "sha256": "cb5c3d3523fefdecfc0458eeb98a6ee7b4713603669d897ce186425ca1013f13",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
+      "sha256": "e980cf0047dbb0ac121148a00da03cfcacaec99fdeeeaa89badfc797d8befbc1",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
       "filePath": "scripts/ops/rtk-word-p0-multi-round-ledger-reconciliation.mjs",
-      "sha256": "50f9fd76bf1f3865e05da11ff1da6411db5f268f10b45c1906a79cec47c533ad",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
+      "sha256": "a1742e5bf2c53737a9ed330a7fc0d806ca562e71ccc420b24476acfaa006c478",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-safe-formatting-lane-typed-limitation.mjs",
+      "sha256": "d4fba10f83916aebe70cd4bff677e73937cb2917aa80706c673dc850d6a8ac66",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-safe-structural-lane-typed-limitation.mjs",
+      "sha256": "57e14d7d40d5e7f341bc6a9a4d3192ebe5e93c1797a4e36f72cd51f2fbad1689",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-p0-scale-envelope-terminal-audit.mjs",
+      "sha256": "437aa20a51decf15a710671295e4ca676970e9365ff8a8bca57bface2eadff6d",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
+      "sha256": "555bed3954c3d08d9d6761c4f3ab7563ad96a827a0a285a9cb7528635eabd0bb",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
+      "sha256": "01a980a8a06751b5c31f3e27b34833956dbe71b050982f7dd4a1739515494019",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
+      "sha256": "0c1a80474573b3f22c272c8124787a85309821968d412fb24af4e2c0ea32ffe3",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
+      "sha256": "ed83aa499d16ebe6407ef518bd3d422ea65b4515e099fd471e67be85538b8741",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
+      "sha256": "747567192fe311a44648fae6c2ed06ee69ff0ed463106d9b394f3ec9ffcdaa84",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-modern-comment-replies-typed-limitation.contract.test.js",
+      "sha256": "254e3968d5a351677a69b1126ff51cad5b045b8e98cc74847a509a4a3fd86bf5",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.contract.test.js",
+      "sha256": "c331a7c88865d8c52940ab697b8fac1a89ede7a1af1a60233638d68d9762143f",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     },
     {
       "filePath": "test/contracts/rtk-word-p0-multi-round-ledger-reconciliation.contract.test.js",
-      "sha256": "71b645f267b140b5cef90dc9768e8c284b20725146966ca75022ac8d7968c6b7",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T14:40:00.000Z",
-      "rationale": "Approve Word P0 multi-round replay/stale/conflict ledger reconciliation: E10 physical guard evidence and product-loop replay/idempotency receipts are bound, divergent round auto-merge and automatic replay apply remain uncertified, normalized matrix advances to scale envelope, Word saturated remains false, and Google Docs remains closed."
+      "sha256": "d611fe3715c2af58eaa11bb4ac925385f5a610ea8fb744ba7d28fa702981e985",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-safe-formatting-lane-typed-limitation.contract.test.js",
+      "sha256": "00a728551843a795c4360c1f094606646e1576df41be6de4de8f06e271753802",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-safe-structural-lane-typed-limitation.contract.test.js",
+      "sha256": "afeb9e403dafb7ec762e39e489929b6e65119aa89bebb283fcc60dfc93e590c4",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-p0-scale-envelope-terminal-audit.contract.test.js",
+      "sha256": "8b9af2471b919141813a4e7d09cd4799d33b3ccce4af808ade2e2aad093a82bf",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
+      "sha256": "c599ae1d5c8dba8b85a2bbf04e527df7f2f6cb425e17b4d076907492dbd61cd5",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
+      "sha256": "2ea747531678307253ed27e8d411e00ae670e73919eeb44fab07a55f7a2c5d87",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
+      "sha256": "70555f1ad3246a55f1d282303bc4b7fd69a043e14140fe9d8e98f4128dff8f35",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
+      "sha256": "b46f42b673ec1d9a9fb97dd78d67ccb897246bc5bdb518adcdf37d7cecc98f83",
+      "approvedBy": "owner-standing-authority",
+      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
+      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "approved": true,
+      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
     }
   ]
 }

@@ -17,8 +17,10 @@ const STATUS = 'WORD_STABILITY_LIMITATION_AUDIT_COMPLETE_NOT_SATURATED';
 const NEXT_STAGE = 'EXECUTION_12_NEXT_PHYSICAL_STABILITY_WAVE_300_REPEAT';
 const SUCCESSOR_STAGE = 'EXECUTION_12_WORD_LIMITATION_FOLLOWUP_AFTER_STABLE_WAVES';
 const MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED';
+const FINAL_MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT';
 const P0_MULTI_ROUND_STATUS = 'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED';
 const SCALE_NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
+const FINAL_NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
 const REQUIRED_LIMITATIONS = Object.freeze([
   'SECOND_CONSECUTIVE_STABLE_APPROVED_WAVE_REQUIRED',
   'MODERN_REPLY_RESOLVE_REOPEN_REMAINS_TYPED_LIMITATION',
@@ -90,6 +92,16 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && ledger.runtimeClaims?.wordSaturated === false
     && ledger.runtimeClaims?.googleDocsOpened === false
     && ledger.coverageLedger?.p0MultiRoundLedgerReconciliation?.status === 'BOUND_MULTI_ROUND_REPLAY_GUARDS_RECONCILED';
+  const ledgerIsFinalEnvelopeSuccessor = ledger.status === FINAL_MATRIX_STATUS
+    && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
+    && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
+    && ledgerRule.saturated === true
+    && ledgerRule.wordSaturationClaimAllowed === true
+    && ledgerRule.googleDocsAllowedToOpen === false
+    && ledger.runtimeClaims?.wordSaturated === true
+    && ledger.runtimeClaims?.wordSaturationScope === 'DECLARED_SUPPORT_ENVELOPE_ONLY'
+    && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === true
+    && ledger.runtimeClaims?.googleDocsOpened === false;
 
   if (receipt.schemaVersion !== SCHEMA) add('RTK_V4_E12_STABILITY_SCHEMA_INVALID', 'schemaVersion', 'Stability limitation audit schema is invalid.');
   if (receipt.stageId !== 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT') add('RTK_V4_E12_STABILITY_STAGE_INVALID', 'stageId', 'Audit stage id is invalid.');
@@ -103,6 +115,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && !ledgerIsFollowupSuccessor
     && !ledgerIsModernCommentSuccessor
     && !ledgerIsP0Successor
+    && !ledgerIsFinalEnvelopeSuccessor
     && receipt.boundLedger?.sha256 !== sha256File(LEDGER_PATH)) {
     add('RTK_V4_E12_STABILITY_LEDGER_SHA_MISMATCH', 'boundLedger.sha256', 'Bound ledger SHA-256 does not match current bytes.');
   }
@@ -147,7 +160,8 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && !ledgerIsRepeatSuccessor
     && !ledgerIsFollowupSuccessor
     && !ledgerIsModernCommentSuccessor
-    && !ledgerIsP0Successor) {
+    && !ledgerIsP0Successor
+    && !ledgerIsFinalEnvelopeSuccessor) {
     add('RTK_V4_E12_STABILITY_LEDGER_STATE_INVALID', 'ledger.saturationRule', 'Source ledger must remain wave300 complete not saturated.');
   }
 
@@ -170,6 +184,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_16_111_2_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_SATURATED',
     MATRIX_STATUS,
     P0_MULTI_ROUND_STATUS,
+    FINAL_MATRIX_STATUS,
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_STABILITY_PROFILE_STATUS_INVALID', 'profile.status', 'Profile must bind the stability audit as complete not saturated.');
@@ -192,6 +207,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'A03_C04_MODERN_COMMENT_STATE_READBACK_ONLY_NOT_PROMOTED',
     'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY',
     'SATURATION_LEDGER_RECONCILED_SCALE_ENVELOPE_PENDING',
+    'SUPPORT_ENVELOPE_TERMINAL_READY_FOR_INDEPENDENT_AUDIT',
   ]);
   if (!cell || !allowedCapabilities.has(cell.currentCapability) || cell.state !== 'PHYSICAL_WORD_PROVEN') {
     add('RTK_V4_E12_STABILITY_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability cell must bind stability audit without saturation.');
@@ -216,6 +232,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'WORD_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_WIRED_NOT_SATURATED',
     MATRIX_STATUS,
     P0_MULTI_ROUND_STATUS,
+    FINAL_MATRIX_STATUS,
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must bind the stability audit.');
@@ -238,6 +255,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_03_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT',
     MATRIX_STATUS,
     P0_MULTI_ROUND_STATUS,
+    FINAL_MATRIX_STATUS,
   ]);
   const allowedCurrentStages = new Set([
     'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',
@@ -256,6 +274,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
     'P0_NORMALIZED_CAPABILITY_MATRIX',
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
+    FINAL_NEXT_STAGE,
   ]);
   const allowedNextStages = new Set([
     NEXT_STAGE,
@@ -272,12 +291,18 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     SCALE_NEXT_STAGE,
+    FINAL_NEXT_STAGE,
   ]);
   if (!allowedStateStatuses.has(state.status)
     || !allowedCurrentStages.has(state.currentStage)
     || !allowedNextStages.has(state.nextStage)
-    || state.wordSaturated !== false
-    || state.googleDocsOpened !== false) {
+    || (state.status === FINAL_MATRIX_STATUS
+      ? state.wordSaturated !== true
+        || state.wordSaturationScope !== 'DECLARED_SUPPORT_ENVELOPE_ONLY'
+        || state.readyForFreshIndependentExactHeadAudit !== true
+        || state.googleDocsOpened !== false
+      : state.wordSaturated !== false
+        || state.googleDocsOpened !== false)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATE_INVALID', 'program.v4ExecutionState', 'Program must continue Word-only stability wave sequencing.');
   }
 
@@ -289,6 +314,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     || state.status === 'EXECUTION_03_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT'
     || state.status === MATRIX_STATUS
     || state.status === P0_MULTI_ROUND_STATUS
+    || state.status === FINAL_MATRIX_STATUS
     ? state.nextStage
     : decision.nextStage || '';
 

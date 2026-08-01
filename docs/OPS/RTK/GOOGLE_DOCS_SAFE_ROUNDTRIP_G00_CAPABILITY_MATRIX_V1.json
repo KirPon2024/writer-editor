@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.google-docs.safe-roundtrip.g00-capability-matrix.v1",
   "taskId": "YALKEN_GOOGLE_DOCS_G00_DISCOVERY_BINDING",
-  "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
   "createdAtUtc": "2026-08-01T16:05:00.000Z",
   "originMainSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
   "localHeadSha": "e17f732b4ab38cb70a5c8cb6a7f3fd81d1c712fb",
@@ -10,9 +10,9 @@
     "google-docs-native-conversion-post-d1-v1"
   ],
   "acceptedWordClosure": {
-    "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
+    "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
     "receiptPath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
-    "saturationScope": "DECLARED_SUPPORT_ENVELOPE_ONLY"
+    "saturationScope": "REVOKED_BY_WORD_SAFETY_REMEDIATION"
   },
   "existingGoogleTruth": {
     "evidenceClaimStatusPath": "docs/OPS/STATUS/REVIEW_BRIDGE_GOOGLE_DOCS_EVIDENCE_CLAIM_BINDING_001_STATUS.json",
@@ -239,33 +239,9 @@
   "previousStatus": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
   "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
   "wordSafetyRemediation": {
-    "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "wordAcceptanceRevoked": true,
-    "googleProductImplementationAllowed": false,
-    "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT",
-    "activeTaskId": "YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-    "currentContour": "C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
-    "currentContourStatus": "LOCAL_VERIFIED_PENDING_DELIVERY_CHAIN",
-    "currentBaseSha": "488a6873dbb02ef13ba8c201a27c2e3d73a477d7",
-    "c1Delivered": true,
-    "c2Delivered": true,
-    "c3LocalVerified": true,
-    "c4RequiredNext": true,
-    "c5RequiredAfterC4": true,
-    "wordAcceptanceRevokedUntilC1C5AndIndependentAudit": true,
-    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
-    "automaticApplyCertified": false,
-    "wordSaturated": false,
-    "vetoMetrics": {
-      "falseExact": 0,
-      "wrongSceneRouting": 0,
-      "silentApply": 0,
-      "replayFailure": 0,
-      "silentCommentLoss": 0,
-      "productNetwork": 0
-    },
-    "latestReceipt": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
-    "updatedAtUtc": "2026-08-01T15:16:23.540Z"
+    "status": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
+    "wordAcceptanceRevoked": true
   },
   "wordSafetyRemediationV1": {
     "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",

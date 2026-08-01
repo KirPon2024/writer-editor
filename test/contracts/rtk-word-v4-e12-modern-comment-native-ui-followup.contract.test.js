@@ -98,9 +98,9 @@ test('E12 saturation ledger binds native UI physical limitation and keeps Word c
   assert.equal(binding.path, RECEIPT_PATH);
   assert.equal(ledger.coverageLedger.modernCommentNativeUiFollowup.status, 'BOUND');
   assert.equal(ledger.coverageLedger.modernCommentNativeUiFollowup.outcome, 'TARGETED_30_CASE_NATIVE_UI_GAP_CLOSURE_CONFIRMED_WITH_TYPED_LIMITATIONS_NO_GENERIC_WAVE_REPEAT');
-  assert.equal(ledger.notSaturatedReasons.includes('MODERN_REPLY_REMAINS_ZERO_PARENT_LINK_NOT_CERTIFIED'), true);
-  assert.equal(ledger.notSaturatedReasons.includes('TRIPLE_ADJACENT_TRACKED_EDITS_WORD_MODEL_TYPED_LIMITATION'), true);
+  assert.equal(ledger.notSaturatedReasons.includes('WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE'), true);
+  assert.equal(ledger.notSaturatedReasons.includes('C5_FULL_PHYSICAL_WORD_RECERTIFICATION_REQUIRED'), true);
   assert.equal(ledger.saturationRule.saturated, false);
-  assert.match(program.v4ExecutionState.nextStage, /^EXECUTION_03_(A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR|A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE|A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS|A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR)$/u);
+  assert.match(program.v4ExecutionState.nextStage, /^(WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION|EXECUTION_03_(A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR|A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE|A03_C04_MODERN_COMMENT_STATE_ONLY_IF_PHYSICAL_PASS|A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR))$/u);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });

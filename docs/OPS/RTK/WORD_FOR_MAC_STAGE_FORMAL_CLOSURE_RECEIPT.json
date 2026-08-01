@@ -1,8 +1,8 @@
 {
   "schemaVersion": "yalken.rtk.word-for-mac.formal-stage-closure-receipt.v1",
   "taskId": "YALKEN_WORD_STAGE_FORMAL_CLOSURE",
-  "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
-  "result": "PASS",
+  "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
+  "result": "REVOKED_BY_SOURCE_BOUND_REMEDIATION",
   "createdAtUtc": "2026-08-01T16:05:00.000Z",
   "controllerAcceptance": {
     "independentAuditThread": "019fbd7d-f375-7a72-836f-81301bd6eda9",
@@ -11,9 +11,9 @@
     "zeroOpenP0": true,
     "zeroOpenP1": true,
     "zeroOpenP2": true,
-    "wordStageAccepted": true,
-    "wordSaturationAccepted": "TRUE_DECLARED_SUPPORT_ENVELOPE_ONLY",
-    "googleDocsStageEligibility": "CONFIRMED"
+    "wordStageAccepted": false,
+    "wordSaturationAccepted": "REVOKED_BY_SOURCE_BOUND_EVIDENCE",
+    "googleDocsStageEligibility": "REVOKED_WORD_REMEDIATION_C1_C5_REQUIRED"
   },
   "sourceBindings": [
     {
@@ -25,25 +25,25 @@
     {
       "id": "WORD_NORMALIZED_CAPABILITY_MATRIX",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-      "sha256": "e2052fd92944517c06f4a4f50182814f951e955c1c78df751307d4ee3448d805",
+      "sha256": "c560bd4cce061029578ac510d1589cb923680a2a9a455d8b2c2c4521b8488460",
       "status": "BOUND"
     },
     {
       "id": "POST_D1_PORTABILITY_PROGRAM",
       "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "29f446b4fac4144a3d25cded20f0daa5ea574c0370dae7a09f82b6c271aa5e66",
+      "sha256": "f34751eba907425dd029ae54a6b73f299e40158c73d2ca7f11272b86e1fb9791",
       "status": "BOUND"
     },
     {
       "id": "WORD_CAPABILITY_PROFILE",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "ecd9b47d488a41f05d9b96703d6da546ec3f5416b775f4598ad5e509acadd580",
+      "sha256": "a4c2076c006b2d676600d83e810fe0be4502cd9a509a6671ede85266e195fe94",
       "status": "BOUND"
     },
     {
       "id": "WORD_SATURATION_LEDGER",
       "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "10cd3dc04bba1c46a2ae0ddf8f755001f62dd5e6087c21e6e52cca8ee325cdb8",
+      "sha256": "08e44cdeb3bf5329084f9101e12703d7e18c77a71cf41ff46e7eb32db709d54b",
       "status": "BOUND"
     }
   ],
@@ -60,7 +60,9 @@
     "automaticApplyCertified": false,
     "broadAutomaticApplyCertified": false,
     "googleDocsOpenedDuringWordStage": false,
-    "programDone": false
+    "programDone": false,
+    "acceptedDeclaredSupportEnvelopeOnly": false,
+    "revocationStatus": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE"
   },
   "preservedTypedLimitations": {
     "modernReplies": "TYPED_WORD_OOXML_LIMITATION",
@@ -84,11 +86,21 @@
     "physicalWordEvidence": 16,
     "automaticApplyCertified": 0
   },
-  "nextStage": "GOOGLE_DOCS_G00_DISCOVERY_BINDING",
+  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
   "nonClaims": [
     "Word corpus growth is closed unless new source-bound evidence reopens it.",
     "Word typed limitations remain typed limitations.",
     "Program DONE is not claimed.",
-    "Google Docs support is not claimed by Word closure."
-  ]
+    "Google Docs support is not claimed by Word closure.",
+    "Word acceptance is revoked until C1-C5 and a fresh independent exact-head audit pass.",
+    "Google Docs implementation remains blocked by Word safety remediation."
+  ],
+  "revocation": {
+    "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
+    "revokedBy": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
+    "latestRemediationReceipt": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_RECEIPT.json",
+    "reason": "SOURCE_BOUND_WORD_SAFETY_REMEDIATION_C1_C5_REQUIRED_BEFORE_WORD_ACCEPTANCE",
+    "wordSaturated": false,
+    "googleDocsStageEligibility": false
+  }
 }

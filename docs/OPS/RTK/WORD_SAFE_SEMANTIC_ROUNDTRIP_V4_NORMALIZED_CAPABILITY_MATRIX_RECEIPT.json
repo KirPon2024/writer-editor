@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix-receipt.v1",
   "taskId": "WORD_RTK_NORMALIZED_CAPABILITY_MATRIX",
-  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_REOPENED_BY_SAFETY_REMEDIATION_C4_VERIFIED",
   "result": "PASS",
   "createdAtUtc": "2026-08-01T10:20:00.000Z",
   "matrixBinding": {
@@ -51,7 +51,7 @@
       "TYPED_LIMITATION": 2
     }
   },
-  "nextStage": "READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT",
+  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
   "nonClaims": [
     "Automatic apply is not certified broadly.",
     "Physical Word evidence is not product runtime authority by itself.",
@@ -65,5 +65,10 @@
     "node scripts/ops/governance-approval-state.mjs --json",
     "npm run -s test:ops",
     "node scripts/run-tests.js"
-  ]
+  ],
+  "wordAcceptanceRevocation": {
+    "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
+    "latestRemediationReceipt": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_RECEIPT.json",
+    "wordSaturated": false
+  }
 }

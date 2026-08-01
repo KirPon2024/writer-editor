@@ -69,8 +69,11 @@ test('V4 E02 updates capability truth but does not claim YRTK2 runtime authority
   assert.equal(receipt.selectedCarrier.requiresYrtk2BeforeRuntimeAuthority, true);
   assert.equal(receipt.runtimeClaims.automaticApplyExpanded, false);
   assert.equal(receipt.runtimeClaims.parserAuthorityIntegrated, false);
-  assert.equal(program.v4ExecutionState.currentStage, 'EXECUTION_02_LOCATOR_STACK_SURVIVAL_LAB');
-  assert.equal(program.v4ExecutionState.nextStage, 'EXECUTION_03_COREMANIFEST_EXPORTMAP_HASHTREE_YRTK2');
+  assert.equal(program.v4ExecutionState.currentStage, 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH');
+  assert.equal(program.v4ExecutionState.nextStage, 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION');
+  assert.equal(program.v4ExecutionState.wordAcceptanceRevoked, true);
+  assert.equal(program.v4ExecutionState.wordSaturated, false);
+  assert.equal(program.v4ExecutionState.readyForFreshIndependentExactHeadAudit, false);
   assert.equal(program.v4ExecutionState.wordSaturationCurrentFocus, true);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });

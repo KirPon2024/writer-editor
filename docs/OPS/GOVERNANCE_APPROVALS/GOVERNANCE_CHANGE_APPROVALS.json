@@ -2,6 +2,15 @@
   "version": "v1.0",
   "approvals": [
     {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "c5827d031bdd607066dd7a5d35fb4052977611a0b0e288a2301ddcb1c7b83372",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
+    },
+    {
       "filePath": "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
       "sha256": "73774d9cfeb9b0b2a4656b8d2adddfcccc5765c8b618094a4db38be5e292bb91",
       "approvedBy": "ticket:TZ_EXEC_PKG_01_A03_2026_02_27",
@@ -1003,6 +1012,60 @@
       "approvedBy": "ticket:TZ-24B-CONSOLIDATE-UNBLOCK-AND-COMMIT-008",
       "approvedAtUtc": "2026-02-18T12:05:00.000Z",
       "rationale": "Consolidate TZ-24B closure payload and strict wave governance approvals."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a87baa693981-54a0f555/failsignal-registry-snapshot.json",
+      "sha256": "480a720d5f877f5109ea1e0462950bd60500b7823221f0ab7417d98c90e98495",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a87baa693981-54a0f555/heavy-lane-summary.json",
+      "sha256": "51282fb9258136ee4e9c4801827ab11659733b20f172c0569a0fe2ef9a1ae75f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a87baa693981-54a0f555/menuArtifactHash.txt",
+      "sha256": "563888465ca5c797e785710fe85e1b665de7afb395c44a42064a618574dd7927",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a87baa693981-54a0f555/perfBaseline.json",
+      "sha256": "4c2ba9bc56ac34e0e1a6dbabb0bd4506d348699837ed287078e85325244977e3",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a87baa693981-54a0f555/promotion-summary.json",
+      "sha256": "bab5a03473a65b7277ced9ce5923356f4678aa51066c184a3ca007a9c04951a6",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/promotion/rc-a87baa693981-54a0f555/token-required-set.json",
+      "sha256": "53845afe43620c1da737dba37aaf96a86d09e3a0cc5ee4b086b1912282956ac5",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "docs/OPS/EVIDENCE/promotion/rc-bad1149ed99b-592e3737/failsignal-registry-snapshot.json",
@@ -2447,11 +2510,47 @@
       "rationale": "Approve bounded G0C exact-safety receipt required by the owner-approved RTK V6 contract; it records local verification evidence only and introduces no runtime wiring, product behavior, dependency, network, cloud, storage, export, or UI capability."
     },
     {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
+      "sha256": "53e31b720f54b51fe11e268ad045171ba70f2abdc7a87a8d67381ad0e3695d9f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
+      "sha256": "ba2313ff407257d1f09f11d5ec8c42a2b5447ad6fee78768aa12e8d533782831",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
       "filePath": "docs/OPS/RTK/POST_D1_A00_RECONCILIATION_RECEIPT.json",
       "sha256": "99558f5aeb27b96980bd36b130e3d81cc6b8a3dbeb3bbbe0d2c8a4525ba9fcd3",
       "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
       "approvedAtUtc": "2026-07-30T13:19:11.000Z",
       "rationale": "Approve bounded post-D1 A00 reconciliation receipt: records fresh origin main, isolated T7 worktree, preserved dirty owner main and Atlas worktree, immutable D1 Word 16.42 F00 status, supplemental latest Word evidence as not certified, missing physical editor profiles, no runtime widening, no UI change, no dependency change, no build install download, and handoff to the A01 lab harness."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "f34751eba907425dd029ae54a6b73f299e40158c73d2ca7f11272b86e1fb9791",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+      "sha256": "f381ca1cf20f5fd4e489f1a332a9cfcec0d874a5bdc35dd085387c2e6b710e3d",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "docs/OPS/RTK/W5_RELEASE_HARDENING_CERTIFICATION_STATUS.json",
@@ -2462,10 +2561,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_FOR_MAC_STAGE_FORMAL_CLOSURE_RECEIPT.json",
-      "sha256": "0c26cf0a3665f0587e152f6bc89f676c825bcbf5f8b332db794829e9c8420b05",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
+      "sha256": "ad2f378d5d66973b7f8fc96de95c7e39a64e331340c46af70b8f50fefc9ff757",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_LATEST_SEMANTIC_ROUNDTRIP_V2_B00_DESIGN_RECEIPT.json",
@@ -2758,10 +2859,12 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_BINDING_STATUS.json",
-      "sha256": "3c54d847fb41af0b0eb7f43dfb8a3a8b1a9739e16357d94e08880de0f8e81746",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
-      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
-      "rationale": "Approve V4 canonical binding status: binds the exact V4 spec digest as an active post-D1 Word extension after C05 merge, preserves global v3.13a canon, V6 history, D1 evidence, and C03-C05 receipts, records Google Docs as not opened before Word saturation, and adds no runtime, UI, network, dependency, or physical Word saturation claim."
+      "sha256": "f9b990c10010491383dbd52ad99d7ea676f7270be70b46e2351abadcc92834d0",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION_RECEIPT.json",
@@ -2769,6 +2872,15 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
       "approvedAtUtc": "2026-07-31T04:30:00.000Z",
       "rationale": "Approve V4 canonical integration receipt: records EXECUTION_01 intent, exact spec digest, C05 PR 1275 merge binding, feature manifest, capability profile, no V6 or D1 rewrite, no HMAC/YRTK2, no locator carrier selection, no physical Word saturation, no UI, no runtime registry, no product network, next stage EXECUTION_02 locator survival lab, and local V4/governance/sector/json/OSS/ops/full-runner PASS evidence."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "a4c2076c006b2d676600d83e810fe0be4502cd9a509a6671ede85266e195fe94",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
@@ -2904,6 +3016,15 @@
       "rationale": "Approve final bounded E12 physical Word wave-40 contour after local verification: records 40 synthetic Word 16.111.2 physical round trips, 300k scale, 120 dense comments, zero veto metrics, sandbox work root repair into Microsoft Word container tmp, T7-Secure evidence retention, governance/OSS/ops/focused/full-suite PASS, no Word SATURATED claim, no Google Docs opening, no runtime apply expansion, no UI change, no dependency, and no network."
     },
     {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "08e44cdeb3bf5329084f9101e12703d7e18c77a71cf41ff46e7eb32db709d54b",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT_RECEIPT.json",
       "sha256": "2d914a5e62785d12b5191b796d4c5d26badf9a885fa6b42e881103382ac0ced6",
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_STABILITY_LIMITATION_AUDIT",
@@ -2912,21 +3033,21 @@
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
-      "sha256": "f04dfdb8356e1df1b4bcc06a2e038f7ff5a656b8db715fcb9d186d22d9ee5b25",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "6bde1d59716a499fc4418b52859ac36843bd9191ba11a73250f21bdff6b90674",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
-      "sha256": "e2052fd92944517c06f4a4f50182814f951e955c1c78df751307d4ee3448d805",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "c560bd4cce061029578ac510d1589cb923680a2a9a455d8b2c2c4521b8488460",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C1_EFFECT_RESERVATION_RECEIPT.json",
@@ -2945,6 +3066,24 @@
       "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
       "approved": true,
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
+      "sha256": "dc3c1644dec2da947e3c5a1c9421e941406cad6096b2f0598ddb8addca073efd",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_RECEIPT.json",
+      "sha256": "555883779d7998fa362eb7c7e74fc8d24b048f0f9eb1a12457692288bac6a1fc",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
@@ -4713,6 +4852,15 @@
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_P1_REOPEN"
     },
     {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_INDEPENDENT_AUDIT_REPAIR_RECEIPT.json",
+      "sha256": "d20765883c9d711fe43254cfbbb4f9017e8780aa53ce01b73c7c68e891a7784c",
+      "approvedBy": "owner:CONTROLLER_CORRECTION_ATLAS_EVENT_REPAIR_INDEPENDENT_AUDIT_HOLD",
+      "approvedAtUtc": "2026-08-01T18:20:00.000Z",
+      "rationale": "Approve append-only bounded Atlas V5 domain-event independent audit repair receipt: records strict mapping, closed payloads, immutable historical baseline, real emitter propagation, focused and full evidence, delivery pending, no Program DONE claim.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
+    },
+    {
       "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_R2_C00_TRUTH_RECONCILIATION_RECEIPT.json",
       "sha256": "489bbfefce6ecb70e14d9472798775b732896667d71ac95a453c517c96ccdd20",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
@@ -4846,6 +4994,15 @@
       "rationale": "RECOVERY_READABILITY_CENTRAL_BINDING_001 approves the existing-token declaration rebind for RECOVERY_HUMAN_READABLE_OK after the detector path was merged and proven green."
     },
     {
+      "filePath": "scripts/doctor.mjs",
+      "sha256": "b7c6be7070986b9a757782450b30c7bebab2de5145eccf124d81cd59df3737dc",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
       "filePath": "scripts/ops/attestation-trust-lock-state.mjs",
       "sha256": "2b3600a3320b55b05078a82c585c177801a10230ba596e833b4806da363eefbd",
       "approvedBy": "ticket:TZ-P0-04-ATTESTATION-TRUST-LOCK-HARDENING-003",
@@ -4879,6 +5036,15 @@
       "approvedBy": "ticket:TZ-RUNNER-NO-POPUP-SINGLE-ENTRY-01",
       "approvedAtUtc": "2026-02-19T10:37:19.694Z",
       "rationale": "Enforce non-interactive runner auth/network preflight with session cache to prevent popup-style prompts in PR flow."
+    },
+    {
+      "filePath": "scripts/ops/collab-apply-pipeline-state.mjs",
+      "sha256": "9ac61342cdcae4b3449f5521b3075ab9271a5c5f3fdf2f4c32518acdbffbde28",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/command-surface-caller-trust-state.mjs",
@@ -5316,17 +5482,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-google-docs-g00-discovery-binding.mjs",
-      "sha256": "24c0197ae508ad74b67c638a22817167a4a69c9899aa281fefe24c0fb405c480",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
+      "sha256": "3014e5e97ab34efcd37cb254cada42e873662bfb9b7eea36f2a29e1d61b59908",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-post-d1-editor-lab-harness.mjs",
-      "sha256": "1fef5c09ca0499d00762db5f8b53a070aafcb1d5c8a7c88848b0ef7d2c31a239",
-      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
-      "rationale": "Approve bounded post-D1 editor lab harness and verifier: validates the post-D1 program and A00 receipt, exposes a synthetic-only ledger plan, requires encrypted T7-Secure before physical editor runs, writes lab ledgers atomically only under the deterministic T7 evidence root when explicitly requested, enforces timeout resume cleanup and fixture-only PASS rejection, and adds no product runtime entrypoint, no UI, no dependency, no build, no install, no download, no user document handling, and no profile certification."
+      "sha256": "9047143608aec9ad6ae2f465e3f20b3dd53ac34b6df60859d71a9ebcee49253e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-w5-release-hardening-certification.mjs",
@@ -5358,66 +5528,66 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-normalized-capability-matrix.mjs",
-      "sha256": "0bfaf6ac11fb132fffd3c256df75bf6946bd763c2ed27d0c117962144c708ad8",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "1dd2410abb30b9150a7cd9f188b2bd9b57d102e276ef5cfa7cb89a6f4f114be6",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-p0-modern-comment-replies-typed-limitation.mjs",
-      "sha256": "cb5c3d3523fefdecfc0458eeb98a6ee7b4713603669d897ce186425ca1013f13",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "8a866c773c6ab7a96ad810ef23ab8b86cdd9427f09c4ec61ea8863f1378cdc3b",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-p0-modern-comment-resolve-reopen-typed-limitation.mjs",
-      "sha256": "e980cf0047dbb0ac121148a00da03cfcacaec99fdeeeaa89badfc797d8befbc1",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "8f2debbd2df30dec19c51e9d807430c05343ba4f71b520f6307ba66be399b839",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-p0-multi-round-ledger-reconciliation.mjs",
-      "sha256": "a1742e5bf2c53737a9ed330a7fc0d806ca562e71ccc420b24476acfaa006c478",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "147dede584983ace71ff9a5f34a0a8f2f722f671a63df39d3ff0a2b6b63fabeb",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-p0-safe-formatting-lane-typed-limitation.mjs",
-      "sha256": "d4fba10f83916aebe70cd4bff677e73937cb2917aa80706c673dc850d6a8ac66",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "0b9f17112e46a4bbf03779525bab34c99ad970734aa2f497ace785e00fde9b82",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-p0-safe-structural-lane-typed-limitation.mjs",
-      "sha256": "57e14d7d40d5e7f341bc6a9a4d3192ebe5e93c1797a4e36f72cd51f2fbad1689",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "6eab35919a85fc4374249164a24ed4d169d4a02c3b681decd57b54124485692e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-p0-scale-envelope-terminal-audit.mjs",
-      "sha256": "437aa20a51decf15a710671295e4ca676970e9365ff8a8bca57bface2eadff6d",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "00d5f57a1deffd1c92b55067ae3c4a95d761d14cba7e63bd4805361c8a6081f6",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-500k-terminal-audit.mjs",
@@ -5449,10 +5619,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.mjs",
-      "sha256": "02c5ba8d3d6f79bdc5f3c557fec497b4860765c29818b1c20afa5dcfd2e5fb4f",
-      "approvedBy": "owner-brief:WORD_RTK_MULTI_SCENE_ATOMIC_AND_COMMENT_STATE_CLOSURE",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "Owner-approved bounded P0 Word contour for multi-scene atomic command apply and comment delete state closure; Word replies and resolve reopen remain typed limitations; automatic apply false; Word saturated false; Google Docs closed."
+      "sha256": "4d669c54e6fbd2caa9156572eae842ea7ab5bf9b2aee2bed86adf1699fcd717f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-release-audit-p0-parsed-ir-preview-apply-replay.mjs",
@@ -5533,12 +5705,12 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c01-comment-shadow-runtime.mjs",
-      "sha256": "555bed3954c3d08d9d6761c4f3ab7563ad96a827a0a285a9cb7528635eabd0bb",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "39155be340540ba2de536648f1cf2b30c6f4bdb1f4b3e5647bb9dcf7142033f3",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c02-non-overlap-tracked-replacement-runtime.mjs",
@@ -5549,26 +5721,30 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c03-adjacent-range-negative-oracle.mjs",
-      "sha256": "fe0711b3f874219a257d964b777eef9a1513b52e87fee33806477d4798d4ffab",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+      "sha256": "4723bb69e487e8ca6632d1ab8d4fe81f355cc56c9ece3dc3d269b3647438f9cf",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c04-modern-comment-state.mjs",
-      "sha256": "01a980a8a06751b5c31f3e27b34833956dbe71b050982f7dd4a1739515494019",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "5dd2798e30e03aecc1ad87ce6477785649eb268fac89448ee1eba9675d37ac04",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-a03-c05-non-overlap-product-path.mjs",
-      "sha256": "44b64d8dfcd5d37a6f53fd34ab17d15f48b37f2449b4e684b0b51487973c6eb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C05_NON_OVERLAP_PRODUCT_PATH_TRUTH_REPAIR",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C05_NON_OVERLAP_TRACKED_REPLACEMENT_PRODUCT_PATH_DELIVERY"
+      "sha256": "f24665f2ffff767a1e957af4c79faa822cfb24258f684d232531782ce963c2ff",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e02-locator-stack-survival.mjs",
@@ -5677,21 +5853,21 @@
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-saturation-ledger.mjs",
-      "sha256": "0c1a80474573b3f22c272c8124787a85309821968d412fb24af4e2c0ea32ffe3",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "ac17b484bb0b6030f82ab9b61a612e45ac4755029e7a1074cac87fa155df157d",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-limitation-audit.mjs",
-      "sha256": "ed83aa499d16ebe6407ef518bd3d422ea65b4515e099fd471e67be85538b8741",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "bec9afcf98616386f0ffefbcfd1458a917813d9fdb6f49c19e5787b1b08d2c9f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "scripts/ops/rtk-word-v4-e12-stability-wave300-repeat.mjs",
@@ -5965,6 +6141,15 @@
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT:P0_06_MULTILINGUAL_MATCHER_FINAL_REBIND",
       "approvedAtUtc": "2026-08-01T07:55:00.000Z",
       "rationale": "Approve final P0_06 multilingual matcher delivery bytes: language policy routes before production matching, canonical casefold and grapheme-aware boundary matcher replaces raw case-sensitive UTF16 search, product mention index and Core admission evidence PASS, focused pack PASS 28, full runner PASS 799 total 735 pass 0 fail 64 skipped, no network, no dependency, no Program DONE claim."
+    },
+    {
+      "filePath": "scripts/run-rtk-tests.mjs",
+      "sha256": "4bcc098dd386785336823d1f93baffe940709e8ada7af115f470ea7179c685ff",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Word safety remediation C4 test graph and CI truth rebind: deterministic RTK catalog, test:rtk command, required CI workflow, stale guard rebinding to source-bound Word acceptance revocation, Google report-only blocked, no product capability expansion, C5 physical Word recertification still required.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_WITHIN_OWNER_DELEGATION"
     },
     {
       "filePath": "scripts/sector-m-run.mjs",
@@ -6266,6 +6451,15 @@
       "rationale": "Approve bounded W1/W2 V6 canon repair: stable RTK contracts, platform-neutral Review IR core, no regex normative XML parser, canonical durable review storage, comment-lane/source-mode fixes, no UI, writer, DOCX Minimal, network, dependency, apply, or W3 scope."
     },
     {
+      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
+      "sha256": "bfa98cd3550e6718090efd9f73290d0907f0bb193d3e4a635b603737262f8acb",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
       "filePath": "src/io/revisionBridge/reviewTransportRoundStore.mjs",
       "sha256": "79560b97da9231f5c3e3fc257f07adc644fd7bb69b81ff92661688aa66194871",
       "approvedBy": "ticket:YALKEN_RTK_W1_W2_CANON_REPAIR",
@@ -6292,6 +6486,24 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E03_COREMANIFEST_YRTK2",
       "approvedAtUtc": "2026-07-31T05:05:00.000Z",
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "191dda33c00722181da91bfb29dd3017de25ab8dd79e9d39bc64452450d5e602",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve current src/main.js bytes after preserving the merged Word C3 worker output budget semantics and adding the bounded Atlas V5 scene-order event repair: tree reorder no longer uses targetIndex as commandSeq, returns real SceneOrderChanged facts and digest, and fails closed when fact construction fails; no UI redesign, no network, no dependency, no storage bypass.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
+      "sha256": "13787a4a0fbe513d89adaa0d9fb8cf47238ba6d26ff9cd5dee5b7327f3e238ba",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
     {
       "filePath": "src/preload.js",
@@ -6397,6 +6609,24 @@
       "approvedBy": "ticket:TZ_CONTOUR_CLOSE_V4_A03_GIT_FORMALIZATION",
       "approvedAtUtc": "2026-02-28T08:20:46.000Z",
       "rationale": "TAILS_GIT_FORMALIZATION_GOVERNANCE_REBIND"
+    },
+    {
+      "filePath": "test/contracts/collab-apply-pipeline-deterministic.contract.test.js",
+      "sha256": "6524a6af6fe030a0a8822fc3526c5a28836f3aaba574ba7575c8ff10f86592ed",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "test/contracts/collab-apply-pipeline-typed-errors.contract.test.js",
+      "sha256": "7554ab766eb92d8728be2580135e954f1e6e2f5e8ba1688ce5ec6a7962fedd28",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/command-catalog.contract.test.js",
@@ -7275,10 +7505,12 @@
     },
     {
       "filePath": "test/contracts/rtk-g0b-feasibility.contract.test.js",
-      "sha256": "fc3b5976fd2fe76869eea81548de2168828bf613fe5dc889e1541f41e912ee4b",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
-      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
-      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+      "sha256": "e24a7d88469ca329098930e3d46e710ea33cb8c28e4d7f40712dbb94fcc31084",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-g0c-exact-safety.contract.test.js",
@@ -7289,31 +7521,48 @@
     },
     {
       "filePath": "test/contracts/rtk-google-docs-g00-discovery-binding.contract.test.js",
-      "sha256": "5443634665bbc3d6c74fb769e9fa59ab245f7a731513e12a8101f52927566b9b",
-      "approvedBy": "owner:FINAL_CONTROLLER_ACCEPTANCE_AND_NEXT_STAGE_GO",
-      "approvedAtUtc": "2026-08-01T16:05:00.000Z",
-      "rationale": "Approve G00 Google Docs discovery binding: Word for Mac stage is formally closed on accepted declared support envelope, Google Docs stage opens with evidence-claim-only current truth, no support/import/roundtrip/API/apply claim, and next physical work gated on already-authorized synthetic session."
+      "sha256": "a4f1b8fca734c1b8fee604a3a2fa7aa38afecbf7be4d549e1939afdfe156ebfe",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-post-d1-portability-program.contract.test.js",
-      "sha256": "df2ec25c82d3670fa84542fa14480c147590713736f1daaad493ed4a79ebb53e",
-      "approvedBy": "ticket:YALKEN_RTK_POST_D1_MAXIMUM_PORTABILITY_AND_EDITOR_MATRIX",
-      "approvedAtUtc": "2026-07-30T13:19:11.000Z",
-      "rationale": "Approve focused post-D1 portability contract: proves A00 and A01 are bounded, D1 history is immutable, latest Word remains uncertified, all external editor profiles require physical evidence and reject fixture-only PASS, writer formatting scale lanes and locator research queue are present, harness guard and ledger are synthetic-only, and false certification or fixture-only profile PASS mutations fail."
+      "sha256": "3b9849e107d047047837c8244e569006ecb12d12a20f1cd56045d07ed68ae36f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
+      "filePath": "test/contracts/rtk-test-graph-catalog.contract.test.js",
+      "sha256": "b30d65c12e422d5a8dfa13b9e3c338d71bbade15f05b18528c293c02d4e630ce",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-w1-no-write-vertical-slice.contract.test.js",
-      "sha256": "be9d3c528e2cdb3cce3a656a6b2efe18dcc65e1c051574e858236a077004e687",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
-      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
-      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+      "sha256": "b391bcc18509efd60276541ddcceeb3be1668f8f6b1d475a1078c7bce9c9abb4",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-w2-bounded-parser-review-ir.contract.test.js",
-      "sha256": "16db2910007a50fc850c190b69f42aec27b6ed73b88ffdb909731a4724a8f449",
-      "approvedBy": "ticket:YALKEN_RTK_AUTONOMOUS_MASTER_PLAN_V6_W3_EXACT_APPLY_REPLAY_RECOVERY",
-      "approvedAtUtc": "2026-07-29T17:18:00.000Z",
-      "rationale": "Approve bounded W3 V6 exact apply replay recovery: main-owned command envelope, source revision and raw-byte guards, existing exact batch writer adapter only, write-once outcome store, recovery-resolution evidence, same-round replay safety, no UI, parser, AI writer edge, dependency, network, fuzzy, structural, multi-scene, DOCX Minimal, or Design OS scope."
+      "sha256": "2f4271873dcae919b38d43b848c305346c4c90ec20f3c81c2c0d2a8123d83b34",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-w3-exact-apply-replay.contract.test.js",
@@ -7380,12 +7629,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-normalized-capability-matrix.contract.test.js",
-      "sha256": "747567192fe311a44648fae6c2ed06ee69ff0ed463106d9b394f3ec9ffcdaa84",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "b71a10119314c1bd53f1c7a0ec5c6c7e697e7068fa20446af0847bab6605e2b0",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-p0-modern-comment-replies-typed-limitation.contract.test.js",
@@ -7407,12 +7656,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-p0-multi-round-ledger-reconciliation.contract.test.js",
-      "sha256": "d611fe3715c2af58eaa11bb4ac925385f5a610ea8fb744ba7d28fa702981e985",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "29c979f214aa45ad0c37c74d0b834f75c6b14dea825b6a8dc9f9546b6381710f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-p0-product-review-docx-exporter.contract.test.js",
@@ -7441,19 +7690,21 @@
     },
     {
       "filePath": "test/contracts/rtk-word-p0-scale-envelope-terminal-audit.contract.test.js",
-      "sha256": "8b9af2471b919141813a4e7d09cd4799d33b3ccce4af808ade2e2aad093a82bf",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "cdf1784ad68efa7fd00ef14103a82f6ddd02443b2d4f18ae9ed258e606f90aad",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-500k-terminal-audit.contract.test.js",
-      "sha256": "8b130af541ffdba13657806b9951c553b12557dbf463b94e5035262af799d6aa",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
-      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+      "sha256": "a196bc0dac596176781d27407e8ccf1b5728c223c6e6a77161dba913a55a6452",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-comment-shadow-authenticated-session.contract.test.js",
@@ -7464,24 +7715,30 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-controlled-grant-probe.contract.test.js",
-      "sha256": "d5999277a7b4e57ca0f64c232d9a96ff7e0d717d07680518a6b13fab7fb296bd",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:59:28.553Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke LaunchServices physical PASS repair: synthetic Review DOCX physical open-edit-save-close-reopen 12/12, latest Word comment extension parts admitted to existing semantic parser, packageInvalid false, no exporter or carrier rewrite for macOS prompt, automatic apply false, Word saturated false, Google Docs closed."
+      "sha256": "90c79790753746a4afdcb8de5988eb895f73b1acc4263f92bf668d6fbc5ca7d2",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
-      "sha256": "104d8e51f242691cc294c7d7f97969ae0ecb6ae63eb65c5e7ece8273ba078e87",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:30:00.000Z",
-      "rationale": "Approve Word P0 safe structural lane typed-limitation contour: E09 physical structural evidence and product-loop structural diagnostics are bound, structural edits remain manual or blocked only, no structural writer authority or automatic apply is added, normalized matrix advances to multi-round reconciliation, Word saturated remains false, and Google Docs remains closed."
+      "sha256": "161b59ff6f57a39a132ae8bde248a242be1ca4ee4721199df673a6cc4a82f2b9",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
-      "sha256": "71f9f7aac9f7b65009c2d422a956b4cc287f74fef712c145d11b32386b965de4",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
-      "approvedAtUtc": "2026-08-01T11:29:47.362Z",
-      "rationale": "Refresh stale governance approval entry to current origin/main-bound file bytes after safe EFINAL drift reconciliation; no product runtime readiness is inferred from this approval."
+      "sha256": "90ad85984832897da5e1e825f058d667ab3d5993555c85154598ca5dfad8fea9",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-multiscene-atomic-comment-state-closure.contract.test.js",
@@ -7499,10 +7756,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-postmerge-truth-rebind.contract.test.js",
-      "sha256": "271a614328253f978925339e79f3ec9ca5c1507ad58e98cb7b0a7867979bbd86",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T07:00:00.000Z",
-      "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
+      "sha256": "f89f7d3b8100b01d89a8c05eeac461523f980cc8c349d41544f8472aa70f11fa",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-product-comments-mixed-multiscene.contract.test.js",
@@ -7527,10 +7786,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-repeat-high-density-stress.contract.test.js",
-      "sha256": "6c7f47cf72a17819bc3a0018c164897d4b5141df20c2d4da4fae0c904000be03",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_EFINAL_EXACT_HEAD_SELF_CHECK",
-      "approvedAtUtc": "2026-08-01T11:29:47.362Z",
-      "rationale": "Refresh stale governance approval entry to current origin/main-bound file bytes after safe EFINAL drift reconciliation; no product runtime readiness is inferred from this approval."
+      "sha256": "3f109ed051b90a8ca0d4796e41ead83bc1bb2e50ae11ca4a1784407958d05c8e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-release-audit-p0-return-intake-v2.contract.test.js",
@@ -7554,11 +7815,29 @@
       "rationale": "Approve bounded Word P0 varied wave64 product loop: synthetic-only physical Word cases exercise product export, authenticated intake, visible preview, explicit supported apply or comment shadow handling, replay/readback, zero veto metrics, Word saturation false, automatic apply false, and Google Docs closed."
     },
     {
+      "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
+      "sha256": "d9b2ab57f563a87feb566db7c8f22af9ffbed1db55e4d64f64b0243f59d0937b",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
       "filePath": "test/contracts/rtk-word-safety-c2-multiscene-command-path.contract.test.js",
       "sha256": "a96de4632d80f6c4e43c1c695282a87f864e0eb5847c428f340df104ca9b2098",
       "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
       "approvedAtUtc": "2026-08-01T15:02:26.141Z",
       "rationale": "Approve bounded Word safety remediation C2 current bytes after full local gate refresh: canonical multi-scene command path is allowlisted, typed, dispatched through Command Surface Kernel, serialized per project root, validated before writer, replay-safe, rollback-proven, full runner 799/735/64/0, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
+      "sha256": "87d4ff1af222a01cac707bf68fb05c53d40518efd41f36550f534f4f4d5c29bc",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
+      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
+      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
       "approved": true,
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
@@ -7620,12 +7899,12 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c04-modern-comment-state.contract.test.js",
-      "sha256": "c599ae1d5c8dba8b85a2bbf04e527df7f2f6cb425e17b4d076907492dbd61cd5",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "5336d2727a35e111febafaa86125fcc58da132d2d1c79d9dbc9e4caa8815c055",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-a03-c05-non-overlap-product-path.contract.test.js",
@@ -7636,17 +7915,21 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-canonical-integration.contract.test.js",
-      "sha256": "db85dee94158e54a8c22298eb532b474783dd4569658d841e098327621b743c6",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CANONICAL_INTEGRATION",
-      "approvedAtUtc": "2026-07-31T04:30:00.000Z",
-      "rationale": "Approve V4 canonical integration contract: proves exact owner artifact digest, active binding through CANON_STATUS and RTK program state, complete Feature Integration Manifest fields, capability status vector, taint model, reason registry, C05 immediate consumer cell, and negative red cases for digest drift, missing manifest field, premature physical Word claim, premature Google execution, and missing consumer."
+      "sha256": "15a1e79aa4e5054a8557cc30c6bb563d0313597819705315fbc33853b99b5aa2",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e02-locator-stack-survival.contract.test.js",
-      "sha256": "e8d5c8f3530738e1ab717d7634a7d8dc44c7a076f2f32ff76cb9ff8db834c291",
-      "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_LAB",
-      "approvedAtUtc": "2026-07-31T04:45:00.000Z",
-      "rationale": "Approve V4 E02 contract coverage: proves physical C01 evidence binding, custom document property carrier selection, fragile carrier rejection, placement-signal non-authority, capability state update, no YRTK2/runtime apply claim, and negative red cases for stale evidence, customXml selection, overclaim, runtime expansion, and Google drift."
+      "sha256": "d2bee7e584ce7d465c971bf96dd9eaf59a9ad04353a27c398a186da35bfbbf85",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e03-coremanifest-yrtk2.contract.test.js",
@@ -7671,86 +7954,102 @@
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e06-physical-text-certification.contract.test.js",
-      "sha256": "69f8c0bd038910985f6ff4b08af4f8f4eba4a314a9efd8a6268b320f5c41e1e3",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.241Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "sha256": "cba059ca6832cf98c2ce05a7ea507b5a51dad28612484e71ed6e7f854ac8b518",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e07-comments-replies-states.contract.test.js",
-      "sha256": "f9c776161cd090c9bb62db6f51b342c735c55c8c1b662e3cdb4658a670181fac",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
-      "approvedAtUtc": "2026-07-31T18:23:22.242Z",
-      "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
+      "sha256": "667e32fc27e617e230cb1b16399809e7078d064af4813c2d7fa9677de565e3e1",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e08-effective-formatting.contract.test.js",
-      "sha256": "268fa301c12f63271f62989a7d399bf50689f236d32ae3d4bcc28c2860e9d1ed",
-      "approvedBy": "owner:OWNER_GO_RESUME_AFTER_REBOOT_WITH_INDEPENDENT_AUDIT_CORRECTIONS",
-      "approvedAtUtc": "2026-08-01T13:05:00.000Z",
-      "rationale": "Approve Word P0 safe formatting lane typed-limitation contour: E08 physical formatting and product-loop formatting diagnostics are bound, formatting remains preview/loss-report only, no formatting writer authority or automatic apply is added, normalized matrix advances to structural lane, Word saturated remains false, and Google Docs remains closed."
+      "sha256": "b432ea9782d8f311664e6767a15b29aeb283f5f0473c90b5f5486b8cb4f70ee3",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e09-typed-structural-edits.contract.test.js",
-      "sha256": "2ea747531678307253ed27e8d411e00ae670e73919eeb44fab07a55f7a2c5d87",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "e88ef086ad726bc363e2c2de923a1424770a8e75c36757ee05dbbe0fbef899c7",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e10-multi-round-replay-conflicts.contract.test.js",
-      "sha256": "70555f1ad3246a55f1d282303bc4b7fd69a043e14140fe9d8e98f4128dff8f35",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "88e4ee8a13108bbb18e6116999049f6418fe1fdb167d58874929ced90512c38f",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e11-multi-scene-atomic-coordinator.contract.test.js",
-      "sha256": "590ac52cc875cbe3b5f1f4c6e15a05f3c2c9d4c9bbdfb636a1d4abb59785dd50",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+      "sha256": "426abe0b2a62e6293fa2a4128e4400acaf48c33bec3a309a41dd8a057db6cfba",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-customxml-authority-followup.contract.test.js",
-      "sha256": "d148e7b724e778abbe1f6e58c6c83126ad0738f65956bc249b9f465a7d703af3",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+      "sha256": "38475484e23d105f31727de7445201df09152df8b5474e4981e89304e7b50082",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-followup.contract.test.js",
-      "sha256": "146afad81bdb1adc7333d6cefe0d933132381186c523cdaa61840f3b802f7f2e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+      "sha256": "affdc11af0e2564cbc2ebfb03b1fcf61f25639cc086c57405b5a740be75502b4",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-modern-comment-native-ui-followup.contract.test.js",
-      "sha256": "b09a1a1f802fd5dc431425fdbf19434ce7ac789909fdab4c80d63de8de4d5921",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+      "sha256": "a9f9c2655352628d3f03959baf37ede83ce04d60904db437df53543bc85ace4e",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-multi-scene-apply-followup.contract.test.js",
-      "sha256": "702ebfd7ed9fc8e5a69ad341bc5bd016638548b6c83fe8195545997b0c9cfeb4",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_MAXIMUM_SAFE_ROUNDTRIP_SATURATION",
-      "approvedAtUtc": "2026-08-01T00:00:00.000Z",
-      "rationale": "A03_C04_MODERN_COMMENT_STATE_READBACK_GATE_AND_SUCCESSOR_GUARDS"
+      "sha256": "b25b09b4ac35d348627197a8e8e505a9bc292ccd677e3c9a9b67f910e3c09922",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/rtk-word-v4-e12-saturation-ledger.contract.test.js",
-      "sha256": "b46f42b673ec1d9a9fb97dd78d67ccb897246bc5bdb518adcdf37d7cecc98f83",
-      "approvedBy": "owner-standing-authority",
-      "approvedAtUtc": "2026-08-01T15:25:00.000Z",
-      "rationale": "WORD_P0_SCALE_ENVELOPE_TERMINAL_AUDIT_DECLARED_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+      "sha256": "c9ecb1390773bac8f76f5bd650e718d68126e8236e83c6293b7c32e07470e876",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
       "approved": true,
-      "authority": "STANDING_OWNER_AUTHORITY_WITHIN_APPROVED_WORD_MASTER_PLAN"
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
     },
     {
       "filePath": "test/contracts/safe-automerge-ops-only-profile.contract.test.js",
@@ -8502,6 +8801,15 @@
       "rationale": "Approve Night-01 C02 contracts that block final disposition on product runtime delta or missing executable no-open-P0 proof and prevent legacy EFINAL pass from acting alone."
     },
     {
+      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
+      "sha256": "c628376756b41b6e5e27b1f6d89c753845e68c4ed175a772763fdb18206b9b9b",
+      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T17:05:00.000Z",
+      "rationale": "Approve merged C4 RTK test graph CI truth with latest Atlas V5 event-contract repair base; preserves RTK Word acceptance revocation, Google report-only block, C4 required graph, and Atlas domain-event repair without product network expansion.",
+      "approved": true,
+      "authority": "AUTONOMOUS_WRITE_DELIVERY_C4_TEST_GRAPH_CI_TRUTH_LATEST_MAIN_MERGE"
+    },
+    {
       "filePath": "test/contracts/yalken-atlas-v5-r2-c00-truth-reconciliation.contract.test.js",
       "sha256": "9bfeb492d0c05f9e42d41c94457986005e4fd19f74026c8d422773afbfba011e",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_POST_FINAL_PRODUCT_OUTCOME_REPAIR_001_R2_C00",
@@ -8661,159 +8969,6 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
-    },
-    {
-      "filePath": "scripts/doctor.mjs",
-      "sha256": "b7c6be7070986b9a757782450b30c7bebab2de5145eccf124d81cd59df3737dc",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve bounded Atlas V5 event-contract repair: append-only domain event doctor fails closed on unreadable immutable Git authority and any baseline/contract event deletion or rename instead of using embedded ok fallback or warning debt downgrade.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
-    },
-    {
-      "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "c628376756b41b6e5e27b1f6d89c753845e68c4ed175a772763fdb18206b9b9b",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve bounded Atlas V5 event-contract repair: adds decisive negatives for scene order preservation, invalid provenance, reorder event propagation, Stage 10 receipt requirement, immutable receipt truth, stale digest replay rejection, doctor fail-closed behavior, and bounded 1000-scene hashing performance.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
-    },
-    {
-      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_P1_DOMAIN_EVENT_INDEPENDENT_AUDIT_REPAIR_RECEIPT.json",
-      "sha256": "d20765883c9d711fe43254cfbbb4f9017e8780aa53ce01b73c7c68e891a7784c",
-      "approvedBy": "owner:CONTROLLER_CORRECTION_ATLAS_EVENT_REPAIR_INDEPENDENT_AUDIT_HOLD",
-      "approvedAtUtc": "2026-08-01T18:20:00.000Z",
-      "rationale": "Approve append-only bounded Atlas V5 domain-event independent audit repair receipt: records strict mapping, closed payloads, immutable historical baseline, real emitter propagation, focused and full evidence, delivery pending, no Program DONE claim.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_CAPABILITY_MATRIX_V1.json",
-      "sha256": "4128f9f4a93c39ddf177b968c535abd46fe774256f3c9604abed24bdec4fedbf",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/GOOGLE_DOCS_SAFE_ROUNDTRIP_G00_DISCOVERY_RECEIPT.json",
-      "sha256": "cf8058e60605b8bf859c0788fe9722bb6113678ef80f97a13845e404a90f798e",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "ceae6c4a6696006a03c65e10b9b9d9d25e1dad8e39f161cda6ae1995a5c00507",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "8f9e2ad82d260384fe9e9aeab263c9d703022caf23db3282e79ec1ae7d724617",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "43d0ae76d778a53da4dd6e509de8d22317f796f11ebde7ad9529ed88392ce232",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
-      "sha256": "dc3c1644dec2da947e3c5a1c9421e941406cad6096b2f0598ddb8addca073efd",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
-      "sha256": "bfa98cd3550e6718090efd9f73290d0907f0bb193d3e4a635b603737262f8acb",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "src/main.js",
-      "sha256": "191dda33c00722181da91bfb29dd3017de25ab8dd79e9d39bc64452450d5e602",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve current src/main.js bytes after preserving the merged Word C3 worker output budget semantics and adding the bounded Atlas V5 scene-order event repair: tree reorder no longer uses targetIndex as commandSeq, returns real SceneOrderChanged facts and digest, and fails closed when fact construction fails; no UI redesign, no network, no dependency, no storage bypass.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "src/main/rtkDocxReturnIntakeWorker.cjs",
-      "sha256": "13787a4a0fbe513d89adaa0d9fb8cf47238ba6d26ff9cd5dee5b7327f3e238ba",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-safety-c3-parser-resource-envelope.contract.test.js",
-      "sha256": "87d4ff1af222a01cac707bf68fb05c53d40518efd41f36550f534f4f4d5c29bc",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/rtk-word-safety-c1-effect-reservation.contract.test.js",
-      "sha256": "153b6f79c3be1030f9ed624235617670100ef03293fb35af8c6fd4166fbbc84a",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:33:00.000Z",
-      "rationale": "Approve bounded post-merge C3 stale binding guard repair: C1 safety contract separates active remediation status from Google report-only blocked result and accepts the C1-C5 remediation progression without changing product authority.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "scripts/ops/collab-apply-pipeline-state.mjs",
-      "sha256": "9ac61342cdcae4b3449f5521b3075ab9271a5c5f3fdf2f4c32518acdbffbde28",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve bounded Atlas V5 event-contract repair: collab apply pipeline detector now injects the typed domain-event validation/hash port so applyEventLog remains layer-clean and fails closed without core import.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/collab-apply-pipeline-deterministic.contract.test.js",
-      "sha256": "6524a6af6fe030a0a8822fc3526c5a28836f3aaba574ba7575c8ff10f86592ed",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve bounded Atlas V5 event-contract repair: deterministic collab apply proof now supplies the typed domain-event port required by the layer-clean apply pipeline.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
-    },
-    {
-      "filePath": "test/contracts/collab-apply-pipeline-typed-errors.contract.test.js",
-      "sha256": "7554ab766eb92d8728be2580135e954f1e6e2f5e8ba1688ce5ec6a7962fedd28",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
-      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
-      "rationale": "Approve bounded Atlas V5 event-contract repair: collab apply typed-error contract adds the fail-closed negative for domain events arriving without the validation/hash port.",
-      "approved": true,
-      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     }
   ]
 }

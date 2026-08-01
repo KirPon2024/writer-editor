@@ -378,7 +378,12 @@ export function evaluateP0SafeStructuralLaneTypedLimitation(input = {}) {
     || cell.structuralDiagnosticProductPathProven !== true
     || cell.automaticApplyCertified !== false) add('RTK_P0_STRUCTURAL_PROFILE_INVALID', 'profile.typedStructuralDiagnostics', 'Profile must bind structural diagnostic typed limitation without automatic apply.');
   const actualNextStage = program.v4ExecutionState?.nextStage || program.nextStep || '';
-  if (![NEXT_STAGE, SCALE_SUCCESSOR_STAGE, FINAL_ENVELOPE_SUCCESSOR_STAGE].includes(actualNextStage)
+  const validRemediationC4 = program.v4ExecutionState?.status === 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED'
+    && actualNextStage === 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION'
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.googleDocsOpened === false;
+  if (!validRemediationC4 && ![NEXT_STAGE, SCALE_SUCCESSOR_STAGE, FINAL_ENVELOPE_SUCCESSOR_STAGE].includes(actualNextStage)
     || program.v4ExecutionState?.safeStructuralLaneTypedLimitationBound !== true
     || program.v4ExecutionState?.runtimeApplyAuthorityGrantedForStructure !== false
     || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_P0_STRUCTURAL_PROGRAM_INVALID', 'program', 'Program must advance to multi-round reconciliation with Google closed.');

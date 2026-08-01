@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.google-docs.safe-roundtrip.g00-discovery-receipt.v1",
   "taskId": "YALKEN_GOOGLE_DOCS_G00_DISCOVERY_BINDING",
-  "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
+  "status": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
   "result": "REPORT_ONLY_BLOCKED",
   "createdAtUtc": "2026-08-01T16:05:00.000Z",
   "headBinding": {
@@ -48,11 +48,12 @@
     }
   ],
   "wordClosure": {
-    "status": "WORD_STAGE_FORMALLY_CLOSED_ACCEPTED_DECLARED_SUPPORT_ENVELOPE",
+    "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
     "auditVerdict": "PASS",
     "supportedExplicitUserTrackedReplacementWordsMax": 100000,
     "aboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
-    "automaticApplyCertified": false
+    "automaticApplyCertified": false,
+    "acceptedDeclaredSupportEnvelopeOnly": false
   },
   "googleCurrentState": {
     "existingEvidenceClaimGateOnly": true,
@@ -60,7 +61,7 @@
     "productRuntimeWired": 0,
     "automaticApplyCertified": 0,
     "blockers": 12,
-    "nextStage": "GOOGLE_DOCS_G01_OFFICE_MODE_PHYSICAL_DISCOVERY_OR_EXTERNAL_ACTIVATION_BOUNDARY"
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION"
   },
   "gapMap": [
     {
@@ -180,7 +181,7 @@
     "noWrongSceneRouting": true,
     "noReplayFailure": true
   },
-  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C2_CANONICAL_MULTI_SCENE_COMMAND_PATH",
+  "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
   "nonClaims": [
     "No Google Docs support is claimed.",
     "No Google Docs import is claimed.",
@@ -193,33 +194,9 @@
   "blockedBy": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C2_MULTI_SCENE_COMMAND_PATH_RECEIPT.json",
   "previousStatus": "GOOGLE_DOCS_G00_DISCOVERY_BOUND_READY_FOR_G01",
   "wordSafetyRemediation": {
-    "status": "WORD_SAFETY_REMEDIATION_V1_C1_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",
-    "wordAcceptanceRevoked": true,
-    "googleProductImplementationAllowed": false,
-    "resumeCondition": "C1_C5_PASS_AND_WORD_REACCEPTED_BY_FRESH_INDEPENDENT_AUDIT",
-    "activeTaskId": "YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-    "currentContour": "C3_XML_CORRECTNESS_AND_RESOURCE_ENVELOPE",
-    "currentContourStatus": "LOCAL_VERIFIED_PENDING_DELIVERY_CHAIN",
-    "currentBaseSha": "488a6873dbb02ef13ba8c201a27c2e3d73a477d7",
-    "c1Delivered": true,
-    "c2Delivered": true,
-    "c3LocalVerified": true,
-    "c4RequiredNext": true,
-    "c5RequiredAfterC4": true,
-    "wordAcceptanceRevokedUntilC1C5AndIndependentAudit": true,
-    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
-    "automaticApplyCertified": false,
-    "wordSaturated": false,
-    "vetoMetrics": {
-      "falseExact": 0,
-      "wrongSceneRouting": 0,
-      "silentApply": 0,
-      "replayFailure": 0,
-      "silentCommentLoss": 0,
-      "productNetwork": 0
-    },
-    "latestReceipt": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C3_XML_RESOURCE_ENVELOPE_RECEIPT.json",
-    "updatedAtUtc": "2026-08-01T15:16:23.540Z"
+    "status": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
+    "wordAcceptanceRevoked": true
   },
   "wordSafetyRemediationV1": {
     "status": "WORD_SAFETY_REMEDIATION_V1_C3_LOCAL_VERIFIED_READY_FOR_DELIVERY_CHAIN",

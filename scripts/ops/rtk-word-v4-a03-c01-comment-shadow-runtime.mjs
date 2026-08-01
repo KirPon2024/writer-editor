@@ -57,6 +57,9 @@ const FINAL_MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_
 const P0_MULTI_ROUND_STATUS = 'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED';
 const SCALE_NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
 const FINAL_NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
+const C4_REMEDIATION_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED';
+const C4_REMEDIATION_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH';
+const C4_NEXT_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 const STATE_STATUS = 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_WIRED_READY_FOR_DELIVERY_CHAIN';
 const CURRENT_STAGE = 'EXECUTION_03_A03_C01_COMMENT_SHADOW_RUNTIME_CONTOUR';
 const NEXT_STAGE = 'EXECUTION_03_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENTS_RUNTIME_CONTOUR';
@@ -418,6 +421,29 @@ function isC02SuccessorState(profile, program, ledger, promotionList) {
         && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === true
       : ledger.runtimeClaims?.wordSaturated === false);
   if (isC02SuccessorPromotionList(promotionList) && laterP0Successor) {
+    return true;
+  }
+  const c4RemediationSuccessor = isC02SuccessorPromotionList(promotionList)
+    && profile.status === C4_REMEDIATION_STATUS
+    && program.status === C4_REMEDIATION_STATUS
+    && program.nextStep === C4_NEXT_STAGE
+    && program.v4ExecutionState?.status === C4_REMEDIATION_STATUS
+    && program.v4ExecutionState?.currentStage === C4_REMEDIATION_STAGE
+    && program.v4ExecutionState?.nextStage === C4_NEXT_STAGE
+    && program.v4ExecutionState?.rootModernCommentShadowRuntimeWired === true
+    && program.v4ExecutionState?.c01TruthRepairBound === true
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit === false
+    && program.v4ExecutionState?.googleDocsOpened === false
+    && ledger.status === C4_REMEDIATION_STATUS
+    && ledger.nextStage === C4_NEXT_STAGE
+    && ledger.coverageLedger?.a03C01CommentShadowRuntime?.status === 'BOUND'
+    && ledger.runtimeClaims?.automaticApplyExpanded === false
+    && ledger.runtimeClaims?.wordSaturated === false
+    && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === false
+    && ledger.runtimeClaims?.googleDocsOpened === false;
+  if (c4RemediationSuccessor) {
     return true;
   }
   return isC02SuccessorPromotionList(promotionList)

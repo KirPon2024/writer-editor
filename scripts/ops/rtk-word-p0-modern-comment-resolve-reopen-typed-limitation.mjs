@@ -415,6 +415,11 @@ export function evaluateP0ModernCommentResolveReopenTypedLimitation(input = {}) 
     SCALE_SUCCESSOR_STAGE,
     FINAL_ENVELOPE_SUCCESSOR_STAGE,
   ].includes(actualNextStage);
+  const validRemediationC4 = program.v4ExecutionState?.status === 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED'
+    && actualNextStage === 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION'
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.googleDocsOpened === false;
 
   if (receipt.schemaVersion !== SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_P0_RESOLVE_RECEIPT_INVALID', 'receipt', 'P0 resolve/reopen typed limitation receipt must pass.');
   if (receipt.implementedCapability?.resolvedStateShadowPreservationCertified !== true
@@ -433,7 +438,7 @@ export function evaluateP0ModernCommentResolveReopenTypedLimitation(input = {}) 
     || cell.resolvedStateShadowPreservationCertified !== true
     || cell.reopenTypedLimitationBound !== true
     || cell.automaticApplyCertified !== false) add('RTK_P0_RESOLVE_PROFILE_INVALID', 'profile.modernCommentStateReadbackGate', 'Profile must bind resolved state shadow preservation and reopen typed limitation.');
-  if (!validNextStage
+  if (!validRemediationC4 && !validNextStage
     || program.v4ExecutionState?.modernResolveReopenCertified !== false
     || program.v4ExecutionState?.modernResolveReopenTypedLimitationBound !== true
     || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_P0_RESOLVE_PROGRAM_INVALID', 'program', 'Program must advance to formatting with Google closed.');

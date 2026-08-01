@@ -456,9 +456,14 @@ export function evaluateP0MultiRoundLedgerReconciliation(input = {}) {
     && program.v4ExecutionState?.nextStage === FINAL_NEXT_STAGE
     && program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit === true
     && program.v4ExecutionState?.wordSaturated === true;
-  if ((!validLaterProgram && program.v4ExecutionState?.nextStage !== NEXT_STAGE)
+  const validRemediationC4 = program.v4ExecutionState?.status === 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED'
+    && program.v4ExecutionState?.nextStage === 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION'
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.googleDocsOpened === false;
+  if (!validRemediationC4 && ((!validLaterProgram && program.v4ExecutionState?.nextStage !== NEXT_STAGE)
     || program.v4ExecutionState?.multiRoundLedgerReconciled !== true
-    || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_P0_MULTI_ROUND_PROGRAM_INVALID', 'program', 'Program must advance to scale envelope with Google closed.');
+    || program.v4ExecutionState?.googleDocsOpened !== false)) add('RTK_P0_MULTI_ROUND_PROGRAM_INVALID', 'program', 'Program must advance to scale envelope with Google closed.');
   if (ledger.coverageLedger?.p0MultiRoundLedgerReconciliation?.status !== 'BOUND_MULTI_ROUND_REPLAY_GUARDS_RECONCILED'
     || list(ledger.notSaturatedReasons).includes('RTK_NORM_MULTI_ROUND_LEDGER_RECONCILIATION_PENDING')
     || ledger.runtimeClaims?.automaticApplyExpanded !== false

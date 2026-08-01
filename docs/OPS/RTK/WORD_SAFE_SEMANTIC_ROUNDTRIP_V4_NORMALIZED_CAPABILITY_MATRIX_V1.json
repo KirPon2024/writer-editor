@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix.v1",
   "taskId": "WORD_RTK_NORMALIZED_CAPABILITY_MATRIX",
-  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_REOPENED_BY_SAFETY_REMEDIATION_C4_VERIFIED",
   "createdAtUtc": "2026-08-01T10:20:00.000Z",
   "headBinding": {
     "originMainSha": "b4b361b332604d9f6ded8446a88ff84fcf91442f",
@@ -585,7 +585,7 @@
       "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY"
     ],
     "monolithicAboveEnvelopeDisposition": "MANUAL_RESOURCE_LIMIT",
-    "readyForFreshIndependentExactHeadAudit": true,
+    "readyForFreshIndependentExactHeadAudit": false,
     "saturationMeaning": "All cells inside the declared support envelope must be deterministic exact, manual, blocked, diagnostic, or typed limitation with zero silent loss; it does not mean unsafe universal automatic apply."
   },
   "nonClaims": [
@@ -594,5 +594,10 @@
     "Component proven cells are not missing product UI work unless their intended terminal class says so.",
     "Diagnostic-only formatting and structural lanes are not silent apply capability.",
     "Google Docs remains closed until terminal Word audit and fresh independent exact-head audit."
-  ]
+  ],
+  "wordAcceptanceRevocation": {
+    "status": "WORD_ACCEPTANCE_REVOKED_BY_SOURCE_BOUND_EVIDENCE",
+    "latestRemediationReceipt": "docs/OPS/RTK/WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_RECEIPT.json",
+    "wordSaturated": false
+  }
 }

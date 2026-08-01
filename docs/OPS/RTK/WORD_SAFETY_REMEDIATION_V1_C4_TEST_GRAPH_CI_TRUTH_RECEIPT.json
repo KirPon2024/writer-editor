@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "yalken.rtk.word-safety-remediation-v1.c4-test-graph-ci-truth-receipt.v1",
+  "taskId": "YALKEN_RTK_WORD_CONTINUATION_V2",
+  "contour": "C4_TEST_GRAPH_AND_CI_TRUTH",
+  "status": "WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T16:16:02Z",
+  "base": {
+    "repo": "writer-editor-codex",
+    "worktreeRole": "T7_ISOLATED_C4_BRANCH",
+    "branch": "codex/rtk-word-safety-remediation-v1-c4-test-graph",
+    "headShaAtStart": "344fab098f5b5745b5fb49604e17d798d53c474e",
+    "originMainBoundAtStart": "344fab098f5b5745b5fb49604e17d798d53c474e",
+    "mutatedCanonicalCheckout": false,
+    "preservedGoogleG01Stash": true
+  },
+  "delivered": {
+    "testRtkCommand": "npm run -s test:rtk",
+    "catalogPath": "docs/OPS/RTK/RTK_TEST_GRAPH_CATALOG_V1.json",
+    "requiredCiWorkflowPath": ".github/workflows/rtk-required.yml",
+    "promotionCheckIncludesRtkGraph": true,
+    "rtkCatalogContractFiles": 69,
+    "deterministicCatalogMatchesDisk": true,
+    "maintainedRtkGraphLocalGreen": true,
+    "staleGuardsReboundToActiveRemediationTruth": true,
+    "googleImplementationOpened": false
+  },
+  "baselineObservedBeforeC4": {
+    "maintainedRtkContractFiles": 68,
+    "tests": 346,
+    "pass": 288,
+    "fail": 58,
+    "skip": 0,
+    "primaryTaxonomy": "STALE_BINDING_GUARD",
+    "secondaryTaxonomy": "OBSOLETE_REPLACED_GATE",
+    "productDefectConfirmed": false,
+    "environmentFailureConfirmed": false
+  },
+  "localVerification": {
+    "command": "npm run -s test:rtk",
+    "tests": 349,
+    "pass": 349,
+    "fail": 0,
+    "skip": 0,
+    "durationMs": 6720,
+    "completedAtUtc": "2026-08-01T16:16:02Z"
+  },
+  "activeTruth": {
+    "wordAcceptanceRevoked": true,
+    "wordSaturated": false,
+    "readyForFreshIndependentExactHeadAudit": false,
+    "googleDocsOpened": false,
+    "googleStage": "REPORT_ONLY_BLOCKED_BY_WORD_SAFETY_REMEDIATION",
+    "nextStage": "WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
+    "productCapabilityClaimAdded": false,
+    "testOrReceiptTreatedAsProductCapability": false
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "unclassifiedOperation": 0,
+    "recoveryDivergence": 0,
+    "productNetwork": 0
+  },
+  "nextRequiredContour": {
+    "contour": "C5_FULL_PHYSICAL_WORD_RECERTIFICATION",
+    "requiresC4DeliveryChainFirst": true,
+    "requiresRealWordForMacProductRoute": true,
+    "googleDocsRemainBlockedUntilFreshIndependentExactHeadAuditAcceptsWord": true
+  }
+}

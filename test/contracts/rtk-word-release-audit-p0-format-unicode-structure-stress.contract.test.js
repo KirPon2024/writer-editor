@@ -133,6 +133,7 @@ test('P0 format Unicode structure state bindings are exact and non-terminal', ()
     'P0_PRODUCT_VERTICAL_500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_AFTER_REPEAT_HIGH_DENSITY',
     'P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION',
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(program.releaseAuditNight01.nextStage), true);
   assert.equal(program.releaseAuditNight01.wordSaturated, false);
   assert.equal(profile.latestProductFormatUnicodeStructureStress.receiptPath, program.releaseAuditNight01.latestFormatUnicodeStructureStressReceiptPath);

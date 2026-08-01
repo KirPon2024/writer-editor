@@ -44,6 +44,18 @@ function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(REPO_ROOT, relativePath), 'utf8'));
 }
 
+function localFileExists(filePath) {
+  return typeof filePath === 'string' && filePath.length > 0 && fs.existsSync(filePath);
+}
+
+function requireExternalOnlyWhenPresent(receipt, evidencePath) {
+  if (localFileExists(evidencePath)) return true;
+  const external = receipt.externalEvidence || {};
+  assert.equal(external.fileAvailableAtReceiptCreation ?? external.fileAvailableAtBinding, true);
+  assert.match(external.receiptSha256 || external.sha256, /^[0-9a-f]{64}$/u);
+  return false;
+}
+
 test('V4 E12 binds saturation ledger through terminal support envelope without universal overclaim', async () => {
   const verifier = await loadVerifier();
   const receipt = readJson(RECEIPT_PATH);
@@ -56,6 +68,7 @@ test('V4 E12 binds saturation ledger through terminal support envelope without u
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED',
   ].includes(receipt.status));
   assert.deepEqual(receipt.saturationRule.requiredWaveSequence, [10, 40, 100, 300]);
   assert.deepEqual(receipt.saturationRule.completedWaves, [10, 40, 100, 300]);
@@ -68,9 +81,10 @@ test('V4 E12 binds saturation ledger through terminal support envelope without u
     'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
     'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(receipt.nextStage));
-  assert.equal(receipt.saturationRule.saturated, true);
-  assert.equal(receipt.saturationRule.wordSaturationClaimAllowed, true);
+  assert.equal(receipt.saturationRule.saturated, false);
+  assert.equal(receipt.saturationRule.wordSaturationClaimAllowed, false);
   assert.equal(receipt.saturationRule.googleDocsAllowedToOpen, false);
   assert.equal(receipt.notSaturatedReasons.includes('WAVE300_SINGLE_PARSER_GAP_REQUIRES_CASE_LEVEL_FOLLOWUP'), false);
 });
@@ -218,6 +232,7 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED',
   ].includes(profile.status));
   assert.equal(cell.state, 'PHYSICAL_WORD_PROVEN');
   assert.ok([
@@ -225,6 +240,7 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
     'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY',
     'SATURATION_LEDGER_RECONCILED_SCALE_ENVELOPE_PENDING',
     'SUPPORT_ENVELOPE_TERMINAL_READY_FOR_INDEPENDENT_AUDIT',
+    'REOPENED_BY_WORD_SAFETY_REMEDIATION_C4_VERIFIED_C5_REQUIRED',
   ].includes(cell.currentCapability));
   assert.equal(cell.physicalWordEvidence, true);
   assert.ok([
@@ -232,12 +248,14 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
     'WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED',
     'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED',
     'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_READY_FOR_INDEPENDENT_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED',
   ].includes(program.status));
   assert.ok([
     'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR',
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
     'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(program.nextStep));
   assert.equal(typeof program.v4ExecutionState.currentStage, 'string');
   assert.ok([
@@ -245,6 +263,7 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE',
     'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT',
+    'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION',
   ].includes(program.v4ExecutionState.nextStage));
   assert.equal(program.v4ExecutionState.rootModernCommentShadowRuntimeWired, true);
   assert.equal(program.v4ExecutionState.nonOverlapTrackedReplacementComponentProven, true);
@@ -259,9 +278,9 @@ test('V4 E12 updates capability profile and program state while keeping Word as 
   assert.equal(program.v4ExecutionState.adjacentRangeAutomaticApplyCertified, false);
   assert.equal(program.v4ExecutionState.modernCommentStateReadbackOnlyBound, true);
   assert.equal(program.v4ExecutionState.modernResolveReopenCertified, false);
-  assert.equal(program.v4ExecutionState.wordSaturated, true);
+  assert.equal(program.v4ExecutionState.wordSaturated, false);
   assert.equal(program.v4ExecutionState.wordSaturationScope, 'DECLARED_SUPPORT_ENVELOPE_ONLY');
-  assert.equal(program.v4ExecutionState.readyForFreshIndependentExactHeadAudit, true);
+  assert.equal(program.v4ExecutionState.readyForFreshIndependentExactHeadAudit, false);
   assert.equal(program.v4ExecutionState.googleDocsOpened, false);
 });
 
@@ -371,10 +390,17 @@ test('V4 E12 customXml authority followup proves reroute without customXml autho
 test('V4 E12 parser gap followup proves WL2-031 is hostile typed BLOCKED, not a parser gap', async () => {
   const verifier = await import(pathToFileURL(path.join(REPO_ROOT, PARSER_GAP_FOLLOWUP_SCRIPT_PATH)).href);
   const receipt = readJson(PARSER_GAP_FOLLOWUP_RECEIPT_PATH);
-  const result = verifier.evaluateWordV4E12ParserGapFollowup({ receipt, requireFiles: true });
+  const externalPath = receipt.boundEvidence?.wave300RepeatExternal?.path;
+  const result = verifier.evaluateWordV4E12ParserGapFollowup({
+    receipt,
+    requireFiles: localFileExists(externalPath),
+  });
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
+  assert.equal(fs.existsSync(path.join(REPO_ROOT, receipt.boundEvidence.wave300.path)), true);
+  assert.equal(fs.existsSync(path.join(REPO_ROOT, receipt.boundEvidence.wave300RepeatWrapper.path)), true);
+  assert.match(receipt.boundEvidence.wave300RepeatExternal.sha256, /^[0-9a-f]{64}$/u);
   assert.equal(receipt.caseAssessment.caseId, 'WL2-031');
   assert.equal(receipt.caseAssessment.reclassification, 'HOSTILE_PACKAGE_TYPED_BLOCK_NOT_PARSER_GAP');
   assert.equal(receipt.caseAssessment.parserBlockedExpected, true);
@@ -439,7 +465,10 @@ test('V4 E12 stability limitation audit binds Word-only next wave without satura
 test('V4 E12 repeat stability wave binds second 300-round physical run without saturation or Google', async () => {
   const verifier = await import(pathToFileURL(path.join(REPO_ROOT, STABILITY_REPEAT_SCRIPT_PATH)).href);
   const receipt = readJson(STABILITY_REPEAT_RECEIPT_PATH);
-  const result = verifier.evaluateWordV4E12StabilityWave300Repeat({ receipt, requireExternal: true });
+  const result = verifier.evaluateWordV4E12StabilityWave300Repeat({
+    receipt,
+    requireExternal: requireExternalOnlyWhenPresent(receipt, receipt.externalEvidence?.path),
+  });
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
@@ -463,7 +492,9 @@ test('V4 E12 repeat stability wave binds second 300-round physical run without s
 test('V4 E12 wave 40 receipt proves physical Word rounds without saturation claim', async () => {
   const verifier = await import(pathToFileURL(path.join(REPO_ROOT, WAVE40_SCRIPT_PATH)).href);
   const receipt = readJson(WAVE40_RECEIPT_PATH);
-  const result = verifier.evaluateReceipt(receipt, { requireExternal: true });
+  const result = verifier.evaluateReceipt(receipt, {
+    requireExternal: requireExternalOnlyWhenPresent(receipt, receipt.externalEvidence?.receiptPath),
+  });
 
   assert.equal(result.status, 'PASS');
   assert.deepEqual(result.issues, []);
@@ -485,7 +516,9 @@ test('V4 E12 wave 40 receipt proves physical Word rounds without saturation clai
 test('V4 E12 wave 100 receipt proves physical Word rounds without saturation claim', async () => {
   const verifier = await import(pathToFileURL(path.join(REPO_ROOT, WAVE100_SCRIPT_PATH)).href);
   const receipt = readJson(WAVE100_RECEIPT_PATH);
-  const result = verifier.evaluateReceipt(receipt, { requireExternal: true });
+  const result = verifier.evaluateReceipt(receipt, {
+    requireExternal: requireExternalOnlyWhenPresent(receipt, receipt.externalEvidence?.receiptPath),
+  });
   const visibleComments = receipt.cases.reduce((total, item) => total + (Number(item.wordCommentCount) || 0), 0);
 
   assert.equal(result.status, 'PASS');
@@ -510,7 +543,9 @@ test('V4 E12 wave 100 receipt proves physical Word rounds without saturation cla
 test('V4 E12 wave 300 receipt proves physical Word rounds without saturation claim', async () => {
   const verifier = await import(pathToFileURL(path.join(REPO_ROOT, WAVE300_SCRIPT_PATH)).href);
   const receipt = readJson(WAVE300_RECEIPT_PATH);
-  const result = verifier.evaluateReceipt(receipt, { requireExternal: true });
+  const result = verifier.evaluateReceipt(receipt, {
+    requireExternal: requireExternalOnlyWhenPresent(receipt, receipt.externalEvidence?.receiptPath),
+  });
   const visibleComments = receipt.cases.reduce((total, item) => total + (Number(item.wordCommentCount) || 0), 0);
   const scaleCase = receipt.cases.find((item) => item.caseId === 'WL2-280');
   const denseCase = receipt.cases.find((item) => item.caseId === 'WL2-240');

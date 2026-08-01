@@ -21,6 +21,9 @@ const FINAL_MATRIX_STATUS = 'WORD_NORMALIZED_CAPABILITY_MATRIX_SUPPORT_ENVELOPE_
 const P0_MULTI_ROUND_STATUS = 'WORD_P0_MULTI_ROUND_LEDGER_RECONCILED_NOT_SATURATED';
 const SCALE_NEXT_STAGE = 'P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE';
 const FINAL_NEXT_STAGE = 'READY_FOR_FRESH_INDEPENDENT_EXACT_HEAD_AUDIT';
+const C4_REMEDIATION_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED';
+const C4_REMEDIATION_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH';
+const C4_NEXT_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 const REQUIRED_LIMITATIONS = Object.freeze([
   'SECOND_CONSECUTIVE_STABLE_APPROVED_WAVE_REQUIRED',
   'MODERN_REPLY_RESOLVE_REOPEN_REMAINS_TYPED_LIMITATION',
@@ -102,6 +105,16 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && ledger.runtimeClaims?.wordSaturationScope === 'DECLARED_SUPPORT_ENVELOPE_ONLY'
     && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === true
     && ledger.runtimeClaims?.googleDocsOpened === false;
+  const ledgerIsC4RemediationState = ledger.status === C4_REMEDIATION_STATUS
+    && ledger.nextStage === C4_NEXT_STAGE
+    && JSON.stringify(ledgerRule.completedWaves) === JSON.stringify([10, 40, 100, 300])
+    && Number(ledgerRule.consecutiveStableApprovedWaves) === 2
+    && ledgerRule.saturated === false
+    && ledgerRule.wordSaturationClaimAllowed === false
+    && ledgerRule.googleDocsAllowedToOpen === false
+    && ledger.runtimeClaims?.wordSaturated === false
+    && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === false
+    && ledger.runtimeClaims?.googleDocsOpened === false;
 
   if (receipt.schemaVersion !== SCHEMA) add('RTK_V4_E12_STABILITY_SCHEMA_INVALID', 'schemaVersion', 'Stability limitation audit schema is invalid.');
   if (receipt.stageId !== 'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT') add('RTK_V4_E12_STABILITY_STAGE_INVALID', 'stageId', 'Audit stage id is invalid.');
@@ -116,6 +129,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && !ledgerIsModernCommentSuccessor
     && !ledgerIsP0Successor
     && !ledgerIsFinalEnvelopeSuccessor
+    && !ledgerIsC4RemediationState
     && receipt.boundLedger?.sha256 !== sha256File(LEDGER_PATH)) {
     add('RTK_V4_E12_STABILITY_LEDGER_SHA_MISMATCH', 'boundLedger.sha256', 'Bound ledger SHA-256 does not match current bytes.');
   }
@@ -161,7 +175,8 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     && !ledgerIsFollowupSuccessor
     && !ledgerIsModernCommentSuccessor
     && !ledgerIsP0Successor
-    && !ledgerIsFinalEnvelopeSuccessor) {
+    && !ledgerIsFinalEnvelopeSuccessor
+    && !ledgerIsC4RemediationState) {
     add('RTK_V4_E12_STABILITY_LEDGER_STATE_INVALID', 'ledger.saturationRule', 'Source ledger must remain wave300 complete not saturated.');
   }
 
@@ -185,6 +200,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     MATRIX_STATUS,
     P0_MULTI_ROUND_STATUS,
     FINAL_MATRIX_STATUS,
+    C4_REMEDIATION_STATUS,
   ]);
   if (!allowedProfileStatuses.has(profile.status)) {
     add('RTK_V4_E12_STABILITY_PROFILE_STATUS_INVALID', 'profile.status', 'Profile must bind the stability audit as complete not saturated.');
@@ -208,6 +224,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY',
     'SATURATION_LEDGER_RECONCILED_SCALE_ENVELOPE_PENDING',
     'SUPPORT_ENVELOPE_TERMINAL_READY_FOR_INDEPENDENT_AUDIT',
+    'REOPENED_BY_WORD_SAFETY_REMEDIATION_C4_VERIFIED_C5_REQUIRED',
   ]);
   if (!cell || !allowedCapabilities.has(cell.currentCapability) || cell.state !== 'PHYSICAL_WORD_PROVEN') {
     add('RTK_V4_E12_STABILITY_PROFILE_CELL_INVALID', 'profile.cells.rtk.word.v4.saturationLedger', 'Capability cell must bind stability audit without saturation.');
@@ -233,6 +250,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     MATRIX_STATUS,
     P0_MULTI_ROUND_STATUS,
     FINAL_MATRIX_STATUS,
+    C4_REMEDIATION_STATUS,
   ]);
   if (!allowedProgramStatuses.has(program.status)) {
     add('RTK_V4_E12_STABILITY_PROGRAM_STATUS_INVALID', 'program.status', 'Program status must bind the stability audit.');
@@ -256,6 +274,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     MATRIX_STATUS,
     P0_MULTI_ROUND_STATUS,
     FINAL_MATRIX_STATUS,
+    C4_REMEDIATION_STATUS,
   ]);
   const allowedCurrentStages = new Set([
     'EXECUTION_12_WORD_STABILITY_LIMITATION_AUDIT',
@@ -275,6 +294,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'P0_NORMALIZED_CAPABILITY_MATRIX',
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     FINAL_NEXT_STAGE,
+    C4_REMEDIATION_STAGE,
   ]);
   const allowedNextStages = new Set([
     NEXT_STAGE,
@@ -292,6 +312,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     'P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION',
     SCALE_NEXT_STAGE,
     FINAL_NEXT_STAGE,
+    C4_NEXT_STAGE,
   ]);
   if (!allowedStateStatuses.has(state.status)
     || !allowedCurrentStages.has(state.currentStage)
@@ -315,6 +336,7 @@ export function evaluateWordV4E12StabilityLimitationAudit(input = {}) {
     || state.status === MATRIX_STATUS
     || state.status === P0_MULTI_ROUND_STATUS
     || state.status === FINAL_MATRIX_STATUS
+    || state.status === C4_REMEDIATION_STATUS
     ? state.nextStage
     : decision.nextStage || '';
 

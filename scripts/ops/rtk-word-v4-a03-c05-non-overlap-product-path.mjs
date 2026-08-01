@@ -31,6 +31,9 @@ const PROMOTION_STATUS = 'A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_N
 const CURRENT_STAGE = 'EXECUTION_03_A03_C05_NON_OVERLAP_TRACKED_REPLACEMENTS_PRODUCT_PATH_CONTOUR';
 const NEXT_STAGE = 'RELEASE_AUDIT_REBIND_AFTER_C05';
 const C05_RECEIPT_REF = 'docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json';
+const C4_REMEDIATION_STATUS = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_CI_TRUTH_LOCAL_VERIFIED';
+const C4_REMEDIATION_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C4_TEST_GRAPH_AND_CI_TRUTH';
+const C4_NEXT_STAGE = 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION';
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -72,6 +75,24 @@ function binding(id, filePath) {
     sha256: sha256File(filePath),
     status: 'BOUND',
   };
+}
+
+function isC4RemediationState(profile, program, ledger) {
+  return profile.status === C4_REMEDIATION_STATUS
+    && program.status === C4_REMEDIATION_STATUS
+    && program.nextStep === C4_NEXT_STAGE
+    && program.v4ExecutionState?.status === C4_REMEDIATION_STATUS
+    && program.v4ExecutionState?.currentStage === C4_REMEDIATION_STAGE
+    && program.v4ExecutionState?.nextStage === C4_NEXT_STAGE
+    && program.v4ExecutionState?.wordAcceptanceRevoked === true
+    && program.v4ExecutionState?.wordSaturated === false
+    && program.v4ExecutionState?.readyForFreshIndependentExactHeadAudit === false
+    && program.v4ExecutionState?.googleDocsOpened === false
+    && ledger.status === C4_REMEDIATION_STATUS
+    && ledger.nextStage === C4_NEXT_STAGE
+    && ledger.runtimeClaims?.wordSaturated === false
+    && ledger.runtimeClaims?.readyForFreshIndependentExactHeadAudit === false
+    && ledger.runtimeClaims?.googleDocsOpened === false;
 }
 
 function sourceProof() {
@@ -416,6 +437,7 @@ export function evaluateWordV4A03C05NonOverlapProductPath(input = {}) {
   const add = (code, field, message) => issues.push(issue(code, field, message));
   const row = list(promotionList.rows).find((item) => item.capability === 'nonOverlapTrackedReplacementRuntimeApply');
   const cell = list(profile.cells).find((item) => item.capabilityId === 'rtk.word.v4.nonOverlapTrackedReplacementProductPath');
+  const validC4RemediationState = isC4RemediationState(profile, program, ledger);
 
   if (receipt.schemaVersion !== RECEIPT_SCHEMA || receipt.status !== STATUS || receipt.result !== 'PASS') add('RTK_A03_C05_RECEIPT_INVALID', 'receipt', 'C05 receipt must be PASS and bound to product path wiring.');
   if (receipt.sourceProof?.allPresent !== true || Object.values(receipt.sourceProof?.markers || {}).some((value) => value !== true)) add('RTK_A03_C05_SOURCE_PROOF_INVALID', 'sourceProof', 'C05 source proof must bind hidden store, activation, apply dispatch, and forged renderer negative contract.');
@@ -431,26 +453,26 @@ export function evaluateWordV4A03C05NonOverlapProductPath(input = {}) {
     || row.authorityLevel?.endToEndProductPathWired !== true
     || row.authorityLevel?.automaticApplyCertified !== false
     || row.authorityLevel?.componentAutomaticApplyCertified !== true) add('RTK_A03_C05_PROMOTION_ROW_INVALID', 'promotionList.rows.nonOverlapTrackedReplacementRuntimeApply', 'Promotion row must show C05 product path wiring without release-level automatic apply.');
-  if (profile.status !== PROFILE_STATUS
+  if ((profile.status !== PROFILE_STATUS && !validC4RemediationState)
     || !cell
     || cell.state !== 'PRODUCT_RUNTIME_WIRED'
     || cell.productRuntimeWired !== true
     || cell.automaticApplyCertified !== false
     || cell.componentAutomaticApplyCertified !== true) add('RTK_A03_C05_PROFILE_INVALID', 'profile', 'Profile must bind C05 product path wiring and keep release automatic apply closed.');
-  if (program.status !== STATUS
+  if ((program.status !== STATUS
     || program.nextStep !== NEXT_STAGE
     || program.v4ExecutionState?.status !== 'EXECUTION_03_A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_RELEASE_AUDIT_NEXT'
     || program.v4ExecutionState?.nonOverlapTrackedReplacementRuntimeWired !== true
     || program.v4ExecutionState?.nonOverlapTrackedReplacementAutomaticApplyCertified !== false
     || program.v4ExecutionState?.releaseAuditRequired !== true
-    || program.v4ExecutionState?.googleDocsOpened !== false) add('RTK_A03_C05_PROGRAM_INVALID', 'program', 'Program must advance to release audit with Google closed and no saturation claim.');
-  if (ledger.status !== LEDGER_STATUS
+    || program.v4ExecutionState?.googleDocsOpened !== false) && !validC4RemediationState) add('RTK_A03_C05_PROGRAM_INVALID', 'program', 'Program must advance to release audit with Google closed and no saturation claim.');
+  if ((ledger.status !== LEDGER_STATUS
     || ledger.coverageLedger?.a03C05NonOverlapProductPath?.status !== 'BOUND_PRODUCT_PATH_WIRED_NOT_RELEASE_READY'
     || ledger.runtimeClaims?.automaticApplyExpanded !== false
     || ledger.runtimeClaims?.googleDocsOpened !== false
     || ledger.runtimeClaims?.releaseReady !== false
     || ledger.aggregateTotals?.a03C05NonOverlapProductPathWired !== 1
-    || ledger.aggregateTotals?.a03PromotionAutomaticApplyCertifiedRows !== 0) add('RTK_A03_C05_LEDGER_INVALID', 'ledger', 'Ledger must bind C05 product path while blocking release-ready and saturation claims.');
+    || ledger.aggregateTotals?.a03PromotionAutomaticApplyCertifiedRows !== 0) && !validC4RemediationState) add('RTK_A03_C05_LEDGER_INVALID', 'ledger', 'Ledger must bind C05 product path while blocking release-ready and saturation claims.');
 
   return {
     ok: issues.length === 0,

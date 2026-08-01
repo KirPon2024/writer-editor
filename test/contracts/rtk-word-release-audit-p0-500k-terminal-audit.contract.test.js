@@ -100,7 +100,7 @@ test('P0 500K terminal audit state bindings remain non-terminal', () => {
 
   assert.equal(program.releaseAuditNight01.latest500kTerminalAuditReceiptPath, RECEIPT_REF);
   assert.equal(program.releaseAuditNight01.terminal500kAuditComplete, true);
-  assert.equal(program.releaseAuditNight01.nextStage, NEXT_STAGE);
+  assert.equal(program.releaseAuditNight01.nextStage, 'WORD_SAFETY_REMEDIATION_V1_C5_FULL_PHYSICAL_WORD_RECERTIFICATION');
   assert.equal(program.releaseAuditNight01.wordSaturated, false);
   assert.equal(profile.latestProduct500kTerminalAudit.receiptPath, RECEIPT_REF);
   assert.equal(profile.latestProduct500kTerminalAudit.automaticApplyCertified, false);

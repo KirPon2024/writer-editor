@@ -1,7 +1,7 @@
 {
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.capability-profile.v1",
   "profileId": "word-mac-latest-safe-semantic-roundtrip-v4",
-  "status": "WORD_16_111_2_P0_500K_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
   "boundSpec": {
     "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
     "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4",
@@ -1151,5 +1151,37 @@
     "automaticApplyCertified": false,
     "wordSaturated": false,
     "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_REMAINING_LIMITATION_CLOSURE_AFTER_500K_AUDIT"
+  },
+  "normalizedCapabilityMatrix": {
+    "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
+    "matrixPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1.json",
+    "receiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_RECEIPT.json",
+    "counts": {
+      "totalCells": 25,
+      "physicalWordEvidence": 16,
+      "productRuntimeWired": 11,
+      "automaticApplyCertified": 0,
+      "blocksWordSaturation": 6,
+      "currentTerminalClass": {
+        "COMPONENT_PROVEN": 5,
+        "PHYSICAL_WORD_EVIDENCE": 3,
+        "DIAGNOSTIC_ONLY": 3,
+        "SATURATION_GOVERNANCE": 1,
+        "PRODUCT_RUNTIME_WIRED": 10,
+        "PRODUCT_COMPOSITION_REGISTERED_COMPONENT_CONSUMER": 1,
+        "TYPED_LIMITATION": 2
+      },
+      "intendedTerminalClass": {
+        "COMPONENT_PROVEN": 5,
+        "PHYSICAL_WORD_EVIDENCE": 3,
+        "DIAGNOSTIC_ONLY": 3,
+        "SATURATION_GOVERNANCE": 1,
+        "PRODUCT_RUNTIME_WIRED": 11,
+        "TYPED_LIMITATION": 2
+      }
+    },
+    "nextStage": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
+    "wordSaturated": false,
+    "automaticApplyCertified": false
   }
 }

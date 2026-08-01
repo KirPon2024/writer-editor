@@ -2,7 +2,7 @@
   "schemaVersion": "yalken.rtk.word-safe-semantic-roundtrip-v4.e12-saturation-ledger-receipt.v1",
   "taskId": "YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER",
   "stageId": "EXECUTION_12_UNICODE_HOSTILE_PERFORMANCE_CRASH_REPLAY_ESCALATING_WORD_WAVES",
-  "status": "WORD_SATURATION_P0_500K_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
   "createdAtUtc": "2026-07-31T12:05:00.000Z",
   "base": {
     "originMainSha": "bcdd02c0f67870422a2988a5aa305415ef89bce8",
@@ -567,6 +567,45 @@
       "automaticApplyCertified": false,
       "wordSaturated": false,
       "googleDocsOpened": false
+    },
+    "releaseAuditNight01NormalizedCapabilityMatrix": {
+      "status": "BOUND_NORMALIZED_MATRIX_NOT_SATURATED",
+      "sourceEvidence": "WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_NORMALIZED_CAPABILITY_MATRIX_V1",
+      "counts": {
+        "totalCells": 25,
+        "physicalWordEvidence": 16,
+        "productRuntimeWired": 11,
+        "automaticApplyCertified": 0,
+        "blocksWordSaturation": 6,
+        "currentTerminalClass": {
+          "COMPONENT_PROVEN": 5,
+          "PHYSICAL_WORD_EVIDENCE": 3,
+          "DIAGNOSTIC_ONLY": 3,
+          "SATURATION_GOVERNANCE": 1,
+          "PRODUCT_RUNTIME_WIRED": 10,
+          "PRODUCT_COMPOSITION_REGISTERED_COMPONENT_CONSUMER": 1,
+          "TYPED_LIMITATION": 2
+        },
+        "intendedTerminalClass": {
+          "COMPONENT_PROVEN": 5,
+          "PHYSICAL_WORD_EVIDENCE": 3,
+          "DIAGNOSTIC_ONLY": 3,
+          "SATURATION_GOVERNANCE": 1,
+          "PRODUCT_RUNTIME_WIRED": 11,
+          "TYPED_LIMITATION": 2
+        }
+      },
+      "blockers": [
+        "rtk.word.v4.commentsShadowAnalysis",
+        "rtk.word.v4.effectiveFormattingDiagnostics",
+        "rtk.word.v4.typedStructuralDiagnostics",
+        "rtk.word.v4.multiRoundReplayStaleConflictGuards",
+        "rtk.word.v4.saturationLedger",
+        "rtk.word.v4.modernCommentStateReadbackGate"
+      ],
+      "nextStage": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
+      "wordSaturated": false,
+      "googleDocsOpened": false
     }
   },
   "aggregateTotals": {
@@ -721,7 +760,13 @@
     "MODERN_COMMENT_REPLY_PRODUCT_RUNTIME_NOT_CERTIFIED",
     "MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_RUNTIME_NOT_CERTIFIED",
     "FORMATTING_APPLY_REMAINS_DIAGNOSTIC_ONLY",
-    "STRUCTURAL_APPLY_REMAINS_MANUAL_OR_BLOCKED"
+    "STRUCTURAL_APPLY_REMAINS_MANUAL_OR_BLOCKED",
+    "RTK_NORM_MODERN_REPLY_STATE_GAP_REMAINS",
+    "RTK_NORM_FORMATTING_APPLY_LANE_PENDING",
+    "RTK_NORM_STRUCTURAL_APPLY_LANE_PENDING",
+    "RTK_NORM_MULTI_ROUND_LEDGER_RECONCILIATION_PENDING",
+    "RTK_NORM_WORD_HOLD_NOT_SATURATED",
+    "RTK_NORM_RESOLVE_REOPEN_PRODUCT_PATH_OR_LIMITATION_PENDING"
   ],
   "runtimeClaims": {
     "productRuntimeChanged": true,
@@ -749,7 +794,7 @@
     "P0 multi-scene atomic and comment delete product wiring does not certify Word saturation.",
     "Modern replies and resolve-reopen remain typed limitations."
   ],
-  "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_REMAINING_LIMITATION_CLOSURE_AFTER_500K_AUDIT",
+  "nextStage": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
   "testEvidence": {
     "status": "PASS_LOCAL_VERIFICATION_AFTER_MODERN_COMMENT_APPLESCRIPT_LIMITATION_BINDING",
     "physicalWave40": "PASS node scripts/ops/rtk-word-v4-e12-physical-wave40.mjs --run-physical --write-receipt --json rounds=40 wordPass=40 parserPass=39 commentsDense=120 scaleWordsMax=300000 falseExact=0 silentApply=0 wrongSceneRouting=0 replayFailure=0",

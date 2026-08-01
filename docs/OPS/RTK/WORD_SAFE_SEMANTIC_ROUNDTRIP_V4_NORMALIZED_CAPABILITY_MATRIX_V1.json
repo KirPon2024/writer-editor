@@ -1,0 +1,622 @@
+{
+  "schemaVersion": "yalken.rtk.word.safe-semantic-roundtrip-v4.normalized-capability-matrix.v1",
+  "taskId": "WORD_RTK_NORMALIZED_CAPABILITY_MATRIX",
+  "status": "WORD_NORMALIZED_CAPABILITY_MATRIX_BOUND_NOT_SATURATED",
+  "createdAtUtc": "2026-08-01T10:20:00.000Z",
+  "headBinding": {
+    "originMainSha": "0c514593f4e9fc8b6b0e936e83509f862ceda223",
+    "localHeadSha": "0c514593f4e9fc8b6b0e936e83509f862ceda223",
+    "auditedHead": "0c514593f4e9fc8b6b0e936e83509f862ceda223",
+    "independentAuditId": "019fbd04-b1f9-7393-aa67-d3e65632b803"
+  },
+  "sourceBindings": {
+    "v4Spec": {
+      "path": "docs/OPS/RTK/YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_FINAL_V4.md",
+      "sha256": "b2a66d1d65d71f25438b54a91160a260d6a2c7ba521496761361bbe4df6c07b4"
+    },
+    "capabilityProfile": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "65766e3a3062149e35c21dde31fc1553da6ce61052ae099635a4585c16cff512"
+    },
+    "postD1Program": {
+      "path": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "f8b011e285948fdfde8537ce522e1925c6ea941b67d4b198ca54e327e6dd5eb9"
+    },
+    "saturationLedger": {
+      "path": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "e4474b4c07fd2f59daa0256f38da7c7544fffe9ba946432dd3c20c02ed3c1a34"
+    }
+  },
+  "normalizedVocabulary": [
+    "COMPONENT_PROVEN",
+    "PHYSICAL_WORD_EVIDENCE",
+    "PRODUCT_RUNTIME_WIRED",
+    "DIAGNOSTIC_ONLY",
+    "TYPED_LIMITATION",
+    "SATURATION_GOVERNANCE"
+  ],
+  "counts": {
+    "totalCells": 25,
+    "physicalWordEvidence": 16,
+    "productRuntimeWired": 11,
+    "automaticApplyCertified": 0,
+    "blocksWordSaturation": 6,
+    "currentTerminalClass": {
+      "COMPONENT_PROVEN": 5,
+      "PHYSICAL_WORD_EVIDENCE": 3,
+      "DIAGNOSTIC_ONLY": 3,
+      "SATURATION_GOVERNANCE": 1,
+      "PRODUCT_RUNTIME_WIRED": 10,
+      "PRODUCT_COMPOSITION_REGISTERED_COMPONENT_CONSUMER": 1,
+      "TYPED_LIMITATION": 2
+    },
+    "intendedTerminalClass": {
+      "COMPONENT_PROVEN": 5,
+      "PHYSICAL_WORD_EVIDENCE": 3,
+      "DIAGNOSTIC_ONLY": 3,
+      "SATURATION_GOVERNANCE": 1,
+      "PRODUCT_RUNTIME_WIRED": 11,
+      "TYPED_LIMITATION": 2
+    }
+  },
+  "rows": [
+    {
+      "ordinal": 1,
+      "cellId": "rtk.word.v4.locallyBoundBlockRangeExactText",
+      "operationFamily": "TextRevision replacement-pair or delete inside trusted block range",
+      "intendedTerminalClass": "COMPONENT_PROVEN",
+      "currentTerminalClass": "COMPONENT_PROVEN",
+      "userFacingAuthority": "NONE_INTERNAL_WRITER_PRIMITIVE",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "",
+        "sourceState": "COMPONENT_PROVEN",
+        "sourceCurrentCapability": "EXACT_AUTOMATIC_COMPONENT_ONLY"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_COMPONENT_NOT_USER_CAPABILITY",
+      "requiredNextContour": "NONE_SUPERSEDED_BY_C05_PRODUCT_PATH",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 2,
+      "cellId": "rtk.word.v4.locatorSurvivalLab",
+      "operationFamily": "Word carrier survival and placement signal selection",
+      "intendedTerminalClass": "PHYSICAL_WORD_EVIDENCE",
+      "currentTerminalClass": "PHYSICAL_WORD_EVIDENCE",
+      "userFacingAuthority": "NONE_SURVIVAL_EVIDENCE_ONLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E02_LOCATOR_STACK_SURVIVAL_RECEIPT.json",
+        "sourceState": "PHYSICAL_WORD_PROVEN",
+        "sourceCurrentCapability": "AUTHORITY_PAYLOAD_CARRIER_PROVEN_NOT_RUNTIME_APPLY"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_SURVIVAL_ONLY_NO_APPLY_AUTHORITY",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 3,
+      "cellId": "rtk.word.v4.commentsShadowAnalysis",
+      "operationFamily": "classic and modern comments replies resolve reopen delete",
+      "intendedTerminalClass": "DIAGNOSTIC_ONLY",
+      "currentTerminalClass": "DIAGNOSTIC_ONLY",
+      "userFacingAuthority": "COMMENTS_SHADOW_PREVIEW_ONLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E07_COMMENTS_REPLIES_STATES_RECEIPT.json",
+        "sourceState": "PHYSICAL_WORD_PROVEN",
+        "sourceCurrentCapability": "VISIBLE_ANCHORED_COMMENT_SHADOW_ANALYSIS_WITH_TYPED_LIMITATIONS"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_MODERN_REPLY_STATE_GAP_REMAINS",
+      "requiredNextContour": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
+      "blocksWordSaturation": true,
+      "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
+    },
+    {
+      "ordinal": 4,
+      "cellId": "rtk.word.v4.coreManifestYrtk2",
+      "operationFamily": "CoreManifest ExportMap hash tree YRTK2 token and double self-parse",
+      "intendedTerminalClass": "COMPONENT_PROVEN",
+      "currentTerminalClass": "COMPONENT_PROVEN",
+      "userFacingAuthority": "NONE_AUTHORITY_INFRASTRUCTURE",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "",
+        "sourceState": "COMPONENT_PROVEN",
+        "sourceCurrentCapability": "LOCAL_CORE_PROVEN_NOT_PHYSICAL_CORPUS_SATURATED"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_COMPONENT_NOT_PRODUCT_UI",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 5,
+      "cellId": "rtk.word.v4.minimalSemanticKernel",
+      "operationFamily": "isolated parser output to Minimal Word Semantic Kernel lanes",
+      "intendedTerminalClass": "COMPONENT_PROVEN",
+      "currentTerminalClass": "COMPONENT_PROVEN",
+      "userFacingAuthority": "NONE_PARSER_COMPONENT_ONLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "",
+        "sourceState": "COMPONENT_PROVEN",
+        "sourceCurrentCapability": "SEMANTIC_LANES_PROVEN_NOT_APPLY_AUTHORITY"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_COMPONENT_NOT_PRODUCT_UI",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 6,
+      "cellId": "rtk.word.v4.sourceMapUniqueDiff",
+      "operationFamily": "SourceMap B/O/C/G projections UniqueDiff and bounded text effects",
+      "intendedTerminalClass": "COMPONENT_PROVEN",
+      "currentTerminalClass": "COMPONENT_PROVEN",
+      "userFacingAuthority": "NONE_EFFECT_PROJECTION_ONLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "",
+        "sourceState": "COMPONENT_PROVEN",
+        "sourceCurrentCapability": "IMMUTABLE_EFFECT_PROJECTION_PROVEN_NOT_APPLY_AUTHORITY"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_COMPONENT_NOT_PRODUCT_UI",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 7,
+      "cellId": "rtk.word.v4.physicalTextCertification",
+      "operationFamily": "Word 16.111.2 physical text roundtrip corpus",
+      "intendedTerminalClass": "PHYSICAL_WORD_EVIDENCE",
+      "currentTerminalClass": "PHYSICAL_WORD_EVIDENCE",
+      "userFacingAuthority": "PHYSICAL_TEXT_EVIDENCE_NO_NEW_APPLY_AUTHORITY",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E06_PHYSICAL_TEXT_CERTIFICATION_RECEIPT.json",
+        "sourceState": "PHYSICAL_WORD_PROVEN",
+        "sourceCurrentCapability": "WORD_16_111_2_TEXT_CORPUS_PHYSICAL_PASS_NO_EXACT_AUTHORITY_EXPANSION"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_PHYSICAL_TEXT_EVIDENCE_BOUND",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 8,
+      "cellId": "rtk.word.v4.effectiveFormattingDiagnostics",
+      "operationFamily": "effective formatting headings lists hyperlinks and typography deltas",
+      "intendedTerminalClass": "DIAGNOSTIC_ONLY",
+      "currentTerminalClass": "DIAGNOSTIC_ONLY",
+      "userFacingAuthority": "FORMAT_PREVIEW_AND_LOSS_REPORT_ONLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E08_EFFECTIVE_FORMATTING_RECEIPT.json",
+        "sourceState": "PHYSICAL_WORD_PROVEN",
+        "sourceCurrentCapability": "FORMATTING_DIAGNOSTIC_LANE_WITH_TYPED_LIMITATIONS"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_FORMATTING_APPLY_LANE_PENDING",
+      "requiredNextContour": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
+      "blocksWordSaturation": true,
+      "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
+    },
+    {
+      "ordinal": 9,
+      "cellId": "rtk.word.v4.typedStructuralDiagnostics",
+      "operationFamily": "paragraph structure moves cross-scene topology tables sections footnotes endnotes fields Compare Combine",
+      "intendedTerminalClass": "DIAGNOSTIC_ONLY",
+      "currentTerminalClass": "DIAGNOSTIC_ONLY",
+      "userFacingAuthority": "STRUCTURE_PREVIEW_MANUAL_OR_BLOCKED_ONLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E09_TYPED_STRUCTURAL_EDITS_RECEIPT.json",
+        "sourceState": "PHYSICAL_WORD_PROVEN",
+        "sourceCurrentCapability": "STRUCTURAL_DIAGNOSTIC_BLOCKING_WITH_TYPED_LIMITATIONS"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_STRUCTURAL_APPLY_LANE_PENDING",
+      "requiredNextContour": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
+      "blocksWordSaturation": true,
+      "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
+    },
+    {
+      "ordinal": 10,
+      "cellId": "rtk.word.v4.multiRoundReplayStaleConflictGuards",
+      "operationFamily": "multi-round repeated import stale baseline tampered locator conflict and no-edit conservation guards",
+      "intendedTerminalClass": "PHYSICAL_WORD_EVIDENCE",
+      "currentTerminalClass": "PHYSICAL_WORD_EVIDENCE",
+      "userFacingAuthority": "REPLAY_STALE_CONFLICT_GUARD_EVIDENCE",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E10_MULTI_ROUND_REPLAY_CONFLICTS_RECEIPT.json",
+        "sourceState": "PHYSICAL_WORD_PROVEN",
+        "sourceCurrentCapability": "REPLAY_STALE_CONFLICT_GUARD_DIAGNOSTICS_WITH_TYPED_LIMITATIONS"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_MULTI_ROUND_LEDGER_RECONCILIATION_PENDING",
+      "requiredNextContour": "P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION",
+      "blocksWordSaturation": true,
+      "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
+    },
+    {
+      "ordinal": 11,
+      "cellId": "rtk.word.v4.multiSceneAtomicCoordinator",
+      "operationFamily": "multi-scene single-root-pointer prepare commit recovery coordinator",
+      "intendedTerminalClass": "COMPONENT_PROVEN",
+      "currentTerminalClass": "COMPONENT_PROVEN",
+      "userFacingAuthority": "NONE_COMPONENT_SUPERSEDED_BY_PRODUCT_VERTICAL",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E11_MULTI_SCENE_ATOMIC_COORDINATOR_RECEIPT.json",
+        "sourceState": "COMPONENT_PROVEN",
+        "sourceCurrentCapability": "MULTI_SCENE_ATOMIC_COORDINATOR_COMPONENT_SHADOW_ONLY"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_COMPONENT_NOT_PRODUCT_UI",
+      "requiredNextContour": "NONE_SUPERSEDED_BY_P0_MULTI_SCENE_PRODUCT_VERTICAL",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 12,
+      "cellId": "rtk.word.v4.saturationLedger",
+      "operationFamily": "Unicode hostile performance crash replay and escalating physical Word wave saturation ledger",
+      "intendedTerminalClass": "SATURATION_GOVERNANCE",
+      "currentTerminalClass": "SATURATION_GOVERNANCE",
+      "userFacingAuthority": "NONE_SATURATION_GOVERNANCE_ONLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+        "sourceState": "PHYSICAL_WORD_PROVEN",
+        "sourceCurrentCapability": "A03_C05_NON_OVERLAP_PRODUCT_PATH_WIRED_NOT_RELEASE_READY"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_WORD_HOLD_NOT_SATURATED",
+      "requiredNextContour": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
+      "blocksWordSaturation": true,
+      "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
+    },
+    {
+      "ordinal": 13,
+      "cellId": "rtk.word.v4.rootModernCommentShadowSession",
+      "operationFamily": "root modern comments shadow session import through Command Kernel",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "COMMENTS_ONLY_SHADOW_SESSION_IMPORT",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C01_COMMENT_SHADOW_RUNTIME_RECEIPT.json",
+        "sourceState": "PRODUCT_RUNTIME_WIRED",
+        "sourceCurrentCapability": "ROOT_MODERN_COMMENT_SHADOW_SESSION_RUNTIME_WIRED_NO_APPLY_AUTHORITY"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_COMMENT_SHADOW_PRODUCT_PATH_WIRED",
+      "requiredNextContour": "NONE_FOR_ROOT_COMMENT_SHADOW_ONLY",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 14,
+      "cellId": "rtk.word.v4.nonOverlapTrackedReplacementRuntimeApply",
+      "operationFamily": "TextRevision replacement-pair inside trusted single-scene block range",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_COMPOSITION_REGISTERED_COMPONENT_CONSUMER",
+      "userFacingAuthority": "NONE_STANDALONE_SUPERSEDED_BY_C05_PRODUCT_PATH",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
+        "sourceState": "COMPONENT_PROVEN_SUPERSEDED_BY_A03_C05_PRODUCT_PATH",
+        "sourceCurrentCapability": "COMPONENT_RUNTIME_RETAINED_AS_C05_CONSUMER"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_C02_REGISTERED_COMPONENT_SUPERSEDED_NOT_USER_AUTHORITY",
+      "requiredNextContour": "NONE_SUPERSEDED_BY_C05_PRODUCT_PATH",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 15,
+      "cellId": "rtk.word.v4.adjacentRangeNegativeOracle",
+      "operationFamily": "adjacent tracked replacement exact candidate",
+      "intendedTerminalClass": "TYPED_LIMITATION",
+      "currentTerminalClass": "TYPED_LIMITATION",
+      "userFacingAuthority": "MANUAL_OR_BLOCKED_FOR_ADJACENT_RANGE",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C03_ADJACENT_RANGE_NEGATIVE_ORACLE_RECEIPT.json",
+        "sourceState": "TYPED_LIMITATION",
+        "sourceCurrentCapability": "NEGATIVE_ORACLE_BOUND_DO_NOT_PROMOTE_ADJACENT_RANGE_AUTOMATIC_APPLY"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_ADJACENT_TRIPLE_EDIT_TYPED_LIMITATION",
+      "requiredNextContour": "NONE_UNLESS_NEW_WORD_EVIDENCE_CHANGES_BOUNDARY",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 16,
+      "cellId": "rtk.word.v4.modernCommentStateReadbackGate",
+      "operationFamily": "modern comment done state and thread lifecycle readback",
+      "intendedTerminalClass": "TYPED_LIMITATION",
+      "currentTerminalClass": "TYPED_LIMITATION",
+      "userFacingAuthority": "COMMENT_STATE_READBACK_ONLY_NO_RESOLVE_REOPEN_PROMISE",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C04_MODERN_COMMENT_STATE_RECEIPT.json",
+        "sourceState": "COMPONENT_PROVEN_STATE_READBACK_ONLY_TYPED_LIMITATION",
+        "sourceCurrentCapability": "DONE_TRUE_READBACK_ONLY_BOUND_NO_RESOLVE_REOPEN_RUNTIME_PROMOTION"
+      },
+      "productRuntimeWired": false,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_RESOLVE_REOPEN_PRODUCT_PATH_OR_LIMITATION_PENDING",
+      "requiredNextContour": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION",
+      "blocksWordSaturation": true,
+      "saturationDisposition": "OPEN_BEFORE_WORD_SATURATION"
+    },
+    {
+      "ordinal": 17,
+      "cellId": "rtk.word.v4.nonOverlapTrackedReplacementProductPath",
+      "operationFamily": "Word-return non-overlap tracked replacement preview and explicit apply path",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "EXPLICIT_USER_CONFIRMED_NON_OVERLAP_TRACKED_REPLACEMENT_APPLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_A03_C05_NON_OVERLAP_PRODUCT_PATH_RECEIPT.json",
+        "sourceState": "PRODUCT_RUNTIME_WIRED",
+        "sourceCurrentCapability": "RETURNED_DOCX_PREVIEW_TO_COMMAND_KERNEL_APPLY_PATH_WIRED_PENDING_PRODUCT_ORIGINATED_PHYSICAL_LOOP"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_SUPPORTED_TEXT_APPLY_PRODUCT_PATH_WIRED",
+      "requiredNextContour": "NONE_FOR_SUPPORTED_NON_OVERLAP_REPLACEMENTS",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 18,
+      "cellId": "rtk.word.releaseAudit.p0.productReviewDocxExporter",
+      "operationFamily": "Product-originated Review DOCX export packet with authenticated round identity",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "USER_REVIEW_DOCX_EXPORT_COMMAND",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REVIEW_DOCX_EXPORTER_RECEIPT.json",
+        "sourceState": "PRODUCT_RUNTIME_WIRED",
+        "sourceCurrentCapability": "PRODUCT_REVIEW_DOCX_EXPORTER_WIRED_RETURN_INTAKE_PENDING"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_PRODUCT_EXPORT_PATH_WIRED",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 19,
+      "cellId": "rtk.word.releaseAudit.p0.returnIntakeV2",
+      "operationFamily": "Authenticated Review DOCX return intake through parser V2 before storage authority",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "USER_RETURN_INTAKE_QUARANTINE_PREVIEW",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_RETURN_INTAKE_V2_RECEIPT.json",
+        "sourceState": "PRODUCT_RUNTIME_WIRED_NOT_APPLY_CERTIFIED",
+        "sourceCurrentCapability": "PRODUCT_REVIEW_DOCX_RETURN_INTAKE_V2_WIRED_APPLY_PENDING"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_RETURN_INTAKE_PATH_WIRED",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 20,
+      "cellId": "rtk.word.releaseAudit.p0.parsedIrPreviewApplyReplay",
+      "operationFamily": "Authenticated ReviewIRV2 to visible exact preview and explicit command-kernel apply/replay",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "VISIBLE_PREVIEW_AND_EXPLICIT_APPLY_PATH",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PARSED_IR_PREVIEW_APPLY_REPLAY_RECEIPT.json",
+        "sourceState": "PRODUCT_RUNTIME_WIRED_USER_CONFIRMED_APPLY_NOT_RELEASE_CERTIFIED",
+        "sourceCurrentCapability": "PARSED_IR_PREVIEW_EXPLICIT_APPLY_REPLAY_WIRED_PHYSICAL_PRODUCT_WAVE_PENDING"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_PREVIEW_APPLY_REPLAY_PATH_WIRED",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 21,
+      "cellId": "rtk.word.releaseAudit.p0.commentShadowAuthenticatedSessionStorageEffects",
+      "operationFamily": "Authenticated product comment shadow session identity and storage effects",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "COMMENTS_ONLY_AUTHENTICATED_SHADOW_SESSION_STORAGE",
+      "physicalEvidence": {
+        "physicalWordEvidence": false,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_COMMENT_SHADOW_AUTHENTICATED_SESSION_RECEIPT.json",
+        "sourceState": "PRODUCT_RUNTIME_WIRED_SHADOW_ONLY_NOT_RELEASE_CERTIFIED",
+        "sourceCurrentCapability": "COMMENT_SHADOW_AUTHENTICATED_SESSION_KEYS_STORAGE_EFFECTS_WIRED_PHYSICAL_PRODUCT_WAVE_PENDING"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_AUTHENTICATED_COMMENT_SHADOW_PATH_WIRED",
+      "requiredNextContour": "NONE_FOR_COMMENT_SHADOW_STORAGE_ONLY",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 22,
+      "cellId": "rtk.word.releaseAudit.p0.productOriginatedSmokeWave12",
+      "operationFamily": "Product-originated Review DOCX to physical Word return smoke wave",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "PRODUCT_ORIGINATED_WORD_SMOKE_EVIDENCE",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
+        "sourceState": "PHYSICAL_WORD_SMOKE_WAVE_12_COMPLETE_NOT_RELEASE_CERTIFIED",
+        "sourceCurrentCapability": "PRODUCT_ORIGINATED_WORD_SMOKE_WAVE_12_COMPLETE"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_PRODUCT_ORIGINATED_PHYSICAL_SMOKE_BOUND",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 23,
+      "cellId": "rtk.word.releaseAudit.p0.productVerticalTrackedEdit",
+      "operationFamily": "Product Review DOCX to physical Word tracked replacement return to explicit command apply",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "ONE_SUPPORTED_TRACKED_EDIT_VERTICAL_EXPLICIT_APPLY",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_VERTICAL_TRACKED_EDIT_RECEIPT.json",
+        "sourceState": "PRODUCT_ONE_CASE_VERTICAL_LOOP_PROVEN_NOT_SATURATED",
+        "sourceCurrentCapability": "ONE_SUPPORTED_TRACKED_REPLACEMENT_PHYSICAL_PRODUCT_VERTICAL_LOOP"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_TRACKED_EDIT_PRODUCT_VERTICAL_BOUND",
+      "requiredNextContour": "NONE",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 24,
+      "cellId": "rtk.word.releaseAudit.p0.productCommentsMixedMultiScene",
+      "operationFamily": "Product Review DOCX comments mixed tracked replacement and multi-scene typed limitation",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "ROOT_COMMENT_SHADOW_AND_MIXED_TRACKED_REPLACEMENT_PRODUCT_PATH",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_COMMENTS_MIXED_MULTI_SCENE_RECEIPT.json",
+        "sourceState": "PRODUCT_BOUNDED_VERTICAL_COMMENTS_MIXED_PROVEN_NOT_SATURATED",
+        "sourceCurrentCapability": "ROOT_COMMENT_SHADOW_AND_MIXED_TRACKED_REPLACEMENT_PRODUCT_LOOP_WITH_MULTI_SCENE_BLOCK"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_COMMENTS_MIXED_PRODUCT_PATH_BOUND",
+      "requiredNextContour": "NONE_FOR_PROVEN_ROOT_COMMENT_MIXED_PATH",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    },
+    {
+      "ordinal": 25,
+      "cellId": "rtk.word.releaseAudit.p0.multiSceneAtomicCommentStateClosure",
+      "operationFamily": "Product multi-scene atomic tracked replacement and comment delete state closure",
+      "intendedTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "currentTerminalClass": "PRODUCT_RUNTIME_WIRED",
+      "userFacingAuthority": "MULTI_SCENE_ATOMIC_EXPLICIT_APPLY_AND_COMMENT_DELETE_TOMBSTONE_PATH",
+      "physicalEvidence": {
+        "physicalWordEvidence": true,
+        "evidenceReceiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
+        "sourceState": "PRODUCT_MULTI_SCENE_ATOMIC_COMMENT_DELETE_STATE_WIRED_NOT_SATURATED",
+        "sourceCurrentCapability": "MULTI_SCENE_ATOMIC_EXPLICIT_APPLY_AND_COMMENT_DELETE_TOMBSTONE_PRODUCT_PATH"
+      },
+      "productRuntimeWired": true,
+      "automaticApplyCertified": false,
+      "reasonCode": "RTK_NORM_MULTI_SCENE_ATOMIC_COMMENT_DELETE_PATH_BOUND",
+      "requiredNextContour": "NONE_FOR_PROVEN_MULTI_SCENE_DELETE_TOMBSTONE_PATH",
+      "blocksWordSaturation": false,
+      "saturationDisposition": "NOT_A_SATURATION_BLOCKER"
+    }
+  ],
+  "nextEngineeringOrder": [
+    {
+      "order": 1,
+      "contour": "P0_MODERN_COMMENT_REPLIES_PRODUCT_PATH_OR_TYPED_LIMITATION",
+      "blockingCells": [
+        "rtk.word.v4.commentsShadowAnalysis"
+      ]
+    },
+    {
+      "order": 2,
+      "contour": "P0_MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_PATH_OR_TYPED_LIMITATION",
+      "blockingCells": [
+        "rtk.word.v4.modernCommentStateReadbackGate"
+      ]
+    },
+    {
+      "order": 3,
+      "contour": "P0_SAFE_FORMATTING_APPLY_LANE_OR_TYPED_LIMITATION",
+      "blockingCells": [
+        "rtk.word.v4.effectiveFormattingDiagnostics"
+      ]
+    },
+    {
+      "order": 4,
+      "contour": "P0_SAFE_STRUCTURAL_APPLY_LANE_OR_TYPED_LIMITATION",
+      "blockingCells": [
+        "rtk.word.v4.typedStructuralDiagnostics"
+      ]
+    },
+    {
+      "order": 5,
+      "contour": "P0_MULTI_ROUND_STALE_CONFLICT_AND_LEDGER_RECONCILIATION",
+      "blockingCells": [
+        "rtk.word.v4.multiRoundReplayStaleConflictGuards",
+        "rtk.word.v4.saturationLedger"
+      ]
+    },
+    {
+      "order": 6,
+      "contour": "P0_WORD_SCALE_ENGINEERING_AND_DECLARED_SUPPORT_ENVELOPE",
+      "blockingCells": [],
+      "boundaryEvidence": "WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT"
+    }
+  ],
+  "supportEnvelope": {
+    "currentMaxCertifiedTrackedReplacementWords": 100000,
+    "attemptedBoundaryWords": 500000,
+    "boundaryStatus": "TYPED_LIMITATION_REPRODUCED",
+    "boundaryClass": "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY",
+    "saturationMeaning": "All cells inside the declared support envelope must be deterministic exact, manual, blocked, diagnostic, or typed limitation with zero silent loss; it does not mean unsafe universal automatic apply."
+  },
+  "nonClaims": [
+    "Automatic apply is not certified broadly.",
+    "Physical Word evidence is not product runtime authority by itself.",
+    "Component proven cells are not missing product UI work unless their intended terminal class says so.",
+    "Diagnostic-only formatting and structural lanes are not silent apply capability.",
+    "Google Docs remains closed until terminal Word audit and fresh independent exact-head audit."
+  ]
+}

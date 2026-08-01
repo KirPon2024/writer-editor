@@ -7724,10 +7724,10 @@
     },
     {
       "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "b5fcc4f355782c9bdc0f53bb76228c59131f97d69ecc709e3d14fc198547a63d",
+      "sha256": "7a0fba081fb49cdcab6855f1c7566f1ea30c6d9ba500dad1ed1fc990ebc1cc6d",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-08-01T02:20:36.749Z",
-      "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+      "approvedAtUtc": "2026-08-01T02:34:01.000Z",
+      "rationale": "Approve bounded controlled Word grant probe receipt and contract: confirms macOS Word sandbox grant prompt as ENVIRONMENT_PERMISSION, same raw Product Review DOCX SHA unchanged, Word-owned Save As copy not created, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
     },
     {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_PRODUCT_ORIGINATED_WORD_SMOKE_WAVE12_RECEIPT.json",
@@ -7770,6 +7770,20 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
       "approvedAtUtc": "2026-08-01T02:20:36.749Z",
       "rationale": "Approve bounded P0 product-originated Word smoke typed blocker binding after origin/main rebind: records 12 product-command DOCX packets, parser PASS, customXml relationship path traversal repair, macOS Word sandbox grant requirement as ENVIRONMENT_PERMISSION, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_CONTROLLED_GRANT_PROBE_RECEIPT.json",
+      "sha256": "3c9c5f073fafcad02196127d380bebcc78f52e71d9f48927441153ece10bde72",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:34:01.000Z",
+      "rationale": "Approve bounded controlled Word grant probe receipt and contract: confirms macOS Word sandbox grant prompt as ENVIRONMENT_PERMISSION, same raw Product Review DOCX SHA unchanged, Word-owned Save As copy not created, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-controlled-grant-probe.contract.test.js",
+      "sha256": "920fcda9b71758d1d2895a601237e28e83d8fd22d3c5af1feb081cee61e522e7",
+      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
+      "approvedAtUtc": "2026-08-01T02:34:01.000Z",
+      "rationale": "Approve bounded controlled Word grant probe receipt and contract: confirms macOS Word sandbox grant prompt as ENVIRONMENT_PERMISSION, same raw Product Review DOCX SHA unchanged, Word-owned Save As copy not created, no package invalidity claim, no automatic apply, no saturation, and Google Docs remains closed."
     }
   ]
 }

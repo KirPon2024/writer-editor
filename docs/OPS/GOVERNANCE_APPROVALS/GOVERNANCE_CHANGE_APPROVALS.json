@@ -8664,19 +8664,19 @@
     },
     {
       "filePath": "scripts/doctor.mjs",
-      "sha256": "df34cf9fbd692a425e13708cc4804c7ab7a67caef5ff8f726570caf897a2e5f5",
-      "approvedBy": "owner:CONTROLLER_CORRECTION_ATLAS_EVENT_REPAIR_INDEPENDENT_AUDIT_HOLD",
-      "approvedAtUtc": "2026-08-01T18:10:00.000Z",
-      "rationale": "Approve bounded Atlas V5 domain-event independent audit repair: doctor now binds append-only event contracts to audited immutable authority and contract tests cover source mapping, closed payloads, real emitters, receipt propagation and negative false-green cases; no UI redesign, no network, no new dependency, no Program DONE claim.",
+      "sha256": "b7c6be7070986b9a757782450b30c7bebab2de5145eccf124d81cd59df3737dc",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Atlas V5 event-contract repair: append-only domain event doctor fails closed on unreadable immutable Git authority and any baseline/contract event deletion or rename instead of using embedded ok fallback or warning debt downgrade.",
       "approved": true,
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
     },
     {
       "filePath": "test/contracts/yalken-atlas-v5-p1-domain-event-contract-repair.contract.test.js",
-      "sha256": "9e244511868f4972893ebbc63bb39a1762cf30754cf7481294eabdbac9960f2d",
-      "approvedBy": "owner:CONTROLLER_CORRECTION_ATLAS_EVENT_REPAIR_INDEPENDENT_AUDIT_HOLD",
-      "approvedAtUtc": "2026-08-01T18:10:00.000Z",
-      "rationale": "Approve bounded Atlas V5 domain-event independent audit repair: doctor now binds append-only event contracts to audited immutable authority and contract tests cover source mapping, closed payloads, real emitters, receipt propagation and negative false-green cases; no UI redesign, no network, no new dependency, no Program DONE claim.",
+      "sha256": "c628376756b41b6e5e27b1f6d89c753845e68c4ed175a772763fdb18206b9b9b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Atlas V5 event-contract repair: adds decisive negatives for scene order preservation, invalid provenance, reorder event propagation, Stage 10 receipt requirement, immutable receipt truth, stale digest replay rejection, doctor fail-closed behavior, and bounded 1000-scene hashing performance.",
       "approved": true,
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_V5_BOUNDED_DOMAIN_EVENT_REPAIR"
     },
@@ -8754,10 +8754,10 @@
     },
     {
       "filePath": "src/main.js",
-      "sha256": "793b347b4f425b898b30b608ad8d2090228c30c5e3c629909bfc7afa777661b1",
-      "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
-      "approvedAtUtc": "2026-08-01T15:16:23.540Z",
-      "rationale": "Approve bounded Word safety remediation C3 current bytes after fresh origin/main rebind and local verification: PackageParserV2 is quote-aware for XML tag termination, decodes named and numeric entities one pass, fail-closes invalid references and DTD/entity declarations, mechanically enforces parser budgets and worker output bounds, full runner is green, and Google remains report-only blocked until C1-C5 pass; no Google product implementation, no UI redesign, no network, no new dependency, no automatic apply expansion.",
+      "sha256": "191dda33c00722181da91bfb29dd3017de25ab8dd79e9d39bc64452450d5e602",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve current src/main.js bytes after preserving the merged Word C3 worker output budget semantics and adding the bounded Atlas V5 scene-order event repair: tree reorder no longer uses targetIndex as commandSeq, returns real SceneOrderChanged facts and digest, and fails closed when fact construction fails; no UI redesign, no network, no dependency, no storage bypass.",
       "approved": true,
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     },
@@ -8785,6 +8785,33 @@
       "approvedBy": "owner:TASK_ID:YALKEN_RTK_WORD_SAFETY_REMEDIATION_V1",
       "approvedAtUtc": "2026-08-01T15:33:00.000Z",
       "rationale": "Approve bounded post-merge C3 stale binding guard repair: C1 safety contract separates active remediation status from Google report-only blocked result and accepts the C1-C5 remediation progression without changing product authority.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "scripts/ops/collab-apply-pipeline-state.mjs",
+      "sha256": "9ac61342cdcae4b3449f5521b3075ab9271a5c5f3fdf2f4c32518acdbffbde28",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Atlas V5 event-contract repair: collab apply pipeline detector now injects the typed domain-event validation/hash port so applyEventLog remains layer-clean and fails closed without core import.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/collab-apply-pipeline-deterministic.contract.test.js",
+      "sha256": "6524a6af6fe030a0a8822fc3526c5a28836f3aaba574ba7575c8ff10f86592ed",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Atlas V5 event-contract repair: deterministic collab apply proof now supplies the typed domain-event port required by the layer-clean apply pipeline.",
+      "approved": true,
+      "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
+    },
+    {
+      "filePath": "test/contracts/collab-apply-pipeline-typed-errors.contract.test.js",
+      "sha256": "7554ab766eb92d8728be2580135e954f1e6e2f5e8ba1688ce5ec6a7962fedd28",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_CONTINUATION_V2",
+      "approvedAtUtc": "2026-08-01T16:20:00.000Z",
+      "rationale": "Approve bounded Atlas V5 event-contract repair: collab apply typed-error contract adds the fail-closed negative for domain events arriving without the validation/hash port.",
       "approved": true,
       "authority": "OWNER_CARTE_BLANCHE_WITHIN_APPROVED_MASTER_PLAN"
     }

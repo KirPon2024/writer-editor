@@ -52,6 +52,15 @@ function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function deepFreeze(value) {
+  if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
+  Object.freeze(value);
+  for (const item of Object.values(value)) {
+    deepFreeze(item);
+  }
+  return value;
+}
+
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
@@ -185,7 +194,7 @@ function capabilityEnabled(capabilitySnapshot, commandId) {
 
 function createReceipt({ session, commandId, opId, ts, status, activation, preStateHash, postStateHash, storageWritten, details }) {
   const detailEnvelope = isPlainObject(details) ? cloneJson(details) : {};
-  return {
+  return deepFreeze({
     receiptId: opId,
     operationId: opId,
     commandId,
@@ -204,7 +213,7 @@ function createReceipt({ session, commandId, opId, ts, status, activation, preSt
     domainEvents: Array.isArray(detailEnvelope.domainEvents) ? cloneJson(detailEnvelope.domainEvents) : [],
     domainEventDigest: normalizeString(detailEnvelope.domainEventDigest),
     details: detailEnvelope,
-  };
+  });
 }
 
 function nextOpId(session, commandId) {
@@ -818,7 +827,7 @@ export function buildStage10ProductReadModels(sessionInput, capabilitySnapshot =
     eventLog: session.eventLog,
     commandReceipts: session.commandReceipts,
     initialStateHash: session.eventLog.events[0]?.preStateHash || hashCoreState(createInitialCoreState()),
-    requireCommandReceipt: true,
+    requireCommandKernelReceipt: true,
     requireCapabilityRevalidation: true,
   });
   return {

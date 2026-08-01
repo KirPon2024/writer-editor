@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { performance } = require('node:perf_hooks');
 const { pathToFileURL } = require('node:url');
 
 const ROOT = process.cwd();
@@ -333,6 +334,119 @@ test('Atlas V5 P1 domain events: missing product emitters are wired to their act
   assert.equal(domainEvents.validateCoreDomainEvent(orderEvent).ok, true);
 });
 
+test('Atlas V5 P1 domain events: SceneOrderChanged preserves semantic scene order and rejects laundered provenance', async () => {
+  const runtime = await importRepoModule('src/core/runtime.mjs');
+  const domainEvents = await importRepoModule('src/core/domainEvents.mjs');
+  const planner = await importRepoModule('src/derived/atlas/atlasLocalGraphLayoutPlanner.mjs');
+  const layoutTypes = await importRepoModule('src/derived/atlas/atlasLocalGraphTypes.mjs');
+
+  const orderEvent = runtime.buildSceneOrderChangedEvent({
+    projectId: 'p-events',
+    sceneIds: ['scene-10', 'scene-2', 'scene-1'],
+    commandSeq: 12,
+    previousStateHash: '6'.repeat(64),
+    nextStateHash: '7'.repeat(64),
+  });
+  assert.deepEqual(orderEvent.payload.sceneIds, ['scene-10', 'scene-2', 'scene-1']);
+
+  assert.throws(() => runtime.buildSceneOrderChangedEvent({
+    projectId: 'p-events',
+    sceneIds: ['scene-1', 'scene-2'],
+    commandSeq: -1,
+    previousStateHash: '6'.repeat(64),
+    nextStateHash: '7'.repeat(64),
+  }), /INVALID_CORE_DOMAIN_EVENT_PROVENANCE:commandSeq/u);
+  assert.throws(() => runtime.buildSceneOrderChangedEvent({
+    projectId: 'p-events',
+    sceneIds: ['scene-1', 'scene-2'],
+    commandSeq: 1,
+    previousStateHash: 'not-a-hash',
+    nextStateHash: '7'.repeat(64),
+  }), /INVALID_CORE_DOMAIN_EVENT_PROVENANCE:previousStateHash/u);
+
+  assert.throws(() => domainEvents.buildDerivedGenerationPublishedEvent({
+    projectId: 'p-events',
+    generationId: 'generation-1',
+    projectionKind: 'atlas',
+    sourceRevision: -1,
+    commandSeq: 1,
+    previousStateHash: '8'.repeat(64),
+    nextStateHash: '9'.repeat(64),
+  }), /INVALID_CORE_DOMAIN_EVENT_PROVENANCE:sourceRevision/u);
+
+  const invalidGraph = planner.createAtlasLocalGraphLayoutJob({
+    graph: {
+      schemaVersion: layoutTypes.ATLAS_LOCAL_GRAPH_SCHEMA_VERSION,
+      projectId: 'p-events',
+      nodes: [],
+      edges: [],
+      clusters: [],
+      summary: { graphHash: 'not-a-graph-hash' },
+    },
+    sequence: 3,
+  });
+  assert.equal(invalidGraph.ok, false);
+  assert.equal(invalidGraph.error.reason, 'LOCAL_GRAPH_HASH_INVALID');
+});
+
+test('Atlas V5 P1 domain events: tree reorder Command Kernel result carries real event facts and fails closed when facts are missing', async () => {
+  const { createCommandRegistry } = await importRepoModule('src/renderer/commands/registry.mjs');
+  const projectCommands = await importRepoModule('src/renderer/commands/projectCommands.mjs');
+  const runtime = await importRepoModule('src/core/runtime.mjs');
+  const event = runtime.buildSceneOrderChangedEvent({
+    projectId: 'p-events',
+    sceneIds: ['scene-10', 'scene-2', 'scene-1'],
+    commandSeq: 12,
+    previousStateHash: 'a'.repeat(64),
+    nextStateHash: 'b'.repeat(64),
+  });
+  const digest = runtime.hashCoreDomainEvents([event]);
+
+  const registry = createCommandRegistry();
+  projectCommands.registerProjectCommands(registry, {
+    electronAPI: {
+      async invokeUiCommandBridge() {
+        return {
+          ok: true,
+          value: {
+            ok: true,
+            nodeId: 'scene-10',
+            reordered: true,
+            events: [event],
+            domainEventDigest: digest,
+            receipt: { receiptId: 'tree-reorder-receipt-1' },
+          },
+        };
+      },
+    },
+  });
+  const okResult = await registry.getHandler(projectCommands.EXTRA_COMMAND_IDS.TREE_REORDER_NODE)({
+    projectId: 'p-events',
+    nodeId: 'scene-10',
+    direction: 'up',
+  });
+  assert.equal(okResult.ok, true, JSON.stringify(okResult.error || {}));
+  assert.deepEqual(okResult.value.events[0].payload.sceneIds, ['scene-10', 'scene-2', 'scene-1']);
+  assert.equal(okResult.value.domainEventDigest, digest);
+  assert.equal(okResult.value.receipt.receiptId, 'tree-reorder-receipt-1');
+
+  const missingFactsRegistry = createCommandRegistry();
+  projectCommands.registerProjectCommands(missingFactsRegistry, {
+    electronAPI: {
+      async invokeUiCommandBridge() {
+        return { ok: true, value: { ok: true, nodeId: 'scene-10', reordered: true } };
+      },
+    },
+  });
+  const missingFacts = await missingFactsRegistry.getHandler(projectCommands.EXTRA_COMMAND_IDS.TREE_REORDER_NODE)({
+    projectId: 'p-events',
+    nodeId: 'scene-10',
+    direction: 'up',
+  });
+  assert.equal(missingFacts.ok, false);
+  assert.equal(missingFacts.error.reason, 'TREE_REORDER_DOMAIN_EVENT_REQUIRED');
+});
+
 test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retain immutable fact digest', async () => {
   const runtime = await importRepoModule('src/product/stage10ProductWiring.mjs');
   const domainEvents = await importRepoModule('src/core/domainEvents.mjs');
@@ -363,6 +477,29 @@ test('Atlas V5 P1 domain events: Stage10 operation log and command receipt retai
   const readModels = product.getReadModels();
   assert.equal(readModels.replay.ok, true);
   assert.equal(readModels.replay.steps[0].commandReceiptRef.domainEventDigest, result.receipt.domainEventDigest);
+
+  result.receipt.domainEvents[0].payload.projectId = 'mutated-returned-receipt';
+  const internalSession = product.getSession();
+  assert.equal(internalSession.commandReceipts[0].domainEvents[0].payload.projectId, 'stage10-domain-events');
+  assert.equal(product.getReadModels().replay.ok, true);
+
+  const missingReceiptSession = product.getSession();
+  missingReceiptSession.commandReceipts = [];
+  const missingReceiptReadModels = runtime.buildStage10ProductReadModels(missingReceiptSession);
+  assert.equal(missingReceiptReadModels.replay.ok, false);
+  assert.equal(
+    missingReceiptReadModels.replay.rejected[0].code,
+    'E_COLLAB_OPERATION_REPLAY_COMMAND_RECEIPT_MISSING',
+  );
+
+  const staleDigestSession = product.getSession();
+  staleDigestSession.commandReceipts[0].domainEvents[0].payload.projectId = 'mutated-replay-receipt';
+  const staleDigestReadModels = runtime.buildStage10ProductReadModels(staleDigestSession);
+  assert.equal(staleDigestReadModels.replay.ok, false);
+  assert.equal(
+    staleDigestReadModels.replay.rejected[0].code,
+    'E_COLLAB_OPERATION_REPLAY_RECEIPT_DOMAIN_EVENT_DIGEST_MISMATCH',
+  );
 });
 
 test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event contracts and helper has no UI or storage side channel', () => {
@@ -372,11 +509,33 @@ test('Atlas V5 P1 domain events: doctor fails closed on wildcard public event co
 
   assert.match(doctorSource, /PUBLIC_CORE_EVENT_WILDCARD_TYPE/u);
   assert.match(doctorSource, /DOMAIN_EVENTS_IMMUTABLE_AUTHORITY_COMMIT/u);
+  assert.match(doctorSource, /DOMAIN_EVENTS_AUTHORITY_UNREADABLE/u);
   assert.match(doctorSource, /DOMAIN_EVENTS_BASELINE_REMOVED/u);
   assert.match(doctorSource, /DOMAIN_EVENTS_CONTRACT_REMOVED/u);
+  assert.doesNotMatch(doctorSource, /embedded-authority-fallback/u);
+  assert.doesNotMatch(doctorSource, /status:\s*hasDebt\s*\?\s*'EVENTS_APPEND_WARN'/u);
   assert.doesNotMatch(doctorSource, /if\s*\(!hasWildcardType\)\s*\{\s*for\s*\(const eventId of baselineEventIds\)/u);
   assert.doesNotMatch(domainSource, /from\s+['"]node:(fs|path|child_process|electron)['"]/u);
   assert.doesNotMatch(domainSource, /\b(localStorage|indexedDB|ipcRenderer)\s*[.(]/u);
   assert.doesNotMatch(domainSource, /\b(eventStore|appendEvent|writeEvent|appendFile|writeFile)\s*\(/u);
   assert.match(runtimeSource, /emitCoreDomainEventsForCommandResult/u);
+});
+
+test('Atlas V5 P1 domain events: 1000-scene order event hashing stays inside bounded perf guard', async () => {
+  const runtime = await importRepoModule('src/core/runtime.mjs');
+  const sceneIds = Array.from({ length: 1000 }, (_, index) => `scene-${String(1000 - index).padStart(4, '0')}`);
+  const startedAt = performance.now();
+  const event = runtime.buildSceneOrderChangedEvent({
+    projectId: 'p-events',
+    sceneIds,
+    commandSeq: 42,
+    previousStateHash: 'c'.repeat(64),
+    nextStateHash: 'd'.repeat(64),
+  });
+  const digest = runtime.hashCoreDomainEvents([event]);
+  const elapsedMs = performance.now() - startedAt;
+
+  assert.deepEqual(event.payload.sceneIds.slice(0, 3), ['scene-1000', 'scene-0999', 'scene-0998']);
+  assert.match(digest, /^[a-f0-9]{64}$/u);
+  assert.ok(elapsedMs < 150, `1000-scene event hashing took ${elapsedMs}ms`);
 });

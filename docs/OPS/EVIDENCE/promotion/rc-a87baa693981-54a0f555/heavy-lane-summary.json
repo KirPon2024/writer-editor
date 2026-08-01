@@ -1,0 +1,15 @@
+{
+  "failSignalCode": "",
+  "mode": "promotion",
+  "releaseCandidate": {
+    "match": true,
+    "menuSnapshotId": "menu-default-desktop-minimal",
+    "rcId": "rc-a87baa693981-54a0f555"
+  },
+  "result": "PASS",
+  "schemaVersion": 1,
+  "token": {
+    "RELEASE_CANDIDATE_LOCK_MATCH_OK": 1
+  },
+  "toolVersion": "release-candidate.v1"
+}

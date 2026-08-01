@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "yalken.atlas.v5.finalAudit.p0_05.manualMapPortability.receipt.v1",
+  "taskId": "YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE",
+  "contourId": "P0_05_MANUAL_MAP_PORTABILITY",
+  "generatedAtUtc": "2026-08-01T07:22:00Z",
+  "status": "PASS_P0_05_MANUAL_MAP_PORTABILITY_READY_FOR_DELIVERY",
+  "pass": true,
+  "programDoneClaim": false,
+  "baseSha": "804455eaa5e05e9a0a7448c700897fab406a3b8a",
+  "originMainSha": "804455eaa5e05e9a0a7448c700897fab406a3b8a",
+  "report": {
+    "path": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-attachments-portals-templates-report.json",
+    "sha256": "d064f518287ca05ca86672fa576b0bdcfbb568f2103b8e8cdecedf2cc7cca24a"
+  },
+  "changedBasenames": [
+    "runtime.mjs",
+    "registry.ts",
+    "main.js",
+    "atlasFeatureIntegrationManifest.mjs",
+    "editor.js",
+    "editor.bundle.js",
+    "productCommandRegistry.cjs",
+    "COMMAND_CAPABILITY_BINDING.json",
+    "yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
+    "yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
+    "r3-c03-manual-map-attachments-portals-templates-report.json",
+    "r3-c03-manual-map-portability-journey.png",
+    "r3-c03-manual-map-portability-reopen.png",
+    "GOVERNANCE_CHANGE_APPROVALS.json",
+    "YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY_RECEIPT.json"
+  ],
+  "sourceBinding": {
+    "src/core/runtime.mjs": "bf8e2c74f5ad0c24f2a1f105936e96e23f3dff8eccb4dd48ec2a986925da3b9f",
+    "src/core/registry.ts": "d4d94a6ae3ca99953c85a18be0dc6c5ca8f9c4f18e8587b7265e028f3a70394f",
+    "src/main.js": "2e9026a7501fdb3bb34ca2465a679f23281c7f69ecf1c7225dfe0cffa2b0cd27",
+    "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs": "4666609f8f4b6919a77d834a98b4c5853a208afc371da474813a9b755f05f093",
+    "src/renderer/editor.js": "3f91aa11067da9da0c8053bff13c1619d48511e10bd0631b66868f6f8c9d0f5f",
+    "src/renderer/editor.bundle.js": "c492302f049d2ce67196124393fbe2fd874fefa7a590915e0d87e2598b108cc7",
+    "src/shared/productCommandRegistry.cjs": "dba1e1f45c629e3f43aa3323746411f9db79f93b149c5a4e1dddb4b90e860ec9",
+    "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json": "2b291976df9d5cf42ee68a14f94a58cd3a9c61fe5f85e483a72117cf5ad384d0",
+    "scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs": "a11e0487cbf27d0ef0b517aacc53cc0d13cdac9b11d58505b112314b70832085",
+    "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js": "5569601f63cb6fcb47c52394c58f6431771c6e2f7549f59d6b1880c21e0237f5"
+  },
+  "evidenceBinding": {
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-attachments-portals-templates-report.json": "d064f518287ca05ca86672fa576b0bdcfbb568f2103b8e8cdecedf2cc7cca24a",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-journey.png": "55a60eb5e4185e20540fab480fbe29d9a5d5dc4e3d587831ac5a5d7bc64b6f09",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-reopen.png": "345236f7c430e2ca9f7388d189ae7642cef5f57471edd2faf50ee7bfc6908d2b",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-journey.png": "df1c4c91289bc7cb0f982e721aaa7d036427d2dcc1a10706ebe927f1200d85ed",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-reopen.png": "f9f1b4a7bf40a608cfd1a3d4d760e875151aa3b8e259e546f0485a9b88731c23",
+    "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json": "03f7a89884f8d55283e4a32810816123656e0a86883ea7f346b0472bdfd6aaec"
+  },
+  "acceptance": {
+    "productCommandRuntimeUiPathBound": true,
+    "visibleExportJsonControl": true,
+    "visibleImagePdfPacketControl": true,
+    "visibleRepeatImportControl": true,
+    "attachmentsPortalsTemplatesPreserved": true,
+    "repeatImportPersistedAndReopened": true,
+    "imagePdfEvidenceGenerated": true,
+    "binaryPdfUnsupportedDeclaredAsTypedLoss": true,
+    "undoRecoveryPathRetained": true,
+    "noRendererStorageBypass": true,
+    "noDirectIpcAcceptance": true,
+    "noGeneratedArtifactOnlyAcceptance": true,
+    "noNetwork": true,
+    "noNewRuntimeDependency": true,
+    "noProgramDoneClaim": true
+  },
+  "checks": {
+    "rendererBuild": {
+      "command": "npm run -s build:renderer",
+      "status": "PASS"
+    },
+    "focusedContract": {
+      "command": "node --test P0_05 focused contract pack",
+      "status": "PASS",
+      "tests": {
+        "total": 32,
+        "pass": 32,
+        "fail": 0
+      }
+    },
+    "physicalJourney": {
+      "command": "node scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs --out docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY",
+      "status": "PASS",
+      "reportSha256": "d064f518287ca05ca86672fa576b0bdcfbb568f2103b8e8cdecedf2cc7cca24a",
+      "reportStatus": "PASS_MANUAL_MAP_ATTACHMENTS_PORTALS_TEMPLATES_UI_JOURNEY",
+      "accepted": {
+        "visibleInputRuntime": true,
+        "pointerAndKeyboardUsed": true,
+        "attachmentPortalTemplateCommandsVisible": true,
+        "visiblePortabilityCommands": true,
+        "visibleReadbackRuntime": true,
+        "persistedPortabilityTruth": true,
+        "visibleCommandPathExportImport": true,
+        "importedCopyPersistedTruth": true,
+        "reopenProjectionVisible": true,
+        "exportRepeatImport": true,
+        "imagePdfEvidenceIncludesPortability": true,
+        "pdfClaimHonestTypedLoss": true,
+        "screenshotsNonblank": true,
+        "noNetworkNoDialogs": true,
+        "noDirectIpcOrStorageBypass": true,
+        "noHorizontalOverflow": true
+      },
+      "negativeAssertions": {
+        "directIpcAcceptedJourney": false,
+        "generatedArtifactOnlyAccepted": false,
+        "hiddenPortabilityControlsAccepted": false,
+        "hiddenExportImportControlsAccepted": false,
+        "missingPortabilityTruthAccepted": false,
+        "missingImportedCopyTruthAccepted": false,
+        "exportWithoutRepeatImportAccepted": false,
+        "binaryPdfClaimWithoutAdapter": false,
+        "networkActivated": false,
+        "viewStatePersisted": false
+      }
+    },
+    "testOps": {
+      "command": "npm run -s test:ops",
+      "status": "PASS",
+      "summary": "CURRENT_WAVE_STOP_CONDITION_OK=1; STRICT_LIE_CLASSES_OK=1"
+    },
+    "designOsDoctrine": {
+      "command": "npm run -s design-os:doctrine",
+      "status": "PASS"
+    },
+    "ossPolicy": {
+      "command": "npm run -s oss:policy",
+      "status": "PASS"
+    },
+    "fullRunner": {
+      "command": "node scripts/run-tests.js",
+      "status": "PASS",
+      "tests": {
+        "total": 798,
+        "pass": 734,
+        "fail": 0,
+        "skipped": 64
+      },
+      "perfBaseline": "PASS",
+      "releaseCandidateVerify": "PASS"
+    }
+  },
+  "residualLimitations": [
+    "Manual Map binary PDF export adapter is not active in this contour; runtime exposes typed loss and image/PDF packet evidence instead of claiming binary PDF PASS.",
+    "Program DoD remains IN_PROGRESS until P0_06, P0_07, P0_08, P1 repairs, EFINAL exact-head self-check and independent audit are complete."
+  ],
+  "delivery": {
+    "commitRequired": true,
+    "pushRequired": true,
+    "prRequired": true,
+    "mergeRequired": true,
+    "remoteHeadVerificationRequired": true,
+    "status": "PENDING_DELIVERY_CHAIN"
+  },
+  "nextContour": "P0_06_MULTILINGUAL_MATCHER"
+}

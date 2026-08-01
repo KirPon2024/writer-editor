@@ -541,6 +541,18 @@
     {
       "commandId": "manualMap.group.delete",
       "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.export.json",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.export.imagePdf",
+      "capabilityId": "cap.manualMap.edit"
+    },
+    {
+      "commandId": "manualMap.import.jsonRepeat",
+      "capabilityId": "cap.manualMap.edit"
     }
   ]
 }

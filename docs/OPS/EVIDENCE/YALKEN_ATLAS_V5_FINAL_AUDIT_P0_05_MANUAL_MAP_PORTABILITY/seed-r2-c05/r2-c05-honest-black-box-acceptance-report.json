@@ -1,0 +1,2027 @@
+{
+  "schemaVersion": "yalken.atlas.v5.r2.c05.honestBlackBoxAcceptance.v1",
+  "generatedAtUtc": "2026-08-01T06:43:49.331Z",
+  "contourId": "R2_C05_HONEST_BLACK_BOX_ACCEPTANCE",
+  "platformId": "macos-local-electron",
+  "viewportMatrix": [
+    {
+      "width": 1440,
+      "height": 1200,
+      "status": "SUPPORTED_BLACK_BOX_ACCEPTED"
+    }
+  ],
+  "status": "PASS_VISIBLE_UI_BLACK_BOX_ACCEPTANCE",
+  "pass": true,
+  "accepted": {
+    "visibleInputRuntime": true,
+    "pointerAndKeyboardUsed": true,
+    "createRenameConnectMoveSearchDelete": true,
+    "cancelNoop": true,
+    "hitTestableNonblankGraph": true,
+    "listKeyboardParity": true,
+    "saveQuitReopenRecovery": true,
+    "exportRepeatImport": true,
+    "noNetworkNoDialogs": true,
+    "noWrongTargetOrViewStatePersistence": true,
+    "noOverflow": true
+  },
+  "negativeAssertions": {
+    "directIpcAcceptedJourney": false,
+    "proofByScreenshotByteSizeOnly": false,
+    "hiddenOpenerAccepted": false,
+    "canceledDestructiveActionMutated": false,
+    "staleViewStatePersisted": false,
+    "wrongTargetSilentMutation": false,
+    "networkActivated": false
+  },
+  "runtime": {
+    "first": {
+      "ok": true,
+      "runtimeKind": "production-electron-visible-input-black-box",
+      "mode": "journey",
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": "",
+      "result": {
+        "ok": 1,
+        "mode": "journey",
+        "appReady": true,
+        "windowCount": 1,
+        "rendererProbe": {
+          "ok": 1,
+          "mode": "journey",
+          "viewport": {
+            "width": 1440,
+            "height": 782
+          },
+          "inputEvents": [
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1206,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1206,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1206,
+              "y": 466
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "c",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "k",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "x",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "M",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1190,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1190,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1190,
+              "y": 466
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1271,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1271,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1271,
+              "y": 466
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "N",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 415,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "N",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [
+                "shift"
+              ],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [
+                "shift"
+              ],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [
+                "shift"
+              ],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 675,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 675,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 675,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "A",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "l",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "p",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "h",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "T",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "o",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1000,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1000,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1000,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 755,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 755,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 755,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 720,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "n",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "m",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "2",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "C",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "0",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "5",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 579,
+              "y": 525
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 579,
+              "y": 525
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 615,
+              "y": 544
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 651,
+              "y": 563
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 651,
+              "y": 563
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "B",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "t",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "R",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "n",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "a",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "m",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "e",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "char",
+              "keyCode": "d",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 627,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 627,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 627,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 591,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 591,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 591,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 668,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 668,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 668,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 990,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "ArrowDown",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "ArrowDown",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 430,
+              "y": 418
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "A",
+              "modifiers": [
+                "meta"
+              ],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyDown",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "keyUp",
+              "keyCode": "Backspace",
+              "modifiers": [],
+              "x": null,
+              "y": null
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1000,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1000,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1000,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 332,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 332,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 332,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 842,
+              "y": 262
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 314,
+              "y": 418
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 395,
+              "y": 418
+            }
+          ],
+          "drag": {
+            "from": {
+              "x": 579,
+              "y": 525
+            },
+            "to": {
+              "x": 651,
+              "y": 563
+            }
+          },
+          "beforeCancel": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 2,
+            "edgeCount": 1,
+            "rowCount": 3,
+            "nodes": [
+              {
+                "id": "manual-node-msa09fyn-sng2h",
+                "text": "BetaRenamedR2C05",
+                "selected": true,
+                "hit": true
+              },
+              {
+                "id": "manual-node-msa09eqo-gmtnd",
+                "text": "AlphaNodeR2C05",
+                "selected": false,
+                "hit": false
+              }
+            ],
+            "edges": [
+              {
+                "id": "manual-edge-msa09hfw-vvcfs",
+                "selected": false
+              }
+            ],
+            "rows": [
+              {
+                "rowId": "node:manual-node-msa09eqo-gmtnd",
+                "text": "AlphaNodeR2C05note",
+                "selected": false
+              },
+              {
+                "rowId": "node:manual-node-msa09fyn-sng2h",
+                "text": "BetaRenamedR2C05note",
+                "selected": true
+              },
+              {
+                "rowId": "edge:manual-edge-msa09hfw-vvcfs",
+                "text": "AlphaToBetaR2C05manual-node-msa09eqo-gmtnd -> manual-node-msa09fyn-sng2h",
+                "selected": false
+              }
+            ],
+            "formCommandId": "manualMap.node.update",
+            "formRisk": "semantic",
+            "resultStatus": "APPLIED",
+            "text": "Manual MapR2C05BlackBoxMapb541af401maps2nodes1edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateExport JSONExport image/PDF packetImport exported copyManualMove nodenode: manual-node-msa09fyn-sng2h · manualMap.node.updateMoves selected node manual-node-msa09fyn-sng2h to 112, 62. ViewState remains transient; only node position is written after Apply.APPLIEDCancelApply-+FitBetaRenamedR2C05AlphaNodeR2C05AlphaNodeR2C05noteBetaRenamedR2C05noteAlphaToBetaR2C05manual-node-msa09eqo-gmtnd -> manual-node-msa09fyn-sng2hNo portability records yetAdd an attachment, portal, or template from the workspace.Portability commandreadyJSON exportnot exportedImage/PDF packetnot exportedRepeat importnot importedBetaRenamedR2C05note · manual-node-msa09fyn-sng2h · 112, 62ViewState transient · manual · 2/2",
+            "hasHorizontalOverflow": false
+          },
+          "afterCancel": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 2,
+            "edgeCount": 1,
+            "rowCount": 3,
+            "nodes": [
+              {
+                "id": "manual-node-msa09eqo-gmtnd",
+                "text": "AlphaNodeR2C05",
+                "selected": true,
+                "hit": false
+              },
+              {
+                "id": "manual-node-msa09fyn-sng2h",
+                "text": "BetaRenamedR2C05",
+                "selected": false,
+                "hit": true
+              }
+            ],
+            "edges": [
+              {
+                "id": "manual-edge-msa09hfw-vvcfs",
+                "selected": false
+              }
+            ],
+            "rows": [
+              {
+                "rowId": "node:manual-node-msa09eqo-gmtnd",
+                "text": "AlphaNodeR2C05note",
+                "selected": true
+              },
+              {
+                "rowId": "node:manual-node-msa09fyn-sng2h",
+                "text": "BetaRenamedR2C05note",
+                "selected": false
+              },
+              {
+                "rowId": "edge:manual-edge-msa09hfw-vvcfs",
+                "text": "AlphaToBetaR2C05manual-node-msa09eqo-gmtnd -> manual-node-msa09fyn-sng2h",
+                "selected": false
+              }
+            ],
+            "formCommandId": "manualMap.node.delete",
+            "formRisk": "destructive",
+            "resultStatus": "CANCELLED_NOOP",
+            "text": "Manual MapR2C05BlackBoxMapb541af401maps2nodes1edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateExport JSONExport image/PDF packetImport exported copyManualDelete nodenode: manual-node-msa09eqo-gmtnd · manualMap.node.deleteDeletes selected node manual-node-msa09eqo-gmtnd. Command Kernel owns any related edge or group cleanup.Confirm destructive changeCANCELLED_NOOPCancelApply-+FitAlphaNodeR2C05BetaRenamedR2C05AlphaNodeR2C05noteBetaRenamedR2C05noteAlphaToBetaR2C05manual-node-msa09eqo-gmtnd -> manual-node-msa09fyn-sng2hNo portability records yetAdd an attachment, portal, or template from the workspace.Portability commandreadyJSON exportnot exportedImage/PDF packetnot exportedRepeat importnot importedAlphaNodeR2C05note · manual-node-msa09eqo-gmtnd · 0, 0ViewState transient · manual · 2/2",
+            "hasHorizontalOverflow": false
+          },
+          "finalSnapshot": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 1,
+            "edgeCount": 0,
+            "rowCount": 1,
+            "nodes": [
+              {
+                "id": "manual-node-msa09fyn-sng2h",
+                "text": "BetaRenamedR2C05",
+                "selected": false,
+                "hit": true
+              }
+            ],
+            "edges": [],
+            "rows": [
+              {
+                "rowId": "node:manual-node-msa09fyn-sng2h",
+                "text": "BetaRenamedR2C05note",
+                "selected": false
+              }
+            ],
+            "formCommandId": "manualMap.node.delete",
+            "formRisk": "destructive",
+            "resultStatus": "APPLIED",
+            "text": "Manual MapR2C05BlackBoxMap996849461maps1nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateExport JSONExport image/PDF packetImport exported copyManualDelete nodenode: manual-node-msa09eqo-gmtnd · manualMap.node.deleteDeletes selected node manual-node-msa09eqo-gmtnd. Command Kernel owns any related edge or group cleanup.Confirm destructive changeAPPLIEDCancelApply-+FitBetaRenamedR2C05BetaRenamedR2C05noteNo portability records yetAdd an attachment, portal, or template from the workspace.Portability commandreadyJSON exportnot exportedImage/PDF packetnot exportedRepeat importnot importedR2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 1/1",
+            "hasHorizontalOverflow": false
+          },
+          "screenshot": {
+            "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-journey.png",
+            "bytes": 609735,
+            "sha256": "df1c4c91289bc7cb0f982e721aaa7d036427d2dcc1a10706ebe927f1200d85ed",
+            "sampled": 112608,
+            "nonBlankRatio": 0.9961459221369707,
+            "preserved": true
+          }
+        },
+        "networkRequests": 0,
+        "dialogCalls": 0,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz"
+      },
+      "stdout": "[perf] when-ready: 152ms\n[craftsman:migration] no legacy userData found, creating craftsman folder\n[craftsman:migration] legacy documents folder is empty or missing\n[perf] init-complete: 191ms\n[perf] window-state-loaded: 191ms\n[perf] create-window: 299ms\n[perf] window-visible: 320ms\n[perf] did-finish-load: 623ms\nR2_C05_BLACK_BOX_RESULT:{\"ok\":1,\"mode\":\"journey\",\"appReady\":true,\"windowCount\":1,\"rendererProbe\":{\"ok\":1,\"mode\":\"journey\",\"viewport\":{\"width\":1440,\"height\":782},\"inputEvents\":[{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1206,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1206,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1206,\"y\":466},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"c\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"k\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"x\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"M\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1190,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1190,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1190,\"y\":466},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1271,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1271,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1271,\"y\":466},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"N\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":415,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"N\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[\"shift\"],\"x\":990,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[\"shift\"],\"x\":990,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[\"shift\"],\"x\":990,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":675,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":675,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":675,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"A\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"l\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"p\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"h\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"T\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"o\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1000,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1000,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1000,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":755,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":755,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":755,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":720,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"n\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"m\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"2\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"C\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"0\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"5\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":579,\"y\":525},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":579,\"y\":525},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":615,\"y\":544},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":651,\"y\":563},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":651,\"y\":563},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"B\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"t\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"R\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"n\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"a\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"m\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"e\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"char\",\"keyCode\":\"d\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":627,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":627,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":627,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":591,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":591,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":591,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":668,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":668,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":668,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":990,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"ArrowDown\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"ArrowDown\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":430,\"y\":418},{\"type\":\"keyDown\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"A\",\"modifiers\":[\"meta\"],\"x\":null,\"y\":null},{\"type\":\"keyDown\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"keyUp\",\"keyCode\":\"Backspace\",\"modifiers\":[],\"x\":null,\"y\":null},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1000,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1000,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1000,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":332,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":332,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":332,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":842,\"y\":262},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":314,\"y\":418},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":395,\"y\":418}],\"drag\":{\"from\":{\"x\":579,\"y\":525},\"to\":{\"x\":651,\"y\":563}},\"beforeCancel\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":2,\"edgeCount\":1,\"rowCount\":3,\"nodes\":[{\"id\":\"manual-node-msa09fyn-sng2h\",\"text\":\"BetaRenamedR2C05\",\"selected\":true,\"hit\":true},{\"id\":\"manual-node-msa09eqo-gmtnd\",\"text\":\"AlphaNodeR2C05\",\"selected\":false,\"hit\":false}],\"edges\":[{\"id\":\"manual-edge-msa09hfw-vvcfs\",\"selected\":false}],\"rows\":[{\"rowId\":\"node:manual-node-msa09eqo-gmtnd\",\"text\":\"AlphaNodeR2C05note\",\"selected\":false},{\"rowId\":\"node:manual-node-msa09fyn-sng2h\",\"text\":\"BetaRenamedR2C05note\",\"selected\":true},{\"rowId\":\"edge:manual-edge-msa09hfw-vvcfs\",\"text\":\"AlphaToBetaR2C05manual-node-msa09eqo-gmtnd -> manual-node-msa09fyn-sng2h\",\"selected\":false}],\"formCommandId\":\"manualMap.node.update\",\"formRisk\":\"semantic\",\"resultStatus\":\"APPLIED\",\"text\":\"Manual MapR2C05BlackBoxMapb541af401maps2nodes1edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateExport JSONExport image/PDF packetImport exported copyManualMove nodenode: manual-node-msa09fyn-sng2h · manualMap.node.updateMoves selected node manual-node-msa09fyn-sng2h to 112, 62. ViewState remains transient; only node position is written after Apply.APPLIEDCancelApply-+FitBetaRenamedR2C05AlphaNodeR2C05AlphaNodeR2C05noteBetaRenamedR2C05noteAlphaToBetaR2C05manual-node-msa09eqo-gmtnd -> manual-node-msa09fyn-sng2hNo portability records yetAdd an attachment, portal, or template from the workspace.Portability commandreadyJSON exportnot exportedImage/PDF packetnot exportedRepeat importnot importedBetaRenamedR2C05note · manual-node-msa09fyn-sng2h · 112, 62ViewState transient · manual · 2/2\",\"hasHorizontalOverflow\":false},\"afterCancel\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":2,\"edgeCount\":1,\"rowCount\":3,\"nodes\":[{\"id\":\"manual-node-msa09eqo-gmtnd\",\"text\":\"AlphaNodeR2C05\",\"selected\":true,\"hit\":false},{\"id\":\"manual-node-msa09fyn-sng2h\",\"text\":\"BetaRenamedR2C05\",\"selected\":false,\"hit\":true}],\"edges\":[{\"id\":\"manual-edge-msa09hfw-vvcfs\",\"selected\":false}],\"rows\":[{\"rowId\":\"node:manual-node-msa09eqo-gmtnd\",\"text\":\"AlphaNodeR2C05note\",\"selected\":true},{\"rowId\":\"node:manual-node-msa09fyn-sng2h\",\"text\":\"BetaRenamedR2C05note\",\"selected\":false},{\"rowId\":\"edge:manual-edge-msa09hfw-vvcfs\",\"text\":\"AlphaToBetaR2C05manual-node-msa09eqo-gmtnd -> manual-node-msa09fyn-sng2h\",\"selected\":false}],\"formCommandId\":\"manualMap.node.delete\",\"formRisk\":\"destructive\",\"resultStatus\":\"CANCELLED_NOOP\",\"text\":\"Manual MapR2C05BlackBoxMapb541af401maps2nodes1edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateExport JSONExport image/PDF packetImport exported copyManualDelete nodenode: manual-node-msa09eqo-gmtnd · manualMap.node.deleteDeletes selected node manual-node-msa09eqo-gmtnd. Command Kernel owns any related edge or group cleanup.Confirm destructive changeCANCELLED_NOOPCancelApply-+FitAlphaNodeR2C05BetaRenamedR2C05AlphaNodeR2C05noteBetaRenamedR2C05noteAlphaToBetaR2C05manual-node-msa09eqo-gmtnd -> manual-node-msa09fyn-sng2hNo portability records yetAdd an attachment, portal, or template from the workspace.Portability commandreadyJSON exportnot exportedImage/PDF packetnot exportedRepeat importnot importedAlphaNodeR2C05note · manual-node-msa09eqo-gmtnd · 0, 0ViewState transient · manual · 2/2\",\"hasHorizontalOverflow\":false},\"finalSnapshot\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":1,\"edgeCount\":0,\"rowCount\":1,\"nodes\":[{\"id\":\"manual-node-msa09fyn-sng2h\",\"text\":\"BetaRenamedR2C05\",\"selected\":false,\"hit\":true}],\"edges\":[],\"rows\":[{\"rowId\":\"node:manual-node-msa09fyn-sng2h\",\"text\":\"BetaRenamedR2C05note\",\"selected\":false}],\"formCommandId\":\"manualMap.node.delete\",\"formRisk\":\"destructive\",\"resultStatus\":\"APPLIED\",\"text\":\"Manual MapR2C05BlackBoxMap996849461maps1nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateExport JSONExport image/PDF packetImport exported copyManualDelete nodenode: manual-node-msa09eqo-gmtnd · manualMap.node.deleteDeletes selected node manual-node-msa09eqo-gmtnd. Command Kernel owns any related edge or group cleanup.Confirm destructive changeAPPLIEDCancelApply-+FitBetaRenamedR2C05BetaRenamedR2C05noteNo portability records yetAdd an attachment, portal, or template from the workspace.Portability commandreadyJSON exportnot exportedImage/PDF packetnot exportedRepeat importnot importedR2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 1/1\",\"hasHorizontalOverflow\":false},\"screenshot\":{\"path\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz/r2-c05-black-box-journey.png\",\"bytes\":609735,\"sha256\":\"df1c4c91289bc7cb0f982e721aaa7d036427d2dcc1a10706ebe927f1200d85ed\",\"sampled\":112608,\"nonBlankRatio\":0.9961459221369707}},\"networkRequests\":0,\"dialogCalls\":0,\"tempRoot\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz\"}\n",
+      "stderr": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:20971:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:22638:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz/documents/craftsman/.autosave/autosave.txt'\n}\n(node:85141) DeprecationWarning: getBitmap() is deprecated, use toBitmap() instead.\n(Use `Electron --trace-deprecation ...` to show where the warning was created)\n"
+    },
+    "second": {
+      "ok": true,
+      "runtimeKind": "production-electron-visible-input-black-box",
+      "mode": "reopen",
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": "",
+      "result": {
+        "ok": 1,
+        "mode": "reopen",
+        "appReady": true,
+        "windowCount": 1,
+        "rendererProbe": {
+          "ok": 1,
+          "mode": "reopen",
+          "viewport": {
+            "width": 1440,
+            "height": 782
+          },
+          "inputEvents": [
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1089,
+              "y": 110
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1294,
+              "y": 212
+            },
+            {
+              "type": "mouseMove",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseDown",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            },
+            {
+              "type": "mouseUp",
+              "keyCode": "",
+              "modifiers": [],
+              "x": 1295,
+              "y": 466
+            }
+          ],
+          "snapshot": {
+            "ok": 1,
+            "hostVisible": true,
+            "status": "ready",
+            "placement": "plan-workspace",
+            "nodeCount": 1,
+            "edgeCount": 0,
+            "rowCount": 1,
+            "nodes": [
+              {
+                "id": "manual-node-msa09fyn-sng2h",
+                "text": "BetaRenamedR2C05",
+                "selected": false,
+                "hit": true
+              }
+            ],
+            "edges": [],
+            "rows": [
+              {
+                "rowId": "node:manual-node-msa09fyn-sng2h",
+                "text": "BetaRenamedR2C05note",
+                "selected": false
+              }
+            ],
+            "formCommandId": "",
+            "formRisk": "",
+            "resultStatus": "",
+            "text": "Manual MapR2C05BlackBoxMap996849461maps1nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateExport JSONExport image/PDF packetImport exported copyManual-+FitBetaRenamedR2C05BetaRenamedR2C05noteNo portability records yetAdd an attachment, portal, or template from the workspace.Portability commandreadyJSON exportnot exportedImage/PDF packetnot exportedRepeat importnot importedR2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 1/1",
+            "hasHorizontalOverflow": false
+          },
+          "screenshot": {
+            "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-reopen.png",
+            "bytes": 617504,
+            "sha256": "f9f1b4a7bf40a608cfd1a3d4d760e875151aa3b8e259e546f0485a9b88731c23",
+            "sampled": 112608,
+            "nonBlankRatio": 0.9976378232452401,
+            "preserved": true
+          }
+        },
+        "networkRequests": 0,
+        "dialogCalls": 0,
+        "tempRoot": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz"
+      },
+      "stdout": "[perf] when-ready: 57ms\n[craftsman:migration] no legacy userData found, creating craftsman folder\n[craftsman:migration] legacy documents folder is empty or missing\n[perf] init-complete: 80ms\n[perf] window-state-loaded: 80ms\n[perf] create-window: 157ms\n[perf] window-visible: 170ms\n[perf] did-finish-load: 379ms\nR2_C05_BLACK_BOX_RESULT:{\"ok\":1,\"mode\":\"reopen\",\"appReady\":true,\"windowCount\":1,\"rendererProbe\":{\"ok\":1,\"mode\":\"reopen\",\"viewport\":{\"width\":1440,\"height\":782},\"inputEvents\":[{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1089,\"y\":110},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1294,\"y\":212},{\"type\":\"mouseMove\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseDown\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466},{\"type\":\"mouseUp\",\"keyCode\":\"\",\"modifiers\":[],\"x\":1295,\"y\":466}],\"snapshot\":{\"ok\":1,\"hostVisible\":true,\"status\":\"ready\",\"placement\":\"plan-workspace\",\"nodeCount\":1,\"edgeCount\":0,\"rowCount\":1,\"nodes\":[{\"id\":\"manual-node-msa09fyn-sng2h\",\"text\":\"BetaRenamedR2C05\",\"selected\":false,\"hit\":true}],\"edges\":[],\"rows\":[{\"rowId\":\"node:manual-node-msa09fyn-sng2h\",\"text\":\"BetaRenamedR2C05note\",\"selected\":false}],\"formCommandId\":\"\",\"formRisk\":\"\",\"resultStatus\":\"\",\"text\":\"Manual MapR2C05BlackBoxMap996849461maps1nodes0edges0groups0refs0portals0templatesCreate mapAdd nodeScene nodeEntity nodeAdd edgeEdit nodeDelete nodeEdit edgeDelete edgeCreate groupEdit groupDelete groupAdd attachmentAdd portalApply templateExport JSONExport image/PDF packetImport exported copyManual-+FitBetaRenamedR2C05BetaRenamedR2C05noteNo portability records yetAdd an attachment, portal, or template from the workspace.Portability commandreadyJSON exportnot exportedImage/PDF packetnot exportedRepeat importnot importedR2C05BlackBoxMapSelect a node, edge, or list row.ViewState transient · manual · 1/1\",\"hasHorizontalOverflow\":false},\"screenshot\":{\"path\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz/r2-c05-black-box-reopen.png\",\"bytes\":617504,\"sha256\":\"f9f1b4a7bf40a608cfd1a3d4d760e875151aa3b8e259e546f0485a9b88731c23\",\"sampled\":112608,\"nonBlankRatio\":0.9976378232452401}},\"networkRequests\":0,\"dialogCalls\":0,\"tempRoot\":\"/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz\"}\n",
+      "stderr": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:20971:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/src/main.js:22638:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz/documents/craftsman/.autosave/autosave.txt'\n}\n(node:85256) DeprecationWarning: getBitmap() is deprecated, use toBitmap() instead.\n(Use `Electron --trace-deprecation ...` to show where the warning was created)\n"
+    }
+  },
+  "portability": {
+    "manifestPath": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz/documents/craftsman/Роман/project.craftsman.json",
+    "manifestProof": {
+      "path": "/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-r2-c05-black-box-hDohnz/documents/craftsman/Роман/project.craftsman.json",
+      "exists": true,
+      "bytes": 5566,
+      "sha256": "79f6cd5b5a1c278eef0b5d28b6815c353e5f0c12e5ccf5c06f47cc2ce871b2f1"
+    },
+    "graph": {
+      "schemaVersion": "derived.manualMap.graph.v1",
+      "projectId": "project-5a9ddb4b-2bb2-49df-ac31-85c48c13e54c",
+      "mapId": "manual-map-msa09d47-ihaj6",
+      "title": "R2C05BlackBoxMap",
+      "nodes": [
+        {
+          "id": "manual-node-msa09fyn-sng2h",
+          "label": "BetaRenamedR2C05",
+          "kind": "note",
+          "position": {
+            "x": 112,
+            "y": 62
+          },
+          "target": {
+            "kind": "",
+            "id": ""
+          }
+        }
+      ],
+      "edges": [],
+      "groups": [],
+      "attachments": [],
+      "portals": [],
+      "templates": []
+    },
+    "graphHash": "86636866277962915f12a02233cc0276f587d47ea6eac7024db4bf97829845ae",
+    "exportJsonSha256": "8c30c64bf4052ca1580e6ddae33f8f0927f8f18667ae9d3401b5db8af75393d8",
+    "exportLossCount": 0,
+    "imagePdfOk": true,
+    "imageEvidenceHash": "2e40bcdc124fa6a0cdee81a94e7f75a1dd842e6e5808c48a3a6aa722e7dbd908",
+    "imageFormat": "svg",
+    "pdfSourceFormat": "html-print-packet",
+    "pdfBinaryGenerated": false,
+    "repeatImportOk": true,
+    "repeatImportCommandAuthority": "CommandKernel",
+    "repeatImportDirectCoreMutation": false,
+    "repeatImportStorageMutation": false,
+    "repeatImportLossCount": 0,
+    "repeatImportGraphHashMatched": true
+  },
+  "evidenceFiles": {
+    "journeyScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-journey.png",
+      "exists": true,
+      "bytes": 609735,
+      "sha256": "df1c4c91289bc7cb0f982e721aaa7d036427d2dcc1a10706ebe927f1200d85ed"
+    },
+    "reopenScreenshot": {
+      "path": "/Volumes/T7-Secure/worktrees/yalken/atlas-v5-e00/docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "exists": true,
+      "bytes": 617504,
+      "sha256": "f9f1b4a7bf40a608cfd1a3d4d760e875151aa3b8e259e546f0485a9b88731c23"
+    }
+  }
+}

@@ -2739,13 +2739,6 @@
       "rationale": "PHASE08_NARROW_RELEASE_CANDIDATE_AND_COLLAB_STATUS_REGEN_REBIND"
     },
     {
-      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
-      "sha256": "d23456fb681b664e396db01d9df50c94a5683e01c8a28f25cc423dfe2a9cbe7e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01",
-      "approvedAtUtc": "2026-07-31T23:53:30.000Z",
-      "rationale": "Approve command-to-capability binding for cmd.project.review.exportDocxReviewPacket to the node-only Review DOCX exporter capability."
-    },
-    {
       "filePath": "docs/OPS/STATUS/COMMAND_ID_COMPAT_MAP_V1.json",
       "sha256": "c7c2334e1d254cc13060dc118f9a4c664e3a9791762e57889231ed749433859b",
       "approvedBy": "ticket:TZ_CONTOUR_CLOSE_V4_A03_GIT_FORMALIZATION",
@@ -5427,13 +5420,6 @@
       "rationale": "Approve bounded R3_C02 Atlas temporal, continuity, saved query physical Electron journey evidence after origin/main reconcile; certifies only visible UI command path, persistence, reopen, and no silent source-scene slice; Program DoD remains NOT_DONE."
     },
     {
-      "filePath": "scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
-      "sha256": "2dd1b2cfda26c82cbf3eceffabf5e94a160db66ad035d3a5d89458c0bbe096e8",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_R3_C03",
-      "approvedAtUtc": "2026-08-01T00:05:00.000Z",
-      "rationale": "Approve bounded R3_C03 Manual Map attachment, portal, and template physical Electron journey evidence; certifies only visible UI command path, persistence, reopen, repeat import, image/PDF evidence, and no direct IPC/storage bypass; Program DoD remains NOT_DONE."
-    },
-    {
       "filePath": "scripts/ops/yalken-atlas-v5-r3-c04-multilingual-worker-stress.mjs",
       "sha256": "6a0f926827fa5cb6ba5e33afea06ac518d101305c0d68df34449bab3caf4fd44",
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
@@ -5467,13 +5453,6 @@
       "approvedBy": "owner:TASK_ID:YALKEN_WORD_A03_C01_TRUTH_REPAIR_AND_C02_CONTINUE",
       "approvedAtUtc": "2026-07-31T18:23:22.233Z",
       "rationale": "A03_C01_TRUTH_REPAIR_AND_A03_C02_NON_OVERLAP_TRACKED_REPLACEMENT_RUNTIME_DELIVERY"
-    },
-    {
-      "filePath": "src/core/runtime.mjs",
-      "sha256": "80372f28b826cea64b5bd671820db789d3614a140f68a9bf483ee66e86b2489e",
-      "approvedBy": "owner:TASK_ID:YALKEN_WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01+MERGED_ORIGIN_MAIN_DRIFT",
-      "approvedAtUtc": "2026-08-01T01:06:00.129Z",
-      "rationale": "Approve merged fresh-origin diff while closing P0 authenticated comment shadow identity contour; preserves Atlas R3 C04 remote changes, RTK shadow-only authority, no manuscript apply, no automatic apply certification, no Word saturation, no Google Docs."
     },
     {
       "filePath": "src/derived/atlas/atlasGraphLayoutWorker.mjs",
@@ -5770,13 +5749,6 @@
       "rationale": "Approve V4 E03 platform-neutral CoreManifest/YRTK2 core: creates CoreManifest, ExportMap, hash tree binding, fixed 101-byte/135-character YRTK2 round locator token, HMAC verification through CryptoPort, hash-cycle rejection, double self-parse gate, no Buffer, Node, Electron, filesystem, renderer, network, parser authority, writer authority, UI, dependency, or automatic apply expansion."
     },
     {
-      "filePath": "src/main.js",
-      "sha256": "f16c5b35be1aeedb1c830ebb591f5113256aadf36a2205d8c3bef1295ff8f434",
-      "approvedBy": "owner:TASK_ID:WORD_RTK_PRODUCT_VERTICAL_COMMENTS_MIXED_MULTI_SCENE",
-      "approvedAtUtc": "2026-08-01T04:35:00.000Z",
-      "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
-    },
-    {
       "filePath": "src/preload.js",
       "sha256": "f56ee01ce624d1e25232b5a502deb55746b14c6e50b34730e481497b4a031f2c",
       "approvedBy": "ticket:YALKEN_ATLAS_V5_ER_C07_STAGE_REVALIDATION_AND_HANDOFF+P0_04_GOVERNANCE_DRIFT_REBIND",
@@ -5791,29 +5763,8 @@
       "rationale": "Approve bounded P0 product comments mixed multi-scene contour and entitlement repair: Electron Review DOCX export menu proof, physical Word root comment/mixed comment plus tracked replacement/delete/state probe, authenticated V2 intake, visible preview, explicit command apply, comment shadow replay, multi-scene safe block, veto metrics zero, automatic apply false, Word saturated false, Google Docs closed."
     },
     {
-      "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
-      "sha256": "29909fa062c5559c64da12e666dba3e2712b0803b76e2f2ec8f84608f656d857",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
-      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
-      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
-    },
-    {
       "filePath": "src/renderer/design-os/index.mjs",
       "sha256": "cb9c90b5a942ba2d170ad89334ef9c872f02086078f726a1d7efc3c0909c51b7",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
-      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
-      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "src/renderer/editor.bundle.js",
-      "sha256": "109d4d492a7731ee4253cca420dde082f9e6dd49d2fe10a5f4a0106ba6a3f3f8",
-      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
-      "approvedAtUtc": "2026-08-01T06:03:00.000Z",
-      "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
-    },
-    {
-      "filePath": "src/renderer/editor.js",
-      "sha256": "22a0d24ad6bd8ba68f022bf5c0efcaaa07a1e7d7a92755b74e92f1d362e2f1f4",
       "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_04",
       "approvedAtUtc": "2026-08-01T06:03:00.000Z",
       "rationale": "Approve bounded P0_04 runtime Design OS binding files: Atlas and Manual Map surfaces are bound by FEATURE_INTEGRATION_MANIFEST_V1 and YALKEN_ATLAS_FEATURE_SLOT_RESOLVER_V1, renderer provider metadata flows through resolved slot binding, direct provider writes are removed, generated bundle rebuilt, no visual redesign, no network, no storage authority, no second command bus, and Program DoD remains IN_PROGRESS."
@@ -7966,6 +7917,111 @@
       "approvedBy": "ticket:YALKEN_WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_PHYSICAL_WAVE300",
       "approvedAtUtc": "2026-07-31T00:00:00.000Z",
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-attachments-portals-templates-report.json",
+      "sha256": "d064f518287ca05ca86672fa576b0bdcfbb568f2103b8e8cdecedf2cc7cca24a",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-journey.png",
+      "sha256": "55a60eb5e4185e20540fab480fbe29d9a5d5dc4e3d587831ac5a5d7bc64b6f09",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/r3-c03-manual-map-portability-reopen.png",
+      "sha256": "345236f7c430e2ca9f7388d189ae7642cef5f57471edd2faf50ee7bfc6908d2b",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-journey.png",
+      "sha256": "df1c4c91289bc7cb0f982e721aaa7d036427d2dcc1a10706ebe927f1200d85ed",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-black-box-reopen.png",
+      "sha256": "f9f1b4a7bf40a608cfd1a3d4d760e875151aa3b8e259e546f0485a9b88731c23",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/EVIDENCE/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY/seed-r2-c05/r2-c05-honest-black-box-acceptance-report.json",
+      "sha256": "03f7a89884f8d55283e4a32810816123656e0a86883ea7f346b0472bdfd6aaec",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/COMMAND_CAPABILITY_BINDING.json",
+      "sha256": "2b291976df9d5cf42ee68a14f94a58cd3a9c61fe5f85e483a72117cf5ad384d0",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/STATUS/YALKEN_ATLAS_V5_FINAL_AUDIT_P0_05_MANUAL_MAP_PORTABILITY_RECEIPT.json",
+      "sha256": "d4a11c29eb2a0606db419cbeaf64b06e13c6aea2711169a7cd97c384f5728b09",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "scripts/ops/yalken-atlas-v5-r3-c03-manual-map-attachments-portals-templates.mjs",
+      "sha256": "a11e0487cbf27d0ef0b517aacc53cc0d13cdac9b11d58505b112314b70832085",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "src/core/runtime.mjs",
+      "sha256": "bf8e2c74f5ad0c24f2a1f105936e96e23f3dff8eccb4dd48ec2a986925da3b9f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "src/main.js",
+      "sha256": "2e9026a7501fdb3bb34ca2465a679f23281c7f69ecf1c7225dfe0cffa2b0cd27",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
+      "sha256": "4666609f8f4b6919a77d834a98b4c5853a208afc371da474813a9b755f05f093",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "c492302f049d2ce67196124393fbe2fd874fefa7a590915e0d87e2598b108cc7",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "3f91aa11067da9da0c8053bff13c1619d48511e10bd0631b66868f6f8c9d0f5f",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-05-manual-map-portability.contract.test.js",
+      "sha256": "5569601f63cb6fcb47c52394c58f6431771c6e2f7549f59d6b1880c21e0237f5",
+      "approvedBy": "owner:TASK_ID:YALKEN_ATLAS_V5_INDEPENDENT_FINAL_AUDIT_REPAIR_QUEUE:P0_05_MANUAL_MAP_PORTABILITY",
+      "approvedAtUtc": "2026-08-01T07:24:00.000Z",
+      "rationale": "Approve bounded P0_05 Manual Map portability delivery receipt and governed files: visible product command export/import path, attachments/portals/templates repeat import, honest typed PDF loss, no renderer storage bypass, no network, no new runtime dependency, and no Program DONE claim."
     }
   ]
 }

@@ -8747,6 +8747,30 @@ function loadManualMapListParityModule() {
   return manualMapListParityModulePromise;
 }
 
+let manualMapExportModulePromise = null;
+function loadManualMapExportModule() {
+  if (!manualMapExportModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'export', 'mindmap', 'v1', 'index.mjs')).href;
+    manualMapExportModulePromise = import(modulePath).catch((error) => {
+      manualMapExportModulePromise = null;
+      throw error;
+    });
+  }
+  return manualMapExportModulePromise;
+}
+
+let manualMapImportModulePromise = null;
+function loadManualMapImportModule() {
+  if (!manualMapImportModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'import', 'mindmap', 'v1', 'index.mjs')).href;
+    manualMapImportModulePromise = import(modulePath).catch((error) => {
+      manualMapImportModulePromise = null;
+      throw error;
+    });
+  }
+  return manualMapImportModulePromise;
+}
+
 let projectionInspectorModulePromise = null;
 function loadProjectionInspectorModule() {
   if (!projectionInspectorModulePromise) {
@@ -10383,6 +10407,9 @@ const MANUAL_MAP_WORKBENCH_COMMAND_IDS = Object.freeze([
   'manualMap.attachment.add',
   'manualMap.portal.add',
   'manualMap.template.apply',
+  'manualMap.export.json',
+  'manualMap.export.imagePdf',
+  'manualMap.import.jsonRepeat',
 ]);
 
 function normalizeManualMapWorkbenchPayload(payload = {}) {
@@ -24256,6 +24283,337 @@ async function assertProductCommandManifestUnchanged(binding, expectedManifestHa
   };
 }
 
+function normalizeManualMapPortabilityPayload(payload = {}) {
+  const source = isPlainObjectValue(payload) ? payload : {};
+  return {
+    projectId: typeof source.projectId === 'string' ? source.projectId.trim() : '',
+    mapId: typeof source.mapId === 'string' ? source.mapId.trim() : '',
+    targetMapId: typeof source.targetMapId === 'string' ? source.targetMapId.trim() : '',
+    title: typeof source.title === 'string' ? source.title.trim() : '',
+    exportJson: typeof source.exportJson === 'string' ? source.exportJson : '',
+  };
+}
+
+async function deriveManualMapGraphForProductCommand(binding, payload, commandId, record) {
+  const safePayload = normalizeManualMapPortabilityPayload(payload);
+  const project = binding.coreState?.data?.projects?.[binding.projectId];
+  const maps = isPlainObjectValue(project?.manualMaps?.maps) ? project.manualMaps.maps : {};
+  const mapId = safePayload.mapId || Object.keys(maps).sort()[0] || '';
+  if (!mapId || !isPlainObjectValue(maps[mapId])) {
+    return {
+      ok: false,
+      error: makeProductCommandBridgeError(
+        commandId,
+        'E_MANUAL_MAP_PORTABILITY_MAP_NOT_FOUND',
+        'MANUAL_MAP_PORTABILITY_MAP_NOT_FOUND',
+        {
+          commandAuthority: record.commandAuthority,
+          capabilityId: record.capabilityId,
+          domain: record.domain,
+          projectId: binding.projectId,
+          mapId,
+          mutationApplied: false,
+          storageWritten: false,
+        },
+      ),
+    };
+  }
+  const graphModule = await loadManualMapGraphModule();
+  const derived = graphModule.deriveManualMapGraph({
+    coreState: binding.coreState,
+    params: { projectId: binding.projectId, mapId },
+    capabilitySnapshot: {
+      platformId: DEFAULT_AUTHORITY_PLATFORM_ID,
+      capabilities: { 'manualMap.view': true, manualMapView: true },
+    },
+  });
+  if (!derived || derived.ok !== true) {
+    return {
+      ok: false,
+      error: makeProductCommandBridgeError(
+        commandId,
+        derived?.error?.code || 'E_MANUAL_MAP_PORTABILITY_DERIVE_FAILED',
+        derived?.error?.reason || 'MANUAL_MAP_PORTABILITY_DERIVE_FAILED',
+        {
+          commandAuthority: record.commandAuthority,
+          capabilityId: record.capabilityId,
+          domain: record.domain,
+          projectId: binding.projectId,
+          mapId,
+          mutationApplied: false,
+          storageWritten: false,
+          deriveError: derived?.error || null,
+        },
+      ),
+    };
+  }
+  return { ok: true, value: { mapId, graph: derived.value } };
+}
+
+async function handleManualMapExportJsonProductCommand(binding, payload, record, manifestHashBefore) {
+  const commandId = 'manualMap.export.json';
+  const derived = await deriveManualMapGraphForProductCommand(binding, payload, commandId, record);
+  if (!derived.ok) return derived.error;
+  const exportModule = await loadManualMapExportModule();
+  const exported = exportModule.serializeManualMapExportJsonV1WithLossReport(derived.value.graph);
+  const exportHash = computeHash(exported.json);
+  return {
+    ok: true,
+    schemaVersion: 'product-command-dispatch-receipt.v1',
+    commandId,
+    commandAuthority: record.commandAuthority,
+    capabilityId: record.capabilityId,
+    domain: record.domain,
+    runtimeBacked: record.runtimeBacked === true,
+    projectId: binding.projectId,
+    mapId: derived.value.mapId,
+    mutationApplied: false,
+    storageWritten: false,
+    manifestWritten: false,
+    networkMutation: false,
+    directRendererMutation: false,
+    productTruthMutation: false,
+    targetState: {
+      manifestHashBefore,
+      manifestHashAfter: manifestHashBefore,
+      transactionSerialized: true,
+      revisionConflictDetected: false,
+    },
+    export: {
+      format: exportModule.MANUAL_MAP_EXPORT_FORMAT,
+      schemaVersion: exportModule.MANUAL_MAP_EXPORT_SCHEMA_VERSION,
+      json: exported.json,
+      jsonSha256: exportHash,
+      byteLength: Buffer.byteLength(exported.json, 'utf8'),
+      lossCount: exported.lossReport?.count ?? -1,
+      lossReport: cloneJsonSafe(exported.lossReport || {}),
+    },
+  };
+}
+
+async function handleManualMapExportImagePdfProductCommand(binding, payload, record, manifestHashBefore) {
+  const commandId = 'manualMap.export.imagePdf';
+  const derived = await deriveManualMapGraphForProductCommand(binding, payload, commandId, record);
+  if (!derived.ok) return derived.error;
+  const exportModule = await loadManualMapExportModule();
+  const evidence = exportModule.buildManualMapImagePdfExportEvidence(derived.value.graph);
+  if (!evidence || evidence.ok !== true) {
+    return makeProductCommandBridgeError(
+      commandId,
+      evidence?.error?.code || 'E_MANUAL_MAP_IMAGE_PDF_EXPORT_FAILED',
+      evidence?.error?.reason || 'MANUAL_MAP_IMAGE_PDF_EXPORT_FAILED',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        projectId: binding.projectId,
+        mapId: derived.value.mapId,
+        mutationApplied: false,
+        storageWritten: false,
+        exportError: evidence?.error || null,
+      },
+    );
+  }
+  return {
+    ok: true,
+    schemaVersion: 'product-command-dispatch-receipt.v1',
+    commandId,
+    commandAuthority: record.commandAuthority,
+    capabilityId: record.capabilityId,
+    domain: record.domain,
+    runtimeBacked: record.runtimeBacked === true,
+    projectId: binding.projectId,
+    mapId: derived.value.mapId,
+    mutationApplied: false,
+    storageWritten: false,
+    manifestWritten: false,
+    networkMutation: false,
+    directRendererMutation: false,
+    productTruthMutation: false,
+    targetState: {
+      manifestHashBefore,
+      manifestHashAfter: manifestHashBefore,
+      transactionSerialized: true,
+      revisionConflictDetected: false,
+    },
+    export: {
+      schemaVersion: evidence.value.schemaVersion,
+      evidenceHash: evidence.value.meta?.evidenceHash || '',
+      image: cloneJsonSafe(evidence.value.image || {}),
+      pdf: {
+        format: evidence.value.pdf?.format || 'pdf',
+        sourceFormat: evidence.value.pdf?.sourceFormat || '',
+        adapterRequired: evidence.value.pdf?.adapterRequired || '',
+        binaryGenerated: evidence.value.pdf?.binaryGenerated === true,
+        htmlSha256: evidence.value.pdf?.htmlSha256 || '',
+        htmlUtf8ByteLength: evidence.value.pdf?.htmlUtf8ByteLength || 0,
+        typedLoss: evidence.value.pdf?.binaryGenerated === true ? null : {
+          code: 'MANUAL_MAP_PDF_BINARY_ADAPTER_NOT_ACTIVE',
+          reason: 'LOCAL_PRINT_TO_PDF_PORT_NOT_BOUND_FOR_MANUAL_MAP_EXPORT',
+        },
+      },
+      summary: cloneJsonSafe(evidence.value.summary || {}),
+    },
+  };
+}
+
+async function handleManualMapImportJsonRepeatProductCommand(binding, payload, record, manifestHashBefore) {
+  const commandId = 'manualMap.import.jsonRepeat';
+  const safePayload = normalizeManualMapPortabilityPayload(payload);
+  if (!safePayload.exportJson) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_MANUAL_MAP_IMPORT_EXPORT_JSON_REQUIRED',
+      'MANUAL_MAP_IMPORT_EXPORT_JSON_REQUIRED',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        projectId: binding.projectId,
+        mutationApplied: false,
+        storageWritten: false,
+      },
+    );
+  }
+  const importModule = await loadManualMapImportModule();
+  const runtime = await loadCoreRuntimeModule();
+  const targetMapId = safePayload.targetMapId || `${safePayload.mapId || 'manual-map'}-imported`;
+  const imported = await importModule.applyManualMapJsonRepeatImportViaCommandKernel({
+    exportJson: safePayload.exportJson,
+    initialState: binding.coreState,
+    targetProjectId: binding.projectId,
+    targetMapId,
+    title: safePayload.title || targetMapId,
+    commandExecutor: (command, context) => runtime.reduceCoreState(context.state, command),
+    capabilitySnapshot: {
+      platformId: DEFAULT_AUTHORITY_PLATFORM_ID,
+      capabilities: { 'manualMap.view': true, manualMapView: true },
+    },
+  });
+  if (!imported || imported.ok !== true || !isPlainObjectValue(imported.value?.state)) {
+    return makeProductCommandBridgeError(
+      commandId,
+      imported?.error?.code || 'E_MANUAL_MAP_IMPORT_JSON_REPEAT_FAILED',
+      imported?.error?.reason || 'MANUAL_MAP_IMPORT_JSON_REPEAT_FAILED',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        projectId: binding.projectId,
+        mapId: targetMapId,
+        mutationApplied: false,
+        storageWritten: false,
+        importError: imported?.error || null,
+      },
+    );
+  }
+
+  const unchanged = await assertProductCommandManifestUnchanged(binding, manifestHashBefore, commandId, record);
+  if (!unchanged.ok) return unchanged.error;
+  const recovery = await createProjectLifecycleRecovery(
+    {
+      projectId: binding.projectId,
+      projectRoot: binding.projectRoot,
+      manifestPath: binding.manifestPath,
+    },
+    commandId,
+    unchanged.latest.raw,
+  );
+  const nextProject = imported.value.state.data.projects[binding.projectId];
+  const nextManifest = {
+    ...binding.manifest,
+    atlas: cloneJsonSafe(nextProject.atlas || getAtlasAuthorDataForProjection({})),
+    manualMaps: cloneJsonSafe(nextProject.manualMaps || getManualMapAuthorDataForProjection({})),
+    ideas: cloneJsonSafe(nextProject.ideas || getIdeaAuthorDataForProjection({})),
+    meanings: cloneJsonSafe(nextProject.meanings || getMeaningAuthorDataForProjection({})),
+    lastCommandId: Number.isInteger(imported.value.state?.data?.lastCommandId)
+      ? imported.value.state.data.lastCommandId
+      : Number(binding.manifest?.lastCommandId || 0),
+  };
+  const manifestTextAfter = JSON.stringify(nextManifest, null, 2);
+  await persistProjectManifestAtPath(binding.manifestPath, nextManifest, `product command ${commandId}`);
+
+  return {
+    ok: true,
+    schemaVersion: 'product-command-dispatch-receipt.v1',
+    commandId,
+    commandAuthority: record.commandAuthority,
+    capabilityId: record.capabilityId,
+    domain: record.domain,
+    runtimeBacked: record.runtimeBacked === true,
+    projectId: binding.projectId,
+    mapId: targetMapId,
+    mutationApplied: true,
+    storageWritten: true,
+    manifestWritten: true,
+    networkMutation: false,
+    directRendererMutation: false,
+    targetState: {
+      stateHashBefore: runtime.hashCoreState(binding.coreState),
+      stateHashAfter: imported.value.meta?.stateHash || runtime.hashCoreState(imported.value.state),
+      manifestHashBefore,
+      manifestHashAfter: computeHash(manifestTextAfter),
+      commandSeqBefore: Number(binding.coreState?.data?.lastCommandId || 0),
+      commandSeqAfter: Number(imported.value.state?.data?.lastCommandId || 0),
+      transactionSerialized: true,
+      revisionConflictDetected: false,
+    },
+    recovery: {
+      snapshotCreated: recovery.snapshotCreated === true,
+      snapshotReadable: recovery.snapshotReadable === true,
+      snapshotHashMatchesInput: recovery.snapshotHashMatchesInput === true,
+      backupCreated: recovery.backupCreated === true,
+      recoveryPackCreated: recovery.recoveryPackCreated === true,
+      manifestHash: recovery.manifestHash || manifestHashBefore,
+    },
+    import: {
+      commandPlanHash: imported.value.commandPlanHash || '',
+      appliedCommandCount: imported.value.appliedCommandCount || 0,
+      expectedGraphHash: imported.value.expectedGraphHash || '',
+      actualGraphHash: imported.value.actualGraphHash || '',
+      repeatExportGraphHash: imported.value.repeatExportGraphHash || '',
+      repeatExportLossCount: imported.value.repeatExportLossCount ?? -1,
+      repeatExportJsonSha256: computeHash(imported.value.repeatExportJson || ''),
+      directCoreMutation: imported.value.directCoreMutation === true,
+      storageMutation: false,
+      rendererMutation: imported.value.rendererMutation === true,
+    },
+  };
+}
+
+async function dispatchManualMapPortabilityProductCommand(commandId, payload, record) {
+  const binding = await buildProductCoreStateForCurrentProject();
+  const rawRecord = await readProjectManifestRawAtPath(binding.manifestPath);
+  const manifestHashBefore = computeHash(rawRecord.raw);
+  const requestedProjectId = typeof payload.projectId === 'string' ? payload.projectId.trim() : '';
+  if (requestedProjectId && requestedProjectId !== binding.projectId) {
+    return makeProductCommandBridgeError(
+      commandId,
+      'E_PRODUCT_COMMAND_PROJECT_MISMATCH',
+      'PRODUCT_COMMAND_PROJECT_MISMATCH',
+      {
+        commandAuthority: record.commandAuthority,
+        capabilityId: record.capabilityId,
+        domain: record.domain,
+        requestedProjectId,
+        activeProjectId: binding.projectId,
+        mutationApplied: false,
+        storageWritten: false,
+      },
+    );
+  }
+  if (commandId === 'manualMap.export.json') {
+    return handleManualMapExportJsonProductCommand(binding, payload, record, manifestHashBefore);
+  }
+  if (commandId === 'manualMap.export.imagePdf') {
+    return handleManualMapExportImagePdfProductCommand(binding, payload, record, manifestHashBefore);
+  }
+  if (commandId === 'manualMap.import.jsonRepeat') {
+    return handleManualMapImportJsonRepeatProductCommand(binding, payload, record, manifestHashBefore);
+  }
+  return makeProductCommandBridgeError(commandId, 'E_MANUAL_MAP_PORTABILITY_COMMAND_UNSUPPORTED', 'MANUAL_MAP_PORTABILITY_COMMAND_UNSUPPORTED');
+}
+
 async function dispatchProductCommandBridge(commandId, payload = {}) {
   const record = getProductCommandRecord(commandId);
   if (!record) {
@@ -24307,7 +24665,13 @@ async function dispatchProductCommandBridge(commandId, payload = {}) {
   }
 
   return enqueueProductCommandTransaction(currentProjectName || DEFAULT_PROJECT_NAME, () => (
-    dispatchProductCommandBridgeTransaction(commandId, payload, record)
+    MANUAL_MAP_WORKBENCH_COMMAND_IDS.includes(commandId) && (
+      commandId === 'manualMap.export.json'
+      || commandId === 'manualMap.export.imagePdf'
+      || commandId === 'manualMap.import.jsonRepeat'
+    )
+      ? dispatchManualMapPortabilityProductCommand(commandId, payload, record)
+      : dispatchProductCommandBridgeTransaction(commandId, payload, record)
   ));
 }
 

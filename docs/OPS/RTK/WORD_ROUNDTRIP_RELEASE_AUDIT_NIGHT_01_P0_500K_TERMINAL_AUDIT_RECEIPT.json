@@ -1,0 +1,380 @@
+{
+  "schemaVersion": "yalken.rtk.word-roundtrip-release-audit-night-01.p0-500k-terminal-audit-receipt.v1",
+  "taskId": "WORD_RTK_P0_500K_TERMINAL_AUDIT",
+  "contourId": "P0-PRODUCT-VERTICAL-500K-BOUNDARY-AND-TERMINAL-AUDIT",
+  "status": "WORD_RELEASE_AUDIT_P0_500K_TERMINAL_AUDIT_COMPLETE_NOT_SATURATED",
+  "result": "PASS",
+  "createdAtUtc": "2026-08-01T09:40:05.514Z",
+  "headBinding": {
+    "baseRemoteSha": "ae33e5a8604c30fed4a9b7ad4ceae23cdbb1aead",
+    "headSha": "ae33e5a8604c30fed4a9b7ad4ceae23cdbb1aead",
+    "mergedRemoteShaRequired": true
+  },
+  "secureVolume": {
+    "mount": "/Volumes/T7-Secure",
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "fileVault": "Yes",
+    "writable": true
+  },
+  "wordSandboxWorkRoot": {
+    "source": "default",
+    "root": "/Users/kirillponomarev/Library/Containers/com.microsoft.Word/Data/tmp/YalkenWordLab/p0-500k-terminal-audit",
+    "containerId": "com.microsoft.Word",
+    "insideWordContainer": true,
+    "t7ArtifactFallback": false,
+    "plainTmpForbidden": true,
+    "userDocumentsTouched": false,
+    "networkRequired": false,
+    "canonicalRealpathSkippedForSmokeHangAvoidance": true,
+    "fallbackReason": ""
+  },
+  "wordProfile": {
+    "appPath": "/Applications/Microsoft Word.app",
+    "requestedVersionFromOwnerBrief": "16.111.2",
+    "versionByBundle": "16.111.2",
+    "buildByBundle": "16.111.26072617",
+    "versionByAppleScript": "",
+    "appleScriptProbeStatus": "DEFERRED_TO_PER_CASE_WORD_SCRIPT",
+    "openDocumentsBeforeLab": -1,
+    "observedVersionClass": "WORD_16_111_FAMILY",
+    "macosVersion": "26.5.2",
+    "macosBuild": "25F84",
+    "locale": "ru_FI"
+  },
+  "physicalCorpus": {
+    "syntheticOnly": true,
+    "fixtureOnlyPassAllowed": false,
+    "liveElectronUiExportSurfaceClick": {
+      "ok": true,
+      "timedOut": false,
+      "exitCode": 0,
+      "signal": null,
+      "result": {
+        "ok": 1,
+        "clicked": true,
+        "menuItemId": "review-export-docx-review-packet",
+        "menuItemLabel": "Export Review DOCX Packet...",
+        "dialogCalls": [
+          {
+            "method": "showSaveDialog",
+            "title": "Экспорт Review DOCX"
+          }
+        ],
+        "exportedExists": true,
+        "exportedSha256": "a9309bdb758dae5f5d77627d36818954d8915128aaa06314042b6775edea470a",
+        "exportedBytes": 12967,
+        "sceneDiskText": "Yalken UI export surface proof COMMENT_TARGET OLD_WORD.",
+        "networkRequests": []
+      },
+      "stderrTail": "[craftsman][restoreAutosaveIfExists] Error: ENOENT: no such file or directory, open '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-product-comments-ui-IkUgNM/documents/craftsman/.autosave/autosave.txt'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1283:14)\n    at async restoreAutosaveIfExists (/Volumes/T7-Secure/worktrees/yalken/post-d1-portability/src/main.js:21023:21)\n    at async /Volumes/T7-Secure/worktrees/yalken/post-d1-portability/src/main.js:22690:22 {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/var/folders/qq/p9w353w13lqb3n8vdv_lf2f80000gn/T/yalken-product-comments-ui-IkUgNM/documents/craftsman/.autosave/autosave.txt'\n}\n",
+      "exportedDocxPath": "/Volumes/T7-Secure/storage/yalken/word-roundtrip-release-audit-night-01/current/p0-500k-terminal-audit/p0-500k-terminal-audit-20260801T093929/electron-ui-review-docx-export.docx",
+      "exportedDocxSha256": "sha256:a9309bdb758dae5f5d77627d36818954d8915128aaa06314042b6775edea470a",
+      "exportedDocxZipOk": true,
+      "userDocumentsTouched": false,
+      "networkRequests": []
+    },
+    "boundaryAttempt": {
+      "caseId": "P0T500-001",
+      "result": "TYPED_LIMITATION_REPRODUCED",
+      "boundaryClass": "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY",
+      "errorMessage": "WORD_PRODUCT_COMMENTS_FAILED:{\"WORD_STATUS\":\"FAIL\",\"ERRNO\":\"9900\",\"ERR\":\"P0_PRODUCT_COMMENTS_OPEN_TIMEOUT\",\"LIMITATIONS\":\"\"}",
+      "durationMs": 34392,
+      "words": 500000,
+      "sourceDocxPresent": true,
+      "sourceDocxZipOk": true,
+      "sourceDocxBytes": 4382003,
+      "sourceDocxSha256": "sha256:25cb6eed9294e753a0dba8a76bc4fd935a0bb6602f19946428bf13f4629aeca6",
+      "returnedDocxPresent": true,
+      "returnedDocxZipOk": true,
+      "returnedDocxBytes": 4382003,
+      "returnedDocxSha256": "sha256:25cb6eed9294e753a0dba8a76bc4fd935a0bb6602f19946428bf13f4629aeca6",
+      "syntheticCleanup": {
+        "ok": true,
+        "output": "CLOSED=1\nNAMES=Macintosh HD:Users:kirillponomarev:Library:Containers:com.microsoft.Word:Data:tmp:YalkenWordLab:p0-500k-terminal-audit:p0-500k-terminal-audit-20260801T093929:P0T500-001:returned-docx:P0T500-001-returned.docx\n\n",
+        "userDocumentsTouched": false
+      },
+      "automaticApplyCertifiedFor500k": false,
+      "packageInvalidClaimed": false,
+      "userDocumentTouched": false
+    }
+  },
+  "priorEvidence": {
+    "repeatHighDensity": {
+      "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT.json",
+      "sha256": "7b4089dac3bd07fce0d3e38d511904bcc9291cd80fba7da8fdda082c55124082",
+      "status": "WORD_RELEASE_AUDIT_P0_REPEAT_HIGH_DENSITY_STRESS_COMPLETE_NOT_SATURATED",
+      "result": "PASS",
+      "totals": {
+        "cases": 12,
+        "pass": 12,
+        "fail": 0,
+        "physicalWordPass": 12,
+        "trackedReplacementApplyPass": 8,
+        "highDensityCommentShadowPass": 4,
+        "authenticatedIntakePass": 12,
+        "visiblePreviewPass": 12,
+        "projectReopenReadbackPass": 12,
+        "replayIdempotentPass": 12,
+        "largestWords": 100000,
+        "largestCommentCount": 120,
+        "repeatStability": [
+          {
+            "group": "T10",
+            "cases": 3,
+            "stable": true,
+            "signatures": [
+              "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+              "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+              "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f"
+            ]
+          },
+          {
+            "group": "T50",
+            "cases": 3,
+            "stable": true,
+            "signatures": [
+              "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+              "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+              "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f"
+            ]
+          },
+          {
+            "group": "T100",
+            "cases": 2,
+            "stable": true,
+            "signatures": [
+              "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f",
+              "c8f6ba6a4d78864bab38d97c9d57df0cc486ba1d1b27e8207e852aba86f0ac1f"
+            ]
+          },
+          {
+            "group": "C80",
+            "cases": 2,
+            "stable": true,
+            "signatures": [
+              "d51223dec552bae82e76ab5ff700406bb045d7ebe12a446ca13569b0e7a7c973",
+              "d51223dec552bae82e76ab5ff700406bb045d7ebe12a446ca13569b0e7a7c973"
+            ]
+          },
+          {
+            "group": "C120",
+            "cases": 2,
+            "stable": true,
+            "signatures": [
+              "928d94ee6f3777d16b9acb3d26f4ae00710e5fc8da163cb81e925e2aad708a45",
+              "928d94ee6f3777d16b9acb3d26f4ae00710e5fc8da163cb81e925e2aad708a45"
+            ]
+          }
+        ],
+        "stableRepeatGroups": 5,
+        "liveElectronUiClickPass": 1
+      },
+      "implementedCapability": {
+        "capability": "repeatHighDensityStressProductLoop",
+        "productRuntimeWired": true,
+        "liveElectronUiExportSurfaceClicked": true,
+        "physicalWordRoundTrips": 12,
+        "trackedReplacementApplyCases": 8,
+        "highDensityCommentShadowCases": 4,
+        "largestAutomaticTrackedReplacementWords": 100000,
+        "largestDenseCommentCount": 120,
+        "repeatDeterminismGroupsStable": 5,
+        "automaticApplyCertified": false,
+        "userAutomaticApplyCertified": false,
+        "releaseReady": false,
+        "wordSaturated": false,
+        "googleDocsOpened": false
+      },
+      "nextStage": "P0_PRODUCT_VERTICAL_500K_BOUNDARY_AND_TERMINAL_WORD_AUDIT_AFTER_REPEAT_HIGH_DENSITY"
+    },
+    "largeManuscriptStress": {
+      "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_LARGE_MANUSCRIPT_STRESS_RECEIPT.json",
+      "sha256": "badbe7eadb10fd473153748eaa04434b3d2ee83c9fd5d77cb681107ce21a81cf",
+      "status": "WORD_RELEASE_AUDIT_P0_LARGE_MANUSCRIPT_STRESS_COMPLETE_NOT_SATURATED",
+      "result": "PASS",
+      "totals": {
+        "cases": 7,
+        "pass": 7,
+        "fail": 0,
+        "physicalWordPass": 7,
+        "authenticatedIntakePass": 7,
+        "visiblePreviewPass": 7,
+        "explicitConfirmedApplyPass": 3,
+        "largeTrackedReplacementApplyPass": 3,
+        "denseCommentShadowPass": 2,
+        "formattingDiagnosticPass": 1,
+        "structuralDiagnosticPass": 1,
+        "projectReopenReadbackPass": 7,
+        "replayIdempotentPass": 7,
+        "totalObservedWords": 330000,
+        "largestWords": 100000,
+        "largestReturnedBytes": 33376,
+        "familyCounts": {
+          "large-tracked-replacement": 3,
+          "dense-comment-shadow": 2,
+          "large-formatting-diagnostic": 1,
+          "large-structure-diagnostic": 1
+        },
+        "liveElectronUiClickPass": 1
+      },
+      "implementedCapability": {
+        "capability": "boundedLargeManuscriptStressProductLoop",
+        "productRuntimeWired": true,
+        "liveElectronUiExportSurfaceClicked": true,
+        "largeTrackedReplacementApplyCases": 3,
+        "largestAutomaticTrackedReplacementWords": 100000,
+        "monolithic300kAutomaticApplyCertified": false,
+        "monolithic300kBoundaryStatus": "TYPED_LIMITATION_REPRODUCED",
+        "denseCommentShadowCases": 2,
+        "largestDenseCommentWords": 50000,
+        "largestDenseCommentCount": 80,
+        "automaticFormattingApplyCertified": false,
+        "automaticStructuralApplyCertified": false,
+        "automaticApplyCertified": false,
+        "userAutomaticApplyCertified": false,
+        "releaseReady": false,
+        "wordSaturated": false,
+        "googleDocsOpened": false
+      },
+      "nextStage": "P0_PRODUCT_VERTICAL_REPEAT_STABILITY_AND_HIGH_DENSITY_AFTER_LARGE_STRESS"
+    },
+    "variedWave64": {
+      "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_VARIED_WAVE64_PRODUCT_LOOP_RECEIPT.json",
+      "sha256": "ed5f9c3230f8b78921884a4f706fe4b1294203c017b65e6d3e04a9b5ae039c57",
+      "status": "WORD_RELEASE_AUDIT_P0_VARIED_WAVE64_PRODUCT_LOOP_COMPLETE_NOT_SATURATED",
+      "result": "PASS",
+      "totals": {
+        "cases": 64,
+        "pass": 64,
+        "fail": 0,
+        "physicalWordPass": 64,
+        "authenticatedIntakePass": 64,
+        "visiblePreviewPass": 64,
+        "explicitConfirmedApplyPass": 32,
+        "projectReopenReadbackPass": 64,
+        "replayIdempotentPass": 64,
+        "commentShadowPass": 64,
+        "actionCounts": {
+          "mixed-comment-replace": 32,
+          "root-comment": 16,
+          "comment-delete": 16
+        },
+        "familyCounts": {
+          "paragraph-context": 22,
+          "unicode-context": 21,
+          "punctuation-spacing-context": 21
+        },
+        "liveElectronUiClickPass": 1
+      },
+      "implementedCapability": {
+        "capability": "boundedVariedWave64ProductLoop",
+        "productRuntimeWired": true,
+        "liveElectronUiExportSurfaceClicked": true,
+        "physicalWordRoundTrips": 64,
+        "supportedTrackedReplacementApplyCases": 32,
+        "commentShadowOrDeleteCases": 64,
+        "automaticApplyCertified": false,
+        "userAutomaticApplyCertified": false,
+        "releaseReady": false,
+        "wordSaturated": false,
+        "googleDocsOpened": false
+      },
+      "nextStage": "P0_PRODUCT_VERTICAL_FORMAT_UNICODE_STRUCTURE_STRESS_AFTER_WAVE64"
+    },
+    "multiSceneCommentState": {
+      "receiptPath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_RECEIPT.json",
+      "sha256": "d17668e3e77ecc0ac42342ca04a96e903879eb6b764765fd74cd8542099614f1",
+      "status": "WORD_RELEASE_AUDIT_P0_MULTI_SCENE_ATOMIC_COMMENT_STATE_CLOSURE_COMPLETE_NOT_SATURATED",
+      "totals": {
+        "cases": 3,
+        "pass": 3,
+        "fail": 0,
+        "negativeCases": 4,
+        "negativePass": 4,
+        "liveElectronUiClickPass": 1,
+        "multiSceneProductLoopPass": 1,
+        "commentDeleteProductRuntimePass": 1,
+        "replyResolveTypedLimitations": 1
+      },
+      "implementedCapability": {
+        "capability": "multiSceneAtomicAndCommentStateClosure",
+        "productReviewDocxExporterWired": true,
+        "liveElectronUiExportSurfaceClicked": true,
+        "multiSceneAtomicApplyCertified": true,
+        "commentDeleteProductRuntimeWired": true,
+        "modernReplyProductRuntimeWired": false,
+        "modernResolveReopenProductRuntimeWired": false,
+        "productRuntimeWired": true,
+        "automaticApplyCertified": false,
+        "userAutomaticApplyCertified": false,
+        "releaseReady": false,
+        "wordSaturated": false,
+        "googleDocsOpened": false
+      },
+      "nextStage": "P0_PRODUCT_VERTICAL_BOUNDED_VARIED_WAVE_64_AFTER_MULTI_SCENE_AND_COMMENT_STATE_CLOSURE"
+    }
+  },
+  "terminalAudit": {
+    "wordSaturated": false,
+    "releaseReady": false,
+    "automaticApplyCertified": false,
+    "maxCertifiedTrackedReplacementWordsBeforeBoundary": 100000,
+    "maxAttemptedTrackedReplacementWords": 500000,
+    "monolithic500kTrackedReplacementStatus": "WORD_APPLEEVENT_TIMEOUT_OR_LONG_RUNNING_MONOLITHIC_500K_APPLY",
+    "remainingWordGaps": [
+      "MONOLITHIC_500K_TRACKED_REPLACEMENT_SCALE_ENGINEERING",
+      "MODERN_COMMENT_REPLY_PRODUCT_RUNTIME_NOT_CERTIFIED",
+      "MODERN_COMMENT_RESOLVE_REOPEN_PRODUCT_RUNTIME_NOT_CERTIFIED",
+      "FORMATTING_APPLY_REMAINS_DIAGNOSTIC_ONLY",
+      "STRUCTURAL_APPLY_REMAINS_MANUAL_OR_BLOCKED"
+    ],
+    "googleDocsOpened": false,
+    "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_REMAINING_LIMITATION_CLOSURE_AFTER_500K_AUDIT"
+  },
+  "vetoMetrics": {
+    "falseExact": 0,
+    "wrongSceneRouting": 0,
+    "silentApply": 0,
+    "replayFailure": 0,
+    "silentCommentLoss": 0,
+    "noOpPass": 0,
+    "packageInvalidMisclaim": 0,
+    "userDocumentTouch": 0,
+    "networkRequest": 0,
+    "prematureGoogleDocsOpen": 0
+  },
+  "implementedCapability": {
+    "capability": "terminal500kBoundaryAudit",
+    "productRuntimeWired": true,
+    "liveElectronUiExportSurfaceClicked": true,
+    "physical500kAttempted": true,
+    "physical500kSupported": false,
+    "typed500kBoundaryProven": true,
+    "automaticApplyCertified": false,
+    "userAutomaticApplyCertified": false,
+    "releaseReady": false,
+    "wordSaturated": false,
+    "googleDocsOpened": false
+  },
+  "sourceEvidence": {
+    "currentRunner": {
+      "id": "P0_500K_TERMINAL_AUDIT_RUNNER",
+      "path": "scripts/ops/rtk-word-release-audit-p0-500k-terminal-audit.mjs",
+      "sha256": "52b6a757c1b9ee9832b9d2a0dc2b7d4460700938216becd08cc3060f8642d947",
+      "status": "BOUND"
+    },
+    "repeatRunner": {
+      "id": "P0_REPEAT_HIGH_DENSITY_STRESS_RUNNER",
+      "path": "scripts/ops/rtk-word-release-audit-p0-repeat-high-density-stress.mjs",
+      "sha256": "ae502d7ca0d590b0cb8a0f6b2db13b2fb7253c5f99770b4a6bebe951c6c46f33",
+      "status": "BOUND"
+    },
+    "repeatReceipt": {
+      "id": "P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT",
+      "path": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT.json",
+      "sha256": "7b4089dac3bd07fce0d3e38d511904bcc9291cd80fba7da8fdda082c55124082",
+      "status": "BOUND"
+    }
+  },
+  "nextStage": "P0_WORD_SCALE_ENGINEERING_AND_REMAINING_LIMITATION_CLOSURE_AFTER_500K_AUDIT"
+}

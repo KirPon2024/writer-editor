@@ -8360,27 +8360,6 @@
       "rationale": "Binds 300 synthetic Word 16.111.2 physical round trips with 638 visible parsed comments, 500k-class returned DOCX scale evidence, zero falseExact, zero silentApply, zero wrongSceneRouting, zero replayFailure, Word container sandbox work root, T7 evidence preservation, no saturation claim, no Google Docs sequencing, no runtime UI dependency or network expansion."
     },
     {
-      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
-      "sha256": "a2d60c6ea4fd5ce021e9376cd16abd4d6e2bdcb29bf775de413d5339bf7893d8",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
-      "sha256": "9094eeb0088a98889619b3232a451a8a4f32db6b9f564eee6a25cfd28f2ad02e",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
-      "sha256": "deb326675444bdf329f97188c451808162958c2c7df3375b41bd75addc6e6af7",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
       "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_REPEAT_HIGH_DENSITY_STRESS_RECEIPT.json",
       "sha256": "7b4089dac3bd07fce0d3e38d511904bcc9291cd80fba7da8fdda082c55124082",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
@@ -8402,25 +8381,67 @@
       "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     },
     {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-repeat-high-density-stress.contract.test.js",
-      "sha256": "9465c94d18ba0e457f1428caa3d7eb39062cb3abd17b641da85f118edceebe48",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
-      "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
-      "sha256": "0a2a0d36209f0ed5e11227456134e02fd0e61699b3adcba868b3b785893e0250",
-      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
-      "approvedAtUtc": "2026-08-01T09:10:00.000Z",
-      "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
-    },
-    {
       "filePath": "test/contracts/rtk-word-release-audit-p0-format-unicode-structure-stress.contract.test.js",
       "sha256": "da4e1b2a036b0052e3b012a77df4d246d96082b94e8b012590b64048a846337d",
       "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
       "approvedAtUtc": "2026-08-01T09:10:00.000Z",
       "rationale": "Approve bounded Word P0 repeat high-density stress product loop: synthetic physical Word cases repeat 10k, 50k and 100k tracked replacement apply and 80/120-comment shadow imports through product export, authenticated intake, visible preview, replay/readback, deterministic signatures, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/POST_D1_PORTABILITY_PROGRAM_V1.json",
+      "sha256": "f8b011e285948fdfde8537ce522e1925c6ea941b67d4b198ca54e327e6dd5eb9",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_CAPABILITY_PROFILE_V1.json",
+      "sha256": "65766e3a3062149e35c21dde31fc1553da6ce61052ae099635a4585c16cff512",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_SAFE_SEMANTIC_ROUNDTRIP_V4_E12_SATURATION_LEDGER_RECEIPT.json",
+      "sha256": "e4474b4c07fd2f59daa0256f38da7c7544fffe9ba946432dd3c20c02ed3c1a34",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "docs/OPS/RTK/WORD_ROUNDTRIP_RELEASE_AUDIT_NIGHT_01_P0_500K_TERMINAL_AUDIT_RECEIPT.json",
+      "sha256": "1ae66b21b300c50241f81b420e9330d2516b1fc5f52fb92b3b17702d08ecc341",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "scripts/ops/rtk-word-release-audit-p0-500k-terminal-audit.mjs",
+      "sha256": "9b55758ca929a1ef75e89c93e6a59210fc108c80032e0f2da862c3f2ea2c58ac",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-500k-terminal-audit.contract.test.js",
+      "sha256": "8b130af541ffdba13657806b9951c553b12557dbf463b94e5035262af799d6aa",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-repeat-high-density-stress.contract.test.js",
+      "sha256": "6c7f47cf72a17819bc3a0018c164897d4b5141df20c2d4da4fae0c904000be03",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
+    },
+    {
+      "filePath": "test/contracts/rtk-word-release-audit-p0-large-manuscript-stress.contract.test.js",
+      "sha256": "71f9f7aac9f7b65009c2d422a956b4cc287f74fef712c145d11b32386b965de4",
+      "approvedBy": "owner:STANDING_OWNER_DIRECTIVE_FULL_SCALE_TO_100_PERCENT",
+      "approvedAtUtc": "2026-08-01T09:35:00.000Z",
+      "rationale": "Approve bounded Word P0 500K terminal audit: synthetic product-originated physical Word 500K boundary attempt through live export surface, authenticated intake path or typed Word scale boundary, prior repeat/high-density and large-stress receipts bound, zero veto metrics, Word saturation false, automatic broad apply false, and Google Docs closed."
     }
   ]
 }
